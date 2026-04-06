@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NetWebMedia — #1 AI Marketing Agency | 10x Your Growth</title>
+  <meta name="description" content="NetWebMedia is the premier AI marketing agency combining autonomous agents, data intelligence, and proven growth strategies to 10x your brand performance. SEO, Paid Ads, Content AI, Social Media & more." />
+  <meta property="og:title" content="NetWebMedia — AI Marketing Agency" />
+  <meta property="og:description" content="The world's most advanced AI marketing agency driving real growth for innovative brands." />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>" />
+</head>
+<body>
+
+<!-- ── Language Bar ─────────────────────────────────────── -->
+<div class="lang-bar" id="lang-bar">
+  <div class="container">
+    <button class="lang-btn active" data-lang="en" id="lang-en">
+      English
+    </button>
+    <button class="lang-btn" data-lang="es" id="lang-es">
+      Español
+    </button>
+  </div>
+</div>
+
+<!-- ── Navbar ───────────────────────────────────────────── -->
+<nav class="navbar has-lang-bar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">🌐</div>
+        NetWebMedia
+      </a>
+      <div class="nav-links">
+        <div class="nav-item">
+          <a href="services.html" data-i18n="nav_services">Services</a>
+        </div>
+        <a href="about.html" data-i18n="nav_about">About</a>
+        <a href="results.html" data-i18n="nav_results">Results</a>
+        <a href="blog.html" data-i18n="nav_blog">Blog</a>
+        <a href="contact.html" data-i18n="nav_contact">Contact</a>
+      </div>
+      <div class="nav-ctas">
+        <a href="contact.html" class="btn-nav-outline" data-i18n="nav_signin">Client Login</a>
+        <a href="contact.html" class="btn-nav-solid" data-i18n="nav_cta">Get a Free Audit</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Mobile Menu ──────────────────────────────────────── -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="services.html" data-i18n="nav_services">Services</a>
+  <a href="about.html" data-i18n="nav_about">About</a>
+  <a href="results.html" data-i18n="nav_results">Results</a>
+  <a href="blog.html" data-i18n="nav_blog">Blog</a>
+  <a href="contact.html" data-i18n="nav_contact">Contact</a>
+  <a href="contact.html" class="btn-primary" data-i18n="nav_cta">Get a Free Audit</a>
+</div>
+
+<!-- ── HERO ─────────────────────────────────────────────── -->
+<section class="hero" id="home">
+  <!-- Particle canvas background -->
+  <canvas id="particles-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:0;"></canvas>
+
+  <!-- Glow orbs -->
+  <div class="glow-orb glow-blue" style="width:600px;height:600px;right:-150px;top:50%;transform:translateY(-50%);opacity:0.3;"></div>
+  <div class="glow-orb glow-purple" style="width:400px;height:400px;left:-100px;bottom:-100px;opacity:0.2;"></div>
+
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="hero-grid">
+      <!-- Left: Copy -->
+      <div class="hero-content">
+        <div class="hero-badge" data-i18n="hero_badge">🏆 Top AI Marketing Agency 2025</div>
+
+        <h1 class="hero-title">
+          <span data-i18n="hero_title_1">Your Brand Deserves</span><br>
+          <span class="gradient-text typewriter"
+                data-words='["AI-Powered Growth","Real Results","Smarter Marketing","More Revenue"]'
+                data-words-es='["Crecimiento con IA","Resultados Reales","Marketing Inteligente","Más Ingresos"]'>AI-Powered Growth</span>
+        </h1>
+
+        <p class="hero-desc" data-i18n="hero_desc">
+          NetWebMedia is the AI marketing agency that combines data intelligence, autonomous agents, and proven growth strategies to 10x your brand's performance.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="contact.html" class="btn-primary" data-i18n="hero_cta1">Get Free Strategy Call</a>
+          <a href="results.html" class="btn-secondary" data-i18n="hero_cta2">See Our Results →</a>
+        </div>
+
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-num" data-counter="500" data-suffix="+">500+</div>
+            <div class="hero-stat-label" data-i18n="hero_stat1_label">Brands Grown</div>
+          </div>
+          <div>
+            <div class="hero-stat-num" data-counter="340" data-suffix="%">340%</div>
+            <div class="hero-stat-label" data-i18n="hero_stat2_label">Avg. ROI Increase</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">4.9★</div>
+            <div class="hero-stat-label" data-i18n="hero_stat3_label">Client Satisfaction</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Floating squares visual -->
+      <div class="hero-visual">
+        <div class="squares-container"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;">
+          <div style="text-align:center;">
+            <div style="font-size:80px;animation:float 3s ease-in-out infinite;">🤖</div>
+            <div style="margin-top:16px;font-size:14px;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;">AI Marketing Engine</div>
+            <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
+              <span style="padding:4px 12px;background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.3);border-radius:9999px;font-size:12px;color:#93C5FD;">ChatGPT</span>
+              <span style="padding:4px 12px;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);border-radius:9999px;font-size:12px;color:#C4B5FD;">Claude</span>
+              <span style="padding:4px 12px;background:rgba(6,182,212,0.15);border:1px solid rgba(6,182,212,0.3);border-radius:9999px;font-size:12px;color:#67E8F9;">Gemini</span>
+              <span style="padding:4px 12px;background:rgba(236,72,153,0.15);border:1px solid rgba(236,72,153,0.3);border-radius:9999px;font-size:12px;color:#F9A8D4;">Meta AI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CLIENTS ───────────────────────────────────────────── -->
+<section class="clients-section">
+  <div class="container">
+    <p class="clients-label" data-i18n="clients_label">Trusted by innovative brands worldwide</p>
+    <div class="clients-logos">
+      <span class="client-logo">TechVentures</span>
+      <span class="client-logo">GrowthCo</span>
+      <span class="client-logo">NovaBrands</span>
+      <span class="client-logo">ScaleMetrics</span>
+      <span class="client-logo">FutureLabs</span>
+      <span class="client-logo">RocketScale</span>
+      <span class="client-logo">DataPeak</span>
+      <span class="client-logo">NexGen</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ──────────────────────────────────────────── -->
+<section class="services-section" id="services">
+  <div class="container">
+    <div class="section-label" data-i18n="services_label">What We Do</div>
+    <h2 class="section-title" data-i18n="services_title">Full-Stack AI Marketing Services</h2>
+    <p class="section-subtitle" data-i18n="services_subtitle">
+      From AI-powered SEO to autonomous ad campaigns — we run it all on autopilot while you focus on building your business.
+    </p>
+
+    <div class="services-grid">
+
+      <!-- 1. AI-Powered SEO -->
+      <div class="glass-card service-card scroll-reveal">
+        <div class="service-icon service-icon-blue">🔍</div>
+        <h3 class="service-title" data-en="AI-Powered SEO" data-es="SEO Potenciado por IA">AI-Powered SEO</h3>
+        <p class="service-desc" data-en="We deploy intelligent content engines that identify high-intent keywords, build authoritative topical clusters, and engineer content that dominates search rankings at scale — all driven by machine learning." data-es="Desplegamos motores de contenido inteligentes que identifican palabras clave de alta intención, construyen clústeres temáticos autoritativos y generan contenido que domina los rankings de búsqueda a escala.">
+          We deploy intelligent content engines that identify high-intent keywords, build authoritative topical clusters, and engineer content that dominates search rankings at scale.
+        </p>
+        <a href="services.html#seo" class="service-arrow">Learn More →</a>
+      </div>
+
+      <!-- 2. Answer Engine Optimization (AEO) -->
+      <div class="glass-card service-card scroll-reveal">
+        <div class="service-icon service-icon-purple">🤖</div>
+        <h3 class="service-title" data-en="Answer Engine Optimization" data-es="Optimización de Motores de Respuesta">Answer Engine Optimization</h3>
+        <p class="service-desc" data-en="Get your brand cited by ChatGPT, Gemini, Perplexity, and Claude. Our AEO strategies ensure your business is the answer AI gives when buyers research in your category." data-es="Logra que tu marca sea citada por ChatGPT, Gemini, Perplexity y Claude. Nuestras estrategias AEO garantizan que tu negocio sea la respuesta que la IA otorga cuando los compradores investigan en tu categoría.">
+          Get your brand cited by ChatGPT, Gemini, Perplexity, and Claude. Our AEO strategies ensure your business is the answer AI gives when buyers research in your category.
+        </p>
+        <a href="services.html#aeo" class="service-arrow">Learn More →</a>
+      </div>
+
+      <!-- 3. Paid Search / PPC -->
+      <div class="glass-card service-card scroll-reveal">
+        <div class="service-icon service-icon-cyan">💰</div>
+        <h3 class="service-title" data-en="AI Paid Search & PPC" data-es="Búsqueda Pagada con IA">AI Paid Search & PPC</h3>
+        <p class="service-desc" data-en="We maximize every dollar of your ad spend with AI-optimized bidding, hyper-targeted keyword campaigns, and real-time creative testing that continuously improves conversion rates." data-es="Maximizamos cada dólar de tu presupuesto publicitario con puja optimizada por IA, campañas de palabras clave ultra-dirigidas y pruebas creativas en tiempo real que mejoran continuamente las tasas de conversión.">
+          We maximize every dollar of your ad spend with AI-optimized bidding, hyper-targeted keyword campaigns, and real-time creative testing that continuously improves conversion rates.
+        </p>
+        <a href="services.html#ppc" class="service-arrow">Learn More →</a>
+      </div>
+
+      <!-- 4. Performance Branding -->
+      <div class="glass-card service-card scroll-reveal">
+        <div class="service-icon service-icon-pink">🎨</div>
+        <h3 class="service-title" data-en="Performance Branding" data-es="Branding de Alto Rendimiento">Performance Branding</h3>
+        <p class="service-desc" data-en="We craft data-driven brand narratives that resonate deeply with your ideal audience. Every creative decision is rooted in performance analytics, ensuring your brand story converts as well as it inspires." data-es="Creamos narrativas de marca basadas en datos que resuenan profundamente con tu audiencia ideal. Cada decisión creativa está fundamentada en análisis de rendimiento.">
+          We craft data-driven brand narratives that resonate deeply with your ideal audience. Every creative decision is rooted in performance analytics, ensuring your brand story converts as well as it inspires.
+        </p>
+        <a href="services.html#branding" class="service-arrow">Learn More →</a>
+      </div>
+
+      <!-- 5. Social Media Ads -->
+      <div class="glass-card service-card scroll-reveal">
+        <div class="service-icon service-icon-orange">📱</div>
+        <h3 class="service-title" data-en="Social Media Advertising" data-es="Publicidad en Redes Sociales">Social Media Advertising</h3>
+        <p class="service-desc" data-en="We engineer scroll-stopping creative experiences across Meta, Instagram, TikTok, and LinkedIn — reaching your exact audience at the precise moments that drive action and fuel measurable revenue growth." data-es="Diseñamos experiencias creativas que detienen el scroll en Meta, Instagram, TikTok y LinkedIn — alcanzando a tu audiencia exacta en los momentos precisos que generan acción y crecimiento de ingresos.">
+          We engineer scroll-stopping creative experiences across Meta, Instagram, TikTok, and LinkedIn — reaching your exact audience at the precise moments that drive action and fuel measurable revenue growth.
+        </p>
+        <a href="services.html#social" class="service-arrow">Learn More →</a>
+      </div>
+
+      <!-- 6. CRO -->
+      <div class="glass-card service-card scroll-reveal">
+        <div class="service-icon service-icon-green">📈</div>
+        <h3 class="service-title" data-en="Conversion Rate Optimization" data-es="Optimización de Conversión">Conversion Rate Optimization</h3>
+        <p class="service-desc" data-en="We design and continuously optimize landing pages, funnels, and user experiences that transform intent into action. Our AI-driven A/B testing eliminates guesswork and maximizes your revenue per visitor." data-es="Diseñamos y optimizamos continuamente páginas de destino, embudos y experiencias de usuario que transforman la intención en acción mediante pruebas A/B impulsadas por IA.">
+          We design and continuously optimize landing pages, funnels, and user experiences that transform intent into action. Our AI-driven A/B testing eliminates guesswork and maximizes revenue per visitor.
+        </p>
+        <a href="services.html#cro" class="service-arrow">Learn More →</a>
+      </div>
+
+      <!-- 7. Content Marketing (AI) -->
+      <div class="glass-card service-card scroll-reveal">
+        <div class="service-icon service-icon-blue">✍️</div>
+        <h3 class="service-title" data-en="AI Content Marketing" data-es="Marketing de Contenido con IA">AI Content Marketing</h3>
+        <p class="service-desc" data-en="Our AI Content Factory produces culturally relevant, audience-specific content at scale — from thought leadership articles to viral social posts. We maintain consistent quality while publishing at the speed your market demands." data-es="Nuestra Fábrica de Contenido AI produce contenido culturalmente relevante y específico para la audiencia a escala — desde artículos de liderazgo intelectual hasta publicaciones sociales virales.">
+          Our AI Content Factory produces culturally relevant, audience-specific content at scale — from thought leadership articles to viral social posts.
+        </p>
+        <a href="services.html#content" class="service-arrow">Learn More →</a>
+      </div>
+
+      <!-- 8. AI Interactive Dashboard -->
+      <div class="glass-card service-card scroll-reveal">
+        <div class="service-icon service-icon-purple">📊</div>
+        <h3 class="service-title" data-en="AI Marketing Analytics" data-es="Análisis de Marketing con IA">AI Marketing Analytics</h3>
+        <p class="service-desc" data-en="Our intelligent analytics dashboard transforms complex marketing data into clear strategic insights. Instead of drowning in dashboards, our AI interprets the underlying data and surfaces recommendations that drive decisions." data-es="Nuestro panel de análisis inteligente transforma datos complejos de marketing en insights estratégicos claros. En lugar de ahogarte en dashboards, nuestra IA interpreta los datos subyacentes.">
+          Our intelligent analytics dashboard transforms complex marketing data into clear strategic insights. AI interprets the underlying data and surfaces recommendations that drive decisions.
+        </p>
+        <a href="services.html#analytics" class="service-arrow">Learn More →</a>
+      </div>
+
+      <!-- 9. Lifecycle Marketing -->
+      <div class="glass-card service-card scroll-reveal">
+        <div class="service-icon service-icon-cyan">🔄</div>
+        <h3 class="service-title" data-en="Lifecycle Marketing" data-es="Marketing del Ciclo de Vida">Lifecycle Marketing</h3>
+        <p class="service-desc" data-en="We deploy hyper-personalized customer journeys with granular audience segmentation and automated behavioral flows. Every touchpoint is engineered to move customers from awareness to advocacy." data-es="Implementamos journeys de cliente hiperpersonalizados con segmentación granular de audiencias y flujos de comportamiento automatizados. Cada punto de contacto está diseñado para convertir prospectos en clientes leales.">
+          We deploy hyper-personalized customer journeys with granular audience segmentation and automated behavioral flows that move customers from awareness to advocacy.
+        </p>
+        <a href="services.html#lifecycle" class="service-arrow">Learn More →</a>
+      </div>
+
+      <!-- 10. AI Experience Agents -->
+      <div class="glass-card service-card scroll-reveal">
+        <div class="service-icon service-icon-pink">🤖</div>
+        <h3 class="service-title" data-en="AI Experience Agents" data-es="Agentes de Experiencia IA">AI Experience Agents</h3>
+        <p class="service-desc" data-en="We build custom AI agents embedded into your website and apps that engage visitors 24/7, answer FAQs, guide product decisions, and generate AI-driven content as a result of user interactions — turning passive browsers into active buyers." data-es="Construimos agentes AI personalizados integrados en tu sitio web y aplicaciones que involucran a los visitantes 24/7, responden preguntas, guían decisiones de compra y generan contenido dinamicamente.">
+          We build custom AI agents embedded into your website that engage visitors 24/7, answer FAQs, guide product decisions, and turn passive browsers into active buyers.
+        </p>
+        <a href="services.html#agents" class="service-arrow">Learn More →</a>
+      </div>
+
+      <!-- 11. AI Consumer Profiling -->
+      <div class="glass-card service-card scroll-reveal">
+        <div class="service-icon service-icon-green">🎯</div>
+        <h3 class="service-title" data-en="AI Consumer Profiling" data-es="Perfilamiento de Consumidores con IA">AI Consumer Profiling</h3>
+        <p class="service-desc" data-en="Our behavioral AI engine analyzes user interactions in real-time to build rich audience profiles. We collect zero-party data intelligently, enabling hyper-personalized engagement and strategic planning grounded in actual consumer behavior." data-es="Nuestro motor de IA conductual analiza las interacciones de los usuarios en tiempo real para construir perfiles de audiencia enriquecidos, habilitando un engagement hiperpersonalizado.">
+          Our behavioral AI engine analyzes user interactions in real-time to build rich audience profiles. We collect zero-party data intelligently for hyper-personalized engagement.
+        </p>
+        <a href="services.html#profiling" class="service-arrow">Learn More →</a>
+      </div>
+
+      <!-- 12. Fractional CMO -->
+      <div class="glass-card service-card scroll-reveal">
+        <div class="service-icon service-icon-orange">👑</div>
+        <h3 class="service-title" data-en="Fractional CMO" data-es="CMO Fraccionado">Fractional CMO</h3>
+        <p class="service-desc" data-en="Get C-suite marketing leadership without the C-suite price tag. Our Fractional CMOs embed with your team to build comprehensive growth strategies, align marketing with revenue goals, and lead execution across every channel." data-es="Obtén liderazgo de marketing de nivel C sin el costo C-suite. Nuestros CMOs Fraccionados se integran con tu equipo para construir estrategias de crecimiento integrales y alinear el marketing con los objetivos de ingresos.">
+          Get C-suite marketing leadership without the C-suite price tag. Our Fractional CMOs embed with your team to align marketing with revenue goals across every channel.
+        </p>
+        <a href="services.html#cmo" class="service-arrow">Learn More →</a>
+      </div>
+
+      <!-- 13. Predictive Audience Modeling (Cognitiv-inspired) -->
+      <div class="glass-card service-card scroll-reveal">
+        <div class="service-icon service-icon-blue">🔮</div>
+        <h3 class="service-title" data-en="Predictive Audience Modeling" data-es="Modelado Predictivo de Audiencias">Predictive Audience Modeling</h3>
+        <p class="service-desc" data-en="Our deep learning engine builds predictive audience models that identify your highest-value prospects before they even engage with you. Using ContextGPT-style targeting and programmatic intelligence, we serve your brand to buyers with the highest purchase intent at exactly the right moment." data-es="Nuestro motor de aprendizaje profundo construye modelos de audiencia predictivos que identifican tus prospectos de mayor valor antes de que interactúen contigo. Con targeting contextual impulsado por IA, servimos tu marca a compradores con la mayor intención de compra en el momento exacto.">
+          Our deep learning engine builds predictive audience models that identify your highest-value prospects before they engage, using programmatic AI targeting with the highest purchase intent signals.
+        </p>
+        <a href="services.html#analytics" class="service-arrow">Learn More →</a>
+      </div>
+
+      <!-- 14. Influencer & UGC Marketing (inBeat-inspired) -->
+      <div class="glass-card service-card scroll-reveal">
+        <div class="service-icon service-icon-purple">🎬</div>
+        <h3 class="service-title" data-en="Influencer & UGC Marketing" data-es="Marketing de Influencers y UGC">Influencer & UGC Marketing</h3>
+        <p class="service-desc" data-en="We combine AI-powered creator matchmaking with performance-driven creative intelligence to identify, recruit, and activate the exact influencers and UGC creators who will move the needle for your brand — at scale, with measurable ROI at every step." data-es="Combinamos el emparejamiento de creadores impulsado por IA con inteligencia creativa orientada al rendimiento para identificar, reclutar y activar exactamente los influencers y creadores UGC que moverán la aguja para tu marca, con ROI medible en cada paso.">
+          We combine AI creator matchmaking with performance creative intelligence to activate the exact influencers and UGC creators who move the needle — at scale, with measurable ROI.
+        </p>
+        <a href="services.html#social" class="service-arrow">Learn More →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ───────────────────────────────────────── -->
+<section class="process-section" id="process">
+  <div class="container">
+    <div class="section-label">Our Process</div>
+    <h2 class="section-title">From <span class="gradient-text">Strategy</span> to Revenue</h2>
+    <p class="section-subtitle">Four steps from audit to accelerated growth</p>
+
+    <div class="process-steps">
+      <div class="process-step scroll-reveal">
+        <div class="step-number">1</div>
+        <h3 class="step-title" data-en="Deep AI Audit" data-es="Auditoría AI Profunda">Deep AI Audit</h3>
+        <p class="step-desc" data-en="We analyze your entire digital footprint — SEO, ads, content, funnel — using AI to uncover hidden opportunities and competitive gaps." data-es="Analizamos tu huella digital completa — SEO, anuncios, contenido, embudo — usando IA para descubrir oportunidades ocultas y vacíos competitivos.">We analyze your entire digital footprint using AI to uncover hidden opportunities and competitive gaps.</p>
+      </div>
+      <div class="process-step scroll-reveal">
+        <div class="step-number">2</div>
+        <h3 class="step-title" data-en="Custom Strategy" data-es="Estrategia Personalizada">Custom Strategy</h3>
+        <p class="step-desc" data-en="We build a bespoke, data-driven growth plan tailored to your industry, audience, and business goals — with clear KPIs and timelines." data-es="Construimos un plan de crecimiento personalizado y basado en datos adaptado a tu industria, audiencia y objetivos de negocio con KPIs claros.">We build a bespoke, data-driven growth plan tailored to your industry, audience, and business goals with clear KPIs.</p>
+      </div>
+      <div class="process-step scroll-reveal">
+        <div class="step-number">3</div>
+        <h3 class="step-title" data-en="Execute & Optimize" data-es="Ejecutar y Optimizar">Execute & Optimize</h3>
+        <p class="step-desc" data-en="Our AI agents and expert team deploy campaigns simultaneously, running continuous experiments and optimizations in real-time across all channels." data-es="Nuestros agentes AI y equipo experto despliegan campañas simultáneamente, ejecutando experimentos y optimizaciones continuas en tiempo real en todos los canales.">Our AI agents deploy campaigns simultaneously, running continuous experiments and optimizations in real-time across all channels.</p>
+      </div>
+      <div class="process-step scroll-reveal">
+        <div class="step-number">4</div>
+        <h3 class="step-title" data-en="Scale & Dominate" data-es="Escalar y Dominar">Scale & Dominate</h3>
+        <p class="step-desc" data-en="We systematically scale what works, doubling down on your winning channels while identifying new growth vectors your competitors haven't discovered yet." data-es="Escalamos sistemáticamente lo que funciona, apostando por tus canales ganadores mientras identificamos nuevos vectores de crecimiento que tus competidores aún no han descubierto.">We scale what works, doubling down on winning channels while identifying new growth vectors competitors haven't discovered.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── RESULTS ───────────────────────────────────────────── -->
+<section class="results-section" id="results">
+  <div class="container">
+    <div class="section-label" data-i18n="results_label">Proven Results</div>
+    <h2 class="section-title" data-i18n="results_title">Numbers That Speak</h2>
+    <p class="section-subtitle" data-i18n="results_subtitle">Real results for real businesses. Here's what AI-powered marketing delivers.</p>
+
+    <div class="results-grid scroll-reveal">
+      <div class="result-card">
+        <div class="result-number" data-counter="340" data-suffix="%">340%</div>
+        <div class="result-label">Average ROI Increase</div>
+        <div class="result-sublabel">across all client campaigns</div>
+      </div>
+      <div class="result-card">
+        <div class="result-number" data-counter="500" data-suffix="+">500+</div>
+        <div class="result-label">Brands Grown</div>
+        <div class="result-sublabel">across 40+ industries worldwide</div>
+      </div>
+      <div class="result-card">
+        <div class="result-number" data-counter="4" data-suffix=".4x">4.4x</div>
+        <div class="result-label">Higher Conversion Rate</div>
+        <div class="result-sublabel">vs. traditional digital agencies</div>
+      </div>
+      <div class="result-card">
+        <div class="result-number" data-counter="30" data-suffix="%">30%</div>
+        <div class="result-label">Lower Customer Acquisition Cost</div>
+        <div class="result-sublabel">with active AI visibility strategy</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ──────────────────────────────────────── -->
+<section class="testimonials-section" id="testimonials">
+  <div class="container">
+    <div class="section-label">Client Success Stories</div>
+    <h2 class="section-title">What Our <span class="gradient-text">Clients Say</span></h2>
+
+    <div class="testimonials-grid">
+      <div class="glass-card testimonial-card scroll-reveal">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"NetWebMedia completely transformed our digital presence. Within 90 days, our organic traffic tripled and our cost per lead dropped by 40%. Their AI strategies are unlike anything we've experienced with previous agencies."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JM</div>
+          <div>
+            <div class="testimonial-name">James Martinez</div>
+            <div class="testimonial-role">CEO, TechVentures Inc.</div>
+          </div>
+        </div>
+      </div>
+      <div class="glass-card testimonial-card scroll-reveal">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"We were spending a fortune on ads with mediocre results. NetWebMedia rebuilt our entire paid strategy using AI, and our ROAS went from 1.8x to 6.2x in just two months. Absolutely game-changing."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SP</div>
+          <div>
+            <div class="testimonial-name">Sarah Parker</div>
+            <div class="testimonial-role">CMO, GrowthCo</div>
+          </div>
+        </div>
+      </div>
+      <div class="glass-card testimonial-card scroll-reveal">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"The AEO work they did for us is phenomenal. When our potential clients ask ChatGPT who the best solution in our space is, we now come up consistently. That alone has generated 6-figure revenue."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">RL</div>
+          <div>
+            <div class="testimonial-name">Rachel Liu</div>
+            <div class="testimonial-role">Founder, NovaBrands</div>
+          </div>
+        </div>
+      </div>
+      <div class="glass-card testimonial-card scroll-reveal">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"El equipo de NetWebMedia es increíble. Su enfoque en IA para marketing nos ayudó a expandirnos al mercado hispanohablante con resultados que superaron todas nuestras expectativas. Un socio real de crecimiento."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AC</div>
+          <div>
+            <div class="testimonial-name">Alejandro Cruz</div>
+            <div class="testimonial-role">Director, ScaleMetrics MX</div>
+          </div>
+        </div>
+      </div>
+      <div class="glass-card testimonial-card scroll-reveal">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"Their content AI factory is unreal. We went from publishing 2 articles a month to 40 — all high quality, all ranking. Our domain authority shot up and inbound leads nearly doubled within a quarter."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">DW</div>
+          <div>
+            <div class="testimonial-name">David Wilson</div>
+            <div class="testimonial-role">VP Marketing, DataPeak</div>
+          </div>
+        </div>
+      </div>
+      <div class="glass-card testimonial-card scroll-reveal">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"The AI consumer profiling they built gave us unprecedented insight into our audience. We now know exactly who our buyers are and how to reach them — our customer acquisition cost dropped 35% overnight."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MT</div>
+          <div>
+            <div class="testimonial-name">Maria Torres</div>
+            <div class="testimonial-role">Growth Lead, FutureLabs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── AI TOOLS SHOWCASE ──────────────────────────────────── -->
+<section style="padding:100px 0;background:var(--bg-secondary);">
+  <div class="container">
+    <div class="section-label">Powered by AI</div>
+    <h2 class="section-title">Your Marketing on <span class="gradient-text-purple">Autopilot</span></h2>
+    <p class="section-subtitle">Our proprietary AI stack runs your campaigns, creates content, analyzes data, and identifies opportunities — 24/7, without human bottlenecks.</p>
+
+    <div class="ai-tools-grid" style="margin-top:60px;">
+      <div class="glass-card ai-tool-card scroll-reveal">
+        <div style="font-size:32px;margin-bottom:16px;">🧠</div>
+        <h4 style="font-weight:700;margin-bottom:8px;">AI Campaign Lab</h4>
+        <p style="font-size:14px;color:var(--text-secondary);">Generates, tests, and optimizes ad creative across all channels simultaneously — automatically finding the combinations that convert at the lowest cost.</p>
+      </div>
+      <div class="glass-card ai-tool-card scroll-reveal">
+        <div style="font-size:32px;margin-bottom:16px;">📝</div>
+        <h4 style="font-weight:700;margin-bottom:8px;">Content Factory AI</h4>
+        <p style="font-size:14px;color:var(--text-secondary);">Produces high-volume, brand-aligned content at scale. Full editorial workflow from briefing to publishing, with human quality review checkpoints built in.</p>
+      </div>
+      <div class="glass-card ai-tool-card scroll-reveal">
+        <div style="font-size:32px;margin-bottom:16px;">🛡️</div>
+        <h4 style="font-weight:700;margin-bottom:8px;">Content Risk Management</h4>
+        <p style="font-size:14px;color:var(--text-secondary);">AI-powered compliance screening that flags legal issues, brand inconsistencies, and prohibited claims before any content goes live — protecting your brand at scale.</p>
+      </div>
+      <div class="glass-card ai-tool-card scroll-reveal">
+        <div style="font-size:32px;margin-bottom:16px;">👤</div>
+        <h4 style="font-weight:700;margin-bottom:8px;">Behavioral AI Profiler</h4>
+        <p style="font-size:14px;color:var(--text-secondary);">Real-time behavioral data collection that maps user interests and intent, building rich zero-party profiles that power hyper-personalized engagement at every touchpoint.</p>
+      </div>
+      <div class="glass-card ai-tool-card scroll-reveal">
+        <div style="font-size:32px;margin-bottom:16px;">💬</div>
+        <h4 style="font-weight:700;margin-bottom:8px;">AI Experience Agents</h4>
+        <p style="font-size:14px;color:var(--text-secondary);">24/7 intelligent agents embedded in your website that engage visitors, describe products, answer FAQs, and deliver AI-generated personalized content based on each user's behavior.</p>
+      </div>
+      <div class="glass-card ai-tool-card scroll-reveal">
+        <div style="font-size:32px;margin-bottom:16px;">📡</div>
+        <h4 style="font-weight:700;margin-bottom:8px;">AI Visibility Monitor</h4>
+        <p style="font-size:14px;color:var(--text-secondary);">Tracks how ChatGPT, Gemini, Perplexity, and Claude mention your brand vs. competitors — giving you a real-time AEO score and automated content recommendations to close visibility gaps.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY WE'RE BETTER ─────────────────────────────────── -->
+<section style="padding:100px 0;">
+  <div class="container">
+    <div class="section-label">vs. The Competition</div>
+    <h2 class="section-title">The Best of the Top 10<br><span class="gradient-text">AI Agencies — Combined</span></h2>
+    <p class="section-subtitle">We studied and internalized what every top AI marketing agency does best. Then we built one agency that does all of it — better.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:60px;">
+      <!-- Left: What others have, we have more -->
+      <div class="glass-card scroll-reveal" style="padding:36px;">
+        <h3 style="font-size:20px;font-weight:700;margin-bottom:24px;">🏆 What Makes NetWebMedia the Definitive Choice</h3>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <span style="color:#10B981;font-size:18px;flex-shrink:0;">✓</span>
+            <div><strong>NoGood's AEO mastery</strong> + <strong>GrackerAI's AI citation monitoring</strong> → Our AEO engine gets you cited across all 6 AI search engines simultaneously</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <span style="color:#10B981;font-size:18px;flex-shrink:0;">✓</span>
+            <div><strong>Single Grain's full-stack AI execution</strong> + <strong>Growthcurve's real-time optimization</strong> → Multi-channel campaigns that self-optimize 24/7</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <span style="color:#10B981;font-size:18px;flex-shrink:0;">✓</span>
+            <div><strong>KeenFolks' AI data integration</strong> + <strong>Cognitiv's deep learning targeting</strong> → Predictive audience models that find buyers before they search</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <span style="color:#10B981;font-size:18px;flex-shrink:0;">✓</span>
+            <div><strong>Superside's creative production at scale</strong> + <strong>inBeat's influencer intelligence</strong> → Premium creative + authentic UGC, all AI-matched to your audience</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <span style="color:#10B981;font-size:18px;flex-shrink:0;">✓</span>
+            <div><strong>Mesha's full-stack AI agents</strong> + <strong>GrowthRocks' AI consulting</strong> → Your entire marketing stack runs on autonomous AI — from creative to reporting</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <span style="color:#10B981;font-size:18px;flex-shrink:0;">✓</span>
+            <div><strong>Embarque's SEO precision</strong> + <strong>GrowthRocks' strategic AI integration</strong> → Measurable organic growth with a full AI implementation roadmap</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Comparison table -->
+      <div class="glass-card scroll-reveal" style="padding:36px;overflow:hidden;">
+        <h3 style="font-size:20px;font-weight:700;margin-bottom:24px;">📊 Quick Comparison</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border-glass);">
+              <th style="text-align:left;padding:10px 8px;color:var(--text-muted);font-weight:600;font-size:12px;text-transform:uppercase;">Capability</th>
+              <th style="text-align:center;padding:10px 8px;color:var(--text-muted);font-weight:600;font-size:12px;">Others</th>
+              <th style="text-align:center;padding:10px 8px;color:#3B82F6;font-weight:700;font-size:12px;">NetWebMedia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+              <td style="padding:10px 8px;color:var(--text-secondary);">AEO / AI Citation Optimization</td>
+              <td style="text-align:center;padding:10px 8px;color:var(--text-muted);">Some ✓</td>
+              <td style="text-align:center;padding:10px 8px;color:#10B981;font-weight:700;">✓✓✓</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+              <td style="padding:10px 8px;color:var(--text-secondary);">Full-Stack AI Automation</td>
+              <td style="text-align:center;padding:10px 8px;color:var(--text-muted);">Partial ◐</td>
+              <td style="text-align:center;padding:10px 8px;color:#10B981;font-weight:700;">✓✓✓</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+              <td style="padding:10px 8px;color:var(--text-secondary);">Bilingual US + Latam</td>
+              <td style="text-align:center;padding:10px 8px;color:var(--text-muted);">Rare ✗</td>
+              <td style="text-align:center;padding:10px 8px;color:#10B981;font-weight:700;">✓✓✓</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+              <td style="padding:10px 8px;color:var(--text-secondary);">Predictive Deep Learning</td>
+              <td style="text-align:center;padding:10px 8px;color:var(--text-muted);">Few ◐</td>
+              <td style="text-align:center;padding:10px 8px;color:#10B981;font-weight:700;">✓✓✓</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+              <td style="padding:10px 8px;color:var(--text-secondary);">AI Content Factory (40+/mo)</td>
+              <td style="text-align:center;padding:10px 8px;color:var(--text-muted);">Some ✓</td>
+              <td style="text-align:center;padding:10px 8px;color:#10B981;font-weight:700;">✓✓✓</td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+              <td style="padding:10px 8px;color:var(--text-secondary);">AI Experience Agents</td>
+              <td style="text-align:center;padding:10px 8px;color:var(--text-muted);">Rare ✗</td>
+              <td style="text-align:center;padding:10px 8px;color:#10B981;font-weight:700;">✓✓✓</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 8px;color:var(--text-secondary);">Influencer + UGC AI Matching</td>
+              <td style="text-align:center;padding:10px 8px;color:var(--text-muted);">Some ✓</td>
+              <td style="text-align:center;padding:10px 8px;color:#10B981;font-weight:700;">✓✓✓</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:20px;padding:12px 16px;background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.2);border-radius:12px;font-size:13px;color:#93C5FD;">
+          💡 <strong>Bottom line:</strong> You get the specialized expertise of 10 agencies — in one integrated team.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ───────────────────────────────────────────────── -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="section-label" style="justify-content:center;">Limited Spots Available</div>
+      <h2 class="cta-title" data-i18n="cta_title">Ready to Dominate<br><span class="gradient-text">Your Market?</span></h2>
+      <p class="cta-subtitle" data-i18n="cta_subtitle">Get a free AI marketing audit and discover exactly where your competitors are beating you.</p>
+      <div class="cta-buttons">
+        <a href="contact.html" class="btn-primary" style="font-size:18px;padding:18px 36px;" data-i18n="cta_btn">Book Your Free Strategy Call</a>
+        <a href="services.html" class="btn-secondary" style="font-size:18px;padding:18px 36px;">Explore Services</a>
+      </div>
+      <p class="cta-phone">Or call us: <a href="tel:+13055551234">+1 (305) 555-1234</a> · <a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────────────── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+        <div class="logo-icon">🌐</div>
+        NetWebMedia
+      </a>
+        <p data-i18n="footer_tagline">The world's most advanced AI marketing agency. We combine human creativity with machine intelligence to deliver unprecedented growth.</p>
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+          <a href="#" class="social-link" aria-label="Instagram">📸</a>
+          <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
+          <a href="#" class="social-link" aria-label="YouTube">▶</a>
+          <a href="#" class="social-link" aria-label="TikTok">🎵</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html#seo">AI-Powered SEO</a></li>
+          <li><a href="services.html#aeo">Answer Engine Optimization</a></li>
+          <li><a href="services.html#ppc">AI Paid Search</a></li>
+          <li><a href="services.html#social">Social Media Ads</a></li>
+          <li><a href="services.html#content">AI Content Marketing</a></li>
+          <li><a href="services.html#cro">CRO</a></li>
+          <li><a href="services.html#analytics">Marketing Analytics</a></li>
+          <li><a href="services.html#cmo">Fractional CMO</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="results.html">Results</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="about.html#team">Team</a></li>
+          <li><a href="about.html#careers">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a></li>
+          <li><a href="tel:+13055551234">+1 (305) 555-1234</a></li>
+          <li><a href="#">Miami, FL (USA)</a></li>
+          <li><a href="#">New York, NY</a></li>
+          <li><a href="#">Mexico City, MX</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 NetWebMedia. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
+
+

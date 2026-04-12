@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Free Website Marketing Deep Dive | NetWebMedia</title>
 
-<!-- HubSpot Tracking Code â Replace XXXXXXX with your Hub ID -->
+<!-- HubSpot Tracking Code — Replace XXXXXXX with your Hub ID -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/51307244.js"></script>
 
 <style>
@@ -39,7 +39,7 @@
     overflow-x: hidden;
   }
 
-  /* ââ Animated BG ââ */
+  /* ── Animated BG ── */
   .bg-grid {
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
     background-image:
@@ -54,10 +54,10 @@
   .bg-orb-2 { width: 500px; height: 500px; background: #F47920; bottom: -150px; left: -100px; }
   .bg-orb-3 { width: 400px; height: 400px; background: #F43F5E; top: 50%; left: 50%; transform: translate(-50%,-50%); }
 
-  /* ââ Container ââ */
+  /* ── Container ── */
   .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
-  /* ââ NAV ââ */
+  /* ── NAV ── */
   nav {
     padding: 20px 0;
     border-bottom: 1px solid var(--nwm-border);
@@ -77,7 +77,7 @@
     text-transform: uppercase; letter-spacing: .08em;
   }
 
-  /* ââ HERO ââ */
+  /* ── HERO ── */
   .hero { text-align: center; padding: 80px 0 60px; }
   .hero-badge {
     display: inline-flex; align-items: center; gap: 8px;
@@ -96,7 +96,7 @@
   }
   .hero p { font-size: 1.15rem; color: var(--nwm-muted); max-width: 640px; margin: 0 auto 40px; line-height: 1.6; }
 
-  /* ââ INPUT SECTION ââ */
+  /* ── INPUT SECTION ── */
   .input-section {
     max-width: 680px; margin: 0 auto; padding: 40px;
     background: var(--nwm-card); border: 1px solid var(--nwm-border);
@@ -131,60 +131,61 @@
     background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
     animation: shimmer 2s infinite;
   }
-  @keyframes shim; padding: 80px 0 60px; }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 6px 16px; border-radius: 30px; font-size: .8rem; font-weight: 500;
-    background: rgba(27,42,74,.12); color: #F4A460; border: 1px solid rgba(27,42,74,.2);
-    margin-bottom: 24px;
+  @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+  .trust-row {
+    display: flex; justify-content: center; gap: 24px; margin-top: 16px; flex-wrap: wrap;
   }
-  .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #10B981; animation: pulse-dot 2s infinite; }
-  @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
-  .hero h1 {
-    font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 900; line-height: 1.1;
-    letter-spacing: -0.03em; margin-bottom: 20px;
-  }
-  .hero h1 .gradient-text {
-    background: var(--nwm-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .hero p { font-size: 1.15rem; color: var(--nwm-muted); max-width: 640px; margin: 0 auto 40px; line-height: 1.6; }
+  .trust-item { display: flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--nwm-muted); }
+  .trust-item svg { width: 14px; height: 14px; color: var(--nwm-accent); }
 
-  /* ââ INPUT SECTION ââ */
-  .input-section {
-    max-width: 680px; margin: 0 auto; padding: 40px;
+  /* ── LOADING STATE ── */
+  .loading-section { display: none; text-align: center; padding: 80px 0; }
+  .loading-section.active { display: block; }
+  .scan-visual { margin: 0 auto 40px; width: 200px; height: 200px; position: relative; }
+  .scan-ring {
+    position: absolute; inset: 0; border-radius: 50%;
+    border: 2px solid transparent; border-top-color: var(--nwm-accent);
+    animation: spin 1.2s linear infinite;
+  }
+  .scan-ring:nth-child(2) { inset: 15px; border-top-color: var(--nwm-accent2); animation-duration: 1.8s; animation-direction: reverse; }
+  .scan-ring:nth-child(3) { inset: 30px; border-top-color: var(--nwm-red); animation-duration: 2.4s; }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+  .scan-pct {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; font-weight: 800; color: var(--nwm-accent);
+  }
+  .scan-steps { list-style: none; max-width: 400px; margin: 0 auto; text-align: left; }
+  .scan-steps li {
+    padding: 10px 0; display: flex; align-items: center; gap: 12px;
+    font-size: .95rem; color: var(--nwm-muted); transition: color .3s;
+  }
+  .scan-steps li.active { color: var(--nwm-accent); }
+  .scan-steps li.done { color: var(--nwm-green); }
+  .scan-steps li .check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: .7rem; flex-shrink: 0; }
+  .scan-steps li.done .check { background: var(--nwm-green); border-color: var(--nwm-green); color: #fff; }
+
+  /* ── RESULTS ── */
+  .results-section { display: none; padding: 60px 0 100px; }
+  .results-section.active { display: block; }
+
+  /* Overall Score */
+  .overall-card {
+    text-align: center; padding: 50px 40px; margin-bottom: 40px;
     background: var(--nwm-card); border: 1px solid var(--nwm-border);
-    border-radius: 20px; backdrop-filter: blur(10px);
+    border-radius: 24px; position: relative; overflow: hidden;
   }
-  .input-row { display: flex; gap: 12px; margin-bottom: 16px; }
-  .input-row input {
-    flex: 1; padding: 16px 20px; border-radius: 12px; border: 1px solid var(--nwm-border);
-    background: rgba(255,255,255,.04); color: #fff; font-size: 1rem; font-family: inherit;
-    transition: border-color .2s, box-shadow .2s; outline: none;
+  .overall-card::before {
+    content: ''; position: absolute; inset: -2px; border-radius: 26px; padding: 2px;
+    background: var(--nwm-gradient); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; opacity: .4;
   }
-  .input-row input:focus { border-color: var(--nwm-accent); box-shadow: 0 0 0 3px rgba(244,121,32,.15); }
-  .input-row input::placeholder { color: var(--nwm-muted); }
-  .industry-select {
-    width: 100%; padding: 14px 20px; border-radius: 12px; border: 1px solid var(--nwm-border);
-    background: rgba(255,255,255,.04); color: #fff; font-size: .95rem; font-family: inherit;
-    outline: none; margin-bottom: 20px; cursor: pointer; appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 16px center;
+  .score-circle-container { margin: 0 auto 24px; width: 180px; height: 180px; position: relative; }
+  .score-circle-bg, .score-circle-fill {
+    position: absolute; inset: 0; fill: none; stroke-width: 8; stroke-linecap: round;
   }
-  .industry-select option { background: #1B2A4A; color: #fff; }
-  .btn-analyze {
-    width: 100%; padding: 18px; border-radius: 12px; border: none; cursor: pointer;
-    font-size: 1.05rem; font-weight: 700; font-family: inherit; color: #fff;
-    background: var(--nwm-gradient); position: relative; overflow: hidden;
-    transition: transform .2s, box-shadow .2s;
-  }
-  .btn-analyze:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(244,121,32,.25); }
-  .btn-analyze:disabled { opacity: .6; cursor: not-allowed; transform: none; }
-  .btn-analyze .shimmer {
-    position: absolute; inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
-    animation: shimmer 2s infinite;
-  }
-  @keyframes shim{
+  .score-circle-bg { stroke: rgba(255,255,255,.06); }
+  .score-circle-fill { transition: stroke-dashoffset 1.5s ease; }
+  .score-number {
     position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
   }
   .score-number .num { font-size: 3.2rem; font-weight: 900; line-height: 1; }
@@ -311,7 +312,7 @@
     font-size: .8rem; color: var(--nwm-muted);
   }
 
-  /* ââ Toast Notification ââ */
+  /* ── Toast Notification ── */
   .toast {
     position: fixed; bottom: 24px; right: 24px; z-index: 200;
     padding: 14px 24px; border-radius: 12px;
@@ -324,11 +325,11 @@
   .toast.show { transform: translateY(0); opacity: 1; }
   .toast .toast-icon { font-size: 1.1rem; }
 
-  /* ââ Required field indicator ââ */
+  /* ── Required field indicator ── */
   .required-hint { font-size: .75rem; color: var(--nwm-muted); margin-bottom: 8px; text-align: left; }
   .required-hint span { color: var(--nwm-red); }
 
-  /* ââ Utilities ââ */
+  /* ── Utilities ── */
   .hidden { display: none !important; }
   @media (max-width: 640px) {
     .input-row { flex-direction: column; }
@@ -473,7 +474,7 @@
   <!-- CTA -->
   <div class="cta-section">
     <h2>Ready to Fix These Issues<br>& <span style="background:var(--nwm-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">3x Your Leads?</span></h2>
-    <p>Our AI marketing strategists will build a custom action plan for your business â free.</p>
+    <p>Our AI marketing strategists will build a custom action plan for your business — free.</p>
     <div class="cta-buttons">
       <button class="btn-cta-primary" onclick="window.open('https://netwebmedia.com','_blank')">Book Free Strategy Call</button>
       <button class="btn-cta-secondary" onclick="window.open('https://netwebmedia.com','_blank')">See Our Case Studies</button>
@@ -490,7 +491,7 @@
 
 <!-- Lead Captured Toast -->
 <div class="toast" id="leadToast">
-  <span class="toast-icon">â</span>
+  <span class="toast-icon">✅</span>
   <span id="toastMsg">Lead captured in HubSpot</span>
 </div>
 
@@ -501,13 +502,13 @@
 </footer>
 
 <script>
-// âââââââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════════
 //  NetWebMedia Website Deep Dive Diagnostic Engine
-// âââââââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════════
 
 const CATEGORIES = [
   {
-    key: 'seo', icon: 'ð', color: '#3B82F6',
+    key: 'seo', icon: '🔍', color: '#3B82F6',
     name: 'SEO Health', subtitle: 'Search engine optimization signals',
     issues: [
       'Missing or duplicate title tags across key pages',
@@ -521,13 +522,13 @@ const CATEGORIES = [
     ]
   },
   {
-    key: 'performance', icon: 'â¡', color: '#F59E0B',
+    key: 'performance', icon: '⚡', color: '#F59E0B',
     name: 'Page Performance', subtitle: 'Speed & Core Web Vitals',
     issues: [
       'Largest Contentful Paint (LCP) exceeds 4 seconds',
       'Render-blocking JavaScript delaying first paint',
       'Images not optimized (no WebP/AVIF, no lazy loading)',
-      'No CDN detected â slow load times for remote visitors',
+      'No CDN detected — slow load times for remote visitors',
       'Cumulative Layout Shift (CLS) above threshold',
       'Excessive third-party scripts impacting load time',
       'No browser caching configured for static assets',
@@ -535,7 +536,7 @@ const CATEGORIES = [
     ]
   },
   {
-    key: 'mobile', icon: 'ð±', color: '#8B5CF6',
+    key: 'mobile', icon: '📱', color: '#8B5CF6',
     name: 'Mobile Experience', subtitle: 'Responsive design & mobile UX',
     issues: [
       'Touch targets too small (buttons < 48px)',
@@ -549,7 +550,7 @@ const CATEGORIES = [
     ]
   },
   {
-    key: 'content', icon: 'ð', color: '#10B981',
+    key: 'content', icon: '📝', color: '#10B981',
     name: 'Content Quality', subtitle: 'Copy effectiveness & strategy',
     issues: [
       'No clear unique value proposition on homepage',
@@ -563,7 +564,7 @@ const CATEGORIES = [
     ]
   },
   {
-    key: 'social', icon: 'ð£', color: '#EC4899',
+    key: 'social', icon: '📣', color: '#EC4899',
     name: 'Social Presence', subtitle: 'Social media integration & signals',
     issues: [
       'Social media links missing from website',
@@ -577,7 +578,7 @@ const CATEGORIES = [
     ]
   },
   {
-    key: 'ai_search', icon: 'ð¤', color: '#F47920',
+    key: 'ai_search', icon: '🤖', color: '#F47920',
     name: 'AI Search Readiness', subtitle: 'AEO & LLM optimization',
     issues: [
       'No Answer Engine Optimization (AEO) strategy detected',
@@ -591,7 +592,7 @@ const CATEGORIES = [
     ]
   },
   {
-    key: 'conversion', icon: 'ð¯', color: '#F43F5E',
+    key: 'conversion', icon: '🎯', color: '#F43F5E',
     name: 'Conversion Optimization', subtitle: 'Lead capture & CRO',
     issues: [
       'No lead capture form above the fold',
@@ -605,7 +606,7 @@ const CATEGORIES = [
     ]
   },
   {
-    key: 'brand', icon: 'ð¨', color: '#1B2A4A',
+    key: 'brand', icon: '🎨', color: '#1B2A4A',
     name: 'Brand Consistency', subtitle: 'Visual identity & messaging',
     issues: [
       'Inconsistent color palette across pages',
@@ -622,68 +623,68 @@ const CATEGORIES = [
 
 const SERVICES = [
   {
-    icon: 'ð', name: 'AI-Powered SEO',
+    icon: '🔍', name: 'AI-Powered SEO',
     desc: 'Full technical SEO audit, keyword strategy powered by AI, on-page optimization, link building, and monthly reporting with predictive ranking models.',
     impact: '+180% organic traffic (avg. 6 months)',
     cats: ['seo', 'content', 'ai_search']
   },
   {
-    icon: 'ð¤', name: 'AEO & LLMO Optimization',
-    desc: 'Ensure your brand shows up in AI-generated answers â ChatGPT, Perplexity, Google AI Overviews. Structured data, entity optimization, and answer-engine content strategy.',
+    icon: '🤖', name: 'AEO & LLMO Optimization',
+    desc: 'Ensure your brand shows up in AI-generated answers — ChatGPT, Perplexity, Google AI Overviews. Structured data, entity optimization, and answer-engine content strategy.',
     impact: 'First-mover advantage in AI search',
     cats: ['ai_search', 'seo', 'content']
   },
   {
-    icon: 'â¡', name: 'Performance & Speed Optimization',
+    icon: '⚡', name: 'Performance & Speed Optimization',
     desc: 'Core Web Vitals optimization, CDN setup, image compression pipeline, code splitting, and caching strategy. Every second of load time = 7% lost conversions.',
     impact: '+35% page speed score',
     cats: ['performance', 'mobile']
   },
   {
-    icon: 'ð¯', name: 'Conversion Rate Optimization (CRO)',
+    icon: '🎯', name: 'Conversion Rate Optimization (CRO)',
     desc: 'AI-driven A/B testing, heatmap analysis, funnel optimization, lead form redesign, and exit-intent strategy to turn your traffic into qualified leads.',
     impact: '+45% lead conversion rate',
     cats: ['conversion', 'content']
   },
   {
-    icon: 'ð±', name: 'Mobile-First Web Design',
+    icon: '📱', name: 'Mobile-First Web Design',
     desc: 'Custom responsive redesign built for speed and conversions. Mobile-first UI/UX, ADA compliance, and optimized user journeys.',
     impact: '+60% mobile engagement',
     cats: ['mobile', 'brand', 'performance']
   },
   {
-    icon: 'ð£', name: 'Social Media Management',
+    icon: '📣', name: 'Social Media Management',
     desc: 'AI-generated content calendars, platform-specific strategies (TikTok, Reels, LinkedIn, YouTube), community engagement, and paid social amplification.',
     impact: '+250% social engagement',
     cats: ['social', 'brand', 'content']
   },
   {
-    icon: 'ð', name: 'AI Content Strategy',
-    desc: 'Blog content, video scripts, email sequences, and landing page copy â all AI-assisted and SEO-optimized. Monthly content calendar with performance tracking.',
+    icon: '📝', name: 'AI Content Strategy',
+    desc: 'Blog content, video scripts, email sequences, and landing page copy — all AI-assisted and SEO-optimized. Monthly content calendar with performance tracking.',
     impact: '+200% content output, +90% organic leads',
     cats: ['content', 'seo', 'ai_search']
   },
   {
-    icon: 'ð', name: 'Paid Ads (PPC) Management',
-    desc: 'Google Ads, Meta Ads, TikTok Ads â managed with AI bidding optimization, creative testing, and real-time ROAS tracking. We manage your budget like it\'s ours.',
+    icon: '📊', name: 'Paid Ads (PPC) Management',
+    desc: 'Google Ads, Meta Ads, TikTok Ads — managed with AI bidding optimization, creative testing, and real-time ROAS tracking. We manage your budget like it\'s ours.',
     impact: '+3.5x average ROAS',
     cats: ['conversion', 'social']
   },
   {
-    icon: 'ð§', name: 'Email & Marketing Automation',
+    icon: '📧', name: 'Email & Marketing Automation',
     desc: 'Drip sequences, lead nurturing, segmentation, and behavioral triggers powered by AI. Turn cold leads into booked calls on autopilot.',
     impact: '+40% email-driven revenue',
     cats: ['conversion', 'content']
   },
   {
-    icon: 'ð', name: 'Analytics & AI Reporting',
+    icon: '📈', name: 'Analytics & AI Reporting',
     desc: 'Custom dashboards, AI-powered insights, attribution modeling, and monthly strategy sessions. Know exactly what\'s working and where to double down.',
     impact: 'Full marketing visibility',
     cats: ['performance', 'conversion', 'seo']
   }
 ];
 
-// ââ Score Generation Engine ââ
+// ── Score Generation Engine ──
 function generateScores(url, industry) {
   const domain = url.replace(/https?:\/\//, '').replace(/\/$/, '').toLowerCase();
   const seed = hashCode(domain + industry);
@@ -721,7 +722,7 @@ function generateScores(url, industry) {
     scores[cat.key] = biased;
   });
 
-  // AI Search is typically the weakest â most businesses haven't optimized for this
+  // AI Search is typically the weakest — most businesses haven't optimized for this
   if (scores.ai_search > 40) scores.ai_search = Math.floor(scores.ai_search * 0.6);
 
   return scores;
@@ -746,20 +747,20 @@ function mulberry32(a) {
   }
 }
 
-// âââââââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════════
 //  HubSpot Integration Config
-// âââââââââââââââââââââââââââââââââââââââââââââââ
+// ═══════════════════════════════════════════════
 const HUBSPOT_CONFIG = {
   portalId: '51307244',
-  // HubSpot Forms API â this is the primary lead capture method
+  // HubSpot Forms API — this is the primary lead capture method
   formGuid: '34e52abc-84e7-464b-ab2e-92b272cf857c',
-  // HubSpot Tracking API (secondary â works when hosted on tracked domain)
+  // HubSpot Tracking API (secondary — works when hosted on tracked domain)
   useTrackingApi: true,
 };
 
 // Send lead data to HubSpot
 function sendToHubSpot(leadData) {
-  // ââ Method 1: HubSpot Forms API (if formGuid is configured) ââ
+  // ── Method 1: HubSpot Forms API (if formGuid is configured) ──
   if (HUBSPOT_CONFIG.formGuid) {
     const payload = {
       submittedAt: Date.now(),
@@ -794,7 +795,7 @@ function sendToHubSpot(leadData) {
     .catch(err => console.warn('[HubSpot Forms] Submission failed (will retry via tracking):', err));
   }
 
-  // ââ Method 2: HubSpot Tracking API (always runs if tracking script is loaded) ââ
+  // ── Method 2: HubSpot Tracking API (always runs if tracking script is loaded) ──
   if (HUBSPOT_CONFIG.useTrackingApi && typeof _hsq !== 'undefined') {
     // Identify the contact
     _hsq.push(['identify', {
@@ -825,7 +826,7 @@ function sendToHubSpot(leadData) {
     console.log('[HubSpot Tracking] Contact identified & event tracked:', leadData.email);
   }
 
-  // ââ Method 3: Data Layer for GTM / Webhook fallback ââ
+  // ── Method 3: Data Layer for GTM / Webhook fallback ──
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     event: 'nwm_diagnostic_lead',
@@ -834,7 +835,7 @@ function sendToHubSpot(leadData) {
   });
   console.log('[DataLayer] Lead pushed:', leadData);
 
-  // ââ Store locally for session reference ââ
+  // ── Store locally for session reference ──
   try {
     const leads = JSON.parse(sessionStorage.getItem('nwm_leads') || '[]');
     leads.push({ ...leadData, timestamp: new Date().toISOString() });
@@ -857,7 +858,7 @@ function getCookie(name) {
   return match ? match[2] : '';
 }
 
-// ââ Analysis Flow ââ
+// ── Analysis Flow ──
 function startAnalysis() {
   const url = document.getElementById('urlInput').value.trim();
   const name = document.getElementById('nameInput').value.trim();
@@ -917,7 +918,7 @@ async function runScanAnimation(url, industry) {
     progress = target;
     steps[i].classList.remove('active');
     steps[i].classList.add('done');
-    steps[i].querySelector('.check').textContent = 'â';
+    steps[i].querySelector('.check').textContent = '✓';
   }
 
   await sleep(300);
@@ -938,12 +939,12 @@ function animateCounter(el, from, to, duration) {
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-// ââ Show Results ââ
+// ── Show Results ──
 function showResults(url, industry) {
   const scores = generateScores(url, industry);
   const overall = Math.round(Object.values(scores).reduce((a,b) => a+b, 0) / 8);
 
-  // ââ Send lead to HubSpot ââ
+  // ── Send lead to HubSpot ──
   const weakestKey = Object.entries(scores).sort((a,b) => a[1] - b[1])[0];
   const weakestCat = CATEGORIES.find(c => c.key === weakestKey[0]);
   if (window._nwmLeadData) {
@@ -964,10 +965,10 @@ function showResults(url, industry) {
   document.getElementById('overallUrl').textContent = domain;
 
   let gradeText, gradeColor;
-  if (overall >= 75) { gradeText = 'Good â but there\'s room to grow'; gradeColor = '#10B981'; }
-  else if (overall >= 55) { gradeText = 'Needs Work â significant opportunities missed'; gradeColor = '#F59E0B'; }
-  else if (overall >= 35) { gradeText = 'Poor â your marketing is leaving money on the table'; gradeColor = '#F43F5E'; }
-  else { gradeText = 'Critical â immediate action required'; gradeColor = '#F43F5E'; }
+  if (overall >= 75) { gradeText = 'Good — but there\'s room to grow'; gradeColor = '#10B981'; }
+  else if (overall >= 55) { gradeText = 'Needs Work — significant opportunities missed'; gradeColor = '#F59E0B'; }
+  else if (overall >= 35) { gradeText = 'Poor — your marketing is leaving money on the table'; gradeColor = '#F43F5E'; }
+  else { gradeText = 'Critical — immediate action required'; gradeColor = '#F43F5E'; }
 
   document.getElementById('overallGrade').textContent = gradeText;
   document.getElementById('overallGrade').style.color = gradeColor;
@@ -1070,7 +1071,7 @@ function buildFindings(scores, rng) {
   allFindings.sort((a, b) => sevOrder[a.severity] - sevOrder[b.severity]);
 
   allFindings.slice(0, 12).forEach(f => {
-    const sevEmoji = f.severity === 'high' ? 'ð´' : f.severity === 'med' ? 'ð¡' : 'ðµ';
+    const sevEmoji = f.severity === 'high' ? '🔴' : f.severity === 'med' ? '🟡' : '🔵';
     const sevLabel = f.severity === 'high' ? 'High Impact' : f.severity === 'med' ? 'Medium Impact' : 'Low Impact';
     const tagClass = f.severity === 'high' ? 'tag-high' : f.severity === 'med' ? 'tag-med' : 'tag-low';
     const sevClass = f.severity === 'high' ? 'sev-high' : f.severity === 'med' ? 'sev-med' : 'sev-low';
@@ -1080,7 +1081,7 @@ function buildFindings(scores, rng) {
         <div class="finding-severity ${sevClass}">${sevEmoji}</div>
         <div class="finding-body">
           <div class="finding-title">${f.issue}</div>
-          <div class="finding-desc">Detected in <strong>${f.cat}</strong> (Score: ${f.score}/100) â This issue directly impacts your ability to attract and convert leads.</div>
+          <div class="finding-desc">Detected in <strong>${f.cat}</strong> (Score: ${f.score}/100) — This issue directly impacts your ability to attract and convert leads.</div>
           <span class="finding-tag ${tagClass}">${sevLabel}</span>
         </div>
       </div>
@@ -1111,7 +1112,7 @@ function buildServices(scores) {
         <div class="svc-icon">${svc.icon}</div>
         <div class="svc-name">${svc.name}</div>
         <div class="svc-desc">${svc.desc}</div>
-        <div class="svc-impact">ð ${svc.impact}</div>
+        <div class="svc-impact">📈 ${svc.impact}</div>
       </div>
     `;
   });

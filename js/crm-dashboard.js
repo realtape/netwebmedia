@@ -483,6 +483,204 @@
     `).join('');
   }
 
+  // ---- Render: Analytics ----
+  const CHART_COLORS = ['#6c5ce7', '#00cec9', '#00b894', '#fdcb6e', '#e17055', '#fd79a8', '#a29bfe', '#55efc4'];
+
+  function renderBarChart(containerId, items, maxVal) {
+    const el = $(containerId);
+    if (!el) return;
+    if (!maxVal) maxVal = Math.max(...items.map(i => i.value), 1);
+    el.innerHTML = items.map((item, i) => {
+      const pct = Math.max((item.value / maxVal) * 100, 2);
+      const color = item.color || CHART_COLORS[i % CHART_COLORS.length];
+      return `
+        <div class="chart-bar-group">
+          <div class="chart-bar-label">
+            <span>${esc(item.label)}</span>
+            <span>${item.display || item.value}</span>
+          </div>
+          <div class="chart-bar-track">
+            <div class="chart-bar-fill" style="width:${pct}%;background:${color}">${pct > 15 ? (item.display || item.value) : ''}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderDonutChart(containerId, items, totalLabel) {
+    const el = $(containerId);
+    if (!el) return;
+    const total = items.reduce((s, i) => s + i.value, 0);
+    let cumulative = 0;
+    const gradientParts = items.map((item, i) => {
+      const color = item.color || CHART_COLORS[i % CHART_COLORS.length];
+      const start = (cumulative / total) * 360;
+      cumulative += item.value;
+      const end = (cumulative / total) * 360;
+      return `${color} ${start}deg ${end}deg`;
+    });
+
+    el.innerHTML = `
+      <div class="donut-chart">
+        <div class="donut-ring" style="background:conic-gradient(${gradientParts.join(',')})">
+          <div class="donut-center">
+            <div class="donut-total">${total}</div>
+            <div class="donut-label">${totalLabel}</div>
+          </div>
+        </div>
+        <div class="donut-legend">
+          ${items.map((item, i) => `
+            <div class="legend-item">
+              <div class="legend-dot" style="background:${item.color || CHART_COLORS[i % CHART_COLORS.length]}"></div>
+              <span>${esc(item.label)}</span>
+              <span>${item.value}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderAnalytics() {
+    // KPIs
+    const openDeals = data.deals.filter(d => d.status === 'open');
+    const totalPipeline = openDeals.reduce((s, d) => s + (d.value || 0), 0);
+    const avgDealSize = openDeals.length ? Math.round(totalPipeline / openDeals.length) : 0;
+    const openLeads = data.leads.filter(l => l.status === 'open' || l.status === 'qualified');
+    const conversionRate = data.leads.length ? Math.round((data.leads.filter(l => l.status === 'won' || l.status === 'qualified').length / data.leads.length) * 100) : 0;
+    const completedTasks = data.tasks.filter(t => t.status === 'done').length;
+    const taskCompletionRate = data.tasks.length ? Math.round((completedTasks / data.tasks.length) * 100) : 0;
+
+    const weightedPipeline = openDeals.reduce((s, d) => {
+      const pipeline = data.pipelines.find(p => p.id === d.pipelineId);
+      const stage = pipeline ? pipeline.stages.find(st => st.id === d.stageId) : null;
+      const prob = stage ? stage.probability / 100 : 0.5;
+      return s + (d.value || 0) * prob;
+    }, 0);
+
+    $('#analytics-kpis').innerHTML = `
+      <div class="stat-card">
+        <div class="stat-label">Total Pipeline</div>
+        <div class="stat-value stat-green">${formatMoney(totalPipeline)}</div>
+        <div class="stat-sub">${openDeals.length} open deals</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Weighted Forecast</div>
+        <div class="stat-value stat-cyan">${formatMoney(Math.round(weightedPipeline))}</div>
+        <div class="stat-sub">Probability-adjusted</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg Deal Size</div>
+        <div class="stat-value stat-accent">${formatMoney(avgDealSize)}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Open Leads</div>
+        <div class="stat-value stat-orange">${openLeads.length}</div>
+        <div class="stat-sub">${formatMoney(openLeads.reduce((s, l) => s + (l.estimatedValue || 0), 0))} est.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Task Completion</div>
+        <div class="stat-value ${taskCompletionRate >= 50 ? 'stat-green' : 'stat-red'}">${taskCompletionRate}%</div>
+        <div class="stat-sub">${completedTasks}/${data.tasks.length} done</div>
+      </div>
+    `;
+
+    // Pipeline by Stage
+    const dealPipeline = data.pipelines.find(p => p.entityType === 'deal');
+    if (dealPipeline) {
+      const stageData = dealPipeline.stages.map((stage, i) => {
+        const stageDeals = data.deals.filter(d => d.stageId === stage.id && d.status === 'open');
+        const stageValue = stageDeals.reduce((s, d) => s + (d.value || 0), 0);
+        return { label: stage.name, value: stageValue, display: formatMoney(stageValue), color: CHART_COLORS[i] };
+      }).filter(s => s.value > 0);
+      renderBarChart('#chart-pipeline-stages', stageData);
+    }
+
+    // Lead Sources
+    const sourceMap = {};
+    data.leads.forEach(l => {
+      const src = l.source || 'unknown';
+      sourceMap[src] = (sourceMap[src] || 0) + 1;
+    });
+    const sourceItems = Object.entries(sourceMap).map(([label, value], i) => ({
+      label: label.charAt(0).toUpperCase() + label.slice(1),
+      value,
+      color: CHART_COLORS[i % CHART_COLORS.length],
+    }));
+    renderDonutChart('#chart-lead-sources', sourceItems, 'Leads');
+
+    // Contact Lifecycle
+    const lifecycleMap = {};
+    data.contacts.forEach(c => {
+      const stage = c.lifecycleStage || 'unknown';
+      lifecycleMap[stage] = (lifecycleMap[stage] || 0) + 1;
+    });
+    const lifecycleItems = Object.entries(lifecycleMap).map(([label, value], i) => ({
+      label: label.toUpperCase(),
+      value,
+      color: CHART_COLORS[i % CHART_COLORS.length],
+    }));
+    renderDonutChart('#chart-contact-lifecycle', lifecycleItems, 'Contacts');
+
+    // Deal Forecast
+    const forecastBody = $('#forecast-table tbody');
+    forecastBody.innerHTML = openDeals.map(d => {
+      const pipeline = data.pipelines.find(p => p.id === d.pipelineId);
+      const stage = pipeline ? pipeline.stages.find(st => st.id === d.stageId) : null;
+      const prob = stage ? stage.probability : 50;
+      const weighted = Math.round((d.value || 0) * prob / 100);
+      return `
+        <tr>
+          <td><strong>${esc(d.name)}</strong></td>
+          <td style="font-weight:700;color:var(--green)">${formatMoney(d.value)}</td>
+          <td><span class="badge ${prob >= 60 ? 'badge-green' : prob >= 30 ? 'badge-orange' : 'badge-red'}">${prob}%</span></td>
+          <td style="font-weight:700;color:var(--cyan)">${formatMoney(weighted)}</td>
+          <td>${formatDate(d.expectedCloseDate)}</td>
+        </tr>
+      `;
+    }).join('');
+
+    // Task Status
+    const taskStatusMap = {};
+    data.tasks.forEach(t => {
+      taskStatusMap[t.status] = (taskStatusMap[t.status] || 0) + 1;
+    });
+    const taskStatusColors = { todo: '#e17055', in_progress: '#fdcb6e', done: '#00b894', blocked: '#fd79a8' };
+    const taskItems = Object.entries(taskStatusMap).map(([label, value]) => ({
+      label: label.replace('_', ' ').toUpperCase(),
+      value,
+      color: taskStatusColors[label] || '#6c5ce7',
+    }));
+    renderDonutChart('#chart-task-status', taskItems, 'Tasks');
+
+    // Company Status
+    const compStatusMap = {};
+    data.companies.forEach(c => {
+      compStatusMap[c.status] = (compStatusMap[c.status] || 0) + 1;
+    });
+    const compStatusColors = { prospect: '#00cec9', active: '#00b894', customer: '#6c5ce7', partner: '#a29bfe', inactive: '#636e72' };
+    const compItems = Object.entries(compStatusMap).map(([label, value]) => ({
+      label: label.charAt(0).toUpperCase() + label.slice(1),
+      value,
+      color: compStatusColors[label] || '#6c5ce7',
+    }));
+    renderDonutChart('#chart-company-status', compItems, 'Companies');
+
+    // Activity Timeline (bar chart by type)
+    const actTypeMap = {};
+    data.activities.forEach(a => {
+      actTypeMap[a.kind] = (actTypeMap[a.kind] || 0) + 1;
+    });
+    const actTypeColors = { call: '#00cec9', email: '#6c5ce7', meeting: '#fdcb6e', status_change: '#00b894', system: '#636e72' };
+    const actItems = Object.entries(actTypeMap).map(([label, value]) => ({
+      label: (ACTIVITY_ICONS[label] || '') + ' ' + label.replace('_', ' ').charAt(0).toUpperCase() + label.replace('_', ' ').slice(1),
+      value,
+      display: value.toString(),
+      color: actTypeColors[label] || '#6c5ce7',
+    }));
+    renderBarChart('#chart-activity-timeline', actItems);
+  }
+
   // ---- Navigation ----
   window.showView = function (view) {
     $$('.section-view').forEach(el => el.classList.remove('active'));
@@ -503,6 +701,7 @@
       case 'tasks': renderTasks(); break;
       case 'pipeline': renderPipeline(); break;
       case 'activity': renderActivityLog(); break;
+      case 'analytics': renderAnalytics(); break;
     }
   };
 

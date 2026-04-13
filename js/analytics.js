@@ -1,18 +1,44 @@
 (function() {
   'use strict';
 
-  const form = document.getElementById('analytics-form');
-  const urlInput = document.getElementById('site-url');
-  const analyzeBtn = document.getElementById('analyze-btn');
-  const loadingBar = document.getElementById('loading-bar');
-  const loadingFill = document.getElementById('loading-fill');
-  const analyzingText = document.getElementById('analyzing-text');
-  const results = document.getElementById('results');
+  var form = document.getElementById('analytics-form');
+  var urlInput = document.getElementById('site-url');
+  var nameInput = document.getElementById('lead-name');
+  var emailInput = document.getElementById('lead-email');
+  var analyzeBtn = document.getElementById('analyze-btn');
+  var loadingBar = document.getElementById('loading-bar');
+  var loadingFill = document.getElementById('loading-fill');
+  var analyzingText = document.getElementById('analyzing-text');
+  var results = document.getElementById('results');
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     var url = urlInput.value.trim();
-    if (!url) return;
+    var name = nameInput.value.trim();
+    var email = emailInput.value.trim();
+    if (!url || !name || !email) return;
+
+    // Save lead to localStorage
+    var leads = JSON.parse(localStorage.getItem('nwm_analytics_leads') || '[]');
+    leads.push({ name: name, email: email, url: url, date: new Date().toISOString() });
+    localStorage.setItem('nwm_analytics_leads', JSON.stringify(leads));
+
+    // Try to send lead to CRM API
+    try {
+      fetch('/api/crm/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: name + ' - Website Audit',
+          source: 'analytics-tool',
+          status: 'open',
+          estimatedValue: 0,
+          contactEmail: email,
+          contactName: name,
+          website: url
+        })
+      }).catch(function() {});
+    } catch(err) {}
 
     analyzeBtn.disabled = true;
     analyzeBtn.textContent = 'Analyzing...';
@@ -29,13 +55,13 @@
       analyzeBtn.disabled = false;
       analyzeBtn.textContent = 'Analyze Now';
 
-      generateResults(url);
+      generateResults(url, name);
       results.classList.add('visible');
       results.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 2500);
   });
 
-  function generateResults(url) {
+  function generateResults(url, name) {
     var domain;
     try { domain = new URL(url).hostname; } catch(e) { domain = url.replace(/https?:\/\//, '').split('/')[0]; }
 

@@ -175,9 +175,11 @@
     <div class="section-label">FREE WEBSITE ANALYSIS</div>
     <h1 class="section-title">Check Your Website's <span class="gradient-text">Performance</span></h1>
     <p class="section-subtitle" style="margin:0 auto;">Enter your website URL and get an instant analysis of your SEO, performance, accessibility, and more.</p>
-    <form class="analytics-form" id="analytics-form">
-      <input type="url" id="site-url" placeholder="https://yourwebsite.com" required />
-      <button type="submit" id="analyze-btn">Analyze Now</button>
+    <form class="analytics-form" id="analytics-form" style="flex-wrap:wrap;max-width:640px;margin:40px auto 0;">
+      <input type="text" id="lead-name" placeholder="Your Name" required style="min-width:200px;" />
+      <input type="email" id="lead-email" placeholder="your@email.com" required style="min-width:200px;" />
+      <input type="url" id="site-url" placeholder="https://yourwebsite.com" required style="min-width:280px;flex:1 1 100%;" />
+      <button type="submit" id="analyze-btn" style="flex:1 1 100%;">Analyze Now</button>
     </form>
     <div class="loading-bar" id="loading-bar"><div class="fill" id="loading-fill"></div></div>
     <p class="analyzing-text" id="analyzing-text">Analyzing your website...</p>

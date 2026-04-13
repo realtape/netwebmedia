@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Alerta Comunidad - Community Safety Alert</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Splash / Loading -->
+  <div id="splash" class="splash">
+    <div class="splash-content">
+      <div class="splash-icon">&#x1F6E1;</div>
+      <h1>Alerta Comunidad</h1>
+      <p>Community Safety Network</p>
+      <div class="splash-loader"></div>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="app" class="app hidden">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <span class="logo-icon">&#x1F6E1;</span>
+        <span class="logo-text">Alerta</span>
+      </div>
+      <div class="top-bar-center">
+        <div class="alert-count" id="alertCount" title="Active reports nearby">
+          <span class="pulse-dot"></span>
+          <span id="activeCount">0</span> active
+        </div>
+      </div>
+      <div class="top-bar-right">
+        <button class="icon-btn" id="btnLang" title="Cambiar idioma / Change language">EN/ES</button>
+        <button class="icon-btn" id="btnSettings" title="Settings">&#x2699;</button>
+      </div>
+    </header>
+
+    <!-- Map Container -->
+    <div id="map"></div>
+
+    <!-- Alert Banner (shows when new nearby report) -->
+    <div id="alertBanner" class="alert-banner hidden">
+      <div class="alert-banner-icon">&#x26A0;</div>
+      <div class="alert-banner-text">
+        <strong id="alertBannerTitle">New Report Nearby</strong>
+        <span id="alertBannerDesc"></span>
+      </div>
+      <button class="alert-banner-close" id="alertBannerClose">&times;</button>
+    </div>
+
+    <!-- Bottom Action Bar -->
+    <div class="bottom-bar">
+      <button class="action-btn secondary" id="btnRecenter" title="My Location">
+        <span class="action-icon">&#x1F4CD;</span>
+        <span class="action-label" data-i18n="my_location">My Location</span>
+      </button>
+      <button class="action-btn primary" id="btnReport">
+        <span class="action-icon">&#x1F6A8;</span>
+        <span class="action-label" data-i18n="report">Report</span>
+      </button>
+      <button class="action-btn secondary" id="btnFeed" title="Feed">
+        <span class="action-icon">&#x1F4CB;</span>
+        <span class="action-label" data-i18n="feed">Feed</span>
+      </button>
+    </div>
+
+    <!-- Report Modal -->
+    <div id="reportModal" class="modal hidden">
+      <div class="modal-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 data-i18n="report_title">Report Activity</h2>
+          <button class="modal-close" id="reportModalClose">&times;</button>
+        </div>
+        <form id="reportForm" class="report-form">
+          <div class="form-group">
+            <label data-i18n="report_type_label">Type of Activity</label>
+            <div class="report-type-grid">
+              <label class="report-type-option">
+                <input type="radio" name="reportType" value="checkpoint" required>
+                <div class="report-type-card">
+                  <span class="report-type-icon">&#x1F6A7;</span>
+                  <span data-i18n="type_checkpoint">Checkpoint</span>
+                </div>
+              </label>
+              <label class="report-type-option">
+                <input type="radio" name="reportType" value="patrol">
+                <div class="report-type-card">
+                  <span class="report-type-icon">&#x1F694;</span>
+                  <span data-i18n="type_patrol">Patrol</span>
+                </div>
+              </label>
+              <label class="report-type-option">
+                <input type="radio" name="reportType" value="raid">
+                <div class="report-type-card">
+                  <span class="report-type-icon">&#x1F6A8;</span>
+                  <span data-i18n="type_raid">Raid</span>
+                </div>
+              </label>
+              <label class="report-type-option">
+                <input type="radio" name="reportType" value="agents">
+                <div class="report-type-card">
+                  <span class="report-type-icon">&#x1F464;</span>
+                  <span data-i18n="type_agents">Agents on Foot</span>
+                </div>
+              </label>
+              <label class="report-type-option">
+                <input type="radio" name="reportType" value="vehicles">
+                <div class="report-type-card">
+                  <span class="report-type-icon">&#x1F690;</span>
+                  <span data-i18n="type_vehicles">Unmarked Vehicles</span>
+                </div>
+              </label>
+              <label class="report-type-option">
+                <input type="radio" name="reportType" value="other">
+                <div class="report-type-card">
+                  <span class="report-type-icon">&#x2753;</span>
+                  <span data-i18n="type_other">Other</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="reportDesc" data-i18n="description_label">Description (optional)</label>
+            <textarea id="reportDesc" rows="3" placeholder="What did you see? / Que viste?" maxlength="280"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="location_label">Location</label>
+            <div class="location-toggle">
+              <button type="button" class="loc-btn active" id="locCurrent" data-i18n="use_current">Use My Location</button>
+              <button type="button" class="loc-btn" id="locMap" data-i18n="pick_on_map">Pick on Map</button>
+            </div>
+            <div id="locationInfo" class="location-info">
+              <span id="locationText" data-i18n="getting_location">Getting your location...</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="severity_label">How many agents/vehicles?</label>
+            <div class="severity-selector">
+              <button type="button" class="sev-btn active" data-severity="few">1-2</button>
+              <button type="button" class="sev-btn" data-severity="some">3-5</button>
+              <button type="button" class="sev-btn" data-severity="many">5+</button>
+              <button type="button" class="sev-btn" data-severity="unknown" data-i18n="unknown">Unknown</button>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn" data-i18n="submit_report">
+            &#x1F6A8; Submit Report / Enviar Reporte
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Feed Panel -->
+    <div id="feedPanel" class="feed-panel hidden">
+      <div class="feed-header">
+        <h2 data-i18n="recent_reports">Recent Reports</h2>
+        <button class="modal-close" id="feedClose">&times;</button>
+      </div>
+      <div class="feed-filters">
+        <button class="filter-btn active" data-filter="all" data-i18n="all">All</button>
+        <button class="filter-btn" data-filter="1h" data-i18n="last_hour">Last Hour</button>
+        <button class="filter-btn" data-filter="today" data-i18n="today">Today</button>
+      </div>
+      <div id="feedList" class="feed-list">
+        <div class="feed-empty" data-i18n="no_reports">No reports yet. Stay safe!</div>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div id="settingsPanel" class="settings-panel hidden">
+      <div class="feed-header">
+        <h2 data-i18n="settings">Settings</h2>
+        <button class="modal-close" id="settingsClose">&times;</button>
+      </div>
+      <div class="settings-body">
+        <div class="setting-item">
+          <label data-i18n="alert_radius">Alert Radius</label>
+          <select id="alertRadius">
+            <option value="1">1 mile</option>
+            <option value="3" selected>3 miles</option>
+            <option value="5">5 miles</option>
+            <option value="10">10 miles</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label data-i18n="notifications">Push Notifications</label>
+          <button class="toggle-btn" id="toggleNotif">Enable</button>
+        </div>
+        <div class="setting-item">
+          <label data-i18n="sound_alerts">Sound Alerts</label>
+          <button class="toggle-btn active" id="toggleSound">On</button>
+        </div>
+        <div class="setting-item know-rights">
+          <h3 data-i18n="know_rights">Know Your Rights</h3>
+          <ul>
+            <li data-i18n="right_1">You have the right to remain silent.</li>
+            <li data-i18n="right_2">You do not have to open your door to ICE without a judicial warrant signed by a judge.</li>
+            <li data-i18n="right_3">You have the right to speak with a lawyer.</li>
+            <li data-i18n="right_4">Do not sign anything you do not understand.</li>
+            <li data-i18n="right_5">You can record interactions in public spaces.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirm/Deny Popup (for existing reports) -->
+    <div id="confirmPopup" class="confirm-popup hidden">
+      <p data-i18n="still_there">Is this still active?</p>
+      <div class="confirm-actions">
+        <button class="confirm-yes" id="confirmYes">&#x2705; Yes / Si</button>
+        <button class="confirm-no" id="confirmNo">&#x274C; No</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

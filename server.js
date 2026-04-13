@@ -48,7 +48,7 @@ http
           "magnetometer=(), microphone=(), payment=(), usb=()",
         "Content-Security-Policy":
           "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-          "img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; " +
+          "img-src 'self' data: https://flagcdn.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; " +
           "frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'",
         "Cross-Origin-Opener-Policy": "same-origin",
         "Cross-Origin-Resource-Policy": "same-origin",

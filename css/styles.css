@@ -5,34 +5,42 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
-/* ── CSS Variables — Gulf Oil Brand Colors ── */
+/* ── CSS Variables — NWM Logo Brand Colors ── */
 :root {
-  --bg-primary: #000000;
-  --bg-secondary: #060610;
-  --bg-card: rgba(255,255,255,0.04);
-  --bg-card-hover: rgba(255,255,255,0.08);
+  /* NWM Logo Palette */
+  --nwm-navy: #012169;       /* Logo navy blue — primary bg */
+  --nwm-navy-dark: #010F3B;  /* Darker navy for depth */
+  --nwm-navy-mid: #01306E;   /* Mid navy for sections */
+  --nwm-orange: #FF671F;     /* Logo orange — primary accent */
+  --nwm-orange-light: #FF8C42; /* Lighter orange tint */
+  --nwm-blue: #4A90D9;       /* Logo text blue — secondary accent */
 
-  /* Gulf Oil Palette */
-  --gulf-orange: #FF671F;    /* Pantone 165 C — Gulf Orange */
-  --gulf-blue: #012169;      /* Pantone 280 C — Gulf Deep Blue */
-  --gulf-mid-blue: #004B87;  /* Pantone 301 C — Gulf Mid Blue */
+  --bg-primary: #010F3B;
+  --bg-secondary: #011550;
+  --bg-card: rgba(255,255,255,0.06);
+  --bg-card-hover: rgba(255,255,255,0.10);
 
-  --accent-blue: #FF671F;    /* repurposed: orange as primary accent */
-  --accent-purple: #012169;  /* repurposed: deep blue as secondary */
-  --accent-cyan: #FF8C42;    /* warm amber-orange tint */
-  --accent-pink: #004B87;    /* mid-blue accent */
+  /* Legacy aliases for compatibility */
+  --gulf-orange: var(--nwm-orange);
+  --gulf-blue: var(--nwm-navy);
+  --gulf-mid-blue: var(--nwm-blue);
 
-  --gradient-hero: linear-gradient(135deg, #FF671F 0%, #FF8C42 40%, #004B87 100%);
+  --accent-blue: var(--nwm-orange);
+  --accent-purple: var(--nwm-navy);
+  --accent-cyan: var(--nwm-orange-light);
+  --accent-pink: var(--nwm-blue);
+
+  --gradient-hero: linear-gradient(135deg, #FF671F 0%, #FF8C42 40%, #4A90D9 100%);
   --gradient-text: linear-gradient(90deg, #FF671F, #FF8C42);
   --gradient-btn: linear-gradient(135deg, #FF671F, #FF8A00);
-  --gradient-btn-blue: linear-gradient(135deg, #012169, #004B87);
+  --gradient-btn-blue: linear-gradient(135deg, #012169, #4A90D9);
 
   --text-primary: #FFFFFF;
-  --text-secondary: #D1D5DB;
-  --text-muted: #6B7280;
+  --text-secondary: #C8D4E6;
+  --text-muted: #7B8FAD;
 
-  --border-glass: rgba(255,255,255,0.08);
-  --border-accent: rgba(255,103,31,0.35);  /* Gulf orange border */
+  --border-glass: rgba(255,255,255,0.10);
+  --border-accent: rgba(255,103,31,0.40);
 
   --radius-sm: 8px;
   --radius-md: 16px;
@@ -43,8 +51,8 @@
   --font-display: 'Poppins', 'Space Grotesk', sans-serif;
 
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --shadow-glow: 0 0 40px rgba(255,103,31,0.25);
-  --shadow-card: 0 4px 32px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 40px rgba(255,103,31,0.30);
+  --shadow-card: 0 4px 32px rgba(1,15,59,0.5);
 }
 
 /* ── Reset ── */
@@ -114,7 +122,7 @@ ul { list-style: none; }
   transition: var(--transition);
 }
 .navbar.scrolled .navbar-inner {
-  background: rgba(0,0,0,0.85);
+  background: rgba(1,15,59,0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-glass);
@@ -224,7 +232,7 @@ ul { list-style: none; }
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.97);
+  background: rgba(1,15,59,0.97);
   z-index: 999;
   flex-direction: column;
   align-items: center;
@@ -791,7 +799,7 @@ section { position: relative; }
 
 /* ── FOOTER ── */
 footer {
-  background: #000;
+  background: var(--nwm-navy-dark);
   border-top: 1px solid var(--border-glass);
   padding: 80px 0 40px;
 }
@@ -1011,7 +1019,7 @@ textarea.form-control { resize: vertical; min-height: 140px; }
   top: calc(100% + 16px);
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(10,10,15,0.98);
+  background: rgba(1,15,59,0.98);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-md);
   padding: 8px;

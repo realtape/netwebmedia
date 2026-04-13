@@ -12,7 +12,22 @@
       ]
     }
   ],
+  "functions": {
+    "api/**/*.js": {
+      "memory": 128,
+      "maxDuration": 10
+    }
+  },
   "rewrites": [
+    { "source": "/api/crm/contacts", "destination": "/api/crm/contacts" },
+    { "source": "/api/crm/companies", "destination": "/api/crm/companies" },
+    { "source": "/api/crm/leads", "destination": "/api/crm/leads" },
+    { "source": "/api/crm/deals", "destination": "/api/crm/deals" },
+    { "source": "/api/crm/tasks", "destination": "/api/crm/tasks" },
+    { "source": "/api/crm/pipelines", "destination": "/api/crm/pipelines" },
+    { "source": "/api/crm/activities", "destination": "/api/crm/activities" },
+    { "source": "/api/crm/stats", "destination": "/api/crm/stats" },
+    { "source": "/api/auth/login", "destination": "/api/auth/login" },
     { "source": "/poker-news/(.*)", "destination": "/poker-news/$1" }
   ]
 }

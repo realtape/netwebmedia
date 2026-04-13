@@ -6,7 +6,7 @@
   <title>NetWebMedia CRM — Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>" />
+  <link rel="icon" href="assets/nwm-logo.svg" />
   <style>
     :root {
       --bg: #0f1117;
@@ -53,8 +53,10 @@
       margin-bottom: 16px;
       text-decoration: none;
     }
-    .sidebar-logo span:first-child { font-size: 1.5rem; }
-    .sidebar-logo span:last-child {
+    .sidebar-logo img {
+      width: 36px; height: 36px; border-radius: 50%;
+    }
+    .sidebar-logo span {
       font-size: 1rem; font-weight: 800; color: var(--text);
       letter-spacing: -0.5px;
     }
@@ -307,6 +309,46 @@
       display: flex; justify-content: flex-end; gap: 10px;
     }
 
+    /* ---- Charts ---- */
+    .chart-bar-group { margin-bottom: 14px; }
+    .chart-bar-label {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 6px; font-size: 0.78rem;
+    }
+    .chart-bar-label span:first-child { font-weight: 600; }
+    .chart-bar-label span:last-child { color: var(--text-dim); font-weight: 500; }
+    .chart-bar-track {
+      height: 28px; background: var(--bg); border-radius: 6px; overflow: hidden;
+      position: relative;
+    }
+    .chart-bar-fill {
+      height: 100%; border-radius: 6px; transition: width 0.8s ease;
+      display: flex; align-items: center; padding-left: 10px;
+      font-size: 0.7rem; font-weight: 700; color: white;
+      min-width: fit-content;
+    }
+    .donut-chart {
+      display: flex; align-items: center; gap: 24px;
+      padding: 8px 0;
+    }
+    .donut-ring {
+      width: 120px; height: 120px; border-radius: 50%;
+      position: relative; flex-shrink: 0;
+    }
+    .donut-center {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      text-align: center;
+    }
+    .donut-center .donut-total { font-size: 1.4rem; font-weight: 800; }
+    .donut-center .donut-label { font-size: 0.65rem; color: var(--text-dim); }
+    .donut-legend { flex: 1; }
+    .legend-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 4px 0; font-size: 0.78rem;
+    }
+    .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+    .legend-item span:last-child { margin-left: auto; font-weight: 600; color: var(--text-dim); }
+
     /* ---- Responsive ---- */
     @media (max-width: 900px) {
       .sidebar { display: none; }
@@ -321,7 +363,7 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <a href="index.html" class="sidebar-logo">
-        <span>🌐</span>
+        <img src="assets/nwm-logo.svg" alt="NWM" />
         <span>NetWebMedia</span>
       </a>
       <div class="sidebar-section">Main</div>
@@ -337,6 +379,10 @@
         <li><a href="#" data-view="tasks"><span class="nav-icon">✅</span> Tasks</a></li>
         <li><a href="#" data-view="pipeline"><span class="nav-icon">📈</span> Pipeline</a></li>
         <li><a href="#" data-view="activity"><span class="nav-icon">🔔</span> Activity</a></li>
+      </ul>
+      <div class="sidebar-section">Insights</div>
+      <ul class="sidebar-nav">
+        <li><a href="#" data-view="analytics"><span class="nav-icon">📊</span> Analytics</a></li>
       </ul>
       <div class="sidebar-bottom">
         <div class="sidebar-user">
@@ -519,6 +565,91 @@
         </div>
         <div class="card">
           <div class="card-body" id="activity-list"></div>
+        </div>
+      </div>
+
+      <!-- ======== ANALYTICS VIEW ======== -->
+      <div class="section-view" id="view-analytics">
+        <div class="topbar">
+          <h1>Analytics</h1>
+          <div class="topbar-actions">
+            <select class="search-input" id="analytics-period" style="width:auto">
+              <option value="7d">Last 7 Days</option>
+              <option value="30d" selected>Last 30 Days</option>
+              <option value="90d">Last 90 Days</option>
+              <option value="all">All Time</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- KPI Row -->
+        <div class="stats-row" id="analytics-kpis"></div>
+
+        <div class="grid-2">
+          <!-- Revenue by Stage -->
+          <div class="card">
+            <div class="card-header"><h2>Pipeline by Stage</h2></div>
+            <div class="card-body">
+              <div id="chart-pipeline-stages"></div>
+            </div>
+          </div>
+
+          <!-- Lead Sources -->
+          <div class="card">
+            <div class="card-header"><h2>Lead Sources</h2></div>
+            <div class="card-body">
+              <div id="chart-lead-sources"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Contact Lifecycle -->
+          <div class="card">
+            <div class="card-header"><h2>Contact Lifecycle Stages</h2></div>
+            <div class="card-body">
+              <div id="chart-contact-lifecycle"></div>
+            </div>
+          </div>
+
+          <!-- Deal Forecast -->
+          <div class="card">
+            <div class="card-header"><h2>Deal Forecast</h2></div>
+            <div class="card-body">
+              <table class="data-table" id="forecast-table">
+                <thead>
+                  <tr><th>Deal</th><th>Value</th><th>Probability</th><th>Weighted</th><th>Close Date</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Task Completion -->
+          <div class="card">
+            <div class="card-header"><h2>Task Status</h2></div>
+            <div class="card-body">
+              <div id="chart-task-status"></div>
+            </div>
+          </div>
+
+          <!-- Company Status Breakdown -->
+          <div class="card">
+            <div class="card-header"><h2>Company Status</h2></div>
+            <div class="card-body">
+              <div id="chart-company-status"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Timeline -->
+        <div class="card" style="margin-bottom:24px">
+          <div class="card-header"><h2>Activity Timeline</h2></div>
+          <div class="card-body">
+            <div id="chart-activity-timeline"></div>
+          </div>
         </div>
       </div>
 

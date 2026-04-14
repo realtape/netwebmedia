@@ -1745,3 +1745,350 @@ input, select, textarea { font-family: inherit; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ═══════════════════════════════════════════
+   LOGIN PAGE
+   ═══════════════════════════════════════════ */
+
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--bg);
+  overflow: auto;
+  padding: 24px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 80px rgba(108, 92, 231, 0.06);
+  position: relative;
+}
+
+.login-gradient-line {
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--cyan), var(--accent));
+  background-size: 200% 100%;
+}
+
+.login-header {
+  padding: 40px 36px 0;
+  text-align: center;
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.login-brand-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.login-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.login-form {
+  padding: 28px 36px 0;
+}
+
+.login-field {
+  margin-bottom: 20px;
+}
+
+.login-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.login-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 14px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+}
+
+.login-input::placeholder {
+  color: var(--text-muted);
+}
+
+.login-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+}
+
+.login-btn {
+  width: 100%;
+  padding: 13px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+  margin-top: 4px;
+}
+
+.login-btn:hover {
+  background: var(--accent-hover);
+}
+
+.login-btn:active {
+  transform: scale(0.98);
+}
+
+.login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-error {
+  color: var(--red);
+  font-size: 13px;
+  min-height: 20px;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.login-footer {
+  padding: 24px 36px 32px;
+  text-align: center;
+}
+
+.login-signin {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+}
+
+.login-signin a {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.login-signin a:hover {
+  text-decoration: underline;
+}
+
+.login-terms {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════════
+   UPGRADE MODAL
+   ═══════════════════════════════════════════ */
+
+.upgrade-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.upgrade-modal {
+  width: 100%;
+  max-width: 720px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px;
+  position: relative;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.upgrade-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  transition: color var(--transition);
+}
+
+.upgrade-close:hover {
+  color: var(--text);
+}
+
+.upgrade-heading {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+  text-align: center;
+}
+
+.upgrade-subheading {
+  font-size: 14px;
+  color: var(--text-dim);
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.upgrade-plans {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.upgrade-plan {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: border-color var(--transition);
+}
+
+.upgrade-plan.featured {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(108, 92, 231, 0.15);
+  position: relative;
+}
+
+.upgrade-plan-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.upgrade-plan-price {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.upgrade-plan-period {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+.upgrade-plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  width: 100%;
+}
+
+.upgrade-plan-features li {
+  font-size: 13px;
+  color: var(--text-dim);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.upgrade-plan-features li:last-child {
+  border-bottom: none;
+}
+
+.upgrade-cta {
+  display: inline-block;
+  padding: 10px 24px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  transition: background var(--transition), border-color var(--transition);
+  margin-top: auto;
+}
+
+.upgrade-cta:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-light);
+  color: var(--text);
+}
+
+.upgrade-cta.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.upgrade-cta.primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: #fff;
+}
+
+@media (max-width: 700px) {
+  .upgrade-plans {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .upgrade-modal {
+    padding: 24px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    border: none;
+    border-radius: 0;
+  }
+  .login-header {
+    padding: 32px 24px 0;
+  }
+  .login-form {
+    padding: 24px 24px 0;
+  }
+  .login-footer {
+    padding: 20px 24px 28px;
+  }
+}

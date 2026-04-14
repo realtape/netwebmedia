@@ -94,3 +94,15 @@ INSERT INTO `pipeline_stages` (`name`, `sort_order`, `color`) VALUES
   ('Negotiation', 5, '#e17055'),
   ('Closed Won', 6, '#00b894'),
   ('Closed Lost', 7, '#636e72');
+
+-- Leads table (demo signups)
+CREATE TABLE IF NOT EXISTS `leads` (
+  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL UNIQUE,
+  `source` VARCHAR(100) DEFAULT 'demo_signup',
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `last_login` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `login_count` INT UNSIGNED DEFAULT 0,
+  INDEX `idx_email` (`email`)
+) ENGINE=InnoDB;

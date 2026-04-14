@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="settings-layout">
+        <div class="settings-tabs">
+          <button class="settings-tab active" data-tab="general">General</button>
+          <button class="settings-tab" data-tab="whitelabel">White Label</button>
+          <button class="settings-tab" data-tab="team">Team</button>
+          <button class="settings-tab" data-tab="notifications">Notifications</button>
+          <button class="settings-tab" data-tab="billing">Billing</button>
+          <button class="settings-tab" data-tab="security">Security</button>
+        </div>
+        <div class="settings-content">
+
+          <!-- General -->
+          <div class="settings-panel active" id="tab-general">
+            <h2>General Settings</h2>
+            <p class="section-desc">Manage your account and organization preferences.</p>
+            <div class="form-group">
+              <label class="form-label">Company Name</label>
+              <input type="text" class="form-input" value="NetWebMedia">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Industry</label>
+                <select class="form-select">
+                  <option>Technology</option>
+                  <option>Marketing</option>
+                  <option>Finance</option>
+                  <option>Healthcare</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Timezone</label>
+                <select class="form-select">
+                  <option>Eastern (UTC-5)</option>
+                  <option>Central (UTC-6)</option>
+                  <option>Mountain (UTC-7)</option>
+                  <option selected>Pacific (UTC-8)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Default Currency</label>
+              <select class="form-select">
+                <option selected>USD ($)</option>
+                <option>EUR</option>
+                <option>GBP</option>
+                <option>CAD</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Date Format</label>
+              <select class="form-select">
+                <option selected>MM/DD/YYYY</option>
+                <option>DD/MM/YYYY</option>
+                <option>YYYY-MM-DD</option>
+              </select>
+            </div>
+            <div class="settings-divider"></div>
+            <button class="btn btn-primary btn-save">Save Changes</button>
+          </div>
+
+          <!-- White Label -->
+          <div class="settings-panel" id="tab-whitelabel">
+            <h2>White Label</h2>
+            <p class="section-desc">Customize the CRM with your brand identity.</p>
+            <div class="form-group">
+              <label class="form-label">Brand Name</label>
+              <input type="text" class="form-input" value="NetWeb CRM" placeholder="Your brand name">
+              <p class="form-hint">Displayed in the sidebar and browser title.</p>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Logo URL</label>
+              <input type="text" class="form-input" placeholder="https://example.com/logo.png">
+              <p class="form-hint">Recommended: 200x40px transparent PNG.</p>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Primary Color</label>
+                <input type="text" class="form-input" value="#6c5ce7" placeholder="#6c5ce7">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Accent Color</label>
+                <input type="text" class="form-input" value="#00b894" placeholder="#00b894">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Custom Domain</label>
+              <input type="text" class="form-input" placeholder="crm.yourdomain.com">
+              <p class="form-hint">Point a CNAME record to app.netwebcrm.com</p>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Favicon URL</label>
+              <input type="text" class="form-input" placeholder="https://example.com/favicon.ico">
+            </div>
+            <div class="settings-divider"></div>
+            <button class="btn btn-primary btn-save">Save Branding</button>
+          </div>
+
+          <!-- Team -->
+          <div class="settings-panel" id="tab-team">
+            <h2>Team Members</h2>
+            <p class="section-desc">Manage your team and their roles.</p>
+            <div class="team-invite-wrap">
+              <button class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Invite Member
+              </button>
+            </div>
+            <div id="teamList"></div>
+          </div>
+
+          <!-- Notifications -->
+          <div class="settings-panel" id="tab-notifications">
+            <h2>Notifications</h2>
+            <p class="section-desc">Configure how and when you receive notifications.</p>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Email Notifications</div>
+                <div class="toggle-desc">Receive email for new leads and deal updates</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Push Notifications</div>
+                <div class="toggle-desc">Browser push notifications for urgent items</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Deal Closed Alerts</div>
+                <div class="toggle-desc">Get notified when a deal is won or lost</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Weekly Digest</div>
+                <div class="toggle-desc">Summary of weekly pipeline and activity</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">New Contact Alerts</div>
+                <div class="toggle-desc">Notification when a new contact is added</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Task Reminders</div>
+                <div class="toggle-desc">Remind me of upcoming tasks 15 min before</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Billing -->
+          <div class="settings-panel" id="tab-billing">
+            <h2>Billing</h2>
+            <p class="section-desc">Manage your subscription and payment method.</p>
+            <div class="plan-cards">
+              <div class="plan-card">
+                <div class="plan-card-name">Starter</div>
+                <div class="plan-card-price">$29<span>/mo</span></div>
+                <div class="plan-card-desc">Up to 500 contacts, 2 users</div>
+                <button class="btn btn-secondary">Downgrade</button>
+              </div>
+              <div class="plan-card current">
+                <div class="plan-card-name">Professional</div>
+                <div class="plan-card-price">$79<span>/mo</span></div>
+                <div class="plan-card-desc">Up to 5,000 contacts, 10 users</div>
+                <button class="btn btn-primary">Current Plan</button>
+              </div>
+              <div class="plan-card">
+                <div class="plan-card-name">Enterprise</div>
+                <div class="plan-card-price">$199<span>/mo</span></div>
+                <div class="plan-card-desc">Unlimited contacts and users</div>
+                <button class="btn btn-secondary">Upgrade</button>
+              </div>
+            </div>
+            <div class="settings-divider"></div>
+            <h3 class="subsection-title">Payment Method</h3>
+            <div class="form-group">
+              <label class="form-label">Card Number</label>
+              <input type="text" class="form-input" value="**** **** **** 4242" disabled>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Expiry</label>
+                <input type="text" class="form-input" value="12/27" disabled>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Billing Email</label>
+                <input type="text" class="form-input" value="billing@company.com">
+              </div>
+            </div>
+            <button class="btn btn-secondary">Update Payment Method</button>
+          </div>
+
+          <!-- Security -->
+          <div class="settings-panel" id="tab-security">
+            <h2>Security</h2>
+            <p class="section-desc">Protect your account with these security settings.</p>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Two-Factor Authentication</div>
+                <div class="toggle-desc">Add an extra layer of security to your account</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">Session Timeout</div>
+                <div class="toggle-desc">Automatically log out after 30 minutes of inactivity</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="toggle-label">IP Restriction</div>
+                <div class="toggle-desc">Restrict access to specific IP addresses</div>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="settings-divider"></div>
+            <h3 class="subsection-title">Change Password</h3>
+            <div class="form-group">
+              <label class="form-label">Current Password</label>
+              <input type="password" class="form-input" placeholder="Enter current password">
+            </div>
+            <div class="form-group">
+              <label class="form-label">New Password</label>
+              <input type="password" class="form-input" placeholder="Enter new password">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Confirm Password</label>
+              <input type="password" class="form-input" placeholder="Confirm new password">
+            </div>
+            <button class="btn btn-primary btn-save">Update Password</button>
+          </div>
+
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>

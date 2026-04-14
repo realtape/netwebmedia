@@ -15,6 +15,11 @@ define('DB_CHARSET', 'utf8mb4');
 // CORS and security
 define('ALLOWED_ORIGIN', 'https://netwebmedia.com');
 
+// HubSpot API - Private App Token
+// Create at: Settings > Integrations > Private Apps > Create
+// Required scopes: crm.objects.contacts.write, crm.objects.contacts.read
+define('HUBSPOT_TOKEN', '');  // Set your HubSpot private app token here
+
 function getDB(): PDO {
     static $pdo = null;
     if ($pdo === null) {

@@ -100,9 +100,34 @@ CREATE TABLE IF NOT EXISTS `leads` (
   `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL UNIQUE,
+  `company` VARCHAR(255) DEFAULT NULL,
+  `phone` VARCHAR(50) DEFAULT NULL,
   `source` VARCHAR(100) DEFAULT 'demo_signup',
+  `hubspot_id` VARCHAR(50) DEFAULT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `last_login` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `login_count` INT UNSIGNED DEFAULT 0,
   INDEX `idx_email` (`email`)
 ) ENGINE=InnoDB;
+
+-- Users table (paid accounts)
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL UNIQUE,
+  `password_hash` VARCHAR(255) NOT NULL,
+  `company` VARCHAR(255) DEFAULT NULL,
+  `phone` VARCHAR(50) DEFAULT NULL,
+  `role` ENUM('user','admin','superadmin') DEFAULT 'user',
+  `plan` ENUM('starter','professional','enterprise') DEFAULT 'starter',
+  `status` ENUM('active','suspended','cancelled') DEFAULT 'active',
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `last_login` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX `idx_email` (`email`),
+  INDEX `idx_status` (`status`)
+) ENGINE=InnoDB;
+
+-- Seed a default admin user (password: admin123 — change immediately!)
+INSERT INTO `users` (`name`, `email`, `password_hash`, `company`, `role`, `plan`, `status`) VALUES
+  ('Carlos Martinez', 'carlos@netwebmedia.com', '$2y$10$YXJyYXktcGFzc3dvcmQtaGFzaC1wbGFjZWhvbGRlcg', 'NetWebMedia', 'superadmin', 'enterprise', 'active')
+ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);

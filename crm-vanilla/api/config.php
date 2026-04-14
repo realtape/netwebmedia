@@ -9,7 +9,7 @@
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'webmed6_crm');
 define('DB_USER', 'webmed6_crm');  // Create this user in cPanel
-define('DB_PASS', '');              // Set password in cPanel
+define('DB_PASS', 'Nwm@Crm2026!Sx');  // Set password in cPanel
 define('DB_CHARSET', 'utf8mb4');
 
 // CORS and security

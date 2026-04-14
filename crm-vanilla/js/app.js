@@ -92,10 +92,14 @@
 
     html += '<div class="sidebar-footer">';
     html += '<div class="user-card">';
-    html += '<div class="user-avatar">AR</div>';
+    var demoUser = getDemoUser();
+    var userName = demoUser ? demoUser.name : 'Alex Rivera';
+    var userRole = demoUser ? 'Demo' : 'Admin';
+    var userInitials = userName.split(' ').map(function(w){ return w.charAt(0).toUpperCase(); }).join('').substring(0, 2);
+    html += '<div class="user-avatar">' + userInitials + '</div>';
     html += '<div class="user-info">';
-    html += '<div class="user-name">Alex Rivera</div>';
-    html += '<div class="user-role">Admin</div>';
+    html += '<div class="user-name">' + userName + '</div>';
+    html += '<div class="user-role">' + userRole + '</div>';
     html += '</div>';
     html += '</div>';
     html += '</div>';
@@ -128,7 +132,12 @@
       html += actions;
     }
     html += '<button class="header-icon-btn notification-btn">' + ICONS.bell + '<span class="notif-dot"></span></button>';
-    html += '<div class="header-avatar">AR</div>';
+    var headerUser = getDemoUser();
+    var headerInitials = 'AR';
+    if (headerUser && headerUser.name) {
+      headerInitials = headerUser.name.split(' ').map(function(w){ return w.charAt(0).toUpperCase(); }).join('').substring(0, 2);
+    }
+    html += '<div class="header-avatar">' + headerInitials + '</div>';
     html += '</div>';
 
     header.innerHTML = html;
@@ -161,9 +170,163 @@
     return ICONS.email;
   }
 
+  /* ── Demo Gate Logic ── */
+  function getDemoUser() {
+    try {
+      var raw = localStorage.getItem('crm_demo_user');
+      if (!raw) return null;
+      var user = JSON.parse(raw);
+      if (user && user.type === 'demo') return user;
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function isDemo() {
+    return getDemoUser() !== null;
+  }
+
+  function showUpgradeModal(moduleName) {
+    // Remove existing modal if any
+    var existing = document.getElementById('upgradeOverlay');
+    if (existing) existing.remove();
+
+    var overlay = document.createElement('div');
+    overlay.id = 'upgradeOverlay';
+    overlay.className = 'upgrade-overlay';
+
+    var modal = document.createElement('div');
+    modal.className = 'upgrade-modal';
+
+    var closeBtn = document.createElement('button');
+    closeBtn.className = 'upgrade-close';
+    closeBtn.textContent = '\u00D7';
+    closeBtn.addEventListener('click', function() {
+      overlay.remove();
+    });
+    modal.appendChild(closeBtn);
+
+    var heading = document.createElement('h2');
+    heading.className = 'upgrade-heading';
+    heading.textContent = 'Upgrade to Access ' + moduleName;
+    modal.appendChild(heading);
+
+    var sub = document.createElement('p');
+    sub.className = 'upgrade-subheading';
+    sub.textContent = 'Your demo includes the Dashboard overview. Unlock all 15 modules with a plan.';
+    modal.appendChild(sub);
+
+    var plans = document.createElement('div');
+    plans.className = 'upgrade-plans';
+
+    var planData = [
+      {
+        name: 'Starter',
+        price: '$97',
+        period: '/mo',
+        features: ['Dashboard + 3 Modules', 'Up to 500 Contacts', 'Email Support', '1 User Seat'],
+        featured: false
+      },
+      {
+        name: 'Professional',
+        price: '$297',
+        period: '/mo',
+        features: ['All 15 Modules', 'Unlimited Contacts', 'Priority Support', '5 User Seats', 'Automation Workflows', 'Custom Reporting'],
+        featured: true
+      },
+      {
+        name: 'Enterprise',
+        price: 'Custom',
+        period: '',
+        features: ['Everything in Professional', 'Unlimited Users', 'Dedicated Account Manager', 'Custom Integrations', 'SLA Guarantee', 'White-Label Options'],
+        featured: false
+      }
+    ];
+
+    for (var i = 0; i < planData.length; i++) {
+      var p = planData[i];
+      var card = document.createElement('div');
+      card.className = 'upgrade-plan' + (p.featured ? ' featured' : '');
+
+      var planName = document.createElement('div');
+      planName.className = 'upgrade-plan-name';
+      planName.textContent = p.name;
+      card.appendChild(planName);
+
+      var priceRow = document.createElement('div');
+      priceRow.className = 'upgrade-plan-price';
+      priceRow.textContent = p.price;
+      if (p.period) {
+        var periodSpan = document.createElement('span');
+        periodSpan.className = 'upgrade-plan-period';
+        periodSpan.textContent = p.period;
+        priceRow.appendChild(periodSpan);
+      }
+      card.appendChild(priceRow);
+
+      var featureList = document.createElement('ul');
+      featureList.className = 'upgrade-plan-features';
+      for (var j = 0; j < p.features.length; j++) {
+        var li = document.createElement('li');
+        li.textContent = p.features[j];
+        featureList.appendChild(li);
+      }
+      card.appendChild(featureList);
+
+      var cta = document.createElement('a');
+      cta.className = 'upgrade-cta' + (p.featured ? ' primary' : '');
+      cta.href = 'https://netwebmedia.com/contact';
+      cta.target = '_blank';
+      cta.textContent = 'Contact Sales';
+      card.appendChild(cta);
+
+      plans.appendChild(card);
+    }
+
+    modal.appendChild(plans);
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    // Close on overlay click
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) {
+        overlay.remove();
+      }
+    });
+  }
+
+  function initDemoGate() {
+    if (!isDemo()) return;
+
+    // If on a page other than index.html (dashboard), redirect
+    var page = getActivePage();
+    if (page !== 'dashboard') {
+      window.location.href = 'index.html';
+      return;
+    }
+
+    // Intercept all sidebar links except dashboard
+    var navLinks = document.querySelectorAll('.sidebar-nav .nav-item');
+    for (var i = 0; i < navLinks.length; i++) {
+      (function(link) {
+        var href = link.getAttribute('href') || '';
+        if (href === 'index.html') return; // Allow dashboard
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          // Determine module name from the link text
+          var label = link.querySelector('.nav-label');
+          var moduleName = label ? label.textContent : 'this module';
+          showUpgradeModal(moduleName);
+        });
+      })(navLinks[i]);
+    }
+  }
+
   /* ── Init on DOM ready ── */
   document.addEventListener("DOMContentLoaded", function () {
     buildSidebar();
+    initDemoGate();
   });
 
   /* ── Expose to global ── */
@@ -173,6 +336,9 @@
     statusBadge: statusBadge,
     channelIcon: channelIcon,
     getActivePage: getActivePage,
+    isDemo: isDemo,
+    showUpgradeModal: showUpgradeModal,
+    initDemoGate: initDemoGate,
     ICONS: ICONS
   };
 

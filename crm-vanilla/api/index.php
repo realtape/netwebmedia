@@ -33,6 +33,7 @@ $handlers = [
     'events'        => __DIR__ . '/handlers/events.php',
     'stats'         => __DIR__ . '/handlers/stats.php',
     'seed'          => __DIR__ . '/handlers/seed.php',
+    'leads'         => __DIR__ . '/handlers/leads.php',
 ];
 
 if (!isset($handlers[$resource])) {

@@ -69,7 +69,6 @@ function pushToHubSpot(string $firstName, string $lastName, string $email, strin
         'email'     => $email,
         'lifecyclestage' => 'lead',
         'hs_lead_status' => 'NEW',
-        'lead_source_detail' => 'NetWeb CRM Demo Signup',
     ];
 
     if ($company) $properties['company'] = $company;

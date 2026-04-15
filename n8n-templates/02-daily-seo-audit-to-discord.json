@@ -1,5 +1,5 @@
 {
-  "name": "NWM — Daily SEO Audit → Slack + Ticket on Drop",
+  "name": "NWM — Daily SEO Audit → Discord + Ticket on Drop",
   "nodes": [
     {
       "parameters": {
@@ -44,12 +44,18 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $credentials.slackWebhookUrl }}",
+        "url": "={{ $credentials.discordWebhookUrl }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"text\": \"📊 Daily SEO Report — {{$json.analyzed_url}}\",\n  \"blocks\": [\n    {\"type\":\"header\",\"text\":{\"type\":\"plain_text\",\"text\":\"📊 Daily SEO Audit — {{$json.seo_score}}/100\"}},\n    {\"type\":\"section\",\"fields\":[\n      {\"type\":\"mrkdwn\",\"text\":\"*SEO Score:*\\n{{$json.seo_score}}/100\"},\n      {\"type\":\"mrkdwn\",\"text\":\"*Overall:*\\n{{$json.overall_score}}/100\"},\n      {\"type\":\"mrkdwn\",\"text\":\"*Δ vs Yesterday:*\\n{{$json.delta >= 0 ? '+' : ''}}{{$json.delta}}\"},\n      {\"type\":\"mrkdwn\",\"text\":\"*URL:*\\n{{$json.analyzed_url}}\"}\n    ]}\n  ]\n}"
+        "jsonBody": "={\n  \"username\": \"NetWebMedia SEO Bot\",\n  \"avatar_url\": \"https://netwebmedia.com/assets/nwm-logo.svg\",\n  \"content\": \"📊 **Daily SEO Audit** — {{$json.seo_score}}/100\",\n  \"embeds\": [{\n    \"title\": \"{{$json.analyzed_url}}\",\n    \"color\": {{ $json.delta >= 0 ? 65280 : 16711680 }},\n    \"fields\": [\n      { \"name\": \"SEO Score\", \"value\": \"{{$json.seo_score}}/100\", \"inline\": true },\n      { \"name\": \"Overall\", \"value\": \"{{$json.overall_score}}/100\", \"inline\": true },\n      { \"name\": \"Δ vs Yesterday\", \"value\": \"{{ $json.delta >= 0 ? '+' : '' }}{{$json.delta}}\", \"inline\": true }\n    ],\n    \"footer\": { \"text\": \"NetWebMedia · Automated Daily Audit\" },\n    \"timestamp\": \"{{ $now }}\"\n  }]\n}"
       },
-      "id": "node-slack",
+      "id": "node-discord",
       "name": "Post Daily Report",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,

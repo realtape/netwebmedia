@@ -1,5 +1,5 @@
 {
-  "name": "NWM — Lead Capture → Claude Qualify → HubSpot + Slack",
+  "name": "NWM — Lead Capture → Claude Qualify → HubSpot + Discord",
   "nodes": [
     {
       "parameters": {
@@ -116,13 +116,19 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $credentials.slackWebhookUrl }}",
+        "url": "={{ $credentials.discordWebhookUrl }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"text\": \"🔥 HOT LEAD ({{$json.score}}/100)\",\n  \"blocks\": [\n    {\"type\":\"header\",\"text\":{\"type\":\"plain_text\",\"text\":\"🔥 New Hot Lead — Score {{$json.score}}/100\"}},\n    {\"type\":\"section\",\"fields\":[\n      {\"type\":\"mrkdwn\",\"text\":\"*Name:*\\n{{$json.original.first_name}} {{$json.original.last_name}}\"},\n      {\"type\":\"mrkdwn\",\"text\":\"*Company:*\\n{{$json.original.company}}\"},\n      {\"type\":\"mrkdwn\",\"text\":\"*Service Fit:*\\n{{$json.service_fit}}\"},\n      {\"type\":\"mrkdwn\",\"text\":\"*Budget:*\\n{{$json.original.budget}}\"}\n    ]},\n    {\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Message:*\\n{{$json.original.message}}\"}}\n  ]\n}"
+        "jsonBody": "={\n  \"username\": \"NetWebMedia Sales Bot\",\n  \"avatar_url\": \"https://netwebmedia.com/assets/nwm-logo.svg\",\n  \"content\": \"🔥 **New Hot Lead** — score {{$json.score}}/100\",\n  \"embeds\": [{\n    \"title\": \"{{$json.original.first_name}} {{$json.original.last_name}} — {{$json.original.company}}\",\n    \"description\": \"{{$json.original.message}}\",\n    \"color\": 16738335,\n    \"fields\": [\n      { \"name\": \"Service Fit\", \"value\": \"{{$json.service_fit}}\", \"inline\": true },\n      { \"name\": \"Budget\", \"value\": \"{{$json.original.budget}}\", \"inline\": true },\n      { \"name\": \"Score\", \"value\": \"{{$json.score}}/100\", \"inline\": true },\n      { \"name\": \"Email\", \"value\": \"{{$json.original.email}}\", \"inline\": false }\n    ],\n    \"footer\": { \"text\": \"NetWebMedia · AI Lead Qualification\" },\n    \"timestamp\": \"{{ $now }}\"\n  }]\n}"
       },
-      "id": "node-slack",
-      "name": "Slack: Alert Sales",
+      "id": "node-discord",
+      "name": "Discord: Alert Sales",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [1560, 180]
@@ -147,11 +153,11 @@
     "HubSpot: Upsert Contact": { "main": [[{ "node": "Hot Lead (70+)?", "type": "main", "index": 0 }]] },
     "Hot Lead (70+)?": {
       "main": [
-        [{ "node": "Slack: Alert Sales", "type": "main", "index": 0 }],
+        [{ "node": "Discord: Alert Sales", "type": "main", "index": 0 }],
         [{ "node": "Respond to Form", "type": "main", "index": 0 }]
       ]
     },
-    "Slack: Alert Sales": { "main": [[{ "node": "Respond to Form", "type": "main", "index": 0 }]] }
+    "Discord: Alert Sales": { "main": [[{ "node": "Respond to Form", "type": "main", "index": 0 }]] }
   },
   "active": false,
   "settings": { "executionOrder": "v1" },

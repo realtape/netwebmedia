@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Website Analytics Tool — NetWebMedia</title>
-  <meta name="description" content="Free website analytics tool by NetWebMedia. Check your website's SEO score, performance, accessibility, and get actionable recommendations." />
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="icon" href="assets/nwm-logo.svg" />
-  <style>
+  <title>Free Website Analyzer — NetWebMedia AI Marketing</title>
+<link rel="stylesheet" href="css/styles.css" />
+<style>
     .analytics-hero { padding: 160px 0 60px; text-align: center; }
     .analytics-form {
       display: flex; gap: 12px; max-width: 640px; margin: 40px auto 0;
@@ -130,18 +128,66 @@
       .score-overview { grid-template-columns: 1fr; }
     }
   </style>
+
+<meta name="description" content="Free website analyzer by NetWebMedia. Check SEO, performance, accessibility, and best-practices scores, plus actionable AI recommendations." />
+<link rel="canonical" href="https://netwebmedia.com/analytics.html" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta property="og:title" content="Free Website Analyzer — NetWebMedia AI Marketing" />
+<meta property="og:description" content="Free website analyzer by NetWebMedia. Check SEO, performance, accessibility, and best-practices scores, plus actionable AI recommendations." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://netwebmedia.com/analytics.html" />
+<meta property="og:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="NetWebMedia" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Free Website Analyzer — NetWebMedia AI Marketing" />
+<meta name="twitter:description" content="Free website analyzer by NetWebMedia. Check SEO, performance, accessibility, and best-practices scores, plus actionable AI recommendations." />
+<meta name="twitter:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+<link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg" />
+<link rel="apple-touch-icon" href="assets/nwm-logo.svg" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://netwebmedia.com/#org",
+      "name": "NetWebMedia",
+      "url": "https://netwebmedia.com/",
+      "logo": "https://netwebmedia.com/assets/nwm-logo.svg",
+      "description": "AI marketing agency for US brands.",
+      "areaServed": {
+        "@type": "Country",
+        "name": "United States"
+      },
+      "email": "hello@netwebmedia.com"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://netwebmedia.com/analytics.html#webpage",
+      "url": "https://netwebmedia.com/analytics.html",
+      "name": "Free Website Analyzer — NetWebMedia AI Marketing",
+      "description": "Free website analyzer by NetWebMedia. Check SEO, performance, accessibility, and best-practices scores, plus actionable AI recommendations.",
+      "inLanguage": "en-US"
+    }
+  ]
+}
+</script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to main content</a>
 
 <!-- Language Bar -->
 <div class="lang-bar"><div class="container">
   <button class="lang-btn active" data-lang="en"><img class="flag" src="https://flagcdn.com/w40/us.png" alt="EN" /> English</button>
-  <button class="lang-btn" data-lang="es"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="ES" /> Español</button>
+  <button class="lang-btn" data-lang="es"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="ES" / loading="lazy"> Español</button>
 </div></div>
 
 <!-- Navbar -->
 <nav class="navbar has-lang-bar" id="navbar"><div class="container"><div class="navbar-inner">
-  <a href="index.html" class="nav-logo"><img src="assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px"></a>
+  <a href="index.html" class="nav-logo"><img src="assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px" loading="lazy"></a>
   <div class="nav-links">
     <a href="services.html">Services</a>
     <a href="about.html">About</a>
@@ -155,6 +201,8 @@
   </div>
   <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
 </div></div></nav>
+<main id="main">
+<h2 class="sr-only" style="position:absolute;left:-9999px;">NetWebMedia — AI marketing for US brands</h2>
 
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobile-menu">
@@ -174,9 +222,12 @@
     <h1 class="section-title">Check Your Website's <span class="gradient-text">Performance</span></h1>
     <p class="section-subtitle" style="margin:0 auto;">Enter your website URL and get an instant analysis of your SEO, performance, accessibility, and more.</p>
     <form class="analytics-form" id="analytics-form" style="flex-wrap:wrap;max-width:640px;margin:40px auto 0;">
-      <input type="text" id="lead-name" placeholder="Your Name" required style="min-width:200px;" />
-      <input type="email" id="lead-email" placeholder="your@email.com" required style="min-width:200px;" />
-      <input type="url" id="site-url" placeholder="https://yourwebsite.com" required style="min-width:280px;flex:1 1 100%;" />
+      <label for="lead-name" class="sr-only" style="position:absolute;left:-9999px;">Your name</label>
+      <input type="text" id="lead-name" placeholder="Your Name" required style="min-width:200px;" aria-label="Your name" />
+      <label for="lead-email" class="sr-only" style="position:absolute;left:-9999px;">Your email</label>
+      <input type="email" id="lead-email" placeholder="your@email.com" required style="min-width:200px;" aria-label="Your email" />
+      <label for="site-url" class="sr-only" style="position:absolute;left:-9999px;">Website URL</label>
+      <input type="url" id="site-url" placeholder="https://yourwebsite.com" required style="min-width:280px;flex:1 1 100%;" aria-label="Website URL" />
       <button type="submit" id="analyze-btn" style="flex:1 1 100%;">Analyze Now</button>
     </form>
     <div class="loading-bar" id="loading-bar"><div class="fill" id="loading-fill"></div></div>
@@ -225,6 +276,7 @@
   </div>
 </div>
 
+</main>
 <footer>
   <div class="container">
     <div class="footer-bottom">
@@ -238,7 +290,7 @@
   </div>
 </footer>
 
-<script src="js/main.js"></script>
-<script src="js/analytics.js"></script>
+<script src="js/main.js" defer></script>
+<script src="js/analytics.js" defer></script>
 </body>
 </html>

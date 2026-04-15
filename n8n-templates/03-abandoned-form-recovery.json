@@ -82,7 +82,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"model\": \"claude-sonnet-4-5-20250929\",\n  \"max_tokens\": 600,\n  \"system\": \"You write short, warm, genuinely helpful re-engagement emails for NetWebMedia (an AI + web agency in La Serena, Chile). Return STRICT JSON: {subject, body}. Body is plain text, 4-6 sentences, references what they were looking at, offers a concrete next step, signs off as 'The NetWebMedia team'.\",\n  \"messages\": [{\"role\":\"user\",\"content\":\"Name: {{$('Webhook: Form Partial').item.json.first_name}}\\nCompany: {{$('Webhook: Form Partial').item.json.company}}\\nService interest: {{$('Webhook: Form Partial').item.json.service_interest}}\\nPartial message: {{$('Webhook: Form Partial').item.json.message}}\"}]\n}"
+        "jsonBody": "={\n  \"model\": \"claude-sonnet-4-5-20250929\",\n  \"max_tokens\": 600,\n  \"system\": \"You write short, warm, genuinely helpful re-engagement emails for NetWebMedia (an AI marketing agency serving US brands). Return STRICT JSON: {subject, body}. Body is plain text, 4-6 sentences, references what they were looking at, offers a concrete next step, signs off as 'The NetWebMedia team'.\",\n  \"messages\": [{\"role\":\"user\",\"content\":\"Name: {{$('Webhook: Form Partial').item.json.first_name}}\\nCompany: {{$('Webhook: Form Partial').item.json.company}}\\nService interest: {{$('Webhook: Form Partial').item.json.service_interest}}\\nPartial message: {{$('Webhook: Form Partial').item.json.message}}\"}]\n}"
       },
       "id": "node-claude",
       "name": "Claude: Draft Email",

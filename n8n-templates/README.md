@@ -23,7 +23,7 @@ Five production-ready n8n workflow templates designed for the NetWebMedia servic
 
 - **Anthropic API key** (workflows 1, 3, 4, 5)
 - **HubSpot Private App token** (workflow 1)
-- **Slack webhook URL** (workflows 1, 2)
+- **Slack webhook URL** (workflows 1, 2) — or Discord / Teams / Telegram / Email instead. See [NOTIFICATIONS.md](./NOTIFICATIONS.md) for drop-in replacements.
 - **Google Drive OAuth2** (workflow 5)
 - **Buffer API token** (workflow 4)
 - **NetWebMedia API token** (workflows 2, 5) — any long random string, set as `X-API-Key` header on `/app/api/*`

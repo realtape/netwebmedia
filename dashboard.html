@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NetWebMedia CRM — Dashboard</title>
+  <title>NetWebMedia CRM — Client Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="icon" href="assets/nwm-logo.svg" />
-  <style>
+<style>
     :root {
       --bg: #0f1117;
       --bg-card: #1a1d27;
@@ -389,13 +388,62 @@
       .stats-row { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
+
+<meta name="description" content="NetWebMedia internal CRM dashboard for client accounts, AI lead scoring, pipeline management, and campaign analytics." />
+<link rel="canonical" href="https://netwebmedia.com/dashboard.html" />
+<meta name="robots" content="noindex, nofollow" />
+<meta property="og:title" content="NetWebMedia CRM — Client Dashboard" />
+<meta property="og:description" content="NetWebMedia internal CRM dashboard for client accounts, AI lead scoring, pipeline management, and campaign analytics." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://netwebmedia.com/dashboard.html" />
+<meta property="og:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="NetWebMedia" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="NetWebMedia CRM — Client Dashboard" />
+<meta name="twitter:description" content="NetWebMedia internal CRM dashboard for client accounts, AI lead scoring, pipeline management, and campaign analytics." />
+<meta name="twitter:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+<link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg" />
+<link rel="apple-touch-icon" href="assets/nwm-logo.svg" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://netwebmedia.com/#org",
+      "name": "NetWebMedia",
+      "url": "https://netwebmedia.com/",
+      "logo": "https://netwebmedia.com/assets/nwm-logo.svg",
+      "description": "AI marketing agency for US brands.",
+      "areaServed": {
+        "@type": "Country",
+        "name": "United States"
+      },
+      "email": "hello@netwebmedia.com"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://netwebmedia.com/dashboard.html#webpage",
+      "url": "https://netwebmedia.com/dashboard.html",
+      "name": "NetWebMedia CRM — Client Dashboard",
+      "description": "NetWebMedia internal CRM dashboard for client accounts, AI lead scoring, pipeline management, and campaign analytics.",
+      "inLanguage": "en-US"
+    }
+  ]
+}
+</script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<main id="main">
 
   <!-- Login Gate -->
   <div class="login-gate" id="login-gate">
     <div class="login-card">
-      <img src="assets/nwm-logo.svg" alt="NWM" />
+      <img src="assets/nwm-logo.svg" alt="NWM" loading="lazy" />
       <h2>Client Dashboard</h2>
       <p class="login-sub">Log in with the email you used in our Analytics tool. You must analyze your website first to access the dashboard.</p>
       <form class="login-form" id="login-form">
@@ -413,8 +461,9 @@
   <div class="layout" id="dashboard-layout" style="display:none;">
     <!-- Sidebar -->
     <aside class="sidebar">
+      <nav aria-label="Dashboard navigation" style="display:contents;">
       <a href="index.html" class="sidebar-logo">
-        <img src="assets/nwm-logo.svg" alt="NWM" />
+        <img src="assets/nwm-logo.svg" alt="NWM" loading="lazy" />
         <span>NetWebMedia</span>
       </a>
       <div class="sidebar-section">Main</div>
@@ -445,6 +494,7 @@
         </div>
         <button id="logout-btn" style="margin-top:12px;width:100%;padding:8px;background:rgba(225,112,85,0.15);color:var(--red);border:none;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;font-family:inherit;">Log Out</button>
       </div>
+      </nav>
     </aside>
 
     <!-- Main -->
@@ -504,7 +554,7 @@
       <!-- ======== CONTACTS VIEW ======== -->
       <div class="section-view" id="view-contacts">
         <div class="topbar">
-          <h1>Contacts</h1>
+          <h2>Contacts</h2>
           <div class="topbar-actions">
             <input class="search-input" id="contacts-search" placeholder="Search contacts..." />
             <button class="btn btn-primary" id="btn-add-contact">+ Add Contact</button>
@@ -525,7 +575,7 @@
       <!-- ======== COMPANIES VIEW ======== -->
       <div class="section-view" id="view-companies">
         <div class="topbar">
-          <h1>Companies</h1>
+          <h2>Companies</h2>
           <div class="topbar-actions">
             <input class="search-input" id="companies-search" placeholder="Search companies..." />
             <button class="btn btn-primary" id="btn-add-company">+ Add Company</button>
@@ -546,7 +596,7 @@
       <!-- ======== DEALS VIEW ======== -->
       <div class="section-view" id="view-deals">
         <div class="topbar">
-          <h1>Deals</h1>
+          <h2>Deals</h2>
           <div class="topbar-actions">
             <button class="btn btn-primary" id="btn-add-deal">+ Add Deal</button>
           </div>
@@ -566,7 +616,7 @@
       <!-- ======== LEADS VIEW ======== -->
       <div class="section-view" id="view-leads">
         <div class="topbar">
-          <h1>Leads</h1>
+          <h2>Leads</h2>
           <div class="topbar-actions">
             <button class="btn btn-primary" id="btn-add-lead">+ Add Lead</button>
           </div>
@@ -586,7 +636,7 @@
       <!-- ======== TASKS VIEW ======== -->
       <div class="section-view" id="view-tasks">
         <div class="topbar">
-          <h1>Tasks</h1>
+          <h2>Tasks</h2>
           <div class="topbar-actions">
             <button class="btn btn-primary" id="btn-add-task">+ Add Task</button>
           </div>
@@ -599,7 +649,7 @@
       <!-- ======== PIPELINE VIEW ======== -->
       <div class="section-view" id="view-pipeline">
         <div class="topbar">
-          <h1>Pipeline Board</h1>
+          <h2>Pipeline Board</h2>
         </div>
         <div class="card">
           <div class="tabs" id="pipeline-tabs"></div>
@@ -610,7 +660,7 @@
       <!-- ======== ACTIVITY VIEW ======== -->
       <div class="section-view" id="view-activity">
         <div class="topbar">
-          <h1>Activity Log</h1>
+          <h2>Activity Log</h2>
           <div class="topbar-actions">
             <button class="btn btn-primary" id="btn-add-activity">+ Log Activity</button>
           </div>
@@ -623,7 +673,7 @@
       <!-- ======== ANALYTICS VIEW ======== -->
       <div class="section-view" id="view-analytics">
         <div class="topbar">
-          <h1>Analytics</h1>
+          <h2>Analytics</h2>
           <div class="topbar-actions">
             <select class="search-input" id="analytics-period" style="width:auto">
               <option value="7d">Last 7 Days</option>
@@ -871,7 +921,11 @@
     </div>
   </div>
 
-  <script src="js/crm-dashboard.js"></script>
-  <script src="js/dashboard-login.js"></script>
+  <script src="js/crm-dashboard.js" defer></script>
+  <script src="js/dashboard-login.js" defer></script>
+</main>
+<footer class="dashboard-footer" style="padding:12px 24px;text-align:center;color:var(--text-dim);font-size:12px;border-top:1px solid var(--border);background:var(--bg-card);">
+  © 2026 NetWebMedia · Serving US brands · <a href="mailto:hello@netwebmedia.com" style="color:var(--accent-light);">hello@netwebmedia.com</a>
+</footer>
 </body>
 </html>

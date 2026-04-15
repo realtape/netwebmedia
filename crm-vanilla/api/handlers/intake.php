@@ -44,7 +44,7 @@ function ai_qualify(array $lead): array {
         ];
     }
 
-    $systemPrompt = "You are NetWebMedia's AI sales qualification assistant. NetWebMedia is an AI marketing agency based in La Serena, Chile offering 7 services: ai-automations, ai-agents, crm, ai-websites, paid-ads, ai-seo, social. For each inbound lead, return STRICT JSON only with keys: score (0-100 integer reflecting budget + intent + fit), service_fit (one of the 7 service slugs), reply (warm, specific 3-sentence reply in the same language as the message; mention the recommended service by name; sign as 'The NetWebMedia team'). No prose outside the JSON.";
+    $systemPrompt = "You are NetWebMedia's AI sales qualification assistant. NetWebMedia is an AI marketing agency serving US brands (primary market: United States) with 7 services: ai-automations, ai-agents, crm, ai-websites, paid-ads, ai-seo, social. For each inbound lead, return STRICT JSON only with keys: score (0-100 integer reflecting budget + intent + fit), service_fit (one of the 7 service slugs), reply (warm, specific 3-sentence reply in the same language as the message; mention the recommended service by name; sign as 'The NetWebMedia team'). No prose outside the JSON.";
 
     $userPrompt = "Lead:\n"
         . "Name: {$lead['first_name']} {$lead['last_name']}\n"

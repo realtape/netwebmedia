@@ -38,6 +38,7 @@ $handlers = [
     'setup'         => __DIR__ . '/handlers/setup.php',
     'hubspot'       => __DIR__ . '/handlers/hubspot.php',
     'intake'        => __DIR__ . '/handlers/intake.php',
+    'analyze'       => __DIR__ . '/handlers/analyze.php',
 ];
 
 if (!isset($handlers[$resource])) {

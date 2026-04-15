@@ -2,8 +2,8 @@
 /**
  * HubSpot bi-directional sync — cron entrypoint
  *
- * Suggested cPanel cron:
- *   */15 * * * * /usr/bin/php /home/webmed6/public_html/app/api/cron_hubspot_sync.php >> /home/webmed6/logs/hs_sync.log 2>&1
+ * Suggested cPanel cron (run every 15 minutes):
+ *   [slash]15 [star] [star] [star] [star] /usr/bin/php /home/webmed6/public_html/app/api/cron_hubspot_sync.php >> /home/webmed6/logs/hs_sync.log 2>&1
  */
 require_once __DIR__ . '/config.php';
 

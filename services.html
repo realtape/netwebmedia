@@ -110,6 +110,7 @@
         <a href="contact.html" data-i18n="nav_contact">Contact</a>
       </div>
       <div class="nav-ctas">
+        <a href="cart.html" class="nav-cart" aria-label="View cart">🛒<span class="nav-cart-count" aria-hidden="true">0</span></a>
         <a href="dashboard.html" class="btn-nav-outline" data-i18n="nav_dashboard">Dashboard</a>
         <a href="contact.html" class="btn-nav-solid" data-i18n="nav_cta">Get a Free Audit</a>
       </div>
@@ -139,12 +140,13 @@
   <div class="container" style="position:relative;z-index:1;">
     <div class="section-label">What We Offer</div>
     <h1 class="section-title">AI Marketing Services<br><span class="gradient-text">Built for 10x Growth</span></h1>
-    <p class="section-subtitle" style="max-width:700px;">
-      We don't offer cookie-cutter packages. Every engagement is a custom blend of AI technology, data science, and creative excellence — engineered to dominate your market.
+    <p class="section-subtitle" style="max-width:720px;">
+      Transparent pricing. Production-ready in days, not quarters. Bundle any two services and get <strong style="color:#FFB082;">15% off your first 3 months</strong> — applied automatically when you request a quote.
     </p>
     <div style="margin-top:40px;display:flex;gap:16px;flex-wrap:wrap;">
       <a href="contact.html" class="btn-primary">Get Free Strategy Call</a>
-      <a href="#services-detail" class="btn-secondary">Explore Services ↓</a>
+      <a href="#services-detail" class="btn-secondary">See Pricing ↓</a>
+      <a href="cart.html" class="btn-secondary">🛒 View Cart</a>
     </div>
   </div>
 </section>
@@ -174,8 +176,9 @@
         <div>
           <div class="section-label">⚙️ Workflow Automation</div>
           <h2 class="section-title">AI <span class="gradient-text">Automations</span></h2>
+          <div class="service-sales-hook">💡 Save 80+ hours a month. ROI in under 45 days.</div>
           <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
-            Your marketing stack is powerful — but disconnected tools waste hours every week on manual busywork. We connect everything end-to-end with intelligent workflows so your team can focus on strategy instead of copy-paste.
+            Your marketing team is losing 15+ hours a week to copy-paste work between tools that should already talk to each other. We wire your stack end-to-end — HubSpot, Google Ads, Meta, Slack, Notion, Zapier, 500+ apps — into one intelligent pipeline that runs while you sleep.
           </p>
           <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:24px;">
             From lead capture to CRM sync, from campaign triggers to reporting dashboards — our AI automations run 24/7, flag anomalies in real-time, and scale with your business without adding headcount.
@@ -192,8 +195,57 @@
             <div style="font-size:13px;font-weight:700;color:var(--gulf-orange);margin-bottom:8px;">WHO THIS IS FOR</div>
             <p style="font-size:14px;color:var(--text-secondary);">Growth teams drowning in manual work, RevOps leaders tired of broken integrations, and scale-stage companies that need marketing ops to run without a full-time operator.</p>
           </div>
+
+          <div class="pricing-tiers">
+            <div class="pricing-tier">
+              <div class="pricing-tier-name">Starter</div>
+              <div class="pricing-tier-price">$2,500<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">Best for teams under 20</div>
+              <ul class="pricing-tier-features">
+                <li>Up to 3 production workflows</li>
+                <li>5 integrations (HubSpot, Ads, Slack…)</li>
+                <li>Monthly optimization pass</li>
+                <li>Email support · 24h response</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="ai-automations" data-service-name="AI Automations" data-icon="⚙️"
+                data-tier="Starter" data-price="2500" data-period="/month">Add to cart</button>
+            </div>
+            <div class="pricing-tier featured">
+              <div class="pricing-tier-badge">Most Popular</div>
+              <div class="pricing-tier-name">Growth</div>
+              <div class="pricing-tier-price">$5,000<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">Best for scaling teams</div>
+              <ul class="pricing-tier-features">
+                <li>Up to 10 production workflows</li>
+                <li>Unlimited integrations</li>
+                <li>Weekly optimization + anomaly alerts</li>
+                <li>Dedicated ops engineer · Slack Connect</li>
+                <li>Quarterly strategy review</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="ai-automations" data-service-name="AI Automations" data-icon="⚙️"
+                data-tier="Growth" data-price="5000" data-period="/month">Add to cart</button>
+            </div>
+            <div class="pricing-tier">
+              <div class="pricing-tier-name">Scale</div>
+              <div class="pricing-tier-price">$9,500<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">Enterprise-grade</div>
+              <ul class="pricing-tier-features">
+                <li>Unlimited custom workflows</li>
+                <li>Custom Python / LangChain builds</li>
+                <li>Daily monitoring + SLAs</li>
+                <li>Dedicated engineering pod</li>
+                <li>Quarterly roadmap planning</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="ai-automations" data-service-name="AI Automations" data-icon="⚙️"
+                data-tier="Scale" data-price="9500" data-period="/month">Add to cart</button>
+            </div>
+          </div>
+
           <div style="margin-top:24px;">
-            <a href="contact.html" class="btn-primary">Automate My Stack →</a>
+            <a href="contact.html" class="btn-primary">Book a Free Automation Audit →</a>
           </div>
         </div>
         <div class="service-visual">
@@ -238,8 +290,9 @@
         <div>
           <div class="section-label">🤖 Autonomous AI</div>
           <h2 class="section-title">AI <span class="gradient-text">Agents</span></h2>
+          <div class="service-sales-hook">🔥 3x more qualified meetings booked — zero extra headcount.</div>
           <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
-            An AI agent never sleeps, never takes PTO, and handles thousands of conversations simultaneously. We build custom autonomous agents embedded in your website, WhatsApp, and Slack that engage visitors, qualify leads, answer product questions, and book meetings 24/7.
+            Your best SDR can't work 24/7 or handle 1,000 conversations at once. A NetWebMedia AI agent can. We build custom autonomous agents — embedded in your site, WhatsApp, Instagram DM, and Slack — that qualify leads, answer objections, book meetings, and escalate to humans at the exact right moment.
           </p>
           <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:24px;">
             Every agent is trained on your brand voice, product docs, and sales playbook. Powered by Claude and GPT-4, and tuned to know exactly when to hand off to a human.
@@ -257,8 +310,57 @@
             <div style="font-size:13px;font-weight:700;color:var(--gulf-orange);margin-bottom:8px;">WHO THIS IS FOR</div>
             <p style="font-size:14px;color:var(--text-secondary);">High-traffic SaaS, e-commerce, and service businesses that need to engage visitors 24/7 without scaling their team linearly with demand.</p>
           </div>
+
+          <div class="pricing-tiers">
+            <div class="pricing-tier">
+              <div class="pricing-tier-name">Starter</div>
+              <div class="pricing-tier-price">$3,500<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">1 agent · 1 channel</div>
+              <ul class="pricing-tier-features">
+                <li>1 custom agent (sales or support)</li>
+                <li>Up to 5,000 conversations/mo</li>
+                <li>Brand-voice tuning + RAG knowledge base</li>
+                <li>Monthly performance review</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="ai-agents" data-service-name="AI Agents" data-icon="🤖"
+                data-tier="Starter" data-price="3500" data-period="/month">Add to cart</button>
+            </div>
+            <div class="pricing-tier featured">
+              <div class="pricing-tier-badge">Most Popular</div>
+              <div class="pricing-tier-name">Growth</div>
+              <div class="pricing-tier-price">$7,500<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">Multi-channel · multi-agent</div>
+              <ul class="pricing-tier-features">
+                <li>Up to 3 agents (sales, support, research)</li>
+                <li>25,000 conversations/mo</li>
+                <li>Web + WhatsApp + Instagram + Slack</li>
+                <li>Calendar booking + CRM sync</li>
+                <li>Bi-weekly prompt tuning</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="ai-agents" data-service-name="AI Agents" data-icon="🤖"
+                data-tier="Growth" data-price="7500" data-period="/month">Add to cart</button>
+            </div>
+            <div class="pricing-tier">
+              <div class="pricing-tier-name">Scale</div>
+              <div class="pricing-tier-price">$14,500<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">Enterprise · SLA</div>
+              <ul class="pricing-tier-features">
+                <li>Unlimited agents + channels</li>
+                <li>Unlimited conversations</li>
+                <li>Custom fine-tuning + A/B testing</li>
+                <li>99.9% uptime SLA · priority support</li>
+                <li>Dedicated AI engineer</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="ai-agents" data-service-name="AI Agents" data-icon="🤖"
+                data-tier="Scale" data-price="14500" data-period="/month">Add to cart</button>
+            </div>
+          </div>
+
           <div style="margin-top:24px;">
-            <a href="contact.html" class="btn-primary">Build My AI Agent →</a>
+            <a href="contact.html" class="btn-primary">Book a Free Agent Demo →</a>
           </div>
         </div>
         <div class="service-visual">
@@ -303,8 +405,9 @@
         <div>
           <div class="section-label">📇 Customer Relationship Management</div>
           <h2 class="section-title">Full-Featured <span class="gradient-text">CRM</span></h2>
+          <div class="service-sales-hook">💎 HubSpot-grade power at 1/10th the cost — live in 48 hours.</div>
           <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
-            A full-featured CRM built to unify contacts, deals, pipelines, conversations, and campaigns in one place. Synced with HubSpot and enhanced with AI lead scoring — so every prospect is tracked, scored, and nurtured automatically.
+            Stop paying $1,200/user/month for a CRM your reps barely use. NetWebMedia CRM unifies contacts, deals, pipelines, conversations, and campaigns in one beautifully designed workspace — with AI lead scoring and bidirectional HubSpot sync baked in.
           </p>
           <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:24px;">
             Designed for teams that need HubSpot-grade functionality without the HubSpot price tag. Ships with contacts, conversations, pipelines, analytics, and a beautiful UI — and integrates with the same tools you already use.
@@ -322,8 +425,59 @@
             <div style="font-size:13px;font-weight:700;color:var(--gulf-orange);margin-bottom:8px;">WHO THIS IS FOR</div>
             <p style="font-size:14px;color:var(--text-secondary);">Sales and marketing teams that want a powerful, customizable CRM without paying enterprise prices — and want their CRM integrated tightly with their AI marketing stack.</p>
           </div>
-          <div style="margin-top:24px;">
-            <a href="/app/" class="btn-primary">Open CRM →</a>
+
+          <div class="pricing-tiers">
+            <div class="pricing-tier">
+              <div class="pricing-tier-name">Starter</div>
+              <div class="pricing-tier-price">$49<span class="cents">/seat/mo</span></div>
+              <div class="pricing-tier-period">Up to 5 seats</div>
+              <ul class="pricing-tier-features">
+                <li>Contacts, deals, pipelines</li>
+                <li>Unified inbox (email + chat)</li>
+                <li>AI lead scoring (basic)</li>
+                <li>10K contacts max</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="crm" data-service-name="NetWebMedia CRM" data-icon="📇"
+                data-tier="Starter" data-price="49" data-period="/seat/month">Add to cart</button>
+            </div>
+            <div class="pricing-tier featured">
+              <div class="pricing-tier-badge">Most Popular</div>
+              <div class="pricing-tier-name">Pro</div>
+              <div class="pricing-tier-price">$149<span class="cents">/seat/mo</span></div>
+              <div class="pricing-tier-period">Best for revenue teams</div>
+              <ul class="pricing-tier-features">
+                <li>Everything in Starter</li>
+                <li>HubSpot bidirectional sync</li>
+                <li>AI lead scoring (advanced + custom signals)</li>
+                <li>Revenue forecasting + pipeline analytics</li>
+                <li>Role-based access + audit log</li>
+                <li>100K contacts max</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="crm" data-service-name="NetWebMedia CRM" data-icon="📇"
+                data-tier="Pro" data-price="149" data-period="/seat/month">Add to cart</button>
+            </div>
+            <div class="pricing-tier">
+              <div class="pricing-tier-name">Enterprise</div>
+              <div class="pricing-tier-price">$399<span class="cents">/seat/mo</span></div>
+              <div class="pricing-tier-period">Unlimited everything</div>
+              <ul class="pricing-tier-features">
+                <li>Everything in Pro</li>
+                <li>Unlimited contacts + custom objects</li>
+                <li>SOC 2 · SSO · SAML · audit trails</li>
+                <li>Dedicated success manager</li>
+                <li>99.99% uptime SLA</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="crm" data-service-name="NetWebMedia CRM" data-icon="📇"
+                data-tier="Enterprise" data-price="399" data-period="/seat/month">Add to cart</button>
+            </div>
+          </div>
+
+          <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="/app/" class="btn-primary">Open Live CRM Demo →</a>
+            <a href="contact.html" class="btn-secondary">Book Walkthrough</a>
           </div>
         </div>
         <div class="service-visual">
@@ -368,8 +522,9 @@
         <div>
           <div class="section-label">💻 AI-Powered Web</div>
           <h2 class="section-title">CMS <span class="gradient-text">AI Websites</span></h2>
+          <div class="service-sales-hook">🚀 Sub-2s load time. +45% conversion lift. Launched in 4 weeks.</div>
           <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
-            Your website is your hardest-working sales rep — but most are static brochures built once and forgotten. We design and build conversion-optimized websites powered by AI content generation, predictive personalization, and real-time A/B testing.
+            Your site is your #1 salesperson. If it's slow, generic, or static, you're leaving money on the table every single day. We build conversion-obsessed websites powered by AI copy generation, predictive personalization, and continuous A/B testing — engineered to compound revenue month after month.
           </p>
           <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:24px;">
             Every visitor sees the perfect page at the perfect moment — headlines, offers, and CTAs adapt in real-time based on source, intent, and behavior. Built for speed, SEO, and conversions from day one.
@@ -387,8 +542,59 @@
             <div style="font-size:13px;font-weight:700;color:var(--gulf-orange);margin-bottom:8px;">WHO THIS IS FOR</div>
             <p style="font-size:14px;color:var(--text-secondary);">Brands launching new products, agencies that need fast-shipping sites for clients, and any business whose current site is slow, outdated, or failing to convert.</p>
           </div>
+
+          <div class="pricing-tiers">
+            <div class="pricing-tier">
+              <div class="pricing-tier-name">Essential</div>
+              <div class="pricing-tier-price">$7,500</div>
+              <div class="pricing-tier-period">One-time build · 4 weeks</div>
+              <ul class="pricing-tier-features">
+                <li>Up to 5 pages + blog</li>
+                <li>AI-generated copy + visuals</li>
+                <li>Core Web Vitals optimized</li>
+                <li>CRO audit + launch checklist</li>
+                <li>3 months post-launch support</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="ai-websites" data-service-name="CMS AI Website" data-icon="💻"
+                data-tier="Essential" data-price="7500" data-period="one-time">Add to cart</button>
+            </div>
+            <div class="pricing-tier featured">
+              <div class="pricing-tier-badge">Most Popular</div>
+              <div class="pricing-tier-name">Growth</div>
+              <div class="pricing-tier-price">$18,000</div>
+              <div class="pricing-tier-period">One-time build · 6 weeks</div>
+              <ul class="pricing-tier-features">
+                <li>Up to 15 pages + full blog engine</li>
+                <li>Predictive personalization</li>
+                <li>Always-on A/B testing engine</li>
+                <li>Headless CMS + English/Spanish</li>
+                <li>SEO schema + technical foundation</li>
+                <li>6 months optimization retainer included</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="ai-websites" data-service-name="CMS AI Website" data-icon="💻"
+                data-tier="Growth" data-price="18000" data-period="one-time">Add to cart</button>
+            </div>
+            <div class="pricing-tier">
+              <div class="pricing-tier-name">Enterprise</div>
+              <div class="pricing-tier-price">$38,000</div>
+              <div class="pricing-tier-period">One-time build · 8–10 weeks</div>
+              <ul class="pricing-tier-features">
+                <li>Unlimited pages + custom design system</li>
+                <li>Multi-language (up to 6 locales)</li>
+                <li>CMS training for internal team</li>
+                <li>Custom integrations + data layer</li>
+                <li>12 months optimization included</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="ai-websites" data-service-name="CMS AI Website" data-icon="💻"
+                data-tier="Enterprise" data-price="38000" data-period="one-time">Add to cart</button>
+            </div>
+          </div>
+
           <div style="margin-top:24px;">
-            <a href="contact.html" class="btn-primary">Build My AI Website →</a>
+            <a href="contact.html" class="btn-primary">Get a Website Proposal →</a>
           </div>
         </div>
         <div class="service-visual">
@@ -433,8 +639,9 @@
         <div>
           <div class="section-label">💰 Performance Media</div>
           <h2 class="section-title">Paid <span class="gradient-text">Ads</span></h2>
+          <div class="service-sales-hook">📈 3.5x avg ROAS. -42% CPA. Transparent dashboards, zero markup.</div>
           <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
-            Most agencies manage your budget like it's Monopoly money. We manage it like it's ours. Every dollar is tracked against ROAS, every creative is tested against alternatives, and every audience is optimized daily by AI bidding models.
+            Most agencies manage your ad spend like Monopoly money. We manage it like it's ours. Every dollar is tracked to ROAS, every creative is tested against the next, and every audience is optimized daily by AI bidding models. You own the ad accounts. You see every data point. You keep every learning.
           </p>
           <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:24px;">
             Google Ads, Meta, TikTok, LinkedIn, and YouTube — managed end-to-end with hyper-targeted campaigns, creative testing frameworks, and real-time ROAS tracking that compounds month over month.
@@ -452,8 +659,57 @@
             <div style="font-size:13px;font-weight:700;color:var(--gulf-orange);margin-bottom:8px;">WHO THIS IS FOR</div>
             <p style="font-size:14px;color:var(--text-secondary);">DTC brands, SaaS companies, and service businesses running $10K+/month in paid media who need a partner that treats ROAS as a religion.</p>
           </div>
+
+          <div class="pricing-tiers">
+            <div class="pricing-tier">
+              <div class="pricing-tier-name">Starter</div>
+              <div class="pricing-tier-price">$2,500<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">Up to $15K ad spend</div>
+              <ul class="pricing-tier-features">
+                <li>2 platforms (e.g. Google + Meta)</li>
+                <li>Weekly optimization</li>
+                <li>Creative testing framework</li>
+                <li>Transparent ROAS dashboard</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="paid-ads" data-service-name="Paid Ads Management" data-icon="💰"
+                data-tier="Starter" data-price="2500" data-period="/month">Add to cart</button>
+            </div>
+            <div class="pricing-tier featured">
+              <div class="pricing-tier-badge">Most Popular</div>
+              <div class="pricing-tier-name">Growth</div>
+              <div class="pricing-tier-price">$5,500<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">Up to $75K ad spend</div>
+              <ul class="pricing-tier-features">
+                <li>4 platforms (Google, Meta, TikTok, LinkedIn)</li>
+                <li>Daily AI bid optimization</li>
+                <li>Full-funnel creative production</li>
+                <li>Landing page CRO included</li>
+                <li>Bi-weekly strategy calls</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="paid-ads" data-service-name="Paid Ads Management" data-icon="💰"
+                data-tier="Growth" data-price="5500" data-period="/month">Add to cart</button>
+            </div>
+            <div class="pricing-tier">
+              <div class="pricing-tier-name">Scale</div>
+              <div class="pricing-tier-price">$11,000<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">Up to $250K ad spend</div>
+              <ul class="pricing-tier-features">
+                <li>Unlimited platforms + programmatic</li>
+                <li>Dedicated media buyer + strategist</li>
+                <li>Custom MMM + attribution modeling</li>
+                <li>Daily pacing + anomaly alerts</li>
+                <li>Executive reporting suite</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="paid-ads" data-service-name="Paid Ads Management" data-icon="💰"
+                data-tier="Scale" data-price="11000" data-period="/month">Add to cart</button>
+            </div>
+          </div>
+
           <div style="margin-top:24px;">
-            <a href="contact.html" class="btn-primary">Audit My Ad Account →</a>
+            <a href="contact.html" class="btn-primary">Get a Free Ads Audit →</a>
           </div>
         </div>
         <div class="service-visual">
@@ -498,8 +754,9 @@
         <div>
           <div class="section-label">🔍 Search & Content</div>
           <h2 class="section-title">AI SEO And <span class="gradient-text">Content</span></h2>
+          <div class="service-sales-hook">🏆 +280% traffic. Get cited by ChatGPT, Gemini &amp; Perplexity.</div>
           <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
-            Traditional SEO is reactive. Our AI-powered SEO is predictive. ML systems scan billions of search queries, competitor movements, and SERP changes to identify opportunities before your competition knows they exist.
+            Traditional SEO is reactive. Our AI-powered SEO is predictive. ML systems scan billions of search queries, competitor movements, and SERP changes to identify opportunities before your competition knows they exist — and win you rankings in Google AND the AI answer engines buyers actually use.
           </p>
           <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:24px;">
             We build comprehensive topical authority clusters — interconnected content ecosystems that signal deep expertise — and make sure your brand shows up not just in Google, but in ChatGPT, Gemini, Perplexity, and Claude through Answer Engine Optimization (AEO).
@@ -518,8 +775,57 @@
             <div style="font-size:13px;font-weight:700;color:var(--gulf-orange);margin-bottom:8px;">WHO THIS IS FOR</div>
             <p style="font-size:14px;color:var(--text-secondary);">B2B SaaS, e-commerce brands, and professional services that want a sustainable organic growth engine — and want to win in AI search before their competitors even realize it matters.</p>
           </div>
+
+          <div class="pricing-tiers">
+            <div class="pricing-tier">
+              <div class="pricing-tier-name">Starter</div>
+              <div class="pricing-tier-price">$3,500<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">Foundation & content</div>
+              <ul class="pricing-tier-features">
+                <li>Technical SEO audit + fixes</li>
+                <li>10 optimized articles/mo</li>
+                <li>Keyword + topic research</li>
+                <li>Monthly reporting</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="ai-seo" data-service-name="AI SEO & Content" data-icon="🔍"
+                data-tier="Starter" data-price="3500" data-period="/month">Add to cart</button>
+            </div>
+            <div class="pricing-tier featured">
+              <div class="pricing-tier-badge">Most Popular</div>
+              <div class="pricing-tier-name">Growth</div>
+              <div class="pricing-tier-price">$7,500<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">Authority builder</div>
+              <ul class="pricing-tier-features">
+                <li>25 optimized articles/mo</li>
+                <li>Topical authority clusters</li>
+                <li>AEO optimization (ChatGPT, Gemini, Perplexity)</li>
+                <li>Quality link building</li>
+                <li>Bi-weekly strategy + reporting</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="ai-seo" data-service-name="AI SEO & Content" data-icon="🔍"
+                data-tier="Growth" data-price="7500" data-period="/month">Add to cart</button>
+            </div>
+            <div class="pricing-tier">
+              <div class="pricing-tier-name">Scale</div>
+              <div class="pricing-tier-price">$14,000<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">Market domination</div>
+              <ul class="pricing-tier-features">
+                <li>40+ articles + programmatic SEO</li>
+                <li>International SEO (US + LATAM)</li>
+                <li>Digital PR + premium links</li>
+                <li>Dedicated content team</li>
+                <li>Weekly strategy calls</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="ai-seo" data-service-name="AI SEO & Content" data-icon="🔍"
+                data-tier="Scale" data-price="14000" data-period="/month">Add to cart</button>
+            </div>
+          </div>
+
           <div style="margin-top:24px;">
-            <a href="contact.html" class="btn-primary">Get My Free SEO Audit →</a>
+            <a href="contact.html" class="btn-primary">Get a Free SEO Audit →</a>
           </div>
         </div>
         <div class="service-visual">
@@ -565,8 +871,9 @@
         <div>
           <div class="section-label">📱 Social Strategy</div>
           <h2 class="section-title">Social <span class="gradient-text">Media</span></h2>
+          <div class="service-sales-hook">⚡ 250% engagement lift. Content that drives revenue, not likes.</div>
           <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
-            Social media is no longer a megaphone — it's a conversation. We run full-service social media across Meta, Instagram, TikTok, LinkedIn, and YouTube, combining AI-generated content calendars with real community engagement and scroll-stopping creative.
+            Social media is no longer a megaphone — it's a conversation. We run full-service social across Meta, Instagram, TikTok, LinkedIn, and YouTube, combining AI-generated content calendars, scroll-stopping creative, and real human community management that turns followers into customers.
           </p>
           <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:24px;">
             Every post is designed to drive a measurable outcome — not just vanity likes. We combine organic strategy, paid amplification, influencer activation, and UGC sourcing to turn attention into revenue.
@@ -584,8 +891,57 @@
             <div style="font-size:13px;font-weight:700;color:var(--gulf-orange);margin-bottom:8px;">WHO THIS IS FOR</div>
             <p style="font-size:14px;color:var(--text-secondary);">Lifestyle brands, DTC products, SaaS companies, and creators who need a social presence that actually drives revenue — not just likes.</p>
           </div>
+
+          <div class="pricing-tiers">
+            <div class="pricing-tier">
+              <div class="pricing-tier-name">Starter</div>
+              <div class="pricing-tier-price">$2,500<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">Consistent presence</div>
+              <ul class="pricing-tier-features">
+                <li>3 platforms, 15 posts/mo</li>
+                <li>AI content calendar</li>
+                <li>Basic community replies</li>
+                <li>Monthly reporting</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="social" data-service-name="Social Media Management" data-icon="📱"
+                data-tier="Starter" data-price="2500" data-period="/month">Add to cart</button>
+            </div>
+            <div class="pricing-tier featured">
+              <div class="pricing-tier-badge">Most Popular</div>
+              <div class="pricing-tier-name">Growth</div>
+              <div class="pricing-tier-price">$5,500<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">Revenue social</div>
+              <ul class="pricing-tier-features">
+                <li>5 platforms, 30 posts/mo</li>
+                <li>In-house video + reel production</li>
+                <li>Active community management</li>
+                <li>Paid social amplification</li>
+                <li>Bi-weekly strategy + trend reports</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="social" data-service-name="Social Media Management" data-icon="📱"
+                data-tier="Growth" data-price="5500" data-period="/month">Add to cart</button>
+            </div>
+            <div class="pricing-tier">
+              <div class="pricing-tier-name">Scale</div>
+              <div class="pricing-tier-price">$10,500<span class="cents">/mo</span></div>
+              <div class="pricing-tier-period">Full brand engine</div>
+              <ul class="pricing-tier-features">
+                <li>Unlimited platforms + 60+ posts/mo</li>
+                <li>Influencer + UGC activation</li>
+                <li>Full-time community manager</li>
+                <li>Live trend + crisis monitoring</li>
+                <li>Creative studio on standby</li>
+              </ul>
+              <button class="btn-add-cart" type="button"
+                data-service-id="social" data-service-name="Social Media Management" data-icon="📱"
+                data-tier="Scale" data-price="10500" data-period="/month">Add to cart</button>
+            </div>
+          </div>
+
           <div style="margin-top:24px;">
-            <a href="contact.html" class="btn-primary">Grow My Social →</a>
+            <a href="contact.html" class="btn-primary">Book a Social Strategy Call →</a>
           </div>
         </div>
         <div class="service-visual">
@@ -694,5 +1050,6 @@
 </footer>
 
 <script src="js/main.js" defer></script>
+<script src="js/cart.js" defer></script>
 </body>
 </html>

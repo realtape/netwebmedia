@@ -1,0 +1,105 @@
+{
+  "name": "NWM — Daily SEO Audit → Slack + Ticket on Drop",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "cronExpression", "expression": "0 9 * * *" }]
+        }
+      },
+      "id": "node-cron",
+      "name": "Daily 9am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://netwebmedia.com/app/api/?r=analyze&url={{ encodeURIComponent($json.target_url || 'https://netwebmedia.com') }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "X-API-Key", "value": "={{ $credentials.nwmApiKey }}" }
+          ]
+        },
+        "options": { "timeout": 30000 }
+      },
+      "id": "node-analyze",
+      "name": "Run Analyzer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pull previous score from static data\nconst staticData = $getWorkflowStaticData('global');\nconst prevScore = staticData.lastSeoScore ?? null;\nconst currScore = $json.scores?.seo ?? 0;\nconst overall = $json.scores?.overall ?? 0;\nconst delta = prevScore === null ? 0 : currScore - prevScore;\nstaticData.lastSeoScore = currScore;\nreturn [{\n  json: {\n    seo_score: currScore,\n    overall_score: overall,\n    previous_score: prevScore,\n    delta: delta,\n    dropped: prevScore !== null && delta <= -5,\n    findings: $json.checks?.filter(c => c.status === 'fail').slice(0, 5) ?? [],\n    analyzed_url: $json.url,\n    analyzed_at: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "node-compare",
+      "name": "Compare to Yesterday",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $credentials.slackWebhookUrl }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": \"📊 Daily SEO Report — {{$json.analyzed_url}}\",\n  \"blocks\": [\n    {\"type\":\"header\",\"text\":{\"type\":\"plain_text\",\"text\":\"📊 Daily SEO Audit — {{$json.seo_score}}/100\"}},\n    {\"type\":\"section\",\"fields\":[\n      {\"type\":\"mrkdwn\",\"text\":\"*SEO Score:*\\n{{$json.seo_score}}/100\"},\n      {\"type\":\"mrkdwn\",\"text\":\"*Overall:*\\n{{$json.overall_score}}/100\"},\n      {\"type\":\"mrkdwn\",\"text\":\"*Δ vs Yesterday:*\\n{{$json.delta >= 0 ? '+' : ''}}{{$json.delta}}\"},\n      {\"type\":\"mrkdwn\",\"text\":\"*URL:*\\n{{$json.analyzed_url}}\"}\n    ]}\n  ]\n}"
+      },
+      "id": "node-slack",
+      "name": "Post Daily Report",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            { "leftValue": "={{ $json.dropped }}", "rightValue": true, "operator": { "type": "boolean", "operation": "true", "singleValue": true } }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "node-if-drop",
+      "name": "Score Dropped?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://netwebmedia.com/app/api/?r=events",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "X-API-Key", "value": "={{ $credentials.nwmApiKey }}" },
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"type\": \"seo_drop\",\n  \"severity\": \"high\",\n  \"title\": \"SEO score dropped {{$json.delta}} points\",\n  \"payload\": {\n    \"url\": \"{{$json.analyzed_url}}\",\n    \"current\": {{$json.seo_score}},\n    \"previous\": {{$json.previous_score}},\n    \"findings\": {{ JSON.stringify($json.findings) }}\n  }\n}"
+      },
+      "id": "node-ticket",
+      "name": "Create CRM Ticket",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1340, 220]
+    }
+  ],
+  "connections": {
+    "Daily 9am": { "main": [[{ "node": "Run Analyzer", "type": "main", "index": 0 }]] },
+    "Run Analyzer": { "main": [[{ "node": "Compare to Yesterday", "type": "main", "index": 0 }]] },
+    "Compare to Yesterday": { "main": [[{ "node": "Post Daily Report", "type": "main", "index": 0 }]] },
+    "Post Daily Report": { "main": [[{ "node": "Score Dropped?", "type": "main", "index": 0 }]] },
+    "Score Dropped?": { "main": [[{ "node": "Create CRM Ticket", "type": "main", "index": 0 }], []] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "NetWebMedia" }, { "name": "seo" }]
+}

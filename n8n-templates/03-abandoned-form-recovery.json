@@ -1,0 +1,140 @@
+{
+  "name": "NWM — Abandoned Form Recovery → Claude Re-engagement Email",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nwm-form-partial",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "node-webhook",
+      "name": "Webhook: Form Partial",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": true, \"queued\": true }"
+      },
+      "id": "node-ack",
+      "name": "Ack Immediately",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [460, 380]
+    },
+    {
+      "parameters": {
+        "amount": 30,
+        "unit": "minutes"
+      },
+      "id": "node-wait",
+      "name": "Wait 30 min",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [460, 220],
+      "webhookId": "nwm-abandon-wait"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://netwebmedia.com/app/api/?r=contacts&email={{ encodeURIComponent($json.email) }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "X-API-Key", "value": "={{ $credentials.nwmApiKey }}" }]
+        }
+      },
+      "id": "node-check",
+      "name": "Check If Completed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 220]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            { "leftValue": "={{ $json.lifecycle_stage }}", "rightValue": "lead", "operator": { "type": "string", "operation": "notEquals" } }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "node-if-abandoned",
+      "name": "Still Abandoned?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [900, 220]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"claude-sonnet-4-5-20250929\",\n  \"max_tokens\": 600,\n  \"system\": \"You write short, warm, genuinely helpful re-engagement emails for NetWebMedia (an AI + web agency in La Serena, Chile). Return STRICT JSON: {subject, body}. Body is plain text, 4-6 sentences, references what they were looking at, offers a concrete next step, signs off as 'The NetWebMedia team'.\",\n  \"messages\": [{\"role\":\"user\",\"content\":\"Name: {{$('Webhook: Form Partial').item.json.first_name}}\\nCompany: {{$('Webhook: Form Partial').item.json.company}}\\nService interest: {{$('Webhook: Form Partial').item.json.service_interest}}\\nPartial message: {{$('Webhook: Form Partial').item.json.message}}\"}]\n}"
+      },
+      "id": "node-claude",
+      "name": "Claude: Draft Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 140],
+      "credentials": {
+        "httpHeaderAuth": { "id": "CRED_ANTHROPIC", "name": "Anthropic API" }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.content[0].text.replace(/^```(?:json)?|```$/gim, '').trim();\nconst parsed = JSON.parse(raw);\nreturn [{ json: { ...parsed, to: $('Webhook: Form Partial').item.json.email, name: $('Webhook: Form Partial').item.json.first_name } }];"
+      },
+      "id": "node-parse",
+      "name": "Parse Email JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1340, 140]
+    },
+    {
+      "parameters": {
+        "fromEmail": "hello@netwebmedia.com",
+        "toEmail": "={{ $json.to }}",
+        "subject": "={{ $json.subject }}",
+        "text": "={{ $json.body }}",
+        "options": {}
+      },
+      "id": "node-send",
+      "name": "Send Recovery Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1560, 140],
+      "credentials": {
+        "smtp": { "id": "CRED_SMTP", "name": "NetWebMedia SMTP" }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook: Form Partial": {
+      "main": [[
+        { "node": "Wait 30 min", "type": "main", "index": 0 },
+        { "node": "Ack Immediately", "type": "main", "index": 0 }
+      ]]
+    },
+    "Wait 30 min": { "main": [[{ "node": "Check If Completed", "type": "main", "index": 0 }]] },
+    "Check If Completed": { "main": [[{ "node": "Still Abandoned?", "type": "main", "index": 0 }]] },
+    "Still Abandoned?": { "main": [[{ "node": "Claude: Draft Email", "type": "main", "index": 0 }], []] },
+    "Claude: Draft Email": { "main": [[{ "node": "Parse Email JSON", "type": "main", "index": 0 }]] },
+    "Parse Email JSON": { "main": [[{ "node": "Send Recovery Email", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "NetWebMedia" }, { "name": "recovery" }]
+}

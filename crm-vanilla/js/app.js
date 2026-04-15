@@ -92,9 +92,9 @@
 
     html += '<div class="sidebar-footer">';
     html += '<div class="user-card">';
-    var demoUser = getDemoUser();
-    var userName = demoUser ? demoUser.name : 'Alex Rivera';
-    var userRole = demoUser ? 'Demo' : 'Admin';
+    var loggedInUser = getLoggedInUser();
+    var userName = loggedInUser ? loggedInUser.name : 'Guest';
+    var userRole = loggedInUser ? (loggedInUser.type === 'demo' ? 'Demo' : loggedInUser.type.charAt(0).toUpperCase() + loggedInUser.type.slice(1)) : 'Guest';
     var userInitials = userName.split(' ').map(function(w){ return w.charAt(0).toUpperCase(); }).join('').substring(0, 2);
     html += '<div class="user-avatar">' + userInitials + '</div>';
     html += '<div class="user-info">';
@@ -132,8 +132,8 @@
       html += actions;
     }
     html += '<button class="header-icon-btn notification-btn">' + ICONS.bell + '<span class="notif-dot"></span></button>';
-    var headerUser = getDemoUser();
-    var headerInitials = 'AR';
+    var headerUser = getLoggedInUser();
+    var headerInitials = 'G';
     if (headerUser && headerUser.name) {
       headerInitials = headerUser.name.split(' ').map(function(w){ return w.charAt(0).toUpperCase(); }).join('').substring(0, 2);
     }
@@ -171,16 +171,20 @@
   }
 
   /* ── Demo Gate Logic ── */
-  function getDemoUser() {
+  function getLoggedInUser() {
     try {
       var raw = localStorage.getItem('crm_demo_user');
       if (!raw) return null;
-      var user = JSON.parse(raw);
-      if (user && user.type === 'demo') return user;
-      return null;
+      return JSON.parse(raw);
     } catch (e) {
       return null;
     }
+  }
+
+  function getDemoUser() {
+    var user = getLoggedInUser();
+    if (user && user.type === 'demo') return user;
+    return null;
   }
 
   function isDemo() {

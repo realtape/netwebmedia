@@ -20,6 +20,10 @@ define('ALLOWED_ORIGIN', 'https://netwebmedia.com');
 // Required scopes: crm.objects.contacts.write, crm.objects.contacts.read
 define('HUBSPOT_TOKEN', '');  // Set your HubSpot private app token here
 
+// Anthropic API — for AI intake agent lead qualification
+// Create at: https://console.anthropic.com/settings/keys
+define('ANTHROPIC_API_KEY', '');  // Set on server only - never commit
+
 function getDB(): PDO {
     static $pdo = null;
     if ($pdo === null) {

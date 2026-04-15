@@ -370,16 +370,67 @@ function initForm() {
   const form = document.querySelector('.contact-form-el');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('button[type="submit"]');
-    btn.textContent = currentLang === 'es' ? '¡Enviado! ✓' : 'Sent! ✓';
-    btn.style.background = '#10B981';
-    setTimeout(() => {
-      btn.textContent = currentLang === 'es' ? 'Enviar Mensaje' : 'Send Message';
-      btn.style.background = '';
-      form.reset();
-    }, 3000);
+    const original = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = currentLang === 'es' ? 'Analizando con IA…' : 'AI analyzing…';
+
+    const payload = {
+      first_name: document.getElementById('first-name')?.value || '',
+      last_name:  document.getElementById('last-name')?.value  || '',
+      email:      document.getElementById('email')?.value      || '',
+      company:    document.getElementById('company')?.value    || '',
+      budget:     document.getElementById('budget')?.value     || '',
+      service_interest: document.getElementById('services')?.value || '',
+      message:    document.getElementById('message')?.value    || '',
+      source:     'contact_form',
+    };
+
+    try {
+      const res = await fetch('/app/api/?r=intake', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      // Build the inline AI reply card
+      let card = document.getElementById('ai-reply-card');
+      if (!card) {
+        card = document.createElement('div');
+        card.id = 'ai-reply-card';
+        card.style.cssText = 'margin-top:24px;padding:28px;background:linear-gradient(135deg,rgba(255,103,31,0.12),rgba(1,33,105,0.3));border:1px solid rgba(255,103,31,0.35);border-radius:16px;';
+        form.appendChild(card);
+      }
+      const fitLabels = {
+        'ai-automations':'AI Automations','ai-agents':'AI Agents','crm':'CRM',
+        'ai-websites':'CMS / AI Websites','paid-ads':'Paid Ads',
+        'ai-seo':'AI SEO & Content','social':'Social Media'
+      };
+      const fit = fitLabels[data.service_fit] || data.service_fit || '—';
+      card.innerHTML = `
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <span style="font-size:22px;">✨</span>
+          <strong style="font-family:'Poppins',sans-serif;font-size:18px;">AI Analysis Complete</strong>
+          <span style="margin-left:auto;padding:4px 12px;background:rgba(255,103,31,0.2);border-radius:999px;font-size:13px;font-weight:600;color:#FF8A00;">Lead score: ${data.score}/100</span>
+        </div>
+        <div style="font-size:14px;color:#C8D4E6;margin-bottom:14px;"><strong style="color:#fff;">Recommended service:</strong> ${fit}</div>
+        <p style="color:#C8D4E6;line-height:1.6;margin:0;">${(data.reply||'').replace(/\n/g,'<br>')}</p>
+      `;
+      btn.textContent = currentLang === 'es' ? '¡Enviado! ✓' : 'Sent! ✓';
+      btn.style.background = '#10B981';
+    } catch (err) {
+      btn.textContent = currentLang === 'es' ? 'Error — intenta de nuevo' : 'Error — try again';
+      btn.style.background = '#EF4444';
+    } finally {
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = original;
+        btn.style.background = '';
+      }, 6000);
+    }
   });
 }
 

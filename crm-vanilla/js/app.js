@@ -1,6 +1,73 @@
-/* CRM Shared Application Logic */
+/* CRM Shared Application Logic — Bilingual ES/EN */
 (function () {
   "use strict";
+
+  /* ── i18n ── */
+  var I18N = {
+    en: {
+      brand: "NetWeb CRM",
+      nav: {
+        dashboard: "Dashboard", conversations: "Conversations", calendars: "Calendars",
+        contacts: "Contacts", pipeline: "Opportunities", payments: "Payments",
+        marketing: "Marketing", automation: "Automation", sites: "Sites",
+        reputation: "Reputation", reporting: "Reporting", documents: "Documents",
+        courses: "Courses", social: "Social Planner", settings: "Settings"
+      },
+      roles: { demo: "Demo", guest: "Guest", admin: "Admin", user: "User", client: "Client" },
+      search: "Search contacts...",
+      filters: { all: "All", customer: "Customers", prospect: "Prospects", lead: "Leads", churned: "Churned" },
+      cols: { name: "Name", company: "Company", region: "Region", status: "Status", value: "Value", last_contact: "Last Contact", audit: "Audit" },
+      syncHubspot: "Sync HubSpot", syncing: "Syncing…",
+      upgrade: {
+        title: "Upgrade to Access ",
+        sub: "Your demo includes the Dashboard overview. Unlock all 15 modules with a plan.",
+        cta: "Contact Sales"
+      },
+      langLabel: "Language"
+    },
+    es: {
+      brand: "NetWeb CRM",
+      nav: {
+        dashboard: "Panel", conversations: "Conversaciones", calendars: "Calendarios",
+        contacts: "Contactos", pipeline: "Oportunidades", payments: "Pagos",
+        marketing: "Marketing", automation: "Automatización", sites: "Sitios",
+        reputation: "Reputación", reporting: "Reportes", documents: "Documentos",
+        courses: "Cursos", social: "Planificador Social", settings: "Ajustes"
+      },
+      roles: { demo: "Demo", guest: "Invitado", admin: "Administrador", user: "Usuario", client: "Cliente" },
+      search: "Buscar contactos...",
+      filters: { all: "Todos", customer: "Clientes", prospect: "Prospectos", lead: "Leads", churned: "Bajas" },
+      cols: { name: "Nombre", company: "Empresa", region: "Región", status: "Estado", value: "Valor", last_contact: "Último Contacto", audit: "Auditoría" },
+      syncHubspot: "Sincronizar HubSpot", syncing: "Sincronizando…",
+      upgrade: {
+        title: "Actualiza para acceder a ",
+        sub: "Tu demo incluye el panel principal. Desbloquea los 15 módulos con un plan.",
+        cta: "Contactar Ventas"
+      },
+      langLabel: "Idioma"
+    }
+  };
+
+  function getLang() {
+    var stored = localStorage.getItem("nwm_lang");
+    if (stored === "en" || stored === "es") return stored;
+    var nav = (navigator.language || "en").slice(0, 2).toLowerCase();
+    return nav === "es" ? "es" : "en";
+  }
+  function setLang(l) {
+    localStorage.setItem("nwm_lang", l);
+    document.documentElement.setAttribute("lang", l);
+    location.reload();
+  }
+  function t(path) {
+    var d = I18N[getLang()];
+    var parts = path.split(".");
+    for (var i = 0; i < parts.length; i++) { if (!d) return path; d = d[parts[i]]; }
+    return d == null ? path : d;
+  }
+
+  // Set lang attribute immediately so CSS rules hit
+  document.documentElement.setAttribute("lang", getLang());
 
   /* ── SVG Icon definitions ── */
   var ICONS = {
@@ -36,24 +103,23 @@
 
   /* ── Navigation items ── */
   var NAV_ITEMS = [
-    { id: "dashboard", label: "Dashboard", icon: "dashboard", href: "index.html" },
-    { id: "conversations", label: "Conversations", icon: "conversations", href: "conversations.html" },
-    { id: "calendars", label: "Calendars", icon: "calendar", href: "calendar.html" },
-    { id: "contacts", label: "Contacts", icon: "contacts", href: "contacts.html" },
-    { id: "pipeline", label: "Opportunities", icon: "pipeline", href: "pipeline.html" },
-    { id: "payments", label: "Payments", icon: "payments", href: "payments.html" },
-    { id: "marketing", label: "Marketing", icon: "marketing", href: "marketing.html" },
-    { id: "automation", label: "Automation", icon: "automation", href: "automation.html" },
-    { id: "sites", label: "Sites", icon: "sites", href: "sites.html" },
-    { id: "reputation", label: "Reputation", icon: "reputation", href: "reputation.html" },
-    { id: "reporting", label: "Reporting", icon: "reporting", href: "reporting.html" },
-    { id: "documents", label: "Documents", icon: "documents", href: "documents.html" },
-    { id: "courses", label: "Courses", icon: "courses", href: "courses.html" },
-    { id: "social", label: "Social Planner", icon: "social", href: "social.html" },
-    { id: "settings", label: "Settings", icon: "settings", href: "settings.html" }
+    { id: "dashboard", key: "dashboard", icon: "dashboard", href: "index.html" },
+    { id: "conversations", key: "conversations", icon: "conversations", href: "conversations.html" },
+    { id: "calendars", key: "calendars", icon: "calendar", href: "calendar.html" },
+    { id: "contacts", key: "contacts", icon: "contacts", href: "contacts.html" },
+    { id: "pipeline", key: "pipeline", icon: "pipeline", href: "pipeline.html" },
+    { id: "payments", key: "payments", icon: "payments", href: "payments.html" },
+    { id: "marketing", key: "marketing", icon: "marketing", href: "marketing.html" },
+    { id: "automation", key: "automation", icon: "automation", href: "automation.html" },
+    { id: "sites", key: "sites", icon: "sites", href: "sites.html" },
+    { id: "reputation", key: "reputation", icon: "reputation", href: "reputation.html" },
+    { id: "reporting", key: "reporting", icon: "reporting", href: "reporting.html" },
+    { id: "documents", key: "documents", icon: "documents", href: "documents.html" },
+    { id: "courses", key: "courses", icon: "courses", href: "courses.html" },
+    { id: "social", key: "social", icon: "social", href: "social.html" },
+    { id: "settings", key: "settings", icon: "settings", href: "settings.html" }
   ];
 
-  /* ── Determine active page ── */
   function getActivePage() {
     var path = window.location.pathname;
     var file = path.split("/").pop() || "index.html";
@@ -61,6 +127,32 @@
     var page = file.replace(".html", "");
     if (page === "calendar") return "calendars";
     return page;
+  }
+
+  /* ── Language switcher ── */
+  function injectLangSwitcher() {
+    if (document.getElementById("nwmLangSwitch")) return;
+    var cur = getLang();
+    var el = document.createElement("div");
+    el.id = "nwmLangSwitch";
+    el.setAttribute("role", "group");
+    el.setAttribute("aria-label", t("langLabel"));
+    el.innerHTML =
+      '<button data-l="es" class="' + (cur === "es" ? "on" : "") + '">ES</button>' +
+      '<button data-l="en" class="' + (cur === "en" ? "on" : "") + '">EN</button>';
+    var css = document.createElement("style");
+    css.textContent =
+      '#nwmLangSwitch{position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:4px;background:#fff;border:1px solid #e3e5ee;border-radius:8px;padding:4px;box-shadow:0 6px 20px rgba(20,22,40,.12)}' +
+      '#nwmLangSwitch button{border:0;background:transparent;color:#1a1a2e;font:600 12px -apple-system,Segoe UI,Roboto,sans-serif;padding:5px 10px;border-radius:6px;cursor:pointer;letter-spacing:.5px}' +
+      '#nwmLangSwitch button.on{background:#FF6B00;color:#fff}' +
+      '#nwmLangSwitch button:hover:not(.on){background:#f2f3f8}';
+    document.head.appendChild(css);
+    document.body.appendChild(el);
+    el.addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-l]");
+      if (!b) return;
+      setLang(b.getAttribute("data-l"));
+    });
   }
 
   /* ── Build sidebar ── */
@@ -74,7 +166,7 @@
     var html = '<div class="sidebar-header">';
     html += '<div class="sidebar-brand">';
     html += '<div class="brand-icon">N</div>';
-    html += '<span class="brand-text">NetWeb CRM</span>';
+    html += '<span class="brand-text">' + t("brand") + '</span>';
     html += '</div>';
     html += '<button class="sidebar-toggle" id="sidebarToggle">' + ICONS.chevronLeft + '</button>';
     html += '</div>';
@@ -82,10 +174,11 @@
     html += '<nav class="sidebar-nav">';
     for (var i = 0; i < NAV_ITEMS.length; i++) {
       var item = NAV_ITEMS[i];
+      var label = t("nav." + item.key);
       var isActive = item.id === active ? " active" : "";
-      html += '<a href="' + item.href + '" class="nav-item' + isActive + '" title="' + item.label + '">';
+      html += '<a href="' + item.href + '" class="nav-item' + isActive + '" title="' + label + '">';
       html += '<span class="nav-icon">' + ICONS[item.icon] + '</span>';
-      html += '<span class="nav-label">' + item.label + '</span>';
+      html += '<span class="nav-label">' + label + '</span>';
       html += '</a>';
     }
     html += '</nav>';
@@ -93,8 +186,9 @@
     html += '<div class="sidebar-footer">';
     html += '<div class="user-card">';
     var loggedInUser = getLoggedInUser();
-    var userName = loggedInUser ? loggedInUser.name : 'Guest';
-    var userRole = loggedInUser ? (loggedInUser.type === 'demo' ? 'Demo' : loggedInUser.type.charAt(0).toUpperCase() + loggedInUser.type.slice(1)) : 'Guest';
+    var userName = loggedInUser ? loggedInUser.name : t("roles.guest");
+    var rawRole = loggedInUser ? (loggedInUser.type || 'user') : 'guest';
+    var userRole = t("roles." + rawRole) !== ("roles." + rawRole) ? t("roles." + rawRole) : (rawRole.charAt(0).toUpperCase() + rawRole.slice(1));
     var userInitials = userName.split(' ').map(function(w){ return w.charAt(0).toUpperCase(); }).join('').substring(0, 2);
     html += '<div class="user-avatar">' + userInitials + '</div>';
     html += '<div class="user-info">';
@@ -123,14 +217,20 @@
     var header = document.getElementById("pageHeader");
     if (!header) return;
 
+    // Allow title to be an object { es: "...", en: "..." } or a key "nav.contacts"
+    var resolved = title;
+    if (title && typeof title === "object") resolved = title[getLang()] || title.en || "";
+    else if (typeof title === "string" && title.indexOf(".") > -1 && I18N[getLang()]) {
+      var maybe = t(title);
+      if (maybe && maybe !== title) resolved = maybe;
+    }
+
     var html = '<div class="header-left">';
     html += '<button class="mobile-menu-btn" id="mobileMenuBtn">' + ICONS.menu + '</button>';
-    html += '<h1 class="page-title">' + title + '</h1>';
+    html += '<h1 class="page-title">' + resolved + '</h1>';
     html += '</div>';
     html += '<div class="header-right">';
-    if (actions) {
-      html += actions;
-    }
+    if (actions) html += actions;
     html += '<button class="header-icon-btn notification-btn">' + ICONS.bell + '<span class="notif-dot"></span></button>';
     var headerUser = getLoggedInUser();
     var headerInitials = 'G';
@@ -145,54 +245,50 @@
     var mobileBtn = document.getElementById("mobileMenuBtn");
     if (mobileBtn) {
       mobileBtn.addEventListener("click", function () {
-        var sidebar = document.getElementById("sidebar");
-        sidebar.classList.toggle("mobile-open");
+        document.getElementById("sidebar").classList.toggle("mobile-open");
       });
     }
   }
 
-  /* ── Utility: format currency ── */
+  /* ── Apply i18n to static HTML (data-i18n keys + data-lang spans) ── */
+  function applyI18n() {
+    // data-i18n="cols.name" => sets textContent from dict
+    var els = document.querySelectorAll("[data-i18n]");
+    for (var i = 0; i < els.length; i++) {
+      var k = els[i].getAttribute("data-i18n");
+      var v = t(k);
+      if (v && v !== k) els[i].textContent = v;
+    }
+    // data-i18n-placeholder="search"
+    var ins = document.querySelectorAll("[data-i18n-placeholder]");
+    for (var j = 0; j < ins.length; j++) {
+      var pk = ins[j].getAttribute("data-i18n-placeholder");
+      var pv = t(pk);
+      if (pv && pv !== pk) ins[j].setAttribute("placeholder", pv);
+    }
+  }
+
+  /* ── Utilities ── */
   function formatCurrency(value) {
-    if (value >= 1000) {
-      return "$" + (value / 1000).toFixed(1) + "k";
-    }
-    return "$" + value.toLocaleString();
+    if (value >= 1000) return "$" + (value / 1000).toFixed(1) + "k";
+    return "$" + (value || 0).toLocaleString();
   }
-
-  /* ── Utility: status badge ── */
   function statusBadge(status) {
-    return '<span class="status-badge status-' + status + '">' + status.charAt(0).toUpperCase() + status.slice(1) + '</span>';
+    var label = t("filters." + status);
+    if (label === "filters." + status) label = status.charAt(0).toUpperCase() + status.slice(1);
+    return '<span class="status-badge status-' + status + '">' + label + '</span>';
   }
+  function channelIcon(channel) { return ICONS[channel] || ICONS.email; }
 
-  /* ── Utility: channel icon ── */
-  function channelIcon(channel) {
-    if (ICONS[channel]) return ICONS[channel];
-    return ICONS.email;
-  }
-
-  /* ── Demo Gate Logic ── */
+  /* ── Demo Gate ── */
   function getLoggedInUser() {
-    try {
-      var raw = localStorage.getItem('crm_demo_user');
-      if (!raw) return null;
-      return JSON.parse(raw);
-    } catch (e) {
-      return null;
-    }
+    try { var raw = localStorage.getItem('crm_demo_user'); return raw ? JSON.parse(raw) : null; }
+    catch (e) { return null; }
   }
-
-  function getDemoUser() {
-    var user = getLoggedInUser();
-    if (user && user.type === 'demo') return user;
-    return null;
-  }
-
-  function isDemo() {
-    return getDemoUser() !== null;
-  }
+  function getDemoUser() { var u = getLoggedInUser(); return (u && u.type === 'demo') ? u : null; }
+  function isDemo() { return getDemoUser() !== null; }
 
   function showUpgradeModal(moduleName) {
-    // Remove existing modal if any
     var existing = document.getElementById('upgradeOverlay');
     if (existing) existing.remove();
 
@@ -206,46 +302,39 @@
     var closeBtn = document.createElement('button');
     closeBtn.className = 'upgrade-close';
     closeBtn.textContent = '\u00D7';
-    closeBtn.addEventListener('click', function() {
-      overlay.remove();
-    });
+    closeBtn.addEventListener('click', function() { overlay.remove(); });
     modal.appendChild(closeBtn);
 
     var heading = document.createElement('h2');
     heading.className = 'upgrade-heading';
-    heading.textContent = 'Upgrade to Access ' + moduleName;
+    heading.textContent = t("upgrade.title") + moduleName;
     modal.appendChild(heading);
 
     var sub = document.createElement('p');
     sub.className = 'upgrade-subheading';
-    sub.textContent = 'Your demo includes the Dashboard overview. Unlock all 15 modules with a plan.';
+    sub.textContent = t("upgrade.sub");
     modal.appendChild(sub);
 
     var plans = document.createElement('div');
     plans.className = 'upgrade-plans';
 
+    var isEs = getLang() === "es";
     var planData = [
-      {
-        name: 'Starter',
-        price: '$97',
-        period: '/mo',
-        features: ['Dashboard + 3 Modules', 'Up to 500 Contacts', 'Email Support', '1 User Seat'],
-        featured: false
-      },
-      {
-        name: 'Professional',
-        price: '$297',
-        period: '/mo',
-        features: ['All 15 Modules', 'Unlimited Contacts', 'Priority Support', '5 User Seats', 'Automation Workflows', 'Custom Reporting'],
-        featured: true
-      },
-      {
-        name: 'Enterprise',
-        price: 'Custom',
-        period: '',
-        features: ['Everything in Professional', 'Unlimited Users', 'Dedicated Account Manager', 'Custom Integrations', 'SLA Guarantee', 'White-Label Options'],
-        featured: false
-      }
+      { name: 'Starter', price: '$97', period: '/mo',
+        features: isEs
+          ? ['Panel + 3 Módulos', 'Hasta 500 Contactos', 'Soporte por Email', '1 Usuario']
+          : ['Dashboard + 3 Modules', 'Up to 500 Contacts', 'Email Support', '1 User Seat'],
+        featured: false },
+      { name: 'Professional', price: '$297', period: '/mo',
+        features: isEs
+          ? ['Los 15 Módulos', 'Contactos Ilimitados', 'Soporte Prioritario', '5 Usuarios', 'Automatizaciones', 'Reportes Personalizados']
+          : ['All 15 Modules', 'Unlimited Contacts', 'Priority Support', '5 User Seats', 'Automation Workflows', 'Custom Reporting'],
+        featured: true },
+      { name: 'Enterprise', price: isEs ? 'A medida' : 'Custom', period: '',
+        features: isEs
+          ? ['Todo de Professional', 'Usuarios Ilimitados', 'Gerente de Cuenta', 'Integraciones Custom', 'SLA Garantizado', 'White-Label']
+          : ['Everything in Professional', 'Unlimited Users', 'Dedicated Account Manager', 'Custom Integrations', 'SLA Guarantee', 'White-Label Options'],
+        featured: false }
     ];
 
     for (var i = 0; i < planData.length; i++) {
@@ -282,7 +371,7 @@
       cta.className = 'upgrade-cta' + (p.featured ? ' primary' : '');
       cta.href = 'https://netwebmedia.com/contact';
       cta.target = '_blank';
-      cta.textContent = 'Contact Sales';
+      cta.textContent = t("upgrade.cta");
       card.appendChild(cta);
 
       plans.appendChild(card);
@@ -292,33 +381,20 @@
     overlay.appendChild(modal);
     document.body.appendChild(overlay);
 
-    // Close on overlay click
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) {
-        overlay.remove();
-      }
-    });
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
   }
 
   function initDemoGate() {
     if (!isDemo()) return;
-
-    // If on a page other than index.html (dashboard), redirect
     var page = getActivePage();
-    if (page !== 'dashboard') {
-      window.location.href = 'index.html';
-      return;
-    }
-
-    // Intercept all sidebar links except dashboard
+    if (page !== 'dashboard') { window.location.href = 'index.html'; return; }
     var navLinks = document.querySelectorAll('.sidebar-nav .nav-item');
     for (var i = 0; i < navLinks.length; i++) {
       (function(link) {
         var href = link.getAttribute('href') || '';
-        if (href === 'index.html') return; // Allow dashboard
+        if (href === 'index.html') return;
         link.addEventListener('click', function(e) {
           e.preventDefault();
-          // Determine module name from the link text
           var label = link.querySelector('.nav-label');
           var moduleName = label ? label.textContent : 'this module';
           showUpgradeModal(moduleName);
@@ -327,13 +403,13 @@
     }
   }
 
-  /* ── Init on DOM ready ── */
   document.addEventListener("DOMContentLoaded", function () {
     buildSidebar();
+    applyI18n();
+    injectLangSwitcher();
     initDemoGate();
   });
 
-  /* ── Expose to global ── */
   window.CRM_APP = {
     buildHeader: buildHeader,
     formatCurrency: formatCurrency,
@@ -343,7 +419,11 @@
     isDemo: isDemo,
     showUpgradeModal: showUpgradeModal,
     initDemoGate: initDemoGate,
-    ICONS: ICONS
+    ICONS: ICONS,
+    t: t,
+    getLang: getLang,
+    setLang: setLang,
+    applyI18n: applyI18n
   };
 
 })();

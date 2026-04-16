@@ -57,7 +57,7 @@ jobs:
           protocol: ftps
           port: 21
           local-dir: ./_deploy/companies/
-          server-dir: /public_html/companies/
+          server-dir: ./
           dangerous-clean-slate: false
           log-level: standard
           exclude: |
@@ -77,7 +77,7 @@ jobs:
             "https://netwebmedia.com/companies/coyhaique/centro-de-esttica-y-peluquera-amanda.html"
           )
           for u in "${URLS[@]}"; do
-            code=$(curl -sS -o /dev/null -w "%{http_code}" -A "gh-actions-smoke/1.0" --max-time 20 "$u")
+            code=$(curl -sS -o /dev/null -w "%{http_code}" -A "Mozilla/5.0 (gh-actions smoke test)" --max-time 20 "$u")
             echo "  $code  $u"
             [ "$code" = "200" ] || { echo "✗ non-200"; exit 1; }
           done

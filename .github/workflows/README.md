@@ -40,7 +40,7 @@ to `https://netwebmedia.com/companies/**` via FTPS on push to `main`.
 - Triggers on: push to `main` touching `_deploy/companies/**` OR manual dispatch
 - Uses: `SamKirkland/FTP-Deploy-Action@v4.3.5` (incremental sync by hash, skips
   unchanged files on re-run — safe to run repeatedly)
-- Uploads to: `/public_html/companies/` → served at `https://netwebmedia.com/companies/`
+- Uploads to: `./` on the scoped FTP account (which is chrooted to `/public_html/companies/`) → served at `https://netwebmedia.com/companies/`
 - Smoke tests: `/companies/index.html`, one Santiago page, one Coyhaique page — fails build if any returns non-200
 
 ### Why FTPS, not SFTP?

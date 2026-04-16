@@ -40,6 +40,10 @@ $handlers = [
     'intake'        => __DIR__ . '/handlers/intake.php',
     'analyze'       => __DIR__ . '/handlers/analyze.php',
     'proposal'      => __DIR__ . '/handlers/proposal.php',
+    'templates'     => __DIR__ . '/handlers/templates.php',
+    'campaigns'     => __DIR__ . '/handlers/campaigns.php',
+    'track'         => __DIR__ . '/handlers/track.php',
+    'migrate'       => __DIR__ . '/handlers/migrate.php',
 ];
 
 if (!isset($handlers[$resource])) {

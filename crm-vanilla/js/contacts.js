@@ -75,8 +75,8 @@
     var slice = list.slice(start, end);
 
     if (!total) {
-      tbody.innerHTML = '<tr><td colspan="5" class="empty-state" style="text-align:center;padding:40px;color:#888">No contacts match.</td></tr>';
-      updateCount(0, 0, 0);
+      tbody.innerHTML = '<tr><td colspan="6" class="empty-state" style="text-align:center;padding:40px;color:#888">No contacts match.</td></tr>';
+      renderPager(0, 0, 0, 0);
       return;
     }
 
@@ -84,33 +84,29 @@
     for (var i = 0; i < slice.length; i++) {
       var c = slice[i];
       var initials = (c.name || '?').split(' ').map(function (p) { return p[0]; }).slice(0, 2).join('').toUpperCase();
+      var meta = {};
+      if (c.notes) { try { meta = JSON.parse(c.notes); } catch (e) {} }
+      var auditUrl = meta.page ? ('https://netwebmedia.com/' + meta.page) : null;
+
       html += '<tr class="contact-table-row" data-id="' + c.id + '">';
       html += '<td><div class="td-flex"><div class="contact-avatar small">' + esc(initials) + '</div>'
            +  '<div><div class="td-name">' + esc(c.name || '') + '</div>'
            +  '<div class="td-email">' + esc(c.email || '') + '</div></div></div></td>';
       html += '<td>' + esc(c.company || '—') + '</td>';
       html += '<td>' + (CRM_APP && CRM_APP.statusBadge ? CRM_APP.statusBadge(c.status || 'lead') : esc(c.status || '')) + '</td>';
-      html += '<td>' + (c.value ? '$' + Number(c.value).toLocaleString() : '—') + '</td>';
+      html += '<td>' + (c.value && Number(c.value) > 0 ? '$' + Number(c.value).toLocaleString() : '—') + '</td>';
       html += '<td>' + (c.last_contact || fmtAgo(c.created_at)) + '</td>';
+      html += '<td>' + (auditUrl
+          ? '<a href="' + esc(auditUrl) + '" target="_blank" onclick="event.stopPropagation()" style="color:#FF6B00;font-weight:600;text-decoration:none;padding:6px 10px;border:1px solid #FF6B00;border-radius:6px;font-size:12px">View ↗</a>'
+          : '<span style="color:#bbb;font-size:12px">—</span>') + '</td>';
       html += '</tr>';
     }
-    // Pagination row
-    if (total > PAGE_SIZE) {
-      var pages = Math.ceil(total / PAGE_SIZE);
-      html += '<tr><td colspan="5" style="padding:14px;text-align:center;background:#fafbff">'
-           + '<button class="filter-btn" id="prevPg"' + (page === 0 ? ' disabled' : '') + '>← Prev</button> '
-           + '<span style="margin:0 12px;color:#555">Page ' + (page + 1) + ' of ' + pages + ' — showing ' + (start + 1) + '–' + end + ' of ' + total + '</span> '
-           + '<button class="filter-btn" id="nextPg"' + (page >= pages - 1 ? ' disabled' : '') + '>Next →</button>'
-           + '</td></tr>';
-    }
+
+    var pages = Math.ceil(total / PAGE_SIZE);
+    renderPager(total, pages, start + 1, end);
 
     tbody.innerHTML = html;
     updateCount(total, start + 1, end);
-
-    var prev = document.getElementById('prevPg');
-    var next = document.getElementById('nextPg');
-    if (prev) prev.addEventListener('click', function () { if (page > 0) { page--; render(); } });
-    if (next) next.addEventListener('click', function () { page++; render(); });
 
     var rows = tbody.querySelectorAll('.contact-table-row');
     for (var j = 0; j < rows.length; j++) {
@@ -121,9 +117,32 @@
   }
 
   function updateCount(total, from, to) {
-    var hdr = document.querySelector('.page-header h1, .page-header-title');
+    var hdr = document.querySelector('.page-title, .page-header h1, .page-header-title');
     if (hdr && !hdr.dataset.orig) hdr.dataset.orig = hdr.textContent;
-    if (hdr && total) hdr.textContent = (hdr.dataset.orig || 'Contacts') + ' (' + total + ')';
+    if (hdr) hdr.textContent = (hdr.dataset.orig || 'Contacts') + ' (' + total.toLocaleString() + ')';
+  }
+
+  function renderPager(total, pages, from, to) {
+    var existing = document.getElementById('pager');
+    if (existing) existing.remove();
+    if (total <= PAGE_SIZE) return;
+    var wrap = document.querySelector('.contacts-table-wrap');
+    if (!wrap) return;
+    var div = document.createElement('div');
+    div.id = 'pager';
+    div.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(255,107,0,.08);border:1px solid rgba(255,107,0,.25);border-radius:8px;margin-bottom:12px;font-size:14px;color:inherit';
+    div.innerHTML =
+      '<div>Showing <strong>' + from + '–' + to + '</strong> of <strong>' + total.toLocaleString() + '</strong></div>' +
+      '<div style="display:flex;gap:8px;align-items:center">' +
+        '<button id="pgPrev"' + (page === 0 ? ' disabled' : '') + ' style="padding:6px 14px;border:1px solid #FF6B00;background:#FF6B00;color:#fff;border-radius:6px;cursor:pointer;font-weight:600' + (page === 0 ? ';opacity:.4;cursor:not-allowed' : '') + '">← Prev</button>' +
+        '<span>Page <strong>' + (page + 1) + '</strong> / ' + pages + '</span>' +
+        '<button id="pgNext"' + (page >= pages - 1 ? ' disabled' : '') + ' style="padding:6px 14px;border:1px solid #FF6B00;background:#FF6B00;color:#fff;border-radius:6px;cursor:pointer;font-weight:600' + (page >= pages - 1 ? ';opacity:.4;cursor:not-allowed' : '') + '">Next →</button>' +
+      '</div>';
+    wrap.parentNode.insertBefore(div, wrap);
+    var prev = document.getElementById('pgPrev');
+    var next = document.getElementById('pgNext');
+    if (prev) prev.onclick = function () { if (page > 0) { page--; render(); window.scrollTo(0, 0); } };
+    if (next) next.onclick = function () { if (page < pages - 1) { page++; render(); window.scrollTo(0, 0); } };
   }
 
   function showDetail(id) {

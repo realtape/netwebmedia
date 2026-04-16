@@ -39,6 +39,7 @@ def main():
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--skip", type=int, default=0, help="Skip first N records")
     ap.add_argument("--sleep", type=float, default=0.05, help="Seconds between requests")
+    ap.add_argument("--segment", default=None, help="Tag records with segment name (e.g. 'top_leads')")
     args = ap.parse_args()
 
     with open(args.json, "r", encoding="utf-8") as f:
@@ -52,8 +53,22 @@ def main():
         records = records[: args.limit]
 
     print(f"Uploading {len(records)} contacts to {args.base} ...")
+    if args.segment:
+        print(f"  Segment tag: {args.segment}")
     ok, fail = 0, 0
     for i, rec in enumerate(records, 1):
+        # Add segment tag if requested
+        if args.segment:
+            if isinstance(rec.get("notes"), str):
+                try:
+                    notes_obj = json.loads(rec["notes"])
+                except:
+                    notes_obj = {}
+            else:
+                notes_obj = rec.get("notes", {})
+            notes_obj["segment"] = args.segment
+            rec["notes"] = json.dumps(notes_obj, ensure_ascii=False)
+
         if args.dry_run:
             print(f"[DRY {i}] {rec['name']} ({rec.get('email') or '—'})")
             ok += 1

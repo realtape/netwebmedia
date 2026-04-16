@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetWebMedia — Osorno Digital Gap Analysis & Revenue Loss Report</title>
+<style>
+  :root {
+    --brand: #ff6b00;
+    --dark: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --blue: #58a6ff;
+    --purple: #bc8cff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--dark); color: var(--text); line-height: 1.7; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  .report-header { background: linear-gradient(135deg, #0d1117 0%, #1c1020 50%, #1a1e2e 100%); border-bottom: 3px solid var(--red); padding: 56px 0 48px; }
+  .report-header h1 { font-size: 2.4rem; font-weight: 800; margin-bottom: 8px; }
+  .report-header h1 span { color: var(--red); }
+  .report-header .subtitle { color: var(--muted); font-size: 1.15rem; max-width: 700px; }
+  .report-header .meta { margin-top: 20px; display: flex; gap: 24px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); }
+  .report-header .meta strong { color: var(--text); }
+
+  /* Mega Stats */
+  .mega-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: -40px 0 40px; position: relative; z-index: 2; }
+  .mega-stat { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; text-align: center; }
+  .mega-stat .num { font-size: 2.6rem; font-weight: 900; }
+  .mega-stat .num.red { color: var(--red); }
+  .mega-stat .num.yellow { color: var(--yellow); }
+  .mega-stat .num.green { color: var(--green); }
+  .mega-stat .num.blue { color: var(--blue); }
+  .mega-stat .num.brand { color: var(--brand); }
+  .mega-stat .label { font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
+  .mega-stat .sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; font-style: italic; }
+
+  /* Section Headers */
+  .section { margin: 56px 0; }
+  .section-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+  .section-title .icon { font-size: 1.8rem; }
+  .section-sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 28px; max-width: 800px; }
+
+  /* Gap Cards */
+  .gap-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+  .gap-card:hover { border-color: var(--red); }
+  .gap-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+  .gap-header h3 { font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .gap-header .severity { font-size: 0.75rem; font-weight: 700; padding: 4px 14px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .severity-critical { background: rgba(248,81,73,0.2); color: var(--red); }
+  .severity-high { background: rgba(210,153,34,0.2); color: var(--yellow); }
+  .severity-medium { background: rgba(88,166,255,0.2); color: var(--blue); }
+
+  .gap-body { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 768px) { .gap-body { grid-template-columns: 1fr; } }
+  .gap-left h4 { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .gap-left p { color: var(--text); font-size: 0.95rem; margin-bottom: 12px; }
+  .gap-left ul { padding-left: 18px; }
+  .gap-left li { font-size: 0.9rem; color: var(--muted); margin-bottom: 4px; }
+  .gap-left li strong { color: var(--text); }
+
+  .gap-right { background: rgba(248,81,73,0.05); border: 1px solid rgba(248,81,73,0.15); border-radius: 12px; padding: 20px; }
+  .gap-right h4 { font-size: 0.85rem; color: var(--red); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .loss-line { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(248,81,73,0.1); }
+  .loss-line:last-child { border-bottom: none; }
+  .loss-line .desc { font-size: 0.9rem; color: var(--muted); }
+  .loss-line .amount { font-size: 1rem; font-weight: 700; color: var(--red); }
+  .loss-total { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 0; border-top: 2px solid var(--red); margin-top: 8px; }
+  .loss-total .desc { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+  .loss-total .amount { font-size: 1.2rem; font-weight: 900; color: var(--red); }
+
+  /* Affected Businesses */
+  .affected { margin-top: 16px; }
+  .affected h4 { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .affected-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .affected-tag { font-size: 0.75rem; padding: 3px 10px; border-radius: 16px; background: rgba(255,255,255,0.05); color: var(--muted); }
+  .affected-tag.critical { background: rgba(248,81,73,0.1); color: var(--red); }
+
+  /* Market Breakdown */
+  .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .market-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
+  .market-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .market-card .icon { font-size: 1.4rem; }
+  .market-metric { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  .market-metric:last-child { border-bottom: none; }
+  .market-metric .label { color: var(--muted); }
+  .market-metric .value { font-weight: 700; }
+  .market-metric .value.red { color: var(--red); }
+  .market-metric .value.green { color: var(--green); }
+  .market-metric .value.brand { color: var(--brand); }
+
+  /* Solution Box */
+  .solution-box { background: rgba(255,107,0,0.05); border: 1px solid rgba(255,107,0,0.2); border-radius: 12px; padding: 20px; margin-top: 16px; }
+  .solution-box h5 { color: var(--brand); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .solution-box ul { padding-left: 18px; }
+  .solution-box li { font-size: 0.85rem; color: var(--muted); margin-bottom: 3px; }
+
+  /* Summary Table */
+  .summary-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 0.78rem; }
+  .summary-table th { background: rgba(255,255,255,0.03); text-align: left; padding: 10px 8px; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid var(--border); }
+  .summary-table td { padding: 10px 8px; font-size: 0.78rem; border-bottom: 1px solid var(--border); }
+  .summary-table tr:hover { background: rgba(255,255,255,0.02); }
+  .summary-table .red { color: var(--red); font-weight: 700; }
+  .summary-table .green { color: var(--green); font-weight: 700; }
+  .summary-table .brand { color: var(--brand); font-weight: 700; }
+  .summary-table { overflow-x: auto; display: block; }
+
+  /* CTA */
+  .cta-section { background: linear-gradient(135deg, #1a1000 0%, #1a0a00 100%); border: 2px solid var(--brand); border-radius: 20px; padding: 48px; text-align: center; margin: 56px 0; }
+  .cta-section h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
+  .cta-section h2 span { color: var(--brand); }
+  .cta-section p { color: var(--muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto 24px; }
+  .cta-btn { display: inline-block; background: var(--brand); color: #fff; font-size: 1.1rem; font-weight: 700; padding: 14px 36px; border-radius: 12px; text-decoration: none; }
+  .cta-btn:hover { background: #e05f00; }
+
+  /* Footer */
+  .report-footer { text-align: center; padding: 32px 0; border-top: 1px solid var(--border); }
+  .report-footer p { color: var(--muted); font-size: 0.8rem; }
+
+  /* Progress bar */
+  .pbar { height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; margin: 8px 0; }
+  .pbar-fill { height: 100%; border-radius: 4px; }
+  .pbar-fill.red { background: var(--red); }
+  .pbar-fill.yellow { background: var(--yellow); }
+  .pbar-fill.green { background: var(--green); }
+
+  @media (max-width: 768px) {
+    .report-header h1 { font-size: 1.6rem; }
+    .mega-stats { margin-top: 24px; }
+    .gap-header h3 { font-size: 1.1rem; }
+    .cta-section { padding: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header class="report-header">
+  <div class="container">
+    <h1>Digital Gap Analysis: <span>What Osorno Businesses Are Losing</span></h1>
+    <p class="subtitle">A forensic breakdown of every digital gap found across 40 local businesses in southern Chile's German-colonial gateway to Volcán Osorno, Puyehue hot springs, and the Lake District — where the 5-star hotel returns 403 Forbidden, 2 hotels suffer DOUBLE FAILURES (dead site + free/Gmail email), 40% of the tourism sector is dead or forbidden, the highest-rated restaurant (4.8 stars) has NO website, a German craft brewery runs on Google Sites, an enterprise Shopify e-commerce beauty clinic has NO email or phone visible, a medical spa uses a "Restaurant Recipe" WordPress theme, a barber's own domain is dead but alive on a free UENIWEB subdomain, and a salon chain still links to Google+ (dead since 2019).</p>
+    <div class="meta">
+      <span>Report Date: <strong>April 16, 2026</strong></span>
+      <span>Businesses Analyzed: <strong>40</strong></span>
+      <span>Markets: <strong>Tourism, Restaurants, Health, Beauty</strong></span>
+      <span>Source: <strong>NetWebMedia Sales Intelligence</strong></span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ========== MEGA STATS ========== -->
+<div class="mega-stats">
+  <div class="mega-stat">
+    <div class="num red">$2.1M</div>
+    <div class="label">Total Estimated Annual Revenue Lost</div>
+    <div class="sub">Across all 40 businesses combined</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num yellow">8</div>
+    <div class="label">Distinct Digital Gaps Identified</div>
+    <div class="sub">40% tourism dead/forbidden — WORST sector failure</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num red">17</div>
+    <div class="label">Websites Dead, Broken, or Missing</div>
+    <div class="sub">4 dead/forbidden/SSL + 13 no website at all</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num brand">$52,500</div>
+    <div class="label">Avg. Revenue Lost Per Business/Year</div>
+    <div class="sub">Lake District gateway money evaporating</div>
+  </div>
+</div>
+
+<!-- ========== GAP-BY-GAP BREAKDOWN ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">🔴</span> Gap-by-Gap Breakdown</h2>
+  <p class="section-sub">Each gap below is ranked by severity and includes the estimated annual revenue loss per affected business, based on industry benchmarks and Osorno market data. Osorno is the southern gateway to Volcán Osorno, Lago Llanquihue, Puyehue National Park, and Entre Lagos — the Lake District's adventure corridor. German colonial heritage (Märzen brewery, Hotel Blumenau, Wufehr crudos), "capital of meat" (Ruta del Asador, El Galpón), and a growing university city (UdeC, UACH, Santo Tomás). Yet 4 business websites are dead/forbidden/SSL-broken, 13 have no website at all, a 5-star hotel is 403-blocked, and 97.5% have ZERO CRM.</p>
+
+  <!-- GAP 1: DEAD/FORBIDDEN/SSL SITES -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>💀 Gap #1: Dead Server / 403 Forbidden / SSL Error Sites</h3>
+      <span class="severity severity-critical">CRITICAL — 4+ SITES: 3 ECONNREFUSED + 1 SSL ERROR (+ 1 403 FORBIDDEN 5-STAR HOTEL)</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>At minimum 4 businesses (10%) have websites that are <strong>completely dead, forbidden, or SSL-broken</strong>. The flagship case: <strong>Sonesta Hotel Osorno</strong> — a 106-room, 5-star international chain hotel — returns <strong>403 Forbidden</strong> on both its homepage and /contacto page. Two hotels have DEAD servers (ECONNREFUSED). A national hotel chain has an SSL certificate error. A vet clinic is ECONNREFUSED. A barber's own domain (barberiaking.cl) is dead but survives on a free UENIWEB subdomain. <strong>40% of the entire tourism sector (4 of 10 hotels) is dead or forbidden</strong> — the worst tourism web failure rate across all 14 cities.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>Sonesta Hotel Osorno (sonestaosorno.com) 403 FORBIDDEN</strong> — a 5-STAR, 106-room international chain hotel. Server is running but actively blocking ALL visitors. Both the homepage and /contacto return 403. The only 5-star hotel in Osorno, flagship of the city's hospitality sector, invisible to every tourist, travel agent, and corporate booker who tries to visit the site. Reservas@sonestaosorno.cl exists but cannot be discovered through the website</li>
+          <li><strong>Hotel Lagos del Sur (hotelagosdelsur.cl) ECONNREFUSED + hotelagosdelsur@123.cl FREE EMAIL!</strong> — DOUBLE FAILURE. Dead server AND using 123.cl free email domain. A 20-room hotel at O'Higgins 564 (main avenue) unreachable online AND using a free email provider. Two simultaneous failures in one business — unique severity</li>
+          <li><strong>Hotel Bilbao (hotelbilbao.cl) ECONNREFUSED + hotelbilbaocl@gmail.com GMAIL!</strong> — DOUBLE FAILURE #2. Dead server AND Gmail. An 11-room hotel at Bilbao 1019 with both its website and email at consumer grade. Two hotels in the same city both suffering dead site + free email</li>
+          <li><strong>Hotel Diego de Almagro Osorno (dahoteles.com) SSL CERTIFICATE ERROR</strong> — a national chain hotel with "unable to verify the first certificate." Every browser shows a security warning. A chain with 20+ hotels across Chile can't maintain SSL on its corporate domain</li>
+          <li><strong>Clínica Veterinaria Mirasur (veterinariamirasur.cl) ECONNREFUSED</strong> — a vet clinic at Av. República 1868, DEAD. Pet emergencies searching for vets find a dead server</li>
+          <li><strong>Barbería King Osorno (barberiaking.cl) DEAD domain — alive on barberia-king-osorno.ueniweb.com</strong> — own domain is ECONNREFUSED, but they survive on a free UENIWEB subdomain. The UENIWEB version has GTM-TG56DMZ — but this is the SAME GTM code found on businesses across Chile (UENIWEB injects it on ALL their free sites, not the business's own tracking)</li>
+          <li><strong>40% of tourism = dead/forbidden</strong> — 4 of 10 hotels have non-functional websites. Osorno is a gateway city for Volcán Osorno, Puyehue, and the Lake District. Tourists searching for Osorno accommodation hit dead servers, 403 blocks, and SSL warnings before they ever find a functional booking page</li>
+          <li>A dead/blocked site is <strong>worse than no site</strong> — it signals abandonment and technical incompetence</li>
+          <li>Google <strong>deranks and eventually deindexes</strong> persistently broken sites</li>
+        </ul>
+        <h4>Osorno context</h4>
+        <p>Osorno is the <strong>gateway to the Lake District</strong> — the #1 nature tourism corridor in southern Chile. Tourists arriving by air (ZOS airport), bus, or car use Osorno as a base for Volcán Osorno, Puyehue hot springs, Lagos Llanquihue/Puyehue/Rupanco, and Entre Lagos. <strong>40% of hotels having dead/forbidden/SSL-broken websites is catastrophic for a gateway city</strong>. The 5-star Sonesta blocking ALL web traffic is the single most damaging hotel failure across all 14 cities analyzed. Combined with 2 DOUBLE FAILURE hotels (dead site + free email), Osorno's tourism web infrastructure is the worst we've seen.</p>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Dead/blocked = 100% web visitor loss</span><span class="amount">-$24,000</span></div>
+        <div class="loss-line"><span class="desc">Lake District tourist traffic lost</span><span class="amount">-$16,000</span></div>
+        <div class="loss-line"><span class="desc">Google deranks broken domains</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">Brand damage (5-star chain = 403)</span><span class="amount">-$8,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$54,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (4-6 dead/forbidden/SSL — 10-15%)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Sonesta Hotel Osorno (sonestaosorno.com 403 FORBIDDEN — 5-STAR, 106 rooms, international chain BLOCKED!)</span>
+        <span class="affected-tag critical">Hotel Lagos del Sur (hotelagosdelsur.cl ECONNREFUSED + 123.cl FREE EMAIL — DOUBLE FAILURE!)</span>
+        <span class="affected-tag critical">Hotel Bilbao (hotelbilbao.cl ECONNREFUSED + Gmail — DOUBLE FAILURE!)</span>
+        <span class="affected-tag critical">Hotel Diego de Almagro (dahoteles.com SSL CERTIFICATE ERROR — national chain!)</span>
+        <span class="affected-tag critical">Clínica Vet Mirasur (veterinariamirasur.cl ECONNREFUSED — DEAD!)</span>
+        <span class="affected-tag critical">Barbería King (barberiaking.cl DEAD — alive on free UENIWEB subdomain only!)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>Emergency Website Rebuild</strong> — Lagos del Sur + Bilbao: professional hotel sites with direct booking in <strong>72 hours</strong></li>
+        <li><strong>403 Diagnosis</strong> — Sonesta: identify server misconfiguration, restore public access to 106-room 5-star property</li>
+        <li><strong>SSL Fix</strong> — DA Hotels: install proper certificate, stop browser security warnings on national chain</li>
+        <li><strong>Domain Migration</strong> — Barbería King: resurrect barberiaking.cl, migrate off free UENIWEB subdomain</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 2: NO WEBSITE -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>🚫 Gap #2: No Website</h3>
+      <span class="severity severity-critical">CRITICAL — 13 BUSINESSES = 32.5% / HIGHEST-RATED RESTAURANT (4.8★) HAS NO SITE</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>13 of 40 businesses (32.5%) have <strong>zero web presence</strong> — no domain, no landing page, nothing. They rely entirely on Facebook, Instagram, WhatsApp, delivery apps, or walk-ins. The most dramatic: <strong>Gus Cocina de Mercado has a 4.8-star rating — the HIGHEST rating of any restaurant in Osorno</strong> — and has NO website. Also: <strong>Rincón Wufehr</strong>, famous for the best crudos and tártaros in the region (German heritage specialty), has no website. 3 tourism businesses are invisible to Google. 3 beauty businesses rely on Facebook/AgendaPro only.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>90% of consumers</strong> research a business online before visiting (Google, 2025)</li>
+          <li><strong>88% of mobile searchers</strong> visit or call within 24 hours of a local search</li>
+          <li><strong>Gus Cocina de Mercado — 4.8★ (HIGHEST in all Osorno!) — NO WEBSITE</strong>. The highest-rated restaurant in the entire city — contemporary farm-to-table cuisine — exists only through word of mouth and Google Maps reviews. Lake District tourists searching "best restaurant Osorno" find the 4.8-star rating but can't click through to a menu, reservations, or even an address page</li>
+          <li><strong>Rincón Wufehr — best crudos & tártaros in the region — NO WEBSITE</strong>. German heritage cuisine, 4.4★/220 reviews, famous across Los Lagos. The restaurant that represents Osorno's German culinary DNA has no web presence</li>
+          <li><strong>6 restaurants have no website</strong> — Gus (4.8★!), Rincón Wufehr (German heritage), El Galpón Grill (#2 TripAdvisor but operates from Hotel Waeger with no own site), Gustoso (4.4★/195, Italian), Del Piero (fu.do menu only — not a real website), Gallardía Brew Pub (4.3★/214). Half the restaurant sector invisible</li>
+          <li><strong>3 tourism businesses have no website</strong> — Cabañas Mahuida (Puyehue Km 55, rural cabins), Turismo Rural Puerto Chalupa (family-run lakeside), Hostería Entre Lagos (lakeside Puyehue). Rural tourism operators near Puyehue National Park — the #1 tourist destination — with zero web presence. 100% Booking.com dependent or phone-only</li>
+          <li><strong>3 beauty businesses have no website</strong> — Tony's Barbershop (AgendaPro only), Ricardo Peluquería (FB/IG only, L'Oréal partner), Mr Jon Spa (Facebook @MrJonSpa only, VIP barbershop)</li>
+          <li>AI search engines (Google AI Overviews, ChatGPT, Perplexity) <strong>cannot cite businesses</strong> with no indexable web content</li>
+          <li><strong>Puyehue gateway problem</strong> — rural tourism operators near Chile's most-visited thermal national park have zero way to be found online. Every booking goes through intermediaries at 15-25% commission</li>
+        </ul>
+        <h4>Osorno context</h4>
+        <p>Osorno's economy runs on <strong>Lake District tourism, German heritage gastronomy, beef industry, and university students</strong>. The highest-rated restaurant is invisible. The best German-heritage food spot is invisible. Three rural operators near Puyehue — the region's #1 attraction — are invisible. 32.5% of businesses have no web presence. <strong>For a Lake District gateway city, this is catastrophic.</strong></p>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost discovery (invisible to 90% who Google)</span><span class="amount">-$16,000</span></div>
+        <div class="loss-line"><span class="desc">Lost Lake District tourist searches</span><span class="amount">-$10,000</span></div>
+        <div class="loss-line"><span class="desc">Booking.com/intermediary commission</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">Missed AI/voice search citations</span><span class="amount">-$5,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$39,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (13 with no website — 32.5%)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Gus Cocina de Mercado (4.8★ HIGHEST RATED — NO website! Contemporary farm-to-table, invisible)</span>
+        <span class="affected-tag critical">Rincón Wufehr (Best crudos & tártaros in region — NO website! German heritage, 4.4★/220)</span>
+        <span class="affected-tag critical">El Galpón Grill (#2 TripAdvisor 4.4★/383 — NO own site, at Hotel Waeger)</span>
+        <span class="affected-tag critical">Gustoso (4.4★/195, Italian/Pizza — NO website)</span>
+        <span class="affected-tag critical">Del Piero (4.2★/349, fu.do menu only — NO real website)</span>
+        <span class="affected-tag critical">Gallardía Brew Pub (4.3★/214, craft beer — NO website)</span>
+        <span class="affected-tag critical">Cabañas Mahuida (Puyehue Km 55, rural cabins — NO website, phone only)</span>
+        <span class="affected-tag critical">Turismo Rural Puerto Chalupa (Family-run lakeside — NO website)</span>
+        <span class="affected-tag critical">Hostería Entre Lagos (Lakeside Puyehue — NO website)</span>
+        <span class="affected-tag critical">Tony's Barbershop (AgendaPro only, Los Carrera 1291 — NO website)</span>
+        <span class="affected-tag critical">Ricardo Peluquería & Spa (FB/IG only, L'Oréal partner — NO website)</span>
+        <span class="affected-tag critical">Mr Jon Spa (Facebook @MrJonSpa only, VIP barbershop — NO website)</span>
+        <span class="affected-tag critical">Cook's Restorant (#3 TripAdvisor 4.4★/220 — NO own site, at Sonesta which is 403!)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>CMS AI Website ($497/mo starter)</strong> — custom-built, SEO-optimized, mobile-first site live in 7 days</li>
+        <li><strong>For Gus Cocina de Mercado</strong> — the 4.8★ restaurant needs a website IMMEDIATELY. Menu, reservations, location. Convert Google Maps traffic to direct customers</li>
+        <li><strong>For Puyehue operators</strong> — Cabañas Mahuida, Puerto Chalupa, Hostería Entre Lagos: direct booking sites to escape Booking.com commissions</li>
+        <li><strong>For Rincón Wufehr</strong> — German heritage brand site showcasing Osorno's culinary DNA. Menu, history, reservations</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 3: FREE SUBDOMAIN / PROBLEMATIC PLATFORM -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>🏚️ Gap #3: Free Subdomain / Problematic Platform Sites</h3>
+      <span class="severity severity-high">HIGH — 3 BUSINESSES: GOOGLE SITES + UENIWEB + WEBNODE</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>3 of 40 businesses (7.5%) operate on <strong>free or severely limited platforms</strong> instead of professional websites. <strong>Cervecería Märzen "Donde Armin"</strong> — a beloved German craft brewery on the road to Puyehue (4.5★/108) — runs on <strong>Google Sites</strong>, a free platform designed for internal company wikis, not customer-facing businesses. <strong>Barbería King</strong> lives on a free <strong>UENIWEB subdomain</strong> (barberia-king-osorno.ueniweb.com) because their own domain is dead. <strong>Hospital Clínico Vet Lotus Pet</strong> uses <strong>Webnode</strong>, a free website builder with limited functionality.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>Cervecería Märzen on GOOGLE SITES</strong> — a German-heritage craft brewery (bratwurst, leberkäse, craft beer) with 4.5★/108 reviews on the Ruta 215 road to Puyehue hot springs. EVERY tourist driving to Puyehue passes by. They're on Google Sites — a free platform with zero SEO capability, zero analytics, no custom domain (cerveceriamarzen.cl points to Google Sites), no booking, no menu system. A brewery that should capture every Puyehue tourist is on a platform designed for corporate intranets. Their ONLY contact is a WhatsApp number. Instagram @cerveceriamarzen + Linktree handle the rest</li>
+          <li><strong>Barbería King on UENIWEB free subdomain</strong> — barberia-king-osorno.ueniweb.com. Their own domain (barberiaking.cl) is ECONNREFUSED. They survive on a free platform that injects its own GTM tracking (GTM-TG56DMZ — the SAME code found on Clínica Vet Ankupay in Talca, confirming UENIWEB injects this across ALL their free sites). The barber has no analytics of their own, no professional domain, no booking. 4.7★/55 reviews, since 2016, and their digital identity is a free subdomain</li>
+          <li><strong>Lotus Pet on Webnode</strong> — veterinarialotuspet.com exists but is built on Webnode free builder. Limited functionality, template design, lotuspetosorno@gmail.com (GMAIL!). A veterinary hospital with surgery, pharmacy, and pet food can't support proper booking or patient management on a free builder</li>
+          <li>Google Sites, UENIWEB, and Webnode <strong>rank poorly in search results</strong> compared to professional CMS platforms</li>
+          <li>Free platforms <strong>cannot support booking systems, CRM integration, analytics, or e-commerce</strong></li>
+          <li>Customers perceive free-platform sites as <strong>hobby businesses, not professionals</strong></li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Poor SEO ranking on free platforms</span><span class="amount">-$10,000</span></div>
+        <div class="loss-line"><span class="desc">No booking/e-commerce capability</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">Brand credibility damage</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">No analytics = blind operations</span><span class="amount">-$4,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$27,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (3 on free/problematic platforms — 7.5%)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Cervecería Märzen "Donde Armin" (cerveceriamarzen.cl → GOOGLE SITES! German brewery on Puyehue road, WhatsApp only)</span>
+        <span class="affected-tag critical">Barbería King Osorno (barberiaking.cl DEAD → barberia-king-osorno.ueniweb.com FREE SUBDOMAIN!)</span>
+        <span class="affected-tag critical">Hospital Vet Lotus Pet (veterinarialotuspet.com on WEBNODE free builder + Gmail!)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>Professional Migration</strong> — move all 3 to proper CMS with custom design, analytics, booking, and SEO</li>
+        <li><strong>For Cervecería Märzen</strong> — a brewery on the Puyehue road needs a site that captures tourist traffic: menu, beer list, event calendar, reservations, directions. $497/mo</li>
+        <li><strong>For Barbería King</strong> — resurrect barberiaking.cl with professional booking. Stop sharing GTM with UENIWEB's global container</li>
+        <li><strong>For Lotus Pet</strong> — proper vet hospital site with appointment booking, pharmacy catalog, emergency contact. Professional email</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 4: GMAIL/NO EMAIL -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>📧 Gap #4: Gmail/Free Email or No Email At All</h3>
+      <span class="severity severity-critical">CRITICAL — 27 OF 40 = 67.5% / ENTERPRISE SHOPIFY STACK WITH NO CONTACT INFO</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>27 of 40 businesses (67.5%) have <strong>no professional business email</strong>. This breaks down as: <strong>4 using Gmail</strong> (hotelbilbaocl@gmail.com, vanguardiaodontologica@gmail.com, plazabuhlerclinicadental@gmail.com, lotuspetosorno@gmail.com), <strong>1 using 123.cl free email</strong> (hotelagosdelsur@123.cl), and <strong>~22 with no email found at all</strong>. The most striking case: <strong>Clínica Alviva</strong> has the most sophisticated e-commerce beauty stack across ALL 14 cities (Shopify + GA4 + GTM + FB Pixel + TikTok Pixel + Reservo + Mercado Pago) but <strong>NO email AND NO phone visible anywhere on the site</strong>.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>75% of consumers</strong> judge a company's credibility by its email domain (GoDaddy Research)</li>
+          <li><strong>Clínica Alviva — MOST SOPHISTICATED BEAUTY STACK IN ALL 14 CITIES — NO EMAIL, NO PHONE!</strong> Shopify (ba4e93-02.myshopify.com) + GA4 G-X4Y8G4D2X8 + GTM GT-TXX9ZBK7 + FB Pixel 455788940306092 + TikTok Pixel CP9OOCBC77U12IG7B9PG + Reservo booking + Mercado Pago payments + hCaptcha + Trekkie/Monorail Shopify analytics + Organization+WebSite+Product+ProductGroup Schema.org + FB + IG @clinicaalviva.cl + TikTok @clinicaalviva. ENTERPRISE-LEVEL e-commerce. Zero way to contact the business. The most extreme technology-vs-contact paradox across all 560 businesses in 14 cities</li>
+          <li><strong>Dermaspa — the ONLY Soprano XL laser clinic in the region</strong> — info@dermaspa.cl exists, but uses a "Restaurant Recipe" WordPress theme (a FOOD theme on a MEDICAL SPA). No analytics whatsoever. Placeholder social icons with NO actual links. A premium medical service wrapped in the wrong industry template</li>
+          <li><strong>2 hotels with Gmail/free email + dead sites = DOUBLE FAILURE</strong> — Hotel Lagos del Sur (hotelagosdelsur@123.cl + DEAD) and Hotel Bilbao (hotelbilbaocl@gmail.com + DEAD). Two accommodation businesses where both the website and email are consumer-grade failures</li>
+          <li><strong>Dental clinics on Gmail</strong> — vanguardiaodontologica@gmail.com (Clínica Vanguardia) and plazabuhlerclinicadental@gmail.com (Plaza Bühler). German-heritage dental practices using Gmail</li>
+          <li>Emails from free domains are <strong>3x more likely to land in spam</strong></li>
+          <li>Tour operators need to <strong>coordinate group bookings via email</strong> — Gmail/no email kills B2B partnerships with tour agencies sending groups to the Lake District</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost inquiries (perceived unprofessional)</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">Emails landing in spam (never seen)</span><span class="amount">-$4,000</span></div>
+        <div class="loss-line"><span class="desc">Tour operator / B2B trust lost</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">No contact = 100% bounce (Alviva)</span><span class="amount">-$6,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$21,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses — Gmail/free (5) + No email (~22) = 27 of 40</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Clínica Alviva (Enterprise Shopify + GA4 + GTM + FB + TikTok + Reservo + Mercado Pago — NO email, NO phone!)</span>
+        <span class="affected-tag critical">Hotel Lagos del Sur (hotelagosdelsur@123.cl FREE EMAIL + DEAD site — DOUBLE FAILURE!)</span>
+        <span class="affected-tag critical">Hotel Bilbao (hotelbilbaocl@gmail.com GMAIL + DEAD site — DOUBLE FAILURE!)</span>
+        <span class="affected-tag critical">Cl. Vanguardia Odontológica (vanguardiaodontologica@gmail.com GMAIL)</span>
+        <span class="affected-tag critical">Plaza Bühler Clínica Dental (plazabuhlerclinicadental@gmail.com GMAIL)</span>
+        <span class="affected-tag critical">Vet Lotus Pet (lotuspetosorno@gmail.com GMAIL + Webnode)</span>
+        <span class="affected-tag">Cervecería Märzen (NO email, WhatsApp only), Barbería King (NO email), Barbería Hernández (NO email, NO phone)</span>
+        <span class="affected-tag">All 13 no-website businesses (NO email by definition), Odontosorno (NO email), Antuka (NO email), Panca (NO email)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>Professional Email Setup</strong> — Google Workspace or Microsoft 365 with custom domain: info@businessname.cl</li>
+        <li><strong>For Clínica Alviva</strong> — add visible contact info to their enterprise Shopify stack. They have everything except the most basic element: how to reach them</li>
+        <li><strong>For DOUBLE FAILURE hotels</strong> — new website + professional email in one package. $497/mo starter tier</li>
+        <li><strong>SPF/DKIM/DMARC</strong> — email authentication to prevent spam filtering for all client domains</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 5: NO ONLINE BOOKING -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>📅 Gap #5: No Online Booking / Reservation System</h3>
+      <span class="severity severity-critical">CRITICAL — ~26 OF 40 = 65% / LAKE DISTRICT GATEWAY CAN'T TAKE BOOKINGS</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>Approximately 26 of 40 businesses (65%) have <strong>no online booking capability</strong>. In a Lake District gateway city where tourists need to book hotels, restaurants, dental appointments, and beauty treatments — two-thirds of businesses force customers to call, WhatsApp, or walk in. Even some with booking systems have problems: <strong>Nomada 870</strong> is entirely dependent on Booking.com (15-25% commission per booking). <strong>Apart Hotel Blumenau</strong> uses WuBook but on WordPress 5.2.21 (severely outdated). The dental sector has the best booking adoption (Dentalink, Dentidesk, Dentalsoft) but restaurants and tourism lag far behind.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>67% of consumers</strong> prefer to book online rather than calling (Zenoti, 2025)</li>
+          <li><strong>Tourism sector booking crisis</strong> — Cabañas Mahuida (NO website), Puerto Chalupa (NO website), Hostería Entre Lagos (NO website), Lagos del Sur (DEAD), Bilbao (DEAD). Five tourism businesses near the Lake District's biggest attractions can't take bookings at all. Nomada 870 and Hotel Waeger depend on Booking.com (15-25% commission). Only Blumenau has WuBook on-site (but on WP 5.2.21 — 4+ years outdated)</li>
+          <li><strong>Booking.com dependency</strong> — Nomada 870 Work Hotel is 100% Booking.com dependent. Every booking pays 15-25% commission. At Lake District high-season rates ($80-150/night), that's $12-$37 per night to Booking.com instead of the owner</li>
+          <li><strong>Restaurant sector: near-zero booking</strong> — Ruta del Asador (#1 TripAdvisor) has WP + WooCommerce but no online reservation. El Galpón, Cook's, Gustoso, Gallardía, Wufehr, Gus (4.8★!) — none can take table reservations online. In a city famous for beef and German cuisine, you can't book a table at any top restaurant</li>
+          <li><strong>Beauty sector split</strong> — Clínica Alviva has Reservo, Antuka has WC Appointments, but Tony's, Ricardo, Mr Jon have NOTHING. The beauty sector is bifurcated between enterprise (Alviva) and zero-digital (Tony's)</li>
+          <li><strong>Dental sector best-in-city</strong> — Uno Salud (Dentalsoft), Dental Art (custom CleverDigital), Vanguardia (Dentidesk), CRD (Dentalink). 4 of 7 dental clinics have booking — best adoption rate in Osorno</li>
+          <li>A Lake District tourist planning a trip from Santiago <strong>books everything in advance</strong>. No booking = no advance reservation = dependency on walk-in traffic only</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost after-hours bookings (67% prefer online)</span><span class="amount">-$12,000</span></div>
+        <div class="loss-line"><span class="desc">Booking.com commission (15-25%)</span><span class="amount">-$10,000</span></div>
+        <div class="loss-line"><span class="desc">Lake District advance booking lost</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">No-shows without deposit system</span><span class="amount">-$4,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$34,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (~26 with no booking — 65%)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">ALL 13 no-website businesses (no booking by definition)</span>
+        <span class="affected-tag critical">Sonesta (403 = no booking access), Lagos del Sur (DEAD), Bilbao (DEAD)</span>
+        <span class="affected-tag critical">Ruta del Asador (WP/WooCommerce but NO reservation), Hotel Waeger (Booking.com dependent)</span>
+        <span class="affected-tag critical">Panca (PedidosYa dependent, NO own booking), Cervecería Märzen (WhatsApp only)</span>
+        <span class="affected-tag">Vet Mirasur (DEAD), Lotus Pet (Webnode, no booking), Dermaspa (no booking), Divina (custom PHP, no booking)</span>
+        <span class="affected-tag">Barbería Hernández (minimal site, no booking), Palumbo (Jumpseller e-comm, no appointment booking)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>AI Booking Agent ($997/mo growth)</strong> — 24/7 automated booking for hotels, restaurants, clinics, salons</li>
+        <li><strong>For tourism operators</strong> — direct booking engine to escape Booking.com commission. Save $12-37 per night</li>
+        <li><strong>For restaurants</strong> — table reservation system for Ruta del Asador, Gus, Wufehr. Capture German heritage food tourists who plan ahead</li>
+        <li><strong>For beauty/health</strong> — integrated appointment booking with automated reminders to reduce no-shows</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 6: NO/WEAK SOCIAL MEDIA -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>📱 Gap #6: No or Weak Social Media Presence</h3>
+      <span class="severity severity-high">HIGH — 15 OF 40 = 37.5% / DEAD GOOGLE+ LINK + ZERO-SOCIAL VET</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>15 of 40 businesses (37.5%) have <strong>no social media or severely weak presence</strong>. The standout cases: <strong>Vet's Home</strong> — a home-visit veterinary service — has <strong>ZERO social media</strong> despite having a functional website with Elementor + Smart Slider + Formidable Forms. A vet that comes to your home but can't be found on Instagram or Facebook. <strong>Divina Belleza & Spa</strong> still has a <strong>Google+ link on their website</strong> — Google+ shut down in April 2019, over 7 years ago. Their website literally links to a dead social platform. <strong>Dermaspa</strong> has placeholder social icons with <strong>NO actual links</strong> — the icons exist but go nowhere.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>Vet's Home: functional website, ZERO social media</strong> — servicio@vetshome.cl, WP/Elementor/OceanWP, Smart Slider, Formidable Forms. A proper website build with NO social channels. A home-visit vet model that depends on trust and word-of-mouth but can't build community on the platforms where 78% of pet owners share content about their pets (Meta, 2025)</li>
+          <li><strong>Divina Belleza: GOOGLE+ LINK (dead since April 2019!)</strong> — divina.cl still has a Google+ social link in the footer/header. Google+ shut down over 7 years ago. The link goes to a dead platform. Also has dead UA-59698658-1 analytics. A beauty spa frozen in 2019 — both analytics and social links are from a bygone era</li>
+          <li><strong>Dermaspa: PLACEHOLDER social icons — NO actual links!</strong> — the social media icons exist in the template but link to nothing. Visitors see Facebook/Instagram icons and click... nowhere. A "Restaurant Recipe" WordPress theme on a medical spa with fake social links</li>
+          <li><strong>Hotel Waeger: Facebook ONLY</strong> — a hotel with ZERO analytics and only Facebook. No Instagram, no TikTok, no YouTube. Lake District tourists are visual — they want to see the hotel on Instagram before booking</li>
+          <li><strong>Multiple dead-site businesses have NO social</strong> — Lagos del Sur, Bilbao, Mirasur: dead websites AND no social media fallback. Completely invisible online</li>
+          <li>Instagram and TikTok drive <strong>60%+ of tourism discovery</strong> for Lake District destinations</li>
+          <li>Osorno's German heritage food scene (Märzen, Wufehr, Ruta del Asador) is <strong>highly visual and shareable</strong> — bratwurst, craft beer, tártaros — perfect for social media but underutilized</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost social discovery (60%+ tourism via IG/TikTok)</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">No community building / referrals</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">Dead social links = brand damage</span><span class="amount">-$3,000</span></div>
+        <div class="loss-line"><span class="desc">No user-generated content amplification</span><span class="amount">-$3,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$19,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (15 with no/weak social — 37.5%)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Vet's Home (functional website + ZERO social media!)</span>
+        <span class="affected-tag critical">Divina Belleza & Spa (GOOGLE+ LINK — dead since April 2019! + dead UA analytics)</span>
+        <span class="affected-tag critical">Dermaspa (Placeholder social icons — NO actual links! "Restaurant Recipe" theme)</span>
+        <span class="affected-tag critical">Hotel Waeger (Facebook ONLY, ZERO analytics, no IG/TikTok for visual Lake District marketing)</span>
+        <span class="affected-tag">Hotel Lagos del Sur (DEAD site + no social fallback), Hotel Bilbao (DEAD + no social)</span>
+        <span class="affected-tag">Vet Mirasur (DEAD + FB only), Cabañas Mahuida (NO website, NO social), Puerto Chalupa (NO site, minimal)</span>
+        <span class="affected-tag">Mr Jon Spa (FB only), Tony's Barbershop (minimal), Hostería Entre Lagos (no social)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>Social Media Management</strong> — professional IG + TikTok + FB presence for Lake District visual marketing</li>
+        <li><strong>For Vet's Home</strong> — build IG/FB presence for home-visit vet. Before/after pet care, happy clients, trust-building content</li>
+        <li><strong>For Divina</strong> — remove dead Google+ link, build active IG/TikTok presence. Update dead UA analytics to GA4</li>
+        <li><strong>For Dermaspa</strong> — replace placeholder icons with real social profiles. Fix the "Restaurant Recipe" theme while at it</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 7: ZERO SEO / DEAD ANALYTICS -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>📊 Gap #7: Zero SEO Strategy / Dead Analytics</h3>
+      <span class="severity severity-critical">CRITICAL — ~27 OF 40 = 67.5% / DEAD UA + WRONG THEME + DUAL DEAD PIXELS</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>Approximately 27 of 40 businesses (67.5%) have <strong>zero SEO strategy, no analytics, or dead/legacy tracking</strong>. Even businesses WITH analytics face problems: <strong>Dental Art has UA-165930680-1 — DEAD since July 2023</strong> + GTM-NHM4WRG + MonsterInsights — running blind for ~3 years. <strong>Divina has UA-59698658-1 — DEAD</strong> + FB Pixel. <strong>Palumbo has DUAL GTM (GTM-TC9M25B + GTM-TGX7CC7Z) + DUAL FB Pixel (1551844338341101 + 1142093431431892) + dead UA-119906156-1 + Piwik</strong> — the most chaotic analytics stack in Osorno. Meanwhile, several businesses with websites have ZERO tracking: Hotel Waeger, Apart Hotel Blumenau, Clínica Dental CRD, Panca.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>Clínica Dental Art: UA-165930680-1 DEAD since July 2023</strong> — a 10+ year dental clinic running completely blind for ~3 years. Has GTM-NHM4WRG configured but the primary analytics (Universal Analytics) is dead. MonsterInsights plugin still active but sending data nowhere. Custom booking at dev.cleverdigital.cl/dentalart/ — they can't measure booking conversion</li>
+          <li><strong>Divina Belleza: UA-59698658-1 DEAD + Google+ link</strong> — dead analytics (since July 2023) + dead social platform link (since April 2019). A beauty spa where every digital signal is from the past. FB Pixel still active but UA is dead. FB SDK loaded but the rest of the analytics stack is a museum</li>
+          <li><strong>Palumbo: MOST CHAOTIC analytics stack</strong> — DUAL GTM containers (TC9M25B + TGX7CC7Z, both firing simultaneously), DUAL Facebook Pixels (1551844338341101 + 1142093431431892, both firing), dead UA-119906156-1, AND Piwik. Four different tracking systems with duplicates, dead codes, and overlapping data. A national chain salon at Plaza Yungay 645 with analytics that contradict each other</li>
+          <li><strong>Hotel Waeger: ZERO analytics</strong> — Facebook-only hotel with no tracking whatsoever. Can't measure how many people visit the site, where they come from, or what they do</li>
+          <li><strong>Apart Hotel Blumenau: ZERO analytics</strong> — WP 5.2.21 + WuBook + WPML + Revslider, German heritage apart hotel, 36 units, ZERO tracking. Invested in booking tech (WuBook) and multilingual (WPML) but never installed analytics</li>
+          <li><strong>Clínica Dental CRD: ZERO analytics</strong> — has Dentalink booking + Schema.org structured data + professional email (hola@clinicadentalcrd.cl) but ZERO analytics. Good booking, good SEO markup, zero visibility into performance</li>
+          <li><strong>Panca: ZERO analytics</strong> — WP 6.9.4 + Elementor Pro + GeneratePress, Peruvian restaurant on PedidosYa. No analytics means they can't measure their PedidosYa dependency vs. direct traffic</li>
+          <li><strong>Best dental Schema.org adoption of any city</strong> — multiple Osorno dental clinics have Organization, WebSite, SearchAction, BreadcrumbList, LocalBusiness, PostalAddress, ContactPoint Schema.org. Best structured data adoption we've seen, yet most still lack proper GA4 migration</li>
+          <li><strong>Uno Salud = BEST POSITIONED in all Osorno</strong> — GTM-W92JF24J + GA + Microsoft Clarity rf0iqdz3bt + Brevo email marketing + LiteSpeed + Dentalsoft + Schema.org. The only business with a near-complete analytics + email marketing stack. Brevo = closest thing to CRM in Osorno</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Can't measure what's working = blind spend</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">No SEO = invisible to Google organic</span><span class="amount">-$10,000</span></div>
+        <div class="loss-line"><span class="desc">Dead UA analytics = 3 years blind</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">No Schema.org = poor rich results</span><span class="amount">-$4,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$28,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (~27 zero SEO/dead analytics — 67.5%)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Clínica Dental Art (UA-165930680-1 DEAD ~3 years + GTM + MonsterInsights, blind!)</span>
+        <span class="affected-tag critical">Divina Belleza (UA-59698658-1 DEAD + Google+ DEAD — frozen in 2019!)</span>
+        <span class="affected-tag critical">Palumbo (DUAL GTM + DUAL FB Pixel + dead UA + Piwik — MOST CHAOTIC stack!)</span>
+        <span class="affected-tag critical">Hotel Waeger (ZERO analytics, Facebook only)</span>
+        <span class="affected-tag critical">Apart Hotel Blumenau (ZERO analytics despite WuBook + WPML)</span>
+        <span class="affected-tag critical">Clínica Dental CRD (ZERO analytics despite Dentalink + Schema.org)</span>
+        <span class="affected-tag critical">Panca Sabor Peruano (ZERO analytics, PedidosYa dependent)</span>
+        <span class="affected-tag">Dermaspa (ZERO analytics + "Restaurant Recipe" theme), Barbería King (UENIWEB GTM only, not own)</span>
+        <span class="affected-tag">All 13 no-website businesses, Lagos del Sur (DEAD), Bilbao (DEAD), Mirasur (DEAD)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>GA4 Migration</strong> — move Dental Art + Divina from dead UA to GA4. Clean up Palumbo's chaotic dual-everything stack</li>
+        <li><strong>Analytics Setup</strong> — GA4 + GTM + Search Console for all businesses with zero tracking</li>
+        <li><strong>AI SEO ($997/mo growth)</strong> — structured data, local schema, keyword optimization for Lake District, German heritage, beef capital searches</li>
+        <li><strong>Microsoft Clarity</strong> — heatmaps + session recordings (free tool, high impact) for conversion optimization</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 8: NO CRM -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>🗃️ Gap #8: No CRM / Customer Data System</h3>
+      <span class="severity severity-critical">CRITICAL — 39 OF 40 = 97.5% / BREVO EMAIL MARKETING ≠ CRM</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>39 of 40 businesses (97.5%) have <strong>absolutely no customer relationship management system</strong>. The ONLY partial exception: <strong>Uno Salud Osorno</strong> uses <strong>Brevo (formerly Sendinblue) email marketing platform</strong> — the closest thing to CRM in all of Osorno, but Brevo is primarily an email marketing tool, not a full CRM. No business in Osorno has a dedicated CRM like HubSpot, Salesforce, Bitrix24, or even a basic contact database with segmentation.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>97.5% have zero CRM</strong> — near-absolute, third-worst after Talca (100%) and Chillán (100%). Osorno avoids the absolute-zero distinction only because Uno Salud (a national chain) deploys Brevo for email campaigns</li>
+          <li><strong>Lake District tourism = repeat visitors</strong> — tourists who visit Volcán Osorno, Puyehue, or Entre Lagos frequently return. Ski tourists come annually. Without CRM, no hotel or restaurant can recognize returning guests, offer loyalty deals, or send seasonal promotions. Every tourist is treated as a first-time visitor, every time</li>
+          <li><strong>Dental patients = lifetime value $5,000+</strong> — Osorno has strong dental infrastructure (4+ clinics with proper booking systems) but NONE track patient lifetime value, reactivation, or referral. A patient who moves from braces to whitening to implants over 10 years is worth $5,000+ — completely untracked</li>
+          <li><strong>German heritage food tourists are SUPER HIGH VALUE</strong> — visitors who come specifically for Märzen brewery, Rincón Wufehr crudos, and Ruta del Asador are repeat customers with high spend. Zero CRM means zero ability to invite them back for seasonal menus, beer releases, or special events</li>
+          <li><strong>Beauty/salon clients visit 6-8x per year</strong> — Clínica Alviva has enterprise Shopify stack but no CRM to track client preferences, treatment history, or rebooking cadence. Antuka has 10+ years of clients (since 2015) with zero data</li>
+          <li><strong>Uno Salud Brevo = email campaigns, NOT relationship management</strong> — Brevo handles email blasts but doesn't track patient interactions, appointment history, or lifetime value. It's the best Osorno has, but it's an email tool being used where a CRM should be</li>
+          <li>Businesses with CRM retain <strong>27% more customers</strong> (Salesforce, 2025)</li>
+          <li><strong>Cost of acquiring a new customer is 5-7x higher</strong> than retaining an existing one. Without CRM, every customer interaction starts from scratch</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost repeat business (can't recognize returnees)</span><span class="amount">-$10,000</span></div>
+        <div class="loss-line"><span class="desc">No reactivation of lapsed customers</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">No seasonal/loyalty campaigns</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">Zero lifetime value tracking</span><span class="amount">-$4,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$28,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (39 of 40 — 97.5%)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">ALL 40 businesses except Uno Salud (Brevo = email marketing, NOT full CRM)</span>
+        <span class="affected-tag critical">Clínica Alviva (Enterprise Shopify stack — NO CRM! Best tech in beauty sector, zero client tracking)</span>
+        <span class="affected-tag critical">Ruta del Asador (WP/WooCommerce — NO CRM! #1 TripAdvisor, zero repeat guest tracking)</span>
+        <span class="affected-tag critical">Antuka (10+ years since 2015 — NO CRM! Decade of clients, zero data)</span>
+        <span class="affected-tag">Every hotel, restaurant, dental clinic (except Uno Salud email), vet, and beauty business</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>CRM Implementation ($997/mo growth)</strong> — HubSpot or custom CRM with pipeline, segmentation, automated follow-up</li>
+        <li><strong>For Lake District tourism</strong> — recognize returning ski/thermal tourists, send seasonal promotions, build loyalty programs</li>
+        <li><strong>For dental clinics</strong> — patient lifecycle tracking, reactivation campaigns, referral programs</li>
+        <li><strong>Lifecycle Email ($997/mo)</strong> — welcome sequences, appointment reminders, review requests, seasonal campaigns</li>
+        <li><strong>For Uno Salud</strong> — upgrade Brevo to full CRM integration with Dentalsoft patient data</li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
+<!-- ========== MARKET-BY-MARKET BREAKDOWN ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">📈</span> Market-by-Market Revenue Impact</h2>
+  <p class="section-sub">How each of Osorno's four market verticals is affected by digital gaps — from the catastrophic 40% dead/forbidden tourism sector to the surprisingly strong dental Schema.org adoption.</p>
+
+  <div class="market-grid">
+    <div class="market-card">
+      <h3><span class="icon">🏨</span> Tourism (10 businesses)</h3>
+      <div class="market-metric"><span class="label">Estimated annual loss</span><span class="value red">-$550,000</span></div>
+      <div class="market-metric"><span class="label">Dead/forbidden/SSL sites</span><span class="value red">4 of 10 (40% — WORST!)</span></div>
+      <div class="market-metric"><span class="label">No website</span><span class="value red">3 of 10 (30%)</span></div>
+      <div class="market-metric"><span class="label">DOUBLE FAILURES (dead + free email)</span><span class="value red">2 businesses</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">10 of 10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Key issue</span><span class="value red">5-star Sonesta 403 + 2 DOUBLE FAILURE hotels</span></div>
+      <div class="pbar"><div class="pbar-fill red" style="width:92%"></div></div>
+      <div class="solution-box">
+        <h5>NWM Priority</h5>
+        <ul>
+          <li>Fix 5-star Sonesta 403 — most impactful single fix in all Osorno</li>
+          <li>Rebuild Lagos del Sur + Bilbao with professional email + direct booking</li>
+          <li>Create sites for 3 Puyehue-area operators to capture Lake District traffic</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="market-card">
+      <h3><span class="icon">🍽️</span> Restaurants (10 businesses)</h3>
+      <div class="market-metric"><span class="label">Estimated annual loss</span><span class="value red">-$520,000</span></div>
+      <div class="market-metric"><span class="label">No website</span><span class="value red">6 of 10 (60%)</span></div>
+      <div class="market-metric"><span class="label">No online reservations</span><span class="value red">10 of 10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Google Sites / fu.do only</span><span class="value red">2 businesses</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">10 of 10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Key issue</span><span class="value red">4.8★ Gus NO site + Märzen on Google Sites</span></div>
+      <div class="pbar"><div class="pbar-fill red" style="width:87%"></div></div>
+      <div class="solution-box">
+        <h5>NWM Priority</h5>
+        <ul>
+          <li>Gus (4.8★) needs website IMMEDIATELY — highest-rated restaurant invisible online</li>
+          <li>Rincón Wufehr: German heritage brand site for the best crudos in the region</li>
+          <li>Cervecería Märzen: migrate off Google Sites, add booking for Puyehue road tourists</li>
+          <li>Ruta del Asador: add online reservations to existing WP/WooCommerce site</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="market-card">
+      <h3><span class="icon">🏥</span> Health / Vet (10 businesses)</h3>
+      <div class="market-metric"><span class="label">Estimated annual loss</span><span class="value red">-$500,000</span></div>
+      <div class="market-metric"><span class="label">Dead sites</span><span class="value red">1 of 10 (Mirasur ECONNREFUSED)</span></div>
+      <div class="market-metric"><span class="label">Gmail email</span><span class="value red">3 of 10 (30%)</span></div>
+      <div class="market-metric"><span class="label">Best dental Schema.org in 14 cities</span><span class="value green">Multiple clinics</span></div>
+      <div class="market-metric"><span class="label">Uno Salud Brevo (closest to CRM)</span><span class="value green">1 of 10</span></div>
+      <div class="market-metric"><span class="label">Key issue</span><span class="value red">Dead UA at Dental Art + Webnode vet + zero-social vet</span></div>
+      <div class="pbar"><div class="pbar-fill yellow" style="width:72%"></div></div>
+      <div class="solution-box">
+        <h5>NWM Priority</h5>
+        <ul>
+          <li>Dental Art: migrate dead UA to GA4. 10+ year practice running blind</li>
+          <li>Vet's Home: build social media presence (ZERO social despite good website)</li>
+          <li>Lotus Pet: migrate off Webnode to professional site with booking + professional email</li>
+          <li>Uno Salud: upgrade Brevo → full CRM integration</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="market-card">
+      <h3><span class="icon">💅</span> Beauty / Wellness (10 businesses)</h3>
+      <div class="market-metric"><span class="label">Estimated annual loss</span><span class="value red">-$530,000</span></div>
+      <div class="market-metric"><span class="label">No website</span><span class="value red">3 of 10 (30%)</span></div>
+      <div class="market-metric"><span class="label">Dead domain / free subdomain</span><span class="value red">1 of 10 (Barbería King)</span></div>
+      <div class="market-metric"><span class="label">Enterprise stack, NO contact</span><span class="value red">Clínica Alviva (Shopify!)</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">10 of 10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Key issue</span><span class="value red">Alviva NO contact + Divina Google+ + Dermaspa wrong theme</span></div>
+      <div class="pbar"><div class="pbar-fill red" style="width:82%"></div></div>
+      <div class="solution-box">
+        <h5>NWM Priority</h5>
+        <ul>
+          <li>Alviva: add email + phone to enterprise Shopify stack. Most sophisticated = zero contact</li>
+          <li>Divina: remove Google+ link (dead 7 years), migrate dead UA to GA4</li>
+          <li>Dermaspa: replace "Restaurant Recipe" theme with proper medical spa template. Add real social links</li>
+          <li>Barbería King: resurrect own domain, migrate off UENIWEB free subdomain</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== MASTER SUMMARY TABLE ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">📋</span> Osorno Master Gap Summary</h2>
+  <p class="section-sub">All 8 gaps ranked by severity with business counts, percentages, and revenue impact.</p>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Gap</th>
+        <th>Severity</th>
+        <th>Businesses Affected</th>
+        <th>%</th>
+        <th>Loss/Business/Year</th>
+        <th>Worst Case</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Dead/Forbidden/SSL sites</td>
+        <td class="red">CRITICAL</td>
+        <td>4-6</td>
+        <td class="red">10-15%</td>
+        <td class="red">-$54,000</td>
+        <td>Sonesta 5-star 403 + 2 DOUBLE FAILURES</td>
+      </tr>
+      <tr>
+        <td>No website</td>
+        <td class="red">CRITICAL</td>
+        <td>13</td>
+        <td class="red">32.5%</td>
+        <td class="red">-$39,000</td>
+        <td>Gus 4.8★ NO site + 3 Puyehue operators</td>
+      </tr>
+      <tr>
+        <td>Free subdomain / problematic platform</td>
+        <td class="red">HIGH</td>
+        <td>3</td>
+        <td>7.5%</td>
+        <td class="red">-$27,000</td>
+        <td>Märzen on Google Sites + King on UENIWEB</td>
+      </tr>
+      <tr>
+        <td>Gmail/free email or no email</td>
+        <td class="red">CRITICAL</td>
+        <td>27</td>
+        <td class="red">67.5%</td>
+        <td class="red">-$21,000</td>
+        <td>Alviva enterprise Shopify NO contact!</td>
+      </tr>
+      <tr>
+        <td>No online booking</td>
+        <td class="red">CRITICAL</td>
+        <td>~26</td>
+        <td class="red">65%</td>
+        <td class="red">-$34,000</td>
+        <td>Lake District gateway can't take bookings</td>
+      </tr>
+      <tr>
+        <td>No/weak social media</td>
+        <td class="red">HIGH</td>
+        <td>15</td>
+        <td class="red">37.5%</td>
+        <td class="red">-$19,000</td>
+        <td>Divina Google+ link + Vet's Home zero social</td>
+      </tr>
+      <tr>
+        <td>Zero SEO / dead analytics</td>
+        <td class="red">CRITICAL</td>
+        <td>~27</td>
+        <td class="red">67.5%</td>
+        <td class="red">-$28,000</td>
+        <td>Dental Art dead UA 3yrs + Palumbo dual-everything chaos</td>
+      </tr>
+      <tr>
+        <td>No CRM</td>
+        <td class="red">CRITICAL</td>
+        <td>39</td>
+        <td class="red">97.5%</td>
+        <td class="red">-$28,000</td>
+        <td>Uno Salud Brevo = only email marketing (not CRM)</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ========== CROSS-CITY COMPARISON ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">⚖️</span> Cross-City Gap Comparison: All 14 Markets Analyzed</h2>
+  <p class="section-sub">How Osorno's digital gaps compare across all fourteen cities analyzed — revealing that the Lake District gateway has the WORST tourism sector web failure rate (40% dead/forbidden), unique DOUBLE FAILURE hotels (dead site + free email), the highest-rated restaurant (4.8★) invisible, the most chaotic analytics stack (Palumbo), the most sophisticated beauty e-commerce (Alviva) with NO contact info, and a dead Google+ link surviving 7+ years. Now covering 560 businesses across 14 Chilean cities with a combined $28.82M in annual revenue lost.</p>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Osorno (40)</th>
+        <th>Santiago (40)</th>
+        <th>Valparaiso (40)</th>
+        <th>Antofagasta (40)</th>
+        <th>Iquique (40)</th>
+        <th>La Serena (40)</th>
+        <th>Rancagua (40)</th>
+        <th>Concepcion (40)</th>
+        <th>Temuco (40)</th>
+        <th>P. Montt (40)</th>
+        <th>Arica (40)</th>
+        <th>Copiapo (40)</th>
+        <th>Talca (40)</th>
+        <th>Chillan (40)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Total estimated annual loss</td>
+        <td class="red">$2.1M</td>
+        <td class="red">$2.4M</td>
+        <td class="red">$2.1M</td>
+        <td class="red">$2.2M</td>
+        <td class="red">$2.1M</td>
+        <td class="red">$1.82M</td>
+        <td class="red">$1.95M</td>
+        <td class="red">$1.9M</td>
+        <td class="red">$2.0M</td>
+        <td class="red">$2.05M</td>
+        <td class="red">$2.15M</td>
+        <td class="red">$2.1M</td>
+        <td class="red">$1.95M</td>
+        <td class="red">$2.0M</td>
+      </tr>
+      <tr>
+        <td>Average loss per business/year</td>
+        <td class="red">$52,500</td>
+        <td class="red">$60,000</td>
+        <td class="red">$52,500</td>
+        <td class="red">$55,000</td>
+        <td class="red">$52,500</td>
+        <td class="red">$45,500</td>
+        <td class="red">$48,750</td>
+        <td class="red">$47,500</td>
+        <td class="red">$50,000</td>
+        <td class="red">$51,250</td>
+        <td class="red">$53,750</td>
+        <td class="red">$52,500</td>
+        <td class="red">$48,750</td>
+        <td class="red">$50,000</td>
+      </tr>
+      <tr>
+        <td>No website</td>
+        <td class="red">13 (32.5%)</td>
+        <td>5 (12.5%)</td>
+        <td>6 (15%)</td>
+        <td>7 (17.5%)</td>
+        <td>8 (20%)</td>
+        <td class="red">17 (42.5%)</td>
+        <td class="red">11 (27.5%)</td>
+        <td>6 (15%)</td>
+        <td>7 (17.5%)</td>
+        <td>6 (15%)</td>
+        <td class="red">15 (37.5%)</td>
+        <td class="red">12 (30%)</td>
+        <td class="red">12 (30%)</td>
+        <td class="red">14 (35%)</td>
+      </tr>
+      <tr>
+        <td>Broken/down/blocked sites</td>
+        <td class="red">4-6 (10-15%)</td>
+        <td>1 (2.5%)</td>
+        <td>2 (5%)</td>
+        <td>5 (12.5%)</td>
+        <td class="red">6 (15%)</td>
+        <td>2 (5%)</td>
+        <td class="red">8 (20%)</td>
+        <td>1 (2.5%)</td>
+        <td class="red">6 (15%)</td>
+        <td class="red">5 (12.5%)</td>
+        <td>3 (7.5%)</td>
+        <td class="red">7 (17.5%)</td>
+        <td>2 (5%)</td>
+        <td class="red">5 (12.5%)</td>
+      </tr>
+      <tr>
+        <td>Gmail/Hotmail/personal / no email</td>
+        <td class="red">27 (67.5%)</td>
+        <td>20 (50%)</td>
+        <td>22 (55%)</td>
+        <td class="red">26 (65%)</td>
+        <td>22 (55%)</td>
+        <td>22 (55%)</td>
+        <td class="red">28 (70%)</td>
+        <td>18 (45%)</td>
+        <td>24 (60%)</td>
+        <td>21 (52.5%)</td>
+        <td class="red">26 (65%)</td>
+        <td class="red">26 (65%)</td>
+        <td class="red">26 (65%)</td>
+        <td class="red">28 (70%)</td>
+      </tr>
+      <tr>
+        <td>No online booking</td>
+        <td class="red">26 (65%)</td>
+        <td class="red">30 (75%)</td>
+        <td>28 (70%)</td>
+        <td>21 (52.5%)</td>
+        <td>22 (55%)</td>
+        <td>28 (70%)</td>
+        <td>25 (62.5%)</td>
+        <td>22 (55%)</td>
+        <td>22 (55%)</td>
+        <td>26 (65%)</td>
+        <td>26 (65%)</td>
+        <td class="red">27 (67.5%)</td>
+        <td class="red">29 (72.5%)</td>
+        <td class="red">28 (70%)</td>
+      </tr>
+      <tr>
+        <td>No SEO strategy</td>
+        <td>27 (67.5%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td>33 (82.5%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">35 (87.5%)</td>
+        <td>33 (82.5%)</td>
+        <td>27 (67.5%)</td>
+      </tr>
+      <tr>
+        <td>No CRM</td>
+        <td class="red">39 (97.5%)</td>
+        <td>36 (90%)</td>
+        <td>36 (90%)</td>
+        <td class="red">38 (95%)</td>
+        <td>37 (92.5%)</td>
+        <td class="red">38 (95%)</td>
+        <td>37 (92.5%)</td>
+        <td>36 (90%)</td>
+        <td class="red">38 (95%)</td>
+        <td>37 (92.5%)</td>
+        <td>37 (92.5%)</td>
+        <td>37 (92.5%)</td>
+        <td class="red">40 (100%)</td>
+        <td class="red">40 (100%)</td>
+      </tr>
+      <tr>
+        <td>Unique vulnerability</td>
+        <td class="red">5★ hotel 403 + 2 DOUBLE FAILS + 4.8★ no site + Alviva no contact</td>
+        <td class="red">95% no SEO in biggest market</td>
+        <td class="red">100% health = no booking</td>
+        <td class="red">5 broken sites + Wix FREE dental</td>
+        <td class="red">3 SSL errors on 1 beach strip</td>
+        <td class="red">42.5% = no website at all</td>
+        <td class="red">4 dead servers + 6/10 rest. no site</td>
+        <td class="red">24hr ER vet with NO website</td>
+        <td class="red">60% restaurants no website</td>
+        <td class="red">24hr ER vet 403 + barber email TYPO</td>
+        <td class="red">2 DOUBLE FAILURES + 50yr HOTMAIL</td>
+        <td class="red">7 broken (HIGHEST!) + tech paradox + first CRM</td>
+        <td class="red">100% NO CRM (FIRST!) + 3yr blind ads + L'Oreal no site</td>
+        <td class="red">#1 TripAdvisor no site + raw IP vet + CAPI+Gmail</td>
+      </tr>
+      <tr>
+        <td>NWM opportunity (10 clients)</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+      </tr>
+      <tr>
+        <td>Client ROI</td>
+        <td class="green">4.4x</td>
+        <td class="green">4.9x</td>
+        <td class="green">4.6x</td>
+        <td class="green">4.6x</td>
+        <td class="green">4.4x</td>
+        <td class="green">3.9x</td>
+        <td class="green">4.1x</td>
+        <td class="green">4.0x</td>
+        <td class="green">4.2x</td>
+        <td class="green">4.3x</td>
+        <td class="green">4.5x</td>
+        <td class="green">4.4x</td>
+        <td class="green">4.1x</td>
+        <td class="green">4.2x</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="gap-card" style="margin-top:24px;">
+    <div class="gap-header">
+      <h3>🔎 Cross-City Pattern Analysis</h3>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>Universal patterns (all 14 cities)</h4>
+        <ul>
+          <li><strong>SEO is dead everywhere</strong> — 67.5-97.5% of businesses across all 14 cities have zero SEO strategy. Osorno + Chillán tied at 67.5% = the LOWEST (best) rate, driven by competitive dental sectors with Schema.org adoption</li>
+          <li><strong>CRM adoption is near zero</strong> — 90-100% have no customer data system. Talca + Chillán at 100% absolute zero. Copiapó's Estetika Medica (Bitrix24) remains the sole true CRM across 560 businesses</li>
+          <li><strong>Booking systems are absent</strong> — 52-75% can't take online bookings</li>
+          <li><strong>Email professionalism is low</strong> — 45-70% use Gmail/Hotmail or have no email</li>
+          <li><strong>Total across 560 businesses in 14 cities: $28.82M in annual revenue lost</strong></li>
+        </ul>
+        <h4>Osorno-specific findings</h4>
+        <ul>
+          <li><strong>40% tourism dead/forbidden — WORST tourism sector failure rate across all 14 cities</strong>. Sonesta 5-star 403, Lagos del Sur DEAD + free email, Bilbao DEAD + Gmail, DA Hotels SSL. No other city has 40% of its hotel sector non-functional. This in a Lake District gateway city where tourism is the primary economy</li>
+          <li><strong>2 DOUBLE FAILURE hotels — dead site + consumer-grade email</strong>. Lagos del Sur (ECONNREFUSED + 123.cl free email) and Bilbao (ECONNREFUSED + Gmail). Two simultaneous failures per business — both the website and email are broken/unprofessional. This pattern is unique to Osorno across all 14 cities</li>
+          <li><strong>Gus Cocina de Mercado: 4.8★ — HIGHEST-rated restaurant NO website</strong>. The single highest individual restaurant rating across all 560 businesses (tied). Contemporary farm-to-table, invisible online. In the "capital of meat" and German heritage food city, the best restaurant can't be found on Google</li>
+          <li><strong>Clínica Alviva: MOST SOPHISTICATED beauty e-commerce — NO email, NO phone</strong>. Shopify + GA4 + GTM + FB Pixel + TikTok Pixel + Reservo + Mercado Pago + hCaptcha + Schema.org. The most advanced beauty tech stack across ALL 560 businesses in 14 cities — with zero visible contact information. The most extreme technology-vs-contact paradox we've documented</li>
+          <li><strong>Cervecería Märzen: German craft brewery on Google Sites</strong>. A 4.5★/108 brewery on the Puyehue road — every tourist to Puyehue hot springs drives past — using a free platform designed for corporate intranets. WhatsApp + Instagram + Linktree doing the work of a professional website</li>
+          <li><strong>Divina Belleza: Google+ link (dead since April 2019!)</strong>. A beauty spa still linking to a social platform that shut down 7+ years ago. Combined with dead UA analytics. The website is a time capsule from 2019</li>
+          <li><strong>Dermaspa: "Restaurant Recipe" WordPress theme on a MEDICAL SPA</strong>. The only Soprano XL laser clinic in the region uses a food industry WordPress theme. Placeholder social icons link nowhere. ZERO analytics. A premium medical service wrapped in a fast-food website template</li>
+          <li><strong>Palumbo: MOST CHAOTIC analytics stack</strong>. Dual GTM (TC9M25B + TGX7CC7Z) + dual FB Pixel (2 different IDs, both firing) + dead UA + Piwik. Four overlapping tracking systems with duplicates. National chain salon with analytics that contradict each other</li>
+          <li><strong>UENIWEB GTM-TG56DMZ injection confirmed cross-city</strong>. Same GTM code on Barbería King Osorno and Clínica Vet Ankupay in Talca. UENIWEB injects this GTM container across ALL their free subdomain sites — businesses on UENIWEB have zero analytics of their own</li>
+          <li><strong>Best dental Schema.org adoption of any city</strong>. Multiple Osorno dental clinics (CRD, Plaza Bühler, Vanguardia, Dental Art, Odontosorno) deploy Organization, WebSite, LocalBusiness, BreadcrumbList, PostalAddress, ContactPoint, SearchAction Schema.org. Best structured data density we've seen — a competitive dental market forcing digital investment</li>
+          <li><strong>Vet's Home: functional website, ZERO social media</strong>. WP + Elementor + Smart Slider + Formidable Forms + OceanWP + professional email (servicio@vetshome.cl). A proper website build for a home-visit vet service — but absolutely no social media presence. The only business across 14 cities with a good website and literally zero social channels</li>
+          <li><strong>Uno Salud = best-positioned in all Osorno</strong>. GTM + GA + Microsoft Clarity + Brevo + LiteSpeed + Dentalsoft + Schema.org. The only business with a near-complete digital stack. Brevo email marketing = closest to CRM in Osorno (but still not full CRM)</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Revenue Recovery Across All 14 Cities</h4>
+        <div class="loss-line"><span class="desc">Total annual revenue lost (560 businesses)</span><span class="amount" style="color:var(--red)">-$28.82M</span></div>
+        <div class="loss-line"><span class="desc">Recoverable with NWM services (70%)</span><span class="amount" style="color:var(--green)">$20.17M</span></div>
+        <div class="loss-line"><span class="desc">NWM ARR at 25% close (140 clients)</span><span class="amount" style="color:var(--brand)">$1,674,960</span></div>
+        <div class="loss-total"><span class="desc">Cumulative client ROI</span><span class="amount" style="color:var(--green)">4.3x average</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p style="color:var(--muted);font-size:0.85rem;margin-top:12px;"><em>Osorno is the Lake District gateway paradox: <strong>40% tourism dead/forbidden (WORST!), 5-star hotel 403, 2 DOUBLE FAILURE hotels (dead + free email), 4.8★ restaurant invisible, enterprise Shopify beauty stack with NO contact, German brewery on Google Sites, dead Google+ link (7+ years), "Restaurant Recipe" theme on medical spa, Palumbo dual-GTM + dual-Pixel + dead UA + Piwik chaos, UENIWEB GTM injection confirmed cross-city, best dental Schema.org adoption, Vet's Home good site + zero social, Uno Salud Brevo = only email marketing in city</strong>. 5-star pitch: "Sonesta Osorno — your 106-room 5-star hotel returns 403 Forbidden. Every tourist is blocked. We fix this in 48 hours." Double-failure pitch: "Hotel Lagos del Sur — dead website AND free email. We rebuild both: professional site + booking + info@hotelagosdelsur.cl. $497/mo." 4.8★ pitch: "Gus Cocina de Mercado — 4.8 stars, highest-rated in Osorno. No website. We fix that in 7 days. $497/mo." Enterprise paradox pitch: "Clínica Alviva — you have the best tech stack in southern Chile. But no one can contact you. We add that missing layer. $497/mo."</em></p>
+</section>
+
+<!-- ========== CTA ========== -->
+<div class="cta-section">
+  <h2>These 40 Osorno Businesses Are <span>Losing $2.1M Every Year</span></h2>
+  <p>Gateway to Volcán Osorno, Puyehue, and the Lake District. German colonial heritage. Capital of meat. Yet the 5-star hotel is 403 Forbidden, 2 hotels suffer double failures, the 4.8-star restaurant has no website, the most advanced beauty e-commerce stack in 14 cities has no contact info, a German brewery runs on Google Sites, and 97.5% have zero CRM. The Lake District economy flows through Osorno — but the digital infrastructure doesn't exist to capture it.</p>
+  <a href="osorno-prospects-report.html" class="cta-btn">View Full Prospect List with Contact Details &rarr;</a>
+</div>
+
+</div>
+
+<footer class="report-footer">
+  <div class="container">
+    <p><strong>NetWebMedia</strong> — AI Marketing for Growth | netwebmedia.com | hello@netwebmedia.com</p>
+    <p style="margin-top:8px;">Report generated April 16, 2026. Loss estimates based on industry benchmarks from Google (2025), DataReportal Chile (2026), National Restaurant Association (2026), Zenoti Salon Benchmarks (2025), Harvard Business Review, and Booking.com partner data.</p>
+    <p style="margin-top:8px;">Sources: <a href="https://datareportal.com/reports/digital-2026-chile" style="color:var(--blue);">DataReportal Chile 2026</a> | <a href="https://restaurant.org/research-and-media/research/research-reports/state-of-the-industry/" style="color:var(--blue);">NRA State of Industry 2026</a> | <a href="https://www.zenoti.com/thecheckin/beauty-wellness-industry-statistics-2025" style="color:var(--blue);">Zenoti Salon Benchmarks 2025</a> | <a href="https://prenohq.com/blog/what-commission-rates-does-booking-com-charge-hotels/" style="color:var(--blue);">Booking.com Commission Data</a></p>
+  </div>
+</footer>
+</body>
+</html>

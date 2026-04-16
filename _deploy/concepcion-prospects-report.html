@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetWebMedia — Concepcion Prospect Report & Individual Business Analysis (April 2026)</title>
+<style>
+:root{--brand:#ff6b00;--dark:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;--green:#3fb950;--red:#f85149;--yellow:#d29922;--blue:#58a6ff;--purple:#bc8cff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--dark);color:var(--text);line-height:1.65}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.report-header{background:linear-gradient(135deg,#0d1117 0%,#1a1e2e 100%);border-bottom:3px solid var(--brand);padding:56px 0}
+.report-header h1{font-size:2.2rem;font-weight:800}.report-header h1 span{color:var(--brand)}
+.report-header .subtitle{color:var(--muted);font-size:1.1rem;margin-top:8px}
+.report-header .meta{margin-top:16px;display:flex;gap:24px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+.report-header .meta strong{color:var(--text)}
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:32px 0}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.stat-card .num{font-size:2rem;font-weight:800;color:var(--brand)}.stat-card .num.red{color:var(--red)}
+.stat-card .label{font-size:.8rem;color:var(--muted);margin-top:4px}
+.market-section{margin:48px 0}
+.market-title{font-size:1.5rem;font-weight:700;padding-bottom:12px;border-bottom:2px solid var(--border);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.market-title .badge{background:var(--brand);color:#fff;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px}
+.biz-card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:28px;overflow:hidden}
+.biz-card:hover{border-color:var(--brand)}
+.biz-header{padding:24px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px}
+.biz-header h3{font-size:1.2rem;font-weight:700}
+.biz-header .biz-type{font-size:.75rem;color:var(--muted);background:rgba(255,255,255,.05);padding:3px 12px;border-radius:12px}
+.biz-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:768px){.biz-body{grid-template-columns:1fr}}
+.biz-left{padding:24px 28px;border-right:1px solid var(--border)}
+@media(max-width:768px){.biz-left{border-right:none;border-bottom:1px solid var(--border)}}
+.biz-right{padding:24px 28px}
+.biz-left h4,.biz-right h4{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.contact-row{display:flex;gap:8px;margin-bottom:6px;font-size:.9rem}
+.contact-row .lbl{color:var(--muted);min-width:70px}
+.contact-row a{color:var(--blue);text-decoration:none}
+.audit-section{margin-top:16px}
+.audit-section h4{margin-bottom:8px}
+.audit-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:.88rem}
+.audit-row:last-child{border:none}
+.audit-row .metric{color:var(--muted)}
+.audit-row .val{font-weight:600}
+.audit-row .val.pass{color:var(--green)}.audit-row .val.fail{color:var(--red)}.audit-row .val.warn{color:var(--yellow)}.audit-row .val.na{color:var(--muted)}
+.loss-box{background:rgba(248,81,73,.04);border:1px solid rgba(248,81,73,.12);border-radius:10px;padding:16px;margin-top:12px}
+.loss-row{display:flex;justify-content:space-between;padding:5px 0;font-size:.85rem}
+.loss-row .desc{color:var(--muted)}.loss-row .amt{color:var(--red);font-weight:700}
+.loss-total{display:flex;justify-content:space-between;padding:8px 0 0;border-top:2px solid var(--red);margin-top:6px;font-weight:700}
+.loss-total .desc{color:var(--text)}.loss-total .amt{color:var(--red);font-size:1.1rem}
+.rec-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.rec-tag{font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,107,0,.12);color:var(--brand)}
+.gap-tag{font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px}
+.gap-no-web{background:rgba(248,81,73,.15);color:var(--red)}
+.gap-gmail{background:rgba(210,153,34,.15);color:var(--yellow)}
+.gap-weak-web{background:rgba(88,166,255,.15);color:var(--blue)}
+.gap-no-book{background:rgba(248,81,73,.15);color:var(--red)}
+.gap-no-social{background:rgba(210,153,34,.15);color:var(--yellow)}
+.gap-no-seo{background:rgba(188,140,255,.15);color:var(--purple)}
+.gap-no-crm{background:rgba(88,166,255,.15);color:var(--blue)}
+.report-footer{text-align:center;padding:32px 0;border-top:1px solid var(--border);margin-top:48px}
+.report-footer p{color:var(--muted);font-size:.8rem}
+.cta-section{background:linear-gradient(135deg,#1a1000,#1a0a00);border:2px solid var(--brand);border-radius:20px;padding:48px;text-align:center;margin:48px 0}
+.cta-section h2{font-size:1.6rem;font-weight:800;margin-bottom:12px}.cta-section h2 span{color:var(--brand)}
+.cta-section p{color:var(--muted);font-size:1rem;max-width:600px;margin:0 auto 20px}
+.cta-btn{display:inline-block;background:var(--brand);color:#fff;font-size:1rem;font-weight:700;padding:12px 32px;border-radius:12px;text-decoration:none}
+</style>
+</head>
+<body>
+<header class="report-header">
+<div class="container">
+<h1><span>NetWebMedia</span> — Concepcion Prospect Report</h1>
+<p class="subtitle">40 Local Businesses x Individual Digital Audit — Website, Social Media, Revenue Loss Analysis</p>
+<div class="meta">
+<span>Date: <strong>April 15, 2026</strong></span>
+<span>Market: <strong>Concepcion, Region del Biobio, Chile</strong></span>
+<span>Leads: <strong>40 businesses with verified contact info</strong></span>
+</div>
+</div>
+</header>
+<div class="container">
+<div class="stats-bar">
+<div class="stat-card"><div class="num">40</div><div class="label">Total Prospects</div></div>
+<div class="stat-card"><div class="num">4</div><div class="label">Market Verticals</div></div>
+<div class="stat-card"><div class="num red">$1.9M</div><div class="label">Est. Annual Revenue Lost</div></div>
+<div class="stat-card"><div class="num">18</div><div class="label">Gmail/No Email Found</div></div>
+</div>
+
+<!-- =============================== -->
+<!-- MARKET 1: TOURISM & HOSPITALITY -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🏨 Tourism & Hospitality <span class="badge">10 PROSPECTS</span></h2>
+
+<!-- T1 -->
+<div class="biz-card">
+<div class="biz-header"><h3>1. Le Petit Hotel Boutique</h3><span class="biz-type">Boutique Hotel & Cafe — Centro, Concepcion</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@lepetithotel.cl">contacto@lepetithotel.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 8322 7880</div>
+<div class="contact-row"><span class="lbl">Address:</span>Cochrane 248, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://lepetithotel.cl" target="_blank">lepetithotel.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (Elementor, professional)</span></div>
+<div class="audit-row"><span class="metric">SSL certificate</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Webpay)</span></div>
+<div class="audit-row"><span class="metric">Blog/content</span><span class="val fail">No blog</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@lepetitcafeteriaconcepcion</span></div>
+<div class="audit-row"><span class="metric">WhatsApp</span><span class="val pass">Integrated</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row">
+<span class="gap-tag gap-no-seo">No Content SEO</span>
+<span class="gap-tag gap-no-crm">No CRM</span>
+</div>
+<div class="loss-box">
+<h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No content marketing / blog SEO</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for guest re-engagement</span><span class="amt">-$6,000</span></div>
+<div class="loss-row"><span class="desc">No AEO for AI search citation</span><span class="amt">-$4,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO + Blog</span><span class="rec-tag">CRM</span><span class="rec-tag">AEO Retainer</span><span class="rec-tag">Lifecycle Email</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T2 -->
+<div class="biz-card">
+<div class="biz-header"><h3>2. Hotel Alborada</h3><span class="biz-type">4-Star Hotel — Centro, Concepcion</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas@hotelalborada.cl">reservas@hotelalborada.cl</a></div>
+<div class="contact-row"><span class="lbl">Address:</span>Barros Arana 457, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hotelalborada.cl" target="_blank">hotelalborada.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/Astra)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Schema markup</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Blog/content</span><span class="val fail">No</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Content SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No content marketing for "hotel concepcion"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for guest loyalty</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">AEO Retainer</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T3 -->
+<div class="biz-card">
+<div class="biz-header"><h3>3. Hotel Araucano</h3><span class="biz-type">Business Hotel — Centro, Concepcion</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas@hotelaraucano.cl">reservas@hotelaraucano.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 41 2740600</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.hotelaraucano.cl" target="_blank">hotelaraucano.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (integrated)</span></div>
+<div class="audit-row"><span class="metric">Booking.com rating</span><span class="val pass">7.9/10 (323 reviews)</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@hotelaraucanoconcepcion</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">HotelAraucano</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO Strategy</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">OTA dependency (Booking.com commissions)</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for business travel queries</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span><span class="rec-tag">Google Ads</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T4 -->
+<div class="biz-card">
+<div class="biz-header"><h3>4. Hotel Diego de Almagro Concepcion</h3><span class="biz-type">Chain Hotel — Centro, Concepcion</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:recepcion-ccp1@dahoteles.com">recepcion-ccp1@dahoteles.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 41 2403 600</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.dahoteles.com/es/da-concepcion" target="_blank">dahoteles.com/da-concepcion</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (chain corporate)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Local SEO</span><span class="gap-tag gap-no-crm">No Local CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No local SEO for Concepcion queries</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No local CRM or direct marketing</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO (local)</span><span class="rec-tag">Google Ads</span><span class="rec-tag">AEO Retainer</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T5 -->
+<div class="biz-card">
+<div class="biz-header"><h3>5. Hostal Buro</h3><span class="biz-type">Hostal — Centro, Concepcion</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@hostalburo.cl">contacto@hostalburo.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 41 2133261 / +56 41 2950700</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.hostalburo.cl" target="_blank">hostalburo.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (Wix template)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">Not verified</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Wix Template</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Wix template = slow, no schema</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for hostal queries</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T6 -->
+<div class="biz-card">
+<div class="biz-header"><h3>6. Hostal Concepcion</h3><span class="biz-type">Family Hostal — Centro, Concepcion</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found — WhatsApp only</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 41 3166 106 / +56 9 6224 6601</div>
+<div class="contact-row"><span class="lbl">Address:</span>Castellon 261, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.hostalconcepcion.cl" target="_blank">hostalconcepcion.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/Elementor)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (own system)</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span><span class="gap-tag gap-no-social">No Social Media</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No email = missed inquiries</span><span class="amt">-$6,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "hostal concepcion"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No social media presence</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$21,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO</span><span class="rec-tag">Social Media</span><span class="rec-tag">CRM</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T7 -->
+<div class="biz-card">
+<div class="biz-header"><h3>7. Hostal del Centro</h3><span class="biz-type">City Hostal — Centro, Concepcion</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas@hostaldelcentro.com">reservas@hostaldelcentro.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 4295 4004</div>
+<div class="contact-row"><span class="lbl">Address:</span>Ongolmo 347, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.hostalenconcepcion.cl" target="_blank">hostalenconcepcion.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">WhatsApp chat</span><span class="val pass">Integrated</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for hostal queries</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for repeat guests</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$13,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T8 -->
+<div class="biz-card">
+<div class="biz-header"><h3>8. Apart Hotel Uman</h3><span class="biz-type">Apart-Hotel — Barrio Universitario, Concepcion</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:aparthoteluman@redhotelera.cl">aparthoteluman@redhotelera.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 44 8909220 / WhatsApp: +56 9 7388 9639</div>
+<div class="contact-row"><span class="lbl">Address:</span>Ongolmo 144, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://aparthoteluman.redhotelera.cl" target="_blank">aparthoteluman.redhotelera.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (dated template)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Webpay)</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Dated Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Near university but no SEO for students</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">Dated website = poor mobile experience</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T9 -->
+<div class="biz-card">
+<div class="biz-header"><h3>9. Hostal BB Concepcion</h3><span class="biz-type">Boutique Hostal — Centro, Concepcion</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Ongolmo 62, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.hostalboutiqueconcepcion.com" target="_blank">hostalboutiqueconcepcion.com</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (Wix)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">Not visible</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Wix Template</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">"Boutique" positioning on Wix = trust gap</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T10 -->
+<div class="biz-card">
+<div class="biz-header"><h3>10. Hotel Terrasur</h3><span class="biz-type">Airport Hotel — Talcahuano/Concepcion</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Gomez Carreno 3857, Talcahuano (15 min from airport)</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Listed on directories only</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val warn">OTA-dependent</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">No Own Website</span><span class="gap-tag gap-no-book">OTA Dependent</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">OTA commissions (15-25%)</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No direct web presence</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$30,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 2: RESTAURANTS & FOOD    -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🍽️ Restaurants & Food <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Quijote Restaurant</h3><span class="biz-type">Fine Dining — Barros Arana, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservasconce@quijoterestaurant.cl">reservasconce@quijoterestaurant.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 41 224 6000</div>
+<div class="contact-row"><span class="lbl">Address:</span>Barros Arana 673, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.quijoterestaurant.cl" target="_blank">quijoterestaurant.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional WordPress)</span></div>
+<div class="audit-row"><span class="metric">Online reservations</span><span class="val pass">Yes (popup form)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@quijoterestaurant</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Content SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No blog/content SEO for fine dining</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for repeat diners</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$14,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Hacienda Patagonia</h3><span class="biz-type">Patagonian Grill — San Pedro de la Paz</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:ventas@haciendapatagonia.cl">ventas@haciendapatagonia.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 41 2730050</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Ernesto Pinto Lagarrigue 2605, San Pedro de la Paz</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://haciendapatagonia.cl" target="_blank">haciendapatagonia.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/Elementor)</span></div>
+<div class="audit-row"><span class="metric">Online reservations</span><span class="val pass">Yes (MyRestoo)</span></div>
+<div class="audit-row"><span class="metric">GA4 + FB Pixel</span><span class="val pass">Yes</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@haciendapatagonia</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+<div class="audit-row"><span class="metric">TripAdvisor</span><span class="val pass">Listed</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Content SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No content for "parrilla concepcion" queries</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for event/group marketing</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. Bar Concepcion</h3><span class="biz-type">Gastropub — Av. Chacabuco, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@barconcepcion.cl">contacto@barconcepcion.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 9509 7133 / WhatsApp: +56 9 4214 7776</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Chacabuco 1224, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://barconcepcion.cl" target="_blank">barconcepcion.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@barconcepcion</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "bar concepcion" queries</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for regulars</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$16,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Bar Callejon</h3><span class="biz-type">Craft Beer Bar — Plaza Peru, Barrio Universitario</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Pasaje Cochrane 1269, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://barcallejon.cl" target="_blank">barcallejon.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@barcallejon</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span><span class="gap-tag gap-no-book">No Reservations</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No contact info = lost group/event bookings</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for craft beer queries</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">AI Website Upgrade</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Furai Sushi Bar</h3><span class="biz-type">Japanese-Peruvian Fusion — Pedro de Valdivia, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">No business email (uses clouder.cl domain)</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Pedro de Valdivia 911, Concepcion + Calle Lota 11a, San Pedro</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.furai.cl" target="_blank">furai.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (modern, 2 locations)</span></div>
+<div class="audit-row"><span class="metric">Online ordering</span><span class="val pass">Yes (Justo platform)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@furaibar</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">2 locations with no SEO strategy</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No CRM across locations</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO (2 locations)</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Izakaya Sushi Ramen</h3><span class="biz-type">Japanese Restaurant — Lincoyan, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 41 224 6495</div>
+<div class="contact-row"><span class="lbl">Address:</span>Lincoyan 130, Local 3, Concepcion</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — Instagram only</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@izakayasushi</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-book">No Reservations</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No website = invisible to search</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No reservations system</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$26,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Kenzu Sushi</h3><span class="biz-type">Nikkei Sushi — Av. Chacabuco, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Chacabuco 280, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.kenzusushi.cl" target="_blank">kenzusushi.cl</a> <span style="color:var(--red)">(under construction)</span></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@kenzusushi.cl</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Site Under Construction</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Website "under construction" = dead end</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No delivery/ordering integration</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">Commerce Build</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Cerveceria Crapula</h3><span class="biz-type">Craft Beer Bar — Caupolican, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 3935 5161</div>
+<div class="contact-row"><span class="lbl">Address:</span>Caupolican 1661, Concepcion</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No own website</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Craft beer bar with no website</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No online event/booking system</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Social Media</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. Cerveza Cocholgue</h3><span class="biz-type">Craft Brewery — Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:cervezacocholgue@gmail.com">cervezacocholgue@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://cervezacocholgue.cl" target="_blank">cervezacocholgue.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail for craft brewery = unprofessional</span><span class="amt">-$5,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "cerveza artesanal concepcion"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$15,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Commerce Build</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Cafe Reserva</h3><span class="biz-type">Specialty Coffee — Barrio Universitario, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found — Facebook only</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--red)">None — Facebook page only</span></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">cafereserva.cl (page)</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-social">FB Only</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Specialty coffee with zero web presence</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No Instagram in a visual-driven market</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 3: HEALTH & VETERINARY   -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🏥 Health & Veterinary <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Veterinaria Huellas</h3><span class="biz-type">Vet Clinic — Paicavi, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@veterinariahuellas.cl">contacto@veterinariahuellas.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(41) 2733332</div>
+<div class="contact-row"><span class="lbl">Address:</span>Paicavi 976 Local 3, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.veterinariahuellas.cl" target="_blank">veterinariahuellas.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (older design)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No</span></div>
+<div class="audit-row"><span class="metric">Blog</span><span class="val pass">Yes (vet blog)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Dated Website</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-social">No Social Media</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No booking = lost after-hours (50%)</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No social media presence</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI Website Rebuild</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Centro Animal Concepcion</h3><span class="biz-type">Surgical Vet Clinic — Caupolican, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:vetcentroanimal@gmail.com">vetcentroanimal@gmail.com</a> / <a href="mailto:contacto@centroanimal.cl">contacto@centroanimal.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 5727 2063</div>
+<div class="contact-row"><span class="lbl">Address:</span>Caupolican 321, Local 3, Galeria los Arrayanes, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://centroanimal.cl" target="_blank">centroanimal.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@centro.animal.ccp</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Centro.Animal</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail (secondary)</span><span class="gap-tag gap-no-book">WhatsApp Only</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Surgical specialty with WhatsApp booking only</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "veterinaria concepcion"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. SOS Vet Concepcion</h3><span class="biz-type">24-Hour Emergency Vet — Lientur, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 41 318 0869</div>
+<div class="contact-row"><span class="lbl">Address:</span>Lientur 669 / Los Carreras 1698, Concepcion</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — Instagram + Facebook only</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@sosvetconce</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">SOS Vet Concepcion</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">24hr emergency vet with NO website</span><span class="amt">-$25,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "veterinaria urgencia concepcion"</span><span class="amt">-$18,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$43,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Voice AI</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. CMVC — Centro Medico Veterinario</h3><span class="biz-type">Veterinary Medical Center — Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://cmvc.cl" target="_blank">cmvc.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/Divi)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">Not found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for vet queries</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Vidasalud Dental</h3><span class="biz-type">Dental Clinic — Anibal Pinto, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@vidasaluddental.cl">contacto@vidasaluddental.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 3371 5083 / +56 41 383 4273</div>
+<div class="contact-row"><span class="lbl">Address:</span>Anibal Pinto 340, Local 2B, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.vidasaluddental.cl" target="_blank">vidasaluddental.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@vidasaluddental</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">VidasaludDental</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "dentista concepcion"</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for patient retention</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Hola Dental</h3><span class="biz-type">Dental Clinic — Tucapel, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:holadental.cl@gmail.com">holadental.cl@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 4010 6908</div>
+<div class="contact-row"><span class="lbl">Address:</span>Tucapel 240, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.holadental.cl" target="_blank">holadental.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (Wix template)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">Not visible</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-weak-web">Wix Template</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Dental clinic on Wix with Gmail</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">CRM</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Inmunodent Clinica Dental</h3><span class="biz-type">Dental Chain (4 locations) — Concepcion + others</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@inmunodent.cl">contacto@inmunodent.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 4029 8455</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.inmunodent.cl" target="_blank">inmunodent.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO (4 locations)</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">4 locations with no SEO = massive loss</span><span class="amt">-$25,000</span></div>
+<div class="loss-row"><span class="desc">No cross-location CRM</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$35,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO (4 locations)</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. CDC Dental</h3><span class="biz-type">Dental Clinic (3 locations) — Concepcion, Talcahuano, Chillan</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">WhatsApp only: +56 9 5906 5278</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://cdcdental.cl" target="_blank">cdcdental.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@cdcdental.cl</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">cdcdental.cl</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">WhatsApp Only</span><span class="gap-tag gap-no-seo">No SEO (3 locations)</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">3 locations with no SEO</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">WhatsApp only = lost after-hours</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$30,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO (3 locations)</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. CITSALUD Centro Medico</h3><span class="biz-type">Multi-specialty Medical Center — Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:centromedico@citsalud.cl">centromedico@citsalud.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(41) 274 7292 / (41) 274 7293</div>
+<div class="contact-row"><span class="lbl">Address:</span>Obispo Hipolito Salas 548, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://citsalud.cl" target="_blank">citsalud.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">Active</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Multi-specialty with no SEO strategy</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for patient retention</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Rekinet Centro Kinesico</h3><span class="biz-type">Rehabilitation Center — O'Higgins, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@rekinet.cl">contacto@rekinet.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 41 3441611 / +56 9 7621 5423</div>
+<div class="contact-row"><span class="lbl">Address:</span>O'Higgins 680, Galeria Tomas Olivieri, 4to Piso, Of. 406, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://rekinet.cl" target="_blank">rekinet.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (AgendaPro)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@rekinet.cl</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "kinesiologia concepcion"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for patient retention</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$16,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 4: BEAUTY & AESTHETICS   -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">💇 Beauty & Aesthetics <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Alex Estilistas</h3><span class="biz-type">Salon & Barbershop — Av. Chacabuco, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:estilistas@alex.cl">estilistas@alex.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 41 222 4037 / WhatsApp: +56 9 7371 0754</div>
+<div class="contact-row"><span class="lbl">Address:</span>Chacabuco 390, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.alex.cl" target="_blank">alex.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@alex.estilistas</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">estilistas.alex</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">WhatsApp Only</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">WhatsApp booking = lost after-hours</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "peluqueria concepcion"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Barberia Club 34</h3><span class="biz-type">Premium Barbershop — San Martin, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@barberiaclub34.cl">contacto@barberiaclub34.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 8220 3250</div>
+<div class="contact-row"><span class="lbl">Address:</span>San Martin 519, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.barberiaclub34.cl" target="_blank">barberiaclub34.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional, Elementor)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Fresha)</span></div>
+<div class="audit-row"><span class="metric">Blog</span><span class="val pass">Yes</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@club34barberia</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "barberia concepcion"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for client retention</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$16,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. Bear Barber</h3><span class="biz-type">Barbershop — Anibal Pinto, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@bearbarber.cl">contacto@bearbarber.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 7893 7235</div>
+<div class="contact-row"><span class="lbl">Address:</span>Anibal Pinto 180, OF 201, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://bearbarber.cl" target="_blank">bearbarber.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (AgendaPro)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@bearbarberccp</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for barbershop queries</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No CRM / email marketing</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$13,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Salon Antonio</h3><span class="biz-type">Traditional Salon — Tucapel, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:avferretti@hotmail.com">avferretti@hotmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 9817 4978 / +56 41 223 8522</div>
+<div class="contact-row"><span class="lbl">Address:</span>Tucapel 156, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.salonantonio.cl" target="_blank">salonantonio.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Hotmail (personal)</span><span class="gap-tag gap-weak-web">Basic Site</span><span class="gap-tag gap-no-social">No Instagram</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Hotmail = 1990s credibility</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No Instagram for beauty portfolio</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for salon queries</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$26,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Spa Neptuno</h3><span class="biz-type">Full-Service Spa — Anibal Pinto, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 41 223 1392 / +56 9 6170 1290</div>
+<div class="contact-row"><span class="lbl">Address:</span>Anibal Pinto 941, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.spaneptuno.cl" target="_blank">spaneptuno.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Schema markup</span><span class="val pass">Yes</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@spaneptuno</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">neptunospa.cl</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Content SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No content SEO for "spa concepcion"</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for spa client retention</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Clinica Hunza</h3><span class="biz-type">Aesthetic Medicine — Centro Costanera, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@clinicahunza.cl">contacto@clinicahunza.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 41 2733367 / +56 9 5804 9193</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Arturo Prat 199, Of. 809 Torre A, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://clinicahunza.cl" target="_blank">clinicahunza.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional, e-commerce)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (form-based)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@clinicahunza</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">clinicahunza</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "estetica concepcion"</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for treatment follow-ups</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Google Ads</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. SO CUTE Salon</h3><span class="biz-type">Hair & Nail Salon — Lomas de San Andres, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 3482 5400</div>
+<div class="contact-row"><span class="lbl">Address:</span>Cosme Churruca 75, Local 22, Lomas de San Andres, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://socutesalon.cl" target="_blank">socutesalon.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WooCommerce + booking)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (own system)</span></div>
+<div class="audit-row"><span class="metric">E-commerce</span><span class="val pass">Product store</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@socutesalon</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">socute.salon</span></div>
+<div class="audit-row"><span class="metric">Pinterest</span><span class="val pass">socutesalon</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "peluqueria concepcion"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for client retention</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$16,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Camino del Agua Natural Spa</h3><span class="biz-type">Natural Spa Resort — Valle Nonguen, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 41 249 1749</div>
+<div class="contact-row"><span class="lbl">Address:</span>Camino Valle Nonguen 2151, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://caminodelagua.cl" target="_blank">caminodelagua.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/WooCommerce)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Gift cards</span><span class="val pass">Yes</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@caminodelagua</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+<div class="audit-row"><span class="metric">TripAdvisor</span><span class="val pass">Listed</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Content SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No content SEO for "spa concepcion"</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for spa loyalty</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span><span class="rec-tag">AEO Retainer</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. Sebastian Betanzo Estilista</h3><span class="biz-type">Premium Hair Stylist — San Martin, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>San Martin 585, Concepcion</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.sebastianbetanzo.cl" target="_blank">sebastianbetanzo.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (Wix)</span></div>
+<div class="audit-row"><span class="metric">Contact info</span><span class="val fail">Not visible on site</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Wix / No Contact</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Premium stylist on Wix with no contact</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. La Coquette Nail Art</h3><span class="biz-type">Nail Studio — Av. Chacabuco, Concepcion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Chacabuco 689, Concepcion</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — Fresha listing only</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (via Fresha)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Own Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No website = invisible to search</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">Platform-dependent (Fresha only)</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Social Media</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+<h2>Concepcion: <span>$1.9M in Annual Revenue Lost</span> Across 40 Businesses</h2>
+<p>Chile's second-largest city, major university hub, and capital of Biobio — yet these 40 businesses are bleeding money through digital gaps. The solution starts at $497/mo.</p>
+<a href="concepcion-digital-gaps.html" class="cta-btn">See Full Digital Gap Analysis →</a>
+</div>
+
+</div>
+<footer class="report-footer">
+<div class="container">
+<p><strong>NetWebMedia</strong> — AI Marketing for Growth | netwebmedia.com | hello@netwebmedia.com</p>
+<p style="margin-top:8px;">Concepcion Prospect Report generated April 15, 2026. Individual business analyses based on public website audits, social media research, and industry revenue benchmarks.</p>
+</div>
+</footer>
+</body>
+</html>

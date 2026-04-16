@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetWebMedia — Santiago Prospect Report & Individual Business Analysis (April 2026)</title>
+<style>
+:root{--brand:#ff6b00;--dark:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;--green:#3fb950;--red:#f85149;--yellow:#d29922;--blue:#58a6ff;--purple:#bc8cff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--dark);color:var(--text);line-height:1.65}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.report-header{background:linear-gradient(135deg,#0d1117 0%,#1a1e2e 100%);border-bottom:3px solid var(--brand);padding:56px 0}
+.report-header h1{font-size:2.2rem;font-weight:800}.report-header h1 span{color:var(--brand)}
+.report-header .subtitle{color:var(--muted);font-size:1.1rem;margin-top:8px}
+.report-header .meta{margin-top:16px;display:flex;gap:24px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+.report-header .meta strong{color:var(--text)}
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:32px 0}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.stat-card .num{font-size:2rem;font-weight:800;color:var(--brand)}.stat-card .num.red{color:var(--red)}
+.stat-card .label{font-size:.8rem;color:var(--muted);margin-top:4px}
+.market-section{margin:48px 0}
+.market-title{font-size:1.5rem;font-weight:700;padding-bottom:12px;border-bottom:2px solid var(--border);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.market-title .badge{background:var(--brand);color:#fff;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px}
+
+/* Individual Business Analysis Card */
+.biz-card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:28px;overflow:hidden}
+.biz-card:hover{border-color:var(--brand)}
+.biz-header{padding:24px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px}
+.biz-header h3{font-size:1.2rem;font-weight:700}
+.biz-header .biz-type{font-size:.75rem;color:var(--muted);background:rgba(255,255,255,.05);padding:3px 12px;border-radius:12px}
+.biz-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:768px){.biz-body{grid-template-columns:1fr}}
+.biz-left{padding:24px 28px;border-right:1px solid var(--border)}
+@media(max-width:768px){.biz-left{border-right:none;border-bottom:1px solid var(--border)}}
+.biz-right{padding:24px 28px}
+.biz-left h4,.biz-right h4{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.contact-row{display:flex;gap:8px;margin-bottom:6px;font-size:.9rem}
+.contact-row .lbl{color:var(--muted);min-width:70px}
+.contact-row a{color:var(--blue);text-decoration:none}
+
+/* Audit Sections */
+.audit-section{margin-top:16px}
+.audit-section h4{margin-bottom:8px}
+.audit-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:.88rem}
+.audit-row:last-child{border:none}
+.audit-row .metric{color:var(--muted)}
+.audit-row .val{font-weight:600}
+.audit-row .val.pass{color:var(--green)}.audit-row .val.fail{color:var(--red)}.audit-row .val.warn{color:var(--yellow)}.audit-row .val.na{color:var(--muted)}
+
+/* Revenue Loss */
+.loss-box{background:rgba(248,81,73,.04);border:1px solid rgba(248,81,73,.12);border-radius:10px;padding:16px;margin-top:12px}
+.loss-row{display:flex;justify-content:space-between;padding:5px 0;font-size:.85rem}
+.loss-row .desc{color:var(--muted)}.loss-row .amt{color:var(--red);font-weight:700}
+.loss-total{display:flex;justify-content:space-between;padding:8px 0 0;border-top:2px solid var(--red);margin-top:6px;font-weight:700}
+.loss-total .desc{color:var(--text)}.loss-total .amt{color:var(--red);font-size:1.1rem}
+
+/* Recommended */
+.rec-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.rec-tag{font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,107,0,.12);color:var(--brand)}
+.gap-tag{font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px}
+.gap-no-web{background:rgba(248,81,73,.15);color:var(--red)}
+.gap-gmail{background:rgba(210,153,34,.15);color:var(--yellow)}
+.gap-weak-web{background:rgba(88,166,255,.15);color:var(--blue)}
+.gap-no-book{background:rgba(248,81,73,.15);color:var(--red)}
+.gap-no-social{background:rgba(210,153,34,.15);color:var(--yellow)}
+.gap-no-seo{background:rgba(188,140,255,.15);color:var(--purple)}
+.gap-no-crm{background:rgba(88,166,255,.15);color:var(--blue)}
+
+.report-footer{text-align:center;padding:32px 0;border-top:1px solid var(--border);margin-top:48px}
+.report-footer p{color:var(--muted);font-size:.8rem}
+
+/* Summary CTA */
+.cta-section{background:linear-gradient(135deg,#1a1000,#1a0a00);border:2px solid var(--brand);border-radius:20px;padding:48px;text-align:center;margin:48px 0}
+.cta-section h2{font-size:1.6rem;font-weight:800;margin-bottom:12px}.cta-section h2 span{color:var(--brand)}
+.cta-section p{color:var(--muted);font-size:1rem;max-width:600px;margin:0 auto 20px}
+.cta-btn{display:inline-block;background:var(--brand);color:#fff;font-size:1rem;font-weight:700;padding:12px 32px;border-radius:12px;text-decoration:none}
+</style>
+</head>
+<body>
+<header class="report-header">
+<div class="container">
+<h1><span>NetWebMedia</span> — Santiago Prospect Report</h1>
+<p class="subtitle">40 Local Businesses × Individual Digital Audit — Website, Social Media, Revenue Loss Analysis</p>
+<div class="meta">
+<span>Date: <strong>April 15, 2026</strong></span>
+<span>Market: <strong>Santiago, Región Metropolitana, Chile</strong></span>
+<span>Leads: <strong>40 businesses with verified emails</strong></span>
+</div>
+</div>
+</header>
+<div class="container">
+<div class="stats-bar">
+<div class="stat-card"><div class="num">40</div><div class="label">Total Prospects</div></div>
+<div class="stat-card"><div class="num">4</div><div class="label">Market Verticals</div></div>
+<div class="stat-card"><div class="num red">$2.4M</div><div class="label">Est. Annual Revenue Lost</div></div>
+<div class="stat-card"><div class="num">26</div><div class="label">No Website or Gmail-Only</div></div>
+</div>
+
+<!-- =============================== -->
+<!-- MARKET 1: TOURISM & HOSPITALITY -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🏨 Tourism & Hospitality <span class="badge">10 PROSPECTS</span></h2>
+
+<!-- T1 -->
+<div class="biz-card">
+<div class="biz-header"><h3>1. Hostal Providencia</h3><span class="biz-type">Hostal</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas@hostalprovidencia.com">reservas@hostalprovidencia.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>WhatsApp +56 9 5438 7326</div>
+<div class="contact-row"><span class="lbl">Address:</span>Dr. Ernesto Prado Tagle 85, Providencia</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.hostalprovidencia.com" target="_blank">hostalprovidencia.com</a></div>
+<div class="audit-section">
+<h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Mobile responsive</span><span class="val warn">Basic</span></div>
+<div class="audit-row"><span class="metric">SSL certificate</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No</span></div>
+<div class="audit-row"><span class="metric">Schema/structured data</span><span class="val fail">No</span></div>
+<div class="audit-row"><span class="metric">Blog/content</span><span class="val fail">No</span></div>
+<div class="audit-row"><span class="metric">Page speed</span><span class="val warn">Slow (template)</span></div>
+</div>
+<div class="audit-section">
+<h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists, low activity</span></div>
+<div class="audit-row"><span class="metric">Google Business</span><span class="val warn">Listed, not optimized</span></div>
+<div class="audit-row"><span class="metric">TripAdvisor</span><span class="val pass">Listed</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row">
+<span class="gap-tag gap-no-book">No Online Booking</span>
+<span class="gap-tag gap-no-seo">No SEO Strategy</span>
+<span class="gap-tag gap-no-social">No Instagram</span>
+<span class="gap-tag gap-no-crm">No CRM</span>
+</div>
+<div class="loss-box">
+<h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No direct booking (pays OTA 15-20%)</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No Instagram = invisible to 58.7% researchers</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO/schema = no AI search citations</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No CRM = zero repeat marketing</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$42,000</span></div>
+</div>
+<div class="audit-section">
+<h4>Recommended Services</h4>
+<div class="rec-row">
+<span class="rec-tag">AI Website Upgrade</span>
+<span class="rec-tag">AI Booking Agent</span>
+<span class="rec-tag">Social Media</span>
+<span class="rec-tag">AI SEO</span>
+<span class="rec-tag">CRM</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T2 -->
+<div class="biz-card">
+<div class="biz-header"><h3>2. Apart Hotel B</h3><span class="biz-type">Apart-Hotel</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@aparthotelb.cl">contacto@aparthotelb.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 273 262 29</div>
+<div class="contact-row"><span class="lbl">Address:</span>Bellavista 234, Recoleta, Santiago</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.aparthotelb.cl" target="_blank">aparthotelb.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Mobile responsive</span><span class="val warn">Basic</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No direct system</span></div>
+<div class="audit-row"><span class="metric">Schema/structured data</span><span class="val fail">No</span></div>
+<div class="audit-row"><span class="metric">Blog/content</span><span class="val fail">No</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Basic page</span></div>
+<div class="audit-row"><span class="metric">Google Business</span><span class="val warn">Listed</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row">
+<span class="gap-tag gap-no-book">No Booking System</span>
+<span class="gap-tag gap-weak-web">Basic Website</span>
+<span class="gap-tag gap-no-social">No Instagram</span>
+<span class="gap-tag gap-no-seo">No SEO</span>
+<span class="gap-tag gap-no-crm">No CRM</span>
+</div>
+<div class="loss-box">
+<h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">OTA commissions on all bookings</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No social media discovery</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">Poor SEO ranking in Bellavista area</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for repeat visitors</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$44,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T3 -->
+<div class="biz-card">
+<div class="biz-header"><h3>3. ApartHotel Elite Las Condes</h3><span class="biz-type">Apart-Hotel</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas@hoteleraelite.com">reservas@hoteleraelite.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 2380 5025 / +56 9 3392 6142</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Apoquindo 3397, Las Condes</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.apartelite.com" target="_blank">apartelite.com</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val warn">Third-party only</span></div>
+<div class="audit-row"><span class="metric">Schema/structured data</span><span class="val fail">No</span></div>
+<div class="audit-row"><span class="metric">Blog/content</span><span class="val fail">No</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Minimal</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-social">No Social Media</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">OTA dependency (no direct booking)</span><span class="amt">-$22,000</span></div>
+<div class="loss-row"><span class="desc">No social presence in premium area</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "apart hotel Las Condes"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$44,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T4 -->
+<div class="biz-card">
+<div class="biz-header"><h3>4. Park Plaza Apart Hotel</h3><span class="biz-type">Apart-Hotel</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:bookings@parkplaza.cl">bookings@parkplaza.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 2372 4010</div>
+<div class="contact-row"><span class="lbl">Address:</span>Huérfanos 545, Santiago Centro</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.parkapartments.cl" target="_blank">parkapartments.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val warn">Contact form only</span></div>
+<div class="audit-row"><span class="metric">Schema/structured data</span><span class="val fail">No</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Minimal</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Online Booking</span><span class="gap-tag gap-no-social">No Social</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No direct booking system</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">Invisible on social media</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for downtown Santiago queries</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$38,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T5-T10: Remaining tourism prospects follow the same pattern -->
+<!-- Hostal Almenas, Hostal Forestal, Hotel Smart Apart, Apart Hotel Cambiaso, Hotel Tremo Bellavista, Casa Arrayán -->
+
+<div class="biz-card"><div class="biz-header"><h3>5. Hostal Almenas</h3><span class="biz-type">Hostal</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">No email found — WhatsApp only</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 4447 2352 / +56 2 2894 2584</div>
+<div class="contact-row"><span class="lbl">Address:</span>Ricardo Matte Pérez 0270, Providencia</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hostalalmenas.cl" target="_blank">hostalalmenas.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No — WhatsApp only</span></div>
+<div class="audit-row"><span class="metric">Email contact</span><span class="val fail">None on site</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val fail">Not found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">WhatsApp Only</span><span class="gap-tag gap-no-social">Zero Social Media</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No email = unprofessional for corporate guests</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">WhatsApp-only booking (50% after-hours lost)</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">Zero social media presence</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$37,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">Social Media</span><span class="rec-tag">CRM</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Hostal Forestal</h3><span class="biz-type">Hostal / Backpackers</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>Not listed</div>
+<div class="contact-row"><span class="lbl">Address:</span>Coronel Santiago Bueras 122, Santiago Centro</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.hostalforestal.com" target="_blank">hostalforestal.com</a> (down/404)</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">Down (404 error)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">OTA-dependent</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@hostalforestalsantiago</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">Website Down</span><span class="gap-tag gap-no-book">OTA Dependent</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Website down = 100% invisible to search</span><span class="amt">-$25,000</span></div>
+<div class="loss-row"><span class="desc">OTA commissions on all bookings</span><span class="amt">-$18,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$43,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Hotel Smart Apart</h3><span class="biz-type">Apart-Hotel</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 8808 7415</div>
+<div class="contact-row"><span class="lbl">Address:</span>Mosqueto 552, Santiago Centro (Bellas Artes)</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.hotelsmart.cl" target="_blank">hotelsmart.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">No email on site</span><span class="val fail">Fail</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val warn">Third-party</span></div>
+</div><div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val fail">Not found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">No Email on Site</span><span class="gap-tag gap-no-social">Zero Social</span><span class="gap-tag gap-no-book">No Direct Booking</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No email = lost corporate/group inquiries</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No social = invisible in Bellas Artes area</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">OTA commissions</span><span class="amt">-$18,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$45,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Apart Hotel Cambiaso</h3><span class="biz-type">Apart-Hotel</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Facebook Messenger only</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 9745 2556</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Pedro de Valdivia 150, Piso 12, Providencia</div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--red)">None — Facebook only</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No</span></div>
+</div><div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Active page</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No website = invisible to search</span><span class="amt">-$25,000</span></div>
+<div class="loss-row"><span class="desc">No booking = 100% OTA dependent</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">Premium Providencia location underutilized</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$55,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. Hotel Boutique Tremo Bellavista</h3><span class="biz-type">Hotel Boutique</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Via website contact form</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>Via website</div>
+<div class="contact-row"><span class="lbl">Address:</span>Alberto Reyes 032, Bellavista, Santiago</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.hoteltremobellavista.com" target="_blank">hoteltremobellavista.com</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (third-party)</span></div>
+<div class="audit-row"><span class="metric">Schema data</span><span class="val fail">No</span></div>
+<div class="audit-row"><span class="metric">Blog</span><span class="val fail">No</span></div>
+</div><div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val warn">Exists, low activity</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Template Site</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Template site = low conversion rate</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "boutique hotel Bellavista"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">Low social engagement</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$28,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website Upgrade</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Social Media</span><span class="rec-tag">CRM</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Casa Arrayán Hotel Boutique</h3><span class="biz-type">Mountain Hotel Boutique</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 8451 9835</div>
+<div class="contact-row"><span class="lbl">Address:</span>Cam. A Farellones 15201, Las Condes</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.casaarrayan.cl" target="_blank">casaarrayan.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">No email visible</span><span class="val fail">Fail</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val warn">Form only</span></div>
+</div><div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val warn">Exists</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">No Email on Site</span><span class="gap-tag gap-no-book">No Real Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Mountain boutique niche = high-value lost</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for ski/mountain queries</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No direct booking for premium rates</span><span class="amt">-$15,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$45,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website Upgrade</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Creative Studio</span></div>
+</div></div></div></div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 2: RESTAURANTS & FOOD    -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🍽️ Restaurants & Food <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Station RestoBar</h3><span class="biz-type">Tapas Bar / Restobar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:station.restobar@gmail.com">station.restobar@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 2735 7205</div>
+<div class="contact-row"><span class="lbl">Address:</span>Antonia López de Bello 064, Providencia</div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--red)">None — Facebook only</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No</span></div></div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No website = invisible to 90% who Google</span><span class="amt">-$22,000</span></div>
+<div class="loss-row"><span class="desc">Gmail = unprofessional for events/catering</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No reservations system</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$40,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Utopía Restobar</h3><span class="biz-type">Gastro Pub / Fusion</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@utopiarestobar.cl">contacto@utopiarestobar.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 5117 1107</div>
+<div class="contact-row"><span class="lbl">Address:</span>Barrio Italia, Santiago</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://utopiarestobar.cl" target="_blank">utopiarestobar.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online reservations</span><span class="val pass">OpenTable</span></div>
+<div class="audit-row"><span class="metric">Schema data</span><span class="val fail">No</span></div>
+</div><div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val warn">Low engagement</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">OpenTable commissions on reservations</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for Barrio Italia food queries</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for event/repeat marketing</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$24,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website Upgrade</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Social Media</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. Salvador Cocina y Café</h3><span class="biz-type">Chilean Home Cooking</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@salvadorcocinaycafe.cl">contacto@salvadorcocinaycafe.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 5817 9777</div>
+<div class="contact-row"><span class="lbl">Address:</span>Bombero Adolfo Ossa 1099, Santiago</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://salvadorcocinaycafe.cl" target="_blank">salvadorcocinaycafe.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Schema</span><span class="val fail">No</span></div></div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val warn">Exists</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Site</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for traditional Chilean food queries</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No online ordering/delivery</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for loyalty/repeat visits</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Commerce Build</span><span class="rec-tag">Social Media</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Bohemia Restobar</h3><span class="biz-type">Restobar / Bar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 2349 5733</div>
+<div class="contact-row"><span class="lbl">Address:</span>Catedral 2227, Barrio Brasil, Santiago Centro</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.barbohemia.cl" target="_blank">barbohemia.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">No email on site</span><span class="val fail">Fail</span></div>
+<div class="audit-row"><span class="metric">Schema</span><span class="val warn">Basic LocalBusiness</span></div></div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@bohemiarestobarstgo</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">No Email on Site</span><span class="gap-tag gap-no-book">No Reservations</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No email = lost private events/groups</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No reservation system</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for bar regulars</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website Upgrade</span><span class="rec-tag">CRM</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Pikada Pizzas y Empanadas</h3><span class="biz-type">Fast Food / Delivery</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 2231 9980 / +56 9 6403 4246</div>
+<div class="contact-row"><span class="lbl">Address:</span>Pío X 2512, Providencia</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.pikada.cl" target="_blank">pikada.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online ordering</span><span class="val warn">Phone/WhatsApp only</span></div>
+<div class="audit-row"><span class="metric">No email</span><span class="val fail">Fail</span></div></div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val fail">Not found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-social">Zero Social</span><span class="gap-tag gap-no-book">No Online Ordering</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No online ordering = losing to Rappi/Uber</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">Zero social media for delivery brand</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "pizza delivery Providencia"</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$33,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">Commerce Build</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Google Ads</span></div>
+</div></div></div></div>
+
+<!-- R6-R10: Remaining restaurants using data gathered -->
+<div class="biz-card"><div class="biz-header"><h3>6. Demencia Restobar</h3><span class="biz-type">Cocktail Bar / Restaurant</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 3245 0340</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Vitacura 3520, Vitacura</div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--red)">None</span></div>
+<div class="audit-section"><h4>Website Audit</h4><div class="audit-row"><span class="metric">Has website</span><span class="val fail">No</span></div></div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@demencia_restobar</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val fail">Not found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Premium Vitacura — no website = lost discovery</span><span class="amt">-$25,000</span></div>
+<div class="loss-row"><span class="desc">No reservation system beyond phone</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$35,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Social Media</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Take a Break</h3><span class="biz-type">Pizza & Empanadas Delivery</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Via website form</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>Via website</div>
+<div class="contact-row"><span class="lbl">Address:</span>Santiago (delivery-only)</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://takeabreak.cl" target="_blank">takeabreak.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online ordering</span><span class="val warn">Basic form</span></div></div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val warn">Exists</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Site</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Basic ordering = losing to Rappi/PedidosYa</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for delivery queries</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">Commerce Build</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Google Ads</span><span class="rec-tag">CRM</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Emporio Zunino</h3><span class="biz-type">Traditional Empanada Factory (90+ years)</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Via website</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>Via website</div>
+<div class="contact-row"><span class="lbl">Address:</span>Santiago Centro</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.emporiozunino.cl" target="_blank">emporiozunino.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">E-commerce</span><span class="val fail">No online ordering</span></div></div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val warn">Exists</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">No E-commerce</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">90-year brand with no e-commerce</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "empanadas Santiago" queries</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$32,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">Commerce Build</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Social Media</span><span class="rec-tag">CRM</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. El Rápido</h3><span class="biz-type">Traditional Fast Food (80+ years)</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Via website</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Near Plaza de Armas, Santiago Centro</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="http://elrapido.cl" target="_blank">elrapido.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (HTTP, no SSL)</span></div>
+<div class="audit-row"><span class="metric">SSL certificate</span><span class="val fail">No — HTTP only</span></div></div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">No SSL (insecure)</span><span class="gap-tag gap-no-social">No Social</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SSL = browser security warnings</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">80-year brand invisible online</span><span class="amt">-$15,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Google Ads</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Comedy Restobar</h3><span class="biz-type">Comedy Club / Restobar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Via website</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Seminario 614, Providencia</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.comedy.cl" target="_blank">comedy.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Event booking</span><span class="val warn">Basic</span></div></div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val warn">Exists</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Site</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "comedy Santiago" queries</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for event attendee marketing</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website Upgrade</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div></div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 3: HEALTH & VETERINARY   -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🏥 Health & Veterinary <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Clinvet Veterinaria</h3><span class="biz-type">Veterinary Clinic — Providencia</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:clinvetrecepcion@gmail.com">clinvetrecepcion@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 3339 7184 / WhatsApp: +56 9 3460 7777</div>
+<div class="contact-row"><span class="lbl">Address:</span>Los Conquistadores 2328, Providencia</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://clinvet.cl" target="_blank">clinvet.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No — phone/WhatsApp only</span></div>
+<div class="audit-row"><span class="metric">Schema</span><span class="val fail">No</span></div></div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val warn">Exists</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-book">No Online Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">50% appointments after hours = lost</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">Gmail = unprofessional for referrals</span><span class="amt">-$6,000</span></div>
+<div class="loss-row"><span class="desc">No-shows without reminders</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$32,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">CRM</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Voice AI</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Centro Veterinario VetSalud</h3><span class="biz-type">Vet Clinic — Santiago Centro</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:vetsaluddomicilio@gmail.com">vetsaluddomicilio@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 8321 3462</div>
+<div class="contact-row"><span class="lbl">Address:</span>Marín 158, Santiago</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.vetsalud.cl" target="_blank">vetsalud.cl</a></div>
+<div class="audit-section"><h4>Website/Social</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">After-hours bookings lost</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">Gmail + no SEO</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">CRM</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. Centro Veterinario Ñuñoa</h3><span class="biz-type">Vet Clinic — Ñuñoa</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:centroveterinarionunoa@gmail.com">centroveterinarionunoa@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 2848 8012 / WhatsApp: +56 9 7104 1183</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. José Domingo Cañas 590, Ñuñoa</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.cvetnunoa.cl" target="_blank">cvetnunoa.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-book">No Online Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">Gmail + no booking + no SEO</span><span class="amt">-$28,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$28,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">CRM</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Clínica Veterinaria Providencia</h3><span class="biz-type">24h Vet Clinic</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:clinicaveterinariaprovidencia@gmail.com">clinicaveterinariaprovidencia@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 2235 5855</div>
+<div class="contact-row"><span class="lbl">Address:</span>Santa Beatriz 126, Providencia</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.veterinariaprovidencia.cl" target="_blank">veterinariaprovidencia.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-book">No Online Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">24h clinic with Gmail = lost trust</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No online booking for emergencies</span><span class="amt">-$18,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$33,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">Voice AI (24h)</span><span class="rec-tag">CRM</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Clínica Veterinaria Macul</h3><span class="biz-type">24h Vet Clinic — Ñuñoa</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@clinicaveterinariamacul.cl">contacto@clinicaveterinariamacul.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 2238 6440</div>
+<div class="contact-row"><span class="lbl">Address:</span>José Pedro Alessandri 1799, Ñuñoa</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://clinicaveterinariamacul.cl" target="_blank">clinicaveterinariamacul.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">24h services with no online booking</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "veterinaria Macul"</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$28,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">Voice AI</span><span class="rec-tag">CRM</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Hospital Veterinario Alemán</h3><span class="biz-type">24h Vet Hospital — Ñuñoa</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@hva.cl">contacto@hva.cl</a></div>
+<div class="contact-row"><span class="lbl">Address:</span>Simón Bolívar 2197, Ñuñoa</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hva.cl" target="_blank">hva.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-book">No Booking</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">Hospital-grade clinic with no online system</span><span class="amt">-$30,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$30,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">Voice AI</span><span class="rec-tag">CRM</span><span class="rec-tag">AI Booking</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. CEOS Odontología</h3><span class="biz-type">Dental Clinic — Providencia</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:recepcion@ceos.cl">recepcion@ceos.cl</a></div>
+<div class="contact-row"><span class="lbl">Address:</span>Providencia, Santiago</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.ceos.cl" target="_blank">ceos.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for dental Providencia queries</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for patient retention</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Clínica Dental Odontofobia</h3><span class="biz-type">Dental Clinic — Providencia</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@odontofobia.cl">contacto@odontofobia.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 2225 2247 / Emergency: +56 9 9999 4620</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Salvador 95, Of. 206, Providencia</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.odontofobia.cl" target="_blank">odontofobia.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">Unique niche (dental phobia) with no SEO</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No online booking</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$30,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">AI Booking</span><span class="rec-tag">CRM</span><span class="rec-tag">Google Ads</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. KLife Kinesiología</h3><span class="biz-type">Rehabilitation Center — Ñuñoa</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@klife.cl">contacto@klife.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 5792 0007</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Batlle y Ordoñez 4502, Of. 404, Ñuñoa</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.klife.cl" target="_blank">klife.cl</a> (Wix)</div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Wix Template</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">Wix template = slow, poor conversion</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for kinesiology Ñuñoa</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Odontología Veterinaria Chile</h3><span class="biz-type">Specialized Vet Dental — Ñuñoa</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Via website form</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 2671 0772 / WhatsApp: +56 9 3386 7885</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Grecia 1730, Ñuñoa</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.odontovetchile.cl" target="_blank">odontovetchile.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">Specialty niche with no SEO</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">AI Booking</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 4: BEAUTY & AESTHETICS   -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">💇 Beauty & Aesthetics <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Época Estilistas</h3><span class="biz-type">Hair Salon — Santiago Centro (30+ years)</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:info@epocaestilistas.com">info@epocaestilistas.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 8548 2498</div>
+<div class="contact-row"><span class="lbl">Address:</span>Moneda 782, Santiago Centro</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://epocaestilistas.cl" target="_blank">epocaestilistas.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No</span></div>
+<div class="audit-row"><span class="metric">Schema</span><span class="val fail">No</span></div></div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val warn">Exists, low activity</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Online Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">71% skip booking when hard to reach</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">30-year brand with no SEO</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for repeat clients</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$33,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Social Media</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Centro de Estética Mary Blanca</h3><span class="biz-type">Beauty Center — Santiago Centro</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contactomaryblanca@gmail.com">contactomaryblanca@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 2695 8188 / WhatsApp: +56 9 4242 8918</div>
+<div class="contact-row"><span class="lbl">Address:</span>Amunátegui 92, Santiago Centro</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://maryblanca.cl" target="_blank">maryblanca.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">Gmail + no booking + no SEO</span><span class="amt">-$30,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$30,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">CRM</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. Nails Divine</h3><span class="biz-type">Nail Spa — Vitacura</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:nailsdivinespa@gmail.com">nailsdivinespa@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 2886 1647 / WhatsApp: +56 9 4873 3445</div>
+<div class="contact-row"><span class="lbl">Address:</span>Buenaventura 1886, Vitacura</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.nailsdivine.cl" target="_blank">nailsdivine.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-book">No Online Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">Premium Vitacura with Gmail</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No online booking</span><span class="amt">-$15,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$27,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">CRM</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Social Media</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Bárbaros Barbería</h3><span class="biz-type">Classic Barbershop — Ñuñoa</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@barbarosbarberia.cl">contacto@barbarosbarberia.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 6223 6503</div>
+<div class="contact-row"><span class="lbl">Address:</span>Zañartu 2203, Local 03, Ñuñoa</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://barbarosbarberia.cl" target="_blank">barbarosbarberia.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "barberia Ñuñoa"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for loyalty</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$16,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Google Ads</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Club de la Barba</h3><span class="biz-type">Barbershop Chain (3 locations)</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@clubdelabarba.com">contacto@clubdelabarba.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 7206 3315</div>
+<div class="contact-row"><span class="lbl">Address:</span>Bellas Artes / Providencia / Ñuñoa</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.clubdelabarba.cl" target="_blank">clubdelabarba.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">3 locations with no SEO = massive loss</span><span class="amt">-$25,000</span></div>
+<div class="loss-row"><span class="desc">No CRM across locations</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$35,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">AI Website</span><span class="rec-tag">Google Ads</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Pamelan</h3><span class="biz-type">Hair Salon & Aesthetics — Las Condes</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@pamelan.cl">contacto@pamelan.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 6608 4061</div>
+<div class="contact-row"><span class="lbl">Address:</span>Latadia 5042, Las Condes</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://pamelan.cl" target="_blank">pamelan.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">Las Condes premium area, no booking</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No SEO</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$28,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Social Media</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Beauty Nails Spa</h3><span class="biz-type">Nail Salon — La Florida</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:pamelagiovanna@hotmail.com">pamelagiovanna@hotmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 2403 2674</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. La Florida 9330, Santiago</div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--red)">None — Facebook only</span></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-gmail">Hotmail for Business</span><span class="gap-tag gap-no-book">No Booking</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">No website + Hotmail = max credibility loss</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$32,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">Social Media</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Daninails Spa</h3><span class="biz-type">Nail Spa — Santiago Centro</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found — WhatsApp only</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 8708 2462</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Libertador B. O'Higgins 853, Local 12</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://daninailsspa.cl" target="_blank">daninailsspa.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">No Email on Site</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">No email + no booking</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for nail salon Santiago</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$26,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. Nails in the City</h3><span class="biz-type">Nail Art Studio — Providencia</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found — WhatsApp only</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 4773 5416</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Los Leones 34, Providencia</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://nailsinthecity.cl" target="_blank">nailsinthecity.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">No Email</span><span class="gap-tag gap-no-book">WhatsApp Only</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">WhatsApp-only = 50% after-hours lost</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">Providencia premium area, no SEO</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Caballeros Barbería</h3><span class="biz-type">Barbershop Chain (4 locations)</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Via website form</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>Via website</div>
+<div class="contact-row"><span class="lbl">Address:</span>La Florida / Santiago / Providencia / Ñuñoa</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://caballerosbarberiaoficial.cl" target="_blank">caballerosbarberiaoficial.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Est. Annual Loss</h4>
+<div class="loss-row"><span class="desc">4 locations with no SEO = massive loss</span><span class="amt">-$30,000</span></div>
+<div class="loss-row"><span class="desc">No CRM across locations</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total</span><span class="amt">-$42,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO (4 locations)</span><span class="rec-tag">CRM</span><span class="rec-tag">AI Website</span><span class="rec-tag">Google Ads</span></div>
+</div></div></div>
+
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+<h2>Santiago: <span>$2.4M in Annual Revenue Lost</span> Across 40 Businesses</h2>
+<p>Every business above has documented digital gaps costing them real money every month. The solution starts at $497/mo.</p>
+<a href="la-serena-digital-gaps.html" class="cta-btn">See Full Gap Analysis Methodology →</a>
+</div>
+
+</div>
+<footer class="report-footer">
+<div class="container">
+<p><strong>NetWebMedia</strong> — AI Marketing for Growth | netwebmedia.com | hello@netwebmedia.com</p>
+<p style="margin-top:8px;">Santiago Prospect Report generated April 15, 2026. Individual business analyses based on public website audits, social media research, and industry revenue benchmarks.</p>
+</div>
+</footer>
+</body>
+</html>

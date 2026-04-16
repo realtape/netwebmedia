@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetWebMedia — Temuco Digital Gap Analysis & Revenue Loss Report</title>
+<style>
+  :root {
+    --brand: #ff6b00;
+    --dark: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --blue: #58a6ff;
+    --purple: #bc8cff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--dark); color: var(--text); line-height: 1.7; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  .report-header { background: linear-gradient(135deg, #0d1117 0%, #1c1020 50%, #1a1e2e 100%); border-bottom: 3px solid var(--red); padding: 56px 0 48px; }
+  .report-header h1 { font-size: 2.4rem; font-weight: 800; margin-bottom: 8px; }
+  .report-header h1 span { color: var(--red); }
+  .report-header .subtitle { color: var(--muted); font-size: 1.15rem; max-width: 700px; }
+  .report-header .meta { margin-top: 20px; display: flex; gap: 24px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); }
+  .report-header .meta strong { color: var(--text); }
+
+  /* Mega Stats */
+  .mega-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: -40px 0 40px; position: relative; z-index: 2; }
+  .mega-stat { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; text-align: center; }
+  .mega-stat .num { font-size: 2.6rem; font-weight: 900; }
+  .mega-stat .num.red { color: var(--red); }
+  .mega-stat .num.yellow { color: var(--yellow); }
+  .mega-stat .num.green { color: var(--green); }
+  .mega-stat .num.blue { color: var(--blue); }
+  .mega-stat .num.brand { color: var(--brand); }
+  .mega-stat .label { font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
+  .mega-stat .sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; font-style: italic; }
+
+  /* Section Headers */
+  .section { margin: 56px 0; }
+  .section-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+  .section-title .icon { font-size: 1.8rem; }
+  .section-sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 28px; max-width: 800px; }
+
+  /* Gap Cards */
+  .gap-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+  .gap-card:hover { border-color: var(--red); }
+  .gap-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+  .gap-header h3 { font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .gap-header .severity { font-size: 0.75rem; font-weight: 700; padding: 4px 14px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .severity-critical { background: rgba(248,81,73,0.2); color: var(--red); }
+  .severity-high { background: rgba(210,153,34,0.2); color: var(--yellow); }
+  .severity-medium { background: rgba(88,166,255,0.2); color: var(--blue); }
+
+  .gap-body { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 768px) { .gap-body { grid-template-columns: 1fr; } }
+  .gap-left h4 { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .gap-left p { color: var(--text); font-size: 0.95rem; margin-bottom: 12px; }
+  .gap-left ul { padding-left: 18px; }
+  .gap-left li { font-size: 0.9rem; color: var(--muted); margin-bottom: 4px; }
+  .gap-left li strong { color: var(--text); }
+
+  .gap-right { background: rgba(248,81,73,0.05); border: 1px solid rgba(248,81,73,0.15); border-radius: 12px; padding: 20px; }
+  .gap-right h4 { font-size: 0.85rem; color: var(--red); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .loss-line { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(248,81,73,0.1); }
+  .loss-line:last-child { border-bottom: none; }
+  .loss-line .desc { font-size: 0.9rem; color: var(--muted); }
+  .loss-line .amount { font-size: 1rem; font-weight: 700; color: var(--red); }
+  .loss-total { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 0; border-top: 2px solid var(--red); margin-top: 8px; }
+  .loss-total .desc { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+  .loss-total .amount { font-size: 1.2rem; font-weight: 900; color: var(--red); }
+
+  /* Affected Businesses */
+  .affected { margin-top: 16px; }
+  .affected h4 { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .affected-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .affected-tag { font-size: 0.75rem; padding: 3px 10px; border-radius: 16px; background: rgba(255,255,255,0.05); color: var(--muted); }
+  .affected-tag.critical { background: rgba(248,81,73,0.1); color: var(--red); }
+
+  /* Market Breakdown */
+  .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .market-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
+  .market-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .market-card .icon { font-size: 1.4rem; }
+  .market-metric { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  .market-metric:last-child { border-bottom: none; }
+  .market-metric .label { color: var(--muted); }
+  .market-metric .value { font-weight: 700; }
+  .market-metric .value.red { color: var(--red); }
+  .market-metric .value.green { color: var(--green); }
+  .market-metric .value.brand { color: var(--brand); }
+
+  /* Solution Box */
+  .solution-box { background: rgba(255,107,0,0.05); border: 1px solid rgba(255,107,0,0.2); border-radius: 12px; padding: 20px; margin-top: 16px; }
+  .solution-box h5 { color: var(--brand); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .solution-box ul { padding-left: 18px; }
+  .solution-box li { font-size: 0.85rem; color: var(--muted); margin-bottom: 3px; }
+
+  /* Summary Table */
+  .summary-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+  .summary-table th { background: rgba(255,255,255,0.03); text-align: left; padding: 12px 16px; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid var(--border); }
+  .summary-table td { padding: 12px 16px; font-size: 0.9rem; border-bottom: 1px solid var(--border); }
+  .summary-table tr:hover { background: rgba(255,255,255,0.02); }
+  .summary-table .red { color: var(--red); font-weight: 700; }
+  .summary-table .green { color: var(--green); font-weight: 700; }
+  .summary-table .brand { color: var(--brand); font-weight: 700; }
+
+  /* CTA */
+  .cta-section { background: linear-gradient(135deg, #1a1000 0%, #1a0a00 100%); border: 2px solid var(--brand); border-radius: 20px; padding: 48px; text-align: center; margin: 56px 0; }
+  .cta-section h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
+  .cta-section h2 span { color: var(--brand); }
+  .cta-section p { color: var(--muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto 24px; }
+  .cta-btn { display: inline-block; background: var(--brand); color: #fff; font-size: 1.1rem; font-weight: 700; padding: 14px 36px; border-radius: 12px; text-decoration: none; }
+  .cta-btn:hover { background: #e05f00; }
+
+  /* Footer */
+  .report-footer { text-align: center; padding: 32px 0; border-top: 1px solid var(--border); }
+  .report-footer p { color: var(--muted); font-size: 0.8rem; }
+
+  /* Progress bar */
+  .pbar { height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; margin: 8px 0; }
+  .pbar-fill { height: 100%; border-radius: 4px; }
+  .pbar-fill.red { background: var(--red); }
+  .pbar-fill.yellow { background: var(--yellow); }
+  .pbar-fill.green { background: var(--green); }
+
+  @media (max-width: 768px) {
+    .report-header h1 { font-size: 1.6rem; }
+    .mega-stats { margin-top: 24px; }
+    .gap-header h3 { font-size: 1.1rem; }
+    .cta-section { padding: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header class="report-header">
+  <div class="container">
+    <h1>Digital Gap Analysis: <span>What Temuco Businesses Are Losing</span></h1>
+    <p class="subtitle">A forensic breakdown of every digital gap found across 40 local businesses in Chile's Lake District gateway and Mapuche cultural capital — where a UNESCO-level indigenous cuisine chef has no website, 4 beauty businesses have completely downed servers, and 6 of 10 restaurants don't exist on the internet.</p>
+    <div class="meta">
+      <span>Report Date: <strong>April 15, 2026</strong></span>
+      <span>Businesses Analyzed: <strong>40</strong></span>
+      <span>Markets: <strong>Tourism, Restaurants, Health, Beauty</strong></span>
+      <span>Source: <strong>NetWebMedia Sales Intelligence</strong></span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ========== MEGA STATS ========== -->
+<div class="mega-stats">
+  <div class="mega-stat">
+    <div class="num red">$2.0M</div>
+    <div class="label">Total Estimated Annual Revenue Lost</div>
+    <div class="sub">Across all 40 businesses combined</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num yellow">8</div>
+    <div class="label">Distinct Digital Gaps Identified</div>
+    <div class="sub">Including broken infrastructure crisis in beauty sector</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num red">13</div>
+    <div class="label">Websites Broken, Down, or Missing</div>
+    <div class="sub">7 no website + 6 broken/down/expired/under construction</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num brand">$50,000</div>
+    <div class="label">Avg. Revenue Lost Per Business/Year</div>
+    <div class="sub">Most broken sites of any city analyzed (6)</div>
+  </div>
+</div>
+
+<!-- ========== GAP-BY-GAP BREAKDOWN ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">🔴</span> Gap-by-Gap Breakdown</h2>
+  <p class="section-sub">Each gap below is ranked by severity and includes the estimated annual revenue loss per affected business, based on industry benchmarks and Temuco market data. This is Chile's gateway to the Lake District (Pucon, Villarrica), capital of La Araucania region, heart of Mapuche culture, and a university city with 3 major campuses (UFRO, UCT, Santo Tomas) — ~300,000 metro population with a booming gastro-cultural tourism scene. Yet the restaurant sector has the worst web presence of any city we've analyzed, and Mapuche cuisine — a globally unique culinary heritage — is virtually invisible online.</p>
+
+  <!-- GAP 1: NO WEBSITE -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>🚫 Gap #1: No Website</h3>
+      <span class="severity severity-critical">CRITICAL</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>7 of 40 businesses (17.5%) have <strong>zero web presence</strong> — no domain, no landing page, nothing. They rely entirely on Facebook pages, phone calls, or TripAdvisor/Google Maps listings. This includes <strong>6 of 10 restaurants</strong> — the worst restaurant-sector web adoption of any city analyzed. Most critically, <strong>Zuny Tradiciones</strong> — a Mapuche cuisine restaurant run by a chef recognized as a "living human treasure" — has no website, and neither does <strong>Kokavi</strong>, another Mapuche cultural gastronomy venue.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>90% of consumers</strong> research a business online before visiting (Google, 2025)</li>
+          <li><strong>88% of mobile searchers</strong> visit or call within 24 hours of a local search</li>
+          <li>Temuco is the <strong>gateway to Chile's Lake District</strong> — thousands of tourists pass through searching for restaurants, but 6 of 10 are invisible to Google</li>
+          <li>Zuny Tradiciones has a <strong>living human treasure chef</strong> cooking ancestral Mapuche cuisine — a globally unique cultural experience with <strong>zero digital footprint</strong></li>
+          <li>Kokavi blends <strong>Mapuche gastronomy with cultural education</strong> — the kind of experience international food tourists actively seek, yet it's invisible online</li>
+          <li>Las Tinajas offers a <strong>120+ dish buffet</strong> with no website — the largest buffet in the region can't show its menu to anyone searching "restaurante temuco"</li>
+          <li>Divinas Temuco salon exists only on <strong>Facebook</strong> — invisible to Google search, AI assistants, and anyone who doesn't use Facebook</li>
+          <li>AI search engines (Google AI Overviews, ChatGPT, Perplexity) <strong>cannot cite businesses</strong> with no indexable web content</li>
+        </ul>
+        <h4>Temuco context</h4>
+        <p>Temuco's restaurant sector is <strong>the worst of any city analyzed</strong>: 6 of 10 restaurants have no website at all. The city is home to <strong>Mapuche cuisine</strong> — an indigenous culinary tradition with growing international recognition — yet the restaurants preserving and innovating this heritage have zero digital presence. Food tourists flying into Temuco as a gateway to Pucon and Villarrica <strong>cannot find these restaurants online</strong>. This is a cultural and economic tragedy: UNESCO-worthy cuisine hidden behind a phone number and a Facebook page.</p>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost discovery (invisible to 90% who Google)</span><span class="amount">-$18,000</span></div>
+        <div class="loss-line"><span class="desc">Lost tourist traffic (Lake District gateway)</span><span class="amount">-$10,000</span></div>
+        <div class="loss-line"><span class="desc">Lost direct bookings/orders (no owned channel)</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">Missed AI/voice search citations</span><span class="amount">-$5,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$41,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (7 with no website)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Zuny Tradiciones ("living human treasure" Mapuche chef — phone only)</span>
+        <span class="affected-tag critical">Kokavi (Mapuche cultural gastronomy — Facebook only)</span>
+        <span class="affected-tag critical">Restaurant Portales (traditional Chilean — Facebook only)</span>
+        <span class="affected-tag critical">Palacio Danubio Azul (traditional restaurant — social media only)</span>
+        <span class="affected-tag critical">Las Tinajas (120+ dish buffet — Facebook only)</span>
+        <span class="affected-tag critical">Roca Mar (seafood — phone only)</span>
+        <span class="affected-tag critical">Divinas Temuco (salon — Facebook only)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>CMS AI Website ($497/mo starter)</strong> — custom-built, SEO-optimized, mobile-first site live in 7 days</li>
+        <li><strong>AI SEO</strong> — structured data, local schema, Google Business optimization for Temuco + Lake District tourism keywords</li>
+        <li><strong>AEO Retainer</strong> — ensure citation in AI search engines (ChatGPT, Perplexity, Google AI Overviews)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 2: BROKEN / DOWN / EXPIRED WEBSITES -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>💀 Gap #2: Broken, Down, or Expired Websites</h3>
+      <span class="severity severity-critical">CRITICAL — WORST OF ANY CITY</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>6 of 40 businesses (15%) have websites that are <strong>actively broken</strong>: servers refusing connections (ECONNREFUSED), expired SSL certificates showing "Not Secure" warnings, or sites stuck on "under construction" pages indefinitely. This is <strong>the most broken sites of any city analyzed</strong> — more than Antofagasta (5). The beauty sector is Ground Zero: <strong>4 of 10 beauty businesses have completely downed sites</strong>, the worst sector-specific infrastructure failure we've found in Chile.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li>Barberia San Juan is a <strong>premium barbershop</strong> with a domain that <strong>refuses all connections</strong> — the server is dead</li>
+          <li>David Barber House brands as a <strong>"5-star barber"</strong> but has an <strong>expired SSL certificate</strong> — Chrome shows a full-screen security warning</li>
+          <li>Harry Barber Shop's site is <strong>completely down</strong> (ECONNREFUSED) — the domain exists but nobody's home</li>
+          <li>Drejuvenece is an <strong>aesthetic clinic</strong> with a downed site — patients researching cosmetic procedures see a dead page</li>
+          <li>Centro Clinico Alcala performs <strong>aesthetic medicine</strong> but its site refuses connections — high-value patients bounce immediately</li>
+          <li>Veterinaria Temuco has been <strong>"under construction" indefinitely</strong> — worse than no site because it signals the business doesn't follow through</li>
+          <li>A broken site is <strong>worse than no site</strong> because it signals abandonment, incompetence, or financial distress</li>
+          <li><strong>98% of users</strong> will not bypass an SSL security warning — that traffic is gone forever</li>
+        </ul>
+        <h4>Temuco context</h4>
+        <p>The beauty sector in Temuco is experiencing a <strong>digital infrastructure collapse</strong>. 4 of 10 beauty businesses have completely non-functional websites — Barberia San Juan, David Barber House, Harry Barber Shop, and Drejuvenece all have domains that either refuse connections or show expired certificates. Add Centro Clinico Alcala (aesthetic medicine) and Veterinaria Temuco (under construction), and <strong>6 businesses are paying for domains attached to dead servers</strong>. In no other Chilean city has a single sector shown this level of infrastructure failure. These businesses are literally paying for their own invisibility.</p>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">SSL/down = 98-100% visitor loss</span><span class="amount">-$18,000</span></div>
+        <div class="loss-line"><span class="desc">"Under construction" = signals abandonment</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">Google deranks broken sites</span><span class="amount">-$7,000</span></div>
+        <div class="loss-line"><span class="desc">Paying for dead domain = wasted spend</span><span class="amount">-$2,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$35,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (6 with broken/down/expired sites — most of any city)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Barberia San Juan (barberiasanjuan.cl — ECONNREFUSED / SERVER DEAD)</span>
+        <span class="affected-tag critical">David Barber House (davidbarberhouse.cl — SSL CERTIFICATE EXPIRED)</span>
+        <span class="affected-tag critical">Harry Barber Shop (harrybarbershop.cl — ECONNREFUSED / SERVER DEAD)</span>
+        <span class="affected-tag critical">Drejuvenece (drejuvenece.cl — ECONNREFUSED / SERVER DEAD)</span>
+        <span class="affected-tag critical">Centro Clinico Alcala (alcala.cl — ECONNREFUSED / SERVER DEAD)</span>
+        <span class="affected-tag critical">Veterinaria Temuco (veterinariatemuco.com — "UNDER CONSTRUCTION" indefinitely)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>CMS AI Website Rebuild</strong> — replace broken infrastructure with managed, always-on hosting with automatic SSL</li>
+        <li><strong>Managed Hosting</strong> — SSL auto-renewal, 99.9% uptime SLA, daily backups</li>
+        <li><strong>Emergency Launch</strong> — for downed sites, a professional replacement live in 72 hours</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 3: GMAIL/NO EMAIL -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>📧 Gap #3: Gmail/Hotmail as Business Email or No Email At All</h3>
+      <span class="severity severity-critical">CRITICAL</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>7 of 40 businesses use Gmail as their primary business email, including <code>hostalmaryruca@gmail.com</code> (which <strong>misspells their own brand name</strong> — the hostel is "Mary Ruka" but the email says "maryruca"). An additional <strong>14 businesses have no publicly listed email at all</strong> — relying solely on WhatsApp, phone calls, or Facebook messages. 3 more use corporate/chain-only emails with no local contact. Total: <strong>24 of 40 (60%)</strong> have no professional local email.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>75% of consumers</strong> judge a company's credibility by its email domain (GoDaddy Research)</li>
+          <li>Hostal Mary Ruka's email <strong>misspells their own brand name</strong> — "hostalmaryruca" vs the actual name "Mary Ruka". This signals carelessness to potential guests</li>
+          <li>Gmail addresses signal <strong>"informal, potentially unreliable"</strong> — devastating for dental clinics and aesthetic medicine centers</li>
+          <li>Emails from free domains are <strong>3x more likely to land in spam</strong> folders</li>
+          <li>14 businesses with <strong>no email at all</strong> are invisible to tour operators, corporate groups, and university event organizers</li>
+          <li>Temuco has <strong>3 major universities</strong> (UFRO, UCT, Santo Tomas) — academic conferences and student groups send emails for group bookings, not WhatsApp messages</li>
+          <li>Lake District tour operators organizing <strong>multi-city itineraries</strong> email restaurants and hotels — they can't include businesses they can't contact professionally</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost inquiries (perceived unprofessional)</span><span class="amount">-$7,000</span></div>
+        <div class="loss-line"><span class="desc">Emails landing in spam (never seen)</span><span class="amount">-$4,000</span></div>
+        <div class="loss-line"><span class="desc">No follow-up system (leads go cold)</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">Lost university/tour operator group bookings</span><span class="amount">-$6,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$22,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses — Gmail (7) + No email (14) + Corporate only (3) = 24 of 40</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Hostal Mary Ruka (hostalmaryruca@gmail.com — brand name MISSPELLED!)</span>
+        <span class="affected-tag critical">Hostal Collins House (hostalcollinshouse@gmail.com)</span>
+        <span class="affected-tag critical">Peuma Ñuke (peumanuke@gmail.com — Mapuche gastronomy brand)</span>
+        <span class="affected-tag critical">Clinica Vet Kennel (clinicaveterinariakennel@gmail.com — 28 years!)</span>
+        <span class="affected-tag critical">Vet Metrenco (veterinaria.metrenco@gmail.com — hospital-level)</span>
+        <span class="affected-tag critical">Dentmas Ortodoncia (dentmasortodoncia@gmail.com)</span>
+        <span class="affected-tag critical">Drejuvenece (drejuvenece@gmail.com — aesthetic clinic)</span>
+        <span class="affected-tag">Zuny, Portales, Danubio Azul, Las Tinajas, Kokavi, Roca Mar, Tablas (no email)</span>
+        <span class="affected-tag">DEPISOFT, David Barber, Harry Barber, Rimbauer, Alcala, Divinas (no email)</span>
+        <span class="affected-tag">Sushi Blues (chain), Holiday Inn (corporate), Vet Sevilla (contact form only)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>CRM with branded email</strong> — professional @business.cl domain included with every website package</li>
+        <li><strong>AI Automations</strong> — auto-reply, lead capture, follow-up sequences</li>
+        <li><strong>Lifecycle Email</strong> — automated re-engagement, booking confirmations, and group inquiry management</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 4: NO ONLINE BOOKING -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>📅 Gap #4: No Online Booking System</h3>
+      <span class="severity severity-critical">CRITICAL</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>22 of 40 businesses (55%) have <strong>no way for customers to book online</strong>. Customers must call during business hours, send a WhatsApp, or walk in. The restaurant sector is a wasteland: <strong>9 of 10 restaurants have no online reservation system</strong> (only Sushi Blues has online ordering). Health is equally dire: <strong>5 of 10 vet/dental clinics</strong> have no booking despite serving a market where <strong>50% of appointments happen after hours</strong>. Beauty: <strong>6 of 10</strong> rely on phone/WhatsApp only.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>50% of bookings</strong> happen after business hours — university students and tourist travelers book at night</li>
+          <li><strong>71% of salon regulars</strong> have skipped booking because it was too hard to reach someone</li>
+          <li>Veterinary clinics lose <strong>$50,000/year</strong> to cancellations and no-shows without automated reminders</li>
+          <li>Zuny Tradiciones (Mapuche chef) and Kokavi (Mapuche gastronomy) <strong>can't take reservations from cultural tourism groups</strong> — tour operators move on to competitors</li>
+          <li>Hostal Collins House has an <strong>availability form but no real booking</strong> — guests fill out a form and wait for a phone call back</li>
+          <li>Hostal Mary Ruka relies on <strong>WhatsApp only</strong> — international tourists may not have Chilean WhatsApp numbers</li>
+          <li>Temuco is a <strong>university city</strong> — students (digital natives) expect to book everything online. Phone-only businesses lose the entire 18-25 demographic</li>
+          <li>Lake District tourists planning <strong>multi-day itineraries</strong> book hotels and restaurants online weeks in advance — if it's not bookable, it's not on the itinerary</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">After-hours bookings lost (50% of demand)</span><span class="amount">-$12,000</span></div>
+        <div class="loss-line"><span class="desc">Tourist pre-trip planning bookings lost</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">No-shows without automated reminders</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">Friction abandonment (gave up trying to book)</span><span class="amount">-$7,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$33,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (22 of 40)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">9 of 10 Restaurant prospects (only Sushi Blues has ordering — no one has reservations)</span>
+        <span class="affected-tag critical">5 of 10 Health prospects (Kennel, Sevilla, Metrenco, Eden, Vet Temuco = no booking)</span>
+        <span class="affected-tag critical">6 of 10 Beauty prospects (phone/WhatsApp only — downed sites can't book either)</span>
+        <span class="affected-tag critical">2 of 10 Tourism prospects (Collins House form-only, Mary Ruka WhatsApp-only)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>AI Booking Agent</strong> — 24/7 intelligent booking via website, WhatsApp, and voice</li>
+        <li><strong>Voice AI</strong> — answers calls, books appointments, sends confirmations automatically</li>
+        <li><strong>CRM</strong> — captures every lead with automated follow-up, reminders, and group booking management</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 5: NO/WEAK SOCIAL MEDIA -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>📱 Gap #5: No Social Media or Minimal Presence</h3>
+      <span class="severity severity-high">HIGH</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>5 of 40 businesses (12.5%) have <strong>absolutely zero social media</strong> — no Instagram, no Facebook, nothing. Another 10+ have severely limited or outdated profiles. The most shocking: <strong>DEPISOFT has been in business for 21 years</strong> but has no Instagram, no Facebook, and no social media presence whatsoever. <strong>Veterinaria Eden</strong> (a vet clinic) and <strong>Hostal Mary Ruka</strong> are completely absent from social platforms. Veterinaria Sevilla only has <strong>Twitter</strong> — no Instagram, no Facebook.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>58.7% of Chilean consumers</strong> use social media to research products and services (DataReportal 2026)</li>
+          <li>Chileans spend <strong>52+ hours/week</strong> on connected digital media</li>
+          <li>Instagram is the <strong>#1 discovery platform</strong> for restaurants, beauty, and hospitality</li>
+          <li>DEPISOFT has operated for <strong>21 years with zero social media</strong> — in a beauty industry where Instagram IS the portfolio, this is leaving enormous revenue on the table</li>
+          <li>Mapuche gastronomy restaurants like Zuny and Kokavi have <strong>visually stunning, culturally rich food</strong> that would dominate Instagram — but they're not on it (or barely)</li>
+          <li>University students (UFRO, UCT, Santo Tomas) are <strong>social-media-first consumers</strong> — businesses without Instagram don't exist to them</li>
+          <li>Lake District tourists discover restaurants and experiences <strong>through Instagram hashtags and location tags</strong> like #Temuco #LaAraucania #ComidaMapuche</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost discovery by 58.7% who research on social</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">No Instagram portfolio (beauty/food critical)</span><span class="amount">-$7,000</span></div>
+        <div class="loss-line"><span class="desc">Zero paid social campaigns</span><span class="amount">-$4,000</span></div>
+        <div class="loss-line"><span class="desc">No user-generated content / reviews</span><span class="amount">-$3,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$22,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (5 with zero social + 10+ with weak/limited presence)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">DEPISOFT (21 years in business — ZERO social media)</span>
+        <span class="affected-tag critical">Veterinaria Eden (vet clinic — no social at all)</span>
+        <span class="affected-tag critical">Hostal Mary Ruka (hostel — no social media at all)</span>
+        <span class="affected-tag critical">Roca Mar (seafood — no social detected)</span>
+        <span class="affected-tag critical">Posada Selva Negra (guesthouse — minimal social)</span>
+        <span class="affected-tag">Veterinaria Sevilla (Twitter only — no IG, no FB)</span>
+        <span class="affected-tag">David Barber, Harry Barber, Alcala (sites down, social unverifiable)</span>
+        <span class="affected-tag">+10 more with weak/inconsistent profiles</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>Social Media Management</strong> — content calendar, posting, engagement across IG + FB + TikTok</li>
+        <li><strong>Creative Studio</strong> — AI-generated visuals, Mapuche cuisine photography, video reels of cultural experiences</li>
+        <li><strong>Paid Ads (Meta/Google)</strong> — targeted campaigns for Lake District tourists, university students, and locals</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 6: OUTDATED/TEMPLATE/FREE-TIER -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>🌐 Gap #6: Outdated / Template / Free-Tier Website</h3>
+      <span class="severity severity-high">HIGH</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>3 of the businesses that have websites are running <strong>problematic free-tier or bloated template sites</strong>. Two businesses operate on <strong>ueniweb.com free builder subdomains</strong>: Tablas Picoteo Temuco (<code>tablas-picoteo-temuco.ueniweb.com</code>) and Rimbauer Barber (<code>rimbauer-barber.ueniweb.com</code>). Hotel Newen runs a <strong>bloated WordPress/Elementor site</strong> with excessive CSS that slows mobile load times. These aren't real websites — they're digital liabilities.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>53% of mobile users</strong> abandon a site that takes more than 3 seconds to load</li>
+          <li>Two businesses on <strong>ueniweb.com subdomains</strong> — URLs like "tablas-picoteo-temuco.ueniweb.com" are unmemorizable, unshareable, and screams "we didn't invest in our brand"</li>
+          <li>Free builder sites <strong>can't rank in Google</strong> — the subdomain authority belongs to ueniweb.com, not the business</li>
+          <li>Hotel Newen's <strong>bloated Elementor</strong> site loads slowly on mobile — tourists browsing on 4G while traveling to Pucon will abandon before it renders</li>
+          <li>Rimbauer Barber's free builder site has <strong>no booking system</strong> and no email — it's a digital brochure on borrowed infrastructure</li>
+          <li>Tablas Picoteo has <strong>no domain, no email, no booking</strong> — the ueniweb page is essentially a Google Maps placeholder with extra steps</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Slow load = 53% mobile abandonment</span><span class="amount">-$7,000</span></div>
+        <div class="loss-line"><span class="desc">Free subdomain = zero brand trust</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">Poor SEO ranking vs. competitors</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">No analytics = wasted marketing spend</span><span class="amount">-$2,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$20,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (3 with template/free-tier/bloated sites)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Tablas Picoteo (tablas-picoteo-temuco.ueniweb.com — free builder subdomain)</span>
+        <span class="affected-tag critical">Rimbauer Barber (rimbauer-barber.ueniweb.com — free builder subdomain)</span>
+        <span class="affected-tag">Hotel Newen (WordPress/Elementor — bloated CSS, slow mobile)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>CMS AI Website Rebuild</strong> — fast, modern, SEO-optimized with conversion funnels built in</li>
+        <li><strong>Custom Domain + Hosting</strong> — professional .cl domain, managed hosting, SSL included</li>
+        <li><strong>CRO (Conversion Rate Optimization)</strong> — A/B testing, heatmaps, funnel analysis</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 7: ZERO SEO -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>🔍 Gap #7: Zero SEO / No Google Business Optimization</h3>
+      <span class="severity severity-high">HIGH</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>39 of 40 businesses (97.5%) have <strong>no SEO strategy whatsoever</strong>. No keyword targeting, no structured data, no Google Business Profile optimization, no local pack strategy, no blog content. Only Hotel Dreams Araucania (corporate chain) shows any SEO structure through its WordPress setup. The other 39 are invisible in organic search — and in a city that serves as the <strong>gateway to Chile's Lake District</strong>, that means invisible to every tourist typing "hotel temuco", "restaurante temuco", or "comida mapuche".</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li>The Google Local Pack (top 3 map results) captures <strong>42% of all clicks</strong></li>
+          <li><strong>73.9% of Chilean internet users</strong> go online primarily to find information</li>
+          <li>Temuco searches have <strong>enormous tourism intent</strong> — "hotel temuco", "restaurante temuco", "que hacer en temuco" are queries from people about to spend money</li>
+          <li>In 2026, <strong>AI Overviews appear above organic results</strong> — businesses without structured data get zero visibility</li>
+          <li><strong>"Comida mapuche temuco"</strong> is an uncontested, growing keyword — the first business to invest in SEO captures the entire gastro-tourism market</li>
+          <li><strong>"Dentista temuco"</strong>, <strong>"veterinaria temuco"</strong>, <strong>"barberia temuco"</strong> are all uncontested local keywords where first-mover wins</li>
+          <li>University students generate <strong>constant local search volume</strong> for food, services, and health — "near me" queries that these businesses can't capture</li>
+          <li>97.5% zero SEO matches Antofagasta as the <strong>worst SEO adoption rate</strong> of any city analyzed</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Not in Google Local Pack (top 3)</span><span class="amount">-$12,000</span></div>
+        <div class="loss-line"><span class="desc">Outranked by directories + aggregators</span><span class="amount">-$7,000</span></div>
+        <div class="loss-line"><span class="desc">Invisible in AI Overviews / voice search</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">No Google Business optimization</span><span class="amount">-$4,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$28,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (39 of 40)</h4>
+      <div class="affected-list">
+        <span class="affected-tag">Nearly all 40 prospects — 97.5% have zero SEO</span>
+        <span class="affected-tag">Only Hotel Dreams (corporate WordPress) shows minimal structured data</span>
+        <span class="affected-tag critical">"Comida mapuche temuco" = completely uncontested keyword with growing global interest</span>
+        <span class="affected-tag critical">Tied with Antofagasta for worst SEO adoption rate of any city</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>AI SEO & Content</strong> — keyword research, on-page optimization, blog content targeting Lake District tourism, Mapuche culture, and local queries</li>
+        <li><strong>AEO Retainer</strong> — Answer Engine Optimization for AI search citation</li>
+        <li><strong>Google Business Management</strong> — posts, reviews, Q&A, photos, local pack ranking</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 8: NO CRM -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>🤖 Gap #8: No CRM / Customer Data System</h3>
+      <span class="severity severity-medium">MEDIUM</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>38 of 40 businesses (95%) have <strong>no CRM, no customer database, no email list, and no automated follow-up system</strong>. Customer relationships exist only in the owner's phone contacts or WhatsApp chat history. Only Clinica ICOS (Rezebra + Medicap booking system) and Dentmas (AgendaPro) show any form of customer data management. Every other business is flying blind.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>Acquiring a new customer costs 5-7x more</strong> than retaining an existing one</li>
+          <li>A <strong>5% increase in retention</strong> can boost profits by 25-95% (Harvard Business Review)</li>
+          <li>Without a CRM, there are <strong>no birthday emails, no loyalty offers, no re-engagement campaigns</strong></li>
+          <li>Hotels like Frontera and RP serve <strong>repeat Lake District travelers</strong> who come multiple times per year — without CRM, they can't recognize or reward loyalty</li>
+          <li>Dental clinics and vet clinics with no CRM <strong>can't send treatment reminders, follow-up care instructions, or reactivation offers</strong></li>
+          <li>Mapuche gastronomy restaurants could build <strong>cultural tourism mailing lists</strong> — food tourists who visit once would return and refer others if nurtured</li>
+          <li>University students are a <strong>captive audience for 4-5 years</strong> — a CRM could nurture them from freshmen to loyal regulars</li>
+          <li>If an employee leaves, <strong>all their customer relationships leave with them</strong> — devastating for salons and barbershops</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost repeat business (no re-engagement)</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">No loyalty/referral program</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">Lost upsell opportunities</span><span class="amount">-$4,000</span></div>
+        <div class="loss-line"><span class="desc">No seasonal/promotional marketing</span><span class="amount">-$3,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$20,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses</h4>
+      <div class="affected-list">
+        <span class="affected-tag">38 of 40 prospects (95%)</span>
+        <span class="affected-tag">Only 2 show CRM/data capability (ICOS via Rezebra/Medicap, Dentmas via AgendaPro)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>CRM</strong> — full customer database with segmentation and pipeline tracking</li>
+        <li><strong>AI Automations</strong> — birthday emails, loyalty rewards, Lake District seasonal campaigns</li>
+        <li><strong>Lifecycle Email</strong> — automated sequences for onboarding, re-engagement, win-back</li>
+        <li><strong>AI SDR</strong> — automated outbound follow-up and lead qualification</li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
+<!-- ========== MARKET-BY-MARKET BREAKDOWN ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">📊</span> Revenue Loss by Market</h2>
+  <p class="section-sub">How much each market vertical is leaving on the table in Chile's Lake District gateway city, and what NetWebMedia can recover.</p>
+
+  <div class="market-grid">
+
+    <!-- Tourism -->
+    <div class="market-card">
+      <h3><span class="icon">🏨</span> Tourism & Hospitality</h3>
+      <div class="market-metric"><span class="label">Businesses analyzed</span><span class="value">10</span></div>
+      <div class="market-metric"><span class="label">With no website</span><span class="value">0 (0%)</span></div>
+      <div class="market-metric"><span class="label">Gmail / no email</span><span class="value red">5 (50%)</span></div>
+      <div class="market-metric"><span class="label">No real online booking</span><span class="value">2 (20%)</span></div>
+      <div class="market-metric"><span class="label">Bloated / weak website</span><span class="value yellow">1 (10%)</span></div>
+      <div class="market-metric"><span class="label">No SEO strategy</span><span class="value red">9 (90%)</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Est. loss per business/year</span><span class="value red">-$48,000</span></div>
+      <div class="market-metric"><span class="label">Total market loss/year</span><span class="value red">-$480,000</span></div>
+      <div class="market-metric"><span class="label">Recoverable with NWM</span><span class="value green">$336,000</span></div>
+      <div class="pbar"><div class="pbar-fill red" style="width:78%"></div></div>
+      <div class="solution-box">
+        <h5>Key Insight</h5>
+        <ul>
+          <li><strong>100% have no CRM</strong> — in a Lake District gateway where tourists return multiple times per year</li>
+          <li>Posada Selva Negra is <strong>100% OTA-dependent</strong> — paying 15-25% commission on every booking</li>
+          <li>Hostal Mary Ruka has a <strong>misspelled Gmail</strong> as its business email and zero social media</li>
+          <li>Hotel Newen's <strong>bloated Elementor site</strong> loads slowly for tourists on mobile 4G</li>
+          <li>Diego de Almagro has an <strong>SSL certificate issue</strong> on its corporate chain site</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Restaurants -->
+    <div class="market-card">
+      <h3><span class="icon">🍽️</span> Restaurants & Food</h3>
+      <div class="market-metric"><span class="label">Businesses analyzed</span><span class="value">10</span></div>
+      <div class="market-metric"><span class="label">With no website</span><span class="value red">6 (60%)</span></div>
+      <div class="market-metric"><span class="label">Gmail / no email</span><span class="value red">8 (80%)</span></div>
+      <div class="market-metric"><span class="label">No online reservations</span><span class="value red">9 (90%)</span></div>
+      <div class="market-metric"><span class="label">Free builder site</span><span class="value yellow">1 (10%)</span></div>
+      <div class="market-metric"><span class="label">No SEO strategy</span><span class="value red">10 (100%)</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Est. loss per business/year</span><span class="value red">-$53,000</span></div>
+      <div class="market-metric"><span class="label">Total market loss/year</span><span class="value red">-$530,000</span></div>
+      <div class="market-metric"><span class="label">Recoverable with NWM</span><span class="value green">$371,000</span></div>
+      <div class="pbar"><div class="pbar-fill red" style="width:90%"></div></div>
+      <div class="solution-box">
+        <h5>Key Insight</h5>
+        <ul>
+          <li><strong>60% have NO website at all</strong> — the worst restaurant web adoption of any city analyzed</li>
+          <li>Zuny Tradiciones has a <strong>"living human treasure" Mapuche chef with ZERO digital presence</strong> — the biggest cultural asset/digital gap mismatch we've found in Chile</li>
+          <li>Kokavi and Peuma Ñuke serve <strong>globally unique Mapuche cuisine</strong> with minimal/no web presence — cultural tourism gold left unmined</li>
+          <li>90% can't take <strong>online reservations</strong> — Lake District tourists can't book dinner in advance</li>
+          <li>100% have no SEO — "restaurante temuco" and "comida mapuche" go to <strong>TripAdvisor, not to these restaurants</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Health -->
+    <div class="market-card">
+      <h3><span class="icon">🏥</span> Health & Veterinary</h3>
+      <div class="market-metric"><span class="label">Businesses analyzed</span><span class="value">10</span></div>
+      <div class="market-metric"><span class="label">With no website</span><span class="value">0 (0%)</span></div>
+      <div class="market-metric"><span class="label">Under construction site</span><span class="value red">1 (10%)</span></div>
+      <div class="market-metric"><span class="label">Gmail / no email</span><span class="value red">4 (40%)</span></div>
+      <div class="market-metric"><span class="label">No online booking</span><span class="value red">5 (50%)</span></div>
+      <div class="market-metric"><span class="label">No social media</span><span class="value yellow">2 (20%)</span></div>
+      <div class="market-metric"><span class="label">No SEO strategy</span><span class="value red">10 (100%)</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">8 (80%)</span></div>
+      <div class="market-metric"><span class="label">Est. loss per business/year</span><span class="value red">-$49,000</span></div>
+      <div class="market-metric"><span class="label">Total market loss/year</span><span class="value red">-$490,000</span></div>
+      <div class="market-metric"><span class="label">Recoverable with NWM</span><span class="value green">$343,000</span></div>
+      <div class="pbar"><div class="pbar-fill red" style="width:72%"></div></div>
+      <div class="solution-box">
+        <h5>Key Insight</h5>
+        <ul>
+          <li>Veterinaria Temuco has been <strong>"under construction" indefinitely</strong> — a vet clinic people can't find</li>
+          <li>Clinica Vet Kennel has operated for <strong>28 years</strong> but still uses a Gmail address</li>
+          <li>Vet Metrenco is a <strong>hospital-level facility</strong> on Gmail — the dissonance destroys credibility</li>
+          <li>Veterinaria Eden has <strong>no social media at all</strong> — the only way to find them is Google Maps</li>
+          <li>50% can't take bookings — <strong>50% of vet appointments happen after hours</strong>, those are lost forever</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Beauty -->
+    <div class="market-card">
+      <h3><span class="icon">💇</span> Beauty & Aesthetics</h3>
+      <div class="market-metric"><span class="label">Businesses analyzed</span><span class="value">10</span></div>
+      <div class="market-metric"><span class="label">With no website</span><span class="value red">1 (10%)</span></div>
+      <div class="market-metric"><span class="label">Broken/down sites</span><span class="value red">4 (40%)</span></div>
+      <div class="market-metric"><span class="label">Gmail / no email</span><span class="value red">7 (70%)</span></div>
+      <div class="market-metric"><span class="label">No online booking</span><span class="value red">6 (60%)</span></div>
+      <div class="market-metric"><span class="label">Free builder site</span><span class="value yellow">1 (10%)</span></div>
+      <div class="market-metric"><span class="label">No SEO strategy</span><span class="value red">10 (100%)</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Est. loss per business/year</span><span class="value red">-$50,000</span></div>
+      <div class="market-metric"><span class="label">Total market loss/year</span><span class="value red">-$500,000</span></div>
+      <div class="market-metric"><span class="label">Recoverable with NWM</span><span class="value green">$350,000</span></div>
+      <div class="pbar"><div class="pbar-fill red" style="width:88%"></div></div>
+      <div class="solution-box">
+        <h5>Key Insight</h5>
+        <ul>
+          <li><strong>4 of 10 have completely DOWNED websites</strong> — the worst sector-specific infrastructure failure of any city</li>
+          <li>Barberia San Juan, David Barber House, Harry Barber, Drejuvenece all have <strong>dead servers</strong> — paying for domains attached to nothing</li>
+          <li>DEPISOFT has been in beauty for <strong>21 years with ZERO social media</strong> — Instagram is the #1 beauty discovery platform</li>
+          <li>Centro Clinico Alcala does <strong>aesthetic medicine</strong> with a dead website — high-value patients researching procedures see a broken page</li>
+          <li>Rimbauer Barber operates on a <strong>ueniweb.com free subdomain</strong> with no booking and no email</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== MASTER SUMMARY TABLE ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">📋</span> Master Gap Summary</h2>
+  <p class="section-sub">All 8 digital gaps ranked by total revenue impact across 40 Temuco businesses. Temuco holds the record for most broken/downed websites (6) of any city analyzed, with 4 concentrated in the beauty sector — an unprecedented sector-specific infrastructure collapse.</p>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Gap</th>
+        <th>Severity</th>
+        <th>Businesses Affected</th>
+        <th>% of Total</th>
+        <th>Loss/Business/Year</th>
+        <th>Total Annual Loss</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>No Website</td>
+        <td class="red">CRITICAL</td>
+        <td>7</td>
+        <td>17.5%</td>
+        <td class="red">-$41,000</td>
+        <td class="red">-$287,000</td>
+      </tr>
+      <tr>
+        <td>Broken/Down/Expired Sites</td>
+        <td class="red">CRITICAL</td>
+        <td>6</td>
+        <td>15%</td>
+        <td class="red">-$35,000</td>
+        <td class="red">-$210,000</td>
+      </tr>
+      <tr>
+        <td>Gmail / No Email</td>
+        <td class="red">CRITICAL</td>
+        <td>24</td>
+        <td>60%</td>
+        <td class="red">-$22,000</td>
+        <td class="red">-$528,000</td>
+      </tr>
+      <tr>
+        <td>No Online Booking</td>
+        <td class="red">CRITICAL</td>
+        <td>22</td>
+        <td>55%</td>
+        <td class="red">-$33,000</td>
+        <td class="red">-$726,000</td>
+      </tr>
+      <tr>
+        <td>No/Weak Social Media</td>
+        <td style="color:var(--yellow);font-weight:700">HIGH</td>
+        <td>15</td>
+        <td>37.5%</td>
+        <td class="red">-$22,000</td>
+        <td class="red">-$330,000</td>
+      </tr>
+      <tr>
+        <td>Outdated/Template/Free-Tier Site</td>
+        <td style="color:var(--yellow);font-weight:700">HIGH</td>
+        <td>3</td>
+        <td>7.5%</td>
+        <td class="red">-$20,000</td>
+        <td class="red">-$60,000</td>
+      </tr>
+      <tr>
+        <td>Zero SEO</td>
+        <td style="color:var(--yellow);font-weight:700">HIGH</td>
+        <td>39</td>
+        <td>97.5%</td>
+        <td class="red">-$28,000</td>
+        <td class="red">-$1,092,000</td>
+      </tr>
+      <tr>
+        <td>No CRM / Customer Data</td>
+        <td style="color:var(--blue);font-weight:700">MEDIUM</td>
+        <td>38</td>
+        <td>95%</td>
+        <td class="red">-$20,000</td>
+        <td class="red">-$760,000</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="color:var(--muted);font-size:0.85rem;margin-top:12px;"><em>Note: Revenue losses overlap — a single business typically has 3-5 gaps. The $2.0M headline figure accounts for overlap deduplication and Temuco's market dynamics. Individual gap totals sum higher because the same revenue can be attributed to multiple gaps. Temuco's unique distinction: 6 broken/downed websites (most of any city) and the worst restaurant-sector web adoption (60% with no website) of any Chilean city analyzed.</em></p>
+</section>
+
+<!-- ========== OPPORTUNITY SIZING ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">💰</span> Revenue Recovery Opportunity for NetWebMedia</h2>
+  <p class="section-sub">If NetWebMedia closes just 25% of these 40 prospects (10 clients) at an average of $997/mo, here's the math:</p>
+
+  <div class="market-grid">
+    <div class="mega-stat">
+      <div class="num brand">10</div>
+      <div class="label">Clients at 25% Close Rate</div>
+    </div>
+    <div class="mega-stat">
+      <div class="num brand">$997</div>
+      <div class="label">Average Monthly Retainer</div>
+    </div>
+    <div class="mega-stat">
+      <div class="num green">$9,970</div>
+      <div class="label">Monthly Recurring Revenue</div>
+    </div>
+    <div class="mega-stat">
+      <div class="num green">$119,640</div>
+      <div class="label">Annual Recurring Revenue</div>
+    </div>
+  </div>
+
+  <div class="gap-card" style="margin-top:24px;">
+    <div class="gap-header">
+      <h3>📈 Revenue Recovery vs. Investment</h3>
+    </div>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Tourism (3 clients)</th>
+          <th>Restaurants (2 clients)</th>
+          <th>Health (3 clients)</th>
+          <th>Beauty (2 clients)</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Client pays NWM/year</td>
+          <td>$35,892</td>
+          <td>$23,928</td>
+          <td>$35,892</td>
+          <td>$23,928</td>
+          <td class="brand">$119,640</td>
+        </tr>
+        <tr>
+          <td>Revenue recovered for client/year</td>
+          <td>$144,000</td>
+          <td>$106,000</td>
+          <td>$147,000</td>
+          <td>$100,000</td>
+          <td class="green">$497,000</td>
+        </tr>
+        <tr>
+          <td>Client ROI</td>
+          <td class="green">4.0x</td>
+          <td class="green">4.4x</td>
+          <td class="green">4.1x</td>
+          <td class="green">4.2x</td>
+          <td class="green">4.2x avg</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="color:var(--muted);font-size:0.9rem;margin-top:12px;">Every $1 the client invests in NetWebMedia recovers <strong style="color:var(--green);">$4.20 in previously lost revenue</strong>. Restaurant prospects offer the highest ROI (4.4x) because 60% have no website at all — the gap is so large that even basic digital presence creates massive revenue recovery. The Mapuche cuisine angle is gold: "You have a UNESCO-worthy culinary treasure. Nobody can find you on Google. Let's fix that for $497/mo."</p>
+  </div>
+</section>
+
+<!-- ========== CROSS-CITY COMPARISON ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">⚖️</span> Cross-City Gap Comparison: All 6 Markets Analyzed</h2>
+  <p class="section-sub">How Temuco's digital gaps compare across all six cities analyzed — revealing that Chile's Lake District gateway and cultural capital has the most broken websites and worst restaurant web adoption of any city, while its Mapuche cuisine heritage remains digitally invisible.</p>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Temuco (40)</th>
+        <th>Santiago (40)</th>
+        <th>Valparaiso (40)</th>
+        <th>Antofagasta (40)</th>
+        <th>Concepcion (40)</th>
+        <th>La Serena (40)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Total estimated annual loss</td>
+        <td class="red">$2.0M</td>
+        <td class="red">$2.4M</td>
+        <td class="red">$2.1M</td>
+        <td class="red">$2.2M</td>
+        <td class="red">$1.9M</td>
+        <td class="red">$1.82M</td>
+      </tr>
+      <tr>
+        <td>Average loss per business/year</td>
+        <td class="red">$50,000</td>
+        <td class="red">$60,000</td>
+        <td class="red">$52,500</td>
+        <td class="red">$55,000</td>
+        <td class="red">$47,500</td>
+        <td class="red">$45,500</td>
+      </tr>
+      <tr>
+        <td>No website</td>
+        <td>7 (17.5%)</td>
+        <td>5 (12.5%)</td>
+        <td>6 (15%)</td>
+        <td>7 (17.5%)</td>
+        <td>6 (15%)</td>
+        <td class="red">17 (42.5%)</td>
+      </tr>
+      <tr>
+        <td>Broken/down/expired sites</td>
+        <td class="red">6 (15%)</td>
+        <td>1 (2.5%)</td>
+        <td>2 (5%)</td>
+        <td>5 (12.5%)</td>
+        <td>1 (2.5%)</td>
+        <td>2 (5%)</td>
+      </tr>
+      <tr>
+        <td>Gmail/Hotmail / no email</td>
+        <td class="red">24 (60%)</td>
+        <td>20 (50%)</td>
+        <td class="red">22 (55%)</td>
+        <td class="red">26 (65%)</td>
+        <td>18 (45%)</td>
+        <td class="red">22 (55%)</td>
+      </tr>
+      <tr>
+        <td>No online booking</td>
+        <td>22 (55%)</td>
+        <td class="red">30 (75%)</td>
+        <td>28 (70%)</td>
+        <td>21 (52.5%)</td>
+        <td>22 (55%)</td>
+        <td>28 (70%)</td>
+      </tr>
+      <tr>
+        <td>No SEO strategy</td>
+        <td class="red">39 (97.5%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td class="red">38 (95%)</td>
+        <td>33 (82.5%)</td>
+      </tr>
+      <tr>
+        <td>No CRM</td>
+        <td class="red">38 (95%)</td>
+        <td>36 (90%)</td>
+        <td>36 (90%)</td>
+        <td class="red">38 (95%)</td>
+        <td>36 (90%)</td>
+        <td class="red">38 (95%)</td>
+      </tr>
+      <tr>
+        <td>Unique vulnerability</td>
+        <td class="red">6 broken sites + 60% restaurants no website</td>
+        <td class="red">95% no SEO in biggest market</td>
+        <td class="red">100% health = no booking</td>
+        <td class="red">5 broken sites + Wix FREE dental</td>
+        <td class="red">24hr ER vet with NO website</td>
+        <td class="red">42.5% = no website at all</td>
+      </tr>
+      <tr>
+        <td>NWM opportunity (10 clients)</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+      </tr>
+      <tr>
+        <td>Client ROI</td>
+        <td class="green">4.2x</td>
+        <td class="green">4.9x</td>
+        <td class="green">4.6x</td>
+        <td class="green">4.6x</td>
+        <td class="green">4.0x</td>
+        <td class="green">3.9x</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="gap-card" style="margin-top:24px;">
+    <div class="gap-header">
+      <h3>🔎 Cross-City Pattern Analysis</h3>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>Universal patterns (all 6 cities)</h4>
+        <ul>
+          <li><strong>SEO is dead everywhere</strong> — 82-97.5% of businesses across all 6 cities have zero SEO strategy</li>
+          <li><strong>CRM adoption is near zero</strong> — 90-95% have no customer data system</li>
+          <li><strong>Booking systems are absent</strong> — 52-75% can't take online bookings</li>
+          <li><strong>Email professionalism is low</strong> — 45-65% use Gmail or have no email</li>
+          <li><strong>Total across 240 businesses: $12.42M in annual revenue lost</strong></li>
+        </ul>
+        <h4>Temuco-specific findings</h4>
+        <ul>
+          <li><strong>Most broken/downed websites</strong> — 6 businesses (15%) with dead servers, expired SSL, or "under construction". This is the worst of any city, surpassing Antofagasta (5)</li>
+          <li><strong>Worst restaurant web adoption</strong> — 60% of restaurants have no website at all. No other city's restaurant sector is this digitally absent</li>
+          <li><strong>Beauty sector infrastructure collapse</strong> — 4 of 10 beauty businesses have completely dead websites. The worst single-sector failure in any city</li>
+          <li><strong>Mapuche cuisine invisibility</strong> — a globally unique culinary heritage (Zuny, Kokavi, Peuma Ñuke) with virtually zero digital presence. This is the biggest cultural asset / digital gap mismatch in Chile</li>
+          <li>Brand email misspelling: Hostal Mary Ruka's Gmail <strong>misspells their own name</strong> — "hostalmaryruca" instead of "Mary Ruka"</li>
+          <li>Tied with Antofagasta for <strong>worst SEO adoption (97.5%)</strong> — "comida mapuche temuco" is an uncontested keyword waiting to be dominated</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Revenue Recovery Across All 6 Cities</h4>
+        <div class="loss-line"><span class="desc">Total annual revenue lost (240 businesses)</span><span class="amount" style="color:var(--red)">-$12.42M</span></div>
+        <div class="loss-line"><span class="desc">Recoverable with NWM services (70%)</span><span class="amount" style="color:var(--green)">$8.69M</span></div>
+        <div class="loss-line"><span class="desc">NWM ARR at 25% close (60 clients)</span><span class="amount" style="color:var(--brand)">$717,840</span></div>
+        <div class="loss-total"><span class="desc">Cumulative client ROI</span><span class="amount" style="color:var(--green)">4.4x average</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p style="color:var(--muted);font-size:0.85rem;margin-top:12px;"><em>Temuco is the culture city: <strong>UNESCO-worthy Mapuche cuisine is invisible online, 60% of restaurants have no website, and 4 beauty businesses have dead servers</strong>. The pitch for restaurants writes itself: "You're sitting on Chile's most unique culinary heritage. The world can't find you. Let's change that." For beauty: "Your website is literally dead. We bring it back to life in 72 hours."</em></p>
+</section>
+
+<!-- ========== CTA ========== -->
+<div class="cta-section">
+  <h2>These 40 Temuco Businesses Are <span>Losing $2.0M Every Year</span></h2>
+  <p>Gateway to Chile's Lake District. Heart of Mapuche culture. University city with 300,000 residents. Yet these 40 businesses have 6 broken websites (most of any city), a "living human treasure" chef with no website, 4 beauty businesses with dead servers, and 60% of restaurants invisible to Google. Every month without action costs them thousands.</p>
+  <a href="temuco-prospects-report.html" class="cta-btn">View Full Prospect List with Contact Details &rarr;</a>
+</div>
+
+</div>
+
+<footer class="report-footer">
+  <div class="container">
+    <p><strong>NetWebMedia</strong> — AI Marketing for Growth | netwebmedia.com | hello@netwebmedia.com</p>
+    <p style="margin-top:8px;">Report generated April 15, 2026. Loss estimates based on industry benchmarks from Google (2025), DataReportal Chile (2026), National Restaurant Association (2026), Zenoti Salon Benchmarks (2025), Harvard Business Review, and Booking.com partner data.</p>
+    <p style="margin-top:8px;">Sources: <a href="https://datareportal.com/reports/digital-2026-chile" style="color:var(--blue);">DataReportal Chile 2026</a> | <a href="https://restaurant.org/research-and-media/research/research-reports/state-of-the-industry/" style="color:var(--blue);">NRA State of Industry 2026</a> | <a href="https://www.zenoti.com/thecheckin/beauty-wellness-industry-statistics-2025" style="color:var(--blue);">Zenoti Salon Benchmarks 2025</a> | <a href="https://prenohq.com/blog/what-commission-rates-does-booking-com-charge-hotels/" style="color:var(--blue);">Booking.com Commission Data</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

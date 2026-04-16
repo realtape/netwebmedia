@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetWebMedia — Rancagua Prospect Report & Individual Business Analysis (April 2026)</title>
+<style>
+:root{--brand:#ff6b00;--dark:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;--green:#3fb950;--red:#f85149;--yellow:#d29922;--blue:#58a6ff;--purple:#bc8cff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--dark);color:var(--text);line-height:1.65}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.report-header{background:linear-gradient(135deg,#0d1117 0%,#1a1e2e 100%);border-bottom:3px solid var(--brand);padding:56px 0}
+.report-header h1{font-size:2.2rem;font-weight:800}.report-header h1 span{color:var(--brand)}
+.report-header .subtitle{color:var(--muted);font-size:1.1rem;margin-top:8px}
+.report-header .meta{margin-top:16px;display:flex;gap:24px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+.report-header .meta strong{color:var(--text)}
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:32px 0}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.stat-card .num{font-size:2rem;font-weight:800;color:var(--brand)}.stat-card .num.red{color:var(--red)}
+.stat-card .label{font-size:.8rem;color:var(--muted);margin-top:4px}
+.market-section{margin:48px 0}
+.market-title{font-size:1.5rem;font-weight:700;padding-bottom:12px;border-bottom:2px solid var(--border);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.market-title .badge{background:var(--brand);color:#fff;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px}
+.biz-card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:28px;overflow:hidden}
+.biz-card:hover{border-color:var(--brand)}
+.biz-header{padding:24px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px}
+.biz-header h3{font-size:1.2rem;font-weight:700}
+.biz-header .biz-type{font-size:.75rem;color:var(--muted);background:rgba(255,255,255,.05);padding:3px 12px;border-radius:12px}
+.biz-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:768px){.biz-body{grid-template-columns:1fr}}
+.biz-left{padding:24px 28px;border-right:1px solid var(--border)}
+@media(max-width:768px){.biz-left{border-right:none;border-bottom:1px solid var(--border)}}
+.biz-right{padding:24px 28px}
+.biz-left h4,.biz-right h4{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.contact-row{display:flex;gap:8px;margin-bottom:6px;font-size:.9rem}
+.contact-row .lbl{color:var(--muted);min-width:70px}
+.contact-row a{color:var(--blue);text-decoration:none}
+.audit-section{margin-top:16px}
+.audit-section h4{margin-bottom:8px}
+.audit-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:.88rem}
+.audit-row:last-child{border:none}
+.audit-row .metric{color:var(--muted)}
+.audit-row .val{font-weight:600}
+.audit-row .val.pass{color:var(--green)}.audit-row .val.fail{color:var(--red)}.audit-row .val.warn{color:var(--yellow)}.audit-row .val.na{color:var(--muted)}
+.loss-box{background:rgba(248,81,73,.04);border:1px solid rgba(248,81,73,.12);border-radius:10px;padding:16px;margin-top:12px}
+.loss-row{display:flex;justify-content:space-between;padding:5px 0;font-size:.85rem}
+.loss-row .desc{color:var(--muted)}.loss-row .amt{color:var(--red);font-weight:700}
+.loss-total{display:flex;justify-content:space-between;padding:8px 0 0;border-top:2px solid var(--red);margin-top:6px;font-weight:700}
+.loss-total .desc{color:var(--text)}.loss-total .amt{color:var(--red);font-size:1.1rem}
+.rec-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.rec-tag{font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,107,0,.12);color:var(--brand)}
+.gap-tag{font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px}
+.gap-no-web{background:rgba(248,81,73,.15);color:var(--red)}
+.gap-gmail{background:rgba(210,153,34,.15);color:var(--yellow)}
+.gap-weak-web{background:rgba(88,166,255,.15);color:var(--blue)}
+.gap-no-book{background:rgba(248,81,73,.15);color:var(--red)}
+.gap-no-social{background:rgba(210,153,34,.15);color:var(--yellow)}
+.gap-no-seo{background:rgba(188,140,255,.15);color:var(--purple)}
+.gap-no-crm{background:rgba(88,166,255,.15);color:var(--blue)}
+.report-footer{text-align:center;padding:32px 0;border-top:1px solid var(--border);margin-top:48px}
+.report-footer p{color:var(--muted);font-size:.8rem}
+.cta-section{background:linear-gradient(135deg,#1a1000,#1a0a00);border:2px solid var(--brand);border-radius:20px;padding:48px;text-align:center;margin:48px 0}
+.cta-section h2{font-size:1.6rem;font-weight:800;margin-bottom:12px}.cta-section h2 span{color:var(--brand)}
+.cta-section p{color:var(--muted);font-size:1rem;max-width:600px;margin:0 auto 20px}
+.cta-btn{display:inline-block;background:var(--brand);color:#fff;font-size:1rem;font-weight:700;padding:12px 32px;border-radius:12px;text-decoration:none}
+</style>
+</head>
+<body>
+<header class="report-header">
+<div class="container">
+<h1><span>NetWebMedia</span> — Rancagua Prospect Report</h1>
+<p class="subtitle">40 Local Businesses x Individual Digital Audit — Website, Social Media, Revenue Loss Analysis. Chile's Mining Capital, Rodeo Heartland & Gateway to Colchagua Wine Valley.</p>
+<div class="meta">
+<span>Date: <strong>April 15, 2026</strong></span>
+<span>Market: <strong>Rancagua, Region de O'Higgins, Chile</strong></span>
+<span>Leads: <strong>40 businesses across 4 verticals</strong></span>
+</div>
+</div>
+</header>
+<div class="container">
+<div class="stats-bar">
+<div class="stat-card"><div class="num">40</div><div class="label">Total Prospects</div></div>
+<div class="stat-card"><div class="num">4</div><div class="label">Market Verticals</div></div>
+<div class="stat-card"><div class="num red">$1.95M</div><div class="label">Est. Annual Revenue Lost</div></div>
+<div class="stat-card"><div class="num">4</div><div class="label">Dead Servers (ECONNREFUSED)</div></div>
+</div>
+
+<!-- =============================== -->
+<!-- MARKET 1: TOURISM & HOSPITALITY -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🏨 Tourism & Hospitality <span class="badge">10 PROSPECTS</span></h2>
+
+<!-- T1 -->
+<div class="biz-card">
+<div class="biz-header"><h3>1. Hotel Mar Andino</h3><span class="biz-type">3-Star Hotel — Bulnes 370, Centro</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas@hotelmarandino.cl">reservas@hotelmarandino.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 72 264 5400</div>
+<div class="contact-row"><span class="lbl">Address:</span>Bulnes 370, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hotelmarandino.cl" target="_blank">hotelmarandino.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">UNDER CONSTRUCTION — holding page only</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No — directed to call or email</span></div>
+</div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@hotelmarandino</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Under Construction</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Website "under construction" = signals abandonment</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No online booking for popular hotel</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "hotel rancagua"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$37,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span></div>
+</div>
+</div>
+</div>
+
+<!-- T2 -->
+<div class="biz-card">
+<div class="biz-header"><h3>2. Hotel Terrado Rancagua</h3><span class="biz-type">Chain Hotel — Av. Einstein 290</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas1@terrado.cl">reservas1@terrado.cl</a> / <a href="mailto:contacto@terrado.cl">contacto@terrado.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>600 5820 800 (central)</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Einstein 290, Piso 4, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://terrado.cl/en/hoteles/terrado-rancagua/" target="_blank">terrado.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (corporate, multi-property)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (chain system)</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Local SEO</span><span class="gap-tag gap-no-crm">No Local CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No local SEO for Rancagua</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No local CRM for mining/wine travelers</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO (local)</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div>
+</div>
+</div>
+
+<!-- T3 -->
+<div class="biz-card">
+<div class="biz-header"><h3>3. Hotel Diego de Almagro Rancagua</h3><span class="biz-type">Chain Hotel — Av. O'Higgins 34</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:centraldereservas@dahoteles.com">centraldereservas@dahoteles.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(51) 2427100</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Libertador Bernardo O'Higgins 34, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.dahoteles.com/es/da-rancagua" target="_blank">dahoteles.com</a> <span style="color:var(--red)">(SSL ERROR)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">SSL certificate error — "unable to verify"</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">SSL Error</span><span class="gap-tag gap-no-seo">No Local SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">SSL error on chain hotel site</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No local SEO for Rancagua</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">Managed Hosting/SSL</span><span class="rec-tag">AI SEO (local)</span><span class="rec-tag">CRM</span></div>
+</div>
+</div>
+</div>
+
+<!-- T4 -->
+<div class="biz-card">
+<div class="biz-header"><h3>4. Campos Apart Hotel</h3><span class="biz-type">Apart Hotel — Campos 585, Centro Histórico</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:administracion@camposaparthotel.cl">administracion@camposaparthotel.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 3443 7782</div>
+<div class="contact-row"><span class="lbl">Address:</span>Campos 585 / Gamero 480, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://camposaparthotel.cl" target="_blank">camposaparthotel.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/Elementor, professional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (integrated system)</span></div>
+</div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@hotelcampos.cl</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@hotelcampos.cl</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "apart hotel rancagua"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for repeat mining/business travelers</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div>
+</div>
+</div>
+
+<!-- T5 -->
+<div class="biz-card">
+<div class="biz-header"><h3>5. Hostal Rancagua Cordillera</h3><span class="biz-type">Hostel — Centro</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:hostalrc@gmail.com">hostalrc@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.hostalrancaguacordillera.cl/web/" target="_blank">hostalrancaguacordillera.cl</a> <span style="color:var(--red)">(Error 530)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">Error 530 — site unreachable</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-weak-web">Site Error</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail for hostel + broken site</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No booking, no SEO</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (rebuild)</span><span class="rec-tag">Professional Email</span><span class="rec-tag">AI SEO</span></div>
+</div>
+</div>
+</div>
+
+<!-- T6 -->
+<div class="biz-card">
+<div class="biz-header"><h3>6. Hotel Turismo Santiago</h3><span class="biz-type">Budget Hotel — Av. Brasil 1036</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 72 223 0860</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Brasil 1036, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hotelsantiago.cl" target="_blank">hotelsantiago.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@hotelturismosantiago</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Online Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No email = lost direct inquiries</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No online booking</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">Professional Email</span></div>
+</div>
+</div>
+</div>
+
+<!-- T7 -->
+<div class="biz-card">
+<div class="biz-header"><h3>7. Hostal La Terraza</h3><span class="biz-type">Hostel — Carlos Condell 980</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 7541 1769</div>
+<div class="contact-row"><span class="lbl">Address:</span>Carlos Condell 980, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.hostallaterraza.cl" target="_blank">hostallaterraza.cl</a> <span style="color:var(--red)">(SITE DOWN)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">ECONNREFUSED — server dead</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Site DOWN</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Dead server = 100% visitor loss</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No email = lost inquiries</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$26,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">Professional Email</span></div>
+</div>
+</div>
+</div>
+
+<!-- T8 -->
+<div class="biz-card">
+<div class="biz-header"><h3>8. Hotel Piedra Verde</h3><span class="biz-type">Rural Hotel + Restaurant — Machalí (Rancagua Metro)</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@hotelpiedraverde.cl">contacto@hotelpiedraverde.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 72 231 2000</div>
+<div class="contact-row"><span class="lbl">Address:</span>Machalí, O'Higgins</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hotelpiedraverde.cl" target="_blank">hotelpiedraverde.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress, professional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (integrated form)</span></div>
+</div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@hotelpiedraverdemachali</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "hotel machali" / wine valley queries</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for Colchagua wine tour groups</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Google Ads</span></div>
+</div>
+</div>
+</div>
+
+<!-- T9 -->
+<div class="biz-card">
+<div class="biz-header"><h3>9. De Triana Apart Hotel</h3><span class="biz-type">Apart Hotel — Rancagua</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found (OTA-only)</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--red)">No own website — OTA listings only</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — Booking.com/Central de Reservas only</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-book">OTA-Dependent</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">100% OTA-dependent (15-25% commission)</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No website = invisible to direct search</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span></div>
+</div>
+</div>
+</div>
+
+<!-- T10 -->
+<div class="biz-card">
+<div class="biz-header"><h3>10. Hospedaje Rancagua</h3><span class="biz-type">Budget Accommodation — Centro</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 7859 8575</div>
+<div class="contact-row"><span class="lbl">Address:</span>San Martín 85, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--red)">No own website</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — OTA listings only</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-book">No Direct Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No website = invisible online</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No email = lost business inquiries</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 2: RESTAURANTS & FOOD    -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🍽️ Restaurants & Food <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Magari Restaurant</h3><span class="biz-type">Japanese Fusion — Campos 544</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto.magari@gmail.com">contacto.magari@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 2091 0038</div>
+<div class="contact-row"><span class="lbl">Address:</span>Campos 544, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://magari.cl" target="_blank">magari.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (AGIL platform, online ordering)</span></div>
+<div class="audit-row"><span class="metric">Online ordering</span><span class="val pass">Yes (delivery + pickup)</span></div>
+<div class="audit-row"><span class="metric">Loyalty program</span><span class="val pass">Yes (Magaripuntos)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook/Instagram</span><span class="val pass">Active</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail for top-rated restaurant (4.9 stars)</span><span class="amt">-$5,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "sushi rancagua" / "restaurante rancagua"</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$17,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">Professional Email</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. B Restobar Lounge</h3><span class="biz-type">Japanese-International Dining & Bar — Alcázar 445</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found on site</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 4796 4612 / (72) 253 3259</div>
+<div class="contact-row"><span class="lbl">Address:</span>Alcázar 445, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://brestobar.cl" target="_blank">brestobar.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (custom built, multi-location)</span></div>
+<div class="audit-row"><span class="metric">Online reservations</span><span class="val fail">No — phone only</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Online Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No email on site, no online reservations</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "restobar rancagua"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. Delicia China</h3><span class="biz-type">Chinese Restaurant — Av. Miguel Ramírez 357</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:info@deliciachina.cl">info@deliciachina.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 72 221 5838</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Miguel Ramírez 357, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://deliciachina.cl" target="_blank">deliciachina.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (AGIL platform)</span></div>
+<div class="audit-row"><span class="metric">Online ordering</span><span class="val pass">Yes (delivery + pickup + scheduled)</span></div>
+<div class="audit-row"><span class="metric">Loyalty program</span><span class="val pass">Yes (Delicia Puntos)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "comida china rancagua"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for group/event dining</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Tara Tapas & Bar</h3><span class="biz-type">Tapas & Cocktail Bar — Av. San Martín 534</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 72 893 8338 / WhatsApp +56 9 5610 4339</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. San Martín 534, Rancagua</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — Instagram + Facebook only</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@tara_rancagua</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@TaraTapasyBarRancagua</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-book">No Reservations</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Popular bar with no website</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No email, no booking, no SEO</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$28,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. El Viejo Rancagua</h3><span class="biz-type">Heritage Chilean Restaurant — Estado 605</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 72 222 7715</div>
+<div class="contact-row"><span class="lbl">Address:</span>Estado 607, esq. Gamero, Rancagua</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — TripAdvisor/delivery apps only</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-book">No Reservations</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Heritage restaurant = zero web presence</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No email, no booking for iconic venue</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$30,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Cervecería MuBeFri</h3><span class="biz-type">Craft Beer Bar + Food — Rancagua</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 6465 6977</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://cerveceria-mubefri.ueniweb.com" target="_blank">cerveceria-mubefri.ueniweb.com</a> <span style="color:var(--yellow)">(FREE SUBDOMAIN)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">ueniweb.com free builder subdomain</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Free Builder Subdomain</span><span class="gap-tag gap-no-book">No Reservations</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Free subdomain = zero brand credibility</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">100+ craft beers, no SEO or booking</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. La Ruffina</h3><span class="biz-type">Restaurant — Rancagua (via Rappi/Delivery)</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--red)">No own website — delivery apps only</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — Rappi/PedidosYa only</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-book">App-Dependent</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">100% delivery-app-dependent (30% commission)</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No email, no own website</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$30,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">Online Ordering</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. La Pietra Pizza</h3><span class="biz-type">Pizzeria + Sushi — Rancagua</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--red)">No own website</span></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@lapietrapizza</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-book">No Online Ordering</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Pizzeria with IG only — no website</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No own ordering = delivery app commissions</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">Online Ordering</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. Pizza Dimonti</h3><span class="biz-type">Pizzeria — Rancagua</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--red)">No own website — Facebook page only</span></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@pizzadimonti</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-book">No Online Ordering</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Pizzeria with Facebook only</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No ordering, no SEO for "pizza rancagua"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">Online Ordering</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Bar La Cervecería Rancagua</h3><span class="biz-type">Craft Beer Bar + Food — Rancagua</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--red)">No own website — Facebook page only</span></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active page</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-book">No Reservations</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Craft beer bar with no website</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No email, no booking</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 3: HEALTH & VETERINARY   -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🏥 Health & Veterinary <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Clínica Veterinaria Sanfield</h3><span class="biz-type">Full-Service Vet — Héctor Zamorano 906</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@sanfield.cl">contacto@sanfield.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(72) 221 6898</div>
+<div class="contact-row"><span class="lbl">Address:</span>Héctor Zamorano 906, Pob. Manzanal, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.sanfield.cl" target="_blank">sanfield.cl</a> <span style="color:var(--red)">(SITE DOWN)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">ECONNREFUSED — server dead</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Site DOWN</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Dead server = 100% visitor loss</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No booking for vet appointments</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$28,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Hospital Veterinario Arrayán</h3><span class="biz-type">Vet Hospital — Machalí</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:recepcion@arrayanveterinaria.cl">recepcion@arrayanveterinaria.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 72 227 9196</div>
+<div class="contact-row"><span class="lbl">Address:</span>Escrivá de Balaguer 783, Machalí</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://arrayanveterinaria.cl" target="_blank">arrayanveterinaria.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (custom React-based, modern)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No — phone/email only</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram/Facebook</span><span class="val pass">@arrayanveterinaria</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Hospital-level vet with no online booking</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "veterinaria rancagua"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. Veterinaria SOS Rancagua</h3><span class="biz-type">Vet Clinic — Ramón Freire 810</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:sos.veterinaria.rancagua@gmail.com">sos.veterinaria.rancagua@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 72 253 4939 / +56 9 4466 3455</div>
+<div class="contact-row"><span class="lbl">Address:</span>Ramón Freire 810, Local 2, Rancagua</div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@Sosveterinariarancagua</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-web">No Own Website</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Vet clinic with Gmail and no website</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No booking for pet emergencies</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$28,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">Professional Email</span><span class="rec-tag">AI Booking</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Clínica Veterinaria Hannover</h3><span class="biz-type">Full-Service Vet + Emergency — Av. República de Chile 067</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found (site down)</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(72) 225 2525 / +56 9 8765 6284</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. República de Chile 067, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://veterinariahannover.cl" target="_blank">veterinariahannover.cl</a> <span style="color:var(--red)">(SITE DOWN)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">ECONNREFUSED — server dead (also has old Wix site)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Site DOWN</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Emergency vet with dead website</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No email publicly visible</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$28,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. VetCenter Rancagua</h3><span class="biz-type">Diagnostic Vet Clinic (30+ years) — Av. Einstein 339</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:vetcenter@hotmail.es">vetcenter@hotmail.es</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 9265 2509</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Einstein 339, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.vetcenter.cl" target="_blank">vetcenter.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (custom HTML, basic)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No — WhatsApp only</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@vetcenter_rancagua</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Hotmail Business</span><span class="gap-tag gap-no-book">WhatsApp Only</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">30-year clinic on Hotmail.es</span><span class="amt">-$5,000</span></div>
+<div class="loss-row"><span class="desc">WhatsApp-only booking, no SEO</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$17,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">Professional Email</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Clínica Central Odontológica</h3><span class="biz-type">MINSAL-Accredited Dental — O'Carrol 819</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@clinicaodontologica.cl">contacto@clinicaodontologica.cl</a> + <a href="mailto:central.clinica@gmail.com">central.clinica@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(72) 222 2800 / +56 9 6341 2010</div>
+<div class="contact-row"><span class="lbl">Address:</span>O'Carrol 819, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://clinicaodontologica.cl" target="_blank">clinicaodontologica.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (custom HTML, schema.org, professional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val warn">WhatsApp + forms only (no calendar)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook/Instagram</span><span class="val pass">Active</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Dual Email (pro + Gmail)</span><span class="gap-tag gap-no-book">No Real Booking</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail still in use alongside professional email</span><span class="amt">-$3,000</span></div>
+<div class="loss-row"><span class="desc">WhatsApp booking = friction, no automation</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$13,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">CRM</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Clínica Dental Quinteros</h3><span class="biz-type">Full-Service Dental — Bueras 20/114</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@clinicaquinteros.cl">contacto@clinicaquinteros.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(72) 223 2575 / Emergency: +56 9 7414 7958</div>
+<div class="contact-row"><span class="lbl">Address:</span>Bueras 20 / Bueras 114, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.clinicaquinteros.cl" target="_blank">clinicaquinteros.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (custom by EMAGENIC, professional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Dentalink)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">FB/IG/LinkedIn/WhatsApp</span><span class="val pass">Active on all</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "dentista rancagua"</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for patient lifecycle</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Medic Center</h3><span class="biz-type">Dental & Medical Clinic — Av. Einstein 290, Of. 412</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@mediccenter.cl">contacto@mediccenter.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 2227 5495</div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 4183 7089</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Einstein 290, Of. 412, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://mediccenter.cl" target="_blank">mediccenter.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/Elementor)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Dentalink)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">FB/IG</span><span class="val pass">Active</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for dental+medical queries</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for patient lifecycle</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. IOR Clínica Dental (Instituto Ortodoncia de Rancagua)</h3><span class="biz-type">Orthodontics Specialty — José D. Mujica 609</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@institutoortodonciaderancagua.cl">contacto@institutoortodonciaderancagua.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 9547 4641 / WhatsApp +56 9 9534 1776</div>
+<div class="contact-row"><span class="lbl">Address:</span>José Domingo Mujica 609, Of. 403, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.institutoortodonciaderancagua.cl" target="_blank">institutoortodonciaderancagua.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/WooCommerce)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No — phone/WhatsApp only</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook/Instagram</span><span class="val pass">Active</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Online Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No booking for orthodontics consultations</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "ortodoncia rancagua"</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Clínica Dental Kronos</h3><span class="biz-type">Implants Specialist (15+ years) — Cachapoal 360</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found on site</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Cachapoal 360, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.clinicadentalkronos.cl" target="_blank">clinicadentalkronos.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (Wix — limited, no contact visible)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No system found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Wix Limited</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">15-year implant clinic on basic Wix</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No email visible, no booking</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 4: BEAUTY & AESTHETICS   -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">💇 Beauty & Aesthetics <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Eve Beauty Salón</h3><span class="biz-type">Full-Service Salon (12+ years) — El Cardal 911</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@evebeautysalonchile.cl">contacto@evebeautysalonchile.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 3063 1812</div>
+<div class="contact-row"><span class="lbl">Address:</span>El Cardal 911, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://evebeautysalonchile.cl" target="_blank">evebeautysalonchile.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/Elementor/WooCommerce)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Reservar page)</span></div>
+<div class="audit-row"><span class="metric">E-commerce</span><span class="val pass">Yes (product sales)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">FB/IG/WhatsApp</span><span class="val pass">Active</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "salon belleza rancagua"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for loyalty/re-engagement</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Marisol Carmona Peluquerías</h3><span class="biz-type">Salon (20+ years) — Rancagua</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found on site</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.marisolcarmonapeluquerias.cl" target="_blank">marisolcarmonapeluquerias.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (Wix — limited, contact not visible)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">Not evident</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@ContactoMCPeluquerias</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Wix Limited</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">20-year salon on basic Wix, no email</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No booking, no SEO</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. Barbería Rancagua</h3><span class="biz-type">Barbershop — Av. Einstein 340</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Einstein 340, Blok 29, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://barberiarancagua.cl" target="_blank">barberiarancagua.cl</a> <span style="color:var(--red)">(SITE DOWN)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">ECONNREFUSED — server dead</span></div>
+</div><div class="audit-section"><h4>Online Booking</h4>
+<div class="audit-row"><span class="metric">AgendaPro</span><span class="val pass">Yes (reservasbarberiarancagua.agendapro.com)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Site DOWN</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Dead server = 100% visitor loss on own domain</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No email, no SEO</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">Professional Email</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Barbería Cristian</h3><span class="biz-type">Barbershop (20 years) — Av. Freire 659</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Freire 659, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://barberiacristian.cl" target="_blank">barberiacristian.cl</a> <span style="color:var(--yellow)">(403 Forbidden)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">403 Forbidden — access denied</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Site Blocked (403)</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">20-year barbershop with blocked website</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No email, no booking</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Camden Barber Salon</h3><span class="biz-type">Modern Barbershop — C. Cuevas 250</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>C. Cuevas 250, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--red)">No own website — AgendaPro listing only</span></div>
+<div class="audit-section"><h4>Online Booking</h4>
+<div class="audit-row"><span class="metric">AgendaPro</span><span class="val pass">Yes (listing page)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Own Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Barbershop with no own website</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No email, no SEO for "barberia rancagua"</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">Professional Email</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Akali Centro de Estética</h3><span class="biz-type">Aesthetics Center — Rancagua</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found on site</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://rancagua.akali.cl" target="_blank">rancagua.akali.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (WordPress/Elementor — contact info missing)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No system found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No email visible, no booking</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "centro estetica rancagua"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">Professional Email</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Depilaser Rancagua</h3><span class="biz-type">Laser Hair Removal & Aesthetics — Bueras 218, Of. 501</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found on site</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 8349 5323</div>
+<div class="contact-row"><span class="lbl">Address:</span>Bueras 218, Of. 501, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.depilaser.cl" target="_blank">depilaser.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/Divi, multi-branch)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val warn">Evaluation form only (not real booking)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook/Instagram</span><span class="val pass">@depilaser.esteticaysalud</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Real Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Evaluation form ≠ real booking system</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "depilacion laser rancagua"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. SanteLaser</h3><span class="biz-type">Laser & Aesthetics — Av. Einstein 290, Of. 513</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found on site</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Einstein 290, Of. 513, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.santelaser.cl" target="_blank">santelaser.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (Shopify — e-commerce focused, limited info)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No email visible, no booking for treatments</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for laser treatment queries</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. CleverSalud</h3><span class="biz-type">Medical Aesthetics Chain — Cáceres 630</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found on site</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>600 401 0600 (Call Center)</div>
+<div class="contact-row"><span class="lbl">Address:</span>Cáceres 630, Rancagua</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://cleversalud.cl" target="_blank">cleversalud.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/Elementor)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No — call center only</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook/Twitter</span><span class="val pass">@cleversaludcl</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">Call Center Only</span><span class="gap-tag gap-no-seo">No Local SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No email on site, call center only</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No local SEO for Rancagua branch</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO (local)</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Legends Barber</h3><span class="biz-type">Barbershop — Plaza América Mall, Rancagua</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--red)">No own website — Facebook page only</span></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@BarberíaLegends</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Mall barbershop with no website</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No email, no booking system</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+<h2>Rancagua: <span>$1.95M in Annual Revenue Lost</span> Across 40 Businesses</h2>
+<p>Chile's mining capital. Rodeo heartland. Gateway to Colchagua wine valley. Sewell UNESCO mining town. Yet these 40 businesses have 4 dead servers, a hotel "under construction" indefinitely, a 30-year vet clinic on Hotmail.es, a craft beer bar on a free subdomain, and 6 restaurants with no website at all. The solution starts at $497/mo.</p>
+<a href="rancagua-digital-gaps.html" class="cta-btn">See Full Digital Gap Analysis →</a>
+</div>
+
+</div>
+<footer class="report-footer">
+<div class="container">
+<p><strong>NetWebMedia</strong> — AI Marketing for Growth | netwebmedia.com | hello@netwebmedia.com</p>
+<p style="margin-top:8px;">Rancagua Prospect Report generated April 15, 2026. Individual business analyses based on public website audits, social media research, and industry revenue benchmarks.</p>
+</div>
+</footer>
+</body>
+</html>

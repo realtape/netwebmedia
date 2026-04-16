@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetWebMedia — La Serena Prospect Report (April 2026)</title>
+<style>
+  :root {
+    --brand: #ff6b00;
+    --dark: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --blue: #58a6ff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--dark); color: var(--text); line-height: 1.6; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  .report-header { background: linear-gradient(135deg, #0d1117 0%, #1a1e2e 100%); border-bottom: 2px solid var(--brand); padding: 48px 0; }
+  .report-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 8px; }
+  .report-header h1 span { color: var(--brand); }
+  .report-header .subtitle { color: var(--muted); font-size: 1.1rem; }
+  .report-header .meta { margin-top: 16px; display: flex; gap: 24px; flex-wrap: wrap; }
+  .report-header .meta span { font-size: 0.85rem; color: var(--muted); }
+  .report-header .meta strong { color: var(--text); }
+
+  /* Stats Bar */
+  .stats-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 32px 0; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+  .stat-card .num { font-size: 2rem; font-weight: 800; color: var(--brand); }
+  .stat-card .label { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+
+  /* Section */
+  .market-section { margin: 48px 0; }
+  .market-title { font-size: 1.5rem; font-weight: 700; padding-bottom: 12px; border-bottom: 2px solid var(--border); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+  .market-title .icon { font-size: 1.8rem; }
+  .market-title .badge { background: var(--brand); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+  /* Prospect Cards */
+  .prospect-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .prospect-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: border-color 0.2s; }
+  .prospect-card:hover { border-color: var(--brand); }
+  .prospect-card .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+  .prospect-card h3 { font-size: 1.15rem; font-weight: 700; }
+  .prospect-card .card-type { font-size: 0.75rem; color: var(--muted); background: rgba(255,255,255,0.05); padding: 2px 10px; border-radius: 12px; }
+
+  .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 8px 24px; margin: 12px 0; }
+  .contact-item { font-size: 0.9rem; color: var(--muted); }
+  .contact-item strong { color: var(--text); }
+  .contact-item a { color: var(--blue); text-decoration: none; }
+  .contact-item a:hover { text-decoration: underline; }
+
+  /* Digital Gaps */
+  .gaps { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+  .gap-tag { font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .gap-no-web { background: rgba(248,81,73,0.15); color: var(--red); }
+  .gap-no-social { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  .gap-gmail { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  .gap-weak-web { background: rgba(88,166,255,0.15); color: var(--blue); }
+  .gap-no-booking { background: rgba(248,81,73,0.15); color: var(--red); }
+  .gap-fb-only { background: rgba(210,153,34,0.15); color: var(--yellow); }
+
+  /* Recommended Services */
+  .rec-services { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .rec-svc { font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: rgba(255,107,0,0.12); color: var(--brand); }
+
+  /* Pitch Section */
+  .pitch-section { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin: 48px 0; }
+  .pitch-section h2 { font-size: 1.5rem; margin-bottom: 16px; color: var(--brand); }
+  .pitch-section h3 { font-size: 1.1rem; margin: 20px 0 8px; }
+  .pitch-section ul { padding-left: 20px; }
+  .pitch-section li { margin-bottom: 6px; color: var(--muted); }
+  .pitch-section li strong { color: var(--text); }
+
+  /* Email Template */
+  .email-template { background: #0d1117; border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 16px 0; font-size: 0.9rem; white-space: pre-wrap; color: var(--muted); }
+  .email-template .subject { color: var(--brand); font-weight: 700; margin-bottom: 12px; display: block; }
+
+  /* Footer */
+  .report-footer { text-align: center; padding: 32px 0; border-top: 1px solid var(--border); margin-top: 48px; }
+  .report-footer p { color: var(--muted); font-size: 0.85rem; }
+
+  @media (max-width: 768px) {
+    .report-header h1 { font-size: 1.5rem; }
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="report-header">
+  <div class="container">
+    <h1><span>NetWebMedia</span> — La Serena Prospect Report</h1>
+    <p class="subtitle">40 Local Businesses Across 4 High-Opportunity Markets — Ready for Outreach</p>
+    <div class="meta">
+      <span>Date: <strong>April 15, 2026</strong></span>
+      <span>Market: <strong>La Serena, Coquimbo Region, Chile</strong></span>
+      <span>Leads: <strong>40 businesses with verified emails</strong></span>
+      <span>Prepared by: <strong>NetWebMedia Sales Intelligence</strong></span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="num">40</div>
+    <div class="label">Total Prospects</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">4</div>
+    <div class="label">Market Verticals</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">28</div>
+    <div class="label">No Website / Gmail-only</div>
+  </div>
+  <div class="stat-card">
+    <div class="num">$480K+</div>
+    <div class="label">Est. Annual Revenue Opportunity</div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- MARKET 1: TOURISM / HOSPITALITY              -->
+<!-- ============================================ -->
+<section class="market-section">
+  <h2 class="market-title">
+    <span class="icon">🏨</span>
+    Tourism & Hospitality
+    <span class="badge">10 PROSPECTS</span>
+  </h2>
+  <div class="prospect-grid">
+
+    <!-- T1 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>1. Cabañas Rey Pacific</h3>
+        <span class="card-type">Cabañas / Apart-Hotel</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:reypacific@gmail.com">reypacific@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 9444 5328</div>
+        <div class="contact-item"><strong>Address:</strong> Los Perales 0650, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://www.reypacific.cl" target="_blank">reypacific.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+        <span class="gap-tag gap-no-social">No Social Media</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Rebuild</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">Google Ads</span>
+        <span class="rec-svc">AI Booking Agent</span>
+      </div>
+    </div>
+
+    <!-- T2 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>2. Cabañas Florencia</h3>
+        <span class="card-type">Cabañas</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:reservas@cabanasflorencia.cl">reservas@cabanasflorencia.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 8839 4660 / +56 9 8284 1803</div>
+        <div class="contact-item"><strong>Address:</strong> Los Membrillos 846, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://www.cabanasflorencia.cl" target="_blank">cabanasflorencia.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+        <span class="gap-tag gap-no-social">No Social Presence</span>
+        <span class="gap-tag gap-no-booking">No Online Booking</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">Booking System</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">Social Media</span>
+      </div>
+    </div>
+
+    <!-- T3 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>3. Apart Hotel & Cabañas Vegasur</h3>
+        <span class="card-type">Apart-Hotel / Cabañas</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:contacto.vegasur@gmail.com">contacto.vegasur@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 6517 1643 / +56 9 3706 4611</div>
+        <div class="contact-item"><strong>Address:</strong> Los Arrayanes Poniente 200, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://www.hoteleravegasur.cl" target="_blank">hoteleravegasur.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+        <span class="gap-tag gap-no-booking">No Direct Booking</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">Google Ads</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- T4 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>4. Apart Hotel Gran Pacífico</h3>
+        <span class="card-type">Apart-Hotel</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:info@granpacifico.cl">info@granpacifico.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 8920 3517</div>
+        <div class="contact-item"><strong>Address:</strong> Avenida Pacífico 3490, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://www.granpacifico.cl" target="_blank">granpacifico.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+        <span class="gap-tag gap-no-booking">No AI Booking</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Upgrade</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">Paid Ads</span>
+        <span class="rec-svc">CRM</span>
+      </div>
+    </div>
+
+    <!-- T5 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>5. Hotel & Cabañas Mar Serena</h3>
+        <span class="card-type">Hotel / Cabañas</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:contacto@marserena.cl">contacto@marserena.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 51 222 5559 / WhatsApp: +56 9 7378 4731</div>
+        <div class="contact-item"><strong>Address:</strong> Cuatro Esquinas 0680, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://www.marserena.cl" target="_blank">marserena.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+        <span class="gap-tag gap-no-social">Weak Social Media</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Rebuild</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">Voice AI</span>
+      </div>
+    </div>
+
+    <!-- T6 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>6. Cabañas de la Costa</h3>
+        <span class="card-type">Cabañas / Apart-Hotel</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:contacto@delacostalaserena.cl">contacto@delacostalaserena.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 8516 3124</div>
+        <div class="contact-item"><strong>Address:</strong> Los Lucumos Poniente 640, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://www.delacostacabanas.cl" target="_blank">delacostacabanas.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+        <span class="gap-tag gap-no-booking">No AI Booking</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">Google Ads</span>
+        <span class="rec-svc">CRM</span>
+      </div>
+    </div>
+
+    <!-- T7 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>7. Cabañas Reflejos del Mar</h3>
+        <span class="card-type">Cabañas</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:reflejodelmar2016@gmail.com">reflejodelmar2016@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> Not listed</div>
+        <div class="contact-item"><strong>Address:</strong> La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> None — Facebook only</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Website</span>
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-fb-only">Facebook Only</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">Booking System</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">Google Ads</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- T8 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>8. Cabañas Casa de Campo</h3>
+        <span class="card-type">Cabañas</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:casadecamporuta5@gmail.com">casadecamporuta5@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> Not listed</div>
+        <div class="contact-item"><strong>Address:</strong> Ruta 5, La Serena area</div>
+        <div class="contact-item"><strong>Website:</strong> None — Instagram only</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Website</span>
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-no-booking">No Online Booking</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">Booking System</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">Google Ads</span>
+      </div>
+    </div>
+
+    <!-- T9 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>9. Hostal La Serena</h3>
+        <span class="card-type">Hostal</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:hostallaserena@gmail.com">hostallaserena@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 4791 1313</div>
+        <div class="contact-item"><strong>Address:</strong> La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> None — booking platforms only</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Website</span>
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-no-social">No Social Media</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">Google Ads</span>
+      </div>
+    </div>
+
+    <!-- T10 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>10. Cabañas Stella Mar</h3>
+        <span class="card-type">Apart-Hotel / Cabañas</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:info@devacas.cl">info@devacas.cl</a> (booking agent)</div>
+        <div class="contact-item"><strong>Phone:</strong> +56 51 252 0833 / WhatsApp: +56 9 9699 5897</div>
+        <div class="contact-item"><strong>Address:</strong> Av. 4 Esquinas 100, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> None — listed via devacas.cl only</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Own Website</span>
+        <span class="gap-tag gap-no-social">No Social Media</span>
+        <span class="gap-tag gap-no-booking">No Direct Booking</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">Booking System</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- MARKET 2: RESTAURANTS & FOOD                 -->
+<!-- ============================================ -->
+<section class="market-section">
+  <h2 class="market-title">
+    <span class="icon">🍽️</span>
+    Restaurants & Food
+    <span class="badge">10 PROSPECTS</span>
+  </h2>
+  <div class="prospect-grid">
+
+    <!-- R1 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>1. Restobar La Rocca</h3>
+        <span class="card-type">Restobar / Pub</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:Publarocca@gmail.com">Publarocca@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> Not listed</div>
+        <div class="contact-item"><strong>Address:</strong> Eduardo De La Barra 576, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> None</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Website</span>
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-fb-only">Facebook Only</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">Google Business</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- R2 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>2. Templo Restobar</h3>
+        <span class="card-type">Restobar</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:Templolaserena@gmail.com">Templolaserena@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 4145 0311</div>
+        <div class="contact-item"><strong>Address:</strong> Av. Francisco de Aguirre 0306, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> None</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Website</span>
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-fb-only">Facebook Only</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">Google Ads</span>
+      </div>
+    </div>
+
+    <!-- R3 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>3. Santorini Restaurant</h3>
+        <span class="card-type">Tapas Bar / Seafood</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:santorinilaserena@gmail.com">santorinilaserena@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 6685 8095</div>
+        <div class="contact-item"><strong>Address:</strong> Av. del Mar 2700, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> None — third-party listings only</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Website</span>
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-fb-only">Facebook + Instagram</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">Social Media Management</span>
+        <span class="rec-svc">Google Ads</span>
+      </div>
+    </div>
+
+    <!-- R4 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>4. Huentelauquen Restobar Pizzeria</h3>
+        <span class="card-type">Restobar / Pizzeria</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:huentelauquen.restobar@gmail.com">huentelauquen.restobar@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 3948 9961</div>
+        <div class="contact-item"><strong>Address:</strong> Av. del Mar 4500, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> Free ola.click menu page only</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Real Website</span>
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-fb-only">Facebook Only</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">Online Ordering</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">Google Ads</span>
+      </div>
+    </div>
+
+    <!-- R5 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>5. Restaurante Bakulic</h3>
+        <span class="card-type">Gourmet / Cocina de Autor</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:bakulic.rest@gmail.com">bakulic.rest@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 7739 1492</div>
+        <div class="contact-item"><strong>Address:</strong> Av. del Mar 5700, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://www.bakulic.cl" target="_blank">bakulic.cl</a> (basic)</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Rebuild</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">Social Media</span>
+      </div>
+    </div>
+
+    <!-- R6 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>6. Donde El Guatón</h3>
+        <span class="card-type">Traditional Chilean</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:lcasonaguaton@gmail.com">lcasonaguaton@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 51 221 1519</div>
+        <div class="contact-item"><strong>Address:</strong> Brasil 750, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://dondelguaton.cl" target="_blank">dondelguaton.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Upgrade</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">Social Media</span>
+      </div>
+    </div>
+
+    <!-- R7 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>7. Dulce Salar (Pastelería)</h3>
+        <span class="card-type">Bakery / Café</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:dulcesalar2017@gmail.com">dulcesalar2017@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 5526 4812</div>
+        <div class="contact-item"><strong>Address:</strong> Guillermo Ulriksen 3036, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://www.dulcesalar.cl" target="_blank">dulcesalar.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Upgrade</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">Commerce Build</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- R8 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>8. Pastelería Argentina La Serena</h3>
+        <span class="card-type">Bakery / Café</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:Contacto@pasteleriaargentinalaserena.cl">Contacto@pasteleriaargentinalaserena.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 8707 4549</div>
+        <div class="contact-item"><strong>Address:</strong> Av. Juan Cisternas 1778, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://www.pasteleriaargentinalaserena.cl" target="_blank">pasteleriaargentinalaserena.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+        <span class="gap-tag gap-fb-only">Facebook Only</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">Commerce Build</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- R9 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>9. Lighthouse Coffee</h3>
+        <span class="card-type">Specialty Café</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:contacto@lighthousecoffee.cl">contacto@lighthousecoffee.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 2068 4812</div>
+        <div class="contact-item"><strong>Address:</strong> Matta 570, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> Not confirmed</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Confirmed Website</span>
+        <span class="gap-tag gap-fb-only">Facebook Only</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">Google Business</span>
+      </div>
+    </div>
+
+    <!-- R10 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>10. Umami Restaurant</h3>
+        <span class="card-type">Fusion / Gourmet</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:reservas@umamilaserena.cl">reservas@umamilaserena.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> Not listed</div>
+        <div class="contact-item"><strong>Address:</strong> Enrique Molina Garmendia 1096, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://umamilaserena.cl" target="_blank">umamilaserena.cl</a> (minimal)</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Minimal Single-Page</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Rebuild</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">Social Media</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- MARKET 3: HEALTH & VETERINARY                -->
+<!-- ============================================ -->
+<section class="market-section">
+  <h2 class="market-title">
+    <span class="icon">🏥</span>
+    Health & Veterinary
+    <span class="badge">10 PROSPECTS</span>
+  </h2>
+  <div class="prospect-grid">
+
+    <!-- H1 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>1. Centro Médico Veterinario La Serena</h3>
+        <span class="card-type">Veterinary Clinic</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:contacto@laserenavet.cl">contacto@laserenavet.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 51 263 5630</div>
+        <div class="contact-item"><strong>Address:</strong> Thomas Alba Edison 1530, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> None — Facebook only</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Website</span>
+        <span class="gap-tag gap-fb-only">Facebook Only</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">Google Ads</span>
+        <span class="rec-svc">AI Booking Agent</span>
+      </div>
+    </div>
+
+    <!-- H2 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>2. Clínica Veterinaria Antakari</h3>
+        <span class="card-type">Veterinary Clinic (24h)</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:contacto@veterinariantakari.cl">contacto@veterinariantakari.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 3408 2534</div>
+        <div class="contact-item"><strong>Address:</strong> Av. Juan Cisternas 2902, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://veterinariantakari.cl" target="_blank">veterinariantakari.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Upgrade</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">Voice AI</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- H3 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>3. Clínica Veterinaria Animalis Vita</h3>
+        <span class="card-type">Veterinary Clinic</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:consulta@animalisvita.cl">consulta@animalisvita.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 5396 6096</div>
+        <div class="contact-item"><strong>Address:</strong> Av. Las Parcelas 830, La Florida, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://www.animalisvita.cl" target="_blank">animalisvita.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website (SitePad builder)</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Rebuild</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">Google Ads</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- H4 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>4. Clínica Veterinaria Puertas del Mar</h3>
+        <span class="card-type">Veterinary Clinic</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:contacto@puertasdelmar.cl">contacto@puertasdelmar.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 8572 5116</div>
+        <div class="contact-item"><strong>Address:</strong> La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://puertasdelmar.cl" target="_blank">puertasdelmar.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Upgrade</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">Social Media</span>
+      </div>
+    </div>
+
+    <!-- H5 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>5. Centro Odontológico Qhali Kay</h3>
+        <span class="card-type">Dental Clinic</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:qksalud@gmail.com">qksalud@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 51 248 4221 / WhatsApp: +56 9 9041 4199</div>
+        <div class="contact-item"><strong>Address:</strong> Amunátegui 689, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://www.qksalud.cl" target="_blank">qksalud.cl</a> (Wix basic)</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-weak-web">Basic Wix Site</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">Google Ads</span>
+      </div>
+    </div>
+
+    <!-- H6 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>6. Clínica Dental El Valle</h3>
+        <span class="card-type">Dental Clinic</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:Contacto@clinicadentalelvalle.cl">Contacto@clinicadentalelvalle.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 9353 6457</div>
+        <div class="contact-item"><strong>Address:</strong> Gregorio Cordovez 588, Of. 210, Ed. Don Oscar, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://clinicadentalelvalle.cl" target="_blank">clinicadentalelvalle.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Upgrade</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- H7 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>7. Centro Médico Andes</h3>
+        <span class="card-type">Medical Center</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:centro.medico.andes@gmail.com">centro.medico.andes@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 51 221 8326</div>
+        <div class="contact-item"><strong>Address:</strong> Juan Soldado 450, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://www.andescentromedico.cl" target="_blank">andescentromedico.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- H8 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>8. Centro Clínico La Serena</h3>
+        <span class="card-type">Medical Center</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:contacto@centroclinicolaserena.cl">contacto@centroclinicolaserena.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 51 264 2862 / WhatsApp: +56 9 6878 3803</div>
+        <div class="contact-item"><strong>Address:</strong> Av. El Santo 3421, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://centroclinicolaserena.cl" target="_blank">centroclinicolaserena.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">Voice AI</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- H9 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>9. Tu Salud Centro</h3>
+        <span class="card-type">Medical Center</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:info@tusaludcentro.cl">info@tusaludcentro.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 5235 6780</div>
+        <div class="contact-item"><strong>Address:</strong> Av. El Santo 1240, 3er piso, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://tusaludcentro.cl" target="_blank">tusaludcentro.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Upgrade</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">Lifecycle Email</span>
+      </div>
+    </div>
+
+    <!-- H10 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>10. Centro Médico La Serena</h3>
+        <span class="card-type">Medical Center</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:contacto@centromedicolaserena.cl">contacto@centromedicolaserena.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 2 2727 5831 / +56 9 9069 1567</div>
+        <div class="contact-item"><strong>Address:</strong> La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://centromedicolaserena.cl" target="_blank">centromedicolaserena.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Upgrade</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">Voice AI</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- MARKET 4: BEAUTY & AESTHETICS                -->
+<!-- ============================================ -->
+<section class="market-section">
+  <h2 class="market-title">
+    <span class="icon">💇</span>
+    Beauty & Aesthetics
+    <span class="badge">10 PROSPECTS</span>
+  </h2>
+  <div class="prospect-grid">
+
+    <!-- B1 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>1. Prisma Salón</h3>
+        <span class="card-type">Hair Salon / Barbershop / Aesthetics</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:prisma.salon.ls@gmail.com">prisma.salon.ls@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 5008 2339</div>
+        <div class="contact-item"><strong>Address:</strong> Av. Fco de Aguirre 02, Locales 4 y 5, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://prismasalonls.com" target="_blank">prismasalonls.com</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Upgrade</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">Social Media</span>
+      </div>
+    </div>
+
+    <!-- B2 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>2. BRZ Barbería</h3>
+        <span class="card-type">Men's Grooming / Barbershop</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:sofybarber.brz@gmail.com">sofybarber.brz@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 2242 1029</div>
+        <div class="contact-item"><strong>Address:</strong> Los Arándanos 5101, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> Setmore booking page only</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Real Website</span>
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- B3 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>3. INNOVA Centro de Belleza y Relajación</h3>
+        <span class="card-type">Beauty Center / Spa</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:innova2099@gmail.com">innova2099@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> Not listed</div>
+        <div class="contact-item"><strong>Address:</strong> Mateo de Toro y Zambrano 2099, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> None — Facebook only</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Website</span>
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-fb-only">Facebook Only</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">Google Ads</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- B4 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>4. Manicure Spa La Serena</h3>
+        <span class="card-type">Nail Salon / Spa</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:manicurespalaserena@gmail.com">manicurespalaserena@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 9199 6606</div>
+        <div class="contact-item"><strong>Address:</strong> Reinaldo Boltz 1861, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> Free Skedu booking page only</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Real Website</span>
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-no-social">No Social Media</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">CRM</span>
+      </div>
+    </div>
+
+    <!-- B5 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>5. Kinesiología Estética</h3>
+        <span class="card-type">Aesthetic Therapy / Wellness</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:contacto@kinesiologiaestetica.cl">contacto@kinesiologiaestetica.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 4090 6037</div>
+        <div class="contact-item"><strong>Address:</strong> Eduardo Frei Montalva 940, Villa Las Leyendas, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://www.kinesiologiaestetica.cl" target="_blank">kinesiologiaestetica.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Upgrade</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- B6 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>6. Centro Kinefisio</h3>
+        <span class="card-type">Medical Aesthetics / Kinesiology</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:contacto@kinefisio.cl">contacto@kinefisio.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 5806 7346</div>
+        <div class="contact-item"><strong>Address:</strong> Los Nísperos 42 / Av. Fco de Aguirre 447, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://kinefisio.cl" target="_blank">kinefisio.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Upgrade</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">Google Ads</span>
+      </div>
+    </div>
+
+    <!-- B7 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>7. Nails Serena</h3>
+        <span class="card-type">Nail Salon</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:nailsserena@gmail.com">nailsserena@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> Not listed</div>
+        <div class="contact-item"><strong>Address:</strong> La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> None — Facebook only</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Website</span>
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-fb-only">Facebook Only</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- B8 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>8. Studio54 Spa</h3>
+        <span class="card-type">Spa / Nail Salon</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:studio54spa.ls@gmail.com">studio54spa.ls@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> Not listed</div>
+        <div class="contact-item"><strong>Address:</strong> La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> None — Facebook only</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Website</span>
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-fb-only">Facebook Only</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">Google Ads</span>
+      </div>
+    </div>
+
+    <!-- B9 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>9. Style Berries Manicure</h3>
+        <span class="card-type">Nail Salon / Manicure</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:styleberries.ls@gmail.com">styleberries.ls@gmail.com</a></div>
+        <div class="contact-item"><strong>Phone:</strong> Not listed</div>
+        <div class="contact-item"><strong>Address:</strong> La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> None — Facebook only</div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-no-web">No Website</span>
+        <span class="gap-tag gap-gmail">Gmail for Business</span>
+        <span class="gap-tag gap-fb-only">Facebook Only</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website</span>
+        <span class="rec-svc">AI Booking Agent</span>
+        <span class="rec-svc">Social Media</span>
+        <span class="rec-svc">AI SEO</span>
+      </div>
+    </div>
+
+    <!-- B10 -->
+    <div class="prospect-card">
+      <div class="card-header">
+        <h3>10. Centro Altamed</h3>
+        <span class="card-type">Medical Aesthetics Center</span>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item"><strong>Email:</strong> <a href="mailto:contacto@centroaltamed.cl">contacto@centroaltamed.cl</a></div>
+        <div class="contact-item"><strong>Phone:</strong> +56 9 3860 4573 / +56 9 4222 1786</div>
+        <div class="contact-item"><strong>Address:</strong> Guillermo Ulriksen 2736, La Serena</div>
+        <div class="contact-item"><strong>Website:</strong> <a href="https://centroaltamed.cl" target="_blank">centroaltamed.cl</a></div>
+      </div>
+      <div class="gaps">
+        <span class="gap-tag gap-weak-web">Basic Website</span>
+      </div>
+      <div class="rec-services">
+        <span class="rec-svc">AI Website Upgrade</span>
+        <span class="rec-svc">CRM</span>
+        <span class="rec-svc">AI SEO</span>
+        <span class="rec-svc">Social Media</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SALES PITCH & EMAIL TEMPLATES                -->
+<!-- ============================================ -->
+<section class="pitch-section">
+  <h2>Sales Pitch Strategy</h2>
+
+  <h3>Value Proposition by Market</h3>
+  <ul>
+    <li><strong>Tourism/Hospitality:</strong> "Your competitors are getting direct bookings while you pay 15-20% commissions to Booking.com. An AI-powered website with built-in booking and Google Ads can cut your acquisition cost in half."</li>
+    <li><strong>Restaurants:</strong> "80% of diners check a restaurant online before visiting. Without a website, you're invisible to tourists — La Serena's population doubles in summer and those visitors are searching Google, not walking the streets."</li>
+    <li><strong>Health/Veterinary:</strong> "Patients Google symptoms before they call. If your clinic doesn't show up, the one down the street gets the appointment. An AI booking agent means you never miss a call — even at 2 AM."</li>
+    <li><strong>Beauty/Aesthetics:</strong> "Instagram is your storefront. But you're leaving money on the table without an online booking system. 67% of beauty appointments are now booked online — if clients can't book on your site, they'll book with someone who lets them."</li>
+  </ul>
+
+  <h3>Recommended Starter Packages</h3>
+  <ul>
+    <li><strong>Starter ($497/mo):</strong> AI Website + AI SEO + Google Business Optimization — perfect for businesses with zero web presence</li>
+    <li><strong>Growth ($997/mo):</strong> AI Website + CRM + Social Media + AI SEO — for businesses ready to own their customer relationships</li>
+    <li><strong>Pro ($1,997/mo):</strong> Full stack: AI Website + CRM + Paid Ads + AI SEO + Social Media + AI Booking Agent — for ambitious local businesses</li>
+  </ul>
+
+  <h3>Cold Email Template (English)</h3>
+  <div class="email-template"><span class="subject">Subject: I found [Business Name] on Google — here's what's missing</span>
+Hi [Owner Name],
+
+I'm [Your Name] from NetWebMedia. We help local businesses in La Serena get more customers through AI-powered websites, Google visibility, and smart booking systems.
+
+I noticed [Business Name] has great reviews on [TripAdvisor/Google/Facebook] but no website to capture those visitors. Here's what that costs you:
+
+- Tourists searching "best [restaurant/cabañas/vet] La Serena" can't find you
+- You're paying 15-20% commissions to booking platforms instead of getting direct inquiries
+- Walk-in customers can't book their next visit online
+
+We built a free diagnostic tool that shows exactly what you're missing:
+→ https://netwebmedia.com/diagnostic
+
+No obligation. Takes 30 seconds. You'll see a full audit of your online presence.
+
+Would you be open to a quick 15-minute call this week?
+
+Best,
+[Your Name]
+NetWebMedia | AI Marketing for Growth
+netwebmedia.com</div>
+
+  <h3>Cold Email Template (Spanish)</h3>
+  <div class="email-template"><span class="subject">Asunto: Encontré [Nombre del Negocio] en Google — y hay algo que les falta</span>
+Hola [Nombre del Dueño],
+
+Soy [Tu Nombre] de NetWebMedia. Ayudamos a negocios locales en La Serena a conseguir más clientes con sitios web inteligentes, visibilidad en Google y sistemas de reservas con IA.
+
+Noté que [Nombre del Negocio] tiene excelentes reseñas en [TripAdvisor/Google/Facebook], pero no tienen un sitio web para captar a esos visitantes. Esto es lo que les está costando:
+
+- Los turistas que buscan "mejor [restaurante/cabañas/veterinaria] La Serena" no los encuentran
+- Están pagando 15-20% de comisión a plataformas de reserva en vez de recibir consultas directas
+- Sus clientes actuales no pueden reservar su próxima visita online
+
+Creamos una herramienta de diagnóstico gratuita que muestra exactamente lo que les falta:
+→ https://netwebmedia.com/diagnostic
+
+Sin compromiso. Toma 30 segundos. Van a ver una auditoría completa de su presencia online.
+
+¿Estarían abiertos a una llamada rápida de 15 minutos esta semana?
+
+Saludos,
+[Tu Nombre]
+NetWebMedia | Marketing con IA para Crecimiento
+netwebmedia.com</div>
+
+  <h3>Follow-Up Strategy</h3>
+  <ul>
+    <li><strong>Day 1:</strong> Send initial cold email (above)</li>
+    <li><strong>Day 3:</strong> Send WhatsApp message with a quick 30-second video audit of their Google presence</li>
+    <li><strong>Day 7:</strong> Follow-up email with a case study or competitor comparison</li>
+    <li><strong>Day 14:</strong> Final email — "last chance" free audit offer with urgency (summer season approaching)</li>
+    <li><strong>Ongoing:</strong> Add to LinkedIn/Instagram nurture sequence</li>
+  </ul>
+</section>
+
+<footer class="report-footer">
+  <p>NetWebMedia — AI Marketing for Growth | netwebmedia.com | hello@netwebmedia.com</p>
+  <p style="margin-top:8px;">Report generated April 15, 2026. Data sourced from public directories, Google, TripAdvisor, Facebook, and business websites.</p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetWebMedia — Chillán Prospect Report: 40 Local Businesses</title>
+<style>
+  :root {
+    --brand: #ff6b00;
+    --dark: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --blue: #58a6ff;
+    --purple: #bc8cff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background:var(--dark); color:var(--text); line-height:1.7; }
+  .container { max-width:1200px; margin:0 auto; padding:0 24px; }
+  .report-header { background:linear-gradient(135deg,#0d1117 0%,#1a1000 50%,#1a0a00 100%); border-bottom:3px solid var(--brand); padding:56px 0 48px; }
+  .report-header h1 { font-size:2.4rem; font-weight:800; margin-bottom:8px; }
+  .report-header h1 span { color:var(--brand); }
+  .report-header .subtitle { color:var(--muted); font-size:1.15rem; max-width:700px; }
+  .report-header .meta { margin-top:20px; display:flex; gap:24px; flex-wrap:wrap; font-size:0.85rem; color:var(--muted); }
+  .report-header .meta strong { color:var(--text); }
+  .mega-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; margin:-40px 0 40px; position:relative; z-index:2; }
+  .mega-stat { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px 24px; text-align:center; }
+  .mega-stat .num { font-size:2.6rem; font-weight:900; }
+  .mega-stat .num.red { color:var(--red); }
+  .mega-stat .num.yellow { color:var(--yellow); }
+  .mega-stat .num.green { color:var(--green); }
+  .mega-stat .num.brand { color:var(--brand); }
+  .mega-stat .label { font-size:0.85rem; color:var(--muted); margin-top:6px; }
+  .mega-stat .sub { font-size:0.75rem; color:var(--muted); margin-top:4px; font-style:italic; }
+  .section { margin:56px 0; }
+  .section-title { font-size:1.6rem; font-weight:800; margin-bottom:8px; display:flex; align-items:center; gap:12px; }
+  .section-title .icon { font-size:1.8rem; }
+  .section-sub { color:var(--muted); font-size:0.95rem; margin-bottom:28px; max-width:800px; }
+  .prospect-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:20px; }
+  .prospect-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:24px; transition:border-color 0.2s; }
+  .prospect-card:hover { border-color:var(--brand); }
+  .prospect-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:4px; }
+  .prospect-card .url { font-size:0.8rem; color:var(--blue); word-break:break-all; }
+  .prospect-card .url.dead { color:var(--red); }
+  .prospect-card .url.gmail { color:var(--yellow); }
+  .meta-row { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--border); font-size:0.85rem; }
+  .meta-row:last-child { border-bottom:none; }
+  .meta-row .label { color:var(--muted); }
+  .meta-row .value { font-weight:600; }
+  .meta-row .value.red { color:var(--red); }
+  .meta-row .value.green { color:var(--green); }
+  .meta-row .value.yellow { color:var(--yellow); }
+  .meta-row .value.brand { color:var(--brand); }
+  .tag { display:inline-block; font-size:0.7rem; padding:2px 8px; border-radius:12px; margin:2px; }
+  .tag.red { background:rgba(248,81,73,0.15); color:var(--red); }
+  .tag.green { background:rgba(63,185,80,0.15); color:var(--green); }
+  .tag.yellow { background:rgba(210,153,34,0.15); color:var(--yellow); }
+  .tag.blue { background:rgba(88,166,255,0.15); color:var(--blue); }
+  .tag.brand { background:rgba(255,107,0,0.15); color:var(--brand); }
+  .email-section { margin-top:12px; padding:12px; background:rgba(255,107,0,0.05); border:1px solid rgba(255,107,0,0.15); border-radius:10px; }
+  .email-section h4 { font-size:0.75rem; color:var(--brand); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+  .email-section p { font-size:0.85rem; color:var(--muted); }
+  .cta-section { background:linear-gradient(135deg,#1a1000 0%,#1a0a00 100%); border:2px solid var(--brand); border-radius:20px; padding:48px; text-align:center; margin:56px 0; }
+  .cta-section h2 { font-size:1.8rem; font-weight:800; margin-bottom:12px; }
+  .cta-section h2 span { color:var(--brand); }
+  .cta-section p { color:var(--muted); font-size:1.05rem; max-width:600px; margin:0 auto 24px; }
+  .cta-btn { display:inline-block; background:var(--brand); color:#fff; font-size:1.1rem; font-weight:700; padding:14px 36px; border-radius:12px; text-decoration:none; }
+  .cta-btn:hover { background:#e05f00; }
+  .report-footer { text-align:center; padding:32px 0; border-top:1px solid var(--border); }
+  .report-footer p { color:var(--muted); font-size:0.8rem; }
+  .summary-table { width:100%; border-collapse:collapse; margin:24px 0; }
+  .summary-table th { background:rgba(255,255,255,0.03); text-align:left; padding:12px 16px; font-size:0.8rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; border-bottom:2px solid var(--border); }
+  .summary-table td { padding:12px 16px; font-size:0.9rem; border-bottom:1px solid var(--border); }
+  .summary-table .red { color:var(--red); font-weight:700; }
+  .summary-table .green { color:var(--green); font-weight:700; }
+  .summary-table .brand { color:var(--brand); font-weight:700; }
+  @media(max-width:768px) { .report-header h1{font-size:1.6rem;} .prospect-grid{grid-template-columns:1fr;} .cta-section{padding:32px 20px;} }
+</style>
+</head>
+<body>
+
+<header class="report-header">
+  <div class="container">
+    <h1>Chillán Prospect Report: <span>40 Local Businesses Ready for Digital Transformation</span></h1>
+    <p class="subtitle">Individual business analysis across Tourism, Restaurants, Health & Beauty in Chile's newest regional capital (Ñuble, created 2018), gateway to Nevados de Chillán ski resort, birthplace of Bernardo O'Higgins, and longaniza capital — where a hotel near the train station has a DEAD server, the #1 TripAdvisor restaurant has NO website, a dental clinic is DEAD, another returns 403 Forbidden, a vet clinic runs on a FREE .tie.cl subdomain, and a hotel has a self-signed SSL certificate that browsers block.</p>
+    <div class="meta">
+      <span>Report Date: <strong>April 16, 2026</strong></span>
+      <span>Businesses Analyzed: <strong>40</strong></span>
+      <span>Markets: <strong>Tourism, Restaurants, Health, Beauty</strong></span>
+      <span>Estimated Revenue Lost: <strong class="red">$2.0M/year</strong></span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<div class="mega-stats">
+  <div class="mega-stat">
+    <div class="num red">$2.0M</div>
+    <div class="label">Estimated Annual Revenue Lost</div>
+    <div class="sub">Across 40 Chillán businesses</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num red">5</div>
+    <div class="label">Dead, Broken, or Blocked Sites</div>
+    <div class="sub">2 ECONNREFUSED + 1 403 + 1 SSL error + 1 404</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num yellow">14</div>
+    <div class="label">Businesses with No Website</div>
+    <div class="sub">Including #1 TripAdvisor restaurant</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num brand">40</div>
+    <div class="label">Zero CRM (100%)</div>
+    <div class="sub">Matching Talca — second city with absolute zero</div>
+  </div>
+</div>
+
+<!-- ========== TOURISM ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">🏨</span> Tourism & Hospitality — 10 Prospects</h2>
+  <p class="section-sub">Chillán is the gateway to Nevados de Chillán ski resort and termas (hot springs), attracting winter sports enthusiasts, summer hikers, and year-round thermal spa visitors. As the new capital of Ñuble region (separated from Biobío in 2018), it draws government officials and business travelers. Yet a hotel near the train/bus station has a dead server, a major hotel chain property has a self-signed SSL certificate, and the Termas de Chillán hotel returns 404.</p>
+
+  <div class="prospect-grid">
+
+    <!-- T1 -->
+    <div class="prospect-card">
+      <h3>1. Hotel Diego de Almagro Chillán</h3>
+      <div class="url">dahoteles.com/es/da-chillan</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value green">centraldereservas@dahoteles.com</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 2427100</span></div>
+      <div class="meta-row"><span class="label">Rooms</span><span class="value">160 fully equipped</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">National chain website</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value yellow">Chain-level (not Chillán-specific)</span></div>
+      <div class="meta-row"><span class="label">Booking</span><span class="value green">Chain booking system</span></div>
+      <div class="meta-row"><span class="label">Social</span><span class="value yellow">Chain accounts only</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None detected</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag blue">National Chain</span>
+        <span class="tag green">160 Rooms</span>
+        <span class="tag yellow">Chain Analytics</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Diego de Almagro Chillán — 160 rooms competing with boutique hotels that track local Ñuble keywords. Your chain site optimizes nationally, not for 'hotel chillán centro' or 'hotel nevados de chillán.' Local SEO + CRM for ski season repeat guests = direct bookings instead of Booking.com commission. $997/mo."</p>
+      </div>
+    </div>
+
+    <!-- T2 -->
+    <div class="prospect-card">
+      <h3>2. Gran Hotel Isabel Riquelme</h3>
+      <div class="url">hotelisabelriquelme.cl</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value green">recepcion@hotelisabelriquelme.cl</span></div>
+      <div class="meta-row"><span class="label">Email 2</span><span class="value green">ventas@hotelisabelriquelme.cl</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 2 434404</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">WordPress / Astra / Elementor</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value red">NONE — zero tracking!</span></div>
+      <div class="meta-row"><span class="label">Booking</span><span class="value yellow">Custom WP form (wpbs-form-1)</span></div>
+      <div class="meta-row"><span class="label">WhatsApp</span><span class="value green">JoinChat integration</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag green">Professional Email x2</span>
+        <span class="tag red">ZERO Analytics</span>
+        <span class="tag blue">WP/Elementor</span>
+        <span class="tag green">JoinChat</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Hotel Isabel Riquelme — professional site, professional email, WhatsApp integration. But ZERO analytics. You can't see where guests come from, what pages they visit, or if your booking form converts. We add GA4 + FB Pixel and you see everything. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- T3 -->
+    <div class="prospect-card">
+      <h3>3. Hotel Las Terrazas Business</h3>
+      <div class="url dead">business.lasterrazas.cl — SELF-SIGNED SSL CERTIFICATE!</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value green">reservas@lasterrazas.cl</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 2 437000</span></div>
+      <div class="meta-row"><span class="label">Address</span><span class="value">Constitución 664, piso 5</span></div>
+      <div class="meta-row"><span class="label">SSL Status</span><span class="value red">SELF-SIGNED — browsers block connection!</span></div>
+      <div class="meta-row"><span class="label">Also Operates</span><span class="value">Apart Hotel Las Terrazas + Express</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">SSL ERROR — BROWSERS BLOCK!</span>
+        <span class="tag green">Professional Email</span>
+        <span class="tag yellow">3 Properties</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Hotel Las Terrazas — your website has a self-signed SSL certificate. Chrome, Safari, and Firefox show a security warning and block visitors. You operate 3 properties (Business, Apart, Express) but guests can't reach any of them. We fix your SSL in 24 hours and rebuild with proper HTTPS. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- T4 -->
+    <div class="prospect-card">
+      <h3>4. MDS Hotel Chillán</h3>
+      <div class="url">mdshoteles.com/en/chillan</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value green">reservas.chillan@mdshoteles.com</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 225 5000</span></div>
+      <div class="meta-row"><span class="label">Rooms</span><span class="value">100 first-class rooms + suites</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value yellow">UA-89555369-13 + UA-100778766-1 (OLD!) + G-RY122X80W1 (GA4)</span></div>
+      <div class="meta-row"><span class="label">Schema</span><span class="value green">Hotel structured data (JSON-LD)</span></div>
+      <div class="meta-row"><span class="label">Parent</span><span class="value">Marina del Sol (casino group)</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None detected</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag green">GA4 Migrated</span>
+        <span class="tag yellow">2x OLD UA Codes Still Active</span>
+        <span class="tag green">Schema.org</span>
+        <span class="tag blue">Casino Group</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"MDS Hotel — you're the only property with GA4 migration AND Schema.org. Best tracked in Chillán. But you still have 2 old UA codes running (dead since July 2023) and no CRM. Clean up your analytics stack and add CRM for ski season loyalty. $997/mo."</p>
+      </div>
+    </div>
+
+    <!-- T5 -->
+    <div class="prospect-card">
+      <h3>5. Hotel Paso Nevado</h3>
+      <div class="url dead">hotelpasonevado.cl — ECONNREFUSED — SERVER DEAD!</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">Unknown — site is dead</span></div>
+      <div class="meta-row"><span class="label">Address</span><span class="value">Libertad 219 (near train/bus station)</span></div>
+      <div class="meta-row"><span class="label">Location</span><span class="value brand">300m from train & bus stations!</span></div>
+      <div class="meta-row"><span class="label">Site Status</span><span class="value red">ECONNREFUSED — completely offline</span></div>
+      <div class="meta-row"><span class="label">OTA Presence</span><span class="value yellow">Booking.com, KAYAK, Despegar</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">SERVER DEAD!</span>
+        <span class="tag red">No Email Found</span>
+        <span class="tag brand">300m from Transport Hub</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Hotel Paso Nevado — 300 meters from Chillán's train and bus station. Ski tourists arriving for Nevados de Chillán, business travelers, government officials for the new Ñuble regional capital — they all pass your door. But hotelpasonevado.cl is DEAD. Server refuses connections. We rebuild in 72 hours. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- T6 -->
+    <div class="prospect-card">
+      <h3>6. Entrerocas Lodge — Las Trancas</h3>
+      <div class="url">entrerocas.cl</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value green">reservas@entrerocas.cl</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 9 99699560</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">Joomla CMS / SP Page Builder</span></div>
+      <div class="meta-row"><span class="label">Booking</span><span class="value green">Vik Booking (professional hotel system)</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value red">NONE — zero tracking</span></div>
+      <div class="meta-row"><span class="label">Social</span><span class="value yellow">Facebook + TripAdvisor</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag green">Vik Booking</span>
+        <span class="tag blue">Joomla</span>
+        <span class="tag red">ZERO Analytics</span>
+        <span class="tag brand">Las Trancas / Ski Gateway</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Entrerocas — cabañas, hotel, and lodge in Las Trancas with proper Vik Booking system. But ZERO analytics. Ski tourists book but you can't see which channels drive them. GA4 + FB Pixel + ski season remarketing = fill cabañas before snow hits. $997/mo."</p>
+      </div>
+    </div>
+
+    <!-- T7 -->
+    <div class="prospect-card">
+      <h3>7. Hotel Termas de Chillán</h3>
+      <div class="url dead">termaschillan.cl — RETURNS 404 NOT FOUND!</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">Unknown — site returns 404</span></div>
+      <div class="meta-row"><span class="label">Location</span><span class="value">Camino a Termas de Chillán KM 80</span></div>
+      <div class="meta-row"><span class="label">Features</span><span class="value">Mountain resort, hot springs, Andes views</span></div>
+      <div class="meta-row"><span class="label">Site Status</span><span class="value red">404 NOT FOUND on main page</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">404 NOT FOUND!</span>
+        <span class="tag red">No Email Found</span>
+        <span class="tag brand">Mountain Hot Springs Resort</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Hotel Termas de Chillán — a mountain resort at the foot of Volcán Chillán Viejo, surrounded by native forests, cascading waterfalls, and thermal springs. termaschillan.cl returns 404 Not Found. Tourists searching 'termas de chillán hotel' find a 404 page for a destination resort. Emergency rebuild needed. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- T8 -->
+    <div class="prospect-card">
+      <h3>8. Hotel Floresta</h3>
+      <div class="url dead">NO WEBSITE</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 2222253</span></div>
+      <div class="meta-row"><span class="label">Address</span><span class="value">18 de Septiembre 278, Chillán</span></div>
+      <div class="meta-row"><span class="label">Web Presence</span><span class="value red">Phone only — zero digital</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Website</span>
+        <span class="tag red">No Email</span>
+        <span class="tag yellow">Phone Only</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Hotel Floresta — in the heart of Chillán on 18 de Septiembre, yet invisible to every search engine. Ski tourists, government officials, and business travelers searching 'hotel chillán centro' can't find you. We build your site + booking system in 7 days. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- T9 -->
+    <div class="prospect-card">
+      <h3>9. Hostal Canadá</h3>
+      <div class="url dead">NO WEBSITE</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 2234515 / +56 42 2329481</span></div>
+      <div class="meta-row"><span class="label">Cell</span><span class="value">+56 9 84497428</span></div>
+      <div class="meta-row"><span class="label">Address</span><span class="value">Libertad 269, Chillán</span></div>
+      <div class="meta-row"><span class="label">Rooms</span><span class="value">8 rooms (Single to Family)</span></div>
+      <div class="meta-row"><span class="label">Notes</span><span class="value yellow">Popular with foreign tourists</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Website</span>
+        <span class="tag red">No Email</span>
+        <span class="tag yellow">Foreign Tourist Popular</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Hostal Canadá — popular with foreign tourists but no website, no email, phone only. International visitors can't find you on Google. Foreign travelers searching 'hostal chillán' in English or Spanish find nothing. We build a bilingual site with booking. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- T10 -->
+    <div class="prospect-card">
+      <h3>10. Pewma Apart Hotel / Nogales House</h3>
+      <div class="url dead">NO OWN WEBSITE — Booking.com only</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found (Booking.com intermediated)</span></div>
+      <div class="meta-row"><span class="label">Features</span><span class="value">3-bedroom apartments, garden, BBQ, continental breakfast</span></div>
+      <div class="meta-row"><span class="label">Location</span><span class="value">3 km from Chillán Train Station</span></div>
+      <div class="meta-row"><span class="label">Booking</span><span class="value yellow">100% Booking.com dependent</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Own Website</span>
+        <span class="tag red">No Email Found</span>
+        <span class="tag yellow">100% OTA Dependent</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Pewma Apart Hotel — spacious 3-bedroom apartments, garden, BBQ. But 100% Booking.com dependent, paying 15-25% commission on every reservation. Your own website with direct booking saves thousands per year. We build it and you keep the commission. $497/mo."</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== RESTAURANTS ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">🍽️</span> Restaurants & Food — 10 Prospects</h2>
+  <p class="section-sub">Chillán is the longaniza capital of Chile, famous for its Mercado Municipal food stalls, and increasingly known for fine dining. The #1 restaurant on TripAdvisor (Andén Bistró) has NO website. Half the restaurants are invisible online. Chillán's food scene is a goldmine for digital transformation — heritage restaurants with decades of tradition but zero web presence.</p>
+
+  <div class="prospect-grid">
+
+    <!-- R1 -->
+    <div class="prospect-card">
+      <h3>1. Ficus Restaurante</h3>
+      <div class="url">ficuschillan.com</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value green">reservas@ficuschillan.com</span></div>
+      <div class="meta-row"><span class="label">Email 2</span><span class="value green">contacto@ficuschillan.com</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 2212176 / 2233522</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">Squarespace</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value yellow">UA-48569773-1 (OLD — dead since July 2023!)</span></div>
+      <div class="meta-row"><span class="label">Tracking</span><span class="value yellow">Mixpanel + FB App 314192535267336</span></div>
+      <div class="meta-row"><span class="label">Tradition</span><span class="value brand">28 YEARS of gastronomy</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag brand">28 Years!</span>
+        <span class="tag yellow">DEAD UA Analytics</span>
+        <span class="tag green">Mixpanel</span>
+        <span class="tag blue">Squarespace</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Ficus — 28 years of Chillán gastronomy with Squarespace site, Mixpanel, and Facebook tracking. But your Google Analytics UA-48569773-1 has been dead since July 2023. Nearly 3 years blind. You track with Mixpanel but can't see Google traffic. We migrate to GA4 today. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- R2 -->
+    <div class="prospect-card">
+      <h3>2. Fuego Divino</h3>
+      <div class="url">fuegodivino.cl</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value green">reservas@fuegodivino.cl</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 2430900</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">WordPress / Croma theme</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value yellow">UA-60301315-1 (OLD — dead since July 2023!)</span></div>
+      <div class="meta-row"><span class="label">FB Pixel</span><span class="value green">2417356755244179</span></div>
+      <div class="meta-row"><span class="label">Booking</span><span class="value green">WP Booking Calendar plugin</span></div>
+      <div class="meta-row"><span class="label">Social</span><span class="value yellow">Facebook + Twitter (dead platform) + Foursquare</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag green">FB Pixel Active</span>
+        <span class="tag yellow">DEAD UA Analytics</span>
+        <span class="tag green">WP Booking</span>
+        <span class="tag red">Twitter Link (X rebrand)</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Fuego Divino — elegant restaurant with WP Booking Calendar and FB Pixel. But your Google Analytics UA-60301315-1 stopped collecting in July 2023. Nearly 3 years of blind Google traffic. Your Twitter link points to a dead platform (rebranded to X). We fix GA4 + clean up social links. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- R3 -->
+    <div class="prospect-card">
+      <h3>3. Restaurante El Faro</h3>
+      <div class="url">elfarochillan.cl</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value green">contacto@elfarochillan.cl</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 224 8409</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">Basic HTML / custom</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value red">NONE — zero tracking</span></div>
+      <div class="meta-row"><span class="label">Social</span><span class="value green">Facebook + Instagram + TripAdvisor</span></div>
+      <div class="meta-row"><span class="label">Cuisine</span><span class="value">Seafood + Peruvian fusion since 2011</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag green">Pro Email</span>
+        <span class="tag red">ZERO Analytics</span>
+        <span class="tag green">3 Social Platforms</span>
+        <span class="tag blue">Since 2011</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"El Faro — seafood and Peruvian fusion since 2011, strong social on Facebook + Instagram + TripAdvisor. But ZERO analytics on your website. You can't see which social platforms drive visits. GA4 + conversion tracking = know exactly what works. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- R4 -->
+    <div class="prospect-card">
+      <h3>4. Los Buenos Muchachos</h3>
+      <div class="url">losbuenosmuchachos.cl</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">NONE on website</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">WordPress / Divi Builder</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value red">NONE — zero tracking</span></div>
+      <div class="meta-row"><span class="label">Social</span><span class="value green">Facebook + Instagram</span></div>
+      <div class="meta-row"><span class="label">Tagline</span><span class="value brand">"La diferencia entre salir a comer y salir a pasarlo bien"</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">No Email on Site</span>
+        <span class="tag red">ZERO Analytics</span>
+        <span class="tag blue">WP/Divi</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Los Buenos Muchachos — great brand ('the difference between eating out and having a good time') and WP/Divi site. But NO email on your website and ZERO analytics. Customers visit your site and can't contact you except via social. We add contact + analytics + booking. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- R5 -->
+    <div class="prospect-card">
+      <h3>5. Fuente Alemana Chillán</h3>
+      <div class="url">fuentealemanachillan.cl</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">NONE on website</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 2 423565</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">WordPress / custom theme</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value red">NONE — zero tracking</span></div>
+      <div class="meta-row"><span class="label">Booking</span><span class="value yellow">Booked appointment plugin (unusual for café!)</span></div>
+      <div class="meta-row"><span class="label">Tradition</span><span class="value brand">40+ YEARS — iconic cafetería</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag brand">40+ Years!</span>
+        <span class="tag red">No Email</span>
+        <span class="tag red">ZERO Analytics</span>
+        <span class="tag yellow">Booked Plugin (unusual)</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Fuente Alemana — 40+ years of Chillán tradition. You even installed a Booked appointment plugin on your site (unique for a cafetería). But NO email, NO analytics. You're collecting reservations without knowing where customers come from. We add analytics + professional email. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- R6 -->
+    <div class="prospect-card">
+      <h3>6. Andén Bistró & Tapas</h3>
+      <div class="url dead">NO WEBSITE — #1 ON TRIPADVISOR!</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 9 4274 3882</span></div>
+      <div class="meta-row"><span class="label">Social</span><span class="value yellow">Instagram @anden_bistrotapas only</span></div>
+      <div class="meta-row"><span class="label">Delivery</span><span class="value yellow">Uber Eats (paying 25-35% commission)</span></div>
+      <div class="meta-row"><span class="label">TripAdvisor</span><span class="value brand">#1 RESTAURANT IN CHILLÁN!</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Website</span>
+        <span class="tag red">No Email</span>
+        <span class="tag brand">#1 TRIPADVISOR CHILLÁN!</span>
+        <span class="tag yellow">Uber Eats Dependent</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Andén Bistró — the #1 restaurant in all of Chillán on TripAdvisor! Yet NO website, NO email, Instagram only. Tourists searching 'best restaurant chillán' find you on TripAdvisor but can't book directly. Uber Eats takes 25-35% of every delivery. Your own site with reservations = keep the money. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- R7 -->
+    <div class="prospect-card">
+      <h3>7. La Ramona Restobar</h3>
+      <div class="url dead">NO WEBSITE</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 2 540240</span></div>
+      <div class="meta-row"><span class="label">Social</span><span class="value yellow">Instagram @laramonachillan only</span></div>
+      <div class="meta-row"><span class="label">Cuisine</span><span class="value">Chilean food + Sushi fusion</span></div>
+      <div class="meta-row"><span class="label">Hours</span><span class="value">Mon-Sat 11-23, Sun 13-19</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Website</span>
+        <span class="tag red">No Email</span>
+        <span class="tag yellow">Instagram Only</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"La Ramona — Chilean + sushi fusion, open 7 days. But NO website and NO email. Ski tourists after a day at Nevados de Chillán search 'restaurant chillán' — you're invisible. We build your site with menu + reservations. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- R8 -->
+    <div class="prospect-card">
+      <h3>8. Hamachi Sushi Chillán</h3>
+      <div class="url dead">NO WEBSITE</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found</span></div>
+      <div class="meta-row"><span class="label">WhatsApp</span><span class="value">+56 9 4219 3903 / +56 9 4808 5488</span></div>
+      <div class="meta-row"><span class="label">Address</span><span class="value">Bulnes 479, Chillán</span></div>
+      <div class="meta-row"><span class="label">Social</span><span class="value yellow">Facebook only</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Website</span>
+        <span class="tag red">No Email</span>
+        <span class="tag yellow">WhatsApp + Facebook Only</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Hamachi Sushi — sushi is booming in Chile and Chillán's young population craves it. But you have NO website, NO email — WhatsApp and Facebook only. Students and young professionals search online for sushi delivery. Your own site with online ordering = no Uber Eats commission. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- R9 -->
+    <div class="prospect-card">
+      <h3>9. Restaurant De Banderas</h3>
+      <div class="url dead">NO WEBSITE</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 2 232349</span></div>
+      <div class="meta-row"><span class="label">Address</span><span class="value">Vega de Saldías 539, Chillán</span></div>
+      <div class="meta-row"><span class="label">Cuisine</span><span class="value">Peruvian</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Website</span>
+        <span class="tag red">No Email</span>
+        <span class="tag yellow">Phone Only</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"De Banderas — Peruvian cuisine in Chillán but zero online presence. Peruvian food is Chile's fastest-growing cuisine category. Capture the demand with a website + online ordering. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- R10 -->
+    <div class="prospect-card">
+      <h3>10. Restaurant Benihana</h3>
+      <div class="url dead">NO WEBSITE</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 2 239246</span></div>
+      <div class="meta-row"><span class="label">Address</span><span class="value">5 de Abril 405, Chillán</span></div>
+      <div class="meta-row"><span class="label">Type</span><span class="value">International cuisine</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Website</span>
+        <span class="tag red">No Email</span>
+        <span class="tag yellow">Phone Only</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Benihana — international cuisine on 5 de Abril, a main commercial street. Foot traffic passes daily but online visitors find nothing. A website with your menu, photos, and reservations captures the search traffic your location already generates. $497/mo."</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== HEALTH ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">🏥</span> Health & Veterinary — 10 Prospects</h2>
+  <p class="section-sub">Chillán's health sector shows a stark digital divide: some dental clinics have advanced tracking stacks (GTM + Google Ads + FB Pixel), while one is completely DEAD (clinicadentalchillan.cl ECONNREFUSED), another returns 403 Forbidden, a vet clinic runs on a FREE .tie.cl subdomain, the university veterinary hospital books through a raw IP address, and one vet uses Gmail as their only contact.</p>
+
+  <div class="prospect-grid">
+
+    <!-- H1 -->
+    <div class="prospect-card">
+      <h3>1. BiOdent Clínica Dental</h3>
+      <div class="url">clinicabiodent.cl</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value green">contacto@clinicabiodent.cl</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 2316038 / 2229117</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">WordPress / Prodent theme / WPBakery</span></div>
+      <div class="meta-row"><span class="label">GTM</span><span class="value green">GTM-K47Z54DD</span></div>
+      <div class="meta-row"><span class="label">Consent</span><span class="value green">WP Consent API (GDPR-ready)</span></div>
+      <div class="meta-row"><span class="label">Social</span><span class="value green">Facebook + Instagram</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag green">GTM Configured</span>
+        <span class="tag green">GDPR Consent</span>
+        <span class="tag green">Pro Email</span>
+        <span class="tag blue">Dental-Specific Theme</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"BiOdent — professional site with GTM and GDPR consent management. Best-configured dental clinic in Chillán. But no CRM for patient recall, no booking system. Add AI Booking Agent + CRM and your recall rate doubles. $997/mo."</p>
+      </div>
+    </div>
+
+    <!-- H2 -->
+    <div class="prospect-card">
+      <h3>2. DentoBeli</h3>
+      <div class="url">dentobeli.cl</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">NONE publicly listed</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 9 4950 9000</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">WordPress / GeneratePress / Elementor</span></div>
+      <div class="meta-row"><span class="label">GTM</span><span class="value green">GTM-T5Q4TQG</span></div>
+      <div class="meta-row"><span class="label">Google Ads</span><span class="value green">AW-877323173</span></div>
+      <div class="meta-row"><span class="label">FB Pixel</span><span class="value green">Conversion tracking enabled</span></div>
+      <div class="meta-row"><span class="label">Booking</span><span class="value green">Reservo (agendamiento.reservo.cl)</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag green">GTM + Google Ads + FB Pixel</span>
+        <span class="tag green">Reservo Booking</span>
+        <span class="tag red">No Email on Site</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"DentoBeli — strongest ad stack in Chillán dental: GTM + Google Ads + FB Pixel + Reservo booking. But NO email on your website. Patients who want to email instead of call can't. Add professional email + CRM to maximize your ad spend ROI. $997/mo."</p>
+      </div>
+    </div>
+
+    <!-- H3 -->
+    <div class="prospect-card">
+      <h3>3. Dental Life</h3>
+      <div class="url dead">dentallife.cl — 403 FORBIDDEN!</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">Unknown — site blocked</span></div>
+      <div class="meta-row"><span class="label">Site Status</span><span class="value red">403 FORBIDDEN — access denied!</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">403 FORBIDDEN!</span>
+        <span class="tag red">No Email Found</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Dental Life — dentallife.cl returns 403 Forbidden. Every patient searching 'dental life chillán' is blocked. Your competitors (BiOdent, DentoBeli) are capturing your patients while your site blocks visitors. Emergency rebuild needed. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- H4 -->
+    <div class="prospect-card">
+      <h3>4. Safident</h3>
+      <div class="url">safident.cl</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">NONE on website</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value yellow">React SPA (requires JavaScript!)</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value green">GA4 G-BM2H0YFSY3</span></div>
+      <div class="meta-row"><span class="label">SEO Issue</span><span class="value red">React SPA = poor SEO (no server rendering)</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag green">GA4 Active</span>
+        <span class="tag red">No Email</span>
+        <span class="tag yellow">React SPA — SEO Limited</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Safident — you have GA4 (good!) but your site is a React single-page app. Google can't properly crawl React SPAs. 'Dentista chillán' searches miss you because your content loads via JavaScript, not HTML. We rebuild with SEO-friendly architecture. $997/mo."</p>
+      </div>
+    </div>
+
+    <!-- H5 -->
+    <div class="prospect-card">
+      <h3>5. Clínica Dental Chillán</h3>
+      <div class="url dead">clinicadentalchillan.cl — ECONNREFUSED — SERVER DEAD!</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">Unknown — site is dead</span></div>
+      <div class="meta-row"><span class="label">Site Status</span><span class="value red">ECONNREFUSED — completely offline</span></div>
+      <div class="meta-row"><span class="label">Services</span><span class="value">Ortodoncia, blanqueamiento, extracciones, prótesis, implantes</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">SERVER DEAD!</span>
+        <span class="tag red">No Email Found</span>
+        <span class="tag red">Full Service Clinic — Offline!</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Clínica Dental Chillán — clinicadentalchillan.cl, the most obvious domain for 'dental chillán' searches, is DEAD. Server refuses connections. You own the perfect domain but it's offline. We rebuild your site and that domain becomes the #1 result for 'dentista chillán.' $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- H6 -->
+    <div class="prospect-card">
+      <h3>6. Inmunodent Chillán</h3>
+      <div class="url">inmunodent.cl</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value green">inmunodent.chillan@inmunomedica.cl</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 2834272</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">WordPress / Divi</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value red">NONE detected</span></div>
+      <div class="meta-row"><span class="label">WhatsApp</span><span class="value green">JoinChat integration</span></div>
+      <div class="meta-row"><span class="label">Parent</span><span class="value">Inmunomédica chain</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag green">Pro Email (Chain)</span>
+        <span class="tag red">ZERO Analytics</span>
+        <span class="tag green">JoinChat</span>
+        <span class="tag blue">WP/Divi</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Inmunodent — part of the Inmunomédica chain with professional setup and JoinChat. But ZERO analytics on your Chillán location. You can't measure local marketing performance. Local GA4 + FB Pixel = see exactly how Chillán patients find you. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- H7 -->
+    <div class="prospect-card">
+      <h3>7. CDC Dental Chillán</h3>
+      <div class="url">cdcdental.cl/atencion-dental-chillan/</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">NONE publicly listed</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 9 5906 5278</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">WordPress / Astra / Elementor</span></div>
+      <div class="meta-row"><span class="label">GTM</span><span class="value green">GTM-KR5KKZL + GTM-PDQZG8Q (dual!)</span></div>
+      <div class="meta-row"><span class="label">FB Pixel</span><span class="value green">560985645894875</span></div>
+      <div class="meta-row"><span class="label">Schema</span><span class="value green">FAQPage + MedicalWebPage</span></div>
+      <div class="meta-row"><span class="label">Booking</span><span class="value yellow">WhatsApp only (bit.ly/cdcdentalwsp)</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag green">Dual GTM + FB Pixel</span>
+        <span class="tag green">Medical Schema.org</span>
+        <span class="tag red">No Email</span>
+        <span class="tag yellow">WhatsApp Booking Only</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"CDC Dental — dual GTM containers + FB Pixel + Medical Schema.org. Technically the most SEO-optimized dental site in Chillán. But NO email and booking via WhatsApp link only. Upgrade to AI Booking Agent + professional email for proper conversion. $997/mo."</p>
+      </div>
+    </div>
+
+    <!-- H8 -->
+    <div class="prospect-card">
+      <h3>8. Hospital Clínico Veterinario UdeC</h3>
+      <div class="url">hcvudec.cl/sitio/</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">NONE on website</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 9 61980749 / 42 220 8800</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">WordPress / Enfold theme</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value red">NONE — zero tracking</span></div>
+      <div class="meta-row"><span class="label">Booking</span><span class="value red">Links to RAW IP: http://152.74.241.128/clinica — SECURITY RISK!</span></div>
+      <div class="meta-row"><span class="label">Lab Results</span><span class="value red">Raw IP: http://152.74.197.86/</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">RAW IP Booking — Security Risk!</span>
+        <span class="tag red">No Email</span>
+        <span class="tag red">ZERO Analytics</span>
+        <span class="tag blue">University Hospital</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Hospital Veterinario UdeC — university-level veterinary care, but your booking system links to a raw IP address (http://152.74.241.128/clinica). No HTTPS, no domain name. Browsers flag this as insecure. Your lab results portal is another raw IP. Professional booking + secure portal needed. $997/mo."</p>
+      </div>
+    </div>
+
+    <!-- H9 -->
+    <div class="prospect-card">
+      <h3>9. Clinicalvet Chillán</h3>
+      <div class="url dead">NO OWN WEBSITE — Facebook + Instagram only</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value yellow">clinicalvetchillan@gmail.com — GMAIL!</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 9 76094453</span></div>
+      <div class="meta-row"><span class="label">Address</span><span class="value">Argentina 75, Chillán</span></div>
+      <div class="meta-row"><span class="label">Social</span><span class="value yellow">Facebook + Instagram</span></div>
+      <div class="meta-row"><span class="label">Services</span><span class="value">Vacunación, consulta, urgencias, hospitalización</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Website</span>
+        <span class="tag yellow">Gmail!</span>
+        <span class="tag yellow">Social Only</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Clinicalvet — offering urgencias and hospitalización but NO website and a Gmail address. Pet emergencies happen at 2am — owners Google 'veterinaria urgencia chillán' and can't find you. Professional site + Google Business + Voice AI = capture emergency calls. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- H10 -->
+    <div class="prospect-card">
+      <h3>10. Kennedy Clínica Veterinaria</h3>
+      <div class="url dead">clinicaveterinariakennedy.tie.cl — FREE .tie.cl SUBDOMAIN!</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 42 2271313</span></div>
+      <div class="meta-row"><span class="label">Address</span><span class="value">Avenida Arauco 15, Chillán</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value red">FREE .tie.cl subdomain — can't rank!</span></div>
+      <div class="meta-row"><span class="label">Services</span><span class="value">Odontología, dermatología, radiografías, consultas</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">FREE .tie.cl Subdomain!</span>
+        <span class="tag red">No Email</span>
+        <span class="tag red">Can't Rank in Google</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Kennedy Vet — on Avenida Arauco, Chillán's main street, with specialized services (odontología, dermatología). But your website is on a FREE .tie.cl subdomain. Domain authority belongs to tie.cl, not your clinic. You can't rank for 'veterinaria chillán.' Own domain + professional site = searchable. $497/mo."</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== BEAUTY ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">💇</span> Beauty & Aesthetics — 10 Prospects</h2>
+  <p class="section-sub">Chillán's beauty sector features a mix of established salons and growing aesthetic clinics, but digital presence is minimal. A salon has a website with NO email or phone visible. The largest barber chain (Brotherhood, 3+ locations) has NO website. An aesthetic clinic uses Gmail despite having Facebook Pixel and WooCommerce. Only one aesthetic clinic (Chizen) has proper GA4 analytics.</p>
+
+  <div class="prospect-grid">
+
+    <!-- B1 -->
+    <div class="prospect-card">
+      <h3>1. Pistaccio Salón de Belleza</h3>
+      <div class="url">pistaccio.cl</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">NONE visible on website!</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value red">NONE visible on website!</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">WordPress / Elementor / Jet Popup</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value red">NONE — zero tracking</span></div>
+      <div class="meta-row"><span class="label">Plugins</span><span class="value">Jet Popup, Jet Blocks, Jet Elements, Revolution Slider</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">No Email on Site!</span>
+        <span class="tag red">No Phone on Site!</span>
+        <span class="tag red">ZERO Analytics</span>
+        <span class="tag blue">WP/Elementor + 4 Plugins</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Pistaccio — a WordPress site with Elementor, Revolution Slider, Jet Popup, and multiple plugins. Investment in web infrastructure. But NO email, NO phone number visible, and ZERO analytics. Visitors land on a polished site and can't contact you. Add contact info + GA4 + booking. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- B2 -->
+    <div class="prospect-card">
+      <h3>2. Brotherhood Barber Shop</h3>
+      <div class="url dead">NO WEBSITE — 3+ LOCATIONS!</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 9 5425 3584</span></div>
+      <div class="meta-row"><span class="label">Locations</span><span class="value brand">4: Libertad 786 + Open Plaza + O'Higgins 2508 + Coihueco</span></div>
+      <div class="meta-row"><span class="label">Social</span><span class="value yellow">Facebook only</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Website</span>
+        <span class="tag red">No Email</span>
+        <span class="tag brand">4 LOCATIONS — No Site!</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Brotherhood Barber — 4 locations across Chillán, Chillán Viejo, and Coihueco! The largest barber chain in Ñuble region. Yet NO website, NO email, Facebook only. A multi-location brand needs a website with location pages, online booking, and a loyalty system. $997/mo."</p>
+      </div>
+    </div>
+
+    <!-- B3 -->
+    <div class="prospect-card">
+      <h3>3. Bárbaros Barbershop</h3>
+      <div class="url dead">NO WEBSITE</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found</span></div>
+      <div class="meta-row"><span class="label">Address</span><span class="value">Av. Libertad 871, Chillán</span></div>
+      <div class="meta-row"><span class="label">Social</span><span class="value yellow">Facebook only</span></div>
+      <div class="meta-row"><span class="label">Founded</span><span class="value">2017</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Website</span>
+        <span class="tag red">No Email</span>
+        <span class="tag yellow">Facebook Only</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Bárbaros — on Av. Libertad, Chillán's main commercial street. Operating since 2017 but no website. Men searching 'barbería chillán' find Brotherhood (Facebook) or nothing. Own your space online. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- B4 -->
+    <div class="prospect-card">
+      <h3>4. Clínica Alma Medical</h3>
+      <div class="url">clinicaalmamedical.cl</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value yellow">clinicaalmamedical@gmail.com — GMAIL!</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 9 6778 8535 (WhatsApp)</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">WordPress / Flatsome / WooCommerce</span></div>
+      <div class="meta-row"><span class="label">FB Pixel</span><span class="value green">1538419223347979</span></div>
+      <div class="meta-row"><span class="label">FB CAPI</span><span class="value green">Server-side tracking!</span></div>
+      <div class="meta-row"><span class="label">Booking</span><span class="value yellow">WhatsApp only</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag yellow">Gmail Despite FB Pixel!</span>
+        <span class="tag green">FB CAPI (Server-Side)</span>
+        <span class="tag green">WooCommerce</span>
+        <span class="tag yellow">WhatsApp Booking</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Alma Medical — you have FB Pixel with server-side Conversions API (rare and advanced!) plus WooCommerce for product sales. But clinicaalmamedical@gmail.com? Your ad tracking is enterprise-grade but your email screams startup. Professional email + CRM = match your tracking sophistication. $997/mo."</p>
+      </div>
+    </div>
+
+    <!-- B5 -->
+    <div class="prospect-card">
+      <h3>5. Clínica Estética Chizen</h3>
+      <div class="url">clinicaesteticachizen.cl</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value green">contacto@clinicachizen.cl</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value">+56 9 5531 5286</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value">WordPress / Hello Elementor</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value green">GA4 GT-K4ZV8TWJ + Google Site Kit</span></div>
+      <div class="meta-row"><span class="label">Social</span><span class="value green">Instagram + Facebook</span></div>
+      <div class="meta-row"><span class="label">Experience</span><span class="value">7+ years in aesthetics</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag green">GA4 Active</span>
+        <span class="tag green">Pro Email</span>
+        <span class="tag green">Google Site Kit</span>
+        <span class="tag blue">7+ Years</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Chizen — best-positioned aesthetic clinic in Chillán: GA4, professional email, 7+ years experience. But no CRM, no FB Pixel, no booking system. Add FB Pixel for retargeting aesthetic patients + CRM for treatment follow-ups. $997/mo."</p>
+      </div>
+    </div>
+
+    <!-- B6 -->
+    <div class="prospect-card">
+      <h3>6. Skin & Soul SpA</h3>
+      <div class="url">skinandsoul.cl</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">NONE on website</span></div>
+      <div class="meta-row"><span class="label">Phone</span><span class="value red">NONE on website</span></div>
+      <div class="meta-row"><span class="label">Platform</span><span class="value yellow">Webflow (wsimg.com CDN)</span></div>
+      <div class="meta-row"><span class="label">Analytics</span><span class="value red">NONE — zero tracking</span></div>
+      <div class="meta-row"><span class="label">Services</span><span class="value">Limpieza facial, depilación láser</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">No Email!</span>
+        <span class="tag red">No Phone!</span>
+        <span class="tag red">ZERO Analytics</span>
+        <span class="tag yellow">Webflow</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Skin & Soul — offering depilación láser and facial treatments in Chillán. But your Webflow site has NO email, NO phone number, and ZERO analytics. A clinic offering medical-aesthetic services needs contact information. We add everything. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- B7 -->
+    <div class="prospect-card">
+      <h3>7. Centro de Estética ANTÜ</h3>
+      <div class="url dead">NO WEBSITE — Facebook + Instagram only</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found</span></div>
+      <div class="meta-row"><span class="label">Address</span><span class="value">Gamero 1128, Chillán</span></div>
+      <div class="meta-row"><span class="label">Social</span><span class="value yellow">Facebook + Instagram @antu_depilacionlaser_chillan</span></div>
+      <div class="meta-row"><span class="label">Services</span><span class="value">Depilación láser, masajes reductivos, manicure</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Website</span>
+        <span class="tag red">No Email</span>
+        <span class="tag yellow">Social Only</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"ANTÜ — laser depilation center on Gamero with Instagram presence. But NO website means patients searching 'depilación láser chillán' find your competitors first. Own website + Google Ads = capture laser treatment demand. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- B8 -->
+    <div class="prospect-card">
+      <h3>8. Salón de Belleza Claudia Quinlan</h3>
+      <div class="url dead">NO OWN WEBSITE — AgendaPro only</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found</span></div>
+      <div class="meta-row"><span class="label">Booking</span><span class="value yellow">salondebellezaclaudiaquinlan.agendapro.com</span></div>
+      <div class="meta-row"><span class="label">Focus</span><span class="value">Harmony, beauty, personalized service</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None (AgendaPro is not CRM)</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Own Website</span>
+        <span class="tag red">No Email</span>
+        <span class="tag yellow">AgendaPro Dependent</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Claudia Quinlan — personalized salon on AgendaPro. But AgendaPro owns your customer data. Your own website + CRM = own your client relationships. If AgendaPro changes pricing, you lose everything. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- B9 -->
+    <div class="prospect-card">
+      <h3>9. Salón de Belleza Amal</h3>
+      <div class="url dead">NO WEBSITE</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found</span></div>
+      <div class="meta-row"><span class="label">Booking</span><span class="value yellow">AgendaPro listing</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Website</span>
+        <span class="tag red">No Email</span>
+        <span class="tag yellow">AgendaPro Only</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Salón Amal — serving Chillán clients without a website. Women searching 'peluquería chillán' can't find you. Own website + Instagram integration + online booking = visible and bookable. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- B10 -->
+    <div class="prospect-card">
+      <h3>10. Estetic Integrale Paola Amín</h3>
+      <div class="url dead">NO WEBSITE</div>
+      <div class="meta-row"><span class="label">Email</span><span class="value red">None found</span></div>
+      <div class="meta-row"><span class="label">Address</span><span class="value">18 de Septiembre 1009, Chillán</span></div>
+      <div class="meta-row"><span class="label">Type</span><span class="value">Aesthetic & hair services</span></div>
+      <div class="meta-row"><span class="label">CRM</span><span class="value red">None</span></div>
+      <div style="margin-top:8px;">
+        <span class="tag red">NO Website</span>
+        <span class="tag red">No Email</span>
+      </div>
+      <div class="email-section">
+        <h4>Cold Email Angle</h4>
+        <p>"Estetic Integrale — on 18 de Septiembre, a key Chillán street. Aesthetic services without online visibility. Women and men searching for aesthetic treatments find your competitors. Website + Google Ads = capture demand. $497/mo."</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== SUMMARY TABLE ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">📋</span> Master Summary</h2>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Tourism</th>
+        <th>Restaurants</th>
+        <th>Health</th>
+        <th>Beauty</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Businesses analyzed</td>
+        <td>10</td>
+        <td>10</td>
+        <td>10</td>
+        <td>10</td>
+        <td><strong>40</strong></td>
+      </tr>
+      <tr>
+        <td>Dead / broken / blocked</td>
+        <td class="red">2 (Paso Nevado DEAD + Termas 404)</td>
+        <td>0</td>
+        <td class="red">2 (Dental Chillán DEAD + Dental Life 403)</td>
+        <td>0</td>
+        <td class="red">4 + 1 SSL = 5</td>
+      </tr>
+      <tr>
+        <td>No website</td>
+        <td class="red">3 (30%)</td>
+        <td class="red">5 (50%)</td>
+        <td class="red">1 (10%)</td>
+        <td class="red">5 (50%)</td>
+        <td class="red">14 (35%)</td>
+      </tr>
+      <tr>
+        <td>Gmail / no email</td>
+        <td class="red">5 (50%)</td>
+        <td class="red">8 (80%)</td>
+        <td class="red">6 (60%)</td>
+        <td class="red">9 (90%)</td>
+        <td class="red">28 (70%)</td>
+      </tr>
+      <tr>
+        <td>No online booking</td>
+        <td class="red">6 (60%)</td>
+        <td class="red">9 (90%)</td>
+        <td class="red">6 (60%)</td>
+        <td class="red">7 (70%)</td>
+        <td class="red">28 (70%)</td>
+      </tr>
+      <tr>
+        <td>No SEO / analytics</td>
+        <td class="red">7 (70%)</td>
+        <td class="red">8 (80%)</td>
+        <td class="red">4 (40%)</td>
+        <td class="red">8 (80%)</td>
+        <td class="red">27 (67.5%)</td>
+      </tr>
+      <tr>
+        <td>No CRM</td>
+        <td class="red">10 (100%)</td>
+        <td class="red">10 (100%)</td>
+        <td class="red">10 (100%)</td>
+        <td class="red">10 (100%)</td>
+        <td class="red">40 (100%!)</td>
+      </tr>
+      <tr>
+        <td>Est. revenue lost/year</td>
+        <td class="red">-$500K</td>
+        <td class="red">-$480K</td>
+        <td class="red">-$520K</td>
+        <td class="red">-$500K</td>
+        <td class="red">-$2.0M</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ========== CTA ========== -->
+<div class="cta-section">
+  <h2>These 40 Chillán Businesses Are <span>Losing $2.0M Every Year</span></h2>
+  <p>Chile's newest regional capital. Gateway to Nevados de Chillán ski resort. Birthplace of Bernardo O'Higgins. Longaniza capital. Yet these 40 businesses have 5 dead/broken/blocked sites, the #1 TripAdvisor restaurant has NO website, a vet runs on a FREE subdomain, a university hospital books through raw IP addresses, and 100% have zero CRM. Every month without action costs them thousands in ski tourism and regional capital revenue.</p>
+  <a href="chillan-digital-gaps.html" class="cta-btn">View Full Digital Gap Analysis &rarr;</a>
+</div>
+
+</div>
+
+<footer class="report-footer">
+  <div class="container">
+    <p><strong>NetWebMedia</strong> — AI Marketing for Growth | netwebmedia.com | hello@netwebmedia.com</p>
+    <p style="margin-top:8px;">Report generated April 16, 2026. Data collected via direct website audits, AgendaPro, Google, TripAdvisor, Booking.com, and municipal directories.</p>
+  </div>
+</footer>
+</body>
+</html>

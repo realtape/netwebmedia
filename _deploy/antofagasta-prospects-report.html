@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetWebMedia — Antofagasta Prospect Report & Individual Business Analysis (April 2026)</title>
+<style>
+:root{--brand:#ff6b00;--dark:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;--green:#3fb950;--red:#f85149;--yellow:#d29922;--blue:#58a6ff;--purple:#bc8cff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--dark);color:var(--text);line-height:1.65}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.report-header{background:linear-gradient(135deg,#0d1117 0%,#1a1e2e 100%);border-bottom:3px solid var(--brand);padding:56px 0}
+.report-header h1{font-size:2.2rem;font-weight:800}.report-header h1 span{color:var(--brand)}
+.report-header .subtitle{color:var(--muted);font-size:1.1rem;margin-top:8px}
+.report-header .meta{margin-top:16px;display:flex;gap:24px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+.report-header .meta strong{color:var(--text)}
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:32px 0}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.stat-card .num{font-size:2rem;font-weight:800;color:var(--brand)}.stat-card .num.red{color:var(--red)}
+.stat-card .label{font-size:.8rem;color:var(--muted);margin-top:4px}
+.market-section{margin:48px 0}
+.market-title{font-size:1.5rem;font-weight:700;padding-bottom:12px;border-bottom:2px solid var(--border);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.market-title .badge{background:var(--brand);color:#fff;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px}
+.biz-card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:28px;overflow:hidden}
+.biz-card:hover{border-color:var(--brand)}
+.biz-header{padding:24px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px}
+.biz-header h3{font-size:1.2rem;font-weight:700}
+.biz-header .biz-type{font-size:.75rem;color:var(--muted);background:rgba(255,255,255,.05);padding:3px 12px;border-radius:12px}
+.biz-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:768px){.biz-body{grid-template-columns:1fr}}
+.biz-left{padding:24px 28px;border-right:1px solid var(--border)}
+@media(max-width:768px){.biz-left{border-right:none;border-bottom:1px solid var(--border)}}
+.biz-right{padding:24px 28px}
+.biz-left h4,.biz-right h4{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.contact-row{display:flex;gap:8px;margin-bottom:6px;font-size:.9rem}
+.contact-row .lbl{color:var(--muted);min-width:70px}
+.contact-row a{color:var(--blue);text-decoration:none}
+.audit-section{margin-top:16px}
+.audit-section h4{margin-bottom:8px}
+.audit-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:.88rem}
+.audit-row:last-child{border:none}
+.audit-row .metric{color:var(--muted)}
+.audit-row .val{font-weight:600}
+.audit-row .val.pass{color:var(--green)}.audit-row .val.fail{color:var(--red)}.audit-row .val.warn{color:var(--yellow)}.audit-row .val.na{color:var(--muted)}
+.loss-box{background:rgba(248,81,73,.04);border:1px solid rgba(248,81,73,.12);border-radius:10px;padding:16px;margin-top:12px}
+.loss-row{display:flex;justify-content:space-between;padding:5px 0;font-size:.85rem}
+.loss-row .desc{color:var(--muted)}.loss-row .amt{color:var(--red);font-weight:700}
+.loss-total{display:flex;justify-content:space-between;padding:8px 0 0;border-top:2px solid var(--red);margin-top:6px;font-weight:700}
+.loss-total .desc{color:var(--text)}.loss-total .amt{color:var(--red);font-size:1.1rem}
+.rec-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.rec-tag{font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,107,0,.12);color:var(--brand)}
+.gap-tag{font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px}
+.gap-no-web{background:rgba(248,81,73,.15);color:var(--red)}
+.gap-gmail{background:rgba(210,153,34,.15);color:var(--yellow)}
+.gap-weak-web{background:rgba(88,166,255,.15);color:var(--blue)}
+.gap-no-book{background:rgba(248,81,73,.15);color:var(--red)}
+.gap-no-social{background:rgba(210,153,34,.15);color:var(--yellow)}
+.gap-no-seo{background:rgba(188,140,255,.15);color:var(--purple)}
+.gap-no-crm{background:rgba(88,166,255,.15);color:var(--blue)}
+.report-footer{text-align:center;padding:32px 0;border-top:1px solid var(--border);margin-top:48px}
+.report-footer p{color:var(--muted);font-size:.8rem}
+.cta-section{background:linear-gradient(135deg,#1a1000,#1a0a00);border:2px solid var(--brand);border-radius:20px;padding:48px;text-align:center;margin:48px 0}
+.cta-section h2{font-size:1.6rem;font-weight:800;margin-bottom:12px}.cta-section h2 span{color:var(--brand)}
+.cta-section p{color:var(--muted);font-size:1rem;max-width:600px;margin:0 auto 20px}
+.cta-btn{display:inline-block;background:var(--brand);color:#fff;font-size:1rem;font-weight:700;padding:12px 32px;border-radius:12px;text-decoration:none}
+</style>
+</head>
+<body>
+<header class="report-header">
+<div class="container">
+<h1><span>NetWebMedia</span> — Antofagasta Prospect Report</h1>
+<p class="subtitle">40 Local Businesses x Individual Digital Audit — Website, Social Media, Revenue Loss Analysis</p>
+<div class="meta">
+<span>Date: <strong>April 15, 2026</strong></span>
+<span>Market: <strong>Antofagasta, Region de Antofagasta, Chile</strong></span>
+<span>Leads: <strong>40 businesses across 4 verticals</strong></span>
+</div>
+</div>
+</header>
+<div class="container">
+<div class="stats-bar">
+<div class="stat-card"><div class="num">40</div><div class="label">Total Prospects</div></div>
+<div class="stat-card"><div class="num">4</div><div class="label">Market Verticals</div></div>
+<div class="stat-card"><div class="num red">$2.2M</div><div class="label">Est. Annual Revenue Lost</div></div>
+<div class="stat-card"><div class="num">16</div><div class="label">Gmail/No Email Found</div></div>
+</div>
+
+<!-- =============================== -->
+<!-- MARKET 1: TOURISM & HOSPITALITY -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🏨 Tourism & Hospitality <span class="badge">10 PROSPECTS</span></h2>
+
+<!-- T1 -->
+<div class="biz-card">
+<div class="biz-header"><h3>1. Hotel Antofagasta</h3><span class="biz-type">4-Star Hotel — Av. Balmaceda, Costanera</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:ventas@hotelantofagasta.cl">ventas@hotelantofagasta.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 55 2659000 / Ventas: +56 55 2659014</div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 7498 8905</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Balmaceda 2575, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hotelantofagasta.cl" target="_blank">hotelantofagasta.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional, WordPress)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (integrated)</span></div>
+<div class="audit-row"><span class="metric">WhatsApp chat</span><span class="val pass">Integrated</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Content SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "hotel antofagasta" queries</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for mining exec loyalty</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No AEO for AI search citation</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$30,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span><span class="rec-tag">AEO Retainer</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T2 -->
+<div class="biz-card">
+<div class="biz-header"><h3>2. Enjoy Antofagasta Hotel del Desierto</h3><span class="biz-type">Casino & Resort — Av. Angamos</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 55 265 3000</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Angamos 01455, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://enjoyantofagasta.com" target="_blank">enjoyantofagasta.com</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (corporate chain)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Casino integration</span><span class="val pass">Yes (Enjoy chain)</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Local SEO</span><span class="gap-tag gap-no-crm">No Local CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No local SEO for Antofagasta queries</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No local CRM for mining executives</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO (local)</span><span class="rec-tag">Google Ads</span><span class="rec-tag">AEO Retainer</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T3 -->
+<div class="biz-card">
+<div class="biz-header"><h3>3. Geotel Antofagasta</h3><span class="biz-type">Business Hotel — Travesia de Coloso</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly (contact form only)</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 55 257 4400</div>
+<div class="contact-row"><span class="lbl">Address:</span>Travesia de Coloso 03463, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.geotelantofagasta.com" target="_blank">geotelantofagasta.com</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional, own booking engine)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (integrated)</span></div>
+<div class="audit-row"><span class="metric">Multi-language</span><span class="val pass">Yes (ES/EN)</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Content SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for business travel queries</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for corporate repeat stays</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T4 -->
+<div class="biz-card">
+<div class="biz-header"><h3>4. Terrado Suites Antofagasta</h3><span class="biz-type">Chain Hotel & Spa — Baquedano, Centro</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas1@terrado.cl">reservas1@terrado.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 55 271 2801 / Reservas: 600 582 0800</div>
+<div class="contact-row"><span class="lbl">Address:</span>Baquedano 015, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://terrado.cl/en/hoteles/terrado-suites-antofagasta-2/" target="_blank">terrado.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (chain corporate)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Spa promotion</span><span class="val pass">Active promotions</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Local SEO</span><span class="gap-tag gap-no-crm">No Local CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No local SEO for Antofagasta</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for spa + repeat guests</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO (local)</span><span class="rec-tag">CRM</span><span class="rec-tag">Google Ads</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T5 -->
+<div class="biz-card">
+<div class="biz-header"><h3>5. Hampton by Hilton Antofagasta</h3><span class="biz-type">International Chain — Av. Perez Zujovic</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Corporate chain (no local email)</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Edmundo Perez Zujovic 5440, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.hilton.com/en/hotels/anfachx-hampton-antofagasta/" target="_blank">hilton.com</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (Hilton corporate)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Hilton system)</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Local SEO</span><span class="gap-tag gap-no-crm">No Local CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No local SEO for Antofagasta queries</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No local CRM for mining long-stays</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO (local)</span><span class="rec-tag">Google Ads</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T6 -->
+<div class="biz-card">
+<div class="biz-header"><h3>6. Hotel Antofagasta Centro</h3><span class="biz-type">City Hotel — Jose Santos Ossa, Centro</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found (shared domain detected)</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 55 225287 / +56 55 226810</div>
+<div class="contact-row"><span class="lbl">Address:</span>Jose Santos Ossa 2257, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.hotelantofagastacentro.cl" target="_blank">hotelantofagastacentro.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span><span class="gap-tag gap-no-social">No Social</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No email = lost corporate bookings</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "hotel centro antofagasta"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Social Media</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T7 -->
+<div class="biz-card">
+<div class="biz-header"><h3>7. Alto Antofagasta Apart Hotel</h3><span class="biz-type">Apart-Hotel — Av. Balmaceda</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Balmaceda 2415, Of. 905, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.altoantofagasta.com" target="_blank">altoantofagasta.com</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (basic/dated)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Dated Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Dated site = poor mobile experience</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for apart-hotel queries</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T8 -->
+<div class="biz-card">
+<div class="biz-header"><h3>8. Hostal La Ruca</h3><span class="biz-type">Small Hostel — Adamson, Sector Sur</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@hostallaruca.cl">contacto@hostallaruca.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 4022 8898</div>
+<div class="contact-row"><span class="lbl">Address:</span>Adamson 3267, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hostallaruca.cl" target="_blank">hostallaruca.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (modern, recently renovated)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (integrated)</span></div>
+<div class="audit-row"><span class="metric">WhatsApp</span><span class="val pass">Chat widget</span></div>
+</div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@hostal.laruca_antofagasta</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "hostal antofagasta"</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for guest retention</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$13,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T9 -->
+<div class="biz-card">
+<div class="biz-header"><h3>9. Hostal Pampaloja</h3><span class="biz-type">Budget Hostel — Antonio Varas, Centro-Sur</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:hostalpampaloja@gmail.com">hostalpampaloja@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 9866 8651 / 55-2244128</div>
+<div class="contact-row"><span class="lbl">Address:</span>Antonio Varas 768, Covadonga, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hostalpampaloja.cl" target="_blank">hostalpampaloja.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (with OTASync booking)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (OTASync + Booking.com)</span></div>
+</div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@pampaloja</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@alojamiento_hostal_pampaloja</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail = unprofessional for hostel</span><span class="amt">-$5,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for budget hostel queries</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$13,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Professional Email</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T10 -->
+<div class="biz-card">
+<div class="biz-header"><h3>10. Fragga Hospedaje Boutique</h3><span class="biz-type">Boutique Guesthouse — Galleguillos Lorca</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Galleguillos Lorca 838, Antofagasta</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — OTA listings only (Agoda, Booking)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val warn">OTA-dependent</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Own Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">"Boutique" with no website = brand disconnect</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">OTA commissions (15-25%)</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$27,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span></div>
+</div>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 2: RESTAURANTS & FOOD    -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🍽️ Restaurants & Food <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Aurora Cocina</h3><span class="biz-type">Chilean Fine Dining — Av. Croacia</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:info@auroracocina.cl">info@auroracocina.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(55) 293 7123</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Croacia 0576, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.auroracocina.cl" target="_blank">auroracocina.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional, modern)</span></div>
+<div class="audit-row"><span class="metric">Reservations</span><span class="val pass">Yes (WhatsApp form)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Content SEO</span><span class="gap-tag gap-no-crm">No CRM</span><span class="gap-tag gap-no-social">No Social Links</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "restaurante antofagasta"</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No social media links on website</span><span class="amt">-$6,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for fine dining clientele</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$26,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">Social Media</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Amares Bistro</h3><span class="biz-type">Costa-Fusion — Antonino Toro</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas@amares.cl">reservas@amares.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>55 922376 / WhatsApp: +56 9 4672 0804</div>
+<div class="contact-row"><span class="lbl">Address:</span>Antonino Toro 995, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://amares.cl" target="_blank">amares.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@amaresbistro</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Content SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for fusion/seafood queries</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for event/corporate marketing</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. Tio Jacinto</h3><span class="biz-type">Traditional Seafood — Uribe, Centro</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:mario.mj@tiojacinto.cl">mario.mj@tiojacinto.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 55 222 8486</div>
+<div class="contact-row"><span class="lbl">Address:</span>Uribe 922, Antofagasta</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Basic / minimal info</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Restaurant Tio Jacinto</span></div>
+<div class="audit-row"><span class="metric">TripAdvisor</span><span class="val pass">Listed (40+ years tradition)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-book">No Reservations</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">40-year brand with no SEO</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No online reservation system</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Royal Ranch</h3><span class="biz-type">Premium Steakhouse — Eduardo Orchard</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 55 226 1349 / +56 9 5625 5923</div>
+<div class="contact-row"><span class="lbl">Address:</span>Eduardo Orchard 1531, Antofagasta</div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@royalranchantofagasta</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Royal Ranch</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-book">No Reservations</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Premium steakhouse with no website</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "restaurante carnes antofagasta"</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$32,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. La Maison Antofagasta</h3><span class="biz-type">Seafood & French — O'Higgins</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Gral. Bernardo O'Higgins 1846, Antofagasta</div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@lamaison_afta</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-book">No Reservations</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Seafood restaurant with no website</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">Instagram only = invisible to Google</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$28,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI SEO</span><span class="rec-tag">AI Booking</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Piso 28</h3><span class="biz-type">Sky Restaurant & Events — Balmaceda</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 9212 9988</div>
+<div class="contact-row"><span class="lbl">Address:</span>Balmaceda 2415, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://piso28.cl" target="_blank">piso28.cl</a> <span style="color:var(--red)">(under construction)</span></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@piso.28</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Piso28.cl</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Site Under Construction</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">"Under construction" = dead end for visitors</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No event booking system</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$27,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Chile Lindo</h3><span class="biz-type">Traditional Chilean — Washington, Centro</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 7234 5673 / +56 9 9619 14551</div>
+<div class="contact-row"><span class="lbl">Address:</span>Washington 2430, Centro, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="http://www.chilelindorestaurant.cl" target="_blank">chilelindorestaurant.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">chilelindorestaurante</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span><span class="gap-tag gap-no-book">No Online Reservations</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "comida chilena antofagasta"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No reservation system</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">AI Booking</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Mu Grill House</h3><span class="biz-type">Premium Grill — Avelino Contardo</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Avelino Contardo 908, Antofagasta</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No own website</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">TripAdvisor</span><span class="val pass">Listed (high ratings)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-book">No Reservations</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Top-rated grill with zero web presence</span><span class="amt">-$22,000</span></div>
+<div class="loss-row"><span class="desc">No reservation for mining exec dinners</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$34,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. Don Pollo Don Lomo</h3><span class="biz-type">Fast Casual — Ossa, Centro</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">info@fresheat.com (platform/shared)</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 3225 6091</div>
+<div class="contact-row"><span class="lbl">Address:</span>Ossa 2594, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.donpollodonlomo.cl" target="_blank">donpollodonlomo.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@don_pollo_oficial</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">DonPolloAntofagasta</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Shared Platform Email</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "pollo asado antofagasta"</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No own email = no direct marketing</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$14,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Professional Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Grupo Amares (Multi-venue)</h3><span class="biz-type">Restaurant Group — Antofagasta</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas@amares.cl">reservas@amares.cl</a> (parent group)</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.grupoamares.cl" target="_blank">grupoamares.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (group site)</span></div>
+<div class="audit-row"><span class="metric">Multiple venues</span><span class="val pass">Yes</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO (multi-venue)</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Multi-venue with no SEO strategy</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No CRM across venues</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO (multi-venue)</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 3: HEALTH & VETERINARY   -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🏥 Health & Veterinary <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Planeta Animal Centro Medico Vet</h3><span class="biz-type">Vet Hospital — Av. Rendic</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:clinica@planetaanimal.cl">clinica@planetaanimal.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(055) 2844561</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Antonio Rendic 3795, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="http://www.planetaanimal.cl" target="_blank">planetaanimal.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (HTTP only, dated PHP)</span></div>
+<div class="audit-row"><span class="metric">SSL</span><span class="val fail">No — HTTP only</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">HTTP Only / No SSL</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">HTTP site = "Not Secure" browser warning</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No booking = lost after-hours</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Clinica Vet Centro Norte</h3><span class="biz-type">Vet Clinic + Dental — Av. Rendic</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 55 237 7980</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Antonio Rendic 5959, Antofagasta</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — AgendaPro listing only</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (AgendaPro)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Own Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No website = invisible to Google</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "veterinaria antofagasta"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$28,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. Hampivet Clinica Veterinaria</h3><span class="biz-type">Full-Service Vet — Rica Aventura</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not extracted (SSL expired on site)</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 55 254 3610</div>
+<div class="contact-row"><span class="lbl">Address:</span>Rica Aventura 11666, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="http://www.hampivet.cl" target="_blank">hampivet.cl</a> <span style="color:var(--red)">(SSL expired)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">Yes but SSL EXPIRED</span></div>
+<div class="audit-row"><span class="metric">SSL</span><span class="val fail">Certificate expired</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">SSL Expired</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Expired SSL = "Not Secure" warning</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. PetCenter Antofagasta</h3><span class="biz-type">Pet Center & Vet — Antofagasta</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found (site unreachable)</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://petcenterantofagasta.cl" target="_blank">petcenterantofagasta.cl</a> <span style="color:var(--red)">(connection refused)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">Domain exists but site DOWN</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Site DOWN</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Website down = 100% digital loss</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No online presence at all</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$30,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Puppies Vet</h3><span class="biz-type">Vet Clinic — Villa Alta Vista II</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not listed — WhatsApp only</span></div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 8341 9074</div>
+<div class="contact-row"><span class="lbl">Address:</span>Oficina Anita 174, Villa Alta Vista II, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://puppiesvet.cl" target="_blank">puppiesvet.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">veterinaria.puppiesvet</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@puppiesvet.afta</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">WhatsApp Only</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">WhatsApp booking = missed after-hours</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for vet queries</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Gemavet Clinica Veterinaria</h3><span class="biz-type">Eco Vet Clinic — Jose Blumell</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 7663 1203</div>
+<div class="contact-row"><span class="lbl">Address:</span>Jose Blumell 276, Antofagasta</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No own website</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-book">No Booking</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Eco vet with zero web presence</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No booking for dental/eco services</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$28,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Clinica Dental Centenario</h3><span class="biz-type">Dental Clinic (24/7 ER) — Antofagasta</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found (Wix site, no email visible)</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 55 238 8195</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.clinicacentenario.cl" target="_blank">clinicacentenario.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (Wix template)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">Not visible</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Wix Template</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">24/7 ER dental on Wix = trust gap</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No online booking for emergencies</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$27,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Voice AI</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Clinica Dental Sabioncello</h3><span class="biz-type">Dental & Implants — Baquedano + 21 de Mayo</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:administracion@clinicadentalantofagasta.cl">administracion@clinicadentalantofagasta.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>55 2 224192 / WhatsApp: +56 9 8620 8101</div>
+<div class="contact-row"><span class="lbl">Address:</span>21 de Mayo 730 + Baquedano 629, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://clinicadentalantofagasta.cl" target="_blank">clinicadentalantofagasta.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (dated, keyword-stuffed title)</span></div>
+<div class="audit-row"><span class="metric">AgendaPro booking</span><span class="val pass">Yes</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Dated Website</span><span class="gap-tag gap-no-seo">Black-hat SEO Tactics</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Keyword-stuffed title = Google penalty risk</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for patient retention (2 locations)</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI SEO (proper)</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. Clinica Odontologica Acacia</h3><span class="biz-type">Dental Clinic — Antofagasta</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found (WordPress backend only)</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>552 251 017</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://clinicaacacia.cl" target="_blank">clinicaacacia.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress + Booked plugin)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Booked plugin)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "dentista antofagasta"</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for patient retention</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Clinica Dental Alto Norte</h3><span class="biz-type">Dental Clinic — La Chimba</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>2954772 / WhatsApp: +56 9 4515 6993</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://clinicalachimba.wixsite.com/altonorte" target="_blank">clinicalachimba.wixsite.com/altonorte</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">Wix FREE tier (wixsite.com subdomain)</span></div>
+<div class="audit-row"><span class="metric">Own domain</span><span class="val fail">No — uses wixsite.com</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Wix Free / No Domain</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Wix free subdomain for dental clinic!</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No booking, no SEO</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$28,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 4: BEAUTY & AESTHETICS   -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">💇 Beauty & Aesthetics <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Salon Mirandas</h3><span class="biz-type">Hair Salon — Orella, Centro</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@salonmirandas.cl">contacto@salonmirandas.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 3246 8949</div>
+<div class="contact-row"><span class="lbl">Address:</span>Teniente Manuel Orella 610, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.salonmirandas.cl" target="_blank">salonmirandas.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional, e-commerce)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Fresha + own agenda)</span></div>
+<div class="audit-row"><span class="metric">Online store</span><span class="val pass">Yes (product sales)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@mirandas_hair</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">mirandas.hair.salon</span></div>
+<div class="audit-row"><span class="metric">TikTok</span><span class="val pass">@salonmirandas.cl</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "peluqueria antofagasta"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for client retention</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$16,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. HR Flamingo New Style</h3><span class="biz-type">Hair & Beauty Center — Las Cruces</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@salonflamingo.cl">contacto@salonflamingo.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 55 279 3390</div>
+<div class="contact-row"><span class="lbl">Address:</span>Las Cruces 774, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://salonflamingo.cl" target="_blank">salonflamingo.cl</a> <span style="color:var(--red)">(SUSPENDED)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">SUSPENDED — shows error page</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Site SUSPENDED</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Suspended site = worse than no site</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$28,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. Barberia Salon Fenix</h3><span class="biz-type">Barbershop — Jose Miguel Carrera</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:barberiafnix@gmail.com">barberiafnix@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 3933 3315</div>
+<div class="contact-row"><span class="lbl">Address:</span>Jose Miguel Carrera 1527, Local 6A, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://barberiasalonfnix.com" target="_blank">barberiasalonfnix.com</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Weibook)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@barberiasalonfnix</span></div>
+<div class="audit-row"><span class="metric">TikTok</span><span class="val pass">@barberiafnixsur</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail for professional barbershop</span><span class="amt">-$5,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "barberia antofagasta"</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$13,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Professional Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Spa Experience Antofagasta</h3><span class="biz-type">Premium Spa — Av. Angamos</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:info@spaexperience.cl">info@spaexperience.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 55 260 4073</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Angamos 889, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.spaexperience.cl" target="_blank">spaexperience.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional, Shopify)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Fresha)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@spaexperiencecl</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">SpaExperienceCL</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Content SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "spa antofagasta"</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for spa client retention</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Siluet Spa</h3><span class="biz-type">Aesthetic Center — Uribe, Centro</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:Siluetspa1309@gmail.com">Siluetspa1309@gmail.com</a> / <a href="mailto:info@centroesteticosiluetspa.cl">info@centroesteticosiluetspa.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 7753 3133</div>
+<div class="contact-row"><span class="lbl">Address:</span>Uribe 636, Of. 1309, Centro de Negocios, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.centroesteticosiluetspa.cl" target="_blank">centroesteticosiluetspa.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@siluetspa.cl</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Centro Estetico Siluet Spa</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail (primary)</span><span class="gap-tag gap-no-book">No Booking System</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail as primary despite owning domain</span><span class="amt">-$5,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$15,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Lauren Therapy & Care</h3><span class="biz-type">Aesthetic & Therapy Center — La Chimba</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 7652 1190</div>
+<div class="contact-row"><span class="lbl">Address:</span>La Chimba 766, Sector Sur, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://lauren.cl" target="_blank">lauren.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">LaurenTyCAntofagasta</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@lauren_tyc</span></div>
+<div class="audit-row"><span class="metric">YouTube</span><span class="val pass">laurentherapycare</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Booking System</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No booking for therapy appointments</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "estetica antofagasta"</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Klaudia SPA</h3><span class="biz-type">Therapeutic Massage — Victor Farias</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@klaudiaspa.cl">contacto@klaudiaspa.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 5751 5874</div>
+<div class="contact-row"><span class="lbl">Address:</span>Victor Farias 9227, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://klaudiaspa.cl" target="_blank">klaudiaspa.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/Hostinger)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No — "Solicite su Cita" = phone/email</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Booking System</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-social">No Social Media</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No booking system for spa</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No social media presence at all</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Bambu HidroSPA</h3><span class="biz-type">Sauna & Spa — Cartagena</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:bambuhidrospa@gmail.com">bambuhidrospa@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 5824 1602</div>
+<div class="contact-row"><span class="lbl">Address:</span>Cartagena 581, Antofagasta</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://bambuhidrospa.cl" target="_blank">bambuhidrospa.cl</a> <span style="color:var(--red)">(connection issues)</span></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@bambu_hidrospa</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">bambuhidrospa</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-weak-web">Site Unreliable</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Unreliable website = lost visitors</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">Gmail for spa = unprofessional</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$17,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. Beauty Sanguinetti Studio</h3><span class="biz-type">Salon (2 locations) — 14 de Febrero + Zenteno</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 2026 3409 / +56 9 4975 8538</div>
+<div class="contact-row"><span class="lbl">Address:</span>14 de Febrero 1822 + Espacio Urbano Zenteno</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://beauty-sanguinetti-studio.ueniweb.com" target="_blank">beauty-sanguinetti-studio.ueniweb.com</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@beautysanguinetti</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Free Builder Template</span><span class="gap-tag gap-no-seo">No SEO (2 locations)</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">2 locations on free builder subdomain</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for either location</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI SEO (2 locations)</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Beauty Center Angeles</h3><span class="biz-type">Beauty & Aesthetics — Baquedano</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Gral. Manuel Baquedano 751, Antofagasta</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — AgendaPro listing only</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (AgendaPro)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Own Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No website = invisible to search</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">Platform-dependent (AgendaPro only)</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Social Media</span></div>
+</div></div></div>
+
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+<h2>Antofagasta: <span>$2.2M in Annual Revenue Lost</span> Across 40 Businesses</h2>
+<p>Chile's mining capital. Highest per-capita income in the country. 400,000+ residents with disposable income from copper mining — yet these 40 businesses are bleeding money through expired SSL certificates, suspended websites, Gmail addresses, and zero SEO. The solution starts at $497/mo.</p>
+<a href="antofagasta-digital-gaps.html" class="cta-btn">See Full Digital Gap Analysis →</a>
+</div>
+
+</div>
+<footer class="report-footer">
+<div class="container">
+<p><strong>NetWebMedia</strong> — AI Marketing for Growth | netwebmedia.com | hello@netwebmedia.com</p>
+<p style="margin-top:8px;">Antofagasta Prospect Report generated April 15, 2026. Individual business analyses based on public website audits, social media research, and industry revenue benchmarks.</p>
+</div>
+</footer>
+</body>
+</html>

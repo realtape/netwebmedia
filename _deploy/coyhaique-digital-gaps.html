@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetWebMedia — Coyhaique Digital Gap Analysis & Revenue Loss Report</title>
+<style>
+  :root {
+    --brand: #ff6b00;
+    --dark: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --blue: #58a6ff;
+    --purple: #bc8cff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--dark); color: var(--text); line-height: 1.7; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  .report-header { background: linear-gradient(135deg, #0d1117 0%, #1c1020 50%, #1a1e2e 100%); border-bottom: 3px solid var(--red); padding: 56px 0 48px; }
+  .report-header h1 { font-size: 2.4rem; font-weight: 800; margin-bottom: 8px; }
+  .report-header h1 span { color: var(--red); }
+  .report-header .subtitle { color: var(--muted); font-size: 1.15rem; max-width: 700px; }
+  .report-header .meta { margin-top: 20px; display: flex; gap: 24px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); }
+  .report-header .meta strong { color: var(--text); }
+
+  /* Mega Stats */
+  .mega-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: -40px 0 40px; position: relative; z-index: 2; }
+  .mega-stat { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; text-align: center; }
+  .mega-stat .num { font-size: 2.6rem; font-weight: 900; }
+  .mega-stat .num.red { color: var(--red); }
+  .mega-stat .num.yellow { color: var(--yellow); }
+  .mega-stat .num.green { color: var(--green); }
+  .mega-stat .num.blue { color: var(--blue); }
+  .mega-stat .num.brand { color: var(--brand); }
+  .mega-stat .label { font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
+  .mega-stat .sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; font-style: italic; }
+
+  /* Section Headers */
+  .section { margin: 56px 0; }
+  .section-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+  .section-title .icon { font-size: 1.8rem; }
+  .section-sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 28px; max-width: 800px; }
+
+  /* Gap Cards */
+  .gap-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+  .gap-card:hover { border-color: var(--red); }
+  .gap-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+  .gap-header h3 { font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .gap-header .severity { font-size: 0.75rem; font-weight: 700; padding: 4px 14px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .severity-critical { background: rgba(248,81,73,0.2); color: var(--red); }
+  .severity-high { background: rgba(210,153,34,0.2); color: var(--yellow); }
+  .severity-medium { background: rgba(88,166,255,0.2); color: var(--blue); }
+
+  .gap-body { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 768px) { .gap-body { grid-template-columns: 1fr; } }
+  .gap-left h4 { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .gap-left p { color: var(--text); font-size: 0.95rem; margin-bottom: 12px; }
+  .gap-left ul { padding-left: 18px; }
+  .gap-left li { font-size: 0.9rem; color: var(--muted); margin-bottom: 4px; }
+  .gap-left li strong { color: var(--text); }
+
+  .gap-right { background: rgba(248,81,73,0.05); border: 1px solid rgba(248,81,73,0.15); border-radius: 12px; padding: 20px; }
+  .gap-right h4 { font-size: 0.85rem; color: var(--red); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .loss-line { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(248,81,73,0.1); }
+  .loss-line:last-child { border-bottom: none; }
+  .loss-line .desc { font-size: 0.9rem; color: var(--muted); }
+  .loss-line .amount { font-size: 1rem; font-weight: 700; color: var(--red); }
+  .loss-total { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 0; border-top: 2px solid var(--red); margin-top: 8px; }
+  .loss-total .desc { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+  .loss-total .amount { font-size: 1.2rem; font-weight: 900; color: var(--red); }
+
+  /* Affected Businesses */
+  .affected { margin-top: 16px; }
+  .affected h4 { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .affected-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .affected-tag { font-size: 0.75rem; padding: 3px 10px; border-radius: 16px; background: rgba(255,255,255,0.05); color: var(--muted); }
+  .affected-tag.critical { background: rgba(248,81,73,0.1); color: var(--red); }
+
+  /* Market Breakdown */
+  .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .market-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
+  .market-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .market-card .icon { font-size: 1.4rem; }
+  .market-metric { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  .market-metric:last-child { border-bottom: none; }
+  .market-metric .label { color: var(--muted); }
+  .market-metric .value { font-weight: 700; }
+  .market-metric .value.red { color: var(--red); }
+  .market-metric .value.green { color: var(--green); }
+  .market-metric .value.brand { color: var(--brand); }
+
+  /* Solution Box */
+  .solution-box { background: rgba(255,107,0,0.05); border: 1px solid rgba(255,107,0,0.2); border-radius: 12px; padding: 20px; margin-top: 16px; }
+  .solution-box h5 { color: var(--brand); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .solution-box ul { padding-left: 18px; }
+  .solution-box li { font-size: 0.85rem; color: var(--muted); margin-bottom: 3px; }
+
+  /* Summary Table */
+  .summary-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+  .summary-table th { background: rgba(255,255,255,0.03); text-align: left; padding: 12px 16px; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid var(--border); }
+  .summary-table td { padding: 12px 16px; font-size: 0.9rem; border-bottom: 1px solid var(--border); }
+  .summary-table tr:hover { background: rgba(255,255,255,0.02); }
+  .summary-table .red { color: var(--red); font-weight: 700; }
+  .summary-table .green { color: var(--green); font-weight: 700; }
+  .summary-table .brand { color: var(--brand); font-weight: 700; }
+
+  /* CTA */
+  .cta-section { background: linear-gradient(135deg, #1a1000 0%, #1a0a00 100%); border: 2px solid var(--brand); border-radius: 20px; padding: 48px; text-align: center; margin: 56px 0; }
+  .cta-section h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
+  .cta-section h2 span { color: var(--brand); }
+  .cta-section p { color: var(--muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto 24px; }
+  .cta-btn { display: inline-block; background: var(--brand); color: #fff; font-size: 1.1rem; font-weight: 700; padding: 14px 36px; border-radius: 12px; text-decoration: none; }
+  .cta-btn:hover { background: #e05f00; }
+
+  /* Footer */
+  .report-footer { text-align: center; padding: 32px 0; border-top: 1px solid var(--border); }
+  .report-footer p { color: var(--muted); font-size: 0.8rem; }
+
+  /* Progress bar */
+  .pbar { height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; margin: 8px 0; }
+  .pbar-fill { height: 100%; border-radius: 4px; }
+  .pbar-fill.red { background: var(--red); }
+  .pbar-fill.yellow { background: var(--yellow); }
+  .pbar-fill.green { background: var(--green); }
+
+  @media (max-width: 768px) {
+    .report-header h1 { font-size: 1.6rem; }
+    .mega-stats { margin-top: 24px; }
+    .gap-header h3 { font-size: 1.1rem; }
+    .cta-section { padding: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header class="report-header">
+  <div class="container">
+    <h1>Digital Gap Analysis: <span>What Coyhaique Businesses Are Losing</span></h1>
+    <p class="subtitle">A forensic breakdown of every digital gap found across 40 local businesses in Chile's Aysén Region capital and Carretera Austral gateway — where the #1 TripAdvisor restaurant has NO website, 70% of restaurants have ZERO web presence (HIGHEST restaurant no-website rate across ALL 17 cities), 90% of the beauty sector is invisible, a 24-hour emergency vet can't be found online, DA Hotels' chain-wide SSL failure is confirmed in a 4TH city, the only beauty .com domain is DEAD, a 30-year salon runs on a Wix FREE subdomain, fly-fishing lodges hosting $10K+ clients have ZERO analytics, a hotel has a SELF-SIGNED SSL certificate (unique failure type across 680 businesses), and a restaurant rebuilt after arson fire has no website.</p>
+    <div class="meta">
+      <span>Report Date: <strong>April 15, 2026</strong></span>
+      <span>Businesses Analyzed: <strong>40</strong></span>
+      <span>Markets: <strong>Tourism, Restaurants, Health, Beauty</strong></span>
+      <span>Source: <strong>NetWebMedia Sales Intelligence</strong></span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ========== MEGA STATS ========== -->
+<div class="mega-stats">
+  <div class="mega-stat">
+    <div class="num red">$2.05M</div>
+    <div class="label">Total Estimated Annual Revenue Lost</div>
+    <div class="sub">Across all 40 businesses combined</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num yellow">8</div>
+    <div class="label">Distinct Digital Gaps Identified</div>
+    <div class="sub">97.5% no CRM — only Cinco Rios has partial e-commerce</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num red">21</div>
+    <div class="label">Websites Dead, Broken, or Missing</div>
+    <div class="sub">4 dead/SSL + 17 no website = 52.5% invisible</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num brand">$51,250</div>
+    <div class="label">Avg. Revenue Lost Per Business/Year</div>
+    <div class="sub">Carretera Austral + fly-fishing tourism money lost</div>
+  </div>
+</div>
+
+<!-- ========== GAP-BY-GAP BREAKDOWN ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">🔴</span> Gap-by-Gap Breakdown</h2>
+  <p class="section-sub">Each gap below is ranked by severity and includes the estimated annual revenue loss per affected business, based on industry benchmarks and Coyhaique market data. Coyhaique is the capital of the Aysén Region, gateway to Carretera Austral, Marble Caves, Queulat Hanging Glacier, and the fly-fishing capital of South America. International anglers spend $5K-$15K per trip. Adventure tourists from around the world arrive for world-class experiences — yet 70% of restaurants have no website, the #1 TripAdvisor restaurant is invisible, 90% of beauty businesses can't be found, and 97.5% have zero CRM.</p>
+
+  <!-- GAP 1: DEAD/BROKEN/SSL SITES -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>💀 Gap #1: Dead Server / SSL Error / Broken Sites</h3>
+      <span class="severity severity-critical">CRITICAL — 4 SITES INCLUDING SELF-SIGNED SSL (UNIQUE ACROSS 680 BUSINESSES) + DA HOTELS 4TH CITY</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>4 of 40 businesses have websites that are <strong>completely dead, SSL broken, or returning connection errors</strong>. This includes a <strong>self-signed SSL certificate</strong> (the ONLY instance across all 680 businesses in 17 cities), DA Hotels' chain-wide SSL failure confirmed in its <strong>4th city</strong>, and 2 ECONNREFUSED dead sites.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>Hotel Belisario Jara: SELF-SIGNED SSL — unique failure across ALL 680 businesses!</strong> belisariojara.cl triggers browser "Your connection is not private" warning. Not expired, not missing — SELF-SIGNED. The only instance in 17 cities. Francisco Bilbao 662, reservas@belisariojara.cl. Every single visitor sees a security warning. Unlike expired certs (which happen accidentally), a self-signed cert means someone intentionally configured it wrong</li>
+          <li><strong>Diego de Almagro Coyhaique: DA Hotels SSL CERTIFICATE ERROR — 4TH CITY!</strong> dahoteles.com/es/da-coyhaique returns "unable to verify the first certificate." Chain-wide SSL failure now confirmed in Osorno + Valdivia + Punta Arenas + Coyhaique. A national hotel chain with browser security warnings in at least 4 cities. centraldereservas@dahoteles.com + gerencia-gxq@dahoteles.com. The pattern keeps growing</li>
+          <li><strong>Clínica Bilbao: ECONNREFUSED — regional health provider DEAD!</strong> clinicabilbao.cl returns connection refused. Founded 2011, medical + dental clinic serving the Aysén region. Francisco Bilbao 449, (67) 258 3126. The regional health sector's web infrastructure is failing — patients searching for Coyhaique clinics find a dead server</li>
+          <li><strong>Escobar Peluqueros: ECONNREFUSED — the ONLY beauty .com domain in Coyhaique is DEAD!</strong> escobarpeluqueros.com is the only beauty business in the city that invested in a .com domain, and it's completely dead. Baquedano 336. The irony: the one beauty business that tried to establish a real web presence has the worst outcome</li>
+          <li>A dead site is <strong>worse than no site</strong> — it signals abandonment and technical failure to every visitor</li>
+          <li><strong>Google deranks and eventually deindexes</strong> persistently broken sites</li>
+        </ul>
+        <h4>Coyhaique context</h4>
+        <p>Coyhaique is the <strong>gateway to Carretera Austral</strong> — Chile's most iconic road trip. International adventure tourists and fly-fishing anglers research accommodations and clinics before arriving in this remote region. A self-signed SSL on a hotel, a national chain's SSL failure in its 4th city, a dead health clinic, and the only beauty .com dead — Aysén's capital is failing at the most basic web infrastructure level.</p>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Dead/SSL = 100% web visitor loss</span><span class="amount">-$22,000</span></div>
+        <div class="loss-line"><span class="desc">Carretera Austral / fly-fishing tourist traffic lost</span><span class="amount">-$14,000</span></div>
+        <div class="loss-line"><span class="desc">Google deranks broken domains</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">Brand damage (SSL warning = "not secure")</span><span class="amount">-$8,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$50,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (4 dead/SSL — including unique self-signed cert + DA Hotels 4th city)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Hotel Belisario Jara (belisariojara.cl SELF-SIGNED SSL! Unique across 680 businesses!)</span>
+        <span class="affected-tag critical">DA Hotels Coyhaique (dahoteles.com SSL ERROR — 4th city confirmed! Osorno+Valdivia+PA+Coyhaique)</span>
+        <span class="affected-tag critical">Clínica Bilbao (clinicabilbao.cl ECONNREFUSED — regional health provider DEAD!)</span>
+        <span class="affected-tag critical">Escobar Peluqueros (escobarpeluqueros.com ECONNREFUSED — ONLY beauty .com in Coyhaique, DEAD!)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>SSL Certificate Fix</strong> — Belisario Jara: install proper Let's Encrypt or commercial SSL certificate, stop self-signed browser warnings immediately</li>
+        <li><strong>DA Hotels Chain-Wide SSL</strong> — escalate to DA Hotels corporate: install proper SSL chain across all 4+ affected properties, stop browser warnings nationwide</li>
+        <li><strong>Health Sector Rebuild</strong> — Clínica Bilbao: new website with online booking for the Aysén region's medical/dental needs</li>
+        <li><strong>Beauty Domain Recovery</strong> — Escobar Peluqueros: recover .com domain or register new, rebuild the only beauty website in Coyhaique</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 2: NO WEBSITE -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>🚫 Gap #2: No Website</h3>
+      <span class="severity severity-critical">CRITICAL — 17 OF 40 = 42.5% / 7 RESTAURANTS (70%!) = HIGHEST RESTAURANT NO-WEBSITE RATE ACROSS 17 CITIES</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>17 of 40 businesses (42.5%) have <strong>zero web presence</strong> — no domain, no landing page, nothing. They rely entirely on Facebook, Instagram, WhatsApp, or walk-ins. <strong>7 of 10 restaurants (70%) have no website</strong> — the HIGHEST restaurant no-website rate across all 17 cities analyzed. <strong>8 of 10 beauty businesses (80%)</strong> have no website. Plus several health businesses rely only on directory listings.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>90% of consumers</strong> research a business online before visiting (Google, 2025)</li>
+          <li><strong>Casa Ciprés: #1 TripAdvisor restaurant, NO WEBSITE!</strong> — 4.8★ 128 reviews, contemporary $-$$ dining. The BEST restaurant in ALL of Coyhaique has ZERO web presence. Only a Facebook page. International tourists searching "best restaurant Coyhaique" can't find the #1 option</li>
+          <li><strong>Restaurant Aiken: famous Patagonian lamb BBQ, NO WEBSITE!</strong> — #3 TripAdvisor 4.6★ 201 reviews. Coyhaique is famous for Patagonian lamb and this steakhouse is one of the top-rated, yet invisible online</li>
+          <li><strong>Casino de Bomberos: rebuilt after ARSON FIRE, NO WEBSITE!</strong> — #7 TripAdvisor 413 reviews 4.0★, "Best Picada" winner with 218 votes. Destroyed by intentional fire, reopened July 2024. An incredible resilience story that is completely unexploited digitally. The most dramatic restaurant backstory across all 17 cities — zero online presence</li>
+          <li><strong>Cafe Confluencia: LONELY PLANET featured, NO WEBSITE!</strong> — 21 de Mayo 544. Featured in international travel guides but has no website. International tourists reading Lonely Planet search for it and find nothing</li>
+          <li><strong>Indian Stone Vegano: ONLY vegan restaurant in Coyhaique, NO WEBSITE!</strong> — monopoly niche, completely invisible. The sole vegan option in a city with growing tourist traffic has zero web presence. A monopoly that doesn't know it has a monopoly</li>
+          <li><strong>Adobe Coyhaique: #10 TripAdvisor, NO WEBSITE!</strong> — 189 reviews 4.2★, Brew Pub near Hotel Nomades. No website despite being a popular craft beer spot</li>
+          <li><strong>La Casona: #8 TripAdvisor, NO WEBSITE!</strong> — 322 reviews 4.0★, International+Chilean. No web presence despite being highly reviewed</li>
+          <li><strong>Lito's Restaurant: seafood specialist, NO WEBSITE!</strong> — #13 TripAdvisor 108 reviews, Lautaro 147. Seafood + soups specialist invisible</li>
+          <li><strong>Health: Polux (AgendaPro only), Odontología Sur (directory only), Cruz Azul vet, El Coirón vet (24-HOUR!), Vet Aysén, Vet San Francisco</strong> — multiple health businesses with no website</li>
+          <li><strong>Beauty: MIA, Reina de Corazones, El Varón, BarberYaquis, La Barbería Coy, Luxus, Le Salón, Amanda</strong> — 8 of 10 beauty businesses invisible</li>
+          <li>AI search engines (Google AI Overviews, ChatGPT, Perplexity) <strong>cannot cite businesses</strong> with no indexable web content</li>
+        </ul>
+        <h4>Coyhaique context</h4>
+        <p>International adventure tourists and fly-fishing anglers arriving for <strong>Carretera Austral, Marble Caves, Queulat Hanging Glacier, and world-class fishing</strong> search "best restaurant Coyhaique" or "where to eat Coyhaique" and find almost nothing. 70% of restaurants have no website — the highest rate across all 17 cities. The Carretera Austral gateway paradox: world-class adventure destination, invisible restaurant scene.</p>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost discovery (invisible to 90% who Google)</span><span class="amount">-$16,000</span></div>
+        <div class="loss-line"><span class="desc">Lost international tourist searches</span><span class="amount">-$10,000</span></div>
+        <div class="loss-line"><span class="desc">OTA/platform commission dependency</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">Missed AI/voice search citations</span><span class="amount">-$5,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$37,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (17 with no website = 42.5% — 70% of restaurants!)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Casa Ciprés (#1 TripAdvisor 4.8★ — NO website! Best restaurant invisible!)</span>
+        <span class="affected-tag critical">Restaurant Aiken (#3 TripAdvisor 4.6★ — NO website! Famous Patagonian lamb!)</span>
+        <span class="affected-tag critical">Casino de Bomberos (413 reviews — NO website! Rebuilt after arson fire!)</span>
+        <span class="affected-tag critical">Cafe Confluencia (Lonely Planet featured — NO website!)</span>
+        <span class="affected-tag critical">Indian Stone Vegano (ONLY vegan in Coyhaique — NO website! Monopoly invisible!)</span>
+        <span class="affected-tag critical">Adobe Coyhaique (#10 TripAdvisor — NO website! Brew pub invisible!)</span>
+        <span class="affected-tag critical">La Casona (#8 TripAdvisor 322 reviews — NO website!)</span>
+        <span class="affected-tag critical">Lito's Restaurant (#13 TripAdvisor — NO website! Seafood invisible!)</span>
+        <span class="affected-tag critical">Clínica Veterinaria El Coirón (24-HOUR emergency vet — NO website! Pets die!)</span>
+        <span class="affected-tag critical">Clínica Vet Cruz Azul (NO website!)</span>
+        <span class="affected-tag critical">Veterinaria Aysén (NO website!), Vet San Francisco (NO website!)</span>
+        <span class="affected-tag critical">Centro Estética MIA, Reina de Corazones, El Varón, BarberYaquis, La Barbería Coy, Luxus, Le Salón, Amanda (8 beauty businesses — NO website!)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>CMS AI Website ($497/mo starter)</strong> — custom-built, SEO-optimized, mobile-first site live in 7 days</li>
+        <li><strong>For #1 restaurant</strong> — Casa Ciprés: professional site with menu, reservations, "best restaurant Coyhaique" SEO targeting. The #1 restaurant SHOULD own the #1 Google result</li>
+        <li><strong>For Casino de Bomberos</strong> — rebuilt-after-fire story as brand narrative. Resilience marketing + "Best Picada" positioning</li>
+        <li><strong>For emergency vet</strong> — El Coirón: 24-hour emergency vet site with URGENT booking, Google Ads for "emergency vet Coyhaique" — pets' lives literally depend on being found online</li>
+        <li><strong>For beauty sector</strong> — 8 businesses need sites with online booking, price lists, and Instagram gallery integration</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 3: GMAIL/NO EMAIL -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>📧 Gap #3: Gmail/Personal Email or No Email At All</h3>
+      <span class="severity severity-critical">CRITICAL — ~28 OF 40 = 70% / DENTAL CLINIC ON GMAIL + MOST BUSINESSES NO EMAIL VISIBLE</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>~28 of 40 businesses (70%) have <strong>no professional business email</strong>. This breaks down as: <strong>1 confirmed Gmail</strong> (dental clinic) and <strong>~27 with no email found at all</strong>. Most no-website businesses have zero contact email. Even some WITH websites provide no email address. Coyhaique's email gap is among the highest across all 17 cities.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>75% of consumers</strong> judge a company's credibility by its email domain (GoDaddy Research)</li>
+          <li><strong>Odontología Condell: odontocondell@gmail.com — dental clinic on Gmail!</strong> Has WP + WooCommerce + Elementor + RevSlider, a full tech stack — but uses Gmail. WhatsApp +56 9 7958 2414. A clinic with e-commerce infrastructure but Gmail for patient communication</li>
+          <li><strong>Casa Ciprés: #1 restaurant, NO EMAIL!</strong> — The best restaurant in Coyhaique has no email address. No way for tour operators, travel writers, or group bookings to contact them professionally</li>
+          <li><strong>Restaurant Aiken: NO EMAIL!</strong> — Famous Patagonian lamb, no professional contact method</li>
+          <li><strong>Casino de Bomberos: NO EMAIL!</strong> — Rebuilt after fire, (67) 223 1437 phone only. Can't coordinate group events or catering via email</li>
+          <li><strong>Clínica Queulat: 15+ years, NO EMAIL visible!</strong> — WP + Astra + Elementor, WooCommerce detected, but no contact email on the entire site. A 15-year health institution without email</li>
+          <li><strong>All 17 no-website businesses: NO EMAIL</strong> — restaurants, vets, beauty businesses all unreachable via email</li>
+          <li><strong>La Taberna D'Olbek: NO EMAIL!</strong> — Has GA4, WooCommerce, Typeform for inquiries — but no email address. Uses Typeform as email substitute</li>
+          <li>Emails from free domains are <strong>3x more likely to land in spam</strong></li>
+          <li>Fly-fishing lodges and tour operators need to <strong>coordinate high-value group bookings ($5K-$15K per client) via email</strong> — Gmail or no email kills B2B partnerships</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost inquiries (perceived unprofessional)</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">Emails landing in spam (never seen)</span><span class="amount">-$3,000</span></div>
+        <div class="loss-line"><span class="desc">Tour operator / lodge B2B trust lost</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">No email = no professional follow-up</span><span class="amount">-$4,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$17,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses — Gmail (1) + No email (~27) = ~28 of 40</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Odontología Condell (odontocondell@gmail.com — full WP stack + Gmail!)</span>
+        <span class="affected-tag critical">Casa Ciprés (NO email! #1 restaurant!), Aiken (NO email!), Casino Bomberos (NO email!)</span>
+        <span class="affected-tag">Clínica Queulat (15+ years, NO email!), D'Olbek (uses Typeform instead!), All 17 no-website businesses (NO email)</span>
+        <span class="affected-tag">Café Confluencia (phone only), Indian Stone (NO email!), many beauty businesses (NO email)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>Professional Email Setup</strong> — Google Workspace or Microsoft 365 with custom domain. info@casacipres.cl, reservas@casinobomberos.cl, citas@odontocondell.cl</li>
+        <li><strong>Bulk email deployment</strong> — migrate Gmail + set up new domain email for 28+ businesses in one project</li>
+        <li><strong>For fly-fishing B2B</strong> — professional email for lodge-restaurant coordination, tour operator partnerships</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 4: NO ONLINE BOOKING -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>📅 Gap #4: No Online Booking / Reservation System</h3>
+      <span class="severity severity-critical">CRITICAL — ~26 OF 40 = 65% / FLY-FISHING CAPITAL WITH LIMITED BOOKING + 24-HOUR VET NO BOOKING</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>~26 of 40 businesses (65%) cannot accept online bookings or reservations. In the <strong>fly-fishing capital of South America</strong> — where international anglers spending $5K-$15K per trip need to pre-book everything — most restaurants have no reservation system, health businesses are phone-only, and beauty businesses rely on WhatsApp walk-ins.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>Cinco Rios Lodge: premium fly-fishing ($10K+ clients), NO CRM for bookings!</strong> Has Squarespace + GA4 + reCAPTCHA Enterprise but no proper booking/CRM system for clients paying $10,000+ per trip. The highest per-client-revenue business in the study manages reservations without a CRM</li>
+          <li><strong>Coyhaique River Lodge: premium lodge, bookings via Frontiers International Travel!</strong> Commission dependency — lodge bookings go through a US-based travel agency. No direct booking. A premium Patagonian lodge paying commissions to a New York intermediary</li>
+          <li><strong>Hotelera San Rafael: GA4 but NO booking engine!</strong> — Has analytics (G-N3B0YF6RMY) but static HTML5 UP template with no booking capability. Can track visitors but can't convert them</li>
+          <li><strong>All 7 no-website restaurants: NO booking possible!</strong> — Casa Ciprés, Aiken, Casino Bomberos, Confluencia, Lito's, Indian Stone, Adobe, La Casona cannot take reservations online. Tourists on Carretera Austral can't pre-book dinner in Coyhaique</li>
+          <li><strong>Clínica Veterinaria El Coirón: 24-HOUR emergency vet, NO online booking!</strong> — The only 24-hour emergency vet in Coyhaique. Pets have emergencies at 3am. The vet can't be found online and can't take emergency appointments. Lives literally at stake</li>
+          <li><strong>Polux dental: AgendaPro marketplace only</strong> — booking through AgendaPro listing, not own website. Platform dependency for patient scheduling</li>
+          <li><strong>67% of customers</strong> prefer online booking over phone calls (Zippia, 2025)</li>
+          <li>International tourists in different time zones <strong>cannot call during Chilean business hours</strong></li>
+        </ul>
+        <h4>Coyhaique context</h4>
+        <p>Fly-fishing anglers from the US, Europe, and Australia <strong>plan trips 6-12 months in advance</strong>. They're in completely different time zones. Carretera Austral road-trippers plan their stops days ahead. 65% of Coyhaique businesses can't take those advance bookings. The fly-fishing capital paradox: $10K+ clients, no booking infrastructure.</p>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost pre-trip bookings (fly-fishing/Carretera Austral)</span><span class="amount">-$12,000</span></div>
+        <div class="loss-line"><span class="desc">OTA/intermediary commission dependency</span><span class="amount">-$9,000</span></div>
+        <div class="loss-line"><span class="desc">Timezone barrier (international anglers can't call)</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">No-shows (no confirmation/reminder system)</span><span class="amount">-$4,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$30,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (~26 with no direct booking — 65%)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Cinco Rios Lodge ($10K+ clients, NO CRM/booking for premium anglers!)</span>
+        <span class="affected-tag critical">Coyhaique River Lodge (bookings via US intermediary — commission dependency!)</span>
+        <span class="affected-tag critical">Hotelera San Rafael (GA4 but static template — NO booking!)</span>
+        <span class="affected-tag critical">El Coirón (24-HOUR emergency vet — NO online booking! Lives at stake!)</span>
+        <span class="affected-tag critical">All 7 no-website restaurants (NO booking possible!)</span>
+        <span class="affected-tag">Nomades (Wix, no booking), Clínica Queulat (no booking), most beauty businesses (WhatsApp only)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>AI Booking Agent ($997/mo)</strong> — 24/7 booking for lodges, restaurants, clinics, salons. Handles timezone differences for international clients</li>
+        <li><strong>For fly-fishing lodges</strong> — Cinco Rios + Coyhaique River: direct booking system, eliminate intermediary commissions, CRM for $10K+ repeat clients</li>
+        <li><strong>For emergency vet</strong> — El Coirón: urgent appointment booking, "emergency vet Coyhaique" Google presence. Lives depend on it</li>
+        <li><strong>For restaurants</strong> — reservation systems for all 7 no-website restaurants, targeting Carretera Austral pre-trip planners</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 5: PLATFORM MISUSE / OUTDATED -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>⚠️ Gap #5: Platform Misuse / Outdated Tech / Free Subdomains</h3>
+      <span class="severity severity-high">HIGH — 5+ SITES / 30-YEAR SALON ON FREE SUBDOMAIN + DEAD UA + EMPTY FB SDK + WIX LIMITATIONS</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>5+ businesses have significant <strong>platform misuse, outdated technology, or free subdomain limitations</strong>. This includes a 30-year salon on a Wix FREE subdomain, a hostal with dead analytics + empty Facebook SDK + good booking tech, Wix limitations for hotel SEO, split domains diluting SEO, and outdated Elementor versions.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>Peluquería OCA: 30+ years on Wix FREE SUBDOMAIN!</strong> peluqueriacoyhaique.wixsite.com/oca — the longest-running beauty business in Coyhaique is on a free Wix subdomain. Can't rank in Google (wixsite.com subdomain), no custom domain, no SEO value. 30 years of reputation with zero web equity. The most dramatic free-subdomain case across all 17 cities</li>
+          <li><strong>Hostal Español: DEAD UA ~3 years + EMPTY FB SDK + good booking tech!</strong> UA-186305590-1 dead since Google sunset July 2023. FB SDK app_id is EMPTY (configured but never connected). Yet has Octopus24 booking + Flow.cl + Webpay + MPHB hotel booking — good booking infrastructure completely blind. Running sophisticated commerce tools while analytics have been dead for 3 years. The best booking tech in Coyhaique with zero visibility into performance</li>
+          <li><strong>Patagonia House: 2 DOMAINS splitting SEO!</strong> patagonia-house.com + housepatagonia.cl — a luxury mountain lodge ($300+/night, 4 suites) running on Wix with TWO domains splitting SEO authority. Neither domain can build full authority when traffic is split between them</li>
+          <li><strong>Nomades Hotel: Wix limitations for hotel SEO!</strong> hotelnomades.cl on Wix Thunderbolt v1.17152.0. No Schema.org, limited SEO control. Wix is acceptable for simple sites but insufficient for hotel SEO that needs Schema.org Hotel, rich snippets, and structured data</li>
+          <li><strong>Coyhaique River Lodge: Elementor 3.15.0 OUTDATED!</strong> Current stable is 3.28+. Outdated plugin = potential security vulnerabilities + missing features. Premium lodge with outdated infrastructure</li>
+          <li><strong>Mamma Gaucha: domain REDIRECTS to tropera.cl platform!</strong> mammagaucha.cl → 301 redirect to tropera.cl/restaurantes/mamma-gaucha/. Loses domain authority, depends on shared platform analytics (G-Y6KTJNPMM1 is shared). 1,453 reviews 4.3★ #4 TripAdvisor — a top restaurant's identity absorbed by a platform</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Free subdomain can't rank in Google</span><span class="amount">-$10,000</span></div>
+        <div class="loss-line"><span class="desc">Dead analytics = 3 years blind decisions</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">Split domains = diluted SEO authority</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">Platform dependency / domain redirect</span><span class="amount">-$5,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$29,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (5+ with platform/tech issues)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Peluquería OCA (30+ years on Wix FREE SUBDOMAIN! Most dramatic free-tier case!)</span>
+        <span class="affected-tag critical">Hostal Español (DEAD UA ~3yr + EMPTY FB SDK + good Octopus24/Flow.cl/Webpay booking!)</span>
+        <span class="affected-tag critical">Patagonia House (2 DOMAINS splitting SEO! $300+/night lodge on Wix!)</span>
+        <span class="affected-tag">Nomades Hotel (Wix limitations for hotel SEO), Coyhaique River Lodge (Elementor 3.15.0 outdated)</span>
+        <span class="affected-tag">Mamma Gaucha (domain → tropera.cl redirect, shared platform analytics)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>Domain + Website Upgrade</strong> — OCA: register peluqueriaoca.cl, professional site after 30 years. End the free subdomain era</li>
+        <li><strong>Analytics Resurrection</strong> — Hostal Español: install GA4, configure FB Pixel properly, connect to existing Octopus24/Flow.cl stack. Unlock 3 years of blind data</li>
+        <li><strong>Domain Consolidation</strong> — Patagonia House: 301 redirect housepatagonia.cl → patagonia-house.com (or vice versa), consolidate all SEO authority to one domain</li>
+        <li><strong>Platform Migration</strong> — Nomades + Patagonia House: migrate from Wix to WP with proper hotel Schema.org markup</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 6: NO/WEAK SOCIAL MEDIA -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>📱 Gap #6: No or Weak Social Media Presence</h3>
+      <span class="severity severity-high">HIGH — ~18 OF 40 = 45% / 90% BEAUTY SECTOR SOCIAL-DEPENDENT BUT MOST NO WEBSITE TO CONVERT</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>~18 of 40 businesses (45%) have <strong>no social media presence, extremely weak social, or social media with no website to convert traffic</strong>. Many beauty and restaurant businesses have ONLY Facebook/Instagram — no website to drive conversions. Social without website = awareness without conversion.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>Le Salón: NO website + NO social media!</strong> — A unisex salon with zero digital presence of any kind. Completely invisible</li>
+          <li><strong>Centro de Estética Amanda: NO website, NO meaningful social!</strong> — 10+ years in business, WhatsApp 624142196, no social presence to show for it</li>
+          <li><strong>El Reloj Hotel: 35 years, ZERO analytics + limited social!</strong> — Since 1991, has Schema.org markup but zero analytics. 35 years of reputation not leveraged on social</li>
+          <li><strong>Clínica Queulat: 15+ years, NO social!</strong> — WP + Astra + Elementor but no Facebook, no Instagram. Health clinic invisible on social</li>
+          <li><strong>Beauty businesses with FB only, no website</strong> — BarberYaquis (FB @StudioBarberYaquis), La Barbería Coy (FB @LaBarberiaCoy), El Varón (FB @ElVaronBarberia): social presence but no website to convert followers into bookings</li>
+          <li><strong>Luxus Barber Studio: 1,059 IG followers but NO website!</strong> — The most social-active barber in Coyhaique with real Instagram engagement. Classic+modern+artistic cuts. But no website = no booking = no Google ranking. Social virality without conversion infrastructure</li>
+          <li><strong>78% of consumers</strong> discover local businesses through social media (Sprout Social, 2025)</li>
+          <li>Social media WITHOUT a website = <strong>awareness without conversion</strong>. You can build a following but can't capture bookings or build SEO</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">No social = invisible to discovery channel</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">Social without website = no conversion</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">No Instagram for visual businesses</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">Lost fly-fishing/adventure tourist engagement</span><span class="amount">-$4,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$23,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (~18 with no/weak social — 45%)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Le Salón (NO website + NO social! Total invisibility!)</span>
+        <span class="affected-tag critical">Centro Estética Amanda (10+ years, NO social!)</span>
+        <span class="affected-tag critical">Luxus Barber (1,059 IG followers but NO website to convert!)</span>
+        <span class="affected-tag">El Reloj Hotel (35 years, limited social), Clínica Queulat (15+ years, NO social)</span>
+        <span class="affected-tag">BarberYaquis, La Barbería Coy, El Varón (FB only, no website conversion)</span>
+        <span class="affected-tag">Multiple restaurants with FB only, no website: Casino Bomberos, Indian Stone, La Casona</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>Social Media Management ($497/mo)</strong> — content creation, engagement strategy, Instagram Reels for visual businesses</li>
+        <li><strong>Social + Website Bundle</strong> — for businesses with social but no website: connect social presence to conversion-optimized landing pages</li>
+        <li><strong>For Luxus Barber</strong> — website with booking integration, funnel 1,059 IG followers into booked appointments</li>
+        <li><strong>For fly-fishing sector</strong> — adventure content on Instagram/YouTube targeting international anglers</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 7: ZERO SEO / DEAD ANALYTICS -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>🔍 Gap #7: Zero SEO Strategy / Dead Analytics</h3>
+      <span class="severity severity-high">HIGH — ~28 OF 40 = 70% / FLY-FISHING LODGES ($10K+ CLIENTS) WITH ZERO ANALYTICS + 35-YEAR HOTEL ZERO ANALYTICS</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>~28 of 40 businesses (70%) have <strong>zero SEO strategy, no analytics, or dead analytics</strong>. This includes all 17 no-website businesses (automatically zero SEO) plus multiple businesses WITH websites that have zero or dead analytics. Fly-fishing lodges hosting $10K+ international clients have zero visibility into their web performance.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>El Reloj Hotel: 35 YEARS, ZERO ANALYTICS!</strong> — elrelojhotel.com since 1991 with WP + Divi v4.22.2 + Schema.org markup. 35 years of operation, not a single analytics tag. The longest-operating hotel with zero analytics across all 17 cities. Has Schema.org (WebPage, BreadcrumbList, WebSite, ImageObject) but no GA4, no FB Pixel, no GTM. Beautiful Schema.org implementation tracking nothing</li>
+          <li><strong>Coyhaique River Lodge: premium lodge, ZERO ANALYTICS!</strong> — WP + Elementor + Custom FB Feed + IG Feed + Trustindex + GTranslate (3 languages). Rich social integrations, custom feeds, multilingual support — yet zero analytics. Bookings go through Frontiers International Travel (US intermediary). Premium lodge with zero data on its own website visitors</li>
+          <li><strong>Hostal Español: DEAD UA ~3 YEARS + EMPTY FB SDK!</strong> — UA-186305590-1 dead since July 2023. FB SDK app_id configured but EMPTY. Has Octopus24 booking + Flow.cl + Webpay + MPHB hotel booking. The most sophisticated booking stack in Coyhaique running completely blind. 3 years of bookings with zero web analytics</li>
+          <li><strong>Clínica Queulat: 15+ years, ZERO ANALYTICS!</strong> — WP + Astra + Elementor + WooCommerce. Full CMS + e-commerce but no tracking. 15 years of medical practice invisible to data</li>
+          <li><strong>Odontología Condell: ZERO ANALYTICS + WooCommerce!</strong> — WP + Woodmart + Elementor + RevSlider + WooCommerce + CF7 — sophisticated e-commerce stack with zero analytics. Selling dental services through WooCommerce without measuring anything</li>
+          <li><strong>VetCoy: best vet site, ZERO ANALYTICS!</strong> — WP + Blocksy + Elementor Pro + CF7 + reCAPTCHA. Nicely built site with pricing listed, home-visit service — but no idea how many people visit or convert</li>
+          <li><strong>All 17 no-website businesses</strong> = automatically zero SEO, zero analytics</li>
+          <li><strong>75% of users never scroll past page 1</strong> — without SEO, these businesses don't exist in search</li>
+          <li><strong>International fly-fishing tourists search in English</strong> — most Coyhaique sites have no multilingual SEO targeting</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Invisible on Google search results</span><span class="amount">-$12,000</span></div>
+        <div class="loss-line"><span class="desc">Zero data = blind business decisions</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">No multilingual SEO for international anglers</span><span class="amount">-$7,000</span></div>
+        <div class="loss-line"><span class="desc">Missing AI search citations (AEO)</span><span class="amount">-$5,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$32,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (~28 with zero SEO/analytics — 70%)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">El Reloj Hotel (35 YEARS zero analytics! Since 1991! Schema.org tracking nothing!)</span>
+        <span class="affected-tag critical">Coyhaique River Lodge (premium lodge ZERO analytics! Bookings via US intermediary!)</span>
+        <span class="affected-tag critical">Hostal Español (DEAD UA ~3yr + EMPTY FB SDK! Best booking tech, zero visibility!)</span>
+        <span class="affected-tag critical">Clínica Queulat (15+ years ZERO analytics! WooCommerce tracking nothing!)</span>
+        <span class="affected-tag critical">Odontología Condell (ZERO analytics! WooCommerce + RevSlider + Elementor, no tracking!)</span>
+        <span class="affected-tag critical">VetCoy (best vet site, ZERO analytics!)</span>
+        <span class="affected-tag">All 17 no-website businesses (zero SEO by definition)</span>
+        <span class="affected-tag">Nomades Hotel (Wix, no Schema.org), Patagonia House (Wix, split domains)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>AI SEO + Analytics ($997/mo growth)</strong> — GA4 installation, Google Search Console, keyword strategy, Schema.org optimization</li>
+        <li><strong>For El Reloj Hotel</strong> — install GA4 after 35 years of blindness. Target "hotel Coyhaique" + "Carretera Austral accommodation" keywords. The longest analytics gap in the study</li>
+        <li><strong>For fly-fishing lodges</strong> — multilingual SEO (EN/ES) targeting "fly fishing Patagonia" "Coyhaique fishing lodge" for international anglers</li>
+        <li><strong>AEO Retainer</strong> — optimize for AI search engines (Google AI Overviews, ChatGPT, Perplexity) that fly-fishing tourists increasingly use</li>
+        <li><strong>For Hostal Español</strong> — GA4 migration from dead UA, configure FB Pixel properly, connect to existing Octopus24 data. 3 years of blindness ends</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 8: NO CRM -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>🗃️ Gap #8: No CRM / Customer Data System</h3>
+      <span class="severity severity-critical">CRITICAL — 39 OF 40 = 97.5% / $10K+ FLY-FISHING CLIENTS WITH NO CRM / ZERO REPEAT BOOKING DATA</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>39 of 40 businesses (97.5%) have <strong>no customer relationship management system</strong>. Only Cinco Rios Lodge has partial e-commerce (Squarespace + reCAPTCHA Enterprise), but even they lack a dedicated CRM for managing $10K+ fly-fishing clients. Zero businesses in Coyhaique have a proper CRM system.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>Cinco Rios Lodge: $10K+ clients, NO CRM!</strong> — Premium fly-fishing lodge with Squarespace + GA4 + FB App ID + reCAPTCHA Enterprise + IG/YouTube/FB. The BEST POSITIONED business in Coyhaique, serving clients who spend $10,000-$15,000 per trip. No CRM to track repeat bookings, client preferences, trip history, or referrals. A single repeat client = $10K+ lifetime value. Without CRM, they can't nurture that relationship</li>
+          <li><strong>Coyhaique River Lodge: bookings via US intermediary, NO CRM!</strong> — Lodge doesn't even own its customer data. Frontiers International Travel (US) owns the client relationship. When the intermediary has your CRM data and you don't, the intermediary owns your business</li>
+          <li><strong>Hotel Dreams de la Patagonia: chain hotel, likely corporate CRM only!</strong> — Dreams chain has central reservations but individual property probably can't segment local vs. tourist data or run property-level retention campaigns</li>
+          <li><strong>Mamma Gaucha: 1,453 reviews, NO CRM!</strong> — Highest-reviewed restaurant with GA4 + FB Pixel + Woki reservations + PedidosYa delivery. Best restaurant tech stack in Coyhaique, zero customer data retention</li>
+          <li><strong>D'Olbek: GA4 + WooCommerce + Typeform, NO CRM!</strong> — Has analytics, e-commerce, inquiry forms — all generating data that goes nowhere. A craft brewery + restaurant with zero customer lifecycle management</li>
+          <li><strong>VetCoy: pricing listed + home-visit service, NO CRM!</strong> — Knows their prices and offers mobile vet visits, but can't track pet vaccination schedules, follow-up appointments, or client lifetime value</li>
+          <li><strong>65% of businesses</strong> that adopt CRM see ROI within 2 years (Salesforce Research)</li>
+          <li><strong>Returning customers spend 67% more</strong> than new ones — without CRM, there's no systematic way to encourage returns</li>
+          <li>Fly-fishing clients <strong>return year after year</strong> to the same rivers — CRM could track preferences, dates, guides, catches</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">No repeat/loyalty booking pipeline</span><span class="amount">-$10,000</span></div>
+        <div class="loss-line"><span class="desc">Lost upsell/cross-sell (no client history)</span><span class="amount">-$7,000</span></div>
+        <div class="loss-line"><span class="desc">Customer data owned by OTAs/intermediaries</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">No automated follow-up/reactivation</span><span class="amount">-$5,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$28,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (39 of 40 = 97.5% — universal CRM desert)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Cinco Rios Lodge ($10K+ clients, NO CRM! Highest per-client revenue in study!)</span>
+        <span class="affected-tag critical">Coyhaique River Lodge (customer data owned by US intermediary!)</span>
+        <span class="affected-tag critical">Mamma Gaucha (1,453 reviews + GA4 + FB Pixel, NO CRM!)</span>
+        <span class="affected-tag critical">D'Olbek (GA4 + WooCommerce + Typeform, NO CRM!)</span>
+        <span class="affected-tag">VetCoy (home-visit service, no client tracking), Hostal Español (booking tech, no CRM)</span>
+        <span class="affected-tag">All 40 businesses except partial Cinco Rios e-commerce (even that lacks dedicated CRM)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>CRM Setup ($997/mo growth)</strong> — HubSpot or GoHighLevel implementation with client lifecycle automation</li>
+        <li><strong>For fly-fishing lodges</strong> — Cinco Rios + Coyhaique River: CRM tracking client preferences, trip dates, guides, catches, referral sources. $10K+ client lifetime value justifies CRM investment immediately</li>
+        <li><strong>For restaurants</strong> — reservation CRM: track visits, preferences, birthdays, group events. Turn 1,453 Mamma Gaucha reviewers into repeat diners</li>
+        <li><strong>For vets</strong> — VetCoy: pet vaccination calendar, appointment reminders, home-visit scheduling. Automated pet health follow-ups</li>
+        <li><strong>For beauty</strong> — client appointment history, product preferences, rebooking reminders</li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
+<!-- ========== MARKET-BY-MARKET BREAKDOWN ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">🏪</span> Market-by-Market Gap Breakdown</h2>
+  <p class="section-sub">How each of Coyhaique's four market verticals stacks up against the identified digital gaps.</p>
+
+  <div class="market-grid">
+    <div class="market-card">
+      <h3><span class="icon">🏨</span> Tourism (10 businesses)</h3>
+      <div class="market-metric"><span class="label">Dead/SSL sites</span><span class="value red">2 (Belisario Jara self-signed + DA Hotels 4th city)</span></div>
+      <div class="market-metric"><span class="label">No website</span><span class="value">0 (all have some web presence)</span></div>
+      <div class="market-metric"><span class="label">Gmail/No email</span><span class="value red">4 (Patagonia House, San Rafael no visible, some no email)</span></div>
+      <div class="market-metric"><span class="label">No booking</span><span class="value red">4 (San Rafael, Nomades limited, River Lodge intermediary, split)</span></div>
+      <div class="market-metric"><span class="label">Zero SEO/Analytics</span><span class="value red">5 (El Reloj 35yr zero, River Lodge, Hostal Español dead UA, Nomades, Patagonia House)</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Est. revenue lost</span><span class="value red">-$520,000/year</span></div>
+      <div class="market-metric"><span class="label">NWM opportunity</span><span class="value brand">3 clients × $997 = $35,892 ARR</span></div>
+      <div class="solution-box">
+        <h5>Priority targets</h5>
+        <ul>
+          <li><strong>Cinco Rios Lodge</strong> — best positioned, $10K+ clients, needs CRM desperately. $1,997/mo fractional CMO</li>
+          <li><strong>El Reloj Hotel</strong> — 35 years zero analytics. "Since 1991, zero data. We install GA4 + direct booking in 72 hours. $997/mo"</li>
+          <li><strong>Hostal Español</strong> — dead UA + empty FB SDK + good booking tech. "Unlock 3 years of blind data. $497/mo"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="market-card">
+      <h3><span class="icon">🍽️</span> Restaurants (10 businesses)</h3>
+      <div class="market-metric"><span class="label">No website</span><span class="value red">7 (70%!) — HIGHEST restaurant no-website rate across 17 cities!</span></div>
+      <div class="market-metric"><span class="label">Platform redirect</span><span class="value red">1 (Mamma Gaucha → tropera.cl)</span></div>
+      <div class="market-metric"><span class="label">Gmail/No email</span><span class="value red">8 (all 7 no-website + D'Olbek no email)</span></div>
+      <div class="market-metric"><span class="label">No booking</span><span class="value red">8 (only Mamma Gaucha Woki + D'Olbek Typeform)</span></div>
+      <div class="market-metric"><span class="label">Zero SEO/Analytics</span><span class="value red">7 (all no-website restaurants)</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Est. revenue lost</span><span class="value red">-$510,000/year</span></div>
+      <div class="market-metric"><span class="label">NWM opportunity</span><span class="value brand">3 clients × $997 = $35,892 ARR</span></div>
+      <div class="solution-box">
+        <h5>Priority targets</h5>
+        <ul>
+          <li><strong>Casa Ciprés</strong> — #1 TripAdvisor 4.8★, NO website. "You're the best restaurant in Coyhaique with no website. We fix that in 7 days. $497/mo"</li>
+          <li><strong>Casino de Bomberos</strong> — rebuilt after arson fire, 413 reviews, "Best Picada." "Your resilience story is incredible. Let's tell it online. $497/mo"</li>
+          <li><strong>Mamma Gaucha</strong> — 1,453 reviews, GA4+FB Pixel, redirects to platform. "Own your domain again + CRM for your 1,453 reviewers. $997/mo"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="market-card">
+      <h3><span class="icon">🏥</span> Health (10 businesses)</h3>
+      <div class="market-metric"><span class="label">Dead sites</span><span class="value red">1 (Clínica Bilbao ECONNREFUSED)</span></div>
+      <div class="market-metric"><span class="label">No website</span><span class="value red">5 (Polux AgendaPro only, Odontología Sur, Cruz Azul, El Coirón 24hr, Vet Aysén, Vet San Francisco)</span></div>
+      <div class="market-metric"><span class="label">Gmail/No email</span><span class="value red">8 (Condell Gmail, Bilbao dead, 6 no-website no email)</span></div>
+      <div class="market-metric"><span class="label">No booking</span><span class="value red">6 (Queulat, Bilbao dead, Odontología Sur, El Coirón, Vet Aysén, Vet San Francisco)</span></div>
+      <div class="market-metric"><span class="label">Zero SEO/Analytics</span><span class="value red">8 (Queulat, Condell, VetCoy zero analytics + 5 no website)</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Est. revenue lost</span><span class="value red">-$490,000/year</span></div>
+      <div class="market-metric"><span class="label">NWM opportunity</span><span class="value brand">2 clients × $997 = $23,928 ARR</span></div>
+      <div class="solution-box">
+        <h5>Priority targets</h5>
+        <ul>
+          <li><strong>Clínica Veterinaria El Coirón</strong> — 24-hour emergency vet, NO website. "Pets have emergencies at 3am. You need to be found. Emergency vet website + Google Ads in 7 days. $497/mo"</li>
+          <li><strong>VetCoy</strong> — best vet site, zero analytics. "You built a great site with pricing. Now let's track who visits and convert them. GA4 + CRM. $497/mo"</li>
+          <li><strong>Clínica Queulat</strong> — 15+ years, no analytics, no email, no booking. "15 years of medical practice, zero digital infrastructure. Full stack in 14 days. $997/mo"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="market-card">
+      <h3><span class="icon">💇</span> Beauty (10 businesses)</h3>
+      <div class="market-metric"><span class="label">Dead sites</span><span class="value red">1 (Escobar Peluqueros — ONLY .com, DEAD!)</span></div>
+      <div class="market-metric"><span class="label">No website</span><span class="value red">8 (80%! + OCA on Wix free subdomain = 90% effectively invisible)</span></div>
+      <div class="market-metric"><span class="label">Gmail/No email</span><span class="value red">10 (100% — no beauty business has professional email!)</span></div>
+      <div class="market-metric"><span class="label">No booking</span><span class="value red">9 (only OCA has partial Wix booking)</span></div>
+      <div class="market-metric"><span class="label">Zero SEO/Analytics</span><span class="value red">10 (100% — not a single beauty business has analytics!)</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Est. revenue lost</span><span class="value red">-$530,000/year</span></div>
+      <div class="market-metric"><span class="label">NWM opportunity</span><span class="value brand">2 clients × $997 = $23,928 ARR</span></div>
+      <div class="solution-box">
+        <h5>Priority targets</h5>
+        <ul>
+          <li><strong>Peluquería OCA</strong> — 30+ years on Wix FREE subdomain. "30 years of reputation on wixsite.com. We register peluqueriaoca.cl and build your real site in 7 days. $497/mo"</li>
+          <li><strong>Luxus Barber Studio</strong> — 1,059 IG followers, no website. "1,059 followers with nowhere to book. Website + booking in 7 days. $497/mo"</li>
+          <li><strong>Escobar Peluqueros</strong> — only beauty .com in Coyhaique, DEAD. "You invested in the only .com domain. Let's bring it back to life. $497/mo"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== MASTER SUMMARY TABLE ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">📊</span> Master Gap Summary Table</h2>
+  <p class="section-sub">All 8 gaps ranked by severity with total revenue impact across Coyhaique's 40 businesses.</p>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Gap</th>
+        <th>Severity</th>
+        <th>Businesses Affected</th>
+        <th>% of 40</th>
+        <th>Loss/Business/Year</th>
+        <th>Total Annual Loss</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Dead / SSL Error / Broken</td>
+        <td class="red">CRITICAL</td>
+        <td>4</td>
+        <td>10%</td>
+        <td class="red">-$50,000</td>
+        <td class="red">-$200,000</td>
+      </tr>
+      <tr>
+        <td>No Website</td>
+        <td class="red">CRITICAL</td>
+        <td>17</td>
+        <td>42.5%</td>
+        <td class="red">-$37,000</td>
+        <td class="red">-$629,000</td>
+      </tr>
+      <tr>
+        <td>Gmail / No Email</td>
+        <td class="red">CRITICAL</td>
+        <td>28</td>
+        <td>70%</td>
+        <td class="red">-$17,000</td>
+        <td class="red">-$476,000</td>
+      </tr>
+      <tr>
+        <td>No Online Booking</td>
+        <td class="red">CRITICAL</td>
+        <td>26</td>
+        <td>65%</td>
+        <td class="red">-$30,000</td>
+        <td class="red">-$780,000</td>
+      </tr>
+      <tr>
+        <td>Platform Misuse / Outdated / Free Subdomain</td>
+        <td style="color:var(--yellow);font-weight:700">HIGH</td>
+        <td>5</td>
+        <td>12.5%</td>
+        <td class="red">-$29,000</td>
+        <td class="red">-$145,000</td>
+      </tr>
+      <tr>
+        <td>No/Weak Social Media</td>
+        <td style="color:var(--yellow);font-weight:700">HIGH</td>
+        <td>18</td>
+        <td>45%</td>
+        <td class="red">-$23,000</td>
+        <td class="red">-$414,000</td>
+      </tr>
+      <tr>
+        <td>Zero SEO / Dead Analytics</td>
+        <td style="color:var(--yellow);font-weight:700">HIGH</td>
+        <td>28</td>
+        <td>70%</td>
+        <td class="red">-$32,000</td>
+        <td class="red">-$896,000</td>
+      </tr>
+      <tr>
+        <td>No CRM / Customer Data</td>
+        <td class="red">CRITICAL</td>
+        <td>39</td>
+        <td>97.5%</td>
+        <td class="red">-$28,000</td>
+        <td class="red">-$1,092,000</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="color:var(--muted);font-size:0.85rem;margin-top:12px;"><em>Note: Revenue losses overlap — a single business typically has 3-5 gaps. The $2.05M headline figure accounts for overlap deduplication and Coyhaique's market dynamics (Carretera Austral gateway tourism, fly-fishing capital, Marble Caves/Queulat glacier adventure tourism, international angler economy). Individual gap totals sum higher because the same revenue can be attributed to multiple gaps. Coyhaique's unique distinctions: HIGHEST restaurant no-website rate (70% across 17 cities), #1 TripAdvisor restaurant NO website, 90% beauty invisible, 24-hour emergency vet NO website, DA Hotels SSL 4th city, SELF-SIGNED SSL (unique across 680 businesses), 30-year salon on Wix FREE subdomain, only beauty .com DEAD, fly-fishing lodges ($10K+ clients) ZERO analytics, 35-year hotel ZERO analytics, rebuilt-after-arson restaurant NO website, Lonely Planet featured cafe NO website, only vegan restaurant monopoly invisible, Carretera Austral gateway paradox.</em></p>
+</section>
+
+<!-- ========== OPPORTUNITY SIZING ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">💰</span> Revenue Recovery Opportunity for NetWebMedia</h2>
+  <p class="section-sub">If NetWebMedia closes just 25% of these 40 prospects (10 clients) at an average of $997/mo, here's the math:</p>
+
+  <div class="market-grid">
+    <div class="mega-stat">
+      <div class="num brand">10</div>
+      <div class="label">Clients at 25% Close Rate</div>
+    </div>
+    <div class="mega-stat">
+      <div class="num brand">$997</div>
+      <div class="label">Average Monthly Retainer</div>
+    </div>
+    <div class="mega-stat">
+      <div class="num green">$9,970</div>
+      <div class="label">Monthly Recurring Revenue</div>
+    </div>
+    <div class="mega-stat">
+      <div class="num green">$119,640</div>
+      <div class="label">Annual Recurring Revenue</div>
+    </div>
+  </div>
+
+  <div class="gap-card" style="margin-top:24px;">
+    <div class="gap-header">
+      <h3>📈 Revenue Recovery vs. Investment</h3>
+    </div>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Tourism (3 clients)</th>
+          <th>Restaurants (3 clients)</th>
+          <th>Health (2 clients)</th>
+          <th>Beauty (2 clients)</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Client pays NWM/year</td>
+          <td>$35,892</td>
+          <td>$35,892</td>
+          <td>$23,928</td>
+          <td>$23,928</td>
+          <td class="brand">$119,640</td>
+        </tr>
+        <tr>
+          <td>Revenue recovered for client/year</td>
+          <td>$155,000</td>
+          <td>$112,000</td>
+          <td>$96,000</td>
+          <td>$108,000</td>
+          <td class="green">$471,000</td>
+        </tr>
+        <tr>
+          <td>Client ROI</td>
+          <td class="green">4.3x</td>
+          <td class="green">3.1x</td>
+          <td class="green">4.0x</td>
+          <td class="green">4.5x</td>
+          <td class="green">3.9x avg</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="color:var(--muted);font-size:0.9rem;margin-top:12px;">Every $1 the client invests in NetWebMedia recovers <strong style="color:var(--green);">$3.90 in previously lost revenue</strong>. #1 restaurant pitch: "Casa Ciprés — you're the #1 restaurant in Coyhaique with 4.8★ and NO website. Tourists searching 'best restaurant Coyhaique' can't find you. We build your site with reservations in 7 days. $497/mo." Fly-fishing pitch: "Cinco Rios — your clients spend $10,000+ per trip. You have zero CRM to track them. One repeat client pays for a year of our service. CRM + direct booking. $997/mo." Emergency vet pitch: "El Coirón — you're the only 24-hour emergency vet in Coyhaique. Pets have emergencies at 3am. Their owners search 'emergency vet Coyhaique' and find nothing. We build your site + Google Ads in 72 hours. $497/mo." 30-year salon pitch: "Peluquería OCA — 30 years of reputation on a free Wix subdomain. We register peluqueriaoca.cl and build a professional site with booking. $497/mo." Arson recovery pitch: "Casino de Bomberos — you rebuilt after a fire that destroyed everything. 413 reviews. That's the most powerful brand story in Coyhaique. Let's tell it online. $497/mo." Analytics pitch: "El Reloj Hotel — since 1991, 35 years, zero analytics. We install GA4 + direct booking in 72 hours. $997/mo."</p>
+  </div>
+</section>
+
+<!-- ========== CROSS-CITY COMPARISON ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">⚖️</span> Cross-City Gap Comparison: All 17 Markets Analyzed</h2>
+  <p class="section-sub">How Coyhaique's digital gaps compare across all seventeen cities analyzed — revealing that this Carretera Austral gateway has the HIGHEST restaurant no-website rate (70%), the only SELF-SIGNED SSL certificate across 680 businesses, DA Hotels SSL confirmed in a 4TH city, #1 TripAdvisor restaurant with NO website, 90% beauty sector invisible, 24-hour emergency vet with NO website, 30-year salon on Wix FREE subdomain, fly-fishing lodges ($10K+ clients) with ZERO analytics, and the Carretera Austral gateway paradox. Now covering 680 businesses across 17 Chilean cities with a combined $35.12M in annual revenue lost.</p>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Coyhaique (40)</th>
+        <th>Santiago (40)</th>
+        <th>Valparaiso (40)</th>
+        <th>Antofagasta (40)</th>
+        <th>Iquique (40)</th>
+        <th>La Serena (40)</th>
+        <th>Rancagua (40)</th>
+        <th>Concepcion (40)</th>
+        <th>Temuco (40)</th>
+        <th>P. Montt (40)</th>
+        <th>Arica (40)</th>
+        <th>Copiapo (40)</th>
+        <th>Talca (40)</th>
+        <th>Chillan (40)</th>
+        <th>Osorno (40)</th>
+        <th>Valdivia (40)</th>
+        <th>P. Arenas (40)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Total estimated annual loss</td>
+        <td class="red">$2.05M</td>
+        <td class="red">$2.4M</td>
+        <td class="red">$2.1M</td>
+        <td class="red">$2.2M</td>
+        <td class="red">$2.1M</td>
+        <td class="red">$1.82M</td>
+        <td class="red">$1.95M</td>
+        <td class="red">$1.9M</td>
+        <td class="red">$2.0M</td>
+        <td class="red">$2.05M</td>
+        <td class="red">$2.15M</td>
+        <td class="red">$2.1M</td>
+        <td class="red">$1.95M</td>
+        <td class="red">$2.0M</td>
+        <td class="red">$2.1M</td>
+        <td class="red">$2.05M</td>
+        <td class="red">$2.2M</td>
+      </tr>
+      <tr>
+        <td>Average loss per business/year</td>
+        <td class="red">$51,250</td>
+        <td class="red">$60,000</td>
+        <td class="red">$52,500</td>
+        <td class="red">$55,000</td>
+        <td class="red">$52,500</td>
+        <td class="red">$45,500</td>
+        <td class="red">$48,750</td>
+        <td class="red">$47,500</td>
+        <td class="red">$50,000</td>
+        <td class="red">$51,250</td>
+        <td class="red">$53,750</td>
+        <td class="red">$52,500</td>
+        <td class="red">$48,750</td>
+        <td class="red">$50,000</td>
+        <td class="red">$52,500</td>
+        <td class="red">$51,250</td>
+        <td class="red">$55,000</td>
+      </tr>
+      <tr>
+        <td>No website</td>
+        <td class="red">17 (42.5%)</td>
+        <td>5 (12.5%)</td>
+        <td>6 (15%)</td>
+        <td>7 (17.5%)</td>
+        <td>8 (20%)</td>
+        <td class="red">17 (42.5%)</td>
+        <td class="red">11 (27.5%)</td>
+        <td>6 (15%)</td>
+        <td>7 (17.5%)</td>
+        <td>6 (15%)</td>
+        <td class="red">15 (37.5%)</td>
+        <td class="red">12 (30%)</td>
+        <td class="red">12 (30%)</td>
+        <td class="red">14 (35%)</td>
+        <td class="red">13 (32.5%)</td>
+        <td class="red">12 (30%)</td>
+        <td class="red">10 (25%)</td>
+      </tr>
+      <tr>
+        <td>Broken/down/SSL sites</td>
+        <td>4 (10%)</td>
+        <td>1 (2.5%)</td>
+        <td>2 (5%)</td>
+        <td>5 (12.5%)</td>
+        <td class="red">6 (15%)</td>
+        <td>2 (5%)</td>
+        <td class="red">8 (20%)</td>
+        <td>1 (2.5%)</td>
+        <td class="red">6 (15%)</td>
+        <td class="red">5 (12.5%)</td>
+        <td>3 (7.5%)</td>
+        <td class="red">7 (17.5%)</td>
+        <td>2 (5%)</td>
+        <td class="red">5 (12.5%)</td>
+        <td class="red">6 (15%)</td>
+        <td>4 (10%)</td>
+        <td class="red">8 (20%) HIGHEST!</td>
+      </tr>
+      <tr>
+        <td>Gmail/Hotmail/personal / no email</td>
+        <td class="red">28 (70%)</td>
+        <td>20 (50%)</td>
+        <td>22 (55%)</td>
+        <td class="red">26 (65%)</td>
+        <td>22 (55%)</td>
+        <td>22 (55%)</td>
+        <td class="red">28 (70%)</td>
+        <td>18 (45%)</td>
+        <td>24 (60%)</td>
+        <td>21 (52.5%)</td>
+        <td class="red">26 (65%)</td>
+        <td class="red">26 (65%)</td>
+        <td class="red">26 (65%)</td>
+        <td class="red">28 (70%)</td>
+        <td class="red">27 (67.5%)</td>
+        <td class="red">25 (62.5%)</td>
+        <td class="red">27 (67.5%)</td>
+      </tr>
+      <tr>
+        <td>No online booking</td>
+        <td class="red">26 (65%)</td>
+        <td class="red">30 (75%)</td>
+        <td>28 (70%)</td>
+        <td>21 (52.5%)</td>
+        <td>22 (55%)</td>
+        <td>28 (70%)</td>
+        <td>25 (62.5%)</td>
+        <td>22 (55%)</td>
+        <td>22 (55%)</td>
+        <td>26 (65%)</td>
+        <td>26 (65%)</td>
+        <td class="red">27 (67.5%)</td>
+        <td class="red">29 (72.5%)</td>
+        <td class="red">28 (70%)</td>
+        <td class="red">26 (65%)</td>
+        <td>22 (55%)</td>
+        <td>24 (60%)</td>
+      </tr>
+      <tr>
+        <td>No SEO strategy</td>
+        <td class="red">28 (70%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td>33 (82.5%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">35 (87.5%)</td>
+        <td>33 (82.5%)</td>
+        <td>27 (67.5%)</td>
+        <td class="red">27 (67.5%)</td>
+        <td>24 (60%)</td>
+        <td class="red">26 (65%)</td>
+      </tr>
+      <tr>
+        <td>No CRM</td>
+        <td class="red">39 (97.5%)</td>
+        <td>36 (90%)</td>
+        <td>36 (90%)</td>
+        <td class="red">38 (95%)</td>
+        <td>37 (92.5%)</td>
+        <td class="red">38 (95%)</td>
+        <td>37 (92.5%)</td>
+        <td>36 (90%)</td>
+        <td class="red">38 (95%)</td>
+        <td>37 (92.5%)</td>
+        <td>37 (92.5%)</td>
+        <td>37 (92.5%)</td>
+        <td class="red">40 (100%)</td>
+        <td class="red">40 (100%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td class="red">39 (97.5%)</td>
+      </tr>
+      <tr>
+        <td>Unique vulnerability</td>
+        <td class="red">70% restaurants no site (HIGHEST!) + self-signed SSL + 24hr vet invisible + 30yr salon free Wix + $10K lodge no CRM</td>
+        <td class="red">95% no SEO in biggest market</td>
+        <td class="red">100% health = no booking</td>
+        <td class="red">5 broken sites + Wix FREE dental</td>
+        <td class="red">3 SSL errors on 1 beach strip</td>
+        <td class="red">42.5% = no website at all</td>
+        <td class="red">4 dead servers + 6/10 rest. no site</td>
+        <td class="red">24hr ER vet with NO website</td>
+        <td class="red">60% restaurants no website</td>
+        <td class="red">24hr ER vet 403 + barber email TYPO</td>
+        <td class="red">2 DOUBLE FAILURES + 50yr HOTMAIL</td>
+        <td class="red">7 broken (HIGHEST!) + tech paradox + first CRM</td>
+        <td class="red">100% NO CRM (FIRST!) + 3yr blind ads + L'Oreal no site</td>
+        <td class="red">#1 TripAdvisor no site + 5 error types + raw IP vet + CAPI+Gmail</td>
+        <td class="red">40% tourism dead + Sonesta 403 + UENIWEB injection</td>
+        <td class="red">Owner name Gmail + 9-city chain blind + raw PHP + 80% beauty no site</td>
+        <td class="red">#1 hotel BOTH dead + domain sold + for sale + dentalcare theme + 50% health dead</td>
+      </tr>
+      <tr>
+        <td>NWM opportunity (10 clients)</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+      </tr>
+      <tr>
+        <td>Client ROI</td>
+        <td class="green">3.9x</td>
+        <td class="green">4.9x</td>
+        <td class="green">4.6x</td>
+        <td class="green">4.6x</td>
+        <td class="green">4.4x</td>
+        <td class="green">3.9x</td>
+        <td class="green">4.1x</td>
+        <td class="green">4.0x</td>
+        <td class="green">4.2x</td>
+        <td class="green">4.3x</td>
+        <td class="green">4.5x</td>
+        <td class="green">4.4x</td>
+        <td class="green">4.1x</td>
+        <td class="green">4.2x</td>
+        <td class="green">4.4x</td>
+        <td class="green">4.3x</td>
+        <td class="green">4.5x</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="gap-card" style="margin-top:24px;">
+    <div class="gap-header">
+      <h3>🔎 Cross-City Pattern Analysis — FINAL: 17 Cities Complete</h3>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>Universal patterns (all 17 cities)</h4>
+        <ul>
+          <li><strong>SEO is dead everywhere</strong> — 60-97.5% of businesses across all 17 cities have zero SEO strategy. The pattern holds from Arica to Coyhaique — spanning the entire length of Chile from the Peruvian border to Patagonia</li>
+          <li><strong>CRM adoption is near zero</strong> — 90-100% have no customer data system. Talca + Chillán at 100%, Coyhaique + Punta Arenas + Osorno + Valdivia at 97.5%. Across 680 businesses, fewer than 10 have any CRM-adjacent tools</li>
+          <li><strong>Booking systems are absent</strong> — 52-75% can't take online bookings across all 17 cities</li>
+          <li><strong>Email professionalism is low</strong> — 45-70% use Gmail/Hotmail or have no email. Coyhaique tied with Rancagua and Chillán at 70%</li>
+          <li><strong>Total across 680 businesses: $35.12M in annual revenue lost</strong></li>
+          <li><strong>DA Hotels chain-wide SSL failure: now confirmed in 4 cities</strong> — Osorno, Valdivia, Punta Arenas, Coyhaique. A national hotel chain with browser security warnings at minimum 4 properties</li>
+        </ul>
+        <h4>Coyhaique-specific findings</h4>
+        <ul>
+          <li><strong>HIGHEST RESTAURANT NO-WEBSITE RATE across ALL 17 cities: 70% (7 of 10)</strong>. Casa Ciprés (#1 TripAdvisor 4.8★), Aiken (#3 4.6★ Patagonian lamb), Casino de Bomberos (#7 rebuilt after arson), Café Confluencia (Lonely Planet featured), Lito's (seafood), Indian Stone (ONLY vegan, monopoly niche), Adobe (#10 brew pub), La Casona (#8 322 reviews). Seven restaurants — most of them highly rated — have ZERO web presence. Coyhaique's restaurant scene is the most digitally invisible in the entire 17-city study</li>
+          <li><strong>#1 TRIPADVISOR RESTAURANT HAS NO WEBSITE — Casa Ciprés 4.8★</strong>. The absolute best restaurant in Coyhaique, rated #1 on TripAdvisor with 4.8 stars, has no website, no email, no booking system. Only a Facebook page. International tourists searching "best restaurant Coyhaique" cannot find the best restaurant in Coyhaique. The most ironic no-website case in the study</li>
+          <li><strong>SELF-SIGNED SSL CERTIFICATE — unique across ALL 680 businesses in 17 cities</strong>. Hotel Belisario Jara (belisariojara.cl) has a self-signed SSL certificate. Not expired, not missing, not misconfigured chain — self-signed. Someone intentionally generated and installed a certificate that no browser will trust. Every visitor sees "Your connection is not private." The ONLY self-signed cert across the entire 680-business study. A unique failure mode</li>
+          <li><strong>DA HOTELS SSL — 4TH CITY CONFIRMED</strong>. dahoteles.com now has SSL certificate errors in Osorno, Valdivia, Punta Arenas, AND Coyhaique. A national hotel chain with browser security warnings in at least 4 Chilean cities. The chain-wide failure continues to grow. Every new southern city we analyze adds another DA Hotels SSL error</li>
+          <li><strong>90% BEAUTY SECTOR INVISIBLE — 8 no website + 1 dead + 1 Wix free subdomain</strong>. Only Peluquería OCA has any web presence (on a free Wix subdomain that can't rank). Escobar Peluqueros — the ONLY beauty business that invested in a .com domain — is DEAD. 100% have no professional email. 100% have zero analytics. The most devastated beauty sector across all 17 cities</li>
+          <li><strong>24-HOUR EMERGENCY VET (El Coirón) NO WEBSITE — LIVES AT STAKE</strong>. Clínica Veterinaria El Coirón offers 24-hour emergency service at Héctor Monreal 268. The only 24-hour emergency vet in Coyhaique has no website, no email, no booking. Pet emergencies at 3am — owners search "emergency vet Coyhaique" and find nothing. Previously found in Concepción and Puerto Montt: emergency vets invisible. The pattern persists in Patagonia</li>
+          <li><strong>30-YEAR SALON ON WIX FREE SUBDOMAIN — most dramatic free-tier case</strong>. Peluquería OCA: 30+ years in business, operating at peluqueriacoyhaique.wixsite.com/oca. Three decades of reputation, zero domain equity. Can't rank in Google because wixsite.com subdomains have near-zero SEO value. The longest-running business on a free subdomain across all 17 cities</li>
+          <li><strong>ONLY BEAUTY .COM DOMAIN IS DEAD — the irony</strong>. Escobar Peluqueros (escobarpeluqueros.com) invested in the only .com domain in Coyhaique's beauty sector. It's ECONNREFUSED dead. The one business that tried to establish real web presence has the worst possible outcome — dead server. Meanwhile, the others never tried at all</li>
+          <li><strong>FLY-FISHING LODGES ($10K+ CLIENTS) ZERO ANALYTICS</strong>. Cinco Rios Lodge: Squarespace + GA4 (the ONLY lodge with analytics), but no CRM for $10,000-$15,000 per-client revenue. Coyhaique River Lodge: ZERO analytics + bookings via US intermediary (Frontiers International Travel). Premium lodges serving the world's wealthiest fly-fishing tourists — one has partial analytics, the other has zero. The highest per-client-revenue businesses in the 680-business study with the least customer data infrastructure</li>
+          <li><strong>EL RELOJ HOTEL: 35 YEARS, ZERO ANALYTICS</strong>. Since 1991, WP + Divi + Schema.org markup (WebPage, BreadcrumbList, WebSite, ImageObject). Beautiful Schema.org implementation tracking absolutely nothing. 35 years of hospitality operation with not a single analytics tag ever installed. The longest analytics gap for an active website in the entire study</li>
+          <li><strong>HOSTAL ESPAÑOL: DEAD UA ~3 YEARS + EMPTY FB SDK + GOOD BOOKING TECH</strong>. UA-186305590-1 dead since Google sunset July 2023. FB SDK app_id configured but EMPTY (never connected). Yet has Octopus24 booking API + Flow.cl + Webpay + MPHB hotel booking. The most sophisticated booking stack in Coyhaique paired with completely dead analytics. 3 years of bookings processed through professional tools with zero visibility into web traffic. Best commerce infrastructure + worst analytics in the same property</li>
+          <li><strong>CASINO DE BOMBEROS: REBUILT AFTER ARSON FIRE, NO WEBSITE</strong>. Destroyed by intentional fire, reopened July 2024. 413 reviews 4.0★, "Best Picada" 218 votes. An incredible resilience story — the most dramatic business backstory across all 17 cities — with zero digital presence to tell it. The rebuild deserves a website that tells the story</li>
+          <li><strong>CAFÉ CONFLUENCIA: LONELY PLANET FEATURED, NO WEBSITE</strong>. Featured in international travel guides. 21 de Mayo 544. International tourists read about it in Lonely Planet, search for it online, find nothing. A rare international press mention completely wasted without a website to capture the traffic</li>
+          <li><strong>INDIAN STONE VEGANO: ONLY VEGAN IN COYHAIQUE, MONOPOLY INVISIBLE</strong>. The sole vegan restaurant in the city — a literal monopoly. Growing health-conscious tourist traffic. Zero web presence. A monopoly niche that doesn't know it's a monopoly. The most wasted competitive advantage in the restaurant sector</li>
+          <li><strong>CARRETERA AUSTRAL GATEWAY PARADOX</strong>. International adventure tourists and fly-fishing anglers ($5K-$15K per trip) arrive for the Carretera Austral, Marble Caves, Queulat Hanging Glacier, and world-class rivers. They find: #1 restaurant no website, 70% restaurants invisible, fly-fishing lodges with zero analytics, 24-hour emergency vet invisible, 90% beauty invisible, self-signed SSL on a hotel, DA Hotels SSL 4th city. World-class adventure destination, catastrophic digital infrastructure. Pre-trip planners searching from Portland, Munich, and Melbourne find dead servers, no websites, and Gmail addresses</li>
+          <li><strong>Cinco Rios Lodge: BEST POSITIONED overall</strong> — Squarespace + GA4 + FB App ID + reCAPTCHA Enterprise + IG/YouTube/FB. USD currency, NY timezone targeting. The benchmark. But no CRM for $10K+ clients, no direct booking engine. The best can't retain its highest-value customers</li>
+          <li><strong>Mamma Gaucha: BEST POSITIONED restaurant</strong> — GA4 + FB Pixel + PixelYourSite + MonsterInsights + Woki reservations + PedidosYa. 1,453 reviews. But redirects to tropera.cl platform, shared analytics, no CRM. The best restaurant tech stack but domain identity absorbed by a platform</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Revenue Recovery Across All 17 Cities — FINAL</h4>
+        <div class="loss-line"><span class="desc">Total annual revenue lost (680 businesses)</span><span class="amount" style="color:var(--red)">-$35.12M</span></div>
+        <div class="loss-line"><span class="desc">Recoverable with NWM services (70%)</span><span class="amount" style="color:var(--green)">$24.58M</span></div>
+        <div class="loss-line"><span class="desc">NWM ARR at 25% close (170 clients)</span><span class="amount" style="color:var(--brand)">$2,033,880</span></div>
+        <div class="loss-total"><span class="desc">Cumulative client ROI</span><span class="amount" style="color:var(--green)">4.2x average</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p style="color:var(--muted);font-size:0.85rem;margin-top:12px;"><em>Coyhaique is the Carretera Austral gateway paradox: <strong>HIGHEST restaurant no-website rate across 17 cities (70%), #1 TripAdvisor restaurant NO website (4.8★ Casa Ciprés), SELF-SIGNED SSL certificate (unique across 680 businesses), DA Hotels SSL confirmed in 4TH city (Osorno+Valdivia+PA+Coyhaique), 90% beauty invisible (8 no website + 1 dead + 1 free subdomain), 24-hour emergency vet NO website (pets' lives at stake), 30-year salon on Wix FREE subdomain (longest free-tier case), only beauty .com DEAD (ironic), fly-fishing lodges ($10K+ clients) ZERO analytics (highest per-client revenue, zero data), 35-year hotel ZERO analytics (longest analytics gap), dead UA + empty FB SDK + good booking tech (best commerce + worst analytics), Casino de Bomberos rebuilt after arson fire NO website (most dramatic backstory), Café Confluencia Lonely Planet featured NO website, Indian Stone Vegano monopoly niche invisible, and international adventure tourists + fly-fishing anglers arriving for world-class experiences finding dead servers and no-website restaurants</strong>. This completes the 17-city, 680-business study. #1 restaurant pitch: "Casa Ciprés — #1 in Coyhaique, 4.8★, no website. $497/mo." Fly-fishing pitch: "Cinco Rios — $10K clients, no CRM. One repeat client = one year of our service. $997/mo." Emergency vet pitch: "El Coirón — 24-hour vet, invisible. Pets die when you can't be found. $497/mo." 30-year salon pitch: "OCA — 30 years on a free subdomain. $497/mo." Arson recovery pitch: "Casino de Bomberos — rebuilt after fire, 413 reviews. Your story needs a website. $497/mo."</em></p>
+</section>
+
+<!-- ========== CTA ========== -->
+<div class="cta-section">
+  <h2>These 40 Coyhaique Businesses Are <span>Losing $2.05M Every Year</span></h2>
+  <p>Chile's Aysén Region capital. Carretera Austral gateway. Fly-fishing capital of South America. Gateway to Marble Caves and Queulat Hanging Glacier. Yet the #1 restaurant has no website, 70% of restaurants are invisible, 90% of beauty businesses can't be found, the 24-hour emergency vet is invisible, fly-fishing lodges hosting $10K+ clients have zero analytics, a 30-year salon runs on a free Wix subdomain, a hotel has a self-signed SSL certificate, and 97.5% have no CRM. International anglers and adventure tourists fly in from around the world — and the gateway city can't be found online.</p>
+  <a href="coyhaique-prospects-report.html" class="cta-btn">View Full Prospect List with Contact Details &rarr;</a>
+</div>
+
+</div>
+
+<footer class="report-footer">
+  <div class="container">
+    <p>&copy; 2026 NetWebMedia — AI Marketing Agency &bull; <a href="https://netwebmedia.com" style="color:var(--brand);text-decoration:none;">netwebmedia.com</a></p>
+    <p style="margin-top:8px;">This report contains proprietary sales intelligence. Not for distribution.</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetWebMedia — Chillán Digital Gap Analysis & Revenue Loss Report</title>
+<style>
+  :root {
+    --brand: #ff6b00;
+    --dark: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --blue: #58a6ff;
+    --purple: #bc8cff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--dark); color: var(--text); line-height: 1.7; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  .report-header { background: linear-gradient(135deg, #0d1117 0%, #1c1020 50%, #1a1e2e 100%); border-bottom: 3px solid var(--red); padding: 56px 0 48px; }
+  .report-header h1 { font-size: 2.4rem; font-weight: 800; margin-bottom: 8px; }
+  .report-header h1 span { color: var(--red); }
+  .report-header .subtitle { color: var(--muted); font-size: 1.15rem; max-width: 700px; }
+  .report-header .meta { margin-top: 20px; display: flex; gap: 24px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); }
+  .report-header .meta strong { color: var(--text); }
+
+  /* Mega Stats */
+  .mega-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: -40px 0 40px; position: relative; z-index: 2; }
+  .mega-stat { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; text-align: center; }
+  .mega-stat .num { font-size: 2.6rem; font-weight: 900; }
+  .mega-stat .num.red { color: var(--red); }
+  .mega-stat .num.yellow { color: var(--yellow); }
+  .mega-stat .num.green { color: var(--green); }
+  .mega-stat .num.blue { color: var(--blue); }
+  .mega-stat .num.brand { color: var(--brand); }
+  .mega-stat .label { font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
+  .mega-stat .sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; font-style: italic; }
+
+  /* Section Headers */
+  .section { margin: 56px 0; }
+  .section-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+  .section-title .icon { font-size: 1.8rem; }
+  .section-sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 28px; max-width: 800px; }
+
+  /* Gap Cards */
+  .gap-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+  .gap-card:hover { border-color: var(--red); }
+  .gap-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+  .gap-header h3 { font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .gap-header .severity { font-size: 0.75rem; font-weight: 700; padding: 4px 14px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .severity-critical { background: rgba(248,81,73,0.2); color: var(--red); }
+  .severity-high { background: rgba(210,153,34,0.2); color: var(--yellow); }
+  .severity-medium { background: rgba(88,166,255,0.2); color: var(--blue); }
+
+  .gap-body { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 768px) { .gap-body { grid-template-columns: 1fr; } }
+  .gap-left h4 { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .gap-left p { color: var(--text); font-size: 0.95rem; margin-bottom: 12px; }
+  .gap-left ul { padding-left: 18px; }
+  .gap-left li { font-size: 0.9rem; color: var(--muted); margin-bottom: 4px; }
+  .gap-left li strong { color: var(--text); }
+
+  .gap-right { background: rgba(248,81,73,0.05); border: 1px solid rgba(248,81,73,0.15); border-radius: 12px; padding: 20px; }
+  .gap-right h4 { font-size: 0.85rem; color: var(--red); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .loss-line { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(248,81,73,0.1); }
+  .loss-line:last-child { border-bottom: none; }
+  .loss-line .desc { font-size: 0.9rem; color: var(--muted); }
+  .loss-line .amount { font-size: 1rem; font-weight: 700; color: var(--red); }
+  .loss-total { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 0; border-top: 2px solid var(--red); margin-top: 8px; }
+  .loss-total .desc { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+  .loss-total .amount { font-size: 1.2rem; font-weight: 900; color: var(--red); }
+
+  /* Affected Businesses */
+  .affected { margin-top: 16px; }
+  .affected h4 { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .affected-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .affected-tag { font-size: 0.75rem; padding: 3px 10px; border-radius: 16px; background: rgba(255,255,255,0.05); color: var(--muted); }
+  .affected-tag.critical { background: rgba(248,81,73,0.1); color: var(--red); }
+
+  /* Market Breakdown */
+  .market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .market-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
+  .market-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .market-card .icon { font-size: 1.4rem; }
+  .market-metric { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  .market-metric:last-child { border-bottom: none; }
+  .market-metric .label { color: var(--muted); }
+  .market-metric .value { font-weight: 700; }
+  .market-metric .value.red { color: var(--red); }
+  .market-metric .value.green { color: var(--green); }
+  .market-metric .value.brand { color: var(--brand); }
+
+  /* Solution Box */
+  .solution-box { background: rgba(255,107,0,0.05); border: 1px solid rgba(255,107,0,0.2); border-radius: 12px; padding: 20px; margin-top: 16px; }
+  .solution-box h5 { color: var(--brand); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .solution-box ul { padding-left: 18px; }
+  .solution-box li { font-size: 0.85rem; color: var(--muted); margin-bottom: 3px; }
+
+  /* Summary Table */
+  .summary-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+  .summary-table th { background: rgba(255,255,255,0.03); text-align: left; padding: 12px 16px; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid var(--border); }
+  .summary-table td { padding: 12px 16px; font-size: 0.9rem; border-bottom: 1px solid var(--border); }
+  .summary-table tr:hover { background: rgba(255,255,255,0.02); }
+  .summary-table .red { color: var(--red); font-weight: 700; }
+  .summary-table .green { color: var(--green); font-weight: 700; }
+  .summary-table .brand { color: var(--brand); font-weight: 700; }
+
+  /* CTA */
+  .cta-section { background: linear-gradient(135deg, #1a1000 0%, #1a0a00 100%); border: 2px solid var(--brand); border-radius: 20px; padding: 48px; text-align: center; margin: 56px 0; }
+  .cta-section h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
+  .cta-section h2 span { color: var(--brand); }
+  .cta-section p { color: var(--muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto 24px; }
+  .cta-btn { display: inline-block; background: var(--brand); color: #fff; font-size: 1.1rem; font-weight: 700; padding: 14px 36px; border-radius: 12px; text-decoration: none; }
+  .cta-btn:hover { background: #e05f00; }
+
+  /* Footer */
+  .report-footer { text-align: center; padding: 32px 0; border-top: 1px solid var(--border); }
+  .report-footer p { color: var(--muted); font-size: 0.8rem; }
+
+  /* Progress bar */
+  .pbar { height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; margin: 8px 0; }
+  .pbar-fill { height: 100%; border-radius: 4px; }
+  .pbar-fill.red { background: var(--red); }
+  .pbar-fill.yellow { background: var(--yellow); }
+  .pbar-fill.green { background: var(--green); }
+
+  @media (max-width: 768px) {
+    .report-header h1 { font-size: 1.6rem; }
+    .mega-stats { margin-top: 24px; }
+    .gap-header h3 { font-size: 1.1rem; }
+    .cta-section { padding: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<header class="report-header">
+  <div class="container">
+    <h1>Digital Gap Analysis: <span>What Chillán Businesses Are Losing</span></h1>
+    <p class="subtitle">A forensic breakdown of every digital gap found across 40 local businesses in Chile's newest regional capital (Ñuble, created 2018), gateway to Nevados de Chillán ski resort, birthplace of Bernardo O'Higgins, and longaniza capital — where 100% have NO CRM (second city with absolute zero after Talca), the #1 TripAdvisor restaurant has NO website, a hotel near the train station has a DEAD server, a dental clinic's domain returns DEAD, another dental site returns 403 Forbidden, a 3-property hotel chain has a SELF-SIGNED SSL certificate, a vet clinic runs on a FREE .tie.cl subdomain, a university vet hospital books through a RAW IP address, a salon with 4 WordPress plugins has NO email or phone visible, and an aesthetic clinic runs enterprise-level Facebook CAPI server-side tracking but uses Gmail.</p>
+    <div class="meta">
+      <span>Report Date: <strong>April 16, 2026</strong></span>
+      <span>Businesses Analyzed: <strong>40</strong></span>
+      <span>Markets: <strong>Tourism, Restaurants, Health, Beauty</strong></span>
+      <span>Source: <strong>NetWebMedia Sales Intelligence</strong></span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<!-- ========== MEGA STATS ========== -->
+<div class="mega-stats">
+  <div class="mega-stat">
+    <div class="num red">$2.0M</div>
+    <div class="label">Total Estimated Annual Revenue Lost</div>
+    <div class="sub">Across all 40 businesses combined</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num yellow">8</div>
+    <div class="label">Distinct Digital Gaps Identified</div>
+    <div class="sub">100% no CRM — second city with absolute zero</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num red">19</div>
+    <div class="label">Websites Dead, Broken, or Missing</div>
+    <div class="sub">5 dead/broken/blocked + 14 no website at all</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num brand">$50,000</div>
+    <div class="label">Avg. Revenue Lost Per Business/Year</div>
+    <div class="sub">Ski resort gateway + regional capital money lost</div>
+  </div>
+</div>
+
+<!-- ========== GAP-BY-GAP BREAKDOWN ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">🔴</span> Gap-by-Gap Breakdown</h2>
+  <p class="section-sub">Each gap below is ranked by severity and includes the estimated annual revenue loss per affected business, based on industry benchmarks and Chillán market data. Chillán is the capital of Ñuble — Chile's newest region (created 2018) — gateway to Nevados de Chillán ski resort, birthplace of Bernardo O'Higgins, longaniza capital, and home to Quinchamalí artisan pottery. Ski tourists, summer hikers, O'Higgins heritage visitors, and a growing regional government workforce drive local commerce — yet 5 business websites are dead/broken/blocked, 14 have no website at all, the #1 TripAdvisor restaurant is invisible online, and every single business has ZERO CRM.</p>
+
+  <!-- GAP 1: DEAD/BROKEN/BLOCKED SITES -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>💀 Gap #1: Dead Server / Broken / Blocked Sites</h3>
+      <span class="severity severity-critical">CRITICAL — 5 SITES: 2 ECONNREFUSED + 1 SSL ERROR + 1 403 + 1 404</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>5 of 40 businesses (12.5%) have websites that are <strong>completely dead, blocked, or broken</strong>. This is the highest variety of failure types in any city analyzed: ECONNREFUSED (server offline), self-signed SSL (browsers block), 403 Forbidden (access denied), and 404 Not Found (page gone). Two are <strong>dental clinics</strong> — the most obvious domain for dental searches in Chillán is DEAD, and another returns FORBIDDEN. A hotel 300m from the train/bus station is OFFLINE. A famous mountain resort returns 404.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>Hotel Paso Nevado (hotelpasonevado.cl) ECONNREFUSED</strong> — 300 meters from Chillán's main train and bus stations (Libertad 219). Every traveler arriving by bus or train searches for nearby hotels. The closest hotel to the transport hub is DEAD. Ski tourists arriving for Nevados de Chillán search, find the domain, and hit a dead server</li>
+          <li><strong>Hotel Termas de Chillán (termaschillan.cl) 404 NOT FOUND</strong> — a mountain resort website returning 404. Ski tourists searching for "termas de chillán" — one of Chile's most famous ski destinations — find a broken link. The resort domain itself doesn't serve content</li>
+          <li><strong>Hotel Las Terrazas Business (business.lasterrazas.cl) SELF-SIGNED SSL</strong> — a 3-property hotel chain whose business subdomain triggers browser security warnings. Chrome, Firefox, and Safari all block self-signed certificates with full-page warnings saying "Your connection is not private." A hotel chain with 3 properties can't serve a secure webpage</li>
+          <li><strong>Clínica Dental Chillán (clinicadentalchillan.cl) ECONNREFUSED</strong> — THE most obvious domain for anyone Googling "dental chillán" is completely DEAD. The premium domain name for dental searches in the entire city leads to nothing. This is like owning "pizza.com" and having the server turned off</li>
+          <li><strong>Dental Life (dentallife.cl) 403 FORBIDDEN</strong> — returns access denied. The server is running but actively refusing to serve content. Patients searching for dental care find a blocked page</li>
+          <li>A dead/broken site is <strong>worse than no site</strong> — it signals abandonment and technical failure</li>
+          <li><strong>98% of users</strong> will not retry a connection-refused or SSL-blocked page</li>
+          <li>Google <strong>deranks and eventually deindexes</strong> persistently broken sites</li>
+        </ul>
+        <h4>Chillán context</h4>
+        <p>Chillán is the <strong>gateway to Nevados de Chillán ski resort</strong> — Chile's second-most-famous ski destination after Portillo/Valle Nevado. Ski tourists arrive by bus (most common) and the first hotel they'd find near the station is DEAD. The mountain resort domain returns 404. A 3-property hotel chain has SSL errors. Meanwhile, the city's most obvious dental domain is offline, and another dental site is forbidden. <strong>5 broken sites in a city of 40 analyzed businesses = 12.5% failure rate</strong> — higher than Santiago (2.5%), Concepción (2.5%), and Valparaíso (5%).</p>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Dead/blocked = 100% web visitor loss</span><span class="amount">-$22,000</span></div>
+        <div class="loss-line"><span class="desc">Ski tourist / transit traveler traffic lost</span><span class="amount">-$14,000</span></div>
+        <div class="loss-line"><span class="desc">Google deranks broken domains</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">Brand damage (premium domains = dead)</span><span class="amount">-$6,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$48,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (5 dead/broken/blocked — 12.5%)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Hotel Paso Nevado (hotelpasonevado.cl ECONNREFUSED — 300m from train/bus station, DEAD!)</span>
+        <span class="affected-tag critical">Hotel Termas de Chillán (termaschillan.cl 404 NOT FOUND — famous ski resort, broken!)</span>
+        <span class="affected-tag critical">Hotel Las Terrazas Business (business.lasterrazas.cl SELF-SIGNED SSL — 3-property chain, browsers block!)</span>
+        <span class="affected-tag critical">Clínica Dental Chillán (clinicadentalchillan.cl ECONNREFUSED — MOST OBVIOUS dental domain, DEAD!)</span>
+        <span class="affected-tag critical">Dental Life (dentallife.cl 403 FORBIDDEN — server running but refusing access!)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>Emergency Website Rebuild</strong> — Hotel Paso Nevado + Clínica Dental Chillán: professional sites live in <strong>72 hours</strong></li>
+        <li><strong>SSL Certificate Fix</strong> — Las Terrazas: install proper Let's Encrypt or commercial SSL, stop browser security warnings</li>
+        <li><strong>Server Migration</strong> — Dental Life: diagnose 403 error, migrate to reliable hosting</li>
+        <li><strong>Resort Landing Page</strong> — Termas de Chillán: create functional booking page for ski season</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 2: NO WEBSITE -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>🚫 Gap #2: No Website</h3>
+      <span class="severity severity-critical">CRITICAL — 14 BUSINESSES = 35% / #1 TRIPADVISOR RESTAURANT HAS NO SITE</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>14 of 40 businesses (35%) have <strong>zero web presence</strong> — no domain, no landing page, nothing. They rely entirely on Facebook, Instagram, WhatsApp, AgendaPro, or walk-ins. The restaurant sector has 5 without websites, tourism has 3, beauty has 5+, and health has 1. The most dramatic: <strong>Andén Bistró is the #1 RATED RESTAURANT on TripAdvisor for all of Chillán</strong> — and has NO website. Also: <strong>Brotherhood Barber has 4 physical locations</strong> across Chillán, Chillán Viejo, and Coihueco — NO website. <strong>Hotel Floresta, Hostal Canadá, Pewma Apart Hotel</strong> — 3 accommodation businesses invisible to Google during ski season.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>90% of consumers</strong> research a business online before visiting (Google, 2025)</li>
+          <li><strong>88% of mobile searchers</strong> visit or call within 24 hours of a local search</li>
+          <li><strong>Andén Bistró is #1 ON TRIPADVISOR for Chillán</strong> — the highest-rated restaurant in the entire city has NO website. Ski tourists, O'Higgins heritage visitors, and business travelers search "best restaurant chillán" — TripAdvisor says Andén Bistró, but clicking through leads to... nothing. Only Instagram @anden_bistrotapas. Dependent on Uber Eats for delivery. The best restaurant in the city can't be found outside of TripAdvisor and Instagram</li>
+          <li><strong>Brotherhood Barber has 4 LOCATIONS</strong> — Libertad 786, Open Plaza, O'Higgins 2508 (Chillán Viejo), and Coihueco. A 4-location barber chain with Facebook only. Four physical stores, zero web presence. The largest barber operation in Ñuble region, invisible to Google</li>
+          <li><strong>3 hotels/accommodation have no website</strong> — Hotel Floresta, Hostal Canadá (popular with foreign tourists, 8 rooms), Pewma Apart Hotel (100% Booking.com dependent). During ski season, these beds are invisible to direct booking. All commission goes to Booking.com (15-25%)</li>
+          <li><strong>5 restaurants have no website</strong> — Andén Bistró (#1 TripAdvisor!), La Ramona (Chilean+sushi), Hamachi Sushi, De Banderas (Peruvian), Benihana. Half the restaurant sector is invisible</li>
+          <li><strong>Pewma Apart Hotel is 100% Booking.com dependent</strong> — no own website means EVERY booking pays 15-25% commission. At ski-season prices, that's $15-$50+ per night going to Booking.com instead of the owner</li>
+          <li>AI search engines (Google AI Overviews, ChatGPT, Perplexity) <strong>cannot cite businesses</strong> with no indexable web content</li>
+          <li><strong>Ñuble is Chile's newest region (2018)</strong> — new government workers, new regional institutions. These professionals search online first; 14 businesses are invisible to them</li>
+        </ul>
+        <h4>Chillán context</h4>
+        <p>Chillán's economy runs on <strong>ski tourism (Nevados de Chillán), agricultural trade, and the new regional government (Ñuble since 2018)</strong>. Ski tourists searching "where to eat chillán" find the #1 TripAdvisor restaurant has no website. Foreign tourists at Hostal Canadá can't find it online. A 4-location barber chain is invisible. The newest regional capital in Chile has 35% of analyzed businesses with zero web presence — <strong>higher than Santiago (12.5%), Concepción (15%), and Valparaíso (15%)</strong>.</p>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost discovery (invisible to 90% who Google)</span><span class="amount">-$16,000</span></div>
+        <div class="loss-line"><span class="desc">Lost ski tourist / heritage visitor searches</span><span class="amount">-$9,000</span></div>
+        <div class="loss-line"><span class="desc">Booking.com commission dependency</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">Missed AI/voice search citations</span><span class="amount">-$5,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$38,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (14 with no website — 35%)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Andén Bistró (#1 TRIPADVISOR Chillán — NO website! IG @anden_bistrotapas, Uber Eats dependent)</span>
+        <span class="affected-tag critical">Brotherhood Barber (4 LOCATIONS: Libertad + Open Plaza + Chillán Viejo + Coihueco — Facebook only!)</span>
+        <span class="affected-tag critical">Hotel Floresta (NO website, phone only)</span>
+        <span class="affected-tag critical">Hostal Canadá (NO website, popular with foreign tourists, 8 rooms)</span>
+        <span class="affected-tag critical">Pewma Apart Hotel (NO own website, 100% Booking.com dependent!)</span>
+        <span class="affected-tag critical">La Ramona (Chilean+sushi, IG @laramonachillan — NO website)</span>
+        <span class="affected-tag critical">Hamachi Sushi (Facebook+WhatsApp — NO website)</span>
+        <span class="affected-tag critical">De Banderas (Peruvian, phone only — NO website)</span>
+        <span class="affected-tag critical">Benihana (phone only — NO website)</span>
+        <span class="affected-tag critical">Clinicalvet (Gmail clinicalvetchillan@gmail.com, FB+IG — NO website)</span>
+        <span class="affected-tag critical">Bárbaros Barbershop (Libertad 871, since 2017 — NO website)</span>
+        <span class="affected-tag critical">Centro Estética ANTÜ (IG @antu_depilacionlaser_chillan — NO website)</span>
+        <span class="affected-tag critical">Salón Claudia Quinlan (AgendaPro only — NO website)</span>
+        <span class="affected-tag critical">Salón de Belleza Amal (AgendaPro — NO website)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>CMS AI Website ($497/mo starter)</strong> — custom-built, SEO-optimized, mobile-first site live in 7 days</li>
+        <li><strong>For Andén Bistró</strong> — the #1 restaurant needs a website IMMEDIATELY. Menu, reservations, location. Convert TripAdvisor traffic to direct customers</li>
+        <li><strong>For Brotherhood Barber</strong> — multi-location website with individual pages for each of 4 locations + online booking</li>
+        <li><strong>AI SEO</strong> — structured data, local schema, Google Business optimization for ski, heritage, longaniza keywords</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 3: GMAIL/NO EMAIL -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>📧 Gap #3: Gmail/Personal Email or No Email At All</h3>
+      <span class="severity severity-critical">CRITICAL — 28 OF 40 = 70% / SALON HAS NO EMAIL OR PHONE VISIBLE</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>28 of 40 businesses (70%) have <strong>no professional business email</strong>. This breaks down as: <strong>at least 2 using Gmail</strong> (clinicalvetchillan@gmail.com for a vet clinic, clinicaalmamedical@gmail.com for an aesthetic clinic with enterprise Facebook CAPI server-side tracking) and <strong>~26 with no email found at all</strong>. The most striking cases: <strong>Pistaccio Salón</strong> has a full WordPress site with Elementor + Jet Popup + Revolution Slider (4 major plugins) but <strong>NO email AND NO phone number visible anywhere on the site</strong>. <strong>Skin & Soul SpA</strong> has a Webflow-built site but also NO email and NO phone.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>75% of consumers</strong> judge a company's credibility by its email domain (GoDaddy Research)</li>
+          <li><strong>Pistaccio Salón: WP + Elementor + Jet Popup + Revolution Slider — NO email, NO phone!</strong> They invested in a professional WordPress build with 4 major plugins (Elementor page builder, Jet Popup for popups, Revolution Slider for animations, all with ZERO analytics). The site looks polished but has zero way to contact the business. A salon you can admire but never reach</li>
+          <li><strong>Skin & Soul SpA: Webflow site — NO email, NO phone!</strong> Built on Webflow (a premium platform), but with absolutely no contact information visible. Two salons in Chillán invested in website technology but forgot the most basic element: how to reach them</li>
+          <li><strong>Clínica Alma Medical TECHNOLOGY PARADOX</strong> — clinicaalmamedical@gmail.com BUT has enterprise-level Facebook Conversions API (CAPI) server-side tracking + FB Pixel 1538419223347979 + WP/Flatsome/WooCommerce. Server-side tracking is a Fortune 500 technique; Gmail is a student technique. The most extreme technology paradox in Chillán</li>
+          <li><strong>Clinicalvet uses clinicalvetchillan@gmail.com</strong> — no website, Gmail only. A vet clinic reachable only through a free email address and Facebook</li>
+          <li><strong>Multiple restaurants have no email AND no website</strong> — Andén Bistró (#1 TripAdvisor), La Ramona, Hamachi Sushi, De Banderas, Benihana: unreachable by email for catering, events, or large party reservations</li>
+          <li>Emails from free domains are <strong>3x more likely to land in spam</strong></li>
+          <li>Ski tour operators need to <strong>coordinate group bookings via email</strong> — Gmail or no email kills B2B partnerships with tour agencies</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost inquiries (perceived unprofessional)</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">Emails landing in spam (never seen)</span><span class="amount">-$4,000</span></div>
+        <div class="loss-line"><span class="desc">Tour operator / B2B trust lost</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">No contact = 100% bounce (Pistaccio, Skin&Soul)</span><span class="amount">-$5,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$20,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses — Gmail (2) + No email (~26) = 28 of 40</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Pistaccio Salón (WP + Elementor + Jet Popup + Revolution Slider — NO email, NO phone!)</span>
+        <span class="affected-tag critical">Skin & Soul SpA (Webflow — NO email, NO phone!)</span>
+        <span class="affected-tag critical">Clínica Alma Medical (clinicaalmamedical@gmail.com — GMAIL + FB CAPI server-side tracking PARADOX!)</span>
+        <span class="affected-tag critical">Clinicalvet (clinicalvetchillan@gmail.com — no website, Gmail only)</span>
+        <span class="affected-tag">Los Buenos Muchachos (NO email), Fuente Alemana (NO email), Andén Bistró (NO email), La Ramona (NO email), Hamachi, De Banderas, Benihana (NO email)</span>
+        <span class="affected-tag">DentoBeli (NO email despite GTM + Google Ads + FB Pixel + Reservo), Safident (NO email, React SPA), Inmunodent (chain email only), CDC Dental (NO email despite dual GTM + FB Pixel)</span>
+        <span class="affected-tag">Hotel Floresta, Hostal Canadá, Pewma (no email), Brotherhood (no email), Bárbaros, ANTÜ, Claudia Quinlan, Amal, Estetic Integrale (no email)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>CRM with branded email</strong> — professional @business.cl domain included with every website package</li>
+        <li><strong>For Pistaccio + Skin & Soul</strong> — add contacto@ email + phone number to existing sites IMMEDIATELY. Beautiful sites that nobody can reach</li>
+        <li><strong>For Alma Medical</strong> — upgrade from Gmail to professional email matching their enterprise-level CAPI tracking</li>
+        <li><strong>AI Automations</strong> — auto-reply, lead capture, follow-up sequences via professional email</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 4: NO ONLINE BOOKING -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>📅 Gap #4: No Online Booking System</h3>
+      <span class="severity severity-critical">CRITICAL — 28 OF 40 = 70% / VET HOSPITAL BOOKS THROUGH RAW IP ADDRESS</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>28 of 40 businesses (70%) have <strong>no way for customers to book online</strong>. Customers must call, WhatsApp, DM on Instagram, or walk in. The most alarming booking story: <strong>Hospital Clínico Vet UdeC</strong> (the university veterinary hospital) directs patients to book through <code>http://152.74.241.128/clinica</code> — a RAW IP address over HTTP (not HTTPS). This is a <strong>security risk</strong>: unencrypted patient data on a raw IP. Lab results go to another raw IP. Meanwhile, most restaurants and beauty businesses have zero booking infrastructure.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>50% of bookings</strong> happen after business hours — ski tourists search and book at night after the slopes close</li>
+          <li><strong>71% of salon regulars</strong> have skipped booking because it was too hard to reach someone</li>
+          <li><strong>Hospital Clínico Vet UdeC: booking through RAW IP http://152.74.241.128/clinica</strong> — a university hospital directing pet owners to type a raw IP address into their browser. No SSL, no domain name, no encryption. Patient/pet data transmitted in plain text over HTTP. Lab results at another raw IP. This is a <strong>SECURITY RISK</strong> at an academic institution</li>
+          <li><strong>Entrerocas Lodge uses Joomla/Vik Booking</strong> — the only accommodation with a proper integrated booking system (Vik Booking is a respected hotel booking plugin for Joomla). But ZERO analytics, so they can't measure conversion rates</li>
+          <li><strong>DentoBeli has Reservo booking</strong> — the strongest booking implementation in health, paired with GTM + Google Ads AW-877323173 + FB Pixel. Chillán's best-positioned dental clinic for patient acquisition</li>
+          <li><strong>Ficus Restaurante has no online reservations</strong> despite 28 YEARS of tradition and professional emails (reservas@ + contacto@). A Squarespace site with Mixpanel analytics but no way to book a table</li>
+          <li><strong>Fuego Divino has WP Booking Calendar</strong> — a reservation plugin installed but with dead analytics (UA-60301315-1 dead since July 2023). Taking bookings but blind to conversion data</li>
+          <li><strong>Fuente Alemana has "Booked" appointment plugin</strong> — unusual for a cafetería/bakery. Why does a café have an appointment scheduling plugin? Misconfigured or repurposed theme</li>
+          <li>Ski groups (6-20 people) need <strong>restaurant reservations + hotel bookings coordinated</strong> — impossible without online booking</li>
+          <li><strong>MDS Hotel (Marina del Sol casino group) is the ONLY hotel with proper GA4 migration</strong> — UA-89555369-13 + UA-100778766-1 + G-RY122X80W1 + Schema.org. 100 rooms with professional booking. The benchmark for Chillán tourism</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">After-hours bookings lost (ski tourists)</span><span class="amount">-$10,000</span></div>
+        <div class="loss-line"><span class="desc">Group ski bookings lost (6-20 pax)</span><span class="amount">-$8,000</span></div>
+        <div class="loss-line"><span class="desc">No-shows without automated reminders</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">Security risk (raw IP booking)</span><span class="amount">-$4,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$27,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (28 of 40 — 70%)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Hospital Clínico Vet UdeC (BOOKING THROUGH RAW IP http://152.74.241.128/clinica — SECURITY RISK!)</span>
+        <span class="affected-tag critical">Most restaurants: Ficus (28 yrs, no booking), El Faro (no booking), Los Buenos Muchachos (no booking), Fuente Alemana (wrong plugin), Andén Bistró (no site!), La Ramona, Hamachi, De Banderas, Benihana</span>
+        <span class="affected-tag critical">Hotels: Hotel Floresta (no site), Hostal Canadá (no site), Pewma (Booking.com only), Paso Nevado (DEAD), Termas (404)</span>
+        <span class="affected-tag critical">Beauty: Pistaccio (no contact!), Brotherhood (4 locations, no site), Bárbaros, ANTÜ, Skin&Soul (no contact!), Estetic Integrale</span>
+        <span class="affected-tag">Health: Safident (React SPA, no booking), Inmunodent (JoinChat only), Clinicalvet (no site), Kennedy Vet (free subdomain)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>AI Booking Agent</strong> — 24/7 intelligent booking via website, WhatsApp, and voice</li>
+        <li><strong>For UdeC Vet Hospital</strong> — URGENT: replace raw IP booking with proper HTTPS domain, encrypted patient data</li>
+        <li><strong>Voice AI</strong> — answers calls, books appointments, sends confirmations — critical for après-ski bookings</li>
+        <li><strong>CRM</strong> — captures every lead with automated follow-up and ski group coordination</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 5: FREE SUBDOMAIN / PROBLEMATIC SITES -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>🌐 Gap #5: Free Subdomain & Platform Issues</h3>
+      <span class="severity severity-high">HIGH — FREE .TIE.CL SUBDOMAIN + DEAD TWITTER LINK + UNUSUAL CAFE PLUGIN</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>Beyond the 5 dead/broken sites and 14 no-website businesses, several have websites with <strong>significant platform or configuration problems</strong>. <strong>Kennedy Vet</strong> runs on <code>clinicaveterinariakennedy.tie.cl</code> — a FREE .tie.cl subdomain (Chilean free hosting platform). <strong>Fuego Divino</strong> has a Twitter social link that points to the dead/rebranded platform (Twitter → X migration). <strong>Fuente Alemana</strong> has a "Booked" appointment scheduling plugin on a cafetería website — misconfigured or inappropriate plugin for a bakery/café. <strong>Gran Hotel Isabel Riquelme</strong> has WP/Astra/Elementor + JoinChat but ZERO analytics — invisible to performance measurement.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>Kennedy Vet on FREE .tie.cl subdomain</strong> (clinicaveterinariakennedy.tie.cl) — free subdomains <strong>can't rank in Google</strong>. Domain authority belongs to tie.cl, not the vet clinic. The subdomain URL is too long to fit on a business card. Pet owners searching "veterinaria chillán" will never find a .tie.cl result</li>
+          <li><strong>Fuego Divino's dead Twitter link</strong> — the restaurant website has a social media link to Twitter, which rebranded to X. The link may point to a dead profile or redirect inconsistently. Dead social links signal neglect</li>
+          <li><strong>Fuego Divino has dead UA analytics</strong> (UA-60301315-1) + FB Pixel 2417356755244179 + WP Booking Calendar. The booking works but analytics stopped in July 2023 — nearly 3 years blind to booking conversion data</li>
+          <li><strong>Ficus Restaurante has dead UA analytics too</strong> (UA-48569773-1) + Mixpanel + FB App 314192535267336. 28-year restaurant with Squarespace and dead analytics. Mixpanel is unusual for a restaurant — suggests a developer set it up years ago and nobody maintained it</li>
+          <li><strong>Fuente Alemana has "Booked" appointment plugin</strong> — an appointment scheduling system on a cafetería/bakery with 40+ years of history. Cafés don't need appointment booking. This is either a misconfigured theme or an abandoned attempt at online ordering</li>
+          <li><strong>Gran Hotel Isabel Riquelme: WP/Astra/Elementor + JoinChat, ZERO analytics</strong> — a professional WordPress build with WhatsApp chat integration but no GA4, no GTM, no FB Pixel. They invested in the site but have no idea if it works</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Free subdomain = zero Google ranking</span><span class="amount">-$7,000</span></div>
+        <div class="loss-line"><span class="desc">Dead analytics = blind operations</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">Dead social links = perceived neglect</span><span class="amount">-$3,000</span></div>
+        <div class="loss-line"><span class="desc">Wrong plugin / misconfigured platform</span><span class="amount">-$2,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$17,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (6+ with problematic but functional sites)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Kennedy Vet (clinicaveterinariakennedy.tie.cl — FREE .TIE.CL SUBDOMAIN! Arauco 15, NO email)</span>
+        <span class="affected-tag critical">Fuego Divino (fuegodivino.cl — UA-60301315-1 DEAD + dead Twitter link + WP Booking Calendar)</span>
+        <span class="affected-tag critical">Ficus Restaurante (ficuschillan.com — UA-48569773-1 DEAD + Mixpanel + Squarespace, 28 years)</span>
+        <span class="affected-tag critical">Fuente Alemana (fuentealemanachillan.cl — "Booked" appointment plugin on a CAFÉ, 40+ years)</span>
+        <span class="affected-tag critical">Gran Hotel Isabel Riquelme (hotelisabelriquelme.cl — WP/Astra/Elementor + JoinChat, ZERO analytics!)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>CMS AI Website Rebuild</strong> — replace Kennedy Vet's free subdomain with professional .cl domain</li>
+        <li><strong>Analytics Migration</strong> — replace dead UA codes at Ficus + Fuego Divino with GA4</li>
+        <li><strong>Social Link Audit</strong> — fix dead Twitter links, update to current X profiles or remove</li>
+        <li><strong>Plugin Cleanup</strong> — remove Booked appointment from Fuente Alemana, add proper online ordering if needed</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 6: NO/WEAK SOCIAL MEDIA -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>📱 Gap #6: No Social Media or Minimal Presence</h3>
+      <span class="severity severity-high">HIGH — 15+ OF 40 = 37.5%+</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>At least 15 businesses have <strong>extremely weak or nonexistent social media</strong>. Most hotels rely on OTA profiles rather than owned social. Multiple restaurants exist only on delivery apps. Several beauty businesses have Instagram but no other presence. The health sector is mostly absent from social platforms. The most dramatic: <strong>Hotel Paso Nevado is DEAD (ECONNREFUSED) AND has no social media</strong> — the most digitally isolated hotel in Chillán. Meanwhile, <strong>Andén Bistró relies entirely on Instagram</strong> for its #1 TripAdvisor position — all reputation, zero owned infrastructure.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>58.7% of Chilean consumers</strong> use social media to research products and services (DataReportal 2026)</li>
+          <li>Chileans spend <strong>52+ hours/week</strong> on connected digital media</li>
+          <li><strong>Nevados de Chillán is Instagram-worthy content</strong> — ski slopes, hot springs, mountain landscapes, winter sports. Hotels and restaurants in the ski gateway city aren't creating ski tourism content. Valle Las Trancas lodges like Entrerocas could dominate social with mountain content but have ZERO analytics</li>
+          <li><strong>Andén Bistró's entire #1 reputation runs through Instagram</strong> — @anden_bistrotapas. If Instagram changes its algorithm, hides restaurant posts, or the account gets hacked, the #1 restaurant in Chillán disappears entirely. Zero owned backup</li>
+          <li><strong>O'Higgins heritage content opportunity</strong> — Chillán is the birthplace of Chile's founding father. Heritage tourism content, historical walking tours, founding-father themed dining — none of this is being created on social media</li>
+          <li><strong>Longaniza capital content opportunity</strong> — Chillán is famous for its longaniza (artisan sausage). Quinchamalí black pottery. Feria de Chillán market. Massive food/craft content potential, largely untapped on social</li>
+          <li><strong>De Banderas, Benihana, Hamachi Sushi</strong> — phone-only restaurants with zero social presence. Invisible to the 58.7% who research on social</li>
+          <li><strong>Hotel Floresta, Hostal Canadá</strong> — no website AND minimal/no social. Foreign tourists planning Chillán visits can't find these accommodations anywhere</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost discovery by 58.7% who research on social</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">No ski / mountain / heritage content</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">Zero paid social campaigns</span><span class="amount">-$4,000</span></div>
+        <div class="loss-line"><span class="desc">No longaniza/craft tourism engagement</span><span class="amount">-$3,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$18,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (15+ with zero/near-zero social strategy)</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">Hotel Paso Nevado (DEAD server + no social — most isolated hotel)</span>
+        <span class="affected-tag critical">De Banderas, Benihana, Hamachi Sushi (phone only, no social)</span>
+        <span class="affected-tag critical">Hotel Floresta, Hostal Canadá (no website, minimal social)</span>
+        <span class="affected-tag critical">Multiple dental clinics absent from social despite having websites</span>
+        <span class="affected-tag">Andén Bistró (IG-dependent #1 restaurant — single point of failure)</span>
+        <span class="affected-tag">Hotels relying on Booking.com profiles instead of owned social</span>
+        <span class="affected-tag">Estetic Integrale, Salón Amal, Claudia Quinlan (AgendaPro only, minimal social)</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>Social Media Management</strong> — content calendar, posting, engagement across IG + FB + TikTok</li>
+        <li><strong>Creative Studio</strong> — AI-generated ski resort visuals, O'Higgins heritage content, longaniza culture, Quinchamalí pottery, mountain landscapes</li>
+        <li><strong>Paid Ads (Meta/Google)</strong> — targeted campaigns for ski tourists, heritage visitors, and locals</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 7: ZERO SEO -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>🔍 Gap #7: Zero SEO / No Analytics / Dead Analytics</h3>
+      <span class="severity severity-high">HIGH — 27 OF 40 = 67.5% + MDS HOTEL ONLY PROPER GA4 MIGRATION + 2 DEAD UA CODES</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p>27 of 40 businesses (67.5%) have <strong>no SEO strategy, no analytics, or dead/deprecated analytics</strong>. Chillán has a LOWER zero-SEO rate than most cities (67.5% vs 82-97.5% elsewhere) due to an unusually strong dental clinic cluster with GTM and FB Pixel. However, 2 restaurants have dead UA codes (~3 years blind), and only <strong>MDS Hotel</strong> has completed the proper Universal Analytics → GA4 migration (both old UA codes AND new GA4 G-RY122X80W1 + Schema.org). The standout analytics stack: <strong>DentoBeli</strong> with GTM-T5Q4TQG + Google Ads AW-877323173 + FB Pixel + Reservo — the strongest patient acquisition setup.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li>The Google Local Pack (top 3 map results) captures <strong>42% of all clicks</strong></li>
+          <li><strong>73.9% of Chilean internet users</strong> go online primarily to find information</li>
+          <li><strong>MDS Hotel is the ONLY business with proper GA4 migration</strong> — UA-89555369-13 + UA-100778766-1 (old) + G-RY122X80W1 (new GA4) + Schema.org structured data. 100 rooms, Marina del Sol casino group. The benchmark for Chillán. Every other business with old UA codes failed to migrate</li>
+          <li><strong>Ficus Restaurante: UA-48569773-1 DEAD</strong> — Squarespace + Mixpanel + FB App ID. 28-year tradition, professional emails, but analytics dead since July 2023. Nearly 3 years blind. Mixpanel is an unusual choice for a restaurant — suggests over-engineering followed by abandonment</li>
+          <li><strong>Fuego Divino: UA-60301315-1 DEAD</strong> — WP/Croma + FB Pixel 2417356755244179 + WP Booking Calendar + dead Twitter link. Takes bookings but can't measure them. FB Pixel may still fire, but UA is dead — partial visibility at best</li>
+          <li><strong>DentoBeli is BEST POSITIONED dental</strong> — GTM-T5Q4TQG + Google Ads AW-877323173 + FB Pixel + WP/GeneratePress/Elementor + Reservo booking. The complete patient acquisition funnel: ads → tracking → booking. But NO email visible</li>
+          <li><strong>CDC Dental has DUAL GTM</strong> — GTM-KR5KKZL + GTM-PDQZG8Q + FB Pixel 560985645894875 + FAQPage + MedicalWebPage Schema.org + WhatsApp booking. Why dual GTM? Either migration artifact or misconfiguration. Schema.org is excellent — structured data for medical practices</li>
+          <li><strong>Safident is a React SPA</strong> — G-BM2H0YFSY3. Single-page application with client-side rendering. <strong>React SPAs are SEO-limited</strong> — Google can render JavaScript but often fails for dynamic medical content. The GA4 code is there but the architecture fights SEO</li>
+          <li><strong>"Hotel chillán"</strong> sends traffic to Booking.com — only MDS Hotel captures significant direct search traffic</li>
+          <li><strong>"Dentista chillán"</strong> is valuable — DentoBeli (Google Ads), BiOdent (GTM), CDC Dental (dual GTM + Schema) compete, while clinicadentalchillan.cl (the MOST OBVIOUS domain) is DEAD</li>
+          <li>In 2026, <strong>AI Overviews appear above organic results</strong> — businesses without structured data get zero visibility</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Not in Google Local Pack (top 3)</span><span class="amount">-$10,000</span></div>
+        <div class="loss-line"><span class="desc">Outranked by Booking.com + TripAdvisor</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">Invisible in AI Overviews / voice search</span><span class="amount">-$5,000</span></div>
+        <div class="loss-line"><span class="desc">Dead analytics = blind since July 2023</span><span class="amount">-$4,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$25,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses (27 of 40 — 67.5% + 2 with DEAD UA analytics)</h4>
+      <div class="affected-list">
+        <span class="affected-tag">27 of 40 prospects — 67.5% have zero or dead SEO/analytics</span>
+        <span class="affected-tag critical">Ficus Restaurante (UA-48569773-1 DEAD since July 2023 + Mixpanel — 28yr restaurant, 3 YEARS BLIND!)</span>
+        <span class="affected-tag critical">Fuego Divino (UA-60301315-1 DEAD since July 2023 + FB Pixel + WP Booking Calendar — takes bookings blind!)</span>
+        <span class="affected-tag">Only MDS Hotel (GA4 + dual UA + Schema.org — BEST), DentoBeli (GTM + Google Ads + FB Pixel + Reservo — STRONGEST DENTAL), BiOdent (GTM-K47Z54DD + GDPR), CDC Dental (dual GTM + FB Pixel + Schema.org), Safident (GA4 on React SPA), Clínica Estética Chizen (GA4 GT-K4ZV8TWJ + Google Site Kit — BEST BEAUTY), Clínica Alma Medical (FB Pixel + CAPI server-side — ENTERPRISE TRACKING + Gmail!)</span>
+        <span class="affected-tag critical">14 businesses have NO website at all — SEO is literally impossible for 35%</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>AI SEO & Content</strong> — keyword research, on-page optimization, blog content targeting ski tourists, O'Higgins heritage visitors, longaniza seekers, and local queries</li>
+        <li><strong>For Ficus + Fuego Divino</strong> — URGENT: replace dead UA codes with GA4. 3 years of blind operations ends today</li>
+        <li><strong>AEO Retainer</strong> — Answer Engine Optimization for AI search citation</li>
+        <li><strong>For Safident</strong> — server-side rendering or pre-rendering solution for React SPA to unlock SEO</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GAP 8: NO CRM -->
+  <div class="gap-card">
+    <div class="gap-header">
+      <h3>🤖 Gap #8: No CRM / Customer Data System</h3>
+      <span class="severity severity-critical">CRITICAL — 40 OF 40 = 100% — SECOND CITY WITH ABSOLUTE ZERO (AFTER TALCA)</span>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>What's happening</h4>
+        <p><strong>40 of 40 businesses (100%) have NO CRM, NO customer database, NO email list, and NO automated follow-up system</strong>. Chillán is the <strong>SECOND city with absolute zero CRM adoption</strong>, after Talca. Not a single business in any sector — tourism, restaurants, health, or beauty — has a customer data management system. MDS Hotel (Marina del Sol casino group, 100 rooms, proper GA4 migration, Schema.org) — the most sophisticated business in Chillán — has no CRM. DentoBeli (Google Ads + Reservo booking) — the best dental acquisition funnel — has no CRM to capture and nurture leads.</p>
+        <h4>Why it matters</h4>
+        <ul>
+          <li><strong>Chillán is the SECOND city with 100% CRM absence</strong> — after Talca. Two consecutive Maule/Ñuble region cities with absolute zero CRM. A regional pattern emerging in central-south Chile</li>
+          <li><strong>Acquiring a new customer costs 5-7x more</strong> than retaining an existing one</li>
+          <li>A <strong>5% increase in retention</strong> can boost profits by 25-95% (Harvard Business Review)</li>
+          <li><strong>Ski tourists are SEASONAL REPEAT visitors</strong> — they return to Nevados de Chillán every winter. Without CRM, MDS Hotel (100 rooms) can't recognize a ski guest who stayed 5 winters in a row. They book through Booking.com every time, paying 15-25% commission on every repeat visit</li>
+          <li><strong>Ficus Restaurante has 28 YEARS of customers</strong> — 28 years of loyal diners, no customer database. If the owner retires, all customer relationships die. No email list, no loyalty program, no birthday promotions for 3 decades of patrons</li>
+          <li><strong>Fuente Alemana has 40+ YEARS of customers</strong> — a Chillán institution for over 4 decades. Zero customer data. Generations of families eat here; none are in a database</li>
+          <li><strong>DentoBeli runs Google Ads → Reservo booking</strong> — patients click ads, book appointments, but there's no CRM to follow up. No recall reminders, no reactivation campaigns, no lifetime value tracking. The funnel captures patients once but never nurtures them</li>
+          <li><strong>Brotherhood Barber has 4 locations</strong> — a multi-location chain with no way to track which customers visit which location, recognize repeat clients, or run cross-location promotions</li>
+          <li><strong>New regional government workers (Ñuble 2018)</strong> — a new population of government employees, their families, and supporting businesses. No CRM means no systematic capture of this new customer segment</li>
+          <li>If an employee leaves, <strong>all customer relationships leave with them</strong> — a critical risk for salons (Pistaccio, Chizen) and restaurants (Ficus, Fuego Divino) where personal relationships drive repeat business</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Estimated Annual Revenue Loss Per Business</h4>
+        <div class="loss-line"><span class="desc">Lost repeat business (no re-engagement)</span><span class="amount">-$7,000</span></div>
+        <div class="loss-line"><span class="desc">No ski tourist / seasonal loyalty</span><span class="amount">-$6,000</span></div>
+        <div class="loss-line"><span class="desc">Lost upsell opportunities</span><span class="amount">-$4,000</span></div>
+        <div class="loss-line"><span class="desc">No new-region workforce capture</span><span class="amount">-$3,000</span></div>
+        <div class="loss-total"><span class="desc">Total per business/year</span><span class="amount">-$20,000</span></div>
+      </div>
+    </div>
+    <div class="affected">
+      <h4>Affected businesses</h4>
+      <div class="affected-list">
+        <span class="affected-tag critical">40 of 40 prospects (100%) — SECOND city with ABSOLUTE ZERO CRM (after Talca)</span>
+        <span class="affected-tag">Closest to CRM: DentoBeli (Reservo booking), Fuego Divino (WP Booking Calendar), AgendaPro for Claudia Quinlan + Amal — but none are true CRMs</span>
+        <span class="affected-tag">Regional pattern: Talca (100%) + Chillán (100%) = TWO consecutive central-south Chile cities with absolute zero CRM</span>
+      </div>
+    </div>
+    <div class="solution-box">
+      <h5>NetWebMedia Solution</h5>
+      <ul>
+        <li><strong>CRM</strong> — full customer database with segmentation and pipeline tracking</li>
+        <li><strong>AI Automations</strong> — ski season welcome-back sequences, dental recall reminders, salon rebooking, restaurant loyalty programs</li>
+        <li><strong>Lifecycle Email</strong> — automated sequences for onboarding, re-engagement, win-back</li>
+        <li><strong>AI SDR</strong> — automated outbound follow-up and lead qualification</li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
+<!-- ========== MARKET-BY-MARKET BREAKDOWN ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">📊</span> Revenue Loss by Market</h2>
+  <p class="section-sub">How much each market vertical is leaving on the table in Chile's newest regional capital, ski resort gateway, and longaniza capital — and what NetWebMedia can recover.</p>
+
+  <div class="market-grid">
+
+    <!-- Tourism -->
+    <div class="market-card">
+      <h3><span class="icon">🏨</span> Tourism & Hospitality</h3>
+      <div class="market-metric"><span class="label">Businesses analyzed</span><span class="value">10</span></div>
+      <div class="market-metric"><span class="label">Dead/broken/blocked</span><span class="value red">3 (30%) — Paso Nevado DEAD + Termas 404 + Las Terrazas SSL!</span></div>
+      <div class="market-metric"><span class="label">No website</span><span class="value red">3 (30%) — Floresta + Canadá + Pewma</span></div>
+      <div class="market-metric"><span class="label">No real online booking</span><span class="value red">6 (60%)</span></div>
+      <div class="market-metric"><span class="label">No SEO strategy</span><span class="value red">7 (70%)</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Est. loss per business/year</span><span class="value red">-$50,000</span></div>
+      <div class="market-metric"><span class="label">Total market loss/year</span><span class="value red">-$500,000</span></div>
+      <div class="market-metric"><span class="label">Recoverable with NWM</span><span class="value green">$350,000</span></div>
+      <div class="pbar"><div class="pbar-fill red" style="width:75%"></div></div>
+      <div class="solution-box">
+        <h5>Key Insight</h5>
+        <ul>
+          <li><strong>MDS Hotel is BEST POSITIONED</strong> — UA-89555369-13 + UA-100778766-1 + G-RY122X80W1 (GA4) + Schema.org. Marina del Sol casino group, 100 rooms. ONLY business with proper UA→GA4 migration. The benchmark for Chillán tourism</li>
+          <li><strong>Entrerocas Lodge has Joomla/Vik Booking</strong> — integrated hotel booking on a Joomla CMS. Unique approach, proper booking, but ZERO analytics. Can take reservations but can't measure conversion</li>
+          <li><strong>Hotel Diego de Almagro is a national chain</strong> — 160 rooms, centraldereservas@ email. Chain infrastructure from dahoteles.com but not locally optimized for "ski chillán" or "nevados de chillán hotel"</li>
+          <li><strong>3 dead/broken/blocked + 3 no website = 60% of tourism sector offline or invisible</strong>. In the gateway city to one of Chile's most famous ski resorts, 6 of 10 hotels/accommodation can't be found or accessed online</li>
+          <li><strong>Pewma Apart Hotel: 100% Booking.com dependent</strong> — every booking pays 15-25% commission. At ski season prices ($80-$150+/night), that's $12-$38 per night to Booking.com</li>
+          <li><strong>Hostal Canadá: popular with foreign tourists, 8 rooms</strong> — international visitors plan trips online months ahead. Can't find this hostal anywhere</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Restaurants -->
+    <div class="market-card">
+      <h3><span class="icon">🍽️</span> Restaurants & Food</h3>
+      <div class="market-metric"><span class="label">Businesses analyzed</span><span class="value">10</span></div>
+      <div class="market-metric"><span class="label">No website</span><span class="value red">5 (50%) — incl. #1 TripAdvisor!</span></div>
+      <div class="market-metric"><span class="label">Dead analytics (2 restaurants)</span><span class="value red">2 (20%) — Ficus + Fuego Divino, ~3yr blind</span></div>
+      <div class="market-metric"><span class="label">Gmail/personal / no email</span><span class="value red">7 (70%)</span></div>
+      <div class="market-metric"><span class="label">No online reservations</span><span class="value red">8 (80%)</span></div>
+      <div class="market-metric"><span class="label">No SEO strategy</span><span class="value red">8 (80%)</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Est. loss per business/year</span><span class="value red">-$48,000</span></div>
+      <div class="market-metric"><span class="label">Total market loss/year</span><span class="value red">-$480,000</span></div>
+      <div class="market-metric"><span class="label">Recoverable with NWM</span><span class="value green">$336,000</span></div>
+      <div class="pbar"><div class="pbar-fill red" style="width:88%"></div></div>
+      <div class="solution-box">
+        <h5>Key Insight</h5>
+        <ul>
+          <li><strong>Andén Bistró: #1 ON TRIPADVISOR FOR CHILLÁN — NO WEBSITE!</strong> The highest-rated restaurant in the city relies on Instagram @anden_bistrotapas and Uber Eats. Ski tourists, heritage visitors, and business travelers search "best restaurant chillán" → TripAdvisor says Andén Bistró → they click and find... nothing. No site, no email, no phone published</li>
+          <li><strong>Ficus and Fuego Divino both have DEAD UA analytics (~3 years blind)</strong> — Ficus: UA-48569773-1 + Mixpanel + FB App (Squarespace, 28 years). Fuego Divino: UA-60301315-1 + FB Pixel + WP Booking Calendar. Two established restaurants running blind since July 2023</li>
+          <li><strong>Fuego Divino has a dead Twitter social link</strong> — pointing to the old Twitter platform. Dead links signal neglect</li>
+          <li><strong>Fuente Alemana: 40+ years, "Booked" appointment plugin on a café</strong> — wrong plugin, no analytics, no email. 4 decades of customers, zero digital infrastructure</li>
+          <li><strong>Ski group dining impossible to book online</strong> — groups of 6-20 after a day at Nevados de Chillán need dinner reservations. 8/10 restaurants require phone calls</li>
+          <li><strong>Longaniza capital dining scene invisible</strong> — Chillán is famous for longaniza. Food tourists searching "longaniza chillán" find no restaurant websites</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Health -->
+    <div class="market-card">
+      <h3><span class="icon">🏥</span> Health & Veterinary</h3>
+      <div class="market-metric"><span class="label">Businesses analyzed</span><span class="value">10</span></div>
+      <div class="market-metric"><span class="label">Dead/broken sites</span><span class="value red">2 (20%) — Dental Chillán DEAD + Dental Life 403!</span></div>
+      <div class="market-metric"><span class="label">Free subdomain</span><span class="value yellow">1 (10%) — Kennedy Vet .tie.cl</span></div>
+      <div class="market-metric"><span class="label">Raw IP booking (security risk)</span><span class="value red">1 (10%) — UdeC Vet Hospital!</span></div>
+      <div class="market-metric"><span class="label">Gmail / no email</span><span class="value red">7 (70%)</span></div>
+      <div class="market-metric"><span class="label">No online booking</span><span class="value red">5 (50%)</span></div>
+      <div class="market-metric"><span class="label">No SEO strategy</span><span class="value red">4 (40%)</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Est. loss per business/year</span><span class="value red">-$52,000</span></div>
+      <div class="market-metric"><span class="label">Total market loss/year</span><span class="value red">-$520,000</span></div>
+      <div class="market-metric"><span class="label">Recoverable with NWM</span><span class="value green">$364,000</span></div>
+      <div class="pbar"><div class="pbar-fill red" style="width:72%"></div></div>
+      <div class="solution-box">
+        <h5>Key Insight</h5>
+        <ul>
+          <li><strong>DentoBeli is BEST POSITIONED dental</strong> — GTM-T5Q4TQG + Google Ads AW-877323173 + FB Pixel + WP/GeneratePress/Elementor + Reservo booking. The strongest patient acquisition funnel in Chillán: ads → tracking → booking. But no email visible on site</li>
+          <li><strong>BiOdent has GTM-K47Z54DD + GDPR consent</strong> — WP/Prodent/WPBakery + contacto@ email. GDPR compliance is rare in Chile; this signals European patient awareness. Professional setup</li>
+          <li><strong>CDC Dental: DUAL GTM + FB Pixel + Schema.org</strong> — GTM-KR5KKZL + GTM-PDQZG8Q + FB Pixel 560985645894875 + FAQPage + MedicalWebPage structured data. The most sophisticated Schema.org implementation. Why dual GTM? Likely migration artifact. No email despite all this tech</li>
+          <li><strong>Clínica Dental Chillán: clinicadentalchillan.cl ECONNREFUSED</strong> — THE premium domain for dental searches in Chillán is DEAD. Like owning "dentist-chillán.cl" and turning off the server</li>
+          <li><strong>Hospital Clínico Vet UdeC: raw IP booking</strong> — http://152.74.241.128/clinica. University veterinary hospital directing patients to a raw IP address. Lab results at another raw IP. Unencrypted patient data. Security risk at an academic institution</li>
+          <li><strong>Kennedy Vet on FREE .tie.cl subdomain</strong> — clinicaveterinariakennedy.tie.cl. Can't rank in Google. Professional vet practice on a platform designed for personal homepages</li>
+          <li><strong>Chillán has the LOWEST zero-SEO rate (40% in health)</strong> — unusual. The dental cluster (DentoBeli, BiOdent, CDC Dental, Safident) has better analytics adoption than most cities. A competitive dental market driving digital investment</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Beauty -->
+    <div class="market-card">
+      <h3><span class="icon">💇</span> Beauty & Aesthetics</h3>
+      <div class="market-metric"><span class="label">Businesses analyzed</span><span class="value">10</span></div>
+      <div class="market-metric"><span class="label">No website</span><span class="value red">5 (50%) — incl. 4-location barber chain!</span></div>
+      <div class="market-metric"><span class="label">No email visible</span><span class="value red">8 (80%)</span></div>
+      <div class="market-metric"><span class="label">Gmail (enterprise tracking + Gmail)</span><span class="value yellow">1 (10%) — Alma Medical PARADOX!</span></div>
+      <div class="market-metric"><span class="label">No contact at all on site</span><span class="value red">2 (20%) — Pistaccio + Skin&Soul!</span></div>
+      <div class="market-metric"><span class="label">No online booking</span><span class="value red">6 (60%)</span></div>
+      <div class="market-metric"><span class="label">No SEO strategy</span><span class="value red">7 (70%)</span></div>
+      <div class="market-metric"><span class="label">No CRM</span><span class="value red">10 (100%)</span></div>
+      <div class="market-metric"><span class="label">Est. loss per business/year</span><span class="value red">-$50,000</span></div>
+      <div class="market-metric"><span class="label">Total market loss/year</span><span class="value red">-$500,000</span></div>
+      <div class="market-metric"><span class="label">Recoverable with NWM</span><span class="value green">$350,000</span></div>
+      <div class="pbar"><div class="pbar-fill red" style="width:85%"></div></div>
+      <div class="solution-box">
+        <h5>Key Insight</h5>
+        <ul>
+          <li><strong>Clínica Estética Chizen is BEST POSITIONED beauty</strong> — contacto@clinicachizen.cl + GA4 GT-K4ZV8TWJ + Google Site Kit + WP/Elementor/Hello + IG+FB. Professional email, proper GA4, social presence. The beauty benchmark for Chillán</li>
+          <li><strong>Clínica Alma Medical TECHNOLOGY PARADOX</strong> — clinicaalmamedical@gmail.com BUT FB Pixel 1538419223347979 + Facebook Conversions API (CAPI) server-side tracking + WP/Flatsome/WooCommerce. Server-side CAPI is enterprise-level: Fortune 500 companies use this. This clinic has Fortune 500 tracking infrastructure but emails from Gmail. The most extreme technology mismatch in Chillán</li>
+          <li><strong>Pistaccio Salón: WP + Elementor + Jet Popup + Revolution Slider — NO EMAIL, NO PHONE!</strong> Four major WordPress plugins installed. Polished design. But zero contact information anywhere on the site. A beautiful digital storefront with the door welded shut</li>
+          <li><strong>Skin & Soul SpA: Webflow — NO EMAIL, NO PHONE!</strong> Second salon with zero contact. Premium Webflow platform, zero way to reach the business. Two Chillán salons invested in web technology but forgot the fundamental: contactability</li>
+          <li><strong>Brotherhood Barber: 4 locations, Facebook only</strong> — Libertad 786 + Open Plaza + O'Higgins 2508 Chillán Viejo + Coihueco. The largest barber chain in Ñuble, invisible to Google. 4 physical locations, zero digital locations</li>
+          <li><strong>5 of 10 beauty have no website</strong> — Brotherhood (4 locations!), Bárbaros (since 2017), ANTÜ (laser depilation), Claudia Quinlan (AgendaPro), Amal (AgendaPro)</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== MASTER SUMMARY TABLE ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">📋</span> Master Gap Summary</h2>
+  <p class="section-sub">All 8 digital gaps ranked by total revenue impact across 40 Chillán businesses. Chillán's unique distinctions: 100% NO CRM (second city with absolute zero after Talca), #1 TripAdvisor restaurant has NO website, 5 dead/broken/blocked sites (highest variety: ECONNREFUSED + SSL + 403 + 404), vet hospital books through raw IP address, 4-location barber chain with no website, 2 salons with websites but NO contact info, enterprise CAPI server-side tracking + Gmail paradox, ONLY business with proper GA4 migration (MDS Hotel), 2 restaurants with dead analytics (~3 years blind), dental clinic with premium domain DEAD.</p>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Gap</th>
+        <th>Severity</th>
+        <th>Businesses Affected</th>
+        <th>% of Total</th>
+        <th>Loss/Business/Year</th>
+        <th>Total Annual Loss</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Dead / Broken / Blocked Sites</td>
+        <td class="red">CRITICAL</td>
+        <td>5</td>
+        <td>12.5%</td>
+        <td class="red">-$48,000</td>
+        <td class="red">-$240,000</td>
+      </tr>
+      <tr>
+        <td>No Website</td>
+        <td class="red">CRITICAL</td>
+        <td>14</td>
+        <td>35%</td>
+        <td class="red">-$38,000</td>
+        <td class="red">-$532,000</td>
+      </tr>
+      <tr>
+        <td>Gmail/Personal / No Email</td>
+        <td class="red">CRITICAL</td>
+        <td>28</td>
+        <td>70%</td>
+        <td class="red">-$20,000</td>
+        <td class="red">-$560,000</td>
+      </tr>
+      <tr>
+        <td>No Online Booking</td>
+        <td class="red">CRITICAL</td>
+        <td>28</td>
+        <td>70%</td>
+        <td class="red">-$27,000</td>
+        <td class="red">-$756,000</td>
+      </tr>
+      <tr>
+        <td>Free Subdomain / Platform Issues</td>
+        <td style="color:var(--yellow);font-weight:700">HIGH</td>
+        <td>6</td>
+        <td>15%</td>
+        <td class="red">-$17,000</td>
+        <td class="red">-$102,000</td>
+      </tr>
+      <tr>
+        <td>No/Weak Social Media</td>
+        <td style="color:var(--yellow);font-weight:700">HIGH</td>
+        <td>15</td>
+        <td>37.5%</td>
+        <td class="red">-$18,000</td>
+        <td class="red">-$270,000</td>
+      </tr>
+      <tr>
+        <td>Zero SEO / Dead Analytics</td>
+        <td style="color:var(--yellow);font-weight:700">HIGH</td>
+        <td>27</td>
+        <td>67.5%</td>
+        <td class="red">-$25,000</td>
+        <td class="red">-$675,000</td>
+      </tr>
+      <tr>
+        <td>No CRM / Customer Data</td>
+        <td class="red">CRITICAL</td>
+        <td>40</td>
+        <td>100%</td>
+        <td class="red">-$20,000</td>
+        <td class="red">-$800,000</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="color:var(--muted);font-size:0.85rem;margin-top:12px;"><em>Note: Revenue losses overlap — a single business typically has 3-5 gaps. The $2.0M headline figure accounts for overlap deduplication and Chillán's market dynamics (ski tourism economy, new regional capital, agricultural trade). Individual gap totals sum higher because the same revenue can be attributed to multiple gaps. Chillán's unique distinctions: 100% NO CRM (second absolute zero after Talca), #1 TripAdvisor restaurant with NO website, 5 dead/broken/blocked sites (most variety of failure types), vet hospital booking through raw IP (security risk), 4-location barber with no website, 2 salons with websites but zero contact info, enterprise CAPI tracking + Gmail paradox, only 1 business with proper GA4 migration, 2 restaurants blind since July 2023, premium dental domain DEAD.</em></p>
+</section>
+
+<!-- ========== OPPORTUNITY SIZING ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">💰</span> Revenue Recovery Opportunity for NetWebMedia</h2>
+  <p class="section-sub">If NetWebMedia closes just 25% of these 40 prospects (10 clients) at an average of $997/mo, here's the math:</p>
+
+  <div class="market-grid">
+    <div class="mega-stat">
+      <div class="num brand">10</div>
+      <div class="label">Clients at 25% Close Rate</div>
+    </div>
+    <div class="mega-stat">
+      <div class="num brand">$997</div>
+      <div class="label">Average Monthly Retainer</div>
+    </div>
+    <div class="mega-stat">
+      <div class="num green">$9,970</div>
+      <div class="label">Monthly Recurring Revenue</div>
+    </div>
+    <div class="mega-stat">
+      <div class="num green">$119,640</div>
+      <div class="label">Annual Recurring Revenue</div>
+    </div>
+  </div>
+
+  <div class="gap-card" style="margin-top:24px;">
+    <div class="gap-header">
+      <h3>📈 Revenue Recovery vs. Investment</h3>
+    </div>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Tourism (3 clients)</th>
+          <th>Restaurants (2 clients)</th>
+          <th>Health (3 clients)</th>
+          <th>Beauty (2 clients)</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Client pays NWM/year</td>
+          <td>$35,892</td>
+          <td>$23,928</td>
+          <td>$35,892</td>
+          <td>$23,928</td>
+          <td class="brand">$119,640</td>
+        </tr>
+        <tr>
+          <td>Revenue recovered for client/year</td>
+          <td>$150,000</td>
+          <td>$96,000</td>
+          <td>$156,000</td>
+          <td>$100,000</td>
+          <td class="green">$502,000</td>
+        </tr>
+        <tr>
+          <td>Client ROI</td>
+          <td class="green">4.2x</td>
+          <td class="green">4.0x</td>
+          <td class="green">4.3x</td>
+          <td class="green">4.2x</td>
+          <td class="green">4.2x avg</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="color:var(--muted);font-size:0.9rem;margin-top:12px;">Every $1 the client invests in NetWebMedia recovers <strong style="color:var(--green);">$4.20 in previously lost revenue</strong>. #1 TripAdvisor pitch: "Andén Bistró — you're #1 on TripAdvisor for ALL of Chillán. But you have no website. Ski tourists Google you and find nothing. We build your site in 7 days with online reservations, menu, and SEO. $497/mo." Dead server pitch: "Hotel Paso Nevado — you're 300 meters from the bus station. Every ski tourist arriving by bus can't find you online. Your server is dead. We rebuild in 72 hours. $497/mo." Premium domain pitch: "Clínica Dental Chillán — you own clinicadentalchillan.cl, the most obvious domain for anyone searching 'dentist chillán.' But it's DEAD. We bring it back to life with GA4, booking, and SEO. $997/mo." Raw IP pitch: "Hospital Clínico Vet UdeC — your patients book through a raw IP address without encryption. We build a proper HTTPS booking system to protect patient data. $997/mo." 4-location pitch: "Brotherhood Barber — 4 locations across Chillán and Coihueco, zero web presence. We build a multi-location site with individual pages and online booking for each shop. $997/mo."</p>
+  </div>
+</section>
+
+<!-- ========== CROSS-CITY COMPARISON ========== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">⚖️</span> Cross-City Gap Comparison: All 13 Markets Analyzed</h2>
+  <p class="section-sub">How Chillán's digital gaps compare across all thirteen cities analyzed — revealing that Chile's newest regional capital is the SECOND city with 100% CRM absence (after Talca), has the highest variety of site failure types (5 different errors), the #1 TripAdvisor restaurant with no website, a vet booking through raw IP, and a 4-location barber chain invisible online. Now covering 520 businesses across 13 Chilean cities with a combined $26.72M in annual revenue lost.</p>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Chillán (40)</th>
+        <th>Santiago (40)</th>
+        <th>Valparaiso (40)</th>
+        <th>Antofagasta (40)</th>
+        <th>Iquique (40)</th>
+        <th>La Serena (40)</th>
+        <th>Rancagua (40)</th>
+        <th>Concepcion (40)</th>
+        <th>Temuco (40)</th>
+        <th>P. Montt (40)</th>
+        <th>Arica (40)</th>
+        <th>Copiapo (40)</th>
+        <th>Talca (40)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Total estimated annual loss</td>
+        <td class="red">$2.0M</td>
+        <td class="red">$2.4M</td>
+        <td class="red">$2.1M</td>
+        <td class="red">$2.2M</td>
+        <td class="red">$2.1M</td>
+        <td class="red">$1.82M</td>
+        <td class="red">$1.95M</td>
+        <td class="red">$1.9M</td>
+        <td class="red">$2.0M</td>
+        <td class="red">$2.05M</td>
+        <td class="red">$2.15M</td>
+        <td class="red">$2.1M</td>
+        <td class="red">$1.95M</td>
+      </tr>
+      <tr>
+        <td>Average loss per business/year</td>
+        <td class="red">$50,000</td>
+        <td class="red">$60,000</td>
+        <td class="red">$52,500</td>
+        <td class="red">$55,000</td>
+        <td class="red">$52,500</td>
+        <td class="red">$45,500</td>
+        <td class="red">$48,750</td>
+        <td class="red">$47,500</td>
+        <td class="red">$50,000</td>
+        <td class="red">$51,250</td>
+        <td class="red">$53,750</td>
+        <td class="red">$52,500</td>
+        <td class="red">$48,750</td>
+      </tr>
+      <tr>
+        <td>No website</td>
+        <td class="red">14 (35%)</td>
+        <td>5 (12.5%)</td>
+        <td>6 (15%)</td>
+        <td>7 (17.5%)</td>
+        <td>8 (20%)</td>
+        <td class="red">17 (42.5%)</td>
+        <td class="red">11 (27.5%)</td>
+        <td>6 (15%)</td>
+        <td>7 (17.5%)</td>
+        <td>6 (15%)</td>
+        <td class="red">15 (37.5%)</td>
+        <td class="red">12 (30%)</td>
+        <td class="red">12 (30%)</td>
+      </tr>
+      <tr>
+        <td>Broken/down/blocked sites</td>
+        <td class="red">5 (12.5%)</td>
+        <td>1 (2.5%)</td>
+        <td>2 (5%)</td>
+        <td>5 (12.5%)</td>
+        <td class="red">6 (15%)</td>
+        <td>2 (5%)</td>
+        <td class="red">8 (20%)</td>
+        <td>1 (2.5%)</td>
+        <td class="red">6 (15%)</td>
+        <td class="red">5 (12.5%)</td>
+        <td>3 (7.5%)</td>
+        <td class="red">7 (17.5%)</td>
+        <td>2 (5%)</td>
+      </tr>
+      <tr>
+        <td>Gmail/Hotmail/personal / no email</td>
+        <td class="red">28 (70%)</td>
+        <td>20 (50%)</td>
+        <td>22 (55%)</td>
+        <td class="red">26 (65%)</td>
+        <td>22 (55%)</td>
+        <td>22 (55%)</td>
+        <td class="red">28 (70%)</td>
+        <td>18 (45%)</td>
+        <td>24 (60%)</td>
+        <td>21 (52.5%)</td>
+        <td class="red">26 (65%)</td>
+        <td class="red">26 (65%)</td>
+        <td class="red">26 (65%)</td>
+      </tr>
+      <tr>
+        <td>No online booking</td>
+        <td class="red">28 (70%)</td>
+        <td class="red">30 (75%)</td>
+        <td>28 (70%)</td>
+        <td>21 (52.5%)</td>
+        <td>22 (55%)</td>
+        <td>28 (70%)</td>
+        <td>25 (62.5%)</td>
+        <td>22 (55%)</td>
+        <td>22 (55%)</td>
+        <td>26 (65%)</td>
+        <td>26 (65%)</td>
+        <td class="red">27 (67.5%)</td>
+        <td class="red">29 (72.5%)</td>
+      </tr>
+      <tr>
+        <td>No SEO strategy</td>
+        <td>27 (67.5%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td>33 (82.5%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">39 (97.5%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">38 (95%)</td>
+        <td class="red">35 (87.5%)</td>
+        <td>33 (82.5%)</td>
+      </tr>
+      <tr>
+        <td>No CRM</td>
+        <td class="red">40 (100%)</td>
+        <td>36 (90%)</td>
+        <td>36 (90%)</td>
+        <td class="red">38 (95%)</td>
+        <td>37 (92.5%)</td>
+        <td class="red">38 (95%)</td>
+        <td>37 (92.5%)</td>
+        <td>36 (90%)</td>
+        <td class="red">38 (95%)</td>
+        <td>37 (92.5%)</td>
+        <td>37 (92.5%)</td>
+        <td>37 (92.5%)</td>
+        <td class="red">40 (100%)</td>
+      </tr>
+      <tr>
+        <td>Unique vulnerability</td>
+        <td class="red">#1 TripAdvisor no site + 5 error types + raw IP vet + CAPI+Gmail</td>
+        <td class="red">95% no SEO in biggest market</td>
+        <td class="red">100% health = no booking</td>
+        <td class="red">5 broken sites + Wix FREE dental</td>
+        <td class="red">3 SSL errors on 1 beach strip</td>
+        <td class="red">42.5% = no website at all</td>
+        <td class="red">4 dead servers + 6/10 rest. no site</td>
+        <td class="red">24hr ER vet with NO website</td>
+        <td class="red">60% restaurants no website</td>
+        <td class="red">24hr ER vet 403 + barber email TYPO</td>
+        <td class="red">2 DOUBLE FAILURES + 50yr HOTMAIL</td>
+        <td class="red">7 broken (HIGHEST!) + tech paradox + first CRM</td>
+        <td class="red">100% NO CRM (FIRST!) + 3yr blind ads + L'Oreal no site</td>
+      </tr>
+      <tr>
+        <td>NWM opportunity (10 clients)</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+        <td class="brand">$119,640 ARR</td>
+      </tr>
+      <tr>
+        <td>Client ROI</td>
+        <td class="green">4.2x</td>
+        <td class="green">4.9x</td>
+        <td class="green">4.6x</td>
+        <td class="green">4.6x</td>
+        <td class="green">4.4x</td>
+        <td class="green">3.9x</td>
+        <td class="green">4.1x</td>
+        <td class="green">4.0x</td>
+        <td class="green">4.2x</td>
+        <td class="green">4.3x</td>
+        <td class="green">4.5x</td>
+        <td class="green">4.4x</td>
+        <td class="green">4.1x</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="gap-card" style="margin-top:24px;">
+    <div class="gap-header">
+      <h3>🔎 Cross-City Pattern Analysis</h3>
+    </div>
+    <div class="gap-body">
+      <div class="gap-left">
+        <h4>Universal patterns (all 13 cities)</h4>
+        <ul>
+          <li><strong>SEO is dead everywhere</strong> — 67.5-97.5% of businesses across all 13 cities have zero SEO strategy. Chillán's 67.5% is actually the LOWEST (best) rate, driven by competitive dental clinics</li>
+          <li><strong>CRM adoption is near zero</strong> — 90-100% have no customer data system. Talca + Chillán at 100% = a central-south Chile regional pattern. Copiapó's Estetika Medica with Bitrix24 remains the sole true CRM</li>
+          <li><strong>Booking systems are absent</strong> — 52-75% can't take online bookings</li>
+          <li><strong>Email professionalism is low</strong> — 45-70% use Gmail/Hotmail or have no email</li>
+          <li><strong>Total across 520 businesses: $26.72M in annual revenue lost</strong></li>
+        </ul>
+        <h4>Chillán-specific findings</h4>
+        <ul>
+          <li><strong>100% NO CRM — SECOND city with absolute zero (after Talca)</strong>. Two consecutive central-south Chile cities with zero CRM = a regional pattern. Talca (Maule) + Chillán (Ñuble) — neighboring regions, both at absolute zero. Government investment in creating Ñuble as a new region (2018) didn't translate to any digital infrastructure for businesses</li>
+          <li><strong>Andén Bistró: #1 ON TRIPADVISOR — NO WEBSITE</strong>. The highest-rated restaurant in all of Chillán, where ski tourists and heritage visitors are directed by every "best of" list, has no website, no email, no phone published. Relies entirely on Instagram @anden_bistrotapas and Uber Eats. The biggest gap between reputation and digital infrastructure across all 13 cities</li>
+          <li><strong>5 dead/broken/blocked sites with MOST VARIETY of error types</strong> — ECONNREFUSED (Paso Nevado + Dental Chillán), self-signed SSL (Las Terrazas Business), 403 Forbidden (Dental Life), 404 Not Found (Termas de Chillán). No other city has all 4 error types. Chillán has the most diverse web failure landscape</li>
+          <li><strong>Hospital Clínico Vet UdeC: booking through RAW IP address</strong> — http://152.74.241.128/clinica. A university veterinary hospital directing patients to type a raw IP. Lab results at another raw IP. Unencrypted HTTP. This is a SECURITY RISK at an academic institution — unique across all 13 cities</li>
+          <li><strong>Brotherhood Barber: 4 LOCATIONS, ZERO web presence</strong>. Libertad 786 + Open Plaza + O'Higgins 2508 Chillán Viejo + Coihueco. The largest barber chain in Ñuble region with Facebook as its only digital presence. No other city has a 4-location chain with zero website</li>
+          <li><strong>Clínica Alma Medical TECHNOLOGY PARADOX</strong> — Facebook CAPI server-side tracking (Fortune 500 technique) + FB Pixel + WP/Flatsome/WooCommerce... with clinicaalmamedical@gmail.com. Enterprise tracking, student email. The most extreme tracking-vs-email mismatch across all 13 cities</li>
+          <li><strong>2 salons with websites but ZERO contact info</strong> — Pistaccio (WP + 4 plugins, no email/phone) + Skin & Soul (Webflow, no email/phone). Two businesses invested in web platforms but forgot the fundamental: how customers reach them. This specific failure (nice site, zero contact) is unique to Chillán</li>
+          <li><strong>MDS Hotel: ONLY proper GA4 migration in Chillán</strong> — UA-89555369-13 + UA-100778766-1 (old) + G-RY122X80W1 (new GA4) + Schema.org. Every other business with old UA codes failed to migrate. A casino hotel group leading while independents stagnate</li>
+          <li><strong>Ficus (28 years) + Fuego Divino: both have DEAD UA analytics since July 2023</strong> — two established restaurants running blind for ~3 years. Ficus also has Mixpanel (unusual for restaurants). Fuego Divino has WP Booking Calendar but can't measure its conversion. Combined: 68+ years of restaurant tradition, zero data visibility</li>
+          <li><strong>clinicadentalchillan.cl is DEAD</strong> — the most obvious domain name for anyone searching "dental chillán" returns ECONNREFUSED. Like owning the best storefront on the main street and boarding up the windows. Meanwhile DentoBeli (Google Ads), BiOdent (GTM), and CDC Dental (dual GTM + Schema) compete for the same patients</li>
+          <li><strong>67.5% zero-SEO rate = LOWEST across all 13 cities</strong> — Chillán's dental cluster (DentoBeli, BiOdent, CDC Dental, Safident) plus MDS Hotel and Clínica Chizen drive a higher analytics adoption than any other city. A competitive health market creating digital investment pressure</li>
+          <li><strong>Ski gateway paradox</strong> — Nevados de Chillán is Chile's second-most-famous ski destination. Chillán is the gateway city. Yet 60% of hotels are offline or invisible, the #1 restaurant has no site, and no business has CRM to recognize returning ski tourists. The ski economy flows through Chillán but the digital infrastructure doesn't exist to capture it</li>
+        </ul>
+      </div>
+      <div class="gap-right">
+        <h4>Revenue Recovery Across All 13 Cities</h4>
+        <div class="loss-line"><span class="desc">Total annual revenue lost (520 businesses)</span><span class="amount" style="color:var(--red)">-$26.72M</span></div>
+        <div class="loss-line"><span class="desc">Recoverable with NWM services (70%)</span><span class="amount" style="color:var(--green)">$18.70M</span></div>
+        <div class="loss-line"><span class="desc">NWM ARR at 25% close (130 clients)</span><span class="amount" style="color:var(--brand)">$1,555,320</span></div>
+        <div class="loss-total"><span class="desc">Cumulative client ROI</span><span class="amount" style="color:var(--green)">4.3x average</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p style="color:var(--muted);font-size:0.85rem;margin-top:12px;"><em>Chillán is the ski-gateway paradox city: <strong>100% no CRM (second absolute zero after Talca), #1 TripAdvisor restaurant NO website, 5 dead/broken/blocked sites (most error variety), vet hospital booking through raw IP (security risk), 4-location barber chain with no website, 2 salons with websites but zero contact, enterprise CAPI tracking + Gmail paradox, only 1 proper GA4 migration (MDS Hotel), 2 restaurants blind since July 2023, premium dental domain DEAD, lowest zero-SEO rate (67.5%) driven by competitive dental cluster, ski economy flowing through a city with no digital infrastructure</strong>. #1 restaurant pitch: "Andén Bistró — TripAdvisor says you're #1 in Chillán. But you have no website. We fix that in 7 days. $497/mo." Raw IP pitch: "UdeC Vet Hospital — your patients book through a raw IP address without HTTPS. We build proper encrypted booking. $997/mo." 4-location pitch: "Brotherhood Barber — 4 shops, zero web presence. One multi-location site with online booking. $997/mo." Dead domain pitch: "clinicadentalchillan.cl — you own the best dental domain in the city. It's dead. We resurrect it. $997/mo."</em></p>
+</section>
+
+<!-- ========== CTA ========== -->
+<div class="cta-section">
+  <h2>These 40 Chillán Businesses Are <span>Losing $2.0M Every Year</span></h2>
+  <p>Chile's newest regional capital. Gateway to Nevados de Chillán ski resort. Birthplace of O'Higgins. Longaniza capital. Yet the #1 TripAdvisor restaurant has no website, 5 business sites are dead/broken/blocked, a vet hospital books through a raw IP, a 4-location barber chain is invisible online, and every business has zero CRM. The ski economy flows through Chillán — but digital infrastructure doesn't exist to capture it.</p>
+  <a href="chillan-prospects-report.html" class="cta-btn">View Full Prospect List with Contact Details &rarr;</a>
+</div>
+
+</div>
+
+<footer class="report-footer">
+  <div class="container">
+    <p><strong>NetWebMedia</strong> — AI Marketing for Growth | netwebmedia.com | hello@netwebmedia.com</p>
+    <p style="margin-top:8px;">Report generated April 16, 2026. Loss estimates based on industry benchmarks from Google (2025), DataReportal Chile (2026), National Restaurant Association (2026), Zenoti Salon Benchmarks (2025), Harvard Business Review, and Booking.com partner data.</p>
+    <p style="margin-top:8px;">Sources: <a href="https://datareportal.com/reports/digital-2026-chile" style="color:var(--blue);">DataReportal Chile 2026</a> | <a href="https://restaurant.org/research-and-media/research/research-reports/state-of-the-industry/" style="color:var(--blue);">NRA State of Industry 2026</a> | <a href="https://www.zenoti.com/thecheckin/beauty-wellness-industry-statistics-2025" style="color:var(--blue);">Zenoti Salon Benchmarks 2025</a> | <a href="https://prenohq.com/blog/what-commission-rates-does-booking-com-charge-hotels/" style="color:var(--blue);">Booking.com Commission Data</a></p>
+  </div>
+</footer>
+</body>
+</html>

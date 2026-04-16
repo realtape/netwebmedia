@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetWebMedia — Punta Arenas Sales Prospect Report</title>
+<style>
+  :root {
+    --brand: #ff6b00;
+    --dark: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --blue: #58a6ff;
+    --purple: #bc8cff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--dark); color: var(--text); line-height: 1.7; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .report-header { background: linear-gradient(135deg, #0d1117 0%, #1a0a00 50%, #1a1e2e 100%); border-bottom: 3px solid var(--brand); padding: 56px 0 48px; }
+  .report-header h1 { font-size: 2.4rem; font-weight: 800; margin-bottom: 8px; }
+  .report-header h1 span { color: var(--brand); }
+  .report-header .subtitle { color: var(--muted); font-size: 1.15rem; max-width: 700px; }
+  .report-header .meta { margin-top: 20px; display: flex; gap: 24px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); }
+  .report-header .meta strong { color: var(--text); }
+  .mega-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: -40px 0 40px; position: relative; z-index: 2; }
+  .mega-stat { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; text-align: center; }
+  .mega-stat .num { font-size: 2.6rem; font-weight: 900; }
+  .mega-stat .num.red { color: var(--red); }
+  .mega-stat .num.yellow { color: var(--yellow); }
+  .mega-stat .num.green { color: var(--green); }
+  .mega-stat .num.brand { color: var(--brand); }
+  .mega-stat .label { font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
+  .mega-stat .sub { font-size: 0.75rem; color: var(--muted); margin-top: 4px; font-style: italic; }
+  .section { margin: 56px 0; }
+  .section-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+  .section-title .icon { font-size: 1.8rem; }
+  .section-sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 28px; max-width: 800px; }
+  .card-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  .biz-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: border-color 0.2s; }
+  .biz-card:hover { border-color: var(--brand); }
+  .biz-card .top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+  .biz-card h3 { font-size: 1.15rem; font-weight: 700; }
+  .biz-card h3 a { color: var(--blue); text-decoration: none; }
+  .biz-card h3 a:hover { text-decoration: underline; }
+  .badge { font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .badge-red { background: rgba(248,81,73,0.15); color: var(--red); }
+  .badge-yellow { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  .badge-green { background: rgba(63,185,80,0.15); color: var(--green); }
+  .badge-blue { background: rgba(88,166,255,0.15); color: var(--blue); }
+  .badge-brand { background: rgba(255,107,0,0.15); color: var(--brand); }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 0.88rem; }
+  @media (max-width: 768px) { .detail-grid { grid-template-columns: 1fr; } }
+  .detail-grid .label { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  .detail-grid .value { margin-top: 2px; }
+  .detail-grid .value.red { color: var(--red); }
+  .detail-grid .value.green { color: var(--green); }
+  .detail-grid .value.brand { color: var(--brand); }
+  .gap-list { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .gap-list h4 { font-size: 0.75rem; color: var(--red); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .gap-list ul { padding-left: 16px; }
+  .gap-list li { font-size: 0.85rem; color: var(--muted); margin-bottom: 2px; }
+  .gap-list li strong { color: var(--text); }
+  .pitch-box { background: rgba(255,107,0,0.05); border: 1px solid rgba(255,107,0,0.2); border-radius: 10px; padding: 14px; margin-top: 12px; }
+  .pitch-box p { font-size: 0.85rem; color: var(--muted); }
+  .pitch-box strong { color: var(--brand); }
+  .cta-section { background: linear-gradient(135deg, #1a1000 0%, #1a0a00 100%); border: 2px solid var(--brand); border-radius: 20px; padding: 48px; text-align: center; margin: 56px 0; }
+  .cta-section h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 12px; }
+  .cta-section h2 span { color: var(--brand); }
+  .cta-section p { color: var(--muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto 24px; }
+  .cta-btn { display: inline-block; background: var(--brand); color: #fff; font-size: 1.1rem; font-weight: 700; padding: 14px 36px; border-radius: 12px; text-decoration: none; }
+  .cta-btn:hover { background: #e05f00; }
+  .report-footer { text-align: center; padding: 32px 0; border-top: 1px solid var(--border); }
+  .report-footer p { color: var(--muted); font-size: 0.8rem; }
+  @media (max-width: 768px) {
+    .report-header h1 { font-size: 1.6rem; }
+    .mega-stats { margin-top: 24px; }
+    .cta-section { padding: 32px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="report-header">
+  <div class="container">
+    <h1>Sales Prospect Report: <span>Punta Arenas, Magallanes</span></h1>
+    <p class="subtitle">40 businesses across 4 market verticals in Chile's southernmost major city — gateway to Torres del Paine, Antarctic expeditions, and the Strait of Magellan. Home to the world's southernmost brewery (Cerveceria Austral, est. 1896), Croatia-heritage cuisine, centolla (king crab) restaurants, and the last major stop before Antarctica. Where the #1 most-reviewed hotel is DEAD, the #2 restaurant's domain is FOR SALE, another hotel's domain was SOLD to HugeDomains, DA Hotels' SSL failure is confirmed in a 3rd city, a hostal uses a "dentalcare" WordPress theme, 3 veterinary/dental clinics are DEAD, and a 1932 landmark kiosko is the best-positioned restaurant in the entire city.</p>
+    <div class="meta">
+      <span>Report Date: <strong>April 16, 2026</strong></span>
+      <span>Businesses Analyzed: <strong>40</strong></span>
+      <span>Markets: <strong>Tourism, Restaurants, Health, Beauty</strong></span>
+      <span>Source: <strong>NetWebMedia Sales Intelligence</strong></span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+<div class="mega-stats">
+  <div class="mega-stat">
+    <div class="num red">$2.2M</div>
+    <div class="label">Estimated Annual Revenue Lost</div>
+    <div class="sub">Across all 40 businesses combined</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num red">7</div>
+    <div class="label">Websites DEAD (ECONNREFUSED)</div>
+    <div class="sub">HIGHEST dead-site count across all 16 cities</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num yellow">97.5%</div>
+    <div class="label">No CRM / Customer Data</div>
+    <div class="sub">Only chain brands have any infrastructure</div>
+  </div>
+  <div class="mega-stat">
+    <div class="num brand">$119,640</div>
+    <div class="label">NWM ARR Opportunity (10 clients)</div>
+    <div class="sub">25% close rate at avg $997/mo</div>
+  </div>
+</div>
+
+<!-- ==================== TOURISM ==================== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">🏨</span> Tourism & Accommodation (10 Businesses)</h2>
+  <p class="section-sub">Hotels, hostals, and lodges in Chile's gateway to Torres del Paine, Antarctic cruises, and Strait of Magellan expeditions. The #1 most-reviewed hotel (1,064 reviews) is completely DEAD, a hotel domain was SOLD to HugeDomains, DA Hotels' SSL failure hits a 3rd city, and a hostal uses a dental WordPress theme.</p>
+
+  <div class="card-grid">
+
+    <!-- 1. Hotel Cabo de Hornos -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://hotelcabodehornos.com" target="_blank">Hotel Cabo de Hornos</a></h3>
+        <span class="badge badge-green">BEST POSITIONED — TOURISM</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">hotelcabodehornos.com (TravelClick Galaxy CMS)</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.1★ / 1,615 reviews — Travelers' Choice Award</div></div>
+        <div><span class="label">Analytics</span><div class="value green">Dual GTM: GTM-TL2MM4B + GTM-NXTTWWD</div></div>
+        <div><span class="label">Booking System</span><div class="value green">TravelClick Reservations (Hotel ID: 102162)</div></div>
+        <div><span class="label">Email</span><div class="value green">Reservas@hotelesaustralis.com + recepcioncabo@hotelesaustralis.com</div></div>
+        <div><span class="label">Phone</span><div class="value">56-61-2715000 / WhatsApp: 56985318115</div></div>
+        <div><span class="label">Address</span><div class="value">Plaza Munoz Gamero 1039 (main square)</div></div>
+        <div><span class="label">Schema.org</span><div class="value green">Hotel + BreadcrumbList | Price: $220 USD</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>No Facebook Pixel</strong> — can't retarget visitors on social media</li>
+          <li><strong>Empty sameAs array in Schema.org</strong> — social profiles not linked</li>
+          <li><strong>No CRM</strong> — Hoteles Australis group has booking but no guest retention</li>
+          <li><strong>Part of Hoteles Australis group</strong> — includes Cabo de Hornos (Punta Arenas) + Costaustralis (Puerto Natales)</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($997/mo Growth):</strong> "You're on the main square with 1,615 reviews. Dual GTM but no Facebook Pixel — you can't retarget the thousands who browse but don't book. We add FB Pixel + CRM for guest lifecycle emails. Your post-Antarctica guests are worth 10x a cold lead."</p>
+      </div>
+    </div>
+
+    <!-- 2. Dreams del Estrecho -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://punta-arenas.dreams.cl" target="_blank">Dreams del Estrecho</a></h3>
+        <span class="badge badge-green">5-STAR CASINO HOTEL</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">punta-arenas.dreams.cl (WP 6.9.4 + Meat Theme)</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.3★ / 1,608 reviews</div></div>
+        <div><span class="label">Analytics</span><div class="value green">GA4: GA-5FS6CK3YR7 + GTM4WP plugin</div></div>
+        <div><span class="label">Email</span><div class="value">servicioalcliente@dreams.cl</div></div>
+        <div><span class="label">Phone</span><div class="value">600 424 0000 / WhatsApp: +56927230102</div></div>
+        <div><span class="label">Address</span><div class="value">O'Higgins 1235 — Strait of Magellan waterfront</div></div>
+        <div><span class="label">Social</span><div class="value green">FB @DreamsPuntaArenas + IG @dreamspuntaarenas</div></div>
+        <div><span class="label">Extra</span><div class="value">DreamsPay, Zendesk help center, 88 rooms, Sky Bar, Hydra Spa, casino</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>No Facebook Pixel</strong> — same Dreams chain pattern seen in Valdivia</li>
+          <li><strong>No CRM</strong> — casino guests + hotel guests = zero cross-sell opportunity tracked</li>
+          <li><strong>Corporate chain constraints</strong> — servicioalcliente@ is national, not local</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($1,997/mo Fractional CMO):</strong> "Dreams has 1,608 reviews, a casino, a Sky Bar, and a spa. But no FB Pixel to retarget casino visitors for hotel stays or vice versa. No CRM to email past guests about shows. The cross-sell potential between casino + hotel + spa is massive — and completely unused."</p>
+      </div>
+    </div>
+
+    <!-- 3. La Yegua Loca -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://yegualoca.com" target="_blank">La Yegua Loca Hotel Boutique</a></h3>
+        <span class="badge badge-green">BEST INDEPENDENT HOTEL</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">yegualoca.com (WP + Blocksy Child + Elementor Pro 3.34.3)</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.6★ / 433 reviews — Travelers' Choice Award</div></div>
+        <div><span class="label">Analytics</span><div class="value green">GA4: GA-XG4K1FB8EC</div></div>
+        <div><span class="label">Booking</span><div class="value green">Direct-book.com + CoverManager (restaurant)</div></div>
+        <div><span class="label">Email</span><div class="value green">info@yegualoca.com</div></div>
+        <div><span class="label">Phone</span><div class="value">+56 2 2224 3561 / +56 9 7172 0877</div></div>
+        <div><span class="label">Address</span><div class="value">Fagnano 310 — 1929 restored house, 8 rooms, Strait views</div></div>
+        <div><span class="label">Social</span><div class="value green">IG @hotelyegualoca + FB + YouTube</div></div>
+        <div><span class="label">Extra</span><div class="value">WPForms, GTranslate (3 languages), WhatsApp widget, Schema.org Organization</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>No Facebook Pixel</strong> — can't retarget Patagonia dreamers who browse the boutique hotel</li>
+          <li><strong>No CRM</strong> — boutique guests are high-value, repeat visitors; no lifecycle emails</li>
+          <li><strong>Timezone set to Europe/Madrid</strong> — should be America/Santiago (misconfiguration)</li>
+          <li><strong>.com domain dead (layegualoca.com ECONNREFUSED)</strong> — old domain not redirecting properly</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($997/mo Growth):</strong> "You have the best independent hotel stack in Punta Arenas — GA4, Direct-book, CoverManager, 3 languages. But no FB Pixel for retargeting and no CRM. With 8 rooms, every return guest matters. We build lifecycle emails: 'You stayed with us for Torres del Paine — come back for Antarctic season.'"</p>
+      </div>
+    </div>
+
+    <!-- 4. Hotel Jose Nogueira -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://www.hotelnogueira.com" target="_blank">Hotel Jose Nogueira</a></h3>
+        <span class="badge badge-blue">HISTORIC 1890 NATIONAL MONUMENT</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">hotelnogueira.com (WP + Visual Composer + Polylang bilingual)</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">3.9★ / 266 reviews</div></div>
+        <div><span class="label">Analytics</span><div class="value green">GA4: G-B1GPZCTXT4 + reCAPTCHA v3</div></div>
+        <div><span class="label">Booking</span><div class="value yellow">Booking.com affiliate links + embedded form (no direct engine)</div></div>
+        <div><span class="label">Email</span><div class="value yellow">Contact Form 7 only — no visible email address</div></div>
+        <div><span class="label">Phone</span><div class="value">+56 9 8478 5471</div></div>
+        <div><span class="label">Address</span><div class="value">Bories 967 — Sara Braun Palace, national monument since 1890</div></div>
+        <div><span class="label">Social</span><div class="value">FB facebook.com/hotel.josenogueira + IG (location-based)</div></div>
+        <div><span class="label">Extra</span><div class="value">Endurance Restaurant + Shackleton Bar, Schema.org Organization+WebPage+BreadcrumbList</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>No direct booking engine</strong> — uses Booking.com affiliate links, paying 15-25% commission</li>
+          <li><strong>No visible email on website</strong> — only Contact Form 7, no reservas@ address</li>
+          <li><strong>No Facebook Pixel / GTM</strong> — can't retarget history buffs browsing the national monument hotel</li>
+          <li><strong>No CRM</strong> — a 136-year-old palace hotel with no guest retention system</li>
+          <li><strong>hoteljosenogueira.com domain DEAD</strong> — old .com domain returns ECONNREFUSED</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($997/mo Growth):</strong> "You're in an 1890 national monument — the Sara Braun Palace. The Shackleton Bar alone is legendary. But every booking goes through Booking.com at 15-25% commission. We install a direct booking engine, save $15-50 per night per room, and build a CRM for 'return to the palace' guest emails."</p>
+      </div>
+    </div>
+
+    <!-- 5. Ilaia Hotel -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://www.ilaia.cl" target="_blank">Ilaia Hotel</a></h3>
+        <span class="badge badge-yellow">ECO-BOUTIQUE — DEAD UA ANALYTICS</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">ilaia.cl (Custom PHP, GoDaddy hosting)</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.8★ / 556 reviews — HIGHEST RATED hotel</div></div>
+        <div><span class="label">Analytics</span><div class="value red">UA-111943300-1 — DEAD since July 2023! No GA4!</div></div>
+        <div><span class="label">Email</span><div class="value green">reservas@ilaiapatagonia.com</div></div>
+        <div><span class="label">Phone</span><div class="value">+56 9 9456 2145</div></div>
+        <div><span class="label">Address</span><div class="value">Ignacio Carrera Pinto #351 — eco-friendly, rooftop lounge</div></div>
+        <div><span class="label">Social</span><div class="value">IG @ilaiahotel + TripAdvisor + Kayak badge</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>DEAD Universal Analytics UA-111943300-1</strong> — stopped collecting data July 2023. Nearly 3 YEARS blind. The HIGHEST RATED hotel in Punta Arenas can't see its own web traffic</li>
+          <li><strong>Custom PHP on GoDaddy</strong> — no CMS, no plugins, no framework. Hard to update, hard to maintain</li>
+          <li><strong>No booking system visible</strong> — eco-boutique with 4.8★ rating but no direct booking engine</li>
+          <li><strong>No Schema.org markup</strong> — Google can't understand this is a hotel</li>
+          <li><strong>No Facebook Pixel, no GTM</strong> — zero retargeting capability</li>
+          <li><strong>No CRM</strong> — eco-conscious travelers are the most loyal; zero retention</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($997/mo Growth):</strong> "Ilaia — you're the HIGHEST RATED hotel in all of Punta Arenas. 4.8 stars, 556 reviews. But your analytics died in July 2023. You've been flying blind for nearly 3 years. We install GA4, a direct booking engine, and CRM so the best hotel in PA finally knows who's visiting."</p>
+      </div>
+    </div>
+
+    <!-- 6. Hotel Almasur -->
+    <div class="biz-card">
+      <div class="top">
+        <h3>Hotel Almasur Punta Arenas</h3>
+        <span class="badge badge-red">ECONNREFUSED — DEAD! #1 MOST-REVIEWED HOTEL</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">hotelalmasur.cl / almasurhotels.com — BOTH DEAD! ECONNREFUSED!</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.1★ / 1,064 reviews — most-reviewed hotel in PA</div></div>
+        <div><span class="label">Analytics</span><div class="value red">Site dead — zero analytics possible</div></div>
+        <div><span class="label">Email</span><div class="value red">Unknown — site is dead</div></div>
+        <div><span class="label">Phone</span><div class="value">+56 61 229 5000</div></div>
+        <div><span class="label">Address</span><div class="value">Armando Sanhueza 965 — central location</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps — CATASTROPHIC</h4>
+        <ul>
+          <li><strong>BOTH domains ECONNREFUSED</strong> — hotelalmasur.cl AND almasurhotels.com. The most-reviewed hotel in Punta Arenas (1,064 reviews) has TWO dead domains. Tourists searching for accommodation find dead servers on both URLs</li>
+          <li><strong>100% dependent on OTAs</strong> — every booking must come through Booking.com, Expedia, or TripAdvisor at 15-25% commission</li>
+          <li><strong>The #1 most-reviewed hotel in the city is completely invisible</strong> — this is the single most dramatic dead-site failure in ALL 16 cities analyzed</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($997/mo Growth):</strong> "Hotel Almasur — you have 1,064 TripAdvisor reviews. More than ANY hotel in Punta Arenas. But both your domains are dead. Every booking pays Booking.com 15-25% commission. We rebuild your site in 72 hours with direct booking, GA4, and stop the commission bleeding."</p>
+      </div>
+    </div>
+
+    <!-- 7. Diego de Almagro Punta Arenas -->
+    <div class="biz-card">
+      <div class="top">
+        <h3>Diego de Almagro Punta Arenas</h3>
+        <span class="badge badge-red">SSL CERTIFICATE ERROR — 3RD CITY CONFIRMED!</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">dahoteles.com/es/da-punta-arenas — SSL ERROR! "unable to verify the first certificate"</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">3.6★ / 615 reviews</div></div>
+        <div><span class="label">Email</span><div class="value">centraldereservas@dahoteles.com</div></div>
+        <div><span class="label">Phone</span><div class="value">61-208800</div></div>
+        <div><span class="label">Address</span><div class="value">Av. Cristobal Colon 1290</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>CHAIN-WIDE SSL FAILURE — NOW CONFIRMED IN 3 CITIES</strong> — Osorno, Valdivia, and now Punta Arenas. Every browser shows "Your connection is not private." A national hotel chain with a security warning on every property page</li>
+          <li><strong>Every Torres del Paine tourist</strong> who searches for DA Hotels in Punta Arenas sees an SSL error</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($1,997/mo):</strong> "DA Hotels — your SSL certificate is broken across at least 3 Chilean cities. Every browser blocks your site. We fix the certificate chain-wide and add direct booking to every property."</p>
+      </div>
+    </div>
+
+    <!-- 8. Innata Patagonia -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://www.innatapatagonia.com" target="_blank">Innata Patagonia Hostal B&B</a></h3>
+        <span class="badge badge-blue">MULTI-PROPERTY GROUP</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">innatapatagonia.com (WP 6.6.5 + Elementor 3.29.0)</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.7★ / 140 reviews</div></div>
+        <div><span class="label">Analytics</span><div class="value red">No GA4 or GTM detected — WP setup implies possible but not confirmed</div></div>
+        <div><span class="label">Email</span><div class="value green">info@innatapatagonia.com + lodge@innatapatagonia.com</div></div>
+        <div><span class="label">Phone</span><div class="value">+56962794254 / WhatsApp: +56994194074 (Lodge), +56984794953 (Expeditions)</div></div>
+        <div><span class="label">Address</span><div class="value">Hernando de Magallanes 631 + Lodge in Timaukel, Tierra del Fuego</div></div>
+        <div><span class="label">Social</span><div class="value">IG @innata.patagonia + @innatalodge + FB</div></div>
+        <div><span class="label">Extra</span><div class="value">Schema.org Hotel + Organization | Design by Fulana.cl | WP outdated (6.6.5)</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>No analytics confirmed</strong> — multi-property group (hostal + Tierra del Fuego lodge + expeditions) with no measurable web traffic</li>
+          <li><strong>No booking system</strong> — guests must email or call. No direct online reservation</li>
+          <li><strong>WordPress outdated (6.6.5 vs 6.9.4)</strong> — security vulnerability risk</li>
+          <li><strong>No CRM</strong> — expedition customers are ultra-high-value; no retention system</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($997/mo Growth):</strong> "Innata — you run a hostal in Punta Arenas, a lodge in Tierra del Fuego, and expeditions. Three revenue streams, zero analytics, zero booking engine. We unify your digital presence with GA4 across all properties and add direct booking."</p>
+      </div>
+    </div>
+
+    <!-- 9. La Casa Escondida -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://www.lacasaescondida.cl" target="_blank">La Casa Escondida</a></h3>
+        <span class="badge badge-yellow">ZERO ANALYTICS — AIRPORT PROXIMITY LODGE</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">lacasaescondida.cl (Custom, by rivarcom, © 2019)</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.9★ / 342 reviews — NEAR PERFECT rating</div></div>
+        <div><span class="label">Analytics</span><div class="value red">ZERO — no GA4, no GTM, no UA, no pixels</div></div>
+        <div><span class="label">Email</span><div class="value yellow">elcamilovan@lacasaescondida.cl — personal name in email</div></div>
+        <div><span class="label">Phone</span><div class="value">+56982863118 / +56982724005</div></div>
+        <div><span class="label">Address</span><div class="value">Parcela #26 A Ojo Bueno — 15km north of PA, 5km south of airport</div></div>
+        <div><span class="label">Social</span><div class="value red">TripAdvisor only — no FB, no IG</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>ZERO analytics</strong> — 4.9-star rated (near perfect!) lodge with ZERO tracking. Can't measure any web visitor</li>
+          <li><strong>Copyright © 2019</strong> — website hasn't been updated in 7 years</li>
+          <li><strong>No booking system</strong> — phone/email only for a lodge near the airport</li>
+          <li><strong>No social media</strong> — only TripAdvisor. No Facebook, no Instagram</li>
+          <li><strong>Personal name in email</strong> — elcamilovan@ (the owner's name) instead of reservas@</li>
+          <li><strong>No Schema.org</strong> — Google can't understand this is a hotel</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "La Casa Escondida — 4.9 stars from 342 reviews. Near-perfect. 5km from the airport. But your site is from 2019, zero analytics, no social media, no booking. Every Torres del Paine visitor flying into PA airport drives past you without knowing. We modernize everything."</p>
+      </div>
+    </div>
+
+    <!-- 10. Hostal Labarca -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://www.hostallabarca.cl" target="_blank">Hostal Labarca</a></h3>
+        <span class="badge badge-yellow">WRONG WORDPRESS THEME — "DENTALCARE" FOR A HOSTAL!</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">hostallabarca.cl (WP 6.8.5 + "dentalcare" theme + Elementor)</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.7★ / 206 reviews — pet-friendly</div></div>
+        <div><span class="label">Analytics</span><div class="value red">No GA4/GTM detected — Facebook SDK: App ID 846720078759202</div></div>
+        <div><span class="label">Booking</span><div class="value yellow">Booked.com calendar plugin (basic appointment system)</div></div>
+        <div><span class="label">Email</span><div class="value green">reservas@hostallabarca.cl</div></div>
+        <div><span class="label">Phone</span><div class="value">+56 9 9564 5769</div></div>
+        <div><span class="label">Address</span><div class="value">Chiloe #1581</div></div>
+        <div><span class="label">Social</span><div class="value">FB (via SDK) + TripAdvisor + GTranslate</div></div>
+        <div><span class="label">Extra</span><div class="value">Revolution Slider + Schema.org WebPage+BreadcrumbList+WebSite+SearchAction</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>Using "dentalcare" WordPress theme for a HOSTAL!</strong> — the theme is designed for dental clinics. Wrong industry template. Schema.org data may signal "dental" to Google instead of "hotel/hostal." The most absurd theme mismatch across ALL 16 cities</li>
+          <li><strong>No Google Analytics</strong> — has Facebook SDK but no GA4 or GTM. Can track FB events but not web visitors</li>
+          <li><strong>Booked.com appointment plugin</strong> — designed for appointments, not hotel bookings. No room availability, no nightly pricing</li>
+          <li><strong>No CRM</strong> — pet-friendly hostal (niche market) with no way to email past guests about pet-friendly travel tips</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "Hostal Labarca — your WordPress theme is 'dentalcare.' Your hostal is telling Google you're a dental clinic. We rebuild on a proper hospitality theme with real booking, GA4, and CRM. Your pet-friendly niche is valuable — let's make it findable."</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== RESTAURANTS ==================== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">🍽️</span> Restaurants & Food (10 Businesses)</h2>
+  <p class="section-sub">From the world's southernmost brewery (Cerveceria Austral, est. 1896) to centolla king crab houses and Croatian-heritage dining. The #2 restaurant's domain is FOR SALE, 4 restaurants have NO website, and 3 use Gmail. Kiosko Roca (since 1932) is the best-positioned restaurant in the entire city.</p>
+
+  <div class="card-grid">
+
+    <!-- 1. Kiosko Roca -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://kioskoroca.cl" target="_blank">Kiosko Roca Punta Arenas</a></h3>
+        <span class="badge badge-green">BEST POSITIONED — SINCE 1932! 1,825 REVIEWS</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">kioskoroca.cl (WP + Astra + Elementor)</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.6★ / 1,825 reviews — Magellanic tradition since 1932</div></div>
+        <div><span class="label">Analytics</span><div class="value green">GA4: GT-MJBB2FB + Google Site Kit</div></div>
+        <div><span class="label">Email</span><div class="value green">paula@kioskoroca.cl</div></div>
+        <div><span class="label">Delivery</span><div class="value green">Uber Eats + PedidosYa + WhatsApp</div></div>
+        <div><span class="label">Address</span><div class="value">Av. Presidente Julio Roca 875</div></div>
+        <div><span class="label">Extra</span><div class="value">Schema.org WebSite+Organization+WebPage+SearchAction, radio player widget, Speedycache</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>No Facebook Pixel</strong> — can't retarget the choripan-craving audience</li>
+          <li><strong>No online reservation system</strong> — delivery only (Uber Eats, PedidosYa), no table booking</li>
+          <li><strong>No CRM</strong> — 94-year Magellanic institution with no customer data</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "Kiosko Roca — 94 years, 1,825 reviews, the most beloved food spot in Punta Arenas. GA4 is good. But no FB Pixel and no CRM. We add retargeting to your delivery customers and build an email list: 'Kiosko Roca choripan season is here.'"</p>
+      </div>
+    </div>
+
+    <!-- 2. Mesita Grande -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://mesitagrande.cl" target="_blank">Mesita Grande - Punta Arenas</a></h3>
+        <span class="badge badge-yellow">3-CITY CHAIN — DEAD UA ANALYTICS</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">mesitagrande.cl (WP + JupiterX + Elementor)</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.2★ / 1,076 reviews</div></div>
+        <div><span class="label">Analytics</span><div class="value yellow">GA4: G-29Y0B55306 + UA-44981994-1 (DEAD!)</div></div>
+        <div><span class="label">Locations</span><div class="value">Punta Arenas + Puerto Natales + Vina del Mar</div></div>
+        <div><span class="label">Phone</span><div class="value">+56 9 5378 8200 (WhatsApp)</div></div>
+        <div><span class="label">Address</span><div class="value">O'Higgins 1001</div></div>
+        <div><span class="label">Social</span><div class="value green">3 IG accounts + 3 FB pages + 3 TripAdvisor profiles</div></div>
+        <div><span class="label">Extra</span><div class="value">JoinChat WhatsApp, Schema.org Organization+WebSite+WebPage+ImageObject</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>Dead UA-44981994-1</strong> — old Universal Analytics still in code alongside GA4. Sending data nowhere</li>
+          <li><strong>No Facebook Pixel</strong> — 3-city pizza chain can't retarget across locations</li>
+          <li><strong>No online reservation system</strong> — WhatsApp only for a 3-city chain</li>
+          <li><strong>No CRM</strong> — can't recognize Vina del Mar customers visiting Punta Arenas</li>
+          <li><strong>No email visible</strong> — no public email on the website</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($997/mo Growth):</strong> "Mesita Grande — 3 cities, 3 IG accounts, 3 FB pages. But no unified booking, no FB Pixel, no CRM. Your Vina del Mar customer visits Punta Arenas and you don't know. We unify your digital presence across all 3 locations with one dashboard."</p>
+      </div>
+    </div>
+
+    <!-- 3. La Marmita -->
+    <div class="biz-card">
+      <div class="top">
+        <h3>La Marmita</h3>
+        <span class="badge badge-red">DOMAIN PARKED/FOR SALE! #2 RESTAURANT 1,532 REVIEWS!</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">marmitamaga.cl — DOMAIN PARKED! "Comprar este dominio. | Seo.Domains"</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.4★ / 1,532 reviews — #2 most-reviewed restaurant in PA</div></div>
+        <div><span class="label">Analytics</span><div class="value red">Site is a parking page — zero analytics</div></div>
+        <div><span class="label">Email</span><div class="value red">marmitamaga@gmail.com — GMAIL!</div></div>
+        <div><span class="label">Phone</span><div class="value">+56 61 222 2056</div></div>
+        <div><span class="label">Address</span><div class="value">Plaza Sampaio 678 — Croatian neighborhood</div></div>
+        <div><span class="label">Social</span><div class="value">FB @marmitamaga.cl + IG @lamarmitarest</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps — CATASTROPHIC</h4>
+        <ul>
+          <li><strong>DOMAIN PARKED/FOR SALE!</strong> — marmitamaga.cl redirects to a domain parking page with "Comprar este dominio" (Buy this domain). The #2 most-reviewed restaurant in Punta Arenas (1,532 reviews) doesn't have a working website. Someone may have let the domain expire or it was sold</li>
+          <li><strong>Gmail: marmitamaga@gmail.com</strong> — #2 restaurant using Gmail</li>
+          <li><strong>Croatian-neighborhood icon losing to competitors</strong> — tourists searching "La Marmita Punta Arenas" land on a domain parking page with RTB ads</li>
+          <li><strong>100% dependent on social media</strong> — only reachable via FB and IG</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "La Marmita — 1,532 reviews, #2 in all of Punta Arenas. Your domain is literally for sale. Someone Googles you and sees 'Buy this domain.' We secure a new domain (or recover this one), build a site with reservations + menu, and get you off Gmail. 72 hours."</p>
+      </div>
+    </div>
+
+    <!-- 4. Taberna Club de la Union -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://tabernabar.cl" target="_blank">Taberna Club de la Union</a></h3>
+        <span class="badge badge-yellow">ZERO ANALYTICS — HISTORIC BAR</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">tabernabar.cl (WP + Elementor 3.21.4 + GTranslate)</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.4★ / 513 reviews</div></div>
+        <div><span class="label">Analytics</span><div class="value red">ZERO — no GA4, no GTM, no UA, no pixels</div></div>
+        <div><span class="label">Email</span><div class="value green">contacto@tabernabar.cl</div></div>
+        <div><span class="label">Phone</span><div class="value">+569 59746467 / (61) 222 2777</div></div>
+        <div><span class="label">Address</span><div class="value">Plaza Munoz Gamero 716 Subterraneo — beneath the Palace!</div></div>
+        <div><span class="label">Social</span><div class="value green">FB + IG @tabernaclubdelaunion + TripAdvisor + Google Business</div></div>
+        <div><span class="label">Extra</span><div class="value">PedidosYa integration, WhatsApp JoinChat, Schema.org Organization+WebPage</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>ZERO analytics</strong> — a bar in a palace basement on the main square with ZERO tracking. Can't measure foot traffic conversion, event promotion ROI, or tourist discovery patterns</li>
+          <li><strong>No Facebook Pixel</strong> — can't retarget bar/restaurant visitors</li>
+          <li><strong>No online reservation</strong> — WhatsApp only</li>
+          <li><strong>No CRM</strong> — an iconic bar since the 1990s with no customer data</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "La Taberna — a legendary bar in the basement of a palace on the main square. 513 reviews. Zero analytics. We install GA4, FB Pixel, and build you a CRM for event promotions. 'Antarctic expedition debrief night at La Taberna.'"</p>
+      </div>
+    </div>
+
+    <!-- 5. AIMA Restaurant -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://aimapatagonia.com" target="_blank">AIMA Restaurant</a></h3>
+        <span class="badge badge-blue">NEW FINE DINING — $$$$ INTERNATIONAL</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">aimapatagonia.com (WP + Elementor Pro + WooCommerce)</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.8★ / 76 reviews — $$$$ fine dining, new opening</div></div>
+        <div><span class="label">Analytics</span><div class="value yellow">Implied GA4 via WP setup — not confirmed in source</div></div>
+        <div><span class="label">Email</span><div class="value red">Not found — no public email</div></div>
+        <div><span class="label">Phone</span><div class="value">+56 9 6639 2626</div></div>
+        <div><span class="label">Address</span><div class="value">Errazuriz 970 — open 12:30-23:45 daily</div></div>
+        <div><span class="label">Social</span><div class="value">IG @aimarestaurant</div></div>
+        <div><span class="label">Extra</span><div class="value">Perfmatters optimization, Schema.org WebPage+Organization+ImageObject+BreadcrumbList</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>No visible email</strong> — $$$$ fine dining with no email for private events, corporate dinners</li>
+          <li><strong>No online reservation system</strong> — phone only for Punta Arenas' highest-rated fine dining</li>
+          <li><strong>No Facebook Pixel</strong> — can't retarget luxury diners</li>
+          <li><strong>No CRM</strong> — high-value guests (expedition travelers, Antarctic cruise passengers) not tracked</li>
+          <li><strong>Navigating cruises dine at AIMA</strong> — hosts special chef-curated dining events on the Strait of Magellan</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($997/mo Growth):</strong> "AIMA — 4.8 stars, fine dining on the Strait. You host cruises and special events. But no reservation system, no email, no CRM. Every cruise passenger who dines with you is lost after departure. We build a reservation system and CRM for the Patagonia high-end market."</p>
+      </div>
+    </div>
+
+    <!-- 6. La Cuisine -->
+    <div class="biz-card">
+      <div class="top">
+        <h3>La Cuisine</h3>
+        <span class="badge badge-red">NO WEBSITE — FRENCH RESTAURANT 985 REVIEWS</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">NO WEBSITE — phone and Facebook only</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.6★ / 985 reviews — French cuisine, $$ - $$$</div></div>
+        <div><span class="label">Email</span><div class="value red">Not found</div></div>
+        <div><span class="label">Phone</span><div class="value">+56612228641</div></div>
+        <div><span class="label">Address</span><div class="value">O'Higgins 1037</div></div>
+        <div><span class="label">Social</span><div class="value">FB + IG @lacuisinepuq</div></div>
+        <div><span class="label">Extra</span><div class="value">Chilean-French couple owners (Eric in kitchen, Gloria FOH)</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps — CRITICAL</h4>
+        <ul>
+          <li><strong>NO website</strong> — 4.6★ French restaurant with 985 reviews. The 4th highest-rated restaurant in PA has zero web presence</li>
+          <li><strong>French tourists searching in French</strong> — can't find this French restaurant online because there's nothing to find</li>
+          <li><strong>No email</strong> — for a restaurant that could serve cruise ship groups and expedition companies</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "La Cuisine — 985 reviews, French cuisine in Patagonia. French tourists Google 'restaurant français Punta Arenas' and can't find you. A bilingual French/Spanish site with reservations. 7 days. $497/mo."</p>
+      </div>
+    </div>
+
+    <!-- 7. Sotito's -->
+    <div class="biz-card">
+      <div class="top">
+        <h3>Sotito's Restaurant</h3>
+        <span class="badge badge-red">NO WEBSITE — CENTOLLA HOUSE 1,611 REVIEWS</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">NO WEBSITE — phone and social media only</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.0★ / 1,611 reviews — $$$$ Chilean/Seafood</div></div>
+        <div><span class="label">Email</span><div class="value red">Not found</div></div>
+        <div><span class="label">Phone</span><div class="value">+56 61 224 3565</div></div>
+        <div><span class="label">Address</span><div class="value">Bernardo O'Higgins 1138</div></div>
+        <div><span class="label">Social</span><div class="value">IG @sotitosrestaurant + FB Sotitosrestaurant</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps — CRITICAL</h4>
+        <ul>
+          <li><strong>NO website — 1,611 reviews!</strong> The #3 most-reviewed restaurant in Punta Arenas. Famous for centolla (king crab). $$$$ pricing. Zero web presence. Tourists fly to PA specifically to eat centolla — and the centolla house doesn't exist online</li>
+          <li><strong>$$$$ pricing = high-value customers</strong> — king crab dinners are $40-$80+. Every lost reservation = significant revenue</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "Sotito's — THE centolla house of Punta Arenas. 1,611 reviews. People fly to PA for your king crab. But you have no website. 'Best centolla Punta Arenas' on Google leads to TripAdvisor, not to you. We build a site with a reservation system and menu. 7 days."</p>
+      </div>
+    </div>
+
+    <!-- 8. Hotel Savoy Restaurant -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://www.hotelsavoy.cl" target="_blank">Hotel Savoy Restaurant</a></h3>
+        <span class="badge badge-yellow">WIX — GMAIL — NO BOOKING</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">hotelsavoy.cl (Wix Thunderbolt v1.17110.0)</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.3★ / 480 reviews (restaurant) — classic establishment</div></div>
+        <div><span class="label">Analytics</span><div class="value yellow">Wix built-in — no explicit GA4/GTM</div></div>
+        <div><span class="label">Email</span><div class="value red">savoyparenas@gmail.com — GMAIL!</div></div>
+        <div><span class="label">Phone</span><div class="value">61 (2) 247979 / 61 (2) 229694</div></div>
+        <div><span class="label">Address</span><div class="value">Jose Menendez 1073</div></div>
+        <div><span class="label">Extra</span><div class="value">Schema.org WebSite+SearchAction, multilingual enabled</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>Gmail: savoyparenas@gmail.com</strong> — a classic hotel/restaurant using Gmail</li>
+          <li><strong>No booking system</strong> — phone only for both hotel rooms and restaurant tables</li>
+          <li><strong>Wix platform limitations</strong> — limited SEO, limited customization</li>
+          <li><strong>No social media links visible</strong> — Wix site has no social presence connected</li>
+          <li><strong>No CRM</strong></li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "Hotel Savoy — a classic PA institution. But Gmail email and no booking. We set up reservas@hotelsavoy.cl, add online booking for both hotel and restaurant, and install proper analytics."</p>
+      </div>
+    </div>
+
+    <!-- 9. Lomito's -->
+    <div class="biz-card">
+      <div class="top">
+        <h3>Lomito's</h3>
+        <span class="badge badge-red">NO WEBSITE — GMAIL — 976 REVIEWS</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">NO WEBSITE — luansrestaurante.com also DEAD (ECONNREFUSED)</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">3.8★ / 976 reviews — American/Bar, $</div></div>
+        <div><span class="label">Email</span><div class="value red">lomitdeliveryretiro2021@gmail.com — GMAIL with "2021" in it!</div></div>
+        <div><span class="label">Phone</span><div class="value">(61) 224 3399 / +56 9 9791 7530</div></div>
+        <div><span class="label">Address</span><div class="value">Jose Menendez 722</div></div>
+        <div><span class="label">Social</span><div class="value">FB Lomitos</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>NO website</strong> — 976 reviews, no web presence</li>
+          <li><strong>Gmail: lomitdeliveryretiro2021@gmail.com</strong> — "delivery retiro 2021" in the email. A pandemic-era Gmail that became permanent. One of the most telling email addresses in the study</li>
+          <li><strong>100% social/phone dependent</strong></li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "Lomito's — 976 reviews. Your email is literally 'lomitdeliveryretiro2021@gmail.com.' A pandemic-era Gmail is still your main contact 5 years later. We build a site with online ordering and a proper email."</p>
+      </div>
+    </div>
+
+    <!-- 10. Damiana Elena -->
+    <div class="biz-card">
+      <div class="top">
+        <h3>Damiana Elena</h3>
+        <span class="badge badge-red">NO WEBSITE — $$$$ SEAFOOD — 394 REVIEWS</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">NO WEBSITE — Facebook and phone only</div></div>
+        <div><span class="label">TripAdvisor</span><div class="value">4.4★ / 394 reviews — $$$$ Chilean seafood</div></div>
+        <div><span class="label">Email</span><div class="value red">Not found</div></div>
+        <div><span class="label">Phone</span><div class="value">+56 61 2 222818</div></div>
+        <div><span class="label">Address</span><div class="value">Hernando de Magallanes 341</div></div>
+        <div><span class="label">Social</span><div class="value">FB @damianaelenarestaurant</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>NO website</strong> — $$$$ seafood restaurant, 394 reviews, no web presence. High-end dining invisible to Google</li>
+          <li><strong>No email, no booking</strong> — phone and Facebook only for a $$$$ restaurant</li>
+          <li><strong>Centolla/seafood market competitor to Sotito's</strong> — both have no website, racing to the bottom digitally</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "Damiana Elena — 4.4 stars, $$$$ seafood. Your competitor Sotito's also has no website. Whoever builds a site first wins the 'centolla Punta Arenas' search. Be first."</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== HEALTH ==================== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">🏥</span> Health & Veterinary (10 Businesses)</h2>
+  <p class="section-sub">Dental clinics, veterinary practices, and medical centers in Chile's southernmost major healthcare market. 3 clinics have DEAD websites, 1 has ZERO analytics despite Dentalink booking, and the only clinic with good analytics is a national chain (Uno Salud). A dental clinic is still showing "coming soon" with jQuery from the 2010s.</p>
+
+  <div class="card-grid">
+
+    <!-- 1. Uno Salud Dental -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://www.unosalud.cl/clinicas/punta-arenas/" target="_blank">Uno Salud Dental - Punta Arenas</a></h3>
+        <span class="badge badge-green">BEST POSITIONED — NATIONAL CHAIN</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">unosalud.cl (WP + LiteSpeed Cache)</div></div>
+        <div><span class="label">Analytics</span><div class="value green">GTM: GTM-W92JF24J + Microsoft Clarity: rf0iqdz3bt + Brevo email marketing</div></div>
+        <div><span class="label">Booking</span><div class="value green">DentalSoft (dentalsoft.unosalud.com/reserva_online)</div></div>
+        <div><span class="label">Email</span><div class="value green">contacto@unosalud.com</div></div>
+        <div><span class="label">Phone</span><div class="value">+566007071010</div></div>
+        <div><span class="label">Address</span><div class="value">Julio Roca #940, Punta Arenas</div></div>
+        <div><span class="label">Social</span><div class="value green">IG @unosaluddental + FB + LinkedIn + YouTube</div></div>
+        <div><span class="label">Schema.org</span><div class="value green">MedicalOrganization + Dentist + LocalBusiness | Tax ID: 77.252.709-8</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>National chain infrastructure</strong> — GTM + Clarity + Brevo + DentalSoft. Best dental analytics in PA</li>
+          <li><strong>Founded June 2021</strong> — relatively new chain vs. established independents</li>
+          <li><strong>Brevo = only email marketing platform</strong> in PA dental (rare and valuable)</li>
+          <li><strong>No Facebook Pixel visible</strong></li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($997/mo Growth):</strong> "Uno Salud is the benchmark. Your competitors in PA have DEAD websites and ZERO analytics. But you lack FB Pixel for patient retargeting. We add social retargeting to your already-strong analytics foundation."</p>
+      </div>
+    </div>
+
+    <!-- 2. Clinica DentalSpa -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://clinicadentalspa.cl" target="_blank">Clinica DentalSpa</a></h3>
+        <span class="badge badge-yellow">DENTALINK BOOKING — ZERO ANALYTICS</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">clinicadentalspa.cl (WP 6.8.5 + Flatsome theme)</div></div>
+        <div><span class="label">Analytics</span><div class="value red">ZERO — no GA4, no GTM, no UA, no pixels</div></div>
+        <div><span class="label">Booking</span><div class="value green">Dentalink (agendamiento.softwaredentalink.com)</div></div>
+        <div><span class="label">Email</span><div class="value red">Not found on site</div></div>
+        <div><span class="label">Social</span><div class="value">FB clinica.dentalspa.9 + IG @dentalspapuq</div></div>
+        <div><span class="label">Extra</span><div class="value">Contact Form 7, developed by Vitaminizado, "first and only dental spa concept in PA"</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>ZERO analytics despite Dentalink booking</strong> — paying for booking software but can't measure how patients find the site</li>
+          <li><strong>No email visible</strong> — dental spa concept but no way to email them</li>
+          <li><strong>No Schema.org</strong> — Google doesn't know this is a dental clinic</li>
+          <li><strong>"First dental spa in PA"</strong> — unique positioning, zero SEO to capitalize on it</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "DentalSpa — you invented the dental spa concept for Punta Arenas. But zero analytics means you can't see who's searching for it. We install GA4 + Schema.org so 'dental spa punta arenas' leads to you."</p>
+      </div>
+    </div>
+
+    <!-- 3. StiloDental -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://stilodental.cl" target="_blank">Clinica StiloDental</a></h3>
+        <span class="badge badge-green">GOOD STACK — GA4 + HEALTHATOM</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">stilodental.cl (WP + Astra + Elementor)</div></div>
+        <div><span class="label">Analytics</span><div class="value green">GA4: G-1WKKHJ6B7W</div></div>
+        <div><span class="label">Booking</span><div class="value green">HealthAtom (ff.healthatom.io)</div></div>
+        <div><span class="label">Address</span><div class="value">Club Hipico 705-A (near Av. Bulnes)</div></div>
+        <div><span class="label">Schema.org</span><div class="value green">Organization + WebSite + WebPage + BreadcrumbList</div></div>
+        <div><span class="label">Extra</span><div class="value">WP Rocket lazy loading, personalized dental care focus</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>No Facebook Pixel</strong> — can't retarget potential patients</li>
+          <li><strong>No email visible</strong> — no public contact email</li>
+          <li><strong>No social media links</strong> — no FB or IG connected to site</li>
+          <li><strong>No CRM</strong> — has HealthAtom booking but no patient retention system</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "StiloDental — you have GA4 + HealthAtom. Good foundation. But no social media on your site, no email visible, no CRM. We add patient retention: 6-month cleaning reminders, review requests, referral program."</p>
+      </div>
+    </div>
+
+    <!-- 4. Patagonia Dent -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://www.patagoniadent.cl" target="_blank">Patagonia Dent</a></h3>
+        <span class="badge badge-yellow">STATIC SITE — "COMING SOON" FEEL</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">patagoniadent.cl (Static HTML + jQuery + Typer.js + Ketchup.js)</div></div>
+        <div><span class="label">Analytics</span><div class="value red">ZERO — no GA4, no GTM, no UA, no pixels</div></div>
+        <div><span class="label">Email</span><div class="value red">Not found — email capture form only</div></div>
+        <div><span class="label">Phone</span><div class="value">(61) 2371324 / (61) 2371325</div></div>
+        <div><span class="label">Address</span><div class="value">Av. Bulnes 01621</div></div>
+        <div><span class="label">Social</span><div class="value red">ZERO — no social media</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>Title says "MUY PRONTO!" (COMING SOON)</strong> — the site appears to be in a perpetual launch state</li>
+          <li><strong>ZERO analytics, zero social, zero booking</strong></li>
+          <li><strong>Static HTML with 2010s-era jQuery plugins</strong> — Typer.js for animated text, Ketchup.js for form validation</li>
+          <li><strong>No Schema.org</strong></li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "Patagonia Dent — your site still says 'coming soon.' How long has it been 'coming soon'? We build a real site with booking, analytics, and social in 14 days. Stop being coming-soon."</p>
+      </div>
+    </div>
+
+    <!-- 5. Santa Sofia Vet -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://www.santasofiaveterinaria.cl" target="_blank">Santa Sofia Clinica Veterinaria</a></h3>
+        <span class="badge badge-yellow">WIX — 10 YEARS EXPERIENCE</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">santasofiaveterinaria.cl (Wix Thunderbolt v1.17110.0)</div></div>
+        <div><span class="label">Analytics</span><div class="value yellow">GA4 capability via Wix — specific ID not exposed</div></div>
+        <div><span class="label">Email</span><div class="value red">Not visible in source</div></div>
+        <div><span class="label">Phone</span><div class="value">+56 9 5807 5797 (WhatsApp)</div></div>
+        <div><span class="label">Address</span><div class="value">Av. Espana 1277 — 10 years of experience</div></div>
+        <div><span class="label">Extra</span><div class="value">Google rating: 4.9★ | Dental cleaning under anesthesia specialty</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>Wix platform</strong> — limited SEO, limited customization for vet practice</li>
+          <li><strong>No visible email, no social links, no Schema.org</strong></li>
+          <li><strong>No booking system</strong> — WhatsApp/phone only</li>
+          <li><strong>10 years of experience, 4.9 Google rating</strong> — reputation not matched by digital presence</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "Santa Sofia — 10 years, 4.9 Google rating. Your reputation is stellar. But your Wix site can't rank for 'veterinaria punta arenas.' We migrate to a proper CMS with booking, Schema.org, and SEO."</p>
+      </div>
+    </div>
+
+    <!-- 6. Timaukel Vet -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://www.veterinariatimaukel.cl" target="_blank">Clinica Veterinaria Timaukel</a></h3>
+        <span class="badge badge-yellow">STATIC HTML — ZERO ANALYTICS</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">veterinariatimaukel.cl (Static HTML + Jssor Slider, by Duaoweb)</div></div>
+        <div><span class="label">Analytics</span><div class="value red">ZERO — no GA4, no GTM, no UA, no pixels</div></div>
+        <div><span class="label">Phone</span><div class="value">(61) 2211085</div></div>
+        <div><span class="label">Address</span><div class="value">Jose Pithon 01316</div></div>
+        <div><span class="label">Social</span><div class="value red">ZERO — no social media found</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>Static HTML from Duaoweb developer</strong> — no CMS, hard to update</li>
+          <li><strong>ZERO analytics, zero social, zero booking, zero Schema.org</strong></li>
+          <li><strong>Only Jssor Slider</strong> — one JavaScript library for an image carousel. That's the entire tech stack</li>
+          <li><strong>Email referenced but not displayed</strong> — mailto link exists but address hidden</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "Timaukel Vet — your entire website tech is an image slider from 2015. Zero analytics, zero booking, zero social. We build a modern vet site with online appointments in 7 days."</p>
+      </div>
+    </div>
+
+    <!-- 7. Onavet -->
+    <div class="biz-card">
+      <div class="top">
+        <h3>Clinica Veterinaria Onavet</h3>
+        <span class="badge badge-red">ECONNREFUSED — DEAD!</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">onavet.cl — ECONNREFUSED DEAD!</div></div>
+        <div><span class="label">Phone</span><div class="value">612 267 240 / 968 788 511</div></div>
+        <div><span class="label">Address</span><div class="value">Armando Sanhueza 2441</div></div>
+        <div><span class="label">Extra</span><div class="value">Offers dental, surgery, emergency, ultrasound services</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps — CATASTROPHIC</h4>
+        <ul>
+          <li><strong>DEAD website</strong> — onavet.cl returns ECONNREFUSED. A vet clinic offering dentistry, surgery, emergency services — completely invisible</li>
+          <li><strong>Specialized services lost</strong> — emergency vet + dental vet searches lead to dead server</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "Onavet — your site is dead. Pet emergencies happen at midnight. Pet owners Google 'veterinaria emergencia punta arenas' — your server doesn't respond. We rebuild in 72 hours."</p>
+      </div>
+    </div>
+
+    <!-- 8. CVAustral -->
+    <div class="biz-card">
+      <div class="top">
+        <h3>Clinica Veterinaria Austral (CVAustral)</h3>
+        <span class="badge badge-red">ECONNREFUSED — DEAD!</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">cvaustral.cl — ECONNREFUSED DEAD!</div></div>
+        <div><span class="label">Extra</span><div class="value">Offers consultations, emergencies, quality pet care</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps — CATASTROPHIC</h4>
+        <ul>
+          <li><strong>DEAD website</strong> — cvaustral.cl returns ECONNREFUSED. Another vet clinic invisible to pet owners</li>
+          <li><strong>2 of 4 independent vet clinics in PA are DEAD</strong> — 50% of independent vet web presence is offline</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "CVAustral — 50% of independent vet websites in Punta Arenas are dead. Yours is one of them. We rebuild with online booking and Google visibility."</p>
+      </div>
+    </div>
+
+    <!-- 9. Odontologia Tierra Austral -->
+    <div class="biz-card">
+      <div class="top">
+        <h3>Odontologia Tierra Austral</h3>
+        <span class="badge badge-red">ECONNREFUSED — DEAD!</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">odontologiatierraaustral.cl — ECONNREFUSED DEAD!</div></div>
+        <div><span class="label">Extra</span><div class="value">Full dental specialty team, highly trained clinical staff</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps — CATASTROPHIC</h4>
+        <ul>
+          <li><strong>DEAD website</strong> — a full-specialty dental clinic with a dead server</li>
+          <li><strong>3 of 5 independent dental/vet clinics in PA are DEAD</strong> — the health sector web failure rate is extreme</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "Tierra Austral — your dental team is 'highly trained.' Your website is dead. Patients searching 'dentista punta arenas' find Uno Salud, StiloDental — not you. 72-hour rebuild."</p>
+      </div>
+    </div>
+
+    <!-- 10. RedSalud Dental -->
+    <div class="biz-card">
+      <div class="top">
+        <h3>RedSalud Centro Medico y Dental - Punta Arenas</h3>
+        <span class="badge badge-blue">NATIONAL CHAIN — PEDRO MONTT 890</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">redsalud.cl (national chain platform)</div></div>
+        <div><span class="label">Address</span><div class="value">Pedro Montt 890, steps from Plaza de Armas</div></div>
+        <div><span class="label">Extra</span><div class="value">Medical + dental specialties, formerly Megasalud | AgendaPro booking via marketplace</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>National chain</strong> — corporate decisions, limited local marketing autonomy</li>
+          <li><strong>404 error on direct URL</strong> — redsalud.cl/nuestra-red/centros-medicos/... returned 404</li>
+          <li><strong>Institutional constraints</strong> — NWM opportunity is limited for chain locations</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch:</strong> Lower priority — national chain with corporate digital decisions. Better to focus on independent clinics with dead websites.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== BEAUTY ==================== -->
+<section class="section">
+  <h2 class="section-title"><span class="icon">💇</span> Beauty & Aesthetics (10 Businesses)</h2>
+  <p class="section-sub">Barbers, salons, and aesthetic centers in Patagonia's southernmost beauty market. Chacho Barber has the best stack. OHM Studio has WooCommerce. But 5 businesses have NO website, 1 uses UENIWEB (GTM-TG56DMZ confirmed), and 1 iconic salon is DEAD.</p>
+
+  <div class="card-grid">
+
+    <!-- 1. Chacho Barber -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://barberiachachobarber.cl" target="_blank">Barberia Chacho Barber</a></h3>
+        <span class="badge badge-green">BEST POSITIONED — BEAUTY SECTOR</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">barberiachachobarber.cl (WP 6.8.5 + Hello Elementor + Elementor 3.31.2)</div></div>
+        <div><span class="label">Analytics</span><div class="value green">GA4: G-JT2ZVLGRB8 + FB Pixel + WP Statistics</div></div>
+        <div><span class="label">Booking</span><div class="value green">AgendaPro (barberiachachobarber.site.agendapro.com)</div></div>
+        <div><span class="label">Phone</span><div class="value">+56 9 9652 3073 (WhatsApp)</div></div>
+        <div><span class="label">Address</span><div class="value">Chiloe 1346 — since 2018</div></div>
+        <div><span class="label">Social</span><div class="value green">IG @barberia.chachobarber + FB + YouTube</div></div>
+        <div><span class="label">Extra</span><div class="value">Schema.org Organization+WebPage+BreadcrumbList, Contact Form 7, WhatsApp Support plugin</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>No email visible</strong> — only Contact Form 7</li>
+          <li><strong>No CRM</strong> — barber with GA4 + FB Pixel + AgendaPro but no client retention</li>
+          <li><strong>Best beauty stack in PA</strong> — the benchmark for the sector</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "Chacho — you have the best digital stack of any barber/salon in Punta Arenas. GA4, FB Pixel, AgendaPro. But no CRM. We add client retention: automated rebooking reminders, birthday offers, referral rewards."</p>
+      </div>
+    </div>
+
+    <!-- 2. OHM Studio -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://ohmpuq.cl" target="_blank">OHM Studio</a></h3>
+        <span class="badge badge-yellow">WOOCOMMERCE — NO ANALYTICS</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value">ohmpuq.cl (WP 6.7.5 + Elementor 3.23.0 + Elementor Pro)</div></div>
+        <div><span class="label">Analytics</span><div class="value red">WP Statistics only — no GA4, no GTM, no FB Pixel</div></div>
+        <div><span class="label">Booking</span><div class="value yellow">/reserva page (custom form)</div></div>
+        <div><span class="label">E-commerce</span><div class="value">WooCommerce (cart + checkout + order attribution)</div></div>
+        <div><span class="label">Phone</span><div class="value">+56 9 3652 3891</div></div>
+        <div><span class="label">Address</span><div class="value">Roca #932 — Mon-Fri 1-7 PM, Sat 9 AM-7 PM</div></div>
+        <div><span class="label">Social</span><div class="value">IG @ohmpuq</div></div>
+        <div><span class="label">Extra</span><div class="value">Contact Form 7, Schema.org Organization+WebPage+BreadcrumbList+ImageObject</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>WooCommerce e-commerce but NO real analytics</strong> — selling products online with zero conversion tracking</li>
+          <li><strong>WP Statistics only</strong> — basic plugin, no GA4 or GTM for e-commerce tracking</li>
+          <li><strong>No Facebook Pixel</strong> — can't retarget product browsers</li>
+          <li><strong>WordPress outdated (6.7.5 vs 6.9.4)</strong></li>
+          <li><strong>No CRM</strong> — selling products + booking services with no client data retention</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "OHM Studio — you have WooCommerce selling products but zero analytics. You literally can't see which products sell, which pages convert, or where customers come from. GA4 + e-commerce tracking in 48 hours."</p>
+      </div>
+    </div>
+
+    <!-- 3. Belleza Ancestral -->
+    <div class="biz-card">
+      <div class="top">
+        <h3><a href="https://belleza-ancestral.ueniweb.com" target="_blank">Belleza Ancestral</a></h3>
+        <span class="badge badge-red">UENIWEB — GTM-TG56DMZ CONFIRMED!</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">belleza-ancestral.ueniweb.com (UENIWEB platform)</div></div>
+        <div><span class="label">Analytics</span><div class="value red">GTM-TG56DMZ — UENIWEB injection! Same as Osorno!</div></div>
+        <div><span class="label">Address</span><div class="value">Almirante Manuel Senoret 943</div></div>
+        <div><span class="label">Social</span><div class="value">IG @bellezancestral + FB CentroEsteticaBellezaAncestral</div></div>
+        <div><span class="label">Extra</span><div class="value">Schema.org LocalBusiness, Mapbox, Slick Carousel, orange_gray theme</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul>
+          <li><strong>UENIWEB platform with GTM-TG56DMZ</strong> — confirmed cross-city injection. UENIWEB's GTM container tracks visitors across ALL UENIWEB sites. The business doesn't control its own analytics. Same GTM found in Osorno</li>
+          <li><strong>.ueniweb.com subdomain</strong> — can't rank in Google against own-domain competitors</li>
+          <li><strong>No real booking system</strong> — despite cart drawer code, no active e-commerce</li>
+          <li><strong>Price range: $ (budget)</strong></li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "Belleza Ancestral — your site is on UENIWEB. Their tracking code follows your visitors, not yours. You're on a subdomain that can't rank in Google. We build you a real site on your own domain with YOUR analytics."</p>
+      </div>
+    </div>
+
+    <!-- 4. Salon Cecilia Bahamondez -->
+    <div class="biz-card">
+      <div class="top">
+        <h3>Salon de Belleza Cecilia Bahamondez</h3>
+        <span class="badge badge-red">ECONNREFUSED — DEAD!</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">salonceciliabahamondez.cl — ECONNREFUSED DEAD!</div></div>
+        <div><span class="label">Extra</span><div class="value">Established salon in Punta Arenas, known for latest fashion trends in hairdressing</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps — CATASTROPHIC</h4>
+        <ul>
+          <li><strong>DEAD website</strong> — established salon with dead server. Women searching "peluqueria punta arenas" find a dead link</li>
+        </ul>
+      </div>
+      <div class="pitch-box">
+        <p><strong>NWM Pitch ($497/mo Starter):</strong> "Cecilia Bahamondez — your salon site is dead. We rebuild with online booking and social media integration in 7 days."</p>
+      </div>
+    </div>
+
+    <!-- 5-10: No website businesses -->
+    <div class="biz-card">
+      <div class="top">
+        <h3>Glover Centro de Estetica y Depilacion</h3>
+        <span class="badge badge-red">NO WEBSITE</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">NO WEBSITE — directory listings only</div></div>
+        <div><span class="label">Phone</span><div class="value">(56-61) 2228726</div></div>
+        <div><span class="label">Address</span><div class="value">Av. Espana 1528</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul><li>NO website, no email, no social media. Aesthetic center invisible to Google. Depilation/aesthetic services discoverable only via walk-in or directories</li></ul>
+      </div>
+    </div>
+
+    <div class="biz-card">
+      <div class="top">
+        <h3>Elite Beauty Ivana Salon</h3>
+        <span class="badge badge-red">NO WEBSITE — FB ONLY</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">NO WEBSITE — Facebook only</div></div>
+        <div><span class="label">Address</span><div class="value">Hernando de Magallanes 775 A</div></div>
+        <div><span class="label">Social</span><div class="value">FB @ivanasalondebelleza</div></div>
+        <div><span class="label">Extra</span><div class="value">Professional makeup, anti-aging, eyelash extensions, microblading, solarium</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul><li>NO website. Premium services (anti-aging, microblading) invisible to Google. Solarium is a unique offering in Patagonia — no SEO for it</li></ul>
+      </div>
+    </div>
+
+    <div class="biz-card">
+      <div class="top">
+        <h3>Natural Beauty Estetica Integral</h3>
+        <span class="badge badge-red">NO WEBSITE</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">NO WEBSITE</div></div>
+        <div><span class="label">Address</span><div class="value">Hernando de Magallanes 578</div></div>
+        <div><span class="label">Extra</span><div class="value">Microblading, body wraps, relaxing massages, laser hair removal</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul><li>NO website. Laser hair removal + microblading = high-value services with zero online visibility. Patagonia's extreme climate drives demand for spa services — invisible to searchers</li></ul>
+      </div>
+    </div>
+
+    <div class="biz-card">
+      <div class="top">
+        <h3>Alquimia Peluqueria</h3>
+        <span class="badge badge-red">NO WEBSITE — FB + IG ONLY</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">NO WEBSITE — Facebook + Instagram only</div></div>
+        <div><span class="label">Address</span><div class="value">Jose Menendez 930</div></div>
+        <div><span class="label">Social</span><div class="value">FB Alquimia Peluqueria + IG @alquimiapunta_arenas</div></div>
+        <div><span class="label">Extra</span><div class="value">Hair cuts, coloring, manicure, waxing</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul><li>NO website. Has IG + FB presence but zero web visibility. Can't rank for "peluqueria punta arenas" in Google</li></ul>
+      </div>
+    </div>
+
+    <div class="biz-card">
+      <div class="top">
+        <h3>Peluqueria Soleen</h3>
+        <span class="badge badge-red">NO WEBSITE</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value red">NO WEBSITE</div></div>
+        <div><span class="label">Address</span><div class="value">Jose Miguel Carrera 641</div></div>
+        <div><span class="label">Extra</span><div class="value">Manicure, pedicure, professional makeup, hair extensions, keratin smoothing</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul><li>NO website. Keratin smoothing and hair extensions are premium services invisible to Google. Professional makeup for weddings/events — discoverable only by word of mouth</li></ul>
+      </div>
+    </div>
+
+    <div class="biz-card">
+      <div class="top">
+        <h3>Barberia Leon de Juda</h3>
+        <span class="badge badge-yellow">SETMORE BOOKING — NO OWN WEBSITE</span>
+      </div>
+      <div class="detail-grid">
+        <div><span class="label">Website</span><div class="value yellow">barberleondejuda.setmore.com — Setmore booking page only</div></div>
+        <div><span class="label">Booking</span><div class="value green">Setmore online scheduling</div></div>
+        <div><span class="label">Address</span><div class="value">Armando Sanhueza 917</div></div>
+      </div>
+      <div class="gap-list">
+        <h4>Digital Gaps</h4>
+        <ul><li>No own website — only Setmore booking page. Has booking but no brand presence, no SEO, no content. A barber reduced to a scheduling widget</li></ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== CTA ==================== -->
+<div class="cta-section">
+  <h2>40 Punta Arenas Businesses Losing <span>$2.2M Every Year</span></h2>
+  <p>Chile's southernmost major city. Gateway to Torres del Paine and Antarctica. The world's southernmost brewery. King crab capital. Yet the #1 most-reviewed hotel is DEAD (both domains!), the #2 restaurant's domain is FOR SALE, DA Hotels' SSL error hits a 3rd city, 3 health clinics are DEAD, a hostal uses a dental WordPress theme, and 7+ businesses have ECONNREFUSED servers — the HIGHEST dead-site count across all 16 cities analyzed.</p>
+  <a href="punta-arenas-digital-gaps.html" class="cta-btn">View Full Digital Gap Analysis &rarr;</a>
+</div>
+
+</div>
+
+<footer class="report-footer">
+  <div class="container">
+    <p><strong>NetWebMedia</strong> — AI Marketing for Growth | netwebmedia.com | hello@netwebmedia.com</p>
+    <p style="margin-top:8px;">Report generated April 16, 2026. All data sourced from live website audits, TripAdvisor, Google Business, and public business directories.</p>
+  </div>
+</footer>
+
+</body>
+</html>

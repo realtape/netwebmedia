@@ -1,0 +1,84 @@
+name: Deploy company prospect pages to netwebmedia.com
+
+# Publishes _deploy/companies/** to https://netwebmedia.com/companies/** via FTPS.
+# These are the 680 per-company social+digital audit pages linked from the CRM
+# (notes.page URLs → https://netwebmedia.com/companies/{city}/{slug}.html).
+#
+# Requires 3 repo secrets (Settings → Secrets and variables → Actions → New):
+#   CPANEL_FTP_HOST      e.g. ftp.netwebmedia.com  (or secure345.servconfig.com)
+#   CPANEL_FTP_USER      cPanel username (webmed6 or an FTP-only account)
+#   CPANEL_FTP_PASSWORD  matching password
+#
+# Server-side target: /public_html/companies/   (so the public URL is /companies/)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '_deploy/companies/**'
+      - '.github/workflows/deploy-companies.yml'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Log-only mode (no actual FTP writes)'
+        type: boolean
+        default: false
+
+concurrency:
+  group: deploy-companies
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Count files to deploy
+        run: |
+          echo "Companies folder size:"
+          du -sh _deploy/companies
+          echo ""
+          echo "File count per city:"
+          find _deploy/companies -mindepth 1 -maxdepth 1 -type d \
+            | while read d; do printf "  %s  %4d files\n" "$(basename "$d")" "$(find "$d" -type f | wc -l)"; done
+          echo ""
+          echo "Total HTML files: $(find _deploy/companies -name '*.html' | wc -l)"
+
+      - name: Deploy via FTPS
+        if: ${{ inputs.dry_run != true }}
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.CPANEL_FTP_HOST }}
+          username: ${{ secrets.CPANEL_FTP_USER }}
+          password: ${{ secrets.CPANEL_FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./_deploy/companies/
+          server-dir: /public_html/companies/
+          dangerous-clean-slate: false
+          log-level: standard
+          exclude: |
+            **/.git*
+            **/.DS_Store
+            **/Thumbs.db
+            **/*.py
+            **/__pycache__/**
+
+      - name: Smoke test live URLs
+        if: ${{ inputs.dry_run != true }}
+        run: |
+          set -e
+          URLS=(
+            "https://netwebmedia.com/companies/index.html"
+            "https://netwebmedia.com/companies/santiago/hostal-providencia.html"
+            "https://netwebmedia.com/companies/coyhaique/centro-de-esttica-y-peluquera-amanda.html"
+          )
+          for u in "${URLS[@]}"; do
+            code=$(curl -sS -o /dev/null -w "%{http_code}" -A "gh-actions-smoke/1.0" --max-time 20 "$u")
+            echo "  $code  $u"
+            [ "$code" = "200" ] || { echo "✗ non-200"; exit 1; }
+          done
+          echo "✓ All smoke-test URLs 200 OK"

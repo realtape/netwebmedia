@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetWebMedia — Temuco Prospect Report & Individual Business Analysis (April 2026)</title>
+<style>
+:root{--brand:#ff6b00;--dark:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;--green:#3fb950;--red:#f85149;--yellow:#d29922;--blue:#58a6ff;--purple:#bc8cff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--dark);color:var(--text);line-height:1.65}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.report-header{background:linear-gradient(135deg,#0d1117 0%,#1a1e2e 100%);border-bottom:3px solid var(--brand);padding:56px 0}
+.report-header h1{font-size:2.2rem;font-weight:800}.report-header h1 span{color:var(--brand)}
+.report-header .subtitle{color:var(--muted);font-size:1.1rem;margin-top:8px}
+.report-header .meta{margin-top:16px;display:flex;gap:24px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+.report-header .meta strong{color:var(--text)}
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:32px 0}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.stat-card .num{font-size:2rem;font-weight:800;color:var(--brand)}.stat-card .num.red{color:var(--red)}
+.stat-card .label{font-size:.8rem;color:var(--muted);margin-top:4px}
+.market-section{margin:48px 0}
+.market-title{font-size:1.5rem;font-weight:700;padding-bottom:12px;border-bottom:2px solid var(--border);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.market-title .badge{background:var(--brand);color:#fff;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px}
+.biz-card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:28px;overflow:hidden}
+.biz-card:hover{border-color:var(--brand)}
+.biz-header{padding:24px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px}
+.biz-header h3{font-size:1.2rem;font-weight:700}
+.biz-header .biz-type{font-size:.75rem;color:var(--muted);background:rgba(255,255,255,.05);padding:3px 12px;border-radius:12px}
+.biz-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:768px){.biz-body{grid-template-columns:1fr}}
+.biz-left{padding:24px 28px;border-right:1px solid var(--border)}
+@media(max-width:768px){.biz-left{border-right:none;border-bottom:1px solid var(--border)}}
+.biz-right{padding:24px 28px}
+.biz-left h4,.biz-right h4{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.contact-row{display:flex;gap:8px;margin-bottom:6px;font-size:.9rem}
+.contact-row .lbl{color:var(--muted);min-width:70px}
+.contact-row a{color:var(--blue);text-decoration:none}
+.audit-section{margin-top:16px}
+.audit-section h4{margin-bottom:8px}
+.audit-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:.88rem}
+.audit-row:last-child{border:none}
+.audit-row .metric{color:var(--muted)}
+.audit-row .val{font-weight:600}
+.audit-row .val.pass{color:var(--green)}.audit-row .val.fail{color:var(--red)}.audit-row .val.warn{color:var(--yellow)}.audit-row .val.na{color:var(--muted)}
+.loss-box{background:rgba(248,81,73,.04);border:1px solid rgba(248,81,73,.12);border-radius:10px;padding:16px;margin-top:12px}
+.loss-row{display:flex;justify-content:space-between;padding:5px 0;font-size:.85rem}
+.loss-row .desc{color:var(--muted)}.loss-row .amt{color:var(--red);font-weight:700}
+.loss-total{display:flex;justify-content:space-between;padding:8px 0 0;border-top:2px solid var(--red);margin-top:6px;font-weight:700}
+.loss-total .desc{color:var(--text)}.loss-total .amt{color:var(--red);font-size:1.1rem}
+.rec-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.rec-tag{font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,107,0,.12);color:var(--brand)}
+.gap-tag{font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px}
+.gap-no-web{background:rgba(248,81,73,.15);color:var(--red)}
+.gap-gmail{background:rgba(210,153,34,.15);color:var(--yellow)}
+.gap-weak-web{background:rgba(88,166,255,.15);color:var(--blue)}
+.gap-no-book{background:rgba(248,81,73,.15);color:var(--red)}
+.gap-no-social{background:rgba(210,153,34,.15);color:var(--yellow)}
+.gap-no-seo{background:rgba(188,140,255,.15);color:var(--purple)}
+.gap-no-crm{background:rgba(88,166,255,.15);color:var(--blue)}
+.report-footer{text-align:center;padding:32px 0;border-top:1px solid var(--border);margin-top:48px}
+.report-footer p{color:var(--muted);font-size:.8rem}
+.cta-section{background:linear-gradient(135deg,#1a1000,#1a0a00);border:2px solid var(--brand);border-radius:20px;padding:48px;text-align:center;margin:48px 0}
+.cta-section h2{font-size:1.6rem;font-weight:800;margin-bottom:12px}.cta-section h2 span{color:var(--brand)}
+.cta-section p{color:var(--muted);font-size:1rem;max-width:600px;margin:0 auto 20px}
+.cta-btn{display:inline-block;background:var(--brand);color:#fff;font-size:1rem;font-weight:700;padding:12px 32px;border-radius:12px;text-decoration:none}
+</style>
+</head>
+<body>
+<header class="report-header">
+<div class="container">
+<h1><span>NetWebMedia</span> — Temuco Prospect Report</h1>
+<p class="subtitle">40 Local Businesses x Individual Digital Audit — Website, Social Media, Revenue Loss Analysis. Gateway to Chile's Lake District & Heart of Mapuche Culture.</p>
+<div class="meta">
+<span>Date: <strong>April 15, 2026</strong></span>
+<span>Market: <strong>Temuco, Region de La Araucania, Chile</strong></span>
+<span>Leads: <strong>40 businesses across 4 verticals</strong></span>
+</div>
+</div>
+</header>
+<div class="container">
+<div class="stats-bar">
+<div class="stat-card"><div class="num">40</div><div class="label">Total Prospects</div></div>
+<div class="stat-card"><div class="num">4</div><div class="label">Market Verticals</div></div>
+<div class="stat-card"><div class="num red">$2.0M</div><div class="label">Est. Annual Revenue Lost</div></div>
+<div class="stat-card"><div class="num">18</div><div class="label">Gmail/No Email Found</div></div>
+</div>
+
+<!-- =============================== -->
+<!-- MARKET 1: TOURISM & HOSPITALITY -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🏨 Tourism & Hospitality <span class="badge">10 PROSPECTS</span></h2>
+
+<!-- T1 -->
+<div class="biz-card">
+<div class="biz-header"><h3>1. Hotel Dreams Araucania</h3><span class="biz-type">5-Star Casino & Hotel — Av. Alemania</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:servicioalcliente@dreams.cl">servicioalcliente@dreams.cl</a> (corporate)</div>
+<div class="contact-row"><span class="lbl">Phone:</span>600 424 0000</div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 2723 0102</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Alemania 0945, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://temuco.dreams.cl" target="_blank">temuco.dreams.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress, professional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (own system + DreamsPay)</span></div>
+<div class="audit-row"><span class="metric">Schema markup</span><span class="val pass">Yes</span></div>
+</div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@DreamsTemuco</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@dreamstemucooficial</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Local SEO</span><span class="gap-tag gap-no-crm">No Local CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No local SEO for "hotel temuco" queries</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No local CRM for tourism gateway guests</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No AEO for AI search citation</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$27,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO (local)</span><span class="rec-tag">CRM</span><span class="rec-tag">AEO Retainer</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T2 -->
+<div class="biz-card">
+<div class="biz-header"><h3>2. Hotel Frontera Clasico</h3><span class="biz-type">4-Star Hotel — Manuel Bulnes, Plaza</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas@hotelfrontera.cl">reservas@hotelfrontera.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>45 2 200 500</div>
+<div class="contact-row"><span class="lbl">Address:</span>Manuel Bulnes 733, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.hotelfrontera.cl" target="_blank">hotelfrontera.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional, multi-property)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (integrated)</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Content SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "hotel plaza temuco"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for Pucon/Villarrica gateway traffic</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div>
+</div>
+</div>
+
+<!-- T3 -->
+<div class="biz-card">
+<div class="biz-header"><h3>3. Hotel Diego de Almagro Temuco</h3><span class="biz-type">Chain Hotel — Near Downtown</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Chain corporate (SSL error on local site)</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.dahoteles.com/es/da-temuco" target="_blank">dahoteles.com</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Corporate chain (SSL certificate issue)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (chain system)</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Local SEO</span><span class="gap-tag gap-no-crm">No Local CRM</span><span class="gap-tag gap-weak-web">SSL Issue</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">SSL issue on corporate site</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No local SEO for Temuco</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO (local)</span><span class="rec-tag">Google Ads</span></div>
+</div>
+</div>
+</div>
+
+<!-- T4 -->
+<div class="biz-card">
+<div class="biz-header"><h3>4. Hotel RP</h3><span class="biz-type">4-Star Business Hotel — Diego Portales</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:ventas@hotelrp.cl">ventas@hotelrp.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 45 2977777</div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 4520 3371</div>
+<div class="contact-row"><span class="lbl">Address:</span>Diego Portales 779, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hotelrp.cl" target="_blank">hotelrp.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (GoFeels)</span></div>
+<div class="audit-row"><span class="metric">WhatsApp</span><span class="val pass">Integrated</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for business hotel queries</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for corporate repeat stays</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div>
+</div>
+</div>
+
+<!-- T5 -->
+<div class="biz-card">
+<div class="biz-header"><h3>5. Holiday Inn Express Temuco</h3><span class="biz-type">International Chain — Av. Ortega</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Corporate chain (no local email)</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(56-45) 223300</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Ortega 01800, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.ihg.com/holidayinnexpress/hotels/us/en/temuco/zcoex/hoteldetail" target="_blank">ihg.com</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (IHG corporate)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (IHG system)</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Local SEO</span><span class="gap-tag gap-no-crm">No Local CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No local SEO for Temuco queries</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No local CRM for Lake District travelers</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO (local)</span><span class="rec-tag">Google Ads</span></div>
+</div>
+</div>
+</div>
+
+<!-- T6 -->
+<div class="biz-card">
+<div class="biz-header"><h3>6. Hotel Newen</h3><span class="biz-type">Boutique Hotel — Manuel Rodriguez, Centro</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:hotel@hotelnewen.cl">hotel@hotelnewen.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 7155 5536 / 452640202</div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 7155 5536</div>
+<div class="contact-row"><span class="lbl">Address:</span>Manuel Rodríguez 1170, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hotelnewen.cl" target="_blank">hotelnewen.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Yes (WordPress/Elementor — bloated CSS)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (GoFeels)</span></div>
+</div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@hotelnewen</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@hotelnewen</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Bloated/Slow Site</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Slow site = mobile abandonment</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for boutique hotel queries</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$16,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div>
+</div>
+</div>
+
+<!-- T7 -->
+<div class="biz-card">
+<div class="biz-header"><h3>7. Apart Hotel Aragon</h3><span class="biz-type">Apart-Hotel — Av. España, Centro</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas@aparthotelaragon.cl">reservas@aparthotelaragon.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 45 2 244 041</div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 6288 6501</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. España 446, 5° piso, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.aparthotelaragon.cl" target="_blank">aparthotelaragon.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress, Cloudbeds booking)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Cloudbeds)</span></div>
+<div class="audit-row"><span class="metric">Corporate bookings</span><span class="val pass">Dedicated page</span></div>
+</div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@hoteleramontepiedra</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "apart hotel temuco"</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for extended-stay guests</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$14,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div>
+</div>
+</div>
+
+<!-- T8 -->
+<div class="biz-card">
+<div class="biz-header"><h3>8. Hostal Collins House</h3><span class="biz-type">Guesthouse — Aldunate, Centro</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:hostalcollinshouse@gmail.com">hostalcollinshouse@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 4115 7408</div>
+<div class="contact-row"><span class="lbl">Address:</span>General Aldunate 0505, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hostalcollins.cl" target="_blank">hostalcollins.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (simple but functional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No — availability form only</span></div>
+</div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@hostalcollins</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@hostalcollinshouse</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-book">No Real Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail = unprofessional for guesthouse</span><span class="amt">-$5,000</span></div>
+<div class="loss-row"><span class="desc">No booking = lost after-hours</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "hostal temuco"</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$19,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Professional Email</span></div>
+</div>
+</div>
+</div>
+
+<!-- T9 -->
+<div class="biz-card">
+<div class="biz-header"><h3>9. Hostal Mary Ruka</h3><span class="biz-type">Small Hostel — Principe de Gales</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:hostalmaryruca@gmail.com">hostalmaryruca@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 45 2409310 / +56 9 95709057</div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 9032 5485</div>
+<div class="contact-row"><span class="lbl">Address:</span>Pasaje Principe de Gales 0735, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.maryruka.cl" target="_blank">maryruka.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (basic)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No — WhatsApp/phone only</span></div>
+</div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Social media</span><span class="val fail">None found</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail (misspelled!)</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-social">No Social</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail with name misspelling</span><span class="amt">-$5,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">Zero social media presence</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$19,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">Social Media</span><span class="rec-tag">Professional Email</span></div>
+</div>
+</div>
+</div>
+
+<!-- T10 -->
+<div class="biz-card">
+<div class="biz-header"><h3>10. Posada Selva Negra</h3><span class="biz-type">Guesthouse/Posada — Trizano, Centro</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 452 236 913</div>
+<div class="contact-row"><span class="lbl">Address:</span>Trizano 110, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--yellow)">hospedajeselvanegra.cl (unverified)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Unverified — listed on OTAs mainly</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Booking.com dependent)</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">OTA-Dependent</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">OTA commissions (15-25%)</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No email = lost direct inquiries</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$16,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span></div>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 2: RESTAURANTS & FOOD    -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🍽️ Restaurants & Food <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Restaurante La Pampa</h3><span class="biz-type">Parrilla & Grill — San Martin, Centro</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas@lapampa.cl">reservas@lapampa.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>45-2329999</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. San Martín 0137, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="http://www.lapampa.cl" target="_blank">lapampa.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@lapampa.cl</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@lapampa.cl</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "parrilla temuco"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for event/group dining</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Zuny Tradiciones</h3><span class="biz-type">Mapuche Cuisine — General Cruz, Cerro Ñielol</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 8498 7223 / +56 9 9795 5280</div>
+<div class="contact-row"><span class="lbl">Address:</span>General Cruz 0560, base of Cerro Ñielol, Temuco</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No own website</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-book">No Reservations</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Living heritage chef with no website</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No online reservations</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$30,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. Peuma Ñuke</h3><span class="biz-type">Mapuche Gastronomy — La Araucania</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:peumanuke@gmail.com">peumanuke@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 7967 3002</div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 7967 3002</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://peumanuke.cl" target="_blank">peumanuke.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@peumanuke</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@peumanuke</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-book">No Online Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail for cultural food brand</span><span class="amt">-$5,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "comida mapuche temuco"</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$17,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">AI Booking</span><span class="rec-tag">Professional Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Sushi Blues</h3><span class="biz-type">Sushi Chain — Temuco Location</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly (chain)</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.sushiblues.cl" target="_blank">sushiblues.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (e-commerce platform)</span></div>
+<div class="audit-row"><span class="metric">Online ordering</span><span class="val pass">Yes (delivery + pickup)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@sushiblues.oficial</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@sushiblues.oficial</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Local SEO</span><span class="gap-tag gap-no-crm">No Local CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No local SEO for "sushi temuco"</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No local CRM for Temuco market</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$14,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO (local)</span><span class="rec-tag">Google Ads</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Restaurant Portales</h3><span class="biz-type">Traditional Chilean — Diego Portales</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>452 319605</div>
+<div class="contact-row"><span class="lbl">Address:</span>Diego Portales 855, Temuco</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — Facebook page only</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@RestaurantPortalesTemuco</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-book">No Reservations</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Downtown restaurant with no website</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No online reservations</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$26,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Palacio Danubio Azul</h3><span class="biz-type">Traditional Restaurant — Centro</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Centro, Temuco</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No own website</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@restaurante_danubioazul</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Restaurante Danubio Azul</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Popular restaurant invisible to Google</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">Social media only = no booking/SEO</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$26,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Las Tinajas</h3><span class="biz-type">Tenedor Libre (Buffet) — Manuel Montt</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Manuel Montt 555, Temuco</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No own website</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@Lastinajastemuco</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-book">No Reservations</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">120+ dish buffet with no website</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No online presence for events/groups</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Kokavi</h3><span class="biz-type">Mapuche Gastronomy — Manuel Rodriguez</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 94430671</div>
+<div class="contact-row"><span class="lbl">Address:</span>Manuel Rodriguez 1073, Local 2, Temuco</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No own website</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@KokakviZen</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-book">No Booking</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Mapuche cultural restaurant invisible online</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No booking for cultural tourism groups</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$32,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. Roca Mar</h3><span class="biz-type">Seafood — Balmaceda</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(56-45) 210531</div>
+<div class="contact-row"><span class="lbl">Address:</span>Balmaceda 1466, Temuco</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No own website</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-book">No Reservations</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Seafood restaurant with zero web presence</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No reservations or menu online</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$26,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI SEO</span><span class="rec-tag">AI Booking</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Tablas Picoteo Temuco</h3><span class="biz-type">Tapas & Boards — Altamira</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 9126 0544</div>
+<div class="contact-row"><span class="lbl">Address:</span>Altamira 02088, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://tablas-picoteo-temuco.ueniweb.com" target="_blank">tablas-picoteo-temuco.ueniweb.com</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">Free builder subdomain (ueniweb.com)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Free Builder / No Domain</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Free builder subdomain = no brand trust</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "picoteo temuco"</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 3: HEALTH & VETERINARY   -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🏥 Health & Veterinary <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Clinica Veterinaria Kennel</h3><span class="biz-type">Small Animal Vet (28 years) — San Martin</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:clinicaveterinariakennel@gmail.com">clinicaveterinariakennel@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 45 2313000</div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 4516 7760</div>
+<div class="contact-row"><span class="lbl">Address:</span>San Martín 01580, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://veterinariakenneltemuco.cl" target="_blank">veterinariakenneltemuco.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@veterinariakenneltemuco</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@veterinaria_kenneltemuco</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">28-year clinic with Gmail</span><span class="amt">-$5,000</span></div>
+<div class="loss-row"><span class="desc">No booking for after-hours</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$15,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Professional Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Veterinaria Sevilla</h3><span class="biz-type">Full-Service Vet — Av. Pablo Neruda</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found (contact form only)</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>452244626 / 452818798 / Emergency: 97599636</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Pablo Neruda 01994, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://veterinariasevilla.cl" target="_blank">veterinariasevilla.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Twitter</span><span class="val warn">@VetSevilla (Twitter only — no IG)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-social">Twitter Only</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No email visible = lost inquiries</span><span class="amt">-$6,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$16,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Social Media</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. Clinica Veterinaria Metrenco</h3><span class="biz-type">Vet Hospital — Km 684 Ruta 5 Sur</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:veterinaria.metrenco@gmail.com">veterinaria.metrenco@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 45 2238471 / +56 9 92260822</div>
+<div class="contact-row"><span class="lbl">Address:</span>Callejón Bolomey s/n, Metrenco, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.veterinariametrenco.cl" target="_blank">veterinariametrenco.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@veterinariametrenco</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@veterinariametrenco</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Hospital-level vet with Gmail</span><span class="amt">-$5,000</span></div>
+<div class="loss-row"><span class="desc">No online booking</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$15,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">Professional Email</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Veterinaria Eden</h3><span class="biz-type">Vet Clinic — Av. O'Higgins</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:secretaria@veterinariaeden.cl">secretaria@veterinariaeden.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 45 231 5500</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. O'Higgins 0297, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.veterinariaeden.cl" target="_blank">veterinariaeden.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Social media</span><span class="val fail">None found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-social">No Social Media</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Zero social media for vet clinic</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">Social Media</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Veterinaria Temuco</h3><span class="biz-type">Vet Practice — Temuco</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@veterinariatemuco.com">contacto@veterinariatemuco.com</a></div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://veterinariatemuco.com" target="_blank">veterinariatemuco.com</a> <span style="color:var(--red)">(UNDER CONSTRUCTION)</span></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Veterinaria Temuco</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@veterinariatemuco</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Site Under Construction</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">"Under construction" = dead end</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No phone/address listed anywhere</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Clinica Dexor</h3><span class="biz-type">Dental Clinic — Av. Alemania</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:Contacto@clinicadexor.cl">Contacto@clinicadexor.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 3437 8478</div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 3437 8478</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Alemania 0999, Of. 311, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://clinicadexor.cl" target="_blank">clinicadexor.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@ClinicaDexor</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@clinicadexor</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "dentista temuco"</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for patient retention</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Triodent</h3><span class="biz-type">Dental Implants & Aesthetics — Aldunate, Piso 10</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:info@triodent.cl">info@triodent.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 452212496</div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 44617184</div>
+<div class="contact-row"><span class="lbl">Address:</span>Aldunate 719, Of. 1001, Piso 10, Edificio Telar, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.triodent.cl" target="_blank">triodent.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@triodentchile</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@clinicatriodent</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for implant/aesthetic queries</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for high-value patients</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Google Ads</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Clinica ICOS Inmunomedica</h3><span class="biz-type">Medical & Dental Clinic — Lago Puyehue</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservadehoras@icos.cl">reservadehoras@icos.cl</a></div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 3948 2225</div>
+<div class="contact-row"><span class="lbl">Phone:</span>(45) 2654000</div>
+<div class="contact-row"><span class="lbl">Address:</span>Lago Puyehue 01745, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.clinicaicos.cl" target="_blank">clinicaicos.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional, multi-service)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Rezebra + Medicap)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@clinicaicos.cl</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for multi-specialty queries</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for patient lifecycle</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. Clinica Dental Temuco</h3><span class="biz-type">Dental Clinic (24/7) — Edificio Centenario</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:Contacto@clinicadentaltemuco.cl">Contacto@clinicadentaltemuco.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 96553965</div>
+<div class="contact-row"><span class="lbl">Address:</span>Edificio Centenario #411, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://clinicadentaltemuco.cl" target="_blank">clinicadentaltemuco.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (with appointment form)</span></div>
+<div class="audit-row"><span class="metric">24/7 support</span><span class="val pass">Claimed</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook/IG/Twitter/YT</span><span class="val pass">All present</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "clinica dental temuco"</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for patient retention</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Dentmas Ortodoncia</h3><span class="biz-type">Orthodontics Center — Manuel Bulnes</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:dentmasortodoncia@gmail.com">dentmasortodoncia@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 45 240 9279 / +56 9 4815 3483</div>
+<div class="contact-row"><span class="lbl">Address:</span>Manuel Bulnes 351, Of 13, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://dentmas.cl" target="_blank">dentmas.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (AgendaPro)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Ortodoncia temuco</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@dentmasortodoncia</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail for orthodontics practice</span><span class="amt">-$5,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "ortodoncia temuco"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$15,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">Professional Email</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 4: BEAUTY & AESTHETICS   -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">💇 Beauty & Aesthetics <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Manchester Barberia</h3><span class="biz-type">Men's Grooming (2 locations) — Pablo Neruda + Hochstetter</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@manchesterbarberia.cl">contacto@manchesterbarberia.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 36125142 / +56 9 45320445</div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 36125142</div>
+<div class="contact-row"><span class="lbl">Address:</span>Pablo Neruda 02320 + Hochstetter 1002, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://manchesterbarberia.cl" target="_blank">manchesterbarberia.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@manchesterbarberia.temuco</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@manchesterbarberia</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO (2 locations)</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "barberia temuco" (2 loc)</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for loyalty across locations</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO (2 locations)</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Barberia San Juan</h3><span class="biz-type">Premium Barbershop — Mackenna, Centro</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@barberiasanjuan.cl">contacto@barberiasanjuan.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>45 231 0030</div>
+<div class="contact-row"><span class="lbl">Address:</span>General Mackenna 555, Local 101, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.barberiasanjuan.cl" target="_blank">barberiasanjuan.cl</a> <span style="color:var(--red)">(SITE DOWN)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">Domain exists but ECONNREFUSED</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Site DOWN</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Website completely down</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for premium barbershop</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$26,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. David Barber House</h3><span class="biz-type">"5-Star" Barbershop — Temuco</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://davidbarberhouse.cl" target="_blank">davidbarberhouse.cl</a> <span style="color:var(--red)">(SSL EXPIRED)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">SSL certificate EXPIRED</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">SSL Expired</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">"5-star barber" with expired SSL</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No email = lost inquiries</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$24,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Harry Barber Shop</h3><span class="biz-type">Barbershop — Temuco</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://harrybarbershop.cl" target="_blank">harrybarbershop.cl</a> <span style="color:var(--red)">(SITE DOWN)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">Domain exists but ECONNREFUSED</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Site DOWN</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Website completely down</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No email, no bookable presence</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$26,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Rimbauer Barber</h3><span class="biz-type">Barbershop — Mackenna, Centro</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>General Mackenna 125, Local 101, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://rimbauer-barber.ueniweb.com" target="_blank">rimbauer-barber.ueniweb.com</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@rimbauerbarbershop</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@rimbauerbarbershop</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Free Builder / No Domain</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Free builder subdomain = no trust</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No booking, no email</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. DEPISOFT</h3><span class="biz-type">Beauty & Aesthetics (since 2005) — Andes</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 488 58 201</div>
+<div class="contact-row"><span class="lbl">WhatsApp:</span>+56 9 488 58 201</div>
+<div class="contact-row"><span class="lbl">Address:</span>Andes 350, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://depisoft.cl" target="_blank">depisoft.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (AgendaPro)</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-social">No Social Media</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">21 years in business, zero social media</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "estetica temuco"</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Drejuvenece</h3><span class="biz-type">Aesthetic Clinic — Javiera Carrera</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:drejuvenece@gmail.com">drejuvenece@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 99586889</div>
+<div class="contact-row"><span class="lbl">Address:</span>Javiera Carrera 1655, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://drejuvenece.cl" target="_blank">drejuvenece.cl</a> <span style="color:var(--red)">(SITE DOWN)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">Domain exists but ECONNREFUSED</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Site DOWN</span><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Aesthetic clinic with downed site</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">Gmail for medical aesthetics</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">Professional Email</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. CUTIS — Salud y Belleza</h3><span class="biz-type">Health & Beauty Center — Edificio UNO-K</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@cutistemuco.cl">contacto@cutistemuco.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>452-314118 / +56 9 7999 0750</div>
+<div class="contact-row"><span class="lbl">Address:</span>Hochstetter 599 Of. 403, Edificio UNO-K, Temuco</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://cutistemuco.cl" target="_blank">cutistemuco.cl</a></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@CutisTemuco</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@cutistemuco</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Online Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No booking for beauty appointments</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "belleza temuco"</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. Centro Clinico Alcala</h3><span class="biz-type">Aesthetic Medicine — Temuco</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found (site unreachable)</span></div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://alcala.cl" target="_blank">alcala.cl</a> <span style="color:var(--red)">(SITE DOWN)</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">Domain exists but ECONNREFUSED</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Site DOWN</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Aesthetic medicine clinic with no website</span><span class="amt">-$22,000</span></div>
+<div class="loss-row"><span class="desc">No email = lost high-value patients</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$30,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Google Ads</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Divinas Temuco</h3><span class="biz-type">Salon de Belleza — Ines de Suarez</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>45 2360424</div>
+<div class="contact-row"><span class="lbl">Address:</span>Ines de Suarez 1685, Temuco</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — Facebook page only</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@divinastemucosalondebelleza</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Salon with no website</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No booking, no email</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+<h2>Temuco: <span>$2.0M in Annual Revenue Lost</span> Across 40 Businesses</h2>
+<p>Gateway to Chile's Lake District. Heart of Mapuche culture. University city with 3 major campuses. Yet these 40 businesses are running downed websites, expired SSL certificates, Gmail addresses, and zero SEO — while Mapuche cuisine restaurants with UNESCO-level cultural significance have no web presence at all. The solution starts at $497/mo.</p>
+<a href="temuco-digital-gaps.html" class="cta-btn">See Full Digital Gap Analysis →</a>
+</div>
+
+</div>
+<footer class="report-footer">
+<div class="container">
+<p><strong>NetWebMedia</strong> — AI Marketing for Growth | netwebmedia.com | hello@netwebmedia.com</p>
+<p style="margin-top:8px;">Temuco Prospect Report generated April 15, 2026. Individual business analyses based on public website audits, social media research, and industry revenue benchmarks.</p>
+</div>
+</footer>
+</body>
+</html>

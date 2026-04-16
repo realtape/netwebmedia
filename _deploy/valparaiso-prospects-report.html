@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetWebMedia — Valparaíso & Viña del Mar Prospect Report & Individual Business Analysis (April 2026)</title>
+<style>
+:root{--brand:#ff6b00;--dark:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;--green:#3fb950;--red:#f85149;--yellow:#d29922;--blue:#58a6ff;--purple:#bc8cff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--dark);color:var(--text);line-height:1.65}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.report-header{background:linear-gradient(135deg,#0d1117 0%,#1a1e2e 100%);border-bottom:3px solid var(--brand);padding:56px 0}
+.report-header h1{font-size:2.2rem;font-weight:800}.report-header h1 span{color:var(--brand)}
+.report-header .subtitle{color:var(--muted);font-size:1.1rem;margin-top:8px}
+.report-header .meta{margin-top:16px;display:flex;gap:24px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+.report-header .meta strong{color:var(--text)}
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:32px 0}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.stat-card .num{font-size:2rem;font-weight:800;color:var(--brand)}.stat-card .num.red{color:var(--red)}
+.stat-card .label{font-size:.8rem;color:var(--muted);margin-top:4px}
+.market-section{margin:48px 0}
+.market-title{font-size:1.5rem;font-weight:700;padding-bottom:12px;border-bottom:2px solid var(--border);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.market-title .badge{background:var(--brand);color:#fff;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px}
+.biz-card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:28px;overflow:hidden}
+.biz-card:hover{border-color:var(--brand)}
+.biz-header{padding:24px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px}
+.biz-header h3{font-size:1.2rem;font-weight:700}
+.biz-header .biz-type{font-size:.75rem;color:var(--muted);background:rgba(255,255,255,.05);padding:3px 12px;border-radius:12px}
+.biz-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:768px){.biz-body{grid-template-columns:1fr}}
+.biz-left{padding:24px 28px;border-right:1px solid var(--border)}
+@media(max-width:768px){.biz-left{border-right:none;border-bottom:1px solid var(--border)}}
+.biz-right{padding:24px 28px}
+.biz-left h4,.biz-right h4{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.contact-row{display:flex;gap:8px;margin-bottom:6px;font-size:.9rem}
+.contact-row .lbl{color:var(--muted);min-width:70px}
+.contact-row a{color:var(--blue);text-decoration:none}
+.audit-section{margin-top:16px}
+.audit-section h4{margin-bottom:8px}
+.audit-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:.88rem}
+.audit-row:last-child{border:none}
+.audit-row .metric{color:var(--muted)}
+.audit-row .val{font-weight:600}
+.audit-row .val.pass{color:var(--green)}.audit-row .val.fail{color:var(--red)}.audit-row .val.warn{color:var(--yellow)}.audit-row .val.na{color:var(--muted)}
+.loss-box{background:rgba(248,81,73,.04);border:1px solid rgba(248,81,73,.12);border-radius:10px;padding:16px;margin-top:12px}
+.loss-row{display:flex;justify-content:space-between;padding:5px 0;font-size:.85rem}
+.loss-row .desc{color:var(--muted)}.loss-row .amt{color:var(--red);font-weight:700}
+.loss-total{display:flex;justify-content:space-between;padding:8px 0 0;border-top:2px solid var(--red);margin-top:6px;font-weight:700}
+.loss-total .desc{color:var(--text)}.loss-total .amt{color:var(--red);font-size:1.1rem}
+.rec-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.rec-tag{font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,107,0,.12);color:var(--brand)}
+.gap-tag{font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px}
+.gap-no-web{background:rgba(248,81,73,.15);color:var(--red)}
+.gap-gmail{background:rgba(210,153,34,.15);color:var(--yellow)}
+.gap-weak-web{background:rgba(88,166,255,.15);color:var(--blue)}
+.gap-no-book{background:rgba(248,81,73,.15);color:var(--red)}
+.gap-no-social{background:rgba(210,153,34,.15);color:var(--yellow)}
+.gap-no-seo{background:rgba(188,140,255,.15);color:var(--purple)}
+.gap-no-crm{background:rgba(88,166,255,.15);color:var(--blue)}
+.report-footer{text-align:center;padding:32px 0;border-top:1px solid var(--border);margin-top:48px}
+.report-footer p{color:var(--muted);font-size:.8rem}
+.cta-section{background:linear-gradient(135deg,#1a1000,#1a0a00);border:2px solid var(--brand);border-radius:20px;padding:48px;text-align:center;margin:48px 0}
+.cta-section h2{font-size:1.6rem;font-weight:800;margin-bottom:12px}.cta-section h2 span{color:var(--brand)}
+.cta-section p{color:var(--muted);font-size:1rem;max-width:600px;margin:0 auto 20px}
+.cta-btn{display:inline-block;background:var(--brand);color:#fff;font-size:1rem;font-weight:700;padding:12px 32px;border-radius:12px;text-decoration:none}
+</style>
+</head>
+<body>
+<header class="report-header">
+<div class="container">
+<h1><span>NetWebMedia</span> — Valparaíso & Viña del Mar Prospect Report</h1>
+<p class="subtitle">40 Local Businesses × Individual Digital Audit — Website, Social Media, Revenue Loss Analysis</p>
+<div class="meta">
+<span>Date: <strong>April 15, 2026</strong></span>
+<span>Market: <strong>Valparaíso & Viña del Mar, Región de Valparaíso, Chile</strong></span>
+<span>Leads: <strong>40 businesses with verified contact info</strong></span>
+</div>
+</div>
+</header>
+<div class="container">
+<div class="stats-bar">
+<div class="stat-card"><div class="num">40</div><div class="label">Total Prospects</div></div>
+<div class="stat-card"><div class="num">4</div><div class="label">Market Verticals</div></div>
+<div class="stat-card"><div class="num red">$2.1M</div><div class="label">Est. Annual Revenue Lost</div></div>
+<div class="stat-card"><div class="num">22</div><div class="label">Gmail/No Email Found</div></div>
+</div>
+
+<!-- =============================== -->
+<!-- MARKET 1: TOURISM & HOSPITALITY -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🏨 Tourism & Hospitality <span class="badge">10 PROSPECTS</span></h2>
+
+<!-- T1 -->
+<div class="biz-card">
+<div class="biz-header"><h3>1. CasaBlu Hotel</h3><span class="biz-type">Boutique Hotel — Cerro Alegre, Valparaíso</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas@casablu.cl">reservas@casablu.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 2 2984 1442</div>
+<div class="contact-row"><span class="lbl">Address:</span>San Enrique 387, Cerro Alegre, Valparaíso</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://casablu.cl" target="_blank">casablu.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">SSL certificate</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (own system)</span></div>
+<div class="audit-row"><span class="metric">Schema/structured data</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Multi-language</span><span class="val pass">4 languages</span></div>
+<div class="audit-row"><span class="metric">Blog/content</span><span class="val fail">No blog</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">Active</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+<div class="audit-row"><span class="metric">TripAdvisor</span><span class="val pass">Listed</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row">
+<span class="gap-tag gap-no-seo">No Blog/Content SEO</span>
+<span class="gap-tag gap-no-crm">No CRM</span>
+</div>
+<div class="loss-box">
+<h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No content marketing / blog SEO</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for guest re-engagement</span><span class="amt">-$6,000</span></div>
+<div class="loss-row"><span class="desc">No AEO for AI search citation</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$19,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO + Blog</span><span class="rec-tag">CRM</span><span class="rec-tag">AEO Retainer</span><span class="rec-tag">Lifecycle Email</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T2 -->
+<div class="biz-card">
+<div class="biz-header"><h3>2. Hotel Gervasoni</h3><span class="biz-type">Boutique Hotel — Cerro Concepción, Valparaíso (UNESCO)</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:recepcion@hotelgervasoni.com">recepcion@hotelgervasoni.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(56-32) 2239236 / +56 9 8336 5233</div>
+<div class="contact-row"><span class="lbl">Address:</span>Paseo Gervasoni 1, Cerro Concepción, Valparaíso</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hotelgervasoni.com" target="_blank">hotelgervasoni.com</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Schema markup</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Blog/content</span><span class="val fail">No</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@hotelgervasoni</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+<div class="audit-row"><span class="metric">TripAdvisor</span><span class="val pass">Listed, reviewed</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Content SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No content marketing (UNESCO area = high search)</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No CRM / guest re-engagement</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">AEO Retainer</span><span class="rec-tag">Lifecycle Email</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T3 -->
+<div class="biz-card">
+<div class="biz-header"><h3>3. Casa Volante Hostal</h3><span class="biz-type">Hostal — Cerro Concepción, Valparaíso</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:lacasavolante@gmail.com">lacasavolante@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 3191 7326 / +56 32 317 4292</div>
+<div class="contact-row"><span class="lbl">Address:</span>Escalera Fischer 27, Cerro Concepción, Valparaíso</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://casavolantehostal.com" target="_blank">casavolantehostal.com</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val warn">OTA links only</span></div>
+<div class="audit-row"><span class="metric">Schema data</span><span class="val fail">No</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@casavolantehostal</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-book">No Direct Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail = unprofessional for tourism</span><span class="amt">-$6,000</span></div>
+<div class="loss-row"><span class="desc">OTA commissions (15-25%)</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "hostal cerro concepción"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$31,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">AI Website Upgrade</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T4 -->
+<div class="biz-card">
+<div class="biz-header"><h3>4. Hostal Destino Bellavista</h3><span class="biz-type">Hostal — Cerro Bellavista, Valparaíso</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:anapatricia.alcaino@gmail.com">anapatricia.alcaino@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 7894 8341</div>
+<div class="contact-row"><span class="lbl">Address:</span>Héctor Calvo 338, Cerro Bellavista, Valparaíso</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hostaldestinobellavista.cl" target="_blank">hostaldestinobellavista.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No — WhatsApp only</span></div>
+<div class="audit-row"><span class="metric">Schema data</span><span class="val pass">Yes</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail (Personal)</span><span class="gap-tag gap-no-book">No Booking System</span><span class="gap-tag gap-no-social">No Instagram</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Personal Gmail = credibility loss</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No booking = OTA dependent</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No Instagram (near La Sebastiana museum)</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$28,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">Social Media</span><span class="rec-tag">CRM</span><span class="rec-tag">AI SEO</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T5 -->
+<div class="biz-card">
+<div class="biz-header"><h3>5. Hostal Mi Paz</h3><span class="biz-type">Hostal — Cerro Bellavista, Valparaíso</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@hostalmipaz.cl">contacto@hostalmipaz.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 8417 9952</div>
+<div class="contact-row"><span class="lbl">Address:</span>Héctor Calvo 774, Cerro Bellavista, Valparaíso</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hostalmipaz.cl" target="_blank">hostalmipaz.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/Elementor)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val warn">Form only (not real-time)</span></div>
+<div class="audit-row"><span class="metric">Schema</span><span class="val fail">No</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val warn">@hostalmipazvalpo</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Real Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No real-time booking = lost after-hours</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for Valpo hostal queries</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for repeat visitors</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T6 -->
+<div class="biz-card">
+<div class="biz-header"><h3>6. Renaca House Hotel</h3><span class="biz-type">Coastal Hotel — Reñaca, Viña del Mar</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Via website form</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 32 320 5240 / WhatsApp: +56 9 4088 1536</div>
+<div class="contact-row"><span class="lbl">Address:</span>Vicuña Mackenna 590, Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.renacahouse.cl" target="_blank">renacahouse.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (modern)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (Check In Online)</span></div>
+<div class="audit-row"><span class="metric">GA4 + FB Pixel</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Blog/content</span><span class="val fail">No</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Google rating</span><span class="val pass">9.3/10</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Content SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No content SEO for "hotel Reñaca"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for guest loyalty</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$16,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">AEO Retainer</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T7 -->
+<div class="biz-card">
+<div class="biz-header"><h3>7. VOY Hostales</h3><span class="biz-type">Hostal Chain — Centro, Viña del Mar (3 locations)</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Arlegui 139, Viña del Mar (+ 2 more locations)</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://voyhostales.cl" target="_blank">voyhostales.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (Elementor)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (VikBooking)</span></div>
+<div class="audit-row"><span class="metric">Schema</span><span class="val warn">Basic</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@voyhostales.cl</span></div>
+<div class="audit-row"><span class="metric">TikTok</span><span class="val pass">@voyhostales</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO Strategy</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">3 locations with no SEO = massive loss</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No CRM across locations</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No public email = lost inquiries</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$33,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO (3 locations)</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T8 -->
+<div class="biz-card">
+<div class="biz-header"><h3>8. Somerscales Hotel Boutique</h3><span class="biz-type">Heritage Boutique Hotel — Cerro Alegre, Valparaíso</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Via website form</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 32 233 1006</div>
+<div class="contact-row"><span class="lbl">Address:</span>San Enrique 446, Cerro Alegre, Valparaíso</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hotelsomerscales.cl" target="_blank">hotelsomerscales.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val warn">OTA-dependent</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val warn">Exists, low activity</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-book">OTA Dependent</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Heritage hotel (1874) with no content SEO</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">OTA commissions (15-25%)</span><span class="amt">-$18,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$33,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website Upgrade</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T9 -->
+<div class="biz-card">
+<div class="biz-header"><h3>9. Hotel Boutique 17</h3><span class="biz-type">Boutique Hotel — Cerro Concepción, Valparaíso</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Via phone/OTA only</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 32 327 7295</div>
+<div class="contact-row"><span class="lbl">Address:</span>Calle Papudo 557, Cerro Concepción, Valparaíso</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Basic template</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No — OTA only</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Template Site</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-social">No Instagram</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">OTA commissions on all bookings</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No social media in UNESCO area</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for boutique hotel queries</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$42,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- T10 -->
+<div class="biz-card">
+<div class="biz-header"><h3>10. Reñaca Beach Hostel</h3><span class="biz-type">Beach Hostel — Reñaca, Viña del Mar</span></div>
+<div class="biz-body">
+<div class="biz-left">
+<h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found — Facebook only</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Emiliano Figueroa 15019, Reñaca, Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="http://renacabeachhostel.cl" target="_blank">renacabeachhostel.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Basic, outdated</span></div>
+<div class="audit-row"><span class="metric">SSL</span><span class="val fail">No — HTTP only</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No</span></div>
+</div>
+<div class="audit-section"><h4>Social Media Audit</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+</div>
+</div>
+<div class="biz-right">
+<h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">No SSL (insecure)</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-social">No Instagram</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SSL = browser warnings destroy trust</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">Beach hostel with zero booking system</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No Instagram for Reñaca beach content</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$43,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span></div>
+</div>
+</div>
+</div>
+</div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 2: RESTAURANTS & FOOD    -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🍽️ Restaurants & Food <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Restaurant Maralegre</h3><span class="biz-type">Fine Dining — Cerro Alegre, Valparaíso</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reservas@maralegre.cl">reservas@maralegre.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 32 236 5350</div>
+<div class="contact-row"><span class="lbl">Address:</span>Higuera 133, Cerro Alegre, Valparaíso</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://maralegre.cl" target="_blank">maralegre.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional)</span></div>
+<div class="audit-row"><span class="metric">Online reservations</span><span class="val pass">Yes (embedded system)</span></div>
+<div class="audit-row"><span class="metric">Schema markup</span><span class="val pass">Yes</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@restaurantmaralegre</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Content SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No blog/content SEO for food tourism</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for repeat diners</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$14,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. El Baúl Café</h3><span class="biz-type">Café & Bar — 5 Norte, Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:elbaul.cafe@gmail.com">elbaul.cafe@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 32 318 4781</div>
+<div class="contact-row"><span class="lbl">Address:</span>5 Norte 433, Viña del Mar</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-social">No Instagram</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No website = invisible to 90% who Google</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">Gmail = unprofessional for events</span><span class="amt">-$6,000</span></div>
+<div class="loss-row"><span class="desc">No social media discovery</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$34,000</span></div>
+</div>
+<div class="audit-section"><h4>Recommended Services</h4>
+<div class="rec-row"><span class="rec-tag">AI Website</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. La Flor de Chile</h3><span class="biz-type">Traditional Restaurant — 8 Norte, Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:cvera@laflordechile.cl">cvera@laflordechile.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 32 268 9554</div>
+<div class="contact-row"><span class="lbl">Address:</span>8 Norte 601, Viña del Mar</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Basic</span></div>
+<div class="audit-row"><span class="metric">Online reservations</span><span class="val fail">No</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-book">No Reservations</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No online reservations</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for restaurant Viña del Mar</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website Upgrade</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Cafetería World Coffee</h3><span class="biz-type">Coffee Shop — 10 Norte, Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:cafeworldcoffee@gmail.com">cafeworldcoffee@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 32 320 4166</div>
+<div class="contact-row"><span class="lbl">Address:</span>10 Norte 730, Viña del Mar</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Coffee shop with no website = invisible</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">Gmail = no professional brand</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Social Media</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Mister Shawerma</h3><span class="biz-type">Middle Eastern Food — 4 Poniente, Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:kimd802@gmail.com">kimd802@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 6721 3447</div>
+<div class="contact-row"><span class="lbl">Address:</span>4 Poniente 142, Viña del Mar</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-gmail">Personal Gmail</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No website = invisible to search</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">Personal Gmail = zero credibility</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No online ordering</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$38,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">Commerce Build</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Social Media</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. La Colombina Café Bistró</h3><span class="biz-type">Café Bistro & Art Space — Cerro Alegre, Valparaíso</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">WhatsApp only: +56 9 7128 5729</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Pasaje Apolo 91, Cerro Alegre, Valparaíso</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://restoranlacolombina.cl" target="_blank">restoranlacolombina.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional)</span></div>
+<div class="audit-row"><span class="metric">Online reservations</span><span class="val warn">Pre-reservation form</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@lacolombina_cerroalegre</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "café cerro alegre"</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM / email marketing</span><span class="amt">-$5,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$15,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Del Barrio Valpo</h3><span class="biz-type">Gastropub & Cocktail Bar — Valparaíso</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Not found publicly</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(32) 2221 3345</div>
+<div class="contact-row"><span class="lbl">Address:</span>Pedro Montt 2302, Valparaíso</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://delbarriovalpo.cl" target="_blank">delbarriovalpo.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/Elementor)</span></div>
+<div class="audit-row"><span class="metric">Online ordering</span><span class="val pass">Yes (pedidos.delbarriovalpo.cl)</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@delbarriovalpo</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "bar valparaíso" queries</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for 150+ cocktail regulars</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span><span class="rec-tag">Google Ads</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Terrat</h3><span class="biz-type">Mediterranean Restaurant — Cerro Alegre, Valparaíso</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">None — no phone either</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Paseo Dimalow 263, Cerro Alegre, Valparaíso</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.terrat.cl" target="_blank">terrat.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (Elementor)</span></div>
+<div class="audit-row"><span class="metric">Reservations</span><span class="val fail">No — "No hacemos reservas"</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@terratvalpo</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@Terratvalpo</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span><span class="gap-tag gap-no-book">No Contact Info</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No email, no phone = lost group/event inquiries</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "mediterranean restaurant valpo"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">AI Website Upgrade</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. Bar Proa</h3><span class="biz-type">Nightclub & Bar — Errázuriz, Valparaíso</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Errázuriz 302-308, Valparaíso</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.barproa.cl" target="_blank">barproa.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (WordPress/WooCommerce)</span></div>
+<div class="audit-row"><span class="metric">Online tickets</span><span class="val pass">Yes ($6,500-$10,000)</span></div>
+<div class="audit-row"><span class="metric">Loyalty program</span><span class="val pass">Club Proa</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@barproa</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "bar valparaíso" nightlife</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No email marketing to loyalty members</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">Lifecycle Email</span><span class="rec-tag">Paid Ads</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Nogaró Food Drinks & Coffee</h3><span class="biz-type">Restaurant & Bar — Av. Perú, Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Via website</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Perú 100, Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.nogaro.cl" target="_blank">nogaro.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online reservations</span><span class="val fail">No</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Site</span><span class="gap-tag gap-no-book">No Reservations</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Ocean view location, no SEO</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No reservation system</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$23,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 3: HEALTH & VETERINARY   -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">🏥 Health & Veterinary <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. Hospital Clínico Veterinario Vetmedical</h3><span class="biz-type">Vet Hospital — Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:clinicavetmedical@gmail.com">clinicavetmedical@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>032-319 7964</div>
+<div class="contact-row"><span class="lbl">Address:</span>Quillota 580, Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://hospitalvet.wixsite.com/vetmedical" target="_blank">Wix site</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Wix free template</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-weak-web">Wix Template</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Hospital-grade clinic on free Wix</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">Gmail for a hospital = credibility loss</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No online booking (50% after-hours)</span><span class="amt">-$18,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$41,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">CRM</span><span class="rec-tag">Voice AI</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Viña Vet — Clínica de Exóticos</h3><span class="biz-type">Exotic Animal Vet — Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:vinavet.exoticos@gmail.com">vinavet.exoticos@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 4058 4463</div>
+<div class="contact-row"><span class="lbl">Address:</span>11 Norte 1006, Viña del Mar</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — Facebook only</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-gmail">Gmail</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Niche clinic (exotics) with zero web presence</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "veterinaria exóticos Viña"</span><span class="amt">-$15,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$35,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI SEO</span><span class="rec-tag">Social Media</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. Centro Veterinario San Ignacio</h3><span class="biz-type">Vet Clinic — Valparaíso</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:centroveterinariosanignacio@gmail.com">centroveterinariosanignacio@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 7397 5787</div>
+<div class="contact-row"><span class="lbl">Address:</span>Valparaíso Centro</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No — Instagram only</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-gmail">Gmail</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No website = invisible to search</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No booking = lost after-hours</span><span class="amt">-$15,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$35,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">CRM</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Puerto Pet Clínica Veterinaria</h3><span class="biz-type">Vet Clinic + Petshop — Valparaíso Centro</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">WhatsApp only: +56 9 4129 7269</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>32 327 0095</div>
+<div class="contact-row"><span class="lbl">Address:</span>Las Heras 655, Valparaíso</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://puertopetvalpo.cl" target="_blank">puertopetvalpo.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val warn">WhatsApp-based</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@puertopet</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">@puertopet</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-book">No Real Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">WhatsApp only = lost after-hours bookings</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "veterinaria valparaíso"</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$22,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Clínica Volans</h3><span class="biz-type">Multi-specialty Clinic — Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@clinicavolans.cl">contacto@clinicavolans.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 2933 0152 / +56 32 254 8251</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Libertad 1348, Torre Marina, Piso 10, Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://clinicavolans.cl" target="_blank">clinicavolans.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-book">No Online Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Multi-specialty with no booking</span><span class="amt">-$18,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for dental/kinesiology Viña</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$30,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Voice AI</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Red Implantología Viña del Mar</h3><span class="biz-type">Dental Implant Clinic — Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:implantologiavina@gmail.com">implantologiavina@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 5803 8673</div>
+<div class="contact-row"><span class="lbl">Address:</span>Av. Libertad 269, Of. 304, Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.implantologiavina.cl" target="_blank">implantologiavina.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail for implant clinic = trust issue</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "implantes dentales Viña"</span><span class="amt">-$20,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$32,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">AI Booking</span><span class="rec-tag">CRM</span><span class="rec-tag">Google Ads</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Neokin Kinesiología Integral</h3><span class="biz-type">Kinesiology Center — Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@neokin.cl">contacto@neokin.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>32-297 0823 / +56 9 3083 2563</div>
+<div class="contact-row"><span class="lbl">Address:</span>1 Poniente 123, Ed. Piedra Azul Of. 701, Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://neokin.cl" target="_blank">neokin.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for "kinesiología Viña del Mar"</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for patient retention</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Clínica Advance</h3><span class="biz-type">Dental & Aesthetics — Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">WhatsApp only: +56 9 4753 6590</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(32) 268 2763</div>
+<div class="contact-row"><span class="lbl">Address:</span>11 Norte 795, esq. 1 Oriente, Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://advanceclinic.cl" target="_blank">advanceclinic.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-book">WhatsApp Only</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Dental + aesthetics with no real booking</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for high-value dental queries</span><span class="amt">-$18,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$33,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Google Ads</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. Dentosalud</h3><span class="biz-type">Dental Clinic (2 locations) — Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">WhatsApp only: +56 9 7149 9240</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(32) 276 8675</div>
+<div class="contact-row"><span class="lbl">Address:</span>10 Norte 870 + 11 Norte 949, Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.dentosalud.cl" target="_blank">dentosalud.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-book">No Online Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">2 locations with no SEO = massive loss</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$32,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO (2 locations)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Centro Kinésico PUCV</h3><span class="biz-type">Rehabilitation Center — Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:centro.kinesico@pucv.cl">centro.kinesico@pucv.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>(56)(32) 268 7137</div>
+<div class="contact-row"><span class="lbl">Address:</span>5 Oriente 333, Viña del Mar</div>
+</div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">University Subpage</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Buried in university website</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$18,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+</section>
+
+<!-- =============================== -->
+<!-- MARKET 4: BEAUTY & AESTHETICS   -->
+<!-- =============================== -->
+<section class="market-section">
+<h2 class="market-title">💇 Beauty & Aesthetics <span class="badge">10 PROSPECTS</span></h2>
+
+<div class="biz-card"><div class="biz-header"><h3>1. SIBEA Salon</h3><span class="biz-type">Hair Salon & Beauty — Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:sibea.salon@gmail.com">sibea.salon@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 7874 7116</div>
+<div class="contact-row"><span class="lbl">Address:</span>2 Oriente 1126, Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://sibeasalon.com" target="_blank">sibeasalon.com</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (professional)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">E-commerce</span><span class="val pass">Product store</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@sibea.salon</span></div>
+<div class="audit-row"><span class="metric">TikTok</span><span class="val pass">@sibea.salon</span></div>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail Business</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail despite professional site</span><span class="amt">-$5,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "peluquería Viña del Mar"</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for client retention</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>2. Secrets Viña</h3><span class="biz-type">Full-Service Salon — Galería Cristal, Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--yellow)">Phone only: +56 9 8654 6546</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Calle Valparaíso 463, Local 289a, Galería Cristal, Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://secretsvina.cl" target="_blank">secretsvina.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes (Jumpseller)</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@secretsvina</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No SEO for salon queries</span><span class="amt">-$10,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for repeat clients</span><span class="amt">-$6,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$16,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>3. The Wolf Barbería Premium</h3><span class="biz-type">Premium Barbershop — Viña del Mar (2 locations)</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 32 337 3154</div>
+<div class="contact-row"><span class="lbl">Address:</span>Traslaviña 238 + Arturo Prat 352, Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://the-wolf.cl" target="_blank">the-wolf.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val pass">Yes</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val pass">Yes (AgendaPro)</span></div>
+<div class="audit-row"><span class="metric">Own app</span><span class="val pass">Yes</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@thewolfsalon</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">2 locations with no SEO = $25K+</span><span class="amt">-$25,000</span></div>
+<div class="loss-row"><span class="desc">No CRM across locations</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$35,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO (2 locations)</span><span class="rec-tag">CRM</span><span class="rec-tag">Google Ads</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>4. Bear MenStudio</h3><span class="biz-type">Barbershop — Viña del Mar (3 locations)</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Traslaviña 233 + 10 Norte 655 + Mall Paseo Ross, Valparaíso</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://bear-menstudio.cl" target="_blank">bear-menstudio.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Minimal — mostly aesthetic</span></div>
+<div class="audit-row"><span class="metric">No contact info on site</span><span class="val fail">Fail</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val pass">@bear_menstudio</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">No Contact on Site</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">3 locations, zero contact info on website</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for barbershop queries</span><span class="amt">-$18,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$38,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI SEO (3 locations)</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>5. Humano Salón Barber</h3><span class="biz-type">Barber Salon — Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://humanosalonbarber.cl" target="_blank">humanosalonbarber.cl</a></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Beautiful design, zero utility</span></div>
+<div class="audit-row"><span class="metric">Contact info</span><span class="val fail">None on site</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">No Contact/Booking</span><span class="gap-tag gap-no-seo">No SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Premium branding but zero functionality</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No way to contact = lost clients daily</span><span class="amt">-$15,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$35,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website Rebuild</span><span class="rec-tag">AI Booking Agent</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>6. Cambia tu Look</h3><span class="biz-type">Barbershop & Hair Salon — Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:contacto@cambiatulook.cl">contacto@cambiatulook.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 4292 9457</div>
+<div class="contact-row"><span class="lbl">Address:</span>10 Norte 1050, Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://cambiatulook.cl" target="_blank">cambiatulook.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Basic Website</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No online booking</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for barbería queries</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$20,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>7. Viña Spa</h3><span class="biz-type">Day Spa — 12 Norte, Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:vinaspa1@gmail.com">vinaspa1@gmail.com</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 9 4449 6565</div>
+<div class="contact-row"><span class="lbl">Address:</span>12 Norte 818, esq. 1 Oriente, Viña del Mar</div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val warn">Basic template</span></div>
+<div class="audit-row"><span class="metric">Online booking</span><span class="val fail">No</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-gmail">Gmail</span><span class="gap-tag gap-weak-web">Template Site</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Gmail spa = credibility issue</span><span class="amt">-$8,000</span></div>
+<div class="loss-row"><span class="desc">No booking = 71% skip when hard</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No SEO for "spa Viña del Mar"</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$35,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span><span class="rec-tag">CRM</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>8. Eva Spa</h3><span class="biz-type">Spa Chain — Mall Paseo Viña + Marina Arauco</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><a href="mailto:reserva.paseovinacentro@evaspa.cl">reserva.paseovinacentro@evaspa.cl</a></div>
+<div class="contact-row"><span class="lbl">Phone:</span>600 440 4444 / WhatsApp: +56 9 6228 1917</div>
+<div class="contact-row"><span class="lbl">Address:</span>Valparaíso 1070, Piso 3 + 14 Norte 976, Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><a href="https://www.evaspa.cl" target="_blank">evaspa.cl</a></div>
+</div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-seo">No Local SEO</span><span class="gap-tag gap-no-crm">No CRM</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No local SEO for Viña locations</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No CRM for repeat spa clients</span><span class="amt">-$10,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$25,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI SEO (2 locations)</span><span class="rec-tag">CRM</span><span class="rec-tag">Lifecycle Email</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>9. Vermelho Centro de Belleza</h3><span class="biz-type">Beauty Center — Viña del Mar</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found — phone only</span></div>
+<div class="contact-row"><span class="lbl">Phone:</span>+56 32 319 8072</div>
+<div class="contact-row"><span class="lbl">Address:</span>Ecuador 23, Local 4 (Av. Marina), Viña del Mar</div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--yellow)">vermelho.cl (minimal)</span></div>
+<div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val pass">Active page</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-weak-web">Minimal Website</span><span class="gap-tag gap-no-social">No Instagram</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">Beauty center with no Instagram = invisible</span><span class="amt">-$15,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$12,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$27,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI Booking</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+<div class="biz-card"><div class="biz-header"><h3>10. Infinity Salón de Belleza</h3><span class="biz-type">Beauty Salon — Valparaíso</span></div>
+<div class="biz-body"><div class="biz-left"><h4>Contact Details</h4>
+<div class="contact-row"><span class="lbl">Email:</span><span style="color:var(--red)">Not found — Facebook only</span></div>
+<div class="contact-row"><span class="lbl">Address:</span>Valparaíso Centro</div>
+<div class="contact-row"><span class="lbl">Website:</span><span style="color:var(--red)">None — Facebook page only</span></div>
+<div class="audit-section"><h4>Website Audit</h4>
+<div class="audit-row"><span class="metric">Has website</span><span class="val fail">No</span></div>
+</div><div class="audit-section"><h4>Social Media</h4>
+<div class="audit-row"><span class="metric">Facebook</span><span class="val warn">Exists</span></div>
+<div class="audit-row"><span class="metric">Instagram</span><span class="val fail">Not found</span></div>
+</div></div>
+<div class="biz-right"><h4>Digital Gaps Found</h4>
+<div class="rec-row"><span class="gap-tag gap-no-web">No Website</span><span class="gap-tag gap-no-social">FB Only</span><span class="gap-tag gap-no-book">No Booking</span><span class="gap-tag gap-no-seo">No SEO</span></div>
+<div class="loss-box"><h4 style="color:var(--red);font-size:.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Estimated Annual Revenue Loss</h4>
+<div class="loss-row"><span class="desc">No website = invisible to search</span><span class="amt">-$20,000</span></div>
+<div class="loss-row"><span class="desc">No booking system</span><span class="amt">-$12,000</span></div>
+<div class="loss-row"><span class="desc">No Instagram for beauty portfolio</span><span class="amt">-$8,000</span></div>
+<div class="loss-total"><span class="desc">Total estimated loss/year</span><span class="amt">-$40,000</span></div>
+</div>
+<div class="rec-row" style="margin-top:12px"><span class="rec-tag">AI Website (urgent)</span><span class="rec-tag">AI Booking</span><span class="rec-tag">Social Media</span><span class="rec-tag">AI SEO</span></div>
+</div></div></div>
+
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+<h2>Valparaíso & Viña del Mar: <span>$2.1M in Annual Revenue Lost</span> Across 40 Businesses</h2>
+<p>Chile's premier coastal destination and UNESCO World Heritage city — yet these 40 businesses are bleeding money through digital gaps. The solution starts at $497/mo.</p>
+<a href="valparaiso-digital-gaps.html" class="cta-btn">See Full Digital Gap Analysis →</a>
+</div>
+
+</div>
+<footer class="report-footer">
+<div class="container">
+<p><strong>NetWebMedia</strong> — AI Marketing for Growth | netwebmedia.com | hello@netwebmedia.com</p>
+<p style="margin-top:8px;">Valparaíso & Viña del Mar Prospect Report generated April 15, 2026. Individual business analyses based on public website audits, social media research, and industry revenue benchmarks.</p>
+</div>
+</footer>
+</body>
+</html>

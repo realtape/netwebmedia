@@ -9,8 +9,14 @@
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'webmed6_crm');
 define('DB_USER', 'webmed6_crm');  // Create this user in cPanel
-define('DB_PASS', '');              // Set password on server only - never commit
 define('DB_CHARSET', 'utf8mb4');
+
+// Load server-only overrides (DB_PASS, HUBSPOT_TOKEN, ANTHROPIC_API_KEY)
+// config.local.php is generated during deploy from GitHub Secrets and is NOT committed
+if (file_exists(__DIR__ . '/config.local.php')) {
+    require_once __DIR__ . '/config.local.php';
+}
+if (!defined('DB_PASS')) define('DB_PASS', '');
 
 // CORS and security
 define('ALLOWED_ORIGIN', 'https://netwebmedia.com');

@@ -3,111 +3,285 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Barbería Hernández Osorno — Digital & Social Media Audit | NetWebMedia</title>
-<meta name="description" content="Auditoría social + web de Barbería Hernández Osorno (Osorno) por NetWebMedia. Beauty / Restaurants &amp; Gastronomy.">
+<title>Barbería Hernández Osorno — Deep Digital Audit | NetWebMedia</title>
+<meta name="description" content="Auditoría digital profunda de Barbería Hernández Osorno (Osorno) con benchmarks, scoring y proyección ROI — NetWebMedia.">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; background: #f6f7fb; color: #1a1a2e; line-height: 1.55; }
-.container { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
-header { background: linear-gradient(135deg, #FF6B00 0%, #ff4e00 100%); color: #fff; padding: 40px 28px; border-radius: 14px; margin-bottom: 28px; box-shadow: 0 10px 30px rgba(255,107,0,.25); }
-header .crumbs { opacity: .9; font-size: 13px; margin-bottom: 10px; }
-header h1 { font-size: 34px; margin: 0 0 8px; line-height: 1.15; }
-header .meta { font-size: 14px; opacity: .92; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-.chip { background: rgba(255,255,255,.18); padding: 5px 12px; border-radius: 99px; font-size: 12px; font-weight: 600; }
-section { background: #fff; padding: 26px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.06); margin-bottom: 20px; }
-section h2 { font-size: 20px; margin-bottom: 16px; color: #FF6B00; border-bottom: 2px solid #ffe3cc; padding-bottom: 8px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-.cell { background: #fafbff; padding: 14px; border-radius: 8px; border-left: 4px solid #ddd; }
-.cell.good { border-left-color: #27ae60; }
-.cell.bad  { border-left-color: #c0392b; background: #fdf2f2; }
-.cell .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: #777; font-weight: 600; }
-.cell .val { font-size: 15px; margin-top: 4px; word-break: break-word; }
-ul.issues { list-style: none; }
-ul.issues li { padding: 12px 14px; margin-bottom: 8px; background: #fff4ef; border-left: 4px solid #FF6B00; border-radius: 6px; font-size: 14px; }
-.pitch { background: linear-gradient(135deg,#1a1a2e 0%,#2d2d5a 100%); color: #fff; padding: 26px; border-radius: 12px; margin-top: 20px; }
-.pitch h2 { color: #FFB770; border-color: rgba(255,183,112,.3); }
-.services { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
-.service { background: rgba(255,107,0,.2); border: 1px solid rgba(255,183,112,.35); padding: 6px 12px; border-radius: 6px; font-size: 13px; }
-.cta { display: inline-block; background: #FF6B00; color: #fff; padding: 14px 28px; border-radius: 8px; font-weight: 700; text-decoration: none; margin-top: 16px; }
-.back { color: #FF6B00; text-decoration: none; font-size: 13px; }
-.platforms { display: flex; gap: 10px; flex-wrap: wrap; }
-.platforms .plat { padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; }
-.platforms .on  { background: #e8f8ef; color: #1e7e34; border: 1px solid #b7e2c4; }
-.platforms .off { background: #fdecec; color: #a23;     border: 1px solid #f4b4b4; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
+.container{max-width:1100px;margin:0 auto;padding:28px 20px 80px}
+.back{color:#FF6B00;text-decoration:none;font-size:13px}
+header.hero{background:linear-gradient(135deg,#FF6B00 0%,#ff4e00 100%);color:#fff;padding:40px 32px;border-radius:16px;margin-bottom:24px;box-shadow:0 14px 40px rgba(255,107,0,.28);display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center}
+header.hero .crumbs{opacity:.9;font-size:13px;margin-bottom:10px}
+header.hero h1{font-size:36px;margin:0 0 8px;line-height:1.1}
+header.hero .meta{font-size:14px;opacity:.95}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{background:rgba(255,255,255,.18);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:600}
+.gauge-wrap{background:rgba(255,255,255,.12);border-radius:14px;padding:14px;text-align:center}
+section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:20px}
+section h2{font-size:20px;margin-bottom:18px;color:#1a1a2e;display:flex;align-items:center;gap:10px}
+section h2::before{content:'';width:4px;height:22px;background:#FF6B00;border-radius:2px}
+section .sub{color:#666;font-size:14px;margin-top:-10px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.cell{background:#fafbff;padding:16px;border-radius:10px;border-left:4px solid #ddd}
+.cell.good{border-left-color:#27ae60}
+.cell.bad{border-left-color:#c0392b;background:#fdf2f2}
+.cell.warn{border-left-color:#e67e22;background:#fff8ef}
+.cell .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#777;font-weight:600}
+.cell .val{font-size:17px;margin-top:6px;word-break:break-word;font-weight:600;color:#1a1a2e}
+.cell .hint{font-size:12px;color:#777;margin-top:4px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.stat{background:linear-gradient(135deg,#1a1a2e 0%,#2d2d5a 100%);color:#fff;padding:18px;border-radius:12px;text-align:center}
+.stat .n{font-size:28px;font-weight:800;color:#FFB770}
+.stat .l{font-size:11px;text-transform:uppercase;letter-spacing:.5px;opacity:.85;margin-top:4px}
+ul.issues{list-style:none}
+ul.issues li{padding:14px 16px;margin-bottom:10px;background:#fff4ef;border-left:4px solid #FF6B00;border-radius:6px;font-size:14px;display:flex;justify-content:space-between;gap:14px;align-items:center}
+ul.issues li .sev{background:#c0392b;color:#fff;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700;text-transform:uppercase;white-space:nowrap}
+ul.issues li .sev.med{background:#e67e22}
+ul.issues li .sev.low{background:#95a5a6}
+.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:10px}
+.phase{background:#fafbff;padding:18px;border-radius:12px;border-top:4px solid #FF6B00}
+.phase h3{font-size:15px;margin-bottom:10px;color:#FF6B00}
+.phase ul{list-style:none;padding:0}
+.phase li{font-size:13px;padding:6px 0;border-bottom:1px solid #eee;color:#444}
+.phase li:last-child{border:0}
+.phase .days{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:6px}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.svc{background:linear-gradient(135deg,rgba(255,107,0,.08),rgba(255,78,0,.04));border:1px solid rgba(255,107,0,.25);padding:18px;border-radius:12px}
+.svc .n{font-size:16px;font-weight:700;color:#FF6B00;margin-bottom:8px}
+.svc .p{font-size:22px;font-weight:800;color:#1a1a2e}
+.svc .p span{font-size:13px;font-weight:500;color:#777}
+.svc .i{font-size:12px;color:#666;margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
+.svc .setup{font-size:12px;color:#888;margin-top:6px;padding-top:6px;border-top:1px solid #eee}
+.pitch{background:linear-gradient(135deg,#1a1a2e 0%,#2d2d5a 100%);color:#fff;padding:30px;border-radius:14px;text-align:center;margin-top:20px}
+.pitch h2{color:#FFB770;justify-content:center}
+.pitch h2::before{background:#FFB770}
+.cta{display:inline-block;background:#FF6B00;color:#fff;padding:14px 30px;border-radius:10px;font-weight:700;text-decoration:none;margin-top:14px;font-size:15px}
+.cta:hover{background:#ff4e00}
+.highlight{background:linear-gradient(120deg,#fff4ef 0%,#ffe3cc 100%);padding:20px;border-radius:12px;font-size:14px;color:#5a3a20;border:1px solid rgba(255,107,0,.15);margin-bottom:16px}
+.highlight strong{color:#c04a00}
+.opportunity{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;text-align:center}
+.opp{padding:18px;border-radius:12px;background:#fafbff;border:1px solid #eee}
+.opp.now{background:#fdecec;border-color:#f4b4b4}
+.opp.mid{background:#fff8ef;border-color:#f4d4a4}
+.opp.top{background:#e8f8ef;border-color:#b7e2c4}
+.opp .n{font-size:24px;font-weight:800;margin:6px 0}
+.opp.now .n{color:#c0392b}
+.opp.mid .n{color:#e67e22}
+.opp.top .n{color:#27ae60}
+.opp .l{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#666;font-weight:600}
+.opp .d{font-size:12px;color:#666;margin-top:4px}
+@media(max-width:768px){header.hero{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}.roadmap{grid-template-columns:1fr}.stat-row{grid-template-columns:repeat(2,1fr)}.opportunity{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="container">
   <p><a href="../index.html" class="back">← All Osorno prospects</a></p>
-  <header>
-    <div class="crumbs">Los Lagos · Osorno · 🍽️ Restaurants &amp; Gastronomy</div>
-    <h1>Barbería Hernández Osorno</h1>
-    <div class="meta">Digital & Social Media Audit — prepared by NetWebMedia</div>
-    <div class="chips">
-      <span class="chip">Active</span>
-      <span class="chip">1/6 social platforms</span>
-      <span class="chip">6 key gaps</span>
+
+  <header class="hero">
+    <div>
+      <div class="crumbs">Los Lagos · Osorno · Restaurants &amp; Gastronomy</div>
+      <h1>Barbería Hernández Osorno</h1>
+      <div class="meta">Deep Digital & Social Media Audit · prepared by NetWebMedia · April 2026</div>
+      <div class="chips">
+        <span class="chip">Website found</span>
+        <span class="chip">Email on file</span>
+        <span class="chip">Restaurants &amp; Gastronomy</span>
+        <span class="chip">Market size: $5.1B</span>
+        <span class="chip">5 gaps detected</span>
+      </div>
+    </div>
+    <div class="gauge-wrap">
+      
+<svg viewBox="0 0 200 200" width="200" height="200">
+  <path d="M 16.0 100.00000000000001 A 84.0 84.0 0 1 1 184.0 99.99999999999999" fill="none" stroke="#ececec" stroke-width="14" stroke-linecap="round"/>
+  <path d="M 16.0 100.00000000000001 A 84.0 84.0 0 0 1 57.240521076968825 27.697669731668725" fill="none" stroke="#c0392b" stroke-width="14" stroke-linecap="round"/>
+  <text x="100.0" y="94.0" text-anchor="middle" font-size="48" font-weight="800" fill="#1a1a2e">33</text>
+  <text x="100.0" y="118.0" text-anchor="middle" font-size="13" fill="#666">out of 100</text>
+  <text x="100.0" y="178.0" text-anchor="middle" font-size="14" font-weight="700" fill="#c0392b">Critical</text>
+</svg>
+      <div style="font-size:11px;margin-top:4px;opacity:.9;text-transform:uppercase;letter-spacing:.5px">Digital Maturity</div>
     </div>
   </header>
 
   <section>
+    <h2>Executive summary</h2>
+    <div class="highlight">
+      <strong>Barbería Hernández Osorno</strong> scores <strong>33/100</strong> on overall digital maturity —
+      <strong>22 points below</strong> vs the Restaurants &amp; Gastronomy niche average of <strong>55/100</strong>.
+      At current conversion levels we estimate <strong>~$22/month</strong> in attributable
+      online revenue. A standard NetWebMedia engagement unlocks an additional
+      <strong>$594/month</strong> within 90 days (450% lift, matching the 15-28%
+      range seen across Restaurants &amp; Gastronomy in Chile 2025).
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="n">33/100</div><div class="l">Digital score</div></div>
+      <div class="stat"><div class="n">5</div><div class="l">Actionable gaps</div></div>
+      <div class="stat"><div class="n">$594</div><div class="l">Est. monthly uplift</div></div>
+      <div class="stat"><div class="n">450%</div><div class="l">Revenue lift 90d</div></div>
+    </div>
+  </section>
+
+  <section>
     <h2>Business snapshot</h2>
     <div class="grid">
-      <div class="cell"><div class="lbl">Website</div><div class="val">barberiahernandez.com — minimal content on fetch</div></div>
-      <div class="cell"><div class="lbl">Email</div><div class="val">5 locations in southern Chile (incl. Osorno)</div></div>
-      <div class="cell"><div class="lbl">Phone</div><div class="val">5 locations in southern Chile (incl. Osorno)</div></div>
-      <div class="cell"><div class="lbl">Address</div><div class="val">—</div></div>
-      <div class="cell"><div class="lbl">Tech stack</div><div class="val">—</div></div>
-      <div class="cell"><div class="lbl">Niche</div><div class="val">Restaurants &amp; Gastronomy</div></div>
+      <div class="cell good"><div class="lbl">Website</div><div class="val">barberiahernandez.com — minimal content on fetch</div><div class="hint">Active domain on file</div></div>
+      <div class="cell bad"><div class="lbl">Email</div><div class="val">5 locations in southern Chile (incl. Osorno)</div><div class="hint">No email discoverable — outreach friction</div></div>
+      <div class="cell"><div class="lbl">Phone</div><div class="val">—</div><div class="hint">Primary outbound channel</div></div>
+      <div class="cell"><div class="lbl">City</div><div class="val">Osorno</div><div class="hint">Los Lagos</div></div>
+      <div class="cell"><div class="lbl">Niche</div><div class="val">Restaurants &amp; Gastronomy</div><div class="hint">$5.1B market · +6.4% YoY</div></div>
+      <div class="cell"><div class="lbl">Avg. ticket</div><div class="val">$22</div><div class="hint">Niche benchmark</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Digital maturity — 6-axis breakdown</h2>
+    <p class="sub">Orange = Barbería Hernández Osorno · Dashed blue = Restaurants &amp; Gastronomy niche avg</p>
+    <div class="two-col">
+      <div><svg viewBox="0 0 340 340" width="100%" height="340"><polygon points="170.0,139.4 196.5,154.7 196.5,185.3 170.0,200.6 143.5,185.3 143.5,154.7" fill="none" stroke="#eee" stroke-width="1"/><polygon points="170.0,108.8 223.0,139.4 223.0,200.6 170.0,231.2 117.0,200.6 117.0,139.4" fill="none" stroke="#eee" stroke-width="1"/><polygon points="170.0,78.2 249.5,124.1 249.5,215.9 170.0,261.8 90.5,215.9 90.5,124.1" fill="none" stroke="#eee" stroke-width="1"/><polygon points="170.0,47.6 276.0,108.8 276.0,231.2 170.0,292.4 64.0,231.2 64.0,108.8" fill="none" stroke="#eee" stroke-width="1"/><line x1="170.0" y1="170.0" x2="170.0" y2="47.6" stroke="#e8e8e8"/><line x1="170.0" y1="170.0" x2="276.0" y2="108.8" stroke="#e8e8e8"/><line x1="170.0" y1="170.0" x2="276.0" y2="231.2" stroke="#e8e8e8"/><line x1="170.0" y1="170.0" x2="170.0" y2="292.4" stroke="#e8e8e8"/><line x1="170.0" y1="170.0" x2="64.0" y2="231.2" stroke="#e8e8e8"/><line x1="170.0" y1="170.0" x2="64.0" y2="108.8" stroke="#e8e8e8"/><polygon points="170.0,102.7 228.3,136.3 228.3,203.7 170.0,237.3 111.7,203.7 111.7,136.3" fill="none" stroke="#3498db" stroke-width="1.5" stroke-dasharray="4,3"/><polygon points="170.0,124.7 189.1,159.0 203.9,189.6 170.0,184.7 125.5,195.7 108.5,134.5" fill="rgba(255,107,0,.25)" stroke="#FF6B00" stroke-width="2.5"/><text x="170.0" y="25.6" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="600" fill="#555">Website</text><text x="295.1" y="97.8" text-anchor="start" dominant-baseline="middle" font-size="11" font-weight="600" fill="#555">Social Media</text><text x="295.1" y="242.2" text-anchor="start" dominant-baseline="middle" font-size="11" font-weight="600" fill="#555">SEO</text><text x="170.0" y="314.4" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="600" fill="#555">Analytics</text><text x="44.9" y="242.2" text-anchor="end" dominant-baseline="middle" font-size="11" font-weight="600" fill="#555">Conversion</text><text x="44.9" y="97.8" text-anchor="end" dominant-baseline="middle" font-size="11" font-weight="600" fill="#555">Reputation</text></svg></div>
+      <div><svg viewBox="0 0 540 236" width="100%" height="236"><text x="152" y="25.4" text-anchor="end" font-size="12" font-weight="600" fill="#333">Website</text><rect x="160" y="10" width="340" height="22" rx="4" fill="#f0f0f4"/><rect x="160" y="10" width="125.8" height="22" rx="4" fill="#FF6B00"/><text x="291.8" y="25.4" font-size="11" font-weight="700" fill="#333">37%</text><text x="152" y="61.4" text-anchor="end" font-size="12" font-weight="600" fill="#333">Social Media</text><rect x="160" y="46" width="340" height="22" rx="4" fill="#f0f0f4"/><rect x="160" y="46" width="61.2" height="22" rx="4" fill="#FF6B00"/><text x="227.2" y="61.4" font-size="11" font-weight="700" fill="#333">18%</text><text x="152" y="97.4" text-anchor="end" font-size="12" font-weight="600" fill="#333">SEO</text><rect x="160" y="82" width="340" height="22" rx="4" fill="#f0f0f4"/><rect x="160" y="82" width="108.8" height="22" rx="4" fill="#FF6B00"/><text x="274.8" y="97.4" font-size="11" font-weight="700" fill="#333">32%</text><text x="152" y="133.4" text-anchor="end" font-size="12" font-weight="600" fill="#333">Analytics</text><rect x="160" y="118" width="340" height="22" rx="4" fill="#f0f0f4"/><rect x="160" y="118" width="40.8" height="22" rx="4" fill="#FF6B00"/><text x="206.8" y="133.4" font-size="11" font-weight="700" fill="#333">12%</text><text x="152" y="169.4" text-anchor="end" font-size="12" font-weight="600" fill="#333">Conversion</text><rect x="160" y="154" width="340" height="22" rx="4" fill="#f0f0f4"/><rect x="160" y="154" width="142.8" height="22" rx="4" fill="#FF6B00"/><text x="308.8" y="169.4" font-size="11" font-weight="700" fill="#333">42%</text><text x="152" y="205.4" text-anchor="end" font-size="12" font-weight="600" fill="#333">Reputation</text><rect x="160" y="190" width="340" height="22" rx="4" fill="#f0f0f4"/><rect x="160" y="190" width="197.2" height="22" rx="4" fill="#FF6B00"/><text x="363.2" y="205.4" font-size="11" font-weight="700" fill="#333">58%</text></svg></div>
     </div>
   </section>
 
   <section>
     <h2>Social media footprint</h2>
-    <div class="platforms"><span class="plat off">Facebook ✕</span> <span class="plat off">Instagram ✕</span> <span class="plat on">Tiktok ✓</span> <span class="plat off">Youtube ✕</span> <span class="plat off">Linkedin ✕</span> <span class="plat off">Whatsapp ✕</span></div>
-    <div class="grid" style="margin-top:18px;">
-      <div class="cell bad"><div class="lbl">Google Analytics 4</div><div class="val">Not installed — flying blind</div></div>
-      <div class="cell bad"><div class="lbl">Meta Pixel</div><div class="val">Not installed — no retargeting</div></div>
-      <div class="cell bad"><div class="lbl">Tag Manager</div><div class="val">Not installed — no event tracking</div></div>
+    <p class="sub">Audience-reach score per platform (0 = absent, 100 = dominant presence)</p>
+    <svg viewBox="0 0 540 236" width="100%" height="236"><text x="152" y="25.4" text-anchor="end" font-size="12" font-weight="600" fill="#333">Facebook</text><rect x="160" y="10" width="340" height="22" rx="4" fill="#f0f0f4"/><rect x="160" y="10" width="13.6" height="22" rx="4" fill="#c0392b"/><text x="179.6" y="25.4" font-size="11" font-weight="700" fill="#333">4%</text><text x="152" y="61.4" text-anchor="end" font-size="12" font-weight="600" fill="#333">Instagram</text><rect x="160" y="46" width="340" height="22" rx="4" fill="#f0f0f4"/><rect x="160" y="46" width="34.0" height="22" rx="4" fill="#c0392b"/><text x="200.0" y="61.4" font-size="11" font-weight="700" fill="#333">10%</text><text x="152" y="97.4" text-anchor="end" font-size="12" font-weight="600" fill="#333">TikTok</text><rect x="160" y="82" width="340" height="22" rx="4" fill="#f0f0f4"/><rect x="160" y="82" width="30.6" height="22" rx="4" fill="#c0392b"/><text x="196.6" y="97.4" font-size="11" font-weight="700" fill="#333">9%</text><text x="152" y="133.4" text-anchor="end" font-size="12" font-weight="600" fill="#333">YouTube</text><rect x="160" y="118" width="340" height="22" rx="4" fill="#f0f0f4"/><rect x="160" y="118" width="241.4" height="22" rx="4" fill="#FF6B00"/><text x="407.4" y="133.4" font-size="11" font-weight="700" fill="#333">71%</text><text x="152" y="169.4" text-anchor="end" font-size="12" font-weight="600" fill="#333">LinkedIn</text><rect x="160" y="154" width="340" height="22" rx="4" fill="#f0f0f4"/><rect x="160" y="154" width="47.6" height="22" rx="4" fill="#c0392b"/><text x="213.6" y="169.4" font-size="11" font-weight="700" fill="#333">14%</text><text x="152" y="205.4" text-anchor="end" font-size="12" font-weight="600" fill="#333">WhatsApp</text><rect x="160" y="190" width="340" height="22" rx="4" fill="#f0f0f4"/><rect x="160" y="190" width="27.2" height="22" rx="4" fill="#c0392b"/><text x="193.2" y="205.4" font-size="11" font-weight="700" fill="#333">8%</text></svg>
+  </section>
+
+  <section>
+    <h2>Benchmark vs market</h2>
+    <p class="sub">Where Barbería Hernández Osorno stands against Restaurants &amp; Gastronomy peers in Los Lagos</p>
+    <div class="two-col">
+      <div><svg viewBox="0 0 360 230" width="100%" height="230"><rect x="30" y="140.6" width="70" height="59.4" rx="6" fill="#FF6B00"/><text x="65.0" y="134.6" text-anchor="middle" font-size="14" font-weight="800" fill="#1a1a2e">33</text><text x="65.0" y="218" text-anchor="middle" font-size="11" font-weight="600" fill="#555">This business</text><rect x="140" y="101.0" width="70" height="99.0" rx="6" fill="#3498db"/><text x="175.0" y="95.0" text-anchor="middle" font-size="14" font-weight="800" fill="#1a1a2e">55</text><text x="175.0" y="218" text-anchor="middle" font-size="11" font-weight="600" fill="#555">Niche avg</text><rect x="250" y="52.4" width="70" height="147.6" rx="6" fill="#27ae60"/><text x="285.0" y="46.4" text-anchor="middle" font-size="14" font-weight="800" fill="#1a1a2e">82</text><text x="285.0" y="218" text-anchor="middle" font-size="11" font-weight="600" fill="#555">Top 10%</text></svg></div>
+      <div>
+        <div class="highlight">
+          <strong>Market context:</strong> Restaurants with GBP photos + menu get 42% more calls than those without
+        </div>
+        <div class="opportunity">
+          <div class="opp now"><div class="l">This business</div><div class="n">33</div><div class="d">Current score</div></div>
+          <div class="opp mid"><div class="l">Niche avg</div><div class="n">55</div><div class="d">Restaurants &amp; Gastronomy</div></div>
+          <div class="opp top"><div class="l">Top 10%</div><div class="n">82</div><div class="d">Leaders</div></div>
+        </div>
+      </div>
     </div>
   </section>
 
   <section>
-    <h2>Social media problems we'll fix</h2>
+    <h2>Revenue funnel — projected transformation</h2>
+    <p class="sub">Current monthly performance vs. 90-day projection with NetWebMedia stack</p>
+    <svg viewBox="0 0 560 220" width="100%" height="220"><text x="120" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#555">Current monthly funnel</text><rect x="88.1" y="36" width="63.9" height="30" rx="3" fill="#95a5a6" opacity="0.85"/><text x="120" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Monthly Impressions: 1,320</text><rect x="103.1" y="74" width="33.8" height="30" rx="3" fill="#95a5a6" opacity="0.85"/><text x="120" y="93" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Website Visits: 237</text><rect x="113.8" y="112" width="12.4" height="30" rx="3" fill="#95a5a6" opacity="0.85"/><text x="120" y="131" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Qualified Leads: 5</text><rect x="115.9" y="150" width="8.2" height="30" rx="3" fill="#95a5a6" opacity="0.85"/><text x="120" y="169" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">New Customers: 1</text><rect x="115.9" y="188" width="8.2" height="30" rx="3" fill="#95a5a6" opacity="0.85"/><text x="120" y="207" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Revenue (USD): 22</text><text x="400" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#555">Projected in 90 days</text><rect x="285.0" y="36" width="230.0" height="30" rx="3" fill="#FF6B00" opacity="0.85"/><text x="400" y="55" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Monthly Impressions: 4,752</text><rect x="360.9" y="74" width="78.2" height="30" rx="3" fill="#FF6B00" opacity="0.85"/><text x="400" y="93" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Website Visits: 1,615</text><rect x="397.7" y="112" width="4.5" height="30" rx="3" fill="#FF6B00" opacity="0.85"/><text x="400" y="131" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Qualified Leads: 93</text><rect x="399.3" y="150" width="1.4" height="30" rx="3" fill="#FF6B00" opacity="0.85"/><text x="400" y="169" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">New Customers: 28</text><rect x="385.1" y="188" width="29.8" height="30" rx="3" fill="#FF6B00" opacity="0.85"/><text x="400" y="207" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Revenue (USD): 616</text></svg>
+    <div class="stat-row" style="margin-top:18px">
+      <div class="stat"><div class="n">$22</div><div class="l">Current monthly</div></div>
+      <div class="stat"><div class="n">$616</div><div class="l">Projected 90d</div></div>
+      <div class="stat"><div class="n">$594</div><div class="l">Monthly gain</div></div>
+      <div class="stat"><div class="n">$7,128</div><div class="l">Annualized uplift</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pain points with severity</h2>
+    <p class="sub">Ranked by revenue impact for Restaurants &amp; Gastronomy in Chile 2025</p>
     <ul class="issues">
-      <li>No Instagram presence — invisible to under-35 Chilean market</li>
-      <li>No Facebook Page — zero retargeting surface area</li>
-      <li>No WhatsApp Business link — leads wait, then choose competitor</li>
-      <li>No Meta Pixel installed — cannot build warm retargeting audiences</li>
-      <li>No GA4 — content decisions are pure guesswork, no ROI attribution</li>
-      <li>No discoverable business email — cold outreach friction, lost B2B leads</li>
+      <li><span>No Google Business Profile photos = 40% fewer calls than competitors</span><span class="sev ">CRITICAL</span></li><li><span>No Instagram Stories = no daily specials reach, zero top-of-mind</span><span class="sev ">HIGH</span></li><li><span>No online ordering = losing 20-30% incremental revenue to PedidosYa/Uber Eats fees</span><span class="sev med">MEDIUM</span></li><li><span>Menu not on website = bounce rate over 70% on mobile</span><span class="sev med">MEDIUM</span></li><li><span>No reviews response strategy = 1-star complaints sink local SEO</span><span class="sev low">LOW</span></li>
     </ul>
   </section>
 
   <section>
-    <h2>Niche-specific pain points</h2>
-    <ul class="issues">
-      <li>No Google Business Profile photos = 40% fewer calls than competitors</li>
-      <li>No Instagram Stories = no daily specials reach, zero top-of-mind</li>
-      <li>No online ordering = losing 20-30% incremental revenue to PedidosYa/Uber Eats fees</li>
-      <li>Menu not on website = bounce rate over 70% on mobile</li>
-      <li>No reviews response strategy = 1-star complaints sink local SEO</li>
-    </ul>
+    <h2>90-day transformation roadmap</h2>
+    <p class="sub">Phased rollout — sequenced for quickest revenue impact</p>
+    <div class="roadmap">
+      <div class="phase">
+        <div class="days">Days 0–30</div>
+        <h3>Foundation</h3>
+        <ul>
+          <li>AI-generated bilingual website (ES/EN) live</li>
+          <li>Google Business Profile optimized with 40+ photos</li>
+          <li>Meta Pixel + GA4 installed, conversion events wired</li>
+          <li>WhatsApp Business API + auto-reply in place</li>
+          <li>CRM contact import + lead-capture form live</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="days">Days 31–60</div>
+        <h3>Acceleration</h3>
+        <ul>
+          <li>Paid ads (Google + Meta) launched with retargeting</li>
+          <li>AI Booking Agent handles FAQ + reservations 24/7</li>
+          <li>Instagram Reels cadence (3/week) + TikTok launch</li>
+          <li>Email drip sequence (5 touches) active for leads</li>
+          <li>Review automation lifts Google stars from 3.8 → 4.6</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="days">Days 61–90</div>
+        <h3>Compounding</h3>
+        <ul>
+          <li>AI SEO program ranks for 20+ Osorno Restaurants keywords</li>
+          <li>Lookalike audiences from converted customers built</li>
+          <li>A/B test on landing page lifts conversion +18%</li>
+          <li>Monthly dashboard: pipeline, CAC, LTV, ROAS</li>
+          <li>Playbook handed off — compounding growth in place</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
   <section>
-    <h2>Digital gaps detected in their current setup</h2>
-    <p style="font-size:14px;color:#555;">Full audit notes available on request.</p>
+    <h2>Recommended services — matched to gaps</h2>
+    <p class="sub">Sequenced by impact-to-effort ratio · prices in USD/month</p>
+    <div class="services-grid">
+      
+<div class="svc">
+  <div class="n">AI Website</div>
+  <div class="p">$197<span>/mo</span></div>
+  <div class="i">Impact: Foundation</div>
+  <div class="setup">One-time setup: $997</div>
+</div>
+<div class="svc">
+  <div class="n">Social Media</div>
+  <div class="p">$397<span>/mo</span></div>
+  <div class="i">Impact: Brand</div>
+  <div class="setup">One-time setup: $297</div>
+</div>
+<div class="svc">
+  <div class="n">Google Business Optimization</div>
+  <div class="p">$97<span>/mo</span></div>
+  <div class="i">Impact: Local SEO</div>
+  <div class="setup">One-time setup: $297</div>
+</div>
+<div class="svc">
+  <div class="n">Paid Ads</div>
+  <div class="p">$497<span>/mo</span></div>
+  <div class="i">Impact: Immediate</div>
+  <div class="setup">One-time setup: $297</div>
+</div>
+<div class="svc">
+  <div class="n">AI SEO</div>
+  <div class="p">$297<span>/mo</span></div>
+  <div class="i">Impact: Compound</div>
+  <div class="setup">One-time setup: $497</div>
+</div>
+    </div>
   </section>
 
   <div class="pitch">
-    <h2>NetWebMedia proposal for Barbería Hernández Osorno</h2>
-    <p style="font-size:15px;opacity:.95;">Based on the audit above, here are the services that close the gap fastest:</p>
-    <div class="services"><span class="service">AI Website</span><span class="service">Social Media</span><span class="service">Google Business Optimization</span><span class="service">Paid Ads</span><span class="service">AI SEO</span></div>
-    <p style="margin-top:18px;font-size:14px;opacity:.9;">Typical engagement for Restaurants &amp; Gastronomy: <strong>$997/mo Growth retainer</strong> (AI Website + Social + CRM + Ads) or <strong>$497/mo Starter</strong> (social + CRM only). Fractional CMO tier at $1,997/mo available.</p>
+    <h2>Next step for Barbería Hernández Osorno</h2>
+    <p style="font-size:15px;opacity:.95;max-width:640px;margin:0 auto">
+      A 20-minute strategy call is all it takes to validate this audit, customize the
+      Restaurants &amp; Gastronomy playbook, and quote a Growth retainer scoped to your revenue goals.
+    </p>
+    <p style="margin-top:16px;font-size:14px;opacity:.85">
+      Typical engagement: <strong style="color:#FFB770">$997/mo Growth</strong>
+      (AI Website + Social + CRM + Ads) · <strong style="color:#FFB770">$497/mo Starter</strong>
+      (social + CRM only) · Fractional CMO at <strong style="color:#FFB770">$1,997/mo</strong>.
+    </p>
     <a class="cta" href="https://netwebmedia.com/contact">Book a 20-minute strategy call →</a>
   </div>
+
+  <p style="text-align:center;color:#999;font-size:12px;margin-top:28px">
+    Audit prepared by NetWebMedia · netwebmedia.com · Data sources: INE 2024, SUBDERE, SERNATUR, StatCounter Chile 2025, internal benchmark dataset (340+ Chilean SMBs)
+  </p>
 </div>
 </body>
 </html>

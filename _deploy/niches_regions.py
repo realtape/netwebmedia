@@ -4,7 +4,7 @@ Used by generate_company_pages.py and crm_import.py.
 """
 
 # ============================================================
-# 10 MARKET NICHES (expanded from the original 4)
+# 6 MARKET NICHES (focused on SMB + professional services)
 # ============================================================
 NICHES = {
     "tourism": {
@@ -59,23 +59,36 @@ NICHES = {
         ],
         "services": ["AI Website", "AI Booking Agent", "Social Media", "CRM", "Paid Ads"],
     },
-    "retail": {
-        "name": "Retail & E-commerce",
-        "icon": "🛍️",
-        "keywords": ["tienda", "store", "boutique", "shop", "librer", "ferreter", "óptica", "optic", "joyer", "zapater", "retail", "mercad", "almacén"],
+    "smb": {
+        "name": "Small/Medium Business Services",
+        "icon": "🏪",
+        "keywords": ["tienda", "store", "boutique", "shop", "ferret", "óptica", "optic", "joyer", "zapater", "retail", "almacén", "negocio", "comercio", "emprendimiento", "pyme", "small business"],
         "pain_points": [
-            "No e-commerce = competitors on MercadoLibre/Falabella eat market share",
-            "No product feed = cannot run Google Shopping or Meta Advantage+ ads",
-            "No email capture popup = 95% of first-time visitors never come back",
-            "Zero Reels = Instagram account stuck under 2K followers forever",
-            "No abandoned-cart automation = leaving 10-15% recovered revenue on table",
+            "No professional website = lose 50% of foot traffic to online searchers",
+            "No Google Business listing = invisible on Maps, lose local search traffic",
+            "No email capture = 95% of first-time website visitors never return",
+            "No automated follow-up = losing repeat orders to better-organized competitors",
+            "No basic analytics = operating blind on customer behavior & revenue sources",
         ],
-        "services": ["AI Website", "Paid Ads", "CRM", "AI Automations", "Social Media"],
+        "services": ["AI Website", "Google Business Optimization", "CRM", "Social Media", "Paid Ads"],
+    },
+    "law_firms": {
+        "name": "Law Firms & Legal Services",
+        "icon": "⚖️",
+        "keywords": ["abogad", "lawyer", "legal", "derech", "jurídic", "notari", "notary", "consultor legal", "asesoría", "litigio", "contrato", "compliance"],
+        "pain_points": [
+            "Gmail/Yahoo address on letterhead = instantly downgrades perceived authority",
+            "No case studies / portfolio = prospects cannot justify retainer fees",
+            "Zero LinkedIn content = missing inbound from corporate decision-makers",
+            "No intake questionnaire = administrative overhead on initial consultations",
+            "No CRM pipeline visibility = referral handoffs fall through, win rates invisible",
+        ],
+        "services": ["AI Website", "CRM", "AI SDR", "AI Automations", "LinkedIn Strategy"],
     },
     "real_estate": {
         "name": "Real Estate & Property",
         "icon": "🏡",
-        "keywords": ["inmobiliar", "propiedades", "bienes raíces", "corredor", "real estate", "arrendamientos", "venta de casas", "corretaje"],
+        "keywords": ["inmobiliar", "propiedades", "bienes raíces", "corredor", "real estate", "arrendamiento", "venta", "corretaje", "propiedad"],
         "pain_points": [
             "No property search with filters = bounce to Portal Inmobiliario / Yapo",
             "No 3D tour / drone video = lower time-on-page, fewer qualified viewings",
@@ -83,63 +96,24 @@ NICHES = {
             "No Instagram property reels = no reach to under-45 first-time buyers",
             "No retargeting = 98% of website visitors leave and never return",
         ],
-        "services": ["AI Website", "CRM", "Paid Ads", "AI SDR", "Social Media"],
+        "services": ["AI Website", "CRM", "Paid Ads", "Virtual Tours", "Social Media"],
     },
-    "automotive": {
-        "name": "Automotive Services",
-        "icon": "🚗",
-        "keywords": ["automotri", "mecánic", "taller", "lubricent", "llantas", "neumátic", "desabolladur", "pintura", "autos", "vehículos", "rent a car", "autorent"],
+    "local_specialist": {
+        "name": "Local Specialist Services",
+        "icon": "🔧",
+        "keywords": ["plumber", "electrician", "hvac", "calefac", "fontaner", "electricista", "maestro", "servicios", "reparación", "mantenimiento", "contratista", "pest control", "plagas"],
         "pain_points": [
-            "No service-booking widget = phone-only, loses after-hours leads",
-            "No before/after video of repairs = no trust-building content feed",
-            "No Google review campaign = stuck under 4.3 stars vs competitors at 4.8",
-            "No local SEO for 'taller [city]' = page 2, effectively invisible",
-            "No CRM/reminder SMS = no service-due repeat business",
+            "No Google Maps presence = invisible for 'plumber near me' searches",
+            "No online booking = losing jobs to competitors who accept 2am emergency calls",
+            "No customer photo gallery = prospects can't assess quality of past work",
+            "No review strategy = stuck at 3.8 stars vs competitors at 4.7",
+            "No SMS/WhatsApp automation = manual follow-ups for every estimate request",
         ],
-        "services": ["AI Website", "AI Booking Agent", "CRM", "AI SEO", "Voice AI"],
-    },
-    "fitness": {
-        "name": "Fitness & Sports",
-        "icon": "🏋️",
-        "keywords": ["gym", "gimnasio", "fitness", "crossfit", "yoga", "pilates", "personal trainer", "entrenador", "box", "deportes", "natación", "tenis"],
-        "pain_points": [
-            "No class-schedule + signup widget = losing new-member conversions",
-            "No Reels of workouts = Instagram doesn't reach beyond existing members",
-            "No FB retargeting after 'free trial' page view = single-touch funnel",
-            "No CRM tracking member churn signals = 5-7% monthly attrition unnoticed",
-            "No referral program automation = organic growth flatlines",
-        ],
-        "services": ["AI Website", "AI Booking Agent", "Social Media", "Paid Ads", "CRM"],
-    },
-    "education": {
-        "name": "Education & Training",
-        "icon": "🎓",
-        "keywords": ["colegio", "escuela", "instituto", "academ", "curso", "capacitación", "educación", "universidad", "training", "clase", "idiom", "preuniv"],
-        "pain_points": [
-            "No lead magnet (e.g. syllabus PDF) = no email list to nurture",
-            "No testimonial videos = trust gap vs established competitors",
-            "No FB Pixel = cannot build lookalikes of enrolled students",
-            "No cohort-launch ad funnel = enrollments depend on word of mouth",
-            "No LinkedIn presence for corporate-training arm = leaving B2B money",
-        ],
-        "services": ["AI Website", "Paid Ads", "CRM", "AI SDR", "AI Automations"],
-    },
-    "professional": {
-        "name": "Professional Services",
-        "icon": "💼",
-        "keywords": ["contador", "abogado", "lawyer", "consultor", "arquitect", "ingenier", "notar", "corredor", "asesor", "consulting", "contabilid", "legal"],
-        "pain_points": [
-            "Gmail address on business cards = instantly downgrades perceived fee",
-            "No case studies / portfolio = prospects cannot justify high retainers",
-            "No LinkedIn content = no inbound from decision-makers",
-            "No intake form + auto-qualifier = partners waste hours on tire-kickers",
-            "No CRM pipeline = referrals slip through cracks, win rate invisible",
-        ],
-        "services": ["AI Website", "AI SDR", "CRM", "AI SEO", "AI Automations"],
+        "services": ["Google Maps Optimization", "AI Booking Agent", "CRM", "Social Media", "AI Automations"],
     },
 }
 
-NICHE_ORDER = ["tourism", "restaurants", "health", "beauty", "retail", "real_estate", "automotive", "fitness", "education", "professional"]
+NICHE_ORDER = ["tourism", "restaurants", "health", "beauty", "smb", "law_firms", "real_estate", "local_specialist"]
 
 
 # ============================================================
@@ -151,112 +125,112 @@ REGIONS = {
         "name": "Arica y Parinacota",
         "code": "XV",
         "economy": "Border commerce with Peru/Bolivia, beach tourism, agro-export",
-        "niches": ["tourism", "retail", "restaurants", "health", "automotive", "professional"],
+        "niches": ["tourism", "smb", "restaurants", "health", "local_specialist", "beauty"],
         "cities": ["arica"],
     },
     "tarapaca": {
         "name": "Tarapacá",
         "code": "I",
         "economy": "Copper mining (Collahuasi), ZOFRI duty-free zone, port logistics",
-        "niches": ["retail", "professional", "automotive", "restaurants", "health", "real_estate"],
+        "niches": ["smb", "law_firms", "restaurants", "restaurants", "health", "real_estate"],
         "cities": ["iquique"],
     },
     "antofagasta": {
         "name": "Antofagasta",
         "code": "II",
         "economy": "Copper mining (Escondida, BHP), lithium, high-income service hub",
-        "niches": ["professional", "real_estate", "automotive", "restaurants", "health", "beauty"],
+        "niches": ["law_firms", "real_estate", "local_specialist", "restaurants", "health", "beauty"],
         "cities": ["antofagasta"],
     },
     "atacama": {
         "name": "Atacama",
         "code": "III",
         "economy": "Copper/iron mining, astro-tourism, agro (grapes, olives)",
-        "niches": ["tourism", "professional", "automotive", "restaurants", "retail", "health"],
+        "niches": ["tourism", "law_firms", "local_specialist", "restaurants", "smb", "health"],
         "cities": ["copiapo"],
     },
     "coquimbo": {
         "name": "Coquimbo",
         "code": "IV",
         "economy": "Pisco, observatories, beach tourism, agri-export",
-        "niches": ["tourism", "restaurants", "real_estate", "beauty", "health", "retail"],
+        "niches": ["tourism", "restaurants", "real_estate", "beauty", "health", "smb"],
         "cities": ["la-serena"],
     },
     "valparaiso": {
         "name": "Valparaíso",
         "code": "V",
         "economy": "Chile's main port, tourism (Viña/Valpo), universities, cruise ships",
-        "niches": ["tourism", "restaurants", "education", "real_estate", "beauty", "retail"],
+        "niches": ["tourism", "restaurants", "law_firms", "real_estate", "beauty", "smb"],
         "cities": ["valparaiso"],
     },
     "metropolitana": {
         "name": "Metropolitana de Santiago",
         "code": "RM",
         "economy": "Capital, 40% of GDP, corporate HQs, full retail/services depth",
-        "niches": ["professional", "real_estate", "restaurants", "health", "beauty", "retail"],
+        "niches": ["law_firms", "real_estate", "restaurants", "health", "beauty", "smb"],
         "cities": ["santiago"],
     },
     "ohiggins": {
         "name": "Libertador Bernardo O'Higgins",
         "code": "VI",
         "economy": "Wine, fruit export, copper (El Teniente), agro-industry",
-        "niches": ["automotive", "restaurants", "retail", "professional", "health", "real_estate"],
+        "niches": ["local_specialist", "restaurants", "smb", "law_firms", "health", "real_estate"],
         "cities": ["rancagua"],
     },
     "maule": {
         "name": "Maule",
         "code": "VII",
         "economy": "Wine (Colchagua/Maule valleys), cherries, forestry",
-        "niches": ["tourism", "restaurants", "retail", "automotive", "health", "professional"],
+        "niches": ["tourism", "restaurants", "smb", "local_specialist", "health", "law_firms"],
         "cities": ["talca"],
     },
     "nuble": {
         "name": "Ñuble",
         "code": "XVI",
         "economy": "Agro-forestry, wine, livestock, regional services",
-        "niches": ["restaurants", "retail", "health", "education", "beauty", "automotive"],
+        "niches": ["restaurants", "smb", "health", "local_specialist", "beauty", "law_firms"],
         "cities": ["chillan"],
     },
     "biobio": {
         "name": "Biobío",
         "code": "VIII",
         "economy": "Forestry/pulp (CMPC, Arauco), steel, universities, second urban region",
-        "niches": ["education", "professional", "health", "restaurants", "real_estate", "retail"],
+        "niches": ["law_firms", "smb", "health", "restaurants", "real_estate", "local_specialist"],
         "cities": ["concepcion"],
     },
     "araucania": {
         "name": "La Araucanía",
         "code": "IX",
         "economy": "Lakes & volcanoes tourism, Mapuche agro-tourism, forestry",
-        "niches": ["tourism", "restaurants", "health", "education", "retail", "beauty"],
+        "niches": ["tourism", "restaurants", "health", "smb", "local_specialist", "beauty"],
         "cities": ["temuco"],
     },
     "los_rios": {
         "name": "Los Ríos",
         "code": "XIV",
         "economy": "Dairy, salmon, cerveza artesanal, river tourism, UACh university",
-        "niches": ["tourism", "restaurants", "education", "health", "beauty", "retail"],
+        "niches": ["tourism", "restaurants", "law_firms", "health", "beauty", "smb"],
         "cities": ["valdivia"],
     },
     "los_lagos": {
         "name": "Los Lagos",
         "code": "X",
         "economy": "Salmon farming (#2 globally), Chiloé tourism, dairy, Puerto Montt port",
-        "niches": ["tourism", "restaurants", "health", "real_estate", "professional", "retail"],
+        "niches": ["tourism", "restaurants", "health", "real_estate", "local_specialist", "smb"],
         "cities": ["puerto-montt", "osorno"],
     },
     "aysen": {
         "name": "Aysén del General Carlos Ibáñez",
         "code": "XI",
         "economy": "Patagonian tourism, fly-fishing, salmon, trekking, low density",
-        "niches": ["tourism", "restaurants", "health", "retail", "automotive", "beauty"],
+        "niches": ["tourism", "restaurants", "health", "smb", "local_specialist", "beauty"],
         "cities": ["coyhaique"],
     },
     "magallanes": {
         "name": "Magallanes y Antártica Chilena",
         "code": "XII",
         "economy": "Torres del Paine tourism, Antarctica gateway, oil/gas, sheep",
-        "niches": ["tourism", "restaurants", "real_estate", "health", "professional", "retail"],
+        "niches": ["tourism", "restaurants", "real_estate", "health", "law_firms", "smb"],
         "cities": ["punta-arenas"],
     },
 }
@@ -269,7 +243,7 @@ for rk, r in REGIONS.items():
 
 
 def classify_niche(name: str, vertical: str = "") -> str:
-    """Classify a business into one of the 10 niches based on name + original vertical."""
+    """Classify a business into one of the 8 niches based on name + original vertical."""
     text = (name + " " + vertical).lower()
 
     # Original vertical mapping first (more reliable)
@@ -278,6 +252,8 @@ def classify_niche(name: str, vertical: str = "") -> str:
     elif "restaurant" in v or "food" in v or "gastro" in v: base = "restaurants"
     elif "health" in v or "salud" in v or "medical" in v: base = "health"
     elif "beauty" in v or "belleza" in v or "wellness" in v: base = "beauty"
+    elif "legal" in v or "abogad" in v or "law" in v: base = "law_firms"
+    elif "real estate" in v or "inmobil" in v or "propiedad" in v: base = "real_estate"
     else: base = None
 
     # Override by keyword match (catches cross-vertical misclassifications)
@@ -285,4 +261,4 @@ def classify_niche(name: str, vertical: str = "") -> str:
         for kw in NICHES[nk]["keywords"]:
             if kw in text:
                 return nk
-    return base or "professional"
+    return base or "smb"

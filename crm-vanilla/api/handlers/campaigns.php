@@ -1,0 +1,212 @@
+<?php
+/**
+ * Campaigns: create, list, build audience, send.
+ *
+ * POST /api/?r=campaigns                  → create draft
+ * GET  /api/?r=campaigns[&id=N]           → list or fetch
+ * PUT  /api/?r=campaigns&id=N             → update
+ * DELETE /api/?r=campaigns&id=N           → delete
+ * POST /api/?r=campaigns&id=N&action=preview → render merged subject/html for first contact
+ * POST /api/?r=campaigns&id=N&action=send    → send to all matching contacts
+ * POST /api/?r=campaigns&id=N&action=test    → send one test to body.to
+ */
+
+require_once __DIR__ . '/../lib/email_sender.php';
+
+$db = getDB();
+$action = $_GET['action'] ?? '';
+$siteBase = 'https://netwebmedia.com';
+
+function buildAudienceSQL(?string $filterJson): array {
+    $filter = $filterJson ? json_decode($filterJson, true) : [];
+    if (!is_array($filter)) $filter = [];
+    $where = ["c.email IS NOT NULL", "c.email <> ''", "NOT EXISTS (SELECT 1 FROM unsubscribes u WHERE u.email = c.email)"];
+    $params = [];
+    if (!empty($filter['status'])) {
+        $where[] = 'c.status = ?';
+        $params[] = $filter['status'];
+    }
+    if (!empty($filter['niche'])) {
+        $where[] = '(c.role LIKE ? OR c.notes LIKE ?)';
+        $params[] = '%' . $filter['niche'] . '%';
+        $params[] = '%"niche":"' . $filter['niche'] . '"%';
+    }
+    if (!empty($filter['city'])) {
+        $where[] = '(c.role LIKE ? OR c.notes LIKE ?)';
+        $params[] = '%' . $filter['city'] . '%';
+        $params[] = '%"city":"' . $filter['city'] . '"%';
+    }
+    if (!empty($filter['ids']) && is_array($filter['ids'])) {
+        $placeholders = implode(',', array_fill(0, count($filter['ids']), '?'));
+        $where[] = "c.id IN ($placeholders)";
+        $params = array_merge($params, $filter['ids']);
+    }
+    return [implode(' AND ', $where), $params];
+}
+
+// ---- Non-CRUD actions ----
+if ($id && $action) {
+    $s = $db->prepare('SELECT * FROM email_campaigns WHERE id = ?');
+    $s->execute([$id]);
+    $camp = $s->fetch();
+    if (!$camp) jsonError('Campaign not found', 404);
+
+    // Resolve template if linked
+    $subject = $camp['subject'];
+    $html    = $camp['body_html'];
+    if ($camp['template_id']) {
+        $s = $db->prepare('SELECT subject, body_html FROM email_templates WHERE id = ?');
+        $s->execute([$camp['template_id']]);
+        $tpl = $s->fetch();
+        if ($tpl) {
+            $subject = $subject ?: $tpl['subject'];
+            $html    = $html    ?: $tpl['body_html'];
+        }
+    }
+    if (!$subject || !$html) jsonError('Campaign has no subject or body', 400);
+
+    if ($action === 'preview') {
+        [$whereSql, $params] = buildAudienceSQL($camp['audience_filter']);
+        $stmt = $db->prepare("SELECT c.* FROM contacts c WHERE $whereSql LIMIT 1");
+        $stmt->execute($params);
+        $contact = $stmt->fetch();
+        if (!$contact) jsonError('No contacts match the audience', 400);
+        $token = bin2hex(random_bytes(16));
+        $vars = buildContactVars($contact, $siteBase, $token);
+        jsonResponse([
+            'to'      => $contact['email'],
+            'subject' => mergeTags($subject, $vars),
+            'html'    => instrumentTracking(mergeTags($html, $vars), $siteBase, $token),
+            'vars'    => $vars,
+        ]);
+    }
+
+    if ($action === 'test') {
+        $d = getInput();
+        $to = $d['to'] ?? '';
+        if (!$to) jsonError('body.to required');
+        $contact = ['name' => 'Test User', 'company' => 'Test Co', 'email' => $to, 'role' => '', 'notes' => null];
+        $token = bin2hex(random_bytes(16));
+        $vars = buildContactVars($contact, $siteBase, $token);
+        $mergedHtml = instrumentTracking(mergeTags($html, $vars), $siteBase, $token);
+        $mergedSub  = mergeTags($subject, $vars);
+        try {
+            $res = resendSend([
+                'to' => $to, 'subject' => $mergedSub, 'html' => $mergedHtml,
+                'from_name' => $camp['from_name'], 'from_email' => $camp['from_email'],
+            ]);
+            jsonResponse(['sent' => true, 'id' => $res['id'] ?? null]);
+        } catch (Throwable $e) {
+            jsonError('Send failed: ' . $e->getMessage(), 500);
+        }
+    }
+
+    if ($action === 'send') {
+        $d = getInput();
+        $dryRun = !empty($d['dry_run']);
+        $limit  = isset($d['limit']) ? (int)$d['limit'] : 0;
+
+        [$whereSql, $params] = buildAudienceSQL($camp['audience_filter']);
+        $sql = "SELECT c.* FROM contacts c WHERE $whereSql";
+        if ($limit > 0) $sql .= " LIMIT $limit";
+        $stmt = $db->prepare($sql);
+        $stmt->execute($params);
+        $contacts = $stmt->fetchAll();
+
+        if ($dryRun) jsonResponse(['dry_run' => true, 'would_send' => count($contacts)]);
+
+        $db->prepare("UPDATE email_campaigns SET status='sending' WHERE id = ?")->execute([$id]);
+
+        $ok = 0; $fail = 0; $errors = [];
+        foreach ($contacts as $c) {
+            $token = bin2hex(random_bytes(16));
+            $vars = buildContactVars($c, $siteBase, $token);
+            $mergedSub  = mergeTags($subject, $vars);
+            $mergedHtml = instrumentTracking(mergeTags($html, $vars), $siteBase, $token);
+
+            $db->prepare('INSERT INTO campaign_sends (campaign_id, contact_id, email, token, status) VALUES (?, ?, ?, ?, ?)')
+                ->execute([$id, $c['id'], $c['email'], $token, 'queued']);
+            $sendId = (int)$db->lastInsertId();
+            try {
+                $res = resendSend([
+                    'to' => $c['email'], 'subject' => $mergedSub, 'html' => $mergedHtml,
+                    'from_name' => $camp['from_name'], 'from_email' => $camp['from_email'],
+                ]);
+                $db->prepare("UPDATE campaign_sends SET status='sent', sent_at=NOW(), provider_id=? WHERE id=?")
+                    ->execute([$res['id'] ?? null, $sendId]);
+                $ok++;
+            } catch (Throwable $e) {
+                $db->prepare("UPDATE campaign_sends SET status='failed', error=? WHERE id=?")
+                    ->execute([substr($e->getMessage(), 0, 500), $sendId]);
+                $errors[] = $c['email'] . ': ' . $e->getMessage();
+                $fail++;
+            }
+            // Respect Resend rate limit: 10 req/sec
+            usleep(120000);
+        }
+        $db->prepare("UPDATE email_campaigns SET status='sent', sent_at=NOW(), sent_count = sent_count + ? WHERE id = ?")
+            ->execute([$ok, $id]);
+        jsonResponse(['sent' => $ok, 'failed' => $fail, 'errors' => array_slice($errors, 0, 5)]);
+    }
+
+    jsonError('Unknown action: ' . $action);
+}
+
+// ---- CRUD ----
+switch ($method) {
+    case 'GET':
+        if ($id) {
+            $s = $db->prepare('SELECT * FROM email_campaigns WHERE id = ?');
+            $s->execute([$id]);
+            $row = $s->fetch();
+            if (!$row) jsonError('Campaign not found', 404);
+            jsonResponse($row);
+        }
+        jsonResponse($db->query('SELECT * FROM email_campaigns ORDER BY created_at DESC')->fetchAll());
+        break;
+
+    case 'POST':
+        $d = getInput();
+        if (empty($d['name'])) jsonError('name required');
+        $audience = isset($d['audience_filter']) ? (is_array($d['audience_filter']) ? json_encode($d['audience_filter']) : $d['audience_filter']) : null;
+        $s = $db->prepare('INSERT INTO email_campaigns (name, template_id, subject, body_html, from_name, from_email, audience_filter, status, scheduled_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        $s->execute([
+            $d['name'],
+            $d['template_id'] ?? null,
+            $d['subject'] ?? null,
+            $d['body_html'] ?? null,
+            $d['from_name'] ?? 'NetWebMedia',
+            $d['from_email'] ?? 'carlos@netwebmedia.com',
+            $audience,
+            $d['status'] ?? 'draft',
+            $d['scheduled_at'] ?? null,
+        ]);
+        jsonResponse(['id' => (int)$db->lastInsertId()], 201);
+        break;
+
+    case 'PUT':
+        if (!$id) jsonError('ID required');
+        $d = getInput();
+        $fields = []; $params = [];
+        foreach (['name','template_id','subject','body_html','from_name','from_email','status','scheduled_at'] as $f) {
+            if (array_key_exists($f, $d)) { $fields[] = "$f = ?"; $params[] = $d[$f]; }
+        }
+        if (array_key_exists('audience_filter', $d)) {
+            $fields[] = 'audience_filter = ?';
+            $params[] = is_array($d['audience_filter']) ? json_encode($d['audience_filter']) : $d['audience_filter'];
+        }
+        if (!$fields) jsonError('No fields to update');
+        $params[] = $id;
+        $db->prepare('UPDATE email_campaigns SET ' . implode(', ', $fields) . ' WHERE id = ?')->execute($params);
+        jsonResponse(['updated' => true]);
+        break;
+
+    case 'DELETE':
+        if (!$id) jsonError('ID required');
+        $db->prepare('DELETE FROM email_campaigns WHERE id = ?')->execute([$id]);
+        jsonResponse(['deleted' => true]);
+        break;
+
+    default:
+        jsonError('Method not allowed', 405);
+}

@@ -43,7 +43,10 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     if (window.CRM_APP && CRM_APP.buildHeader) {
-      CRM_APP.buildHeader('Contacts', '<button class="btn btn-primary" id="addBtn">+ Add Contact</button>');
+      var T = (CRM_APP.t || function(k){return k;});
+      var title = T('nav.contacts') === 'nav.contacts' ? 'Contacts' : T('nav.contacts');
+      var addLabel = CRM_APP.getLang && CRM_APP.getLang() === 'es' ? '+ Agregar Contacto' : '+ Add Contact';
+      CRM_APP.buildHeader(title, '<button class="btn btn-primary" id="addBtn">' + addLabel + '</button>');
     }
     injectSortCSS();
     bindEvents();
@@ -247,6 +250,10 @@
     var initials = (c.name || '?').split(' ').map(function (p) { return p[0]; }).slice(0, 2).join('').toUpperCase();
     var pageUrl = meta.page ? (/^https?:/i.test(meta.page) ? meta.page : ('https://netwebmedia.com/' + meta.page.replace(/^\/+/, ''))) : null;
 
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    var L = isEs
+      ? { contact: 'Contacto', email: 'Email', phone: 'Teléfono', company: 'Empresa', region: 'Región', niche: 'Rubro', city: 'Ciudad', website: 'Sitio Web', audit: 'Auditoría', viewAudit: 'Ver auditoría', emailBtn: 'Email', callBtn: 'Llamar', deleteBtn: 'Eliminar' }
+      : { contact: 'Contact', email: 'Email', phone: 'Phone', company: 'Company', region: 'Region', niche: 'Niche', city: 'City', website: 'Website', audit: 'Audit', viewAudit: 'View audit', emailBtn: 'Email', callBtn: 'Call', deleteBtn: 'Delete' };
     var html = '<div class="detail-header">'
       + '<button class="detail-close" id="detailClose">&times;</button>'
       + '<div class="detail-avatar">' + esc(initials) + '</div>'
@@ -254,20 +261,20 @@
       + '<p class="detail-role">' + esc(c.role || '') + '</p>'
       + (CRM_APP && CRM_APP.statusBadge ? CRM_APP.statusBadge(c.status || 'lead') : '')
       + '</div>'
-      + '<div class="detail-section"><h3>Contact</h3>'
-      +   field('Email',   c.email)
-      +   field('Phone',   c.phone)
-      +   field('Company', c.company)
-      +   field('Region',  c.__region)
-      +   field('Niche',   meta.niche || meta.vertical)
-      +   field('City',    meta.city)
-      +   field('Website', meta.website ? '<a href="http://' + esc(meta.website) + '" target="_blank" style="color:#FF6B00">' + esc(meta.website) + '</a>' : null, true)
-      +   field('Audit',   pageUrl ? '<a href="' + esc(pageUrl) + '" target="_blank" style="color:#FF6B00">View audit →</a>' : null, true)
+      + '<div class="detail-section"><h3>' + L.contact + '</h3>'
+      +   field(L.email,    c.email)
+      +   field(L.phone,    c.phone)
+      +   field(L.company,  c.company)
+      +   field(L.region,   c.__region)
+      +   field(L.niche,    meta.niche || meta.vertical)
+      +   field(L.city,     meta.city)
+      +   field(L.website,  meta.website ? '<a href="http://' + esc(meta.website) + '" target="_blank" style="color:#FF6B00">' + esc(meta.website) + '</a>' : null, true)
+      +   field(L.audit,    pageUrl ? '<a href="' + esc(pageUrl) + '" target="_blank" style="color:#FF6B00">' + L.viewAudit + ' →</a>' : null, true)
       + '</div>'
       + '<div class="detail-actions" style="display:flex;gap:8px;margin-top:16px">'
-      + '<a href="mailto:' + esc(c.email || '') + '" class="btn btn-primary btn-sm">Email</a>'
-      + (c.phone ? '<a href="tel:' + esc(c.phone) + '" class="btn btn-secondary btn-sm">Call</a>' : '')
-      + '<button class="btn btn-secondary btn-sm" id="delBtn" style="margin-left:auto;color:#c0392b">Delete</button>'
+      + '<a href="mailto:' + esc(c.email || '') + '" class="btn btn-primary btn-sm">' + L.emailBtn + '</a>'
+      + (c.phone ? '<a href="tel:' + esc(c.phone) + '" class="btn btn-secondary btn-sm">' + L.callBtn + '</a>' : '')
+      + '<button class="btn btn-secondary btn-sm" id="delBtn" style="margin-left:auto;color:#c0392b">' + L.deleteBtn + '</button>'
       + '</div>';
 
     panel.innerHTML = html;

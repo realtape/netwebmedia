@@ -21,25 +21,26 @@
               <span class="search-icon">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
               </span>
-              <input type="text" class="search-input" id="contactSearch" placeholder="Search contacts...">
+              <input type="text" class="search-input" id="contactSearch" data-i18n-placeholder="search" placeholder="Search contacts...">
             </div>
             <div class="filter-group">
-              <button class="filter-btn active" data-filter="all">All</button>
-              <button class="filter-btn" data-filter="customer">Customers</button>
-              <button class="filter-btn" data-filter="prospect">Prospects</button>
-              <button class="filter-btn" data-filter="lead">Leads</button>
-              <button class="filter-btn" data-filter="churned">Churned</button>
+              <button class="filter-btn active" data-filter="all" data-i18n="filters.all">All</button>
+              <button class="filter-btn" data-filter="customer" data-i18n="filters.customer">Customers</button>
+              <button class="filter-btn" data-filter="prospect" data-i18n="filters.prospect">Prospects</button>
+              <button class="filter-btn" data-filter="lead" data-i18n="filters.lead">Leads</button>
+              <button class="filter-btn" data-filter="churned" data-i18n="filters.churned">Churned</button>
             </div>
             <button id="hsSyncBtn" class="filter-btn" style="margin-left:auto;background:#FF671F;color:#fff;border-color:#FF671F;" title="Sync with HubSpot">
-              ⇅ Sync HubSpot
+              ⇅ <span data-i18n="syncHubspot">Sync HubSpot</span>
             </button>
           </div>
           <script>
           document.addEventListener('DOMContentLoaded',()=>{
             const btn=document.getElementById('hsSyncBtn');
             if(!btn)return;
+            const T = (window.CRM_APP && window.CRM_APP.t) || (k=>k);
             btn.addEventListener('click',async()=>{
-              const orig=btn.textContent;btn.disabled=true;btn.textContent='Syncing…';
+              const orig=btn.innerHTML;btn.disabled=true;btn.textContent=T('syncing');
               try{
                 const r=await fetch('api/index.php?r=hubspot&action=sync');
                 const j=await r.json();
@@ -47,7 +48,7 @@
                 btn.textContent=`✓ ↑${p.pushed||0} ↓${(l.inserted||0)+(l.updated||0)}`;
                 if(window.loadContacts)window.loadContacts();
               }catch(e){btn.textContent='✗ Error';}
-              setTimeout(()=>{btn.textContent=orig;btn.disabled=false;},3500);
+              setTimeout(()=>{btn.innerHTML=orig;btn.disabled=false;},3500);
             });
           });
           </script>
@@ -55,13 +56,13 @@
             <table class="contacts-table">
               <thead>
                 <tr>
-                  <th class="sortable" data-sort="name">Name <span class="sort-ind"></span></th>
-                  <th class="sortable" data-sort="company">Company <span class="sort-ind"></span></th>
-                  <th class="sortable" data-sort="region">Region <span class="sort-ind"></span></th>
-                  <th class="sortable" data-sort="status">Status <span class="sort-ind"></span></th>
-                  <th class="sortable" data-sort="value">Value <span class="sort-ind"></span></th>
-                  <th class="sortable" data-sort="last_contact">Last Contact <span class="sort-ind"></span></th>
-                  <th>Audit</th>
+                  <th class="sortable" data-sort="name"><span data-i18n="cols.name">Name</span> <span class="sort-ind"></span></th>
+                  <th class="sortable" data-sort="company"><span data-i18n="cols.company">Company</span> <span class="sort-ind"></span></th>
+                  <th class="sortable" data-sort="region"><span data-i18n="cols.region">Region</span> <span class="sort-ind"></span></th>
+                  <th class="sortable" data-sort="status"><span data-i18n="cols.status">Status</span> <span class="sort-ind"></span></th>
+                  <th class="sortable" data-sort="value"><span data-i18n="cols.value">Value</span> <span class="sort-ind"></span></th>
+                  <th class="sortable" data-sort="last_contact"><span data-i18n="cols.last_contact">Last Contact</span> <span class="sort-ind"></span></th>
+                  <th><span data-i18n="cols.audit">Audit</span></th>
                 </tr>
               </thead>
               <tbody id="contactsTableBody"></tbody>
@@ -72,7 +73,7 @@
       </div>
     </main>
   </div>
-  <script src="js/app.js?v=3"></script>
-  <script src="js/contacts.js?v=4"></script>
+  <script src="js/app.js?v=5"></script>
+  <script src="js/contacts.js?v=5"></script>
 </body>
 </html>

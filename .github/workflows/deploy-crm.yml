@@ -18,7 +18,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy crm-vanilla to /public_html/crm-vanilla/
+      - name: Generate config.local.php from secrets
+        run: |
+          cat > crm-vanilla/api/config.local.php <<'EOF'
+          <?php
+          // Auto-generated during deploy. DO NOT EDIT.
+          define('DB_PASS', getenv('_NWM_DB_PASS') ?: '__DB_PASS__');
+          define('HUBSPOT_TOKEN', getenv('_NWM_HUBSPOT_TOKEN') ?: '__HUBSPOT__');
+          define('ANTHROPIC_API_KEY', getenv('_NWM_ANTHROPIC_KEY') ?: '__ANTHROPIC__');
+          EOF
+          sed -i "s|__DB_PASS__|${{ secrets.CRM_DB_PASSWORD }}|" crm-vanilla/api/config.local.php
+          sed -i "s|__HUBSPOT__|${{ secrets.HUBSPOT_TOKEN }}|" crm-vanilla/api/config.local.php
+          sed -i "s|__ANTHROPIC__|${{ secrets.ANTHROPIC_API_KEY }}|" crm-vanilla/api/config.local.php
+          echo "Generated config.local.php ($(wc -c < crm-vanilla/api/config.local.php) bytes)"
+
+      - name: Deploy crm-vanilla via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.CPANEL_FTP_HOST }}
@@ -34,12 +48,13 @@ jobs:
             **/.git*/**
             **/node_modules/**
             **/*.log
-            **/config.local.php
 
       - name: Smoke test
         run: |
           echo "Testing CRM endpoints..."
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://netwebmedia.com/crm-vanilla/" -H "User-Agent: Mozilla/5.0")
-          echo "  /crm-vanilla/ -> $STATUS"
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://netwebmedia.com/crm-vanilla/api/index.php?r=contacts" -H "User-Agent: Mozilla/5.0")
-          echo "  api/contacts -> $STATUS"
+          BASE="https://netwebmedia.com/companies/crm-vanilla"
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+          for path in "/" "/contacts.html" "/api/index.php?r=contacts" "/api/index.php?r=leads"; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$BASE$path" -H "User-Agent: $UA")
+            echo "  $path -> $STATUS"
+          done

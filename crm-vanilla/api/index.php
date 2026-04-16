@@ -44,6 +44,7 @@ $handlers = [
     'campaigns'     => __DIR__ . '/handlers/campaigns.php',
     'track'         => __DIR__ . '/handlers/track.php',
     'migrate'       => __DIR__ . '/handlers/migrate.php',
+    'dedupe'        => __DIR__ . '/handlers/dedupe.php',
 ];
 
 if (!isset($handlers[$resource])) {

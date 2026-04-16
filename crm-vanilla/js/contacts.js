@@ -9,25 +9,69 @@
   var selected = null;
   var page = 0;
   var PAGE_SIZE = 100;
+  var sortKey = 'name';
+  var sortDir = 1; // 1 asc, -1 desc
+
+  // City (lowercase, slug-form) -> Chilean region display name
+  var CITY_TO_REGION = {
+    'arica': 'Arica y Parinacota',
+    'iquique': 'Tarapacá',
+    'antofagasta': 'Antofagasta',
+    'copiapo': 'Atacama', 'copiapó': 'Atacama',
+    'la-serena': 'Coquimbo', 'la serena': 'Coquimbo',
+    'valparaiso': 'Valparaíso', 'valparaíso': 'Valparaíso',
+    'santiago': 'Metropolitana',
+    'rancagua': "O'Higgins",
+    'talca': 'Maule',
+    'chillan': 'Ñuble', 'chillán': 'Ñuble',
+    'concepcion': 'Biobío', 'concepción': 'Biobío',
+    'temuco': 'La Araucanía',
+    'valdivia': 'Los Ríos',
+    'puerto-montt': 'Los Lagos', 'puerto montt': 'Los Lagos',
+    'osorno': 'Los Lagos',
+    'coyhaique': 'Aysén',
+    'punta-arenas': 'Magallanes', 'punta arenas': 'Magallanes'
+  };
+
+  function regionOf(c) {
+    var meta = {};
+    if (c && c.notes) { try { meta = JSON.parse(c.notes); } catch (e) {} }
+    if (meta.region) return meta.region;
+    var city = (meta.city || '').toLowerCase().trim();
+    return CITY_TO_REGION[city] || '—';
+  }
 
   document.addEventListener('DOMContentLoaded', function () {
     if (window.CRM_APP && CRM_APP.buildHeader) {
       CRM_APP.buildHeader('Contacts', '<button class="btn btn-primary" id="addBtn">+ Add Contact</button>');
     }
+    injectSortCSS();
     bindEvents();
     loadContacts();
   });
 
   window.loadContacts = loadContacts;
 
+  function injectSortCSS() {
+    if (document.getElementById('contactsSortCSS')) return;
+    var s = document.createElement('style'); s.id = 'contactsSortCSS';
+    s.textContent =
+      '.contacts-table th.sortable{cursor:pointer;user-select:none}' +
+      '.contacts-table th.sortable:hover{color:#FF6B00}' +
+      '.contacts-table th .sort-ind{display:inline-block;margin-left:6px;color:#FF6B00;font-size:11px;font-weight:700;min-width:10px}';
+    document.head.appendChild(s);
+  }
+
   function loadContacts() {
     var tbody = document.getElementById('contactsTableBody');
-    if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:#888">Loading…</td></tr>';
+    if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#888">Loading…</td></tr>';
     fetch(API + 'contacts').then(function (r) { return r.json(); }).then(function (data) {
       contacts = Array.isArray(data) ? data : [];
+      // Pre-compute region on each contact for sort speed
+      for (var i = 0; i < contacts.length; i++) contacts[i].__region = regionOf(contacts[i]);
       render();
     }).catch(function (e) {
-      if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:#c0392b">Error loading contacts: ' + e.message + '</td></tr>';
+      if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#c0392b">Error loading contacts: ' + e.message + '</td></tr>';
     });
   }
 
@@ -47,27 +91,67 @@
       });
     }
 
+    // Sort header clicks
+    var heads = document.querySelectorAll('.contacts-table th.sortable');
+    for (var k = 0; k < heads.length; k++) {
+      heads[k].addEventListener('click', function () {
+        var key = this.getAttribute('data-sort');
+        if (sortKey === key) sortDir = -sortDir;
+        else { sortKey = key; sortDir = 1; }
+        page = 0;
+        render();
+      });
+    }
+
     document.addEventListener('click', function (e) {
       if (e.target && e.target.id === 'addBtn') addContact();
     });
   }
 
+  function updateSortIndicators() {
+    var heads = document.querySelectorAll('.contacts-table th.sortable');
+    for (var i = 0; i < heads.length; i++) {
+      var ind = heads[i].querySelector('.sort-ind');
+      if (!ind) continue;
+      ind.textContent = (heads[i].getAttribute('data-sort') === sortKey) ? (sortDir === 1 ? '▲' : '▼') : '';
+    }
+  }
+
+  function compareVal(a, b, key) {
+    var va, vb;
+    if (key === 'region') { va = a.__region || ''; vb = b.__region || ''; }
+    else if (key === 'value') { va = Number(a.value || 0); vb = Number(b.value || 0); }
+    else if (key === 'last_contact') {
+      va = a.last_contact || a.updated_at || a.created_at || '';
+      vb = b.last_contact || b.updated_at || b.created_at || '';
+    }
+    else { va = (a[key] || '').toString(); vb = (b[key] || '').toString(); }
+    if (typeof va === 'string') { va = va.toLowerCase(); vb = vb.toLowerCase(); }
+    if (va < vb) return -1 * sortDir;
+    if (va > vb) return  1 * sortDir;
+    return 0;
+  }
+
   function filtered() {
-    return contacts.filter(function (c) {
+    var list = contacts.filter(function (c) {
       var mf = currentFilter === 'all' || c.status === currentFilter;
       var s = searchTerm;
       var ms = !s
         || (c.name    && c.name.toLowerCase().indexOf(s) !== -1)
         || (c.company && c.company.toLowerCase().indexOf(s) !== -1)
         || (c.email   && c.email.toLowerCase().indexOf(s) !== -1)
-        || (c.role    && c.role.toLowerCase().indexOf(s) !== -1);
+        || (c.role    && c.role.toLowerCase().indexOf(s) !== -1)
+        || (c.__region && c.__region.toLowerCase().indexOf(s) !== -1);
       return mf && ms;
     });
+    list.sort(function (a, b) { return compareVal(a, b, sortKey); });
+    return list;
   }
 
   function render() {
     var tbody = document.getElementById('contactsTableBody');
     if (!tbody) return;
+    updateSortIndicators();
     var list = filtered();
     var total = list.length;
     var start = page * PAGE_SIZE;
@@ -75,7 +159,7 @@
     var slice = list.slice(start, end);
 
     if (!total) {
-      tbody.innerHTML = '<tr><td colspan="6" class="empty-state" style="text-align:center;padding:40px;color:#888">No contacts match.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="7" class="empty-state" style="text-align:center;padding:40px;color:#888">No contacts match.</td></tr>';
       renderPager(0, 0, 0, 0);
       return;
     }
@@ -86,13 +170,14 @@
       var initials = (c.name || '?').split(' ').map(function (p) { return p[0]; }).slice(0, 2).join('').toUpperCase();
       var meta = {};
       if (c.notes) { try { meta = JSON.parse(c.notes); } catch (e) {} }
-      var auditUrl = meta.page ? ('https://netwebmedia.com/' + meta.page) : null;
+      var auditUrl = meta.page ? (/^https?:/i.test(meta.page) ? meta.page : ('https://netwebmedia.com/' + meta.page.replace(/^\/+/, ''))) : null;
 
       html += '<tr class="contact-table-row" data-id="' + c.id + '">';
       html += '<td><div class="td-flex"><div class="contact-avatar small">' + esc(initials) + '</div>'
            +  '<div><div class="td-name">' + esc(c.name || '') + '</div>'
            +  '<div class="td-email">' + esc(c.email || '') + '</div></div></div></td>';
       html += '<td>' + esc(c.company || '—') + '</td>';
+      html += '<td>' + esc(c.__region || '—') + '</td>';
       html += '<td>' + (CRM_APP && CRM_APP.statusBadge ? CRM_APP.statusBadge(c.status || 'lead') : esc(c.status || '')) + '</td>';
       html += '<td>' + (c.value && Number(c.value) > 0 ? '$' + Number(c.value).toLocaleString() : '—') + '</td>';
       html += '<td>' + (c.last_contact || fmtAgo(c.created_at)) + '</td>';
@@ -160,7 +245,7 @@
 
     panel.classList.add('open');
     var initials = (c.name || '?').split(' ').map(function (p) { return p[0]; }).slice(0, 2).join('').toUpperCase();
-    var pageUrl = meta.page ? ('https://netwebmedia.com/' + meta.page) : null;
+    var pageUrl = meta.page ? (/^https?:/i.test(meta.page) ? meta.page : ('https://netwebmedia.com/' + meta.page.replace(/^\/+/, ''))) : null;
 
     var html = '<div class="detail-header">'
       + '<button class="detail-close" id="detailClose">&times;</button>'
@@ -173,6 +258,7 @@
       +   field('Email',   c.email)
       +   field('Phone',   c.phone)
       +   field('Company', c.company)
+      +   field('Region',  c.__region)
       +   field('Niche',   meta.niche || meta.vertical)
       +   field('City',    meta.city)
       +   field('Website', meta.website ? '<a href="http://' + esc(meta.website) + '" target="_blank" style="color:#FF6B00">' + esc(meta.website) + '</a>' : null, true)

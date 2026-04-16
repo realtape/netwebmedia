@@ -1,0 +1,45 @@
+name: Deploy CRM to production
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "Dry run (log only, no upload)"
+        required: false
+        default: "false"
+  push:
+    branches: [main]
+    paths:
+      - 'crm-vanilla/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy crm-vanilla to /public_html/crm-vanilla/
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.CPANEL_FTP_HOST }}
+          username: ${{ secrets.CPANEL_FTP_USER }}
+          password: ${{ secrets.CPANEL_FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          server-dir: ./crm-vanilla/
+          local-dir: ./crm-vanilla/
+          dry-run: ${{ github.event.inputs.dry-run == 'true' }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/*.log
+            **/config.local.php
+
+      - name: Smoke test
+        run: |
+          echo "Testing CRM endpoints..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://netwebmedia.com/crm-vanilla/" -H "User-Agent: Mozilla/5.0")
+          echo "  /crm-vanilla/ -> $STATUS"
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://netwebmedia.com/crm-vanilla/api/index.php?r=contacts" -H "User-Agent: Mozilla/5.0")
+          echo "  api/contacts -> $STATUS"

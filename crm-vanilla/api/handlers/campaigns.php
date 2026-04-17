@@ -85,7 +85,19 @@ if ($id && $action) {
         $d = getInput();
         $to = $d['to'] ?? '';
         if (!$to) jsonError('body.to required');
-        $contact = ['name' => 'Test User', 'company' => 'Test Co', 'email' => $to, 'role' => '', 'notes' => null];
+        $sample = $d['sample'] ?? [];
+        $notesMeta = [];
+        if (!empty($sample['city']))    $notesMeta['city']    = $sample['city'];
+        if (!empty($sample['niche']))   $notesMeta['niche']   = $sample['niche'];
+        if (!empty($sample['website'])) $notesMeta['website'] = $sample['website'];
+        if (!empty($sample['page']))    $notesMeta['page']    = $sample['page'];
+        $contact = [
+            'name'    => $sample['name']    ?? 'Test User',
+            'company' => $sample['company'] ?? 'Test Co',
+            'email'   => $to,
+            'role'    => $sample['role']    ?? '',
+            'notes'   => $notesMeta ? json_encode($notesMeta) : null,
+        ];
         $token = bin2hex(random_bytes(16));
         $vars = buildContactVars($contact, $siteBase, $token);
         $mergedHtml = instrumentTracking(mergeTags($html, $vars), $siteBase, $token);
@@ -176,7 +188,7 @@ switch ($method) {
             $d['subject'] ?? null,
             $d['body_html'] ?? null,
             $d['from_name'] ?? 'NetWebMedia',
-            $d['from_email'] ?? 'carlos@netwebmedia.com',
+            $d['from_email'] ?? 'newsletter@netwebmedia.com',
             $audience,
             $d['status'] ?? 'draft',
             $d['scheduled_at'] ?? null,

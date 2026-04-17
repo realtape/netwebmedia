@@ -45,7 +45,7 @@ function resendSend(array $opts): array {
     if (!$apiKey) throw new RuntimeException('RESEND_API_KEY not configured');
 
     $payload = [
-        'from'    => ($opts['from_name'] ?? 'NetWebMedia') . ' <' . ($opts['from_email'] ?? 'carlos@netwebmedia.com') . '>',
+        'from'    => ($opts['from_name'] ?? 'NetWebMedia') . ' <' . ($opts['from_email'] ?? 'newsletter@netwebmedia.com') . '>',
         'to'      => [$opts['to']],
         'subject' => $opts['subject'],
         'html'    => $opts['html'],

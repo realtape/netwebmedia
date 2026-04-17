@@ -30,7 +30,7 @@ function niche_email(string $niche, string $hook, string $pain, string $cta): ar
       "<a href='{{page_url}}' style='background:#FF6B00;color:#fff;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:700;display:inline-block'>Ver auditoría de {{company}} →</a>" .
       "</div>" .
       "<p>{$cta}</p>" .
-      "<p>Un abrazo,<br><strong>Carlos Martínez</strong><br>Fundador · NetWebMedia<br><a href='mailto:carlos@netwebmedia.com' style='color:#FF6B00'>carlos@netwebmedia.com</a></p>";
+      "<p>Un abrazo,<br><strong>Equipo NetWebMedia</strong><br><a href='mailto:hola@netwebmedia.com' style='color:#FF6B00'>hola@netwebmedia.com</a> · <a href='https://netwebmedia.com' style='color:#FF6B00'>netwebmedia.com</a></p>";
     return [
       'subject' => "{{company}} — auditoría digital gratuita ({{city}})",
       'html'    => '<div style="background:#f6f7fb;padding:24px">' . '<div style="max-width:600px;margin:0 auto">' . $HDR . body_block($body) . $FTR . '</div></div>',
@@ -88,7 +88,7 @@ $templates = [
 ];
 
 $inserted = 0; $skipped = 0; $errs = [];
-$stmt = $db->prepare("INSERT INTO email_templates (name, subject, body_html, from_name, from_email, niche) VALUES (?, ?, ?, 'Carlos Martínez', 'carlos@netwebmedia.com', ?)");
+$stmt = $db->prepare("INSERT INTO email_templates (name, subject, body_html, from_name, from_email, niche) VALUES (?, ?, ?, 'NetWebMedia', 'newsletter@netwebmedia.com', ?)");
 
 foreach ($templates as $t) {
     try {

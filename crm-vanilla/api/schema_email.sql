@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `email_templates` (
   `body_html` MEDIUMTEXT NOT NULL,
   `body_text` MEDIUMTEXT DEFAULT NULL,
   `from_name` VARCHAR(255) DEFAULT 'NetWebMedia',
-  `from_email` VARCHAR(255) DEFAULT 'carlos@netwebmedia.com',
+  `from_email` VARCHAR(255) DEFAULT 'newsletter@netwebmedia.com',
   `niche` VARCHAR(100) DEFAULT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `email_campaigns` (
   `subject` VARCHAR(500) DEFAULT NULL,
   `body_html` MEDIUMTEXT DEFAULT NULL,
   `from_name` VARCHAR(255) DEFAULT 'NetWebMedia',
-  `from_email` VARCHAR(255) DEFAULT 'carlos@netwebmedia.com',
+  `from_email` VARCHAR(255) DEFAULT 'newsletter@netwebmedia.com',
   `audience_filter` TEXT DEFAULT NULL,
   `status` ENUM('draft','scheduled','sending','sent','paused','failed') DEFAULT 'draft',
   `scheduled_at` DATETIME DEFAULT NULL,

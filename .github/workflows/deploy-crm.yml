@@ -19,20 +19,25 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Generate config.local.php from secrets
+        env:
+          DB_PASS: ${{ secrets.CRM_DB_PASSWORD }}
+          HUBSPOT_TOKEN: ${{ secrets.HUBSPOT_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
         run: |
-          cat > crm-vanilla/api/config.local.php <<'EOF'
-          <?php
-          // Auto-generated during deploy. DO NOT EDIT.
-          define('DB_PASS', '__DB_PASS__');
-          define('HUBSPOT_TOKEN', '__HUBSPOT__');
-          define('ANTHROPIC_API_KEY', '__ANTHROPIC__');
-          define('RESEND_API_KEY', '__RESEND__');
-          EOF
-          sed -i "s|__DB_PASS__|${{ secrets.CRM_DB_PASSWORD }}|" crm-vanilla/api/config.local.php
-          sed -i "s|__HUBSPOT__|${{ secrets.HUBSPOT_TOKEN }}|" crm-vanilla/api/config.local.php
-          sed -i "s|__ANTHROPIC__|${{ secrets.ANTHROPIC_API_KEY }}|" crm-vanilla/api/config.local.php
-          sed -i "s|__RESEND__|${{ secrets.RESEND_API_KEY }}|" crm-vanilla/api/config.local.php
-          echo "Generated config.local.php ($(wc -c < crm-vanilla/api/config.local.php) bytes)"
+          python3 - <<'PYEOF' > crm-vanilla/api/config.local.php
+          import os
+          def e(v: str) -> str: return (v or '').replace("\\", "\\\\").replace("'", "\\'")
+          print("<?php")
+          print("// Auto-generated during deploy. DO NOT EDIT.")
+          print(f"define('DB_PASS', '{e(os.environ.get('DB_PASS',''))}');")
+          print(f"define('HUBSPOT_TOKEN', '{e(os.environ.get('HUBSPOT_TOKEN',''))}');")
+          print(f"define('ANTHROPIC_API_KEY', '{e(os.environ.get('ANTHROPIC_API_KEY',''))}');")
+          print(f"define('RESEND_API_KEY', '{e(os.environ.get('RESEND_API_KEY',''))}');")
+          PYEOF
+          size=$(wc -c < crm-vanilla/api/config.local.php)
+          resend_len=${#RESEND_API_KEY}
+          echo "Generated config.local.php ($size bytes, RESEND_API_KEY length=$resend_len)"
 
       - name: Deploy crm-vanilla via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

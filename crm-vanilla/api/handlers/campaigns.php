@@ -103,9 +103,12 @@ if ($id && $action) {
         $mergedHtml = instrumentTracking(mergeTags($html, $vars), $siteBase, $token);
         $mergedSub  = mergeTags($subject, $vars);
         try {
+            $fromName  = !empty($d['from_name'])  ? $d['from_name']  : $camp['from_name'];
+            $fromEmail = !empty($d['from_email']) ? $d['from_email'] : $camp['from_email'];
             $res = resendSend([
                 'to' => $to, 'subject' => $mergedSub, 'html' => $mergedHtml,
-                'from_name' => $camp['from_name'], 'from_email' => $camp['from_email'],
+                'from_name' => $fromName, 'from_email' => $fromEmail,
+                'reply_to' => 'hola@netwebmedia.com',
             ]);
             jsonResponse(['sent' => true, 'id' => $res['id'] ?? null]);
         } catch (Throwable $e) {

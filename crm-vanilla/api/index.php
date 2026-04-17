@@ -46,6 +46,7 @@ $handlers = [
     'migrate'       => __DIR__ . '/handlers/migrate.php',
     'dedupe'        => __DIR__ . '/handlers/dedupe.php',
     'seed_templates'=> __DIR__ . '/handlers/seed_templates.php',
+    'email_status'  => __DIR__ . '/handlers/email_status.php',
 ];
 
 if (!isset($handlers[$resource])) {

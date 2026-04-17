@@ -45,6 +45,7 @@ $handlers = [
     'track'         => __DIR__ . '/handlers/track.php',
     'migrate'       => __DIR__ . '/handlers/migrate.php',
     'dedupe'        => __DIR__ . '/handlers/dedupe.php',
+    'seed_templates'=> __DIR__ . '/handlers/seed_templates.php',
 ];
 
 if (!isset($handlers[$resource])) {

@@ -12,47 +12,71 @@
   ];
 
   document.addEventListener("DOMContentLoaded", function () {
-    CRM_APP.buildHeader("Reporting");
-    render();
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    var L = isEs ? {
+      leadsThisMonth: "Leads Este Mes", conversionRate: "Tasa de Conversión",
+      revenueMTD: "Ingresos del Mes", appointmentsBooked: "Citas Agendadas",
+      leadSources: "Fuentes de Leads", pieChart: "Gráfico Circular",
+      revenueTrend: "Tendencia de Ingresos", lineChart: "Gráfico de Líneas",
+      topCampaigns: "Campañas con Mejor Desempeño",
+      campaign: "Campaña", leads: "Leads", conversions: "Conversiones",
+      revenue: "Ingresos", roi: "ROI",
+      googleAds: "Google Ads", organic: "Orgánico", socialMedia: "Redes Sociales",
+      referral: "Referido", direct: "Directo",
+      proj: "(proy)"
+    } : {
+      leadsThisMonth: "Leads This Month", conversionRate: "Conversion Rate",
+      revenueMTD: "Revenue MTD", appointmentsBooked: "Appointments Booked",
+      leadSources: "Lead Sources", pieChart: "Pie Chart Visualization",
+      revenueTrend: "Revenue Trend", lineChart: "Line Chart Visualization",
+      topCampaigns: "Top Performing Campaigns",
+      campaign: "Campaign", leads: "Leads", conversions: "Conversions",
+      revenue: "Revenue", roi: "ROI",
+      googleAds: "Google Ads", organic: "Organic", socialMedia: "Social Media",
+      referral: "Referral", direct: "Direct",
+      proj: "(proj)"
+    };
+    CRM_APP.buildHeader(CRM_APP.t('nav.reporting'));
+    render(L);
   });
 
-  function render() {
+  function render(L) {
     var body = document.getElementById("reportingBody");
     if (!body) return;
 
     var html = '<div class="summary-cards">';
-    html += summaryCard("Leads This Month", "347", "");
-    html += summaryCard("Conversion Rate", "28.4%", "green");
-    html += summaryCard("Revenue MTD", "$142.5k", "");
-    html += summaryCard("Appointments Booked", "89", "");
+    html += summaryCard(L.leadsThisMonth, "347", "");
+    html += summaryCard(L.conversionRate, "28.4%", "green");
+    html += summaryCard(L.revenueMTD, "$142.5k", "");
+    html += summaryCard(L.appointmentsBooked, "89", "");
     html += '</div>';
 
     html += '<div class="charts-row">';
     html += '<div class="chart-placeholder">';
-    html += '<div class="chart-placeholder-title">Lead Sources</div>';
+    html += '<div class="chart-placeholder-title">' + L.leadSources + '</div>';
     html += '<div class="chart-placeholder-area">';
     html += '<div style="text-align:center">';
     html += '<div style="margin-bottom:12px">' + CRM_APP.ICONS.reporting + '</div>';
-    html += '<div style="margin-bottom:16px">Pie Chart Visualization</div>';
+    html += '<div style="margin-bottom:16px">' + L.pieChart + '</div>';
     html += '<div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">';
-    html += legendItem("#6c5ce7", "Google Ads", "34%");
-    html += legendItem("#00b894", "Organic", "28%");
-    html += legendItem("#fdcb6e", "Social Media", "18%");
-    html += legendItem("#e17055", "Referral", "12%");
-    html += legendItem("#00cec9", "Direct", "8%");
+    html += legendItem("#6c5ce7", L.googleAds, "34%");
+    html += legendItem("#00b894", L.organic, "28%");
+    html += legendItem("#fdcb6e", L.socialMedia, "18%");
+    html += legendItem("#e17055", L.referral, "12%");
+    html += legendItem("#00cec9", L.direct, "8%");
     html += '</div>';
     html += '</div>';
     html += '</div>';
     html += '</div>';
 
     html += '<div class="chart-placeholder">';
-    html += '<div class="chart-placeholder-title">Revenue Trend</div>';
+    html += '<div class="chart-placeholder-title">' + L.revenueTrend + '</div>';
     html += '<div class="chart-placeholder-area">';
     html += '<div style="text-align:center">';
     html += '<div style="margin-bottom:12px">' + CRM_APP.ICONS.reporting + '</div>';
-    html += '<div style="margin-bottom:16px">Line Chart Visualization</div>';
+    html += '<div style="margin-bottom:16px">' + L.lineChart + '</div>';
     html += '<div style="display:flex;gap:24px;justify-content:center;font-size:12px">';
-    html += '<div>Jan: $105k</div><div>Feb: $118k</div><div>Mar: $142k</div><div>Apr: $156k (proj)</div>';
+    html += '<div>Jan: $105k</div><div>Feb: $118k</div><div>Mar: $142k</div><div>Apr: $156k ' + L.proj + '</div>';
     html += '</div>';
     html += '</div>';
     html += '</div>';
@@ -60,9 +84,9 @@
     html += '</div>';
 
     html += '<div class="card" style="margin-top:24px">';
-    html += '<div class="card-header"><h2 class="card-title">Top Performing Campaigns</h2></div>';
+    html += '<div class="card-header"><h2 class="card-title">' + L.topCampaigns + '</h2></div>';
     html += '<table class="data-table"><thead><tr>';
-    html += '<th>Campaign</th><th>Leads</th><th>Conversions</th><th>Revenue</th><th>ROI</th>';
+    html += '<th>' + L.campaign + '</th><th>' + L.leads + '</th><th>' + L.conversions + '</th><th>' + L.revenue + '</th><th>' + L.roi + '</th>';
     html += '</tr></thead><tbody>';
     for (var i = 0; i < TOP_CAMPAIGNS.length; i++) {
       var c = TOP_CAMPAIGNS[i];

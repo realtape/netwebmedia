@@ -14,11 +14,23 @@
   ];
 
   document.addEventListener("DOMContentLoaded", function () {
-    CRM_APP.buildHeader("Reputation", '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' Request Review</button>');
-    render();
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    var L = isEs ? {
+      requestReview: "Solicitar Reseña",
+      avgRating: "Calificación Promedio", totalReviews: "Total de Reseñas",
+      thisMonth: "Este Mes", responseRate: "Tasa de Respuesta",
+      responded: "Respondida", awaiting: "Esperando Respuesta", reply: "Responder"
+    } : {
+      requestReview: "Request Review",
+      avgRating: "Average Rating", totalReviews: "Total Reviews",
+      thisMonth: "This Month", responseRate: "Response Rate",
+      responded: "Responded", awaiting: "Awaiting Response", reply: "Reply"
+    };
+    CRM_APP.buildHeader(CRM_APP.t('nav.reputation'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.requestReview + '</button>');
+    render(L);
   });
 
-  function render() {
+  function render(L) {
     var body = document.getElementById("reputationBody");
     if (!body) return;
 
@@ -32,10 +44,10 @@
     var responseRate = ((responded / REVIEWS.length) * 100).toFixed(0) + "%";
 
     var html = '<div class="summary-cards">';
-    html += '<div class="summary-card"><div class="card-label">Average Rating</div><div class="star-rating">' + renderStars(parseFloat(avgRating)) + '</div><div class="card-value" style="font-size:20px;margin-top:4px">' + avgRating + ' / 5.0</div></div>';
-    html += '<div class="summary-card"><div class="card-label">Total Reviews</div><div class="card-value">' + REVIEWS.length + '</div></div>';
-    html += '<div class="summary-card"><div class="card-label">This Month</div><div class="card-value green">' + thisMonth + '</div></div>';
-    html += '<div class="summary-card"><div class="card-label">Response Rate</div><div class="card-value">' + responseRate + '</div></div>';
+    html += '<div class="summary-card"><div class="card-label">' + L.avgRating + '</div><div class="star-rating">' + renderStars(parseFloat(avgRating)) + '</div><div class="card-value" style="font-size:20px;margin-top:4px">' + avgRating + ' / 5.0</div></div>';
+    html += '<div class="summary-card"><div class="card-label">' + L.totalReviews + '</div><div class="card-value">' + REVIEWS.length + '</div></div>';
+    html += '<div class="summary-card"><div class="card-label">' + L.thisMonth + '</div><div class="card-value green">' + thisMonth + '</div></div>';
+    html += '<div class="summary-card"><div class="card-label">' + L.responseRate + '</div><div class="card-value">' + responseRate + '</div></div>';
     html += '</div>';
 
     html += '<div class="review-list">';
@@ -56,9 +68,9 @@
       html += '<div class="review-stars">' + renderStars(r.stars) + '</div>';
       html += '<div class="review-text">' + r.text + '</div>';
       html += '<div class="review-footer">';
-      html += '<span>' + (r.responded ? '<span style="color:var(--green)">Responded</span>' : '<span style="color:var(--orange)">Awaiting Response</span>') + '</span>';
+      html += '<span>' + (r.responded ? '<span style="color:var(--green)">' + L.responded + '</span>' : '<span style="color:var(--orange)">' + L.awaiting + '</span>') + '</span>';
       if (!r.responded) {
-        html += '<button class="action-link">Reply</button>';
+        html += '<button class="action-link">' + L.reply + '</button>';
       }
       html += '</div>';
       html += '</div>';
@@ -72,11 +84,8 @@
     var full = Math.floor(count);
     var html = "";
     for (var i = 0; i < 5; i++) {
-      if (i < full) {
-        html += "&#9733;";
-      } else {
-        html += '<span style="opacity:0.3">&#9733;</span>';
-      }
+      if (i < full) html += "&#9733;";
+      else html += '<span style="opacity:0.3">&#9733;</span>';
     }
     return html;
   }

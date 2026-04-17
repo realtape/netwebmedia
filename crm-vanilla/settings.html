@@ -16,26 +16,26 @@
       <header class="page-header" id="pageHeader"></header>
       <div class="settings-layout">
         <div class="settings-tabs">
-          <button class="settings-tab active" data-tab="general">General</button>
-          <button class="settings-tab" data-tab="whitelabel">White Label</button>
-          <button class="settings-tab" data-tab="team">Team</button>
-          <button class="settings-tab" data-tab="notifications">Notifications</button>
-          <button class="settings-tab" data-tab="billing">Billing</button>
-          <button class="settings-tab" data-tab="security">Security</button>
+          <button class="settings-tab active" data-tab="general" data-i18n="modules.settings.general">General</button>
+          <button class="settings-tab" data-tab="whitelabel" data-i18n="modules.settings.whitelabel">White Label</button>
+          <button class="settings-tab" data-tab="team" data-i18n="modules.settings.team">Team</button>
+          <button class="settings-tab" data-tab="notifications" data-i18n="modules.settings.notifications">Notifications</button>
+          <button class="settings-tab" data-tab="billing" data-i18n="modules.settings.billing">Billing</button>
+          <button class="settings-tab" data-tab="security" data-i18n="modules.settings.security">Security</button>
         </div>
         <div class="settings-content">
 
           <!-- General -->
           <div class="settings-panel active" id="tab-general">
-            <h2>General Settings</h2>
-            <p class="section-desc">Manage your account and organization preferences.</p>
+            <h2 data-i18n="modules.settings.generalSettings">General Settings</h2>
+            <p class="section-desc" data-i18n="modules.settings.generalDesc">Manage your account and organization preferences.</p>
             <div class="form-group">
-              <label class="form-label">Company Name</label>
+              <label class="form-label" data-i18n="modules.settings.companyName">Company Name</label>
               <input type="text" class="form-input" value="NetWebMedia">
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Industry</label>
+                <label class="form-label" data-i18n="modules.settings.industry">Industry</label>
                 <select class="form-select">
                   <option>Technology</option>
                   <option>Marketing</option>
@@ -45,7 +45,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label class="form-label">Timezone</label>
+                <label class="form-label" data-i18n="modules.settings.timezone">Timezone</label>
                 <select class="form-select">
                   <option>Eastern (UTC-5)</option>
                   <option>Central (UTC-6)</option>
@@ -55,7 +55,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="form-label">Default Currency</label>
+              <label class="form-label" data-i18n="modules.settings.defaultCurrency">Default Currency</label>
               <select class="form-select">
                 <option selected>USD ($)</option>
                 <option>EUR</option>
@@ -64,7 +64,7 @@
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Date Format</label>
+              <label class="form-label" data-i18n="modules.settings.dateFormat">Date Format</label>
               <select class="form-select">
                 <option selected>MM/DD/YYYY</option>
                 <option>DD/MM/YYYY</option>
@@ -72,54 +72,54 @@
               </select>
             </div>
             <div class="settings-divider"></div>
-            <button class="btn btn-primary btn-save">Save Changes</button>
+            <button class="btn btn-primary btn-save" data-i18n="modules.settings.saveChanges">Save Changes</button>
           </div>
 
           <!-- White Label -->
           <div class="settings-panel" id="tab-whitelabel">
-            <h2>White Label</h2>
-            <p class="section-desc">Customize the CRM with your brand identity.</p>
+            <h2 data-i18n="modules.settings.whitelabel">White Label</h2>
+            <p class="section-desc" data-i18n="modules.settings.whitelabelDesc">Customize the CRM with your brand identity.</p>
             <div class="form-group">
-              <label class="form-label">Brand Name</label>
+              <label class="form-label" data-i18n="modules.settings.brandName">Brand Name</label>
               <input type="text" class="form-input" value="NetWeb CRM" placeholder="Your brand name">
               <p class="form-hint">Displayed in the sidebar and browser title.</p>
             </div>
             <div class="form-group">
-              <label class="form-label">Logo URL</label>
+              <label class="form-label" data-i18n="modules.settings.logoUrl">Logo URL</label>
               <input type="text" class="form-input" placeholder="https://example.com/logo.png">
               <p class="form-hint">Recommended: 200x40px transparent PNG.</p>
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Primary Color</label>
+                <label class="form-label" data-i18n="modules.settings.primaryColor">Primary Color</label>
                 <input type="text" class="form-input" value="#6c5ce7" placeholder="#6c5ce7">
               </div>
               <div class="form-group">
-                <label class="form-label">Accent Color</label>
+                <label class="form-label" data-i18n="modules.settings.accentColor">Accent Color</label>
                 <input type="text" class="form-input" value="#00b894" placeholder="#00b894">
               </div>
             </div>
             <div class="form-group">
-              <label class="form-label">Custom Domain</label>
+              <label class="form-label" data-i18n="modules.settings.customDomain">Custom Domain</label>
               <input type="text" class="form-input" placeholder="crm.yourdomain.com">
               <p class="form-hint">Point a CNAME record to app.netwebcrm.com</p>
             </div>
             <div class="form-group">
-              <label class="form-label">Favicon URL</label>
+              <label class="form-label" data-i18n="modules.settings.faviconUrl">Favicon URL</label>
               <input type="text" class="form-input" placeholder="https://example.com/favicon.ico">
             </div>
             <div class="settings-divider"></div>
-            <button class="btn btn-primary btn-save">Save Branding</button>
+            <button class="btn btn-primary btn-save" data-i18n="modules.settings.saveBranding">Save Branding</button>
           </div>
 
           <!-- Team -->
           <div class="settings-panel" id="tab-team">
-            <h2>Team Members</h2>
-            <p class="section-desc">Manage your team and their roles.</p>
+            <h2 data-i18n="modules.settings.teamMembers">Team Members</h2>
+            <p class="section-desc" data-i18n="modules.settings.teamDesc">Manage your team and their roles.</p>
             <div class="team-invite-wrap">
               <button class="btn btn-primary">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                Invite Member
+                <span data-i18n="modules.settings.inviteMember">Invite Member</span>
               </button>
             </div>
             <div id="teamList"></div>
@@ -127,162 +127,135 @@
 
           <!-- Notifications -->
           <div class="settings-panel" id="tab-notifications">
-            <h2>Notifications</h2>
-            <p class="section-desc">Configure how and when you receive notifications.</p>
+            <h2 data-i18n="modules.settings.notifications">Notifications</h2>
+            <p class="section-desc" data-i18n="modules.settings.notifDesc">Configure how and when you receive notifications.</p>
             <div class="toggle-row">
               <div>
-                <div class="toggle-label">Email Notifications</div>
-                <div class="toggle-desc">Receive email for new leads and deal updates</div>
+                <div class="toggle-label" data-i18n="modules.settings.emailNotif">Email Notifications</div>
+                <div class="toggle-desc" data-i18n="modules.settings.emailNotifDesc">Receive email for new leads and deal updates</div>
               </div>
-              <label class="toggle-switch">
-                <input type="checkbox" checked>
-                <span class="toggle-slider"></span>
-              </label>
+              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
             </div>
             <div class="toggle-row">
               <div>
-                <div class="toggle-label">Push Notifications</div>
-                <div class="toggle-desc">Browser push notifications for urgent items</div>
+                <div class="toggle-label" data-i18n="modules.settings.pushNotif">Push Notifications</div>
+                <div class="toggle-desc" data-i18n="modules.settings.pushNotifDesc">Browser push notifications for urgent items</div>
               </div>
-              <label class="toggle-switch">
-                <input type="checkbox" checked>
-                <span class="toggle-slider"></span>
-              </label>
+              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
             </div>
             <div class="toggle-row">
               <div>
-                <div class="toggle-label">Deal Closed Alerts</div>
-                <div class="toggle-desc">Get notified when a deal is won or lost</div>
+                <div class="toggle-label" data-i18n="modules.settings.dealClosed">Deal Closed Alerts</div>
+                <div class="toggle-desc" data-i18n="modules.settings.dealClosedDesc">Get notified when a deal is won or lost</div>
               </div>
-              <label class="toggle-switch">
-                <input type="checkbox" checked>
-                <span class="toggle-slider"></span>
-              </label>
+              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
             </div>
             <div class="toggle-row">
               <div>
-                <div class="toggle-label">Weekly Digest</div>
-                <div class="toggle-desc">Summary of weekly pipeline and activity</div>
+                <div class="toggle-label" data-i18n="modules.settings.weeklyDigest">Weekly Digest</div>
+                <div class="toggle-desc" data-i18n="modules.settings.weeklyDigestDesc">Summary of weekly pipeline and activity</div>
               </div>
-              <label class="toggle-switch">
-                <input type="checkbox">
-                <span class="toggle-slider"></span>
-              </label>
+              <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
             </div>
             <div class="toggle-row">
               <div>
-                <div class="toggle-label">New Contact Alerts</div>
-                <div class="toggle-desc">Notification when a new contact is added</div>
+                <div class="toggle-label" data-i18n="modules.settings.newContact">New Contact Alerts</div>
+                <div class="toggle-desc" data-i18n="modules.settings.newContactDesc">Notification when a new contact is added</div>
               </div>
-              <label class="toggle-switch">
-                <input type="checkbox" checked>
-                <span class="toggle-slider"></span>
-              </label>
+              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
             </div>
             <div class="toggle-row">
               <div>
-                <div class="toggle-label">Task Reminders</div>
-                <div class="toggle-desc">Remind me of upcoming tasks 15 min before</div>
+                <div class="toggle-label" data-i18n="modules.settings.taskReminders">Task Reminders</div>
+                <div class="toggle-desc" data-i18n="modules.settings.taskRemindersDesc">Remind me of upcoming tasks 15 min before</div>
               </div>
-              <label class="toggle-switch">
-                <input type="checkbox" checked>
-                <span class="toggle-slider"></span>
-              </label>
+              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
             </div>
           </div>
 
           <!-- Billing -->
           <div class="settings-panel" id="tab-billing">
-            <h2>Billing</h2>
-            <p class="section-desc">Manage your subscription and payment method.</p>
+            <h2 data-i18n="modules.settings.billing">Billing</h2>
+            <p class="section-desc" data-i18n="modules.settings.billingDesc">Manage your subscription and payment method.</p>
             <div class="plan-cards">
               <div class="plan-card">
-                <div class="plan-card-name">Starter</div>
+                <div class="plan-card-name" data-i18n="modules.settings.starter">Starter</div>
                 <div class="plan-card-price">$29<span>/mo</span></div>
-                <div class="plan-card-desc">Up to 500 contacts, 2 users</div>
-                <button class="btn btn-secondary">Downgrade</button>
+                <div class="plan-card-desc" data-i18n="modules.settings.starterDesc">Up to 500 contacts, 2 users</div>
+                <button class="btn btn-secondary" data-i18n="modules.settings.downgrade">Downgrade</button>
               </div>
               <div class="plan-card current">
-                <div class="plan-card-name">Professional</div>
+                <div class="plan-card-name" data-i18n="modules.settings.professional">Professional</div>
                 <div class="plan-card-price">$79<span>/mo</span></div>
-                <div class="plan-card-desc">Up to 5,000 contacts, 10 users</div>
-                <button class="btn btn-primary">Current Plan</button>
+                <div class="plan-card-desc" data-i18n="modules.settings.professionalDesc">Up to 5,000 contacts, 10 users</div>
+                <button class="btn btn-primary" data-i18n="modules.settings.currentPlan">Current Plan</button>
               </div>
               <div class="plan-card">
-                <div class="plan-card-name">Enterprise</div>
+                <div class="plan-card-name" data-i18n="modules.settings.enterprise">Enterprise</div>
                 <div class="plan-card-price">$199<span>/mo</span></div>
-                <div class="plan-card-desc">Unlimited contacts and users</div>
-                <button class="btn btn-secondary">Upgrade</button>
+                <div class="plan-card-desc" data-i18n="modules.settings.enterpriseDesc">Unlimited contacts and users</div>
+                <button class="btn btn-secondary" data-i18n="modules.settings.upgradeBtn">Upgrade</button>
               </div>
             </div>
             <div class="settings-divider"></div>
-            <h3 class="subsection-title">Payment Method</h3>
+            <h3 class="subsection-title" data-i18n="modules.settings.paymentMethod">Payment Method</h3>
             <div class="form-group">
-              <label class="form-label">Card Number</label>
+              <label class="form-label" data-i18n="modules.settings.cardNumber">Card Number</label>
               <input type="text" class="form-input" value="**** **** **** 4242" disabled>
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Expiry</label>
+                <label class="form-label" data-i18n="modules.settings.expiry">Expiry</label>
                 <input type="text" class="form-input" value="12/27" disabled>
               </div>
               <div class="form-group">
-                <label class="form-label">Billing Email</label>
+                <label class="form-label" data-i18n="modules.settings.billingEmail">Billing Email</label>
                 <input type="text" class="form-input" value="billing@company.com">
               </div>
             </div>
-            <button class="btn btn-secondary">Update Payment Method</button>
+            <button class="btn btn-secondary" data-i18n="modules.settings.updatePayment">Update Payment Method</button>
           </div>
 
           <!-- Security -->
           <div class="settings-panel" id="tab-security">
-            <h2>Security</h2>
-            <p class="section-desc">Protect your account with these security settings.</p>
+            <h2 data-i18n="modules.settings.security">Security</h2>
+            <p class="section-desc" data-i18n="modules.settings.securityDesc">Protect your account with these security settings.</p>
             <div class="toggle-row">
               <div>
-                <div class="toggle-label">Two-Factor Authentication</div>
-                <div class="toggle-desc">Add an extra layer of security to your account</div>
+                <div class="toggle-label" data-i18n="modules.settings.twoFactor">Two-Factor Authentication</div>
+                <div class="toggle-desc" data-i18n="modules.settings.twoFactorDesc">Add an extra layer of security to your account</div>
               </div>
-              <label class="toggle-switch">
-                <input type="checkbox">
-                <span class="toggle-slider"></span>
-              </label>
+              <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
             </div>
             <div class="toggle-row">
               <div>
-                <div class="toggle-label">Session Timeout</div>
-                <div class="toggle-desc">Automatically log out after 30 minutes of inactivity</div>
+                <div class="toggle-label" data-i18n="modules.settings.sessionTimeout">Session Timeout</div>
+                <div class="toggle-desc" data-i18n="modules.settings.sessionTimeoutDesc">Automatically log out after 30 minutes of inactivity</div>
               </div>
-              <label class="toggle-switch">
-                <input type="checkbox" checked>
-                <span class="toggle-slider"></span>
-              </label>
+              <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
             </div>
             <div class="toggle-row">
               <div>
-                <div class="toggle-label">IP Restriction</div>
-                <div class="toggle-desc">Restrict access to specific IP addresses</div>
+                <div class="toggle-label" data-i18n="modules.settings.ipRestriction">IP Restriction</div>
+                <div class="toggle-desc" data-i18n="modules.settings.ipRestrictionDesc">Restrict access to specific IP addresses</div>
               </div>
-              <label class="toggle-switch">
-                <input type="checkbox">
-                <span class="toggle-slider"></span>
-              </label>
+              <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
             </div>
             <div class="settings-divider"></div>
-            <h3 class="subsection-title">Change Password</h3>
+            <h3 class="subsection-title" data-i18n="modules.settings.changePassword">Change Password</h3>
             <div class="form-group">
-              <label class="form-label">Current Password</label>
-              <input type="password" class="form-input" placeholder="Enter current password">
+              <label class="form-label" data-i18n="modules.settings.currentPassword">Current Password</label>
+              <input type="password" class="form-input" data-i18n-placeholder="modules.settings.currentPwPlaceholder" placeholder="Enter current password">
             </div>
             <div class="form-group">
-              <label class="form-label">New Password</label>
-              <input type="password" class="form-input" placeholder="Enter new password">
+              <label class="form-label" data-i18n="modules.settings.newPassword">New Password</label>
+              <input type="password" class="form-input" data-i18n-placeholder="modules.settings.newPwPlaceholder" placeholder="Enter new password">
             </div>
             <div class="form-group">
-              <label class="form-label">Confirm Password</label>
-              <input type="password" class="form-input" placeholder="Confirm new password">
+              <label class="form-label" data-i18n="modules.settings.confirmPassword">Confirm Password</label>
+              <input type="password" class="form-input" data-i18n-placeholder="modules.settings.confirmPwPlaceholder" placeholder="Confirm new password">
             </div>
-            <button class="btn btn-primary btn-save">Update Password</button>
+            <button class="btn btn-primary btn-save" data-i18n="modules.settings.updatePassword">Update Password</button>
           </div>
 
         </div>
@@ -290,7 +263,7 @@
     </main>
   </div>
   <script src="js/data.js"></script>
-  <script src="js/app.js?v=5"></script>
-  <script src="js/settings.js"></script>
+  <script src="js/app.js?v=6"></script>
+  <script src="js/settings.js?v=2"></script>
 </body>
 </html>

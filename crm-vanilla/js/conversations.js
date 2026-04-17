@@ -4,9 +4,16 @@
 
   var activeConversation = null;
   var channelFilter = "all";
+  var L;
 
   document.addEventListener("DOMContentLoaded", function () {
-    CRM_APP.buildHeader("Conversations");
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    L = isEs ? {
+      empty: "No hay conversaciones", justNow: "Ahora"
+    } : {
+      empty: "No conversations found", justNow: "Just now"
+    };
+    CRM_APP.buildHeader(CRM_APP.t('nav.conversations'));
     bindEvents();
     renderConversationList();
     /* Auto-select first conversation */
@@ -71,7 +78,7 @@
     }
 
     if (convos.length === 0) {
-      html = '<div class="empty-conv">No conversations found</div>';
+      html = '<div class="empty-conv">' + L.empty + '</div>';
     }
 
     container.innerHTML = html;
@@ -140,7 +147,7 @@
     activeConversation.messages.push({
       from: "you",
       text: text,
-      time: "Just now"
+      time: L.justNow
     });
 
     input.value = "";

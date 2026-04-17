@@ -12,11 +12,17 @@
   ];
 
   document.addEventListener("DOMContentLoaded", function () {
-    CRM_APP.buildHeader("Courses", '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' New Course</button>');
-    render();
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    var L = isEs ? {
+      newCourse: "Nuevo Curso", students: "Estudiantes", lessons: "Lecciones", edit: "Editar"
+    } : {
+      newCourse: "New Course", students: "Students", lessons: "Lessons", edit: "Edit"
+    };
+    CRM_APP.buildHeader(CRM_APP.t('nav.courses'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.newCourse + '</button>');
+    render(L);
   });
 
-  function render() {
+  function render(L) {
     var body = document.getElementById("coursesBody");
     if (!body) return;
 
@@ -30,8 +36,8 @@
       html += '<div class="course-card-body">';
       html += '<div class="course-card-title">' + c.name + '</div>';
       html += '<div class="course-card-stats">';
-      html += '<div>Students: <span>' + c.students + '</span></div>';
-      html += '<div>Lessons: <span>' + c.lessons + '</span></div>';
+      html += '<div>' + L.students + ': <span>' + c.students + '</span></div>';
+      html += '<div>' + L.lessons + ': <span>' + c.lessons + '</span></div>';
       html += '</div>';
       if (c.status === "published") {
         html += '<div style="display:flex;align-items:center;margin-bottom:12px">';
@@ -41,7 +47,7 @@
       }
       html += '<div class="course-card-footer">';
       html += CRM_APP.statusBadge(c.status);
-      html += '<button class="action-link">Edit</button>';
+      html += '<button class="action-link">' + L.edit + '</button>';
       html += '</div>';
       html += '</div>';
       html += '</div>';

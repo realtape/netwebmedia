@@ -1,5 +1,33 @@
 'use strict';
 (function() {
+  var T = (window.CRM_APP && CRM_APP.t) ? CRM_APP.t : function(k){ return k; };
+  var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+  var L = isEs ? {
+    title: "Comienza tu Demo Gratis",
+    subtitle: "Ingresa tus datos para explorar la plataforma",
+    welcomeBack: "Bienvenido de Vuelta",
+    signinSubtitle: "Inicia sesión en tu cuenta",
+    nameEmailReq: "Nombre y correo son requeridos",
+    validEmail: "Por favor ingresa un correo válido",
+    creating: "Creando tu cuenta...",
+    signingIn: "Iniciando sesión...",
+    fillFields: "Por favor completa todos los campos",
+    connErr: "Error de conexión. Intenta de nuevo.",
+    signIn: "Iniciar Sesión"
+  } : {
+    title: "Start Your Free Demo",
+    subtitle: "Enter your details to explore the platform",
+    welcomeBack: "Welcome Back",
+    signinSubtitle: "Sign in to your account",
+    nameEmailReq: "Name and email are required",
+    validEmail: "Please enter a valid email",
+    creating: "Creating your account...",
+    signingIn: "Signing in...",
+    fillFields: "Please fill in all fields",
+    connErr: "Connection error. Please try again.",
+    signIn: "Sign In"
+  };
+
   /* ── Tab switching ── */
   var tabs = document.querySelectorAll('.login-tab');
   var signupForm = document.getElementById('signupForm');
@@ -14,13 +42,13 @@
       if (tab.dataset.tab === 'signup') {
         signupForm.classList.remove('login-form-hidden');
         signinForm.classList.add('login-form-hidden');
-        title.textContent = 'Start Your Free Demo';
-        subtitle.textContent = 'Enter your details to explore the platform';
+        title.textContent = L.title;
+        subtitle.textContent = L.subtitle;
       } else {
         signinForm.classList.remove('login-form-hidden');
         signupForm.classList.add('login-form-hidden');
-        title.textContent = 'Welcome Back';
-        subtitle.textContent = 'Sign in to your account';
+        title.textContent = L.welcomeBack;
+        subtitle.textContent = L.signinSubtitle;
       }
     });
   });
@@ -32,6 +60,7 @@
   var phoneInput = document.getElementById('inputPhone');
   var signupError = document.getElementById('signupError');
   var signupBtn = document.getElementById('signupBtn');
+  var signupOriginal = signupBtn ? signupBtn.textContent : 'Launch Demo';
 
   signupForm.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -41,16 +70,16 @@
     var phone = phoneInput.value.trim();
 
     if (!name || !email) {
-      signupError.textContent = 'Name and email are required';
+      signupError.textContent = L.nameEmailReq;
       return;
     }
     if (email.indexOf('@') === -1 || email.indexOf('.') === -1) {
-      signupError.textContent = 'Please enter a valid email';
+      signupError.textContent = L.validEmail;
       return;
     }
 
     signupBtn.disabled = true;
-    signupBtn.textContent = 'Creating your account...';
+    signupBtn.textContent = L.creating;
     signupError.textContent = '';
 
     // POST to leads API (saves to DB + pushes to HubSpot)
@@ -89,12 +118,12 @@
     var password = signinPassword.value;
 
     if (!email || !password) {
-      signinError.textContent = 'Please fill in all fields';
+      signinError.textContent = L.fillFields;
       return;
     }
 
     signinBtn.disabled = true;
-    signinBtn.textContent = 'Signing in...';
+    signinBtn.textContent = L.signingIn;
     signinError.textContent = '';
 
     fetch('api/auth', {
@@ -107,16 +136,16 @@
       if (data.error) {
         signinError.textContent = data.error;
         signinBtn.disabled = false;
-        signinBtn.textContent = 'Sign In';
+        signinBtn.textContent = L.signIn;
         return;
       }
       setSession(data.name, data.email, data.company || '', data.type || 'user');
       window.location.href = 'index.html';
     })
     .catch(function() {
-      signinError.textContent = 'Connection error. Please try again.';
+      signinError.textContent = L.connErr;
       signinBtn.disabled = false;
-      signinBtn.textContent = 'Sign In';
+      signinBtn.textContent = L.signIn;
     });
   });
 

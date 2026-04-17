@@ -25,11 +25,30 @@
     { name: "Feedback Survey", submissions: 78, conversionRate: "3.2%", status: "inactive" }
   ];
 
-  var TABS = ["Funnels", "Websites", "Forms", "Surveys"];
   var activeTab = 0;
+  var L, TABS;
 
   document.addEventListener("DOMContentLoaded", function () {
-    CRM_APP.buildHeader("Sites", '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' New Site</button>');
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    L = isEs ? {
+      newSite: "Nuevo Sitio",
+      pages: "Páginas", visits: "Visitas", conv: "Conv.",
+      funnelPreview: "Vista previa del embudo", websitePreview: "Vista previa del sitio",
+      formName: "Nombre del formulario", submissions: "Envíos",
+      conversionRate: "Tasa de Conversión", status: "Estado", actions: "Acciones",
+      surveyName: "Nombre de Encuesta", responses: "Respuestas", avgScore: "Puntaje Prom.",
+      edit: "Editar", share: "Compartir"
+    } : {
+      newSite: "New Site",
+      pages: "Pages", visits: "Visits", conv: "Conv",
+      funnelPreview: "Funnel Preview", websitePreview: "Website Preview",
+      formName: "Form Name", submissions: "Submissions",
+      conversionRate: "Conversion Rate", status: "Status", actions: "Actions",
+      surveyName: "Survey Name", responses: "Responses", avgScore: "Avg Score",
+      edit: "Edit", share: "Share"
+    };
+    TABS = isEs ? ["Embudos", "Sitios Web", "Formularios", "Encuestas"] : ["Funnels", "Websites", "Forms", "Surveys"];
+    CRM_APP.buildHeader(CRM_APP.t('nav.sites'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.newSite + '</button>');
     renderTabs();
     renderContent();
   });
@@ -56,15 +75,10 @@
     if (!body) return;
     var html = "";
 
-    if (activeTab === 0) {
-      html = renderFunnels();
-    } else if (activeTab === 1) {
-      html = renderWebsites();
-    } else if (activeTab === 2) {
-      html = renderFormsTable();
-    } else {
-      html = renderSurveys();
-    }
+    if (activeTab === 0) html = renderFunnels();
+    else if (activeTab === 1) html = renderWebsites();
+    else if (activeTab === 2) html = renderFormsTable();
+    else html = renderSurveys();
 
     body.innerHTML = html;
   }
@@ -75,17 +89,17 @@
       var f = FUNNELS[i];
       var convRate = f.visits > 0 ? ((f.conversions / f.visits) * 100).toFixed(1) + "%" : "0%";
       html += '<div class="site-card">';
-      html += '<div class="site-card-thumb">' + CRM_ICONS.sites + ' Funnel Preview</div>';
+      html += '<div class="site-card-thumb">' + CRM_ICONS.sites + ' ' + L.funnelPreview + '</div>';
       html += '<div class="site-card-body">';
       html += '<div class="site-card-title">' + f.name + '</div>';
       html += '<div class="site-card-stats">';
-      html += '<div>Pages: <span>' + f.pages + '</span></div>';
-      html += '<div>Visits: <span>' + f.visits.toLocaleString() + '</span></div>';
-      html += '<div>Conv: <span>' + convRate + '</span></div>';
+      html += '<div>' + L.pages + ': <span>' + f.pages + '</span></div>';
+      html += '<div>' + L.visits + ': <span>' + f.visits.toLocaleString() + '</span></div>';
+      html += '<div>' + L.conv + ': <span>' + convRate + '</span></div>';
       html += '</div>';
       html += '<div class="site-card-footer">';
       html += CRM_APP.statusBadge(f.status);
-      html += '<button class="action-link">Edit</button>';
+      html += '<button class="action-link">' + L.edit + '</button>';
       html += '</div>';
       html += '</div>';
       html += '</div>';
@@ -99,16 +113,16 @@
     for (var i = 0; i < WEBSITES.length; i++) {
       var w = WEBSITES[i];
       html += '<div class="site-card">';
-      html += '<div class="site-card-thumb">' + CRM_ICONS.sites + ' Website Preview</div>';
+      html += '<div class="site-card-thumb">' + CRM_ICONS.sites + ' ' + L.websitePreview + '</div>';
       html += '<div class="site-card-body">';
       html += '<div class="site-card-title">' + w.name + '</div>';
       html += '<div class="site-card-stats">';
-      html += '<div>Pages: <span>' + w.pages + '</span></div>';
-      html += '<div>Visits: <span>' + w.visits.toLocaleString() + '</span></div>';
+      html += '<div>' + L.pages + ': <span>' + w.pages + '</span></div>';
+      html += '<div>' + L.visits + ': <span>' + w.visits.toLocaleString() + '</span></div>';
       html += '</div>';
       html += '<div class="site-card-footer">';
       html += CRM_APP.statusBadge(w.status);
-      html += '<button class="action-link">Edit</button>';
+      html += '<button class="action-link">' + L.edit + '</button>';
       html += '</div>';
       html += '</div>';
       html += '</div>';
@@ -119,7 +133,7 @@
 
   function renderFormsTable() {
     var html = '<table class="data-table"><thead><tr>';
-    html += '<th>Form Name</th><th>Submissions</th><th>Conversion Rate</th><th>Status</th><th>Actions</th>';
+    html += '<th>' + L.formName + '</th><th>' + L.submissions + '</th><th>' + L.conversionRate + '</th><th>' + L.status + '</th><th>' + L.actions + '</th>';
     html += '</tr></thead><tbody>';
     for (var i = 0; i < FORMS.length; i++) {
       var f = FORMS[i];
@@ -128,7 +142,7 @@
       html += '<td>' + f.submissions + '</td>';
       html += '<td>' + f.conversionRate + '</td>';
       html += '<td>' + CRM_APP.statusBadge(f.status) + '</td>';
-      html += '<td><button class="action-link">Edit</button> <button class="action-link">Share</button></td>';
+      html += '<td><button class="action-link">' + L.edit + '</button> <button class="action-link">' + L.share + '</button></td>';
       html += '</tr>';
     }
     html += '</tbody></table>';
@@ -143,7 +157,7 @@
       { name: "Feature Request Poll", responses: 56, avgScore: "N/A", status: "draft" }
     ];
     var html = '<table class="data-table"><thead><tr>';
-    html += '<th>Survey Name</th><th>Responses</th><th>Avg Score</th><th>Status</th><th>Actions</th>';
+    html += '<th>' + L.surveyName + '</th><th>' + L.responses + '</th><th>' + L.avgScore + '</th><th>' + L.status + '</th><th>' + L.actions + '</th>';
     html += '</tr></thead><tbody>';
     for (var i = 0; i < surveys.length; i++) {
       var s = surveys[i];
@@ -152,7 +166,7 @@
       html += '<td>' + s.responses + '</td>';
       html += '<td>' + s.avgScore + '</td>';
       html += '<td>' + CRM_APP.statusBadge(s.status) + '</td>';
-      html += '<td><button class="action-link">Edit</button> <button class="action-link">Share</button></td>';
+      html += '<td><button class="action-link">' + L.edit + '</button> <button class="action-link">' + L.share + '</button></td>';
       html += '</tr>';
     }
     html += '</tbody></table>';

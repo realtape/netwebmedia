@@ -21,11 +21,36 @@
     { client: "DesignHub", plan: "Starter", amount: 490, interval: "Monthly", status: "past_due", nextBill: "Apr 12, 2026" }
   ];
 
-  var TABS = ["Invoices", "Subscriptions", "Payment Links", "Transactions"];
   var activeTab = 0;
+  var L, TABS;
 
   document.addEventListener("DOMContentLoaded", function () {
-    CRM_APP.buildHeader("Payments", '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' Create Invoice</button>');
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    L = isEs ? {
+      createInvoice: "Crear Factura",
+      totalRevenue: "Ingresos Totales", outstanding: "Pendiente", overdue: "Atrasado", thisMonth: "Este Mes",
+      invoiceNum: "Factura #", client: "Cliente", amount: "Monto",
+      status: "Estado", date: "Fecha", actions: "Acciones",
+      plan: "Plan", interval: "Intervalo", nextBill: "Próximo Cobro",
+      link: "Enlace", clicks: "Clics", conversions: "Conversiones",
+      txnId: "ID Transacción", type: "Tipo", method: "Método",
+      name: "Nombre",
+      view: "Ver", send: "Enviar", copy: "Copiar", edit: "Editar",
+      monthly: "Mensual"
+    } : {
+      createInvoice: "Create Invoice",
+      totalRevenue: "Total Revenue", outstanding: "Outstanding", overdue: "Overdue", thisMonth: "This Month",
+      invoiceNum: "Invoice #", client: "Client", amount: "Amount",
+      status: "Status", date: "Date", actions: "Actions",
+      plan: "Plan", interval: "Interval", nextBill: "Next Bill",
+      link: "Link", clicks: "Clicks", conversions: "Conversions",
+      txnId: "Transaction ID", type: "Type", method: "Method",
+      name: "Name",
+      view: "View", send: "Send", copy: "Copy", edit: "Edit",
+      monthly: "Monthly"
+    };
+    TABS = isEs ? ["Facturas", "Suscripciones", "Enlaces de Pago", "Transacciones"] : ["Invoices", "Subscriptions", "Payment Links", "Transactions"];
+    CRM_APP.buildHeader(CRM_APP.t('nav.payments'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.createInvoice + '</button>');
     renderTabs();
     renderContent();
   });
@@ -60,21 +85,16 @@
     }
 
     var html = '<div class="summary-cards">';
-    html += summaryCard("Total Revenue", "$" + (totalRevenue / 1000).toFixed(1) + "k", "");
-    html += summaryCard("Outstanding", "$" + (outstanding / 1000).toFixed(1) + "k", "orange");
-    html += summaryCard("Overdue", "$" + (overdue / 1000).toFixed(1) + "k", "red");
-    html += summaryCard("This Month", "$" + (thisMonth / 1000).toFixed(1) + "k", "green");
+    html += summaryCard(L.totalRevenue, "$" + (totalRevenue / 1000).toFixed(1) + "k", "");
+    html += summaryCard(L.outstanding, "$" + (outstanding / 1000).toFixed(1) + "k", "orange");
+    html += summaryCard(L.overdue, "$" + (overdue / 1000).toFixed(1) + "k", "red");
+    html += summaryCard(L.thisMonth, "$" + (thisMonth / 1000).toFixed(1) + "k", "green");
     html += '</div>';
 
-    if (activeTab === 0) {
-      html += renderInvoicesTable();
-    } else if (activeTab === 1) {
-      html += renderSubscriptionsTable();
-    } else if (activeTab === 2) {
-      html += renderPaymentLinks();
-    } else {
-      html += renderTransactions();
-    }
+    if (activeTab === 0) html += renderInvoicesTable();
+    else if (activeTab === 1) html += renderSubscriptionsTable();
+    else if (activeTab === 2) html += renderPaymentLinks();
+    else html += renderTransactions();
 
     body.innerHTML = html;
   }
@@ -85,7 +105,7 @@
 
   function renderInvoicesTable() {
     var html = '<table class="data-table"><thead><tr>';
-    html += '<th>Invoice #</th><th>Client</th><th>Amount</th><th>Status</th><th>Date</th><th>Actions</th>';
+    html += '<th>' + L.invoiceNum + '</th><th>' + L.client + '</th><th>' + L.amount + '</th><th>' + L.status + '</th><th>' + L.date + '</th><th>' + L.actions + '</th>';
     html += '</tr></thead><tbody>';
     for (var i = 0; i < INVOICES.length; i++) {
       var inv = INVOICES[i];
@@ -95,7 +115,7 @@
       html += '<td>$' + inv.amount.toLocaleString() + '</td>';
       html += '<td>' + CRM_APP.statusBadge(inv.status) + '</td>';
       html += '<td>' + inv.date + '</td>';
-      html += '<td><button class="action-link">View</button> <button class="action-link">Send</button></td>';
+      html += '<td><button class="action-link">' + L.view + '</button> <button class="action-link">' + L.send + '</button></td>';
       html += '</tr>';
     }
     html += '</tbody></table>';
@@ -104,15 +124,16 @@
 
   function renderSubscriptionsTable() {
     var html = '<table class="data-table"><thead><tr>';
-    html += '<th>Client</th><th>Plan</th><th>Amount</th><th>Interval</th><th>Status</th><th>Next Bill</th>';
+    html += '<th>' + L.client + '</th><th>' + L.plan + '</th><th>' + L.amount + '</th><th>' + L.interval + '</th><th>' + L.status + '</th><th>' + L.nextBill + '</th>';
     html += '</tr></thead><tbody>';
     for (var i = 0; i < SUBSCRIPTIONS.length; i++) {
       var sub = SUBSCRIPTIONS[i];
+      var intervalTx = sub.interval === "Monthly" ? L.monthly : sub.interval;
       html += '<tr>';
       html += '<td>' + sub.client + '</td>';
       html += '<td>' + sub.plan + '</td>';
       html += '<td>$' + sub.amount.toLocaleString() + '</td>';
-      html += '<td>' + sub.interval + '</td>';
+      html += '<td>' + intervalTx + '</td>';
       html += '<td>' + CRM_APP.statusBadge(sub.status === "past_due" ? "overdue" : sub.status) + '</td>';
       html += '<td>' + sub.nextBill + '</td>';
       html += '</tr>';
@@ -128,7 +149,7 @@
       { name: "One-Time Setup", url: "pay.netweb.com/setup", amount: "$500", clicks: 67, conversions: 21 }
     ];
     var html = '<table class="data-table"><thead><tr>';
-    html += '<th>Name</th><th>Link</th><th>Amount</th><th>Clicks</th><th>Conversions</th><th>Actions</th>';
+    html += '<th>' + L.name + '</th><th>' + L.link + '</th><th>' + L.amount + '</th><th>' + L.clicks + '</th><th>' + L.conversions + '</th><th>' + L.actions + '</th>';
     html += '</tr></thead><tbody>';
     for (var i = 0; i < links.length; i++) {
       var l = links[i];
@@ -138,7 +159,7 @@
       html += '<td>' + l.amount + '</td>';
       html += '<td>' + l.clicks + '</td>';
       html += '<td>' + l.conversions + '</td>';
-      html += '<td><button class="action-link">Copy</button> <button class="action-link">Edit</button></td>';
+      html += '<td><button class="action-link">' + L.copy + '</button> <button class="action-link">' + L.edit + '</button></td>';
       html += '</tr>';
     }
     html += '</tbody></table>';
@@ -155,7 +176,7 @@
       { id: "TXN-4816", client: "TechCorp", amount: "$2,450", type: "Subscription", method: "Credit Card", date: "Apr 1, 2026" }
     ];
     var html = '<table class="data-table"><thead><tr>';
-    html += '<th>Transaction ID</th><th>Client</th><th>Amount</th><th>Type</th><th>Method</th><th>Date</th>';
+    html += '<th>' + L.txnId + '</th><th>' + L.client + '</th><th>' + L.amount + '</th><th>' + L.type + '</th><th>' + L.method + '</th><th>' + L.date + '</th>';
     html += '</tr></thead><tbody>';
     for (var i = 0; i < txns.length; i++) {
       var t = txns[i];

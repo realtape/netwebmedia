@@ -13,11 +13,24 @@
     { name: "CloudNine Starter Proposal", type: "Proposal", recipient: "Lisa Wang", status: "draft", created: "Apr 13, 2026" }
   ];
 
-  var TABS = ["All", "Proposals", "Contracts", "Invoices"];
   var activeTab = 0;
+  var L, TABS;
 
   document.addEventListener("DOMContentLoaded", function () {
-    CRM_APP.buildHeader("Documents", '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' New Document</button>');
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    L = isEs ? {
+      newDoc: "Nuevo Documento",
+      name: "Nombre", type: "Tipo", recipient: "Destinatario",
+      status: "Estado", created: "Creado", actions: "Acciones",
+      view: "Ver", send: "Enviar"
+    } : {
+      newDoc: "New Document",
+      name: "Name", type: "Type", recipient: "Recipient",
+      status: "Status", created: "Created", actions: "Actions",
+      view: "View", send: "Send"
+    };
+    TABS = isEs ? ["Todos", "Propuestas", "Contratos", "Facturas"] : ["All", "Proposals", "Contracts", "Invoices"];
+    CRM_APP.buildHeader(CRM_APP.t('nav.documents'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.newDoc + '</button>');
     renderTabs();
     renderContent();
   });
@@ -44,16 +57,12 @@
     if (!body) return;
 
     var filtered = DOCUMENTS;
-    if (activeTab === 1) {
-      filtered = DOCUMENTS.filter(function (d) { return d.type === "Proposal"; });
-    } else if (activeTab === 2) {
-      filtered = DOCUMENTS.filter(function (d) { return d.type === "Contract"; });
-    } else if (activeTab === 3) {
-      filtered = DOCUMENTS.filter(function (d) { return d.type === "Invoice"; });
-    }
+    if (activeTab === 1) filtered = DOCUMENTS.filter(function (d) { return d.type === "Proposal"; });
+    else if (activeTab === 2) filtered = DOCUMENTS.filter(function (d) { return d.type === "Contract"; });
+    else if (activeTab === 3) filtered = DOCUMENTS.filter(function (d) { return d.type === "Invoice"; });
 
     var html = '<table class="data-table"><thead><tr>';
-    html += '<th>Name</th><th>Type</th><th>Recipient</th><th>Status</th><th>Created</th><th>Actions</th>';
+    html += '<th>' + L.name + '</th><th>' + L.type + '</th><th>' + L.recipient + '</th><th>' + L.status + '</th><th>' + L.created + '</th><th>' + L.actions + '</th>';
     html += '</tr></thead><tbody>';
     for (var i = 0; i < filtered.length; i++) {
       var d = filtered[i];
@@ -63,7 +72,7 @@
       html += '<td>' + d.recipient + '</td>';
       html += '<td>' + CRM_APP.statusBadge(d.status) + '</td>';
       html += '<td>' + d.created + '</td>';
-      html += '<td><button class="action-link">View</button> <button class="action-link">Send</button></td>';
+      html += '<td><button class="action-link">' + L.view + '</button> <button class="action-link">' + L.send + '</button></td>';
       html += '</tr>';
     }
     html += '</tbody></table>';

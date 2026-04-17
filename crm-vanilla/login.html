@@ -17,50 +17,51 @@
         <div class="brand-icon">N</div>
         <span class="login-brand-text">NetWeb CRM</span>
       </div>
-      <h1 class="login-title">Start Your Free Demo</h1>
-      <p class="login-subtitle">Enter your details to explore the platform</p>
+      <h1 class="login-title" data-i18n="modules.login.title">Start Your Free Demo</h1>
+      <p class="login-subtitle" data-i18n="modules.login.subtitle">Enter your details to explore the platform</p>
     </div>
     <div class="login-tabs">
-      <button class="login-tab active" id="tabSignup" data-tab="signup">Start Free Demo</button>
-      <button class="login-tab" id="tabSignin" data-tab="signin">Sign In</button>
+      <button class="login-tab active" id="tabSignup" data-tab="signup" data-i18n="modules.login.tabSignup">Start Free Demo</button>
+      <button class="login-tab" id="tabSignin" data-tab="signin" data-i18n="modules.login.tabSignin">Sign In</button>
     </div>
     <form id="signupForm" class="login-form">
       <div id="signupError" class="login-error"></div>
       <div class="login-field">
-        <label class="login-label" for="inputName">Full Name</label>
+        <label class="login-label" for="inputName" data-i18n="modules.login.fullName">Full Name</label>
         <input type="text" id="inputName" class="login-input" placeholder="John Smith" required autocomplete="name">
       </div>
       <div class="login-field">
-        <label class="login-label" for="inputEmail">Email Address</label>
+        <label class="login-label" for="inputEmail" data-i18n="modules.login.emailAddress">Email Address</label>
         <input type="email" id="inputEmail" class="login-input" placeholder="john@company.com" required autocomplete="email">
       </div>
       <div class="login-field">
-        <label class="login-label" for="inputCompany">Company</label>
+        <label class="login-label" for="inputCompany" data-i18n="modules.login.company">Company</label>
         <input type="text" id="inputCompany" class="login-input" placeholder="Acme Inc" autocomplete="organization">
       </div>
       <div class="login-field">
-        <label class="login-label" for="inputPhone">Phone (optional)</label>
+        <label class="login-label" for="inputPhone" data-i18n="modules.login.phone">Phone (optional)</label>
         <input type="tel" id="inputPhone" class="login-input" placeholder="+56 9 1234 5678" autocomplete="tel">
       </div>
-      <button type="submit" id="signupBtn" class="login-btn">Launch Demo</button>
+      <button type="submit" id="signupBtn" class="login-btn" data-i18n="modules.login.launchDemo">Launch Demo</button>
     </form>
     <form id="signinForm" class="login-form login-form-hidden">
       <div id="signinError" class="login-error"></div>
       <div class="login-field">
-        <label class="login-label" for="signinEmail">Email Address</label>
+        <label class="login-label" for="signinEmail" data-i18n="modules.login.emailAddress">Email Address</label>
         <input type="email" id="signinEmail" class="login-input" placeholder="john@company.com" required autocomplete="email">
       </div>
       <div class="login-field">
-        <label class="login-label" for="signinPassword">Password</label>
-        <input type="password" id="signinPassword" class="login-input" placeholder="Enter your password" required autocomplete="current-password">
+        <label class="login-label" for="signinPassword" data-i18n="modules.login.password">Password</label>
+        <input type="password" id="signinPassword" class="login-input" data-i18n-placeholder="modules.login.pwPlaceholder" placeholder="Enter your password" required autocomplete="current-password">
       </div>
-      <button type="submit" id="signinBtn" class="login-btn">Sign In</button>
-      <p class="login-forgot"><a href="#">Forgot password?</a></p>
+      <button type="submit" id="signinBtn" class="login-btn" data-i18n="modules.login.signIn">Sign In</button>
+      <p class="login-forgot"><a href="#" data-i18n="modules.login.forgot">Forgot password?</a></p>
     </form>
     <div class="login-footer">
-      <p class="login-terms">By continuing, you agree to our Terms of Service</p>
+      <p class="login-terms" data-i18n="modules.login.terms">By continuing, you agree to our Terms of Service</p>
     </div>
   </div>
-  <script src="js/login.js"></script>
+  <script src="js/app.js?v=6"></script>
+  <script src="js/login.js?v=2"></script>
 </body>
 </html>

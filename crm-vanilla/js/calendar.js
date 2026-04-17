@@ -4,8 +4,21 @@
 
   var weekOffset = 0;
 
+  var L;
   document.addEventListener("DOMContentLoaded", function () {
-    CRM_APP.buildHeader("Calendar", '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' New Event</button>');
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    L = isEs ? {
+      newEvent: "Nuevo Evento", today: "Hoy",
+      dayNames: ["Lun", "Mar", "Mié", "Jue", "Vie"],
+      monthNames: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+    } : {
+      newEvent: "New Event", today: "Today",
+      dayNames: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+      monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    };
+    CRM_APP.buildHeader(CRM_APP.t('nav.calendars'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.newEvent + '</button>');
+    var todayBtn = document.getElementById("calToday");
+    if (todayBtn) todayBtn.textContent = L.today;
     bindEvents();
     renderCalendar();
   });
@@ -27,8 +40,8 @@
     monday.setDate(now.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1) + (weekOffset * 7));
 
     var days = [];
-    var dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var dayNames = (L && L.dayNames) || ["Mon", "Tue", "Wed", "Thu", "Fri"];
+    var monthNames = (L && L.monthNames) || ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     for (var i = 0; i < 5; i++) {
       var d = new Date(monday);

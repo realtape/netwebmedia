@@ -16,9 +16,18 @@
   ];
 
   var activeFilter = "all";
+  var L;
 
   document.addEventListener("DOMContentLoaded", function () {
-    CRM_APP.buildHeader("Automation", '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' New Workflow</button>');
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    L = isEs ? {
+      newWorkflow: "Nuevo Flujo", all: "Todos", active: "Activos", inactive: "Inactivos",
+      runs: "Ejecuciones", last: "Última", edit: "Editar"
+    } : {
+      newWorkflow: "New Workflow", all: "All", active: "Active", inactive: "Inactive",
+      runs: "Runs", last: "Last", edit: "Edit"
+    };
+    CRM_APP.buildHeader(CRM_APP.t('nav.automation'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.newWorkflow + '</button>');
     render();
   });
 
@@ -27,9 +36,9 @@
     if (!body) return;
 
     var html = '<div class="filter-group" style="margin-bottom:20px">';
-    html += filterBtn("all", "All");
-    html += filterBtn("active", "Active");
-    html += filterBtn("inactive", "Inactive");
+    html += filterBtn("all", L.all);
+    html += filterBtn("active", L.active);
+    html += filterBtn("inactive", L.inactive);
     html += '</div>';
 
     var filtered = WORKFLOWS;
@@ -53,10 +62,10 @@
       html += '<div class="workflow-card-trigger">' + w.trigger + '</div>';
       html += '<div class="workflow-card-footer">';
       html += '<div class="workflow-card-stats">';
-      html += '<div class="workflow-stat">Runs: <span>' + w.runs.toLocaleString() + '</span></div>';
-      html += '<div class="workflow-stat">Last: <span>' + w.lastRun + '</span></div>';
+      html += '<div class="workflow-stat">' + L.runs + ': <span>' + w.runs.toLocaleString() + '</span></div>';
+      html += '<div class="workflow-stat">' + L.last + ': <span>' + w.lastRun + '</span></div>';
       html += '</div>';
-      html += '<button class="action-link">Edit</button>';
+      html += '<button class="action-link">' + L.edit + '</button>';
       html += '</div>';
       html += '</div>';
     }
@@ -64,7 +73,6 @@
 
     body.innerHTML = html;
 
-    // Filter click handlers
     var filterBtns = body.querySelectorAll(".filter-btn");
     for (var j = 0; j < filterBtns.length; j++) {
       filterBtns[j].addEventListener("click", function () {
@@ -73,7 +81,6 @@
       });
     }
 
-    // Toggle handlers
     var toggles = body.querySelectorAll(".status-toggle input");
     for (var k = 0; k < toggles.length; k++) {
       toggles[k].addEventListener("change", function () {

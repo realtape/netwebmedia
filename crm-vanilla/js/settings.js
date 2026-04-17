@@ -2,8 +2,15 @@
 (function () {
   "use strict";
 
+  var L;
   document.addEventListener("DOMContentLoaded", function () {
-    CRM_APP.buildHeader("Settings");
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    L = isEs ? {
+      role: "Rol", saved: "¡Guardado!"
+    } : {
+      role: "Role", saved: "Saved!"
+    };
+    CRM_APP.buildHeader(CRM_APP.t('nav.settings'));
     bindTabs();
     renderTeamMembers();
     bindToggles();
@@ -38,6 +45,11 @@
     for (var i = 0; i < members.length; i++) {
       var m = members[i];
       var statusClass = m.status === "active" ? "status-customer" : "status-lead";
+      var statusLabel = m.status.charAt(0).toUpperCase() + m.status.slice(1);
+      var T = window.CRM_APP && CRM_APP.t ? CRM_APP.t : function(k){ return k; };
+      if (m.status === 'active') { var v = T('common.active'); if (v !== 'common.active') statusLabel = v; }
+      if (m.status === 'invited') { statusLabel = (CRM_APP.getLang && CRM_APP.getLang() === 'es') ? 'Invitado' : 'Invited'; }
+
       html += '<div class="team-member">';
       html += '<div class="team-member-left">';
       html += '<div class="contact-avatar small">' + m.avatar + '</div>';
@@ -48,7 +60,7 @@
       html += '</div>';
       html += '<div class="team-member-right">';
       html += '<span class="team-role">' + m.role + '</span>';
-      html += '<span class="status-badge ' + statusClass + '">' + m.status.charAt(0).toUpperCase() + m.status.slice(1) + '</span>';
+      html += '<span class="status-badge ' + statusClass + '">' + statusLabel + '</span>';
       html += '</div>';
       html += '</div>';
     }
@@ -59,9 +71,7 @@
   function bindToggles() {
     var toggles = document.querySelectorAll(".toggle-switch input");
     for (var i = 0; i < toggles.length; i++) {
-      toggles[i].addEventListener("change", function () {
-        /* In a real app, save the setting */
-      });
+      toggles[i].addEventListener("change", function () { /* save */ });
     }
 
     var saveButtons = document.querySelectorAll(".btn-save");
@@ -70,7 +80,7 @@
         e.preventDefault();
         var btn = this;
         var original = btn.textContent;
-        btn.textContent = "Saved!";
+        btn.textContent = L.saved;
         btn.classList.add("saved");
         setTimeout(function () {
           btn.textContent = original;

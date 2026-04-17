@@ -3,9 +3,25 @@
   "use strict";
 
   var draggedCard = null;
+  var L;
+  var STAGE_TX = {
+    "New Lead": { es: "Nuevo Lead", en: "New Lead" },
+    "Contacted": { es: "Contactado", en: "Contacted" },
+    "Qualified": { es: "Calificado", en: "Qualified" },
+    "Proposal Sent": { es: "Propuesta Enviada", en: "Proposal Sent" },
+    "Negotiation": { es: "Negociación", en: "Negotiation" },
+    "Closed Won": { es: "Ganado", en: "Closed Won" },
+    "Closed Lost": { es: "Perdido", en: "Closed Lost" }
+  };
+  function stageLabel(stage) {
+    var lang = (window.CRM_APP && CRM_APP.getLang) ? CRM_APP.getLang() : 'en';
+    return (STAGE_TX[stage] && STAGE_TX[stage][lang]) || stage;
+  }
 
   document.addEventListener("DOMContentLoaded", function () {
-    CRM_APP.buildHeader("Pipeline", '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' New Deal</button>');
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    L = isEs ? { newDeal: "Nueva Oportunidad", daysInStage: "d en etapa" } : { newDeal: "New Deal", daysInStage: "d in stage" };
+    CRM_APP.buildHeader(CRM_APP.t('nav.pipeline'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.newDeal + '</button>');
     renderPipeline();
   });
 
@@ -27,7 +43,7 @@
       html += '<div class="pipeline-column" data-stage="' + stage + '">';
       html += '<div class="column-header">';
       html += '<div class="column-title">';
-      html += '<span class="column-name">' + stage + '</span>';
+      html += '<span class="column-name">' + stageLabel(stage) + '</span>';
       html += '<span class="column-count">' + stageDeals.length + '</span>';
       html += '</div>';
       html += '<div class="column-value">$' + (totalValue / 1000).toFixed(1) + 'k</div>';
@@ -55,7 +71,7 @@
     html += '<span class="deal-card-prob" style="color:' + probColor + '">' + deal.probability + '%</span>';
     html += '</div>';
     html += '<div class="deal-card-contact">' + deal.contact + '</div>';
-    html += '<div class="deal-card-days">' + deal.daysInStage + 'd in stage</div>';
+    html += '<div class="deal-card-days">' + deal.daysInStage + L.daysInStage + '</div>';
     html += '</div>';
     return html;
   }

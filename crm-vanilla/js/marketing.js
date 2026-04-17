@@ -3,15 +3,98 @@
   "use strict";
 
   var API = 'api/index.php?r=';
-  var TABS = ["Campaigns", "Templates"];
+  var TABS;
   var activeTab = 0;
   var campaigns = [];
   var templates = [];
+  var L;
 
   document.addEventListener("DOMContentLoaded", function () {
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    L = isEs ? {
+      emailMarketing: "Marketing por Correo",
+      newCampaign: "Nueva Campaña", newTemplate: "Nueva Plantilla",
+      totalSent: "Total Enviados", openRate: "Tasa de Apertura",
+      clickRate: "Tasa de Clics", inProgress: "En Progreso",
+      name: "Nombre", status: "Estado", sent: "Enviados",
+      opens: "Aperturas", clicks: "Clics", created: "Creado",
+      actions: "Acciones", subject: "Asunto", niche: "Nicho",
+      updated: "Actualizado",
+      edit: "Editar", preview: "Vista Previa", test: "Prueba",
+      sendBtn: "Enviar", use: "Usar",
+      noCampaigns: 'No hay campañas. Haz clic en "+ Nueva Campaña" para comenzar.',
+      noTemplates: 'No hay plantillas. Haz clic en "+ Nueva Plantilla" para crear correos reutilizables con etiquetas como {{name}}, {{company}}, {{city}}, {{page_url}}.',
+      editCampaign: "Editar campaña", newCampaignTitle: "Nueva campaña",
+      editTemplate: "Editar plantilla", newTemplateTitle: "Nueva plantilla",
+      audienceFilter: "Filtro de Audiencia",
+      nameReq: "Nombre requerido",
+      fieldsReq: "Nombre, asunto y cuerpo son requeridos",
+      confirmDelCampaign: "¿Eliminar esta campaña? (historial de envíos se conserva)",
+      confirmDelTemplate: "¿Eliminar esta plantilla?",
+      testPrompt: "Enviar correo de prueba a:",
+      fromName: "Nombre remitente", fromEmail: "Correo remitente", htmlBody: "Cuerpo HTML",
+      template: "Plantilla", city: "Ciudad",
+      mergeTags: "Etiquetas:",
+      loadErr: "Error al cargar datos: ",
+      firstTimeHint: "Si es tu primera vez: POST a /api/?r=migrate&token=NWM_MIGRATE_2026 para crear las tablas.",
+      save: "Guardar", cancel: "Cancelar",
+      close: "Cerrar",
+      testSent: "¡Prueba enviada! ID Resend: ",
+      testFailed: "Prueba fallida: ",
+      previewFailed: "Vista previa fallida: ",
+      sendConfirm1: "Se enviarán ",
+      sendConfirm2: " correos reales vía Resend. ¿Continuar?",
+      limitPrompt: "Límite de destinatarios (vacío = todos ",
+      sentLabel: "Enviados: ", failedLabel: " / Fallidos: ",
+      firstErrors: "\n\nPrimeros errores:\n",
+      sendFailed: "Envío fallido: ",
+      any: "cualquiera",
+      to: "Para: ", subjectLbl: "Asunto: "
+    } : {
+      emailMarketing: "Email Marketing",
+      newCampaign: "New Campaign", newTemplate: "New Template",
+      totalSent: "Total Sent", openRate: "Open Rate",
+      clickRate: "Click Rate", inProgress: "In Progress",
+      name: "Name", status: "Status", sent: "Sent",
+      opens: "Opens", clicks: "Clicks", created: "Created",
+      actions: "Actions", subject: "Subject", niche: "Niche",
+      updated: "Updated",
+      edit: "Edit", preview: "Preview", test: "Test",
+      sendBtn: "Send", use: "Use",
+      noCampaigns: 'No campaigns yet. Click "+ New Campaign" to start.',
+      noTemplates: 'No templates yet. Click "+ New Template" to create reusable emails with merge tags like {{name}}, {{company}}, {{city}}, {{page_url}}.',
+      editCampaign: "Edit campaign", newCampaignTitle: "New campaign",
+      editTemplate: "Edit template", newTemplateTitle: "New template",
+      audienceFilter: "Audience filter",
+      nameReq: "Name required",
+      fieldsReq: "Name, subject, body required",
+      confirmDelCampaign: "Delete this campaign? (sends history preserved)",
+      confirmDelTemplate: "Delete this template?",
+      testPrompt: "Send test email to:",
+      fromName: "From name", fromEmail: "From email", htmlBody: "HTML body",
+      template: "Template", city: "City",
+      mergeTags: "Merge tags:",
+      loadErr: "Error loading data: ",
+      firstTimeHint: "If this is your first time: POST to /api/?r=migrate&token=NWM_MIGRATE_2026 to create tables.",
+      save: "Save", cancel: "Cancel",
+      close: "Close",
+      testSent: "Test sent! Resend id: ",
+      testFailed: "Test failed: ",
+      previewFailed: "Preview failed: ",
+      sendConfirm1: "This will send ",
+      sendConfirm2: " real emails via Resend. Proceed?",
+      limitPrompt: "Limit recipients (blank = all ",
+      sentLabel: "Sent: ", failedLabel: " / Failed: ",
+      firstErrors: "\n\nFirst errors:\n",
+      sendFailed: "Send failed: ",
+      any: "any",
+      to: "To: ", subjectLbl: "Subject: "
+    };
+    TABS = [isEs ? "Campañas" : "Campaigns", isEs ? "Plantillas" : "Templates"];
+
     if (window.CRM_APP && CRM_APP.buildHeader) {
-      CRM_APP.buildHeader("Email Marketing",
-        '<button class="btn btn-primary" id="newBtn">+ New ' + (activeTab === 0 ? 'Campaign' : 'Template') + '</button>');
+      CRM_APP.buildHeader(L.emailMarketing,
+        '<button class="btn btn-primary" id="newBtn">+ ' + (activeTab === 0 ? L.newCampaign : L.newTemplate) + '</button>');
     }
     renderTabs();
     loadData();
@@ -43,8 +126,8 @@
       renderContent();
     }).catch(function (e) {
       document.getElementById('marketingBody').innerHTML =
-        '<div style="padding:40px;text-align:center;color:#c0392b">Error loading data: ' + e.message +
-        '<br><br><small>If this is your first time: POST to /api/?r=migrate&token=NWM_MIGRATE_2026 to create tables.</small></div>';
+        '<div style="padding:40px;text-align:center;color:#c0392b">' + L.loadErr + e.message +
+        '<br><br><small>' + L.firstTimeHint + '</small></div>';
     });
   }
 
@@ -63,7 +146,7 @@
       renderTabs();
       renderContent();
       var nb = document.getElementById('newBtn');
-      if (nb) nb.textContent = '+ New ' + (activeTab === 0 ? 'Campaign' : 'Template');
+      if (nb) nb.textContent = '+ ' + (activeTab === 0 ? L.newCampaign : L.newTemplate);
     };
   }
 
@@ -81,10 +164,10 @@
     var pct = function (n, d) { return d > 0 ? ((n / d) * 100).toFixed(1) + '%' : '—'; };
 
     var html = '<div class="summary-cards">';
-    html += card('Total Sent', totalSent.toLocaleString());
-    html += card('Open Rate', pct(totalOpen, totalSent), 'green');
-    html += card('Click Rate', pct(totalClick, totalSent));
-    html += card('In Progress', String(active));
+    html += card(L.totalSent, totalSent.toLocaleString());
+    html += card(L.openRate, pct(totalOpen, totalSent), 'green');
+    html += card(L.clickRate, pct(totalClick, totalSent));
+    html += card(L.inProgress, String(active));
     html += '</div>';
 
     html += activeTab === 0 ? renderCampaignsTable() : renderTemplatesTable();
@@ -98,8 +181,8 @@
   }
 
   function renderCampaignsTable() {
-    if (!campaigns.length) return emptyState('No campaigns yet. Click "+ New Campaign" to start.');
-    var html = '<table class="data-table"><thead><tr><th>Name</th><th>Status</th><th>Sent</th><th>Opens</th><th>Clicks</th><th>Created</th><th>Actions</th></tr></thead><tbody>';
+    if (!campaigns.length) return emptyState(L.noCampaigns);
+    var html = '<table class="data-table"><thead><tr><th>' + L.name + '</th><th>' + L.status + '</th><th>' + L.sent + '</th><th>' + L.opens + '</th><th>' + L.clicks + '</th><th>' + L.created + '</th><th>' + L.actions + '</th></tr></thead><tbody>';
     campaigns.forEach(function (c) {
       var s = parseInt(c.sent_count || 0, 10);
       var o = parseInt(c.opened_count || 0, 10);
@@ -112,10 +195,10 @@
       html += '<td>' + (s ? cl + ' <small>(' + ((cl/s)*100).toFixed(0) + '%)</small>' : '—') + '</td>';
       html += '<td>' + fmtDate(c.created_at) + '</td>';
       html += '<td>'
-           + '<button class="action-link" data-a="edit" data-id="' + c.id + '">Edit</button> '
-           + '<button class="action-link" data-a="preview" data-id="' + c.id + '">Preview</button> '
-           + '<button class="action-link" data-a="test" data-id="' + c.id + '">Test</button> '
-           + '<button class="action-link" data-a="send" data-id="' + c.id + '" style="color:#FF6B00;font-weight:600">Send</button> '
+           + '<button class="action-link" data-a="edit" data-id="' + c.id + '">' + L.edit + '</button> '
+           + '<button class="action-link" data-a="preview" data-id="' + c.id + '">' + L.preview + '</button> '
+           + '<button class="action-link" data-a="test" data-id="' + c.id + '">' + L.test + '</button> '
+           + '<button class="action-link" data-a="send" data-id="' + c.id + '" style="color:#FF6B00;font-weight:600">' + L.sendBtn + '</button> '
            + '<button class="action-link" data-a="delete" data-id="' + c.id + '" style="color:#c0392b">✕</button>'
            + '</td>';
       html += '</tr>';
@@ -125,8 +208,8 @@
   }
 
   function renderTemplatesTable() {
-    if (!templates.length) return emptyState('No templates yet. Click "+ New Template" to create reusable emails with merge tags like {{name}}, {{company}}, {{city}}, {{page_url}}.');
-    var html = '<table class="data-table"><thead><tr><th>Name</th><th>Subject</th><th>Niche</th><th>Updated</th><th>Actions</th></tr></thead><tbody>';
+    if (!templates.length) return emptyState(L.noTemplates);
+    var html = '<table class="data-table"><thead><tr><th>' + L.name + '</th><th>' + L.subject + '</th><th>' + L.niche + '</th><th>' + L.updated + '</th><th>' + L.actions + '</th></tr></thead><tbody>';
     templates.forEach(function (t) {
       html += '<tr>';
       html += '<td><strong>' + esc(t.name) + '</strong></td>';
@@ -134,8 +217,8 @@
       html += '<td>' + esc(t.niche || '—') + '</td>';
       html += '<td>' + fmtDate(t.updated_at) + '</td>';
       html += '<td>'
-           + '<button class="action-link" data-a="tedit" data-id="' + t.id + '">Edit</button> '
-           + '<button class="action-link" data-a="tuse" data-id="' + t.id + '">Use</button> '
+           + '<button class="action-link" data-a="tedit" data-id="' + t.id + '">' + L.edit + '</button> '
+           + '<button class="action-link" data-a="tuse" data-id="' + t.id + '">' + L.use + '</button> '
            + '<button class="action-link" data-a="tdel" data-id="' + t.id + '" style="color:#c0392b">✕</button>'
            + '</td>';
       html += '</tr>';
@@ -170,8 +253,8 @@
                 + '<h2 style="margin:0 0 16px;color:#1a1a2e">' + title + '</h2>'
                 + bodyHtml
                 + '<div style="margin-top:20px;display:flex;gap:10px;justify-content:flex-end">'
-                + '<button class="btn" id="mCancel" style="background:#eee;border:0;padding:10px 20px;border-radius:6px;cursor:pointer">Cancel</button>'
-                + '<button class="btn btn-primary" id="mSave" style="background:#FF6B00;color:#fff;border:0;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:600">' + (saveLabel || 'Save') + '</button>'
+                + '<button class="btn" id="mCancel" style="background:#eee;border:0;padding:10px 20px;border-radius:6px;cursor:pointer">' + L.cancel + '</button>'
+                + '<button class="btn btn-primary" id="mSave" style="background:#FF6B00;color:#fff;border:0;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:600">' + (saveLabel || L.save) + '</button>'
                 + '</div></div>';
     document.body.appendChild(m);
     m.querySelector('#mCancel').onclick = function () { m.remove(); };
@@ -181,14 +264,14 @@
   function openTemplateModal(t) {
     t = t || {};
     var body = ''
-      + row('Name',       '<input id="tName" style="'+inp+'" value="' + esc(t.name || '') + '">')
-      + row('Subject',    '<input id="tSubject" style="'+inp+'" value="' + esc(t.subject || '') + '" placeholder="{{company}} — Free Digital Audit">')
-      + row('Niche',      '<input id="tNiche" style="'+inp+'" value="' + esc(t.niche || '') + '" placeholder="tourism, restaurants, health, beauty, ...">')
-      + row('From name',  '<input id="tFromName" style="'+inp+'" value="' + esc(t.from_name || 'NetWebMedia') + '">')
-      + row('From email', '<input id="tFromEmail" style="'+inp+'" value="' + esc(t.from_email || 'carlos@netwebmedia.com') + '">')
-      + row('HTML body',  '<textarea id="tBody" style="'+inp+';min-height:280px;font-family:monospace;font-size:13px" placeholder="Hi {{first_name}},&#10;&#10;I built a free digital audit for {{company}} ({{city}}):&#10;{{page_url}}&#10;&#10;— Carlos">' + esc(t.body_html || '') + '</textarea>')
-      + '<p style="font-size:12px;color:#888;margin-top:8px">Merge tags: <code>{{name}}</code> <code>{{first_name}}</code> <code>{{company}}</code> <code>{{city}}</code> <code>{{niche}}</code> <code>{{page_url}}</code> <code>{{email}}</code> <code>{{unsubscribe_url}}</code></p>';
-    modal(t.id ? 'Edit template' : 'New template', body, function (m) {
+      + row(L.name,       '<input id="tName" style="'+inp+'" value="' + esc(t.name || '') + '">')
+      + row(L.subject,    '<input id="tSubject" style="'+inp+'" value="' + esc(t.subject || '') + '" placeholder="{{company}} — Free Digital Audit">')
+      + row(L.niche,      '<input id="tNiche" style="'+inp+'" value="' + esc(t.niche || '') + '" placeholder="tourism, restaurants, health, beauty, ...">')
+      + row(L.fromName,   '<input id="tFromName" style="'+inp+'" value="' + esc(t.from_name || 'NetWebMedia') + '">')
+      + row(L.fromEmail,  '<input id="tFromEmail" style="'+inp+'" value="' + esc(t.from_email || 'carlos@netwebmedia.com') + '">')
+      + row(L.htmlBody,   '<textarea id="tBody" style="'+inp+';min-height:280px;font-family:monospace;font-size:13px" placeholder="Hi {{first_name}},&#10;&#10;I built a free digital audit for {{company}} ({{city}}):&#10;{{page_url}}&#10;&#10;— Carlos">' + esc(t.body_html || '') + '</textarea>')
+      + '<p style="font-size:12px;color:#888;margin-top:8px">' + L.mergeTags + ' <code>{{name}}</code> <code>{{first_name}}</code> <code>{{company}}</code> <code>{{city}}</code> <code>{{niche}}</code> <code>{{page_url}}</code> <code>{{email}}</code> <code>{{unsubscribe_url}}</code></p>';
+    modal(t.id ? L.editTemplate : L.newTemplateTitle, body, function (m) {
       var payload = {
         name: m.querySelector('#tName').value.trim(),
         subject: m.querySelector('#tSubject').value.trim(),
@@ -197,7 +280,7 @@
         from_email: m.querySelector('#tFromEmail').value.trim(),
         body_html: m.querySelector('#tBody').value,
       };
-      if (!payload.name || !payload.subject || !payload.body_html) return alert('Name, subject, body required');
+      if (!payload.name || !payload.subject || !payload.body_html) return alert(L.fieldsReq);
       var p = t.id
         ? api('templates&id=' + t.id, { method: 'PUT', body: payload })
         : api('templates',            { method: 'POST', body: payload });
@@ -215,20 +298,20 @@
     }).join('');
 
     var body = ''
-      + row('Name',        '<input id="cName" style="'+inp+'" value="' + esc(c.name || '') + '" placeholder="Tourism — Day 0 welcome">')
-      + row('Template',    '<select id="cTpl" style="'+inp+'">' + tplOpts + '</select>')
-      + row('Subject',     '<input id="cSubject" style="'+inp+'" value="' + esc(c.subject || '') + '" placeholder="(leave blank to use template)">')
-      + row('HTML body',   '<textarea id="cBody" style="'+inp+';min-height:200px;font-family:monospace;font-size:13px" placeholder="(leave blank to use template)">' + esc(c.body_html || '') + '</textarea>')
-      + '<h3 style="margin:20px 0 10px;color:#1a1a2e;font-size:15px">Audience filter</h3>'
-      + row('Niche',  '<input id="cNiche" style="'+inp+'" value="' + esc(af.niche || '') + '" placeholder="tourism / restaurants / health / ...">')
-      + row('City',   '<input id="cCity"  style="'+inp+'" value="' + esc(af.city || '')  + '" placeholder="santiago / valparaiso / ...">')
-      + row('Status', '<select id="cStatus" style="'+inp+'"><option value="">any</option>'
+      + row(L.name,        '<input id="cName" style="'+inp+'" value="' + esc(c.name || '') + '" placeholder="Tourism — Day 0 welcome">')
+      + row(L.template,    '<select id="cTpl" style="'+inp+'">' + tplOpts + '</select>')
+      + row(L.subject,     '<input id="cSubject" style="'+inp+'" value="' + esc(c.subject || '') + '" placeholder="(leave blank to use template)">')
+      + row(L.htmlBody,    '<textarea id="cBody" style="'+inp+';min-height:200px;font-family:monospace;font-size:13px" placeholder="(leave blank to use template)">' + esc(c.body_html || '') + '</textarea>')
+      + '<h3 style="margin:20px 0 10px;color:#1a1a2e;font-size:15px">' + L.audienceFilter + '</h3>'
+      + row(L.niche,  '<input id="cNiche" style="'+inp+'" value="' + esc(af.niche || '') + '" placeholder="tourism / restaurants / health / ...">')
+      + row(L.city,   '<input id="cCity"  style="'+inp+'" value="' + esc(af.city || '')  + '" placeholder="santiago / valparaiso / ...">')
+      + row(L.status, '<select id="cStatus" style="'+inp+'"><option value="">' + L.any + '</option>'
           + ['lead','prospect','customer','churned'].map(function (s) {
               return '<option value="' + s + '"' + (af.status === s ? ' selected' : '') + '>' + s + '</option>';
             }).join('')
           + '</select>');
 
-    modal(c.id ? 'Edit campaign' : 'New campaign', body, function (m) {
+    modal(c.id ? L.editCampaign : L.newCampaignTitle, body, function (m) {
       var payload = {
         name: m.querySelector('#cName').value.trim(),
         template_id: m.querySelector('#cTpl').value || null,
@@ -240,7 +323,7 @@
           status: m.querySelector('#cStatus').value || undefined,
         },
       };
-      if (!payload.name) return alert('Name required');
+      if (!payload.name) return alert(L.nameReq);
       var p = c.id
         ? api('campaigns&id=' + c.id, { method: 'PUT', body: payload })
         : api('campaigns',            { method: 'POST', body: payload });
@@ -254,45 +337,45 @@
       m.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px';
       m.innerHTML = '<div style="background:#fff;border-radius:10px;max-width:800px;width:100%;max-height:90vh;overflow:auto">'
         + '<div style="padding:20px;border-bottom:1px solid #eee;background:#f6f7fb">'
-        + '<div style="font-size:12px;color:#888">To: ' + esc(r.to) + '</div>'
-        + '<div style="font-size:16px;font-weight:600;margin-top:4px">Subject: ' + esc(r.subject) + '</div>'
+        + '<div style="font-size:12px;color:#888">' + L.to + esc(r.to) + '</div>'
+        + '<div style="font-size:16px;font-weight:600;margin-top:4px">' + L.subjectLbl + esc(r.subject) + '</div>'
         + '</div>'
         + '<iframe srcdoc="' + r.html.replace(/"/g, '&quot;') + '" style="width:100%;height:500px;border:0"></iframe>'
-        + '<div style="padding:14px;text-align:right;border-top:1px solid #eee"><button id="pClose" style="background:#FF6B00;color:#fff;border:0;padding:10px 20px;border-radius:6px;cursor:pointer">Close</button></div>'
+        + '<div style="padding:14px;text-align:right;border-top:1px solid #eee"><button id="pClose" style="background:#FF6B00;color:#fff;border:0;padding:10px 20px;border-radius:6px;cursor:pointer">' + L.close + '</button></div>'
         + '</div>';
       document.body.appendChild(m);
       m.querySelector('#pClose').onclick = function () { m.remove(); };
-    }).catch(function (e) { alert('Preview failed: ' + e.message); });
+    }).catch(function (e) { alert(L.previewFailed + e.message); });
   }
 
   function testCampaign(id) {
-    var to = prompt('Send test email to:');
+    var to = prompt(L.testPrompt);
     if (!to) return;
     api('campaigns&id=' + id + '&action=test', { method: 'POST', body: { to: to } })
-      .then(function (r) { alert('Test sent! Resend id: ' + (r.id || 'ok')); })
-      .catch(function (e) { alert('Test failed: ' + e.message); });
+      .then(function (r) { alert(L.testSent + (r.id || 'ok')); })
+      .catch(function (e) { alert(L.testFailed + e.message); });
   }
 
   function sendCampaign(id) {
     api('campaigns&id=' + id + '&action=send', { method: 'POST', body: { dry_run: true } }).then(function (r) {
-      if (!confirm('This will send ' + r.would_send + ' real emails via Resend. Proceed?')) return;
-      var limit = prompt('Limit recipients (blank = all ' + r.would_send + '):');
+      if (!confirm(L.sendConfirm1 + r.would_send + L.sendConfirm2)) return;
+      var limit = prompt(L.limitPrompt + r.would_send + '):');
       var body = {};
       if (limit && parseInt(limit, 10) > 0) body.limit = parseInt(limit, 10);
       api('campaigns&id=' + id + '&action=send', { method: 'POST', body: body }).then(function (res) {
-        alert('Sent: ' + res.sent + ' / Failed: ' + res.failed + (res.errors && res.errors.length ? '\n\nFirst errors:\n' + res.errors.join('\n') : ''));
+        alert(L.sentLabel + res.sent + L.failedLabel + res.failed + (res.errors && res.errors.length ? L.firstErrors + res.errors.join('\n') : ''));
         loadData();
-      }).catch(function (e) { alert('Send failed: ' + e.message); });
+      }).catch(function (e) { alert(L.sendFailed + e.message); });
     });
   }
 
   function deleteCampaign(id) {
-    if (!confirm('Delete this campaign? (sends history preserved)')) return;
+    if (!confirm(L.confirmDelCampaign)) return;
     api('campaigns&id=' + id, { method: 'DELETE' }).then(loadData);
   }
 
   function deleteTemplate(id) {
-    if (!confirm('Delete this template?')) return;
+    if (!confirm(L.confirmDelTemplate)) return;
     api('templates&id=' + id, { method: 'DELETE' }).then(loadData);
   }
 

@@ -27,10 +27,20 @@
   ];
 
   var activeFilter = "all";
-  var DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  var DAY_NAMES;
+  var L;
 
   document.addEventListener("DOMContentLoaded", function () {
-    CRM_APP.buildHeader("Social Planner", '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' New Post</button>');
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    L = isEs ? {
+      newPost: "Nueva Publicación", allPlatforms: "Todas las Plataformas",
+      noPosts: "Sin publicaciones"
+    } : {
+      newPost: "New Post", allPlatforms: "All Platforms",
+      noPosts: "No posts"
+    };
+    DAY_NAMES = isEs ? ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"] : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    CRM_APP.buildHeader(CRM_APP.t('nav.social'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.newPost + '</button>');
     render();
   });
 
@@ -46,7 +56,7 @@
     monday.setDate(today.getDate() + diff);
 
     var html = '<div class="filter-group" style="margin-bottom:20px">';
-    html += filterBtn("all", "All Platforms");
+    html += filterBtn("all", L.allPlatforms);
     html += filterBtn("fb", "Facebook");
     html += filterBtn("ig", "Instagram");
     html += filterBtn("li", "LinkedIn");
@@ -79,7 +89,7 @@
       }
 
       if (dayPosts.length === 0) {
-        html += '<div style="padding:8px;font-size:11px;color:var(--text-muted);text-align:center">No posts</div>';
+        html += '<div style="padding:8px;font-size:11px;color:var(--text-muted);text-align:center">' + L.noPosts + '</div>';
       }
 
       html += '</div>';

@@ -3,26 +3,65 @@
   "use strict";
 
   document.addEventListener("DOMContentLoaded", function () {
-    CRM_APP.buildHeader("Dashboard", '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' New Deal</button>');
-    renderStats();
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    var L = isEs ? {
+      newDeal: "Nueva Oportunidad", revenueOverview: "Resumen de Ingresos",
+      vsLastQuarter: "+24% vs. trimestre anterior", activeDeals: "Oportunidades Activas",
+      viewAll: "Ver Todo", todaySchedule: "Agenda de Hoy", recentContacts: "Contactos Recientes",
+      totalContacts: "Contactos Totales", newLeads: "Leads Nuevos",
+      revenue: "Ingresos", conversion: "Conversión", avgDeal: "Oportunidad Prom.",
+      vsLastMonth: "vs. mes anterior"
+    } : {
+      newDeal: "New Deal", revenueOverview: "Revenue Overview",
+      vsLastQuarter: "+24% vs last quarter", activeDeals: "Active Deals",
+      viewAll: "View All", todaySchedule: "Today's Schedule", recentContacts: "Recent Contacts",
+      totalContacts: "Total Contacts", newLeads: "New Leads",
+      revenue: "Revenue", conversion: "Conversion", avgDeal: "Avg Deal",
+      vsLastMonth: "vs last month"
+    };
+    window.__dashL = L;
+
+    CRM_APP.buildHeader(CRM_APP.t('nav.dashboard'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.newDeal + '</button>');
+
+    // Update static HTML sections if they are the default English labels
+    updateStaticCardTitles(L);
+
+    renderStats(L);
     renderRevenueChart();
     renderSchedule();
     renderActiveDeals();
     renderRecentContacts();
   });
 
-  function renderStats() {
+  function updateStaticCardTitles(L) {
+    var titles = document.querySelectorAll('.card-title');
+    titles.forEach(function (t) {
+      var tx = t.textContent.trim();
+      if (tx === 'Revenue Overview') t.textContent = L.revenueOverview;
+      else if (tx === 'Active Deals') t.textContent = L.activeDeals;
+      else if (tx === "Today's Schedule") t.textContent = L.todaySchedule;
+      else if (tx === 'Recent Contacts') t.textContent = L.recentContacts;
+    });
+    var changeSpan = document.querySelector('.stat-change.positive');
+    if (changeSpan && changeSpan.textContent.trim() === '+24% vs last quarter') changeSpan.textContent = L.vsLastQuarter;
+    var viewAllBtns = document.querySelectorAll('.btn.btn-secondary.btn-sm');
+    viewAllBtns.forEach(function (b) {
+      if (b.textContent.trim() === 'View All') b.textContent = L.viewAll;
+    });
+  }
+
+  function renderStats(L) {
     var container = document.getElementById("statsGrid");
     if (!container) return;
 
     var s = CRM_DATA.stats;
     var cards = [
-      { label: "Total Contacts", value: s.totalContacts.toLocaleString(), change: "+12%", icon: "contacts", positive: true },
-      { label: "New Leads", value: s.newLeads, change: "+8%", icon: "contacts", positive: true },
-      { label: "Active Deals", value: s.activeDeals, change: "+3", icon: "pipeline", positive: true },
-      { label: "Revenue", value: "$142.5k", change: "+24%", icon: "dashboard", positive: true },
-      { label: "Conversion", value: s.conversion + "%", change: "+5%", icon: "pipeline", positive: true },
-      { label: "Avg Deal", value: "$11.4k", change: "-2%", icon: "dashboard", positive: false }
+      { label: L.totalContacts, value: s.totalContacts.toLocaleString(), change: "+12%", icon: "contacts", positive: true },
+      { label: L.newLeads, value: s.newLeads, change: "+8%", icon: "contacts", positive: true },
+      { label: L.activeDeals, value: s.activeDeals, change: "+3", icon: "pipeline", positive: true },
+      { label: L.revenue, value: "$142.5k", change: "+24%", icon: "dashboard", positive: true },
+      { label: L.conversion, value: s.conversion + "%", change: "+5%", icon: "pipeline", positive: true },
+      { label: L.avgDeal, value: "$11.4k", change: "-2%", icon: "dashboard", positive: false }
     ];
 
     var html = "";
@@ -34,7 +73,7 @@
       html += '<span class="stat-icon">' + CRM_APP.ICONS[c.icon] + '</span>';
       html += '</div>';
       html += '<div class="stat-value">' + c.value + '</div>';
-      html += '<div class="stat-change ' + (c.positive ? "positive" : "negative") + '">' + c.change + ' vs last month</div>';
+      html += '<div class="stat-change ' + (c.positive ? "positive" : "negative") + '">' + c.change + ' ' + L.vsLastMonth + '</div>';
       html += '</div>';
     }
     container.innerHTML = html;

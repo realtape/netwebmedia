@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minnesota (MN) — 48 prospects | NetWebMedia</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
+.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
+.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
+.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
+.hero p{font-size:16px;opacity:.95;max-width:720px}
+.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
+.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
+.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
+.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
+section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
+section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
+.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
+.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
+.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
+.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
+.state .count{font-size:12px;color:#FF6B00;font-weight:600}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
+.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
+.filter:hover{border-color:#FF6B00}
+input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
+input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
+.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
+.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
+.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
+.prospect .where{font-size:12px;color:#666}
+.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
+.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
+.niche-legend .leg{display:flex;align-items:center;gap:6px}
+.niche-legend .sw{width:12px;height:12px;border-radius:3px}
+.showing{font-size:13px;color:#666;margin-bottom:12px}
+footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
+@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
+  <div class="hero">
+    <h1>Minnesota <span style="opacity:.6;font-size:24px">(MN)</span></h1>
+    <p>Healthcare (Mayo Clinic), agriculture, tech</p>
+    <div class="chips">
+      <span class="chip">🇺🇸 48 prospects</span>
+      <span class="chip">🎯 6 niches</span>
+      <span class="chip">📍 3 cities</span>
+    </div>
+  </div>
+  <section>
+    <h2>Prospects in Minnesota</h2>
+    <input type="search" id="q" placeholder="Search by company or city..." />
+    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="beauty">💅 Beauty &amp; Wellness (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span></div>
+    <div class="showing" id="showing">Showing all 48 prospects</div>
+    <div class="prospects" id="list"><a class="prospect" data-niche="health" data-search="cedar wellness minneapolis" href="cedar-wellness.html"><div class="name">Cedar Wellness</div><div class="where">Minneapolis</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="lee southpoint physical therapy saint paul" href="lee-southpoint-physical-therapy.html"><div class="name">Lee Southpoint Physical Therapy</div><div class="where">Saint Paul</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="northgate health partners rochester" href="northgate-health-partners.html"><div class="name">Northgate Health Partners</div><div class="where">Rochester</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="evergreen dental minneapolis" href="evergreen-dental.html"><div class="name">Evergreen Dental</div><div class="where">Minneapolis</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="northgate pediatrics saint paul" href="northgate-pediatrics.html"><div class="name">Northgate Pediatrics</div><div class="where">Saint Paul</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="white mercy med spa rochester" href="white-mercy-med-spa.html"><div class="name">White Mercy Med Spa</div><div class="where">Rochester</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="riverside physical therapy minneapolis" href="riverside-physical-therapy.html"><div class="name">Riverside Physical Therapy</div><div class="where">Minneapolis</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="mercy orthodontics saint paul" href="mercy-orthodontics.html"><div class="name">Mercy Orthodontics</div><div class="where">Saint Paul</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="smb" data-search="oakwood workshop minneapolis" href="oakwood-workshop.html"><div class="name">Oakwood Workshop</div><div class="where">Minneapolis</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="hilltop signs saint paul" href="hilltop-signs.html"><div class="name">Hilltop Signs</div><div class="where">Saint Paul</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="parkside solutions rochester" href="parkside-solutions.html"><div class="name">Parkside Solutions</div><div class="where">Rochester</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="cornerstone mercantile minneapolis" href="cornerstone-mercantile.html"><div class="name">Cornerstone Mercantile</div><div class="where">Minneapolis</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="evergreen workshop saint paul" href="evergreen-workshop.html"><div class="name">Evergreen Workshop</div><div class="where">Saint Paul</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="northside workshop rochester" href="northside-workshop.html"><div class="name">Northside Workshop</div><div class="where">Rochester</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="northside solutions minneapolis" href="northside-solutions.html"><div class="name">Northside Solutions</div><div class="where">Minneapolis</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="main street solutions saint paul" href="main-street-solutions.html"><div class="name">Main Street Solutions</div><div class="where">Saint Paul</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="restaurants" data-search="golden diner minneapolis" href="golden-diner.html"><div class="name">Golden Diner</div><div class="where">Minneapolis</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="hickory cafe saint paul" href="hickory-cafe.html"><div class="name">Hickory Cafe</div><div class="where">Saint Paul</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="pepper public house rochester" href="pepper-public-house.html"><div class="name">Pepper Public House</div><div class="where">Rochester</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="wagon kitchen minneapolis" href="wagon-kitchen.html"><div class="name">Wagon Kitchen</div><div class="where">Minneapolis</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="maple eatery saint paul" href="maple-eatery.html"><div class="name">Maple Eatery</div><div class="where">Saint Paul</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="red barn kitchen rochester" href="red-barn-kitchen.html"><div class="name">Red Barn Kitchen</div><div class="where">Rochester</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="harvest bistro minneapolis" href="harvest-bistro.html"><div class="name">Harvest Bistro</div><div class="where">Minneapolis</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="birch roadhouse saint paul" href="birch-roadhouse.html"><div class="name">Birch Roadhouse</div><div class="where">Saint Paul</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="real_estate" data-search="jones heritage properties minneapolis" href="jones-heritage-properties.html"><div class="name">Jones Heritage Properties</div><div class="where">Minneapolis</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="keystone properties saint paul" href="keystone-properties.html"><div class="name">Keystone Properties</div><div class="where">Saint Paul</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="lee prestige real estate rochester" href="lee-prestige-real-estate.html"><div class="name">Lee Prestige Real Estate</div><div class="where">Rochester</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="golden gate estates minneapolis" href="golden-gate-estates.html"><div class="name">Golden Gate Estates</div><div class="where">Minneapolis</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="prestige properties saint paul" href="prestige-properties.html"><div class="name">Prestige Properties</div><div class="where">Saint Paul</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="hall heritage homes rochester" href="hall-heritage-homes.html"><div class="name">Hall Heritage Homes</div><div class="where">Rochester</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="metro properties minneapolis" href="metro-properties.html"><div class="name">Metro Properties</div><div class="where">Minneapolis</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="signature realty saint paul" href="signature-realty.html"><div class="name">Signature Realty</div><div class="where">Saint Paul</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="law_firms" data-search="hawthorne attorneys minneapolis" href="hawthorne-attorneys.html"><div class="name">Hawthorne Attorneys</div><div class="where">Minneapolis</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="o&#x27;connor attorneys saint paul" href="oconnor-attorneys.html"><div class="name">O&#x27;Connor Attorneys</div><div class="where">Saint Paul</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="sinclair law group rochester" href="sinclair-law-group.html"><div class="name">Sinclair Law Group</div><div class="where">Rochester</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="rutherford pllc minneapolis" href="rutherford-pllc.html"><div class="name">Rutherford PLLC</div><div class="where">Minneapolis</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="o&#x27;connor law firm saint paul" href="oconnor-law-firm.html"><div class="name">O&#x27;Connor Law Firm</div><div class="where">Saint Paul</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="sullivan law group rochester" href="sullivan-law-group.html"><div class="name">Sullivan Law Group</div><div class="where">Rochester</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="thomas blackwell &amp; partners minneapolis" href="thomas-blackwell-and-partners.html"><div class="name">Thomas Blackwell &amp; Partners</div><div class="where">Minneapolis</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="coleman law saint paul" href="coleman-law.html"><div class="name">Coleman Law</div><div class="where">Saint Paul</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="beauty" data-search="sage wellness minneapolis" href="sage-wellness.html"><div class="name">Sage Wellness</div><div class="where">Minneapolis</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="orchid lash lounge saint paul" href="orchid-lash-lounge.html"><div class="name">Orchid Lash Lounge</div><div class="where">Saint Paul</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="velvet nails rochester" href="velvet-nails.html"><div class="name">Velvet Nails</div><div class="where">Rochester</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="pearl beauty bar minneapolis" href="pearl-beauty-bar.html"><div class="name">Pearl Beauty Bar</div><div class="where">Minneapolis</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="glow hair lounge saint paul" href="glow-hair-lounge.html"><div class="name">Glow Hair Lounge</div><div class="where">Saint Paul</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="polished barber co. rochester" href="polished-barber-co.html"><div class="name">Polished Barber Co.</div><div class="where">Rochester</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="sage nails minneapolis" href="sage-nails.html"><div class="name">Sage Nails</div><div class="where">Minneapolis</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="polished brow bar saint paul" href="polished-brow-bar.html"><div class="name">Polished Brow Bar</div><div class="where">Saint Paul</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a></div>
+  </section>
+  <footer>NetWebMedia · April 2026</footer>
+</div>
+<script>
+(function(){
+  var list = document.getElementById('list');
+  var items = list.querySelectorAll('.prospect');
+  var showing = document.getElementById('showing');
+  var q = document.getElementById('q');
+  var currentNiche = 'all';
+  function apply(){
+    var term = (q.value||'').toLowerCase().trim();
+    var count = 0;
+    items.forEach(function(el){
+      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
+      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
+      var show = okN && okQ;
+      el.style.display = show ? '' : 'none';
+      if (show) count++;
+    });
+    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
+  }
+  q.addEventListener('input', apply);
+  document.querySelectorAll('.filter').forEach(function(f){
+    f.addEventListener('click', function(){
+      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
+      f.classList.add('active');
+      currentNiche = f.dataset.n;
+      apply();
+    });
+  });
+})();
+</script>
+</body>
+</html>

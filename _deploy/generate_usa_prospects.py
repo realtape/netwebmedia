@@ -81,7 +81,7 @@ def main():
                 biz = synth_business(state_key, niche, i)
                 slug = slugify(biz)
                 contact = synth_contact_person(state_key, niche, biz)
-                page = f"companies-usa/{state_key.replace('_','-')}/{slug}.html"
+                page = f"companies/usa/{state_key.replace('_','-')}/{slug}.html"
                 notes = {
                     "city": city_name,
                     "niche": niche,

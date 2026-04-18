@@ -4,7 +4,7 @@
 Generate BILINGUAL (EN/ES) deep audit pages for every US prospect.
 Fork of generate_deep_audits.py adapted for USA:
   - USD market stats, US-flavored pain points
-  - State-keyed URLs: /companies-usa/{state-slug}/{business-slug}.html
+  - State-keyed URLs: /companies/usa/{state-slug}/{business-slug}.html
   - Default language = EN (US primary market)
 """
 import os, json, sys, html as _html, hashlib, math
@@ -364,13 +364,13 @@ def render(contact, notes):
 
 def path_from_page(page):
     path = page.lstrip("/")
-    if not path.startswith("companies-usa/"): return ""
-    return path[len("companies-usa/"):]
+    if not path.startswith("companies/usa/"): return ""
+    return path[len("companies/usa/"):]
 
 def main():
     with open(USA_JSON, "r", encoding="utf-8") as f:
         contacts = json.load(f)
-    root = os.path.join(ROOT, "companies-usa")
+    root = os.path.join(ROOT, "companies/usa")
     wrote = errs = skipped = 0
     for c in contacts:
         try: notes = json.loads(c.get("notes") or "{}")

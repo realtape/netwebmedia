@@ -63,6 +63,7 @@ LANG_SWITCH_EN = '''<div class="lang-switch">
     entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target);} });
   },{threshold:0.12,rootMargin:'0px 0px -40px 0px'}):null;
   document.querySelectorAll('section').forEach(function(s){ if(io) io.observe(s); else s.classList.add('in-view'); });
+  setTimeout(function(){ document.querySelectorAll('section:not(.in-view)').forEach(function(s){ s.classList.add('in-view'); }); }, 2000);
   document.querySelectorAll('.nwm-count').forEach(function(t){
     var target=parseInt(t.getAttribute('data-target')||'0',10); var d=1200; var s=performance.now();
     t.textContent='0';
@@ -80,6 +81,7 @@ TPL = """<!DOCTYPE html>
 <title>{name} — Digital Audit / Auditoría Digital | NetWebMedia</title>
 <meta name="description" content="{name} · {city}, {state_code} · {niche_en} / {niche_es} — NetWebMedia.">
 <style>{css}</style>
+<noscript><style>section{{opacity:1!important;transform:none!important}}</style></noscript>
 </head>
 <body>
 {lang_switch}

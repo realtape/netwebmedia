@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Millbrook Solutions — Digital Audit / Auditoría Digital | NetWebMedia</title>
+<meta name="description" content="Millbrook Solutions · Richmond, VA · Small/Medium Business / Pymes — NetWebMedia.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
+.container{max-width:1100px;margin:0 auto;padding:28px 20px 80px}
+.back{color:#FF6B00;text-decoration:none;font-size:13px}
+.lang-switch{position:fixed;top:14px;right:14px;z-index:999;background:#fff;border:1px solid #eee;border-radius:99px;padding:4px;box-shadow:0 4px 18px rgba(0,0,0,.08);display:flex;font-size:12px;font-weight:700}
+.lang-switch button{border:0;background:none;padding:6px 14px;border-radius:99px;cursor:pointer;color:#666}
+.lang-switch button.active{background:#FF6B00;color:#fff}
+header.hero{background:linear-gradient(135deg,#FF6B00 0%,#ff4e00 100%);color:#fff;padding:40px 32px;border-radius:16px;margin-bottom:24px;box-shadow:0 14px 40px rgba(255,107,0,.28);display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center}
+header.hero .crumbs{opacity:.9;font-size:13px;margin-bottom:10px}
+header.hero h1{font-size:36px;margin:0 0 8px;line-height:1.1}
+header.hero .meta{font-size:14px;opacity:.95}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{background:rgba(255,255,255,.18);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:600}
+.gauge-wrap{background:rgba(255,255,255,.12);border-radius:14px;padding:14px;text-align:center}
+section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:20px}
+section h2{font-size:20px;margin-bottom:18px;color:#1a1a2e;display:flex;align-items:center;gap:10px}
+section h2::before{content:'';width:4px;height:22px;background:#FF6B00;border-radius:2px}
+section .sub{color:#666;font-size:14px;margin-top:-10px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.cell{background:#fafbff;padding:16px;border-radius:10px;border-left:4px solid #ddd}
+.cell.good{border-left-color:#27ae60}
+.cell.bad{border-left-color:#c0392b;background:#fdf2f2}
+.cell.warn{border-left-color:#e67e22;background:#fff8ef}
+.cell .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#777;font-weight:600}
+.cell .val{font-size:17px;margin-top:6px;word-break:break-word;font-weight:600}
+.cell .hint{font-size:12px;color:#777;margin-top:4px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.stat{background:linear-gradient(135deg,#1a1a2e,#2d2d5a);color:#fff;padding:18px;border-radius:12px;text-align:center}
+.stat .n{font-size:28px;font-weight:800;color:#FFB770}
+.stat .l{font-size:11px;text-transform:uppercase;letter-spacing:.5px;opacity:.85;margin-top:4px}
+ul.issues{list-style:none}
+ul.issues li{padding:14px 16px;margin-bottom:10px;background:#fff4ef;border-left:4px solid #FF6B00;border-radius:6px;font-size:14px;display:flex;justify-content:space-between;gap:14px;align-items:center}
+ul.issues li .sev{background:#c0392b;color:#fff;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700;text-transform:uppercase;white-space:nowrap}
+ul.issues li .sev.med{background:#e67e22}
+ul.issues li .sev.low{background:#95a5a6}
+.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:10px}
+.phase{background:#fafbff;padding:18px;border-radius:12px;border-top:4px solid #FF6B00}
+.phase h3{font-size:15px;margin-bottom:10px;color:#FF6B00}
+.phase ul{list-style:none;padding:0}
+.phase li{font-size:13px;padding:6px 0;border-bottom:1px solid #eee;color:#444}
+.phase li:last-child{border:0}
+.phase .days{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:6px}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.svc{background:linear-gradient(135deg,rgba(255,107,0,.08),rgba(255,78,0,.04));border:1px solid rgba(255,107,0,.25);padding:18px;border-radius:12px}
+.svc .n{font-size:16px;font-weight:700;color:#FF6B00;margin-bottom:8px}
+.svc .p{font-size:22px;font-weight:800}
+.svc .p span{font-size:13px;font-weight:500;color:#777}
+.svc .i{font-size:12px;color:#666;margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
+.svc .setup{font-size:12px;color:#888;margin-top:6px;padding-top:6px;border-top:1px solid #eee}
+.pitch{background:linear-gradient(135deg,#1a1a2e,#2d2d5a);color:#fff;padding:30px;border-radius:14px;text-align:center;margin-top:20px}
+.pitch h2{color:#FFB770;justify-content:center}
+.pitch h2::before{background:#FFB770}
+.cta{display:inline-block;background:#FF6B00;color:#fff;padding:14px 30px;border-radius:10px;font-weight:700;text-decoration:none;margin-top:14px;font-size:15px}
+.highlight{background:linear-gradient(120deg,#fff4ef,#ffe3cc);padding:20px;border-radius:12px;font-size:14px;color:#5a3a20;border:1px solid rgba(255,107,0,.15);margin-bottom:16px}
+.highlight strong{color:#c04a00}
+.opportunity{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;text-align:center}
+.opp{padding:18px;border-radius:12px;background:#fafbff;border:1px solid #eee}
+.opp.now{background:#fdecec;border-color:#f4b4b4}
+.opp.mid{background:#fff8ef;border-color:#f4d4a4}
+.opp.top{background:#e8f8ef;border-color:#b7e2c4}
+.opp .n{font-size:24px;font-weight:800;margin:6px 0}
+.opp.now .n{color:#c0392b}.opp.mid .n{color:#e67e22}.opp.top .n{color:#27ae60}
+.opp .l{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#666;font-weight:600}
+.opp .d{font-size:12px;color:#666;margin-top:4px}
+/* Bilingual visibility — controlled by <html lang> attribute */
+html[lang="es"] [data-lang="en"]{display:none!important}
+html[lang="en"] [data-lang="es"]{display:none!important}
+/* SVG tspans use same rule */
+html[lang="es"] tspan[data-lang="en"]{display:none}
+html[lang="en"] tspan[data-lang="es"]{display:none}
+@media(max-width:768px){header.hero{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}.roadmap{grid-template-columns:1fr}.stat-row{grid-template-columns:repeat(2,1fr)}.opportunity{grid-template-columns:1fr}}
+
+/* === INTERACTIVE INFOGRAPHIC ANIMATIONS ============================== */
+/* Scroll-reveal base state */
+section{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+section.in-view{opacity:1;transform:none}
+header.hero{animation:nwmHeroIn .8s ease both}
+@keyframes nwmHeroIn{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+
+/* Gauge arc draw-in */
+.nwm-gauge-fill{stroke-dasharray:0 9999;animation:nwmGaugeDraw 1.6s cubic-bezier(.2,.7,.2,1) .2s forwards}
+@keyframes nwmGaugeDraw{to{stroke-dasharray:var(--fill) var(--arc)}}
+.nwm-gauge-knob{opacity:0;animation:nwmPop .4s ease 1.6s forwards}
+@keyframes nwmPop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+.nwm-gauge .nwm-count{opacity:0;animation:nwmFadeUp .6s ease 1.2s forwards}
+@keyframes nwmFadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Radar grow + dots pop */
+.nwm-radar-poly{transform-origin:50% 50%;animation:nwmGrow 1s cubic-bezier(.2,.8,.2,1) .3s both}
+@keyframes nwmGrow{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
+.nwm-radar-dot{opacity:0;animation:nwmDotPop .4s ease calc(1.0s + var(--d)) forwards;transform-origin:center;transition:r .15s}
+.nwm-radar-dot:hover{r:7}
+@keyframes nwmDotPop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+
+/* Horizontal bars grow width */
+.nwm-bar-fill{transform-box:fill-box;width:0 !important;animation:nwmBarGrow 1s cubic-bezier(.2,.8,.2,1) var(--d,0s) forwards}
+@keyframes nwmBarGrow{to{width:var(--bw) !important}}
+.nwm-bar-val{opacity:0;animation:nwmFadeIn .4s ease var(--d,0s) forwards}
+.nwm-bar-fill:hover{filter:brightness(1.12) drop-shadow(0 2px 4px rgba(255,107,0,.4))}
+@keyframes nwmFadeIn{to{opacity:1}}
+
+/* Comparison bars grow height */
+.nwm-comp-bar{transform-origin:bottom;transform:scaleY(0);animation:nwmRise .9s cubic-bezier(.2,.8,.2,1) var(--d,0s) forwards}
+@keyframes nwmRise{to{transform:scaleY(1)}}
+.nwm-comp-val{opacity:0;animation:nwmFadeIn .4s ease var(--d,0s) forwards}
+.nwm-comp-bar:hover{filter:brightness(1.1)}
+
+/* Donut ring fill */
+.nwm-donut-fill{stroke-dasharray:0 9999;animation:nwmDonutDraw 1.2s cubic-bezier(.2,.7,.2,1) calc(.2s + var(--d,0s)) forwards}
+@keyframes nwmDonutDraw{to{stroke-dasharray:var(--f) var(--c)}}
+.nwm-donut{transition:transform .2s}
+.nwm-donut:hover{transform:scale(1.05)}
+
+/* Funnel bars slide-in */
+.nwm-fn-bar{transform-origin:center;transform:scaleX(0);animation:nwmSlideX .8s cubic-bezier(.2,.8,.2,1) var(--d,0s) forwards}
+@keyframes nwmSlideX{to{transform:scaleX(1)}}
+.nwm-fn-badge{opacity:0;animation:nwmPop .4s ease var(--d,0s) forwards}
+
+/* Stat cards — pulse shimmer */
+.stat{position:relative;overflow:hidden;transition:transform .2s}
+.stat:hover{transform:translateY(-3px)}
+.stat::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,183,112,.18) 50%,transparent 70%);transform:translateX(-100%);animation:nwmShimmer 3s ease 1s infinite}
+@keyframes nwmShimmer{50%,100%{transform:translateX(100%)}}
+
+/* Cells — hover lift */
+.cell{transition:transform .2s,box-shadow .2s}
+.cell:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.06)}
+
+/* Service cards — hover lift + glow */
+.svc{transition:transform .2s,box-shadow .2s,border-color .2s}
+.svc:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(255,107,0,.18);border-color:rgba(255,107,0,.5)}
+
+/* Phase cards */
+.phase{transition:transform .2s,box-shadow .2s}
+.phase:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.06)}
+
+/* Opportunity cards */
+.opp{transition:transform .2s}
+.opp:hover{transform:scale(1.03)}
+
+/* Issue items */
+ul.issues li{transition:transform .15s,box-shadow .15s}
+ul.issues li:hover{transform:translateX(4px);box-shadow:0 4px 12px rgba(255,107,0,.1)}
+
+/* CTA pulse */
+.cta{position:relative;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 16px rgba(255,107,0,.35)}
+.cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,107,0,.5)}
+.cta::after{content:'';position:absolute;inset:0;border-radius:10px;box-shadow:0 0 0 0 rgba(255,107,0,.5);animation:nwmRipple 2s ease infinite}
+@keyframes nwmRipple{0%{box-shadow:0 0 0 0 rgba(255,107,0,.5)}70%{box-shadow:0 0 0 18px rgba(255,107,0,0)}100%{box-shadow:0 0 0 0 rgba(255,107,0,0)}}
+
+/* Chip subtle float */
+.chip{transition:transform .15s,background .15s}
+.chip:hover{transform:translateY(-1px);background:rgba(255,255,255,.28)}
+
+/* Section h2 bar growth on reveal */
+section.in-view h2::before{animation:nwmBarH .5s ease both}
+@keyframes nwmBarH{from{height:0}to{height:22px}}
+
+/* Highlight gradient shimmer */
+.highlight{background-size:200% 100%;animation:nwmGradShift 8s ease infinite}
+@keyframes nwmGradShift{0%,100%{background-position:0 0}50%{background-position:100% 0}}
+
+/* Respect reduced motion */
+@media(prefers-reduced-motion:reduce){
+  *,section,.nwm-gauge-fill,.nwm-radar-poly,.nwm-bar-fill,.nwm-comp-bar,.nwm-donut-fill,.nwm-fn-bar,.nwm-fn-badge,.cta::after,.highlight,.stat::before{animation:none !important;transition:none !important;opacity:1 !important;transform:none !important}
+  section{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="lang-switch">
+  <button data-setlang="en" class="active">EN</button>
+  <button data-setlang="es">ES</button>
+</div>
+<script>
+(function(){
+  var html=document.documentElement, k='nwm_lang';
+  var saved=localStorage.getItem(k)||'en';
+  html.setAttribute('lang', saved);
+  document.querySelectorAll('.lang-switch button').forEach(function(b){
+    if(b.dataset.setlang===saved)b.classList.add('active');else b.classList.remove('active');
+    b.addEventListener('click',function(){
+      var l=b.dataset.setlang; html.setAttribute('lang',l); localStorage.setItem(k,l);
+      document.querySelectorAll('.lang-switch button').forEach(function(x){x.classList.toggle('active',x.dataset.setlang===l)});
+    });
+  });
+  var io=('IntersectionObserver' in window)?new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target);} });
+  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'}):null;
+  document.querySelectorAll('section').forEach(function(s){ if(io) io.observe(s); else s.classList.add('in-view'); });
+  document.querySelectorAll('.nwm-count').forEach(function(t){
+    var target=parseInt(t.getAttribute('data-target')||'0',10); var d=1200; var s=performance.now();
+    t.textContent='0';
+    function step(now){ var p=Math.min(1,(now-s)/d); var v=Math.round(target*(1-Math.pow(1-p,3))); t.textContent=v; if(p<1) requestAnimationFrame(step);}
+    requestAnimationFrame(step);
+  });
+})();
+</script>
+<div class="container">
+  <p><a href="../index.html" class="back"><span data-lang="en">← All Virginia prospects</span><span data-lang="es">← Todos los prospectos de Virginia</span></a></p>
+
+  <header class="hero">
+    <div>
+      <div class="crumbs">Virginia · Richmond · <span data-lang="en">Small/Medium Business</span><span data-lang="es">Pymes</span></div>
+      <h1>Millbrook Solutions</h1>
+      <div class="meta"><span data-lang="en">Deep Digital Audit · prepared by NetWebMedia · April 2026</span><span data-lang="es">Auditoría Digital Profunda · preparada por NetWebMedia · Abril 2026</span></div>
+      <div class="chips">
+        <span class="chip"><span data-lang="en">Website found</span><span data-lang="es">Web encontrada</span></span>
+        <span class="chip"><span data-lang="en">Email on file</span><span data-lang="es">Email en archivo</span></span>
+        <span class="chip" data-lang="en">Small/Medium Business</span><span class="chip" data-lang="es">Pymes</span>
+        <span class="chip"><span data-lang="en">Market: $5.9T</span><span data-lang="es">Mercado: $5.9T</span></span>
+        <span class="chip"><span data-lang="en">5 gaps detected</span><span data-lang="es">5 brechas detectadas</span></span>
+      </div>
+    </div>
+    <div class="gauge-wrap">
+      <svg viewBox="0 0 200 200" width="200" height="200" class="nwm-gauge">
+  <defs>
+    <linearGradient id="g802" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff5e62"/><stop offset="100%" stop-color="#c0392b"/>
+    </linearGradient>
+    <filter id="g802s" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <path d="M 16.0 100.00000000000001 A 84.0 84.0 0 1 1 184.0 99.99999999999999" fill="none" stroke="#ececec" stroke-width="14" stroke-linecap="round"/>
+  <path class="nwm-gauge-fill" d="M 16.0 100.00000000000001 A 84.0 84.0 0 1 1 184.0 99.99999999999999" fill="none" stroke="url(#g802)" stroke-width="14" stroke-linecap="round" filter="url(#g802s)" stroke-dasharray="89.7 263.9" pathLength="263.9" style="--arc:263.9;--fill:89.7"/>
+  <circle cx="59.5" cy="26.4" r="9" fill="#fff" stroke="#c0392b" stroke-width="3" class="nwm-gauge-knob"/>
+  <text x="100.0" y="94.0" text-anchor="middle" font-size="48" font-weight="800" fill="#1a1a2e" class="nwm-count" data-target="34">34</text>
+  <text x="100.0" y="118.0" text-anchor="middle" font-size="13" fill="#666"><tspan data-lang="es">de 100</tspan><tspan data-lang="en">out of 100</tspan></text>
+  <text x="100.0" y="178.0" text-anchor="middle" font-size="14" font-weight="700" fill="#c0392b"><tspan data-lang="es">Crítico</tspan><tspan data-lang="en">Critical</tspan></text>
+</svg>
+      <div style="font-size:11px;margin-top:4px;opacity:.9;text-transform:uppercase;letter-spacing:.5px"><span data-lang="en">Digital Maturity</span><span data-lang="es">Madurez Digital</span></div>
+    </div>
+  </header>
+
+  <section>
+    <h2><span data-lang="en">Executive summary</span><span data-lang="es">Resumen ejecutivo</span></h2>
+    <div class="highlight">
+      <span data-lang="en"><strong>Millbrook Solutions</strong> scores <strong>34/100</strong> on overall digital maturity — <strong>21 points below</strong> vs the Small/Medium Business niche average of <strong>55/100</strong>. At current conversion levels we estimate <strong>~$1,440/month</strong> in attributable online revenue. A standard NetWebMedia engagement unlocks an additional <strong>$29,760/month</strong> within 90 days (450% lift, matching the 25-45% range seen across Small/Medium Business in the US 2025).</span>
+      <span data-lang="es"><strong>Millbrook Solutions</strong> obtiene <strong>34/100</strong> en madurez digital — <strong>21 pts bajo</strong> vs el promedio del rubro Pymes de <strong>55/100</strong>. Estimamos <strong>~$1,440/mes</strong> de ingresos atribuibles online. Una activación NetWebMedia desbloquea <strong>$29,760/mes</strong> adicionales en 90 días (lift del 450%, dentro del rango 25-45% del rubro en EE.UU. 2025).</span>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="n">34/100</div><div class="l"><span data-lang="en">Digital score</span><span data-lang="es">Puntaje digital</span></div></div>
+      <div class="stat"><div class="n">5</div><div class="l"><span data-lang="en">Actionable gaps</span><span data-lang="es">Brechas accionables</span></div></div>
+      <div class="stat"><div class="n">$29,760</div><div class="l"><span data-lang="en">Est. monthly uplift</span><span data-lang="es">Uplift mensual est.</span></div></div>
+      <div class="stat"><div class="n">450%</div><div class="l"><span data-lang="en">Revenue lift 90d</span><span data-lang="es">Lift a 90 días</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span data-lang="en">Business snapshot</span><span data-lang="es">Snapshot del negocio</span></h2>
+    <div class="grid">
+      <div class="cell good"><div class="lbl"><span data-lang="en">Website</span><span data-lang="es">Sitio web</span></div><div class="val">www.millbrooksolutions.com</div><div class="hint"><span data-lang="en">Active domain on file</span><span data-lang="es">Dominio activo</span></div></div>
+      <div class="cell good"><div class="lbl">Email</div><div class="val">info@millbrooksolutions.com</div><div class="hint"><span data-lang="en">Custom domain email — solid trust signal</span><span data-lang="es">Email de dominio propio — señal de confianza sólida</span></div></div>
+      <div class="cell"><div class="lbl"><span data-lang="en">Phone</span><span data-lang="es">Teléfono</span></div><div class="val">(804) 345-9954</div><div class="hint"><span data-lang="en">Primary outbound channel</span><span data-lang="es">Canal primario de contacto</span></div></div>
+      <div class="cell"><div class="lbl"><span data-lang="en">City</span><span data-lang="es">Ciudad</span></div><div class="val">Richmond, VA</div><div class="hint">Virginia</div></div>
+      <div class="cell"><div class="lbl"><span data-lang="en">Niche</span><span data-lang="es">Rubro</span></div><div class="val"><span data-lang="en">Small/Medium Business</span><span data-lang="es">Pymes</span></div><div class="hint">$5.9T · +3.7% YoY</div></div>
+      <div class="cell"><div class="lbl"><span data-lang="en">Avg. ticket</span><span data-lang="es">Ticket promedio</span></div><div class="val">$480</div><div class="hint"><span data-lang="en">Niche benchmark</span><span data-lang="es">Benchmark del rubro</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span data-lang="en">Digital maturity — 6-axis breakdown</span><span data-lang="es">Madurez digital — desglose 6 ejes</span></h2>
+    <p class="sub"><span data-lang="en">Orange = Millbrook Solutions · Dashed blue = niche avg</span><span data-lang="es">Naranjo = Millbrook Solutions · Azul punteado = promedio del rubro</span></p>
+    <div class="two-col"><div><svg viewBox="0 0 340 340" width="100%" height="340" class="nwm-radar"><defs><radialGradient id="nwmRadarGrad" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#FF6B00" stop-opacity="0.5"/><stop offset="100%" stop-color="#FF6B00" stop-opacity="0.12"/></radialGradient></defs><polygon points="170.0,139.4 196.5,154.7 196.5,185.3 170.0,200.6 143.5,185.3 143.5,154.7" fill="none" stroke="#eee" stroke-width="1"/><polygon points="170.0,108.8 223.0,139.4 223.0,200.6 170.0,231.2 117.0,200.6 117.0,139.4" fill="none" stroke="#eee" stroke-width="1"/><polygon points="170.0,78.2 249.5,124.1 249.5,215.9 170.0,261.8 90.5,215.9 90.5,124.1" fill="none" stroke="#eee" stroke-width="1"/><polygon points="170.0,47.6 276.0,108.8 276.0,231.2 170.0,292.4 64.0,231.2 64.0,108.8" fill="none" stroke="#eee" stroke-width="1"/><line x1="170.0" y1="170.0" x2="170.0" y2="47.6" stroke="#e8e8e8"/><line x1="170.0" y1="170.0" x2="276.0" y2="108.8" stroke="#e8e8e8"/><line x1="170.0" y1="170.0" x2="276.0" y2="231.2" stroke="#e8e8e8"/><line x1="170.0" y1="170.0" x2="170.0" y2="292.4" stroke="#e8e8e8"/><line x1="170.0" y1="170.0" x2="64.0" y2="231.2" stroke="#e8e8e8"/><line x1="170.0" y1="170.0" x2="64.0" y2="108.8" stroke="#e8e8e8"/><polygon points="170.0,102.7 228.3,136.3 228.3,203.7 170.0,237.3 111.7,203.7 111.7,136.3" fill="none" stroke="#3498db" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.8"/><polygon class="nwm-radar-poly" points="170.0,91.7 196.5,154.7 211.3,193.9 170.0,198.2 139.3,187.7 143.5,154.7" fill="url(#nwmRadarGrad)" stroke="#FF6B00" stroke-width="2.5" stroke-linejoin="round"/><circle class="nwm-radar-dot" cx="170.0" cy="91.7" r="4" fill="#fff" stroke="#FF6B00" stroke-width="2" style="--d:0.00s"><title>64%</title></circle><circle class="nwm-radar-dot" cx="196.5" cy="154.7" r="4" fill="#fff" stroke="#FF6B00" stroke-width="2" style="--d:0.08s"><title>25%</title></circle><circle class="nwm-radar-dot" cx="211.3" cy="193.9" r="4" fill="#fff" stroke="#FF6B00" stroke-width="2" style="--d:0.16s"><title>39%</title></circle><circle class="nwm-radar-dot" cx="170.0" cy="198.2" r="4" fill="#fff" stroke="#FF6B00" stroke-width="2" style="--d:0.24s"><title>23%</title></circle><circle class="nwm-radar-dot" cx="139.3" cy="187.7" r="4" fill="#fff" stroke="#FF6B00" stroke-width="2" style="--d:0.32s"><title>29%</title></circle><circle class="nwm-radar-dot" cx="143.5" cy="154.7" r="4" fill="#fff" stroke="#FF6B00" stroke-width="2" style="--d:0.40s"><title>25%</title></circle><text x="170.0" y="25.6" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="600" fill="#555"><tspan data-lang="es">Sitio Web</tspan><tspan data-lang="en">Website</tspan></text><text x="295.1" y="97.8" text-anchor="start" dominant-baseline="middle" font-size="11" font-weight="600" fill="#555"><tspan data-lang="es">Redes Sociales</tspan><tspan data-lang="en">Social Media</tspan></text><text x="295.1" y="242.2" text-anchor="start" dominant-baseline="middle" font-size="11" font-weight="600" fill="#555"><tspan data-lang="es">SEO</tspan><tspan data-lang="en">SEO</tspan></text><text x="170.0" y="314.4" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="600" fill="#555"><tspan data-lang="es">Analítica</tspan><tspan data-lang="en">Analytics</tspan></text><text x="44.9" y="242.2" text-anchor="end" dominant-baseline="middle" font-size="11" font-weight="600" fill="#555"><tspan data-lang="es">Conversión</tspan><tspan data-lang="en">Conversion</tspan></text><text x="44.9" y="97.8" text-anchor="end" dominant-baseline="middle" font-size="11" font-weight="600" fill="#555"><tspan data-lang="es">Reputación</tspan><tspan data-lang="en">Reputation</tspan></text></svg></div><div><svg viewBox="0 0 540 248" width="100%" height="248" class="nwm-bars"><defs><linearGradient id="barg5800" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FFB770"/><stop offset="100%" stop-color="#FF6B00"/></linearGradient></defs><text x="152" y="26.799999999999997" text-anchor="end" font-size="12" font-weight="600" fill="#333"><tspan data-lang="es">Sitio Web</tspan><tspan data-lang="en">Website</tspan></text><rect x="160" y="10" width="340" height="24" rx="6" fill="#f0f0f4"/><rect class="nwm-bar-fill" x="160" y="10" width="217.6" height="24" rx="6" fill="url(#barg5800)" style="--bw:217.6px;--d:0.00s"><title>64%</title></rect><text x="383.6" y="26.799999999999997" font-size="11" font-weight="700" fill="#333" class="nwm-bar-val" style="--d:0.60s">64%</text><text x="152" y="64.8" text-anchor="end" font-size="12" font-weight="600" fill="#333"><tspan data-lang="es">Redes Sociales</tspan><tspan data-lang="en">Social Media</tspan></text><rect x="160" y="48" width="340" height="24" rx="6" fill="#f0f0f4"/><rect class="nwm-bar-fill" x="160" y="48" width="85.0" height="24" rx="6" fill="url(#barg5800)" style="--bw:85.0px;--d:0.08s"><title>25%</title></rect><text x="251.0" y="64.8" font-size="11" font-weight="700" fill="#333" class="nwm-bar-val" style="--d:0.68s">25%</text><text x="152" y="102.8" text-anchor="end" font-size="12" font-weight="600" fill="#333"><tspan data-lang="es">SEO</tspan><tspan data-lang="en">SEO</tspan></text><rect x="160" y="86" width="340" height="24" rx="6" fill="#f0f0f4"/><rect class="nwm-bar-fill" x="160" y="86" width="132.6" height="24" rx="6" fill="url(#barg5800)" style="--bw:132.6px;--d:0.16s"><title>39%</title></rect><text x="298.6" y="102.8" font-size="11" font-weight="700" fill="#333" class="nwm-bar-val" style="--d:0.76s">39%</text><text x="152" y="140.8" text-anchor="end" font-size="12" font-weight="600" fill="#333"><tspan data-lang="es">Analítica</tspan><tspan data-lang="en">Analytics</tspan></text><rect x="160" y="124" width="340" height="24" rx="6" fill="#f0f0f4"/><rect class="nwm-bar-fill" x="160" y="124" width="78.2" height="24" rx="6" fill="url(#barg5800)" style="--bw:78.2px;--d:0.24s"><title>23%</title></rect><text x="244.2" y="140.8" font-size="11" font-weight="700" fill="#333" class="nwm-bar-val" style="--d:0.84s">23%</text><text x="152" y="178.8" text-anchor="end" font-size="12" font-weight="600" fill="#333"><tspan data-lang="es">Conversión</tspan><tspan data-lang="en">Conversion</tspan></text><rect x="160" y="162" width="340" height="24" rx="6" fill="#f0f0f4"/><rect class="nwm-bar-fill" x="160" y="162" width="98.6" height="24" rx="6" fill="url(#barg5800)" style="--bw:98.6px;--d:0.32s"><title>29%</title></rect><text x="264.6" y="178.8" font-size="11" font-weight="700" fill="#333" class="nwm-bar-val" style="--d:0.92s">29%</text><text x="152" y="216.8" text-anchor="end" font-size="12" font-weight="600" fill="#333"><tspan data-lang="es">Reputación</tspan><tspan data-lang="en">Reputation</tspan></text><rect x="160" y="200" width="340" height="24" rx="6" fill="#f0f0f4"/><rect class="nwm-bar-fill" x="160" y="200" width="85.0" height="24" rx="6" fill="url(#barg5800)" style="--bw:85.0px;--d:0.40s"><title>25%</title></rect><text x="251.0" y="216.8" font-size="11" font-weight="700" fill="#333" class="nwm-bar-val" style="--d:1.00s">25%</text></svg></div></div>
+  </section>
+
+  <section>
+    <h2><span data-lang="en">Social media footprint</span><span data-lang="es">Huella en redes sociales</span></h2>
+    <p class="sub"><span data-lang="en">Audience-reach score per platform (0 = absent, 100 = dominant)</span><span data-lang="es">Alcance por plataforma (0 = ausente, 100 = dominante)</span></p>
+    <svg viewBox="0 0 450 300" width="100%" height="300" class="nwm-donuts"><g transform="translate(75.0 79.0)" class="nwm-donut" style="--d:0.00s"><circle cx="0" cy="0" r="42" fill="none" stroke="#f0f0f4" stroke-width="10"/><circle class="nwm-donut-fill" cx="0" cy="0" r="42" fill="none" stroke="#FF6B00" stroke-width="10" stroke-linecap="round" stroke-dasharray="224.3 263.9" transform="rotate(-90)" style="--c:263.9;--f:224.3"><title>Facebook: 85%</title></circle><text x="0" y="-4" text-anchor="middle" font-size="20" font-weight="800" fill="#1a1a2e">85</text><text x="0" y="12" text-anchor="middle" font-size="9" fill="#888">/100</text><text x="0" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#333">Facebook</text><text x="0" y="74" text-anchor="middle" font-size="9" font-weight="700" fill="#27ae60"><tspan data-lang="es">Dominante</tspan><tspan data-lang="en">Dominant</tspan></text></g><g transform="translate(225.0 79.0)" class="nwm-donut" style="--d:0.08s"><circle cx="0" cy="0" r="42" fill="none" stroke="#f0f0f4" stroke-width="10"/><circle class="nwm-donut-fill" cx="0" cy="0" r="42" fill="none" stroke="#ff4e00" stroke-width="10" stroke-linecap="round" stroke-dasharray="0.0 263.9" transform="rotate(-90)" style="--c:263.9;--f:0.0"><title>Instagram: 0%</title></circle><text x="0" y="-4" text-anchor="middle" font-size="20" font-weight="800" fill="#1a1a2e">0</text><text x="0" y="12" text-anchor="middle" font-size="9" fill="#888">/100</text><text x="0" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#333">Instagram</text><text x="0" y="74" text-anchor="middle" font-size="9" font-weight="700" fill="#c0392b"><tspan data-lang="es">Ausente</tspan><tspan data-lang="en">Absent</tspan></text></g><g transform="translate(375.0 79.0)" class="nwm-donut" style="--d:0.16s"><circle cx="0" cy="0" r="42" fill="none" stroke="#f0f0f4" stroke-width="10"/><circle class="nwm-donut-fill" cx="0" cy="0" r="42" fill="none" stroke="#e67e22" stroke-width="10" stroke-linecap="round" stroke-dasharray="21.1 263.9" transform="rotate(-90)" style="--c:263.9;--f:21.1"><title>TikTok: 8%</title></circle><text x="0" y="-4" text-anchor="middle" font-size="20" font-weight="800" fill="#1a1a2e">8</text><text x="0" y="12" text-anchor="middle" font-size="9" fill="#888">/100</text><text x="0" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#333">TikTok</text><text x="0" y="74" text-anchor="middle" font-size="9" font-weight="700" fill="#c0392b"><tspan data-lang="es">Ausente</tspan><tspan data-lang="en">Absent</tspan></text></g><g transform="translate(75.0 229.0)" class="nwm-donut" style="--d:0.24s"><circle cx="0" cy="0" r="42" fill="none" stroke="#f0f0f4" stroke-width="10"/><circle class="nwm-donut-fill" cx="0" cy="0" r="42" fill="none" stroke="#c0392b" stroke-width="10" stroke-linecap="round" stroke-dasharray="26.4 263.9" transform="rotate(-90)" style="--c:263.9;--f:26.4"><title>YouTube: 10%</title></circle><text x="0" y="-4" text-anchor="middle" font-size="20" font-weight="800" fill="#1a1a2e">10</text><text x="0" y="12" text-anchor="middle" font-size="9" fill="#888">/100</text><text x="0" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#333">YouTube</text><text x="0" y="74" text-anchor="middle" font-size="9" font-weight="700" fill="#e67e22"><tspan data-lang="es">Débil</tspan><tspan data-lang="en">Weak</tspan></text></g><g transform="translate(225.0 229.0)" class="nwm-donut" style="--d:0.32s"><circle cx="0" cy="0" r="42" fill="none" stroke="#f0f0f4" stroke-width="10"/><circle class="nwm-donut-fill" cx="0" cy="0" r="42" fill="none" stroke="#8e44ad" stroke-width="10" stroke-linecap="round" stroke-dasharray="29.0 263.9" transform="rotate(-90)" style="--c:263.9;--f:29.0"><title>LinkedIn: 11%</title></circle><text x="0" y="-4" text-anchor="middle" font-size="20" font-weight="800" fill="#1a1a2e">11</text><text x="0" y="12" text-anchor="middle" font-size="9" fill="#888">/100</text><text x="0" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#333">LinkedIn</text><text x="0" y="74" text-anchor="middle" font-size="9" font-weight="700" fill="#e67e22"><tspan data-lang="es">Débil</tspan><tspan data-lang="en">Weak</tspan></text></g><g transform="translate(375.0 229.0)" class="nwm-donut" style="--d:0.40s"><circle cx="0" cy="0" r="42" fill="none" stroke="#f0f0f4" stroke-width="10"/><circle class="nwm-donut-fill" cx="0" cy="0" r="42" fill="none" stroke="#2980b9" stroke-width="10" stroke-linecap="round" stroke-dasharray="23.8 263.9" transform="rotate(-90)" style="--c:263.9;--f:23.8"><title>WhatsApp: 9%</title></circle><text x="0" y="-4" text-anchor="middle" font-size="20" font-weight="800" fill="#1a1a2e">9</text><text x="0" y="12" text-anchor="middle" font-size="9" fill="#888">/100</text><text x="0" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#333">WhatsApp</text><text x="0" y="74" text-anchor="middle" font-size="9" font-weight="700" fill="#c0392b"><tspan data-lang="es">Ausente</tspan><tspan data-lang="en">Absent</tspan></text></g></svg>
+  </section>
+
+  <section>
+    <h2><span data-lang="en">Benchmark vs market</span><span data-lang="es">Benchmark vs mercado</span></h2>
+    <p class="sub"><span data-lang="en">Where Millbrook Solutions stands against Small/Medium Business peers in Virginia</span><span data-lang="es">Dónde está Millbrook Solutions frente a pares de Pymes en Virginia</span></p>
+    <div class="two-col">
+      <div><svg viewBox="0 0 380 260" width="100%" height="260" class="nwm-comp"><defs><linearGradient id="cmpg0" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#FFB770"/><stop offset="100%" stop-color="#FF6B00"/></linearGradient><linearGradient id="cmpg1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#85c1e9"/><stop offset="100%" stop-color="#3498db"/></linearGradient><linearGradient id="cmpg2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#7ee8a0"/><stop offset="100%" stop-color="#27ae60"/></linearGradient></defs><line x1="20" y1="170.0" x2="360" y2="170.0" stroke="#f0f0f4" stroke-width="1" stroke-dasharray="3,3"/><text x="12" y="173.0" text-anchor="end" font-size="9" fill="#bbb">25</text><line x1="20" y1="120.0" x2="360" y2="120.0" stroke="#f0f0f4" stroke-width="1" stroke-dasharray="3,3"/><text x="12" y="123.0" text-anchor="end" font-size="9" fill="#bbb">50</text><line x1="20" y1="70.0" x2="360" y2="70.0" stroke="#f0f0f4" stroke-width="1" stroke-dasharray="3,3"/><text x="12" y="73.0" text-anchor="end" font-size="9" fill="#bbb">75</text><line x1="20" y1="20.0" x2="360" y2="20.0" stroke="#f0f0f4" stroke-width="1" stroke-dasharray="3,3"/><text x="12" y="23.0" text-anchor="end" font-size="9" fill="#bbb">100</text><rect class="nwm-comp-bar" x="50" y="152.0" width="74" height="68.0" rx="8" fill="url(#cmpg0)" style="--bh:68.0px;--by:152.0px;--d:0.00s"><title>34/100</title></rect><text class="nwm-comp-val" x="87.0" y="144.0" text-anchor="middle" font-size="18" font-weight="800" fill="#1a1a2e" style="--d:0.80s">34</text><text x="87.0" y="242" text-anchor="middle" font-size="11" font-weight="700" fill="#555"><tspan data-lang="es">Este negocio</tspan><tspan data-lang="en">This business</tspan></text><rect class="nwm-comp-bar" x="168" y="110.0" width="74" height="110.0" rx="8" fill="url(#cmpg1)" style="--bh:110.0px;--by:110.0px;--d:0.15s"><title>55/100</title></rect><text class="nwm-comp-val" x="205.0" y="102.0" text-anchor="middle" font-size="18" font-weight="800" fill="#1a1a2e" style="--d:0.95s">55</text><text x="205.0" y="242" text-anchor="middle" font-size="11" font-weight="700" fill="#555"><tspan data-lang="es">Promedio rubro</tspan><tspan data-lang="en">Niche avg</tspan></text><rect class="nwm-comp-bar" x="286" y="56.0" width="74" height="164.0" rx="8" fill="url(#cmpg2)" style="--bh:164.0px;--by:56.0px;--d:0.30s"><title>82/100</title></rect><text class="nwm-comp-val" x="323.0" y="48.0" text-anchor="middle" font-size="18" font-weight="800" fill="#1a1a2e" style="--d:1.10s">82</text><text x="323.0" y="242" text-anchor="middle" font-size="11" font-weight="700" fill="#555"><tspan data-lang="es">Top 10%</tspan><tspan data-lang="en">Top 10%</tspan></text></svg></div>
+      <div>
+        <div class="highlight"><strong><span data-lang="en">Market context:</span><span data-lang="es">Contexto de mercado:</span></strong> <span data-lang="en">52% of US SMBs still lack a modern website or complete Google Business Profile</span><span data-lang="es">52% de pymes en EE.UU. aún no tiene sitio web moderno ni ficha de Google completa</span></div>
+        <div class="opportunity">
+          <div class="opp now"><div class="l"><span data-lang="en">This business</span><span data-lang="es">Este negocio</span></div><div class="n">34</div><div class="d"><span data-lang="en">Current score</span><span data-lang="es">Puntaje actual</span></div></div>
+          <div class="opp mid"><div class="l"><span data-lang="en">Niche avg</span><span data-lang="es">Promedio rubro</span></div><div class="n">55</div><div class="d"><span data-lang="en">Small/Medium Business</span><span data-lang="es">Pymes</span></div></div>
+          <div class="opp top"><div class="l">Top 10%</div><div class="n">82</div><div class="d"><span data-lang="en">Leaders</span><span data-lang="es">Líderes</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span data-lang="en">Revenue funnel — projected transformation</span><span data-lang="es">Embudo de ingresos — transformación proyectada</span></h2>
+    <p class="sub"><span data-lang="en">Current monthly performance vs 90-day projection with NetWebMedia stack</span><span data-lang="es">Performance mensual actual vs proyección a 90 días con stack NetWebMedia</span></p>
+    <svg viewBox="0 0 600 290" width="100%" height="290" class="nwm-funnel"><defs><linearGradient id="fcur" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#b4bcc2"/><stop offset="100%" stop-color="#7f8c8d"/></linearGradient><linearGradient id="fnew" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FFB770"/><stop offset="100%" stop-color="#FF6B00"/></linearGradient></defs><text x="150" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#7f8c8d"><tspan data-lang="es">Embudo actual</tspan><tspan data-lang="en">Current funnel</tspan></text><text x="450" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#FF6B00"><tspan data-lang="es">Proyectado 90d</tspan><tspan data-lang="en">Projected 90d</tspan></text><rect class="nwm-fn-bar" x="139.1" y="40" width="21.8" height="34" rx="6" fill="url(#fcur)" style="--fw:21.8px;--d:0.00s"/><rect class="nwm-fn-bar" x="412.9" y="40" width="74.1" height="34" rx="6" fill="url(#fnew)" style="--fw:74.1px;--d:0.30s"/><text x="150" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#fff"><tspan data-lang="es">Impresiones Mensuales: 2,720</tspan><tspan data-lang="en">Monthly Impressions: 2,720</tspan></text><text x="450" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#fff"><tspan data-lang="es">Impresiones Mensuales: 9,248</tspan><tspan data-lang="en">Monthly Impressions: 9,248</tspan></text><g class="nwm-fn-badge" style="--d:0.60s"><rect x="276" y="48" width="48" height="18" rx="9" fill="#27ae60"/><text x="300" y="61" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">3.4×</text></g><rect class="nwm-fn-bar" x="147.6" y="86" width="4.8" height="34" rx="6" fill="url(#fcur)" style="--fw:4.8px;--d:0.10s"/><rect class="nwm-fn-bar" x="436.7" y="86" width="26.7" height="34" rx="6" fill="url(#fnew)" style="--fw:26.7px;--d:0.40s"/><text x="150" y="108" text-anchor="middle" font-size="11" font-weight="700" fill="#fff"><tspan data-lang="es">Visitas al Sitio: 598</tspan><tspan data-lang="en">Website Visits: 598</tspan></text><text x="450" y="108" text-anchor="middle" font-size="11" font-weight="700" fill="#fff"><tspan data-lang="es">Visitas al Sitio: 3,329</tspan><tspan data-lang="en">Website Visits: 3,329</tspan></text><g class="nwm-fn-badge" style="--d:0.70s"><rect x="276" y="94" width="48" height="18" rx="9" fill="#27ae60"/><text x="300" y="107" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">5.6×</text></g><rect class="nwm-fn-bar" x="149.9" y="132" width="0.1" height="34" rx="6" fill="url(#fcur)" style="--fw:0.1px;--d:0.20s"/><rect class="nwm-fn-bar" x="449.2" y="132" width="1.7" height="34" rx="6" fill="url(#fnew)" style="--fw:1.7px;--d:0.50s"/><text x="150" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="#fff"><tspan data-lang="es">Leads Calificados: 16</tspan><tspan data-lang="en">Qualified Leads: 16</tspan></text><text x="450" y="154" text-anchor="middle" font-size="11" font-weight="700" fill="#fff"><tspan data-lang="es">Leads Calificados: 206</tspan><tspan data-lang="en">Qualified Leads: 206</tspan></text><g class="nwm-fn-badge" style="--d:0.80s"><rect x="276" y="140" width="48" height="18" rx="9" fill="#27ae60"/><text x="300" y="153" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">12.9×</text></g><rect class="nwm-fn-bar" x="150.0" y="178" width="0.0" height="34" rx="6" fill="url(#fcur)" style="--fw:0.0px;--d:0.30s"/><rect class="nwm-fn-bar" x="449.7" y="178" width="0.5" height="34" rx="6" fill="url(#fnew)" style="--fw:0.5px;--d:0.60s"/><text x="150" y="200" text-anchor="middle" font-size="11" font-weight="700" fill="#fff"><tspan data-lang="es">Clientes Nuevos: 3</tspan><tspan data-lang="en">New Customers: 3</tspan></text><text x="450" y="200" text-anchor="middle" font-size="11" font-weight="700" fill="#fff"><tspan data-lang="es">Clientes Nuevos: 65</tspan><tspan data-lang="en">New Customers: 65</tspan></text><g class="nwm-fn-badge" style="--d:0.90s"><rect x="276" y="186" width="48" height="18" rx="9" fill="#27ae60"/><text x="300" y="199" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">21.7×</text></g><rect class="nwm-fn-bar" x="144.2" y="224" width="11.5" height="34" rx="6" fill="url(#fcur)" style="--fw:11.5px;--d:0.40s"/><rect class="nwm-fn-bar" x="325.0" y="224" width="250.0" height="34" rx="6" fill="url(#fnew)" style="--fw:250.0px;--d:0.70s"/><text x="150" y="246" text-anchor="middle" font-size="11" font-weight="700" fill="#fff"><tspan data-lang="es">Ingresos (USD): 1,440</tspan><tspan data-lang="en">Revenue (USD): 1,440</tspan></text><text x="450" y="246" text-anchor="middle" font-size="11" font-weight="700" fill="#fff"><tspan data-lang="es">Ingresos (USD): 31,200</tspan><tspan data-lang="en">Revenue (USD): 31,200</tspan></text><g class="nwm-fn-badge" style="--d:1.00s"><rect x="276" y="232" width="48" height="18" rx="9" fill="#27ae60"/><text x="300" y="245" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">21.7×</text></g></svg>
+    <div class="stat-row" style="margin-top:18px">
+      <div class="stat"><div class="n">$1,440</div><div class="l"><span data-lang="en">Current monthly</span><span data-lang="es">Mensual actual</span></div></div>
+      <div class="stat"><div class="n">$31,200</div><div class="l"><span data-lang="en">Projected 90d</span><span data-lang="es">Proyectado 90d</span></div></div>
+      <div class="stat"><div class="n">$29,760</div><div class="l"><span data-lang="en">Monthly gain</span><span data-lang="es">Ganancia mensual</span></div></div>
+      <div class="stat"><div class="n">$357,120</div><div class="l"><span data-lang="en">Annualized uplift</span><span data-lang="es">Uplift anual</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span data-lang="en">Pain points with severity</span><span data-lang="es">Dolores con severidad</span></h2>
+    <p class="sub"><span data-lang="en">Ranked by revenue impact for Small/Medium Business in the US 2025</span><span data-lang="es">Ordenados por impacto en revenue para Pymes en EE.UU. 2025</span></p>
+    <ul class="issues"><li><span><span data-lang="en">No professional website = lose 50% of foot traffic to online searchers</span><span data-lang="es">Sin sitio profesional = se pierde 50% del tráfico a buscadores online</span></span><span class="sev "><span data-lang="en">CRITICAL</span><span data-lang="es">CRÍTICO</span></span></li><li><span><span data-lang="en">No Google Business listing = invisible on Maps for local searches</span><span data-lang="es">Sin ficha de Google Business = invisible en Maps para búsquedas locales</span></span><span class="sev "><span data-lang="en">HIGH</span><span data-lang="es">ALTO</span></span></li><li><span><span data-lang="en">No email capture = 95% of first-time visitors never return</span><span data-lang="es">Sin captura de email = 95% de visitantes nunca vuelve</span></span><span class="sev med"><span data-lang="en">MEDIUM</span><span data-lang="es">MEDIO</span></span></li><li><span><span data-lang="en">No automated follow-up = losing repeat orders to organized competitors</span><span data-lang="es">Sin follow-up automatizado = se pierden recompras con competidores organizados</span></span><span class="sev med"><span data-lang="en">MEDIUM</span><span data-lang="es">MEDIO</span></span></li><li><span><span data-lang="en">No basic analytics = operating blind on customer behavior &amp; revenue</span><span data-lang="es">Sin analítica básica = operando a ciegas sobre comportamiento y revenue</span></span><span class="sev low"><span data-lang="en">LOW</span><span data-lang="es">BAJO</span></span></li></ul>
+  </section>
+
+  <section>
+    <h2><span data-lang="en">90-day transformation roadmap</span><span data-lang="es">Roadmap de 90 días</span></h2>
+    <p class="sub"><span data-lang="en">Phased rollout — sequenced for quickest revenue impact</span><span data-lang="es">Despliegue por fases — secuenciado para impacto rápido</span></p>
+    <div class="roadmap">
+      <div class="phase">
+        <div class="days"><span data-lang="en">Days 0–30</span><span data-lang="es">Días 0–30</span></div>
+        <h3><span data-lang="en">Foundation</span><span data-lang="es">Base</span></h3>
+        <ul>
+          <li><span data-lang="en">AI-generated bilingual website (EN/ES) live</span><span data-lang="es">Sitio bilingüe (EN/ES) generado con IA en producción</span></li>
+          <li><span data-lang="en">Google Business Profile optimized with 40+ photos</span><span data-lang="es">Ficha Google Business optimizada con 40+ fotos</span></li>
+          <li><span data-lang="en">Meta Pixel + GA4 installed, conversion events wired</span><span data-lang="es">Meta Pixel + GA4 instalados, eventos de conversión</span></li>
+          <li><span data-lang="en">SMS/WhatsApp Business + auto-reply in place</span><span data-lang="es">SMS/WhatsApp Business + auto-respuesta activa</span></li>
+          <li><span data-lang="en">CRM contact import + lead-capture form live</span><span data-lang="es">Import de contactos al CRM + formulario de captura</span></li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="days"><span data-lang="en">Days 31–60</span><span data-lang="es">Días 31–60</span></div>
+        <h3><span data-lang="en">Acceleration</span><span data-lang="es">Aceleración</span></h3>
+        <ul>
+          <li><span data-lang="en">Paid ads (Google + Meta) launched with retargeting</span><span data-lang="es">Ads pagadas (Google + Meta) con retargeting</span></li>
+          <li><span data-lang="en">AI Booking Agent handles FAQ + reservations 24/7</span><span data-lang="es">Agente de reservas IA atiende FAQ 24/7</span></li>
+          <li><span data-lang="en">Instagram Reels cadence (3/week) + TikTok launch</span><span data-lang="es">Cadencia de Reels (3/semana) + TikTok</span></li>
+          <li><span data-lang="en">Email drip sequence (5 touches) active for leads</span><span data-lang="es">Drip de email (5 toques) activo para leads</span></li>
+          <li><span data-lang="en">Review automation lifts Google stars 3.8 → 4.6</span><span data-lang="es">Automación de reseñas sube Google 3.8 → 4.6</span></li>
+        </ul>
+      </div>
+      <div class="phase">
+        <div class="days"><span data-lang="en">Days 61–90</span><span data-lang="es">Días 61–90</span></div>
+        <h3><span data-lang="en">Compounding</span><span data-lang="es">Compounding</span></h3>
+        <ul>
+          <li><span data-lang="en">AI SEO program ranks for 20+ Richmond keywords</span><span data-lang="es">Programa SEO IA posiciona 20+ keywords de Richmond</span></li>
+          <li><span data-lang="en">Lookalike audiences from converted customers built</span><span data-lang="es">Audiencias lookalike de clientes convertidos</span></li>
+          <li><span data-lang="en">A/B test on landing page lifts conversion +18%</span><span data-lang="es">A/B test en landing eleva conversión +18%</span></li>
+          <li><span data-lang="en">Monthly dashboard: pipeline, CAC, LTV, ROAS</span><span data-lang="es">Dashboard: pipeline, CAC, LTV, ROAS</span></li>
+          <li><span data-lang="en">Playbook handed off — compounding growth</span><span data-lang="es">Playbook entregado — crecimiento compuesto</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span data-lang="en">Recommended services — matched to gaps</span><span data-lang="es">Servicios recomendados — matched a las brechas</span></h2>
+    <p class="sub"><span data-lang="en">Sequenced by impact-to-effort ratio · prices in USD/month</span><span data-lang="es">Ordenados por ratio impacto-esfuerzo · precios en USD/mes</span></p>
+    <div class="services-grid"><div class="svc"><div class="n"><span data-lang="en">AI Website</span><span data-lang="es">Sitio Web con IA</span></div><div class="p">$197<span>/<span data-lang="en">mo</span><span data-lang="es">mes</span></span></div><div class="i"><span data-lang="en">Impact: Foundation</span><span data-lang="es">Impacto: Base</span></div><div class="setup"><span data-lang="en">One-time setup: $997</span><span data-lang="es">Setup único: $997</span></div></div><div class="svc"><div class="n"><span data-lang="en">Google Business Optimization</span><span data-lang="es">Optimización Google Business</span></div><div class="p">$97<span>/<span data-lang="en">mo</span><span data-lang="es">mes</span></span></div><div class="i"><span data-lang="en">Impact: Local SEO</span><span data-lang="es">Impacto: SEO Local</span></div><div class="setup"><span data-lang="en">One-time setup: $297</span><span data-lang="es">Setup único: $297</span></div></div><div class="svc"><div class="n"><span data-lang="en">CRM</span><span data-lang="es">CRM</span></div><div class="p">$97<span>/<span data-lang="en">mo</span><span data-lang="es">mes</span></span></div><div class="i"><span data-lang="en">Impact: Retention</span><span data-lang="es">Impacto: Retención</span></div><div class="setup"><span data-lang="en">One-time setup: $297</span><span data-lang="es">Setup único: $297</span></div></div><div class="svc"><div class="n"><span data-lang="en">Social Media</span><span data-lang="es">Redes Sociales</span></div><div class="p">$397<span>/<span data-lang="en">mo</span><span data-lang="es">mes</span></span></div><div class="i"><span data-lang="en">Impact: Brand</span><span data-lang="es">Impacto: Marca</span></div><div class="setup"><span data-lang="en">One-time setup: $297</span><span data-lang="es">Setup único: $297</span></div></div><div class="svc"><div class="n"><span data-lang="en">Paid Ads</span><span data-lang="es">Publicidad Pagada</span></div><div class="p">$497<span>/<span data-lang="en">mo</span><span data-lang="es">mes</span></span></div><div class="i"><span data-lang="en">Impact: Immediate</span><span data-lang="es">Impacto: Inmediato</span></div><div class="setup"><span data-lang="en">One-time setup: $297</span><span data-lang="es">Setup único: $297</span></div></div></div>
+  </section>
+
+  <div class="pitch">
+    <h2><span data-lang="en">Next step for Millbrook Solutions</span><span data-lang="es">Siguiente paso para Millbrook Solutions</span></h2>
+    <p style="font-size:15px;opacity:.95;max-width:640px;margin:0 auto">
+      <span data-lang="en">A 20-minute strategy call is all it takes to validate this audit, customize the Small/Medium Business playbook, and quote a Growth retainer scoped to your revenue goals.</span>
+      <span data-lang="es">Un call de 20 minutos basta para validar esta auditoría, personalizar el playbook Pymes y cotizar un retainer de crecimiento.</span>
+    </p>
+    <p style="margin-top:16px;font-size:14px;opacity:.85">
+      <span data-lang="en">Typical engagement: <strong style="color:#FFB770">$997/mo Growth</strong> (AI Website + Social + CRM + Ads) · <strong style="color:#FFB770">$497/mo Starter</strong> (social + CRM only) · Fractional CMO at <strong style="color:#FFB770">$1,997/mo</strong>.</span>
+      <span data-lang="es">Engagement típico: <strong style="color:#FFB770">$997/mes Growth</strong> (Sitio IA + Redes + CRM + Ads) · <strong style="color:#FFB770">$497/mes Starter</strong> · CMO Fraccional a <strong style="color:#FFB770">$1,997/mes</strong>.</span>
+    </p>
+    <a class="cta" href="https://netwebmedia.com/contact"><span data-lang="en">Book a 20-minute strategy call →</span><span data-lang="es">Agendar call de 20 min →</span></a>
+  </div>
+
+  <p style="text-align:center;color:#999;font-size:12px;margin-top:28px">
+    <span data-lang="en">Audit by NetWebMedia · netwebmedia.com · Data: US Census 2024, SBA, BLS, Statista 2025, internal dataset</span>
+    <span data-lang="es">Auditoría por NetWebMedia · netwebmedia.com · Fuentes: US Census 2024, SBA, BLS, Statista 2025, dataset interno</span>
+  </p>
+</div>
+</body>
+</html>

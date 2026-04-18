@@ -187,16 +187,28 @@ def svg_gauge(score, size=200, lang="es"):
         a = math.radians(a_deg); return (cx + r*math.cos(a), cy + r*math.sin(a))
     x1,y1 = pt(start_a); x2,y2 = pt(start_a+sweep); xp,yp = pt(end_a)
     large = 1 if (end_a-start_a) > 180 else 0
-    if score < 35:  color,lbl_es,lbl_en = "#c0392b","Crítico","Critical"
-    elif score < 60: color,lbl_es,lbl_en = "#e67e22","Por mejorar","Needs work"
-    elif score < 80: color,lbl_es,lbl_en = "#f1c40f","Prometedor","Promising"
-    else: color,lbl_es,lbl_en = "#27ae60","Sólido","Strong"
-    out_es = "de 100"; out_en = "out of 100"
-    return f'''<svg viewBox="0 0 {size} {size}" width="{size}" height="{size}">
+    if score < 35:  color,lbl_es,lbl_en,grad_a,grad_b = "#c0392b","Crítico","Critical","#ff5e62","#c0392b"
+    elif score < 60: color,lbl_es,lbl_en,grad_a,grad_b = "#e67e22","Por mejorar","Needs work","#ffb347","#e67e22"
+    elif score < 80: color,lbl_es,lbl_en,grad_a,grad_b = "#f1c40f","Prometedor","Promising","#ffe259","#f1c40f"
+    else: color,lbl_es,lbl_en,grad_a,grad_b = "#27ae60","Sólido","Strong","#7ee8a0","#27ae60"
+    # arc length for stroke-dasharray animation
+    arc_len = math.pi * r  # half-circle circumference
+    fill_len = arc_len * score / 100
+    gid = f"g{abs(hash((size,score,color)))%9999}"
+    return f'''<svg viewBox="0 0 {size} {size}" width="{size}" height="{size}" class="nwm-gauge">
+  <defs>
+    <linearGradient id="{gid}" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="{grad_a}"/><stop offset="100%" stop-color="{grad_b}"/>
+    </linearGradient>
+    <filter id="{gid}s" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
   <path d="M {x1} {y1} A {r} {r} 0 1 1 {x2} {y2}" fill="none" stroke="#ececec" stroke-width="14" stroke-linecap="round"/>
-  <path d="M {x1} {y1} A {r} {r} 0 {large} 1 {xp} {yp}" fill="none" stroke="{color}" stroke-width="14" stroke-linecap="round"/>
-  <text x="{cx}" y="{cy-6}" text-anchor="middle" font-size="48" font-weight="800" fill="#1a1a2e">{score}</text>
-  <text x="{cx}" y="{cy+18}" text-anchor="middle" font-size="13" fill="#666"><tspan data-lang="es">{out_es}</tspan><tspan data-lang="en">{out_en}</tspan></text>
+  <path class="nwm-gauge-fill" d="M {x1} {y1} A {r} {r} 0 1 1 {x2} {y2}" fill="none" stroke="url(#{gid})" stroke-width="14" stroke-linecap="round" filter="url(#{gid}s)" stroke-dasharray="{fill_len:.1f} {arc_len:.1f}" pathLength="{arc_len:.1f}" style="--arc:{arc_len:.1f};--fill:{fill_len:.1f}"/>
+  <circle cx="{xp:.1f}" cy="{yp:.1f}" r="9" fill="#fff" stroke="{color}" stroke-width="3" class="nwm-gauge-knob"/>
+  <text x="{cx}" y="{cy-6}" text-anchor="middle" font-size="48" font-weight="800" fill="#1a1a2e" class="nwm-count" data-target="{score}">{score}</text>
+  <text x="{cx}" y="{cy+18}" text-anchor="middle" font-size="13" fill="#666"><tspan data-lang="es">de 100</tspan><tspan data-lang="en">out of 100</tspan></text>
   <text x="{cx}" y="{cy+r-6}" text-anchor="middle" font-size="14" font-weight="700" fill="{color}"><tspan data-lang="es">{lbl_es}</tspan><tspan data-lang="en">{lbl_en}</tspan></text>
 </svg>'''
 
@@ -227,66 +239,135 @@ def svg_radar(scores_en, scores_es, size=340):
     for i,val in enumerate(vals):
         a = -math.pi/2 + (i*2*math.pi/n); rr = r*val/100
         pts.append(f"{cx+rr*math.cos(a):.1f},{cy+rr*math.sin(a):.1f}")
-    poly = f'<polygon points="{" ".join(pts)}" fill="rgba(255,107,0,.25)" stroke="#FF6B00" stroke-width="2.5"/>'
+    poly = f'<polygon class="nwm-radar-poly" points="{" ".join(pts)}" fill="url(#nwmRadarGrad)" stroke="#FF6B00" stroke-width="2.5" stroke-linejoin="round"/>'
+    # vertex dots
+    dots = ""
+    for i,val in enumerate(vals):
+        a = -math.pi/2 + (i*2*math.pi/n); rr = r*val/100
+        px = cx+rr*math.cos(a); py = cy+rr*math.sin(a)
+        dots += f'<circle class="nwm-radar-dot" cx="{px:.1f}" cy="{py:.1f}" r="4" fill="#fff" stroke="#FF6B00" stroke-width="2" style="--d:{i*0.08:.2f}s"><title>{val}%</title></circle>'
     bpts = []
     for i in range(n):
         a = -math.pi/2 + (i*2*math.pi/n); rr = r*55/100
         bpts.append(f"{cx+rr*math.cos(a):.1f},{cy+rr*math.sin(a):.1f}")
-    bench = f'<polygon points="{" ".join(bpts)}" fill="none" stroke="#3498db" stroke-width="1.5" stroke-dasharray="4,3"/>'
-    return f'<svg viewBox="0 0 {size} {size}" width="100%" height="{size}">{rings}{axes}{bench}{poly}{lbls}</svg>'
+    bench = f'<polygon points="{" ".join(bpts)}" fill="none" stroke="#3498db" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.8"/>'
+    defs = '<defs><radialGradient id="nwmRadarGrad" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#FF6B00" stop-opacity="0.5"/><stop offset="100%" stop-color="#FF6B00" stop-opacity="0.12"/></radialGradient></defs>'
+    return f'<svg viewBox="0 0 {size} {size}" width="100%" height="{size}" class="nwm-radar">{defs}{rings}{axes}{bench}{poly}{dots}{lbls}</svg>'
 
 def svg_bars(items_en, items_es, max_val=100):
     """items = list of (label, value, color) — must be same length in both."""
-    rows = len(items_en); bar_h = 22; gap = 14
+    rows = len(items_en); bar_h = 24; gap = 14
     total_h = rows*(bar_h+gap)+20; left = 160; bar_w = 540-left-40
-    svg = f'<svg viewBox="0 0 540 {total_h}" width="100%" height="{total_h}">'
+    gid = f"barg{abs(hash(tuple(items_en)))%9999}"
+    svg = f'<svg viewBox="0 0 540 {total_h}" width="100%" height="{total_h}" class="nwm-bars">'
+    svg += f'<defs><linearGradient id="{gid}" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FFB770"/><stop offset="100%" stop-color="#FF6B00"/></linearGradient></defs>'
     for i,(lbl_en,val,color) in enumerate(items_en):
         lbl_es = items_es[i][0]
         y = 10 + i*(bar_h+gap); w = bar_w*val/max_val
         svg += (f'<text x="{left-8}" y="{y+bar_h*0.7}" text-anchor="end" font-size="12" font-weight="600" fill="#333">'
                 f'<tspan data-lang="es">{esc(lbl_es)}</tspan><tspan data-lang="en">{esc(lbl_en)}</tspan></text>')
-        svg += f'<rect x="{left}" y="{y}" width="{bar_w}" height="{bar_h}" rx="4" fill="#f0f0f4"/>'
-        svg += f'<rect x="{left}" y="{y}" width="{w:.1f}" height="{bar_h}" rx="4" fill="{color}"/>'
-        svg += f'<text x="{left+w+6:.1f}" y="{y+bar_h*0.7}" font-size="11" font-weight="700" fill="#333">{val}%</text>'
+        svg += f'<rect x="{left}" y="{y}" width="{bar_w}" height="{bar_h}" rx="6" fill="#f0f0f4"/>'
+        svg += f'<rect class="nwm-bar-fill" x="{left}" y="{y}" width="{w:.1f}" height="{bar_h}" rx="6" fill="url(#{gid})" style="--bw:{w:.1f}px;--d:{i*0.08:.2f}s"><title>{val}%</title></rect>'
+        svg += f'<text x="{left+w+6:.1f}" y="{y+bar_h*0.7}" font-size="11" font-weight="700" fill="#333" class="nwm-bar-val" style="--d:{i*0.08+0.6:.2f}s">{val}%</text>'
+    svg += '</svg>'
+    return svg
+
+def svg_donut_platforms(platforms):
+    """Donut-ring chart per platform: one ring per platform showing presence strength.
+    platforms = dict {name: value 0..100}"""
+    items = list(platforms.items())
+    n = len(items)
+    cols = 3; rows = (n + cols - 1)//cols
+    cell = 150; pad = 10
+    w = cols*cell; h = rows*cell
+    colors = ["#FF6B00","#ff4e00","#e67e22","#c0392b","#8e44ad","#2980b9"]
+    svg = f'<svg viewBox="0 0 {w} {h}" width="100%" height="{h}" class="nwm-donuts">'
+    for i,(plat,val) in enumerate(items):
+        cx = (i%cols)*cell + cell/2
+        cy = (i//cols)*cell + cell/2 + 4
+        r = 42
+        circ = 2*math.pi*r
+        fill = circ*val/100
+        color = colors[i%len(colors)]
+        # status label
+        if val >= 60: st_es,st_en,st_c = "Dominante","Dominant","#27ae60"
+        elif val >= 30: st_es,st_en,st_c = "Presente","Present","#f1c40f"
+        elif val >= 10: st_es,st_en,st_c = "Débil","Weak","#e67e22"
+        else: st_es,st_en,st_c = "Ausente","Absent","#c0392b"
+        svg += f'<g transform="translate({cx:.1f} {cy:.1f})" class="nwm-donut" style="--d:{i*0.08:.2f}s">'
+        svg += f'<circle cx="0" cy="0" r="{r}" fill="none" stroke="#f0f0f4" stroke-width="10"/>'
+        svg += f'<circle class="nwm-donut-fill" cx="0" cy="0" r="{r}" fill="none" stroke="{color}" stroke-width="10" stroke-linecap="round" stroke-dasharray="{fill:.1f} {circ:.1f}" transform="rotate(-90)" style="--c:{circ:.1f};--f:{fill:.1f}"><title>{plat}: {val}%</title></circle>'
+        svg += f'<text x="0" y="-4" text-anchor="middle" font-size="20" font-weight="800" fill="#1a1a2e">{val}</text>'
+        svg += f'<text x="0" y="12" text-anchor="middle" font-size="9" fill="#888">/100</text>'
+        svg += f'<text x="0" y="{r+18}" text-anchor="middle" font-size="12" font-weight="700" fill="#333">{plat}</text>'
+        svg += f'<text x="0" y="{r+32}" text-anchor="middle" font-size="9" font-weight="700" fill="{st_c}"><tspan data-lang="es">{st_es}</tspan><tspan data-lang="en">{st_en}</tspan></text>'
+        svg += '</g>'
     svg += '</svg>'
     return svg
 
 def svg_comparison(business, niche_avg=55, top10=82):
-    h = 180; bar_w = 70; gap = 40
+    h = 200; bar_w = 74; gap = 44
     data = [
-        ("This business","Este negocio",business,"#FF6B00"),
-        ("Niche avg","Promedio rubro",niche_avg,"#3498db"),
-        ("Top 10%","Top 10%",top10,"#27ae60"),
+        ("This business","Este negocio",business,"#FF6B00","#FFB770"),
+        ("Niche avg","Promedio rubro",niche_avg,"#3498db","#85c1e9"),
+        ("Top 10%","Top 10%",top10,"#27ae60","#7ee8a0"),
     ]
-    svg = f'<svg viewBox="0 0 360 {h+50}" width="100%" height="{h+50}">'
-    for i,(l_en,l_es,val,color) in enumerate(data):
-        x = 30 + i*(bar_w+gap); bh = h*val/100; y = h-bh+20
-        svg += f'<rect x="{x}" y="{y:.1f}" width="{bar_w}" height="{bh:.1f}" rx="6" fill="{color}"/>'
-        svg += f'<text x="{x+bar_w/2}" y="{y-6:.1f}" text-anchor="middle" font-size="14" font-weight="800" fill="#1a1a2e">{val}</text>'
-        svg += (f'<text x="{x+bar_w/2}" y="{h+38}" text-anchor="middle" font-size="11" font-weight="600" fill="#555">'
+    svg = f'<svg viewBox="0 0 380 {h+60}" width="100%" height="{h+60}" class="nwm-comp">'
+    # defs with gradients + gridlines
+    defs = '<defs>'
+    for i,(_,_,_,c,g) in enumerate(data):
+        defs += f'<linearGradient id="cmpg{i}" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="{g}"/><stop offset="100%" stop-color="{c}"/></linearGradient>'
+    defs += '</defs>'
+    svg += defs
+    # gridlines
+    for gv in (25,50,75,100):
+        gy = h - h*gv/100 + 20
+        svg += f'<line x1="20" y1="{gy:.1f}" x2="360" y2="{gy:.1f}" stroke="#f0f0f4" stroke-width="1" stroke-dasharray="3,3"/>'
+        svg += f'<text x="12" y="{gy+3:.1f}" text-anchor="end" font-size="9" fill="#bbb">{gv}</text>'
+    for i,(l_en,l_es,val,c,g) in enumerate(data):
+        x = 50 + i*(bar_w+gap); bh = h*val/100; y = h-bh+20
+        svg += f'<rect class="nwm-comp-bar" x="{x}" y="{y:.1f}" width="{bar_w}" height="{bh:.1f}" rx="8" fill="url(#cmpg{i})" style="--bh:{bh:.1f}px;--by:{y:.1f}px;--d:{i*0.15:.2f}s"><title>{val}/100</title></rect>'
+        svg += f'<text class="nwm-comp-val" x="{x+bar_w/2}" y="{y-8:.1f}" text-anchor="middle" font-size="18" font-weight="800" fill="#1a1a2e" style="--d:{i*0.15+0.8:.2f}s">{val}</text>'
+        svg += (f'<text x="{x+bar_w/2}" y="{h+42}" text-anchor="middle" font-size="11" font-weight="700" fill="#555">'
                 f'<tspan data-lang="es">{esc(l_es)}</tspan><tspan data-lang="en">{esc(l_en)}</tspan></text>')
     svg += '</svg>'
     return svg
 
 def svg_funnel(before, after):
     # before/after = list of (stage_en, stage_es, current, projected)
-    svg = '<svg viewBox="0 0 560 220" width="100%" height="220">'
-    # find max for proportional width (use largest projected value overall)
+    n = len(before)
+    svg = f'<svg viewBox="0 0 600 {60+n*46}" width="100%" height="{60+n*46}" class="nwm-funnel">'
+    svg += ('<defs>'
+            '<linearGradient id="fcur" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#b4bcc2"/><stop offset="100%" stop-color="#7f8c8d"/></linearGradient>'
+            '<linearGradient id="fnew" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FFB770"/><stop offset="100%" stop-color="#FF6B00"/></linearGradient>'
+            '</defs>')
     maxv = max(max(b[3] for b in before), 1)
-    def draw(x0, lbl_en, lbl_es, data, color, use_current):
-        parts = [(f'<text x="{x0+120}" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#555">'
-                  f'<tspan data-lang="es">{lbl_es}</tspan><tspan data-lang="en">{lbl_en}</tspan></text>')]
-        y = 36
-        for stage_en, stage_es, cur, proj in data:
-            val = cur if use_current else proj
-            w = 230 * val / maxv
-            parts.append(f'<rect x="{x0+120-w/2:.1f}" y="{y}" width="{w:.1f}" height="30" rx="3" fill="{color}" opacity="0.85"/>')
-            parts.append((f'<text x="{x0+120}" y="{y+19}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">'
-                          f'<tspan data-lang="es">{esc(stage_es)}: {val:,}</tspan><tspan data-lang="en">{esc(stage_en)}: {val:,}</tspan></text>'))
-            y += 38
-        return "".join(parts)
-    svg += draw(0,   "Current monthly funnel", "Embudo mensual actual", before, "#95a5a6", True)
-    svg += draw(280, "Projected in 90 days",   "Proyectado a 90 días",  before, "#FF6B00", False)
+    # headers
+    svg += ('<text x="150" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#7f8c8d">'
+            '<tspan data-lang="es">Embudo actual</tspan><tspan data-lang="en">Current funnel</tspan></text>')
+    svg += ('<text x="450" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#FF6B00">'
+            '<tspan data-lang="es">Proyectado 90d</tspan><tspan data-lang="en">Projected 90d</tspan></text>')
+    def bar(x0, val, color_url, y, dly):
+        w = 250 * val / maxv
+        return (f'<rect class="nwm-fn-bar" x="{x0+150-w/2:.1f}" y="{y}" width="{w:.1f}" height="34" rx="6" '
+                f'fill="url(#{color_url})" style="--fw:{w:.1f}px;--d:{dly:.2f}s"/>')
+    for i,(stage_en, stage_es, cur, proj) in enumerate(before):
+        y = 40 + i*46
+        dly = i*0.1
+        svg += bar(0, cur, "fcur", y, dly)
+        svg += bar(300, proj, "fnew", y, dly+0.3)
+        svg += (f'<text x="150" y="{y+22}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">'
+                f'<tspan data-lang="es">{esc(stage_es)}: {cur:,}</tspan><tspan data-lang="en">{esc(stage_en)}: {cur:,}</tspan></text>')
+        svg += (f'<text x="450" y="{y+22}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">'
+                f'<tspan data-lang="es">{esc(stage_es)}: {proj:,}</tspan><tspan data-lang="en">{esc(stage_en)}: {proj:,}</tspan></text>')
+        # multiplier badge
+        if cur > 0:
+            mult = proj/cur
+            if mult >= 1.2:
+                svg += (f'<g class="nwm-fn-badge" style="--d:{dly+0.6:.2f}s">'
+                        f'<rect x="276" y="{y+8}" width="48" height="18" rx="9" fill="#27ae60"/>'
+                        f'<text x="300" y="{y+21}" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">{mult:.1f}×</text>'
+                        f'</g>')
     svg += '</svg>'
     return svg
 
@@ -404,6 +485,102 @@ html[lang="en"] [data-lang="es"]{display:none!important}
 html[lang="es"] tspan[data-lang="en"]{display:none}
 html[lang="en"] tspan[data-lang="es"]{display:none}
 @media(max-width:768px){header.hero{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}.roadmap{grid-template-columns:1fr}.stat-row{grid-template-columns:repeat(2,1fr)}.opportunity{grid-template-columns:1fr}}
+
+/* === INTERACTIVE INFOGRAPHIC ANIMATIONS ============================== */
+/* Scroll-reveal base state */
+section{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+section.in-view{opacity:1;transform:none}
+header.hero{animation:nwmHeroIn .8s ease both}
+@keyframes nwmHeroIn{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+
+/* Gauge arc draw-in */
+.nwm-gauge-fill{stroke-dasharray:0 9999;animation:nwmGaugeDraw 1.6s cubic-bezier(.2,.7,.2,1) .2s forwards}
+@keyframes nwmGaugeDraw{to{stroke-dasharray:var(--fill) var(--arc)}}
+.nwm-gauge-knob{opacity:0;animation:nwmPop .4s ease 1.6s forwards}
+@keyframes nwmPop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+.nwm-gauge .nwm-count{opacity:0;animation:nwmFadeUp .6s ease 1.2s forwards}
+@keyframes nwmFadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Radar grow + dots pop */
+.nwm-radar-poly{transform-origin:50% 50%;animation:nwmGrow 1s cubic-bezier(.2,.8,.2,1) .3s both}
+@keyframes nwmGrow{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
+.nwm-radar-dot{opacity:0;animation:nwmDotPop .4s ease calc(1.0s + var(--d)) forwards;transform-origin:center;transition:r .15s}
+.nwm-radar-dot:hover{r:7}
+@keyframes nwmDotPop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+
+/* Horizontal bars grow width */
+.nwm-bar-fill{transform-box:fill-box;width:0 !important;animation:nwmBarGrow 1s cubic-bezier(.2,.8,.2,1) var(--d,0s) forwards}
+@keyframes nwmBarGrow{to{width:var(--bw) !important}}
+.nwm-bar-val{opacity:0;animation:nwmFadeIn .4s ease var(--d,0s) forwards}
+.nwm-bar-fill:hover{filter:brightness(1.12) drop-shadow(0 2px 4px rgba(255,107,0,.4))}
+@keyframes nwmFadeIn{to{opacity:1}}
+
+/* Comparison bars grow height */
+.nwm-comp-bar{transform-origin:bottom;transform:scaleY(0);animation:nwmRise .9s cubic-bezier(.2,.8,.2,1) var(--d,0s) forwards}
+@keyframes nwmRise{to{transform:scaleY(1)}}
+.nwm-comp-val{opacity:0;animation:nwmFadeIn .4s ease var(--d,0s) forwards}
+.nwm-comp-bar:hover{filter:brightness(1.1)}
+
+/* Donut ring fill */
+.nwm-donut-fill{stroke-dasharray:0 9999;animation:nwmDonutDraw 1.2s cubic-bezier(.2,.7,.2,1) calc(.2s + var(--d,0s)) forwards}
+@keyframes nwmDonutDraw{to{stroke-dasharray:var(--f) var(--c)}}
+.nwm-donut{transition:transform .2s}
+.nwm-donut:hover{transform:scale(1.05)}
+
+/* Funnel bars slide-in */
+.nwm-fn-bar{transform-origin:center;transform:scaleX(0);animation:nwmSlideX .8s cubic-bezier(.2,.8,.2,1) var(--d,0s) forwards}
+@keyframes nwmSlideX{to{transform:scaleX(1)}}
+.nwm-fn-badge{opacity:0;animation:nwmPop .4s ease var(--d,0s) forwards}
+
+/* Stat cards — pulse shimmer */
+.stat{position:relative;overflow:hidden;transition:transform .2s}
+.stat:hover{transform:translateY(-3px)}
+.stat::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,183,112,.18) 50%,transparent 70%);transform:translateX(-100%);animation:nwmShimmer 3s ease 1s infinite}
+@keyframes nwmShimmer{50%,100%{transform:translateX(100%)}}
+
+/* Cells — hover lift */
+.cell{transition:transform .2s,box-shadow .2s}
+.cell:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.06)}
+
+/* Service cards — hover lift + glow */
+.svc{transition:transform .2s,box-shadow .2s,border-color .2s}
+.svc:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(255,107,0,.18);border-color:rgba(255,107,0,.5)}
+
+/* Phase cards */
+.phase{transition:transform .2s,box-shadow .2s}
+.phase:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.06)}
+
+/* Opportunity cards */
+.opp{transition:transform .2s}
+.opp:hover{transform:scale(1.03)}
+
+/* Issue items */
+ul.issues li{transition:transform .15s,box-shadow .15s}
+ul.issues li:hover{transform:translateX(4px);box-shadow:0 4px 12px rgba(255,107,0,.1)}
+
+/* CTA pulse */
+.cta{position:relative;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 16px rgba(255,107,0,.35)}
+.cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,107,0,.5)}
+.cta::after{content:'';position:absolute;inset:0;border-radius:10px;box-shadow:0 0 0 0 rgba(255,107,0,.5);animation:nwmRipple 2s ease infinite}
+@keyframes nwmRipple{0%{box-shadow:0 0 0 0 rgba(255,107,0,.5)}70%{box-shadow:0 0 0 18px rgba(255,107,0,0)}100%{box-shadow:0 0 0 0 rgba(255,107,0,0)}}
+
+/* Chip subtle float */
+.chip{transition:transform .15s,background .15s}
+.chip:hover{transform:translateY(-1px);background:rgba(255,255,255,.28)}
+
+/* Section h2 bar growth on reveal */
+section.in-view h2::before{animation:nwmBarH .5s ease both}
+@keyframes nwmBarH{from{height:0}to{height:22px}}
+
+/* Highlight gradient shimmer */
+.highlight{background-size:200% 100%;animation:nwmGradShift 8s ease infinite}
+@keyframes nwmGradShift{0%,100%{background-position:0 0}50%{background-position:100% 0}}
+
+/* Respect reduced motion */
+@media(prefers-reduced-motion:reduce){
+  *,section,.nwm-gauge-fill,.nwm-radar-poly,.nwm-bar-fill,.nwm-comp-bar,.nwm-donut-fill,.nwm-fn-bar,.nwm-fn-badge,.cta::after,.highlight,.stat::before{animation:none !important;transition:none !important;opacity:1 !important;transform:none !important}
+  section{opacity:1;transform:none}
+}
 """
 
 LANG_SWITCH = '''<div class="lang-switch">
@@ -421,6 +598,18 @@ LANG_SWITCH = '''<div class="lang-switch">
       var l=b.dataset.setlang; html.setAttribute('lang',l); localStorage.setItem(k,l);
       document.querySelectorAll('.lang-switch button').forEach(function(x){x.classList.toggle('active',x.dataset.setlang===l)});
     });
+  });
+  // Scroll-reveal for sections
+  var io=('IntersectionObserver' in window)?new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target);} });
+  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'}):null;
+  document.querySelectorAll('section').forEach(function(s){ if(io) io.observe(s); else s.classList.add('in-view'); });
+  // Animated count-up for gauge number
+  document.querySelectorAll('.nwm-count').forEach(function(t){
+    var target=parseInt(t.getAttribute('data-target')||'0',10); var d=1200; var s=performance.now();
+    t.textContent='0';
+    function step(now){ var p=Math.min(1,(now-s)/d); var v=Math.round(target*(1-Math.pow(1-p,3))); t.textContent=v; if(p<1) requestAnimationFrame(step);}
+    requestAnimationFrame(step);
   });
 })();
 </script>'''
@@ -708,7 +897,7 @@ def render(contact, notes):
         gauge=svg_gauge(overall, 200),
         radar=svg_radar(scores_en, scores_es, 340),
         bars=svg_bars(bars_en, bars_es),
-        platform_bars=svg_bars(plat_items_en, plat_items_es),
+        platform_bars=svg_donut_platforms(platforms),
         comparison=svg_comparison(overall),
         funnel=svg_funnel(funnel_data, funnel_data),
         pain_items=pain_items_html, service_cards=service_cards,

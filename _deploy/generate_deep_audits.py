@@ -341,21 +341,24 @@ def svg_funnel(before, after):
             '<linearGradient id="fcur" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#b4bcc2"/><stop offset="100%" stop-color="#7f8c8d"/></linearGradient>'
             '<linearGradient id="fnew" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FFB770"/><stop offset="100%" stop-color="#FF6B00"/></linearGradient>'
             '</defs>')
-    maxv = max(max(b[3] for b in before), 1)
     # headers
     svg += ('<text x="150" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#7f8c8d">'
             '<tspan data-lang="es">Embudo actual</tspan><tspan data-lang="en">Current funnel</tspan></text>')
     svg += ('<text x="450" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#FF6B00">'
             '<tspan data-lang="es">Proyectado 90d</tspan><tspan data-lang="en">Projected 90d</tspan></text>')
-    def bar(x0, val, color_url, y, dly):
-        w = 250 * val / maxv
+    def bar(x0, w, color_url, y, dly):
+        w = max(w, 60)  # floor so text fits
         return (f'<rect class="nwm-fn-bar" x="{x0+150-w/2:.1f}" y="{y}" width="{w:.1f}" height="34" rx="6" '
                 f'fill="url(#{color_url})" style="--fw:{w:.1f}px;--d:{dly:.2f}s"/>')
     for i,(stage_en, stage_es, cur, proj) in enumerate(before):
         y = 40 + i*46
         dly = i*0.1
-        svg += bar(0, cur, "fcur", y, dly)
-        svg += bar(300, proj, "fnew", y, dly+0.3)
+        # Normalize PER-STAGE: projected bar = full width (250), current = proportional
+        stage_max = max(cur, proj, 1)
+        w_cur = 250 * cur / stage_max
+        w_proj = 250 * proj / stage_max
+        svg += bar(0, w_cur, "fcur", y, dly)
+        svg += bar(300, w_proj, "fnew", y, dly+0.3)
         svg += (f'<text x="150" y="{y+22}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">'
                 f'<tspan data-lang="es">{esc(stage_es)}: {cur:,}</tspan><tspan data-lang="en">{esc(stage_en)}: {cur:,}</tspan></text>')
         svg += (f'<text x="450" y="{y+22}" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">'

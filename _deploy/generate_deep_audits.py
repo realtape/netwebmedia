@@ -509,8 +509,8 @@ header.hero{animation:nwmHeroIn .8s ease both}
 @keyframes nwmDotPop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
 
 /* Horizontal bars grow width */
-.nwm-bar-fill{transform-box:fill-box;width:0 !important;animation:nwmBarGrow 1s cubic-bezier(.2,.8,.2,1) var(--d,0s) forwards}
-@keyframes nwmBarGrow{to{width:var(--bw) !important}}
+.nwm-bar-fill{transform-box:fill-box;animation:nwmBarGrow 1s cubic-bezier(.2,.8,.2,1) var(--d,0s) both}
+@keyframes nwmBarGrow{from{width:0 !important}to{width:var(--bw) !important}}
 .nwm-bar-val{opacity:0;animation:nwmFadeIn .4s ease var(--d,0s) forwards}
 .nwm-bar-fill:hover{filter:brightness(1.12) drop-shadow(0 2px 4px rgba(255,107,0,.4))}
 @keyframes nwmFadeIn{to{opacity:1}}
@@ -528,8 +528,8 @@ header.hero{animation:nwmHeroIn .8s ease both}
 .nwm-donut:hover{transform:scale(1.05)}
 
 /* Funnel bars slide-in */
-.nwm-fn-bar{transform-origin:center;transform:scaleX(0);animation:nwmSlideX .8s cubic-bezier(.2,.8,.2,1) var(--d,0s) forwards}
-@keyframes nwmSlideX{to{transform:scaleX(1)}}
+.nwm-fn-bar{transform-origin:center;animation:nwmSlideX .8s cubic-bezier(.2,.8,.2,1) var(--d,0s) both}
+@keyframes nwmSlideX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .nwm-fn-badge{opacity:0;animation:nwmPop .4s ease var(--d,0s) forwards}
 
 /* Stat cards — pulse shimmer */

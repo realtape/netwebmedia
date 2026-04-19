@@ -232,8 +232,8 @@ TPL = """<!DOCTYPE html>
       <span data-lang="es">Un call de 20 minutos basta para validar esta auditoría, personalizar el playbook {niche_es} y cotizar un retainer de crecimiento.</span>
     </p>
     <p style="margin-top:16px;font-size:14px;opacity:.85">
-      <span data-lang="en">Typical engagement: <strong style="color:#FFB770">$997/mo Growth</strong> (AI Website + Social + CRM + Ads) · <strong style="color:#FFB770">$497/mo Starter</strong> (social + CRM only) · Fractional CMO at <strong style="color:#FFB770">$1,997/mo</strong>.</span>
-      <span data-lang="es">Engagement típico: <strong style="color:#FFB770">$997/mes Growth</strong> (Sitio IA + Redes + CRM + Ads) · <strong style="color:#FFB770">$497/mes Starter</strong> · CMO Fraccional a <strong style="color:#FFB770">$1,997/mes</strong>.</span>
+      <span data-lang="en"><strong style="color:#FFB770">Starter $249/mo</strong> · <strong style="color:#FFB770">⭐ Growth $999/mo</strong> · <strong style="color:#FFB770">Scale $1,999/mo</strong> — all include one-time setup.</span>
+      <span data-lang="es"><strong style="color:#FFB770">Starter $249/mes</strong> · <strong style="color:#FFB770">⭐ Growth $999/mes</strong> · <strong style="color:#FFB770">Scale $1,999/mes</strong> — todos incluyen setup único.</span>
     </p>
     <a class="cta" href="https://netwebmedia.com/contact"><span data-lang="en">Book a 20-minute strategy call →</span><span data-lang="es">Agendar call de 20 min →</span></a>
   </div>
@@ -295,20 +295,37 @@ def render(contact, notes):
           f'<span class="sev {sev_cls[i]}"><span data-lang="en">{sev_label_en[i]}</span><span data-lang="es">{sev_label_es[i]}</span></span></li>'
         )
 
-    # Service cards
-    service_cards = ""
-    for svc in NICHES[niche_key]["services"]:
-        info = SERVICE_PRICES.get(svc, {"price":197,"setup":297,"impact":"High"})
-        svc_es = SVC_ES.get(svc, svc)
-        imp_es = IMPACT_ES.get(info["impact"], info["impact"])
-        service_cards += (
-          f'<div class="svc">'
-          f'<div class="n"><span data-lang="en">{esc(svc)}</span><span data-lang="es">{esc(svc_es)}</span></div>'
-          f'<div class="p">${info["price"]}<span>/<span data-lang="en">mo</span><span data-lang="es">mes</span></span></div>'
-          f'<div class="i"><span data-lang="en">Impact: {esc(info["impact"])}</span><span data-lang="es">Impacto: {esc(imp_es)}</span></div>'
-          f'<div class="setup"><span data-lang="en">One-time setup: ${info["setup"]}</span><span data-lang="es">Setup único: ${info["setup"]}</span></div>'
-          f'</div>'
-        )
+    # Package cards — 3 tiers
+    service_cards = (
+      '<div class="svc">'
+        '<div class="n"><span data-lang="en">CMO Starter</span><span data-lang="es">CMO Starter</span></div>'
+        '<div class="p">$249<span>/<span data-lang="en">mo</span><span data-lang="es">mes</span></span></div>'
+        '<div class="setup"><span data-lang="en">One-time setup: $249</span><span data-lang="es">Setup único: $249</span></div>'
+        '<div class="includes"><span data-lang="en">AI Website · Google Business · Basic CRM · Monthly reports</span>'
+        '<span data-lang="es">Sitio IA · Google Business · CRM básico · Reportes mensuales</span></div>'
+        '<a class="cta-pkg" href="https://netwebmedia.com/contact">'
+        '<span data-lang="en">Get started →</span><span data-lang="es">Empezar →</span></a>'
+      '</div>'
+      '<div class="svc highlight">'
+        '<div class="badge">⭐ <span data-lang="en">Most popular</span><span data-lang="es">Más popular</span></div>'
+        '<div class="n"><span data-lang="en">CMO Growth</span><span data-lang="es">CMO Growth</span></div>'
+        '<div class="p">$999<span>/<span data-lang="en">mo</span><span data-lang="es">mes</span></span></div>'
+        '<div class="setup"><span data-lang="en">One-time setup: $999</span><span data-lang="es">Setup único: $999</span></div>'
+        '<div class="includes"><span data-lang="en">Everything in Starter + AI Social · Google/Meta Ads · SEO · Booking Agent · AI SDR</span>'
+        '<span data-lang="es">Todo Starter + Redes IA · Ads Google/Meta · SEO · Booking Agent · SDR IA</span></div>'
+        '<a class="cta-pkg" href="https://netwebmedia.com/contact">'
+        '<span data-lang="en">Get started →</span><span data-lang="es">Empezar →</span></a>'
+      '</div>'
+      '<div class="svc scale">'
+        '<div class="n"><span data-lang="en">CMO Scale</span><span data-lang="es">CMO Scale</span></div>'
+        '<div class="p">$1,999<span>/<span data-lang="en">mo</span><span data-lang="es">mes</span></span></div>'
+        '<div class="setup"><span data-lang="en">One-time setup: $1,999</span><span data-lang="es">Setup único: $1,999</span></div>'
+        '<div class="includes"><span data-lang="en">Everything in Growth + Fractional CMO · AI Automations · Virtual Tours · Full strategy</span>'
+        '<span data-lang="es">Todo Growth + CMO Fraccional · Automatizaciones IA · Tours virtuales · Estrategia completa</span></div>'
+        '<a class="cta-pkg" href="https://netwebmedia.com/contact">'
+        '<span data-lang="en">Contact sales →</span><span data-lang="es">Contactar ventas →</span></a>'
+      '</div>'
+    )
 
     bars_en = [(k, v, "#FF6B00") for k, v in scores_en.items()]
     bars_es = [(k, v, "#FF6B00") for k, v in scores_es.items()]

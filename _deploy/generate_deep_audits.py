@@ -459,13 +459,18 @@ ul.issues li .sev.low{background:#95a5a6}
 .phase li{font-size:13px;padding:6px 0;border-bottom:1px solid #eee;color:#444}
 .phase li:last-child{border:0}
 .phase .days{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:6px}
-.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.svc{background:linear-gradient(135deg,rgba(255,107,0,.08),rgba(255,78,0,.04));border:1px solid rgba(255,107,0,.25);padding:18px;border-radius:12px}
-.svc .n{font-size:16px;font-weight:700;color:#FF6B00;margin-bottom:8px}
-.svc .p{font-size:22px;font-weight:800}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:640px){.services-grid{grid-template-columns:1fr}}
+.svc{background:#fff;border:2px solid #eee;padding:22px 20px;border-radius:14px;text-align:center;position:relative}
+.svc.highlight{border-color:#FF6B00;background:linear-gradient(160deg,rgba(255,107,0,.06),rgba(255,78,0,.02))}
+.svc .badge{display:inline-block;background:#FF6B00;color:#fff;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding:3px 10px;border-radius:99px;margin-bottom:10px}
+.svc .n{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:12px}
+.svc .p{font-size:34px;font-weight:900;color:#FF6B00;line-height:1}
 .svc .p span{font-size:13px;font-weight:500;color:#777}
-.svc .i{font-size:12px;color:#666;margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
-.svc .setup{font-size:12px;color:#888;margin-top:6px;padding-top:6px;border-top:1px solid #eee}
+.svc .setup{font-size:12px;color:#888;margin-top:6px}
+.svc .includes{font-size:12px;color:#555;margin-top:12px;text-align:left;line-height:1.6}
+.svc .cta-pkg{display:inline-block;margin-top:14px;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;background:#FF6B00;color:#fff}
+.svc.scale .cta-pkg{background:#1a1a2e}
 .pitch{background:linear-gradient(135deg,#1a1a2e,#2d2d5a);color:#fff;padding:30px;border-radius:14px;text-align:center;margin-top:20px}
 .pitch h2{color:#FFB770;justify-content:center}
 .pitch h2::before{background:#FFB770}
@@ -547,7 +552,7 @@ header.hero{animation:nwmHeroIn .8s ease both}
 
 /* Service cards — hover lift + glow */
 .svc{transition:transform .2s,box-shadow .2s,border-color .2s}
-.svc:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(255,107,0,.18);border-color:rgba(255,107,0,.5)}
+.svc:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(255,107,0,.15)}
 
 /* Phase cards */
 .phase{transition:transform .2s,box-shadow .2s}
@@ -778,8 +783,8 @@ TPL = """<!DOCTYPE html>
       <span data-lang="en">A 20-minute strategy call is all it takes to validate this audit, customize the {niche_en} playbook, and quote a Growth retainer scoped to your revenue goals.</span>
     </p>
     <p style="margin-top:16px;font-size:14px;opacity:.85">
-      <span data-lang="es">Engagement típico: <strong style="color:#FFB770">$997/mes Growth</strong> (Sitio IA + Redes + CRM + Ads) · <strong style="color:#FFB770">$497/mes Starter</strong> (redes + CRM) · CMO Fraccional a <strong style="color:#FFB770">$1.997/mes</strong>.</span>
-      <span data-lang="en">Typical engagement: <strong style="color:#FFB770">$997/mo Growth</strong> (AI Website + Social + CRM + Ads) · <strong style="color:#FFB770">$497/mo Starter</strong> (social + CRM only) · Fractional CMO at <strong style="color:#FFB770">$1,997/mo</strong>.</span>
+      <span data-lang="es"><strong style="color:#FFB770">Starter $249/mes</strong> · <strong style="color:#FFB770">⭐ Growth $999/mes</strong> · <strong style="color:#FFB770">Scale $1,999/mes</strong> — todos incluyen setup único.</span>
+      <span data-lang="en"><strong style="color:#FFB770">Starter $249/mo</strong> · <strong style="color:#FFB770">⭐ Growth $999/mo</strong> · <strong style="color:#FFB770">Scale $1,999/mo</strong> — all include one-time setup.</span>
     </p>
     <a class="cta" href="https://netwebmedia.com/contact"><span data-lang="es">Agendar call de 20 min →</span><span data-lang="en">Book a 20-minute strategy call →</span></a>
   </div>
@@ -839,20 +844,37 @@ def render(contact, notes):
           f'<span class="sev {sev_cls[i]}"><span data-lang="es">{sev_label_es[i]}</span><span data-lang="en">{sev_label[i]}</span></span></li>'
         )
 
-    # Service cards bilingual
-    service_cards = ""
-    for svc in NICHES[niche_key]["services"]:
-        info = SERVICE_PRICES.get(svc, {"price":197,"setup":297,"impact":"High"})
-        svc_es = SVC_ES.get(svc, svc)
-        imp_es = IMPACT_ES.get(info["impact"], info["impact"])
-        service_cards += (
-          f'<div class="svc">'
-          f'<div class="n"><span data-lang="es">{esc(svc_es)}</span><span data-lang="en">{esc(svc)}</span></div>'
-          f'<div class="p">${info["price"]}<span>/<span data-lang="es">mes</span><span data-lang="en">mo</span></span></div>'
-          f'<div class="i"><span data-lang="es">Impacto: {esc(imp_es)}</span><span data-lang="en">Impact: {esc(info["impact"])}</span></div>'
-          f'<div class="setup"><span data-lang="es">Setup único: ${info["setup"]}</span><span data-lang="en">One-time setup: ${info["setup"]}</span></div>'
-          f'</div>'
-        )
+    # Package cards — 3 tiers
+    service_cards = (
+      '<div class="svc">'
+        '<div class="n"><span data-lang="es">CMO Starter</span><span data-lang="en">CMO Starter</span></div>'
+        '<div class="p">$249<span>/<span data-lang="es">mes</span><span data-lang="en">mo</span></span></div>'
+        '<div class="setup"><span data-lang="es">Setup único: $249</span><span data-lang="en">One-time setup: $249</span></div>'
+        '<div class="includes"><span data-lang="es">Sitio IA · Google Business · CRM básico · Reportes mensuales</span>'
+        '<span data-lang="en">AI Website · Google Business · Basic CRM · Monthly reports</span></div>'
+        '<a class="cta-pkg" href="https://netwebmedia.com/contact">'
+        '<span data-lang="es">Empezar →</span><span data-lang="en">Get started →</span></a>'
+      '</div>'
+      '<div class="svc highlight">'
+        '<div class="badge">⭐ <span data-lang="es">Más popular</span><span data-lang="en">Most popular</span></div>'
+        '<div class="n"><span data-lang="es">CMO Growth</span><span data-lang="en">CMO Growth</span></div>'
+        '<div class="p">$999<span>/<span data-lang="es">mes</span><span data-lang="en">mo</span></span></div>'
+        '<div class="setup"><span data-lang="es">Setup único: $999</span><span data-lang="en">One-time setup: $999</span></div>'
+        '<div class="includes"><span data-lang="es">Todo Starter + Redes IA · Ads Google/Meta · SEO · Booking Agent · SDR IA</span>'
+        '<span data-lang="en">Everything in Starter + AI Social · Google/Meta Ads · SEO · Booking Agent · AI SDR</span></div>'
+        '<a class="cta-pkg" href="https://netwebmedia.com/contact">'
+        '<span data-lang="es">Empezar →</span><span data-lang="en">Get started →</span></a>'
+      '</div>'
+      '<div class="svc scale">'
+        '<div class="n"><span data-lang="es">CMO Scale</span><span data-lang="en">CMO Scale</span></div>'
+        '<div class="p">$1,999<span>/<span data-lang="es">mes</span><span data-lang="en">mo</span></span></div>'
+        '<div class="setup"><span data-lang="es">Setup único: $1,999</span><span data-lang="en">One-time setup: $1,999</span></div>'
+        '<div class="includes"><span data-lang="es">Todo Growth + CMO Fraccional · Automatizaciones IA · Tours virtuales · Estrategia completa</span>'
+        '<span data-lang="en">Everything in Growth + Fractional CMO · AI Automations · Virtual Tours · Full strategy</span></div>'
+        '<a class="cta-pkg" href="https://netwebmedia.com/contact">'
+        '<span data-lang="es">Contactar ventas →</span><span data-lang="en">Contact sales →</span></a>'
+      '</div>'
+    )
 
     # Chart items
     bars_en = [(k, v, "#FF6B00") for k, v in scores_en.items()]

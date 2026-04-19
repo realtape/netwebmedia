@@ -347,7 +347,7 @@ def svg_funnel(before, after):
     svg += ('<text x="450" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#FF6B00">'
             '<tspan data-lang="es">Proyectado 90d</tspan><tspan data-lang="en">Projected 90d</tspan></text>')
     def bar(x0, w, color_url, y, dly):
-        w = max(w, 60)  # floor so text fits
+        w = max(w, 200)  # floor so stage labels always fit
         return (f'<rect class="nwm-fn-bar" x="{x0+150-w/2:.1f}" y="{y}" width="{w:.1f}" height="34" rx="6" '
                 f'fill="url(#{color_url})" style="--fw:{w:.1f}px;--d:{dly:.2f}s"/>')
     for i,(stage_en, stage_es, cur, proj) in enumerate(before):

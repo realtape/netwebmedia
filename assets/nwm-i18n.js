@@ -6,14 +6,14 @@
     en: {
       // Public site nav & content
       nav_services:'Services', nav_about:'About', nav_results:'Results', nav_blog:'Blog',
-      nav_contact:'Contact', nav_cta:'Get a Free Audit', nav_dashboard:'🔐 Client Login',
-      hero_badge:'🏆 Top AI Marketing Agency 2025', hero_title_1:'Your Brand Deserves',
+      nav_contact:'Contact', nav_cta:'Book a Call', nav_dashboard:'🔐 Client Login',
+      hero_badge:'', hero_title_1:'The AI-Native Fractional CMO',
       hero_title_2:'AI-Powered', hero_title_3:'Growth',
-      hero_desc:'NetWebMedia is the AI marketing agency that combines data intelligence, autonomous agents, and proven growth strategies to 10x your brand\'s performance.',
-      hero_cta1:'Get Free Strategy Call', hero_cta2:'See Our Results →',
-      hero_stat1_num:'500+', hero_stat1_label:'Brands Grown',
-      hero_stat2_num:'340%', hero_stat2_label:'Avg. ROI Increase',
-      hero_stat3_num:'4.9★', hero_stat3_label:'Client Satisfaction',
+      hero_desc:'Get cited by ChatGPT, Perplexity & Google. Close more deals. One retainer covers strategy, software, and full execution — starting at $1,997/mo.',
+      hero_cta1:'Book Your Free Strategy Call', hero_cta2:'See Pricing & Packages →',
+      hero_stat1_num:'1', hero_stat1_label:'Senior operator',
+      hero_stat2_num:'7', hero_stat2_label:'AI agents on staff',
+      hero_stat3_num:'2026', hero_stat3_label:'Founding cohort open',
       clients_label:'Trusted by innovative brands worldwide',
       services_label:'What We Do', services_title:'Full-Stack AI Marketing Services',
       services_subtitle:'From AI-powered SEO to autonomous ad campaigns — we run it all on autopilot while you focus on building your business.',
@@ -47,13 +47,13 @@
       // Public site nav & content
       nav_services:'Servicios', nav_about:'Nosotros', nav_results:'Resultados', nav_blog:'Blog',
       nav_contact:'Contacto', nav_cta:'Auditoría Gratis', nav_dashboard:'🔐 Acceso Cliente',
-      hero_badge:'🏆 Mejor Agencia de Marketing AI 2025', hero_title_1:'Tu Marca Merece',
+      hero_badge:'', hero_title_1:'Tu Marca Merece',
       hero_title_2:'Crecimiento', hero_title_3:'con Inteligencia Artificial',
       hero_desc:'NetWebMedia es la agencia de marketing AI que combina inteligencia de datos, agentes autónomos y estrategias probadas de crecimiento para multiplicar por 10 el rendimiento de tu marca.',
       hero_cta1:'Llamada Estratégica Gratis', hero_cta2:'Ver Nuestros Resultados →',
-      hero_stat1_num:'500+', hero_stat1_label:'Marcas Impulsadas',
-      hero_stat2_num:'340%', hero_stat2_label:'Aumento Promedio de ROI',
-      hero_stat3_num:'4.9★', hero_stat3_label:'Satisfacción del Cliente',
+      hero_stat1_num:'1', hero_stat1_label:'Operador senior',
+      hero_stat2_num:'7', hero_stat2_label:'Agentes AI en el equipo',
+      hero_stat3_num:'2026', hero_stat3_label:'Cupo fundador abierto',
       clients_label:'Confiado por marcas innovadoras en todo el mundo',
       services_label:'Qué Hacemos', services_title:'Servicios de Marketing AI Completos',
       services_subtitle:'Desde SEO impulsado por IA hasta campañas publicitarias autónomas — lo gestionamos todo en piloto automático mientras tú te enfocas en hacer crecer tu negocio.',
@@ -62,7 +62,7 @@
       cta_title:'¿Listo para Dominar tu Mercado?',
       cta_subtitle:'Obtén una auditoría de marketing AI gratuita y descubre exactamente dónde te están superando tus competidores.',
       cta_btn:'Reserva tu Llamada Estratégica Gratis',
-      footer_tagline:'La agencia de marketing AI más avanzada del mundo. Combinamos creatividad humana con inteligencia machine para entregar un crecimiento sin precedentes.',
+      footer_tagline:'La agencia de marketing AI más avanzada del mundo. Combinamos creatividad humana con inteligencia artificial para entregar un crecimiento sin precedentes.',
       // Nav (CMS sidebar)
       nav_pages:'Páginas', nav_landing:'Landing Pages',
       nav_forms:'Formularios', nav_templates:'Plantillas', nav_media:'Biblioteca', nav_seo:'SEO',
@@ -84,7 +84,7 @@
   };
 
   function current(){ try { return localStorage.getItem(KEY) || 'en'; } catch(_) { return 'en'; } }
-  function t(k){ var l = current(); return (DICT[l] && DICT[l][k]) || (DICT.en && DICT.en[k]) || k; }
+  function t(k){ var l = current(); return (DICT[l] && DICT[l][k]) || (DICT.en && DICT.en[k]) || null; }
   function setLang(l){
     try { localStorage.setItem(KEY, l); } catch(_) {}
     document.documentElement.lang = (l === 'es') ? 'es-CL' : 'en';

@@ -2,6 +2,102 @@
    NetWebMedia — Main JavaScript
    ============================================================ */
 
+// ── Geo-IP Language Auto-Detection ─────────────────────────
+// Order of precedence:
+//   1. User's manual choice (localStorage 'nwm_lang')
+//   2. Geo-IP country (cached 30 days in 'nwm_lang_geo')
+//   3. Browser language (navigator.language)
+//   4. Default English
+//
+// Spanish-speaking countries trigger 'es'. Everything else: 'en'.
+(function nwmGeoLang(){
+  if (window.__nwmGeoLangLoaded) return;
+  window.__nwmGeoLangLoaded = true;
+
+  var SPANISH_COUNTRIES = ['CL','MX','AR','PE','CO','VE','EC','UY','PY','BO','ES','GT','CR','CU','DO','HN','NI','PA','SV','PR'];
+  var GEO_CACHE_KEY = 'nwm_lang_geo';
+  var GEO_CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 days
+
+  function getStored(key) {
+    try { return localStorage.getItem(key); } catch(e) { return null; }
+  }
+  function setStored(key, val) {
+    try { localStorage.setItem(key, val); } catch(e){}
+  }
+
+  function pickLangFromCountry(cc) {
+    if (!cc) return null;
+    return SPANISH_COUNTRIES.indexOf(cc.toUpperCase()) !== -1 ? 'es' : 'en';
+  }
+
+  function pickLangFromBrowser() {
+    var nl = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+    return nl.indexOf('es') === 0 ? 'es' : 'en';
+  }
+
+  // 1. Already set by user? Don't override.
+  var userChoice = getStored('nwm_lang');
+  if (userChoice === 'es' || userChoice === 'en') {
+    document.documentElement.setAttribute('lang', userChoice);
+    return;
+  }
+
+  // 2. Cached geo result still valid?
+  var cached = getStored(GEO_CACHE_KEY);
+  if (cached) {
+    try {
+      var c = JSON.parse(cached);
+      if (c.ts && (Date.now() - c.ts) < GEO_CACHE_TTL && c.lang) {
+        setStored('nwm_lang', c.lang);
+        document.documentElement.setAttribute('lang', c.lang);
+        return;
+      }
+    } catch(e){}
+  }
+
+  // 3. Try geo-IP lookup (fail-safe to browser language)
+  var fallback = pickLangFromBrowser();
+  setStored('nwm_lang', fallback);
+  document.documentElement.setAttribute('lang', fallback);
+
+  // Async lookup — won't block render. Updates lang if different.
+  function tryGeoLookup() {
+    if (!window.fetch) return;
+    var ctrl = ('AbortController' in window) ? new AbortController() : null;
+    var timer = setTimeout(function(){ if (ctrl) ctrl.abort(); }, 2500);
+    var opts = ctrl ? { signal: ctrl.signal } : {};
+    fetch('https://ipapi.co/json/', opts).then(function(r){
+      clearTimeout(timer);
+      if (!r.ok) throw new Error('geo http ' + r.status);
+      return r.json();
+    }).then(function(d){
+      var cc = d && (d.country_code || d.country);
+      var lang = pickLangFromCountry(cc);
+      if (!lang) return;
+      setStored(GEO_CACHE_KEY, JSON.stringify({ts: Date.now(), lang: lang, country: cc}));
+      // If detected lang differs from what's already applied, update
+      if (lang !== getStored('nwm_lang')) {
+        setStored('nwm_lang', lang);
+        document.documentElement.setAttribute('lang', lang);
+        // Notify other widgets (chat, cookie banner) to re-init
+        try {
+          window.dispatchEvent(new CustomEvent('nwm-lang-change', { detail: { lang: lang, country: cc, source: 'geo' }}));
+        } catch(e){}
+        // If the i18n script defined applyTranslations, call it
+        if (typeof applyTranslations === 'function') applyTranslations(lang);
+      }
+    }).catch(function(){
+      clearTimeout(timer);
+      // Silent fail — fallback already applied
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryGeoLookup);
+  } else {
+    tryGeoLookup();
+  }
+})();
+
 // ── Language Translations ──────────────────────────────────
 const translations = {
   en: {
@@ -10,21 +106,21 @@ const translations = {
     nav_results: "Results",
     nav_blog: "Blog",
     nav_contact: "Contact",
-    nav_cta: "Get a Free Audit",
+    nav_cta: "Book a Call",
     nav_signin: "Client Login",
-    hero_badge: "🏆 Top AI Marketing Agency 2025",
-    hero_title_1: "Your Brand Deserves",
+    hero_badge: "",
+    hero_title_1: "The AI-Native Fractional CMO",
     hero_title_2: "AI-Powered",
     hero_title_3: "Growth",
-    hero_desc: "NetWebMedia is the AI marketing agency that combines data intelligence, autonomous agents, and proven growth strategies to 10x your brand's performance.",
-    hero_cta1: "Get Free Strategy Call",
-    hero_cta2: "See Our Results",
-    hero_stat1_num: "500+",
-    hero_stat1_label: "Brands Grown",
-    hero_stat2_num: "340%",
-    hero_stat2_label: "Avg. ROI Increase",
-    hero_stat3_num: "4.9★",
-    hero_stat3_label: "Client Satisfaction",
+    hero_desc: "Get cited by ChatGPT, Perplexity & Google. Close more deals. One retainer covers strategy, software, and full execution — starting at $1,997/mo.",
+    hero_cta1: "Book Your Free Strategy Call",
+    hero_cta2: "See Pricing & Packages →",
+    hero_stat1_num: "1",
+    hero_stat1_label: "Senior operator",
+    hero_stat2_num: "7",
+    hero_stat2_label: "AI agents on staff",
+    hero_stat3_num: "2026",
+    hero_stat3_label: "Founding cohort open",
     clients_label: "Trusted by innovative brands worldwide",
     services_label: "What We Do",
     services_title: "Full-Stack AI Marketing Services",
@@ -68,7 +164,7 @@ const translations = {
     cta_title: "¿Listo para Dominar tu Mercado?",
     cta_subtitle: "Obtén una auditoría de marketing AI gratuita y descubre exactamente dónde te están superando tus competidores.",
     cta_btn: "Reserva tu Llamada Estratégica Gratis",
-    footer_tagline: "La agencia de marketing AI más avanzada del mundo. Combinamos creatividad humana con inteligencia machine para entregar un crecimiento sin precedentes.",
+    footer_tagline: "La agencia de marketing AI más avanzada del mundo. Combinamos creatividad humana con inteligencia artificial para entregar un crecimiento sin precedentes.",
   }
 };
 
@@ -121,15 +217,44 @@ function initNavbar() {
       navbar.classList.remove('scrolled');
     }
   });
+
+  // Click-toggle for nav dropdowns (works alongside :hover)
+  document.querySelectorAll('.nav-item > a').forEach(anchor => {
+    const parent = anchor.parentElement;
+    const dropdown = parent.querySelector('.nav-dropdown');
+    if (!dropdown) return;
+    anchor.addEventListener('click', (e) => {
+      // Only intercept if dropdown is not currently open via hover
+      if (window.matchMedia('(hover: none)').matches || e.shiftKey) {
+        e.preventDefault();
+        document.querySelectorAll('.nav-item.open').forEach(i => { if (i !== parent) i.classList.remove('open'); });
+        parent.classList.toggle('open');
+      }
+    });
+  });
+  // Close dropdown on outside click
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-item')) {
+      document.querySelectorAll('.nav-item.open').forEach(i => i.classList.remove('open'));
+    }
+  });
 }
 
 // ── Mobile Menu ────────────────────────────────────────────
 function initMobileMenu() {
   const hamburger = document.querySelector('.hamburger');
   const mobileMenu = document.querySelector('.mobile-menu');
+  const navbar = document.getElementById('navbar');
   if (!hamburger || !mobileMenu) return;
 
+  // Position the menu just below the navbar (accounts for lang-bar height)
+  function positionMenu() {
+    const navBottom = navbar ? navbar.getBoundingClientRect().bottom : 70;
+    mobileMenu.style.top = Math.max(navBottom, 60) + 'px';
+  }
+
   hamburger.addEventListener('click', () => {
+    positionMenu();
     hamburger.classList.toggle('open');
     mobileMenu.classList.toggle('open');
     document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
@@ -461,3 +586,183 @@ document.addEventListener('DOMContentLoaded', () => {
     el.classList.add('scroll-reveal');
   });
 });
+
+// ── WhatsApp Floating Widget ───────────────────────────────
+(function initWhatsAppWidget(){
+  const PHONE = '56965322427';
+  const MSG = encodeURIComponent("Hi NetWebMedia — I'd like to learn more about your AI marketing services.");
+  const HREF = 'https://wa.me/' + PHONE + '?text=' + MSG;
+
+  function mount(){
+    if (document.getElementById('nwm-wa-widget')) return;
+
+    const css = `
+      #nwm-wa-widget{position:fixed;right:20px;bottom:20px;z-index:9999;display:flex;align-items:center;gap:10px;flex-direction:row-reverse;}
+      #nwm-wa-widget .nwm-wa-btn{display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:50%;background:#25D366;color:#fff;box-shadow:0 8px 24px rgba(37,211,102,.45),0 2px 6px rgba(0,0,0,.25);text-decoration:none;transition:transform .2s ease, box-shadow .2s ease;cursor:pointer;border:none;outline:none;}
+      #nwm-wa-widget .nwm-wa-btn:hover{transform:scale(1.08);box-shadow:0 10px 28px rgba(37,211,102,.6),0 2px 6px rgba(0,0,0,.3);}
+      #nwm-wa-widget .nwm-wa-btn svg{width:32px;height:32px;fill:#fff;}
+      #nwm-wa-widget .nwm-wa-tip{background:#0a1033;color:#fff;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.3);white-space:nowrap;opacity:0;transform:translateX(8px);transition:opacity .25s ease, transform .25s ease;pointer-events:none;border:1px solid rgba(255,255,255,.1);}
+      #nwm-wa-widget:hover .nwm-wa-tip{opacity:1;transform:translateX(0);}
+      #nwm-wa-widget .nwm-wa-pulse{position:absolute;right:20px;bottom:20px;width:60px;height:60px;border-radius:50%;background:#25D366;opacity:.5;animation:nwmWaPulse 2s ease-out infinite;pointer-events:none;z-index:-1;}
+      @keyframes nwmWaPulse{0%{transform:scale(1);opacity:.5;}100%{transform:scale(1.8);opacity:0;}}
+      @media (max-width:640px){#nwm-wa-widget{right:14px;bottom:calc(14px + env(safe-area-inset-bottom, 0px));}#nwm-wa-widget .nwm-wa-btn{width:54px;height:54px;}#nwm-wa-widget .nwm-wa-pulse{width:54px;height:54px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom, 0px));}#nwm-wa-widget .nwm-wa-tip{display:none;}}
+    `;
+    const style = document.createElement('style');
+    style.id = 'nwm-wa-style';
+    style.textContent = css;
+    document.head.appendChild(style);
+
+    const pulse = document.createElement('div');
+    pulse.className = 'nwm-wa-pulse';
+    document.body.appendChild(pulse);
+
+    const wrap = document.createElement('div');
+    wrap.id = 'nwm-wa-widget';
+    wrap.innerHTML =
+      '<a class="nwm-wa-btn" href="' + HREF + '" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">' +
+        '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.778 2.687.778.688 0 2.035-.514 2.35-1.176.216-.458.216-.845.158-.945-.13-.195-.45-.3-.788-.45z" /><path d="M16.026 0C7.2 0 .025 7.17.025 16c0 3.16.92 6.21 2.615 8.815L.18 32l7.425-2.45A15.94 15.94 0 0 0 16.026 32C24.88 32 32 24.84 32 16S24.88 0 16.026 0zm0 29.33a13.27 13.27 0 0 1-7.395-2.31l-.53-.315-5.45 1.805 1.83-5.3-.345-.545A13.33 13.33 0 1 1 29.34 16c0 7.35-5.97 13.33-13.32 13.33z"/></svg>' +
+      '</a>' +
+      '<span class="nwm-wa-tip">Chat with us on WhatsApp</span>';
+    document.body.appendChild(wrap);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mount);
+  } else {
+    mount();
+  }
+})();
+
+// ── Welcome Chatbot (auto-loads /js/nwm-chat.js) ──────────────────────────
+(function loadNwmChat(){
+  if (window.__nwmChatLoaded) return;
+  // Load chat script asynchronously so it doesn't block rendering
+  function inject(){
+    if (document.getElementById('nwm-chat-script')) return;
+    const s = document.createElement('script');
+    s.id = 'nwm-chat-script';
+    s.src = '/js/nwm-chat.js?v=1';
+    s.async = true;
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+  // Wait until after DOM is interactive to avoid competing with critical path
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', inject);
+  } else {
+    setTimeout(inject, 300);
+  }
+})();
+
+// ── Cookie Consent Banner (GDPR / CCPA / Ley 19.628) ──────────────────────
+(function initCookieBanner(){
+  if (window.__nwmCookieLoaded) return;
+  window.__nwmCookieLoaded = true;
+
+  const COOKIE_NAME = 'nwm_consent';
+
+  function getConsent(){
+    const m = document.cookie.match(/(^|;\s*)nwm_consent=([^;]+)/);
+    return m ? decodeURIComponent(m[2]) : null;
+  }
+  function setConsent(value){
+    const d = new Date();
+    d.setTime(d.getTime() + 365*24*60*60*1000);
+    document.cookie = COOKIE_NAME + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+    try {
+      window.dispatchEvent(new CustomEvent('nwm-consent-change', { detail: { value: value }}));
+      if (window.gtag) {
+        const grant = (value === 'all');
+        gtag('consent', 'update', {
+          ad_storage: grant ? 'granted' : 'denied',
+          ad_user_data: grant ? 'granted' : 'denied',
+          ad_personalization: grant ? 'granted' : 'denied',
+          analytics_storage: grant ? 'granted' : 'denied'
+        });
+      }
+    } catch(e){}
+  }
+
+  const LANG = (document.documentElement.lang || 'en').toLowerCase().startsWith('es') ? 'es' : 'en';
+  const T = LANG === 'es' ? {
+    title: '🍪 Usamos cookies',
+    body: 'Usamos cookies para mejorar tu experiencia, analizar tráfico y mostrar contenido relevante. Cumplimos con GDPR, CCPA y Ley 19.628.',
+    accept: 'Aceptar todas',
+    essential: 'Solo esenciales',
+    learn: 'Más información'
+  } : {
+    title: '🍪 We use cookies',
+    body: 'We use cookies to enhance your experience, analyze traffic, and serve relevant content. We comply with GDPR, CCPA, and Chile\'s Ley 19.628.',
+    accept: 'Accept all',
+    essential: 'Essential only',
+    learn: 'Learn more'
+  };
+
+  function mount(){
+    if (getConsent()) return; // Already decided
+    if (document.getElementById('nwm-cookie-banner')) return;
+
+    const css = `
+      #nwm-cookie-banner{position:fixed;left:14px;right:14px;bottom:14px;z-index:9997;max-width:560px;margin:0 auto;background:#0a0e27;border:1px solid rgba(255,107,0,.3);border-radius:14px;box-shadow:0 16px 40px rgba(0,0,0,.5);padding:18px 20px;color:#fff;font-family:inherit;animation:nwmCookieSlide .35s cubic-bezier(.2,.8,.2,1)}
+      @keyframes nwmCookieSlide{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+      #nwm-cookie-banner .nwm-c-title{font-weight:700;font-size:14px;margin-bottom:6px}
+      #nwm-cookie-banner .nwm-c-body{font-size:13px;color:#b8c4d9;line-height:1.5;margin-bottom:14px}
+      #nwm-cookie-banner .nwm-c-body a{color:#FF6B00;text-decoration:none}
+      #nwm-cookie-banner .nwm-c-actions{display:flex;flex-wrap:wrap;gap:8px}
+      #nwm-cookie-banner button{flex:1;min-width:130px;padding:10px 14px;border-radius:8px;border:0;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .15s}
+      #nwm-cookie-banner button:hover{transform:translateY(-1px)}
+      #nwm-cookie-banner .nwm-c-accept{background:linear-gradient(135deg,#FF6B00,#ff3d00);color:#fff;box-shadow:0 4px 14px rgba(255,107,0,.3)}
+      #nwm-cookie-banner .nwm-c-essential{background:rgba(255,255,255,.06);color:#dde3ee;border:1px solid rgba(255,255,255,.12)}
+      @media (max-width:640px){#nwm-cookie-banner{left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom, 0px));padding:14px 16px;border-radius:12px}#nwm-cookie-banner .nwm-c-actions{flex-direction:column}#nwm-cookie-banner button{flex:none;width:100%}}
+    `;
+    const style = document.createElement('style');
+    style.id = 'nwm-cookie-style';
+    style.textContent = css;
+    document.head.appendChild(style);
+
+    const wrap = document.createElement('div');
+    wrap.id = 'nwm-cookie-banner';
+    wrap.setAttribute('role', 'dialog');
+    wrap.setAttribute('aria-label', T.title);
+    wrap.innerHTML =
+      '<div class="nwm-c-title">' + T.title + '</div>' +
+      '<div class="nwm-c-body">' + T.body + ' <a href="/privacy.html#cookies">' + T.learn + ' →</a></div>' +
+      '<div class="nwm-c-actions">' +
+        '<button class="nwm-c-essential" type="button">' + T.essential + '</button>' +
+        '<button class="nwm-c-accept" type="button">' + T.accept + '</button>' +
+      '</div>';
+    document.body.appendChild(wrap);
+
+    function close(value){
+      setConsent(value);
+      wrap.style.transition = 'transform .25s, opacity .25s';
+      wrap.style.transform = 'translateY(20px)';
+      wrap.style.opacity = '0';
+      setTimeout(function(){ wrap.remove(); }, 280);
+      if (window.gtag) gtag('event', 'cookie_consent', { value: value });
+    }
+    wrap.querySelector('.nwm-c-accept').addEventListener('click', function(){ close('all'); });
+    wrap.querySelector('.nwm-c-essential').addEventListener('click', function(){ close('essential'); });
+  }
+
+  // Initialize Google Consent Mode v2 default
+  try {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    if (!getConsent()) {
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        wait_for_update: 500
+      });
+    }
+  } catch(e){}
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ setTimeout(mount, 1500); });
+  } else {
+    setTimeout(mount, 1500);
+  }
+})();

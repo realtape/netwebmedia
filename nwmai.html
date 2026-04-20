@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NWMai — Unified AI Assistant for CRM &amp; CMS | NetWebMedia</title>
+  <meta name="description" content="NWMai is the unified AI assistant built into NetWebMedia CRM + CMS. Drafts emails, summarizes deals, generates bilingual landing pages, and suggests next actions — with full context of your data.">
+  <link rel="canonical" href="https://netwebmedia.com/nwmai.html" />
+  <meta property="og:title" content="NWMai — Unified AI Assistant Across CRM + CMS" />
+  <meta property="og:description" content="The AI layer that lives inside every module — drafts, summaries, content, translations, next-best-actions. Ships with every NetWebMedia plan." />
+  <meta property="og:url" content="https://netwebmedia.com/nwmai.html" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg" />
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    .prod-hero{padding:90px 20px 40px;text-align:center;max-width:1100px;margin:0 auto}
+    .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+    .prod-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+    .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:720px;margin:0 auto 28px;line-height:1.5}
+    .prod-hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:16px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:14px 28px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:16px}
+
+    .prod-stats{max-width:1000px;margin:40px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;padding:0 20px}
+    .prod-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;text-align:center}
+    .prod-stat .n{font-size:30px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+    .prod-stat .l{font-size:13px;color:#9aa;margin-top:6px;text-transform:uppercase;letter-spacing:.08em}
+
+    .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+    .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+    .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+    .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+    .feat-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px;transition:transform .2s,border-color .2s}
+    .feat-card:hover{transform:translateY(-4px);border-color:rgba(6,182,212,.45)}
+    .feat-icon{font-size:28px;margin-bottom:12px}
+    .feat-card h3{margin:0 0 10px;font-size:18px}
+    .feat-card p{color:#b8c4d9;font-size:14px;line-height:1.55;margin:0}
+
+    /* Demo dock preview (visual only) */
+    .dock-demo{max-width:900px;margin:0 auto;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:24px;position:relative;overflow:hidden}
+    .dock-demo::after{content:"";position:absolute;inset:auto -40px -40px auto;width:220px;height:220px;background:radial-gradient(closest-side,rgba(6,182,212,.18),transparent);pointer-events:none}
+    .dock-chat{background:#0b1220;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;font-family:ui-monospace,Menlo,Monaco,Consolas,monospace;font-size:13px;color:#dde3ee;line-height:1.6}
+    .dock-chat .you{color:#22d3ee;font-weight:700}
+    .dock-chat .ai{color:#a7f3d0;font-weight:700}
+    .dock-kbd{display:inline-block;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:5px;padding:2px 6px;font-family:ui-monospace,monospace;font-size:11px;color:#b8c4d9}
+
+    .use-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .use-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px}
+    .use-card h4{margin:0 0 8px;font-size:15px;color:#fff}
+    .use-card p{color:#b8c4d9;font-size:13px;line-height:1.55;margin:0}
+    .use-card .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border-radius:99px;margin-bottom:10px}
+    .use-card .tag.crm{background:rgba(255,107,0,.15);color:#ff8a3d}
+    .use-card .tag.cms{background:rgba(139,92,246,.15);color:#c4b5fd}
+    .use-card .tag.ai{background:rgba(6,182,212,.15);color:#67e8f9}
+
+    .how-row{display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start;margin:18px 0}
+    .how-num{width:40px;height:40px;border-radius:99px;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;font-weight:900;font-size:18px;display:flex;align-items:center;justify-content:center}
+    .how-row h4{margin:0 0 4px;font-size:16px;color:#fff}
+    .how-row p{margin:0;color:#b8c4d9;font-size:14px;line-height:1.55}
+
+    .included-banner{background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(8,145,178,.05));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:50px 20px;margin:40px 0 0;text-align:center}
+    .included-banner h3{font-size:clamp(22px,3.5vw,30px);margin:0 0 10px}
+    .included-banner p{color:#b8c4d9;max-width:680px;margin:0 auto 18px;font-size:15px;line-height:1.55}
+  </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<!-- Launch promo banner -->
+<div class="promo-banner">
+  🎉 Launch week: <strong>50% OFF</strong> your first 3 months with code <code>Carlos26</code> — ends in 7 days
+</div>
+
+<div class="top-bar">
+  <div class="container">
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="es">ES</button>
+    </div>
+    <a href="/crm/" class="lang-client-login">🔐 Client Login</a>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar has-lang-bar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px">
+      </a>
+      <div class="nav-links">
+    <a href="about.html" data-i18n="nav_about">About</a>
+    <div class="nav-item">
+      <a href="services.html" data-i18n="nav_services">Services</a>
+      <div class="nav-dropdown">
+        <a href="services.html#fractional-cmo" style="color:#FF671F;font-weight:700">&#9733; Fractional CMO</a>
+        <a href="services.html#ai-automations">AI Automations</a>
+        <a href="services.html#ai-agents">AI Agents</a>
+        <a href="services.html#paid-ads">Paid Ads</a>
+        <a href="services.html#ai-seo">AI SEO &amp; Content</a>
+        <a href="services.html#social">Social Media</a>
+        <a href="/email-marketing.html">Email Marketing</a>
+      </div>
+    </div>
+    <a href="/partners.html" style="color:#6366f1;font-weight:600">Partners</a>
+    <a href="blog.html" data-i18n="nav_blog">Blog</a>
+    <a href="/faq.html">Q&amp;A</a>
+    <div class="nav-item">
+      <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help</a>
+      <div class="nav-dropdown">
+        <a href="/tutorials.html"><strong>All Tutorials</strong></a>
+        <a href="/tutorials/nwm-crm.html">NWM CRM (all 7 hubs)</a>
+        <a href="/tutorials/nwm-cms.html">NWM CMS</a>
+        <a href="/tutorials/ai-automate.html">AI Automations</a>
+        <a href="/tutorials/ai-chat-agents.html">AI Chat Agents</a>
+        <a href="/tutorials/ai-seo.html">AI SEO</a>
+        <a href="/tutorials/email-marketing.html">Email Marketing</a>
+        <a href="/tutorials/paid-ads.html">Paid Ads</a>
+        <a href="/tutorials/social-media.html">Social Media</a>
+        <a href="/tutorials/video-factory.html">Video Factory</a>
+        <a href="/tutorials/websites.html">Websites</a>
+        <a href="/tutorials/fractional-cmo.html">Fractional CMO</a>
+        <a href="/tutorials/analyzer.html">Analyzer</a>
+      </div>
+    </div>
+    <a href="contact.html" data-i18n="nav_contact">Contact</a>
+  </div>
+      <div class="nav-ctas">
+        <a href="cart.html" class="nav-cart" aria-label="View cart">🛒<span class="nav-cart-count" aria-hidden="true">0</span></a>
+        <a href="contact.html" class="btn-nav-solid">Get a Free Audit</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="about.html">About</a>
+  <a href="services.html">Services</a>
+  <a href="services.html#fractional-cmo" class="mobile-sub" style="color:#FF671F;font-weight:700">&#9733; Fractional CMO</a>
+  <a href="services.html#ai-automations" class="mobile-sub">AI Automations</a>
+  <a href="services.html#ai-agents" class="mobile-sub">AI Agents</a>
+  <a href="/partners.html" style="color:#6366f1;font-weight:600">Partners</a>
+  <a href="blog.html">Blog</a>
+  <a href="/faq.html">Q&amp;A</a>
+  <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help &amp; Tutorials</a>
+  <a href="/tutorials/nwm-crm.html" class="mobile-sub">NWM CRM Tutorials</a>
+  <a href="/tutorials/nwm-cms.html" class="mobile-sub">NWM CMS Tutorials</a>
+  <a href="/tutorials/ai-automate.html" class="mobile-sub">AI Automations</a>
+  <a href="/tutorials/ai-chat-agents.html" class="mobile-sub">AI Chat Agents</a>
+  <a href="/tutorials/email-marketing.html" class="mobile-sub">Email Marketing</a>
+  <a href="/tutorials/paid-ads.html" class="mobile-sub">Paid Ads</a>
+  <a href="/tutorials/social-media.html" class="mobile-sub">Social Media</a>
+  <a href="contact.html">Contact</a>
+  <a href="contact.html" class="btn-primary">Get a Free Audit</a>
+</div>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="prod-hero">
+  <div class="eyebrow">NWMai · Included in every plan</div>
+  <h1>One AI assistant, <span class="hl">across every module you use</span></h1>
+  <p class="sub">
+    NWMai is the unified AI layer built into NetWebMedia CRM and CMS. Draft emails, summarize deals, generate bilingual landing pages, translate content, and plan your next move — from a single dock that knows where you are and what you're working on.
+  </p>
+  <div class="ctas">
+    <a href="/crm/nwmai" class="btn-teal">Open NWMai →</a>
+    <a href="#how" class="btn-ghost">See how it works</a>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="prod-stats">
+  <div class="prod-stat"><div class="n">1</div><div class="l">Dock, everywhere</div></div>
+  <div class="prod-stat"><div class="n">8</div><div class="l">Quick generators</div></div>
+  <div class="prod-stat"><div class="n">EN/ES</div><div class="l">Bilingual by default</div></div>
+  <div class="prod-stat"><div class="n">&lt;2s</div><div class="l">Typical response</div></div>
+</div>
+
+<!-- Dock demo -->
+<section class="prod-section" id="how">
+  <h2>A dock that follows you. Not a tab you switch to.</h2>
+  <p class="sub">NWMai lives in the bottom-right corner of every CRM and CMS page. Press <span class="dock-kbd">⌘&nbsp;K</span> (or <span class="dock-kbd">Ctrl&nbsp;K</span>) and start typing — it already knows which record, pipeline, or page you're on.</p>
+
+  <div class="dock-demo">
+    <div class="dock-chat">
+      <div><span class="you">you ·</span> summarize this deal</div>
+      <div style="color:#9aa;margin:10px 0 14px 0;padding-left:8px;border-left:2px solid #06B6D4">
+        <span class="ai">NWMai ·</span> Acme Corp, $48K ARR, stage Proposal Sent. Champion Sarah J. (CTO). Last touch 4 days ago — reply pending. Decision committee is 3 people; we have 2. <strong>Risk:</strong> CFO not yet looped in.
+      </div>
+      <div><span class="you">you ·</span> draft follow-up email to Sarah referencing the gaps</div>
+      <div style="color:#9aa;margin:10px 0 14px 0;padding-left:8px;border-left:2px solid #06B6D4">
+        <span class="ai">NWMai ·</span> Subject: Re: NetWebMedia proposal — one thing to confirm<br>
+        Hi Sarah, short question before we lock in next steps: is Marco (CFO) aligned on the $48K/yr budget, or should we set a 20-minute call with him to walk through the ROI? I can hold Tuesday or Thursday this week. — Carlos
+      </div>
+      <div><span class="you">you ·</span> /write landing page about bilingual email campaigns</div>
+      <div style="color:#9aa;margin:10px 0 0 0;padding-left:8px;border-left:2px solid #06B6D4">
+        <span class="ai">NWMai ·</span> Generating full HTML page draft with hero, 3 features, social proof, and CTA…
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="prod-section">
+  <h2>The AI layer that ships with every plan</h2>
+  <p class="sub">NWMai isn't an upsell. It's the connective tissue between NWM CRM and NWM CMS — one assistant with full context, not ten disconnected bots.</p>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">🧠</div><h3>Context-aware everywhere</h3><p>Opens on every /crm page and reads the current route and entity. You don't have to tell it which deal you're looking at.</p></div>
+    <div class="feat-card"><div class="feat-icon">⌨️</div><h3>⌘K / Ctrl K shortcut</h3><p>Summon NWMai from any module. Slash commands for /summarize, /draft-email, /next-steps, /write, /translate.</p></div>
+    <div class="feat-card"><div class="feat-icon">✍️</div><h3>CMS content generator</h3><p>Full landing pages, blog sections, SEO meta (title + description + OG), email subjects — in EN or ES, one click.</p></div>
+    <div class="feat-card"><div class="feat-icon">📇</div><h3>CRM drafting</h3><p>Follow-up emails, call notes, SMS, quote explainers — drafted in your brand voice with the record's context.</p></div>
+    <div class="feat-card"><div class="feat-icon">🌐</div><h3>Bilingual by default</h3><p>Every artifact can be generated in English or Spanish. Translations preserve tone and CTA intent.</p></div>
+    <div class="feat-card"><div class="feat-icon">🧭</div><h3>Next-best-action</h3><p>Ask "what should I do next on this deal?" and get three concrete verbs-first actions — not a wall of text.</p></div>
+    <div class="feat-card"><div class="feat-icon">🔒</div><h3>Private &amp; scoped</h3><p>Conversations are saved per org, visible only to your team. Nothing leaves your workspace unless you paste it.</p></div>
+    <div class="feat-card"><div class="feat-icon">📚</div><h3>Session history</h3><p>Every NWMai chat is saved and searchable in the NWMai hub. Pick up where you left off.</p></div>
+    <div class="feat-card"><div class="feat-icon">🔌</div><h3>One API</h3><p>POST /api/nwmai/chat and /api/nwmai/generate. Same auth as the rest of the platform. No new keys.</p></div>
+  </div>
+</section>
+
+<!-- Use cases -->
+<section class="prod-section">
+  <h2>What people actually use NWMai for</h2>
+  <p class="sub">A week of real conversations — anonymized and bucketed by hub.</p>
+  <div class="use-grid">
+    <div class="use-card">
+      <span class="tag crm">CRM · Sales</span>
+      <h4>Draft a re-engage email to a stuck deal</h4>
+      <p>"Draft a short follow-up to this deal referencing the gap in champion coverage and suggesting a CFO call."</p>
+    </div>
+    <div class="use-card">
+      <span class="tag crm">CRM · Service</span>
+      <h4>Summarize a ticket thread</h4>
+      <p>"Give me the 3 bullets a manager needs to know about this ticket, plus the risk level."</p>
+    </div>
+    <div class="use-card">
+      <span class="tag cms">CMS · Pages</span>
+      <h4>Generate a bilingual landing page</h4>
+      <p>"Write a full landing page for our AI email audit — in Spanish, 3 features, executive tone, CTA to book a call."</p>
+    </div>
+    <div class="use-card">
+      <span class="tag cms">CMS · Blog</span>
+      <h4>Write a blog section</h4>
+      <p>"250-word section about why GoHighLevel agency pricing breaks down at 30 clients. H2 included."</p>
+    </div>
+    <div class="use-card">
+      <span class="tag ai">AI · SEO</span>
+      <h4>Generate SEO meta for a page</h4>
+      <p>"Return JSON: title under 60 chars, meta description under 155, OG title and description."</p>
+    </div>
+    <div class="use-card">
+      <span class="tag ai">AI · Translate</span>
+      <h4>Translate marketing copy</h4>
+      <p>"Translate this welcome email to Spanish and keep the CTA button text identical."</p>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="prod-section">
+  <h2>How NWMai actually works</h2>
+  <p class="sub">Built on Claude 3.5 Sonnet. Your conversations never train third-party models.</p>
+  <div class="how-row"><div class="how-num">1</div><div><h4>You open it</h4><p>Click the cyan bubble bottom-right, or press ⌘K / Ctrl K anywhere in the CRM or CMS. The dock slides in with your last chat pre-loaded.</p></div></div>
+  <div class="how-row"><div class="how-num">2</div><div><h4>It reads your context</h4><p>The current route (e.g. /deals/452 or /pages/new) and any focused entity are attached to the prompt. You don't repeat yourself.</p></div></div>
+  <div class="how-row"><div class="how-num">3</div><div><h4>It replies with a clear answer</h4><p>Short, action-oriented, executive in tone. Slash commands give you structured output — an email, a page, a summary, 3 next steps.</p></div></div>
+  <div class="how-row"><div class="how-num">4</div><div><h4>You copy, tweak, or accept</h4><p>Every output is copyable. CMS drafts can be pasted straight into the Pages editor. Email drafts open in your reply composer. History is saved for your org.</p></div></div>
+</section>
+
+<!-- Included banner -->
+<section class="included-banner">
+  <h3>Included in every NetWebMedia plan</h3>
+  <p>NWMai ships with CMO Starter, Growth, Scale, and every custom plan. No AI usage fees. No per-seat tax. If you have NetWebMedia, you have NWMai.</p>
+  <a href="pricing.html" class="btn-teal">See pricing →</a>
+</section>
+
+<!-- FAQ -->
+<section class="prod-section">
+  <h2>Common questions</h2>
+  <div class="use-grid">
+    <div class="use-card">
+      <h4>Does NWMai replace the specialized AI agents (AI Copilot, AI SDR)?</h4>
+      <p>No — it complements them. Those are role-specific bots with their own memory. NWMai is the platform-wide assistant you pull up for quick drafts, summaries, and next steps across the whole CRM and CMS.</p>
+    </div>
+    <div class="use-card">
+      <h4>Which model is running?</h4>
+      <p>Claude 3.5 Sonnet (2024-10-22) by default. If no API key is set in your workspace, NWMai falls back to a visible mock mode so you can still see the UX.</p>
+    </div>
+    <div class="use-card">
+      <h4>Where is my data stored?</h4>
+      <p>Conversations are stored in your NetWebMedia database, scoped to your org. Your data is never used to train third-party models.</p>
+    </div>
+    <div class="use-card">
+      <h4>Can I build custom agents on top of NWMai?</h4>
+      <p>Yes — the underlying /api/nwmai/chat and /api/nwmai/generate endpoints are open to any workflow, automation, or custom code block you build inside the platform.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <img src="assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px" loading="lazy" width="200" height="52">
+        </a>
+        <p>The world's most advanced AI marketing agency. We combine human creativity with machine intelligence to deliver unprecedented growth.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/nwm-crm.html">NWM CRM</a></li>
+          <li><a href="/nwm-cms.html">NWM CMS</a></li>
+          <li><a href="/nwmai.html">NWMai</a></li>
+          <li><a href="/analytics.html">Analyzer</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Compare</h4>
+        <ul>
+          <li><a href="/compare.html">Overview</a></li>
+          <li><a href="/vs-hubspot.html">vs HubSpot</a></li>
+          <li><a href="/vs-gohighlevel.html">vs GoHighLevel</a></li>
+          <li><a href="/partners.html">Partner Program</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="/faq.html">Q&amp;A</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a></li>
+          <li><a href="https://wa.me/56965322427" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 NetWebMedia. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js" defer></script>
+</body>
+</html>

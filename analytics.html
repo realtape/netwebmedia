@@ -175,7 +175,13 @@
   ]
 }
 </script>
-  <!-- Google Analytics 4 -->
+
+  <!-- NWM-LIFT-TO-100 :: Added WebPage block (GA4 + Pixel + JSON-LD + Twitter) -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Free Website Audit - NetWebMedia Analyzer" />
+  <meta name="twitter:description" content="Get an instant AI-powered audit of any website and its social channels. Scores SEO, performance, mobile, content, and technical health." />
+  <meta name="twitter:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -183,25 +189,107 @@
     gtag('js', new Date());
     gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
   </script>
+
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    window.NWM_META_PIXEL_ID = 'PASTE_PIXEL_ID_HERE'; // ← replace with real Pixel ID from business.facebook.com/events_manager
+    if (window.NWM_META_PIXEL_ID && window.NWM_META_PIXEL_ID !== 'PASTE_PIXEL_ID_HERE') { fbq('init', window.NWM_META_PIXEL_ID); fbq('track', 'PageView'); }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://netwebmedia.com/#org",
+        "name": "NetWebMedia",
+        "url": "https://netwebmedia.com/",
+        "logo": "https://netwebmedia.com/assets/nwm-logo.svg",
+        "description": "AI marketing agency for US brands. Autonomous agents, AI SEO, paid ads, and CRM automation.",
+        "email": "hello@netwebmedia.com",
+        "sameAs": [
+          "https://www.linkedin.com/in/netwebmedia",
+          "https://x.com/netwebmedia",
+          "https://www.instagram.com/netwebmedia/",
+          "https://www.facebook.com/netwebmedia",
+          "https://www.youtube.com/@netwebmedia",
+          "https://www.tiktok.com/@netwebmedia"
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://netwebmedia.com/analytics.html#webpage",
+        "url": "https://netwebmedia.com/analytics.html",
+        "name": "Free Website Audit - NetWebMedia Analyzer",
+        "description": "Get an instant AI-powered audit of any website and its social channels. Scores SEO, performance, mobile, content, and technical health.",
+        "isPartOf": { "@id": "https://netwebmedia.com/#website" },
+        "about": { "@id": "https://netwebmedia.com/#org" }
+      }
+    ]
+  }
+  </script>
+  <!-- /NWM-LIFT-TO-100 -->
+
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
 
 <!-- Language Bar -->
+<!-- Launch promo banner -->
+<div class="promo-banner">
+  🎉 Launch week: <strong>50% OFF</strong> your first 3 months with code <code>Carlos26</code> — ends in 7 days
+</div>
+
 <div class="lang-bar"><div class="container">
   <button class="lang-btn active" data-lang="en"><img class="flag" src="https://flagcdn.com/w40/us.png" alt="EN" /> English</button>
-  <button class="lang-btn" data-lang="es"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="ES" / loading="lazy"> Español</button>
+  <button class="lang-btn" data-lang="es"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="ES" loading="lazy" /> Español</button>
+    <a href="/crm/" class="lang-client-login" data-i18n="nav_dashboard">🔐 Client Login</a>
 </div></div>
 
 <!-- Navbar -->
 <nav class="navbar has-lang-bar" id="navbar"><div class="container"><div class="navbar-inner">
   <a href="index.html" class="nav-logo"><img src="assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px" loading="lazy"></a>
   <div class="nav-links">
-    <a href="services.html">Services</a>
-    <a href="about.html">About</a>
-    <a href="results.html">Results</a>
-    <a href="blog.html">Blog</a>
-    <a href="contact.html">Contact</a>
+    <a href="about.html" data-i18n="nav_about">About</a>
+    <div class="nav-item">
+      <a href="services.html" data-i18n="nav_services">Services</a>
+      <div class="nav-dropdown">
+        <a href="services.html#fractional-cmo" style="color:#FF671F;font-weight:700">&#9733; Fractional CMO</a>
+        <a href="services.html#ai-automations">AI Automations</a>
+        <a href="services.html#ai-agents">AI Agents</a>
+        <a href="services.html#paid-ads">Paid Ads</a>
+        <a href="services.html#ai-seo">AI SEO &amp; Content</a>
+        <a href="services.html#social">Social Media</a>
+        <a href="/email-marketing.html">Email Marketing</a>
+      </div>
+    </div>
+    <a href="/partners.html" style="color:#6366f1;font-weight:600">Partners</a>
+    <a href="blog.html" data-i18n="nav_blog">Blog</a>
+    <a href="/faq.html">Q&amp;A</a>
+    <div class="nav-item">
+      <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help</a>
+      <div class="nav-dropdown">
+        <a href="/tutorials.html"><strong>All Tutorials</strong></a>
+        <a href="/tutorials/nwm-crm.html">NWM CRM (all 7 hubs)</a>
+        <a href="/tutorials/nwm-cms.html">NWM CMS</a>
+        <a href="/tutorials/ai-automate.html">AI Automations</a>
+        <a href="/tutorials/ai-chat-agents.html">AI Chat Agents</a>
+        <a href="/tutorials/ai-seo.html">AI SEO</a>
+        <a href="/tutorials/email-marketing.html">Email Marketing</a>
+        <a href="/tutorials/paid-ads.html">Paid Ads</a>
+        <a href="/tutorials/social-media.html">Social Media</a>
+        <a href="/tutorials/video-factory.html">Video Factory</a>
+        <a href="/tutorials/websites.html">Websites</a>
+        <a href="/tutorials/fractional-cmo.html">Fractional CMO</a>
+        <a href="/tutorials/analyzer.html">Analyzer</a>
+      </div>
+    </div>
+    <a href="contact.html" data-i18n="nav_contact">Contact</a>
   </div>
   <div class="nav-ctas">
     <a href="dashboard.html" class="btn-nav-outline">Dashboard</a>
@@ -214,12 +302,23 @@
 
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobile-menu">
-  <a href="services.html">Services</a>
   <a href="about.html">About</a>
-  <a href="results.html">Results</a>
+  <a href="services.html">Services</a>
+  <a href="services.html#fractional-cmo" class="mobile-sub" style="color:#FF671F;font-weight:700">&#9733; Fractional CMO</a>
+  <a href="services.html#ai-automations" class="mobile-sub">AI Automations</a>
+  <a href="services.html#ai-agents" class="mobile-sub">AI Agents</a>
+  <a href="/partners.html" style="color:#6366f1;font-weight:600">Partners</a>
   <a href="blog.html">Blog</a>
+  <a href="/faq.html">Q&amp;A</a>
+  <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help &amp; Tutorials</a>
+  <a href="/tutorials/nwm-crm.html" class="mobile-sub">NWM CRM Tutorials</a>
+  <a href="/tutorials/nwm-cms.html" class="mobile-sub">NWM CMS Tutorials</a>
+  <a href="/tutorials/ai-automate.html" class="mobile-sub">AI Automations</a>
+  <a href="/tutorials/ai-chat-agents.html" class="mobile-sub">AI Chat Agents</a>
+  <a href="/tutorials/email-marketing.html" class="mobile-sub">Email Marketing</a>
+  <a href="/tutorials/paid-ads.html" class="mobile-sub">Paid Ads</a>
+  <a href="/tutorials/social-media.html" class="mobile-sub">Social Media</a>
   <a href="contact.html">Contact</a>
-  <a href="dashboard.html">Dashboard</a>
   <a href="contact.html" class="btn-primary">Get a Free Audit</a>
 </div>
 
@@ -229,14 +328,19 @@
     <div class="section-label">FREE WEBSITE ANALYSIS</div>
     <h1 class="section-title">Check Your Website's <span class="gradient-text">Performance</span></h1>
     <p class="section-subtitle" style="margin:0 auto;">Enter your website URL and get an instant analysis of your SEO, performance, accessibility, and more.</p>
-    <form class="analytics-form" id="analytics-form" style="flex-wrap:wrap;max-width:640px;margin:40px auto 0;">
-      <label for="lead-name" class="sr-only" style="position:absolute;left:-9999px;">Your name</label>
-      <input type="text" id="lead-name" placeholder="Your Name" required style="min-width:200px;" aria-label="Your name" />
-      <label for="lead-email" class="sr-only" style="position:absolute;left:-9999px;">Your email</label>
-      <input type="email" id="lead-email" placeholder="your@email.com" required style="min-width:200px;" aria-label="Your email" />
-      <label for="site-url" class="sr-only" style="position:absolute;left:-9999px;">Website URL</label>
-      <input type="url" id="site-url" placeholder="https://yourwebsite.com" required style="min-width:280px;flex:1 1 100%;" aria-label="Website URL" />
-      <button type="submit" id="analyze-btn" style="flex:1 1 100%;">Analyze Now</button>
+    <form class="analytics-form" id="analytics-form" style="flex-wrap:wrap;max-width:720px;margin:40px auto 0;">
+      <input type="text"  id="lead-name"   name="name"    placeholder="Your Name"            required style="min-width:min(200px,100%);flex:1 1 40%;" aria-label="Your name" />
+      <input type="email" id="lead-email"  name="email"   placeholder="your@email.com"       required style="min-width:min(200px,100%);flex:1 1 40%;" aria-label="Your email" />
+      <input type="text"  id="lead-company" name="company" placeholder="Company (optional)"           style="min-width:min(200px,100%);flex:1 1 100%;" aria-label="Company" />
+      <input type="url"   id="site-url"    name="website" placeholder="https://yourwebsite.com" required style="min-width:min(280px,100%);flex:1 1 100%;" aria-label="Website URL" />
+      <input type="text"  id="ig-handle"   name="instagram" placeholder="Instagram @handle"           style="min-width:min(160px,100%);flex:1 1 30%;" aria-label="Instagram" />
+      <input type="text"  id="fb-handle"   name="facebook"  placeholder="Facebook page"               style="min-width:min(160px,100%);flex:1 1 30%;" aria-label="Facebook" />
+      <input type="text"  id="li-handle"   name="linkedin"  placeholder="LinkedIn company"            style="min-width:min(160px,100%);flex:1 1 30%;" aria-label="LinkedIn" />
+      <input type="text"  id="tt-handle"   name="tiktok"    placeholder="TikTok @handle"              style="min-width:min(160px,100%);flex:1 1 30%;" aria-label="TikTok" />
+      <input type="text"  id="yt-handle"   name="youtube"   placeholder="YouTube @handle"             style="min-width:min(160px,100%);flex:1 1 30%;" aria-label="YouTube" />
+      <input type="text"  id="x-handle"    name="x"         placeholder="X / Twitter @handle"         style="min-width:min(160px,100%);flex:1 1 30%;" aria-label="X" />
+      <button type="submit" id="analyze-btn" style="flex:1 1 100%;">Run Deep Audit (Free)</button>
+      <p style="flex:1 1 100%;margin:0;font-size:12px;color:#7B8FAD;text-align:center;">We'll analyze your website + each social profile you provide. Takes ~15 seconds.</p>
     </form>
     <div class="loading-bar" id="loading-bar"><div class="fill" id="loading-fill"></div></div>
     <p class="analyzing-text" id="analyzing-text">Analyzing your website...</p>
@@ -288,7 +392,7 @@
 <footer>
   <div class="container">
     <div class="footer-bottom">
-      <p>&copy; 2025 NetWebMedia. All rights reserved.</p>
+      <p>&copy; 2026 NetWebMedia. All rights reserved.</p>
       <div class="footer-bottom-links">
         <a href="index.html">Home</a>
         <a href="services.html">Services</a>
@@ -298,7 +402,22 @@
   </div>
 </footer>
 
-<script src="js/main.js" defer></script>
+<script src="js/main.js?v=2" defer></script>
 <script src="js/analytics.js" defer></script>
+<script src="assets/nwm-forms.js" defer></script>
+<script src="assets/nwm-i18n.js" defer></script>
+
+<!-- NWM-LIFT-TO-100 :: External social links for auditor + SEO -->
+<div class="nwm-social-footer" style="text-align:center;padding:24px 20px;border-top:1px solid rgba(255,255,255,.06);color:#6b7280;font-size:13px;">
+  <span style="margin-right:10px">Connect with NetWebMedia:</span>
+  <a href="https://www.linkedin.com/in/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">LinkedIn</a>
+  <a href="https://www.instagram.com/netwebmedia/" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">Instagram</a>
+  <a href="https://x.com/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">X / Twitter</a>
+  <a href="https://www.facebook.com/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">Facebook</a>
+  <a href="https://www.youtube.com/@netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">YouTube</a>
+  <a href="https://www.tiktok.com/@netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">TikTok</a>
+</div>
+<!-- /NWM-LIFT-TO-100 -->
+
 </body>
 </html>

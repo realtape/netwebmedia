@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NWM CMS Tutorial — Build a Bilingual AI Site | NetWebMedia</title>
+<meta name="description" content="Step-by-step NWM CMS tutorial: pages, blogs, landing pages, SEO, forms, bilingual publishing. From empty site to launched in one afternoon.">
+<link rel="canonical" href="https://netwebmedia.com/tutorials/nwm-cms.html">
+<link rel="icon" type="image/svg+xml" href="../assets/nwm-logo.svg">
+<link rel="stylesheet" href="../css/styles.css">
+<link rel="stylesheet" href="_tutorial.css">
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container"><div class="navbar-inner">
+    <a href="../index.html" class="nav-logo"><img src="../assets/nwm-logo-horizontal.svg" alt="NetWebMedia" style="height:38px"></a>
+    <div class="nav-links">
+      <a href="../pricing.html">Pricing</a>
+      <a href="../services.html">Services</a>
+      <a href="/nwm-cms.html">NWM CMS</a>
+      <a href="/tutorials.html" style="color:#8b5cf6">Tutorials</a>
+      <a href="../contact.html">Contact</a>
+    </div>
+    <div class="nav-ctas"><a href="../contact.html" class="btn-nav-solid">Get a Free Audit</a></div>
+  </div></div>
+</nav>
+
+<main class="tut-wrap">
+
+<div class="tut-breadcrumb">
+  <a href="../index.html">Home</a> / <a href="/tutorials.html">Tutorials</a> / <strong>NWM CMS</strong>
+</div>
+
+<h1>NWM CMS — Build a Bilingual AI Site</h1>
+<p class="tut-lede">Go from empty site to launched in one afternoon. Generate pages, blogs, and landing pages with AI, publish in English + Spanish, and wire SEO, forms, and analytics — all without touching code.</p>
+
+<div class="tut-meta">
+  <span>⏱ 15 min read</span>
+  <span>📖 10 sections</span>
+  <span>🆕 Updated Apr 2026</span>
+</div>
+
+<div class="tut-toc">
+  <h4>What's inside</h4>
+  <ol>
+    <li><a href="#what">What NWM CMS is (and isn't)</a></li>
+    <li><a href="#start">Spin up a new site</a></li>
+    <li><a href="#pages">Pages &amp; templates</a></li>
+    <li><a href="#blog">Blog + AI content writer</a></li>
+    <li><a href="#landing">Landing pages &amp; A/B tests</a></li>
+    <li><a href="#seo">SEO + AEO planner</a></li>
+    <li><a href="#forms">Forms &amp; memberships</a></li>
+    <li><a href="#bilingual">Bilingual publishing</a></li>
+    <li><a href="#launch">Launch checklist</a></li>
+    <li><a href="#next">What to do next</a></li>
+  </ol>
+</div>
+
+<h2 id="what">1. What NWM CMS is (and isn't)</h2>
+<p>NWM CMS is a managed, AI-assisted website builder for SMBs. Think: WordPress speed, Webflow polish, HubSpot SEO tooling — bundled into one tool.</p>
+
+<p><strong>What it does well:</strong></p>
+<ul>
+  <li>Marketing sites (homepage, services, about, blog, landing pages)</li>
+  <li>Bilingual content (English + Spanish out of the box; other languages on Enterprise)</li>
+  <li>AI-generated drafts that respect your brand voice</li>
+  <li>SEO + AEO optimization baked into every page</li>
+  <li>Forms, memberships, gated content</li>
+</ul>
+
+<p><strong>What it's not:</strong></p>
+<ul>
+  <li>An ecommerce platform (use Shopify for product catalogs)</li>
+  <li>A general-purpose app framework (use Next.js)</li>
+  <li>A social network</li>
+</ul>
+
+<div class="callout tip">
+  <strong>💡 Try before you commit</strong>
+  <p>Open <a href="/cms-demo/">netwebmedia.com/cms-demo/</a> — pre-loaded with a full sample site. Click any feature, nothing persists.</p>
+</div>
+
+<h2 id="start">2. Spin up a new site</h2>
+
+<div class="step"><div class="num">1</div><div>
+  <h4>Pick a template</h4>
+  <p>Open <code>/cms/templates.html</code>. 12 industry templates available (law firm, restaurant, SaaS, agency, e-com…). Click "Use this template".</p>
+</div></div>
+
+<div class="step"><div class="num">2</div><div>
+  <h4>Tell the AI about your business</h4>
+  <p>Answer 8 questions: business name, one-line pitch, target customer, main services, tone, primary color, existing site URL (if any), competitor URLs (if any).</p>
+</div></div>
+
+<div class="step"><div class="num">3</div><div>
+  <h4>Let it generate</h4>
+  <p>The AI writes your homepage, services pages, about page, contact page, and 3 blog posts — in your chosen language + tone. Takes ~2 minutes.</p>
+</div></div>
+
+<div class="step"><div class="num">4</div><div>
+  <h4>Review &amp; edit</h4>
+  <p>Every section is editable inline. Click any text to rewrite. Click any image to swap. Click any section to remove or reorder.</p>
+</div></div>
+
+<h2 id="pages">3. Pages &amp; templates</h2>
+<p>The pages view (<code>/cms/pages.html</code>) lists every page on your site. Each page has:</p>
+<div class="feat-sm">
+  <div class="c"><b>Slug</b><p><code>/services/seo</code> — the URL path.</p></div>
+  <div class="c"><b>SEO title + meta</b><p>Auto-generated, editable, AEO-scored.</p></div>
+  <div class="c"><b>Open Graph image</b><p>Auto-rendered from title + brand colors.</p></div>
+  <div class="c"><b>Status</b><p>Draft / Published / Scheduled.</p></div>
+</div>
+
+<h3>Block-based editor</h3>
+<p>Every page is built from blocks: hero, features grid, testimonials, pricing, FAQ, CTA, contact form, etc. Add, remove, reorder, or duplicate. Each block has 2–4 design variants.</p>
+
+<h2 id="blog">4. Blog + AI content writer</h2>
+<p>Open <code>/cms/content-writer.html</code>. This is where ~80% of your SEO content will come from.</p>
+
+<div class="step"><div class="num">1</div><div>
+  <h4>Give it a topic</h4>
+  <p>"10 ways AI can cut CAC for SMBs". Or paste a competitor URL and hit "outrank this".</p>
+</div></div>
+
+<div class="step"><div class="num">2</div><div>
+  <h4>Pick the format</h4>
+  <p>Listicle, how-to, comparison, case study, opinion. Each format has a proven structure the AI follows.</p>
+</div></div>
+
+<div class="step"><div class="num">3</div><div>
+  <h4>Generate &amp; edit</h4>
+  <p>Draft appears in ~40s. Comes pre-formatted with H2s, internal links, FAQ schema, and Open Graph image. Edit anything inline.</p>
+</div></div>
+
+<div class="step"><div class="num">4</div><div>
+  <h4>Publish or queue</h4>
+  <p>Publish now, schedule, or queue for batch publishing (1/day, 2/week, etc.).</p>
+</div></div>
+
+<div class="callout warn">
+  <strong>⚠️ Always human-edit before publishing</strong>
+  <p>AI drafts are 80% there. The last 20% — voice, specificity, real examples — has to come from you. Search engines reward human experience signals, and LLMs cite pages with unique insight. Don't skip this.</p>
+</div>
+
+<h2 id="landing">5. Landing pages &amp; A/B tests</h2>
+<p>Landing pages live at <code>/cms/landing-pages.html</code>. Build a one-off page for a campaign in &lt; 10 minutes:</p>
+<ol>
+  <li>Pick a landing-page template (lead magnet, webinar, free trial, etc.)</li>
+  <li>Edit headline, sub-headline, bullets, form fields</li>
+  <li>Connect the form to the CRM (auto-wired if you're using NWM CRM)</li>
+  <li>Publish to any URL you want: <code>/promo/q2-campaign</code></li>
+</ol>
+
+<h3>A/B testing</h3>
+<p>Open <code>/cms/ab-tests.html</code>. Pick a page, clone it as variant B, edit what you want to test (headline? CTA color? form length?). The CMS splits traffic 50/50 and declares a winner at statistical significance.</p>
+
+<h2 id="seo">6. SEO + AEO planner</h2>
+<p>Two tools you'll use weekly:</p>
+
+<h3>SEO planner (<code>/cms/seo.html</code>)</h3>
+<p>Enter a seed keyword. You get a keyword cluster — 1 pillar topic + 8–15 supporting topics — mapped to search volume + difficulty + intent. Click any topic to auto-draft a blog post.</p>
+
+<h3>AEO planner (<code>/cms/seo-planner.html</code>)</h3>
+<p>AEO = Answer Engine Optimization. Enter a question your customers ask ("how much does fractional CMO cost?"). You get the question restructured for LLM citation + a page template designed to be quoted by ChatGPT, Perplexity, Claude.ai, and Google AI Overviews.</p>
+
+<h2 id="forms">7. Forms &amp; memberships</h2>
+<p>Forms (<code>/cms/forms.html</code>) are drag-and-drop. Each submission:</p>
+<ul>
+  <li>Lands in your CRM as a new contact (if NWM CRM is connected)</li>
+  <li>Fires an email to whoever you choose</li>
+  <li>Optionally triggers an automation sequence</li>
+  <li>Exports to CSV, Google Sheets, or Zapier</li>
+</ul>
+
+<h3>Memberships (<code>/cms/memberships.html</code>)</h3>
+<p>Gate content behind a login. Use cases: customer portals, premium blog content, downloadable resources, course access. Supports free + paid tiers (Stripe integration).</p>
+
+<h2 id="bilingual">8. Bilingual publishing</h2>
+<p>Every page has a language toggle at the top. Create in English, click "translate to Spanish", review, publish. The CMS:</p>
+<ul>
+  <li>Generates <code>hreflang</code> tags automatically (Google understands the mirror)</li>
+  <li>Serves <code>/es/page</code> for Spanish visitors, <code>/page</code> for English</li>
+  <li>Preserves slugs where you want (<code>/services</code> + <code>/es/servicios</code>)</li>
+  <li>Let the AI translate, or paste your own</li>
+</ul>
+
+<div class="callout tip">
+  <strong>💡 Latino markets</strong>
+  <p>If you serve US Hispanic or LATAM markets, bilingual from day one ~1.8× your addressable audience. Even if your sales team is English-only, having a Spanish marketing site compounds organic reach.</p>
+</div>
+
+<h2 id="launch">9. Launch checklist</h2>
+<p>Before you go live, the CMS auto-runs this checklist:</p>
+<ul>
+  <li>✅ All pages have meta title + description</li>
+  <li>✅ All images have alt text</li>
+  <li>✅ All forms submit successfully</li>
+  <li>✅ Mobile layout passes at 375px, 768px, 1440px</li>
+  <li>✅ Lighthouse score &gt; 90 on home + top 3 pages</li>
+  <li>✅ GA4 + Meta Pixel + LinkedIn Pixel wired</li>
+  <li>✅ Favicon + apple-touch-icon present</li>
+  <li>✅ Sitemap.xml generated + submitted to Google Search Console</li>
+</ul>
+<p>Fix each flag, then hit "Launch". DNS cutover typically happens within 15 minutes.</p>
+
+<h2 id="next">10. What to do next</h2>
+
+<div class="next-cta">
+  <h3>Build your site today</h3>
+  <p>Starter plan is $49/mo. White-glove migration from WordPress, Wix, or Squarespace is free.</p>
+  <a class="btn-next" href="/cms-demo/">Try the demo →</a>
+  <a class="btn-ghost" href="../contact.html">Get a build quote</a>
+</div>
+
+<h3>Common questions</h3>
+<div class="faq">
+  <details><summary>Can I export my site to self-host?</summary>
+    <p>Yes — Settings → Export. You get a static HTML bundle + CSS + JS. Host it anywhere (Netlify, Vercel, your own server). Dynamic features (forms, memberships) require staying on NWM CMS.</p>
+  </details>
+  <details><summary>Does it work with my existing domain?</summary>
+    <p>Yes. Point an A record at our servers (we give you the IP), add the TXT record we show you, and we issue an SSL cert automatically.</p>
+  </details>
+  <details><summary>Can I use my own brand fonts?</summary>
+    <p>Yes. Settings → Design → upload .woff2 files. The CMS auto-subsets them for performance.</p>
+  </details>
+  <details><summary>Is my data exportable at any time?</summary>
+    <p>Yes — always. Pages export as Markdown or HTML, media as a zip, contacts as CSV. No lock-in.</p>
+  </details>
+</div>
+
+</main>
+
+<footer>
+  <div class="container" style="padding:30px 20px">
+    <p style="color:#8b99b2;font-size:13px;margin:0">© 2026 NetWebMedia. <a href="/tutorials.html" style="color:#8b5cf6">← Back to tutorials</a></p>
+  </div>
+</footer>
+</body>
+</html>

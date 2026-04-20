@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacts - NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
+  </script>
+  <script src="js/demo-banner.js"></script>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="contacts-layout">
+        <div class="contacts-main">
+          <div class="contacts-toolbar">
+            <div class="search-input-wrap">
+              <span class="search-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
+              <input type="text" class="search-input" id="contactSearch" data-i18n-placeholder="search" placeholder="Search contacts...">
+            </div>
+            <div class="filter-group">
+              <button class="filter-btn active" data-filter="all" data-i18n="filters.all">All</button>
+              <button class="filter-btn" data-filter="customer" data-i18n="filters.customer">Customers</button>
+              <button class="filter-btn" data-filter="prospect" data-i18n="filters.prospect">Prospects</button>
+              <button class="filter-btn" data-filter="lead" data-i18n="filters.lead">Leads</button>
+              <button class="filter-btn" data-filter="churned" data-i18n="filters.churned">Churned</button>
+            </div>
+            <button id="hsSyncBtn" class="filter-btn" style="margin-left:auto;background:#FF671F;color:#fff;border-color:#FF671F;" title="Sync with HubSpot">
+              ⇅ <span data-i18n="syncHubspot">Sync HubSpot</span>
+            </button>
+          </div>
+          <script>
+          document.addEventListener('DOMContentLoaded',()=>{
+            const btn=document.getElementById('hsSyncBtn');
+            if(!btn)return;
+            const T = (window.CRM_APP && window.CRM_APP.t) || (k=>k);
+            btn.addEventListener('click',async()=>{
+              const orig=btn.innerHTML;btn.disabled=true;btn.textContent=T('syncing');
+              try{
+                const r=await fetch('api/index.php?r=hubspot&action=sync');
+                const j=await r.json();
+                const p=j.push||{},l=j.pull||{};
+                btn.textContent=`✓ ↑${p.pushed||0} ↓${(l.inserted||0)+(l.updated||0)}`;
+                if(window.loadContacts)window.loadContacts();
+              }catch(e){btn.textContent='✗ Error';}
+              setTimeout(()=>{btn.innerHTML=orig;btn.disabled=false;},3500);
+            });
+          });
+          </script>
+          <div class="contacts-table-wrap">
+            <table class="contacts-table">
+              <thead>
+                <tr>
+                  <th class="sortable" data-sort="name"><span data-i18n="cols.name">Name</span> <span class="sort-ind"></span></th>
+                  <th class="sortable" data-sort="company"><span data-i18n="cols.company">Company</span> <span class="sort-ind"></span></th>
+                  <th class="sortable" data-sort="region"><span data-i18n="cols.region">Region</span> <span class="sort-ind"></span></th>
+                  <th class="sortable" data-sort="status"><span data-i18n="cols.status">Status</span> <span class="sort-ind"></span></th>
+                  <th class="sortable" data-sort="value"><span data-i18n="cols.value">Value</span> <span class="sort-ind"></span></th>
+                  <th class="sortable" data-sort="last_contact"><span data-i18n="cols.last_contact">Last Contact</span> <span class="sort-ind"></span></th>
+                  <th><span data-i18n="cols.audit">Audit</span></th>
+                </tr>
+              </thead>
+              <tbody id="contactsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="contact-detail" id="contactDetail"></div>
+      </div>
+    </main>
+  </div>
+  <script src="js/app.js?v=5"></script>
+  <script src="js/contacts.js?v=5"></script>
+<script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

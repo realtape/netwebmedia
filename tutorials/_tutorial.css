@@ -1,0 +1,55 @@
+/* Shared tutorial layout — loaded by every /tutorials/*.html */
+.tut-wrap{max-width:900px;margin:0 auto;padding:90px 20px 80px}
+.tut-breadcrumb{color:#8b99b2;font-size:13px;margin-bottom:18px}
+.tut-breadcrumb a{color:#8b99b2;text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.2)}
+.tut-breadcrumb a:hover{color:#8b5cf6}
+.tut-wrap h1{font-size:clamp(28px,5vw,44px);margin:0 0 12px;line-height:1.15}
+.tut-lede{color:#b8c4d9;font-size:18px;line-height:1.6;margin:0 0 26px}
+.tut-meta{display:flex;gap:18px;color:#8b99b2;font-size:13px;margin-bottom:30px;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:18px}
+.tut-meta span{display:inline-flex;align-items:center;gap:6px}
+
+.tut-toc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px 26px;margin:0 0 40px}
+.tut-toc h4{margin:0 0 10px;font-size:13px;color:#8b99b2;text-transform:uppercase;letter-spacing:.08em}
+.tut-toc ol{margin:0;padding-left:22px;color:#ddd}
+.tut-toc ol li{padding:4px 0;font-size:14px}
+.tut-toc a{color:#dde3ee;text-decoration:none}
+.tut-toc a:hover{color:#8b5cf6}
+
+.tut-wrap h2{font-size:26px;margin:40px 0 14px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)}
+.tut-wrap h2:first-of-type{border-top:0;padding-top:0}
+.tut-wrap h3{font-size:18px;margin:26px 0 10px;color:#c7b7ff}
+.tut-wrap p, .tut-wrap li{color:#dde3ee;line-height:1.7;font-size:15px}
+.tut-wrap ul, .tut-wrap ol{padding-left:22px;margin:10px 0 16px}
+.tut-wrap li{margin:6px 0}
+.tut-wrap strong{color:#fff}
+.tut-wrap code{background:rgba(139,92,246,.12);color:#c7b7ff;padding:2px 6px;border-radius:4px;font-size:13px;font-family:ui-monospace,monospace}
+
+.step{display:grid;grid-template-columns:44px 1fr;gap:16px;margin:16px 0;padding:16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:10px}
+.step .num{background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;font-weight:800;font-size:18px;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.step h4{margin:0 0 6px;font-size:16px}
+.step p{margin:0;font-size:14px;color:#b8c4d9}
+
+.callout{background:rgba(139,92,246,.08);border-left:3px solid #8b5cf6;border-radius:8px;padding:14px 18px;margin:18px 0}
+.callout.warn{background:rgba(255,107,0,.08);border-left-color:#FF6B00}
+.callout.tip{background:rgba(0,200,150,.08);border-left-color:#00cc99}
+.callout strong{color:#fff;display:block;font-size:14px;margin-bottom:4px}
+.callout p{margin:0;font-size:14px}
+
+.pre{background:#0a0b14;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:18px;overflow-x:auto;margin:14px 0}
+.pre code{background:transparent;color:#ade;font-size:13px;line-height:1.6;padding:0}
+
+.faq details{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px 18px;margin:8px 0}
+.faq summary{cursor:pointer;font-weight:600;color:#fff}
+.faq details[open]{border-color:rgba(139,92,246,.3)}
+.faq p{margin:10px 0 0;color:#b8c4d9;font-size:14px}
+
+.next-cta{background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(99,102,241,.06));border:1px solid rgba(139,92,246,.35);border-radius:16px;padding:28px;text-align:center;margin:40px 0}
+.next-cta h3{margin:0 0 8px}
+.next-cta p{margin:0 0 16px;color:#b8c4d9}
+.next-cta .btn-next{display:inline-block;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;padding:12px 26px;border-radius:10px;font-weight:700;text-decoration:none;margin:0 6px}
+.next-cta .btn-ghost{display:inline-block;border:1px solid rgba(255,255,255,.22);color:#fff;padding:12px 26px;border-radius:10px;font-weight:600;text-decoration:none}
+
+.feat-sm{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:20px 0}
+.feat-sm .c{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:16px}
+.feat-sm .c b{color:#c7b7ff;font-size:14px;display:block;margin-bottom:6px}
+.feat-sm .c p{margin:0;font-size:13px;color:#b8c4d9}

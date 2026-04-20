@@ -221,7 +221,8 @@ jobs:
             "https://netwebmedia.com/api/"
           )
           for u in "${URLS[@]}"; do
-            code=$(curl -sS -o /dev/null -w "%{http_code}" -A "Mozilla/5.0 (gh-actions smoke test)" --max-time 20 "$u")
+            # -L follows redirects (cPanel often 301s .html to trailing-slash)
+            code=$(curl -sSL -o /dev/null -w "%{http_code}" -A "Mozilla/5.0 (gh-actions smoke test)" --max-time 20 "$u")
             echo "  $code  $u"
             [ "$code" = "200" ] || { echo "non-200 for $u"; exit 1; }
           done

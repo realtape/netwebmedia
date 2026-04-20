@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q&amp;A — NetWebMedia | NWM CRM &amp; NWM CMS FAQ</title>
+  <meta name="description" content="Answers about NWM CRM, NWM CMS, pricing, the Carlos26 launch code, onboarding, data migration, security, and unsubscribe policy.">
+  <link rel="canonical" href="https://netwebmedia.com/faq.html" />
+  <meta property="og:title" content="NetWebMedia Q&amp;A" />
+  <meta property="og:description" content="Everything you'd ask before signing up." />
+  <link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg" />
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    .faq-wrap{max-width:900px;margin:0 auto;padding:70px 20px 60px}
+    .faq-hero{text-align:center;margin-bottom:40px}
+    .faq-hero h1{font-size:clamp(28px,5vw,44px);margin:0 0 12px}
+    .faq-hero p{color:#9aa;font-size:16px;max-width:640px;margin:0 auto;line-height:1.55}
+    .faq-toc{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:30px 0 40px}
+    .faq-toc a{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#b8c4d9;padding:8px 14px;border-radius:99px;text-decoration:none;font-size:13px;font-weight:600}
+    .faq-toc a:hover{border-color:#FF6B00;color:#FF6B00}
+    .faq-group{margin:40px 0}
+    .faq-group h2{font-size:22px;margin:0 0 16px;padding-bottom:10px;border-bottom:2px solid rgba(255,107,0,.3);color:#FF6B00}
+    details{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:16px 20px;margin-bottom:10px;transition:border-color .2s}
+    details[open]{border-color:rgba(255,107,0,.35)}
+    details summary{cursor:pointer;font-weight:700;font-size:15px;list-style:none;color:#fff}
+    details summary::-webkit-details-marker{display:none}
+    details summary::before{content:"+ ";color:#FF6B00;font-weight:800;margin-right:8px}
+    details[open] summary::before{content:"− "}
+    details .ans{margin-top:12px;color:#b8c4d9;font-size:14px;line-height:1.65}
+    details .ans code{background:rgba(255,107,0,.15);padding:2px 8px;border-radius:5px;color:#FF6B00;font-family:ui-monospace,monospace}
+    details .ans a{color:#8b5cf6;text-decoration:underline}
+    .cta-block{background:linear-gradient(135deg,rgba(255,107,0,.12),rgba(139,92,246,.08));border:1px solid rgba(255,107,0,.3);border-radius:14px;padding:32px;text-align:center;margin:50px 0 0}
+    .cta-block h3{margin:0 0 10px}
+    .cta-block p{color:#b8c4d9;margin:0 0 16px}
+    .btn-orange{background:linear-gradient(135deg,#FF6B00,#ff3d00);color:#fff;padding:12px 24px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block}
+  </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <div class="container">
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="es">ES</button>
+    </div>
+    <a href="/crm/" class="lang-client-login">🔐 Client Login</a>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar has-lang-bar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px">
+      </a>
+      <div class="nav-links">
+        <a href="pricing.html" class="nav-item-link">Pricing</a>
+        <div class="nav-item">
+          <a href="services.html">Services</a>
+          <div class="nav-dropdown">
+            <a href="services.html#ai-automations">AI Automations</a>
+            <a href="services.html#ai-agents">AI Agents</a>
+            <a href="/nwm-crm.html">NWM CRM</a>
+            <a href="/nwm-cms.html">NWM CMS</a>
+            <a href="services.html#paid-ads">Paid Ads</a>
+            <a href="services.html#ai-seo">AI SEO And Content</a>
+            <a href="services.html#social">Social Media</a>
+          </div>
+        </div>
+        <a href="about.html">About</a>
+        <a href="blog.html">Blog</a>
+        <a href="/faq.html">Q&amp;A</a>
+        <a href="/analytics.html">Analyzer</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="nav-ctas">
+        <a href="cart.html" class="nav-cart" aria-label="View cart">🛒<span class="nav-cart-count" aria-hidden="true">0</span></a>
+        <a href="contact.html" class="btn-nav-solid">Get a Free Audit</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="services.html">Services</a>
+  <a href="/nwm-crm.html" class="mobile-sub">NWM CRM</a>
+  <a href="/nwm-cms.html" class="mobile-sub">NWM CMS</a>
+  <a href="services.html#ai-automations" class="mobile-sub">AI Automations</a>
+  <a href="services.html#ai-agents" class="mobile-sub">AI Agents</a>
+  <a href="services.html#paid-ads" class="mobile-sub">Paid Ads</a>
+  <a href="services.html#ai-seo" class="mobile-sub">AI SEO And Content</a>
+  <a href="services.html#social" class="mobile-sub">Social Media</a>
+  <a href="about.html">About</a>
+  <a href="blog.html">Blog</a>
+  <a href="/faq.html">Q&amp;A</a>
+  <a href="/analytics.html">Analyzer</a>
+  <a href="contact.html">Contact</a>
+  <a href="contact.html" class="btn-primary">Get a Free Audit</a>
+</div>
+
+<main id="main">
+<div class="faq-wrap">
+
+<div class="faq-hero">
+  <h1>Q&amp;A</h1>
+  <p>Everything we're asked most often about NWM CRM, NWM CMS, pricing, and onboarding. Can't find your answer? <a href="contact.html" style="color:#FF6B00;text-decoration:underline">Ask us directly</a>.</p>
+</div>
+
+<div class="faq-toc">
+  <a href="#pricing">Pricing &amp; Carlos26</a>
+  <a href="#crm">NWM CRM</a>
+  <a href="#cms">NWM CMS</a>
+  <a href="#onboarding">Onboarding &amp; migration</a>
+  <a href="#security">Security &amp; privacy</a>
+</div>
+
+<section class="faq-group" id="pricing">
+  <h2>Pricing &amp; Carlos26 launch code</h2>
+
+  <details>
+    <summary>What is Carlos26 and how do I use it?</summary>
+    <div class="ans">
+      <code>Carlos26</code> is the NWM CRM launch-week promo code. It applies <strong>50% off for the first 3 months</strong> on CMO Starter, Growth, and Scale plans (as well as standalone CRM plans). Enter it at checkout or click any "Start with 50% off" button on this site — the code will be pre-filled. Valid for 7 days or the first 500 activations, whichever comes first.
+    </div>
+  </details>
+
+  <details>
+    <summary>Which plans does Carlos26 apply to?</summary>
+    <div class="ans">
+      Carlos26 is valid on: <strong>CMO Starter</strong> ($249→$124/mo), <strong>CMO Growth</strong> ($999→$499/mo), <strong>CMO Scale</strong> ($1,999→$999/mo), and on the standalone <strong>CRM Starter / Pro / Agency</strong> SKUs. It does not stack with other discounts or with annual pre-pay.
+    </div>
+  </details>
+
+  <details>
+    <summary>What happens after the 3-month discount period?</summary>
+    <div class="ans">
+      Your plan automatically resumes the standard monthly rate starting month 4. We email you 15 days before the discount ends so there are no surprises. You can downgrade or cancel at any time from the billing page in your CRM.
+    </div>
+  </details>
+
+  <details>
+    <summary>How do I pay — what payment processors do you support?</summary>
+    <div class="ans">
+      We bill through <strong>Mercado Pago</strong> (credit card, debit card, bank transfer in Chile; major cards internationally). Monthly auto-renewal is handled via MP's preapproval flow. Setup fees are charged once at signup. USD pricing is displayed for clarity; actual charges are in CLP at the current FX rate.
+    </div>
+  </details>
+
+  <details>
+    <summary>Is there a contract or minimum commitment?</summary>
+    <div class="ans">
+      No. All plans are month-to-month. You can cancel anytime from the billing page — we'll keep your account active until the end of the current billing cycle, then archive your data for 90 days in case you come back.
+    </div>
+  </details>
+</section>
+
+<section class="faq-group" id="crm">
+  <h2>NWM CRM</h2>
+
+  <details>
+    <summary>What makes NWM CRM different from HubSpot / Salesforce / GoHighLevel?</summary>
+    <div class="ans">
+      NWM CRM is purpose-built for SMBs running bilingual (EN/ES) campaigns. Three concrete differences: (1) <strong>AI agents are native</strong> — SDR, Booking, Voice — not upsells; (2) <strong>no per-seat pricing</strong> — one flat monthly fee; (3) <strong>wired to NWM CMS</strong> out of the box, so every form, page, and campaign link lives in one pipeline. We're not trying to replace Salesforce for a 200-rep team. We're replacing the Zapier-glued stack most SMBs run.
+    </div>
+  </details>
+
+  <details>
+    <summary>How many contacts can I import?</summary>
+    <div class="ans">
+      Starter: up to 2,500 contacts. Growth: up to 25,000. Scale: unlimited. CSV and JSON imports are supported, plus direct migration from HubSpot, GoHighLevel, and Pipedrive via one-click connectors. Duplicates are auto-merged based on email.
+    </div>
+  </details>
+
+  <details>
+    <summary>Does NWM CRM send email campaigns? Is deliverability good?</summary>
+    <div class="ans">
+      Yes — template, drip sequence, or one-off sends. We ship with SPF / DKIM / DMARC preconfigured for the <code>netwebmedia.com</code> domain and optional custom-domain setup on Growth+. Our internal send infrastructure auto-excludes unsubscribed emails and bounced addresses before every send. Typical open rates on our own 2,400-contact database: 28–47%.
+    </div>
+  </details>
+
+  <details>
+    <summary>Can I white-label NWM CRM for my clients?</summary>
+    <div class="ans">
+      White-label is included on <strong>CMO Scale</strong> and the standalone <strong>CRM Agency</strong> plan. You get your own subdomain, logo, and login experience, plus unlimited client sub-accounts billed at your own rate. Full revenue share model — no NWM branding required.
+    </div>
+  </details>
+
+  <details>
+    <summary>What AI agents come with the CRM?</summary>
+    <div class="ans">
+      Starter includes the basic campaign editor. Growth adds: AI SDR (writes personalized follow-ups), AI Booking Agent (handles inbound calls + schedules 24/7), and AI Voice (phone answering). Scale adds custom agents trained on your own knowledge base. All agents are Claude-powered under the hood.
+    </div>
+  </details>
+</section>
+
+<section class="faq-group" id="cms">
+  <h2>NWM CMS</h2>
+
+  <details>
+    <summary>Is NWM CMS a replacement for WordPress?</summary>
+    <div class="ans">
+      For most SMBs — yes. NWM CMS generates pages, blog posts, and landing pages with AI, ships bilingual content by default, and has SEO + AEO optimization built in. No plugins, no theme hell, no maintenance windows. If you need complex plugin ecosystems (WooCommerce, LearnDash, etc.), WordPress may still be the right choice for now.
+    </div>
+  </details>
+
+  <details>
+    <summary>Can I use my own domain and design?</summary>
+    <div class="ans">
+      Yes. Point your domain (DNS A / CNAME record) at our servers and we'll provision SSL automatically. Custom design is available on Growth+ — send us your brand guidelines or an existing Figma file and we'll tune the AI agents to match.
+    </div>
+  </details>
+
+  <details>
+    <summary>How does the AI blog writer decide what to write?</summary>
+    <div class="ans">
+      You give the CMS your niche, target keywords, and competitors. The SEO Planner does keyword research, clusters them by topical authority, and drafts 4–16 articles per month depending on plan. You review drafts in the editor before they go live. Every article ships with FAQ JSON-LD, meta description, and AEO-optimized hooks for Claude / Perplexity / Gemini.
+    </div>
+  </details>
+
+  <details>
+    <summary>Can NWM CMS work without NWM CRM?</summary>
+    <div class="ans">
+      Yes — they're separately purchasable. Forms submit to any endpoint of your choice, including HubSpot, Mailchimp, or a Zapier webhook. That said, 70% of customers bundle both because the form→contact→campaign→dashboard loop is seamless when they're joined.
+    </div>
+  </details>
+</section>
+
+<section class="faq-group" id="onboarding">
+  <h2>Onboarding &amp; migration</h2>
+
+  <details>
+    <summary>How long does onboarding take?</summary>
+    <div class="ans">
+      <strong>Starter:</strong> self-serve, live in &lt; 1 hour. <strong>Growth:</strong> guided 3-day onboarding with a success manager (import, pipeline setup, first campaign). <strong>Scale:</strong> 2-week white-glove migration + team training.
+    </div>
+  </details>
+
+  <details>
+    <summary>Can you migrate my data from my current CRM?</summary>
+    <div class="ans">
+      Yes. We have one-click importers for HubSpot, GoHighLevel, Pipedrive, and Salesforce. CSV is supported for everything else. We map your existing stages, custom fields, and tags during migration so nothing is lost. Migration is free on Growth and Scale; Starter adds a $149 one-time migration fee if you want us to handle it.
+    </div>
+  </details>
+
+  <details>
+    <summary>What if I'm not technical — can I really self-serve?</summary>
+    <div class="ans">
+      Yes. Starter is designed for non-technical founders. The setup wizard walks you through: connect your email domain, import contacts (drag-drop CSV), pick a pipeline template for your niche, and send your first campaign. If you get stuck, chat support is in every plan and average response is under 2 hours.
+    </div>
+  </details>
+</section>
+
+<section class="faq-group" id="security">
+  <h2>Security, privacy &amp; unsubscribe</h2>
+
+  <details>
+    <summary>Where is my data stored? Is it GDPR-compliant?</summary>
+    <div class="ans">
+      Data is stored on InMotion Hosting servers (SOC 2 Type II) in the United States, with encrypted backups every 6 hours. We are GDPR and LGPD-aligned: you can export or delete all your data at any time from the settings page. Unsubscribe requests are honored globally — any contact on your unsubscribe list is automatically excluded from all future sends across all your campaigns.
+    </div>
+  </details>
+
+  <details>
+    <summary>Who sees my pipeline and contacts?</summary>
+    <div class="ans">
+      Only you and the team seats you invite. Role-based access: <strong>superadmin</strong> (NWM internal support, read-only, only with your explicit permission via support ticket), <strong>admin</strong> (your main account, full control), and <strong>user</strong> (restricted to assigned pipelines). Audit logs are retained for 12 months.
+    </div>
+  </details>
+
+  <details>
+    <summary>How does the unsubscribe system work?</summary>
+    <div class="ans">
+      Every outgoing email includes a one-click unsubscribe link in the footer (CAN-SPAM and GDPR compliant). When a contact clicks it, their email is added to a global <code>unsubscribes</code> table tied to your account — they will never receive another campaign from you, even if their email appears in a future list you import. You can view and manage the list at <code>/crm/marketing.html#unsubscribes</code>.
+    </div>
+  </details>
+</section>
+
+<div class="cta-block">
+  <h3>Still have questions?</h3>
+  <p>Book a 20-minute strategy call and we'll walk you through the CRM live — and apply Carlos26 on the spot.</p>
+  <a href="contact.html?intent=demo&promo=Carlos26" class="btn-orange">Book a 20-min call →</a>
+</div>
+
+</div>
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <img src="assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px" loading="lazy" width="200" height="52">
+        </a>
+        <p>The world's most advanced AI marketing agency.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/nwm-crm.html">NWM CRM</a></li>
+          <li><a href="/nwm-cms.html">NWM CMS</a></li>
+          <li><a href="/analytics.html">Analyzer</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="/faq.html">Q&amp;A</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a></li>
+          <li><a href="https://wa.me/56965322427" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 NetWebMedia. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js?v=2" defer></script>
+<script src="js/cart.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"What is Carlos26 and how do I use it?","acceptedAnswer":{"@type":"Answer","text":"Carlos26 is the NWM CRM launch-week promo code for 50% off the first 3 months on CMO and CRM plans. Enter it at checkout."}},
+    {"@type":"Question","name":"Is there a contract or minimum commitment?","acceptedAnswer":{"@type":"Answer","text":"No. All plans are month-to-month. Cancel anytime from the billing page."}},
+    {"@type":"Question","name":"How does the unsubscribe system work?","acceptedAnswer":{"@type":"Answer","text":"Every email includes a one-click unsubscribe link. Unsubscribed contacts are globally excluded from all future campaigns."}},
+    {"@type":"Question","name":"How long does onboarding take?","acceptedAnswer":{"@type":"Answer","text":"Starter is self-serve (under 1 hour). Growth includes 3-day guided onboarding. Scale is a 2-week white-glove migration."}}
+  ]
+}
+</script>
+</body>
+</html>

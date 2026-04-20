@@ -24,6 +24,25 @@
   <link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg" />
   <link rel="apple-touch-icon" href="assets/nwm-logo.svg" />
 
+  <!-- Google Analytics 4 (replace G-XXXXXXXXXX with your real GA4 Measurement ID) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
+  </script>
+
+  <!-- Meta Pixel (replace PIXEL_ID with your real Meta Pixel ID) -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    /* TODO: paste real Meta Pixel ID from business.facebook.com/events_manager */ if (window.NWM_META_PIXEL_ID) { fbq('init', window.NWM_META_PIXEL_ID); fbq('track', 'PageView'); }
+  </script>
+
   <!-- JSON-LD structured data for SEO + AEO (ChatGPT Search, Perplexity, Google SGE) -->
   <script type="application/ld+json">
   {
@@ -39,7 +58,7 @@
         "areaServed": { "@type": "Country", "name": "United States" },
         "email": "hello@netwebmedia.com",
         "sameAs": [
-          "https://www.linkedin.com/company/netwebmedia",
+          "https://www.linkedin.com/in/netwebmedia",
           "https://x.com/netwebmedia"
         ]
       },
@@ -79,14 +98,6 @@
     ]
   }
   </script>
-  <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
-  </script>
 </head>
 <body>
 
@@ -101,6 +112,7 @@
     <button class="lang-btn" data-lang="es" id="lang-es">
       <img class="flag" src="https://flagcdn.com/w40/es.png" alt="ES" loading="lazy" width="20" height="15" /> Español
     </button>
+    <a href="/crm/" class="lang-client-login" data-i18n="nav_dashboard">🔐 Client Login</a>
   </div>
 </div>
 
@@ -112,13 +124,14 @@
         <img src="assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px">
       </a>
       <div class="nav-links">
+        <a href="pricing.html" class="nav-item-link">Pricing</a>
         <div class="nav-item">
           <a href="services.html" data-i18n="nav_services">Services</a>
           <div class="nav-dropdown">
             <a href="services.html#ai-automations">AI Automations</a>
             <a href="services.html#ai-agents">AI Agents</a>
-            <a href="/app/">CRM</a>
-            <a href="services.html#ai-websites">CMS AI Websites</a>
+            <a href="/nwm-crm.html">NWM CRM</a>
+            <a href="/nwm-cms.html">NWM CMS</a>
             <a href="services.html#paid-ads">Paid Ads</a>
             <a href="services.html#ai-seo">AI SEO And Content</a>
             <a href="services.html#social">Social Media</a>
@@ -126,8 +139,8 @@
         </div>
         <a href="about.html" data-i18n="nav_about">About</a>
         <a href="blog.html" data-i18n="nav_blog">Blog</a>
-        <a href="/app/" data-i18n="nav_dashboard">Client Login</a>
-        <a href="https://netwebmedia.vercel.app/diagnostic">Analyzer</a>
+        <a href="/faq.html">Q&amp;A</a>
+        <a href="/analytics.html">Analyzer</a>
         <a href="contact.html" data-i18n="nav_contact">Contact</a>
       </div>
       <div class="nav-ctas">
@@ -146,15 +159,15 @@
   <a href="services.html" data-i18n="nav_services">Services</a>
   <a href="services.html#ai-automations" class="mobile-sub">AI Automations</a>
   <a href="services.html#ai-agents" class="mobile-sub">AI Agents</a>
-  <a href="/app/" class="mobile-sub">CRM</a>
-  <a href="services.html#ai-websites" class="mobile-sub">CMS AI Websites</a>
+  <a href="/nwm-crm.html" class="mobile-sub">NWM CRM</a>
+  <a href="/nwm-cms.html" class="mobile-sub">NWM CMS</a>
   <a href="services.html#paid-ads" class="mobile-sub">Paid Ads</a>
   <a href="services.html#ai-seo" class="mobile-sub">AI SEO And Content</a>
   <a href="services.html#social" class="mobile-sub">Social Media</a>
   <a href="about.html" data-i18n="nav_about">About</a>
   <a href="blog.html" data-i18n="nav_blog">Blog</a>
-  <a href="/app/" data-i18n="nav_dashboard">Client Login</a>
-  <a href="https://netwebmedia.vercel.app/diagnostic">Analyzer</a>
+  <a href="/faq.html">Q&amp;A</a>
+  <a href="/analytics.html">Analyzer</a>
   <a href="contact.html" data-i18n="nav_contact">Contact</a>
   <a href="contact.html" class="btn-primary" data-i18n="nav_cta">Get a Free Audit</a>
 </div>
@@ -194,14 +207,168 @@
 
       </div>
 
-      <!-- Right: Floating squares visual -->
+      <!-- Right: Futuristic 3D robot visual -->
       <div class="hero-visual">
         <div class="squares-container"></div>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;">
-          <div style="text-align:center;">
-            <div style="font-size:80px;animation:float 3s ease-in-out infinite;">🤖</div>
-            <div style="margin-top:16px;font-size:14px;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;">AI Marketing Engine</div>
-            <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
+        <div class="hero-robot-stage" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;">
+          <div class="hero-robot-wrap">
+            <!-- Glow halo -->
+            <div class="hero-robot-halo"></div>
+            <!-- Orbital rings -->
+            <div class="hero-orbit hero-orbit-1"><span class="hero-orbit-dot"></span></div>
+            <div class="hero-orbit hero-orbit-2"><span class="hero-orbit-dot"></span></div>
+            <div class="hero-orbit hero-orbit-3"><span class="hero-orbit-dot"></span></div>
+            <!-- 3D Robot SVG -->
+            <svg class="hero-robot-svg" viewBox="0 0 320 360" xmlns="http://www.w3.org/2000/svg" aria-label="NetWebMedia AI Marketing Robot">
+              <defs>
+                <linearGradient id="robotBody" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#E8EDF5"/>
+                  <stop offset="35%" stop-color="#B4BFD4"/>
+                  <stop offset="65%" stop-color="#6C7A96"/>
+                  <stop offset="100%" stop-color="#2B3653"/>
+                </linearGradient>
+                <linearGradient id="robotHead" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#FFFFFF"/>
+                  <stop offset="25%" stop-color="#D8E0EE"/>
+                  <stop offset="60%" stop-color="#8B97B3"/>
+                  <stop offset="100%" stop-color="#1F2940"/>
+                </linearGradient>
+                <linearGradient id="robotVisor" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#0B1228"/>
+                  <stop offset="50%" stop-color="#082158"/>
+                  <stop offset="100%" stop-color="#020616"/>
+                </linearGradient>
+                <linearGradient id="accentOrange" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#FFB47A"/>
+                  <stop offset="50%" stop-color="#FF671F"/>
+                  <stop offset="100%" stop-color="#B83A00"/>
+                </linearGradient>
+                <linearGradient id="accentCyan" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#A8F3FF"/>
+                  <stop offset="50%" stop-color="#22D3EE"/>
+                  <stop offset="100%" stop-color="#0E7490"/>
+                </linearGradient>
+                <radialGradient id="eyeGlow" cx="0.5" cy="0.5" r="0.5">
+                  <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1"/>
+                  <stop offset="40%" stop-color="#67E8F9" stop-opacity="1"/>
+                  <stop offset="100%" stop-color="#22D3EE" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="coreGlow" cx="0.5" cy="0.5" r="0.5">
+                  <stop offset="0%" stop-color="#FFE4B5" stop-opacity="1"/>
+                  <stop offset="40%" stop-color="#FF671F" stop-opacity="0.9"/>
+                  <stop offset="100%" stop-color="#B83A00" stop-opacity="0"/>
+                </radialGradient>
+                <filter id="robotGlow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="3" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="6"/>
+                  <feOffset dy="8" result="offsetblur"/>
+                  <feComponentTransfer><feFuncA type="linear" slope="0.4"/></feComponentTransfer>
+                  <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+
+              <!-- Floor reflection ellipse -->
+              <ellipse cx="160" cy="340" rx="90" ry="10" fill="#000" opacity="0.4"/>
+              <ellipse cx="160" cy="340" rx="60" ry="6" fill="url(#accentOrange)" opacity="0.3">
+                <animate attributeName="opacity" values="0.2;0.5;0.2" dur="3s" repeatCount="indefinite"/>
+              </ellipse>
+
+              <g class="hero-robot-body" filter="url(#softShadow)">
+                <!-- Neck -->
+                <rect x="148" y="130" width="24" height="18" rx="4" fill="url(#robotBody)"/>
+                <rect x="148" y="130" width="24" height="4" rx="2" fill="#0B1228" opacity="0.6"/>
+
+                <!-- Torso / chest plate -->
+                <path d="M95 148 Q95 140 110 138 L210 138 Q225 140 225 148 L235 255 Q235 270 220 275 L100 275 Q85 270 85 255 Z" fill="url(#robotBody)"/>
+                <!-- Chest highlight -->
+                <path d="M110 145 Q110 143 115 142 L205 142 Q210 143 210 145 L215 175 Q215 178 212 178 L108 178 Q105 178 105 175 Z" fill="#FFFFFF" opacity="0.18"/>
+                <!-- Chest panel -->
+                <rect x="125" y="185" width="70" height="60" rx="8" fill="#0B1228" opacity="0.85"/>
+                <rect x="125" y="185" width="70" height="60" rx="8" fill="none" stroke="url(#accentCyan)" stroke-width="1.2" opacity="0.8"/>
+                <!-- Core energy orb -->
+                <circle cx="160" cy="215" r="28" fill="url(#coreGlow)">
+                  <animate attributeName="r" values="24;30;24" dur="2.2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="160" cy="215" r="10" fill="#FFF3D6">
+                  <animate attributeName="opacity" values="1;0.6;1" dur="1.5s" repeatCount="indefinite"/>
+                </circle>
+                <!-- Chest readouts -->
+                <rect x="132" y="250" width="14" height="3" rx="1.5" fill="#22D3EE"/>
+                <rect x="150" y="250" width="24" height="3" rx="1.5" fill="#FF671F"/>
+                <rect x="178" y="250" width="10" height="3" rx="1.5" fill="#22D3EE" opacity="0.6"/>
+                <rect x="132" y="258" width="20" height="3" rx="1.5" fill="#22D3EE" opacity="0.5"/>
+                <rect x="156" y="258" width="32" height="3" rx="1.5" fill="#FF671F" opacity="0.7"/>
+
+                <!-- Shoulders -->
+                <circle cx="90" cy="150" r="16" fill="url(#robotHead)"/>
+                <circle cx="230" cy="150" r="16" fill="url(#robotHead)"/>
+                <circle cx="90" cy="150" r="6" fill="url(#accentOrange)"/>
+                <circle cx="230" cy="150" r="6" fill="url(#accentCyan)"/>
+
+                <!-- Arms (upper) -->
+                <rect x="70" y="160" width="22" height="70" rx="10" fill="url(#robotBody)"/>
+                <rect x="228" y="160" width="22" height="70" rx="10" fill="url(#robotBody)"/>
+
+                <!-- Elbows -->
+                <circle cx="81" cy="232" r="10" fill="url(#robotHead)"/>
+                <circle cx="239" cy="232" r="10" fill="url(#robotHead)"/>
+
+                <!-- Head assembly -->
+                <g class="hero-robot-head">
+                  <!-- Head back shadow -->
+                  <ellipse cx="160" cy="90" rx="68" ry="55" fill="#1F2940" opacity="0.5"/>
+                  <!-- Head main shell -->
+                  <path d="M100 65 Q100 35 135 32 L185 32 Q220 35 220 65 L220 115 Q220 135 195 138 L125 138 Q100 135 100 115 Z" fill="url(#robotHead)"/>
+                  <!-- Top highlight -->
+                  <path d="M112 50 Q112 42 125 40 L195 40 Q208 42 208 50 L208 68 Q208 72 200 72 L120 72 Q112 72 112 68 Z" fill="#FFFFFF" opacity="0.35"/>
+                  <!-- Antenna -->
+                  <rect x="156" y="16" width="8" height="18" rx="3" fill="url(#robotHead)"/>
+                  <circle cx="160" cy="12" r="6" fill="url(#accentOrange)">
+                    <animate attributeName="opacity" values="0.6;1;0.6" dur="1.2s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="160" cy="12" r="10" fill="url(#accentOrange)" opacity="0.3">
+                    <animate attributeName="r" values="8;14;8" dur="1.2s" repeatCount="indefinite"/>
+                  </circle>
+
+                  <!-- Visor -->
+                  <rect x="115" y="78" width="90" height="42" rx="12" fill="url(#robotVisor)"/>
+                  <rect x="115" y="78" width="90" height="42" rx="12" fill="none" stroke="url(#accentCyan)" stroke-width="1.5" opacity="0.9"/>
+                  <!-- Visor highlights -->
+                  <rect x="119" y="82" width="82" height="6" rx="3" fill="#FFFFFF" opacity="0.12"/>
+                  <!-- Eyes -->
+                  <circle cx="140" cy="99" r="10" fill="url(#eyeGlow)" filter="url(#robotGlow)">
+                    <animate attributeName="opacity" values="1;0.75;1" dur="2.4s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="180" cy="99" r="10" fill="url(#eyeGlow)" filter="url(#robotGlow)">
+                    <animate attributeName="opacity" values="1;0.75;1" dur="2.4s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="140" cy="99" r="3" fill="#FFFFFF"/>
+                  <circle cx="180" cy="99" r="3" fill="#FFFFFF"/>
+                  <!-- Scan line -->
+                  <rect class="hero-robot-scan" x="117" y="88" width="86" height="2" fill="#67E8F9" opacity="0.75"/>
+
+                  <!-- Jaw / mouth grill -->
+                  <rect x="140" y="122" width="40" height="8" rx="2" fill="#0B1228"/>
+                  <rect x="144" y="124" width="3" height="4" fill="#22D3EE"/>
+                  <rect x="150" y="124" width="3" height="4" fill="#22D3EE" opacity="0.7"/>
+                  <rect x="156" y="124" width="3" height="4" fill="#FF671F"/>
+                  <rect x="162" y="124" width="3" height="4" fill="#22D3EE" opacity="0.5"/>
+                  <rect x="168" y="124" width="3" height="4" fill="#FF671F" opacity="0.8"/>
+                  <rect x="174" y="124" width="3" height="4" fill="#22D3EE"/>
+
+                  <!-- Side ear units -->
+                  <rect x="96" y="85" width="8" height="24" rx="3" fill="url(#robotBody)"/>
+                  <rect x="216" y="85" width="8" height="24" rx="3" fill="url(#robotBody)"/>
+                  <circle cx="100" cy="97" r="2" fill="#FF671F"/>
+                  <circle cx="220" cy="97" r="2" fill="#22D3EE"/>
+                </g>
+              </g>
+            </svg>
+            <div class="hero-robot-label">AI Marketing Engine</div>
+            <div style="display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap;position:relative;z-index:2;">
               <span style="padding:4px 12px;background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.3);border-radius:9999px;font-size:12px;color:#93C5FD;">ChatGPT</span>
               <span style="padding:4px 12px;background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);border-radius:9999px;font-size:12px;color:#C4B5FD;">Claude</span>
               <span style="padding:4px 12px;background:rgba(6,182,212,0.15);border:1px solid rgba(6,182,212,0.3);border-radius:9999px;font-size:12px;color:#67E8F9;">Gemini</span>
@@ -252,7 +419,7 @@
         <p class="service-desc" data-en="A full-featured CRM built to unify contacts, deals, pipelines, conversations, and campaigns in one place. Synced with HubSpot and enhanced with AI — so every lead is tracked, scored, and nurtured automatically." data-es="Un CRM completo diseñado para unificar contactos, deals, pipelines, conversaciones y campañas en un solo lugar. Sincronizado con HubSpot y potenciado con IA.">
           A full-featured CRM that unifies contacts, deals, pipelines, and conversations in one place — synced with HubSpot and enhanced with AI lead scoring and nurturing.
         </p>
-        <a href="/app/" class="service-arrow">Open CRM →</a>
+        <a href="/crm/" class="service-arrow">Open CRM →</a>
       </div>
 
       <!-- 4. CMS AI Websites -->
@@ -482,7 +649,7 @@
         <a href="contact.html" class="btn-primary" style="font-size:18px;padding:18px 36px;" data-i18n="cta_btn">Book Your Free Strategy Call</a>
         <a href="services.html" class="btn-secondary" style="font-size:18px;padding:18px 36px;">Explore Services</a>
       </div>
-      <p class="cta-phone">Or call us: <a href="tel:+13055551234">+1 (305) 555-1234</a> · <a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a></p>
+      <p class="cta-phone">Or reach us: <a href="https://wa.me/56965322427" target="_blank" rel="noopener">Chat on WhatsApp</a> · <a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a></p>
     </div>
   </div>
 </section>
@@ -497,11 +664,12 @@
         </a>
         <p data-i18n="footer_tagline">The world's most advanced AI marketing agency. We combine human creativity with machine intelligence to deliver unprecedented growth.</p>
         <div class="footer-social">
-          <a href="#" class="social-link" aria-label="LinkedIn">in</a>
-          <a href="#" class="social-link" aria-label="Instagram">📸</a>
-          <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
-          <a href="#" class="social-link" aria-label="YouTube">▶</a>
-          <a href="#" class="social-link" aria-label="TikTok">🎵</a>
+          <a href="https://www.linkedin.com/in/netwebmedia" class="social-link" aria-label="LinkedIn" rel="noopener" target="_blank">in</a>
+          <a href="https://www.instagram.com/netwebmedia/" class="social-link" aria-label="Instagram" rel="noopener" target="_blank">📸</a>
+          <a href="https://x.com/netwebmedia" class="social-link" aria-label="X / Twitter" rel="noopener" target="_blank">𝕏</a>
+          <a href="https://www.youtube.com/@netwebmedia" class="social-link" aria-label="YouTube" rel="noopener" target="_blank">▶</a>
+          <a href="https://www.tiktok.com/@netwebmedia" class="social-link" aria-label="TikTok" rel="noopener" target="_blank">🎵</a>
+          <a href="https://www.facebook.com/netwebmedia" class="social-link" aria-label="Facebook" rel="noopener" target="_blank">f</a>
         </div>
       </div>
       <div class="footer-col">
@@ -532,19 +700,24 @@
         <h4>Connect</h4>
         <ul>
           <li><a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a></li>
-          <li><a href="tel:+13055551234">+1 (305) 555-1234</a></li>
-          <li><a href="#">Miami, FL (USA)</a></li>
-          <li><a href="#">New York, NY</a></li>
-          <li><a href="#">Mexico City, MX</a></li>
+          <li><a href="https://wa.me/56965322427" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li>Remote-first — serving brands worldwide</li>
         </ul>
+        <h4 style="margin-top:24px;">Newsletter</h4>
+        <form id="footer-newsletter" style="display:flex;gap:8px;flex-wrap:wrap;">
+          <input type="email" name="email" required placeholder="your@email.com"
+                 style="flex:1;min-width:180px;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:inherit;" />
+          <button type="submit" class="btn-primary" style="padding:10px 16px;">Subscribe</button>
+          <div class="nl-msg" style="font-size:12px;flex:1 1 100%;color:#9bb;"></div>
+        </form>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 NetWebMedia. All rights reserved.</p>
+      <p>© 2026 NetWebMedia. All rights reserved.</p>
       <div class="footer-bottom-links">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Cookie Policy</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="/privacy.html#cookies">Cookie Policy</a>
       </div>
     </div>
   </div>
@@ -552,7 +725,29 @@
 
 </main>
 
-<script src="js/main.js" defer></script>
+<script src="js/main.js?v=2" defer></script>
 <script src="js/cart.js" defer></script>
+<script>
+  // Footer newsletter — uses /api/public/newsletter/subscribe
+  document.addEventListener('DOMContentLoaded', function () {
+    var f = document.getElementById('footer-newsletter');
+    if (!f) return;
+    var msg = f.querySelector('.nl-msg');
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = f.querySelector('input[name="email"]').value.trim();
+      if (!email) return;
+      msg.textContent = 'Subscribing…';
+      fetch('/api/public/newsletter/subscribe', {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ email: email, source: 'footer-homepage' })
+      }).then(function(r){ return r.json(); }).then(function(j){
+        if (j.ok) { msg.textContent = j.already ? 'You\'re already subscribed — thanks!' : 'Subscribed! Check your inbox.'; msg.style.color='#7fe3a3'; f.reset(); }
+        else { msg.textContent = 'Error: ' + (j.error || 'try again'); msg.style.color='#f88'; }
+      }).catch(function(){ msg.textContent = 'Network error — try again'; msg.style.color='#f88'; });
+    });
+  });
+</script>
+<script src="assets/nwm-i18n.js" defer></script>
 </body>
 </html>

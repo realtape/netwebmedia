@@ -1,0 +1,238 @@
+name: Deploy site root to netwebmedia.com
+
+# Publishes the public website root (HTML, CSS, JS, PHP API, assets) to
+# https://netwebmedia.com/ via FTPS.
+#
+# Why a separate workflow from deploy-companies.yml:
+#   - deploy-companies.yml uses the `webmed6` FTP user, which is chrooted to
+#     /public_html/companies/ on the cPanel box. It physically cannot write
+#     site-root files.
+#   - This workflow uses a DIFFERENT FTP user scoped to /public_html/ so it
+#     can deploy index.html, nwm-crm.html, faq.html, css/, js/, api-php/, etc.
+#
+# Requires 3 repo secrets — one-time setup (Settings → Secrets and variables → Actions):
+#   CPANEL_FTP_HOST            ftp.netwebmedia.com   (already set)
+#   CPANEL_FTP_ROOT_USER       cPanel FTP account scoped to /public_html/  (must be created — see below)
+#   CPANEL_FTP_ROOT_PASSWORD   matching password                             (must be created)
+#
+# Why a new user: the existing CPANEL_FTP_USER is chrooted to /public_html/companies/
+# and can't write to the site root. Create a second FTP account in cPanel:
+#   cPanel → FTP Accounts → Add FTP Account
+#     Login:      deploy-root@netwebmedia.com
+#     Directory:  /public_html            ← the important part
+#     Quota:      Unlimited
+#
+# Optional — only used if api-php/** is in the changeset (config.local.php generation):
+#   CRM_DB_PASSWORD, HUBSPOT_TOKEN, ANTHROPIC_API_KEY, RESEND_API_KEY,
+#   MP_ACCESS_TOKEN, MP_PUBLIC_KEY, MP_WEBHOOK_SECRET, JWT_SECRET
+#
+# Server-side target: /public_html/  (public URL is site root)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      # Top-level HTML pages
+      - 'index.html'
+      - 'nwm-crm.html'
+      - 'nwm-cms.html'
+      - 'faq.html'
+      - 'cart.html'
+      - 'services.html'
+      - 'blog.html'
+      - 'pricing.html'
+      - 'cases.html'
+      - 'contact.html'
+      - 'about.html'
+      - 'analyzer.html'
+      - 'login.html'
+      - 'tutorials.html'
+      - 'crm/**'
+      - 'tutorials/**'
+      - 'crm-demo/**'
+      - 'cms-demo/**'
+      # Shared static assets
+      - 'css/**'
+      - 'js/**'
+      - 'assets/**'
+      - 'images/**'
+      - 'fonts/**'
+      # Server-side API
+      - 'api-php/**'
+      # Workflow itself
+      - '.github/workflows/deploy-site-root.yml'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Log-only mode (no actual FTP writes)'
+        type: boolean
+        default: false
+
+concurrency:
+  group: deploy-site-root
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Preflight — verify required secrets
+        id: preflight
+        run: |
+          if [ -z "${{ secrets.CPANEL_FTP_ROOT_USER }}" ] || [ -z "${{ secrets.CPANEL_FTP_ROOT_PASSWORD }}" ]; then
+            echo "::warning::CPANEL_FTP_ROOT_USER / CPANEL_FTP_ROOT_PASSWORD not configured — skipping deploy."
+            echo ""
+            echo "One-time setup:"
+            echo "  1. cPanel -> FTP Accounts -> Add FTP Account"
+            echo "     Login:     deploy-root@netwebmedia.com"
+            echo "     Directory: /public_html"
+            echo "     Quota:     Unlimited"
+            echo "  2. GitHub repo -> Settings -> Secrets and variables -> Actions"
+            echo "     CPANEL_FTP_ROOT_USER      = deploy-root@netwebmedia.com"
+            echo "     CPANEL_FTP_ROOT_PASSWORD  = <password from step 1>"
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Secrets present — proceeding to deploy."
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Stage site-root files
+        run: |
+          mkdir -p _stage
+          # Top-level HTML — only ship files that actually exist to avoid cp errors
+          for f in index.html nwm-crm.html nwm-cms.html faq.html cart.html \
+                   services.html blog.html pricing.html cases.html contact.html \
+                   about.html analyzer.html login.html tutorials.html \
+                   robots.txt sitemap.xml; do
+            [ -f "$f" ] && cp "$f" "_stage/$f" || true
+          done
+          # Directories
+          for d in css js assets images fonts crm api-php tutorials crm-demo cms-demo; do
+            [ -d "$d" ] && cp -r "$d" "_stage/$d" || true
+          done
+          # Drop dev/test artifacts that shouldn't ship
+          find _stage -name '.DS_Store' -delete
+          find _stage -name 'Thumbs.db' -delete
+          find _stage -name '*.pyc' -delete
+          find _stage -type d -name '__pycache__' -exec rm -rf {} + || true
+          find _stage -type d -name '.git' -exec rm -rf {} + || true
+          echo "── Stage contents ──"
+          du -sh _stage
+          echo "Top-level files in stage:"
+          ls -1 _stage
+
+      - name: Generate api-php/config.local.php from secrets
+        if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
+        run: |
+          # Only generate if api-php was staged (i.e., api-php/** was part of the trigger)
+          if [ -d "_stage/api-php" ]; then
+            cat > _stage/api-php/config.local.php <<'PHP'
+          <?php
+          /* Generated by GitHub Actions — DO NOT commit. */
+          return [
+            'db_host'           => 'localhost',
+            'db_name'           => 'webmed6_nwm',
+            'db_user'           => 'webmed6_nwm',
+            'db_pass'           => getenv('DB_PASS_PLACEHOLDER'),
+            'jwt_secret'        => getenv('JWT_SECRET_PLACEHOLDER'),
+            'hubspot_token'     => getenv('HUBSPOT_TOKEN_PLACEHOLDER'),
+            'anthropic_api_key' => getenv('ANTHROPIC_API_KEY_PLACEHOLDER'),
+            'resend_api_key'    => getenv('RESEND_API_KEY_PLACEHOLDER'),
+            'mp_access_token'   => getenv('MP_ACCESS_TOKEN_PLACEHOLDER'),
+            'mp_public_key'     => getenv('MP_PUBLIC_KEY_PLACEHOLDER'),
+            'mp_webhook_secret' => getenv('MP_WEBHOOK_SECRET_PLACEHOLDER'),
+          ];
+          PHP
+            # Replace getenv placeholders with real secret values at deploy time
+            python3 - <<'PY'
+          import os, re, pathlib
+          p = pathlib.Path("_stage/api-php/config.local.php")
+          s = p.read_text()
+          mapping = {
+            "DB_PASS_PLACEHOLDER":           os.environ.get("SECRET_DB_PASS", ""),
+            "JWT_SECRET_PLACEHOLDER":        os.environ.get("SECRET_JWT_SECRET", ""),
+            "HUBSPOT_TOKEN_PLACEHOLDER":     os.environ.get("SECRET_HUBSPOT_TOKEN", ""),
+            "ANTHROPIC_API_KEY_PLACEHOLDER": os.environ.get("SECRET_ANTHROPIC_API_KEY", ""),
+            "RESEND_API_KEY_PLACEHOLDER":    os.environ.get("SECRET_RESEND_API_KEY", ""),
+            "MP_ACCESS_TOKEN_PLACEHOLDER":   os.environ.get("SECRET_MP_ACCESS_TOKEN", ""),
+            "MP_PUBLIC_KEY_PLACEHOLDER":     os.environ.get("SECRET_MP_PUBLIC_KEY", ""),
+            "MP_WEBHOOK_SECRET_PLACEHOLDER": os.environ.get("SECRET_MP_WEBHOOK_SECRET", ""),
+          }
+          for k, v in mapping.items():
+            s = s.replace(f'getenv(\'{k}\')', repr(v))
+          p.write_text(s)
+          print("config.local.php materialized")
+          PY
+            echo "api-php/config.local.php generated (not committed)"
+          else
+            echo "api-php not in stage — skipping config.local.php generation"
+          fi
+        env:
+          SECRET_DB_PASS:           ${{ secrets.CRM_DB_PASSWORD }}
+          SECRET_JWT_SECRET:        ${{ secrets.JWT_SECRET }}
+          SECRET_HUBSPOT_TOKEN:     ${{ secrets.HUBSPOT_TOKEN }}
+          SECRET_ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SECRET_RESEND_API_KEY:    ${{ secrets.RESEND_API_KEY }}
+          SECRET_MP_ACCESS_TOKEN:   ${{ secrets.MP_ACCESS_TOKEN }}
+          SECRET_MP_PUBLIC_KEY:     ${{ secrets.MP_PUBLIC_KEY }}
+          SECRET_MP_WEBHOOK_SECRET: ${{ secrets.MP_WEBHOOK_SECRET }}
+
+      - name: Deploy via FTPS
+        if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.CPANEL_FTP_HOST }}
+          username: ${{ secrets.CPANEL_FTP_ROOT_USER }}
+          password: ${{ secrets.CPANEL_FTP_ROOT_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./_stage/
+          server-dir: ./
+          dangerous-clean-slate: false
+          log-level: standard
+          exclude: |
+            **/.git*
+            **/.github/**
+            **/.DS_Store
+            **/Thumbs.db
+            **/*.py
+            **/__pycache__/**
+            **/node_modules/**
+            **/_deploy/**
+            **/companies/**
+
+      - name: Smoke test live URLs
+        if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
+        run: |
+          set -e
+          URLS=(
+            "https://netwebmedia.com/"
+            "https://netwebmedia.com/nwm-crm.html"
+            "https://netwebmedia.com/nwm-cms.html"
+            "https://netwebmedia.com/faq.html"
+            "https://netwebmedia.com/tutorials.html"
+            "https://netwebmedia.com/tutorials/nwm-crm.html"
+            "https://netwebmedia.com/crm-demo/index.html"
+            "https://netwebmedia.com/cms-demo/index.html"
+            "https://netwebmedia.com/api/"
+          )
+          for u in "${URLS[@]}"; do
+            code=$(curl -sS -o /dev/null -w "%{http_code}" -A "Mozilla/5.0 (gh-actions smoke test)" --max-time 20 "$u")
+            echo "  $code  $u"
+            [ "$code" = "200" ] || { echo "non-200 for $u"; exit 1; }
+          done
+          echo "All smoke-test URLs 200 OK"
+
+      - name: Verify coupon endpoint
+        if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
+        run: |
+          # Confirm the Carlos26 coupon is live after deploy
+          resp=$(curl -sS --max-time 15 \
+            "https://netwebmedia.com/api/billing/validate-coupon?code=Carlos26&plan=cmo_growth")
+          echo "Coupon response: $resp"
+          echo "$resp" | grep -q '"valid":true' && echo "Carlos26 live" || \
+            { echo "Carlos26 validation failed"; exit 1; }

@@ -1,5 +1,20 @@
 # GitHub Actions — deploy pipelines
 
+Three workflows, each scoped to a different part of the site. All use FTPS via
+`SamKirkland/FTP-Deploy-Action` (incremental sync by hash — safe to re-run).
+
+| Workflow | Triggers on changes to | Deploys to | FTP user secret |
+|---|---|---|---|
+| `deploy-site-root.yml` | root HTMLs, `css/`, `js/`, `tutorials/`, `crm-demo/`, `cms-demo/`, `api-php/` | `/public_html/` | `CPANEL_FTP_ROOT_USER` |
+| `deploy-crm.yml`       | `crm-vanilla/**`                   | `/public_html/crm-vanilla/` (via companies-scoped user) | `CPANEL_FTP_USER` |
+| `deploy-companies.yml` | `_deploy/companies/**`             | `/public_html/companies/` | `CPANEL_FTP_USER` |
+
+**If you only have `CPANEL_FTP_USER` set up (scoped to `/public_html/companies/`),
+then `deploy-site-root.yml` won't run.** Follow the one-time setup in that
+workflow's header comment to create a second FTP account scoped to `/public_html/`.
+
+---
+
 ## `deploy-companies.yml`
 
 Publishes `_deploy/companies/**` (680 per-company social + digital audit pages)

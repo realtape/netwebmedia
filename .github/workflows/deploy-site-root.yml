@@ -33,20 +33,8 @@ on:
     branches: [main]
     paths:
       # Top-level HTML pages
-      - 'index.html'
-      - 'nwm-crm.html'
-      - 'nwm-cms.html'
-      - 'faq.html'
-      - 'cart.html'
-      - 'services.html'
-      - 'blog.html'
-      - 'pricing.html'
-      - 'cases.html'
-      - 'contact.html'
-      - 'about.html'
-      - 'analyzer.html'
-      - 'login.html'
-      - 'tutorials.html'
+      - '*.html'
+      - 'blog/**'
       - 'crm/**'
       - 'tutorials/**'
       - 'crm-demo/**'
@@ -103,15 +91,12 @@ jobs:
       - name: Stage site-root files
         run: |
           mkdir -p _stage
-          # Top-level HTML — only ship files that actually exist to avoid cp errors
-          for f in index.html nwm-crm.html nwm-cms.html faq.html cart.html \
-                   services.html blog.html pricing.html cases.html contact.html \
-                   about.html analyzer.html login.html tutorials.html \
-                   robots.txt sitemap.xml; do
+          # Top-level HTML — copy all .html files at repo root
+          for f in *.html robots.txt sitemap.xml; do
             [ -f "$f" ] && cp "$f" "_stage/$f" || true
           done
           # Directories
-          for d in css js assets images fonts crm api-php tutorials crm-demo cms-demo; do
+          for d in css js assets images fonts crm api-php tutorials crm-demo cms-demo blog; do
             [ -d "$d" ] && cp -r "$d" "_stage/$d" || true
           done
           # Drop dev/test artifacts that shouldn't ship

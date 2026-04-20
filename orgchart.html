@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>NetWebMedia — AI Agent Org Chart</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --nwm-navy: #012169;
+    --nwm-navy-dark: #010F3B;
+    --nwm-navy-mid: #01306E;
+    --nwm-orange: #FF671F;
+    --nwm-orange-light: #FF8C42;
+    --nwm-blue: #4A90D9;
+    --ink: #FFFFFF;
+    --ink-soft: #C8D4E6;
+    --muted: #7B8FAD;
+    --line: rgba(255,255,255,0.14);
+    --line-strong: rgba(255,103,31,0.55);
+    --panel: rgba(255,255,255,0.06);
+    --panel-hover: rgba(255,255,255,0.10);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(255,103,31,0.12), transparent 60%),
+      radial-gradient(800px 500px at 10% 20%, rgba(74,144,217,0.12), transparent 60%),
+      linear-gradient(180deg, var(--nwm-navy-dark) 0%, var(--nwm-navy) 100%);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    min-height: 100vh;
+  }
+  header {
+    padding: 56px 24px 12px; text-align: center;
+  }
+  header h1 {
+    margin: 0; font-family: 'Poppins', 'Inter', sans-serif;
+    font-size: 34px; font-weight: 800; letter-spacing: -0.02em;
+    background: linear-gradient(90deg, var(--nwm-orange) 0%, var(--nwm-orange-light) 60%, var(--nwm-blue) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  header p {
+    margin: 10px 0 0; color: var(--ink-soft); font-size: 14px;
+  }
+  .badge {
+    display: inline-block; margin-top: 12px;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--nwm-orange); background: rgba(255,103,31,0.12);
+    border: 1px solid rgba(255,103,31,0.35);
+    padding: 4px 10px; border-radius: 999px;
+  }
+
+  .chart { max-width: 1280px; margin: 40px auto 24px; padding: 0 24px; }
+
+  /* Rows — connector from previous row */
+  .row {
+    display: flex; justify-content: center; gap: 18px; flex-wrap: wrap;
+    position: relative;
+  }
+  .row + .row { margin-top: 56px; }
+  .row + .row::before {
+    content: ""; position: absolute; top: -28px; left: 50%;
+    width: 2px; height: 28px; background: var(--line-strong);
+    border-radius: 2px;
+  }
+  .tier { margin-bottom: 8px; }
+  .tier-label {
+    text-align: center; color: var(--muted); font-size: 11px;
+    letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  /* Nodes */
+  .node {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px 18px 14px;
+    min-width: 220px; max-width: 260px;
+    backdrop-filter: blur(6px);
+    transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    gap: 8px;
+  }
+  .node:hover {
+    transform: translateY(-3px);
+    border-color: var(--nwm-orange);
+    background: var(--panel-hover);
+  }
+  .avatar {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--nwm-orange), var(--nwm-orange-light));
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 18px rgba(255,103,31,0.35);
+    flex-shrink: 0;
+  }
+  .avatar svg { width: 28px; height: 28px; stroke: #fff; }
+  .node.ceo .avatar {
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, var(--nwm-blue), var(--nwm-orange));
+    box-shadow: 0 6px 22px rgba(74,144,217,0.5);
+  }
+  .node.ceo .avatar svg { width: 34px; height: 34px; }
+  .node.exec .avatar {
+    background: linear-gradient(135deg, var(--nwm-navy-mid), var(--nwm-blue));
+    box-shadow: 0 4px 18px rgba(74,144,217,0.4);
+  }
+  .node .role {
+    font-family: 'Poppins', 'Inter', sans-serif;
+    font-size: 14px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink);
+  }
+  .node .name { font-size: 12px; color: var(--ink-soft); }
+  .node .agent {
+    display: inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 10.5px; color: var(--nwm-orange);
+    background: rgba(255,103,31,0.12);
+    border: 1px solid rgba(255,103,31,0.35);
+    padding: 3px 8px; border-radius: 999px;
+  }
+  .node.ceo {
+    min-width: 260px;
+    border-color: var(--nwm-blue);
+    background: linear-gradient(180deg, rgba(74,144,217,0.18), rgba(255,255,255,0.04));
+  }
+  .node.ceo .role { font-size: 17px; }
+  .node.ceo .agent { display: none; }
+  .node.exec { border-color: rgba(74,144,217,0.45); }
+
+  /* Pillar groups */
+  .group {
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    position: relative; padding-top: 24px;
+  }
+  .group::before {
+    content: ""; position: absolute; top: 0; left: 50%;
+    width: 2px; height: 24px; background: var(--line-strong); border-radius: 2px;
+  }
+  .group-head { display: flex; }
+  .group-children {
+    display: flex; gap: 12px; flex-wrap: nowrap;
+    justify-content: center; align-items: flex-start;
+    position: relative; padding-top: 28px;
+  }
+  /* Vertical stem down from pillar head to horizontal bar */
+  .group-children::before {
+    content: ""; position: absolute; top: 0; left: 50%;
+    width: 2px; height: 14px; background: var(--line-strong); border-radius: 2px;
+  }
+  /* Each child: vertical stem up to horizontal bar */
+  .group-children .node {
+    position: relative; min-width: 180px; max-width: 210px;
+  }
+  .group-children .node::before {
+    content: ""; position: absolute; top: -14px; left: 50%;
+    width: 2px; height: 14px; background: var(--line-strong); border-radius: 2px;
+  }
+  /* Horizontal bar made from halves on each child — always matches real width */
+  .group-children .node::after {
+    content: ""; position: absolute; top: -14px; left: 0; right: 0;
+    height: 2px; background: var(--line-strong); border-radius: 2px;
+  }
+  .group-children .node:first-child::after { left: 50%; }
+  .group-children .node:last-child::after  { right: 50%; }
+  .group-children .node:only-child::after  { display: none; }
+
+  /* Roster */
+  .roster-section {
+    max-width: 1280px; margin: 24px auto 0; padding: 56px 24px 80px;
+    border-top: 1px solid var(--line);
+  }
+  .roster-head { text-align: center; margin-bottom: 32px; }
+  .roster-head h2 {
+    margin: 0; font-family: 'Poppins', 'Inter', sans-serif;
+    font-size: 24px; font-weight: 700; letter-spacing: -0.01em;
+  }
+  .roster-head p {
+    margin: 8px 0 0; color: var(--ink-soft); font-size: 13px;
+  }
+  .roster-head code {
+    color: var(--nwm-orange);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .roster {
+    display: grid; gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+  .agent-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px;
+    display: flex; gap: 14px;
+    transition: border-color .18s ease, transform .18s ease, background .18s ease;
+  }
+  .agent-card:hover {
+    border-color: var(--nwm-orange);
+    transform: translateY(-2px);
+    background: var(--panel-hover);
+  }
+  .agent-card .avatar { width: 46px; height: 46px; }
+  .agent-card .avatar svg { width: 22px; height: 22px; }
+  .agent-card .body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .agent-card .handle {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px; color: var(--nwm-orange);
+    background: rgba(255,103,31,0.12);
+    border: 1px solid rgba(255,103,31,0.35);
+    padding: 2px 8px; border-radius: 999px;
+    align-self: flex-start;
+  }
+  .agent-card .role {
+    font-family: 'Poppins', 'Inter', sans-serif;
+    font-size: 14px; font-weight: 700; letter-spacing: -0.01em;
+  }
+  .agent-card .desc { font-size: 12px; color: var(--ink-soft); line-height: 1.45; }
+  .agent-card .model {
+    font-size: 10px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.1em; margin-top: 2px;
+  }
+  .agent-card.exec { border-color: rgba(74,144,217,0.45); }
+  .agent-card.exec .avatar {
+    background: linear-gradient(135deg, var(--nwm-navy-mid), var(--nwm-blue));
+    box-shadow: 0 4px 16px rgba(74,144,217,0.4);
+  }
+
+  footer {
+    text-align: center; color: var(--muted); font-size: 12px;
+    padding: 24px; border-top: 1px solid var(--line);
+  }
+  footer code { color: var(--nwm-orange); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+  @media (max-width: 900px) {
+    .group-children { flex-wrap: wrap; }
+    .group-children .node { min-width: 160px; }
+  }
+  @media (max-width: 640px) {
+    header h1 { font-size: 26px; }
+    .node, .group-children .node { min-width: 150px; max-width: 220px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Shared SVG icon definitions -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-ceo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+      <path d="M5 13a7 7 0 0 1 14 0"/>
+    </symbol>
+    <symbol id="i-cos" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/>
+    </symbol>
+    <symbol id="i-cmo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 11v2l14 5V6z"/><path d="M17 8v8"/><path d="M7 13h3l1 6H8z"/>
+    </symbol>
+    <symbol id="i-pm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 4v5"/><path d="M15 4v5"/>
+    </symbol>
+    <symbol id="i-prod" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h4v10H7z"/><path d="M13 7h4v5h-4z"/>
+    </symbol>
+    <symbol id="i-eng" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 6l-5 6 5 6"/><path d="M16 6l5 6-5 6"/><path d="M14 4l-4 16"/>
+    </symbol>
+    <symbol id="i-sales" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 18l6-6 4 4 8-9"/><path d="M14 7h7v7"/>
+    </symbol>
+    <symbol id="i-content" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7 3h8l4 4v14H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h6"/>
+    </symbol>
+    <symbol id="i-creative" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 2-2 0-1.8-1.5-1.8-1.5-3 0-1 .8-2 2-2H17a4 4 0 0 0 4-4 9 9 0 0 0-9-7z"/>
+      <circle cx="7.5" cy="10.5" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16.5" cy="10.5" r="1"/>
+    </symbol>
+    <symbol id="i-cs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
+    </symbol>
+    <symbol id="i-ops" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>
+    </symbol>
+    <symbol id="i-data" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-7"/>
+    </symbol>
+    <symbol id="i-fin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3v18"/><path d="M17 7H9.5a3 3 0 0 0 0 6h5a3 3 0 1 1 0 6H6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header>
+  <h1>NetWebMedia · AI Agent Org</h1>
+  <p>Every role on the team is an AI agent in <code style="color:var(--nwm-orange);font-family:ui-monospace,Menlo,monospace">.claude/agents/</code></p>
+  <span class="badge">Internal</span>
+</header>
+
+<main class="chart">
+
+  <!-- Tier 1: CEO -->
+  <div class="tier">
+    <div class="tier-label">Office of the CEO</div>
+    <div class="row">
+      <div class="node ceo">
+        <div class="avatar"><svg><use href="#i-ceo"/></svg></div>
+        <div class="role">CEO &amp; Founder</div>
+        <div class="name">Carlos Martinez</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tier 2: Chief of Staff Agent -->
+  <div class="tier">
+    <div class="row">
+      <div class="node exec">
+        <div class="avatar"><svg><use href="#i-cos"/></svg></div>
+        <div class="role">Chief of Staff Agent</div>
+        <div class="name">Executive support for Carlos</div>
+        <span class="agent">carlos-ceo-assistant</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tier 3: Leadership Agents -->
+  <div class="tier">
+    <div class="tier-label">Leadership Agents</div>
+    <div class="row">
+
+      <div class="group">
+        <div class="group-head">
+          <div class="node exec">
+            <div class="avatar"><svg><use href="#i-cmo"/></svg></div>
+            <div class="role">CMO Agent</div>
+            <div class="name">Brand, demand, content</div>
+            <span class="agent">cmo</span>
+          </div>
+        </div>
+        <div class="group-children">
+          <div class="node">
+            <div class="avatar"><svg><use href="#i-content"/></svg></div>
+            <div class="role">Content Strategist Agent</div>
+            <div class="name">Blog, AEO/SEO</div>
+            <span class="agent">content-strategist</span>
+          </div>
+          <div class="node">
+            <div class="avatar"><svg><use href="#i-creative"/></svg></div>
+            <div class="role">Creative Director Agent</div>
+            <div class="name">Brand, UX/UI, creative</div>
+            <span class="agent">creative-director</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-head">
+          <div class="node exec">
+            <div class="avatar"><svg><use href="#i-prod"/></svg></div>
+            <div class="role">Product Agent</div>
+            <div class="name">Packages, CRM, automations</div>
+            <span class="agent">product-manager</span>
+          </div>
+        </div>
+        <div class="group-children">
+          <div class="node">
+            <div class="avatar"><svg><use href="#i-eng"/></svg></div>
+            <div class="role">Engineering Agent</div>
+            <div class="name">Architecture, AI builds</div>
+            <span class="agent">engineering-lead</span>
+          </div>
+          <div class="node">
+            <div class="avatar"><svg><use href="#i-pm"/></svg></div>
+            <div class="role">Project Mgmt Agent</div>
+            <div class="name">Delivery, scope, timelines</div>
+            <span class="agent">project-manager</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-head">
+          <div class="node exec">
+            <div class="avatar"><svg><use href="#i-sales"/></svg></div>
+            <div class="role">Sales Agent</div>
+            <div class="name">Pipeline &amp; new revenue</div>
+            <span class="agent">sales-director</span>
+          </div>
+        </div>
+        <div class="group-children">
+          <div class="node">
+            <div class="avatar"><svg><use href="#i-cs"/></svg></div>
+            <div class="role">Customer Success Agent</div>
+            <div class="name">Retention, QBRs, expansion</div>
+            <span class="agent">customer-success</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-head">
+          <div class="node exec">
+            <div class="avatar"><svg><use href="#i-ops"/></svg></div>
+            <div class="role">Operations Agent</div>
+            <div class="name">SOPs, vendors, tooling</div>
+            <span class="agent">operations-manager</span>
+          </div>
+        </div>
+        <div class="group-children">
+          <div class="node">
+            <div class="avatar"><svg><use href="#i-fin"/></svg></div>
+            <div class="role">Finance Agent</div>
+            <div class="name">Billing, P&amp;L, cash</div>
+            <span class="agent">finance-controller</span>
+          </div>
+          <div class="node">
+            <div class="avatar"><svg><use href="#i-data"/></svg></div>
+            <div class="role">Data Agent</div>
+            <div class="name">Analytics, reporting</div>
+            <span class="agent">data-analyst</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<section class="roster-section">
+  <div class="roster-head">
+    <h2>Agent Roster</h2>
+    <p>12 AI agents in <code>.claude/agents/</code> — one per role above. Invoke any by name.</p>
+  </div>
+  <div class="roster">
+
+    <div class="agent-card exec">
+      <div class="avatar"><svg><use href="#i-cos"/></svg></div>
+      <div class="body">
+        <span class="handle">carlos-ceo-assistant</span>
+        <div class="role">Chief of Staff Agent</div>
+        <div class="desc">Calendar triage, inbox drafts, decision memos, prioritization for Carlos.</div>
+        <div class="model">Opus</div>
+      </div>
+    </div>
+
+    <div class="agent-card exec">
+      <div class="avatar"><svg><use href="#i-cmo"/></svg></div>
+      <div class="body">
+        <span class="handle">cmo</span>
+        <div class="role">CMO Agent</div>
+        <div class="desc">Strategy, campaigns, brand, AEO/SEO, pipeline generation.</div>
+        <div class="model">Opus</div>
+      </div>
+    </div>
+
+    <div class="agent-card exec">
+      <div class="avatar"><svg><use href="#i-prod"/></svg></div>
+      <div class="body">
+        <span class="handle">product-manager</span>
+        <div class="role">Product Agent</div>
+        <div class="desc">Roadmap, PRDs, pricing and packaging for CMO packages, CRM, automations.</div>
+        <div class="model">Opus</div>
+      </div>
+    </div>
+
+    <div class="agent-card exec">
+      <div class="avatar"><svg><use href="#i-eng"/></svg></div>
+      <div class="body">
+        <span class="handle">engineering-lead</span>
+        <div class="role">Engineering Agent</div>
+        <div class="desc">Architecture, code review, security, AI integration decisions.</div>
+        <div class="model">Opus</div>
+      </div>
+    </div>
+
+    <div class="agent-card">
+      <div class="avatar"><svg><use href="#i-pm"/></svg></div>
+      <div class="body">
+        <span class="handle">project-manager</span>
+        <div class="role">Project Management Agent</div>
+        <div class="desc">Timelines, scope, status, risk — client and internal delivery.</div>
+        <div class="model">Sonnet</div>
+      </div>
+    </div>
+
+    <div class="agent-card">
+      <div class="avatar"><svg><use href="#i-sales"/></svg></div>
+      <div class="body">
+        <span class="handle">sales-director</span>
+        <div class="role">Sales Agent</div>
+        <div class="desc">Pipeline, discovery, proposals, forecasts, outbound playbooks.</div>
+        <div class="model">Sonnet</div>
+      </div>
+    </div>
+
+    <div class="agent-card">
+      <div class="avatar"><svg><use href="#i-content"/></svg></div>
+      <div class="body">
+        <span class="handle">content-strategist</span>
+        <div class="role">Content Strategist Agent</div>
+        <div class="desc">Blog, AEO/SEO, editorial calendar, content briefs, repurposing.</div>
+        <div class="model">Sonnet</div>
+      </div>
+    </div>
+
+    <div class="agent-card">
+      <div class="avatar"><svg><use href="#i-creative"/></svg></div>
+      <div class="body">
+        <span class="handle">creative-director</span>
+        <div class="role">Creative Director Agent</div>
+        <div class="desc">Brand, visual design, UX/UI, ad creative, design critique.</div>
+        <div class="model">Sonnet</div>
+      </div>
+    </div>
+
+    <div class="agent-card">
+      <div class="avatar"><svg><use href="#i-cs"/></svg></div>
+      <div class="body">
+        <span class="handle">customer-success</span>
+        <div class="role">Customer Success Agent</div>
+        <div class="desc">Onboarding, QBRs, retention, renewal and expansion plays.</div>
+        <div class="model">Sonnet</div>
+      </div>
+    </div>
+
+    <div class="agent-card">
+      <div class="avatar"><svg><use href="#i-ops"/></svg></div>
+      <div class="body">
+        <span class="handle">operations-manager</span>
+        <div class="role">Operations Agent</div>
+        <div class="desc">SOPs, vendor stack, internal workflow automation.</div>
+        <div class="model">Sonnet</div>
+      </div>
+    </div>
+
+    <div class="agent-card">
+      <div class="avatar"><svg><use href="#i-data"/></svg></div>
+      <div class="body">
+        <span class="handle">data-analyst</span>
+        <div class="role">Data Agent</div>
+        <div class="desc">Analytics, funnel / attribution, SQL, performance reports.</div>
+        <div class="model">Sonnet</div>
+      </div>
+    </div>
+
+    <div class="agent-card">
+      <div class="avatar"><svg><use href="#i-fin"/></svg></div>
+      <div class="body">
+        <span class="handle">finance-controller</span>
+        <div class="role">Finance Agent</div>
+        <div class="desc">Billing, P&amp;L, cash forecasting, collections, pricing analysis.</div>
+        <div class="model">Sonnet</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  Each handle maps to an agent file in <code>.claude/agents/</code>. Invoke by name.
+</footer>
+
+</body>
+</html>

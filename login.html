@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sign in · NetWebMedia</title>
+<link rel="icon" type="image/svg+xml" href="/assets/nwm-logo.svg" />
+<style>
+  :root {
+    --bg: #0b1020;
+    --card: #121933;
+    --fg: #eaf0ff;
+    --muted: #8892b0;
+    --accent: #6c5ce7;
+    --accent2: #00b894;
+    --err: #ff6b6b;
+    --ok: #00d28f;
+    --border: rgba(255,255,255,0.08);
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--fg);
+    background: radial-gradient(1000px 600px at 15% 10%, #1a2555 0%, transparent 60%),
+                radial-gradient(900px 500px at 85% 90%, #0f2942 0%, transparent 60%),
+                var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 36px 32px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
+  .brand-logo {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: grid; place-items: center; color: white; font-weight: 800;
+  }
+  .brand-text { font-weight: 700; font-size: 18px; }
+  h1 { margin: 0 0 6px; font-size: 22px; }
+  .sub { color: var(--muted); font-size: 14px; margin-bottom: 22px; }
+  label { display: block; font-size: 13px; color: var(--muted); margin: 14px 0 6px; }
+  input {
+    width: 100%; padding: 12px 14px; border-radius: 10px;
+    background: rgba(255,255,255,0.04); color: var(--fg);
+    border: 1px solid var(--border); outline: none; font-size: 14px;
+    transition: border-color .15s, background .15s;
+  }
+  input:focus { border-color: var(--accent); background: rgba(108,92,231,0.08); }
+  .btn {
+    margin-top: 20px; width: 100%; padding: 12px 16px; border-radius: 10px;
+    border: none; background: linear-gradient(135deg, var(--accent), #8475ff);
+    color: white; font-weight: 600; font-size: 14px; cursor: pointer;
+    transition: transform .08s, opacity .15s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.6; cursor: wait; transform: none; }
+  .alt { color: var(--muted); font-size: 13px; text-align: center; margin-top: 16px; }
+  .alt a { color: var(--fg); text-decoration: none; border-bottom: 1px dashed var(--muted); }
+  .demo {
+    margin-top: 14px; padding: 10px 14px; border-radius: 10px;
+    background: rgba(0,184,148,0.08); color: #7dd9be;
+    border: 1px dashed rgba(0,184,148,0.3); font-size: 12.5px;
+  }
+  .demo b { color: #a8f0d9; }
+  .demo button {
+    margin-top: 8px; background: transparent; color: #a8f0d9; border: 1px solid rgba(0,184,148,0.4);
+    padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 12px;
+  }
+  .msg { margin-top: 14px; font-size: 13px; min-height: 16px; }
+  .msg.err { color: var(--err); }
+  .msg.ok  { color: var(--ok); }
+</style>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
+  </script>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">
+      <div class="brand-logo">N</div>
+      <div class="brand-text">NetWebMedia</div>
+    </div>
+    <h1>Sign in</h1>
+    <div class="sub">Access your CMS &amp; CRM workspace.</div>
+
+    <form id="loginForm" autocomplete="on">
+      <label for="email">Email</label>
+      <input id="email" type="email" required autocomplete="email" />
+
+      <label for="password">Password</label>
+      <input id="password" type="password" required autocomplete="current-password" minlength="8" />
+
+      <button class="btn" id="submitBtn" type="submit">Sign in</button>
+      <div id="msg" class="msg"></div>
+    </form>
+
+    <div class="alt">No account? <a href="/register.html">Create one</a></div>
+
+    <div class="demo">
+      <b>Trying it out?</b> Use a ready-made demo account.
+      <br />
+      <button type="button" id="demoBtn">Sign in as demo user</button>
+    </div>
+  </div>
+
+  <script src="/js/api-client.js"></script>
+  <script>
+    (function () {
+      var form   = document.getElementById('loginForm');
+      var email  = document.getElementById('email');
+      var pass   = document.getElementById('password');
+      var btn    = document.getElementById('submitBtn');
+      var msg    = document.getElementById('msg');
+      var demoBtn = document.getElementById('demoBtn');
+
+      function nextUrl() {
+        var p = new URLSearchParams(location.search);
+        var n = p.get('next');
+        if (!n) return null;
+        // Only allow same-origin relative paths.
+        if (!/^\/[a-zA-Z0-9_\-./?=&%]*$/.test(n)) return null;
+        return n;
+      }
+
+      function go(user) {
+        var next = nextUrl();
+        if (next) { location.href = next; return; }
+        // All authenticated users → new React CRM at /app/
+        location.href = '/app/';
+      }
+
+      function doLogin(e, creds) {
+        if (e) e.preventDefault();
+        btn.disabled = true;
+        msg.className = 'msg';
+        msg.textContent = 'Signing you in…';
+        var p = creds || { email: email.value.trim(), password: pass.value };
+        window.NWMApi.login(p.email, p.password)
+          .then(function (r) {
+            msg.className = 'msg ok';
+            msg.textContent = 'Welcome, ' + (r.user.name || r.user.email) + '!';
+            setTimeout(function () { go(r.user); }, 300);
+          })
+          .catch(function (err) {
+            msg.className = 'msg err';
+            msg.textContent = err.message || 'Sign-in failed.';
+            btn.disabled = false;
+          });
+      }
+
+      form.addEventListener('submit', doLogin);
+      demoBtn.addEventListener('click', function () {
+        doLogin(null, { email: 'demo@netwebmedia.com', password: 'demo1234' });
+      });
+
+      // If already signed in, bounce straight through.
+      if (window.NWMApi.isAuthed()) {
+        window.NWMApi.me().then(function (u) { go(u); }).catch(function () { window.NWMApi.clear(); });
+      }
+    })();
+  </script>
+<script src="assets/nwm-i18n.js" defer></script>
+<script src="js/main.js?v=2" defer></script>
+</body>
+</html>

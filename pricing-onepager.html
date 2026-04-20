@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>NetWebMedia — Services & Pricing 2026 · One-Pager</title>
+<style>
+  :root {
+    --nwm-primary:#0B3D91;
+    --nwm-accent:#00C2A8;
+    --nwm-dark:#0A1628;
+    --nwm-light:#E8F4F8;
+    --nwm-beige:#FFF8E1;
+    --text:#1f2a3a;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+  }
+  * { box-sizing:border-box; }
+  html,body { margin:0; padding:0; background:#f4f6fa; color:var(--text); font-family:'Segoe UI',Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+  .page { max-width:1080px; margin:0 auto; padding:48px 56px; background:#fff; }
+  @media print {
+    body { background:#fff; }
+    .page { padding:24px 32px; max-width:none; }
+    .no-print { display:none !important; }
+    .bundle-grid { page-break-inside:avoid; }
+  }
+  h1 { font-size:30px; line-height:1.15; margin:0 0 6px 0; color:var(--nwm-dark); }
+  h1 .accent { color:var(--nwm-accent); }
+  h2 { font-size:20px; margin:28px 0 10px 0; color:var(--nwm-primary); border-bottom:2px solid var(--nwm-accent); padding-bottom:6px; }
+  h3 { font-size:16px; margin:0 0 4px 0; color:var(--nwm-dark); }
+  p  { margin:0 0 8px 0; line-height:1.5; }
+  .muted { color:var(--muted); font-size:13px; }
+  .sub { font-size:14px; color:var(--muted); margin-bottom:14px; }
+  .tag { display:inline-block; padding:3px 10px; border-radius:9999px; background:var(--nwm-accent); color:#fff; font-size:11px; font-weight:700; letter-spacing:.5px; vertical-align:middle; margin-left:6px; }
+  .tag.core { background:var(--nwm-primary); }
+
+  /* Header */
+  header { display:flex; justify-content:space-between; align-items:flex-start; gap:24px; border-bottom:3px solid var(--nwm-primary); padding-bottom:18px; }
+  header .brand { display:flex; align-items:center; gap:12px; }
+  header .brand .logo { width:48px; height:48px; background:var(--nwm-primary); color:#fff; font-weight:800; border-radius:10px; display:grid; place-items:center; font-size:18px; }
+  header .meta { text-align:right; font-size:12px; color:var(--muted); line-height:1.6; }
+
+  /* Service grid */
+  .svc-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:12px; }
+  .svc { border:1px solid var(--border); border-radius:10px; padding:14px 16px; background:linear-gradient(180deg,#fbfbfe,#ffffff); }
+  .svc .price { font-size:13px; color:var(--nwm-primary); margin-top:8px; font-weight:600; }
+  .svc ul { margin:8px 0 0 0; padding-left:18px; color:#374151; font-size:13px; }
+  .svc ul li { margin-bottom:3px; }
+
+  /* Bundle table */
+  .bundle-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:10px; }
+  .bundle { border:1px solid var(--border); border-radius:12px; padding:18px 16px; position:relative; background:#fff; }
+  .bundle.featured { border-color:var(--nwm-accent); background:linear-gradient(180deg, #e8fbf7, #ffffff); }
+  .bundle.featured::before { content:"MOST POPULAR"; position:absolute; top:-9px; left:12px; background:var(--nwm-accent); color:#fff; padding:2px 10px; border-radius:6px; font-size:10px; font-weight:800; letter-spacing:1px; }
+  .bundle h3 { font-size:18px; margin:0 0 2px 0; }
+  .bundle .lead { font-size:12px; color:var(--muted); margin-bottom:10px; }
+  .bundle .price-row { margin:6px 0 12px 0; }
+  .bundle .setup { font-size:13px; color:#374151; }
+  .bundle .monthly { font-size:26px; font-weight:800; color:var(--nwm-accent); }
+  .bundle .monthly small { font-size:13px; color:var(--muted); font-weight:400; }
+  .bundle .save { display:inline-block; padding:2px 8px; border-radius:6px; background:#e6fbf7; color:#0a7a69; font-size:11px; font-weight:700; margin-left:4px; }
+  .bundle ul { margin:0; padding-left:18px; font-size:13px; color:#1f2a3a; }
+  .bundle ul li { margin-bottom:4px; }
+  .bundle .ref { font-size:11px; color:var(--muted); margin-top:10px; }
+
+  /* Market tabs (print: show all) */
+  .market-tabs { display:flex; gap:8px; margin-top:14px; margin-bottom:8px; }
+  .market-tabs button { padding:8px 16px; border-radius:9999px; border:1px solid var(--border); background:#fff; font-size:13px; cursor:pointer; font-family:inherit; }
+  .market-tabs button.active { background:var(--nwm-accent); color:#fff; border-color:var(--nwm-accent); font-weight:600; }
+  .market-panel { display:none; }
+  .market-panel.active { display:block; }
+  @media print { .market-panel { display:block !important; page-break-after:always; } .market-tabs { display:none; } }
+
+  /* Discount rules */
+  .rules { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:10px; }
+  .rule { padding:10px 14px; border:1px solid var(--border); border-radius:8px; background:var(--nwm-beige); }
+  .rule strong { color:var(--nwm-primary); }
+
+  /* Footer CTA */
+  .cta { margin-top:28px; padding:22px 28px; background:linear-gradient(90deg,var(--nwm-primary),#1a57c2); color:#fff; border-radius:14px; display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap; }
+  .cta h3 { color:#fff; font-size:20px; margin:0 0 4px 0; }
+  .cta p { margin:0; opacity:.9; font-size:14px; }
+  .cta a { background:var(--nwm-accent); color:#fff; text-decoration:none; padding:12px 22px; border-radius:8px; font-weight:700; font-size:14px; }
+
+  .bilingual { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:8px; }
+  .bilingual .col h3 { font-size:14px; color:var(--nwm-primary); margin-bottom:6px; text-transform:uppercase; letter-spacing:1px; }
+  .bilingual .col p { font-size:13px; color:#374151; }
+
+  .fineprint { margin-top:18px; padding-top:14px; border-top:1px dashed var(--border); font-size:11px; color:var(--muted); line-height:1.6; }
+</style>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
+  </script>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<header>
+  <div class="brand">
+    <div class="logo">NWM</div>
+    <div>
+      <h1>NetWebMedia <span class="accent">— Services & Pricing 2026</span></h1>
+      <p class="muted">Four services · Three bundle tiers · Three markets · Bilingual ES/EN</p>
+    </div>
+  </div>
+  <div class="meta">
+    <strong>NetWebMedia</strong><br>
+    La Serena, Chile — serving US, LATAM & Chile<br>
+    carlos@netwebmedia.com · www.netwebmedia.com<br>
+    Document date: April 17, 2026
+  </div>
+</header>
+
+<!-- INTRO (bilingual) -->
+<div class="bilingual">
+  <div class="col">
+    <h3>EN · What we commit to</h3>
+    <p>We've focused our catalog on four services we deliver reliably every week. <strong>NWM Automate</strong> is our hero: AI workflow automations that capture, route, nurture, and report on leads. It pairs with <strong>Website</strong>, <strong>Short-Form Video</strong>, and <strong>CRM + NWM CRM White-Label</strong>. Mix any combination — bundles save 10–25%.</p>
+  </div>
+  <div class="col">
+    <h3>ES · Lo que comprometemos</h3>
+    <p>Enfocamos nuestro catálogo en cuatro servicios que entregamos todas las semanas. <strong>NWM Automate</strong> es nuestro producto estrella: automatizaciones con IA que capturan, enrutan, nutren y reportan leads. Se combina con <strong>Sitio Web</strong>, <strong>Video Corto</strong> y <strong>CRM + NWM CRM White-Label</strong>. Combinas como quieras — los bundles ahorran 10-25%.</p>
+  </div>
+</div>
+
+<!-- THE FOUR SERVICES -->
+<h2>The Four Services · Los Cuatro Servicios</h2>
+<div class="svc-grid">
+  <div class="svc">
+    <h3>1. NWM Automate <span class="tag">HERO</span></h3>
+    <p class="muted">AI workflow automation · 14-day setup · Make + n8n + HubSpot + OpenAI</p>
+    <ul>
+      <li>Lead capture → CRM in seconds; AI-scored routing + enrichment</li>
+      <li>Email, SMS, WhatsApp follow-ups; dashboards + weekly reports</li>
+      <li>3 internal tiers: Starter / Growth / Scale</li>
+    </ul>
+    <div class="price">Starter $500 + $97/mo · Growth $800 + $197/mo · Scale $1,500 + $397/mo</div>
+  </div>
+
+  <div class="svc">
+    <h3>2. Website Design & Dev <span class="tag core">CORE</span></h3>
+    <p class="muted">Bilingual ES/EN · SEO + AEO · Forms wired to CRM</p>
+    <ul>
+      <li>Basic 5-page, Standard 10-page + funnel, Premium 15+ pages + CRO</li>
+      <li>On-page SEO + AEO (LLM) + schema markup</li>
+      <li>Optional Care plan (hosting + edits + SEO refresh)</li>
+    </ul>
+    <div class="price">Basic $1,800 · Standard $3,500 · Premium $5,500 · Care $97–$197/mo</div>
+  </div>
+
+  <div class="svc">
+    <h3>3. Short-Form Video Factory <span class="tag core">CORE</span></h3>
+    <p class="muted">Heygen avatar → Higgsfield motion → Seedance 2.0 I2V · Bilingual</p>
+    <ul>
+      <li>Reels / TikToks / Shorts · Hook A/B tests · Weekly scorecards</li>
+      <li>2/wk or 5/wk cadence; Premium adds 2 YT long-form per month</li>
+      <li>Cross-posted to IG, TikTok, YT Shorts, LinkedIn</li>
+    </ul>
+    <div class="price">Setup $900 · 2 Reels/wk $800/mo · 5 Reels/wk $1,800/mo · Premium $2,800/mo</div>
+  </div>
+
+  <div class="svc">
+    <h3>4. CRM + NWM CRM White-Label <span class="tag core">CORE</span></h3>
+    <p class="muted">"NetWebMedia Platform" — NWM CRM seats · Live proof: Estetica.Social</p>
+    <ul>
+      <li>Sub-account provisioning, domain, pipeline, automations, brand boards</li>
+      <li>TikTok / WhatsApp / FB integrations; 2–5 users</li>
+      <li>Managed option: NWM runs campaigns + weekly reporting</li>
+    </ul>
+    <div class="price">Setup $500–$1,000 · Starter $67/mo · Pro $197/mo · Agency $347/mo</div>
+  </div>
+</div>
+
+<!-- BUNDLES -->
+<h2>Good / Better / Best Bundles — pick your market</h2>
+<p class="sub">Stacking services unlocks 10% / 18% / 25% off a-la-carte. Annual prepay adds +10%. Founding-client rate (first 5 per market per SKU) adds +15% off year 1.</p>
+
+<!-- Single USD market only; CLP + WL panels removed (not in billing seed). -->
+
+<!-- USD -->
+<div class="market-panel active" data-m="usd">
+  <h3 style="margin-top:14px;color:var(--nwm-primary);">🇺🇸 US / LATAM SMB · USD retail</h3>
+  <div class="bundle-grid">
+    <div class="bundle">
+      <h3>Launch</h3>
+      <div class="lead">For SMBs &lt; $1M</div>
+      <div class="setup">Setup <strong>$2,970</strong> <span class="save">10% off</span></div>
+      <div class="monthly">$1,295<small>/mo</small></div>
+      <ul>
+        <li>NWM CRM Starter (included)</li>
+        <li>Automate Starter (3 flows, 5K exec)</li>
+        <li>Website Basic (5 pp)</li>
+        <li>Care Basic</li>
+        <li>Video 2 Reels/wk</li>
+      </ul>
+      <div class="ref">A-la-carte: ~$3,300 setup + ~$1,438/mo</div>
+    </div>
+    <div class="bundle featured">
+      <h3>Grow</h3>
+      <div class="lead">For SMBs $1–5M · most common</div>
+      <div class="setup">Setup <strong>$4,920</strong> <span class="save">18% off</span></div>
+      <div class="monthly">$2,997<small>/mo</small></div>
+      <ul>
+        <li>NWM CRM Pro (unlimited users)</li>
+        <li>Automate Growth (10 flows, 25K exec)</li>
+        <li>Website Standard + 1 funnel</li>
+        <li>Care Full</li>
+        <li>Video 5 Reels/wk</li>
+      </ul>
+      <div class="ref">A-la-carte: ~$6,000 setup + ~$3,648/mo</div>
+    </div>
+    <div class="bundle">
+      <h3>Scale</h3>
+      <div class="lead">For SMBs $5–20M · market leaders</div>
+      <div class="setup">Setup <strong>$8,175</strong> <span class="save">25% off</span></div>
+      <div class="monthly">$4,497<small>/mo</small></div>
+      <ul>
+        <li>NWM CRM Agency (white-label)</li>
+        <li>Automate Scale (unlimited)</li>
+        <li>Website Premium (15+ pp, 2 funnels, CRO)</li>
+        <li>Care Full</li>
+        <li>Video Premium (5/wk + 2 YT long/mo)</li>
+      </ul>
+      <div class="ref">Contact sales — custom scope</div>
+    </div>
+  </div>
+</div>
+
+<!-- RULES -->
+<h2>Discount rules · Reglas de descuento</h2>
+<div class="rules">
+  <div class="rule"><strong>Bundle discount:</strong> 10% / 18% / 25% off a-la-carte (Launch / Grow / Scale).</div>
+  <div class="rule"><strong>Annual prepay:</strong> +10% off monthly when 12 months paid upfront.</div>
+  <div class="rule"><strong>Founding client:</strong> +15% off year 1 for first 5 per market per SKU.</div>
+  <div class="rule"><strong>Semi-annual prepay:</strong> +5% off monthly (6 months).</div>
+  <div class="rule"><strong>Volume (White-Label):</strong> +10% / +15% / +20% extra at 3 / 6 / 10 seats.</div>
+  <div class="rule"><strong>Margin floor:</strong> 55% — no bundle below; Carlos sign-off required.</div>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+  <div>
+    <h3>Ready to pick a bundle? Let's talk.</h3>
+    <p>30-minute diagnostic · zero commitment · we recommend what fits, even if smaller than you asked.</p>
+  </div>
+  <a href="mailto:carlos@netwebmedia.com?subject=NWM%20Pricing%20Inquiry">Book your call →</a>
+</div>
+
+<div class="fineprint">
+  <strong>Fine print:</strong> All prices in USD. Monthly billed via Mercado Pago (cards accepted worldwide — MP converts to your local currency at checkout). Excludes ad spend, third-party SaaS licenses, and custom integrations over 8 hours. 90-day minimum on monthly retainers, month-to-month thereafter. Bundle savings calculated against a-la-carte total. Setup fees charged upfront.
+</div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.market-tabs button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const m = btn.dataset.m;
+      document.querySelectorAll('.market-tabs button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.market-panel').forEach(p => {
+        p.classList.toggle('active', p.dataset.m === m);
+      });
+    });
+  });
+</script>
+</body>
+</html>

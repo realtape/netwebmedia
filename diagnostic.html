@@ -443,7 +443,6 @@
       <option value="education">Education</option>
       <option value="construction">Construction / Home Services</option>
       <option value="agency">Marketing / Agency</option>
-      <option value="nonprofit">Non-Profit</option>
       <option value="other">Other</option>
     </select>
     <button class="btn-analyze" id="btnAnalyze" onclick="startAnalysis()">
@@ -558,10 +557,11 @@
 </main>
 <footer>
   <div class="container">
-    &copy; 2026 NetWebMedia &mdash; AI-Powered Marketing Solutions &nbsp;|&nbsp; Serving US brands · Miami · New York
+    &copy; 2026 NetWebMedia &mdash; AI-Powered Marketing Solutions &nbsp;|&nbsp; Serving brands worldwide
   </div>
 </footer>
 
+<script src="js/main.js" defer></script>
 <script>
 // ═══════════════════════════════════════════════
 //  NetWebMedia Website Deep Dive Diagnostic Engine
@@ -763,7 +763,6 @@ function generateScores(url, industry) {
     education: { seo: 0, performance: -5, mobile: -3, content: 5, social: -5, ai_search: -12, conversion: -8, brand: 0 },
     construction: { seo: -10, performance: -15, mobile: -12, content: -10, social: -15, ai_search: -20, conversion: -12, brand: -5 },
     agency: { seo: 10, performance: 5, mobile: 8, content: 8, social: 10, ai_search: -5, conversion: 8, brand: 10 },
-    nonprofit: { seo: -8, performance: -10, mobile: -5, content: 0, social: 0, ai_search: -15, conversion: -10, brand: 0 },
     other: { seo: 0, performance: -5, mobile: 0, content: 0, social: -5, ai_search: -12, conversion: -5, brand: 0 },
     '': { seo: 0, performance: -5, mobile: 0, content: 0, social: -5, ai_search: -12, conversion: -5, brand: 0 },
   };
@@ -1206,5 +1205,6 @@ const style = document.createElement('style');
 style.textContent = '@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }';
 document.head.appendChild(style);
 </script>
+<script src="assets/nwm-i18n.js" defer></script>
 </body>
 </html>

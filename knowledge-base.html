@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NetWebMedia — Knowledge Base</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0b0d1a;
+      --surface:   #12152b;
+      --border:    #1e2340;
+      --muted:     #8892b0;
+      --text:      #ccd6f6;
+      --bright:    #e6f1ff;
+      --cyan:      #22d3ee;
+      --purple:    #a29bfe;
+      --green:     #00b894;
+      --orange:    #e17055;
+      --pink:      #fd79a8;
+      --yellow:    #fdcb6e;
+      --blue:      #0984e3;
+      --red:       #d63031;
+      --indigo:    #6c5ce7;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    /* ── HEADER ─────────────────────────────────── */
+    .kb-header {
+      background: linear-gradient(135deg, #0d1033 0%, #0b0d1a 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 48px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .kb-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .kb-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .kb-logo-mark {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 18px; color: #fff;
+    }
+    .kb-logo-text { font-size: 20px; font-weight: 700; color: var(--bright); }
+    .kb-logo-sub  { font-size: 12px; color: var(--muted); font-weight: 400; }
+    .kb-actions { display: flex; gap: 10px; }
+    .kb-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .kb-btn-ghost {
+      color: var(--muted);
+      border-color: var(--border);
+      background: transparent;
+    }
+    .kb-btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+    .kb-btn-primary {
+      background: linear-gradient(135deg, var(--cyan), var(--purple));
+      color: #fff;
+    }
+    .kb-btn-primary:hover { opacity: .85; }
+
+    /* ── SEARCH ─────────────────────────────────── */
+    .kb-search-wrap {
+      position: relative;
+      max-width: 640px;
+    }
+    .kb-search-icon {
+      position: absolute;
+      left: 14px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 16px;
+    }
+    #kbSearch {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 40px 11px 40px;
+      color: var(--bright);
+      font-size: 14px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    #kbSearch:focus { border-color: var(--cyan); }
+    #kbSearch::placeholder { color: var(--muted); }
+    .kb-search-clear {
+      position: absolute;
+      right: 12px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      color: var(--muted); cursor: pointer;
+      font-size: 18px; line-height: 1;
+      display: none;
+    }
+    #kbSearch:not(:placeholder-shown) ~ .kb-search-clear { display: block; }
+
+    /* ── STATS STRIP ─────────────────────────────── */
+    .kb-stats {
+      padding: 20px 48px;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+    }
+    .kb-stat { display: flex; align-items: center; gap: 8px; }
+    .kb-stat-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+    .kb-stat-val { font-size: 18px; font-weight: 700; color: var(--bright); }
+    .kb-stat-lbl { font-size: 12px; color: var(--muted); }
+
+    /* ── NAV TABS ────────────────────────────────── */
+    .kb-tabs {
+      padding: 0 48px;
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .kb-tabs::-webkit-scrollbar { display: none; }
+    .kb-tab {
+      padding: 14px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: all .2s;
+      user-select: none;
+    }
+    .kb-tab:hover { color: var(--text); }
+    .kb-tab.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+
+    /* ── MAIN CONTENT ────────────────────────────── */
+    .kb-body { padding: 40px 48px; }
+    .kb-section {
+      margin-bottom: 56px;
+    }
+    .kb-section-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .kb-section-icon {
+      width: 36px; height: 36px;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .kb-section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--bright);
+    }
+    .kb-section-count {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2px 10px;
+    }
+
+    /* ── LINK CARDS ──────────────────────────────── */
+    .kb-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .kb-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: border-color .2s, transform .15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .kb-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent, var(--cyan));
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .kb-card:hover { border-color: var(--accent, var(--cyan)); transform: translateY(-1px); }
+    .kb-card:hover::before { opacity: 1; }
+
+    .kb-card-icon {
+      width: 38px; height: 38px;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      background: color-mix(in srgb, var(--accent, var(--cyan)) 15%, transparent);
+    }
+    .kb-card-content { flex: 1; min-width: 0; }
+    .kb-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--bright);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .kb-card-sub {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .kb-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .kb-link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px; height: 30px;
+      border-radius: 7px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 13px;
+      transition: all .2s;
+    }
+    .kb-link-btn:hover { border-color: var(--accent, var(--cyan)); color: var(--accent, var(--cyan)); }
+    .kb-link-btn.copied { border-color: var(--green); color: var(--green); }
+
+    /* ── INDUSTRY TEMPLATES GRID ────────────────── */
+    .kb-industry-block {
+      margin-bottom: 28px;
+    }
+    .kb-industry-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      margin-bottom: 10px;
+      padding-left: 2px;
+    }
+    .kb-template-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 10px;
+    }
+
+    /* ── COURSE CARDS ────────────────────────────── */
+    .kb-course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 14px;
+    }
+    .kb-course-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color .2s, transform .15s;
+    }
+    .kb-course-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .kb-course-thumb {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .kb-course-thumb-icon { font-size: 32px; line-height: 1; }
+    .kb-course-thumb-title { font-size: 14px; font-weight: 700; color: var(--bright); }
+    .kb-course-thumb-tag  { font-size: 11px; color: var(--muted); margin-top: 3px; }
+    .kb-course-body { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .kb-course-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+    .kb-course-pill {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      color: var(--accent);
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    }
+    .kb-course-open {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 20%, transparent);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+      white-space: nowrap;
+      transition: background .2s;
+      flex-shrink: 0;
+    }
+    .kb-course-open:hover { background: color-mix(in srgb, var(--accent) 30%, transparent); }
+
+    /* ── BADGE ───────────────────────────────────── */
+    .kb-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    /* ── EMPTY STATE ─────────────────────────────── */
+    .kb-empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .kb-empty-icon { font-size: 40px; margin-bottom: 12px; }
+    .kb-empty-title { font-size: 16px; font-weight: 600; color: var(--text); }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 768px) {
+      .kb-header, .kb-stats, .kb-tabs, .kb-body { padding-left: 20px; padding-right: 20px; }
+      .kb-header { padding-top: 24px; padding-bottom: 20px; }
+    }
+
+    /* ── HIDDEN (search filter) ──────────────────── */
+    .kb-hidden { display: none !important; }
+
+    /* ── SECTION VISIBLE / HIDDEN ────────────────── */
+    .kb-section[data-tab]:not([data-tab="all"]) { }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HEADER ════════════ -->
+<header class="kb-header">
+  <div class="kb-header-row">
+    <a class="kb-logo" href="/">
+      <div class="kb-logo-mark">N</div>
+      <div>
+        <div class="kb-logo-text">NetWebMedia</div>
+        <div class="kb-logo-sub">Knowledge Base</div>
+      </div>
+    </a>
+    <div class="kb-actions">
+      <a href="/app/" class="kb-btn kb-btn-ghost" target="_blank">CRM →</a>
+      <a href="/crm/" class="kb-btn kb-btn-ghost" target="_blank">CRM Legacy →</a>
+      <a href="/industries/" class="kb-btn kb-btn-primary" target="_blank">Templates Hub →</a>
+    </div>
+  </div>
+  <div class="kb-search-wrap">
+    <span class="kb-search-icon">🔍</span>
+    <input type="search" id="kbSearch" placeholder="Search all links, templates, courses, tools…" autocomplete="off" />
+    <button class="kb-search-clear" onclick="clearSearch()" title="Clear">✕</button>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════ STATS ════════════ -->
+<div class="kb-stats">
+  <div class="kb-stat">
+    <div class="kb-stat-dot" style="background:var(--cyan)"></div>
+    <span class="kb-stat-val">33</span>
+    <span class="kb-stat-lbl">CMS Templates</span>
+  </div>
+  <div class="kb-stat">
+    <div class="kb-stat-dot" style="background:var(--purple)"></div>
+    <span class="kb-stat-val">12</span>
+    <span class="kb-stat-lbl">Courses</span>
+  </div>
+  <div class="kb-stat">
+    <div class="kb-stat-dot" style="background:var(--green)"></div>
+    <span class="kb-stat-val">11</span>
+    <span class="kb-stat-lbl">Industries</span>
+  </div>
+  <div class="kb-stat">
+    <div class="kb-stat-dot" style="background:var(--orange)"></div>
+    <span class="kb-stat-val">20+</span>
+    <span class="kb-stat-lbl">Site Pages</span>
+  </div>
+  <div class="kb-stat">
+    <div class="kb-stat-dot" style="background:var(--yellow)"></div>
+    <span class="kb-stat-val">2</span>
+    <span class="kb-stat-lbl">Admin Portals</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ TABS ════════════ -->
+<nav class="kb-tabs" id="kbTabs">
+  <div class="kb-tab active" data-target="all">All</div>
+  <div class="kb-tab" data-target="platform">Platform Access</div>
+  <div class="kb-tab" data-target="courses">Courses</div>
+  <div class="kb-tab" data-target="templates">CMS Templates</div>
+  <div class="kb-tab" data-target="marketing">Marketing Site</div>
+  <div class="kb-tab" data-target="tools">Internal Tools</div>
+</nav>
+
+<!-- ═══════════════════════════════ BODY ════════════ -->
+<main class="kb-body" id="kbBody">
+
+  <!-- ─── PLATFORM ACCESS ─── -->
+  <section class="kb-section" id="sec-platform" data-section="platform">
+    <div class="kb-section-head">
+      <div class="kb-section-icon" style="background:#22d3ee22; --accent:var(--cyan)">🖥️</div>
+      <div class="kb-section-title">Platform Access</div>
+      <div class="kb-section-count">7 links</div>
+    </div>
+    <div class="kb-grid" id="grid-platform"></div>
+  </section>
+
+  <!-- ─── COURSES & TUTORIALS ─── -->
+  <section class="kb-section" id="sec-courses" data-section="courses">
+    <div class="kb-section-head">
+      <div class="kb-section-icon" style="background:#a29bfe22; --accent:var(--purple)">🎓</div>
+      <div class="kb-section-title">Courses & Tutorials</div>
+      <div class="kb-section-count">12 courses</div>
+    </div>
+    <div class="kb-course-grid" id="grid-courses"></div>
+  </section>
+
+  <!-- ─── CMS TEMPLATES ─── -->
+  <section class="kb-section" id="sec-templates" data-section="templates">
+    <div class="kb-section-head">
+      <div class="kb-section-icon" style="background:#00b89422; --accent:var(--green)">🏗️</div>
+      <div class="kb-section-title">CMS Templates</div>
+      <div class="kb-section-count">33 templates · 11 industries</div>
+    </div>
+    <div id="grid-templates"></div>
+  </section>
+
+  <!-- ─── MARKETING SITE ─── -->
+  <section class="kb-section" id="sec-marketing" data-section="marketing">
+    <div class="kb-section-head">
+      <div class="kb-section-icon" style="background:#e1705522; --accent:var(--orange)">📢</div>
+      <div class="kb-section-title">Marketing Site</div>
+      <div class="kb-section-count">18 pages</div>
+    </div>
+    <div class="kb-grid" id="grid-marketing"></div>
+  </section>
+
+  <!-- ─── INTERNAL TOOLS ─── -->
+  <section class="kb-section" id="sec-tools" data-section="tools">
+    <div class="kb-section-head">
+      <div class="kb-section-icon" style="background:#fdcb6e22; --accent:var(--yellow)">⚙️</div>
+      <div class="kb-section-title">Internal Tools</div>
+      <div class="kb-section-count">8 tools</div>
+    </div>
+    <div class="kb-grid" id="grid-tools"></div>
+  </section>
+
+  <div class="kb-empty kb-hidden" id="kbEmpty">
+    <div class="kb-empty-icon">🔎</div>
+    <div class="kb-empty-title">No results found</div>
+    <p style="margin-top:8px; font-size:13px">Try a different search term</p>
+  </div>
+
+</main>
+
+<script>
+(function(){
+"use strict";
+
+var BASE = "https://netwebmedia.com";
+
+/* ── DATA ─────────────────────────────────────────── */
+var PLATFORM = [
+  { icon:"🚀", title:"CRM — New App", sub:"React/Next.js dashboard",        url:"/app/",             accent:"#22d3ee" },
+  { icon:"📇", title:"CRM — Legacy",  sub:"Vanilla HTML CRM",               url:"/crm/",             accent:"#6c5ce7" },
+  { icon:"🏭", title:"Industries Hub",sub:"All 11 industry CMS templates",   url:"/industries/",      accent:"#00b894" },
+  { icon:"🔐", title:"Login",         sub:"User authentication",             url:"/login.html",       accent:"#a29bfe" },
+  { icon:"📝", title:"Register",      sub:"New account creation",            url:"/register.html",    accent:"#fd79a8" },
+  { icon:"📊", title:"Analytics",     sub:"Site & campaign analytics",       url:"/analytics.html",   accent:"#fdcb6e" },
+  { icon:"🗂️", title:"Dashboard",     sub:"Overview & quick-access",         url:"/dashboard.html",   accent:"#0984e3" },
+];
+
+var COURSES = [
+  { icon:"📇", title:"NetWeb CRM Masterclass",         sub:"28 lessons · 4h 20m · All levels",   url:"/tutorials/nwm-crm.html",        accent:"#6c5ce7", pills:["28 lessons","4h 20m","All levels"] },
+  { icon:"🌐", title:"NetWeb CMS for Marketers",       sub:"16 lessons · 2h 40m · Beginner",      url:"/tutorials/nwm-cms.html",        accent:"#00cec9", pills:["16 lessons","2h 40m","Beginner"] },
+  { icon:"⚡", title:"AI Automations in 2026",          sub:"18 lessons · 3h 05m · Intermediate",  url:"/tutorials/ai-automate.html",    accent:"#a29bfe", pills:["18 lessons","3h 05m","Intermediate"] },
+  { icon:"🤖", title:"AI Chat Agents",                  sub:"14 lessons · 2h 15m · Intermediate",  url:"/tutorials/ai-chat-agents.html", accent:"#22d3ee", pills:["14 lessons","2h 15m","Intermediate"] },
+  { icon:"🔍", title:"AI SEO + AEO",                   sub:"22 lessons · 3h 45m · All levels",    url:"/tutorials/ai-seo.html",         accent:"#00b894", pills:["22 lessons","3h 45m","All levels"] },
+  { icon:"💌", title:"Lifecycle Email Marketing",       sub:"20 lessons · 3h 10m · Intermediate",  url:"/tutorials/email-marketing.html",accent:"#e17055", pills:["20 lessons","3h 10m","Intermediate"] },
+  { icon:"🎯", title:"Paid Ads at Creative Scale",      sub:"16 lessons · 2h 50m · Advanced",      url:"/tutorials/paid-ads.html",       accent:"#fd79a8", pills:["16 lessons","2h 50m","Advanced"] },
+  { icon:"📱", title:"Social Media That Drives Revenue",sub:"19 lessons · 3h 00m · All levels",    url:"/tutorials/social-media.html",   accent:"#fdcb6e", pills:["19 lessons","3h 00m","All levels"] },
+  { icon:"🎬", title:"AI Video Factory",                sub:"14 lessons · 2h 25m · Intermediate",  url:"/tutorials/video-factory.html",  accent:"#8b5cf6", pills:["14 lessons","2h 25m","Intermediate"] },
+  { icon:"🖥️", title:"High-Conversion Websites",       sub:"17 lessons · 2h 55m · All levels",    url:"/tutorials/websites.html",       accent:"#0984e3", pills:["17 lessons","2h 55m","All levels"] },
+  { icon:"🧠", title:"Fractional CMO Playbook",         sub:"12 lessons · 2h 10m · Advanced",      url:"/tutorials/fractional-cmo.html", accent:"#d63031", pills:["12 lessons","2h 10m","Advanced"] },
+  { icon:"📊", title:"Growth Analyzer Deep-Dive",       sub:"10 lessons · 1h 40m · Beginner",      url:"/tutorials/analyzer.html",       accent:"#74b9ff", pills:["10 lessons","1h 40m","Beginner"] },
+];
+
+var INDUSTRIES = [
+  {
+    label: "Real Estate", slug: "real-estate", icon:"🏠", accent:"#22d3ee",
+    templates: ["Luxury Property Showcase", "Agent / Broker Profile", "New Development Pre-Launch"]
+  },
+  {
+    label: "Healthcare", slug: "healthcare", icon:"🏥", accent:"#00b894",
+    templates: ["Medical Practice", "Wellness Spa", "Dental Clinic"]
+  },
+  {
+    label: "E-Commerce", slug: "ecommerce", icon:"🛒", accent:"#fd79a8",
+    templates: ["DTC Brand Store", "Subscription Box", "Multi-Brand Marketplace"]
+  },
+  {
+    label: "SaaS", slug: "saas", icon:"💻", accent:"#a29bfe",
+    templates: ["Product Landing", "Developer Tool", "Enterprise SaaS"]
+  },
+  {
+    label: "Hospitality", slug: "hospitality", icon:"🍽️", accent:"#e17055",
+    templates: ["Restaurant (Maré)", "Boutique Hotel", "Café / Bar (Terra & Roast)"]
+  },
+  {
+    label: "Professional Services", slug: "professional-services", icon:"⚖️", accent:"#fdcb6e",
+    templates: ["Law Firm (Harlow & West)", "Accounting (Meridian CPA)", "Consulting (North & Bridge)"]
+  },
+  {
+    label: "Local Services", slug: "local-services", icon:"🔧", accent:"#74b9ff",
+    templates: ["Home Services Pro", "Auto Repair Shop", "Beauty Salon"]
+  },
+  {
+    label: "Finance", slug: "finance", icon:"💰", accent:"#00cec9",
+    templates: ["Wealth Management", "Insurance Agency", "Fintech Startup"]
+  },
+  {
+    label: "Education", slug: "education", icon:"📚", accent:"#6c5ce7",
+    templates: ["Online Course Platform", "Private Tutoring", "Corporate Training"]
+  },
+  {
+    label: "Construction", slug: "construction", icon:"🏗️", accent:"#d63031",
+    templates: ["Residential Builder", "Commercial Contractor", "Home Remodeling"]
+  },
+  {
+    label: "Agencies", slug: "agencies", icon:"🎨", accent:"#8b5cf6",
+    templates: ["Digital Marketing Agency (Spark/)", "Creative Studio (Oakline.)", "White-Label SaaS (Launchpad)"]
+  },
+];
+
+var MARKETING = [
+  { icon:"🏠", title:"Home",              sub:"Main landing page",              url:"/index.html",            accent:"#22d3ee" },
+  { icon:"💼", title:"Services",          sub:"Full service offerings",         url:"/services.html",         accent:"#a29bfe" },
+  { icon:"💲", title:"Pricing",           sub:"Plans & packages",               url:"/pricing.html",          accent:"#00b894" },
+  { icon:"📇", title:"NWM CRM",          sub:"CRM product page",               url:"/nwm-crm.html",          accent:"#6c5ce7" },
+  { icon:"🌐", title:"NWM CMS",          sub:"CMS product page",               url:"/nwm-cms.html",          accent:"#00cec9" },
+  { icon:"🤖", title:"NWM AI",           sub:"AI features product page",       url:"/nwmai.html",            accent:"#fd79a8" },
+  { icon:"🆚", title:"Compare",          sub:"Side-by-side comparison",        url:"/compare.html",          accent:"#fdcb6e" },
+  { icon:"🏆", title:"vs. HubSpot",      sub:"Comparison landing page",        url:"/vs-hubspot.html",       accent:"#e17055" },
+  { icon:"🏆", title:"vs. GoHighLevel",  sub:"Comparison landing page",        url:"/vs-gohighlevel.html",   accent:"#e17055" },
+  { icon:"✉️", title:"Email Marketing",  sub:"Email marketing page",           url:"/email-marketing.html",  accent:"#0984e3" },
+  { icon:"📧", title:"Emails",           sub:"Email templates gallery",        url:"/emails.html",           accent:"#0984e3" },
+  { icon:"📖", title:"Tutorials",        sub:"All tutorials & courses hub",    url:"/tutorials.html",        accent:"#8b5cf6" },
+  { icon:"🤝", title:"Partners",         sub:"Partner program",                url:"/partners.html",         accent:"#74b9ff" },
+  { icon:"❓", title:"FAQ",              sub:"Frequently asked questions",     url:"/faq.html",              accent:"#fdcb6e" },
+  { icon:"📝", title:"Blog",             sub:"Blog & resources",               url:"/blog.html",             accent:"#00b894" },
+  { icon:"ℹ️",  title:"About",           sub:"About NetWebMedia",              url:"/about.html",            accent:"#a29bfe" },
+  { icon:"📞", title:"Contact",          sub:"Get in touch",                   url:"/contact.html",          accent:"#22d3ee" },
+  { icon:"🛒", title:"Cart",             sub:"Checkout cart",                  url:"/cart.html",             accent:"#fd79a8" },
+];
+
+var TOOLS = [
+  { icon:"🔬", title:"Diagnostic",       sub:"Site & marketing diagnostic",    url:"/diagnostic.html",        accent:"#22d3ee" },
+  { icon:"📊", title:"Audit Report",     sub:"Growth audit report viewer",     url:"/audit-report.html",      accent:"#a29bfe" },
+  { icon:"📈", title:"Results",          sub:"Campaign results page",          url:"/results.html",           accent:"#00b894" },
+  { icon:"🏢", title:"Org Chart",        sub:"Team / org structure",           url:"/orgchart.html",          accent:"#fdcb6e" },
+  { icon:"💲", title:"Pricing One-Pager",sub:"Printable pricing PDF-style",    url:"/pricing-onepager.html",  accent:"#e17055" },
+  { icon:"🙏", title:"Thank You",        sub:"Post-conversion thank you page", url:"/thanks.html",            accent:"#fd79a8" },
+  { icon:"🔑", title:"Desktop Login",    sub:"Desktop app login (white-label)",url:"/desktop-login.html",     accent:"#6c5ce7" },
+  { icon:"📋", title:"Email Templates",  sub:"Email template gallery",         url:"/email-templates/",       accent:"#0984e3" },
+];
+
+/* ── HELPERS ──────────────────────────────────────── */
+function copyUrl(url, btn) {
+  var full = BASE + url;
+  navigator.clipboard.writeText(full).then(function(){
+    btn.textContent = "✓";
+    btn.classList.add("copied");
+    setTimeout(function(){ btn.textContent = "⎘"; btn.classList.remove("copied"); }, 1500);
+  });
+}
+
+function openUrl(url) {
+  window.open(BASE + url, "_blank", "noopener");
+}
+
+function makeCard(item) {
+  var d = document.createElement("div");
+  d.className = "kb-card";
+  d.style.setProperty("--accent", item.accent);
+  d.dataset.search = (item.title + " " + item.sub).toLowerCase();
+  d.innerHTML =
+    '<div class="kb-card-icon" style="color:' + item.accent + '">' + item.icon + '</div>' +
+    '<div class="kb-card-content">' +
+      '<div class="kb-card-title">' + item.title + '</div>' +
+      '<div class="kb-card-sub">' + item.sub + '</div>' +
+    '</div>' +
+    '<div class="kb-card-actions">' +
+      '<button class="kb-link-btn copy-btn" title="Copy URL">⎘</button>' +
+      '<a class="kb-link-btn" href="' + BASE + item.url + '" target="_blank" rel="noopener" title="Open">↗</a>' +
+    '</div>';
+  d.querySelector(".copy-btn").addEventListener("click", function(){ copyUrl(item.url, this); });
+  return d;
+}
+
+function makeCourseCard(c) {
+  var wrap = document.createElement("div");
+  wrap.className = "kb-course-card";
+  wrap.style.setProperty("--accent", c.accent);
+  wrap.dataset.search = (c.title + " " + c.sub + " " + c.pills.join(" ")).toLowerCase();
+
+  var pills = c.pills.map(function(p){
+    return '<span class="kb-course-pill">' + p + '</span>';
+  }).join("");
+
+  wrap.innerHTML =
+    '<div class="kb-course-thumb" style="background:linear-gradient(135deg, ' + c.accent + '18, ' + c.accent + '30)">' +
+      '<div class="kb-course-thumb-icon">' + c.icon + '</div>' +
+      '<div>' +
+        '<div class="kb-course-thumb-title" style="color:' + c.accent + '">' + c.title + '</div>' +
+        '<div class="kb-course-thumb-tag">' + c.sub + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="kb-course-body">' +
+      '<div class="kb-course-meta">' + pills + '</div>' +
+      '<a class="kb-course-open" href="' + BASE + c.url + '" target="_blank" rel="noopener">Open →</a>' +
+    '</div>';
+  return wrap;
+}
+
+function makeTemplateCard(item) {
+  var d = document.createElement("div");
+  d.className = "kb-card";
+  d.style.setProperty("--accent", item.accent);
+  d.dataset.search = (item.title + " " + item.sub + " " + item.industry).toLowerCase();
+  d.innerHTML =
+    '<div class="kb-card-icon" style="color:' + item.accent + '">' + item.icon + '</div>' +
+    '<div class="kb-card-content">' +
+      '<div class="kb-card-title">' + item.title + '</div>' +
+      '<div class="kb-card-sub">' + item.sub + '</div>' +
+    '</div>' +
+    '<div class="kb-card-actions">' +
+      '<button class="kb-link-btn copy-btn" title="Copy URL">⎘</button>' +
+      '<a class="kb-link-btn" href="' + BASE + item.url + '" target="_blank" rel="noopener" title="Open">↗</a>' +
+    '</div>';
+  d.querySelector(".copy-btn").addEventListener("click", function(){ copyUrl(item.url, this); });
+  return d;
+}
+
+/* ── RENDER ───────────────────────────────────────── */
+function renderPlatform() {
+  var g = document.getElementById("grid-platform");
+  PLATFORM.forEach(function(p){ g.appendChild(makeCard(p)); });
+}
+
+function renderCourses() {
+  var g = document.getElementById("grid-courses");
+  COURSES.forEach(function(c){ g.appendChild(makeCourseCard(c)); });
+}
+
+function renderTemplates() {
+  var g = document.getElementById("grid-templates");
+  INDUSTRIES.forEach(function(ind){
+    var block = document.createElement("div");
+    block.className = "kb-industry-block";
+    block.dataset.industry = ind.label.toLowerCase();
+
+    var label = document.createElement("div");
+    label.className = "kb-industry-label";
+    label.innerHTML = ind.icon + " " + ind.label;
+    block.appendChild(label);
+
+    var row = document.createElement("div");
+    row.className = "kb-template-row";
+    ind.templates.forEach(function(tmpl, i){
+      var url = "/industries/" + ind.slug + "/template-" + (i+1) + ".html";
+      var item = {
+        icon: ind.icon,
+        title: tmpl,
+        sub: "Template " + (i+1) + " · " + ind.label,
+        url: url,
+        accent: ind.accent,
+        industry: ind.label
+      };
+      row.appendChild(makeTemplateCard(item));
+    });
+    block.appendChild(row);
+    g.appendChild(block);
+  });
+}
+
+function renderMarketing() {
+  var g = document.getElementById("grid-marketing");
+  MARKETING.forEach(function(p){ g.appendChild(makeCard(p)); });
+}
+
+function renderTools() {
+  var g = document.getElementById("grid-tools");
+  TOOLS.forEach(function(p){ g.appendChild(makeCard(p)); });
+}
+
+/* ── TABS ─────────────────────────────────────────── */
+var currentTab = "all";
+document.getElementById("kbTabs").addEventListener("click", function(e){
+  var tab = e.target.closest(".kb-tab");
+  if (!tab) return;
+  currentTab = tab.dataset.target;
+  document.querySelectorAll(".kb-tab").forEach(function(t){ t.classList.toggle("active", t === tab); });
+  filterAll(document.getElementById("kbSearch").value);
+});
+
+/* ── SEARCH ───────────────────────────────────────── */
+function filterAll(q) {
+  q = q.trim().toLowerCase();
+  var sections = document.querySelectorAll(".kb-section");
+  var anyVisible = false;
+
+  sections.forEach(function(sec){
+    var secId = sec.dataset.section;
+    var tabMatch = (currentTab === "all" || currentTab === secId);
+
+    if (!tabMatch) {
+      sec.classList.add("kb-hidden");
+      return;
+    }
+
+    var cards = sec.querySelectorAll("[data-search]");
+    var blocks = sec.querySelectorAll(".kb-industry-block");
+    var sectionHasMatch = false;
+
+    if (blocks.length > 0) {
+      // Template section — show/hide by block and card
+      blocks.forEach(function(block){
+        var blockCards = block.querySelectorAll("[data-search]");
+        var blockMatch = false;
+        blockCards.forEach(function(card){
+          var m = !q || card.dataset.search.indexOf(q) !== -1 ||
+                  block.dataset.industry.indexOf(q) !== -1;
+          card.classList.toggle("kb-hidden", !m);
+          if (m) { blockMatch = true; sectionHasMatch = true; }
+        });
+        block.classList.toggle("kb-hidden", !blockMatch);
+      });
+    } else {
+      // Standard grid
+      cards.forEach(function(card){
+        var m = !q || card.dataset.search.indexOf(q) !== -1;
+        card.classList.toggle("kb-hidden", !m);
+        if (m) sectionHasMatch = true;
+      });
+    }
+
+    sec.classList.toggle("kb-hidden", !sectionHasMatch);
+    if (sectionHasMatch) anyVisible = true;
+  });
+
+  document.getElementById("kbEmpty").classList.toggle("kb-hidden", anyVisible);
+}
+
+var searchT;
+document.getElementById("kbSearch").addEventListener("input", function(e){
+  clearTimeout(searchT);
+  var v = e.target.value;
+  searchT = setTimeout(function(){ filterAll(v); }, 120);
+});
+
+window.clearSearch = function(){
+  document.getElementById("kbSearch").value = "";
+  filterAll("");
+};
+
+/* ── INIT ─────────────────────────────────────────── */
+renderPlatform();
+renderCourses();
+renderTemplates();
+renderMarketing();
+renderTools();
+
+})();
+</script>
+</body>
+</html>

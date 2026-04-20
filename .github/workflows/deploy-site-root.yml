@@ -232,7 +232,9 @@ jobs:
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
         run: |
           # Confirm the Carlos26 coupon is live after deploy
+          # -A needed — ModSecurity on InMotion 406s bare curl user-agents
           resp=$(curl -sS --max-time 15 \
+            -A "Mozilla/5.0 (gh-actions smoke test)" \
             "https://netwebmedia.com/api/billing/validate-coupon?code=Carlos26&plan=cmo_growth")
           echo "Coupon response: $resp"
           echo "$resp" | grep -q '"valid":true' && echo "Carlos26 live" || \

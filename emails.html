@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Preview Gallery — NetWebMedia Nurture Sequences</title>
+  <meta name="description" content="Preview all 15 NetWebMedia nurture email templates in EN/ES, see the landing pages they link to, and copy shareable URLs." />
+  <link rel="canonical" href="https://netwebmedia.com/emails.html" />
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg" />
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <style>
+    .em-wrap{max-width:1200px;margin:0 auto;padding:60px 20px 80px}
+    .em-hero{text-align:center;margin-bottom:50px}
+    .em-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#FF6B00,#ff3d00);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+    .em-hero h1{font-size:clamp(28px,5vw,46px);margin:0 0 14px;font-weight:800}
+    .em-hero h1 .hl{background:linear-gradient(135deg,#FF6B00,#ff3d00);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .em-hero p{color:#9aa;max-width:680px;margin:0 auto;font-size:16px;line-height:1.55}
+    .em-controls{display:flex;justify-content:center;gap:8px;margin:30px 0 0;flex-wrap:wrap}
+    .em-toggle{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);color:#dde3ee;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+    .em-toggle.active{background:#FF6B00;border-color:#FF6B00;color:#fff}
+    .em-toggle:hover{transform:translateY(-1px)}
+
+    .em-section{margin-top:60px}
+    .em-section-title{display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+    .em-section-title .icon{width:44px;height:44px;border-radius:12px;background:rgba(255,107,0,.15);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+    .em-section-title h2{margin:0;font-size:20px;font-weight:700}
+    .em-section-title .meta{color:#9aa;font-size:13px;margin-left:auto}
+
+    .em-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+    .em-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,border-color .2s}
+    .em-card:hover{transform:translateY(-3px);border-color:rgba(255,107,0,.4)}
+    .em-card-head{background:rgba(255,107,0,.08);padding:14px 16px;border-bottom:1px solid rgba(255,107,0,.15);display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .em-card-head .pill{font-size:11px;background:#FF6B00;color:#fff;padding:3px 10px;border-radius:99px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-family:ui-monospace,monospace}
+    .em-card-head .delay{font-size:12px;color:#9aa}
+    .em-card-body{padding:18px;flex:1;display:flex;flex-direction:column}
+    .em-subject{font-weight:700;font-size:15px;margin:0 0 8px;line-height:1.4;color:#fff}
+    .em-preview{color:#9aa;font-size:13px;line-height:1.5;margin:0 0 16px;flex:1}
+    .em-meta{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;font-size:12px;color:#b8c4d9}
+    .em-meta strong{color:#fff}
+    .em-meta a{color:#FF6B00;text-decoration:none;word-break:break-all}
+    .em-meta a:hover{text-decoration:underline}
+    .em-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .em-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:8px;text-decoration:none;font-weight:600;font-size:13px;font-family:inherit;border:0;cursor:pointer;transition:transform .15s}
+    .em-btn:hover{transform:translateY(-1px)}
+    .em-btn-primary{background:linear-gradient(135deg,#FF6B00,#ff3d00);color:#fff}
+    .em-btn-secondary{background:rgba(99,102,241,.15);color:#6366f1;border:1px solid rgba(99,102,241,.3)}
+    .em-btn-copy{background:rgba(255,255,255,.06);color:#dde3ee;border:1px solid rgba(255,255,255,.12);grid-column:1/-1;font-size:12px}
+    .em-btn-copy.copied{background:rgba(127,227,163,.15);color:#7fe3a3;border-color:rgba(127,227,163,.4)}
+
+    /* Inline preview iframe */
+    .em-card-preview-wrap{display:none;border-top:1px solid rgba(255,255,255,.08);background:#fff}
+    .em-card-preview-wrap.open{display:block}
+    .em-card-preview-wrap iframe{width:100%;height:540px;border:0;display:block}
+
+    @media(max-width:600px){.em-actions{grid-template-columns:1fr}}
+
+    .help-box{background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(139,92,246,.04));border:1px solid rgba(99,102,241,.25);border-radius:14px;padding:24px;margin-bottom:30px}
+    .help-box h3{margin:0 0 12px;font-size:16px}
+    .help-box ul{margin:0;padding-left:20px;color:#b8c4d9;font-size:14px;line-height:1.7}
+    .help-box code{background:rgba(255,255,255,.06);padding:2px 7px;border-radius:5px;font-family:ui-monospace,monospace;font-size:12px;color:#FF6B00}
+  </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<!-- Launch promo banner -->
+<div class="promo-banner">
+  🎉 Launch week: <strong>50% OFF</strong> your first 3 months with code <code>Carlos26</code> — ends in 7 days
+</div>
+
+<div class="top-bar">
+  <div class="container">
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="es">ES</button>
+    </div>
+    <a href="/crm/" class="lang-client-login">🔐 Client Login</a>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar has-lang-bar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="/" class="nav-logo">
+        <img src="/assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px" loading="lazy" width="200" height="52">
+      </a>
+      <div class="nav-links">
+    <a href="about.html" data-i18n="nav_about">About</a>
+    <div class="nav-item">
+      <a href="services.html" data-i18n="nav_services">Services</a>
+      <div class="nav-dropdown">
+        <a href="services.html#fractional-cmo" style="color:#FF671F;font-weight:700">&#9733; Fractional CMO</a>
+        <a href="services.html#ai-automations">AI Automations</a>
+        <a href="services.html#ai-agents">AI Agents</a>
+        <a href="services.html#paid-ads">Paid Ads</a>
+        <a href="services.html#ai-seo">AI SEO &amp; Content</a>
+        <a href="services.html#social">Social Media</a>
+        <a href="/email-marketing.html">Email Marketing</a>
+      </div>
+    </div>
+    <a href="/partners.html" style="color:#6366f1;font-weight:600">Partners</a>
+    <a href="blog.html" data-i18n="nav_blog">Blog</a>
+    <a href="/faq.html">Q&amp;A</a>
+    <div class="nav-item">
+      <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help</a>
+      <div class="nav-dropdown">
+        <a href="/tutorials.html"><strong>All Tutorials</strong></a>
+        <a href="/tutorials/nwm-crm.html">NWM CRM (all 7 hubs)</a>
+        <a href="/tutorials/nwm-cms.html">NWM CMS</a>
+        <a href="/tutorials/ai-automate.html">AI Automations</a>
+        <a href="/tutorials/ai-chat-agents.html">AI Chat Agents</a>
+        <a href="/tutorials/ai-seo.html">AI SEO</a>
+        <a href="/tutorials/email-marketing.html">Email Marketing</a>
+        <a href="/tutorials/paid-ads.html">Paid Ads</a>
+        <a href="/tutorials/social-media.html">Social Media</a>
+        <a href="/tutorials/video-factory.html">Video Factory</a>
+        <a href="/tutorials/websites.html">Websites</a>
+        <a href="/tutorials/fractional-cmo.html">Fractional CMO</a>
+        <a href="/tutorials/analyzer.html">Analyzer</a>
+      </div>
+    </div>
+    <a href="contact.html" data-i18n="nav_contact">Contact</a>
+  </div>
+      <div class="nav-ctas">
+        <a href="/contact.html" class="btn-nav-solid">Get a Free Audit</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="about.html">About</a>
+  <a href="services.html">Services</a>
+  <a href="services.html#fractional-cmo" class="mobile-sub" style="color:#FF671F;font-weight:700">&#9733; Fractional CMO</a>
+  <a href="services.html#ai-automations" class="mobile-sub">AI Automations</a>
+  <a href="services.html#ai-agents" class="mobile-sub">AI Agents</a>
+  <a href="/partners.html" style="color:#6366f1;font-weight:600">Partners</a>
+  <a href="blog.html">Blog</a>
+  <a href="/faq.html">Q&amp;A</a>
+  <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help &amp; Tutorials</a>
+  <a href="/tutorials/nwm-crm.html" class="mobile-sub">NWM CRM Tutorials</a>
+  <a href="/tutorials/nwm-cms.html" class="mobile-sub">NWM CMS Tutorials</a>
+  <a href="/tutorials/ai-automate.html" class="mobile-sub">AI Automations</a>
+  <a href="/tutorials/ai-chat-agents.html" class="mobile-sub">AI Chat Agents</a>
+  <a href="/tutorials/email-marketing.html" class="mobile-sub">Email Marketing</a>
+  <a href="/tutorials/paid-ads.html" class="mobile-sub">Paid Ads</a>
+  <a href="/tutorials/social-media.html" class="mobile-sub">Social Media</a>
+  <a href="contact.html">Contact</a>
+  <a href="contact.html" class="btn-primary">Get a Free Audit</a>
+</div>
+
+<main>
+<div class="em-wrap">
+
+  <div class="em-hero">
+    <div class="eyebrow">Email gallery · 15 templates · Bilingual</div>
+    <h1>Every nurture <span class="hl">email + landing page</span></h1>
+    <p>Preview all 15 NetWebMedia nurture emails as they'll arrive in inboxes. Each card shows the subject, the destination landing page, and a one-click HTML preview. Toggle EN/ES to see both languages.</p>
+    <div class="em-controls">
+      <button class="em-toggle active" data-lang="en" type="button">🇺🇸 English</button>
+      <button class="em-toggle" data-lang="es" type="button">🇨🇱 Español</button>
+    </div>
+  </div>
+
+  <div class="help-box">
+    <h3>📌 How to use this gallery</h3>
+    <ul>
+      <li><strong>👁️ Preview HTML</strong> — opens the rendered email in a new tab. Share this URL with anyone for review.</li>
+      <li><strong>🎯 Landing page</strong> — opens the page the email's main CTA links to.</li>
+      <li><strong>📋 Copy preview link</strong> — copies the shareable preview URL to clipboard.</li>
+      <li>The preview URL pattern is: <code>/api/public/email/preview?id=welcome-1&amp;lang=en</code></li>
+      <li>Add <code>&amp;first_name=Carlos&amp;website=https://acme.com</code> for custom personalization.</li>
+    </ul>
+  </div>
+
+  <div id="em-content">Loading email gallery…</div>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo"><img src="/assets/nwm-logo-horizontal.svg" alt="NetWebMedia" style="height:52px"></a>
+        <p>The world's most advanced AI marketing agency.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/nwm-crm.html">NWM CRM</a></li>
+          <li><a href="/nwm-cms.html">NWM CMS</a></li>
+          <li><a href="/nwmai.html">NWMai</a></li>
+          <li><a href="/email-marketing.html">Email Marketing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>For Agencies</h4>
+        <ul>
+          <li><a href="/partners.html">Partner Program</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 NetWebMedia. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js?v=2" defer></script>
+<script>
+(function emailGallery(){
+  var currentLang = 'en';
+  var ORIGIN = window.location.origin;
+
+  // Sequence metadata (icon, title, color)
+  var SEQUENCES = {
+    welcome: { icon: '👋', title: { en: 'Welcome — Newsletter Signup', es: 'Bienvenida — Newsletter' } },
+    audit_followup: { icon: '🎯', title: { en: 'Audit Follow-up', es: 'Seguimiento de Auditoría' } },
+    partner_application: { icon: '💼', title: { en: 'Partner Application', es: 'Solicitud de Partner' } },
+    re_engagement: { icon: '💤', title: { en: 'Re-engagement (Inactive)', es: 'Re-enganche (Inactivos)' } },
+    winback: { icon: '🔄', title: { en: 'Win-back (Cancelled)', es: 'Reactivación (Cancelados)' } }
+  };
+
+  function fmtDelay(min, lang) {
+    if (min === 0 || min < 60) return lang === 'es' ? 'inmediato' : 'immediate';
+    var h = min / 60;
+    if (h < 24) return lang === 'es' ? ('+' + Math.round(h) + ' horas') : ('+' + Math.round(h) + ' hours');
+    var d = h / 24;
+    return lang === 'es' ? ('+' + Math.round(d) + ' días') : ('+' + Math.round(d) + ' days');
+  }
+
+  function previewUrl(id, lang) {
+    return ORIGIN + '/api/public/email/preview?id=' + encodeURIComponent(id) + '&lang=' + lang;
+  }
+
+  function landingUrl(url) {
+    if (!url) return '#';
+    if (url.indexOf('http') === 0) return url;
+    return ORIGIN + url;
+  }
+
+  function landingDomain(url) {
+    if (!url || url.indexOf('mailto:') === 0) return '✉️ Reply by email';
+    if (url.indexOf('http') === 0) {
+      try {
+        var u = new URL(url);
+        return u.pathname + (u.search || '') + (u.hash || '');
+      } catch(e){ return url; }
+    }
+    return url;
+  }
+
+  function buildCard(msg) {
+    var lang = currentLang;
+    var subject = lang === 'es' ? msg.subject_es : msg.subject_en;
+    var preview = previewUrl(msg.message_id, lang);
+    var landing = landingUrl(msg.primary_url);
+    var landingDisplay = landingDomain(msg.primary_url);
+    return (
+      '<div class="em-card" data-msg="' + msg.message_id + '">' +
+        '<div class="em-card-head">' +
+          '<span class="pill">' + msg.message_id + '</span>' +
+          '<span class="delay">' + fmtDelay(msg.delay_minutes, lang) + '</span>' +
+        '</div>' +
+        '<div class="em-card-body">' +
+          '<div class="em-subject">' + escapeHtml(subject) + '</div>' +
+          '<div class="em-preview">' + (lang === 'es' ? 'Idioma: Español · ' : 'Language: English · ') + 'Plantilla bilingüe' + '</div>' +
+          '<div class="em-meta">' +
+            '<div><strong>Landing →</strong> <a href="' + landing + '" target="_blank" rel="noopener">' + escapeHtml(landingDisplay) + '</a></div>' +
+          '</div>' +
+          '<div class="em-actions">' +
+            '<a class="em-btn em-btn-primary" href="' + preview + '" target="_blank" rel="noopener">👁️ Preview HTML</a>' +
+            '<a class="em-btn em-btn-secondary" href="' + landing + '" target="_blank" rel="noopener">🎯 Landing page</a>' +
+            '<button class="em-btn em-btn-copy" type="button" data-url="' + preview + '">📋 Copy preview link</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="em-card-preview-wrap" data-msg="' + msg.message_id + '"></div>' +
+      '</div>'
+    );
+  }
+
+  function escapeHtml(s) {
+    var d = document.createElement('div');
+    d.textContent = s || '';
+    return d.innerHTML;
+  }
+
+  function buildSection(seqId, messages) {
+    var meta = SEQUENCES[seqId] || { icon: '📧', title: { en: seqId, es: seqId } };
+    var title = meta.title[currentLang] || meta.title.en;
+    return (
+      '<section class="em-section" data-seq="' + seqId + '">' +
+        '<div class="em-section-title">' +
+          '<div class="icon">' + meta.icon + '</div>' +
+          '<h2>' + title + '</h2>' +
+          '<div class="meta">' + messages.length + ' ' + (currentLang === 'es' ? 'emails' : 'emails') + '</div>' +
+        '</div>' +
+        '<div class="em-grid">' +
+          messages.map(buildCard).join('') +
+        '</div>' +
+      '</section>'
+    );
+  }
+
+  function render(data) {
+    if (!data || !data.messages || !data.messages.length) {
+      document.getElementById('em-content').innerHTML = '<p style="text-align:center;color:#9aa">No emails configured yet. Check that <code>/email-templates/sequences.json</code> exists.</p>';
+      return;
+    }
+    // Group by sequence_id, preserving order from API
+    var groups = {};
+    var order = [];
+    data.messages.forEach(function(m){
+      if (!groups[m.sequence_id]) {
+        groups[m.sequence_id] = [];
+        order.push(m.sequence_id);
+      }
+      groups[m.sequence_id].push(m);
+    });
+    document.getElementById('em-content').innerHTML = order.map(function(sid){
+      return buildSection(sid, groups[sid]);
+    }).join('');
+
+    // Bind copy buttons
+    document.querySelectorAll('.em-btn-copy').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var url = btn.dataset.url;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(url).then(function(){
+            var orig = btn.textContent;
+            btn.textContent = '✓ Copied!';
+            btn.classList.add('copied');
+            setTimeout(function(){
+              btn.textContent = orig;
+              btn.classList.remove('copied');
+            }, 1800);
+          });
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = url; document.body.appendChild(ta); ta.select();
+          document.execCommand('copy'); ta.remove();
+          btn.textContent = '✓ Copied!';
+          btn.classList.add('copied');
+          setTimeout(function(){ btn.textContent = '📋 Copy preview link'; btn.classList.remove('copied'); }, 1800);
+        }
+      });
+    });
+  }
+
+  function load() {
+    document.getElementById('em-content').innerHTML = '<p style="text-align:center;color:#9aa">Loading…</p>';
+    fetch('/api/public/email/list').then(function(r){
+      if (!r.ok) throw new Error('http ' + r.status);
+      return r.json();
+    }).then(render).catch(function(err){
+      document.getElementById('em-content').innerHTML = '<p style="text-align:center;color:#f88">Error loading email list: ' + (err.message || 'unknown') + '</p>';
+    });
+  }
+
+  // Language toggle
+  document.querySelectorAll('.em-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.em-toggle').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      currentLang = btn.dataset.lang;
+      load();
+    });
+  });
+
+  // Initial language from geo / browser
+  try {
+    var saved = localStorage.getItem('nwm_lang');
+    if (saved === 'es') {
+      currentLang = 'es';
+      document.querySelectorAll('.em-toggle').forEach(function(b){
+        b.classList.toggle('active', b.dataset.lang === 'es');
+      });
+    }
+  } catch(e){}
+
+  load();
+})();
+</script>
+</body>
+</html>

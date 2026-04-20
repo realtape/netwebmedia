@@ -40,7 +40,7 @@
       },
       "email": "hello@netwebmedia.com",
       "sameAs": [
-        "https://www.linkedin.com/company/netwebmedia",
+        "https://www.linkedin.com/in/netwebmedia",
         "https://x.com/netwebmedia"
       ]
     },
@@ -71,7 +71,13 @@
   ]
 }
   </script>
-  <!-- Google Analytics 4 -->
+
+  <!-- NWM-LIFT-TO-100 :: Added WebPage block (GA4 + Pixel + JSON-LD + Twitter) -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="NetWebMedia Services - AI Marketing Stack" />
+  <meta name="twitter:description" content="AI automation, websites, short-form video, CRM, paid ads, and SEO for US brands." />
+  <meta name="twitter:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -79,15 +85,67 @@
     gtag('js', new Date());
     gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
   </script>
+
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    window.NWM_META_PIXEL_ID = 'PASTE_PIXEL_ID_HERE'; // ← replace with real Pixel ID from business.facebook.com/events_manager
+    if (window.NWM_META_PIXEL_ID && window.NWM_META_PIXEL_ID !== 'PASTE_PIXEL_ID_HERE') { fbq('init', window.NWM_META_PIXEL_ID); fbq('track', 'PageView'); }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://netwebmedia.com/#org",
+        "name": "NetWebMedia",
+        "url": "https://netwebmedia.com/",
+        "logo": "https://netwebmedia.com/assets/nwm-logo.svg",
+        "description": "AI marketing agency for US brands. Autonomous agents, AI SEO, paid ads, and CRM automation.",
+        "email": "hello@netwebmedia.com",
+        "sameAs": [
+          "https://www.linkedin.com/in/netwebmedia",
+          "https://x.com/netwebmedia",
+          "https://www.instagram.com/netwebmedia/",
+          "https://www.facebook.com/netwebmedia",
+          "https://www.youtube.com/@netwebmedia",
+          "https://www.tiktok.com/@netwebmedia"
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://netwebmedia.com/services.html#webpage",
+        "url": "https://netwebmedia.com/services.html",
+        "name": "NetWebMedia Services - AI Marketing Stack",
+        "description": "AI automation, websites, short-form video, CRM, paid ads, and SEO for US brands.",
+        "isPartOf": { "@id": "https://netwebmedia.com/#website" },
+        "about": { "@id": "https://netwebmedia.com/#org" }
+      }
+    ]
+  }
+  </script>
+  <!-- /NWM-LIFT-TO-100 -->
+
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
 
 <!-- Language Bar -->
+<!-- Launch promo banner -->
+<div class="promo-banner">
+  🎉 Launch week: <strong>50% OFF</strong> your first 3 months with code <code>Carlos26</code> — ends in 7 days
+</div>
+
 <div class="lang-bar" id="lang-bar">
   <div class="container">
     <button class="lang-btn active" data-lang="en"><img class="flag" src="https://flagcdn.com/w40/us.png" alt="EN" loading="lazy" width="20" height="15" /> English</button>
     <button class="lang-btn" data-lang="es"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="ES" loading="lazy" width="20" height="15" /> Español</button>
+    <a href="/crm/" class="lang-client-login" data-i18n="nav_dashboard">🔐 Client Login</a>
   </div>
 </div>
 
@@ -99,34 +157,42 @@
         <img src="assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px">
       </a>
       <div class="nav-links">
-        <div class="nav-item">
-          <a href="services.html" class="active" data-i18n="nav_services">Services</a>
-          <div class="nav-dropdown">
-            <a href="services.html#ai-automations">⚙️ AI Automations</a>
-            <a href="services.html#ai-agents">🤖 AI Agents</a>
-            <a href="/app/">📇 CRM</a>
-            <a href="services.html#ai-websites">💻 CMS AI Websites</a>
-            <a href="services.html#paid-ads">💰 Paid Ads</a>
-            <a href="services.html#ai-seo">🔍 AI SEO And Content</a>
-            <a href="services.html#social">📱 Social Media</a>
-            <a href="services.html#ai-sdr" style="border-top:1px solid var(--border-glass);padding-top:10px;margin-top:6px;">📞 AI SDR <span style="color:var(--gulf-orange);font-size:10px;font-weight:700;">NEW</span></a>
-            <a href="services.html#aeo">🎯 AEO Retainer <span style="color:var(--gulf-orange);font-size:10px;font-weight:700;">NEW</span></a>
-            <a href="services.html#voice-ai">🎙️ Voice AI <span style="color:var(--gulf-orange);font-size:10px;font-weight:700;">NEW</span></a>
-            <a href="services.html#creative-studio">🎨 Creative Studio <span style="color:var(--gulf-orange);font-size:10px;font-weight:700;">NEW</span></a>
-            <a href="services.html#rag-agent">📚 RAG Agent <span style="color:var(--gulf-orange);font-size:10px;font-weight:700;">NEW</span></a>
-            <a href="services.html#cro">📈 CRO <span style="color:var(--gulf-orange);font-size:10px;font-weight:700;">NEW</span></a>
-            <a href="services.html#lifecycle">🔄 Lifecycle Email <span style="color:var(--gulf-orange);font-size:10px;font-weight:700;">NEW</span></a>
-            <a href="services.html#commerce">🛍️ Commerce Build <span style="color:var(--gulf-orange);font-size:10px;font-weight:700;">NEW</span></a>
-            <a href="services.html#fractional-cmo">🎓 Fractional CMO <span style="color:var(--gulf-orange);font-size:10px;font-weight:700;">NEW</span></a>
-            <a href="services.html#ai-training">🧑‍🏫 AI Training <span style="color:var(--gulf-orange);font-size:10px;font-weight:700;">NEW</span></a>
-          </div>
-        </div>
-        <a href="about.html" data-i18n="nav_about">About</a>
-        <a href="blog.html" data-i18n="nav_blog">Blog</a>
-        <a href="/app/" data-i18n="nav_dashboard">Client Login</a>
-        <a href="https://netwebmedia.vercel.app/diagnostic">Analyzer</a>
-        <a href="contact.html" data-i18n="nav_contact">Contact</a>
+    <a href="about.html" data-i18n="nav_about">About</a>
+    <div class="nav-item">
+      <a href="services.html" data-i18n="nav_services" class="active">Services</a>
+      <div class="nav-dropdown">
+        <a href="services.html#fractional-cmo" style="color:#FF671F;font-weight:700">&#9733; Fractional CMO</a>
+        <a href="services.html#ai-automations">AI Automations</a>
+        <a href="services.html#ai-agents">AI Agents</a>
+        <a href="services.html#paid-ads">Paid Ads</a>
+        <a href="services.html#ai-seo">AI SEO &amp; Content</a>
+        <a href="services.html#social">Social Media</a>
+        <a href="/email-marketing.html">Email Marketing</a>
       </div>
+    </div>
+    <a href="/partners.html" style="color:#6366f1;font-weight:600">Partners</a>
+    <a href="blog.html" data-i18n="nav_blog">Blog</a>
+    <a href="/faq.html">Q&amp;A</a>
+    <div class="nav-item">
+      <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help</a>
+      <div class="nav-dropdown">
+        <a href="/tutorials.html"><strong>All Tutorials</strong></a>
+        <a href="/tutorials/nwm-crm.html">NWM CRM (all 7 hubs)</a>
+        <a href="/tutorials/nwm-cms.html">NWM CMS</a>
+        <a href="/tutorials/ai-automate.html">AI Automations</a>
+        <a href="/tutorials/ai-chat-agents.html">AI Chat Agents</a>
+        <a href="/tutorials/ai-seo.html">AI SEO</a>
+        <a href="/tutorials/email-marketing.html">Email Marketing</a>
+        <a href="/tutorials/paid-ads.html">Paid Ads</a>
+        <a href="/tutorials/social-media.html">Social Media</a>
+        <a href="/tutorials/video-factory.html">Video Factory</a>
+        <a href="/tutorials/websites.html">Websites</a>
+        <a href="/tutorials/fractional-cmo.html">Fractional CMO</a>
+        <a href="/tutorials/analyzer.html">Analyzer</a>
+      </div>
+    </div>
+    <a href="contact.html" data-i18n="nav_contact">Contact</a>
+  </div>
       <div class="nav-ctas">
         <a href="cart.html" class="nav-cart" aria-label="View cart">🛒<span class="nav-cart-count" aria-hidden="true">0</span></a>
         <a href="dashboard.html" class="btn-nav-outline" data-i18n="nav_dashboard">Dashboard</a>
@@ -138,26 +204,22 @@
 </nav>
 <main id="main">
 <div class="mobile-menu" id="mobile-menu">
-  <a href="services.html">Services</a>
-  <a href="services.html#ai-automations" class="mobile-sub">⚙️ AI Automations</a>
-  <a href="services.html#ai-agents" class="mobile-sub">🤖 AI Agents</a>
-  <a href="/app/" class="mobile-sub">📇 CRM</a>
-  <a href="services.html#ai-websites" class="mobile-sub">💻 CMS AI Websites</a>
-  <a href="services.html#paid-ads" class="mobile-sub">💰 Paid Ads</a>
-  <a href="services.html#ai-seo" class="mobile-sub">🔍 AI SEO And Content</a>
-  <a href="services.html#social" class="mobile-sub">📱 Social Media</a>
-  <a href="services.html#ai-sdr" class="mobile-sub">📞 AI SDR <small style="color:var(--gulf-orange);">NEW</small></a>
-  <a href="services.html#aeo" class="mobile-sub">🎯 AEO Retainer <small style="color:var(--gulf-orange);">NEW</small></a>
-  <a href="services.html#voice-ai" class="mobile-sub">🎙️ Voice AI <small style="color:var(--gulf-orange);">NEW</small></a>
-  <a href="services.html#creative-studio" class="mobile-sub">🎨 Creative Studio <small style="color:var(--gulf-orange);">NEW</small></a>
-  <a href="services.html#rag-agent" class="mobile-sub">📚 RAG Agent <small style="color:var(--gulf-orange);">NEW</small></a>
-  <a href="services.html#cro" class="mobile-sub">📈 CRO <small style="color:var(--gulf-orange);">NEW</small></a>
-  <a href="services.html#lifecycle" class="mobile-sub">🔄 Lifecycle <small style="color:var(--gulf-orange);">NEW</small></a>
-  <a href="services.html#commerce" class="mobile-sub">🛍️ Commerce Build <small style="color:var(--gulf-orange);">NEW</small></a>
-  <a href="services.html#fractional-cmo" class="mobile-sub">🎓 Fractional CMO <small style="color:var(--gulf-orange);">NEW</small></a>
-  <a href="services.html#ai-training" class="mobile-sub">🧑‍🏫 AI Training <small style="color:var(--gulf-orange);">NEW</small></a>
   <a href="about.html">About</a>
+  <a href="services.html">Services</a>
+  <a href="services.html#fractional-cmo" class="mobile-sub" style="color:#FF671F;font-weight:700">&#9733; Fractional CMO</a>
+  <a href="services.html#ai-automations" class="mobile-sub">AI Automations</a>
+  <a href="services.html#ai-agents" class="mobile-sub">AI Agents</a>
+  <a href="/partners.html" style="color:#6366f1;font-weight:600">Partners</a>
   <a href="blog.html">Blog</a>
+  <a href="/faq.html">Q&amp;A</a>
+  <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help &amp; Tutorials</a>
+  <a href="/tutorials/nwm-crm.html" class="mobile-sub">NWM CRM Tutorials</a>
+  <a href="/tutorials/nwm-cms.html" class="mobile-sub">NWM CMS Tutorials</a>
+  <a href="/tutorials/ai-automate.html" class="mobile-sub">AI Automations</a>
+  <a href="/tutorials/ai-chat-agents.html" class="mobile-sub">AI Chat Agents</a>
+  <a href="/tutorials/email-marketing.html" class="mobile-sub">Email Marketing</a>
+  <a href="/tutorials/paid-ads.html" class="mobile-sub">Paid Ads</a>
+  <a href="/tutorials/social-media.html" class="mobile-sub">Social Media</a>
   <a href="contact.html">Contact</a>
   <a href="contact.html" class="btn-primary">Get a Free Audit</a>
 </div>
@@ -185,7 +247,7 @@
     <div style="display:flex;gap:12px;flex-wrap:wrap;">
       <a href="#ai-automations" style="padding:8px 20px;border-radius:9999px;border:1px solid var(--border-accent);font-size:14px;color:var(--accent-blue);white-space:nowrap;transition:all 0.3s;">⚙️ AI Automations</a>
       <a href="#ai-agents" style="padding:8px 20px;border-radius:9999px;border:1px solid var(--border-glass);font-size:14px;color:var(--text-secondary);white-space:nowrap;transition:all 0.3s;">🤖 AI Agents</a>
-      <a href="/app/" style="padding:8px 20px;border-radius:9999px;border:1px solid var(--border-glass);font-size:14px;color:var(--text-secondary);white-space:nowrap;transition:all 0.3s;">📇 CRM</a>
+      <a href="/crm/" style="padding:8px 20px;border-radius:9999px;border:1px solid var(--border-glass);font-size:14px;color:var(--text-secondary);white-space:nowrap;transition:all 0.3s;">📇 CRM</a>
       <a href="#ai-websites" style="padding:8px 20px;border-radius:9999px;border:1px solid var(--border-glass);font-size:14px;color:var(--text-secondary);white-space:nowrap;transition:all 0.3s;">💻 CMS AI Websites</a>
       <a href="#paid-ads" style="padding:8px 20px;border-radius:9999px;border:1px solid var(--border-glass);font-size:14px;color:var(--text-secondary);white-space:nowrap;transition:all 0.3s;">💰 Paid Ads</a>
       <a href="#ai-seo" style="padding:8px 20px;border-radius:9999px;border:1px solid var(--border-glass);font-size:14px;color:var(--text-secondary);white-space:nowrap;transition:all 0.3s;">🔍 AI SEO And Content</a>
@@ -224,53 +286,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">Growth teams drowning in manual work, RevOps leaders tired of broken integrations, and scale-stage companies that need marketing ops to run without a full-time operator.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Starter</div>
-              <div class="pricing-tier-price">$2,500<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">Best for teams under 20</div>
-              <ul class="pricing-tier-features">
-                <li>Up to 3 production workflows</li>
-                <li>5 integrations (HubSpot, Ads, Slack…)</li>
-                <li>Monthly optimization pass</li>
-                <li>Email support · 24h response</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-automations" data-service-name="AI Automations" data-icon="⚙️"
-                data-tier="Starter" data-price="2500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Growth</div>
-              <div class="pricing-tier-price">$5,000<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">Best for scaling teams</div>
-              <ul class="pricing-tier-features">
-                <li>Up to 10 production workflows</li>
-                <li>Unlimited integrations</li>
-                <li>Weekly optimization + anomaly alerts</li>
-                <li>Dedicated ops engineer · Slack Connect</li>
-                <li>Quarterly strategy review</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-automations" data-service-name="AI Automations" data-icon="⚙️"
-                data-tier="Growth" data-price="5000" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Scale</div>
-              <div class="pricing-tier-price">$9,500<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">Enterprise-grade</div>
-              <ul class="pricing-tier-features">
-                <li>Unlimited custom workflows</li>
-                <li>Custom Python / LangChain builds</li>
-                <li>Daily monitoring + SLAs</li>
-                <li>Dedicated engineering pod</li>
-                <li>Quarterly roadmap planning</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-automations" data-service-name="AI Automations" data-icon="⚙️"
-                data-tier="Scale" data-price="9500" data-period="/month">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Book a Free Automation Audit →</a>
@@ -339,53 +355,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">High-traffic SaaS, e-commerce, and service businesses that need to engage visitors 24/7 without scaling their team linearly with demand.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Starter</div>
-              <div class="pricing-tier-price">$3,500<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">1 agent · 1 channel</div>
-              <ul class="pricing-tier-features">
-                <li>1 custom agent (sales or support)</li>
-                <li>Up to 5,000 conversations/mo</li>
-                <li>Brand-voice tuning + RAG knowledge base</li>
-                <li>Monthly performance review</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-agents" data-service-name="AI Agents" data-icon="🤖"
-                data-tier="Starter" data-price="3500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Growth</div>
-              <div class="pricing-tier-price">$7,500<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">Multi-channel · multi-agent</div>
-              <ul class="pricing-tier-features">
-                <li>Up to 3 agents (sales, support, research)</li>
-                <li>25,000 conversations/mo</li>
-                <li>Web + WhatsApp + Instagram + Slack</li>
-                <li>Calendar booking + CRM sync</li>
-                <li>Bi-weekly prompt tuning</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-agents" data-service-name="AI Agents" data-icon="🤖"
-                data-tier="Growth" data-price="7500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Scale</div>
-              <div class="pricing-tier-price">$14,500<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">Enterprise · SLA</div>
-              <ul class="pricing-tier-features">
-                <li>Unlimited agents + channels</li>
-                <li>Unlimited conversations</li>
-                <li>Custom fine-tuning + A/B testing</li>
-                <li>99.9% uptime SLA · priority support</li>
-                <li>Dedicated AI engineer</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-agents" data-service-name="AI Agents" data-icon="🤖"
-                data-tier="Scale" data-price="14500" data-period="/month">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Book a Free Agent Demo →</a>
@@ -454,57 +424,10 @@
             <p style="font-size:14px;color:var(--text-secondary);">Sales and marketing teams that want a powerful, customizable CRM without paying enterprise prices — and want their CRM integrated tightly with their AI marketing stack.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Starter</div>
-              <div class="pricing-tier-price">$49<span class="cents">/seat/mo</span></div>
-              <div class="pricing-tier-period">Up to 5 seats</div>
-              <ul class="pricing-tier-features">
-                <li>Contacts, deals, pipelines</li>
-                <li>Unified inbox (email + chat)</li>
-                <li>AI lead scoring (basic)</li>
-                <li>10K contacts max</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="crm" data-service-name="NetWebMedia CRM" data-icon="📇"
-                data-tier="Starter" data-price="49" data-period="/seat/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Pro</div>
-              <div class="pricing-tier-price">$149<span class="cents">/seat/mo</span></div>
-              <div class="pricing-tier-period">Best for revenue teams</div>
-              <ul class="pricing-tier-features">
-                <li>Everything in Starter</li>
-                <li>HubSpot bidirectional sync</li>
-                <li>AI lead scoring (advanced + custom signals)</li>
-                <li>Revenue forecasting + pipeline analytics</li>
-                <li>Role-based access + audit log</li>
-                <li>100K contacts max</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="crm" data-service-name="NetWebMedia CRM" data-icon="📇"
-                data-tier="Pro" data-price="149" data-period="/seat/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Enterprise</div>
-              <div class="pricing-tier-price">$399<span class="cents">/seat/mo</span></div>
-              <div class="pricing-tier-period">Unlimited everything</div>
-              <ul class="pricing-tier-features">
-                <li>Everything in Pro</li>
-                <li>Unlimited contacts + custom objects</li>
-                <li>SOC 2 · SSO · SAML · audit trails</li>
-                <li>Dedicated success manager</li>
-                <li>99.99% uptime SLA</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="crm" data-service-name="NetWebMedia CRM" data-icon="📇"
-                data-tier="Enterprise" data-price="399" data-period="/seat/month">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
-            <a href="/app/" class="btn-primary">Open Live CRM Demo →</a>
+            <a href="/crm/" class="btn-primary">Open Live CRM Demo →</a>
             <a href="contact.html" class="btn-secondary">Book Walkthrough</a>
           </div>
         </div>
@@ -571,55 +494,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">Brands launching new products, agencies that need fast-shipping sites for clients, and any business whose current site is slow, outdated, or failing to convert.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Essential</div>
-              <div class="pricing-tier-price">$7,500</div>
-              <div class="pricing-tier-period">One-time build · 4 weeks</div>
-              <ul class="pricing-tier-features">
-                <li>Up to 5 pages + blog</li>
-                <li>AI-generated copy + visuals</li>
-                <li>Core Web Vitals optimized</li>
-                <li>CRO audit + launch checklist</li>
-                <li>3 months post-launch support</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-websites" data-service-name="CMS AI Website" data-icon="💻"
-                data-tier="Essential" data-price="7500" data-period="one-time">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Growth</div>
-              <div class="pricing-tier-price">$18,000</div>
-              <div class="pricing-tier-period">One-time build · 6 weeks</div>
-              <ul class="pricing-tier-features">
-                <li>Up to 15 pages + full blog engine</li>
-                <li>Predictive personalization</li>
-                <li>Always-on A/B testing engine</li>
-                <li>Headless CMS + English/Spanish</li>
-                <li>SEO schema + technical foundation</li>
-                <li>6 months optimization retainer included</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-websites" data-service-name="CMS AI Website" data-icon="💻"
-                data-tier="Growth" data-price="18000" data-period="one-time">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Enterprise</div>
-              <div class="pricing-tier-price">$38,000</div>
-              <div class="pricing-tier-period">One-time build · 8–10 weeks</div>
-              <ul class="pricing-tier-features">
-                <li>Unlimited pages + custom design system</li>
-                <li>Multi-language (up to 6 locales)</li>
-                <li>CMS training for internal team</li>
-                <li>Custom integrations + data layer</li>
-                <li>12 months optimization included</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-websites" data-service-name="CMS AI Website" data-icon="💻"
-                data-tier="Enterprise" data-price="38000" data-period="one-time">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Get a Website Proposal →</a>
@@ -688,53 +563,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">DTC brands, SaaS companies, and service businesses running $10K+/month in paid media who need a partner that treats ROAS as a religion.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Starter</div>
-              <div class="pricing-tier-price">$2,500<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">Up to $15K ad spend</div>
-              <ul class="pricing-tier-features">
-                <li>2 platforms (e.g. Google + Meta)</li>
-                <li>Weekly optimization</li>
-                <li>Creative testing framework</li>
-                <li>Transparent ROAS dashboard</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="paid-ads" data-service-name="Paid Ads Management" data-icon="💰"
-                data-tier="Starter" data-price="2500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Growth</div>
-              <div class="pricing-tier-price">$5,500<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">Up to $75K ad spend</div>
-              <ul class="pricing-tier-features">
-                <li>4 platforms (Google, Meta, TikTok, LinkedIn)</li>
-                <li>Daily AI bid optimization</li>
-                <li>Full-funnel creative production</li>
-                <li>Landing page CRO included</li>
-                <li>Bi-weekly strategy calls</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="paid-ads" data-service-name="Paid Ads Management" data-icon="💰"
-                data-tier="Growth" data-price="5500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Scale</div>
-              <div class="pricing-tier-price">$11,000<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">Up to $250K ad spend</div>
-              <ul class="pricing-tier-features">
-                <li>Unlimited platforms + programmatic</li>
-                <li>Dedicated media buyer + strategist</li>
-                <li>Custom MMM + attribution modeling</li>
-                <li>Daily pacing + anomaly alerts</li>
-                <li>Executive reporting suite</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="paid-ads" data-service-name="Paid Ads Management" data-icon="💰"
-                data-tier="Scale" data-price="11000" data-period="/month">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Get a Free Ads Audit →</a>
@@ -804,53 +633,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">B2B SaaS, e-commerce brands, and professional services that want a sustainable organic growth engine — and want to win in AI search before their competitors even realize it matters.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Starter</div>
-              <div class="pricing-tier-price">$3,500<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">Foundation & content</div>
-              <ul class="pricing-tier-features">
-                <li>Technical SEO audit + fixes</li>
-                <li>10 optimized articles/mo</li>
-                <li>Keyword + topic research</li>
-                <li>Monthly reporting</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-seo" data-service-name="AI SEO & Content" data-icon="🔍"
-                data-tier="Starter" data-price="3500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Growth</div>
-              <div class="pricing-tier-price">$7,500<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">Authority builder</div>
-              <ul class="pricing-tier-features">
-                <li>25 optimized articles/mo</li>
-                <li>Topical authority clusters</li>
-                <li>AEO optimization (ChatGPT, Gemini, Perplexity)</li>
-                <li>Quality link building</li>
-                <li>Bi-weekly strategy + reporting</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-seo" data-service-name="AI SEO & Content" data-icon="🔍"
-                data-tier="Growth" data-price="7500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Scale</div>
-              <div class="pricing-tier-price">$14,000<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">Market domination</div>
-              <ul class="pricing-tier-features">
-                <li>40+ articles + programmatic SEO</li>
-                <li>International SEO (US + LATAM)</li>
-                <li>Digital PR + premium links</li>
-                <li>Dedicated content team</li>
-                <li>Weekly strategy calls</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-seo" data-service-name="AI SEO & Content" data-icon="🔍"
-                data-tier="Scale" data-price="14000" data-period="/month">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Get a Free SEO Audit →</a>
@@ -920,53 +703,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">Lifestyle brands, DTC products, SaaS companies, and creators who need a social presence that actually drives revenue — not just likes.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Starter</div>
-              <div class="pricing-tier-price">$2,500<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">Consistent presence</div>
-              <ul class="pricing-tier-features">
-                <li>3 platforms, 15 posts/mo</li>
-                <li>AI content calendar</li>
-                <li>Basic community replies</li>
-                <li>Monthly reporting</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="social" data-service-name="Social Media Management" data-icon="📱"
-                data-tier="Starter" data-price="2500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Growth</div>
-              <div class="pricing-tier-price">$5,500<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">Revenue social</div>
-              <ul class="pricing-tier-features">
-                <li>5 platforms, 30 posts/mo</li>
-                <li>In-house video + reel production</li>
-                <li>Active community management</li>
-                <li>Paid social amplification</li>
-                <li>Bi-weekly strategy + trend reports</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="social" data-service-name="Social Media Management" data-icon="📱"
-                data-tier="Growth" data-price="5500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Scale</div>
-              <div class="pricing-tier-price">$10,500<span class="cents">/mo</span></div>
-              <div class="pricing-tier-period">Full brand engine</div>
-              <ul class="pricing-tier-features">
-                <li>Unlimited platforms + 60+ posts/mo</li>
-                <li>Influencer + UGC activation</li>
-                <li>Full-time community manager</li>
-                <li>Live trend + crisis monitoring</li>
-                <li>Creative studio on standby</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="social" data-service-name="Social Media Management" data-icon="📱"
-                data-tier="Scale" data-price="10500" data-period="/month">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Book a Social Strategy Call →</a>
@@ -1011,20 +748,25 @@
   <section style="padding:100px 0 20px;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid var(--border-glass);">
     <div class="glow-orb glow-purple" style="width:500px;height:300px;left:50%;top:0;transform:translateX(-50%);opacity:0.08;"></div>
     <div class="container" style="position:relative;z-index:1;">
-      <div class="section-label">🚀 New for Q2 2026</div>
+      <div class="section-label">🚀 New this quarter · powered by the NWM CRM platform</div>
       <h2 class="section-title">The Next Wave of<br><span class="gradient-text">AI Growth Services</span></h2>
       <p style="max-width:720px;margin:16px auto 0;color:var(--text-secondary);font-size:16px;line-height:1.7;">
-        Ten new productized offers rolling out this quarter — from AI SDRs to voice receptionists to RAG knowledge agents. Bundle with any existing service and save <strong style="color:#FFB082;">15% on your first quarter</strong>.
+        Productized offers built on our own 46-module platform — from autonomous SDRs to the Video Factory to affiliate + reputation engines. Bundle with any service and save <strong style="color:#FFB082;">15% on your first quarter</strong>.
       </p>
       <div style="margin-top:32px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+        <a href="#ai-copilot" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">✨ AI Copilot</a>
         <a href="#ai-sdr" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">📞 AI SDR</a>
-        <a href="#aeo" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">🎯 AEO Retainer</a>
         <a href="#voice-ai" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">🎙️ Voice AI</a>
-        <a href="#creative-studio" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">🎨 Creative Studio</a>
-        <a href="#rag-agent" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">📚 RAG Agent</a>
+        <a href="#video-factory" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">🎬 Video Factory</a>
+        <a href="#content-ai" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">✍️ Content AI</a>
+        <a href="#aeo" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">🎯 AEO Retainer</a>
+        <a href="#lead-scoring" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">🎯 Lead Scoring</a>
+        <a href="#forecasting" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">📈 Forecasting</a>
+        <a href="#service-ops" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">🛟 SLAs + Portal + KB</a>
+        <a href="#reputation" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">⭐ Reputation</a>
+        <a href="#affiliates" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">🤝 Affiliates</a>
         <a href="#cro" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">📈 CRO</a>
         <a href="#lifecycle" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">🔄 Lifecycle</a>
-        <a href="#commerce" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">🛍️ Headless Commerce</a>
         <a href="#fractional-cmo" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">🎓 Fractional CMO</a>
         <a href="#ai-training" style="padding:8px 16px;border-radius:9999px;border:1px solid var(--border-glass);font-size:13px;color:var(--text-secondary);white-space:nowrap;">🧑‍🏫 AI Training</a>
       </div>
@@ -1059,53 +801,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">B2B SaaS, services firms, and agencies who need predictable pipeline but can't justify hiring 3 more SDRs. Best for teams with average deal size above $10K.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Starter</div>
-              <div class="pricing-tier-price">$4,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">1 channel · 500 prospects/mo</div>
-              <ul class="pricing-tier-features">
-                <li>Email-only outbound</li>
-                <li>500 enriched prospects/mo</li>
-                <li>1 campaign variant</li>
-                <li>Weekly reporting</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-sdr" data-service-name="AI SDR / Outbound Agent" data-icon="📞"
-                data-tier="Starter" data-price="4500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Growth</div>
-              <div class="pricing-tier-price">$8,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">Multi-channel · 1,500/mo</div>
-              <ul class="pricing-tier-features">
-                <li>Email + LinkedIn orchestration</li>
-                <li>1,500 enriched prospects/mo</li>
-                <li>3 active campaign variants</li>
-                <li>Reply handling + auto-booking</li>
-                <li>Dedicated strategist</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-sdr" data-service-name="AI SDR / Outbound Agent" data-icon="📞"
-                data-tier="Growth" data-price="8500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Scale</div>
-              <div class="pricing-tier-price">$16,000<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">Full-funnel · 4,000+/mo</div>
-              <ul class="pricing-tier-features">
-                <li>Email + LinkedIn + voice + SMS</li>
-                <li>4,000+ enriched prospects/mo</li>
-                <li>Unlimited variants + A/B</li>
-                <li>Dedicated pod + Slack Connect</li>
-                <li>Guaranteed meeting SLA</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-sdr" data-service-name="AI SDR / Outbound Agent" data-icon="📞"
-                data-tier="Scale" data-price="16000" data-period="/month">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Book a Pipeline Strategy Call →</a>
@@ -1174,53 +870,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">B2B brands, SaaS companies, and professional services firms where buyers are researching alternatives in AI assistants before talking to sales.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Starter</div>
-              <div class="pricing-tier-price">$3,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">Monitor & optimize</div>
-              <ul class="pricing-tier-features">
-                <li>50 tracked queries</li>
-                <li>Monthly visibility audit</li>
-                <li>Schema + structured data pass</li>
-                <li>2 citation articles/mo</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="aeo" data-service-name="Answer Engine Optimization (AEO)" data-icon="🎯"
-                data-tier="Starter" data-price="3500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Growth</div>
-              <div class="pricing-tier-price">$6,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">Actively win citations</div>
-              <ul class="pricing-tier-features">
-                <li>150 tracked queries</li>
-                <li>Weekly AEO monitoring</li>
-                <li>6 citation articles/mo</li>
-                <li>Competitor intelligence reports</li>
-                <li>Quarterly strategy review</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="aeo" data-service-name="Answer Engine Optimization (AEO)" data-icon="🎯"
-                data-tier="Growth" data-price="6500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Scale</div>
-              <div class="pricing-tier-price">$12,000<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">Dominate your category</div>
-              <ul class="pricing-tier-features">
-                <li>500+ tracked queries</li>
-                <li>Daily AEO monitoring</li>
-                <li>Unlimited citation content</li>
-                <li>Custom prompt testing rigs</li>
-                <li>Dedicated AEO strategist</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="aeo" data-service-name="Answer Engine Optimization (AEO)" data-icon="🎯"
-                data-tier="Scale" data-price="12000" data-period="/month">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Get a Free AEO Visibility Scan →</a>
@@ -1262,7 +912,7 @@
   </section>
 
   <!-- 10. AI Voice Receptionist -->
-  <section class="service-detail-section" id="voice-ai" style="background:var(--bg-secondary);border-bottom:1px solid var(--border-glass);">
+  <section class="service-detail-section" id="voice-ai" style="background:var(--bg-secondary);border-bottom:1px solid var(--border-glass);" data-status="coming-soon">
     <div class="container">
       <div class="service-detail-grid reverse scroll-reveal">
         <div>
@@ -1289,53 +939,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">Local service businesses, law firms, medical & dental practices, real estate brokerages, and after-hours support teams who can't afford to miss inbound calls.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Essential</div>
-              <div class="pricing-tier-price">$1,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">$4,500 setup · <500 calls/mo</div>
-              <ul class="pricing-tier-features">
-                <li>Single inbound number</li>
-                <li>Basic FAQ + booking</li>
-                <li>Calendar integration</li>
-                <li>Monthly reports</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="voice-ai" data-service-name="AI Voice Receptionist" data-icon="🎙️"
-                data-tier="Essential" data-price="1500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Pro</div>
-              <div class="pricing-tier-price">$2,800<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">$9,500 setup · <2,000 calls/mo</div>
-              <ul class="pricing-tier-features">
-                <li>Multiple numbers + routing</li>
-                <li>Full knowledge base</li>
-                <li>CRM + Slack alerts</li>
-                <li>Bilingual (EN/ES)</li>
-                <li>Weekly tuning</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="voice-ai" data-service-name="AI Voice Receptionist" data-icon="🎙️"
-                data-tier="Pro" data-price="2800" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Enterprise</div>
-              <div class="pricing-tier-price">$4,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">$18,000 setup · unlimited</div>
-              <ul class="pricing-tier-features">
-                <li>Unlimited calls + numbers</li>
-                <li>Custom voice clone</li>
-                <li>Advanced sentiment routing</li>
-                <li>24/7 live monitoring</li>
-                <li>Dedicated engineer</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="voice-ai" data-service-name="AI Voice Receptionist" data-icon="🎙️"
-                data-tier="Enterprise" data-price="4500" data-period="/month">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Hear a Live Voice AI Demo →</a>
@@ -1345,7 +949,7 @@
           <div style="font-size:48px;margin-bottom:20px;">🎙️</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin-bottom:20px;">
             <div style="background:rgba(255,103,31,0.1);border:1px solid rgba(255,103,31,0.2);border-radius:12px;padding:16px;">
-              <div style="font-size:28px;font-weight:800;color:var(--gulf-orange);"><1s</div>
+              <div style="font-size:28px;font-weight:800;color:var(--gulf-orange);">&lt;1s</div>
               <div style="font-size:12px;color:var(--text-muted);">Answer latency</div>
             </div>
             <div style="background:rgba(1,33,105,0.2);border:1px solid rgba(1,33,105,0.4);border-radius:12px;padding:16px;">
@@ -1377,7 +981,7 @@
   </section>
 
   <!-- 11. Generative Creative Studio -->
-  <section class="service-detail-section" id="creative-studio" style="border-bottom:1px solid var(--border-glass);">
+  <section class="service-detail-section" id="creative-studio" style="border-bottom:1px solid var(--border-glass);" data-status="coming-soon">
     <div class="container">
       <div class="service-detail-grid scroll-reveal">
         <div>
@@ -1404,53 +1008,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">DTC brands, e-commerce stores, and performance-marketing teams spending $50K+/month on paid media who are creative-starved.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Starter</div>
-              <div class="pricing-tier-price">$3,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">10 variants/wk</div>
-              <ul class="pricing-tier-features">
-                <li>10 new creatives/week</li>
-                <li>Static + 1 motion format</li>
-                <li>Monthly performance review</li>
-                <li>Asset delivery to ad accounts</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="creative-studio" data-service-name="Generative Creative Studio" data-icon="🎨"
-                data-tier="Starter" data-price="3500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Growth</div>
-              <div class="pricing-tier-price">$7,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">25 variants/wk</div>
-              <ul class="pricing-tier-features">
-                <li>25 new creatives/week</li>
-                <li>Static + motion + voiceover</li>
-                <li>Bi-weekly performance iteration</li>
-                <li>AI UGC actors included</li>
-                <li>Creative testing framework</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="creative-studio" data-service-name="Generative Creative Studio" data-icon="🎨"
-                data-tier="Growth" data-price="7500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Scale</div>
-              <div class="pricing-tier-price">$15,000<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">40+ variants/wk</div>
-              <ul class="pricing-tier-features">
-                <li>40+ creatives/week</li>
-                <li>Full studio: static/motion/UGC/reels</li>
-                <li>Daily performance iteration</li>
-                <li>Localization into 5 languages</li>
-                <li>Dedicated creative pod</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="creative-studio" data-service-name="Generative Creative Studio" data-icon="🎨"
-                data-tier="Scale" data-price="15000" data-period="/month">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">See Sample Creative Output →</a>
@@ -1492,7 +1050,7 @@
   </section>
 
   <!-- 12. RAG Knowledge Agent -->
-  <section class="service-detail-section" id="rag-agent" style="background:var(--bg-secondary);border-bottom:1px solid var(--border-glass);">
+  <section class="service-detail-section" id="rag-agent" style="background:var(--bg-secondary);border-bottom:1px solid var(--border-glass);" data-status="coming-soon">
     <div class="container">
       <div class="service-detail-grid reverse scroll-reveal">
         <div>
@@ -1519,53 +1077,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">Enterprise sales, support, and RevOps teams drowning in documentation sprawl. Mid-market companies with 50+ employees and sprawling tooling.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Starter</div>
-              <div class="pricing-tier-price">$2,000<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">$12,000 setup · up to 25 users</div>
-              <ul class="pricing-tier-features">
-                <li>Up to 5 source systems</li>
-                <li>Slack + web interface</li>
-                <li>Monthly re-indexing</li>
-                <li>Email support</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="rag-agent" data-service-name="RAG Knowledge Agent" data-icon="📚"
-                data-tier="Starter" data-price="2000" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Pro</div>
-              <div class="pricing-tier-price">$4,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">$22,000 setup · up to 100 users</div>
-              <ul class="pricing-tier-features">
-                <li>Unlimited source systems</li>
-                <li>Slack + Teams + web</li>
-                <li>Weekly re-indexing</li>
-                <li>Sales battlecards module</li>
-                <li>Usage analytics dashboard</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="rag-agent" data-service-name="RAG Knowledge Agent" data-icon="📚"
-                data-tier="Pro" data-price="4500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Enterprise</div>
-              <div class="pricing-tier-price">$8,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">$45,000 setup · unlimited users</div>
-              <ul class="pricing-tier-features">
-                <li>All sources + custom connectors</li>
-                <li>SSO + permission inheritance</li>
-                <li>Daily re-indexing</li>
-                <li>Support auto-suggest module</li>
-                <li>Dedicated ML engineer</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="rag-agent" data-service-name="RAG Knowledge Agent" data-icon="📚"
-                data-tier="Enterprise" data-price="8500" data-period="/month">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Book a RAG Demo →</a>
@@ -1634,53 +1146,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">E-commerce stores with $500K+ monthly revenue, SaaS companies with self-serve signup, and any business paying $25K+/month on paid traffic.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Starter</div>
-              <div class="pricing-tier-price">$3,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">5 tests/mo</div>
-              <ul class="pricing-tier-features">
-                <li>5 active experiments</li>
-                <li>Monthly hypothesis workshop</li>
-                <li>Landing page + copy testing</li>
-                <li>Monthly reports</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="cro" data-service-name="Conversion Rate Optimization (CRO)" data-icon="📈"
-                data-tier="Starter" data-price="3500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Growth</div>
-              <div class="pricing-tier-price">$6,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">12 tests/mo</div>
-              <ul class="pricing-tier-features">
-                <li>12 active experiments</li>
-                <li>Full-funnel testing</li>
-                <li>Heatmap + session replay analysis</li>
-                <li>Bi-weekly executive reviews</li>
-                <li>AI variant generation</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="cro" data-service-name="Conversion Rate Optimization (CRO)" data-icon="📈"
-                data-tier="Growth" data-price="6500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Scale</div>
-              <div class="pricing-tier-price">$11,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">20+ tests/mo</div>
-              <ul class="pricing-tier-features">
-                <li>20+ experiments running in parallel</li>
-                <li>Dedicated CRO strategist</li>
-                <li>Custom test framework build</li>
-                <li>Weekly executive reviews</li>
-                <li>Revenue-impact guarantee</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="cro" data-service-name="Conversion Rate Optimization (CRO)" data-icon="📈"
-                data-tier="Scale" data-price="11500" data-period="/month">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Get a Free Funnel Audit →</a>
@@ -1749,53 +1215,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">E-commerce brands with $1M+ annual revenue, SaaS with free-trial or freemium funnels, and any brand with a repeat-purchase motion.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Starter</div>
-              <div class="pricing-tier-price">$2,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">Core flows</div>
-              <ul class="pricing-tier-features">
-                <li>4 automated flows built</li>
-                <li>Email-only</li>
-                <li>Monthly performance review</li>
-                <li>Klaviyo or HubSpot</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="lifecycle" data-service-name="Lifecycle & Email Automation" data-icon="🔄"
-                data-tier="Starter" data-price="2500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Growth</div>
-              <div class="pricing-tier-price">$5,000<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">Full lifecycle</div>
-              <ul class="pricing-tier-features">
-                <li>10+ automated flows</li>
-                <li>Email + SMS</li>
-                <li>Predictive segmentation</li>
-                <li>Weekly A/B testing</li>
-                <li>Revenue attribution dashboards</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="lifecycle" data-service-name="Lifecycle & Email Automation" data-icon="🔄"
-                data-tier="Growth" data-price="5000" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Scale</div>
-              <div class="pricing-tier-price">$9,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">Multi-brand / enterprise</div>
-              <ul class="pricing-tier-features">
-                <li>Unlimited flows</li>
-                <li>Email + SMS + push + in-app</li>
-                <li>Custom AI segmentation models</li>
-                <li>Dedicated lifecycle strategist</li>
-                <li>Executive revenue reporting</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="lifecycle" data-service-name="Lifecycle & Email Automation" data-icon="🔄"
-                data-tier="Scale" data-price="9500" data-period="/month">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Get a Lifecycle Audit →</a>
@@ -1837,7 +1257,7 @@
   </section>
 
   <!-- 15. Headless Commerce Builds -->
-  <section class="service-detail-section" id="commerce" style="border-bottom:1px solid var(--border-glass);">
+  <section class="service-detail-section" id="commerce" style="border-bottom:1px solid var(--border-glass);" data-status="coming-soon">
     <div class="container">
       <div class="service-detail-grid scroll-reveal">
         <div>
@@ -1864,54 +1284,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">DTC brands, premium e-commerce, and direct-to-consumer operations doing $1M+ annually who've outgrown a stock Shopify theme.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Essential</div>
-              <div class="pricing-tier-price">$12,000<span class="cents"> one-time</span></div>
-              <div class="pricing-tier-period">Shopify Hydrogen build</div>
-              <ul class="pricing-tier-features">
-                <li>Up to 200 SKUs</li>
-                <li>Shopify Hydrogen theme</li>
-                <li>AI recommendations</li>
-                <li>Mobile-optimized checkout</li>
-                <li>30-day post-launch support</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="commerce" data-service-name="Headless Commerce Build" data-icon="🛍️"
-                data-tier="Essential" data-price="12000" data-period=" one-time">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Pro</div>
-              <div class="pricing-tier-price">$28,000<span class="cents"> one-time</span></div>
-              <div class="pricing-tier-period">Custom headless build</div>
-              <ul class="pricing-tier-features">
-                <li>Unlimited SKUs</li>
-                <li>Fully custom Next.js or Hydrogen</li>
-                <li>NL site search + AI bundles</li>
-                <li>Full AEO + SEO architecture</li>
-                <li>90-day CRO included</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="commerce" data-service-name="Headless Commerce Build" data-icon="🛍️"
-                data-tier="Pro" data-price="28000" data-period=" one-time">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Flagship</div>
-              <div class="pricing-tier-price">$65,000<span class="cents"> one-time</span></div>
-              <div class="pricing-tier-period">Enterprise build + year-one ops</div>
-              <ul class="pricing-tier-features">
-                <li>Multi-brand / multi-region</li>
-                <li>Advanced personalization engine</li>
-                <li>Custom search + loyalty modules</li>
-                <li>12-month optimization retainer</li>
-                <li>Dedicated engineering team</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="commerce" data-service-name="Headless Commerce Build" data-icon="🛍️"
-                data-tier="Flagship" data-price="65000" data-period=" one-time">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Book a Build Scoping Call →</a>
@@ -1921,7 +1294,7 @@
           <div style="font-size:48px;margin-bottom:20px;">🛍️</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin-bottom:20px;">
             <div style="background:rgba(255,103,31,0.1);border:1px solid rgba(255,103,31,0.2);border-radius:12px;padding:16px;">
-              <div style="font-size:28px;font-weight:800;color:var(--gulf-orange);"><1s</div>
+              <div style="font-size:28px;font-weight:800;color:var(--gulf-orange);">&lt;1s</div>
               <div style="font-size:12px;color:var(--text-muted);">LCP load time</div>
             </div>
             <div style="background:rgba(1,33,105,0.2);border:1px solid rgba(1,33,105,0.4);border-radius:12px;padding:16px;">
@@ -1980,53 +1353,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">Seed to Series B companies with a founder-CEO running marketing, and mid-market brands that need senior strategic oversight without a $350–450K CMO hire.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Advisor</div>
-              <div class="pricing-tier-price">$3,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">4 hours/week</div>
-              <ul class="pricing-tier-features">
-                <li>Weekly 60-min strategy call</li>
-                <li>Slack access within 24h</li>
-                <li>Monthly performance review</li>
-                <li>Quarterly planning session</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="fractional-cmo" data-service-name="Fractional CMO Advisory" data-icon="🎓"
-                data-tier="Advisor" data-price="3500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Partner</div>
-              <div class="pricing-tier-price">$6,500<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">8 hours/week</div>
-              <ul class="pricing-tier-features">
-                <li>2× weekly strategy sessions</li>
-                <li>Slack + async anytime</li>
-                <li>Bi-weekly team coaching</li>
-                <li>Board meeting prep</li>
-                <li>Vendor vetting</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="fractional-cmo" data-service-name="Fractional CMO Advisory" data-icon="🎓"
-                data-tier="Partner" data-price="6500" data-period="/month">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Embedded</div>
-              <div class="pricing-tier-price">$12,000<span class="cents">/month</span></div>
-              <div class="pricing-tier-period">16 hours/week</div>
-              <ul class="pricing-tier-features">
-                <li>Full exec team embedding</li>
-                <li>Direct-report coaching for marketing hires</li>
-                <li>Roadmap + budget ownership</li>
-                <li>Board + investor presentation prep</li>
-                <li>Priority SLA</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="fractional-cmo" data-service-name="Fractional CMO Advisory" data-icon="🎓"
-                data-tier="Embedded" data-price="12000" data-period="/month">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Book a Fit Call →</a>
@@ -2040,8 +1367,8 @@
               <div style="font-size:12px;color:var(--text-muted);">Years avg. experience</div>
             </div>
             <div style="background:rgba(1,33,105,0.2);border:1px solid rgba(1,33,105,0.4);border-radius:12px;padding:16px;">
-              <div style="font-size:28px;font-weight:800;color:#6B8DD4;">$100M+</div>
-              <div style="font-size:12px;color:var(--text-muted);">Brands scaled</div>
+              <div style="font-size:28px;font-weight:800;color:#6B8DD4;">$1M+</div>
+              <div style="font-size:12px;color:var(--text-muted);">Target client revenue</div>
             </div>
             <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:16px;">
               <div style="font-size:28px;font-weight:800;color:#10B981;">4h</div>
@@ -2095,53 +1422,7 @@
             <p style="font-size:14px;color:var(--text-secondary);">Marketing teams of 10+, agencies wanting to train their own staff, and leadership teams that need their entire org to level up on AI in one coordinated push.</p>
           </div>
 
-          <div class="pricing-tiers">
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Workshop</div>
-              <div class="pricing-tier-price">$5,000<span class="cents"> one-time</span></div>
-              <div class="pricing-tier-period">½-day · up to 15 people</div>
-              <ul class="pricing-tier-features">
-                <li>4-hour live session</li>
-                <li>Custom curriculum</li>
-                <li>Take-home playbook</li>
-                <li>30-day email Q&A</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-training" data-service-name="AI Training & Enablement" data-icon="🧑‍🏫"
-                data-tier="Workshop" data-price="5000" data-period=" one-time">Add to cart</button>
-            </div>
-            <div class="pricing-tier featured">
-              <div class="pricing-tier-badge">Most Popular</div>
-              <div class="pricing-tier-name">Cohort</div>
-              <div class="pricing-tier-price">$12,000<span class="cents"> one-time</span></div>
-              <div class="pricing-tier-period">3-week program · up to 25 people</div>
-              <ul class="pricing-tier-features">
-                <li>6 live sessions over 3 weeks</li>
-                <li>Hands-on project work</li>
-                <li>Full tool-stack deployment</li>
-                <li>60-day office hours</li>
-                <li>Playbook + recordings</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-training" data-service-name="AI Training & Enablement" data-icon="🧑‍🏫"
-                data-tier="Cohort" data-price="12000" data-period=" one-time">Add to cart</button>
-            </div>
-            <div class="pricing-tier">
-              <div class="pricing-tier-name">Enterprise</div>
-              <div class="pricing-tier-price">$18,000<span class="cents"> one-time</span></div>
-              <div class="pricing-tier-period">3-month program · unlimited</div>
-              <ul class="pricing-tier-features">
-                <li>12 live sessions over 3 months</li>
-                <li>Custom curriculum per role</li>
-                <li>AI policy + governance docs</li>
-                <li>90-day ongoing support</li>
-                <li>Dedicated instructor + analytics</li>
-              </ul>
-              <button class="btn-add-cart" type="button"
-                data-service-id="ai-training" data-service-name="AI Training & Enablement" data-icon="🧑‍🏫"
-                data-tier="Enterprise" data-price="18000" data-period=" one-time">Add to cart</button>
-            </div>
-          </div>
+          <div class="pricing-tiers-cta" style="margin:24px 0;padding:28px 24px;border-radius:14px;background:linear-gradient(135deg,rgba(255,103,31,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.22);text-align:center;"><div style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;">Pricing</div><div style="font-size:17px;color:#dde3ee;margin-bottom:18px;line-height:1.5;">Three tiers — Starter, Pro, Max / Scale. Setup fee + monthly retainer.</div><a href="/pricing.html" class="btn-primary" style="display:inline-block;padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;">See live pricing &amp; start →</a></div>
 
           <div style="margin-top:24px;">
             <a href="contact.html" class="btn-primary">Book a Training Scoping Call →</a>
@@ -2175,6 +1456,325 @@
               <div>• AI-assisted copywriting</div>
               <div>• AI research + analysis</div>
               <div>• Custom GPTs + agents</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PLATFORM-NATIVE SERVICES DIVIDER ──────────────────── -->
+  <section style="padding:100px 0 20px;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid var(--border-glass);">
+    <div class="glow-orb glow-blue" style="width:500px;height:300px;left:50%;top:0;transform:translateX(-50%);opacity:0.08;"></div>
+    <div class="container" style="position:relative;z-index:1;">
+      <div class="section-label">🧩 Shipped on our own platform</div>
+      <h2 class="section-title">Services powered by<br><span class="gradient-text">NWM CRM modules</span></h2>
+      <p style="max-width:760px;margin:16px auto 0;color:var(--text-secondary);font-size:16px;line-height:1.7;">
+        Every service below is delivered on a module we already built and rebrand-ready. No stitching 12 tools — we run your marketing on <strong style="color:#FFB082;">our own 46-module CRM</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- 18. AI Copilot -->
+  <section class="service-detail-section" id="ai-copilot" style="border-bottom:1px solid var(--border-glass);">
+    <div class="container">
+      <div class="service-detail-grid scroll-reveal">
+        <div>
+          <div class="section-label">✨ In-app Assistant</div>
+          <h2 class="section-title">AI <span class="gradient-text">Copilot</span></h2>
+          <div class="service-sales-hook">🧠 Sits next to every team — writes, summarizes, and drafts in one click.</div>
+          <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
+            AI Copilot is a context-aware assistant embedded in every screen of NWM CRM. It writes follow-ups from the contact record you're looking at, drafts campaigns from your brand voice, summarizes deal rooms and call transcripts, and proposes next best actions — all without copy-pasting into ChatGPT.
+          </p>
+          <ul class="service-features-list">
+            <li><strong>Context-aware prompts:</strong> Copilot reads the record you're on (contact, deal, ticket, campaign) and uses it as grounded context</li>
+            <li><strong>One-click drafting:</strong> Follow-up emails, sequence steps, deal summaries, replies to tickets — all in your brand voice</li>
+            <li><strong>Brand + tone presets:</strong> We tune Copilot on your writing samples and playbooks so it doesn't sound generic</li>
+            <li><strong>Private by design:</strong> Your data never trains third-party models — retention controls in every plan</li>
+          </ul>
+          <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="/crm/ai-copilot" class="btn-primary">Open Copilot live →</a>
+            <a href="contact.html" class="btn-secondary">Book a Demo</a>
+          </div>
+        </div>
+        <div class="service-visual">
+          <div style="font-size:48px;margin-bottom:20px;">✨</div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border-glass);border-radius:12px;padding:16px;">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Built on</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text-secondary);">
+              <div>• Live module: <a href="/crm/ai-copilot" style="color:#FFB082;">/crm/ai-copilot</a></div>
+              <div>• Claude + GPT-4 + Gemini</div>
+              <div>• Retrieval over your CRM data</div>
+              <div>• Pair with AI SDR + Content AI</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Video Factory -->
+  <section class="service-detail-section" id="video-factory" style="background:var(--bg-secondary);border-bottom:1px solid var(--border-glass);">
+    <div class="container">
+      <div class="service-detail-grid reverse scroll-reveal">
+        <div>
+          <div class="section-label">🎬 AI Video Generation</div>
+          <h2 class="section-title">Video <span class="gradient-text">Factory</span></h2>
+          <div class="service-sales-hook">🎥 Ship 8-30 Reels, TikToks and YouTube Shorts a month — without a studio.</div>
+          <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
+            Short-form video is the cheapest distribution surface on the internet — and it's the one you can't afford to be silent on. Video Factory is our in-platform pipeline that writes scripts, generates AI avatars or B-roll, adds captions and music, and publishes to your channels on a calendar you approve once.
+          </p>
+          <ul class="service-features-list">
+            <li><strong>Full script-to-post pipeline:</strong> From hook brainstorm to captioned MP4 to scheduled post — one module, no Premiere</li>
+            <li><strong>AI avatars or B-roll:</strong> Heygen-class avatars, stock B-roll, or your own footage — mix and match per template</li>
+            <li><strong>On-brand every time:</strong> Your palette, logo bug, lower-thirds and font stack pre-loaded</li>
+            <li><strong>Built-in publishing:</strong> Auto-post to Instagram Reels, TikTok, YouTube Shorts, LinkedIn and X</li>
+            <li><strong>Performance loop:</strong> Hooks that win get variants generated the following week automatically</li>
+          </ul>
+          <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="/crm/video-factory" class="btn-primary">Open Video Factory →</a>
+            <a href="contact.html" class="btn-secondary">Book a Pipeline Audit</a>
+          </div>
+        </div>
+        <div class="service-visual">
+          <div style="font-size:48px;margin-bottom:20px;">🎬</div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border-glass);border-radius:12px;padding:16px;">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Shipped volume</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text-secondary);">
+              <div>• Live module: <a href="/crm/video-factory" style="color:#FFB082;">/crm/video-factory</a></div>
+              <div>• 8 / 16 / 30 posts per month</div>
+              <div>• Reels · TikTok · Shorts · LinkedIn · X</div>
+              <div>• EN + ES captions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. Content AI -->
+  <section class="service-detail-section" id="content-ai" style="border-bottom:1px solid var(--border-glass);">
+    <div class="container">
+      <div class="service-detail-grid scroll-reveal">
+        <div>
+          <div class="section-label">✍️ Copy + Image Generation</div>
+          <h2 class="section-title">Content <span class="gradient-text">AI</span></h2>
+          <div class="service-sales-hook">📝 40+ on-brand assets a month — blogs, ads, emails, social, images.</div>
+          <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
+            Content AI is the generation engine behind every channel — ad copy, long-form blogs, email campaigns, SMS, landing-page variants, and matched imagery — all produced inside the CRM where the briefs, personas and historical performance already live.
+          </p>
+          <ul class="service-features-list">
+            <li><strong>Persona + brief-aware:</strong> Every asset is generated against a specific persona, product and funnel stage</li>
+            <li><strong>Multi-format factory:</strong> Ads, blogs, emails, SMS, social posts, and landing-page variants in one module</li>
+            <li><strong>Image generation:</strong> Stable Diffusion + DALL·E for hero art, banners, and ad creative tuned to your brand palette</li>
+            <li><strong>Human QA loop:</strong> Strategist review before anything ships — no AI slop on your brand</li>
+            <li><strong>Wired to campaigns + blog:</strong> Assets land in /crm/campaigns, /crm/ads and /crm/blog ready to schedule</li>
+          </ul>
+          <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="/crm/content-ai" class="btn-primary">Open Content AI →</a>
+            <a href="contact.html" class="btn-secondary">Book a Content Strategy Call</a>
+          </div>
+        </div>
+        <div class="service-visual">
+          <div style="font-size:48px;margin-bottom:20px;">✍️</div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border-glass);border-radius:12px;padding:16px;">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">What We Ship</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text-secondary);">
+              <div>• Live module: <a href="/crm/content-ai" style="color:#FFB082;">/crm/content-ai</a></div>
+              <div>• 40+ assets / month on Pro</div>
+              <div>• Copy + image in one brief</div>
+              <div>• Bilingual EN / ES</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. Lead Scoring -->
+  <section class="service-detail-section" id="lead-scoring" style="background:var(--bg-secondary);border-bottom:1px solid var(--border-glass);">
+    <div class="container">
+      <div class="service-detail-grid reverse scroll-reveal">
+        <div>
+          <div class="section-label">🎯 AI-Graded Pipeline</div>
+          <h2 class="section-title">Lead <span class="gradient-text">Scoring</span></h2>
+          <div class="service-sales-hook">⚡ Stop wasting reps on unqualified leads — AI ranks every one in under a second.</div>
+          <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
+            Lead Scoring blends firmographic fit, behavioral signals, intent data, and engagement recency into a single 0-100 score on every contact — then routes A-grade leads to your best reps the moment they cross a threshold.
+          </p>
+          <ul class="service-features-list">
+            <li><strong>Fit + intent blended:</strong> Company size, ICP fit, page views, email engagement, form answers — all in one score</li>
+            <li><strong>Tunable to your ICP:</strong> We build the model on your win/loss data, not a generic template</li>
+            <li><strong>Threshold routing:</strong> Automatic assignment the moment a score crosses a line</li>
+            <li><strong>Feedback loop:</strong> Reps mark true/false positives — model retrains weekly</li>
+          </ul>
+          <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="/crm/lead-scoring" class="btn-primary">Open Lead Scoring →</a>
+            <a href="contact.html" class="btn-secondary">Score My Database</a>
+          </div>
+        </div>
+        <div class="service-visual">
+          <div style="font-size:48px;margin-bottom:20px;">🎯</div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border-glass);border-radius:12px;padding:16px;">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Model inputs</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text-secondary);">
+              <div>• Live module: <a href="/crm/lead-scoring" style="color:#FFB082;">/crm/lead-scoring</a></div>
+              <div>• Firmographics + intent</div>
+              <div>• Email + page engagement</div>
+              <div>• Retrains weekly on win/loss</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. Forecasting -->
+  <section class="service-detail-section" id="forecasting" style="border-bottom:1px solid var(--border-glass);">
+    <div class="container">
+      <div class="service-detail-grid scroll-reveal">
+        <div>
+          <div class="section-label">📈 Revenue Forecasting</div>
+          <h2 class="section-title">Sales <span class="gradient-text">Forecasting</span></h2>
+          <div class="service-sales-hook">📊 Know next quarter's revenue within ±8% — not +/-30%.</div>
+          <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
+            Forecasting replaces the Monday spreadsheet with a live, AI-weighted pipeline view. Stage probabilities, age-in-stage, rep-specific win rates and deal-level risk flags roll up into board-ready commit / best-case / pipeline numbers that actually hold.
+          </p>
+          <ul class="service-features-list">
+            <li><strong>AI-weighted stages:</strong> Probability informed by your historical conversion — not a static 25/50/75</li>
+            <li><strong>Commit / best-case / pipeline:</strong> Three scenarios refresh as deals move</li>
+            <li><strong>Deal-level risk flags:</strong> Stalled, missing next step, sentiment drop — caught in real time</li>
+            <li><strong>Rep roll-ups:</strong> Forecast by rep, team, region, and product line</li>
+          </ul>
+          <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="/crm/forecasting" class="btn-primary">Open Forecasting →</a>
+            <a href="contact.html" class="btn-secondary">Run a Forecast Review</a>
+          </div>
+        </div>
+        <div class="service-visual">
+          <div style="font-size:48px;margin-bottom:20px;">📈</div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border-glass);border-radius:12px;padding:16px;">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Forecasting views</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text-secondary);">
+              <div>• Live module: <a href="/crm/forecasting" style="color:#FFB082;">/crm/forecasting</a></div>
+              <div>• Commit / best-case / pipeline</div>
+              <div>• By rep / team / product</div>
+              <div>• Pair with /crm/pipeline</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 23. Service Ops (SLAs + Customer Portal + Knowledge Base) -->
+  <section class="service-detail-section" id="service-ops" style="background:var(--bg-secondary);border-bottom:1px solid var(--border-glass);">
+    <div class="container">
+      <div class="service-detail-grid reverse scroll-reveal">
+        <div>
+          <div class="section-label">🛟 Post-sale Retention</div>
+          <h2 class="section-title">SLAs, Customer Portal &amp; <span class="gradient-text">Knowledge Base</span></h2>
+          <div class="service-sales-hook">🧷 Keep the revenue your marketing earned — without buying Zendesk.</div>
+          <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
+            Three Service Hub modules that replace a full Zendesk / Intercom / Notion stack: SLA policies that hold your team accountable, a branded customer portal where clients file tickets and see progress, and a public knowledge base that drives deflection.
+          </p>
+          <ul class="service-features-list">
+            <li><strong>SLAs (<a href="/crm/slas" style="color:#FFB082;">/crm/slas</a>):</strong> First-response and resolution targets per tier, with live dashboards and breach alerts</li>
+            <li><strong>Customer Portal (<a href="/crm/customer-portal" style="color:#FFB082;">/crm/customer-portal</a>):</strong> Branded under your domain — clients file tickets, see status, review invoices</li>
+            <li><strong>Knowledge Base (<a href="/crm/knowledge-base" style="color:#FFB082;">/crm/knowledge-base</a>):</strong> Public, SEO-ready help center with AI-generated first drafts</li>
+            <li><strong>Wired to tickets + calls:</strong> Same contact record across <a href="/crm/tickets" style="color:#FFB082;">/crm/tickets</a>, <a href="/crm/calls" style="color:#FFB082;">/crm/calls</a>, and <a href="/crm/conversations" style="color:#FFB082;">/crm/conversations</a></li>
+          </ul>
+          <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="/crm/customer-portal" class="btn-primary">See the portal →</a>
+            <a href="contact.html" class="btn-secondary">Book a Service Review</a>
+          </div>
+        </div>
+        <div class="service-visual">
+          <div style="font-size:48px;margin-bottom:20px;">🛟</div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border-glass);border-radius:12px;padding:16px;">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Modules included</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text-secondary);">
+              <div>• <a href="/crm/slas" style="color:#FFB082;">SLAs</a></div>
+              <div>• <a href="/crm/customer-portal" style="color:#FFB082;">Customer Portal</a></div>
+              <div>• <a href="/crm/knowledge-base" style="color:#FFB082;">Knowledge Base</a></div>
+              <div>• <a href="/crm/surveys" style="color:#FFB082;">Surveys (CSAT / NPS)</a></div>
+              <div>• <a href="/crm/tickets" style="color:#FFB082;">Tickets</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 24. Reputation -->
+  <section class="service-detail-section" id="reputation" style="border-bottom:1px solid var(--border-glass);">
+    <div class="container">
+      <div class="service-detail-grid scroll-reveal">
+        <div>
+          <div class="section-label">⭐ Review + Citation Monitoring</div>
+          <h2 class="section-title">Reputation <span class="gradient-text">Monitoring</span></h2>
+          <div class="service-sales-hook">🛎️ Every review across Google, G2, Capterra and Trustpilot — in one feed, with AI replies ready.</div>
+          <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
+            Reputation unifies your presence across the review platforms that actually rank and get cited by AI engines. It watches Google Business, G2, Capterra and Trustpilot in real time, drafts on-brand replies for your team to approve, and surfaces review velocity + sentiment vs. competitors.
+          </p>
+          <ul class="service-features-list">
+            <li><strong>Multi-source watch:</strong> Google, G2, Capterra, Trustpilot — every new review in one feed</li>
+            <li><strong>AI-drafted replies:</strong> On-brand, context-aware drafts — your team clicks to approve</li>
+            <li><strong>Competitor sentiment:</strong> How your star average + velocity tracks vs. three competitors you pick</li>
+            <li><strong>Feeds AEO:</strong> Review signals are the #1 thing LLMs cite when answering "who is the best X" — we harvest and surface them</li>
+          </ul>
+          <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="/crm/reputation" class="btn-primary">Open Reputation →</a>
+            <a href="contact.html" class="btn-secondary">Audit My Review Footprint</a>
+          </div>
+        </div>
+        <div class="service-visual">
+          <div style="font-size:48px;margin-bottom:20px;">⭐</div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border-glass);border-radius:12px;padding:16px;">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Sources watched</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text-secondary);">
+              <div>• Live module: <a href="/crm/reputation" style="color:#FFB082;">/crm/reputation</a></div>
+              <div>• Google Business Profile</div>
+              <div>• G2 · Capterra · Trustpilot</div>
+              <div>• Feeds into AEO retainer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 25. Affiliates -->
+  <section class="service-detail-section" id="affiliates" style="background:var(--bg-secondary);border-bottom:1px solid var(--border-glass);">
+    <div class="container">
+      <div class="service-detail-grid reverse scroll-reveal">
+        <div>
+          <div class="section-label">🤝 Recruit + Pay Referrers</div>
+          <h2 class="section-title">Affiliate <span class="gradient-text">Program</span></h2>
+          <div class="service-sales-hook">💵 Launch a partner program in a week — tracking, attribution and payouts from day one.</div>
+          <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:16px;">
+            Affiliates turns your customers and creators into a paid distribution channel. Invite codes, branded landing pages, first- and last-touch attribution, and scheduled payouts — all inside the CRM so every referred deal is already in your pipeline.
+          </p>
+          <ul class="service-features-list">
+            <li><strong>Affiliate portal:</strong> Each partner gets a dashboard with their links, leads, conversions and earnings</li>
+            <li><strong>Attribution engine:</strong> First-touch, last-touch, or multi-touch — your call</li>
+            <li><strong>Auto payouts:</strong> Stripe Connect-powered scheduled payouts with tax-doc handling</li>
+            <li><strong>Playbook templates:</strong> Recruit creators, customers, agencies — all with pre-built tiers</li>
+          </ul>
+          <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="/crm/affiliates" class="btn-primary">Open Affiliates →</a>
+            <a href="contact.html" class="btn-secondary">Design My Program</a>
+          </div>
+        </div>
+        <div class="service-visual">
+          <div style="font-size:48px;margin-bottom:20px;">🤝</div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border-glass);border-radius:12px;padding:16px;">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">Program plumbing</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text-secondary);">
+              <div>• Live module: <a href="/crm/affiliates" style="color:#FFB082;">/crm/affiliates</a></div>
+              <div>• Stripe Connect payouts</div>
+              <div>• First / last / multi-touch</div>
+              <div>• Pair with /crm/billing</div>
             </div>
           </div>
         </div>
@@ -2217,11 +1817,20 @@
         <ul>
           <li><a href="#ai-automations">AI Automations</a></li>
           <li><a href="#ai-agents">AI Agents</a></li>
-          <li><a href="/app/">CRM</a></li>
+          <li><a href="/crm/">CRM</a></li>
           <li><a href="#ai-websites">CMS AI Websites</a></li>
           <li><a href="#paid-ads">Paid Ads</a></li>
           <li><a href="#ai-seo">AI SEO And Content</a></li>
           <li><a href="#social">Social Media</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Compare</h4>
+        <ul>
+          <li><a href="/compare.html">Overview</a></li>
+          <li><a href="/vs-hubspot.html">vs HubSpot</a></li>
+          <li><a href="/vs-gohighlevel.html">vs GoHighLevel</a></li>
+          <li><a href="/partners.html">Partner Program</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -2237,22 +1846,78 @@
         <h4>Connect</h4>
         <ul>
           <li><a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a></li>
-          <li><a href="https://netwebmedia.vercel.app/diagnostic">Free Website Analyzer</a></li>
-          <li><a href="#">Miami, FL · New York, NY</a></li>
+          <li><a href="/analytics.html">Free Website Analyzer</a></li>
+          <li><a href="https://wa.me/56965322427" target="_blank" rel="noopener">WhatsApp</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <p>© 2026 NetWebMedia. All rights reserved.</p>
       <div class="footer-bottom-links">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms</a>
       </div>
     </div>
   </div>
 </footer>
 
-<script src="js/main.js" defer></script>
+<style>
+.coming-soon-card{background:linear-gradient(135deg,rgba(255,103,31,0.08),rgba(108,92,231,0.08));border:1px dashed rgba(255,255,255,0.18);border-radius:20px;padding:32px 28px;text-align:center;margin-top:20px;}
+.coming-soon-card .cs-badge{display:inline-block;padding:6px 16px;background:linear-gradient(135deg,#FF671F,#8b5cf6);color:#fff;border-radius:9999px;font-size:12px;font-weight:700;letter-spacing:.08em;margin-bottom:14px;}
+.coming-soon-card h4{margin:0 0 8px;font-size:22px;color:#fff;}
+.coming-soon-card p{color:var(--text-secondary,#9aa);font-size:14px;margin:0 0 20px;line-height:1.5;max-width:480px;margin-left:auto;margin-right:auto;}
+.coming-soon-card .cs-btn{display:inline-block;padding:12px 28px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:9999px;font-weight:600;text-decoration:none;cursor:pointer;transition:.3s;}
+.coming-soon-card .cs-btn:hover{background:rgba(255,103,31,0.2);border-color:rgba(255,103,31,0.5);}
+</style>
+<script>
+(function(){
+  var EN = { badge:'UPCOMING', title:'Coming Soon', body:'This service is in active development and launches in the next 30–60 days. Join the waitlist for early access and founding-member pricing.', btn:'Notify me when it launches' };
+  var ES = { badge:'PRÓXIMAMENTE', title:'Próximamente', body:'Este servicio está en desarrollo activo y se lanza en los próximos 30–60 días. Únete a la lista de espera para acceso anticipado y precio de socio fundador.', btn:'Avísame cuando se lance' };
+  function t(){ return (localStorage.getItem('nwm-lang') || document.documentElement.lang || 'en').startsWith('es') ? ES : EN; }
+  function render() {
+    var d = t();
+    document.querySelectorAll('section[data-status="coming-soon"]').forEach(function(sec){
+      var pricing = sec.querySelector('.pricing-tiers');
+      if (!pricing || pricing.dataset.swapped) return;
+      var card = document.createElement('div');
+      card.className = 'coming-soon-card';
+      card.innerHTML = '<div class="cs-badge" data-cs="badge">'+d.badge+'</div>'+
+        '<h4 data-cs="title">'+d.title+'</h4>'+
+        '<p data-cs="body">'+d.body+'</p>'+
+        '<a href="/contact.html?interest='+sec.id+'" class="cs-btn" data-cs="btn">'+d.btn+' →</a>';
+      pricing.replaceWith(card);
+      card.dataset.swapped = '1';
+    });
+  }
+  function retranslate() {
+    var d = t();
+    document.querySelectorAll('.coming-soon-card').forEach(function(card){
+      var b = card.querySelector('[data-cs="badge"]'); if (b) b.textContent = d.badge;
+      var h = card.querySelector('[data-cs="title"]'); if (h) h.textContent = d.title;
+      var p = card.querySelector('[data-cs="body"]'); if (p) p.textContent = d.body;
+      var btn = card.querySelector('[data-cs="btn"]'); if (btn) btn.textContent = d.btn + ' →';
+    });
+  }
+  render();
+  window.addEventListener('storage', function(e){ if (e.key === 'nwm-lang') retranslate(); });
+  document.addEventListener('click', function(e){ if (e.target.closest('.lang-btn')) setTimeout(retranslate, 50); });
+})();
+</script>
+<script src="js/main.js?v=2" defer></script>
 <script src="js/cart.js" defer></script>
+<script src="assets/nwm-i18n.js" defer></script>
+
+<!-- NWM-LIFT-TO-100 :: External social links for auditor + SEO -->
+<div class="nwm-social-footer" style="text-align:center;padding:24px 20px;border-top:1px solid rgba(255,255,255,.06);color:#6b7280;font-size:13px;">
+  <span style="margin-right:10px">Connect with NetWebMedia:</span>
+  <a href="https://www.linkedin.com/in/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">LinkedIn</a>
+  <a href="https://www.instagram.com/netwebmedia/" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">Instagram</a>
+  <a href="https://x.com/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">X / Twitter</a>
+  <a href="https://www.facebook.com/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">Facebook</a>
+  <a href="https://www.youtube.com/@netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">YouTube</a>
+  <a href="https://www.tiktok.com/@netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">TikTok</a>
+</div>
+<!-- /NWM-LIFT-TO-100 -->
+
 </body>
 </html>

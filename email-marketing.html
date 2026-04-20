@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Email Marketing Platform — Campaigns, Automations, Deliverability | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia's AI Email Marketing platform: AI-written campaigns, behavioral automations, A/B testing, DKIM/SPF/DMARC, SMS + WhatsApp, preference centers. From $99/mo. White-label available for agencies.">
+  <link rel="canonical" href="https://netwebmedia.com/email-marketing.html" />
+  <link rel="alternate" hreflang="en-us" href="https://netwebmedia.com/email-marketing.html" />
+  <link rel="alternate" hreflang="es-cl" href="https://netwebmedia.com/email-marketing.html" />
+  <link rel="alternate" hreflang="x-default" href="https://netwebmedia.com/email-marketing.html" />
+  <meta property="og:title" content="AI Email Marketing Platform — NetWebMedia" />
+  <meta property="og:description" content="AI-written campaigns, automations, A/B testing, deliverability. Klaviyo-grade features at SMB prices. White-label for agencies." />
+  <meta property="og:url" content="https://netwebmedia.com/email-marketing.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg" />
+  <link rel="stylesheet" href="css/styles.css">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-V71R6PD7C0',{anonymize_ip:true});</script>
+
+  <!-- Product schema -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"NWM Email Marketing",
+    "applicationCategory":"BusinessApplication",
+    "applicationSubCategory":"Email Marketing Platform",
+    "operatingSystem":"Web, iOS, Android",
+    "offers":[
+      {"@type":"Offer","name":"Starter","price":"99","priceCurrency":"USD"},
+      {"@type":"Offer","name":"Growth","price":"249","priceCurrency":"USD"},
+      {"@type":"Offer","name":"Scale","price":"599","priceCurrency":"USD"}
+    ],
+    "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","reviewCount":"47"},
+    "provider":{"@type":"Organization","name":"NetWebMedia","url":"https://netwebmedia.com/"}
+  }
+  </script>
+
+  <style>
+    .promo-banner{background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#fff;text-align:center;padding:12px 16px;font-weight:700;font-size:14px;letter-spacing:.3px;position:relative;z-index:50}
+    .promo-banner code{background:rgba(255,255,255,.22);padding:3px 10px;border-radius:6px;font-family:ui-monospace,monospace;font-weight:800;margin:0 4px}
+
+    .em-hero{padding:80px 20px 50px;text-align:center;max-width:1100px;margin:0 auto;position:relative}
+    .em-hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 900px 600px at 50% 0%,rgba(14,165,233,.15) 0%,transparent 70%);pointer-events:none;z-index:-1}
+    .em-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#fff;padding:8px 16px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:20px}
+    .em-hero h1{font-size:clamp(36px,6vw,64px);margin:0 0 20px;line-height:1.05;font-weight:800}
+    .em-hero h1 .hl{background:linear-gradient(135deg,#0ea5e9,#6366f1);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .em-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:740px;margin:0 auto 32px;line-height:1.5}
+    .em-hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+    .btn-orange{background:linear-gradient(135deg,#FF6B00,#ff3d00);color:#fff;padding:16px 32px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:16px;transition:transform .15s}
+    .btn-orange:hover{transform:translateY(-2px)}
+    .btn-blue{background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#fff;padding:16px 32px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:16px;transition:transform .15s}
+    .btn-blue:hover{transform:translateY(-2px)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:16px 32px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:16px}
+
+    .em-trust{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;color:#9aa;font-size:13px;margin-top:8px}
+    .em-trust span{display:inline-flex;align-items:center;gap:8px}
+    .em-trust span::before{content:"✓";color:#7fe3a3;font-weight:700}
+
+    /* Stats */
+    .em-stats{max-width:1100px;margin:20px auto 60px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;padding:0 20px}
+    .em-stat{background:linear-gradient(135deg,rgba(14,165,233,.05),rgba(99,102,241,.02));border:1px solid rgba(14,165,233,.15);border-radius:14px;padding:24px;text-align:center}
+    .em-stat .n{font-size:36px;font-weight:900;background:linear-gradient(135deg,#0ea5e9,#6366f1);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+    .em-stat .l{font-size:13px;color:#9aa;margin-top:8px;text-transform:uppercase;letter-spacing:.08em}
+
+    /* Features */
+    .em-section{max-width:1200px;margin:80px auto;padding:0 20px}
+    .em-section h2{font-size:clamp(28px,4vw,42px);text-align:center;margin:0 0 14px}
+    .em-section .sub{color:#9aa;font-size:16px;max-width:720px;margin:0 auto 48px;text-align:center;line-height:1.55}
+    .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+    .feat-card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:28px;position:relative;overflow:hidden;transition:transform .25s,border-color .25s}
+    .feat-card:hover{transform:translateY(-4px);border-color:rgba(14,165,233,.4)}
+    .feat-card .icon{font-size:32px;margin-bottom:16px}
+    .feat-card h3{margin:0 0 10px;font-size:18px}
+    .feat-card p{color:#b8c4d9;font-size:14px;line-height:1.6;margin:0}
+
+    /* Showcase - email preview */
+    .showcase-email{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:stretch;margin-top:40px}
+    @media(max-width:900px){.showcase-email{grid-template-columns:1fr}}
+    .showcase-email .pane{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px}
+    .showcase-email .pane h4{margin:0 0 12px;color:#0ea5e9;font-size:12px;text-transform:uppercase;letter-spacing:.1em}
+    .email-preview{background:#fff;color:#1a1a2e;border-radius:10px;padding:24px;font-family:-apple-system,sans-serif}
+    .email-preview .sender{font-size:12px;color:#666;margin-bottom:16px}
+    .email-preview h3{margin:0 0 14px;font-size:20px;color:#1a1a2e}
+    .email-preview p{font-size:14px;line-height:1.6;color:#4a5568;margin:10px 0}
+    .email-preview a.btn{display:inline-block;background:#FF6B00;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:600;margin-top:10px}
+    .email-preview .footer{margin-top:18px;padding-top:14px;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af}
+    .auto-flow{list-style:none;padding:0;margin:0}
+    .auto-flow li{padding:12px 14px;background:rgba(14,165,233,.05);border:1px solid rgba(14,165,233,.15);border-radius:10px;margin-bottom:8px;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+    .auto-flow li .t{color:#0ea5e9;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+
+    /* Pricing */
+    .plans-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
+    @media(max-width:900px){.plans-3{grid-template-columns:1fr}}
+    .plan{background:rgba(255,255,255,.03);border:2px solid rgba(255,255,255,.08);border-radius:16px;padding:28px;position:relative}
+    .plan.pop{border-color:#0ea5e9;box-shadow:0 20px 50px rgba(14,165,233,.18)}
+    .plan.pop::before{content:"⭐ MOST POPULAR";position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#0ea5e9;color:#fff;padding:4px 14px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.12em}
+    .plan h3{margin:0 0 6px;font-size:18px}
+    .plan .price{font-size:38px;font-weight:900;margin:8px 0 2px;line-height:1}
+    .plan .price small{font-size:15px;font-weight:500;color:#9aa}
+    .plan .setup{font-size:13px;color:#9aa;margin-bottom:20px}
+    .plan ul{list-style:none;padding:0;margin:0 0 22px}
+    .plan ul li{padding:8px 0;font-size:14px;color:#dde3ee;border-bottom:1px solid rgba(255,255,255,.05)}
+    .plan ul li::before{content:"✓ ";color:#0ea5e9;font-weight:700}
+    .plan a.cta{display:block;text-align:center;padding:12px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#fff;font-weight:700;text-decoration:none}
+    .plan.agency{border-color:rgba(139,92,246,.35);background:linear-gradient(180deg,rgba(139,92,246,.06),rgba(139,92,246,.02))}
+    .plan.agency a.cta{background:linear-gradient(135deg,#6366f1,#8b5cf6)}
+
+    /* Comparison */
+    .vs-section{max-width:1100px;margin:80px auto;padding:0 20px}
+    .vs-section h2{font-size:clamp(28px,4vw,38px);text-align:center;margin:0 0 14px}
+    .vs-section .sub{color:#9aa;text-align:center;margin:0 auto 40px;max-width:680px;font-size:15px;line-height:1.55}
+    .vs-table{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden}
+    .vs-table table{width:100%;border-collapse:collapse}
+    .vs-table th,.vs-table td{padding:16px 20px;text-align:left;font-size:14px;border-bottom:1px solid rgba(255,255,255,.06)}
+    .vs-table th{background:rgba(14,165,233,.08);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:#c3c8d9}
+    .vs-table td:first-child{font-weight:600;color:#fff}
+    .vs-table .win{color:#7fe3a3;font-weight:700}
+    .vs-table .lose{color:#f88;font-weight:600}
+    .vs-table tr:last-child td{border-bottom:none}
+
+    /* Deliverability badges */
+    .deliver-section{max-width:1100px;margin:80px auto;padding:0 20px;text-align:center}
+    .deliver-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:40px}
+    .deliver-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px 18px}
+    .deliver-card .val{font-size:28px;font-weight:900;background:linear-gradient(135deg,#0ea5e9,#6366f1);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+    .deliver-card .lbl{font-size:13px;color:#9aa;margin-top:8px;text-transform:uppercase;letter-spacing:.06em}
+    .deliver-card .desc{font-size:12px;color:#b8c4d9;margin-top:10px;line-height:1.5}
+
+    /* FAQ */
+    .em-faq{max-width:820px;margin:80px auto;padding:0 20px}
+    .em-faq h2{font-size:clamp(28px,4vw,38px);text-align:center;margin:0 0 40px}
+    .em-faq details{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;margin-bottom:10px;overflow:hidden;transition:border-color .3s}
+    .em-faq details[open]{border-color:rgba(14,165,233,.4)}
+    .em-faq summary{padding:18px 22px;cursor:pointer;font-weight:600;font-size:15px;display:flex;justify-content:space-between;align-items:center;list-style:none;gap:16px}
+    .em-faq summary::-webkit-details-marker{display:none}
+    .em-faq summary::after{content:"+";font-size:22px;color:#0ea5e9;transition:transform .25s}
+    .em-faq details[open] summary::after{transform:rotate(45deg)}
+    .em-faq details .ans{padding:0 22px 20px;color:#b8c4d9;font-size:14px;line-height:1.7;border-top:1px solid rgba(255,255,255,.05)}
+    .em-faq details .ans p{margin:14px 0 0}
+
+    /* Final CTA */
+    .final-cta{background:linear-gradient(135deg,rgba(14,165,233,.12),rgba(99,102,241,.06));border:1px solid rgba(14,165,233,.3);border-radius:22px;padding:60px 40px;text-align:center;margin:80px auto 60px;max-width:920px}
+    .final-cta h2{margin:0 0 14px;font-size:clamp(26px,4vw,38px)}
+    .final-cta p{color:#b8c4d9;margin:0 0 28px;font-size:16px;line-height:1.55}
+    .final-cta .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+    @media(max-width:640px){
+      .em-hero{padding:60px 18px 40px}
+      .feat-card,.plan,.deliver-card{padding:22px}
+      .vs-table th,.vs-table td{padding:10px 12px;font-size:13px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- Launch promo banner -->
+<div class="promo-banner">
+  ✉️ New launch: <strong>First month FREE</strong> on all Email plans with code <code>EMAIL2026</code>
+</div>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <div class="container">
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="es">ES</button>
+    </div>
+    <a href="/crm/" class="lang-client-login">🔐 Client Login</a>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar has-lang-bar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="/" class="nav-logo">
+        <img src="/assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px" loading="lazy" width="200" height="52">
+      </a>
+      <div class="nav-links">
+    <a href="about.html" data-i18n="nav_about">About</a>
+    <div class="nav-item">
+      <a href="services.html" data-i18n="nav_services">Services</a>
+      <div class="nav-dropdown">
+        <a href="services.html#fractional-cmo" style="color:#FF671F;font-weight:700">&#9733; Fractional CMO</a>
+        <a href="services.html#ai-automations">AI Automations</a>
+        <a href="services.html#ai-agents">AI Agents</a>
+        <a href="services.html#paid-ads">Paid Ads</a>
+        <a href="services.html#ai-seo">AI SEO &amp; Content</a>
+        <a href="services.html#social">Social Media</a>
+        <a href="/email-marketing.html">Email Marketing</a>
+      </div>
+    </div>
+    <a href="/partners.html" style="color:#6366f1;font-weight:600">Partners</a>
+    <a href="blog.html" data-i18n="nav_blog">Blog</a>
+    <a href="/faq.html">Q&amp;A</a>
+    <div class="nav-item">
+      <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help</a>
+      <div class="nav-dropdown">
+        <a href="/tutorials.html"><strong>All Tutorials</strong></a>
+        <a href="/tutorials/nwm-crm.html">NWM CRM (all 7 hubs)</a>
+        <a href="/tutorials/nwm-cms.html">NWM CMS</a>
+        <a href="/tutorials/ai-automate.html">AI Automations</a>
+        <a href="/tutorials/ai-chat-agents.html">AI Chat Agents</a>
+        <a href="/tutorials/ai-seo.html">AI SEO</a>
+        <a href="/tutorials/email-marketing.html">Email Marketing</a>
+        <a href="/tutorials/paid-ads.html">Paid Ads</a>
+        <a href="/tutorials/social-media.html">Social Media</a>
+        <a href="/tutorials/video-factory.html">Video Factory</a>
+        <a href="/tutorials/websites.html">Websites</a>
+        <a href="/tutorials/fractional-cmo.html">Fractional CMO</a>
+        <a href="/tutorials/analyzer.html">Analyzer</a>
+      </div>
+    </div>
+    <a href="contact.html" data-i18n="nav_contact">Contact</a>
+  </div>
+      <div class="nav-ctas">
+        <a href="/crm/" class="lang-client-login">🔐 Client Login</a>
+        <a href="/contact.html" class="btn-nav-solid">Get a Free Audit</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="about.html">About</a>
+  <a href="services.html">Services</a>
+  <a href="services.html#fractional-cmo" class="mobile-sub" style="color:#FF671F;font-weight:700">&#9733; Fractional CMO</a>
+  <a href="services.html#ai-automations" class="mobile-sub">AI Automations</a>
+  <a href="services.html#ai-agents" class="mobile-sub">AI Agents</a>
+  <a href="/partners.html" style="color:#6366f1;font-weight:600">Partners</a>
+  <a href="blog.html">Blog</a>
+  <a href="/faq.html">Q&amp;A</a>
+  <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help &amp; Tutorials</a>
+  <a href="/tutorials/nwm-crm.html" class="mobile-sub">NWM CRM Tutorials</a>
+  <a href="/tutorials/nwm-cms.html" class="mobile-sub">NWM CMS Tutorials</a>
+  <a href="/tutorials/ai-automate.html" class="mobile-sub">AI Automations</a>
+  <a href="/tutorials/ai-chat-agents.html" class="mobile-sub">AI Chat Agents</a>
+  <a href="/tutorials/email-marketing.html" class="mobile-sub">Email Marketing</a>
+  <a href="/tutorials/paid-ads.html" class="mobile-sub">Paid Ads</a>
+  <a href="/tutorials/social-media.html" class="mobile-sub">Social Media</a>
+  <a href="contact.html">Contact</a>
+  <a href="contact.html" class="btn-primary">Get a Free Audit</a>
+</div>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="em-hero">
+  <div class="eyebrow">NWM Email · AI-written, automation-first</div>
+  <h1>Email marketing that <span class="hl">writes, tests &amp; optimizes</span> itself</h1>
+  <p class="sub">
+    Klaviyo-grade features. SMB prices. AI-written campaigns, behavioral automations, A/B testing, deliverability management, SMS + WhatsApp channels — all from one platform, fully white-labeled for agencies.
+  </p>
+  <div class="ctas">
+    <a href="/cart.html?product=email&promo=EMAIL2026" class="btn-blue">Start first month free →</a>
+    <a href="#plans" class="btn-ghost">See pricing</a>
+  </div>
+  <div class="em-trust">
+    <span>DKIM / SPF / DMARC managed</span>
+    <span>99.3% delivery rate</span>
+    <span>GDPR &amp; CAN-SPAM compliant</span>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="em-stats">
+  <div class="em-stat"><div class="n">47%</div><div class="l">Avg open rate</div></div>
+  <div class="em-stat"><div class="n">12.4%</div><div class="l">Avg click rate</div></div>
+  <div class="em-stat"><div class="n">99.3%</div><div class="l">Delivery rate</div></div>
+  <div class="em-stat"><div class="n">&lt;0.1%</div><div class="l">Complaint rate</div></div>
+</div>
+
+<!-- Features -->
+<section class="em-section">
+  <h2>Everything email marketing needs — powered by AI</h2>
+  <p class="sub">Stop stitching Klaviyo, Mailchimp, Twilio, and ActiveCampaign together. One platform does it all, and it writes the copy for you.</p>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="icon">🤖</div>
+      <h3>AI-written campaigns</h3>
+      <p>Brief the AI in one sentence. It writes subject lines, preview text, and full email copy in your brand voice — with 3 variants for A/B testing.</p>
+    </div>
+    <div class="feat-card">
+      <div class="icon">⚡</div>
+      <h3>Behavioral automations</h3>
+      <p>Welcome series, abandoned cart, post-purchase, winback, re-engagement. Visual flow builder. Triggers on any event in your CRM or website.</p>
+    </div>
+    <div class="feat-card">
+      <div class="icon">🎯</div>
+      <h3>Smart segmentation</h3>
+      <p>AI-driven segments: "likely to buy," "about to churn," "VIP customers." Predictive scoring built in. No query language required.</p>
+    </div>
+    <div class="feat-card">
+      <div class="icon">🧪</div>
+      <h3>A/B testing, on autopilot</h3>
+      <p>Test subject lines, send times, content variants, CTAs. AI picks the winner automatically on statistical significance — no manual review needed.</p>
+    </div>
+    <div class="feat-card">
+      <div class="icon">📱</div>
+      <h3>Email + SMS + WhatsApp</h3>
+      <p>Unified multi-channel campaigns. Send on the channel each contact prefers. Same UI, same segments, same analytics.</p>
+    </div>
+    <div class="feat-card">
+      <div class="icon">🛡️</div>
+      <h3>Deliverability management</h3>
+      <p>DKIM, SPF, DMARC set up for you. Dedicated IP reputation monitoring. Bounce and complaint handling. Spam checker before every send.</p>
+    </div>
+    <div class="feat-card">
+      <div class="icon">📊</div>
+      <h3>Revenue attribution</h3>
+      <p>Every email tied to actual orders via Stripe, Shopify, or your CRM. See revenue per campaign, per segment, per automation step.</p>
+    </div>
+    <div class="feat-card">
+      <div class="icon">⚙️</div>
+      <h3>Preference center</h3>
+      <p>Branded preference center per client. Granular unsubscribe (not just "all or nothing"). GDPR/CAN-SPAM compliance out of the box.</p>
+    </div>
+    <div class="feat-card">
+      <div class="icon">🎨</div>
+      <h3>Drag-and-drop builder</h3>
+      <p>50+ pre-built templates. Visual editor with brand kit auto-apply. Mobile-responsive by default. Inline AI editing for every block.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Showcase -->
+<section class="em-section">
+  <h2>See it in action</h2>
+  <p class="sub">Real email from a live NWM Email campaign, plus the automation flow behind it.</p>
+  <div class="showcase-email">
+    <div class="pane">
+      <h4>Sample campaign preview</h4>
+      <div class="email-preview">
+        <div class="sender"><strong>Acme Studio</strong> &lt;hello@acme-studio.com&gt; · 2m ago</div>
+        <h3>Your custom branding kit is ready, Sarah 🎨</h3>
+        <p>We heard you — brand consistency across every touchpoint matters. I just finished your custom branding kit with logo variations, color palette, and fonts.</p>
+        <p>Click below to grab it before your team meeting tomorrow:</p>
+        <a href="#" class="btn">Download your kit →</a>
+        <p style="margin-top:20px;font-size:13px">If you'd rather not receive these, reply "stop" and we'll remove you instantly.</p>
+        <div class="footer">Acme Studio · 123 Market St, San Francisco, CA · <a href="#" style="color:#0ea5e9">Unsubscribe</a> · <a href="#" style="color:#0ea5e9">Preferences</a></div>
+      </div>
+    </div>
+    <div class="pane">
+      <h4>Automation flow</h4>
+      <ul class="auto-flow">
+        <li><span>Contact enters segment "Hot Lead"</span><span class="t">Trigger</span></li>
+        <li><span>Wait 2 hours</span><span class="t">Delay</span></li>
+        <li><span>Send "Custom branding kit ready" (AI-written)</span><span class="t">Send</span></li>
+        <li><span>If clicked → move to "Sales-ready"</span><span class="t">Branch</span></li>
+        <li><span>If not clicked → wait 3 days, send variant B</span><span class="t">Branch</span></li>
+        <li><span>Create CRM task for Account Manager</span><span class="t">Action</span></li>
+        <li><span>Measure revenue attribution</span><span class="t">Track</span></li>
+      </ul>
+      <p style="font-size:13px;color:#9aa;margin-top:16px">All configured visually — no code, no query language, no agency escalation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="em-section" id="plans">
+  <h2>Pricing that scales with your list</h2>
+  <p class="sub">No per-seat penalties. No surprise overages. All plans include unlimited team members.</p>
+  <div class="plans-3">
+    <div class="plan">
+      <h3>Starter</h3>
+      <div class="price">$99<small>/mo</small></div>
+      <div class="setup">Setup: $149 (one-time) · Up to 2,500 contacts</div>
+      <ul>
+        <li>Unlimited email sends</li>
+        <li>AI-written campaigns &amp; templates</li>
+        <li>3 automations</li>
+        <li>Basic A/B testing</li>
+        <li>Managed deliverability</li>
+        <li>Standard support (email)</li>
+      </ul>
+      <a class="cta" href="/cart.html?product=email&plan=starter&promo=EMAIL2026">Start Starter →</a>
+    </div>
+    <div class="plan pop">
+      <h3>Growth</h3>
+      <div class="price">$249<small>/mo</small></div>
+      <div class="setup">Setup: $499 (one-time) · Up to 25,000 contacts</div>
+      <ul>
+        <li>Everything in Starter +</li>
+        <li>Unlimited automations</li>
+        <li>AI predictive segmentation</li>
+        <li>SMS &amp; WhatsApp channels</li>
+        <li>Revenue attribution</li>
+        <li>Dedicated IP (optional)</li>
+        <li>Priority support (Slack)</li>
+      </ul>
+      <a class="cta" href="/cart.html?product=email&plan=growth&promo=EMAIL2026">Start Growth →</a>
+    </div>
+    <div class="plan">
+      <h3>Scale</h3>
+      <div class="price">$599<small>/mo</small></div>
+      <div class="setup">Setup: $999 (one-time) · Unlimited contacts</div>
+      <ul>
+        <li>Everything in Growth +</li>
+        <li>Dedicated sending infrastructure</li>
+        <li>Custom AI brand voice training</li>
+        <li>Advanced integrations (API)</li>
+        <li>White-glove migration</li>
+        <li>Dedicated success manager</li>
+        <li>2-hour SLA</li>
+      </ul>
+      <a class="cta" href="/contact.html?product=email&plan=scale">Contact sales →</a>
+    </div>
+  </div>
+  <div style="margin-top:30px;text-align:center">
+    <a href="/partners.html#tiers" style="display:inline-flex;align-items:center;gap:10px;padding:14px 24px;background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(99,102,241,.06));border:1px solid rgba(139,92,246,.35);border-radius:12px;color:#fff;text-decoration:none;font-weight:600;font-size:14px">💼 Agency? Get the white-label version from $249/mo — see partner program →</a>
+  </div>
+</section>
+
+<!-- Deliverability -->
+<section class="deliver-section">
+  <h2>Deliverability you can bet your business on</h2>
+  <p class="sub" style="color:#9aa;max-width:680px;margin:0 auto;font-size:15px;line-height:1.55">We manage authentication, sender reputation, and ISP relationships so your emails reach the inbox — not the spam folder.</p>
+  <div class="deliver-grid">
+    <div class="deliver-card">
+      <div class="val">99.3%</div>
+      <div class="lbl">Inbox placement</div>
+      <div class="desc">Aggregate across all sending domains, measured monthly.</div>
+    </div>
+    <div class="deliver-card">
+      <div class="val">DKIM</div>
+      <div class="lbl">Auto-configured</div>
+      <div class="desc">Email authentication set up during onboarding.</div>
+    </div>
+    <div class="deliver-card">
+      <div class="val">SPF</div>
+      <div class="lbl">Managed</div>
+      <div class="desc">Sender policy framework records handled for you.</div>
+    </div>
+    <div class="deliver-card">
+      <div class="val">DMARC</div>
+      <div class="lbl">Enforced</div>
+      <div class="desc">DMARC policy aligned with Gmail/Yahoo 2024 rules.</div>
+    </div>
+    <div class="deliver-card">
+      <div class="val">24/7</div>
+      <div class="lbl">Reputation monitoring</div>
+      <div class="desc">Alerts on bounce spikes, blacklist hits, or sender issues.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Comparison -->
+<section class="vs-section">
+  <h2>How NWM Email compares</h2>
+  <p class="sub">Klaviyo and Mailchimp charge per contact, lock features behind tiers, and leave you stitching together separate SMS/WhatsApp tools. We don't.</p>
+  <div class="vs-table">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>NWM Email</th>
+          <th>Klaviyo</th>
+          <th>Mailchimp</th>
+          <th>ActiveCampaign</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Starting price (2,500 contacts)</td>
+          <td class="win">$99/mo</td>
+          <td>$60/mo*</td>
+          <td>$35/mo</td>
+          <td>$70/mo</td>
+        </tr>
+        <tr>
+          <td>AI-written campaigns</td>
+          <td class="win">✓ Built-in</td>
+          <td>Basic</td>
+          <td>Paid add-on</td>
+          <td>Basic</td>
+        </tr>
+        <tr>
+          <td>SMS &amp; WhatsApp native</td>
+          <td class="win">✓ Included</td>
+          <td>SMS paid add-on</td>
+          <td class="lose">No</td>
+          <td>SMS paid add-on</td>
+        </tr>
+        <tr>
+          <td>Predictive segmentation</td>
+          <td class="win">✓ AI-driven</td>
+          <td>Paid tier</td>
+          <td class="lose">Limited</td>
+          <td>Paid tier</td>
+        </tr>
+        <tr>
+          <td>Managed deliverability (DKIM/SPF/DMARC)</td>
+          <td class="win">✓ White-glove</td>
+          <td>DIY</td>
+          <td>DIY</td>
+          <td>DIY</td>
+        </tr>
+        <tr>
+          <td>White-label for agencies</td>
+          <td class="win">✓ From $249/mo</td>
+          <td class="lose">No</td>
+          <td class="lose">No</td>
+          <td>Enterprise only</td>
+        </tr>
+        <tr>
+          <td>Native CRM integration</td>
+          <td class="win">✓ NWM CRM built-in</td>
+          <td>External</td>
+          <td>External</td>
+          <td>✓ Own CRM</td>
+        </tr>
+        <tr>
+          <td>Bilingual (EN/ES) support</td>
+          <td class="win">✓ Native</td>
+          <td>Limited</td>
+          <td>Limited</td>
+          <td>Limited</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:#9aa;padding:12px 20px 0">*Klaviyo starting price at 2,500 contacts with email only — SMS, predictive, and advanced segmentation add $150+/mo each.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="em-faq">
+  <h2>Email marketing FAQ</h2>
+
+  <details>
+    <summary>Is email marketing included with NWM CRM, or separate?</summary>
+    <div class="ans">
+      <p>NWM CRM includes <strong>basic email campaigns</strong> (templates, broadcast, tracking). For advanced features — AI-written campaigns, behavioral automations, predictive segmentation, SMS/WhatsApp, deliverability management — you'll want NWM Email, which is available as a standalone product or bundled with CRM at a discount.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>How many emails can I send per month?</summary>
+    <div class="ans">
+      <p><strong>Unlimited sends</strong> on all plans. Pricing is based on contact list size, not email volume. Send a campaign 10x to the same list — no extra charge.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Can I migrate from Klaviyo, Mailchimp, or ActiveCampaign?</summary>
+    <div class="ans">
+      <p>Yes. We migrate contacts, segments, templates, automations, and historical event data from any major email platform. Starter plan: self-serve CSV import. Growth plan: white-glove migration included in setup. Scale plan: full migration handled by our team, with zero downtime for your sends.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Do you set up DKIM, SPF, and DMARC for me?</summary>
+    <div class="ans">
+      <p>Yes — all authentication is configured during onboarding. You add a few DNS records (we send the exact values and instructions), and we handle the rest. Gmail/Yahoo 2024 bulk sender rules are enforced by default.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>What about GDPR, CAN-SPAM, and Ley 19.628 compliance?</summary>
+    <div class="ans">
+      <p>Built-in. Every email includes a compliant unsubscribe link and preference center. Double opt-in available for GDPR contacts. We provide the physical address footer, manage suppression lists, and handle complaint routing automatically.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Can I use my own domain for sending?</summary>
+    <div class="ans">
+      <p>Yes. Growth and Scale plans include sending from your own domain (e.g., <code>hello@yourbrand.com</code>). Starter plan uses a shared sending subdomain with your friendly-from name. Upgrades are instant.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Can agencies white-label NWM Email for clients?</summary>
+    <div class="ans">
+      <p>Yes. White-label is available from <strong>$249/mo</strong> as part of our <a href="/partners.html">Partner Program</a>. Your clients see your brand, your domain, your support emails. You manage their email campaigns from a unified dashboard and bill them on your invoice.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>What integrations are supported?</summary>
+    <div class="ans">
+      <p>Native: Shopify, WooCommerce, Stripe, Calendly, Google Analytics, Meta Pixel, NWM CRM, NWM CMS. API + webhook support for custom integrations. Zapier/Make for 3,000+ other apps. WordPress plugin included.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>How fast can I send my first campaign?</summary>
+    <div class="ans">
+      <p>24-48 hours after signing up. Onboarding includes domain authentication (a few DNS records), list import, and brand kit setup. Many Starter-plan customers send their first campaign same-day using shared sending infrastructure.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>What if my deliverability drops?</summary>
+    <div class="ans">
+      <p>We monitor reputation 24/7 and alert you to issues before they impact delivery. If bounce rates climb or you land on a blacklist, our team intervenes: IP warming, sender reconfiguration, content analysis, and engagement cleanup. Scale plan includes a 2-hour SLA on deliverability incidents.</p>
+    </div>
+  </details>
+</section>
+
+<!-- Final CTA -->
+<div class="final-cta">
+  <h2>Ready to ship better emails in 48 hours?</h2>
+  <p>First month free with code <code style="background:rgba(14,165,233,.2);padding:2px 8px;border-radius:4px;color:#0ea5e9">EMAIL2026</code>. No card required to start. Bring your own list or start from our templates.</p>
+  <div class="ctas">
+    <a href="/cart.html?product=email&promo=EMAIL2026" class="btn-blue">Start first month free →</a>
+    <a href="/contact.html?topic=email-demo" class="btn-ghost">Book a 15-min demo</a>
+  </div>
+  <p style="margin-top:20px;font-size:12px;color:#9aa">Annual plans save 10%. Agency white-label from $249/mo. <a href="/partners.html" style="color:#0ea5e9">See partner program →</a></p>
+</div>
+
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <img src="assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px" loading="lazy" width="200" height="52">
+        </a>
+        <p>The world's most advanced AI marketing agency. We combine human creativity with machine intelligence to deliver unprecedented growth.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/nwm-crm.html">NWM CRM</a></li>
+          <li><a href="/nwm-cms.html">NWM CMS</a></li>
+          <li><a href="/nwmai.html">NWMai</a></li>
+          <li><a href="/email-marketing.html">Email Marketing</a></li>
+          <li><a href="/analytics.html">Analyzer</a></li>
+          <li><a href="/pricing.html">Pricing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>For Agencies</h4>
+        <ul>
+          <li><a href="/partners.html">Partner Program</a></li>
+          <li><a href="/partners.html#tiers">White-Label Tiers</a></li>
+          <li><a href="/partners.html#partner-signup">Apply</a></li>
+          <li><a href="/contact.html?topic=partner">Partner Sales</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Compare</h4>
+        <ul>
+          <li><a href="/compare.html">Overview</a></li>
+          <li><a href="/vs-hubspot.html">vs HubSpot</a></li>
+          <li><a href="/vs-gohighlevel.html">vs GoHighLevel</a></li>
+          <li><a href="/partners.html">Partner Program</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="/faq.html">Q&amp;A</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 NetWebMedia. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js?v=2" defer></script>
+<script src="js/cart.js" defer></script>
+<script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

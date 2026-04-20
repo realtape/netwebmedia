@@ -40,7 +40,7 @@
       },
       "email": "hello@netwebmedia.com",
       "sameAs": [
-        "https://www.linkedin.com/company/netwebmedia",
+        "https://www.linkedin.com/in/netwebmedia",
         "https://x.com/netwebmedia"
       ]
     },
@@ -71,7 +71,13 @@
   ]
 }
   </script>
-  <!-- Google Analytics 4 -->
+
+  <!-- NWM-LIFT-TO-100 :: Added ContactPage block (GA4 + Pixel + JSON-LD + Twitter) -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Contact NetWebMedia - Book a Free Audit" />
+  <meta name="twitter:description" content="Book a free 30-minute audit. Email, call, or send a message and get your 90-day AI growth plan." />
+  <meta name="twitter:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -79,21 +85,103 @@
     gtag('js', new Date());
     gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
   </script>
+
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    window.NWM_META_PIXEL_ID = 'PASTE_PIXEL_ID_HERE'; // ← replace with real Pixel ID from business.facebook.com/events_manager
+    if (window.NWM_META_PIXEL_ID && window.NWM_META_PIXEL_ID !== 'PASTE_PIXEL_ID_HERE') { fbq('init', window.NWM_META_PIXEL_ID); fbq('track', 'PageView'); }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://netwebmedia.com/#org",
+        "name": "NetWebMedia",
+        "url": "https://netwebmedia.com/",
+        "logo": "https://netwebmedia.com/assets/nwm-logo.svg",
+        "description": "AI marketing agency for US brands. Autonomous agents, AI SEO, paid ads, and CRM automation.",
+        "email": "hello@netwebmedia.com",
+        "sameAs": [
+          "https://www.linkedin.com/in/netwebmedia",
+          "https://x.com/netwebmedia",
+          "https://www.instagram.com/netwebmedia/",
+          "https://www.facebook.com/netwebmedia",
+          "https://www.youtube.com/@netwebmedia",
+          "https://www.tiktok.com/@netwebmedia"
+        ]
+      },
+      {
+        "@type": "ContactPage",
+        "@id": "https://netwebmedia.com/contact.html#webpage",
+        "url": "https://netwebmedia.com/contact.html",
+        "name": "Contact NetWebMedia - Book a Free Audit",
+        "description": "Book a free 30-minute audit. Email, call, or send a message and get your 90-day AI growth plan.",
+        "isPartOf": { "@id": "https://netwebmedia.com/#website" },
+        "about": { "@id": "https://netwebmedia.com/#org" }
+      }
+    ]
+  }
+  </script>
+  <!-- /NWM-LIFT-TO-100 -->
+
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
+<!-- Launch promo banner -->
+<div class="promo-banner">
+  🎉 Launch week: <strong>50% OFF</strong> your first 3 months with code <code>Carlos26</code> — ends in 7 days
+</div>
+
 <div class="lang-bar"><div class="container">
   <button class="lang-btn active" data-lang="en"><img class="flag" src="https://flagcdn.com/w40/us.png" alt="EN" loading="lazy" width="20" height="15" /> English</button>
   <button class="lang-btn" data-lang="es"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="ES" loading="lazy" width="20" height="15" /> Español</button>
+    <a href="/crm/" class="lang-client-login" data-i18n="nav_dashboard">🔐 Client Login</a>
 </div></div>
 <nav class="navbar has-lang-bar" id="navbar"><div class="container"><div class="navbar-inner">
   <a href="index.html" class="nav-logo"><img src="assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px"></a>
   <div class="nav-links">
-    <a href="services.html">Services</a>
-    <a href="about.html">About</a>
-    <a href="results.html">Results</a>
-    <a href="blog.html">Blog</a>
-    <a href="contact.html" class="active">Contact</a>
+    <a href="about.html" data-i18n="nav_about">About</a>
+    <div class="nav-item">
+      <a href="services.html" data-i18n="nav_services">Services</a>
+      <div class="nav-dropdown">
+        <a href="services.html#fractional-cmo" style="color:#FF671F;font-weight:700">&#9733; Fractional CMO</a>
+        <a href="services.html#ai-automations">AI Automations</a>
+        <a href="services.html#ai-agents">AI Agents</a>
+        <a href="services.html#paid-ads">Paid Ads</a>
+        <a href="services.html#ai-seo">AI SEO &amp; Content</a>
+        <a href="services.html#social">Social Media</a>
+        <a href="/email-marketing.html">Email Marketing</a>
+      </div>
+    </div>
+    <a href="/partners.html" style="color:#6366f1;font-weight:600">Partners</a>
+    <a href="blog.html" data-i18n="nav_blog">Blog</a>
+    <a href="/faq.html">Q&amp;A</a>
+    <div class="nav-item">
+      <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help</a>
+      <div class="nav-dropdown">
+        <a href="/tutorials.html"><strong>All Tutorials</strong></a>
+        <a href="/tutorials/nwm-crm.html">NWM CRM (all 7 hubs)</a>
+        <a href="/tutorials/nwm-cms.html">NWM CMS</a>
+        <a href="/tutorials/ai-automate.html">AI Automations</a>
+        <a href="/tutorials/ai-chat-agents.html">AI Chat Agents</a>
+        <a href="/tutorials/ai-seo.html">AI SEO</a>
+        <a href="/tutorials/email-marketing.html">Email Marketing</a>
+        <a href="/tutorials/paid-ads.html">Paid Ads</a>
+        <a href="/tutorials/social-media.html">Social Media</a>
+        <a href="/tutorials/video-factory.html">Video Factory</a>
+        <a href="/tutorials/websites.html">Websites</a>
+        <a href="/tutorials/fractional-cmo.html">Fractional CMO</a>
+        <a href="/tutorials/analyzer.html">Analyzer</a>
+      </div>
+    </div>
+    <a href="contact.html" data-i18n="nav_contact" class="active">Contact</a>
   </div>
   <div class="nav-ctas">
     <a href="cart.html" class="nav-cart" aria-label="View cart">🛒<span class="nav-cart-count" aria-hidden="true">0</span></a>
@@ -104,7 +192,23 @@
 </div></div></nav>
 <main id="main">
 <div class="mobile-menu" id="mobile-menu">
-  <a href="services.html">Services</a><a href="about.html">About</a><a href="results.html">Results</a><a href="contact.html">Contact</a>
+  <a href="about.html">About</a>
+  <a href="services.html">Services</a>
+  <a href="services.html#fractional-cmo" class="mobile-sub" style="color:#FF671F;font-weight:700">&#9733; Fractional CMO</a>
+  <a href="services.html#ai-automations" class="mobile-sub">AI Automations</a>
+  <a href="services.html#ai-agents" class="mobile-sub">AI Agents</a>
+  <a href="/partners.html" style="color:#6366f1;font-weight:600">Partners</a>
+  <a href="blog.html">Blog</a>
+  <a href="/faq.html">Q&amp;A</a>
+  <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help &amp; Tutorials</a>
+  <a href="/tutorials/nwm-crm.html" class="mobile-sub">NWM CRM Tutorials</a>
+  <a href="/tutorials/nwm-cms.html" class="mobile-sub">NWM CMS Tutorials</a>
+  <a href="/tutorials/ai-automate.html" class="mobile-sub">AI Automations</a>
+  <a href="/tutorials/ai-chat-agents.html" class="mobile-sub">AI Chat Agents</a>
+  <a href="/tutorials/email-marketing.html" class="mobile-sub">Email Marketing</a>
+  <a href="/tutorials/paid-ads.html" class="mobile-sub">Paid Ads</a>
+  <a href="/tutorials/social-media.html" class="mobile-sub">Social Media</a>
+  <a href="contact.html">Contact</a>
   <a href="contact.html" class="btn-primary">Get a Free Audit</a>
 </div>
 
@@ -128,28 +232,42 @@
       <div class="scroll-reveal">
         <h2 style="font-size:28px;font-weight:700;margin-bottom:8px;">Send Us a Message</h2>
         <p style="color:var(--text-secondary);font-size:15px;margin-bottom:32px;">Fill out the form below and we'll get back to you within 24 hours with a customized growth plan.</p>
-        <form class="contact-form contact-form-el" id="contact-form">
+        <form class="contact-form contact-form-el" id="contact-form" data-nwm-form="contact-main" data-nwm-success="Thanks! We received your request — our team will reach out within 24 hours.">
+          <div class="form-group">
+            <label for="inquiry-type" style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span>What brings you here?</span><span id="topic-badge" style="display:none;font-size:11px;background:rgba(99,102,241,.15);color:#6366f1;padding:3px 10px;border-radius:99px;font-weight:700;text-transform:uppercase;letter-spacing:.06em">Pre-selected</span></label>
+            <select id="inquiry-type" name="topic" class="form-control" required style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:14px 18px;font-family:var(--font-main);font-size:15px;outline:none;">
+              <option value="audit" style="background:#111;">🎯 I want a free audit</option>
+              <option value="services" style="background:#111;">🚀 I want to hire NetWebMedia (direct client)</option>
+              <option value="partner" style="background:#111;">💼 I'm an agency interested in white-label / partner program</option>
+              <option value="email-demo" style="background:#111;">✉️ Email marketing platform demo</option>
+              <option value="crm-demo" style="background:#111;">📊 CRM platform demo</option>
+              <option value="cms-demo" style="background:#111;">🌐 CMS demo</option>
+              <option value="press" style="background:#111;">📰 Press / media inquiry</option>
+              <option value="careers" style="background:#111;">🧑‍💼 Careers</option>
+              <option value="other" style="background:#111;">💬 Something else</option>
+            </select>
+          </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
             <div class="form-group">
               <label for="first-name">First Name</label>
-              <input type="text" id="first-name" class="form-control" placeholder="Carlos" required />
+              <input type="text" id="first-name" name="first_name" class="form-control" placeholder="Carlos" required />
             </div>
             <div class="form-group">
               <label for="last-name">Last Name</label>
-              <input type="text" id="last-name" class="form-control" placeholder="Rivera" required />
+              <input type="text" id="last-name" name="last_name" class="form-control" placeholder="Rivera" required />
             </div>
           </div>
           <div class="form-group">
             <label for="email">Business Email</label>
-            <input type="email" id="email" class="form-control" placeholder="carlos@yourcompany.com" required />
+            <input type="email" id="email" name="email" class="form-control" placeholder="carlos@yourcompany.com" required />
           </div>
           <div class="form-group">
             <label for="company">Company / Website</label>
-            <input type="text" id="company" class="form-control" placeholder="yourcompany.com" />
+            <input type="text" id="company" name="company" class="form-control" placeholder="yourcompany.com" />
           </div>
           <div class="form-group">
             <label for="budget">Monthly Marketing Budget</label>
-            <select id="budget" class="form-control" style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:14px 18px;font-family:var(--font-main);font-size:15px;outline:none;">
+            <select id="budget" name="budget" class="form-control" style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:14px 18px;font-family:var(--font-main);font-size:15px;outline:none;">
               <option value="" style="background:#111;">Select a range...</option>
               <option value="5k" style="background:#111;">$1,000 - $5,000/mo</option>
               <option value="10k" style="background:#111;">$5,000 - $10,000/mo</option>
@@ -160,7 +278,7 @@
           </div>
           <div class="form-group">
             <label for="services">Services You're Interested In</label>
-            <select id="services" class="form-control" style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:14px 18px;font-family:var(--font-main);font-size:15px;outline:none;">
+            <select id="services" name="services" class="form-control" style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:14px 18px;font-family:var(--font-main);font-size:15px;outline:none;">
               <option value="" style="background:#111;">Select service...</option>
               <option value="ai-automations" style="background:#111;">AI Automations</option>
               <option value="ai-agents" style="background:#111;">AI Agents</option>
@@ -174,7 +292,7 @@
           </div>
           <div class="form-group">
             <label for="message">Tell Us About Your Goals</label>
-            <textarea id="message" class="form-control" placeholder="What are your top 3 growth goals for the next 12 months? What's your biggest marketing challenge right now?"></textarea>
+            <textarea id="message" name="message" class="form-control" placeholder="What are your top 3 growth goals for the next 12 months? What's your biggest marketing challenge right now?"></textarea>
           </div>
           <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:17px;padding:16px;">
             Send Message & Get Free Audit →
@@ -195,17 +313,17 @@
             </div>
           </div>
           <div class="contact-info-item" style="margin-top:24px;">
-            <div class="contact-info-icon">📞</div>
+            <div class="contact-info-icon">💬</div>
             <div>
-              <div class="contact-info-label">Phone (US)</div>
-              <div class="contact-info-value"><a href="tel:+13055551234" style="color:var(--text-primary);">+1 (305) 555-1234</a></div>
+              <div class="contact-info-label">WhatsApp</div>
+              <div class="contact-info-value"><a href="https://wa.me/56965322427" target="_blank" rel="noopener" style="color:var(--text-primary);">Chat with us on WhatsApp</a></div>
             </div>
           </div>
           <div class="contact-info-item" style="margin-top:24px;">
             <div class="contact-info-icon">🌍</div>
             <div>
-              <div class="contact-info-label">Offices</div>
-              <div class="contact-info-value" style="font-size:15px;">Miami, FL · New York, NY<br>Mexico City, MX</div>
+              <div class="contact-info-label">Working Style</div>
+              <div class="contact-info-value" style="font-size:15px;">Remote-first team serving brands worldwide</div>
             </div>
           </div>
           <div class="contact-info-item" style="margin-top:24px;">
@@ -266,6 +384,43 @@
   </div>
 </section>
 
+<!-- ── Book a Video Call ────────────────────────────────── -->
+<section id="book-a-call" style="padding:100px 0;background:var(--bg-secondary);border-top:1px solid var(--border-glass);">
+  <div class="container">
+    <div style="text-align:center;max-width:720px;margin:0 auto 48px;">
+      <div class="section-label">Schedule a Video Call</div>
+      <h2 class="section-title">Book a <span class="gradient-text">30-min Strategy Call</span></h2>
+      <p class="section-subtitle">Pick a slot that works for you — no forms, no back-and-forth emails. We'll jump on a live video call, review your current stack, and map out the fastest path to growth. Zero pressure, no sales pitch.</p>
+    </div>
+    <div class="glass-card" style="padding:0;overflow:hidden;max-width:960px;margin:0 auto;border:1px solid var(--border-glass);">
+      <!-- Calendly inline widget -->
+      <div class="calendly-inline-widget" data-url="https://calendly.com/carlos-netwebmedia/30min?hide_gdpr_banner=1&background_color=0a1033&text_color=ffffff&primary_color=ff671f" style="min-width:320px;height:720px;"></div>
+      <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    </div>
+    <!-- Fallback if Calendly fails / alternative booking options -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px;max-width:960px;margin-left:auto;margin-right:auto;" class="responsive-3col">
+      <div class="glass-card" style="padding:24px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">⚡</div>
+        <div style="font-weight:700;font-size:15px;margin-bottom:6px;">Instant Booking</div>
+        <div style="font-size:13px;color:var(--text-muted);">See available slots in real-time — no waiting for a reply</div>
+      </div>
+      <div class="glass-card" style="padding:24px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">🎥</div>
+        <div style="font-weight:700;font-size:15px;margin-bottom:6px;">Google Meet or Zoom</div>
+        <div style="font-size:13px;color:var(--text-muted);">Video link auto-generated and sent to your calendar</div>
+      </div>
+      <div class="glass-card" style="padding:24px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">🆓</div>
+        <div style="font-weight:700;font-size:15px;margin-bottom:6px;">100% Free</div>
+        <div style="font-size:13px;color:var(--text-muted);">No credit card, no obligation, no hidden fees</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:28px;">
+      <p style="font-size:13px;color:var(--text-muted);">Calendar widget not loading? Email us directly at <a href="mailto:hello@netwebmedia.com" style="color:var(--accent-blue);">hello@netwebmedia.com</a> or <a href="https://wa.me/56965322427" target="_blank" rel="noopener" style="color:var(--accent-blue);">message us on WhatsApp</a>.</p>
+    </div>
+  </div>
+</section>
+
 </main>
 <footer>
   <div class="container">
@@ -284,6 +439,12 @@
         <li><a href="services.html#content">Content AI</a></li>
         <li><a href="services.html#cro">CRO</a></li>
       </ul></div>
+      <div class="footer-col"><h4>Compare</h4><ul>
+        <li><a href="/compare.html">Overview</a></li>
+        <li><a href="/vs-hubspot.html">vs HubSpot</a></li>
+        <li><a href="/vs-gohighlevel.html">vs GoHighLevel</a></li>
+        <li><a href="/partners.html">Partner Program</a></li>
+      </ul></div>
       <div class="footer-col"><h4>Company</h4><ul>
         <li><a href="about.html">About</a></li>
         <li><a href="results.html">Results</a></li>
@@ -292,17 +453,77 @@
       </ul></div>
       <div class="footer-col"><h4>Connect</h4><ul>
         <li><a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a></li>
-        <li><a href="tel:+13055551234">+1 (305) 555-1234</a></li>
-        <li><a href="#">Miami, FL · New York, NY</a></li>
+        <li><a href="https://wa.me/56965322427" target="_blank" rel="noopener">WhatsApp</a></li>
       </ul></div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 NetWebMedia. All rights reserved.</p>
-      <div class="footer-bottom-links"><a href="#">Privacy</a><a href="#">Terms</a></div>
+      <p>© 2026 NetWebMedia. All rights reserved.</p>
+      <div class="footer-bottom-links"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
     </div>
   </div>
 </footer>
-<script src="js/main.js" defer></script>
+<script src="js/main.js?v=2" defer></script>
 <script src="js/cart.js" defer></script>
+<script src="assets/nwm-forms.js" defer></script>
+<script src="assets/nwm-i18n.js" defer></script>
+
+<!-- Topic auto-routing from URL params (?topic=partner, ?topic=email-demo, etc.) -->
+<script>
+(function autoSelectTopic(){
+  document.addEventListener('DOMContentLoaded', function(){
+    var params = new URLSearchParams(location.search);
+    var topic = params.get('topic') || params.get('source');
+    if (!topic) return;
+    var sel = document.getElementById('inquiry-type');
+    var badge = document.getElementById('topic-badge');
+    if (!sel) return;
+    // Map URL topic → option value
+    var map = {
+      'partner': 'partner',
+      'partner-revshare': 'partner',
+      'partner-rev': 'partner',
+      'email': 'email-demo',
+      'email-demo': 'email-demo',
+      'crm': 'crm-demo',
+      'crm-demo': 'crm-demo',
+      'cms': 'cms-demo',
+      'audit': 'audit',
+      'press': 'press',
+      'careers': 'careers'
+    };
+    var val = map[topic.toLowerCase()] || null;
+    if (val) {
+      // Try to set the dropdown
+      for (var i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === val) {
+          sel.value = val;
+          if (badge) badge.style.display = 'inline-block';
+          // For partner inquiries, hide budget field (irrelevant)
+          if (val === 'partner') {
+            var budget = document.getElementById('budget');
+            if (budget && budget.closest('.form-group')) budget.closest('.form-group').style.display = 'none';
+          }
+          break;
+        }
+      }
+    }
+  });
+})();
+</script>
+
+<!-- NWM-LIFT-TO-100 :: External social links for auditor + SEO -->
+<div class="nwm-social-footer" style="text-align:center;padding:24px 20px;border-top:1px solid rgba(255,255,255,.06);color:#6b7280;font-size:13px;">
+  <span style="margin-right:10px">Connect with NetWebMedia:</span>
+  <a href="https://wa.me/56965322427" rel="noopener" target="_blank" style="color:#25D366;margin:0 6px;text-decoration:none;font-weight:600">💬 WhatsApp</a>
+  <a href="mailto:hello@netwebmedia.com" style="color:#93c5fd;margin:0 6px;text-decoration:none">Email</a>
+  <a href="https://www.linkedin.com/in/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">LinkedIn</a>
+  <a href="https://www.instagram.com/netwebmedia/" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">Instagram</a>
+  <a href="https://x.com/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">X / Twitter</a>
+  <a href="https://www.facebook.com/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">Facebook</a>
+  <a href="https://www.youtube.com/@netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">YouTube</a>
+  <a href="https://www.tiktok.com/@netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">TikTok</a>
+</div>
+<!-- /NWM-LIFT-TO-100 -->
+
 </body>
 </html>

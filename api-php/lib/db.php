@@ -26,19 +26,37 @@ function config() {
     // Contains DB creds and any long-lived production keys.
     $c = require '/home/webmed6/.netwebmedia-config.php';
 
-    // Fallback source: api-php/config.local.php — generated at deploy time from
-    // GitHub Actions secrets. Lets us inject keys (e.g. ANTHROPIC_API_KEY,
-    // RESEND_API_KEY) without SSH'ing into cPanel.
+    // Secondary source: api-php/config.local.php — generated at deploy time from
+    // GitHub Actions secrets. Lets us inject/rotate keys (ANTHROPIC_API_KEY,
+    // RESEND_API_KEY, etc.) without SSH'ing into cPanel.
     //
-    // Merge rule: the home file wins for any key it already defines (and defines
-    // truthy). Missing/empty keys are filled from config.local.php.
+    // Merge rules:
+    //   - For rotatable API keys/tokens (whitelist below), config.local.php
+    //     WINS when it defines a non-empty value. This is the ONLY way key
+    //     rotations via GitHub secrets reach production; otherwise a stale
+    //     value in the home file silently shadows the new deploy.
+    //   - For everything else (DB credentials, infrastructure constants),
+    //     the home file wins and config.local.php only fills empty/missing
+    //     keys. Never overwrite DB creds from a deploy artifact.
+    $deployRotatableKeys = [
+      'anthropic_api_key',
+      'resend_api_key',
+      'hubspot_token',
+      'mp_access_token',
+      'mp_public_key',
+      'mp_webhook_secret',
+      'jwt_secret',
+    ];
     $localFile = __DIR__ . '/../config.local.php';
     if (file_exists($localFile)) {
       $local = @include $localFile;
       if (is_array($local)) {
         foreach ($local as $k => $v) {
-          if (empty($c[$k]) && !empty($v)) {
-            $c[$k] = $v;
+          if (empty($v)) continue;
+          if (in_array($k, $deployRotatableKeys, true)) {
+            $c[$k] = $v; // deploy wins for rotatable keys
+          } elseif (empty($c[$k])) {
+            $c[$k] = $v; // fill-only for anything else
           }
         }
       }

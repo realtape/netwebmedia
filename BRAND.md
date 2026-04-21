@@ -65,7 +65,7 @@ NetWebMedia delivers AI-native fractional CMO services to US and LATAM SMBs: we 
 | **Precise** | We use specific numbers, named tools, and measurable outcomes. Vagueness is a trust signal for generalists. We are not generalists. |
 | **Direct** | We lead with the point. No warming-up, no hedging. The audience is a time-starved founder — respect that. |
 | **Confident** | We do not qualify claims with "might" or "could." If we don't believe it, we don't say it. |
-| **Technical** | We name the stack (ChatGPT, Perplexity, GHL, GA4). This separates us from agencies that say "AI" as a buzzword. |
+| **Technical** | We name the stack. Internally we run on **Claude Pro Max** (Anthropic) — that's our thinking engine. Externally we optimize for the answer engines our clients' buyers use (ChatGPT, Perplexity, Google AI Overviews) and integrate with the tools we deploy (GHL, GA4, HubSpot, Stripe, Mercado Pago). Naming the stack separates us from agencies that say "AI" as a buzzword. |
 | **Relentless** | We work on the reader's behalf. The copy, the design, the follow-up — all of it has a job to do. Nothing is decorative. |
 | **Premium-practical** | The design is polished and dark, like a Bloomberg terminal or Linear.app. But the pricing is built for SMBs, not Fortune 500. The tension between "looks expensive" and "accessible cost" is intentional. |
 

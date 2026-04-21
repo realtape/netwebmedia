@@ -23,21 +23,21 @@ if (!fs.existsSync(PUBLISHED_DIR)) fs.mkdirSync(PUBLISHED_DIR, { recursive: true
 const limitArg = process.argv.indexOf('--limit');
 const LIMIT = limitArg !== -1 ? parseInt(process.argv[limitArg + 1], 10) : Infinity;
 
-// Stock image pool — same logic as _deploy/stock-images.js
+// Stock image pool — real people working at computers / in offices
 const IMG_POOL = {
-  ai: ['1677442136019-21780ecad995','1526374965328-7f61d4dc18c5','1535378917042-10a22c95931a','1620712943543-bcc4688e7485','1655720828018-edd2daec9349','1485827404703-89b55fcc595e','1563089145-599997674d42'],
-  code: ['1517694712202-14dd9538aa97','1555066931-4365d14bab8c','1515879218367-8466d910aaa4','1542831371-29b0f74f9713'],
-  data: ['1551288049-bebda4e38f71','1460925895917-afdab827c52f','1543286386-713bdd548da4','1543286386-2e659306cd6c'],
-  seo:  ['1432888498266-38ffec3eaf0a','1533750349088-cd871a92f312','1432821596592-e2c18b78144f'],
-  video:['1522869635100-9f4c5e86aa37','1598899134739-24c46f58b8c0'],
-  voice:['1590602847861-f357a9332bbc','1598488035139-bdbb2231ce04'],
-  paid: ['1460925895917-afdab827c52f','1518186285589-2f7649de83e0'],
-  regulation:['1589829545856-d10d557cf95f','1505664194779-8beaceb93744'],
-  mobile:['1512941937669-90a1b58e7e9c','1511707171634-5f897ff02aa9'],
-  chips:['1591799264318-7e6ef8ddb7ea','1518770660439-4636190af475'],
-  creative:['1572044162444-ad60f128bdea','1558655146-9f40138edfeb'],
-  meta: ['1611162617474-5b21e879e113','1563986768609-322da13575f3'],
-  sales:['1556761175-5973dc0f32e7','1552664730-d307ca884978'],
+  ai:         ['Ds5FesTkKhk','QckxruozjRg','3SxHV8OJEnQ','gMsnXqILjp4','YyJNda7nsPo'],
+  code:       ['1ozhKlzsEzg','SxaGgDQl2rU','M35xxKGb_tA','hXwm85W3uvc','OpOsPgGiFwc'],
+  data:       ['3SxHV8OJEnQ','Ds5FesTkKhk','zZ7J5qri6qY','MsCIMdM8WH8','QckxruozjRg'],
+  seo:        ['gMsnXqILjp4','YyJNda7nsPo','_RPfBzHpHEs','xuSRrlDsJtQ','OpOsPgGiFwc'],
+  video:      ['zZ7J5qri6qY','hXwm85W3uvc','M35xxKGb_tA','gMsnXqILjp4','Ds5FesTkKhk'],
+  voice:      ['xuSRrlDsJtQ','_RPfBzHpHEs','YyJNda7nsPo','QckxruozjRg','SxaGgDQl2rU'],
+  paid:       ['OpOsPgGiFwc','MsCIMdM8WH8','3SxHV8OJEnQ','gMsnXqILjp4','zZ7J5qri6qY'],
+  regulation: ['SxaGgDQl2rU','xuSRrlDsJtQ','hXwm85W3uvc','Ds5FesTkKhk','YyJNda7nsPo'],
+  mobile:     ['_RPfBzHpHEs','QckxruozjRg','M35xxKGb_tA','OpOsPgGiFwc','1ozhKlzsEzg'],
+  chips:      ['MsCIMdM8WH8','3SxHV8OJEnQ','zZ7J5qri6qY','SxaGgDQl2rU','gMsnXqILjp4'],
+  creative:   ['YyJNda7nsPo','hXwm85W3uvc','xuSRrlDsJtQ','Ds5FesTkKhk','_RPfBzHpHEs'],
+  meta:       ['1ozhKlzsEzg','OpOsPgGiFwc','QckxruozjRg','MsCIMdM8WH8','zZ7J5qri6qY'],
+  sales:      ['gMsnXqILjp4','_RPfBzHpHEs','hXwm85W3uvc','3SxHV8OJEnQ','xuSRrlDsJtQ'],
 };
 function hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) & 0x7fffffff; return h; }
 function imageFor(slug, topic) {

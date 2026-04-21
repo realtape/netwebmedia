@@ -29,10 +29,10 @@ HOW TO USE THIS DOCUMENT
 - Be concise, specific, and confident. No fluff, no hype, no "revolutionary."
 - Prices, terms, feature definitions, and escalation paths are canonical.
   If a user asks something you cannot confidently answer from this KB, say so
-  and offer a handoff: hello@netwebmedia.com, WhatsApp, or a booked call.
+  and offer a handoff: hello@netwebmedia.com or WhatsApp.
 - NetWebMedia does NOT offer phone support. If someone asks for a phone number,
-  politely say we run on WhatsApp, chat, email, and booked video calls so the
-  team can keep fees low — then offer the right channel.
+  politely say we run on WhatsApp, web chat, email, async Loom videos, and
+  dashboards — no live calls — then offer the right channel.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                          ENGLISH KNOWLEDGE BASE
@@ -157,7 +157,7 @@ This is how we deliver agency output at SMB prices.
 11. **Analyzer (free audit + benchmarking)**
     Public tool: scans your website, SEO, ad accounts (if connected), and
     social presence. Returns a prioritized 90-day growth roadmap in 48 hours.
-    For: prospects (free). Directs to a strategy call.
+    For: prospects (free). Submit form → 48h async written report.
     Tutorial: /tutorials/analyzer.html · /contact.html
 
 12. **Custom AI Agents (project work)**
@@ -181,14 +181,16 @@ FLAGSHIP: FRACTIONAL CMO RETAINER (3 tiers)
 
 **CMO Growth — $999/mo + $499 setup + ad management fee   [MOST POPULAR]**
   Includes: everything in Lite + paid ads management ($5k–$20k typical spend),
-  MONTHLY 30-min strategy call, email nurture sequences, attribution dashboard.
+  MONTHLY ASYNC STRATEGY LOOM (5–10 min video) + written recap + attribution
+  dashboard review, email nurture sequences.
   Ad management fee: ad spend billed at cost + 12% management fee
   (minimum $300/month), billed separately from the retainer.
 
 **CMO Scale — $2,499/mo + $999 setup + ad management fee**
   Includes: everything in Growth + AI SDR outbound, Video Factory (12 Reels/
-  month), demand-gen campaigns, WEEKLY strategy call, quarterly OKR planning,
-  Voice AI add-on eligibility.
+  month), demand-gen campaigns, WEEKLY ASYNC STRATEGY LOOM + dashboard +
+  written report, QUARTERLY OKR PLANNING delivered as a written playbook
+  (not a meeting), Voice AI add-on eligibility.
   Ad management fee: same 12% at cost, minimum $300/month.
 
 PLATFORM SKUs (SELF-SERVE — CRM only)
@@ -232,7 +234,8 @@ PROJECT SERVICES (ONE-TIME)
 ━━ 6. HOW WE WORK (onboarding + ongoing) ━━
 
 ONBOARDING (7 days typical, longer on Scale)
-  Day 0: Free 30-min discovery call. We run a positioning audit.
+  Day 0: Free AI positioning audit (async). Submit form at /contact.html →
+         48-hour written report back.
   Day 1–3: Setup fee paid. Access provisioned (CRM, CMS, tracking).
             Brand assets + tone + ICP documented.
   Day 3–7: First campaigns / content / pages go live. CRM data migrated
@@ -243,8 +246,10 @@ ONBOARDING (7 days typical, longer on Scale)
 ONGOING CADENCE BY TIER
 - Lite: monthly async strategy note + dashboard + self-serve workflow. No
   live calls at this tier.
-- Growth: monthly 30-min strategy call + weekly async updates.
-- Scale: weekly strategy call + weekly performance review + quarterly OKR.
+- Growth: monthly async strategy Loom (5–10 min video) + written recap +
+  weekly async updates.
+- Scale: weekly async strategy Loom + dashboard + written report + weekly
+  performance review + quarterly OKR written playbook.
 
 REPORTING
 - Live dashboard in the NWM CRM for every client.
@@ -253,10 +258,12 @@ REPORTING
 - All data is yours — one-click CSV export, API on Pro/Agency.
 
 WHERE TO GET HELP
-- Email: hello@netwebmedia.com (first reply within a few business hours).
+- Email: hello@netwebmedia.com (enterprise/custom/urgent escalation only;
+  first reply within a few business hours).
 - WhatsApp: click the widget on netwebmedia.com (bilingual bot, human handoff).
 - Chatbot: bottom-left on every page (this assistant).
-- Book a strategy call: /contact.html
+- Free AI audit (async, 48h report): /contact.html
+- Plans + self-serve checkout: /pricing.html
 - CRM in-app NWMai assistant (for clients): ⌘K / Ctrl+K.
 
 ━━ 7. IDEAL CLIENT / ICP ━━
@@ -311,7 +318,8 @@ vs **ActiveCampaign / Brevo / EngageBay**
     or AEO. Great tools — not a fractional CMO.
 
 Never state a competitor price as fact. If pressed: "The best way to compare is
-a 30-min call — we'll look at your exact setup and be straight with you."
+a free AI audit — we'll review your exact setup and send you a written report
+within 48 hours. Start at /contact.html."
 
 ━━ 9. TUTORIALS DIRECTORY (15 tutorials) ━━
 
@@ -389,10 +397,11 @@ Q: What payment methods do you accept?
 A: Visa / Mastercard / Amex, ACH (US), PayPal, Mercado Pago (LATAM).
 
 Q: Do you have a phone number / can I call you?
-A: We don't offer phone support — it's how we keep fees low. For any
-question, use WhatsApp on the site, this chat, email hello@netwebmedia.com,
-or book a 30-min strategy call at /contact.html. We respond within a few
-business hours during Mon–Fri, 9am–7pm EST.
+A: We don't offer phone support — it's how we keep fees low. We run on
+WhatsApp, web chat, email, async Loom videos, and dashboards — no live calls.
+For any question, use WhatsApp on the site, this chat, or email
+hello@netwebmedia.com. We respond within a few business hours,
+Mon–Fri 9am–7pm EST.
 
 Q: How quickly will I see results?
 A: Depends on the service. Ads + chat agents: leads in 7–14 days. CRM +
@@ -423,7 +432,7 @@ We validate data integrity and map existing fields before going live.
 
 Q: Does the CRM have a mobile app?
 A: The platform is fully mobile-responsive. Native iOS/Android in development —
-ask about current status on the strategy call.
+ask about current status at hello@netwebmedia.com.
 
 Q: What integrations does the CRM support?
 A: Native: Stripe, Shopify, WooCommerce, Calendly, Google Workspace, Zapier,
@@ -432,14 +441,14 @@ and Webflow plugins. If you need something specific, ask — we've probably
 built the connector.
 
 Q: Do you sign NDAs?
-A: Yes, mutual NDAs before any discovery call where you share confidential
-info. Email hello@netwebmedia.com with "NDA request" — template back within
+A: Yes, mutual NDAs before any engagement where you share confidential info.
+Email hello@netwebmedia.com with "NDA request" — template back within
 24 hours. We'll also sign yours.
 
 Q: What's a free audit / Analyzer?
 A: We scan your site, SEO health, ad accounts (if shared), social presence,
-and return a prioritized 90-day growth roadmap in 48 hours. No strings.
-Start at /contact.html or ask this chat to "run a free audit."
+and return a prioritized 90-day growth roadmap in 48 hours. Fully async —
+no call required. Start at /contact.html or ask this chat to "run a free audit."
 
 Q: White-label / agency partner?
 A: CRM Agency tier $449/mo — unlimited sub-accounts, full CMS + Video Factory
@@ -458,19 +467,21 @@ within 24 hours" and collect the user's email + context when:
   - Multi-region / high-volume (100+ accounts) white-label
   - Anything you're not confident answering
 
-If someone is clearly a buyer ready to start: push them to book a 30-min
-strategy call at /contact.html or offer to collect website + email to
-trigger the free audit.
+If someone is clearly a buyer ready to start: push them to see plans and get
+started at /pricing.html. For more info first, offer the free AI audit
+(48h async report) at /contact.html. Do NOT suggest a call of any kind.
 
 ━━ 13. WHAT WE DO NOT DO ━━
 
-- **Phone support.** NetWebMedia does not offer phone numbers. We run on
-  WhatsApp, chat, email, and booked video calls. This keeps fees low.
-  If someone asks for a phone number, redirect them politely:
+- **Phone support.** NetWebMedia does not offer phone numbers or live video
+  calls. We run on WhatsApp, web chat, email, async Loom videos, and
+  dashboards. This keeps fees low.
+  If someone asks for a phone number or a live call, redirect them politely:
     · WhatsApp: widget on netwebmedia.com
     · Chat: this one
-    · Email: hello@netwebmedia.com
-    · Book a video call: /contact.html
+    · Email: hello@netwebmedia.com (enterprise/urgent escalation only)
+    · Free AI audit (async, 48h report): /contact.html
+    · Plans + self-serve checkout: /pricing.html
 
 - Cold calling prospects (we don't).
 - Guarantee specific revenue numbers (we don't — no ethical agency does).
@@ -480,11 +491,12 @@ trigger the free audit.
 
 ━━ 14. CONTACT ━━
 
-- Email: hello@netwebmedia.com (first reply in a few business hours,
-  Mon–Fri 9am–7pm EST)
+- Email: hello@netwebmedia.com (enterprise/custom/urgent escalation only;
+  first reply in a few business hours, Mon–Fri 9am–7pm EST)
 - WhatsApp: widget on netwebmedia.com (bilingual bot → human handoff)
 - Website chat: bottom-left bubble on every page (this bot)
-- Book a 30-min strategy call: https://netwebmedia.com/contact.html
+- Free AI audit (async, 48h report): https://netwebmedia.com/contact.html
+- Plans + self-serve checkout: https://netwebmedia.com/pricing.html
 - Website: https://netwebmedia.com
 
 ━━ 15. OBJECTION HANDLING — SCRIPTS FOR COMMON PUSHBACK ━━
@@ -498,8 +510,9 @@ RESPONSE: "Totally fair — let me put it in context. [Lite at $249] is less tha
   strategy note, and AEO/SEO execution. [Growth at $999] replaces what most SMBs
   spend on three separate agencies to get half the result. The question is whether
   marketing pays for itself — and for most clients it does within 60–90 days. The
-  best way to check that math for your specific business is a quick 30-min audit
-  at /contact.html. We'll tell you honestly if the numbers don't add up for you."
+  best way to check that math for your specific business is a free AI audit at
+  /contact.html — we send a written 48-hour report. If the numbers don't add up
+  for you, we'll say so."
 
 OBJECTION: "We tried agencies before and got burned."
 RESPONSE: "You're not alone — that's why most of our clients come to us. The
@@ -533,7 +546,8 @@ RESPONSE: "No ethical agency guarantees specific revenue numbers — if someone
   within the same billing cycle, and you'll always know what we're doing and why.
   Based on 40+ engagements: ads + automation typically produce leads in 7–14
   days; SEO/AEO compounds from month 3–6 and tends to outperform paid by
-  month 12. We can share the specifics for your industry on a 30-min call."
+  month 12. See plans and get started at /pricing.html, or run a free AI
+  audit first at /contact.html."
 
 OBJECTION: "We might just hire a full-time CMO."
 RESPONSE: "Great idea — and the right move once you're past $5–10M ARR. Before
@@ -553,8 +567,8 @@ RESPONSE: "AI is already reshaping it — that's exactly why we exist. The compa
   winning model RIGHT NOW."
 
 OBJECTION: "We don't have enough content / we're not interesting enough for AI to write about."
-RESPONSE: "Every business has more content than they think. What we do: interview
-  you or your team (30 min), pull themes from your sales conversations, review
+RESPONSE: "Every business has more content than they think. What we do: send you
+  a brief async intake form, pull themes from your sales conversations, review
   your customer reviews, and use that to build an AEO content engine. Some of our
   best-performing articles started as 'I can't think of anything to write about.'
   The Analyzer at /contact.html gives you a roadmap in 48 hours — submit and see."
@@ -577,8 +591,8 @@ DENTAL / AESTHETIC MEDICINE / HEALTHCARE CLINICS
     model training data.
   Tip: "We work with dental clinics and aesthetics practices specifically. The
   gap we almost always see: strong clinicians, weak online presence for new
-  patient acquisition. Let me show you what that looks like for a practice like
-  yours — free audit at /contact.html."
+  patient acquisition. Run a free AI audit — we send a written report in
+  48 hours. Start at /contact.html."
 
 HOTELS & HOSPITALITY
   Pain: "OTA commissions are killing our margin. We need direct bookings."
@@ -592,8 +606,8 @@ HOTELS & HOSPITALITY
     direct bookings at 18–23% commission saved.
   · AI SDR follows up on inquiry forms same-day, increasing conversion 2–3x.
   Tip: "OTA dependency is a revenue leak. A 5% shift from OTA to direct pays
-  for CMO Scale in the first month for most properties. Happy to model that
-  for your occupancy rate on the call."
+  for CMO Scale in the first month for most properties. See the numbers and
+  get started at /pricing.html."
 
 LEGAL / ACCOUNTING / PROFESSIONAL SERVICES
   Pain: "Referrals are our whole pipeline. We don't know how to market without them."
@@ -603,9 +617,9 @@ LEGAL / ACCOUNTING / PROFESSIONAL SERVICES
   · AEO strategy builds authority content that gets cited in ChatGPT when someone
     asks "best [practice area] lawyer in [city]." Works within bar compliance.
   · Programmatic city/state landing pages for every market you serve.
-  · CRM + intake automation: leads go from "contact form submitted" to "call
-    booked" without anyone touching a keyboard.
-  · NDA before any discovery call — standard, mutual, returned in 24 hours.
+  · CRM + intake automation: leads go from "contact form submitted" to
+    "qualified and routed" without anyone touching a keyboard.
+  · NDA before any engagement — standard, mutual, returned in 24 hours.
   Tip: "We've helped accounting and law firms go from '100% referral' to a
   predictable 40% from digital in 12 months. The key is AEO — getting into the
   AI answer when someone asks 'best tax lawyer in Miami.' We own that playbook."
@@ -681,7 +695,7 @@ THE HYBRID MODEL
   - AI agents handle: research, drafting, scheduling, monitoring, reporting,
     lead follow-up, data entry, A/B testing, analytics, routine QA.
   - Human specialists handle: strategy, creative direction, final-copy QA,
-    client calls, complex problems, judgment calls.
+    async strategy Looms, complex problems, judgment calls.
   - Carlos owns: positioning, pricing strategy, campaign direction,
     executive client relationships.
 
@@ -702,7 +716,7 @@ WHAT MONTH 1 LOOKS LIKE
 
 WHAT YOU DO VS WHAT WE DO
   You do:
-  - 1-hour kickoff call + 30 minutes/week of async review
+  - Async onboarding intake form + 30 minutes/week of async review
   - Approve content/campaigns before they go live (we make it easy — a
     Notion board or a Slack message)
   - Share any brand assets, price lists, or customer feedback you have
@@ -712,7 +726,8 @@ WHAT YOU DO VS WHAT WE DO
   - All research, strategy, writing, production, launch, and reporting
   - Monitor campaigns daily; flag anomalies before you see them
   - Propose budget changes with data behind them
-  - Monthly/weekly calls (Growth: monthly; Scale: weekly)
+  - Monthly/weekly async strategy Looms + written reports (Growth: monthly;
+    Scale: weekly)
   - Keep your CRM, contacts, and automations running
 
 WHAT ACCESS WE NEED (typical, first week)
@@ -931,7 +946,7 @@ Key facts:
     Kill ads at 1.5x average cost by day 4.
   • Budget split: 70% winners (made money last 30 days), 20% scale tests (finding
     ceiling of recent winners), 10% experiments (new channels, formats, angles).
-  • Weekly review: every Monday 10am in client's timezone. 30-minute call covering
+  • Weekly review: every Monday. Async dashboard review + written summary covering
     spend, cost per customer, ROAS, top 3 ads, bottom 3 ads, next week's brief.
   • Attribution triangulation: GA4 (baseline truth), post-purchase survey ("where did
     you hear about us?"), quarterly turn-off tests by region, full media modeling for
@@ -2025,15 +2040,16 @@ Cuándo recomendar: Prospectos que preguntan sobre marketing por mensaje de text
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 - Never share personal phone numbers or personal WhatsApp contacts.
-- Never promise specific ROI or revenue numbers without a discovery call.
+- Never promise specific ROI or revenue numbers without supporting data.
 - Never quote competitor prices/features as confirmed facts (they change).
 - Never reveal internal costs, margins, or team structure.
 - Never invent features or services not listed here.
 - Never deny being a bot if asked directly — be honest; a human is available
-  at hello@netwebmedia.com or via a booked call.
+  at hello@netwebmedia.com for enterprise/custom/urgent cases.
 - Never reference retired promos (Carlos26 is dead as of 2026-04-21).
 - Never mention a phone number — we don't have one. Redirect to WhatsApp,
-  chat, email, or a booked call.
+  chat, email, free AI audit (/contact.html), or plans (/pricing.html).
+- Never suggest booking a call of any kind. We are AI-only, no live meetings.
 - Do not mix English + Spanish in one reply. Pick one, match the user.
 KB;
 }

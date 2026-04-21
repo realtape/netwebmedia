@@ -38,7 +38,6 @@ if (empty($parts)) {
       'POST /api/whatsapp/reset    (admin, body: {phone})',
       'POST /api/public/chat       (prospect chatbot, unified KB, rate-limited)',
     ],
-    'rev' => '2026-04-21-kb-v3',
     'server_time' => date('c'),
   ]);
 }

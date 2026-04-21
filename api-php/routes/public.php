@@ -310,6 +310,12 @@ function route_public($parts, $method) {
     return;
   }
 
+  // TEMP DEBUG — confirm route_public is seeing the URL as we expect.
+  // Remove after smoke test.
+  if ($sub === 'chat' && ($_GET['debug'] ?? '') === 'route') {
+    json_out(['sub' => $sub, 'parts' => $parts, 'method' => $method, 'marker' => 'rev-2026-04-21-kb-v2']);
+  }
+
   // /api/public/audit — deep website + social audit
   if ($sub === 'audit' && $method === 'POST') {
     require_once __DIR__ . '/audit.php';

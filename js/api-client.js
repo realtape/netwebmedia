@@ -59,8 +59,8 @@
 
   var api = {
     // -- auth
-    register: function (email, password, name) {
-      return request('POST', '/auth/register', { email: email, password: password, name: name })
+    register: function (email, password, name, honeypot) {
+      return request('POST', '/auth/register', { email: email, password: password, name: name, nwm_website: honeypot || '' })
         .then(function (r) { setToken(r.token); setUser(r.user); return r; });
     },
     login: function (email, password) {

@@ -70,6 +70,10 @@
     <div class="sub">Get your own CMS &amp; CRM workspace in seconds.</div>
 
     <form id="registerForm">
+      <!-- honeypot: hidden from humans, bots fill it in -->
+      <input id="nwm_website" name="nwm_website" type="text" tabindex="-1" autocomplete="off"
+             style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true" />
+
       <label for="name">Full name</label>
       <input id="name" type="text" required autocomplete="name" />
 
@@ -93,6 +97,7 @@
       var name = document.getElementById('name');
       var email = document.getElementById('email');
       var pass = document.getElementById('password');
+      var hp = document.getElementById('nwm_website');
       var btn = document.getElementById('submitBtn');
       var msg = document.getElementById('msg');
 
@@ -101,7 +106,7 @@
         btn.disabled = true;
         msg.className = 'msg';
         msg.textContent = 'Creating your account…';
-        window.NWMApi.register(email.value.trim(), pass.value, name.value.trim())
+        window.NWMApi.register(email.value.trim(), pass.value, name.value.trim(), hp.value)
           .then(function (r) {
             msg.className = 'msg ok';
             msg.textContent = 'Account created — redirecting…';

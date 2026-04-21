@@ -8,6 +8,17 @@ function route_auth($path, $method) {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) err('Invalid email');
     if (strlen($b['password']) < 8) err('Password must be at least 8 characters');
 
+    // Honeypot: bots fill hidden fields that humans never see. Silently succeed.
+    if (!empty($b['nwm_website'])) {
+      json_out(['user' => null, 'token' => bin2hex(random_bytes(16)), 'requires_payment' => true], 201);
+      return;
+    }
+
+    // Reject names that look like random strings: single word over 20 chars has no legitimate use.
+    if (!str_contains($name, ' ') && strlen($name) > 20) {
+      err('Please enter your full name (first and last).', 422);
+    }
+
     $existing = qOne("SELECT id FROM users WHERE email = ?", [$email]);
     if ($existing) err('Email already registered', 409);
 

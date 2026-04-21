@@ -8,12 +8,18 @@
 
 ## 1. Executive Summary
 
+> ⚠️ **STRATEGIC NOTE — 2026-04-21 price repositioning (pending financial-model rebuild).**
+> CEO directive, Apr 21 2026: Fractional CMO tiers repriced from **$1,997 / $2,997 / $5,997** to **$249 / $999 / $2,499** monthly. Setup fees repriced to **$0 / $499 / $999**.
+> **Impact NOT yet propagated to:** 5-year projection (§7), month-by-month build (§8.1), M12 revenue mix (§8.2), scenario planning (§11), milestones (§15). Those tables retain the old model and need a full rebuild by finance-controller.
+> **What IS updated:** Direct price references, cohort LTV/CAC math (§9), positioning ladder, battlecards (§6.3), Pillar 2 messaging.
+> **Key downstream tension:** At the new prices, hitting the Y1 $85k MRR target requires ~2.2x the original customer count OR a heavier Platform/Project revenue mix. Carlos to decide which lever.
+
 NetWebMedia is an AI-native marketing agency that replaces the traditional 8-person marketing department with a single productized retainer: a Fractional CMO backed by a stack of AI agents and our own vertically-integrated software (CRM, CMS, Video Factory, AEO/SEO engine, paid-media automation).
 
 **One-line positioning:** *"HubSpot's polish + GoHighLevel's white-label economics — run by AI, priced for SMBs."*
 
 ### Three revenue products
-1. **Fractional CMO retainers** — $1,997 / $2,997 / $5,997/mo (flagship)
+1. **Fractional CMO retainers** — $249 / $999 / $2,499/mo (flagship) *(repriced 2026-04-21)*
 2. **Platform subscriptions** — CRM/CMS/tools at $49 / $249 / $449 entry tiers (wedge)
 3. **Project work** — websites, AI automations, AEO migrations (one-time)
 
@@ -52,9 +58,9 @@ NetWebMedia is an AI-native marketing agency that replaces the traditional 8-per
 
 | Tier | Price | Setup | Scope |
 |---|---|---|---|
-| **CMO Lite** | $1,997/mo | $997 | AEO + SEO strategy, monthly content calendar, SEO audit + keyword roadmap, NWM CRM included, bi-weekly strategy call |
-| **CMO Growth** *(most popular)* | $2,997/mo | $1,497 | Everything in Lite + paid ads management ($5k–20k ad spend), weekly exec call, email nurture, attribution dashboard |
-| **CMO Scale** | $5,997/mo | $2,997 | Everything in Growth + AI SDR outbound, short-form video (12 assets/mo), demand-gen campaigns, quarterly OKR planning |
+| **CMO Lite** | $249/mo | $0 | AEO + SEO strategy, monthly content calendar, SEO audit, NWM CRM included. *Self-serve onboarding + monthly async strategy note (no live calls at this tier — scope change from prior plan)* |
+| **CMO Growth** *(most popular)* | $999/mo | $499 | Everything in Lite + paid ads management ($5k–20k ad spend), **monthly** strategy call (was weekly), email nurture, attribution dashboard |
+| **CMO Scale** | $2,499/mo | $999 | Everything in Growth + AI SDR outbound, short-form video (12 assets/mo), demand-gen campaigns, **weekly** strategy call, quarterly OKR planning |
 
 **Commercial terms:** 90-day minimum, month-to-month thereafter. Net 15 invoicing for annuals (5% discount).
 
@@ -133,13 +139,13 @@ $49/mo CRM self-serve. Low ARPU, but the funnel fuel for tutorials, community, a
                             │    ● Drift
                             │
        Traditional agencies●│
-                            │         ★ NWM fCMO Scale
+                            │
   ──────────────────────────┼──────────────────────────
   LOW AI-NATIVE             │              HIGH AI-NATIVE
-                            │
-                            │    ★ NWM fCMO Growth
+                            │    ★ NWM fCMO Scale ($2,499)
+                            │    ★ NWM fCMO Growth ($999)
        HubSpot Mktg Hub  ●  │
-                            │    ★ NWM fCMO Essentials
+                            │    ★ NWM fCMO Lite ($249)
        ActiveCampaign  ●    │
        GoHighLevel       ●  │    ● "2024 AI agency" shops
        Brevo    ●           │    ● (ChatGPT wrapper brands)
@@ -150,7 +156,7 @@ $49/mo CRM self-serve. Low ARPU, but the funnel fuel for tutorials, community, a
                     LOW PRICE (<$500/mo)
 ```
 
-**Read:** NWM owns the **entire right column** — we're the only brand with a coherent ladder from $49 CRM to $5,997 fCMO, and all of it is AI-native.
+**Read:** NWM owns the **entire right column** — we're the only brand with a coherent ladder from $49 CRM to $2,499 fCMO, and all of it is AI-native. At the new price points, the Lite tier ($249) is now *below* HubSpot Starter, which changes the "HubSpot alternative" fight from parity-play to clear undercut.
 
 ### 6.2 Feature Matrix
 
@@ -176,7 +182,7 @@ $49/mo CRM self-serve. Low ARPU, but the funnel fuel for tutorials, community, a
 
 | They say | We say |
 |---|---|
-| "HubSpot is the industry standard." | "It's 2020's standard. HubSpot costs $3,600+/mo for the Pro tier and then you still need an agency to run it. We're $1,997 for the agency AND the software, and we're tuned for ChatGPT citations — which is where 15% of SMB search already happens." |
+| "HubSpot is the industry standard." | "It's 2020's standard. HubSpot costs $3,600+/mo for the Pro tier and then you still need an agency to run it. We're $249–$2,499 for the agency AND the software, and we're tuned for ChatGPT citations — which is where 15% of SMB search already happens." |
 | "HubSpot has 1,400 integrations." | "You need three. We set them up in week one. How many of those 1,400 does your team actually use?" |
 | "HubSpot's AI features are improving." | "We built the company AI-first. They're retrofitting. Ask them: can you name one client getting cited in ChatGPT because of HubSpot AI? We publish ours every month." |
 
@@ -192,7 +198,7 @@ $49/mo CRM self-serve. Low ARPU, but the funnel fuel for tutorials, community, a
 
 | They say | We say |
 |---|---|
-| "We bring 25 years of enterprise experience." | "Great — for a $50M company. You're quoting $18k/mo. We do the same strategic thinking at $1,997–$5,997, and we execute." |
+| "We bring 25 years of enterprise experience." | "Great — for a $50M company. You're quoting $18k/mo. We do the same strategic thinking at $249–$2,499, and we execute." |
 | "A human CMO understands your brand." | "So does ours — Carlos leads every engagement. Difference: we don't bill by the hour because our agents do 80% of the execution work." |
 | "AI can't replace senior marketing judgment." | "Correct. That's why Carlos leads every account. AI handles the 40 hours/week of execution grind. You get judgment on top of speed, not one or the other." |
 
@@ -264,7 +270,9 @@ Y1  █                                         $1.02M
 | M11 | 42 | 44 | 17 | $83,000 | $591.9k |
 | M12 | 45 | 45 | 18 | **$85,000** | **$676.9k** |
 
-### Revenue mix at Month 12
+### Revenue mix at Month 12 — ⚠️ TO REBUILD
+
+Old model (at $1,997–$5,997 tiers):
 
 | Stream | % of MRR | Monthly $ |
 |---|---|---|
@@ -273,6 +281,12 @@ Y1  █                                         $1.02M
 | White-label agencies (18 resellers @ $449) | 10% | $8,100 |
 | Project work (4/mo avg @ $2,500) | 11% | $10,000 |
 | **Total MRR** | | **$85,000** |
+
+**At the new $249 / $999 / $2,499 pricing, the same 45 retainer clients yield ~$40k (not $58.5k), dragging Y1 MRR to ~$67k exit.** Two levers to restore the $85k target:
+- **Lever A (volume):** Grow retainer count from 45 → ~100 by M12 (2.2x; requires self-serve funnel for the Lite tier)
+- **Lever B (mix shift):** Keep 45 retainers but push the mix heavily toward Scale ($2,499), platform at higher ARPU, and more project work
+
+**Carlos to choose — recommend Lever A** (volume + productized Lite) since it matches the sub-$500 SMB ICP we expanded into with the new pricing.
 
 ---
 
@@ -283,9 +297,9 @@ Y1  █                                         $1.02M
 | NWM CRM $49 | $49 | 85% | 11 mo | $458 | $140 | 3.3x | 3.4 mo |
 | NWM CRM $249 | $249 | 80% | 14 mo | $2,789 | $650 | 4.3x | 3.3 mo |
 | NWM CRM $449 | $449 | 78% | 18 mo | $6,304 | $1,100 | 5.7x | 3.1 mo |
-| fCMO Essentials $1,997 | $1,997 | 68% | 11 mo | $14,938 | $2,400 | 6.2x | 1.8 mo |
-| fCMO Growth $2,997 | $2,997 | 70% | 14 mo | $29,370 | $3,400 | 8.6x | 1.6 mo |
-| fCMO Scale $5,997 | $5,997 | 72% | 18 mo | $77,722 | $5,200 | 14.9x | 1.2 mo |
+| fCMO Lite $249 | $249 | 68% | 11 mo | $1,862 | $600 | 3.1x | 3.6 mo |
+| fCMO Growth $999 | $999 | 70% | 14 mo | $9,790 | $1,500 | 6.5x | 2.2 mo |
+| fCMO Scale $2,499 | $2,499 | 72% | 18 mo | $32,387 | $3,200 | 10.1x | 1.8 mo |
 
 **Rule enforced:** Reject any channel under 3x LTV:CAC or over 6mo payback.
 
@@ -296,12 +310,12 @@ Month:    0    3    6    9    12   18   24
 CRM $49        100→ 78 → 58 → 44 → 34 → 18 → 10
 CRM $249       100→ 88 → 74 → 62 → 52 → 34 → 22
 CRM $449       100→ 92 → 82 → 72 → 64 → 46 → 32
-fCMO Ess       100→ 85 → 70 → 58 → 48 → 28 → 16
-fCMO Gro       100→ 91 → 80 → 70 → 62 → 44 → 30
-fCMO Scl       100→ 94 → 86 → 78 → 72 → 58 → 44
+fCMO Lite      100→ 85 → 70 → 58 → 48 → 28 → 16
+fCMO Growth    100→ 91 → 80 → 70 → 62 → 44 → 30
+fCMO Scale     100→ 94 → 86 → 78 → 72 → 58 → 44
 ```
 
-**Insight:** fCMO Scale retains like enterprise SaaS. Every Scale client is worth ~5x an Essentials client.
+**Insight:** fCMO Scale retains like enterprise SaaS. Every Scale client is worth **~17x a Lite client** (up from 5x under old pricing). This sharpens the upsell priority — Lite is now a wedge into Scale, not an endpoint. Don't optimize Lite for retention; optimize it for **tier-upgrade velocity**.
 
 ---
 
@@ -336,8 +350,8 @@ fCMO Scl       100→ 94 → 86 → 78 → 72 → 58 → 44
 | **Bull** | $1.85M | $154k | 148 | AEO hits 22%+; one viral proof-of-concept; 2 partner channels produce 25%+ of pipeline |
 
 **Kill-switches:**
-- If MRR < $45k by month 6 → drop Essentials fCMO, focus everything on Scale + CRM $449
-- If CAC > $4k on fCMO Essentials for 2 consecutive months → pause paid acquisition, 100% inbound
+- If MRR < $35k by month 6 → pause Lite tier acquisition, focus everything on Growth + Scale + CRM $449 *(threshold lowered from $45k given the price restructure)*
+- If CAC > $600 on fCMO Lite for 2 consecutive months → pause paid acquisition on that tier, 100% self-serve inbound
 - If any single channel > 55% of pipeline → force diversification quarter
 
 ---

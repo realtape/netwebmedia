@@ -345,7 +345,7 @@ fCMO Scale 100→ 94 → 86 → 78 → 72 → 58 → 44
 
 | Scenario | Y1 ARR | MRR (exit) | Clients | Trigger conditions |
 |---|---|---|---|---|
-| **Bear** | $520k | $43k | 52 | AEO adoption slows (<10% of search); Google AI Overviews consolidates traffic; ChatGPT API costs +40% |
+| **Bear** | $520k | $43k | 52 | AEO adoption slows (<10% of search); Google AI Overviews consolidates traffic; Anthropic (Claude) API costs +40% |
 | **Base** | $1.02M | $85k | 90 | AEO hits ~15% of search queries; competitive pricing holds; 3 lighthouse case studies by month 6 |
 | **Bull** | $1.85M | $154k | 148 | AEO hits 22%+; one viral proof-of-concept; 2 partner channels produce 25%+ of pipeline |
 

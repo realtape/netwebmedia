@@ -175,7 +175,7 @@ This is not a tagline — it is a category claim. We are naming a product type. 
 ### Elevator Pitches
 
 **10-second version (verbal / social bio)**
-"NetWebMedia is an AI-native fractional CMO for US and LATAM SMBs. Strategy, software, and full execution in one retainer — starting at $1,997 a month."
+"NetWebMedia is an AI-native fractional CMO for US and LATAM SMBs. Strategy, software, and full execution in one retainer — starting at $249 a month."
 
 **30-second version (intro call, voice message)**
 "NetWebMedia gives $1M–$20M businesses what they usually can't afford: a CMO-grade marketing system. We handle strategy, build the automations, run the campaigns, and produce the content — using AI at every layer to do the work of a five-person team. One monthly retainer, no agency markup chaos, fully transparent reporting. We're bilingual — serving US brands and LATAM businesses growing in the US market."
@@ -185,17 +185,17 @@ This is not a tagline — it is a category claim. We are naming a product type. 
 
 We serve businesses doing $1M to $20M in revenue that don't have a CMO. We become their CMO. We deliver the strategy, build and manage the software stack — CRM, automations, AI agents, content systems — and we run the campaigns. We're answer-engine optimized, which means we get our clients cited by ChatGPT, Perplexity, and Google AI Overviews — the channels where B2B discovery is already happening.
 
-We are bilingual by design, serving both US and LATAM markets, and our pricing starts at $1,997 a month for the full package. Think of us as HubSpot's polish with GoHighLevel's economics — run by AI, priced for the businesses that actually need it."
+We are bilingual by design, serving both US and LATAM markets, and our pricing starts at $249 a month for the full package. Think of us as HubSpot's polish with GoHighLevel's economics — run by AI, priced for the businesses that actually need it."
 
 ---
 
 ### Boilerplate Paragraphs
 
 **Short (75 words — press releases, directory listings, social bios)**
-NetWebMedia is an AI-native fractional CMO for US and LATAM SMBs. We deliver strategy, software, and full-execution marketing — AI agents, CRM automation, paid ads, SEO, and content — in one monthly retainer starting at $1,997/mo. We specialize in answer-engine optimization (AEO), helping clients get cited by ChatGPT, Perplexity, and Google AI Overviews. Bilingual in English and Spanish. Visit netwebmedia.com.
+NetWebMedia is an AI-native fractional CMO for US and LATAM SMBs. We deliver strategy, software, and full-execution marketing — AI agents, CRM automation, paid ads, SEO, and content — in one monthly retainer starting at $249/mo. We specialize in answer-engine optimization (AEO), helping clients get cited by ChatGPT, Perplexity, and Google AI Overviews. Bilingual in English and Spanish. Visit netwebmedia.com.
 
 **Medium (150 words — About pages, partner introductions, proposals)**
-NetWebMedia is a US-based AI-native fractional CMO agency serving SMBs across North America and Latin America. We close the marketing advantage gap between large enterprises and small businesses by delivering CMO-level strategy, AI-powered software stacks, and full-execution services — all under one retainer. Our services include AI automations and agents, CRM implementation and management, paid advertising, answer-engine optimization (AEO), AI SEO and content, social media, and video production. We specialize in making clients visible where AI-driven discovery is already happening: ChatGPT, Perplexity, Google SGE, and conversational search. Our pricing starts at $1,997/month for the Launch bundle, scaling to $4,497/month for the Scale package. We operate bilingually in English and Spanish, with deep expertise in the US Hispanic market and LATAM growth corridors. Over 100 SMBs trust NetWebMedia to run their marketing.
+NetWebMedia is a US-based AI-native fractional CMO agency serving SMBs across North America and Latin America. We close the marketing advantage gap between large enterprises and small businesses by delivering CMO-level strategy, AI-powered software stacks, and full-execution services — all under one retainer. Our services include AI automations and agents, CRM implementation and management, paid advertising, answer-engine optimization (AEO), AI SEO and content, social media, and video production. We specialize in making clients visible where AI-driven discovery is already happening: ChatGPT, Perplexity, Google SGE, and conversational search. Our pricing starts at $249/month for the Lite tier, scaling to $2,499/month for the Scale tier, with a Growth tier at $999/month in between. *(Repriced 2026-04-21 per CEO directive.)* We operate bilingually in English and Spanish, with deep expertise in the US Hispanic market and LATAM growth corridors. Over 100 SMBs trust NetWebMedia to run their marketing.
 
 **Long (300 words — investor decks, press kits, detailed proposals)**
 NetWebMedia is an AI-native fractional CMO agency headquartered in the United States, serving small and mid-size businesses across the US market and Latin America. Founded to close the CMO access gap — the structural disadvantage facing businesses that generate $1M–$20M in revenue but cannot afford a full-time Chief Marketing Officer — NetWebMedia delivers the strategy, tools, and execution that enterprise brands take for granted.
@@ -206,7 +206,7 @@ What distinguishes NetWebMedia in a crowded agency market is our commitment to a
 
 The business is bilingual by design. All services, software interfaces, and client communications are available in both English and Spanish. We serve US-based businesses targeting bilingual consumers, as well as LATAM-headquartered businesses growing into the US market.
 
-Pricing is structured as a monthly retainer with a one-time setup fee, ranging from $1,997/month (Launch) to $4,497/month (Scale). This positions NetWebMedia against the cost of a single mid-level marketing hire — while delivering the output of an integrated agency team powered by AI.
+Pricing is structured as a monthly retainer with an optional setup fee, ranging from $249/month (Lite) to $2,499/month (Scale). This positions NetWebMedia below the cost of SaaS marketing tools on the low end and a single mid-level marketing hire on the high end — while delivering the output of an integrated agency team powered by AI. *(Repriced 2026-04-21 per CEO directive.)*
 
 ---
 
@@ -899,7 +899,7 @@ Spanish copy for NetWebMedia is not translated English. It is rewritten for Span
 |-----------|-------------|-----------------|
 | **Formality** | Direct, peer-to-peer. No "sir/ma'am." | Use `tú` (not `usted`) for digital ads and social. Use `usted` for proposals and formal outreach. |
 | **Energy level** | Controlled urgency. Restrained excitement. | Slightly warmer energy permitted. Latin American business culture rewards relationship-building language. |
-| **Numbers/Currency** | USD prices always visible | Show USD prominently with optional local currency context: "$1,997 USD (~$33,000 MXN/mes)" |
+| **Numbers/Currency** | USD prices always visible | Show USD prominently with optional local currency context: "$249 USD (~$4,100 MXN/mes)" |
 | **Social proof** | US client names and logos | Prioritize LATAM client testimonials for LATAM audiences. US brand names have authority but need context. |
 | **Pain point framing** | "You don't have a CMO and you're leaving revenue on the table." | "Tu empresa merece un departamento de marketing completo — no solo un freelancer." (Your company deserves a complete marketing department — not just a freelancer.) |
 | **Idioms** | American business idioms ("move the needle," "lift and shift") | Avoid English idioms literally. Write for clarity first. |

@@ -34,6 +34,8 @@
 */
 
 require_once __DIR__ . '/mailer.php';
+require_once __DIR__ . '/heygen.php';
+require_once __DIR__ . '/vapi.php';
 
 /* ─── Trigger matching ─────────────────────────────────────────────────── */
 
@@ -92,6 +94,8 @@ function wf_action_registry() {
     'if'             => 'If/else branch',
     'goto_step'      => 'Jump to named step',
     'log'            => 'Log message',
+    'heygen_video'   => 'Generate HeyGen avatar video',
+    'vapi_call'      => 'Make outbound AI voice call (Vapi)',
   ];
 }
 
@@ -342,7 +346,39 @@ function wf_ctx_get($ctx, $path) {
   return $cur;
 }
 
-/* ─── Main executor ────────────────────────────────────────────────────── */
+/* ─── HeyGen video step ─────────────────────────────────────────────────── */
+
+function wf_step_heygen_video($step, $ctx) {
+  $avatar_id = $step['avatar_id'] ?? (config()['heygen_default_avatar'] ?? '');
+  $voice_id  = $step['voice_id']  ?? 'en-US-Matthew';
+  $script    = render_template($step['script'] ?? '', $ctx);
+  $dimension = $step['dimension'] ?? ['width' => 720, 'height' => 1280]; // 9:16 Reels default
+
+  if (!$avatar_id) return ['ok' => false, 'reason' => 'no avatar_id and heygen_default_avatar not set'];
+  if (!$script)    return ['ok' => false, 'reason' => 'empty script'];
+
+  $res = heygen_create_video($avatar_id, $script, $voice_id, $dimension);
+  if (!empty($res['error']))  return ['ok' => false, 'reason' => $res['error']];
+  if (!empty($res['data']['video_id'])) {
+    return ['ok' => true, 'video_id' => $res['data']['video_id'], 'status' => 'processing'];
+  }
+  return ['ok' => false, 'reason' => 'unexpected HeyGen response', 'resp' => $res];
+}
+
+/* ─── Vapi call step ─────────────────────────────────────────────────────── */
+
+function wf_step_vapi_call($step, $ctx) {
+  $phone        = render_template($step['to'] ?? ($ctx['phone'] ?? ''), $ctx);
+  $assistant_id = $step['assistant_id'] ?? null;
+
+  if (!$phone) return ['ok' => false, 'reason' => 'no phone number in context or step.to'];
+
+  $res = vapi_call($phone, $assistant_id);
+  if (!empty($res['error'])) return ['ok' => false, 'reason' => $res['error']];
+  return ['ok' => true, 'call_id' => $res['id'] ?? null, 'status' => $res['status'] ?? 'queued'];
+}
+
+/* ─── Main executor ────────────────────────────────────────────────────────── */
 
 function wf_run_step($step, &$ctx, $org_id) {
   $action = $step['action'] ?? '';
@@ -362,6 +398,8 @@ function wf_run_step($step, &$ctx, $org_id) {
     case 'notify_team':   return wf_step_notify_team($step, $ctx, $org_id);
     case 'ai_reply':      return wf_step_ai_reply($step, $ctx, $ctx);
     case 'log':           return ['ok' => true, 'msg' => render_template($step['message'] ?? '', $ctx)];
+    case 'heygen_video':  return wf_step_heygen_video($step, $ctx);
+    case 'vapi_call':     return wf_step_vapi_call($step, $ctx);
     case 'wait':
       $mins = (int)($step['minutes'] ?? 0)
             + (int)($step['hours']   ?? 0) * 60

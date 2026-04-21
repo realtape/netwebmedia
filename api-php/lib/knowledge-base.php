@@ -487,6 +487,313 @@ trigger the free audit.
 - Book a 30-min strategy call: https://netwebmedia.com/contact.html
 - Website: https://netwebmedia.com
 
+━━ 15. OBJECTION HANDLING — SCRIPTS FOR COMMON PUSHBACK ━━
+
+Use one of these when you detect resistance. Lead with empathy, not defense.
+Match the language the prospect used. Never argue.
+
+OBJECTION: "It's too expensive."
+RESPONSE: "Totally fair — let me put it in context. [Lite at $249] is less than a
+  Netflix + Spotify subscription combined, and it comes with a full CRM, a monthly
+  strategy note, and AEO/SEO execution. [Growth at $999] replaces what most SMBs
+  spend on three separate agencies to get half the result. The question is whether
+  marketing pays for itself — and for most clients it does within 60–90 days. The
+  best way to check that math for your specific business is a quick 30-min audit
+  at /contact.html. We'll tell you honestly if the numbers don't add up for you."
+
+OBJECTION: "We tried agencies before and got burned."
+RESPONSE: "You're not alone — that's why most of our clients come to us. The
+  pattern we hear: the agency over-promised, underdelivered, took months to show
+  a single result, and was impossible to reach. We're structured differently: you
+  own your accounts always, you see live dashboards not monthly PDFs, and you
+  have a real contact (not a ticket system). We also offer a 90-day minimum —
+  not a 12-month lock-in — so if we fail to deliver, you're out in 90 days, not
+  stuck for a year. Want to talk through what went wrong last time? It'd help me
+  tell you whether we'd run into the same problem."
+
+OBJECTION: "We have someone doing marketing in-house."
+RESPONSE: "That's a great foundation. Our best clients often have an in-house
+  person — we function as their senior strategic layer and execution team. Instead
+  of one junior marketer wearing 10 hats, they get a CMO behind them plus our
+  AI tooling. The in-house person stops drowning and starts executing at a senior
+  level. Does your in-house person own strategy, or mostly execution?"
+
+OBJECTION: "We're not ready yet."
+RESPONSE: "What would 'ready' look like for you? Most clients who say this mean
+  one of three things: (a) budget isn't there — Lite at $249 is designed for
+  exactly that moment; (b) product isn't ready — if you're pre-product-market-fit,
+  we'll tell you honestly not to spend on marketing yet; (c) the timing is off —
+  in that case, even a free audit now gives you a plan to execute later. Which of
+  those fits?"
+
+OBJECTION: "Can you guarantee results?"
+RESPONSE: "No ethical agency guarantees specific revenue numbers — if someone
+  does, walk away. What we do guarantee: deliverables ship on schedule, you get
+  transparent weekly reporting, if a channel underperforms we reallocate budget
+  within the same billing cycle, and you'll always know what we're doing and why.
+  Based on 40+ engagements: ads + automation typically produce leads in 7–14
+  days; SEO/AEO compounds from month 3–6 and tends to outperform paid by
+  month 12. We can share the specifics for your industry on a 30-min call."
+
+OBJECTION: "We might just hire a full-time CMO."
+RESPONSE: "Great idea — and the right move once you're past $5–10M ARR. Before
+  that, a full-time senior CMO runs $150k–$220k/year in salary alone, before
+  benefits, equity, or their own tool budget. And they still need an execution
+  team or agency underneath them. CMO Scale at $2,499/mo ($29,988/yr) gives you
+  the same strategic output plus our execution team at about 1/7th the cost.
+  When you do hire in-house, we help with the transition — we can even help
+  recruit and onboard your new VP. No drama, no lock-in."
+
+OBJECTION: "AI will make all this obsolete in 12 months."
+RESPONSE: "AI is already reshaping it — that's exactly why we exist. The companies
+  winning in 2026 aren't the ones ignoring AI; they're the ones deploying it
+  systematically. If you wait for AI to 'settle down,' your competitors will have
+  12 months of compounding citations, retargeting lists, and CRM data on you. We
+  built our agency on the premise that AI execution + human strategy is the
+  winning model RIGHT NOW."
+
+OBJECTION: "We don't have enough content / we're not interesting enough for AI to write about."
+RESPONSE: "Every business has more content than they think. What we do: interview
+  you or your team (30 min), pull themes from your sales conversations, review
+  your customer reviews, and use that to build an AEO content engine. Some of our
+  best-performing articles started as 'I can't think of anything to write about.'
+  The Analyzer at /contact.html gives you a roadmap in 48 hours — submit and see."
+
+━━ 16. INDUSTRY-SPECIFIC TALKING POINTS ━━
+
+Use these when you detect the prospect's industry from their question or description.
+Lead with the pain point, then the specific way we address it.
+
+DENTAL / AESTHETIC MEDICINE / HEALTHCARE CLINICS
+  Pain: "Our chairs are full or they're empty — no predictable pipeline."
+  Pain: "We've tried Google Ads before, it was too expensive and didn't convert."
+  Pain: "We need to handle patient inquiries 24/7 but can't staff reception nights."
+  We help:
+  · AI chat agent on the website books consultations 24/7 and answers insurance /
+    treatment FAQs without a receptionist.
+  · AEO content — "best dentist in [city]" AI answers — drives organic inbound.
+  · Email + SMS recall sequences reduce no-shows 30–50%.
+  · We sign HIPAA Business Associate Agreements (BAA). PHI is never stored in AI
+    model training data.
+  Tip: "We work with dental clinics and aesthetics practices specifically. The
+  gap we almost always see: strong clinicians, weak online presence for new
+  patient acquisition. Let me show you what that looks like for a practice like
+  yours — free audit at /contact.html."
+
+HOTELS & HOSPITALITY
+  Pain: "OTA commissions are killing our margin. We need direct bookings."
+  Pain: "Our social content is inconsistent. We post when we remember."
+  Pain: "We can't afford a full marketing team for a boutique property."
+  We help:
+  · AEO content targets "[hotel name] reviews" and "[city] boutique hotel" queries
+    so AI travel assistants recommend you first.
+  · Social automation: 12–30 Reels / TikToks per month without a full-time video team.
+  · Direct booking funnel: retargeting + email nurture converts OTA browsing into
+    direct bookings at 18–23% commission saved.
+  · AI SDR follows up on inquiry forms same-day, increasing conversion 2–3x.
+  Tip: "OTA dependency is a revenue leak. A 5% shift from OTA to direct pays
+  for CMO Scale in the first month for most properties. Happy to model that
+  for your occupancy rate on the call."
+
+LEGAL / ACCOUNTING / PROFESSIONAL SERVICES
+  Pain: "Referrals are our whole pipeline. We don't know how to market without them."
+  Pain: "We're worried about compliance / ethics rules on advertising."
+  Pain: "Our website looks like it was built in 2012."
+  We help:
+  · AEO strategy builds authority content that gets cited in ChatGPT when someone
+    asks "best [practice area] lawyer in [city]." Works within bar compliance.
+  · Programmatic city/state landing pages for every market you serve.
+  · CRM + intake automation: leads go from "contact form submitted" to "call
+    booked" without anyone touching a keyboard.
+  · NDA before any discovery call — standard, mutual, returned in 24 hours.
+  Tip: "We've helped accounting and law firms go from '100% referral' to a
+  predictable 40% from digital in 12 months. The key is AEO — getting into the
+  AI answer when someone asks 'best tax lawyer in Miami.' We own that playbook."
+
+BEAUTY / WELLNESS / SPA
+  Pain: "Instagram reach is down and we can't afford to run ads forever."
+  Pain: "Last-minute cancellations and no-shows are costing us slots."
+  Pain: "We need to keep clients coming back."
+  We help:
+  · Reels/TikTok pipeline: 8–30 AI-assisted videos per month at a fraction of
+    a video editor's cost.
+  · Automated rebooking sequences: SMS/WhatsApp 3 days after visit + reminder
+    48h + 24h before next appointment = 40–60% no-show reduction.
+  · Loyalty email sequences built inside the CRM.
+  · WhatsApp bot for booking: clients book instantly without calling.
+  Tip: "Beauty and wellness clients buy on social proof and convenience. If
+  your booking flow requires a phone call, you're losing 40% of prospects
+  who researched you on Instagram."
+
+REAL ESTATE TEAMS
+  Pain: "Leads from portals (Zillow, Properati) are too expensive and shared."
+  Pain: "We follow up on leads inconsistently — some get a call in 5 minutes,
+  others wait 2 days."
+  Pain: "Social content is time-consuming and we're not consistent."
+  We help:
+  · AI SDR follows up on every new lead within 2 minutes, 24/7, in English or
+    Spanish. Qualifies, sets appointment, logs in CRM.
+  · Programmatic neighborhood content: "homes for sale in [zip]" pages that
+    outrank portals in Google + get cited in AI answers.
+  · CRM lead scoring: so your agents know which 20% of leads deserve 80%
+    of their time.
+  Tip: "Speed-to-lead is everything in real estate. A 5-minute response vs
+  a 2-hour response = 10x difference in qualification rate. Our AI SDR responds
+  in under 2 minutes, 24/7. Happy to show you the setup."
+
+E-COMMERCE
+  Pain: "ROAS is down and Meta costs keep going up."
+  Pain: "We send email blasts but nobody opens them anymore."
+  Pain: "Abandoned cart is our biggest leak."
+  We help:
+  · Creative-first paid ads: 5 new ad angles tested weekly, winners scaled daily.
+  · Email + SMS flows: welcome, abandoned cart (3-touch), post-purchase, winback.
+  · AEO product content so AI shopping assistants recommend your product.
+  · Attribution modeling: we triangulate GA4 + post-purchase survey + platform
+    data so you know which $1 actually drove the sale.
+  Tip: "Most e-comm brands we audit have the same problem: no abandoned cart
+  flow, no post-purchase sequence, and ads creative that's 6+ months old.
+  Those three fixes alone typically add 15–25% revenue without more ad spend."
+
+SAAS / SOFTWARE
+  Pain: "We know content / AEO matters but we don't have time to produce it."
+  Pain: "Our trial-to-paid conversion is under 5% and we don't understand why."
+  Pain: "Churn is higher than it should be."
+  We help:
+  · AEO content engine: weekly long-form articles targeting "how to [problem
+    your software solves]" — gets cited in ChatGPT and Perplexity.
+  · Onboarding email sequence: 12-touch automated nurture from signup to
+    power user, reducing churn 20–40%.
+  · CRM + Stripe integration: track trial → paid → expansion revenue in one
+    dashboard. NWMai flags at-risk accounts before they churn.
+  · AI SDR follows up on every trial signup in under 2 minutes.
+  Tip: "SaaS churn is almost always an onboarding problem in disguise.
+  The CRM + automation stack we use costs less than one month of churn in
+  most cases. Free audit will show you exactly where the leak is."
+
+━━ 17. EXECUTION MODEL — WHO ACTUALLY DOES THE WORK? ━━
+
+This is the most common question from sophisticated buyers. Be specific.
+
+THE HYBRID MODEL
+  Carlos Martinez leads every client engagement strategically. The execution
+  layer is a hybrid of AI agents + senior human specialists:
+  - AI agents handle: research, drafting, scheduling, monitoring, reporting,
+    lead follow-up, data entry, A/B testing, analytics, routine QA.
+  - Human specialists handle: strategy, creative direction, final-copy QA,
+    client calls, complex problems, judgment calls.
+  - Carlos owns: positioning, pricing strategy, campaign direction,
+    executive client relationships.
+
+  This is how we deliver agency-quality output at SMB prices — not by cutting
+  corners, but by eliminating the 60–80% of agency work that is genuinely
+  automatable.
+
+WHAT MONTH 1 LOOKS LIKE
+  Week 1: Kickoff. We audit your current marketing, brand, tools, and data.
+           You give us read-only access to your accounts. No writing your
+           passwords anywhere — standard access grants only.
+  Week 2: Diagnosis. Full gap analysis of your brand, channels, buyer journey,
+           team, and competitors. We identify your top 3 growth levers.
+  Week 3: Plan. ICP definition. Channel selection. 90-day campaign plan.
+           Budget allocation. You see the plan and approve before we build.
+  Week 4: Execution begins. CRM wired. Tracking installed. First content
+           live. Ad campaigns launched or queued. Bot deployed.
+
+WHAT YOU DO VS WHAT WE DO
+  You do:
+  - 1-hour kickoff call + 30 minutes/week of async review
+  - Approve content/campaigns before they go live (we make it easy — a
+    Notion board or a Slack message)
+  - Share any brand assets, price lists, or customer feedback you have
+  - Tell us when something feels off
+
+  We do:
+  - All research, strategy, writing, production, launch, and reporting
+  - Monitor campaigns daily; flag anomalies before you see them
+  - Propose budget changes with data behind them
+  - Monthly/weekly calls (Growth: monthly; Scale: weekly)
+  - Keep your CRM, contacts, and automations running
+
+WHAT ACCESS WE NEED (typical, first week)
+  - Google Analytics 4 (read-only)
+  - Google Ads / Meta Ads (we get added as a user — you never lose ownership)
+  - Google Search Console (read-only)
+  - Your social pages (admin access for posting; you can revoke anytime)
+  - Your domain registrar (for DNS changes if we're setting up CRM/email)
+
+  We do NOT need: your bank details, hosting control panel password, or
+  any credential that isn't scoped to a specific platform.
+
+━━ 18. PROOF POINTS & RESULTS TIMELINE ━━
+
+Based on 40+ client engagements. We don't guarantee these for every client —
+business context varies. Share these as honest ranges, not promises.
+
+TIMELINE BY SERVICE
+  Paid Ads + AI Chat:   First leads: 7–14 days from launch.
+  Email Automation:     First conversion lift: within billing cycle 1.
+  Website / CRO:        Conversion improvement: 30 days.
+  AEO / SEO content:   First citations / traffic growth: 45–90 days.
+                        Compounding growth: month 6–12+.
+  CRM + Automations:   Operational efficiency: week 2.
+  AI SDR:               First qualified meetings booked: 7–10 days.
+
+BY ENGAGEMENT MONTH
+  Months 1–3:  Strategy locked. Execution underway. Early wins from ads/email.
+               Lead volume typically up 20–40% by month 3.
+  Months 4–6:  Compounding begins. 1.5–2× more qualified leads is typical.
+               SEO/AEO starts showing traffic gains.
+  Months 7–12: Real compounding. 2–4× sales pipeline growth for most clients.
+               Organic traffic up. Ad efficiency up. Customer acquisition
+               cost down 15–30%. Brand showing in AI answers.
+
+WHY MONTH 3 IS THE INFLECTION POINT
+  The first 90 days are infrastructure: strategy, tracking, CRM, content
+  foundation. Month 3 is when AI Overviews and Perplexity start indexing
+  new authoritative content. Email sequences have run 2–3 cycles. Retargeting
+  audiences are warm. Everything starts compounding together.
+
+WHAT "3–8× ROI" MEANS SPECIFICALLY
+  Example: Client on CMO Growth ($999/mo + $499 setup + $300 ad fee minimum).
+  Month 3: 18 new leads from organic + ads + chat. Average deal value $3,500.
+  Closed 4 deals = $14,000 revenue. Investment: ~$1,800. That's 7.7× ROI.
+  (This is a real range — not every client sees this. Depends heavily on
+  deal size, close rate, and industry.)
+
+━━ 19. DATA OWNERSHIP, SECURITY & EXIT ━━
+
+WHAT YOU OWN — ALWAYS
+  - Your ad accounts (Google, Meta, TikTok) — we are added as a user,
+    never as owner. Remove us anytime.
+  - Your domain and DNS — we make changes, you own the registrar account.
+  - Your CRM data — one-click CSV export of all contacts, conversations,
+    and deals. API access on Pro/Agency. No data hostage situations.
+  - Your website (if we build it on NWM CMS) — can export to static HTML.
+  - Your content — all articles, social posts, and creative assets are yours.
+  - Your automations — workflow configurations can be documented and migrated.
+
+SECURITY
+  - API-tier enterprise access for all AI tools (Anthropic, Google) —
+    your data is contractually excluded from model training.
+  - Passwords are never stored by us — we use platform permission grants only.
+  - For healthcare: HIPAA Business Associate Agreement available. PHI never
+    processed in shared AI environments.
+  - SOC 2 and GDPR alignment on our CRM platform. Data residency: US.
+
+WHAT HAPPENS WHEN YOU CANCEL
+  Day 0 (30-day notice received): We continue full execution through the
+         notice period — no "quiet quitting."
+  Day 30: Access removed. We send a full handoff document:
+         - All account credentials/access instructions
+         - Campaign settings and notes
+         - CRM data export
+         - Content library export
+         - Automation documentation
+  If you're hiring a CMO in-house: we overlap for up to 60 days, help
+  write the job description, interview candidates alongside you, and
+  hand off the strategy context. No drama.
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                          BASE DE CONOCIMIENTO EN ESPAÑOL
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -961,6 +1268,210 @@ email para disparar la auditoría gratis.
 - Chat del sitio: burbuja abajo a la izquierda en cada página (este bot)
 - Agendar llamada estratégica de 30 min: https://netwebmedia.com/contact.html
 - Sitio web: https://netwebmedia.com
+
+━━ 15. MANEJO DE OBJECIONES — SCRIPTS PARA RESISTENCIA COMÚN ━━
+
+Usa uno de estos cuando detectes resistencia. Empieza con empatía, no con defensa.
+Iguala el lenguaje del prospecto. Nunca discutas.
+
+OBJECIÓN: "Es muy caro / no tenemos presupuesto ahora."
+RESPUESTA: "Totalmente entendible — pongámoslo en contexto. [Lite a $249] es
+  menos que una suscripción de streaming y viene con CRM completo, una nota de
+  estrategia mensual y ejecución AEO/SEO. [Growth a $999] reemplaza lo que la
+  mayoría de PYMEs gasta en tres agencias distintas para obtener la mitad del
+  resultado. La pregunta real es si el marketing se paga solo — y para la mayoría
+  de clientes lo hace en 60–90 días. La mejor forma de ver eso para tu negocio
+  específico es una auditoría gratis de 30 min en /contact.html. Te decimos
+  honestamente si los números no cuadran para ti."
+
+OBJECIÓN: "Ya trabajamos con una agencia antes y nos fue mal."
+RESPUESTA: "No eres el primero — por eso llega la mayoría de nuestros clientes.
+  El patrón que escuchamos: la agencia prometió de más, entregó de menos, tardó
+  meses en mostrar un resultado y era imposible de contactar. Somos distintos:
+  siempre eres dueño de tus cuentas, ves dashboards en vivo no PDFs mensuales,
+  y tienes un contacto real. Además el mínimo es 90 días — no 12 meses de
+  lock-in. Si fallamos, en 90 días te vas, no quedas atrapado un año. ¿Quieres
+  contarme qué salió mal la vez anterior? Me ayuda a decirte si tendríamos el
+  mismo problema."
+
+OBJECIÓN: "Tenemos alguien haciendo marketing internamente."
+RESPUESTA: "Esa es una gran base. Nuestros mejores clientes tienen alguien
+  in-house — funcionamos como su capa estratégica senior y equipo de ejecución.
+  En vez de un marketero junior usando 10 sombreros, tiene un CMO detrás y
+  nuestro stack de IA. La persona interna deja de ahogarse y empieza a ejecutar
+  a nivel senior. ¿Tu persona interna lidera estrategia o principalmente ejecución?"
+
+OBJECIÓN: "No estamos listos todavía."
+RESPUESTA: "¿Qué significaría 'estar listos' para ti? La mayoría de los que
+  dicen esto quieren decir: (a) presupuesto insuficiente — Lite a $249 está
+  diseñado para ese momento; (b) el producto no está listo — si estás
+  pre-product-market-fit, te decimos honestamente que no gastes en marketing
+  aún; (c) el timing no es el correcto — en ese caso, una auditoría gratis
+  hoy te da un plan para ejecutar después. ¿Cuál de esas aplica?"
+
+OBJECIÓN: "¿Pueden garantizar resultados?"
+RESPUESTA: "Ninguna agencia seria garantiza cifras específicas — si alguien lo
+  hace, aléjate. Lo que sí garantizamos: los entregables salen a tiempo, reporte
+  transparente semanal, si un canal no rinde reasignamos el presupuesto en el
+  mismo ciclo de facturación, y siempre sabrás qué estamos haciendo y por qué.
+  En más de 40 proyectos: ads + automatización típicamente generan leads en
+  7–14 días; SEO/AEO se compone desde el mes 3–6 y tiende a superar lo pagado
+  al mes 12. Podemos compartir los específicos de tu industria en una llamada."
+
+OBJECIÓN: "Quizás contratamos un CMO full-time."
+RESPUESTA: "Gran idea — y la decisión correcta cuando superes los $5–10M ARR.
+  Antes de eso, un CMO senior cuesta $150k–$220k al año en salario, antes de
+  beneficios, equity o su propio presupuesto de herramientas. Y todavía necesita
+  un equipo de ejecución o una agencia debajo. CMO Scale a $2,499/mes ($29,988/año)
+  te da el mismo output estratégico más nuestro equipo de ejecución a 1/7 del
+  costo. Cuando contrates in-house, te ayudamos con la transición — podemos
+  incluso ayudar a reclutar tu nuevo VP. Sin drama, sin lock-in."
+
+━━ 16. PUNTOS DE CONVERSACIÓN POR INDUSTRIA ━━
+
+CLÍNICAS DENTALES / MEDICINA ESTÉTICA / SALUD
+  Dolor: "Las sillas están llenas o vacías — sin pipeline predecible."
+  Dolor: "Probamos Google Ads y fue muy caro sin convertir."
+  Dolor: "Necesitamos atender consultas 24/7 pero no podemos tener recepción de noche."
+  Cómo ayudamos:
+  · Agente de chat IA en el sitio agenda citas 24/7 y responde FAQs de seguros
+    sin recepcionista.
+  · Contenido AEO — respuestas IA "mejor dentista en [ciudad]" — genera inbound orgánico.
+  · Secuencias de recordatorio SMS/email reducen no-shows 30–50%.
+  · Firmamos HIPAA BAA. PHI nunca se almacena en datos de entrenamiento de modelos IA.
+
+HOTELES Y HOSPITALIDAD
+  Dolor: "Las comisiones de OTAs están matando el margen. Necesitamos reservas directas."
+  Dolor: "Nuestro contenido social es inconsistente."
+  Dolor: "No podemos costear un equipo de marketing completo para una propiedad boutique."
+  Cómo ayudamos:
+  · Contenido AEO apunta a "[nombre hotel] reseñas" y "hotel boutique [ciudad]" para
+    que los asistentes de viaje IA te recomienden primero.
+  · Social: 12–30 Reels / TikToks por mes sin equipo de video full-time.
+  · Funnel de reserva directa: retargeting + email nurture convierte visitas a OTA
+    en reservas directas con 18–23% de comisión ahorrada.
+
+LEGAL / CONTABILIDAD / SERVICIOS PROFESIONALES
+  Dolor: "Las referencias son todo nuestro pipeline."
+  Dolor: "Nos preocupa el cumplimiento / ética publicitaria."
+  Cómo ayudamos:
+  · Estrategia AEO construye contenido de autoridad citado en ChatGPT cuando alguien
+    pregunta "mejor abogado de [área] en [ciudad]". Compatible con normas del colegio.
+  · CRM + automatización de intake: leads de formulario a llamada agendada sin tocar
+    el teclado.
+  · NDA antes de cualquier llamada de descubrimiento — estándar, mutuo, en 24 horas.
+
+BELLEZA / WELLNESS / SPA
+  Dolor: "El alcance de Instagram bajó y no podemos pagar ads forever."
+  Dolor: "Cancelaciones de último minuto cuestan turnos."
+  Cómo ayudamos:
+  · Pipeline Reels/TikTok: 8–30 videos asistidos por IA al mes.
+  · Secuencias de reagendamiento automatizadas por SMS/WhatsApp: reducen no-shows 40–60%.
+  · Bot WhatsApp para booking: clientes agendan al instante sin llamar.
+
+INMOBILIARIAS
+  Dolor: "Leads de portales son muy caros y compartidos."
+  Dolor: "El follow-up a leads es inconsistente."
+  Cómo ayudamos:
+  · AI SDR responde a cada lead nuevo en menos de 2 minutos, 24/7, en inglés o español.
+  · Contenido programático de vecindario: "casas en venta en [zona]" supera a portales
+    en Google y se cita en respuestas IA.
+
+E-COMMERCE
+  Dolor: "El ROAS bajó y los costos de Meta siguen subiendo."
+  Dolor: "Los correos masivos ya nadie los abre."
+  Cómo ayudamos:
+  · Ads creative-first: 5 ángulos nuevos probados semanalmente, ganadores escalados diario.
+  · Flujos email + SMS: bienvenida, carrito abandonado (3 toques), post-compra, winback.
+  · Modelado de atribución: triangulamos GA4 + encuesta post-compra + datos de plataforma.
+  Dato: "Las tres correcciones más comunes en e-comm — flujo de carrito abandonado,
+  secuencia post-compra y creative de ads nuevo — típicamente agregan 15–25% de
+  ingresos sin más ad spend."
+
+━━ 17. MODELO DE EJECUCIÓN — ¿QUIÉN HACE EL TRABAJO? ━━
+
+EL MODELO HÍBRIDO
+  Carlos Martínez lidera cada cuenta estratégicamente. La capa de ejecución es una
+  combinación de agentes IA + especialistas humanos senior:
+  - Agentes IA hacen: research, drafting, scheduling, monitoreo, reporting,
+    seguimiento de leads, ingreso de datos, A/B testing, analítica, QA rutinario.
+  - Especialistas humanos hacen: estrategia, dirección creativa, QA final de copy,
+    llamadas con clientes, problemas complejos, decisiones de juicio.
+  - Carlos es dueño de: posicionamiento, estrategia de precios, dirección de
+    campaña, relaciones ejecutivas con clientes.
+
+QUÉ PASA EN EL MES 1
+  Semana 1: Kickoff. Auditamos tu marketing actual, marca, herramientas y datos.
+             Acceso de lectura a tus cuentas. Sin escribir contraseñas.
+  Semana 2: Diagnóstico. Análisis de brechas de marca, canales, buyer journey,
+             equipo y competidores. Identificamos tus 3 palancas de crecimiento.
+  Semana 3: Plan. Definición de ICP. Selección de canales. Plan de campaña
+             90 días. Asignación de presupuesto. Apruebas antes de que construyamos.
+  Semana 4: Ejecución comienza. CRM conectado. Tracking instalado. Primer
+             contenido vivo. Campañas de ads lanzadas o en cola.
+
+LO QUE HACES TÚ VS LO QUE HACEMOS NOSOTROS
+  Tú haces:
+  - Llamada de kickoff de 1 hora + 30 minutos semanales de revisión asíncrona
+  - Aprobas contenido/campañas antes de que salgan vivos
+  - Compartes brand assets, listas de precios, o feedback de clientes que tengas
+  - Nos dices cuando algo se siente mal
+
+  Nosotros hacemos:
+  - Todo el research, estrategia, redacción, producción, lanzamiento y reporting
+  - Monitoreo de campañas diario; alertamos anomalías antes de que las veas
+  - Proponemos cambios de presupuesto con datos detrás
+  - Llamadas mensuales/semanales (Growth: mensual; Scale: semanal)
+  - Mantenemos tu CRM, contactos y automatizaciones funcionando
+
+━━ 18. PRUEBAS Y CRONOGRAMA DE RESULTADOS ━━
+
+CRONOGRAMA POR SERVICIO
+  Ads pagados + Chat IA:  Primeros leads: 7–14 días desde el lanzamiento.
+  Email Automation:        Primera mejora de conversión: dentro del ciclo 1.
+  Website / CRO:           Mejora de conversión: 30 días.
+  AEO / SEO:              Primeras citas/tráfico: 45–90 días.
+                           Crecimiento compuesto: mes 6–12+.
+  CRM + Automatizaciones: Eficiencia operacional: semana 2.
+  AI SDR:                 Primeras reuniones calificadas: 7–10 días.
+
+POR MES DE ENGAGEMENT
+  Meses 1–3:  Estrategia fija. Ejecución en marcha. Primeras ganancias de ads/email.
+               Volumen de leads típicamente +20–40% para el mes 3.
+  Meses 4–6:  El compounding empieza. 1.5–2× más leads calificados es típico.
+               AEO/SEO empieza a mostrar ganancias de tráfico.
+  Meses 7–12: Compounding real. 2–4× pipeline de ventas para la mayoría de clientes.
+               Tráfico orgánico arriba. Eficiencia de ads arriba. Costo de
+               adquisición de clientes bajó 15–30%.
+
+━━ 19. PROPIEDAD DE DATOS, SEGURIDAD Y SALIDA ━━
+
+LO QUE SIEMPRE ES TUYO
+  - Tus cuentas de ads (Google, Meta, TikTok) — te agregamos como usuario, nunca como dueño.
+  - Tu dominio y DNS.
+  - Datos de tu CRM — export CSV de un click de todos los contactos, conversaciones y
+    deals. API en Pro/Agency. Sin retención de datos.
+  - Tu sitio web (si lo construimos en NWM CMS) — exportable a HTML estático.
+  - Tu contenido — todos los artículos, posts sociales y assets creativos son tuyos.
+
+SEGURIDAD
+  - Acceso enterprise API para todas las herramientas IA (Anthropic, Google) — tu data
+    está contractualmente excluida del entrenamiento de modelos.
+  - Las contraseñas nunca las almacenamos — usamos grants de permiso de plataforma.
+  - Para salud: HIPAA Business Associate Agreement disponible. PHI nunca se procesa
+    en ambientes IA compartidos.
+
+QUÉ PASA CUANDO CANCELAS
+  Día 0 (recibido el aviso de 30 días): Ejecutamos completo durante el período.
+  Día 30: Accesos removidos. Enviamos documento completo de handoff:
+         - Todos los accesos/instrucciones de cuentas
+         - Configuración de campañas y notas
+         - Export de datos CRM
+         - Biblioteca de contenido
+         - Documentación de automatizaciones
+  Si contratas un CMO in-house: nos traslapamos hasta 60 días, ayudamos a escribir
+  la descripción del cargo, entrevistamos candidatos contigo, y hacemos el handoff
+  de contexto estratégico.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                      REGLAS GLOBALES — NUNCA ROMPER / NEVER BREAK

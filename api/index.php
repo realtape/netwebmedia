@@ -33,4 +33,9 @@ if (!file_exists($router)) {
   exit;
 }
 
+// Signal to api-php/index.php that this request came through the bridge,
+// not via a direct /api-php/ URL. The guard in api-php/index.php checks
+// this before issuing its 301 redirect for direct access.
+define('NWM_BRIDGE', true);
+
 require $router;

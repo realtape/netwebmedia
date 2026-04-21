@@ -2,6 +2,16 @@
 /* NetWebMedia API — single-entry router
    URL pattern: /api/{group}/{sub...}  e.g. /api/auth/login, /api/resources/page/42 */
 
+/* Canonical entry point is /api/ — this file should only be reached via
+   the bridge at /api/index.php. Direct access to /api-php/ is redirected. */
+if (!defined('NWM_BRIDGE') && isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/api-php/') === 0) {
+  // Redirect /api-php/foo to /api/foo keeping query string
+  $uri = str_replace('/api-php/', '/api/', $_SERVER['REQUEST_URI']);
+  header('HTTP/1.1 301 Moved Permanently');
+  header('Location: ' . $uri);
+  exit;
+}
+
 require __DIR__ . '/lib/db.php';
 require __DIR__ . '/lib/response.php';
 require __DIR__ . '/lib/auth.php';

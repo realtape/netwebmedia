@@ -32,7 +32,7 @@ Companion document to [BUSINESS_PLAN.md](BUSINESS_PLAN.md) and [EXECUTION_90DAY.
        ┌──────────────────────────────────────┐
        │ "Get cited by AI. Close more deals.  │
        │  One retainer — strategy, software,  │
-       │  and execution. Starting $1,997/mo." │
+       │  and execution. Starting $249/mo."   │
        └──────────────────────────────────────┘
                         │
       ┌─────────────────┼─────────────────┐
@@ -53,7 +53,7 @@ Companion document to [BUSINESS_PLAN.md](BUSINESS_PLAN.md) and [EXECUTION_90DAY.
 
 ### Pillar 2 — "One price, one retainer"
 - Bundled: CMO + CRM + content + outbound in one invoice
-- Transparent tiers ($1,997 / $2,997 / $5,997) — no scope games
+- Transparent tiers ($249 / $999 / $2,499) — no scope games
 - Fewer vendors = faster execution (ship in week 1, not month 3)
 
 ### Pillar 3 — "AI does the grind, humans lead the strategy"
@@ -158,7 +158,7 @@ Companion document to [BUSINESS_PLAN.md](BUSINESS_PLAN.md) and [EXECUTION_90DAY.
 | W10 | "90-Day Onboarding Inside a Fractional CMO" | Process post | "fractional cmo onboarding" | MOFU | Organic |
 | W11 (Jul 13) | "ActiveCampaign vs NetWebMedia" | Comparison | "activecampaign alternative" | BOFU | Organic |
 | W11 | "LATAM SMB Marketing: The Untapped $4B Market" | Data study | "latam b2b marketing" | TOFU | Organic |
-| W12 (Jul 20) | "The $1,997 CMO: What You Actually Get" | Product deep-dive | "fractional cmo $2000" | BOFU | Organic/Paid |
+| W12 (Jul 20) | "The $249 CMO: What You Actually Get" | Product deep-dive | "fractional cmo under $500" | BOFU | Organic/Paid |
 | W12 | "Partner Program Launch" | Announcement | — | TOFU | Email/Paid |
 | W13 (Jul 27) | "100 Days of AEO: What Worked" | Retrospective | "aeo results" | MOFU | Organic |
 | W13 | "AI Marketing Agency Pricing 2026 Benchmarks" | Report | "ai marketing agency pricing" | TOFU | Organic/PR |
@@ -209,7 +209,7 @@ Companion document to [BUSINESS_PLAN.md](BUSINESS_PLAN.md) and [EXECUTION_90DAY.
 | 3 | 3 | "The $49 CRM does this — did you know?" | Try hidden feature |
 | 4 | 5 | "Case study: Jenny went from 0 to 12 AI citations in 21 days" | Read story |
 | 5 | 7 | "Stop the 3 AM anxiety about your marketing" | Book 15-min strategy call |
-| 6 | 10 | "Upgrade math: CRM $49 → fCMO $1,997 pays back in 60 days" | Upgrade |
+| 6 | 10 | "Upgrade math: CRM $49 → fCMO $249 pays back in 7 days" | Upgrade |
 | 7 | 14 | "Last nudge: here's what you're missing" | Book call OR unsubscribe |
 
 ### B. Demo no-show — 5 emails over 7 days
@@ -229,7 +229,7 @@ Companion document to [BUSINESS_PLAN.md](BUSINESS_PLAN.md) and [EXECUTION_90DAY.
 | 1 | 3 | "You've done X — here's what's next" | Activate feature |
 | 2 | 5 | "Before your trial ends: the one thing that closes deals" | Book strategy call |
 | 3 | 7 | "3 clients who upgraded — what changed" | Read stories |
-| 4 | 9 | "$1,997/mo vs hiring: the math" | Upgrade |
+| 4 | 9 | "$249/mo vs hiring: the math" | Upgrade |
 | 5 | 11 | "24 hours left — secure your price" | Upgrade |
 | 6 | 14 (post-trial) | "Saved your data — come back when ready" | Reactivate |
 
@@ -324,7 +324,7 @@ Top 10 site improvements, prioritized by ICE score (Impact × Confidence × Ease
 | Free audit / trial requests | 1,200 | 3% |
 | Sales-qualified leads (SQL) | 180 | 15% |
 | Platform sign-ups ($49–$449) | 35/mo | 19% of SQL |
-| Retainer closes ($1,997+) | 6/mo | 3.3% of SQL |
+| Retainer closes ($249+) | 13/mo *(revised up from 6 to hit MRR target at lower ACV — see BUSINESS_PLAN.md strategic note)* | 7.2% of SQL |
 
 ---
 
@@ -357,6 +357,6 @@ Top 10 site improvements, prioritized by ICE score (Impact × Confidence × Ease
 
 The plan is front-loaded on content + outbound because those are the only channels where our AI-agent stack creates unfair cost leverage in Q1. Paid media and partners scale later once we have proof assets (case studies + data studies) to fuel them.
 
-**Bear-case pivot trigger:** If by July 31 we're below $28k MRR — drop fCMO Essentials from the funnel and go all-in on fCMO Scale + CRM $449. Don't wait to pull that lever.
+**Bear-case pivot trigger:** If by July 31 we're below $20k MRR — pause Lite tier acquisition and concentrate demand on Growth + Scale + CRM $449. Don't wait to pull that lever. *(Threshold lowered from $28k after 2026-04-21 repricing; see [BUSINESS_PLAN.md §11](BUSINESS_PLAN.md#11-scenario-planning) strategic note.)*
 
 See [EXECUTION_90DAY.md](EXECUTION_90DAY.md) for the dated task list (all 45 items are live on Carlos's Google Calendar).

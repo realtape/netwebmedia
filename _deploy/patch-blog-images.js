@@ -40,7 +40,7 @@ function hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s
 function imageFor(slug, topic) {
   const pool = IMG_POOL[topic] || IMG_POOL.ai;
   const id = pool[hash(slug) % pool.length];
-  return `https://images.unsplash.com/${id}?w=1200&q=80&auto=format&fit=crop`;
+  return `https://images.unsplash.com/photo-${id}?w=1200&q=80&auto=format&fit=crop`;
 }
 
 const BLOG_DIR = 'blog';

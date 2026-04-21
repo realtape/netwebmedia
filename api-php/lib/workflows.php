@@ -138,8 +138,8 @@ function wf_step_send_sms($step, $ctx) {
             'to' => render_template($step['to'] ?? '', $ctx),
             'body' => render_template($step['body'] ?? '', $ctx)];
   }
-  $to   = render_template($step['to'] ?? '', $ctx);
-  $body = render_template($step['body'] ?? '', $ctx);
+  $to   = html_entity_decode(render_template($step['to'] ?? '', $ctx), ENT_QUOTES, 'UTF-8');
+  $body = html_entity_decode(render_template($step['body'] ?? '', $ctx), ENT_QUOTES, 'UTF-8');
   $ch = curl_init('https://api.twilio.com/2010-04-01/Accounts/' . $cfg['twilio_sid'] . '/Messages.json');
   curl_setopt_array($ch, [
     CURLOPT_USERPWD => $cfg['twilio_sid'] . ':' . $cfg['twilio_token'],
@@ -305,7 +305,7 @@ function wf_step_ai_reply($step, $ctx, &$ctxRef) {
       'anthropic-version: 2023-06-01',
     ],
     CURLOPT_POSTFIELDS => json_encode([
-      'model' => 'claude-sonnet-4-5',
+      'model' => 'claude-sonnet-4-6',
       'max_tokens' => 600,
       'messages' => [['role'=>'user','content'=>$prompt]],
     ]),

@@ -95,6 +95,12 @@ try {
   } elseif ($group === 'whatsapp') {
     require __DIR__ . '/routes/whatsapp.php';
     route_whatsapp($parts, $method);
+  } elseif ($group === 'heygen') {
+    require __DIR__ . '/routes/heygen.php';
+    route_heygen($parts, $method);
+  } elseif ($group === 'vapi') {
+    require __DIR__ . '/routes/vapi.php';
+    route_vapi($parts, $method);
   } else {
     err('Route not found', 404);
   }

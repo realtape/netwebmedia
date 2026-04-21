@@ -101,6 +101,9 @@ try {
   } elseif ($group === 'vapi') {
     require __DIR__ . '/routes/vapi.php';
     route_vapi($parts, $method);
+  } elseif ($group === 'comments') {
+    require __DIR__ . '/routes/comments.php';
+    route_comments($parts, $method);
   } else {
     err('Route not found', 404);
   }

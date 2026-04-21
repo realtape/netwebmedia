@@ -146,22 +146,129 @@
     </div>
   </div>
 
-  <!-- Comments (Disqus) -->
-  <div class="article-comments" style="margin:48px 0;">
-    <div id="disqus_thread"></div>
+  <!-- Comments -->
+  <div class="article-comments" id="comments" style="margin:48px 0;">
+    <h3 style="font-family:'Poppins',sans-serif;font-size:22px;font-weight:800;color:#010F3B;margin:0 0 28px;">Comments</h3>
+
+    <!-- Comment list -->
+    <div id="nwm-comment-list" style="margin-bottom:36px;"></div>
+
+    <!-- New comment form -->
+    <div style="background:#f9fafb;border-radius:12px;padding:28px 32px;border:1px solid #e5e7eb;">
+      <p style="font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;color:#010F3B;margin:0 0 20px;">Leave a comment</p>
+      <form id="nwm-comment-form" onsubmit="nwmSubmitComment(event,'pika-vs-runway-short-form-video')">
+        <input type="text" name="hp_field" style="display:none" tabindex="-1" autocomplete="off" />
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div>
+            <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:5px;">Name <span style="color:#ef4444">*</span></label>
+            <input id="nwm-c-name" type="text" placeholder="Your name" required maxlength="100"
+              style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;box-sizing:border-box;outline:none;" />
+          </div>
+          <div>
+            <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:5px;">Email <span style="color:#9ca3af;font-weight:400">(optional, never shown)</span></label>
+            <input id="nwm-c-email" type="email" placeholder="you@email.com" maxlength="200"
+              style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;box-sizing:border-box;outline:none;" />
+          </div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:5px;">Comment <span style="color:#ef4444">*</span></label>
+          <textarea id="nwm-c-comment" rows="4" placeholder="Share your thoughts..." required maxlength="2000"
+            style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;box-sizing:border-box;outline:none;"></textarea>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <button type="submit" id="nwm-c-btn" style="display:inline-flex;align-items:center;gap:6px;padding:10px 22px;background:#FF671F;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;">Post comment</button>
+          <span id="nwm-c-msg" style="font-size:13px;color:#6b7280;"></span>
+        </div>
+      </form>
+    </div>
+
     <script>
-      var disqus_config = function () {
-        this.page.url = 'https://netwebmedia.com/blog/pika-vs-runway-short-form-video.html';
-        this.page.identifier = 'pika-vs-runway-short-form-video';
+    (function(){
+      var API = '/api/comments';
+      var slug = 'pika-vs-runway-short-form-video';
+
+      function timeAgo(iso) {
+        var d = Math.floor((Date.now() - new Date(iso)) / 1000);
+        if (d < 60) return 'just now';
+        if (d < 3600) return Math.floor(d/60) + ' min ago';
+        if (d < 86400) return Math.floor(d/3600) + ' hr ago';
+        if (d < 2592000) return Math.floor(d/86400) + ' days ago';
+        return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+      }
+
+      function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+      function loadComments(){
+        fetch(API + '?slug=' + encodeURIComponent(slug))
+          .then(function(r){return r.json();})
+          .then(function(d){
+            var el = document.getElementById('nwm-comment-list');
+            if (!el) return;
+            if (!d.comments || d.comments.length === 0){
+              el.innerHTML = '<p style="color:#9ca3af;font-size:14px;font-style:italic;">No comments yet — be the first!</p>';
+              return;
+            }
+            el.innerHTML = d.comments.map(function(c){
+              return '<div style="display:flex;gap:14px;padding:18px 0;border-bottom:1px solid #f3f4f6;">'
+                + '<div style="flex-shrink:0;width:40px;height:40px;border-radius:50%;background:#010F3B;display:flex;align-items:center;justify-content:center;font-family:Poppins,sans-serif;font-size:16px;font-weight:800;color:#FF671F;">'
+                + esc(c.name.charAt(0).toUpperCase())
+                + '</div>'
+                + '<div style="flex:1;min-width:0;">'
+                + '<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px;">'
+                + '<strong style="font-size:14px;font-weight:700;color:#111827;font-family:Poppins,sans-serif;">' + esc(c.name) + '</strong>'
+                + '<span style="font-size:12px;color:#9ca3af;">' + timeAgo(c.created_at) + '</span>'
+                + '</div>'
+                + '<p style="margin:0;font-size:14px;color:#374151;line-height:1.6;">' + esc(c.comment).replace(/
+/g,'<br>') + '</p>'
+                + '</div></div>';
+            }).join('');
+          })
+          .catch(function(){});
+      }
+
+      window.nwmSubmitComment = function(e, slug){
+        e.preventDefault();
+        var btn = document.getElementById('nwm-c-btn');
+        var msg = document.getElementById('nwm-c-msg');
+        var hp  = e.target.querySelector('[name="hp_field"]').value;
+        var name    = document.getElementById('nwm-c-name').value.trim();
+        var email   = document.getElementById('nwm-c-email').value.trim();
+        var comment = document.getElementById('nwm-c-comment').value.trim();
+        btn.disabled = true;
+        btn.textContent = 'Posting…';
+        msg.textContent = '';
+        fetch(API, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({slug:slug, name:name, email:email, comment:comment, hp_field:hp})
+        })
+        .then(function(r){return r.json();})
+        .then(function(d){
+          if (d.ok){
+            msg.style.color = '#16a34a';
+            msg.textContent = 'Comment posted!';
+            document.getElementById('nwm-c-name').value = '';
+            document.getElementById('nwm-c-email').value = '';
+            document.getElementById('nwm-c-comment').value = '';
+            loadComments();
+          } else {
+            msg.style.color = '#dc2626';
+            msg.textContent = d.error || 'Something went wrong. Please try again.';
+          }
+          btn.disabled = false;
+          btn.textContent = 'Post comment';
+        })
+        .catch(function(){
+          msg.style.color = '#dc2626';
+          msg.textContent = 'Network error. Please try again.';
+          btn.disabled = false;
+          btn.textContent = 'Post comment';
+        });
       };
-      (function() {
-        var d = document, s = d.createElement('script');
-        s.src = 'https://netwebmedia.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-      })();
+
+      loadComments();
+    })();
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
   </div>
 
   <p style="text-align:center;margin-top:40px;">

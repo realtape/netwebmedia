@@ -106,12 +106,15 @@ function wa_handle_inbound(): void {
 function wa_handle_twilio(): void {
   $cfg = config();
 
-  // Optional: verify Twilio signature
+  // Verify Twilio signature — REQUIRED when twilio_token is configured. Twilio
+  // always sends X-Twilio-Signature; a missing header means the request is
+  // unauthenticated (e.g. direct attacker POST). Reject with 403 either when
+  // the header is absent or when the HMAC doesn't match.
   if (!empty($cfg['twilio_token'])) {
     $sig      = $_SERVER['HTTP_X_TWILIO_SIGNATURE'] ?? '';
     $url      = ($cfg['base_url'] ?? 'https://netwebmedia.com') . '/api/whatsapp/webhook';
     $expected = base64_encode(hash_hmac('sha1', $url . wa_sorted_params($_POST), $cfg['twilio_token'], true));
-    if ($sig && !hash_equals($expected, $sig)) {
+    if (!$sig || !hash_equals($expected, $sig)) {
       http_response_code(403);
       header('Content-Type: text/xml');
       echo '<Response></Response>';
@@ -223,7 +226,28 @@ function wa_meta_send(string $to, string $message): void {
 
 // ── AI reply generator ────────────────────────────────────────────────────────
 
+function wa_rate_limited(string $phone, int $limit = 50, int $windowHours = 24): bool {
+  try {
+    $row = qOne(
+      "SELECT COUNT(*) AS c FROM whatsapp_sessions
+        WHERE phone = ? AND role = 'user'
+          AND created_at >= DATE_SUB(NOW(), INTERVAL $windowHours HOUR)",
+      [$phone]
+    );
+    return ((int)($row['c'] ?? 0)) >= $limit;
+  } catch (Throwable $e) {
+    return false;
+  }
+}
+
 function wa_generate_reply(string $phone, string $userMessage, string $provider): string {
+  // Rate-limit per phone BEFORE saving or calling Claude — protects credits from a single bad actor.
+  if (wa_rate_limited($phone)) {
+    $limited = "You've hit today's message limit for this chat. For a quick answer, see plans at https://netwebmedia.com/pricing.html, request a free async AI audit at https://netwebmedia.com/contact.html, or email hello@netwebmedia.com.";
+    wa_save_turn($phone, 'assistant', $limited, $provider);
+    return $limited;
+  }
+
   // Save user turn
   wa_save_turn($phone, 'user', $userMessage, $provider);
 

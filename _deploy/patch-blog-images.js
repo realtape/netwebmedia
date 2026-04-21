@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 process.chdir(path.join(__dirname, '..'));
 
-const PEOPLE_POOL = [
+const MIXED_POOL = [
   '1758762641372-e3b52bf061d4',
   '1522071820081-009f0129c71c',
   '1542744173-8e7e53415bb0',
@@ -15,12 +15,24 @@ const PEOPLE_POOL = [
   '1690264695514-3af95dfa51be',
   '1690264697065-33256aa3729b',
   '1713947501966-34897f21162e',
+  '1762330467475-a565d04e1808',
+  '1762330465857-07e4c81c0dfa',
+  '1757310998648-f8aaa5572e8e',
+  '1762328862557-e0a36587cd3c',
+  '1551288049-bebda4e38f71',
+  '1526628953301-3e589a6a8b74',
+  '1560472354-b33ff0c44a43',
+  '1666875753105-c63a6f3bdc86',
+  '1460925895917-afdab827c52f',
+  '1517694712202-14dd9538aa97',
+  '1526374965328-7f61d4dc18c5',
+  '1432888498266-38ffec3eaf0a',
 ];
 const IMG_POOL = {
-  ai: PEOPLE_POOL, code: PEOPLE_POOL, data: PEOPLE_POOL, seo: PEOPLE_POOL,
-  video: PEOPLE_POOL, voice: PEOPLE_POOL, paid: PEOPLE_POOL, regulation: PEOPLE_POOL,
-  mobile: PEOPLE_POOL, chips: PEOPLE_POOL, creative: PEOPLE_POOL, meta: PEOPLE_POOL,
-  sales: PEOPLE_POOL,
+  ai: MIXED_POOL, code: MIXED_POOL, data: MIXED_POOL, seo: MIXED_POOL,
+  video: MIXED_POOL, voice: MIXED_POOL, paid: MIXED_POOL, regulation: MIXED_POOL,
+  mobile: MIXED_POOL, chips: MIXED_POOL, creative: MIXED_POOL, meta: MIXED_POOL,
+  sales: MIXED_POOL,
 };
 
 const TAG_TO_TOPIC = {
@@ -51,8 +63,8 @@ for (const f of files) {
   const filePath = path.join(BLOG_DIR, f);
   let html = fs.readFileSync(filePath, 'utf8');
 
-  // Skip if already using verified CDN hashes from PEOPLE_POOL
-  if (PEOPLE_POOL.some(id => html.includes('unsplash.com/photo-' + id))) continue;
+  // Skip if already using verified CDN hashes from MIXED_POOL
+  if (MIXED_POOL.some(id => html.includes('unsplash.com/photo-' + id))) continue;
 
   const slug = f.replace(/\.html$/, '');
 

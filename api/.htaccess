@@ -1,0 +1,28 @@
+# NetWebMedia /api/ bridge — force every request through index.php
+# so stale files in /public_html/api/ cannot be served directly.
+# index.php forwards to /public_html/api-php/index.php (the canonical router).
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Exempt a tiny allowlist (none today, but leaves room for /api/robots.txt etc.)
+  # RewriteCond %{REQUEST_URI} !^/api/(robots\.txt|favicon\.ico)$
+
+  # Everything else → index.php (bridge to /api-php/)
+  RewriteRule ^.*$ index.php [QSA,L]
+</IfModule>
+
+# Deny direct access to *.js files in /api/ (leftover Node.js serverless handlers
+# from the Next.js CRM; they are not served by this PHP backend).
+<FilesMatch "\.js$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
+# JSON responses should never be cached at intermediate proxies.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(php)$">
+    Header always set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header always set Pragma "no-cache"
+  </FilesMatch>
+</IfModule>

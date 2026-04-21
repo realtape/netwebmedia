@@ -20,8 +20,12 @@ Each is a self-contained prompt + checklist ready to paste into HeyGen.
 
 ## Brand constants (apply to all reels)
 
-- **Avatar:** Latino male, 30s, business-casual. HeyGen "Daniel" or "Carlos."
-- **Voice:** `Guy` or `Tony` (Microsoft neural) — consistent across all assets.
+- **Avatar:** **Avatar V — Carlos Martinez (your own face).** Go to `app.heygen.com/avatar` → select Avatar V.
+  - **Black shirt / desk look** (bottom-left, podcast setup) → use for authority/talking-head shots
+  - **Orange cap + grey-blue jacket** (top-left) → casual founder energy, good for hooks
+  - **Orange cap + light blue shirt** (top-middle) → approachable, good for solution shots
+  - Mix looks across reels to keep content fresh; stay consistent within each reel.
+- **Voice:** Set your own voice clone in HeyGen (record a voice sample in Settings → Voice Clone). Until cloned, use `Guy` or `Tony` (Microsoft neural).
 - **Colors:** Navy `#010F3B` bg · Orange `#FF671F` accents · White text
 - **Captions:** Burned in, 2-3 word phrases, bold white + black outline, orange highlights on key terms
 - **Music:** Lo-fi tech pulse, 90 BPM (100 BPM for Paid Ads), -18 dB under VO

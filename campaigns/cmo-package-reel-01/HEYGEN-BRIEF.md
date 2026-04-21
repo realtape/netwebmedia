@@ -59,13 +59,14 @@ OUTPUT: 1080x1920, MP4, 30fps, H.264, under 30 seconds.
 
 ## Step 2 — Avatar selection
 
-**Recommended:** Choose a **Latino male avatar, 30s, business-casual** (charcoal
-button-down, no tie). Closest match to your founder persona. HeyGen's "Daniel"
-or "Carlos" avatars work well. Avoid overly corporate or stiff avatars.
+**Use your own avatar:** `app.heygen.com/avatar` → **Avatar V (Carlos Martinez)**.
 
-**Voice:** Male, confident, American English, mid-range. In HeyGen voice
-library search for `Guy` or `Tony` (Microsoft neural) — those match our
-current typographic-version VO exactly so assets stay consistent.
+- **Talking-head shots (0–3s, 18–24s):** Black shirt / desk look — most
+  authoritative for direct founder delivery.
+- **Optional:** Orange cap look for a more casual feel if you want to A/B test.
+
+**Voice:** Use your HeyGen voice clone (Settings → Voice Clone). If not yet
+recorded, use `Guy` or `Tony` (Microsoft neural) as fallback.
 
 ---
 

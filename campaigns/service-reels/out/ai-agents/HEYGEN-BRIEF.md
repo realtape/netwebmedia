@@ -64,12 +64,12 @@ OUTPUT: 1080x1920, MP4, 30fps, H.264, under 30 seconds.
 
 ## Step 2 — Avatar selection
 
-**Recommended:** Same avatar used for CMO Package Reel — **Latino male, 30s,
-business-casual** (charcoal button-down, no tie). Keeps brand consistency
-across all reels.
+**Use your own avatar:** `app.heygen.com/avatar` → **Avatar V (Carlos Martinez)**.
 
-**Voice:** `Guy` or `Tony` (Microsoft neural) — same voice as CMO package so
-all assets sound like one cohesive brand.
+- **Hook + closing shot (0–4s, 19–25s):** Black shirt / desk look — most authoritative for direct-to-camera delivery.
+- **Optional:** Orange cap look for a more casual founder feel if you want variation.
+
+**Voice:** Use your HeyGen voice clone (Settings → Voice Clone). If not yet recorded, use `Guy` (Microsoft neural) as fallback.
 
 ---
 

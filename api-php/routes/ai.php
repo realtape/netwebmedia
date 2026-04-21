@@ -45,9 +45,18 @@ function ai_call_claude($systemPrompt, $userMessage, $history = [], $model = 'cl
   ]);
   $res = curl_exec($ch);
   $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  $curlErr = curl_error($ch);
   curl_close($ch);
   $j = json_decode($res, true) ?: [];
-  if ($code >= 300) return ['error' => $j['error']['message'] ?? 'Claude error', 'code' => $code];
+  if ($curlErr) {
+    error_log('ai_call_claude curl error: ' . $curlErr);
+    return ['error' => 'Network error reaching Claude: ' . $curlErr, 'code' => 0];
+  }
+  if ($code >= 300) {
+    $msg = $j['error']['message'] ?? ('Claude HTTP ' . $code);
+    error_log('ai_call_claude HTTP ' . $code . ': ' . substr($res ?: '', 0, 500));
+    return ['error' => $msg, 'code' => $code, 'raw' => substr($res ?: '', 0, 500)];
+  }
   $text = '';
   foreach ($j['content'] ?? [] as $blk) if (($blk['type'] ?? '') === 'text') $text .= $blk['text'];
   return ['text' => $text, 'model' => $model, 'usage' => $j['usage'] ?? null];

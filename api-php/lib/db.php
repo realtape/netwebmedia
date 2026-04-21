@@ -21,7 +21,29 @@ function db() {
 
 function config() {
   static $c = null;
-  if ($c === null) $c = require '/home/webmed6/.netwebmedia-config.php';
+  if ($c === null) {
+    // Primary source: server-side secrets file (outside repo, managed on cPanel).
+    // Contains DB creds and any long-lived production keys.
+    $c = require '/home/webmed6/.netwebmedia-config.php';
+
+    // Fallback source: api-php/config.local.php — generated at deploy time from
+    // GitHub Actions secrets. Lets us inject keys (e.g. ANTHROPIC_API_KEY,
+    // RESEND_API_KEY) without SSH'ing into cPanel.
+    //
+    // Merge rule: the home file wins for any key it already defines (and defines
+    // truthy). Missing/empty keys are filled from config.local.php.
+    $localFile = __DIR__ . '/../config.local.php';
+    if (file_exists($localFile)) {
+      $local = @include $localFile;
+      if (is_array($local)) {
+        foreach ($local as $k => $v) {
+          if (empty($c[$k]) && !empty($v)) {
+            $c[$k] = $v;
+          }
+        }
+      }
+    }
+  }
   return $c;
 }
 

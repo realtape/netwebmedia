@@ -182,7 +182,7 @@ function route_public_chat() {
       ? "Tuve un problema técnico respondiendo. Escríbenos a *hello@netwebmedia.com* o agenda 30 min en /contact.html."
       : "I hit a technical issue. Please email *hello@netwebmedia.com* or book 30 min at /contact.html.";
     pchat_log_turn($sessionId, $ip, $lang, 'assistant', $reply . ' [error:' . ($r['error'] ?? '?') . ']', $page, $ref, $ua);
-    json_out([
+    $out = [
       'session_id' => $sessionId,
       'reply' => $reply,
       'suggested_actions' => [
@@ -190,7 +190,23 @@ function route_public_chat() {
         ['label' => 'hello@netwebmedia.com', 'href' => 'mailto:hello@netwebmedia.com'],
       ],
       'error_internal' => true,
-    ]);
+    ];
+    // TEMP diagnostic: surface claude error when X-Debug-Token matches.
+    // Remove this block once ai/key issue is resolved.
+    if (($_SERVER['HTTP_X_DEBUG_TOKEN'] ?? '') === 'nwm-diag-2026-04-21') {
+      $cfg = function_exists('config') ? config() : [];
+      $key = $cfg['anthropic_api_key'] ?? '';
+      $out['_debug'] = [
+        'claude_error' => $r['error'] ?? null,
+        'claude_code' => $r['code'] ?? null,
+        'claude_raw' => isset($r['raw']) ? substr($r['raw'], 0, 300) : null,
+        'key_present' => !empty($key),
+        'key_prefix' => $key ? substr($key, 0, 7) . '...' : null,
+        'key_length' => $key ? strlen($key) : 0,
+        'config_local_exists' => file_exists(__DIR__ . '/../config.local.php'),
+      ];
+    }
+    json_out($out);
   }
 
   $reply = $r['text'] ?? '';

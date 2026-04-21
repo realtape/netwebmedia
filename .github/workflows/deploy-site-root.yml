@@ -51,6 +51,7 @@ on:
       - 'fonts/**'
       - 'lp/**'
       - 'guides/**'
+      - 'plans/**'
       # Server-side API
       - 'api-php/**'
       # Workflow itself
@@ -109,7 +110,7 @@ jobs:
           # Apache config — ships as a dotfile so the FTP step doesn't filter it out
           [ -f .htaccess ] && cp .htaccess _stage/.htaccess || true
           # Directories
-          for d in css js assets images fonts crm api-php tutorials crm-demo cms-demo blog lp guides; do
+          for d in css js assets images fonts crm api-php tutorials crm-demo cms-demo blog lp guides plans; do
             [ -d "$d" ] && cp -r "$d" "_stage/$d" || true
           done
           # Drop dev/test artifacts that shouldn't ship

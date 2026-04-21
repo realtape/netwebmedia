@@ -710,7 +710,9 @@
     trackEvent('chat_freetext', { text: text.slice(0, 200), page: location.pathname });
     var intentId = matchIntent(text);
     if (intentId) {
-      handleReply({ action: intentId, label: text, id: intentId });
+      // Route directly — do NOT call handleReply() here because that would
+      // call addUserMessage() a second time, causing the double-message bug.
+      routeIntent(intentId);
     } else {
       // No match → friendly fallback
       var fallback = LANG === 'es'
@@ -719,6 +721,33 @@
       addBotMessage(fallback, T.menuIntents.map(toReply));
       saveState();
     }
+  }
+
+  // Routes to an intent without adding a user message bubble (used by handleFreeText).
+  function routeIntent(intentId){
+    trackEvent('chat_intent', { intent: intentId, page: location.pathname });
+    if (intentId === 'menu') {
+      // On the first message a bare greeting like "hi" should get the welcome
+      // prompt, not "What ELSE can I help you with?" which implies history.
+      var isFirstExchange = bodyEl && bodyEl.querySelectorAll('.nwm-msg-user').length <= 1;
+      if (isFirstExchange) {
+        addBotMessage(T.greeting2, T.menuIntents.map(toReply));
+      } else {
+        addBotMessage(T.intents.menu.reply, T.menuIntents.map(toReply));
+      }
+      return;
+    }
+    var intent = T.intents[intentId];
+    if (!intent) {
+      addBotMessage(T.intents.menu.reply, T.menuIntents.map(toReply));
+      return;
+    }
+    if (intent.mode === 'form') {
+      addBotMessage(intent.reply);
+      setTimeout(function(){ renderForm(intent); }, 900);
+      return;
+    }
+    addBotMessage(intent.reply, intent.replies || []);
   }
 
   function matchIntent(text){
@@ -739,8 +768,8 @@
     if (/saas|b2b|software|startup|tech|api|platform|emprendi/.test(t)) return 'rec-b2b';
     // Pricing / cost / how much / price
     if (/price|cost|pricing|how much|fee|charge|plan|bundle|paquete|precio|cu[aá]nto|cuesta/.test(t)) return 'pricing';
-    // Services / what do you do / offer
-    if (/service|offer|what do you|product|capability|servicio|qu[eé] ofrec|capacidad/.test(t)) return 'services';
+    // Services / what do you do / offer / marketing help
+    if (/service|offer|what do you|what does|what can you|marketing help|product|capability|servicio|qu[eé] ofrec|qu[eé] hace|capacidad/.test(t)) return 'services';
     // Audit / free / report / analysis
     if (/audit|free|trial|report|analysis|review|auditor|gratis|prueba|reporte|an[aá]lisis/.test(t)) return 'audit';
     // Industry general
@@ -750,11 +779,11 @@
     // Partner / white label / agency / reseller
     if (/partner|reseller|white.?label|agency|afiliad|asociar|agencia|reventa/.test(t)) return 'partner';
     // Talk to human / agent / call / contact
-    if (/human|agent|person|call me|talk to|sales|contact|humano|persona|llamar|hablar|contact/.test(t)) return 'human';
+    if (/human|agent|person|call me|talk to|sales|contact|humano|persona|llamar|hablar/.test(t)) return 'human';
     // Demo / show me
     if (/demo|show me|tour|demostr|mostrar/.test(t)) return 'services';
-    // Hi / hello / hey
-    if (/^(hi|hello|hey|hola|buenas|buen d|saludos)/.test(t)) return 'menu';
+    // Hi / hello / hey — only when the greeting IS the entire message (not "Hi, I have a question about…")
+    if (/^(hi|hello|hey|hola|buenas|buen d|saludos)[\s!.,]*$/i.test(t)) return 'menu';
     return null;
   }
 

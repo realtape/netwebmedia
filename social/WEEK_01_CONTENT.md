@@ -112,7 +112,7 @@ Then repeat.
 ```
 We published the full AEO playbook — read by 8,000+ marketers.
 
-But if you want it applied to your business: we run the entire thing as a fractional CMO retainer. Starting at $1,997/mo.
+But if you want it applied to your business: we run the entire thing as a fractional CMO retainer. Starting at $249/mo.
 
 Use code Carlos26 for 50% off your first 3 months. Expires July 1.
 
@@ -259,7 +259,7 @@ Use code Carlos26 for 50% off your first 3 months of fractional CMO — link in 
 
 **Slide 8 — CTA**
 - Headline: "We run this as a fractional CMO retainer."
-- Body: "Starting at $1,997/mo. Code Carlos26 = 50% off first 3 months."
+- Body: "Starting at $249/mo. Code Carlos26 = 50% off first 3 months."
 - CTA: "Link in bio — free audit"
 - Visual: Orange background (#FF671F). Dark navy text. High contrast. Bold close.
 
@@ -370,7 +370,7 @@ Free audit — link in bio. Code Carlos26 for 50% off first 3 months.
 "After 90 days of AEO work, our clients average 4.2x more AI engine citations vs their baseline. Not from publishing more content. From restructuring what already exists — and adding the evidence the AI needs to trust them."
 
 [0:44–0:55] — THE SERVICE
-"We run this as a fractional CMO retainer. Strategy, content, AEO, execution — one invoice, starting at $1,997 a month. We're the only fractional CMO built specifically for AI search."
+"We run this as a fractional CMO retainer. Strategy, content, AEO, execution — one invoice, starting at $249 a month. We're the only fractional CMO built specifically for AI search."
 
 [0:55–0:60] — CTA
 "Link in the description — free AEO audit. Use code Carlos26 for 50% off your first 3 months."
@@ -428,7 +428,7 @@ Step by step. Reference our blog post structure. Show the actual process:
 - Honest caveat: AEO takes 8–12 weeks to compound, like SEO
 
 **[7:30–8:00] — CTA + Close**
-"We run this entire program as a fractional CMO retainer. $1,997/mo starting point. One retainer covers strategy, AEO content, and full execution. Link in description — free 30-minute audit. Code Carlos26 for 50% off your first 3 months. Expires July 1."
+"We run this entire program as a fractional CMO retainer. $249/mo starting point. One retainer covers strategy, AEO content, and full execution. Link in description — free 30-minute audit. Code Carlos26 for 50% off your first 3 months. Expires July 1."
 
 ---
 
@@ -452,7 +452,7 @@ We've spent the last year running AEO programs — Answer Engine Optimization �
 
 The full playbook is on our blog. No gate. Just read it.
 
-If you want it running inside your business: we do this as a fractional CMO retainer, starting at $1,997/mo. Code Carlos26 = 50% off first 3 months through July 1.
+If you want it running inside your business: we do this as a fractional CMO retainer, starting at $249/mo. Code Carlos26 = 50% off first 3 months through July 1.
 ```
 
 **Image:** Pull automatically from blog OG tag (1200x630 cover image). Verify preview renders before publishing.
@@ -476,7 +476,7 @@ The brands that don't show up? They're not losing to bad marketing. They're invi
 
 This is what we fix. It's called AEO — Answer Engine Optimization. It's the discipline that determines whether your brand shows up in AI answers or doesn't.
 
-We built NetWebMedia specifically around this. Fractional CMO that builds your AI-search presence. One retainer, all execution, starting at $1,997/mo.
+We built NetWebMedia specifically around this. Fractional CMO that builds your AI-search presence. One retainer, all execution, starting at $249/mo.
 
 Comment "AEO" and I'll send you the free playbook we published last quarter.
 ```
@@ -537,7 +537,7 @@ AEO replaced SEO and most agencies are still sleeping on it. Full breakdown comi
 "After 90 days of AEO work, our clients get 4.2x more AI citations vs where they started. That's not traffic — that's first-impression credibility with every buyer your AI is advising."
 
 [0:40–0:45] — CTA
-"We run this as a fractional CMO retainer — $1,997/mo. Free audit, link in bio. Code Carlos26, 50% off."
+"We run this as a fractional CMO retainer — $249/mo. Free audit, link in bio. Code Carlos26, 50% off."
 
 **Caption:**
 ```

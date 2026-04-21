@@ -8,6 +8,22 @@
 
 ---
 
+## CEO Decisions — 2026-04-21 (post-audit)
+
+Carlos reviewed this audit and locked two calls:
+
+1. **Pricing:** **Option C** (new). CMO retainer tiers repriced to **$249 / $999 / $2,499/mo** (Lite / Growth / Scale). This is NOT the plan price ($1,997/$2,997/$5,997) and NOT the prior live-site price ($1,997/$4,997/$9,997). Setup fees: **$0 / $499 / $999**. *Propagated to all plan MDs + social content + brand doc. Live site + 250+ programmatic pages still carry stale numbers — engineering-lead handoff required.*
+2. **LinkedIn:** **Keep as a client service**, do not distribute NetWebMedia-brand content there. Footer link stays, `/services.html` LinkedIn ad + SDR copy stays, but no LinkedIn posts go out from our own account. Week-1 social content already excludes LinkedIn ✓.
+
+**Downstream impact NOT yet resolved** (see BUSINESS_PLAN.md strategic callout at top):
+- Y1 MRR target of $85k requires ~2.2x the original retainer customer count OR a heavy mix shift toward Scale + platform. Lever decision pending Carlos.
+- 5-year projection, M12 revenue mix, scenario planning tables all need rebuild at new ACVs (finance-controller handoff).
+- Lite tier scope changed: no live strategy calls at $249 (was bi-weekly in old plan). Growth tier cadence changed from weekly → monthly strategy call. Scale tier keeps weekly.
+
+**Still open:** P0 item #5 (12 vs 7 AI agent count mismatch on About page).
+
+---
+
 ## Executive summary
 
 The site is **materially healthier than expected** — strong hero copy, 31 live blog posts, 65+ FAQ answers, 18+ named services, and social handles claimed across 6 platforms. The front door is doing its job.

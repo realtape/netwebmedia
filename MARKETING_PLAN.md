@@ -341,13 +341,15 @@ Top 10 site improvements, prioritized by ICE score (Impact × Confidence × Ease
 
 ## 13. 90-Day Success Criteria (roll-up)
 
+> Targets below are UNDER REVIEW after the 2026-04-21 price restructure. Keeping the $32k MRR aim for now, but hitting it requires ~2.2x the original retainer customer count (see BUSINESS_PLAN.md strategic note).
+
 | Metric | Start (May 4) | End (Jul 31) target |
 |---|---|---|
-| MRR | ~$12k (current) | $32k |
-| Paying clients | ~14 | 38 |
+| MRR | ~$12k (current) | $32k *(requires ~80 paying retainer clients at new weighted ARPU, up from 38)* |
+| Paying clients | ~14 | 80+ |
 | LLM citations tracked | <50 | 400+ |
 | Pipeline ($ coverage 60-day) | $35k | $145k |
-| CAC (blended) | ~$3,200 | <$2,400 |
+| CAC (blended) | ~$3,200 | **<$800** *(floor dropped with ACVs)* |
 | Organic visits/mo | 8k | 28k |
 | Partners signed | 0 | 25 |
 

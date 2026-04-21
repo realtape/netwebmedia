@@ -76,7 +76,7 @@ Companion to [BUSINESS_PLAN.md](BUSINESS_PLAN.md), [MARKETING_PLAN.md](MARKETING
 | 34 | Publish "ActiveCampaign vs NetWebMedia" | Jul 13 | Jul 15 | content-strategist | Capture SMB alternative searchers | Ranks top 10 in 60 days |
 | 35 | Publish "LATAM SMB Marketing: The $4B Untapped Market" | Jul 13 | Jul 15 | cmo (Carlos byline, bilingual) | Open LATAM narrative | 3 tier-2 press mentions |
 | 36 | Launch Meta retargeting campaign | Jul 13 | Jul 17 | cmo + creative-director | Recover bounced site traffic | ROAS >3x |
-| 37 | Publish "The $1,997 CMO: What You Actually Get" | Jul 20 | Jul 22 | cmo + content-strategist | Pricing page conversion driver | +18% Essentials conversions |
+| 37 | Publish "The $249 CMO: What You Actually Get" | Jul 20 | Jul 22 | cmo + content-strategist | Pricing page conversion driver | +18% Lite tier conversions |
 | 38 | Launch Partner Program publicly | Jul 20 | Jul 24 | sales-director + cmo | Recruitment acceleration | 10 inbound partner applications |
 | 39 | Ship retainer-upsell email sequence (5 emails) | Jul 20 | Jul 23 | content-strategist + customer-success | Move Essentials → Growth/Scale | 15% quarterly upsell rate |
 | 40 | Publish "100 Days of AEO: What Worked" retrospective | Jul 27 | Jul 29 | content-strategist + cmo | Credibility + awareness cycle | 4k visits, 30+ LLM citations |
@@ -101,7 +101,7 @@ To continue on the Base scenario, we must hit:
 | CAC (blended) | <$2,400 | <$1,800 | >$3,500 |
 | Partners signed | 25 | 32 | <15 |
 
-**Bear pivot:** Drop fCMO Essentials from the funnel. Go all-in on fCMO Scale + CRM $449. Don't wait to pull that lever.
+**Bear pivot:** Pause fCMO Lite acquisition. Concentrate demand on fCMO Growth ($999) + fCMO Scale ($2,499) + CRM $449. Don't wait to pull that lever. *(Updated post-repricing 2026-04-21.)*
 
 ---
 
@@ -111,6 +111,8 @@ To continue on the Base scenario, we must hit:
 2. **Decide on the root `styles.css` file** — conflicts with the canonical `css/styles.css` (Gulf palette). Delete the stray one or confirm it's template leftover.
 3. **Retire the "Carlos26 50% off" promo banner** by July 1 to protect price integrity.
 4. **Commit BRAND.md + BUSINESS_PLAN.md + MARKETING_PLAN.md + EXECUTION_90DAY.md** to the repo before May 4 so all agents reference the same source of truth.
+5. **Propagate the 2026-04-21 repricing** ($249 / $999 / $2,499) to the live site (`pricing.html`, `services.html`, `index.html`, `partners.html`, `pricing-onepager.html`, `email-templates/partner-2.html`) — see `audits/SITE_AUDIT_2026-04-21.md` §Decisions. Engineering-lead handoff.
+6. **Rebuild financial projections** in BUSINESS_PLAN.md §7 (5-year) and §8 (M12 mix) at new ACVs — finance-controller handoff.
 
 ---
 

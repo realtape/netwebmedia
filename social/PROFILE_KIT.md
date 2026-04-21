@@ -44,12 +44,12 @@ Platform character limits are enforced by platform at save time. Stay under the 
 **Limit: 160 characters**
 
 **Variant A — Hook-first**
-> You're invisible in ChatGPT. We fix that. AI-native fractional CMO. $1,997/mo. Strategy + software + execution in one retainer.
+> You're invisible in ChatGPT. We fix that. AI-native fractional CMO. $249/mo. Strategy + software + execution in one retainer.
 
 Character count: 131 — PASS
 
 **Variant B — Category-first**
-> AI-native fractional CMO for US & LATAM SMBs. We build your AI-search presence, run your campaigns, and report every dollar. From $1,997/mo.
+> AI-native fractional CMO for US & LATAM SMBs. We build your AI-search presence, run your campaigns, and report every dollar. From $249/mo.
 
 Character count: 142 — PASS
 
@@ -68,7 +68,7 @@ Character count: 142 — PASS
 
 **Variant A — Hook-first**
 > You're invisible in ChatGPT. We fix that.
-> AI fractional CMO | $1,997/mo
+> AI fractional CMO | $249/mo
 > Strategy. Software. Execution.
 > Book a free audit — link in bio.
 
@@ -78,7 +78,7 @@ Note for designer: line breaks are intentional. Instagram renders them. Keep the
 
 **Variant B — Category-first**
 > AI-native fractional CMO.
-> US & LATAM SMBs — starting $1,997/mo.
+> US & LATAM SMBs — starting $249/mo.
 > We build your AI-search presence.
 > Free audit → link in bio.
 
@@ -99,17 +99,17 @@ Character count: 106 — PASS
 **Limit: No hard character limit for Page bio. Keep under 255 for clean display before truncation.**
 
 **Variant A — Hook-first**
-> You're invisible in ChatGPT and Perplexity. Most $1M-$20M businesses are. NetWebMedia is the only fractional CMO service that specifically builds your AI-search presence while running your full marketing stack — strategy, campaigns, content, and software — in one retainer starting at $1,997/month.
+> You're invisible in ChatGPT and Perplexity. Most $1M-$20M businesses are. NetWebMedia is the only fractional CMO service that specifically builds your AI-search presence while running your full marketing stack — strategy, campaigns, content, and software — in one retainer starting at $249/month.
 
 Character count: 276 — OVER clean display cut. Trimmed version below for the bio field:
 
 **Variant A (trimmed for bio field)**
-> You're invisible in ChatGPT. Most $1M–$20M businesses are. NetWebMedia is an AI-native fractional CMO: strategy, campaigns, content, and software — one retainer, from $1,997/mo.
+> You're invisible in ChatGPT. Most $1M–$20M businesses are. NetWebMedia is an AI-native fractional CMO: strategy, campaigns, content, and software — one retainer, from $249/mo.
 
 Character count: 176 — PASS for clean display
 
 **Variant B — Category-first**
-> AI-native fractional CMO for US and LATAM small businesses. We build your AI-search presence, run your marketing campaigns, and deliver CMO-level strategy — all included in one retainer starting at $1,997/month. No headcount. No black-box reporting.
+> AI-native fractional CMO for US and LATAM small businesses. We build your AI-search presence, run your marketing campaigns, and deliver CMO-level strategy — all included in one retainer starting at $249/month. No headcount. No black-box reporting.
 
 Character count: 249 — PASS
 
@@ -133,12 +133,12 @@ Character count: 249 — PASS
 >
 > This channel: breakdowns of what's actually working in AI search, real campaign audits, and the exact playbooks we use for clients — no pitch, no fluff.
 >
-> Retainer starts at $1,997/month. Free audit at netwebmedia.com.
+> Retainer starts at $249/month. Free audit at netwebmedia.com.
 
 Character count: 682 — PASS
 
 **Variant B — Category-first**
-> NetWebMedia is an AI-native fractional CMO for US and LATAM small businesses. Strategy, software, and full marketing execution in one retainer — starting at $1,997/month.
+> NetWebMedia is an AI-native fractional CMO for US and LATAM small businesses. Strategy, software, and full marketing execution in one retainer — starting at $249/month.
 >
 > What we do: AI-search visibility (ChatGPT, Perplexity, Google AI Overviews), paid media, content production, CRM automation, and campaign management. You get CMO-level output without CMO-level payroll.
 >
@@ -162,12 +162,12 @@ Character count: 501 — PASS
 **Limit: 80 characters**
 
 **Variant A — Hook-first**
-> You're invisible in ChatGPT. I fix that. $1,997/mo.
+> You're invisible in ChatGPT. I fix that. $249/mo.
 
 Character count: 52 — PASS
 
 **Variant B — Category-first**
-> AI fractional CMO. Strategy + execution. $1,997/mo.
+> AI fractional CMO. Strategy + execution. $249/mo.
 
 Character count: 52 — PASS
 
@@ -178,7 +178,7 @@ Note: TikTok bio is a secondary signal — the content and hook text on the vide
 **Pinned post suggestion (TikTok allows pinning up to 3 videos):**
 - Pin 1: "Ask ChatGPT who the best [your industry] in [your city] is. If you're not in the answer — watch this." — Short, 30–45 second explainer.
 - Pin 2: "I audited a $7M business's AI-search presence. Here's what I found in 60 seconds."
-- Pin 3: "What $1,997/month actually gets you." — Transparent breakdown of deliverables.
+- Pin 3: "What $249/month actually gets you." — Transparent breakdown of deliverables.
 
 **Profile photo:** See Section 3. No banner on TikTok.
 
@@ -408,7 +408,7 @@ Three layout options per platform. Dimensions listed per platform.
 
 **Option B-1 (Recommended — Data claim):**
 - Background: `#010F3B`
-- Left 60%: Large headline in Poppins 700, 64px, `#FFFFFF`. Line 1: "The AI-Native" / Line 2: "Fractional CMO." Below headline: 2px horizontal rule in `#FF671F`, 240px wide. Below rule: "Starting at $1,997/mo" in Inter 500, 28px, `#C8D4E6`.
+- Left 60%: Large headline in Poppins 700, 64px, `#FFFFFF`. Line 1: "The AI-Native" / Line 2: "Fractional CMO." Below headline: 2px horizontal rule in `#FF671F`, 240px wide. Below rule: "Starting at $249/mo" in Inter 500, 28px, `#C8D4E6`.
 - Right 40%: Carlos photo, cut out (transparent bg), placed naturally — not in a circle or frame. He should appear to be standing in the right third of the banner, slightly overlapping into the center.
 - Bottom-left corner: "netwebmedia.com" in Inter 500, 18px, `#C8D4E6`.
 
@@ -431,7 +431,7 @@ Note: Facebook Profile Cover is short and wide. Keep it to 1 strong idea. Text b
 
 **Option FB-1 (Recommended — single claim):**
 - Background: `#010F3B`
-- Center of canvas: "AI-Native Fractional CMO" in Poppins 700, 48px, `#FFFFFF`. Below: "Strategy + Software + Execution. From $1,997/mo." in Inter 500, 26px, `#C8D4E6`.
+- Center of canvas: "AI-Native Fractional CMO" in Poppins 700, 48px, `#FFFFFF`. Below: "Strategy + Software + Execution. From $249/mo." in Inter 500, 26px, `#C8D4E6`.
 - Right edge: 12px vertical orange stripe, full height. Same as X 1600x900 bleed treatment — brand signature.
 - Safe zone for text: keep all text within x=80 to x=740, y=40 to y=260.
 
@@ -443,7 +443,7 @@ Note: Facebook Profile Cover is short and wide. Keep it to 1 strong idea. Text b
 - Background: `#010F3B`
 - Three stat blocks, evenly spaced horizontally, center-aligned vertically:
   - Block 1: "100%" in Poppins 700, 64px, `#FF671F`. Below: "AI-era strategy" in Inter 500, 18px, `#C8D4E6`.
-  - Block 2: "$1,997" in Poppins 700, 64px, `#FF671F`. Below: "Starting retainer" in Inter 500, 18px, `#C8D4E6`.
+  - Block 2: "$249" in Poppins 700, 64px, `#FF671F`. Below: "Starting retainer" in Inter 500, 18px, `#C8D4E6`.
   - Block 3: "1 team" in Poppins 700, 64px, `#FF671F`. Below: "CMO + Dev + Content" in Inter 500, 18px, `#C8D4E6`.
   - Vertical dividers: 1px `#4A90D9` (blue), full height of the canvas between each block.
 

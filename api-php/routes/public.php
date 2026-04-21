@@ -1,5 +1,6 @@
 <?php
 /* Public routes — no auth required */
+/* Rev: 2026-04-21 public-chat (unified KB) dispatch at line ~306. */
 
 require_once __DIR__ . '/../lib/mailer.php';
 require_once __DIR__ . '/../lib/workflows.php';

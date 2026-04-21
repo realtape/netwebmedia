@@ -233,14 +233,27 @@ Companion document to [BUSINESS_PLAN.md](BUSINESS_PLAN.md) and [EXECUTION_90DAY.
 | 5 | 11 | "24 hours left — secure your price" | Upgrade |
 | 6 | 14 (post-trial) | "Saved your data — come back when ready" | Reactivate |
 
-### D. Retainer upsell (Essentials → Growth/Scale) — 5 emails over 30 days
+### D. Lite → Growth/Scale upgrade nudge — 6 emails over 90 days *(aligned to 90-day Lite upgrade credit)*
+
+Triggered the day a fCMO Lite contract is signed. Goal: convert Lite clients to Growth/Scale within the 90-day window when the **$249 upgrade credit** is active. Lite is designed as a wedge, not a revenue pillar — Scale clients are worth ~17× a Lite client per cohort data.
+
+| # | Day | Subject | CTA |
+|---|---|---|---|
+| 1 | 14 | "Your first 2 weeks: here's what we learned" | View audit findings |
+| 2 | 30 | "The Growth tier: what you'd unlock (paid ads, weekly calls, email nurture)" | See Growth scope |
+| 3 | 45 | "Case: [Client] upgraded Lite → Growth at day 50. 3.2× pipeline by day 90." | Read case |
+| 4 | 60 | "Your $249 upgrade credit — 30 days left to use it" | Apply credit |
+| 5 | 75 | "What Scale would look like for you, specifically" | Book call |
+| 6 | 85 | "Last call: credit expires in 5 days" *(if still on Lite)* | Upgrade OR keep Lite |
+
+### E. Retainer upsell (Growth → Scale) — 5 emails over 30 days *(Q2-end or post-first-campaign)*
 
 | # | Day | Subject | CTA |
 |---|---|---|---|
 | 1 | 0 | "Your Q1 results — and what's possible in Q2" | View dashboard |
-| 2 | 7 | "Scale tier unlocks: weekly strategy calls + custom agents" | Upgrade |
-| 3 | 14 | "Case: [Client] went Essentials → Scale, +3x ROI" | Read |
-| 4 | 21 | "Locked-in upgrade price (48hr)" | Upgrade |
+| 2 | 7 | "Scale tier unlocks: weekly calls, AI SDR, custom agents, video factory" | Upgrade |
+| 3 | 14 | "Case: [Client] went Growth → Scale, +3× ROI" | Read |
+| 4 | 21 | "Locked-in annual pre-pay: 15% off Scale ($25,490/yr vs $29,988/yr)" | Upgrade annual |
 | 5 | 30 | "Not ready? Here's what stays the same" | Retention check-in |
 
 ---

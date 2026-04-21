@@ -13,6 +13,11 @@
 > **Impact NOT yet propagated to:** 5-year projection (§7), month-by-month build (§8.1), M12 revenue mix (§8.2), scenario planning (§11), milestones (§15). Those tables retain the old model and need a full rebuild by finance-controller.
 > **What IS updated:** Direct price references, cohort LTV/CAC math (§9), positioning ladder, battlecards (§6.3), Pillar 2 messaging.
 > **Key downstream tension:** At the new prices, hitting the Y1 $85k MRR target requires ~2.2x the original customer count OR a heavier Platform/Project revenue mix. Carlos to decide which lever.
+>
+> **Post-gap-analysis additions (2026-04-21):** Three monetization gaps closed and live:
+> 1. **Ad spend management fee** on Growth + Scale — 12% of spend, min $300/mo (previously missing — industry-standard on agency retainers managing $5k–$20k/mo in client ads).
+> 2. **Annual pre-pay discount bumped 5% → 15%** to materially incentivize upfront cash (Q1 cash-flow transforms when 20 Growth clients pre-pay annual).
+> 3. **90-day Lite upgrade credit** ($249 applied to Growth/Scale) to accelerate tier-climb velocity on the Lite wedge.
 
 NetWebMedia is an AI-native marketing agency that replaces the traditional 8-person marketing department with a single productized retainer: a Fractional CMO backed by a stack of AI agents and our own vertically-integrated software (CRM, CMS, Video Factory, AEO/SEO engine, paid-media automation).
 
@@ -58,11 +63,15 @@ NetWebMedia is an AI-native marketing agency that replaces the traditional 8-per
 
 | Tier | Price | Setup | Scope |
 |---|---|---|---|
-| **CMO Lite** | $249/mo | $0 | AEO + SEO strategy, monthly content calendar, SEO audit, NWM CRM included. *Self-serve onboarding + monthly async strategy note (no live calls at this tier — scope change from prior plan)* |
-| **CMO Growth** *(most popular)* | $999/mo | $499 | Everything in Lite + paid ads management ($5k–20k ad spend), **monthly** strategy call (was weekly), email nurture, attribution dashboard |
-| **CMO Scale** | $2,499/mo | $999 | Everything in Growth + AI SDR outbound, short-form video (12 assets/mo), demand-gen campaigns, **weekly** strategy call, quarterly OKR planning |
+| **CMO Lite** | $249/mo | $0 | AEO + SEO strategy, monthly content calendar, SEO audit, NWM CRM included. *Self-serve onboarding + monthly async strategy note (no live calls at this tier).* **90-day upgrade credit:** $249 credited toward Growth/Scale if upgraded within 90 days (designed as a wedge, not an endpoint). |
+| **CMO Growth** *(most popular)* | $999/mo + ad mgmt fee | $499 | Everything in Lite + paid ads management ($5k–20k ad spend), **monthly** strategy call, email nurture, attribution dashboard. **Ad spend billed at cost + 12% management fee (min $300/mo).** |
+| **CMO Scale** | $2,499/mo + ad mgmt fee | $999 | Everything in Growth + AI SDR outbound, short-form video (12 assets/mo), demand-gen campaigns, **weekly** strategy call, quarterly OKR planning. **Ad spend billed at cost + 12% management fee (min $300/mo).** |
 
-**Commercial terms:** 90-day minimum, month-to-month thereafter. Net 15 invoicing for annuals (5% discount).
+**Commercial terms (updated 2026-04-21 post-gap-analysis):**
+- 90-day minimum, month-to-month thereafter.
+- **Annual pre-pay: 15% discount** (bumped from 5%). Lite $2,540/yr · Growth $10,190/yr · Scale $25,490/yr. Net-15 invoicing on annuals.
+- **Ad management fee** (Growth + Scale): 12% of monthly ad spend (min $300/mo). Billed separately from retainer. This is industry-standard and was previously missing from the model.
+- **Lite upgrade credit:** $249 credited toward first month of Growth or Scale if upgraded within 90 days of signup. Lite is a wedge, not a revenue pillar — Scale clients are worth ~17x a Lite client (cohort data, §9).
 
 ### 3.2 Platform SKUs (self-serve, wedge tier)
 

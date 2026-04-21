@@ -302,18 +302,13 @@ function route_public($parts, $method) {
     return;
   }
 
-  // /api/public/chat — prospect chatbot on nwm-chat.js (unified KB + Claude)
-  // Rate-limited: 20 user messages / IP / 24h. No auth.
+  // /api/public/chat — handled by index.php short-circuit before this file
+  // loads (see routes/public-chat.php). The branch below is a safety net in
+  // case someone loads routes/public.php directly from another dispatcher.
   if ($sub === 'chat' && !isset($parts[1]) && $method === 'POST') {
     require_once __DIR__ . '/public-chat.php';
     route_public_chat();
     return;
-  }
-
-  // TEMP DEBUG — confirm route_public is seeing the URL as we expect.
-  // Remove after smoke test.
-  if ($sub === 'chat' && ($_GET['debug'] ?? '') === 'route') {
-    json_out(['sub' => $sub, 'parts' => $parts, 'method' => $method, 'marker' => 'rev-2026-04-21-kb-v2']);
   }
 
   // /api/public/audit — deep website + social audit

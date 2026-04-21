@@ -76,7 +76,7 @@ function pchat_public_system_prompt($lang) {
 ━━ PUBLIC WEBSITE CHAT — ROLE ━━
 You are the NetWebMedia assistant embedded in a chat bubble at the bottom-left of every page on netwebmedia.com. You speak to prospects and visitors — people who may or may not be clients yet.
 
-Goal: answer ANY question they have about NetWebMedia (services, pricing, plans, tutorials, courses, AI features, commercial terms, support, how we work) using the knowledge base above as the single source of truth. If a question is genuinely outside the KB, say so honestly and offer a handoff (hello@netwebmedia.com, WhatsApp, or a booked call at /contact.html).
+Goal: answer ANY question they have about NetWebMedia (services, pricing, plans, tutorials, courses, AI features, commercial terms, support, how we work) using the knowledge base above as the single source of truth. NetWebMedia is AI-only — NEVER suggest booking a phone or video call. If a question is genuinely outside the KB, offer a handoff to hello@netwebmedia.com (for enterprise/urgent) or point them to self-serve purchase at /pricing.html or the free async AI audit at /contact.html.
 
 ━━ FORMAT RULES ━━
 • {$lang_rule} Never mix languages in one reply.
@@ -93,7 +93,8 @@ Goal: answer ANY question they have about NetWebMedia (services, pricing, plans,
 After your reply, consider which 2–3 next actions make sense for this user and include them inline as compact bullets (with URLs). Good suggested actions:
   • Run a free audit → /contact.html
   • See pricing → /pricing.html
-  • Book a strategy call → /contact.html
+  • See plans & get started → /pricing.html
+  • Free async AI audit (48h report) → /contact.html
   • Read the relevant tutorial → /tutorials/<slug>.html
   • Read the relevant guide → /guides/<slug>.html
   • Message on WhatsApp (when user wants faster back-and-forth)
@@ -158,14 +159,15 @@ function route_public_chat() {
   // Rate limit first — BEFORE we log anything or call Claude.
   if (pchat_rate_limited($ip)) {
     $fallback = $lang === 'es'
-      ? "Has alcanzado el límite diario de este chat. Escríbenos a *hello@netwebmedia.com* o agenda una llamada de 30 min en /contact.html — te respondemos en pocas horas hábiles."
-      : "You've hit today's chat limit. Email *hello@netwebmedia.com* or book a 30-min call at /contact.html — we reply within a few business hours.";
+      ? "Has alcanzado el límite diario de este chat. Mira los planes y empieza en *https://netwebmedia.com/pricing.html*, pide una auditoría IA gratis (48h) en /contact.html, o escríbenos a *hello@netwebmedia.com* para casos urgentes."
+      : "You've hit today's chat limit. See plans & get started at *https://netwebmedia.com/pricing.html*, request a free async AI audit (48h) at /contact.html, or email *hello@netwebmedia.com* for urgent cases.";
     json_out([
       'session_id' => $sessionId,
       'reply' => $fallback,
       'rate_limited' => true,
       'suggested_actions' => [
-        ['label' => $lang === 'es' ? 'Agendar llamada' : 'Book a call', 'href' => '/contact.html'],
+        ['label' => $lang === 'es' ? 'Ver planes' : 'See plans', 'href' => '/pricing.html'],
+        ['label' => $lang === 'es' ? 'Auditoría IA gratis' : 'Free AI audit', 'href' => '/contact.html'],
         ['label' => 'hello@netwebmedia.com', 'href' => 'mailto:hello@netwebmedia.com'],
       ],
     ], 429);
@@ -181,16 +183,16 @@ function route_public_chat() {
     // Log the raw Claude error server-side for diagnosis (error_log → PHP log).
     error_log('public-chat: claude error code=' . ($r['code'] ?? '?') . ' msg=' . ($r['error'] ?? '?'));
     $reply = $lang === 'es'
-      ? "Tuve un problema técnico respondiendo ahora mismo. Mientras lo resolvemos: escríbenos a *hello@netwebmedia.com*, chatea con nosotros en WhatsApp, o agenda 30 min en /contact.html — respondemos en pocas horas hábiles."
-      : "I hit a technical issue just now. While we sort it out: email *hello@netwebmedia.com*, ping us on WhatsApp, or book a 30-min call at /contact.html — we reply within a few business hours.";
+      ? "Tuve un problema técnico respondiendo ahora mismo. Mientras lo resolvemos: mira los planes en *https://netwebmedia.com/pricing.html*, pide una auditoría IA gratis en /contact.html, o escríbenos a *hello@netwebmedia.com*."
+      : "I hit a technical issue just now. While we sort it out: see plans at *https://netwebmedia.com/pricing.html*, request a free async AI audit at /contact.html, or email *hello@netwebmedia.com*.";
     pchat_log_turn($sessionId, $ip, $lang, 'assistant', $reply . ' [error:' . ($r['error'] ?? '?') . ']', $page, $ref, $ua);
     json_out([
       'session_id' => $sessionId,
       'reply' => $reply,
       'suggested_actions' => [
-        ['label' => $lang === 'es' ? 'Agendar llamada' : 'Book a call', 'href' => '/contact.html'],
+        ['label' => $lang === 'es' ? 'Ver planes' : 'See plans', 'href' => '/pricing.html'],
+        ['label' => $lang === 'es' ? 'Auditoría IA gratis' : 'Free AI audit', 'href' => '/contact.html'],
         ['label' => 'hello@netwebmedia.com', 'href' => 'mailto:hello@netwebmedia.com'],
-        ['label' => 'WhatsApp', 'href' => 'https://wa.me/message/'],
       ],
       'error_internal' => true,
     ]);

@@ -1542,11 +1542,12 @@ sugieras una llamada de ningún tipo.
 
 ━━ 14. CONTACTO ━━
 
-- Email: hello@netwebmedia.com (primera respuesta en pocas horas hábiles,
-  Lun–Vie 9am–7pm EST)
+- Email: hello@netwebmedia.com (solo escalación enterprise/custom/urgente;
+  primera respuesta en pocas horas hábiles, Lun–Vie 9am–7pm EST)
 - WhatsApp: widget en netwebmedia.com (bot bilingüe → handoff humano)
 - Chat del sitio: burbuja abajo a la izquierda en cada página (este bot)
-- Agendar llamada estratégica de 30 min: https://netwebmedia.com/contact.html
+- Auditoría IA gratis (asíncrona, informe en 48h): https://netwebmedia.com/contact.html
+- Planes + checkout self-serve: https://netwebmedia.com/pricing.html
 - Sitio web: https://netwebmedia.com
 
 ━━ 15. MANEJO DE OBJECIONES — SCRIPTS PARA RESISTENCIA COMÚN ━━
@@ -1561,8 +1562,8 @@ RESPUESTA: "Totalmente entendible — pongámoslo en contexto. [Lite a $249] es
   mayoría de PYMEs gasta en tres agencias distintas para obtener la mitad del
   resultado. La pregunta real es si el marketing se paga solo — y para la mayoría
   de clientes lo hace en 60–90 días. La mejor forma de ver eso para tu negocio
-  específico es una auditoría gratis de 30 min en /contact.html. Te decimos
-  honestamente si los números no cuadran para ti."
+  específico es una auditoría IA gratis en /contact.html — te enviamos un informe
+  escrito en 48 horas. Si los números no cuadran para ti, te lo decimos."
 
 OBJECIÓN: "Ya trabajamos con una agencia antes y nos fue mal."
 RESPUESTA: "No eres el primero — por eso llega la mayoría de nuestros clientes.
@@ -1596,7 +1597,8 @@ RESPUESTA: "Ninguna agencia seria garantiza cifras específicas — si alguien l
   mismo ciclo de facturación, y siempre sabrás qué estamos haciendo y por qué.
   En más de 40 proyectos: ads + automatización típicamente generan leads en
   7–14 días; SEO/AEO se compone desde el mes 3–6 y tiende a superar lo pagado
-  al mes 12. Podemos compartir los específicos de tu industria en una llamada."
+  al mes 12. Ve los planes y empieza en /pricing.html, o corre una auditoría
+  IA gratis primero en /contact.html."
 
 OBJECIÓN: "Quizás contratamos un CMO full-time."
 RESPUESTA: "Gran idea — y la decisión correcta cuando superes los $5–10M ARR.
@@ -1637,9 +1639,9 @@ LEGAL / CONTABILIDAD / SERVICIOS PROFESIONALES
   Cómo ayudamos:
   · Estrategia AEO construye contenido de autoridad citado en ChatGPT cuando alguien
     pregunta "mejor abogado de [área] en [ciudad]". Compatible con normas del colegio.
-  · CRM + automatización de intake: leads de formulario a llamada agendada sin tocar
-    el teclado.
-  · NDA antes de cualquier llamada de descubrimiento — estándar, mutuo, en 24 horas.
+  · CRM + automatización de intake: leads de formulario a calificación y ruta
+    sin tocar el teclado.
+  · NDA antes de cualquier engagement — estándar, mutuo, en 24 horas.
 
 BELLEZA / WELLNESS / SPA
   Dolor: "El alcance de Instagram bajó y no podemos pagar ads forever."
@@ -1676,7 +1678,7 @@ EL MODELO HÍBRIDO
   - Agentes IA hacen: research, drafting, scheduling, monitoreo, reporting,
     seguimiento de leads, ingreso de datos, A/B testing, analítica, QA rutinario.
   - Especialistas humanos hacen: estrategia, dirección creativa, QA final de copy,
-    llamadas con clientes, problemas complejos, decisiones de juicio.
+    Looms estratégicos asíncronos, problemas complejos, decisiones de juicio.
   - Carlos es dueño de: posicionamiento, estrategia de precios, dirección de
     campaña, relaciones ejecutivas con clientes.
 
@@ -1692,7 +1694,7 @@ QUÉ PASA EN EL MES 1
 
 LO QUE HACES TÚ VS LO QUE HACEMOS NOSOTROS
   Tú haces:
-  - Llamada de kickoff de 1 hora + 30 minutos semanales de revisión asíncrona
+  - Formulario de onboarding asíncrono + 30 minutos semanales de revisión asíncrona
   - Aprobas contenido/campañas antes de que salgan vivos
   - Compartes brand assets, listas de precios, o feedback de clientes que tengas
   - Nos dices cuando algo se siente mal
@@ -1701,7 +1703,8 @@ LO QUE HACES TÚ VS LO QUE HACEMOS NOSOTROS
   - Todo el research, estrategia, redacción, producción, lanzamiento y reporting
   - Monitoreo de campañas diario; alertamos anomalías antes de que las veas
   - Proponemos cambios de presupuesto con datos detrás
-  - Llamadas mensuales/semanales (Growth: mensual; Scale: semanal)
+  - Looms estratégicos asíncronos + informes escritos mensuales/semanales
+    (Growth: mensual; Scale: semanal)
   - Mantenemos tu CRM, contactos y automatizaciones funcionando
 
 ━━ 18. PRUEBAS Y CRONOGRAMA DE RESULTADOS ━━
@@ -1905,8 +1908,8 @@ Hechos clave:
   • División del presupuesto: 70% ganadores (generaron dinero en los últimos 30 días),
     20% pruebas de escala (encontrando el techo de ganadores recientes), 10%
     experimentos (nuevos canales, formatos, ángulos).
-  • Revisión semanal: cada lunes a las 10am en la zona horaria del cliente. Llamada de
-    30 minutos con gasto, costo por cliente, ROAS, top 3 anuncios, 3 peores, brief
+  • Revisión semanal: cada lunes. Revisión asíncrona del dashboard + resumen escrito
+    con gasto, costo por cliente, ROAS, top 3 anuncios, 3 peores, brief
     de la semana siguiente.
   • Atribución: triangulación con GA4 (verdad base), encuesta post-compra ("¿cómo nos
     conociste?"), pruebas de apagado trimestrales por región, modelado de medios completo

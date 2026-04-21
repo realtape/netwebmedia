@@ -440,7 +440,7 @@ const cardsHtml = cards.map(c => `      <div class="glass-card blog-card scroll-
 let blogHtml = fs.readFileSync('blog.html', 'utf8');
 blogHtml = blogHtml.replace(
   /(<div class="blog-grid">)[\s\S]*?(\n\s*<\/div>\s*\n\s*<!-- Newsletter CTA -->)/,
-  `$1\n${cardsHtml}$2`
+  (_, g1, g2) => g1 + '\n' + cardsHtml + g2
 );
 fs.writeFileSync('blog.html', blogHtml);
 console.log(`Rebuilt blog.html with ${cards.length} cards.`);

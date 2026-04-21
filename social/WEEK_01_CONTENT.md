@@ -2,7 +2,7 @@
 
 **Campaign:** 90-Day Launch Sprint — Week 1
 **Themes:** AEO vs SEO (TOFU data-heavy) + 12 AI Agents intro (MOFU)
-**Promo active:** Code `Carlos26` = 50% off first 3 months (expires July 1)
+**Promo status:** None. Base pricing only. (Carlos26 retired 2026-04-21.)
 **Base CTA URL:** `https://netwebmedia.com/`
 **UTM base:** `?utm_source=[platform]&utm_medium=social&utm_campaign=week1`
 
@@ -10,21 +10,21 @@
 
 ## Publishing Calendar (May 4–10, 2026)
 
-| Date       | Day | Platform          | Post Type              | Post Ref    | Scheduled (Santiago / CLT) |
+| Date | Day | Platform | Post Type | Post Ref | Scheduled (Santiago / CLT) |
 |------------|-----|-------------------|------------------------|-------------|----------------------------|
-| May 4      | Mon | X (Twitter)       | Thread — AEO replaces SEO | Post 1   | 09:00 CLT                  |
-| May 4      | Mon | Facebook          | Link share + commentary | Post 9      | 10:30 CLT                  |
-| May 5      | Tue | Instagram         | Carousel (8 slides)    | Post 4      | 11:00 CLT                  |
-| May 5      | Tue | TikTok            | 15s hook script        | Post 11     | 14:00 CLT                  |
-| May 6      | Wed | X (Twitter)       | Single stat post       | Post 2      | 10:00 CLT                  |
-| May 6      | Wed | YouTube           | Short (60s) script     | Post 7      | 12:00 CLT                  |
-| May 6      | Wed | Reddit            | Value post             | Post 13     | 13:00 CLT                  |
-| May 7      | Thu | Instagram Reels   | 30s Reel script        | Post 6      | 11:00 CLT                  |
-| May 7      | Thu | TikTok            | 45s explainer script   | Post 12     | 15:00 CLT                  |
-| May 8      | Fri | X (Twitter)       | Quote card             | Post 3      | 09:30 CLT                  |
-| May 8      | Fri | Facebook          | Native text post       | Post 10     | 11:00 CLT                  |
-| May 9      | Sat | Instagram         | Single stat card       | Post 5      | 11:00 CLT                  |
-| May 10     | Sun | YouTube           | Long-form outline      | Post 8      | — (upload only, no promo)  |
+| May 4 | Mon | X (Twitter) | Thread — AEO replaces SEO | Post 1 | 09:00 CLT |
+| May 4 | Mon | Facebook | Link share + commentary | Post 9 | 10:30 CLT |
+| May 5 | Tue | Instagram | Carousel (8 slides) | Post 4 | 11:00 CLT |
+| May 5 | Tue | TikTok | 15s hook script | Post 11 | 14:00 CLT |
+| May 6 | Wed | X (Twitter) | Single stat post | Post 2 | 10:00 CLT |
+| May 6 | Wed | YouTube | Short (60s) script | Post 7 | 12:00 CLT |
+| May 6 | Wed | Reddit | Value post | Post 13 | 13:00 CLT |
+| May 7 | Thu | Instagram Reels | 30s Reel script | Post 6 | 11:00 CLT |
+| May 7 | Thu | TikTok | 45s explainer script | Post 12 | 15:00 CLT |
+| May 8 | Fri | X (Twitter) | Quote card | Post 3 | 09:30 CLT |
+| May 8 | Fri | Facebook | Native text post | Post 10 | 11:00 CLT |
+| May 9 | Sat | Instagram | Single stat card | Post 5 | 11:00 CLT |
+| May 10 | Sun | YouTube | Long-form outline | Post 8 | — (upload only, no promo) |
 
 ---
 
@@ -114,8 +114,6 @@ We published the full AEO playbook — read by 8,000+ marketers.
 
 But if you want it applied to your business: we run the entire thing as a fractional CMO retainer. Starting at $249/mo.
 
-Use code Carlos26 for 50% off your first 3 months. Expires July 1.
-
 → https://netwebmedia.com/?utm_source=x&utm_medium=social&utm_campaign=week1
 ```
 
@@ -197,7 +195,6 @@ This is the 8-slide breakdown of why AEO has replaced SEO as the primary discipl
 
 Save this. Share it with your marketing team.
 
-Use code Carlos26 for 50% off your first 3 months of fractional CMO — link in bio.
 ```
 
 **First comment (hashtags):**
@@ -221,26 +218,26 @@ Use code Carlos26 for 50% off your first 3 months of fractional CMO — link in 
 **Slide 3 — What Changed (The 3 Shifts)**
 - Headline: "3 things broke traditional SEO between 2023–2026"
 - Body:
-  - "1. Google AI Overviews killed click-through on high-intent queries"
-  - "2. Perplexity + SearchGPT pulled millions out of Google"
-  - "3. Buyers now research vendors in AI — before visiting any site"
+ - "1. Google AI Overviews killed click-through on high-intent queries"
+ - "2. Perplexity + SearchGPT pulled millions out of Google"
+ - "3. Buyers now research vendors in AI — before visiting any site"
 - Visual: Three-row layout, numbered, dark background.
 
 **Slide 4 — AEO vs SEO: What's Different**
 - Headline: "Same craft. Different target."
 - Two-column comparison:
-  - OLD SEO: Keyword match / Backlinks / Click-through rate / Featured snippets
-  - AEO: Citability / Evidence density / Structured clarity / Source authority
+ - OLD SEO: Keyword match / Backlinks / Click-through rate / Featured snippets
+ - AEO: Citability / Evidence density / Structured clarity / Source authority
 - Visual: Split card, navy left / lighter navy right. Orange divider.
 
 **Slide 5 — What Content Wins**
 - Headline: "5 formats AI engines cite the most"
 - Body (numbered list):
-  - "1. 'How does X work' explainers — clean, structured definitions"
-  - "2. Honest comparison pages — AI ignores marketing puffery"
-  - "3. Benchmark studies with original data"
-  - "4. Decision frameworks ('when to choose A vs B')"
-  - "5. Glossaries and taxonomies"
+ - "1. 'How does X work' explainers — clean, structured definitions"
+ - "2. Honest comparison pages — AI ignores marketing puffery"
+ - "3. Benchmark studies with original data"
+ - "4. Decision frameworks ('when to choose A vs B')"
+ - "5. Glossaries and taxonomies"
 - Visual: Numbered list on dark card. Orange numerals.
 
 **Slide 6 — The Data Point**
@@ -251,15 +248,15 @@ Use code Carlos26 for 50% off your first 3 months of fractional CMO — link in 
 **Slide 7 — The 90-Day Playbook**
 - Headline: "The 90-day AEO sprint (what we actually do)"
 - Body:
-  - "Wk 1: Map 30 buyer questions for your category"
-  - "Wk 2–4: Audit existing content against those questions"
-  - "Wk 5–10: One definitive piece per question"
-  - "Wk 11–12: Track citations across Perplexity, Claude, SearchGPT"
+ - "Wk 1: Map 30 buyer questions for your category"
+ - "Wk 2–4: Audit existing content against those questions"
+ - "Wk 5–10: One definitive piece per question"
+ - "Wk 11–12: Track citations across Perplexity, Claude, SearchGPT"
 - Visual: Horizontal timeline on dark background. Orange dots.
 
 **Slide 8 — CTA**
 - Headline: "We run this as a fractional CMO retainer."
-- Body: "Starting at $249/mo. Code Carlos26 = 50% off first 3 months."
+- Body: "Starting at $249/mo. "
 - CTA: "Link in bio — free audit"
 - Visual: Orange background (#FF671F). Dark navy text. High contrast. Bold close.
 
@@ -321,7 +318,7 @@ Free audit linked in bio.
 "Our clients get 4.2x more AI citations vs baseline in 90 days."
 
 [0:27–0:30] — CTA (Carlos on camera)
-"Free AEO audit — link in bio. Code Carlos26 for 50% off if you want us to run it."
+"Free AEO audit — link in bio. Retainers start at $249/mo if you want us to run it."
 
 ---
 
@@ -331,7 +328,7 @@ AEO is the discipline that replaced SEO. Most agencies haven't figured it out ye
 
 We've been running it for clients since early 2025. Here's what we know.
 
-Free audit — link in bio. Code Carlos26 for 50% off first 3 months.
+Free audit — link in bio. 
 ```
 
 **Hashtags (first comment):**
@@ -373,7 +370,7 @@ Free audit — link in bio. Code Carlos26 for 50% off first 3 months.
 "We run this as a fractional CMO retainer. Strategy, content, AEO, execution — one invoice, starting at $249 a month. We're the only fractional CMO built specifically for AI search."
 
 [0:55–0:60] — CTA
-"Link in the description — free AEO audit. Use code Carlos26 for 50% off your first 3 months."
+"Link in the description — free AEO audit. "
 
 ---
 
@@ -428,7 +425,7 @@ Step by step. Reference our blog post structure. Show the actual process:
 - Honest caveat: AEO takes 8–12 weeks to compound, like SEO
 
 **[7:30–8:00] — CTA + Close**
-"We run this entire program as a fractional CMO retainer. $249/mo starting point. One retainer covers strategy, AEO content, and full execution. Link in description — free 30-minute audit. Code Carlos26 for 50% off your first 3 months. Expires July 1."
+"We run this entire program as a fractional CMO retainer. $249/mo starting point. One retainer covers strategy, AEO content, and full execution. Link in description — free 30-minute audit. "
 
 ---
 
@@ -452,7 +449,7 @@ We've spent the last year running AEO programs — Answer Engine Optimization �
 
 The full playbook is on our blog. No gate. Just read it.
 
-If you want it running inside your business: we do this as a fractional CMO retainer, starting at $249/mo. Code Carlos26 = 50% off first 3 months through July 1.
+If you want it running inside your business: we do this as a fractional CMO retainer, starting at $249/mo. 
 ```
 
 **Image:** Pull automatically from blog OG tag (1200x630 cover image). Verify preview renders before publishing.
@@ -537,11 +534,11 @@ AEO replaced SEO and most agencies are still sleeping on it. Full breakdown comi
 "After 90 days of AEO work, our clients get 4.2x more AI citations vs where they started. That's not traffic — that's first-impression credibility with every buyer your AI is advising."
 
 [0:40–0:45] — CTA
-"We run this as a fractional CMO retainer — $249/mo. Free audit, link in bio. Code Carlos26, 50% off."
+"We run this as a fractional CMO retainer — $249/mo. Free audit, link in bio. "
 
 **Caption:**
 ```
-AEO is not the future. It's the present. Here's what it actually looks like in practice. Free audit linked in bio — code Carlos26 for 50% off first 3 months. #AEO #AISearch #FractionalCMO #B2BMarketing #AIMarketing
+AEO is not the future. It's the present. Here's what it actually looks like in practice. Free audit linked in bio — #AEO #AISearch #FractionalCMO #B2BMarketing #AIMarketing
 ```
 
 ---
@@ -641,14 +638,14 @@ Standard scheme: `https://netwebmedia.com/?utm_source=[platform]&utm_medium=soci
 
 | CLT Post Time | EST Equivalent | PST Equivalent | Rationale |
 |---------------|----------------|----------------|-----------|
-| 09:00 CLT     | 09:00 EST      | 06:00 PST      | East Coast morning peak — B2B feed check |
-| 10:00 CLT     | 10:00 EST      | 07:00 PST      | Pre-midday, high US engagement window |
-| 10:30 CLT     | 10:30 EST      | 07:30 PST      | Facebook B2B optimal (Sprout Social benchmark) |
-| 11:00 CLT     | 11:00 EST      | 08:00 PST      | Instagram mid-morning — best for carousels |
-| 12:00 CLT     | 12:00 EST      | 09:00 PST      | YouTube upload — not time-sensitive, index overnight |
-| 13:00 CLT     | 13:00 EST      | 10:00 PST      | Reddit lunch window — highest r/Entrepreneur activity |
-| 14:00 CLT     | 14:00 EST      | 11:00 PST      | TikTok hook — midday US scroll peak |
-| 15:00 CLT     | 15:00 EST      | 12:00 PST      | TikTok explainer — early afternoon West Coast |
+| 09:00 CLT | 09:00 EST | 06:00 PST | East Coast morning peak — B2B feed check |
+| 10:00 CLT | 10:00 EST | 07:00 PST | Pre-midday, high US engagement window |
+| 10:30 CLT | 10:30 EST | 07:30 PST | Facebook B2B optimal (Sprout Social benchmark) |
+| 11:00 CLT | 11:00 EST | 08:00 PST | Instagram mid-morning — best for carousels |
+| 12:00 CLT | 12:00 EST | 09:00 PST | YouTube upload — not time-sensitive, index overnight |
+| 13:00 CLT | 13:00 EST | 10:00 PST | Reddit lunch window — highest r/Entrepreneur activity |
+| 14:00 CLT | 14:00 EST | 11:00 PST | TikTok hook — midday US scroll peak |
+| 15:00 CLT | 15:00 EST | 12:00 PST | TikTok explainer — early afternoon West Coast |
 
 **Day-by-day notes:**
 
@@ -665,8 +662,6 @@ Standard scheme: `https://netwebmedia.com/?utm_source=[platform]&utm_medium=soci
 - **Saturday May 9:** Instagram stat card. Saturdays outperform Friday for Instagram discovery. Simple, high-contrast stat card requires zero context — scrollers stop, read, save.
 
 - **Sunday May 10:** YouTube long-form upload only. No social promotion this day — let the video index overnight. Promote it Monday May 11 as part of Week 2 launch.
-
-**Promo code reminder:** `Carlos26` appears in X thread tweet 7, IG carousel slide 8, IG Reel CTA, YT Short CTA, YT Long CTA, TikTok 45s CTA, Facebook link share copy. Verify the code is live in the cart before May 4.
 
 **Platform-specific quirks to flag:**
 - Reddit: Read r/Entrepreneur rules before posting. No affiliate links, no overt promotion. The post above is structured as pure value — do not add a CTA in the body. If moderators ask, the post is a legitimate educational contribution.

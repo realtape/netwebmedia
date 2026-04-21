@@ -28,22 +28,22 @@ Companion document to [BUSINESS_PLAN.md](BUSINESS_PLAN.md) and [EXECUTION_90DAY.
 ## 2. Messaging Hierarchy
 
 ```
-                    NORTH STAR
-       ┌──────────────────────────────────────┐
-       │ "Get cited by AI. Close more deals.  │
-       │  One retainer — strategy, software,  │
-       │  and execution. Starting $249/mo."   │
-       └──────────────────────────────────────┘
-                        │
-      ┌─────────────────┼─────────────────┐
-      │                 │                 │
- ┌────▼────┐       ┌────▼────┐       ┌────▼────┐
- │PILLAR 1 │       │PILLAR 2 │       │PILLAR 3 │
- │AEO beats│       │One price│       │AI does  │
- │SEO now  │       │for all  │       │the grind│
- └────┬────┘       └────┬────┘       └────┬────┘
-      │                 │                 │
-  3 proofs each →    3 proofs each →   3 proofs each
+ NORTH STAR
+ ┌──────────────────────────────────────┐
+ │ "Get cited by AI. Close more deals. │
+ │ One retainer — strategy, software, │
+ │ and execution. Starting $249/mo." │
+ └──────────────────────────────────────┘
+ │
+ ┌─────────────────┼─────────────────┐
+ │ │ │
+ ┌────▼────┐ ┌────▼────┐ ┌────▼────┐
+ │PILLAR 1 │ │PILLAR 2 │ │PILLAR 3 │
+ │AEO beats│ │One price│ │AI does │
+ │SEO now │ │for all │ │the grind│
+ └────┬────┘ └────┬────┘ └────┬────┘
+ │ │ │
+ 3 proofs each → 3 proofs each → 3 proofs each
 ```
 
 ### Pillar 1 — "AEO beats SEO now"
@@ -180,18 +180,18 @@ Companion document to [BUSINESS_PLAN.md](BUSINESS_PLAN.md) and [EXECUTION_90DAY.
 ### Google Ads campaign structure
 
 ```
-├── Brand (NetWebMedia)                       [Defensive, $200/mo]
+├── Brand (NetWebMedia) [Defensive, $200/mo]
 ├── Competitor
-│   ├── HubSpot alternative                   [$600/mo, CPC target $4]
-│   ├── GoHighLevel alternative               [$400/mo]
-│   └── Chief Outsiders / Marketri            [$300/mo]
+│ ├── HubSpot alternative [$600/mo, CPC target $4]
+│ ├── GoHighLevel alternative [$400/mo]
+│ └── Chief Outsiders / Marketri [$300/mo]
 ├── Category
-│   ├── Fractional CMO                        [$500/mo]
-│   ├── AEO agency / AI SEO                   [$500/mo]
-│   └── AI marketing agency                   [$300/mo]
+│ ├── Fractional CMO [$500/mo]
+│ ├── AEO agency / AI SEO [$500/mo]
+│ └── AI marketing agency [$300/mo]
 └── Pain-point
-    ├── "why isn't my site in chatgpt"        [$200/mo]
-    └── "how to get cited by ai"              [$200/mo]
+ ├── "why isn't my site in chatgpt" [$200/mo]
+ └── "how to get cited by ai" [$200/mo]
 ```
 
 **Pre-flight:** The `PASTE_PIXEL_ID_HERE` placeholder in pricing.html / services.html MUST be replaced with the real Meta Pixel before any paid spend launches. This is the #1 blocker.
@@ -330,7 +330,7 @@ Top 10 site improvements, prioritized by ICE score (Impact × Confidence × Ease
 
 ## 12. Brand Guardrails (marketing-facing)
 
-- No public discounts below list. The "Carlos26" promo is retired by July 1.
+- No public discounts below list. The "Carlos26" launch promo was retired on 2026-04-21.
 - No sub-$500k revenue clients. Below the brand.
 - Partners whitelabel the software, not the NetWebMedia agency brand.
 - All marketing follows the Gulf-Oil palette (Navy `#010F3B` / Orange `#FF671F` / Blue `#4A90D9`) — see [BRAND.md](BRAND.md).

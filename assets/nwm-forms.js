@@ -62,6 +62,19 @@
     var formId = form.getAttribute('data-nwm-form');
     if (!formId) return;
     var data = serialize(form);
+
+    // Honeypot: bots fill hidden fields; humans don't see them. If nwm_website
+    // is non-empty we silently pretend success and skip the API call entirely.
+    // (The field is also echoed back on the server — defense in depth lives in the API.)
+    if (data.nwm_website) {
+      showMessage(form,
+        form.getAttribute('data-nwm-success') ||
+        'Thanks! Your message has been received — we\'ll be in touch shortly.',
+        'success');
+      form.reset();
+      return;
+    }
+
     setBusy(form, true);
     try {
       var res = await fetch(API_BASE + '/public/forms/submit', {

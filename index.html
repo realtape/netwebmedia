@@ -65,14 +65,33 @@
         "url": "https://netwebmedia.com/",
         "logo": "https://netwebmedia.com/assets/nwm-logo.svg",
         "description": "AI-native fractional CMO for US SMBs. Strategy, software, and full execution — AEO, SEO, paid ads, CRM automation, and AI agents in one retainer.",
-        "areaServed": { "@type": "Country", "name": "United States" },
+        "foundingDate": "2025-07-01",
+        "founder": {
+          "@type": "Person",
+          "@id": "https://netwebmedia.com/about.html#carlos",
+          "name": "Carlos Martinez",
+          "jobTitle": "Founder & CEO",
+          "worksFor": { "@id": "https://netwebmedia.com/#org" }
+        },
+        "areaServed": [
+          { "@type": "Country", "name": "United States" },
+          { "@type": "Country", "name": "Chile" }
+        ],
         "email": "hello@netwebmedia.com",
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "email": "hello@netwebmedia.com",
+          "contactType": "customer service",
+          "areaServed": ["US", "CL"],
+          "availableLanguage": ["English", "Spanish"]
+        }],
         "sameAs": [
           "https://x.com/netwebmedia",
           "https://www.instagram.com/netwebmedia/",
           "https://www.facebook.com/netwebmedia",
           "https://www.youtube.com/@netwebmedia",
-          "https://www.tiktok.com/@netwebmedia"
+          "https://www.tiktok.com/@netwebmedia",
+          "https://www.linkedin.com/in/netwebmedia"
         ]
       },
       {
@@ -81,7 +100,15 @@
         "url": "https://netwebmedia.com/",
         "name": "NetWebMedia",
         "publisher": { "@id": "https://netwebmedia.com/#org" },
-        "inLanguage": "en-US"
+        "inLanguage": "en-US",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://netwebmedia.com/blog.html?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
       },
       {
         "@type": "WebPage",
@@ -117,10 +144,6 @@
 <a class="skip-link" href="#main">Skip to main content</a>
 
 <!-- ── Language Bar ─────────────────────────────────────── -->
-<!-- Launch promo banner -->
-<div class="promo-banner">
-  🎉 Launch week: <strong>50% OFF</strong> your first 3 months with code <code>Carlos26</code> — ends in 7 days
-</div>
 
 <div class="lang-bar" id="lang-bar">
   <div class="container">
@@ -853,7 +876,7 @@
         <a href="contact.html" class="btn-primary" style="font-size:18px;padding:18px 36px;" data-i18n="cta_btn">Book Your Free Strategy Call</a>
         <a href="services.html" class="btn-secondary" style="font-size:18px;padding:18px 36px;">Explore Services</a>
       </div>
-      <p class="cta-phone">Or reach us: <a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a> · <a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a></p>
+      <p class="cta-phone">Or reach us: <a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a></p>
     </div>
   </div>
 </section>

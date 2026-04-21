@@ -1,0 +1,568 @@
+/* guide.css — print-optimized stylesheet for NetWebMedia PDF guides */
+/* Used by /guides/*.html which are converted to PDFs via puppeteer */
+
+:root {
+  --navy: #010F3B;
+  --orange: #FF671F;
+  --white: #ffffff;
+  --off-white: #f8f9fc;
+  --gray-100: #f3f4f6;
+  --gray-300: #d1d5db;
+  --gray-600: #4b5563;
+  --gray-800: #1f2937;
+  --text: #111827;
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@700;800&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 11pt; }
+body.guide-body {
+  font-family: var(--font-main);
+  color: var(--text);
+  background: white;
+  line-height: 1.65;
+}
+
+/* ── Page layout ─────────────────────────────────────── */
+.guide-page {
+  width: 8.5in;
+  min-height: 11in;
+  padding: 0.7in 0.75in;
+  position: relative;
+}
+
+@media print {
+  .guide-page { page-break-after: always; }
+  a { color: inherit !important; text-decoration: none !important; }
+}
+
+/* ── Cover page ──────────────────────────────────────── */
+.guide-cover {
+  width: 8.5in;
+  min-height: 11in;
+  background: var(--navy);
+  color: white;
+  padding: 0.8in 0.85in;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.guide-cover::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -120px;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: rgba(255,103,31,0.12);
+}
+.guide-cover::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -80px;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: rgba(255,103,31,0.08);
+}
+
+.guide-cover-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.guide-cover-nwm {
+  font-family: 'Poppins', var(--font-main);
+  font-size: 18pt;
+  font-weight: 800;
+  color: var(--orange);
+  letter-spacing: -0.5px;
+}
+
+.guide-cover-year {
+  font-size: 10pt;
+  color: rgba(255,255,255,0.5);
+  font-weight: 500;
+}
+
+.guide-cover-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.6in 0;
+  position: relative;
+  z-index: 1;
+}
+
+.guide-cover-tag {
+  display: inline-block;
+  background: var(--orange);
+  color: white;
+  font-size: 8pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 5px 14px;
+  border-radius: 3px;
+  margin-bottom: 28px;
+}
+
+.guide-cover-title {
+  font-family: 'Poppins', var(--font-main);
+  font-size: 30pt;
+  font-weight: 800;
+  line-height: 1.18;
+  color: white;
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+}
+
+.guide-cover-subtitle {
+  font-size: 13pt;
+  color: rgba(255,255,255,0.75);
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 5.5in;
+}
+
+.guide-cover-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  position: relative;
+  z-index: 1;
+}
+
+.guide-cover-author {
+  font-size: 10pt;
+  color: rgba(255,255,255,0.7);
+}
+.guide-cover-author strong {
+  color: white;
+  display: block;
+  font-size: 11pt;
+  margin-bottom: 2px;
+}
+
+.guide-cover-meta {
+  text-align: right;
+  font-size: 9pt;
+  color: rgba(255,255,255,0.5);
+}
+
+/* ── Table of contents ───────────────────────────────── */
+.guide-toc {
+  width: 8.5in;
+  min-height: 11in;
+  padding: 0.75in 0.85in;
+  background: var(--off-white);
+}
+
+.guide-toc-header {
+  border-bottom: 3px solid var(--orange);
+  padding-bottom: 16px;
+  margin-bottom: 36px;
+}
+
+.guide-toc-header h2 {
+  font-family: 'Poppins', var(--font-main);
+  font-size: 22pt;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.toc-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--gray-300);
+  gap: 16px;
+}
+
+.toc-item-title {
+  font-size: 11pt;
+  font-weight: 600;
+  color: var(--navy);
+  flex: 1;
+}
+
+.toc-item-desc {
+  font-size: 9.5pt;
+  color: var(--gray-600);
+  flex: 2;
+}
+
+.toc-item-num {
+  font-size: 9pt;
+  color: var(--gray-600);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ── Section pages ───────────────────────────────────── */
+.guide-section {
+  width: 8.5in;
+  min-height: 11in;
+  padding: 0.65in 0.85in;
+  position: relative;
+}
+
+.guide-section-header {
+  border-left: 5px solid var(--orange);
+  padding-left: 18px;
+  margin-bottom: 28px;
+}
+
+.guide-section-num {
+  font-size: 9pt;
+  font-weight: 700;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+}
+
+.guide-section-header h2 {
+  font-family: 'Poppins', var(--font-main);
+  font-size: 20pt;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1.2;
+}
+
+.guide-section p {
+  font-size: 10.5pt;
+  line-height: 1.72;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.guide-section h3 {
+  font-family: 'Poppins', var(--font-main);
+  font-size: 13pt;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 28px 0 12px;
+}
+
+.guide-section ul, .guide-section ol {
+  padding-left: 22px;
+  margin: 16px 0 20px;
+}
+
+.guide-section li {
+  font-size: 10.5pt;
+  line-height: 1.65;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.guide-callout {
+  background: var(--off-white);
+  border-left: 4px solid var(--orange);
+  padding: 18px 22px;
+  margin: 24px 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.guide-callout p {
+  font-size: 11pt;
+  font-weight: 600;
+  color: var(--navy);
+  font-style: italic;
+  margin: 0;
+  line-height: 1.55;
+}
+
+.guide-stat-box {
+  background: var(--navy);
+  color: white;
+  padding: 20px 24px;
+  border-radius: 8px;
+  margin: 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.guide-stat-num {
+  font-family: 'Poppins', var(--font-main);
+  font-size: 30pt;
+  font-weight: 800;
+  color: var(--orange);
+  white-space: nowrap;
+}
+
+.guide-stat-label {
+  font-size: 10.5pt;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.45;
+}
+
+/* Step boxes */
+.guide-steps { margin: 20px 0; }
+.guide-step {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 18px;
+  align-items: flex-start;
+}
+
+.guide-step-num {
+  width: 30px; height: 30px;
+  background: var(--orange);
+  color: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10pt;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.guide-step-body h4 {
+  font-size: 11pt;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 5px;
+}
+
+.guide-step-body p {
+  font-size: 10pt;
+  margin: 0;
+  color: var(--gray-600);
+}
+
+/* ── Executive summary ───────────────────────────────── */
+.guide-exec-summary {
+  width: 8.5in;
+  min-height: 11in;
+  padding: 0.65in 0.85in;
+}
+
+.guide-exec-tag {
+  display: inline-block;
+  background: var(--navy);
+  color: white;
+  font-size: 7.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 4px 12px;
+  border-radius: 3px;
+  margin-bottom: 16px;
+}
+
+.guide-exec-summary h2 {
+  font-family: 'Poppins', var(--font-main);
+  font-size: 22pt;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.guide-takeaways-box {
+  background: var(--off-white);
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  padding: 22px 26px;
+  margin: 24px 0;
+}
+
+.guide-takeaways-box h3 {
+  font-size: 10pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--orange);
+  margin-bottom: 14px;
+}
+
+.guide-takeaways-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.guide-takeaways-box li {
+  padding: 8px 0 8px 26px;
+  position: relative;
+  font-size: 10.5pt;
+  color: var(--navy);
+  font-weight: 500;
+  border-bottom: 1px solid var(--gray-300);
+}
+.guide-takeaways-box li:last-child { border-bottom: none; }
+.guide-takeaways-box li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--orange);
+  font-weight: 700;
+}
+
+/* ── Checklist page ──────────────────────────────────── */
+.guide-checklist {
+  width: 8.5in;
+  min-height: 11in;
+  padding: 0.65in 0.85in;
+}
+
+.guide-checklist h2 {
+  font-family: 'Poppins', var(--font-main);
+  font-size: 22pt;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 28px;
+}
+
+.checklist-group { margin-bottom: 28px; }
+.checklist-group h3 {
+  font-size: 12pt;
+  font-weight: 700;
+  color: var(--navy);
+  border-bottom: 2px solid var(--orange);
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.checklist-box {
+  width: 16px; height: 16px;
+  border: 2px solid var(--gray-300);
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.checklist-item span {
+  font-size: 10pt;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ── NWM CTA page ────────────────────────────────────── */
+.guide-nwm-page {
+  width: 8.5in;
+  min-height: 11in;
+  background: var(--navy);
+  padding: 0.85in;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.guide-nwm-page::before {
+  content: '';
+  position: absolute;
+  top: -150px; right: -100px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: rgba(255,103,31,0.1);
+}
+
+.guide-nwm-page .nwm-logo {
+  font-family: 'Poppins', var(--font-main);
+  font-size: 20pt;
+  font-weight: 800;
+  color: var(--orange);
+  margin-bottom: 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.guide-nwm-page h2 {
+  font-family: 'Poppins', var(--font-main);
+  font-size: 26pt;
+  font-weight: 800;
+  color: white;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  max-width: 5.5in;
+  position: relative;
+  z-index: 1;
+}
+
+.guide-nwm-page p {
+  font-size: 12pt;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.65;
+  max-width: 5in;
+  margin-bottom: 36px;
+  position: relative;
+  z-index: 1;
+}
+
+.guide-nwm-services {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.guide-nwm-service {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 9.5pt;
+  color: rgba(255,255,255,0.85);
+  font-weight: 500;
+}
+
+.guide-cta-url {
+  font-size: 14pt;
+  font-weight: 700;
+  color: var(--orange);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Page footer ─────────────────────────────────────── */
+.guide-footer {
+  position: absolute;
+  bottom: 0.4in;
+  left: 0.85in;
+  right: 0.85in;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--gray-300);
+  padding-top: 10px;
+}
+
+.guide-footer-brand {
+  font-size: 8pt;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.guide-footer-page {
+  font-size: 8pt;
+  color: var(--gray-600);
+}
+
+.guide-footer-url {
+  font-size: 8pt;
+  color: var(--gray-600);
+}

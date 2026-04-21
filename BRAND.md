@@ -235,18 +235,18 @@ Supporting copy: "Most founders manage four to six vendors to run their marketin
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│  NWM BRAND PALETTE                                                  │
-│                                                                     │
-│  ████  Navy Primary     #012169  rgb(1, 33, 105)                   │
-│  ████  Navy Dark        #010F3B  rgb(1, 15, 59)                    │
-│  ████  Navy Mid         #01306E  rgb(1, 48, 110)                   │
-│  ████  Orange Primary   #FF671F  rgb(255, 103, 31)                 │
-│  ████  Orange Light     #FF8C42  rgb(255, 140, 66)                 │
-│  ████  Blue Accent      #4A90D9  rgb(74, 144, 217)                 │
-│  ████  White            #FFFFFF  rgb(255, 255, 255)                │
-│  ████  Text Primary     #FFFFFF  (on dark backgrounds)             │
-│  ████  Text Secondary   #C8D4E6  rgb(200, 212, 230)               │
-│  ████  Text Muted       #7B8FAD  rgb(123, 143, 173)               │
+│ NWM BRAND PALETTE │
+│ │
+│ ████ Navy Primary #012169 rgb(1, 33, 105) │
+│ ████ Navy Dark #010F3B rgb(1, 15, 59) │
+│ ████ Navy Mid #01306E rgb(1, 48, 110) │
+│ ████ Orange Primary #FF671F rgb(255, 103, 31) │
+│ ████ Orange Light #FF8C42 rgb(255, 140, 66) │
+│ ████ Blue Accent #4A90D9 rgb(74, 144, 217) │
+│ ████ White #FFFFFF rgb(255, 255, 255) │
+│ ████ Text Primary #FFFFFF (on dark backgrounds) │
+│ ████ Text Secondary #C8D4E6 rgb(200, 212, 230) │
+│ ████ Text Muted #7B8FAD rgb(123, 143, 173) │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -326,21 +326,21 @@ Rationale for this stack: Poppins has geometric personality and strong weight co
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│  NWM TYPE SCALE                                                      │
-│                                                                      │
-│  Role          Font      Size            Weight  LH    LS            │
-│  ─────────────────────────────────────────────────────────────────  │
-│  Display       Poppins   clamp(56,7vw,80px) 800   1.05  -0.04em     │
-│  H1            Poppins   clamp(40,6vw,72px)  800   1.10  -0.03em     │
-│  H2            Poppins   clamp(32,5vw,56px)  700   1.15  -0.02em     │
-│  H3            Poppins   clamp(24,3vw,36px)  700   1.20  -0.01em     │
-│  H4            Poppins   24px               600   1.30  0            │
-│  Body Large    Inter     18px               400   1.80  0            │
-│  Body          Inter     16px               400   1.60  0            │
-│  Body Small    Inter     14px               400   1.60  0            │
-│  Caption       Inter     13px               500   1.50  +0.04em      │
-│  Label / Tag   Inter     13px               600   1.40  +0.10em      │
-│  Code          Mono      14px               400   1.60  0            │
+│ NWM TYPE SCALE │
+│ │
+│ Role Font Size Weight LH LS │
+│ ───────────────────────────────────────────────────────────────── │
+│ Display Poppins clamp(56,7vw,80px) 800 1.05 -0.04em │
+│ H1 Poppins clamp(40,6vw,72px) 800 1.10 -0.03em │
+│ H2 Poppins clamp(32,5vw,56px) 700 1.15 -0.02em │
+│ H3 Poppins clamp(24,3vw,36px) 700 1.20 -0.01em │
+│ H4 Poppins 24px 600 1.30 0 │
+│ Body Large Inter 18px 400 1.80 0 │
+│ Body Inter 16px 400 1.60 0 │
+│ Body Small Inter 14px 400 1.60 0 │
+│ Caption Inter 13px 500 1.50 +0.04em │
+│ Label / Tag Inter 13px 600 1.40 +0.10em │
+│ Code Mono 14px 400 1.60 0 │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -371,9 +371,9 @@ Place these in the `<head>` of every page, before the stylesheet link:
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style"
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap">
+ href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap">
 <link rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap">
+ href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap">
 ```
 
 Load only the weights you use. The current `styles.css` loads Inter 300–900 and Poppins 400–900 — that is six extra weights per font causing unnecessary render-blocking payload. Trim to the weights listed above.
@@ -394,13 +394,13 @@ Load only the weights you use. The current `styles.css` loads Inter 300–900 an
 The minimum clear space around any logo version is equal to the cap-height of the "N" in the wordmark. Call this unit X.
 
 ```
-        X
-    ┌───────────────────────────────┐
-  X │                               │ X
-    │   [NWM MARK]  NetWebMedia    │
-    │                               │
-    └───────────────────────────────┘
-        X
+ X
+ ┌───────────────────────────────┐
+ X │ │ X
+ │ [NWM MARK] NetWebMedia │
+ │ │
+ └───────────────────────────────┘
+ X
 ```
 
 Nothing — text, image, edge, decorative element — enters this zone.
@@ -542,28 +542,28 @@ All spacing values are multiples of 8px. No exceptions.
 
 ```
 ┌────────────────────────────────────────────┐
-│  SPACING TOKENS                            │
-│                                            │
-│  --space-1   4px    (half-unit — use only  │
-│                      for micro adjustments │
-│                      like icon gaps)       │
-│  --space-2   8px    (default tight gap)    │
-│  --space-3   12px   (compact list spacing) │
-│  --space-4   16px   (standard element gap) │
-│  --space-5   24px   (card padding)         │
-│  --space-6   32px   (section sub-gap)      │
-│  --space-7   48px   (section padding)      │
-│  --space-8   64px   (major section gap)    │
-│  --space-9   96px   (hero section padding) │
-│  --space-10  128px  (page-level breathing) │
+│ SPACING TOKENS │
+│ │
+│ --space-1 4px (half-unit — use only │
+│ for micro adjustments │
+│ like icon gaps) │
+│ --space-2 8px (default tight gap) │
+│ --space-3 12px (compact list spacing) │
+│ --space-4 16px (standard element gap) │
+│ --space-5 24px (card padding) │
+│ --space-6 32px (section sub-gap) │
+│ --space-7 48px (section padding) │
+│ --space-8 64px (major section gap) │
+│ --space-9 96px (hero section padding) │
+│ --space-10 128px (page-level breathing) │
 └────────────────────────────────────────────┘
 ```
 
 Add to `:root` in `styles.css`:
 ```css
---space-1: 4px;  --space-2: 8px;   --space-3: 12px;
---space-4: 16px; --space-5: 24px;  --space-6: 32px;
---space-7: 48px; --space-8: 64px;  --space-9: 96px; --space-10: 128px;
+--space-1: 4px; --space-2: 8px; --space-3: 12px;
+--space-4: 16px; --space-5: 24px; --space-6: 32px;
+--space-7: 48px; --space-8: 64px; --space-9: 96px; --space-10: 128px;
 ```
 
 ### Container Widths
@@ -620,16 +620,16 @@ Add to `:root` in `styles.css`:
 **Tertiary Button — Text link with arrow**
 ```css
 .btn-text {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--nwm-orange);
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: var(--transition);
+ display: inline-flex;
+ align-items: center;
+ gap: 6px;
+ font-size: 15px;
+ font-weight: 600;
+ color: var(--nwm-orange);
+ background: none;
+ border: none;
+ cursor: pointer;
+ transition: var(--transition);
 }
 .btn-text:hover { gap: 10px; }
 ```
@@ -668,8 +668,8 @@ Add to `:root` in `styles.css`:
 **Stats Card**
 ```html
 <div class="glass-card" style="padding: 24px; text-align: center;">
-  <div class="hero-stat-num">127%</div>
-  <div class="hero-stat-label">Avg. traffic increase in 90 days</div>
+ <div class="hero-stat-num">127%</div>
+ <div class="hero-stat-label">Avg. traffic increase in 90 days</div>
 </div>
 ```
 
@@ -678,30 +678,30 @@ Add to `:root` in `styles.css`:
 ```css
 /* Add to styles.css */
 .form-input {
-  width: 100%;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--border-glass);
-  border-radius: var(--radius-sm);
-  padding: 14px 16px;
-  font-family: var(--font-main);
-  font-size: 15px;
-  color: var(--text-primary);
-  transition: var(--transition);
-  outline: none;
+ width: 100%;
+ background: rgba(255,255,255,0.05);
+ border: 1px solid var(--border-glass);
+ border-radius: var(--radius-sm);
+ padding: 14px 16px;
+ font-family: var(--font-main);
+ font-size: 15px;
+ color: var(--text-primary);
+ transition: var(--transition);
+ outline: none;
 }
 .form-input::placeholder { color: var(--text-muted); }
 .form-input:focus {
-  border-color: var(--nwm-orange);
-  background: rgba(255,255,255,0.08);
-  box-shadow: 0 0 0 3px rgba(255,103,31,0.15);
+ border-color: var(--nwm-orange);
+ background: rgba(255,255,255,0.08);
+ box-shadow: 0 0 0 3px rgba(255,103,31,0.15);
 }
 .form-label {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 8px;
-  letter-spacing: 0.04em;
+ display: block;
+ font-size: 13px;
+ font-weight: 600;
+ color: var(--text-secondary);
+ margin-bottom: 8px;
+ letter-spacing: 0.04em;
 }
 .form-group { margin-bottom: 20px; }
 ```
@@ -723,12 +723,12 @@ Animation communicates state changes and guides attention. It is never decoratio
 
 ```css
 /* Add to :root in styles.css */
---duration-instant:  100ms;   /* Micro: focus rings, opacity flickers */
---duration-fast:     200ms;   /* UI feedback: button hover, nav link */
---duration-default:  300ms;   /* Standard: card hover, dropdown open (already --transition) */
---duration-medium:   500ms;   /* Page elements entering viewport */
---duration-slow:     700ms;   /* Hero text sequences */
---duration-ambient: 2000ms;   /* Loops: pulse dots, floating squares */
+--duration-instant: 100ms; /* Micro: focus rings, opacity flickers */
+--duration-fast: 200ms; /* UI feedback: button hover, nav link */
+--duration-default: 300ms; /* Standard: card hover, dropdown open (already --transition) */
+--duration-medium: 500ms; /* Page elements entering viewport */
+--duration-slow: 700ms; /* Hero text sequences */
+--duration-ambient: 2000ms; /* Loops: pulse dots, floating squares */
 ```
 
 ### Easing Curves
@@ -788,14 +788,14 @@ Use `fadeInUp` (already defined as a keyframe in styles.css) for all elements th
 **Type A — Stat/Hook post (X, Instagram, Facebook)**
 ```
 ┌─────────────────────────────────────────────┐
-│  [Dark navy bg #010F3B]                     │
-│                                             │
-│  [Section label — orange uppercase tag]     │
-│                                             │
-│  [Large stat or headline — Poppins 700]     │
-│  [Supporting 1-line context — Inter]        │
-│                                             │
-│  [NWM horizontal lockup — bottom right]     │
+│ [Dark navy bg #010F3B] │
+│ │
+│ [Section label — orange uppercase tag] │
+│ │
+│ [Large stat or headline — Poppins 700] │
+│ [Supporting 1-line context — Inter] │
+│ │
+│ [NWM horizontal lockup — bottom right] │
 └─────────────────────────────────────────────┘
 ```
 Dimensions: 1080×1080 (Instagram/Facebook square), 1200×675 (X/Twitter card)
@@ -803,25 +803,25 @@ Dimensions: 1080×1080 (Instagram/Facebook square), 1200×675 (X/Twitter card)
 **Type B — Article/Blog promo (X, LinkedIn alt)**
 ```
 ┌─────────────────────────────────────────────┐
-│  [Photography — 60% of height, dark-graded] │
-│  [Orange to navy gradient overlay at 40%]   │
-│  ─────────────────────────────────────────  │
-│  [Article title — Poppins 700, 2 lines max] │
-│  [netwebmedia.com — muted caption]          │
-│  [NWM mark — bottom left]                   │
+│ [Photography — 60% of height, dark-graded] │
+│ [Orange to navy gradient overlay at 40%] │
+│ ───────────────────────────────────────── │
+│ [Article title — Poppins 700, 2 lines max] │
+│ [netwebmedia.com — muted caption] │
+│ [NWM mark — bottom left] │
 └─────────────────────────────────────────────┘
 ```
 
 **Type C — Quote/Testimonial (Instagram, Facebook)**
 ```
 ┌─────────────────────────────────────────────┐
-│  [Dark navy bg]                             │
-│                                             │
-│  " [Client quote — Poppins italic 600]     │
-│                                             │
-│  [Client name + company — Inter 500]        │
-│  [Orange divider line — 32px wide, 2px]     │
-│  [NWM lockup — bottom center]               │
+│ [Dark navy bg] │
+│ │
+│ " [Client quote — Poppins italic 600] │
+│ │
+│ [Client name + company — Inter 500] │
+│ [Orange divider line — 32px wide, 2px] │
+│ [NWM lockup — bottom center] │
 └─────────────────────────────────────────────┘
 ```
 
@@ -964,14 +964,14 @@ WCAG 2.2 Level AA is the minimum for every page, component, and email. We target
 7. **Typewriter animation:** The `.typewriter` element must have `aria-live="polite"` so screen readers announce text changes without interrupting ongoing reading.
 8. **Color alone:** Never use color as the only way to convey state. Error fields need a text error message, not just a red border.
 9. **Motion:** Respect `prefers-reduced-motion`. Wrap all non-essential animations:
-   ```css
-   @media (prefers-reduced-motion: reduce) {
-     *, *::before, *::after {
-       animation-duration: 0.01ms !important;
-       transition-duration: 0.01ms !important;
-     }
-   }
-   ```
+ ```css
+ @media (prefers-reduced-motion: reduce) {
+ *, *::before, *::after {
+ animation-duration: 0.01ms !important;
+ transition-duration: 0.01ms !important;
+ }
+ }
+ ```
 
 ---
 

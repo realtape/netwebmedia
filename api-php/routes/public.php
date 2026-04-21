@@ -12,6 +12,15 @@ function route_public($parts, $method) {
     $b = required(['form_id', 'data']);
     if (!is_array($b['data'])) err('data must be an object');
 
+    // Honeypot: any non-empty value in these hidden fields = bot. Respond 200 so
+    // the bot doesn't adapt, but skip all downstream work (DB, contact, automations).
+    foreach (['nwm_website', 'hp_website', 'honeypot'] as $hp) {
+      if (!empty($b['data'][$hp])) {
+        echo json_encode(['ok' => true, 'submission_id' => 0]);
+        return;
+      }
+    }
+
     // form_id may be numeric id or slug
     if (is_numeric($b['form_id'])) {
       $form = qOne("SELECT * FROM resources WHERE type='form' AND id = ?", [(int)$b['form_id']]);

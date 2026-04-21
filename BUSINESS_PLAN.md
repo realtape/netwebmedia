@@ -96,11 +96,11 @@ Platform customers convert to retainer at ~12–18% within 6 months.
 ```
 SMB Marketing Spend 2026 — where the $48B SAM sits
 ────────────────────────────────────────────────
-Agencies (trad)       ████████████████████  $19.2B (40%)
-In-house + freelance  ██████████████        $13.4B (28%)
-Marketing SaaS        ██████████            $9.6B  (20%)
-Fractional CMO/CSO    ███                   $2.9B  (6%)   ← our wedge
-AI-native providers   ██                    $2.9B  (6%)   ← our home
+Agencies (trad) ████████████████████ $19.2B (40%)
+In-house + freelance ██████████████ $13.4B (28%)
+Marketing SaaS ██████████ $9.6B (20%)
+Fractional CMO/CSO ███ $2.9B (6%) ← our wedge
+AI-native providers ██ $2.9B (6%) ← our home
 ```
 
 ---
@@ -112,11 +112,11 @@ AI-native providers   ██                    $2.9B  (6%)   ← our home
 - **Team:** 5–50 employees, 0–1 marketing staff
 - **Pain:** Founder is doing marketing nights/weekends; last agency was a $10k/mo disappointment; not showing up in AI search
 - **Priority industries:**
-  1. Professional services (legal, accounting, consulting)
-  2. Hospitality (hotel groups, boutique chains)
-  3. Healthcare clinics (dental, veterinary, medical aesthetics)
-  4. Beauty/wellness (salons, spas, barbershops)
-  5. Real estate teams
+ 1. Professional services (legal, accounting, consulting)
+ 2. Hospitality (hotel groups, boutique chains)
+ 3. Healthcare clinics (dental, veterinary, medical aesthetics)
+ 4. Beauty/wellness (salons, spas, barbershops)
+ 5. Real estate teams
 - **Geographic split:** 70% US, 30% LATAM (Chile/Mexico/Colombia)
 
 ### Secondary ICP: White-label agencies
@@ -132,28 +132,28 @@ $49/mo CRM self-serve. Low ARPU, but the funnel fuel for tutorials, community, a
 ### 6.1 Positioning Map — Price × AI-Native
 
 ```
-                    HIGH PRICE ($5k+/mo)
-                            │
-       Chief Outsiders ●    │    ● Marketo Engage
-       Marketri       ●     │
-                            │    ● Drift
-                            │
-       Traditional agencies●│
-                            │
-  ──────────────────────────┼──────────────────────────
-  LOW AI-NATIVE             │              HIGH AI-NATIVE
-                            │    ★ NWM fCMO Scale ($2,499)
-                            │    ★ NWM fCMO Growth ($999)
-       HubSpot Mktg Hub  ●  │
-                            │    ★ NWM fCMO Lite ($249)
-       ActiveCampaign  ●    │
-       GoHighLevel       ●  │    ● "2024 AI agency" shops
-       Brevo    ●           │    ● (ChatGPT wrapper brands)
-       EngageBay  ●         │
-       Pipedrive  ●         │    ★ NWM CRM $449
-                            │    ★ NWM CRM $249
-                            │    ★ NWM CRM $49
-                    LOW PRICE (<$500/mo)
+ HIGH PRICE ($5k+/mo)
+ │
+ Chief Outsiders ● │ ● Marketo Engage
+ Marketri ● │
+ │ ● Drift
+ │
+ Traditional agencies●│
+ │
+ ──────────────────────────┼──────────────────────────
+ LOW AI-NATIVE │ HIGH AI-NATIVE
+ │ ★ NWM fCMO Scale ($2,499)
+ │ ★ NWM fCMO Growth ($999)
+ HubSpot Mktg Hub ● │
+ │ ★ NWM fCMO Lite ($249)
+ ActiveCampaign ● │
+ GoHighLevel ● │ ● "2024 AI agency" shops
+ Brevo ● │ ● (ChatGPT wrapper brands)
+ EngageBay ● │
+ Pipedrive ● │ ★ NWM CRM $449
+ │ ★ NWM CRM $249
+ │ ★ NWM CRM $49
+ LOW PRICE (<$500/mo)
 ```
 
 **Read:** NWM owns the **entire right column** — we're the only brand with a coherent ladder from $49 CRM to $2,499 fCMO, and all of it is AI-native. At the new price points, the Lite tier ($249) is now *below* HubSpot Starter, which changes the "HubSpot alternative" fight from parity-play to clear undercut.
@@ -242,11 +242,11 @@ $49/mo CRM self-serve. Low ARPU, but the funnel fuel for tutorials, community, a
 ```
 ARR Trajectory ($M) — 5-year
 ────────────────────────────
-Y5  ████████████████████████████████████████  $24.92M
-Y4  ████████████████████████                  $15.18M
-Y3  █████████████                             $8.10M
-Y2  █████                                     $3.43M
-Y1  █                                         $1.02M
+Y5 ████████████████████████████████████████ $24.92M
+Y4 ████████████████████████ $15.18M
+Y3 █████████████ $8.10M
+Y2 █████ $3.43M
+Y1 █ $1.02M
 ```
 
 ---
@@ -306,13 +306,13 @@ Old model (at $1,997–$5,997 tiers):
 ```
 Cohort Retention Curve — % of original cohort remaining
 ────────────────────────────────────────────────────────────────
-Month:    0    3    6    9    12   18   24
-CRM $49        100→ 78 → 58 → 44 → 34 → 18 → 10
-CRM $249       100→ 88 → 74 → 62 → 52 → 34 → 22
-CRM $449       100→ 92 → 82 → 72 → 64 → 46 → 32
-fCMO Lite      100→ 85 → 70 → 58 → 48 → 28 → 16
-fCMO Growth    100→ 91 → 80 → 70 → 62 → 44 → 30
-fCMO Scale     100→ 94 → 86 → 78 → 72 → 58 → 44
+Month: 0 3 6 9 12 18 24
+CRM $49 100→ 78 → 58 → 44 → 34 → 18 → 10
+CRM $249 100→ 88 → 74 → 62 → 52 → 34 → 22
+CRM $449 100→ 92 → 82 → 72 → 64 → 46 → 32
+fCMO Lite 100→ 85 → 70 → 58 → 48 → 28 → 16
+fCMO Growth 100→ 91 → 80 → 70 → 62 → 44 → 30
+fCMO Scale 100→ 94 → 86 → 78 → 72 → 58 → 44
 ```
 
 **Insight:** fCMO Scale retains like enterprise SaaS. Every Scale client is worth **~17x a Lite client** (up from 5x under old pricing). This sharpens the upsell priority — Lite is now a wedge into Scale, not an endpoint. Don't optimize Lite for retention; optimize it for **tier-upgrade velocity**.
@@ -467,7 +467,7 @@ fCMO Scale     100→ 94 → 86 → 78 → 72 → 58 → 44
 3. Close the first 3 paying retainer clients (direct outbound to warm network)
 4. Launch the Partner/reseller landing page and recruit first 5 agencies
 5. Ship case study template and publish first 3 case studies
-6. Retire the "Carlos26 50% off" launch promo banner by July 1 to protect brand price integrity
+6. Carlos26 50% off launch promo retired on 2026-04-21. Verify coupon disabled in Stripe/CRM backend.
 7. Replace the `PASTE_PIXEL_ID_HERE` placeholder in pricing.html/services.html with real Meta Pixel before any paid spend launches
 
 ---

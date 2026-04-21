@@ -134,10 +134,6 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
-<!-- Launch promo banner -->
-<div class="promo-banner">
-  🎉 Launch week: <strong>50% OFF</strong> your first 3 months with code <code>Carlos26</code> — ends in 7 days
-</div>
 
 <div class="lang-bar"><div class="container">
   <button class="lang-btn active" data-lang="en"><img class="flag" src="https://flagcdn.com/w40/us.png" alt="EN" loading="lazy" width="20" height="15" /> English</button>
@@ -236,6 +232,13 @@
         <h2 style="font-size:28px;font-weight:700;margin-bottom:8px;">Send Us a Message</h2>
         <p style="color:var(--text-secondary);font-size:15px;margin-bottom:32px;">Fill out the form below and we'll get back to you within 24 hours with a customized growth plan.</p>
         <form class="contact-form contact-form-el" id="contact-form" data-nwm-form="contact-main" data-nwm-success="Thanks! We received your request — our team will reach out within 24 hours.">
+          <!-- Honeypot: bots will fill this; humans won't see it. The form handler must reject any submission where nwm_website is non-empty. -->
+          <div aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden">
+            <label for="nwm_website">Website (leave blank)</label>
+            <input type="text" id="nwm_website" name="nwm_website" tabindex="-1" autocomplete="off" />
+          </div>
+          <!-- Cloudflare Turnstile placeholder. Renders only if window.NWM_TURNSTILE_SITE_KEY is set. See js/contact-turnstile.js (TBD). -->
+          <div id="nwm-turnstile" data-sitekey="" style="margin:0 0 18px"></div>
           <div class="form-group">
             <label for="inquiry-type" style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span>What brings you here?</span><span id="topic-badge" style="display:none;font-size:11px;background:rgba(99,102,241,.15);color:#6366f1;padding:3px 10px;border-radius:99px;font-weight:700;text-transform:uppercase;letter-spacing:.06em">Pre-selected</span></label>
             <select id="inquiry-type" name="topic" class="form-control" required style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:14px 18px;font-family:var(--font-main);font-size:15px;outline:none;">
@@ -419,7 +422,7 @@
       </div>
     </div>
     <div style="text-align:center;margin-top:28px;">
-      <p style="font-size:13px;color:var(--text-muted);">Calendar widget not loading? Email us directly at <a href="mailto:hello@netwebmedia.com" style="color:var(--accent-blue);">hello@netwebmedia.com</a> or <a href="mailto:hello@netwebmedia.com" style="color:var(--accent-blue);">email us</a>.</p>
+      <p style="font-size:13px;color:var(--text-muted);">Calendar widget not loading? Email us directly at <a href="mailto:hello@netwebmedia.com" style="color:var(--accent-blue);">hello@netwebmedia.com</a>.</p>
     </div>
   </div>
 </section>

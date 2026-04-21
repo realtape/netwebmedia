@@ -1,7 +1,9 @@
 # NWM CRM Launch Campaign — Operational Plan
 
-**Campaign name:** `NWM CRM Launch — Carlos26`
-**Launch date:** Wednesday, April 22, 2026
+> 🛑 **CAMPAIGN RETIRED — 2026-04-21.** The `Carlos26` promo code was killed per CEO directive after the 2026-04-21 repricing of fCMO tiers to $249 / $999 / $2,499. The prices below are STALE. **DO NOT distribute, link to, or reactivate this campaign without Carlos sign-off.** Backend action required: disable the coupon in Stripe + CRM (see §Ops below). This document is retained for historical reference and post-mortem analysis only.
+
+**Campaign name:** `NWM CRM Launch — Carlos26` *(RETIRED)*
+**Launch date:** Wednesday, April 22, 2026 *(did not ship as planned)*
 **Duration:** 7 days (launch window) + 14-day extension if under-subscribed
 **Target:** 500 activations of `Carlos26` → realistically 80–120 paid signups
 
@@ -77,20 +79,20 @@ Both should pass before sending Wave 1.
 #### Step 4 — Set RESEND_API_KEY on the server
 In cPanel → File Manager → `crm-vanilla/api/config.local.php`, add:
 ```php
-define('RESEND_API_KEY', 're_...');  // from resend.com → API Keys
+define('RESEND_API_KEY', 're_...'); // from resend.com → API Keys
 ```
 
 ---
 
 ## 4. List segmentation & send schedule — Month 1 (Resend Free, 100/day)
 
-**Constraint:** Resend free plan = 100 emails/day, 3,000/month.  
-**Total contacts:** ~3,400 → full list covered in ~34 days.  
-**Month 1 goal:** Get the announcement email to every contact in priority order.  
+**Constraint:** Resend free plan = 100 emails/day, 3,000/month. 
+**Total contacts:** ~3,400 → full list covered in ~34 days. 
+**Month 1 goal:** Get the announcement email to every contact in priority order. 
 **Drip sequence:** Starts Month 2 (upgrade to Resend Pro at $20/mo for 50K sends).
 
-> ⚠️ **ACTION REQUIRED before April 22:** Extend `Carlos26` expiry in DB.  
-> With 100/day the last contacts get the email on ~May 25 — the code must be valid then.  
+> ⚠️ **ACTION REQUIRED before April 22:** Extend `Carlos26` expiry in DB. 
+> With 100/day the last contacts get the email on ~May 25 — the code must be valid then. 
 > Remove the time limit and rely only on `max_uses = 500`:
 > ```sql
 > UPDATE coupons SET valid_until = NULL WHERE code = 'Carlos26';

@@ -109,7 +109,7 @@ To continue on the Base scenario, we must hit:
 
 1. **Fix `PASTE_PIXEL_ID_HERE`** in `pricing.html` + `services.html` — blocker for Task 16 (Jun 1) and Task 36 (Jul 13). Without this, we have no conversion attribution for paid media.
 2. **Decide on the root `styles.css` file** — conflicts with the canonical `css/styles.css` (Gulf palette). Delete the stray one or confirm it's template leftover.
-3. **Retire the "Carlos26 50% off" promo banner** by July 1 to protect price integrity.
+3. **Carlos26 50% off promo retired on 2026-04-21.** Verify coupon is disabled in Stripe/CRM backend.
 4. **Commit BRAND.md + BUSINESS_PLAN.md + MARKETING_PLAN.md + EXECUTION_90DAY.md** to the repo before May 4 so all agents reference the same source of truth.
 5. **Propagate the 2026-04-21 repricing** ($249 / $999 / $2,499) to the live site (`pricing.html`, `services.html`, `index.html`, `partners.html`, `pricing-onepager.html`, `email-templates/partner-2.html`) — see `audits/SITE_AUDIT_2026-04-21.md` §Decisions. Engineering-lead handoff.
 6. **Rebuild financial projections** in BUSINESS_PLAN.md §7 (5-year) and §8 (M12 mix) at new ACVs — finance-controller handoff.

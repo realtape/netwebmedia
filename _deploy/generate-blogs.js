@@ -53,6 +53,7 @@ function renderPostHtml(post) {
   const img = imageFor(slug, post.topic);
   const url = `https://netwebmedia.com/blog/${slug}.html`;
   const publishedISO = post.published || new Date().toISOString().slice(0, 10);
+  const hasGuide = fs.existsSync(path.join('guides', slug + '.html'));
   const bodyHtml = post.sections.map(s => {
     if (s.h2) return `<h2>${esc(s.h2)}</h2>` + (s.paragraphs ? '\n\n' + s.paragraphs.map(p => `<p>${p}</p>`).join('\n\n') : '');
     if (s.h3) return `<h3>${esc(s.h3)}</h3>` + (s.paragraphs ? '\n\n' + s.paragraphs.map(p => `<p>${p}</p>`).join('\n\n') : '');
@@ -158,6 +159,28 @@ function renderPostHtml(post) {
 <article class="article-body">
 ${bodyHtml}
 
+${hasGuide ? `  <aside class="article-guide-cta" style="margin:48px 0;border-radius:14px;overflow:hidden;box-shadow:0 18px 48px rgba(1,15,59,.12);background:#fff;border:1px solid #e5e7eb;">
+    <div style="display:grid;grid-template-columns:220px 1fr;gap:0;">
+      <div style="background:#010F3B;color:#fff;padding:28px 22px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;">
+        <div style="font-family:'Poppins',sans-serif;font-size:13px;font-weight:800;color:#FF671F;letter-spacing:-0.3px;">NetWebMedia</div>
+        <div>
+          <div style="display:inline-block;background:#FF671F;color:#fff;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 8px;border-radius:3px;margin-bottom:10px;">Free Guide</div>
+          <div style="font-family:'Poppins',sans-serif;font-size:14px;font-weight:800;color:#fff;line-height:1.3;">${esc(post.title)}</div>
+        </div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.55);">${esc(post.author)} · 2026</div>
+      </div>
+      <div style="padding:28px 32px;">
+        <div style="display:inline-block;background:#FFEADD;color:#FF671F;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;padding:4px 10px;border-radius:4px;margin-bottom:10px;">📥 PDF Download</div>
+        <h3 style="font-family:'Poppins',sans-serif;font-size:22px;font-weight:800;color:#010F3B;margin:0 0 10px;line-height:1.25;">Get the full playbook — free</h3>
+        <p style="font-size:15px;color:#4b5563;line-height:1.55;margin:0 0 18px;">This article covers the fundamentals. The complete PDF guide includes frameworks, implementation checklists, week-by-week rollout plans, and tactical examples you can apply immediately.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+          <a href="../assets/guides/${slug}.pdf" download class="btn-primary" style="display:inline-flex;align-items:center;gap:6px;">↓ Download Free PDF</a>
+          <a href="../lp/${slug}.html" style="color:#010F3B;font-weight:600;font-size:14px;text-decoration:none;">See what's inside →</a>
+        </div>
+      </div>
+    </div>
+  </aside>
+` : ''}
   <div class="article-cta-box">
     <h3>Want this working inside your own stack?</h3>
     <p>NetWebMedia builds AI marketing systems for US brands — from autonomous agents to full AEO-ready content engines. Book a free 30-minute strategy call and we'll map out the highest-ROI next step for your team.</p>
@@ -222,8 +245,10 @@ for (const f of pending) {
   const post = JSON.parse(fs.readFileSync(srcPath, 'utf8'));
   const outPath = path.join(BLOG_DIR, post.slug + '.html');
   fs.writeFileSync(outPath, renderPostHtml(post));
-  // Move JSON to _published/
-  fs.renameSync(srcPath, path.join(PUBLISHED_DIR, f));
+  // Move JSON to _published/ (overwrite if exists)
+  const destPath = path.join(PUBLISHED_DIR, f);
+  if (fs.existsSync(destPath)) fs.unlinkSync(destPath);
+  fs.renameSync(srcPath, destPath);
   renderedPosts.push(post);
   rendered++;
   console.log('+', post.slug);

@@ -4,11 +4,21 @@
 </IfModule>
 # php -- END cPanel-generated handler, do not edit
 
-# ── Legacy URL redirects (301) ─────────────────────────────────────────
-# /qna.html was an old nav link that 404'd; all Q&A lives on /faq.html now.
+# ── URL redirects (301) ────────────────────────────────────────────────
+# Clean URLs → canonical .html destinations.
+# /qna.html was an old nav link; Q&A now lives at /faq.html.
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteRule ^qna\.html$ /faq.html [R=301,L,NC]
+  RewriteRule ^qna\.html$    /faq.html       [R=301,L,NC]
+  RewriteRule ^contact$      /contact.html   [R=301,L,NC]
+  RewriteRule ^services$     /services.html  [R=301,L,NC]
+  RewriteRule ^pricing$      /pricing.html   [R=301,L,NC]
+  RewriteRule ^blog$         /blog.html      [R=301,L,NC]
+  RewriteRule ^about$        /about.html     [R=301,L,NC]
+  RewriteRule ^faq$          /faq.html       [R=301,L,NC]
+  RewriteRule ^partners$     /partners.html  [R=301,L,NC]
+  RewriteRule ^results$      /results.html   [R=301,L,NC]
+  RewriteRule ^tutorials$    /tutorials.html [R=301,L,NC]
 </IfModule>
 
 # ── Security headers ───────────────────────────────────────────────────

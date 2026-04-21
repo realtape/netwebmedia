@@ -22,7 +22,7 @@ const CPANEL_HOST = 'secure345.servconfig.com';
 const CPANEL_PORT = 2083;
 const CPANEL_USER = 'webmed6';
 const REMOTE_HOME = '/home/webmed6/public_html';
-const ZIP_NAME = 'netwebmedia-update-2026-04-15.zip';
+const ZIP_NAME = 'nwm-deploy.zip';
 const LOCAL_ZIP = path.join(__dirname, ZIP_NAME);
 
 const sessionFile = path.join(__dirname, '..', '.deploy-session');

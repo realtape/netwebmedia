@@ -185,6 +185,7 @@ export const automations: Automation[] = [
   { id: "au6", name: "Webinar Registration → Reminder Chain", trigger: "Event Signup", actions: 7, status: "active", enrolled: 524, completed: 487, conversionRate: 74, updatedAt: "2026-04-01" },
   { id: "au7", name: "Closed-Won → Onboarding Kickoff", trigger: "Deal Stage = Won", actions: 12, status: "active", enrolled: 78, completed: 72, conversionRate: 92, updatedAt: "2026-03-28" },
   { id: "au8", name: "Inactive Contact Win-back", trigger: "No Activity > 90 days", actions: 6, status: "paused", enrolled: 412, completed: 287, conversionRate: 8, updatedAt: "2026-02-15" },
+  { id: "au9", name: "Inbound Message → Instant Auto-Reply + SLA Timer", trigger: "New Conversation Message", actions: 4, status: "active", enrolled: 0, completed: 0, conversionRate: 0, updatedAt: "2026-04-21" },
 ];
 
 export interface LandingPage {

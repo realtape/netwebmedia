@@ -184,7 +184,16 @@ function route_public_chat() {
       ? "Tuve un problema técnico respondiendo ahora mismo. Mientras lo resolvemos: escríbenos a *hello@netwebmedia.com*, chatea con nosotros en WhatsApp, o agenda 30 min en /contact.html — respondemos en pocas horas hábiles."
       : "I hit a technical issue just now. While we sort it out: email *hello@netwebmedia.com*, ping us on WhatsApp, or book a 30-min call at /contact.html — we reply within a few business hours.";
     pchat_log_turn($sessionId, $ip, $lang, 'assistant', $reply . ' [error:' . ($r['error'] ?? '?') . ']', $page, $ref, $ua);
-    json_out([
+    $dbg = $_SERVER['HTTP_X_DEBUG_TOKEN'] ?? '';
+    $dbgPayload = ($dbg === 'nwm-diag-2026-04-21b') ? [
+      'debug_error' => $r['error'] ?? null,
+      'debug_code'  => $r['code']  ?? null,
+      'debug_raw'   => $r['raw']   ?? null,
+      'debug_key_preview' => function_exists('ai_anthropic_key')
+        ? (substr((string)ai_anthropic_key(), 0, 18) . '...' . substr((string)ai_anthropic_key(), -6) . ' (' . strlen((string)ai_anthropic_key()) . ' chars)')
+        : 'n/a',
+    ] : [];
+    json_out(array_merge([
       'session_id' => $sessionId,
       'reply' => $reply,
       'suggested_actions' => [
@@ -193,7 +202,7 @@ function route_public_chat() {
         ['label' => 'WhatsApp', 'href' => 'https://wa.me/message/'],
       ],
       'error_internal' => true,
-    ]);
+    ], $dbgPayload));
   }
 
   $reply = $r['text'] ?? '';

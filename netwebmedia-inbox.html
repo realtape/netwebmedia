@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetWebMedia Inbox — Unified Messaging Hub</title>
+<style>
+:root {
+  --bg-primary: #0f1117;
+  --bg-secondary: #161822;
+  --bg-tertiary: #1c1f2e;
+  --bg-hover: #252840;
+  --bg-active: #2a2d45;
+  --border: #2a2d3e;
+  --text-primary: #e8eaed;
+  --text-secondary: #9aa0b0;
+  --text-muted: #6b7185;
+  --accent: #6c5ce7;
+  --accent-light: #8b7cf7;
+  --accent-dim: #3d3580;
+  --whatsapp: #25d366;
+  --instagram: #e1306c;
+  --instagram-grad: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  --facebook: #1877f2;
+  --email-color: #ea4335;
+  --tiktok: #ff0050;
+  --sms: #34b7f1;
+  --livechat: #ff9f43;
+  --success: #00b894;
+  --warning: #fdcb6e;
+  --danger: #ff6b6b;
+  --hot-lead: #ff6b6b;
+  --client-tag: #00b894;
+  --vip-tag: #fdcb6e;
+  --new-tag: #6c5ce7;
+  --unresponsive-tag: #636e72;
+  --shadow: 0 2px 12px rgba(0,0,0,.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── HEADER ── */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px; padding: 0 20px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.logo { font-size: 18px; font-weight: 700; color: var(--accent-light); letter-spacing: -.5px; }
+.logo span { color: var(--text-primary); }
+.header-badge {
+  background: var(--danger); color: #fff; font-size: 11px; font-weight: 700;
+  padding: 2px 7px; border-radius: 10px; min-width: 20px; text-align: center;
+}
+.header-right { display: flex; align-items: center; gap: 16px; }
+.header-btn {
+  background: none; border: none; color: var(--text-secondary); cursor: pointer;
+  font-size: 18px; padding: 6px; border-radius: 6px; transition: .15s;
+}
+.header-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+.header-user {
+  display: flex; align-items: center; gap: 8px; cursor: pointer;
+  padding: 4px 10px 4px 4px; border-radius: 8px; transition: .15s;
+}
+.header-user:hover { background: var(--bg-hover); }
+.header-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--accent); display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: #fff;
+}
+
+/* ── LAYOUT ── */
+.app-layout {
+  display: flex; height: calc(100vh - 56px);
+}
+
+/* ── LEFT SIDEBAR ── */
+.sidebar {
+  width: 240px; min-width: 240px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  overflow-y: auto;
+}
+.sidebar-section { padding: 16px 14px 8px; }
+.sidebar-title {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.2px; color: var(--text-muted); margin-bottom: 8px;
+}
+.sidebar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 8px; cursor: pointer;
+  font-size: 13px; color: var(--text-secondary); transition: .12s;
+  position: relative;
+}
+.sidebar-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+.sidebar-item.active { background: var(--accent-dim); color: var(--accent-light); font-weight: 600; }
+.sidebar-icon { width: 18px; text-align: center; font-size: 15px; flex-shrink: 0; }
+.sidebar-badge {
+  margin-left: auto; background: var(--danger); color: #fff;
+  font-size: 10px; font-weight: 700; padding: 1px 6px;
+  border-radius: 8px; min-width: 18px; text-align: center;
+}
+.sidebar-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+.tag-item { font-size: 12px; padding: 6px 10px; }
+
+/* ── CONVERSATION LIST ── */
+.conv-list-panel {
+  width: 340px; min-width: 300px;
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  background: var(--bg-primary);
+}
+.conv-list-header { padding: 14px; border-bottom: 1px solid var(--border); }
+.conv-search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-tertiary); border-radius: 8px; padding: 8px 12px;
+  border: 1px solid var(--border); transition: .15s;
+}
+.conv-search:focus-within { border-color: var(--accent); }
+.conv-search input {
+  flex: 1; background: none; border: none; outline: none;
+  color: var(--text-primary); font-size: 13px;
+}
+.conv-search input::placeholder { color: var(--text-muted); }
+.conv-search svg { color: var(--text-muted); flex-shrink: 0; }
+
+.conv-filters {
+  display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--border);
+}
+.conv-filter-btn {
+  padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 500;
+  background: var(--bg-tertiary); border: 1px solid var(--border);
+  color: var(--text-secondary); cursor: pointer; transition: .12s;
+}
+.conv-filter-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+.conv-filter-btn.active {
+  background: var(--accent-dim); border-color: var(--accent);
+  color: var(--accent-light); font-weight: 600;
+}
+
+.conv-bulk-bar {
+  display: none; align-items: center; gap: 8px;
+  padding: 8px 14px; background: var(--accent-dim); border-bottom: 1px solid var(--accent);
+  font-size: 12px; color: var(--accent-light);
+}
+.conv-bulk-bar.show { display: flex; }
+.conv-bulk-bar button {
+  background: var(--bg-tertiary); border: 1px solid var(--border);
+  color: var(--text-secondary); padding: 4px 10px; border-radius: 4px;
+  font-size: 11px; cursor: pointer;
+}
+.conv-bulk-bar button:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+.conv-list {
+  flex: 1; overflow-y: auto;
+}
+.conv-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px; cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: .1s; position: relative;
+}
+.conv-item:hover { background: var(--bg-hover); }
+.conv-item.active { background: var(--bg-active); border-left: 3px solid var(--accent); }
+.conv-item.unread { background: rgba(108,92,231,.06); }
+.conv-item.unread .conv-name { font-weight: 700; color: var(--text-primary); }
+.conv-item.unread .conv-preview { color: var(--text-primary); font-weight: 500; }
+
+.conv-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 600; color: #fff; flex-shrink: 0;
+  position: relative;
+}
+.conv-avatar-img {
+  width: 42px; height: 42px; border-radius: 50%; object-fit: cover;
+}
+.conv-channel-badge {
+  position: absolute; bottom: -2px; right: -2px;
+  width: 18px; height: 18px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; border: 2px solid var(--bg-primary); color: #fff;
+}
+.conv-content { flex: 1; min-width: 0; }
+.conv-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
+.conv-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.conv-time { font-size: 11px; color: var(--text-muted); flex-shrink: 0; }
+.conv-preview {
+  font-size: 12px; color: var(--text-secondary);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  max-width: 220px;
+}
+.conv-bottom { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.conv-tag {
+  font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 3px;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+.conv-unread-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent); margin-left: auto; flex-shrink: 0;
+}
+.conv-assigned {
+  font-size: 10px; color: var(--text-muted); margin-left: auto;
+}
+
+/* ── CHAT PANEL ── */
+.chat-panel {
+  flex: 1; display: flex; flex-direction: column;
+  background: var(--bg-primary); min-width: 0;
+}
+.chat-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px; border-bottom: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+.chat-header-left { display: flex; align-items: center; gap: 12px; }
+.chat-header-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 600; color: #fff;
+}
+.chat-header-info h3 { font-size: 14px; font-weight: 600; }
+.chat-header-info span { font-size: 11px; color: var(--text-muted); }
+.chat-header-actions { display: flex; gap: 8px; }
+.chat-action-btn {
+  background: var(--bg-tertiary); border: 1px solid var(--border);
+  color: var(--text-secondary); padding: 6px 10px; border-radius: 6px;
+  font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px;
+  transition: .12s;
+}
+.chat-action-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 20px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.msg-date-divider {
+  text-align: center; font-size: 11px; color: var(--text-muted);
+  padding: 10px 0; position: relative;
+}
+.msg-date-divider::before, .msg-date-divider::after {
+  content: ''; position: absolute; top: 50%;
+  width: calc(50% - 60px); height: 1px; background: var(--border);
+}
+.msg-date-divider::before { left: 0; }
+.msg-date-divider::after { right: 0; }
+
+.msg-bubble {
+  max-width: 65%; padding: 10px 14px; border-radius: 14px;
+  font-size: 13px; line-height: 1.5; position: relative;
+  word-wrap: break-word;
+}
+.msg-bubble.sent {
+  align-self: flex-end; border-bottom-right-radius: 4px;
+}
+.msg-bubble.received {
+  align-self: flex-start; border-bottom-left-radius: 4px;
+}
+.msg-meta {
+  display: flex; align-items: center; gap: 6px;
+  margin-top: 4px; font-size: 10px; color: rgba(255,255,255,.5);
+}
+.msg-meta.received-meta { color: var(--text-muted); }
+
+/* Channel-specific bubble styles */
+.msg-bubble.whatsapp.sent { background: #075e54; color: #e8f5e9; }
+.msg-bubble.whatsapp.received { background: #1a3a2a; color: #e8f5e9; }
+.msg-bubble.instagram.sent { background: linear-gradient(135deg, #833ab4, #c13584, #e1306c); color: #fff; }
+.msg-bubble.instagram.received { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid #3d2050; }
+.msg-bubble.facebook.sent { background: #1877f2; color: #fff; }
+.msg-bubble.facebook.received { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid #1a3a6e; }
+.msg-bubble.email-style.sent { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); border-left: 3px solid var(--email-color); border-radius: 8px; }
+.msg-bubble.email-style.received { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); border-left: 3px solid #666; border-radius: 8px; }
+.msg-bubble.tiktok.sent { background: linear-gradient(135deg, #ff0050, #00f2ea); color: #fff; }
+.msg-bubble.tiktok.received { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid #4a1030; }
+.msg-bubble.sms-style.sent { background: #0b84fe; color: #fff; }
+.msg-bubble.sms-style.received { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
+.msg-bubble.livechat.sent { background: var(--accent); color: #fff; }
+.msg-bubble.livechat.received { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
+
+.email-subject { font-weight: 600; margin-bottom: 4px; font-size: 13px; }
+
+/* ── MESSAGE INPUT ── */
+.chat-input-area {
+  padding: 12px 20px; border-top: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+.chat-input-top { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+.input-tool-btn {
+  background: var(--bg-tertiary); border: 1px solid var(--border);
+  color: var(--text-secondary); padding: 5px 10px; border-radius: 6px;
+  font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 4px;
+  transition: .12s; white-space: nowrap;
+}
+.input-tool-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+.input-tool-btn.ai-btn { border-color: var(--accent); color: var(--accent-light); }
+.input-tool-btn.ai-btn:hover { background: var(--accent-dim); }
+
+.chat-input-row {
+  display: flex; gap: 8px; align-items: flex-end;
+}
+.chat-textarea {
+  flex: 1; background: var(--bg-tertiary); border: 1px solid var(--border);
+  border-radius: 10px; padding: 10px 14px; color: var(--text-primary);
+  font-size: 13px; font-family: inherit; resize: none; outline: none;
+  min-height: 40px; max-height: 120px; transition: .15s;
+}
+.chat-textarea:focus { border-color: var(--accent); }
+.chat-textarea::placeholder { color: var(--text-muted); }
+.send-btn {
+  background: var(--accent); border: none; color: #fff;
+  width: 40px; height: 40px; border-radius: 10px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 16px; transition: .12s; flex-shrink: 0;
+}
+.send-btn:hover { background: var(--accent-light); }
+
+.channel-select {
+  background: var(--bg-tertiary); border: 1px solid var(--border);
+  color: var(--text-secondary); padding: 5px 8px; border-radius: 6px;
+  font-size: 11px; outline: none; cursor: pointer;
+}
+
+/* ── CONTACT INFO PANEL ── */
+.contact-panel {
+  width: 300px; min-width: 300px;
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--border);
+  overflow-y: auto; transition: .2s;
+}
+.contact-panel.hidden { width: 0; min-width: 0; overflow: hidden; border: none; }
+
+.contact-header {
+  padding: 20px; text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.contact-avatar-lg {
+  width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 600; color: #fff;
+}
+.contact-name-lg { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.contact-role { font-size: 12px; color: var(--text-muted); }
+.contact-tags { display: flex; gap: 6px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+.contact-tag {
+  font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.contact-section { padding: 14px 20px; border-bottom: 1px solid var(--border); }
+.contact-section-title {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px;
+}
+.contact-field { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; }
+.contact-field-label { color: var(--text-muted); }
+.contact-field-value { color: var(--text-primary); font-weight: 500; text-align: right; max-width: 60%; word-break: break-all; }
+
+.lifecycle-bar {
+  display: flex; gap: 4px; margin-top: 8px;
+}
+.lifecycle-step {
+  flex: 1; height: 4px; border-radius: 2px; background: var(--bg-hover);
+}
+.lifecycle-step.filled { background: var(--accent); }
+.lifecycle-labels {
+  display: flex; justify-content: space-between; font-size: 9px;
+  color: var(--text-muted); margin-top: 4px;
+}
+.lifecycle-labels span.current { color: var(--accent-light); font-weight: 600; }
+
+.contact-notes textarea {
+  width: 100%; background: var(--bg-tertiary); border: 1px solid var(--border);
+  border-radius: 6px; padding: 8px; color: var(--text-primary);
+  font-size: 12px; font-family: inherit; resize: vertical;
+  min-height: 60px; outline: none;
+}
+.contact-notes textarea:focus { border-color: var(--accent); }
+
+.timeline-item {
+  display: flex; gap: 10px; margin-bottom: 12px; font-size: 11px;
+}
+.timeline-dot {
+  width: 8px; height: 8px; border-radius: 50%; margin-top: 4px; flex-shrink: 0;
+}
+.timeline-text { color: var(--text-secondary); }
+.timeline-time { color: var(--text-muted); font-size: 10px; }
+
+.crm-link-btn {
+  display: block; width: 100%; padding: 8px; border-radius: 6px;
+  background: var(--bg-tertiary); border: 1px solid var(--border);
+  color: var(--accent-light); font-size: 12px; text-align: center;
+  cursor: pointer; transition: .12s; text-decoration: none;
+}
+.crm-link-btn:hover { background: var(--bg-hover); }
+
+/* ── AI PANEL ── */
+.ai-panel {
+  height: 48px; display: flex; align-items: center;
+  padding: 0 20px; gap: 16px;
+  background: var(--bg-secondary); border-top: 1px solid var(--border);
+  overflow: hidden; transition: height .2s;
+}
+.ai-panel.expanded { height: 140px; flex-wrap: wrap; align-items: flex-start; padding-top: 12px; }
+.ai-toggle-wrap { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.ai-toggle {
+  width: 36px; height: 20px; border-radius: 10px;
+  background: var(--bg-hover); border: none; cursor: pointer;
+  position: relative; transition: .2s;
+}
+.ai-toggle.on { background: var(--success); }
+.ai-toggle::after {
+  content: ''; position: absolute; top: 2px; left: 2px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #fff; transition: .2s;
+}
+.ai-toggle.on::after { left: 18px; }
+.ai-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+.ai-label .status { color: var(--success); }
+.ai-label .paused { color: var(--warning); }
+
+.ai-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.ai-action-chip {
+  background: var(--bg-tertiary); border: 1px solid var(--border);
+  color: var(--text-secondary); padding: 4px 10px; border-radius: 12px;
+  font-size: 11px; cursor: pointer; transition: .12s;
+}
+.ai-action-chip:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+.ai-sentiment {
+  display: flex; align-items: center; gap: 6px;
+  margin-left: auto; font-size: 11px; color: var(--text-muted);
+}
+.sentiment-dot { width: 8px; height: 8px; border-radius: 50%; }
+.sentiment-positive { background: var(--success); }
+.sentiment-neutral { background: var(--warning); }
+.sentiment-negative { background: var(--danger); }
+
+.ai-expand-btn {
+  background: none; border: none; color: var(--text-muted);
+  cursor: pointer; font-size: 14px; padding: 4px; margin-left: 8px;
+}
+
+.ai-log {
+  width: 100%; font-size: 11px; color: var(--text-muted);
+  max-height: 70px; overflow-y: auto; padding-top: 6px;
+}
+.ai-log-entry { padding: 2px 0; display: flex; gap: 8px; }
+.ai-log-time { color: var(--text-muted); flex-shrink: 0; }
+.ai-log-msg { color: var(--text-secondary); }
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 12px;
+  color: var(--text-muted);
+}
+.empty-state .icon { font-size: 48px; opacity: .3; }
+.empty-state p { font-size: 14px; }
+
+/* ── QUICK REPLY DROPDOWN ── */
+.quick-reply-dropdown {
+  display: none; position: absolute; bottom: 100%; left: 0; right: 0;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: 8px; max-height: 200px; overflow-y: auto;
+  box-shadow: var(--shadow); z-index: 50; margin-bottom: 4px;
+}
+.quick-reply-dropdown.show { display: block; }
+.qr-item {
+  padding: 8px 14px; cursor: pointer; font-size: 12px;
+  border-bottom: 1px solid var(--border); transition: .1s;
+}
+.qr-item:hover { background: var(--bg-hover); }
+.qr-item:last-child { border-bottom: none; }
+.qr-item-title { font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+.qr-item-text { color: var(--text-muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── AI SUGGEST POPUP ── */
+.ai-suggest-popup {
+  display: none; position: absolute; bottom: 100%; left: 0; right: 0;
+  background: var(--bg-secondary); border: 1px solid var(--accent);
+  border-radius: 8px; padding: 12px; margin-bottom: 4px;
+  box-shadow: var(--shadow); z-index: 50;
+}
+.ai-suggest-popup.show { display: block; }
+.ai-suggest-header {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600; color: var(--accent-light); margin-bottom: 8px;
+}
+.ai-suggest-text { font-size: 12px; color: var(--text-primary); line-height: 1.5; margin-bottom: 8px; }
+.ai-suggest-actions { display: flex; gap: 6px; }
+.ai-suggest-actions button {
+  padding: 4px 12px; border-radius: 4px; font-size: 11px;
+  cursor: pointer; border: 1px solid var(--border); transition: .12s;
+}
+.ai-use-btn { background: var(--accent); border-color: var(--accent); color: #fff; }
+.ai-dismiss-btn { background: var(--bg-tertiary); color: var(--text-secondary); }
+
+/* ── EMOJI PICKER ── */
+.emoji-picker {
+  display: none; position: absolute; bottom: 100%; right: 0;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px; margin-bottom: 4px;
+  box-shadow: var(--shadow); z-index: 50; width: 280px;
+}
+.emoji-picker.show { display: block; }
+.emoji-grid {
+  display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px;
+}
+.emoji-btn {
+  background: none; border: none; font-size: 20px; cursor: pointer;
+  padding: 4px; border-radius: 4px; transition: .1s;
+}
+.emoji-btn:hover { background: var(--bg-hover); }
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center; padding: 6px; font-size: 10px;
+  color: var(--text-muted); background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-hover); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ── MOBILE ── */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .contact-panel { display: none; }
+  .conv-list-panel { width: 100%; }
+  .chat-panel { display: none; }
+  .app-layout.chat-open .conv-list-panel { display: none; }
+  .app-layout.chat-open .chat-panel { display: flex; }
+  .mobile-back { display: flex !important; }
+}
+@media (max-width: 600px) {
+  .conv-list-panel { min-width: unset; }
+  .chat-input-top { flex-wrap: wrap; }
+}
+
+.mobile-back {
+  display: none; background: none; border: none;
+  color: var(--text-secondary); cursor: pointer;
+  font-size: 18px; padding: 6px; margin-right: 4px;
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: var(--accent); color: #fff; padding: 8px 20px;
+  border-radius: 8px; font-size: 13px; font-weight: 500;
+  opacity: 0; transition: .3s; pointer-events: none; z-index: 999;
+}
+.toast.show { opacity: 1; }
+
+/* Keyboard shortcuts hint */
+.shortcuts-hint {
+  position: fixed; bottom: 80px; right: 20px;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px; font-size: 11px;
+  color: var(--text-muted); display: none; z-index: 999;
+  box-shadow: var(--shadow);
+}
+.shortcuts-hint.show { display: block; }
+.shortcuts-hint kbd {
+  background: var(--bg-hover); padding: 1px 5px; border-radius: 3px;
+  font-family: monospace; color: var(--text-secondary);
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <div class="logo"><span>NetWeb</span>Media <span style="font-weight:400;color:var(--text-muted);font-size:14px">Inbox</span></div>
+    <span class="header-badge" id="totalUnread">12</span>
+  </div>
+  <div class="header-right">
+    <button class="header-btn" title="Keyboard shortcuts" onclick="toggleShortcuts()">⌨</button>
+    <button class="header-btn" title="Notifications">🔔</button>
+    <div class="header-user">
+      <div class="header-avatar">CM</div>
+      <span style="font-size:13px">Carlos</span>
+    </div>
+  </div>
+</header>
+
+<!-- LAYOUT -->
+<div class="app-layout" id="appLayout">
+
+<!-- LEFT SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-title">Channels</div>
+    <div class="sidebar-item active" data-channel="all" onclick="filterChannel('all',this)">
+      <span class="sidebar-icon">📥</span> All Channels
+      <span class="sidebar-badge" id="badge-all">12</span>
+    </div>
+    <div class="sidebar-item" data-channel="whatsapp" onclick="filterChannel('whatsapp',this)">
+      <span class="sidebar-icon">💬</span> WhatsApp
+      <span class="sidebar-badge" id="badge-whatsapp">4</span>
+    </div>
+    <div class="sidebar-item" data-channel="instagram" onclick="filterChannel('instagram',this)">
+      <span class="sidebar-icon">📸</span> Instagram DMs
+      <span class="sidebar-badge" id="badge-instagram">3</span>
+    </div>
+    <div class="sidebar-item" data-channel="facebook" onclick="filterChannel('facebook',this)">
+      <span class="sidebar-icon">👤</span> Messenger
+      <span class="sidebar-badge" id="badge-facebook">2</span>
+    </div>
+    <div class="sidebar-item" data-channel="email" onclick="filterChannel('email',this)">
+      <span class="sidebar-icon">✉️</span> Email
+      <span class="sidebar-badge" id="badge-email">1</span>
+    </div>
+    <div class="sidebar-item" data-channel="tiktok" onclick="filterChannel('tiktok',this)">
+      <span class="sidebar-icon">🎵</span> TikTok
+      <span class="sidebar-badge" id="badge-tiktok">1</span>
+    </div>
+    <div class="sidebar-item" data-channel="sms" onclick="filterChannel('sms',this)">
+      <span class="sidebar-icon">📱</span> SMS
+      <span class="sidebar-badge" id="badge-sms">1</span>
+    </div>
+    <div class="sidebar-item" data-channel="livechat" onclick="filterChannel('livechat',this)">
+      <span class="sidebar-icon">🌐</span> Live Chat
+      <span class="sidebar-badge" id="badge-livechat">0</span>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-title">Labels</div>
+    <div class="sidebar-item tag-item" data-tag="Hot Lead" onclick="filterTag('Hot Lead',this)">
+      <span class="sidebar-dot" style="background:var(--hot-lead)"></span> Hot Lead
+    </div>
+    <div class="sidebar-item tag-item" data-tag="Client" onclick="filterTag('Client',this)">
+      <span class="sidebar-dot" style="background:var(--client-tag)"></span> Client
+    </div>
+    <div class="sidebar-item tag-item" data-tag="VIP" onclick="filterTag('VIP',this)">
+      <span class="sidebar-dot" style="background:var(--vip-tag)"></span> VIP
+    </div>
+    <div class="sidebar-item tag-item" data-tag="New" onclick="filterTag('New',this)">
+      <span class="sidebar-dot" style="background:var(--new-tag)"></span> New
+    </div>
+    <div class="sidebar-item tag-item" data-tag="Unresponsive" onclick="filterTag('Unresponsive',this)">
+      <span class="sidebar-dot" style="background:var(--unresponsive-tag)"></span> Unresponsive
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-title">Team</div>
+    <div class="sidebar-item tag-item" data-agent="all" onclick="filterAgent('all',this)">
+      <span class="sidebar-icon">👥</span> All Members
+    </div>
+    <div class="sidebar-item tag-item" data-agent="Carlos" onclick="filterAgent('Carlos',this)">
+      <span class="sidebar-icon">👤</span> Carlos
+    </div>
+    <div class="sidebar-item tag-item" data-agent="AI Agent" onclick="filterAgent('AI Agent',this)">
+      <span class="sidebar-icon">🤖</span> AI Agent
+    </div>
+  </div>
+</aside>
+
+<!-- CONVERSATION LIST -->
+<div class="conv-list-panel" id="convListPanel">
+  <div class="conv-list-header">
+    <div class="conv-search">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="5"/><line x1="10" y1="10" x2="13" y2="13"/></svg>
+      <input type="text" placeholder="Search conversations..." id="searchInput" oninput="filterConversations()">
+    </div>
+  </div>
+  <div class="conv-filters">
+    <button class="conv-filter-btn active" data-status="all" onclick="filterStatus('all',this)">All</button>
+    <button class="conv-filter-btn" data-status="open" onclick="filterStatus('open',this)">Open</button>
+    <button class="conv-filter-btn" data-status="pending" onclick="filterStatus('pending',this)">Pending</button>
+    <button class="conv-filter-btn" data-status="resolved" onclick="filterStatus('resolved',this)">Resolved</button>
+  </div>
+  <div class="conv-list" id="convList"></div>
+</div>
+
+<!-- CHAT PANEL -->
+<div class="chat-panel" id="chatPanel">
+  <div class="empty-state" id="emptyState">
+    <div class="icon">💬</div>
+    <p>Select a conversation to start messaging</p>
+    <p style="font-size:12px;color:var(--text-muted)">Use ↑↓ arrow keys to navigate • Enter to open</p>
+  </div>
+  <div id="chatView" style="display:none;flex:1;display:none;flex-direction:column;">
+    <div class="chat-header" id="chatHeader"></div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input-area" style="position:relative;">
+      <div id="quickReplyDropdown" class="quick-reply-dropdown"></div>
+      <div id="aiSuggestPopup" class="ai-suggest-popup"></div>
+      <div id="emojiPicker" class="emoji-picker"></div>
+      <div class="chat-input-top">
+        <button class="input-tool-btn" onclick="toggleQuickReplies()">⚡ Quick Reply</button>
+        <button class="input-tool-btn" onclick="document.getElementById('fileInput').click()">📎 Attach</button>
+        <input type="file" id="fileInput" style="display:none" onchange="handleFile(this)">
+        <button class="input-tool-btn" onclick="toggleEmoji()">😊 Emoji</button>
+        <button class="input-tool-btn ai-btn" onclick="aiSuggest()">✨ AI Suggest</button>
+        <select class="channel-select" id="replyChannel" onchange="updateReplyChannel()">
+          <option value="">Reply via same channel</option>
+          <option value="whatsapp">💬 WhatsApp</option>
+          <option value="instagram">📸 Instagram</option>
+          <option value="facebook">👤 Messenger</option>
+          <option value="email">✉️ Email</option>
+          <option value="sms">📱 SMS</option>
+        </select>
+      </div>
+      <div class="chat-input-row">
+        <textarea class="chat-textarea" id="msgInput" placeholder="Type a message..." rows="1" onkeydown="handleMsgKey(event)"></textarea>
+        <button class="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT PANEL -->
+<div class="contact-panel" id="contactPanel">
+  <div id="contactContent"></div>
+</div>
+</div>
+
+<!-- AI PANEL -->
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-toggle-wrap">
+    <button class="ai-toggle on" id="aiToggle" onclick="toggleAI()"></button>
+    <span class="ai-label">AI Agent <span class="status" id="aiStatus">Active</span></span>
+  </div>
+  <div class="ai-actions">
+    <span class="ai-action-chip" onclick="showToast('Follow-up scheduled')">📅 Follow Up</span>
+    <span class="ai-action-chip" onclick="showToast('Booking link sent')">📋 Book Appt</span>
+    <span class="ai-action-chip" onclick="showToast('Proposal drafted')">📄 Send Proposal</span>
+  </div>
+  <div class="ai-sentiment" id="aiSentiment">
+    <span class="sentiment-dot sentiment-positive"></span>
+    <span>Positive</span>
+  </div>
+  <button class="ai-expand-btn" onclick="toggleAIPanel()">▴</button>
+  <div class="ai-log" id="aiLog" style="display:none;">
+    <div class="ai-log-entry"><span class="ai-log-time">10:32 AM</span><span class="ai-log-msg">Auto-replied to Maria G. — pricing info sent</span></div>
+    <div class="ai-log-entry"><span class="ai-log-time">10:15 AM</span><span class="ai-log-msg">Suggested follow-up for Luxe Dental — 3 days no reply</span></div>
+    <div class="ai-log-entry"><span class="ai-log-time">9:48 AM</span><span class="ai-log-msg">Routed new lead Sofia R. to Carlos</span></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">Powered by <strong>NetWebMedia</strong></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- SHORTCUTS HINT -->
+<div class="shortcuts-hint" id="shortcutsHint">
+  <strong style="color:var(--text-primary)">Keyboard Shortcuts</strong><br><br>
+  <kbd>↑</kbd> <kbd>↓</kbd> Navigate conversations<br>
+  <kbd>Enter</kbd> Open conversation<br>
+  <kbd>Esc</kbd> Back to list (mobile)<br>
+  <kbd>/</kbd> Focus search<br>
+  <kbd>?</kbd> Toggle this panel
+</div>
+
+<script>
+// ══════════════════════════════════════
+// DATA — 28 sample conversations
+// ══════════════════════════════════════
+const conversations = [
+  {
+    id: 1, name: "Valentina Reyes", initials: "VR", color: "#e1306c",
+    channel: "instagram", status: "open", unread: 2, agent: "Carlos",
+    tags: ["Hot Lead"], lifecycle: 1, phone: "+1 (619) 555-0142",
+    email: "valentina@estetica.social", company: "Estética Social",
+    location: "San Diego, CA", role: "Owner",
+    notes: "Interested in full social media management. Has 3 locations.",
+    lastMsg: "Can you do reels editing too? We need that for our facials content",
+    time: "2m ago", timestamp: Date.now() - 120000,
+    sentiment: "positive",
+    messages: [
+      { text: "Hi! I saw your work with beauty brands on Instagram. Love the aesthetic! 😍", sent: false, time: "10:15 AM" },
+      { text: "Thank you Valentina! We specialize in aesthetics and beauty brands. What services are you looking for?", sent: true, time: "10:18 AM" },
+      { text: "We need someone to manage our IG, TikTok, and maybe run some ads. We have 3 med spa locations in San Diego", sent: false, time: "10:22 AM" },
+      { text: "That's exactly our wheelhouse! We offer full social media management packages starting at $1,500/mo per location with a multi-location discount. Want me to send over our media kit?", sent: true, time: "10:25 AM" },
+      { text: "Yes please! Also what's included in that?", sent: false, time: "10:30 AM" },
+      { text: "Can you do reels editing too? We need that for our facials content", sent: false, time: "10:31 AM" },
+    ]
+  },
+  {
+    id: 2, name: "Dr. Marcus Webb", initials: "MW", color: "#1877f2",
+    channel: "facebook", status: "open", unread: 1, agent: "AI Agent",
+    tags: ["Client"], lifecycle: 3, phone: "+1 (858) 555-0198",
+    email: "dr.webb@luxedental.com", company: "Luxe Dental Studio",
+    location: "La Jolla, CA", role: "Practice Owner",
+    notes: "Current client since Jan 2026. Monthly retainer $2,800. Loves video content.",
+    lastMsg: "The before/after reel got 45k views! Can we do more of those?",
+    time: "18m ago", timestamp: Date.now() - 1080000,
+    sentiment: "positive",
+    messages: [
+      { text: "Hey team! Just wanted to share some feedback", sent: false, time: "9:45 AM" },
+      { text: "The before/after reel got 45k views! Can we do more of those?", sent: false, time: "9:45 AM" },
+      { text: "That's amazing Dr. Webb! 🎉 Absolutely, we'll plan a series of before/after transformations. We can shoot 4-5 in one session to batch content.", sent: true, time: "9:52 AM" },
+    ]
+  },
+  {
+    id: 3, name: "Sofia Rodriguez", initials: "SR", color: "#25d366",
+    channel: "whatsapp", status: "open", unread: 3, agent: "Carlos",
+    tags: ["Hot Lead"], lifecycle: 0, phone: "+1 (760) 555-0234",
+    email: "sofia@casabellarestaurant.com", company: "Casa Bella Restaurant",
+    location: "Oceanside, CA", role: "Marketing Director",
+    notes: "Referred by Dr. Webb. Looking for restaurant social media + Google Ads.",
+    lastMsg: "Do you also handle Google My Business optimization?",
+    time: "5m ago", timestamp: Date.now() - 300000,
+    sentiment: "positive",
+    messages: [
+      { text: "Hola! Dr. Webb recommended you guys. We're a new Italian restaurant and need help with social media 🍝", sent: false, time: "10:20 AM" },
+      { text: "Hi Sofia! So glad Marcus referred you. We'd love to help Casa Bella build its online presence. What platforms are you currently on?", sent: true, time: "10:23 AM" },
+      { text: "Just Instagram and Facebook but we barely post. We need everything — content creation, ads, the works", sent: false, time: "10:26 AM" },
+      { text: "We also want to show up better on Google when people search for Italian food near them", sent: false, time: "10:27 AM" },
+      { text: "Do you also handle Google My Business optimization?", sent: false, time: "10:28 AM" },
+    ]
+  },
+  {
+    id: 4, name: "Jake Thompson", initials: "JT", color: "#ff0050",
+    channel: "tiktok", status: "open", unread: 1, agent: "AI Agent",
+    tags: ["New"], lifecycle: 0, phone: "", email: "@jakethompson_fitness",
+    company: "Thompson Fitness", location: "Phoenix, AZ", role: "Trainer / Influencer",
+    notes: "TikTok influencer. 85k followers. Interested in brand collab.",
+    lastMsg: "I want to grow my brand beyond just fitness content. Can you help with that?",
+    time: "35m ago", timestamp: Date.now() - 2100000,
+    sentiment: "neutral",
+    messages: [
+      { text: "Hey! Saw your agency's TikTok. Your clients' content looks 🔥", sent: false, time: "9:55 AM" },
+      { text: "Thanks Jake! We love working with fitness creators. What are you looking to do?", sent: true, time: "10:02 AM" },
+      { text: "I want to grow my brand beyond just fitness content. Can you help with that?", sent: false, time: "10:05 AM" },
+    ]
+  },
+  {
+    id: 5, name: "Amanda Chen", initials: "AC", color: "#ea4335",
+    channel: "email", status: "pending", unread: 1, agent: "Carlos",
+    tags: ["VIP"], lifecycle: 3, phone: "+1 (415) 555-0187",
+    email: "amanda@bloomskincare.com", company: "Bloom Skincare",
+    location: "San Francisco, CA", role: "CEO",
+    notes: "VIP client. $5,200/mo retainer. Expanding to 2 new markets.",
+    lastMsg: "Re: Q2 Marketing Strategy — I've reviewed the deck and have some feedback",
+    time: "1h ago", timestamp: Date.now() - 3600000,
+    sentiment: "neutral",
+    messages: [
+      { text: "Subject: Re: Q2 Marketing Strategy\n\nHi Carlos,\n\nI've reviewed the deck and have some feedback on the influencer partnership section. Can we hop on a call Thursday?\n\nAlso, we're expanding to Austin and Miami in Q3, so we'll need localized campaigns for those markets.\n\nBest,\nAmanda", sent: false, time: "9:15 AM", isEmail: true, subject: "Re: Q2 Marketing Strategy" },
+    ]
+  },
+  {
+    id: 6, name: "Priya Patel", initials: "PP", color: "#25d366",
+    channel: "whatsapp", status: "open", unread: 0, agent: "Carlos",
+    tags: ["Client"], lifecycle: 2, phone: "+1 (619) 555-0312",
+    email: "priya@zenmedspa.com", company: "Zen Med Spa",
+    location: "San Diego, CA", role: "Operations Manager",
+    notes: "Monthly client. Focuses on Botox/filler content. Very responsive.",
+    lastMsg: "Sent you the new treatment menu for the April promos",
+    time: "2h ago", timestamp: Date.now() - 7200000,
+    sentiment: "positive",
+    messages: [
+      { text: "Hey Carlos! Quick question — can we swap out the April content calendar? We just added a new hydrafacial treatment", sent: false, time: "8:30 AM" },
+      { text: "Of course! Send me the details and we'll update everything. We can highlight it in next week's reels.", sent: true, time: "8:35 AM" },
+      { text: "Sent you the new treatment menu for the April promos", sent: false, time: "8:40 AM" },
+      { text: "Perfect, got it! I'll have the updated calendar to you by EOD tomorrow 👍", sent: true, time: "8:42 AM" },
+    ]
+  },
+  {
+    id: 7, name: "Diego Morales", initials: "DM", color: "#0b84fe",
+    channel: "sms", status: "open", unread: 1, agent: "AI Agent",
+    tags: ["Hot Lead"], lifecycle: 1, phone: "+1 (858) 555-0456",
+    email: "diego@sunsetrealestate.com", company: "Sunset Real Estate Group",
+    location: "San Diego, CA", role: "Broker",
+    notes: "Real estate agent. Wants video tours and social media for listings.",
+    lastMsg: "Can we start with just 2 listings to test? Then scale up if results are good",
+    time: "45m ago", timestamp: Date.now() - 2700000,
+    sentiment: "positive",
+    messages: [
+      { text: "Got your number from the Chamber of Commerce event. Interested in video marketing for my listings", sent: false, time: "9:30 AM" },
+      { text: "Hey Diego! Great meeting you. We do a lot of real estate video content — drone shots, virtual tours, social media ads for listings. What's your current setup?", sent: true, time: "9:38 AM" },
+      { text: "I just use my phone for photos honestly. I know I need to level up. What does a package look like?", sent: false, time: "9:42 AM" },
+      { text: "Can we start with just 2 listings to test? Then scale up if results are good", sent: false, time: "9:43 AM" },
+    ]
+  },
+  {
+    id: 8, name: "Lisa Nguyen", initials: "LN", color: "#e1306c",
+    channel: "instagram", status: "open", unread: 1, agent: "Carlos",
+    tags: ["New"], lifecycle: 0, phone: "+1 (714) 555-0789",
+    email: "lisa@petalsfloral.com", company: "Petals & Bloom Floral",
+    location: "Orange County, CA", role: "Owner",
+    notes: "Floral design studio. Wants Instagram growth strategy.",
+    lastMsg: "How do you handle content when we have wedding season and it gets crazy busy?",
+    time: "1h ago", timestamp: Date.now() - 3900000,
+    sentiment: "neutral",
+    messages: [
+      { text: "Hi! I've been following your tips on Instagram growth. Do you work with small businesses too or just big brands?", sent: false, time: "9:10 AM" },
+      { text: "We work with businesses of all sizes! Some of our best results have been with local businesses like florists and boutiques. What's your current follower count and posting frequency?", sent: true, time: "9:14 AM" },
+      { text: "We have about 2.3k followers but we're lucky if we post twice a week. Wedding season is coming and I know we're missing opportunities", sent: false, time: "9:18 AM" },
+      { text: "How do you handle content when we have wedding season and it gets crazy busy?", sent: false, time: "9:20 AM" },
+    ]
+  },
+  {
+    id: 9, name: "Marco Bellini", initials: "MB", color: "#1877f2",
+    channel: "facebook", status: "pending", unread: 0, agent: "AI Agent",
+    tags: ["Unresponsive"], lifecycle: 1, phone: "+1 (619) 555-0567",
+    email: "marco@belliniristorante.com", company: "Bellini Ristorante",
+    location: "Little Italy, San Diego", role: "Owner",
+    notes: "Sent proposal 5 days ago, no response. Follow up needed.",
+    lastMsg: "Thanks, I'll review the proposal and get back to you",
+    time: "3d ago", timestamp: Date.now() - 259200000,
+    sentiment: "neutral",
+    messages: [
+      { text: "We're looking for someone to manage our Facebook page and run some ads for our new location", sent: false, time: "Apr 14" },
+      { text: "Hi Marco! Congrats on the new location! We'd love to help. I'll put together a custom proposal. What's your monthly budget for ads?", sent: true, time: "Apr 14" },
+      { text: "Probably around $1,500-2,000/month for ads plus whatever the management fee is", sent: false, time: "Apr 15" },
+      { text: "Here's the proposal with three tiers. The Growth plan at $2,200/mo total would be my recommendation for a new location launch. Let me know your thoughts!", sent: true, time: "Apr 15" },
+      { text: "Thanks, I'll review the proposal and get back to you", sent: false, time: "Apr 17" },
+    ]
+  },
+  {
+    id: 10, name: "Nina Kowalski", initials: "NK", color: "#25d366",
+    channel: "whatsapp", status: "open", unread: 2, agent: "Carlos",
+    tags: ["Client"], lifecycle: 2, phone: "+1 (858) 555-0678",
+    email: "nina@radiantaesthetics.com", company: "Radiant Aesthetics",
+    location: "Del Mar, CA", role: "Practice Manager",
+    notes: "Med spa client. Happy with results. Wants to add email marketing.",
+    lastMsg: "Can we add email marketing to our package? Our clients keep asking for updates",
+    time: "25m ago", timestamp: Date.now() - 1500000,
+    sentiment: "positive",
+    messages: [
+      { text: "Hey Carlos! Our Instagram engagement is up 40% this month! 🙌", sent: false, time: "10:00 AM" },
+      { text: "That's incredible Nina! The consistent reels strategy is really paying off. The Botox myths series was especially popular.", sent: true, time: "10:04 AM" },
+      { text: "Totally! Hey so I've been thinking...", sent: false, time: "10:06 AM" },
+      { text: "Can we add email marketing to our package? Our clients keep asking for updates", sent: false, time: "10:07 AM" },
+    ]
+  },
+  {
+    id: 11, name: "Ryan Foster", initials: "RF", color: "#ff9f43",
+    channel: "livechat", status: "open", unread: 0, agent: "AI Agent",
+    tags: ["New"], lifecycle: 0, phone: "", email: "ryan@fosterdev.com",
+    company: "Foster Development", location: "Scottsdale, AZ", role: "Developer",
+    notes: "Real estate developer. Found us via Google. Interested in luxury branding.",
+    lastMsg: "What makes you different from other agencies?",
+    time: "3h ago", timestamp: Date.now() - 10800000,
+    sentiment: "neutral",
+    messages: [
+      { text: "Hi, I found your site through Google. I'm a real estate developer and need branding for luxury condos", sent: false, time: "7:30 AM" },
+      { text: "Welcome Ryan! We specialize in premium brands. For luxury real estate, we create full digital experiences — from branded social campaigns to virtual tours and targeted ads. Want me to share some case studies?", sent: true, time: "7:33 AM" },
+      { text: "What makes you different from other agencies?", sent: false, time: "7:36 AM" },
+    ]
+  },
+  {
+    id: 12, name: "Camila Santos", initials: "CS", color: "#e1306c",
+    channel: "instagram", status: "resolved", unread: 0, agent: "Carlos",
+    tags: ["Client"], lifecycle: 3, phone: "+1 (619) 555-0890",
+    email: "camila@glowbycamila.com", company: "Glow by Camila",
+    location: "San Diego, CA", role: "Owner / Esthetician",
+    notes: "Long-term client. Just renewed for 12 months. Refer source for 3 clients.",
+    lastMsg: "Love the new content calendar! Everything looks perfect for May 🌟",
+    time: "4h ago", timestamp: Date.now() - 14400000,
+    sentiment: "positive",
+    messages: [
+      { text: "Just got the May content calendar! 😍", sent: false, time: "6:45 AM" },
+      { text: "Glad you got it! We focused on summer skincare tips and your new vitamin C line launch for the first two weeks.", sent: true, time: "6:50 AM" },
+      { text: "Love the new content calendar! Everything looks perfect for May 🌟", sent: false, time: "6:55 AM" },
+      { text: "Awesome! We'll start shooting next Monday. I'll send the shot list by Friday 📸", sent: true, time: "7:00 AM" },
+    ]
+  },
+  {
+    id: 13, name: "Tomás Herrera", initials: "TH", color: "#25d366",
+    channel: "whatsapp", status: "open", unread: 0, agent: "Carlos",
+    tags: ["Client"], lifecycle: 2, phone: "+1 (619) 555-0345",
+    email: "tomas@hightidebar.com", company: "High Tide Bar & Grill",
+    location: "Pacific Beach, San Diego", role: "Owner",
+    notes: "Restaurant client. Focuses on weekend event promos and food photography.",
+    lastMsg: "Let's promote the Cinco de Mayo party big this year 🎉",
+    time: "5h ago", timestamp: Date.now() - 18000000,
+    sentiment: "positive",
+    messages: [
+      { text: "Hey! Cinco de Mayo is coming up and we're doing a huge party this year", sent: false, time: "5:30 AM" },
+      { text: "Let's promote the Cinco de Mayo party big this year 🎉", sent: false, time: "5:31 AM" },
+      { text: "Love it! We should start teaser content this week. I'm thinking countdown reels, behind-the-scenes menu prep, and a ticket giveaway. Sound good?", sent: true, time: "6:15 AM" },
+    ]
+  },
+  {
+    id: 14, name: "Aisha Johnson", initials: "AJ", color: "#ea4335",
+    channel: "email", status: "pending", unread: 0, agent: "Carlos",
+    tags: ["Hot Lead"], lifecycle: 1, phone: "+1 (323) 555-0912",
+    email: "aisha@luminousbeauty.com", company: "Luminous Beauty Bar",
+    location: "Los Angeles, CA", role: "Founder",
+    notes: "LA-based beauty brand. Interested in full service. High budget potential.",
+    lastMsg: "Re: Partnership Proposal — Looking forward to our call on Thursday",
+    time: "6h ago", timestamp: Date.now() - 21600000,
+    sentiment: "positive",
+    messages: [
+      { text: "Subject: Partnership Inquiry\n\nHi NetWebMedia team,\n\nI'm the founder of Luminous Beauty Bar in LA. We're opening 2 new locations and need a full-service digital marketing agency. Budget is $8-10k/month across all channels.\n\nCan we schedule a discovery call?\n\nBest,\nAisha Johnson", sent: false, time: "Apr 19", isEmail: true, subject: "Partnership Inquiry" },
+      { text: "Subject: Re: Partnership Inquiry\n\nHi Aisha,\n\nThank you for reaching out! We'd love to discuss how we can support Luminous Beauty Bar's expansion. I have availability Thursday at 2 PM or Friday at 11 AM PT.\n\nI'll prepare a preliminary strategy overview for our call.\n\nBest,\nCarlos Martinez\nNetWebMedia", sent: true, time: "Apr 19", isEmail: true, subject: "Re: Partnership Inquiry" },
+      { text: "Subject: Re: Partnership Proposal\n\nThursday at 2 PM works perfectly. Looking forward to it!\n\nAisha", sent: false, time: "Apr 19", isEmail: true, subject: "Re: Partnership Proposal" },
+    ]
+  },
+  {
+    id: 15, name: "Brandon Lee", initials: "BL", color: "#0b84fe",
+    channel: "sms", status: "resolved", unread: 0, agent: "AI Agent",
+    tags: ["Client"], lifecycle: 3, phone: "+1 (858) 555-0234",
+    email: "brandon@pacificgyms.com", company: "Pacific Gyms",
+    location: "San Diego, CA", role: "Marketing Manager",
+    notes: "Gym chain. 4 locations. Good client but price sensitive.",
+    lastMsg: "Got it, see you Monday for the shoot 💪",
+    time: "1d ago", timestamp: Date.now() - 86400000,
+    sentiment: "positive",
+    messages: [
+      { text: "Hey are we still on for the content shoot Monday?", sent: false, time: "Apr 19" },
+      { text: "Yes! Monday at 9 AM at your Mission Valley location. We'll need access to the weight room and group fitness area. We'll bring all equipment.", sent: true, time: "Apr 19" },
+      { text: "Got it, see you Monday for the shoot 💪", sent: false, time: "Apr 19" },
+    ]
+  },
+  {
+    id: 16, name: "Elena Vasquez", initials: "EV", color: "#ff0050",
+    channel: "tiktok", status: "open", unread: 0, agent: "Carlos",
+    tags: ["New"], lifecycle: 0, phone: "+1 (619) 555-0777",
+    email: "elena@browqueenstudio.com", company: "Brow Queen Studio",
+    location: "Chula Vista, CA", role: "Owner",
+    notes: "Microblading studio. Wants TikTok strategy for before/after content.",
+    lastMsg: "I've seen those microblading videos blow up. Can you make that happen for us?",
+    time: "7h ago", timestamp: Date.now() - 25200000,
+    sentiment: "positive",
+    messages: [
+      { text: "Hey! I love what you do for beauty brands on TikTok", sent: false, time: "Apr 20" },
+      { text: "I've seen those microblading videos blow up. Can you make that happen for us?", sent: false, time: "Apr 20" },
+    ]
+  },
+  {
+    id: 17, name: "James Park", initials: "JP", color: "#1877f2",
+    channel: "facebook", status: "open", unread: 0, agent: "AI Agent",
+    tags: ["New"], lifecycle: 0, phone: "+1 (949) 555-0432",
+    email: "james@parkdentistry.com", company: "Park Family Dentistry",
+    location: "Irvine, CA", role: "Owner",
+    notes: "Family dentist. Looking for patient acquisition via social media.",
+    lastMsg: "How long before we start seeing new patient bookings from social media?",
+    time: "8h ago", timestamp: Date.now() - 28800000,
+    sentiment: "neutral",
+    messages: [
+      { text: "Hi there! We're a family dental practice and we're wondering if social media actually brings in new patients?", sent: false, time: "Apr 20" },
+      { text: "Great question James! Yes — for dental practices, we typically see 15-30 new patient inquiries per month through a combination of organic social content and targeted ads. Most of our dental clients see ROI within 60-90 days.", sent: true, time: "Apr 20" },
+      { text: "How long before we start seeing new patient bookings from social media?", sent: false, time: "Apr 20" },
+    ]
+  },
+  {
+    id: 18, name: "Maria Gonzalez", initials: "MG", color: "#25d366",
+    channel: "whatsapp", status: "pending", unread: 0, agent: "AI Agent",
+    tags: ["Unresponsive"], lifecycle: 1, phone: "+1 (858) 555-0123",
+    email: "maria@vivamedspa.com", company: "Viva Med Spa",
+    location: "San Diego, CA", role: "Owner",
+    notes: "Showed interest 2 weeks ago. Haven't responded to proposal. Try one more follow-up.",
+    lastMsg: "Just wanted to follow up on the proposal — let me know if you have any questions!",
+    time: "5d ago", timestamp: Date.now() - 432000000,
+    sentiment: "neutral",
+    messages: [
+      { text: "Hola! I need help with marketing for my med spa. Can you send me pricing?", sent: false, time: "Apr 10" },
+      { text: "Hi Maria! Absolutely. I'll put together a custom proposal. Quick question — are you looking for social media management, paid ads, or both?", sent: true, time: "Apr 10" },
+      { text: "Both! And maybe some email campaigns too", sent: false, time: "Apr 10" },
+      { text: "Here's your custom proposal with 3 options. I'd recommend the Pro plan for the best results. Happy to walk you through it on a call!", sent: true, time: "Apr 11" },
+      { text: "Just wanted to follow up on the proposal — let me know if you have any questions!", sent: true, time: "Apr 15" },
+    ]
+  },
+  {
+    id: 19, name: "Kevin O'Brien", initials: "KO", color: "#ff9f43",
+    channel: "livechat", status: "resolved", unread: 0, agent: "AI Agent",
+    tags: ["Client"], lifecycle: 3, phone: "+1 (619) 555-0654",
+    email: "kevin@ironworksfit.com", company: "Ironworks Fitness",
+    location: "San Diego, CA", role: "GM",
+    notes: "CrossFit gym. Solid client. Good testimonial source.",
+    lastMsg: "Thanks for the quick turnaround on those ad creatives!",
+    time: "1d ago", timestamp: Date.now() - 90000000,
+    sentiment: "positive",
+    messages: [
+      { text: "Need new ad creatives for our spring membership drive ASAP", sent: false, time: "Apr 18" },
+      { text: "On it Kevin! I'll have 3 variations ready by tomorrow morning. Same target audience as last quarter?", sent: true, time: "Apr 18" },
+      { text: "Yes same audience but add 'CrossFit beginners' as an interest too", sent: false, time: "Apr 18" },
+      { text: "Done! Here are the 3 creatives. Let me know which direction you prefer and I'll finalize.", sent: true, time: "Apr 19" },
+      { text: "Thanks for the quick turnaround on those ad creatives!", sent: false, time: "Apr 19" },
+    ]
+  },
+  {
+    id: 20, name: "Rachel Kim", initials: "RK", color: "#e1306c",
+    channel: "instagram", status: "open", unread: 0, agent: "Carlos",
+    tags: ["Client", "VIP"], lifecycle: 3, phone: "+1 (310) 555-0876",
+    email: "rachel@theglowup.co", company: "The Glow Up Co.",
+    location: "Los Angeles, CA", role: "CEO",
+    notes: "VIP skincare brand. Largest account $7,500/mo. Launching new product line in May.",
+    lastMsg: "The product launch content plan looks amazing! Let's finalize tomorrow",
+    time: "3h ago", timestamp: Date.now() - 11000000,
+    sentiment: "positive",
+    messages: [
+      { text: "Carlos! The mockups for the serum launch campaign are 🔥🔥🔥", sent: false, time: "7:30 AM" },
+      { text: "So glad you love them! The photographer nailed the aesthetic. Ready to start the influencer outreach phase?", sent: true, time: "7:45 AM" },
+      { text: "The product launch content plan looks amazing! Let's finalize tomorrow", sent: false, time: "8:00 AM" },
+    ]
+  },
+  {
+    id: 21, name: "Omar Hassan", initials: "OH", color: "#25d366",
+    channel: "whatsapp", status: "open", unread: 0, agent: "Carlos",
+    tags: ["New"], lifecycle: 0, phone: "+1 (619) 555-0999",
+    email: "omar@freshbites.co", company: "Fresh Bites Café",
+    location: "North Park, San Diego", role: "Owner",
+    notes: "New café in North Park. Organic and health-focused. Budget $800-1200/mo.",
+    lastMsg: "That sounds doable! Can we meet this week to discuss?",
+    time: "9h ago", timestamp: Date.now() - 32400000,
+    sentiment: "positive",
+    messages: [
+      { text: "Hey! A friend said you guys do great restaurant marketing. We just opened a café in North Park", sent: false, time: "Apr 19" },
+      { text: "Congrats on the opening Omar! We love working with food brands. For new restaurants, we usually recommend starting with Instagram + Google to build local awareness. Packages start at $1,200/mo.", sent: true, time: "Apr 19" },
+      { text: "That sounds doable! Can we meet this week to discuss?", sent: false, time: "Apr 19" },
+    ]
+  },
+  {
+    id: 22, name: "Sarah Mitchell", initials: "SM", color: "#ea4335",
+    channel: "email", status: "open", unread: 0, agent: "Carlos",
+    tags: ["Hot Lead"], lifecycle: 1, phone: "+1 (858) 555-0333",
+    email: "sarah@coastaldermatology.com", company: "Coastal Dermatology",
+    location: "Encinitas, CA", role: "Practice Administrator",
+    notes: "3-doctor practice. Looking for patient growth strategy. Competitor to current client — check conflicts.",
+    lastMsg: "Re: Digital Marketing Consultation — Here's our current website for reference",
+    time: "10h ago", timestamp: Date.now() - 36000000,
+    sentiment: "neutral",
+    messages: [
+      { text: "Subject: Digital Marketing Consultation\n\nHello,\n\nWe're a dermatology practice in Encinitas looking to grow our patient base, especially for cosmetic procedures. We currently have a website but no real social media presence.\n\nCan you provide information about your services and pricing?\n\nThank you,\nSarah Mitchell\nCoastal Dermatology", sent: false, time: "Apr 19", isEmail: true, subject: "Digital Marketing Consultation" },
+      { text: "Subject: Re: Digital Marketing Consultation\n\nHi Sarah,\n\nThank you for your interest! We work with several dermatology and aesthetics practices and have great case studies to share.\n\nI'd love to learn more about your goals. Are you available for a 20-minute discovery call this week?\n\nBest,\nCarlos Martinez\nNetWebMedia", sent: true, time: "Apr 19", isEmail: true, subject: "Re: Digital Marketing Consultation" },
+      { text: "Subject: Re: Digital Marketing Consultation\n\nHere's our current website for reference: www.coastalderm.com\n\nThursday afternoon works for a call.\n\nSarah", sent: false, time: "Apr 20", isEmail: true, subject: "Re: Digital Marketing Consultation" },
+    ]
+  },
+  {
+    id: 23, name: "Tyler Brooks", initials: "TB", color: "#0b84fe",
+    channel: "sms", status: "resolved", unread: 0, agent: "Carlos",
+    tags: ["Client"], lifecycle: 2, phone: "+1 (619) 555-0555",
+    email: "tyler@sdbrewco.com", company: "SD Brew Co.",
+    location: "San Diego, CA", role: "Taproom Manager",
+    notes: "Brewery client. Monthly content + event promos.",
+    lastMsg: "See you at the taproom Thursday for content day! 🍺",
+    time: "1d ago", timestamp: Date.now() - 100000000,
+    sentiment: "positive",
+    messages: [
+      { text: "Hey can we reschedule content day to Thursday instead of Wednesday?", sent: false, time: "Apr 18" },
+      { text: "Thursday works! Same time, 10 AM?", sent: true, time: "Apr 18" },
+      { text: "See you at the taproom Thursday for content day! 🍺", sent: false, time: "Apr 18" },
+    ]
+  },
+  {
+    id: 24, name: "Natalie Cruz", initials: "NC", color: "#e1306c",
+    channel: "instagram", status: "open", unread: 0, agent: "AI Agent",
+    tags: ["New"], lifecycle: 0, phone: "+1 (760) 555-0678",
+    email: "natalie@nailartistry.co", company: "Nail Artistry",
+    location: "Carlsbad, CA", role: "Owner",
+    notes: "Nail salon. Great visual content potential. Small budget.",
+    lastMsg: "Do you have packages for smaller businesses? Our budget is tight but we need help",
+    time: "12h ago", timestamp: Date.now() - 43200000,
+    sentiment: "neutral",
+    messages: [
+      { text: "Hi! Your beauty brand work is gorgeous. Do you work with nail salons?", sent: false, time: "Apr 19" },
+      { text: "Absolutely Natalie! Nail salons are perfect for visual content — before/afters, trending designs, ASMR clips. We have packages for every budget.", sent: true, time: "Apr 19" },
+      { text: "Do you have packages for smaller businesses? Our budget is tight but we need help", sent: false, time: "Apr 19" },
+    ]
+  },
+  {
+    id: 25, name: "Daniel Ruiz", initials: "DR", color: "#1877f2",
+    channel: "facebook", status: "open", unread: 0, agent: "Carlos",
+    tags: ["Hot Lead"], lifecycle: 1, phone: "+1 (619) 555-0888",
+    email: "daniel@eliteautodetail.com", company: "Elite Auto Detailing",
+    location: "San Diego, CA", role: "Owner",
+    notes: "Auto detailing business. Wants before/after content and Facebook ads.",
+    lastMsg: "I see other detailers blowing up on social media. I need that for my business",
+    time: "14h ago", timestamp: Date.now() - 50400000,
+    sentiment: "positive",
+    messages: [
+      { text: "Hey, I run an auto detailing business. I see competitors getting tons of customers through social media and I'm missing out", sent: false, time: "Apr 19" },
+      { text: "Hi Daniel! Auto detailing content is incredibly engaging — those satisfying transformation videos perform really well. We can help you build a strong social presence and run targeted ads in your service area.", sent: true, time: "Apr 19" },
+      { text: "I see other detailers blowing up on social media. I need that for my business", sent: false, time: "Apr 19" },
+    ]
+  },
+  {
+    id: 26, name: "Jasmine Wu", initials: "JW", color: "#25d366",
+    channel: "whatsapp", status: "resolved", unread: 0, agent: "Carlos",
+    tags: ["Client", "VIP"], lifecycle: 3, phone: "+1 (858) 555-0111",
+    email: "jasmine@sereneglow.com", company: "Serene Glow Spa",
+    location: "La Jolla, CA", role: "Director",
+    notes: "Top-tier spa client. $4,000/mo. Excellent relationship. Renewal in June.",
+    lastMsg: "Everything is running smoothly! See you at the quarterly review next week",
+    time: "2d ago", timestamp: Date.now() - 172800000,
+    sentiment: "positive",
+    messages: [
+      { text: "Hi Carlos! Just wanted to say the team has been doing amazing work. Our bookings are up 35% this quarter!", sent: false, time: "Apr 18" },
+      { text: "That's wonderful to hear Jasmine! The team will be thrilled. We should discuss expanding your Google Ads budget for the summer push at our quarterly review.", sent: true, time: "Apr 18" },
+      { text: "Everything is running smoothly! See you at the quarterly review next week", sent: false, time: "Apr 18" },
+    ]
+  },
+  {
+    id: 27, name: "Alex Rivera", initials: "AR", color: "#ff9f43",
+    channel: "livechat", status: "open", unread: 0, agent: "AI Agent",
+    tags: ["New"], lifecycle: 0, phone: "", email: "alex@riverbendyoga.com",
+    company: "Riverbend Yoga", location: "Encinitas, CA", role: "Owner",
+    notes: "Yoga studio. Wants class bookings through social. Low urgency.",
+    lastMsg: "We mostly rely on word of mouth but I know we need to be online more",
+    time: "16h ago", timestamp: Date.now() - 57600000,
+    sentiment: "neutral",
+    messages: [
+      { text: "Hi there! I own a yoga studio and I'm interested in social media marketing", sent: false, time: "Apr 19" },
+      { text: "Welcome Alex! Social media is a great way to fill classes and build community. Are you currently on any platforms?", sent: true, time: "Apr 19" },
+      { text: "We mostly rely on word of mouth but I know we need to be online more", sent: false, time: "Apr 19" },
+    ]
+  },
+  {
+    id: 28, name: "Mia Fontaine", initials: "MF", color: "#0b84fe",
+    channel: "sms", status: "open", unread: 0, agent: "Carlos",
+    tags: ["Client"], lifecycle: 2, phone: "+1 (619) 555-0222",
+    email: "mia@charmboutique.com", company: "Charm Boutique",
+    location: "Gaslamp Quarter, San Diego", role: "Owner",
+    notes: "Fashion boutique. Content + influencer collabs. Fun to work with.",
+    lastMsg: "Can we do a summer collection launch campaign? I want it to be BIG",
+    time: "20h ago", timestamp: Date.now() - 72000000,
+    sentiment: "positive",
+    messages: [
+      { text: "Carlos!! Summer collection drops in 3 weeks and I need a killer launch campaign", sent: false, time: "Apr 19" },
+      { text: "Let's make it epic! I'm thinking influencer unboxing, countdown teasers, a launch event at the store, and a giveaway. What's the collection vibe?", sent: true, time: "Apr 19" },
+      { text: "Can we do a summer collection launch campaign? I want it to be BIG", sent: false, time: "Apr 19" },
+    ]
+  },
+];
+
+// Quick reply templates
+const quickReplies = [
+  { title: "👋 Greeting", text: "Hi there! Thanks for reaching out to NetWebMedia. How can I help you today?" },
+  { title: "💰 Pricing Info", text: "Our packages start at $1,200/mo for basic social media management. For a custom quote, I'd love to learn more about your goals. Can we schedule a quick 15-minute call?" },
+  { title: "📅 Booking Confirmation", text: "Your consultation is confirmed! Looking forward to chatting. I'll send a calendar invite shortly." },
+  { title: "📋 Follow-Up", text: "Just checking in! Did you have a chance to review the proposal I sent? Happy to answer any questions or hop on a call to walk through it." },
+  { title: "🎯 Discovery Questions", text: "To put together the best strategy, I'd love to know: 1) What's your monthly marketing budget? 2) Who's your target customer? 3) What are your top 3 business goals this quarter?" },
+  { title: "✅ Onboarding Next Steps", text: "Welcome aboard! Here are your next steps: 1) Fill out the brand questionnaire (link in email) 2) Grant us access to your social accounts 3) Schedule the kickoff call. I'll guide you through everything!" },
+  { title: "📊 Results Update", text: "Here's a quick update on your account this month: engagement is up, reach is growing, and we're seeing solid lead generation. Full report coming Friday!" },
+  { title: "⏰ Not Available", text: "Thanks for your message! I'm currently away but will get back to you within 24 hours. For urgent matters, email us at hello@netwebmedia.com." },
+];
+
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+let state = {
+  activeChannel: 'all',
+  activeStatus: 'all',
+  activeTag: null,
+  activeAgent: 'all',
+  selectedConv: null,
+  selectedIndex: -1,
+  aiActive: true,
+  contactPanelOpen: true,
+};
+
+// ══════════════════════════════════════
+// RENDER FUNCTIONS
+// ══════════════════════════════════════
+
+function getChannelIcon(ch) {
+  const map = { whatsapp:'💬', instagram:'📸', facebook:'👤', email:'✉️', tiktok:'🎵', sms:'📱', livechat:'🌐' };
+  return map[ch] || '💬';
+}
+function getChannelColor(ch) {
+  const map = { whatsapp:'var(--whatsapp)', instagram:'var(--instagram)', facebook:'var(--facebook)', email:'var(--email-color)', tiktok:'var(--tiktok)', sms:'var(--sms)', livechat:'var(--livechat)' };
+  return map[ch] || 'var(--accent)';
+}
+function getChannelClass(ch) {
+  const map = { whatsapp:'whatsapp', instagram:'instagram', facebook:'facebook', email:'email-style', tiktok:'tiktok', sms:'sms-style', livechat:'livechat' };
+  return map[ch] || '';
+}
+function getTagStyle(tag) {
+  const map = {
+    'Hot Lead': 'background:rgba(255,107,107,.15);color:var(--hot-lead)',
+    'Client': 'background:rgba(0,184,148,.15);color:var(--client-tag)',
+    'VIP': 'background:rgba(253,203,110,.15);color:var(--vip-tag)',
+    'New': 'background:rgba(108,92,231,.15);color:var(--new-tag)',
+    'Unresponsive': 'background:rgba(99,110,114,.2);color:var(--unresponsive-tag)',
+  };
+  return map[tag] || '';
+}
+
+function getFilteredConversations() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  return conversations
+    .filter(c => {
+      if (state.activeChannel !== 'all' && c.channel !== state.activeChannel) return false;
+      if (state.activeStatus !== 'all' && c.status !== state.activeStatus) return false;
+      if (state.activeTag && !c.tags.includes(state.activeTag)) return false;
+      if (state.activeAgent !== 'all' && c.agent !== state.activeAgent) return false;
+      if (search && !c.name.toLowerCase().includes(search) && !c.company.toLowerCase().includes(search) && !c.lastMsg.toLowerCase().includes(search)) return false;
+      return true;
+    })
+    .sort((a, b) => b.timestamp - a.timestamp);
+}
+
+function renderConversationList() {
+  const list = document.getElementById('convList');
+  const filtered = getFilteredConversations();
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty-state" style="padding:40px"><p>No conversations found</p></div>';
+    return;
+  }
+  list.innerHTML = filtered.map((c, i) => `
+    <div class="conv-item ${c.unread > 0 ? 'unread' : ''} ${state.selectedConv === c.id ? 'active' : ''}"
+         data-id="${c.id}" data-index="${i}" onclick="selectConversation(${c.id})">
+      <div class="conv-avatar" style="background:${c.color}">
+        ${c.initials}
+        <div class="conv-channel-badge" style="background:${getChannelColor(c.channel)}">${getChannelIcon(c.channel)}</div>
+      </div>
+      <div class="conv-content">
+        <div class="conv-top">
+          <span class="conv-name">${c.name}</span>
+          <span class="conv-time">${c.time}</span>
+        </div>
+        <div class="conv-preview">${c.lastMsg}</div>
+        <div class="conv-bottom">
+          ${c.tags.map(t => `<span class="conv-tag" style="${getTagStyle(t)}">${t}</span>`).join('')}
+          ${c.unread > 0 ? '<span class="conv-unread-dot"></span>' : ''}
+          <span class="conv-assigned">${c.agent}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectConversation(id) {
+  const conv = conversations.find(c => c.id === id);
+  if (!conv) return;
+  state.selectedConv = id;
+  conv.unread = 0;
+  updateBadges();
+  renderConversationList();
+  renderChat(conv);
+  renderContactPanel(conv);
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('chatView').style.display = 'flex';
+  document.getElementById('appLayout').classList.add('chat-open');
+
+  // Update AI sentiment
+  const sentEl = document.getElementById('aiSentiment');
+  const dotClass = conv.sentiment === 'positive' ? 'sentiment-positive' : conv.sentiment === 'negative' ? 'sentiment-negative' : 'sentiment-neutral';
+  sentEl.innerHTML = `<span class="sentiment-dot ${dotClass}"></span><span>${conv.sentiment.charAt(0).toUpperCase() + conv.sentiment.slice(1)}</span>`;
+
+  // Auto-nudge: if we sent the last message and haven't heard back in 3+ days, surface AI suggest
+  const lastMsg = conv.messages[conv.messages.length - 1];
+  const daysSilent = Math.round((Date.now() - conv.timestamp) / 86400000);
+  if (lastMsg && lastMsg.sent && daysSilent > 3) {
+    setTimeout(() => {
+      _buildAISuggestions();
+      document.getElementById('aiSuggestPopup').classList.add('show');
+      renderAISuggestPopup();
+    }, 450);
+  }
+}
+
+function renderChat(conv) {
+  // Header
+  const header = document.getElementById('chatHeader');
+  header.innerHTML = `
+    <div class="chat-header-left">
+      <button class="mobile-back" onclick="goBack()">←</button>
+      <div class="chat-header-avatar" style="background:${conv.color}">${conv.initials}</div>
+      <div class="chat-header-info">
+        <h3>${conv.name}</h3>
+        <span>${getChannelIcon(conv.channel)} ${conv.channel.charAt(0).toUpperCase() + conv.channel.slice(1)} · ${conv.company}</span>
+      </div>
+    </div>
+    <div class="chat-header-actions">
+      <button class="chat-action-btn" onclick="changeStatus(${conv.id})">${conv.status === 'resolved' ? '🔓 Reopen' : '✅ Resolve'}</button>
+      <button class="chat-action-btn" onclick="toggleContactPanel()">👤 Info</button>
+    </div>
+  `;
+
+  // Messages
+  const msgArea = document.getElementById('chatMessages');
+  let html = '<div class="msg-date-divider">Today</div>';
+  conv.messages.forEach(m => {
+    const cls = getChannelClass(conv.channel);
+    const dir = m.sent ? 'sent' : 'received';
+    if (m.isEmail) {
+      html += `
+        <div class="msg-bubble ${cls} ${dir}">
+          <div class="email-subject">${m.subject || ''}</div>
+          <div style="white-space:pre-wrap">${m.text.replace(/Subject:.*\n/, '')}</div>
+          <div class="msg-meta ${m.sent ? '' : 'received-meta'}">
+            <span>${m.time}</span>
+            ${m.sent ? '<span>✓✓</span>' : ''}
+          </div>
+        </div>`;
+    } else {
+      html += `
+        <div class="msg-bubble ${cls} ${dir}">
+          ${m.text}
+          <div class="msg-meta ${m.sent ? '' : 'received-meta'}">
+            <span>${m.time}</span>
+            ${m.sent ? '<span>✓✓</span>' : ''}
+          </div>
+        </div>`;
+    }
+  });
+  msgArea.innerHTML = html;
+  msgArea.scrollTop = msgArea.scrollHeight;
+
+  // Set reply channel
+  document.getElementById('replyChannel').value = '';
+}
+
+function renderContactPanel(conv) {
+  const panel = document.getElementById('contactContent');
+  const lifecycleStages = ['New Lead', 'Qualified', 'Client', 'VIP'];
+  const filledSteps = conv.lifecycle + 1;
+  panel.innerHTML = `
+    <div class="contact-header">
+      <div class="contact-avatar-lg" style="background:${conv.color}">${conv.initials}</div>
+      <div class="contact-name-lg">${conv.name}</div>
+      <div class="contact-role">${conv.role} at ${conv.company}</div>
+      <div class="contact-tags">
+        ${conv.tags.map(t => `<span class="contact-tag" style="${getTagStyle(t)}">${t}</span>`).join('')}
+      </div>
+    </div>
+
+    <div class="contact-section">
+      <div class="contact-section-title">Lifecycle Stage</div>
+      <div class="lifecycle-bar">
+        ${lifecycleStages.map((_, i) => `<div class="lifecycle-step ${i < filledSteps ? 'filled' : ''}"></div>`).join('')}
+      </div>
+      <div class="lifecycle-labels">
+        ${lifecycleStages.map((s, i) => `<span class="${i === conv.lifecycle ? 'current' : ''}">${s}</span>`).join('')}
+      </div>
+    </div>
+
+    <div class="contact-section">
+      <div class="contact-section-title">Contact Details</div>
+      <div class="contact-field"><span class="contact-field-label">Phone</span><span class="contact-field-value">${conv.phone || '—'}</span></div>
+      <div class="contact-field"><span class="contact-field-label">Email</span><span class="contact-field-value">${conv.email}</span></div>
+      <div class="contact-field"><span class="contact-field-label">Company</span><span class="contact-field-value">${conv.company}</span></div>
+      <div class="contact-field"><span class="contact-field-label">Location</span><span class="contact-field-value">${conv.location}</span></div>
+      <div class="contact-field"><span class="contact-field-label">Channel</span><span class="contact-field-value">${getChannelIcon(conv.channel)} ${conv.channel}</span></div>
+      <div class="contact-field"><span class="contact-field-label">Assigned</span><span class="contact-field-value">${conv.agent}</span></div>
+    </div>
+
+    <div class="contact-section">
+      <div class="contact-section-title">Conversation Timeline</div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:${getChannelColor(conv.channel)}"></div>
+        <div>
+          <div class="timeline-text">Latest message via ${conv.channel}</div>
+          <div class="timeline-time">${conv.time}</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background:var(--accent)"></div>
+        <div>
+          <div class="timeline-text">Conversation started</div>
+          <div class="timeline-time">${conv.messages[0]?.time || 'Unknown'}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-section contact-notes">
+      <div class="contact-section-title">Notes</div>
+      <textarea placeholder="Add notes...">${conv.notes}</textarea>
+    </div>
+
+    <div class="contact-section">
+      <div class="contact-section-title">Custom Fields</div>
+      <div class="contact-field"><span class="contact-field-label">Source</span><span class="contact-field-value">${conv.channel === 'livechat' ? 'Website' : conv.channel === 'email' ? 'Inbound Email' : 'Social Media'}</span></div>
+      <div class="contact-field"><span class="contact-field-label">Monthly Value</span><span class="contact-field-value">${conv.lifecycle >= 2 ? '$' + (1200 + Math.floor(Math.random() * 5000)) : 'TBD'}</span></div>
+    </div>
+
+    <div class="contact-section">
+      <a class="crm-link-btn" href="#" onclick="showToast('Opening CRM record...');return false;">🔗 View CRM Record</a>
+    </div>
+  `;
+}
+
+// ══════════════════════════════════════
+// FILTERS
+// ══════════════════════════════════════
+
+function filterChannel(ch, el) {
+  state.activeChannel = ch;
+  state.activeTag = null;
+  document.querySelectorAll('.sidebar-item[data-channel]').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.sidebar-item[data-tag]').forEach(e => e.classList.remove('active'));
+  renderConversationList();
+}
+
+function filterTag(tag, el) {
+  if (state.activeTag === tag) {
+    state.activeTag = null;
+    el.classList.remove('active');
+  } else {
+    state.activeTag = tag;
+    document.querySelectorAll('.sidebar-item[data-tag]').forEach(e => e.classList.remove('active'));
+    el.classList.add('active');
+  }
+  renderConversationList();
+}
+
+function filterAgent(agent, el) {
+  state.activeAgent = agent;
+  document.querySelectorAll('.sidebar-item[data-agent]').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  renderConversationList();
+}
+
+function filterStatus(status, el) {
+  state.activeStatus = status;
+  document.querySelectorAll('.conv-filter-btn').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  renderConversationList();
+}
+
+function filterConversations() {
+  renderConversationList();
+}
+
+// ══════════════════════════════════════
+// ACTIONS
+// ══════════════════════════════════════
+
+function sendMessage() {
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if (!text || !state.selectedConv) return;
+  const conv = conversations.find(c => c.id === state.selectedConv);
+  if (!conv) return;
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  conv.messages.push({ text, sent: true, time: timeStr });
+  conv.lastMsg = text;
+  conv.time = 'Just now';
+  conv.timestamp = Date.now();
+  input.value = '';
+  renderChat(conv);
+  renderConversationList();
+}
+
+function handleMsgKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function changeStatus(id) {
+  const conv = conversations.find(c => c.id === id);
+  if (!conv) return;
+  conv.status = conv.status === 'resolved' ? 'open' : 'resolved';
+  showToast(conv.status === 'resolved' ? 'Conversation resolved' : 'Conversation reopened');
+  renderChat(conv);
+  renderConversationList();
+}
+
+function toggleContactPanel() {
+  const panel = document.getElementById('contactPanel');
+  panel.classList.toggle('hidden');
+  state.contactPanelOpen = !panel.classList.contains('hidden');
+}
+
+function goBack() {
+  document.getElementById('appLayout').classList.remove('chat-open');
+}
+
+// Quick Replies
+function toggleQuickReplies() {
+  const dd = document.getElementById('quickReplyDropdown');
+  dd.classList.toggle('show');
+  document.getElementById('aiSuggestPopup').classList.remove('show');
+  document.getElementById('emojiPicker').classList.remove('show');
+  if (dd.classList.contains('show')) {
+    dd.innerHTML = quickReplies.map((qr, i) => `
+      <div class="qr-item" onclick="useQuickReply(${i})">
+        <div class="qr-item-title">${qr.title}</div>
+        <div class="qr-item-text">${qr.text}</div>
+      </div>
+    `).join('');
+  }
+}
+
+function useQuickReply(idx) {
+  document.getElementById('msgInput').value = quickReplies[idx].text;
+  document.getElementById('quickReplyDropdown').classList.remove('show');
+  document.getElementById('msgInput').focus();
+}
+
+// AI Suggest
+let _aiSuggestions = [];
+let _aiSuggestionIdx = 0;
+
+function aiSuggest() {
+  const popup = document.getElementById('aiSuggestPopup');
+  document.getElementById('quickReplyDropdown').classList.remove('show');
+  document.getElementById('emojiPicker').classList.remove('show');
+  popup.classList.toggle('show');
+  if (!popup.classList.contains('show') || !state.selectedConv) return;
+  _buildAISuggestions();
+  renderAISuggestPopup();
+}
+
+function _buildAISuggestions() {
+  const conv = conversations.find(c => c.id === state.selectedConv);
+  if (!conv) { _aiSuggestions = []; return; }
+
+  // Detect services mentioned anywhere in the conversation
+  const allText = conv.messages.map(m => m.text.toLowerCase()).join(' ');
+  const services = [];
+  if (/social media|instagram|facebook|tiktok|content/.test(allText)) services.push('Social Media Management');
+  if (/paid ads|ads|advertising|ppc|meta ads/.test(allText)) services.push('Paid Ads');
+  if (/email|campaigns|email marketing/.test(allText)) services.push('Email Marketing');
+  if (/seo|search|website|web/.test(allText)) services.push('SEO / Website');
+  if (/crm|leads|pipeline|automation/.test(allText)) services.push('CRM & Automation');
+  const serviceStr = services.length ? services.join(' + ') : 'our marketing services';
+  const name = (conv.name || conv.contact || 'there').split(' ')[0];
+  const tag = conv.tags?.[0] || 'New';
+  const daysSilent = Math.round((Date.now() - conv.timestamp) / 86400000);
+
+  if (tag === 'Unresponsive' || daysSilent > 3) {
+    _aiSuggestions = [
+      `Hi ${name}! Our clients in your industry running ${serviceStr} typically see a 3–5x ROI in the first 90 days. I'd love to share a quick case study specific to your market. Are you free for a 20-minute call this week?`,
+      `Hey ${name}, just a heads-up — we're onboarding a few new clients this week and I'd love to get yours started before the month ends. Your proposal for ${serviceStr} is still on the table. Want to lock in your spot?`,
+      `Hi ${name}! Quick question: is budget the main hold-up, or would you like to see results from a similar client first? Either way, I can adjust the proposal to fit. Just say the word!`
+    ];
+  } else if (tag === 'Hot Lead') {
+    _aiSuggestions = [
+      `Hi ${name}! Great talking with you. I have availability Tuesday or Thursday for a 15-minute kickoff call — which works better for you?`,
+      `Hey ${name}! Ready to get your ${serviceStr} campaign live? I can have everything set up within 48 hours of your sign-off. Want to move forward this week?`
+    ];
+  } else if (tag === 'Client') {
+    _aiSuggestions = [
+      `Hi ${name}! Your campaign is performing well. I've spotted an opportunity to expand results even further — want me to put together a quick growth plan?`,
+      `Hey ${name}! Your monthly report is ready. Want a 15-minute call to walk through the highlights and plan next steps?`
+    ];
+  } else if (tag === 'VIP') {
+    _aiSuggestions = [
+      `Hi ${name}! I've put together 3 new ideas specifically for your account this week. I can make myself available any time that works for you — just say when.`
+    ];
+  } else {
+    _aiSuggestions = [
+      `Hi ${name}! Following up on ${serviceStr} — we've helped businesses just like yours grow their presence significantly. Can we schedule a quick discovery call this week?`,
+      `Hey ${name}! Quick question — what's your biggest marketing challenge right now? I'd love to put together a custom strategy that actually moves the needle.`
+    ];
+  }
+  _aiSuggestionIdx = 0;
+}
+
+function renderAISuggestPopup() {
+  const popup = document.getElementById('aiSuggestPopup');
+  const suggestion = _aiSuggestions[_aiSuggestionIdx] || '';
+  const hasMore = _aiSuggestions.length > 1;
+  const count = hasMore ? `<span style="font-size:10px;color:var(--text-muted);margin-left:6px">${_aiSuggestionIdx + 1}/${_aiSuggestions.length}</span>` : '';
+  popup.innerHTML = `
+    <div class="ai-suggest-header">✨ AI Suggested Reply ${count}</div>
+    <div class="ai-suggest-text">${suggestion}</div>
+    <div class="ai-suggest-actions">
+      <button class="ai-use-btn" onclick="useAISuggestion()">Use This</button>
+      ${hasMore ? `<button class="ai-dismiss-btn" onclick="nextAISuggestion()">Try Another</button>` : ''}
+      <button class="ai-dismiss-btn" onclick="document.getElementById('aiSuggestPopup').classList.remove('show')">Dismiss</button>
+    </div>
+  `;
+}
+
+function nextAISuggestion() {
+  _aiSuggestionIdx = (_aiSuggestionIdx + 1) % _aiSuggestions.length;
+  renderAISuggestPopup();
+}
+
+function useAISuggestion() {
+  const suggestion = _aiSuggestions[_aiSuggestionIdx];
+  if (!suggestion) return;
+  document.getElementById('msgInput').value = suggestion;
+  document.getElementById('aiSuggestPopup').classList.remove('show');
+  document.getElementById('msgInput').focus();
+}
+
+// Emoji
+function toggleEmoji() {
+  const picker = document.getElementById('emojiPicker');
+  document.getElementById('quickReplyDropdown').classList.remove('show');
+  document.getElementById('aiSuggestPopup').classList.remove('show');
+  picker.classList.toggle('show');
+  if (picker.classList.contains('show')) {
+    const emojis = ['😊','😍','🔥','👏','💪','🎉','👍','❤️','😂','🙏','💡','✨','📸','📊','📅','🎯','💰','🚀','⭐','🌟','📱','💬','✅','🤝','👋','📋','💼','🏆'];
+    picker.innerHTML = `<div class="emoji-grid">${emojis.map(e => `<button class="emoji-btn" onclick="insertEmoji('${e}')">${e}</button>`).join('')}</div>`;
+  }
+}
+
+function insertEmoji(emoji) {
+  const input = document.getElementById('msgInput');
+  input.value += emoji;
+  input.focus();
+}
+
+function handleFile(el) {
+  if (el.files.length > 0) {
+    showToast('File attached: ' + el.files[0].name);
+  }
+}
+
+function updateReplyChannel() {
+  const ch = document.getElementById('replyChannel').value;
+  if (ch) showToast('Reply channel set to ' + ch);
+}
+
+// AI Panel
+function toggleAI() {
+  state.aiActive = !state.aiActive;
+  const toggle = document.getElementById('aiToggle');
+  const status = document.getElementById('aiStatus');
+  toggle.classList.toggle('on', state.aiActive);
+  status.textContent = state.aiActive ? 'Active' : 'Paused';
+  status.className = state.aiActive ? 'status' : 'paused';
+  showToast(state.aiActive ? 'AI Agent activated' : 'AI Agent paused');
+}
+
+function toggleAIPanel() {
+  const panel = document.getElementById('aiPanel');
+  const log = document.getElementById('aiLog');
+  panel.classList.toggle('expanded');
+  log.style.display = panel.classList.contains('expanded') ? 'block' : 'none';
+}
+
+// Badges
+function updateBadges() {
+  const channels = ['all','whatsapp','instagram','facebook','email','tiktok','sms','livechat'];
+  channels.forEach(ch => {
+    const count = conversations.filter(c => (ch === 'all' || c.channel === ch) && c.unread > 0).reduce((s, c) => s + c.unread, 0);
+    const el = document.getElementById('badge-' + ch);
+    if (el) { el.textContent = count; el.style.display = count > 0 ? '' : 'none'; }
+  });
+  const total = conversations.reduce((s, c) => s + c.unread, 0);
+  document.getElementById('totalUnread').textContent = total;
+  document.getElementById('totalUnread').style.display = total > 0 ? '' : 'none';
+}
+
+// Toast
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// Shortcuts
+function toggleShortcuts() {
+  document.getElementById('shortcutsHint').classList.toggle('show');
+}
+
+// ══════════════════════════════════════
+// KEYBOARD NAVIGATION
+// ══════════════════════════════════════
+document.addEventListener('keydown', (e) => {
+  // Don't capture if typing in an input
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+    if (e.key === 'Escape') { e.target.blur(); }
+    return;
+  }
+
+  const filtered = getFilteredConversations();
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    state.selectedIndex = Math.min(state.selectedIndex + 1, filtered.length - 1);
+    if (filtered[state.selectedIndex]) selectConversation(filtered[state.selectedIndex].id);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    state.selectedIndex = Math.max(state.selectedIndex - 1, 0);
+    if (filtered[state.selectedIndex]) selectConversation(filtered[state.selectedIndex].id);
+  } else if (e.key === 'Enter' && state.selectedConv) {
+    document.getElementById('msgInput').focus();
+  } else if (e.key === '/') {
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+  } else if (e.key === '?') {
+    toggleShortcuts();
+  } else if (e.key === 'Escape') {
+    goBack();
+  }
+});
+
+// Close dropdowns on outside click
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.input-tool-btn') && !e.target.closest('.quick-reply-dropdown')) {
+    document.getElementById('quickReplyDropdown').classList.remove('show');
+  }
+  if (!e.target.closest('.input-tool-btn') && !e.target.closest('.ai-suggest-popup')) {
+    document.getElementById('aiSuggestPopup').classList.remove('show');
+  }
+  if (!e.target.closest('.input-tool-btn') && !e.target.closest('.emoji-picker')) {
+    document.getElementById('emojiPicker').classList.remove('show');
+  }
+});
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+renderConversationList();
+updateBadges();
+</script>
+</body>
+</html>

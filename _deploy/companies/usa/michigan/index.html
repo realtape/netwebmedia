@@ -1,100 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Michigan (MI) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Michigan — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 48 businesses in Michigan.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Michigan <span style="opacity:.6;font-size:24px">(MI)</span></h1>
-    <p>Auto (Detroit), Great Lakes tourism, agriculture</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Michigan</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span><span class="filter" data-n="local_specialist">🔧 Local Specialist Services (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="local_specialist" data-search="brown all-pro carpet care detroit" href="brown-all-pro-carpet-care.html"><div class="name">Brown All-Pro Carpet Care</div><div class="where">Detroit</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="wilson apex hvac grand rapids" href="wilson-apex-hvac.html"><div class="name">Wilson Apex HVAC</div><div class="where">Grand Rapids</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="first choice pro ann arbor" href="first-choice-pro.html"><div class="name">First Choice Pro</div><div class="where">Ann Arbor</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="thompson profix plumbing detroit" href="thompson-profix-plumbing.html"><div class="name">Thompson ProFix Plumbing</div><div class="where">Detroit</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="apex heating &amp; air grand rapids" href="apex-heating-and-air.html"><div class="name">Apex Heating &amp; Air</div><div class="where">Grand Rapids</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="lee precision plumbing ann arbor" href="lee-precision-plumbing.html"><div class="name">Lee Precision Plumbing</div><div class="where">Ann Arbor</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="first choice landscaping detroit" href="first-choice-landscaping.html"><div class="name">First Choice Landscaping</div><div class="where">Detroit</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="elite pro grand rapids" href="elite-pro.html"><div class="name">Elite Pro</div><div class="where">Grand Rapids</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="smb" data-search="heritage depot detroit" href="heritage-depot.html"><div class="name">Heritage Depot</div><div class="where">Detroit</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="copper creek studio grand rapids" href="copper-creek-studio.html"><div class="name">Copper Creek Studio</div><div class="where">Grand Rapids</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="bluebird bookkeeping ann arbor" href="bluebird-bookkeeping.html"><div class="name">Bluebird Bookkeeping</div><div class="where">Ann Arbor</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="redleaf print shop detroit" href="redleaf-print-shop.html"><div class="name">Redleaf Print Shop</div><div class="where">Detroit</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="redleaf services grand rapids" href="redleaf-services.html"><div class="name">Redleaf Services</div><div class="where">Grand Rapids</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="northside studio ann arbor" href="northside-studio.html"><div class="name">Northside Studio</div><div class="where">Ann Arbor</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="redleaf workshop detroit" href="redleaf-workshop.html"><div class="name">Redleaf Workshop</div><div class="where">Detroit</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="evergreen provisions grand rapids" href="evergreen-provisions.html"><div class="name">Evergreen Provisions</div><div class="where">Grand Rapids</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="restaurants" data-search="red barn brasserie detroit" href="red-barn-brasserie.html"><div class="name">Red Barn Brasserie</div><div class="where">Detroit</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="golden cafe grand rapids" href="golden-cafe.html"><div class="name">Golden Cafe</div><div class="where">Grand Rapids</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="red barn smokehouse ann arbor" href="red-barn-smokehouse.html"><div class="name">Red Barn Smokehouse</div><div class="where">Ann Arbor</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="blue door roadhouse detroit" href="blue-door-roadhouse.html"><div class="name">Blue Door Roadhouse</div><div class="where">Detroit</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="citrus cafe grand rapids" href="citrus-cafe.html"><div class="name">Citrus Cafe</div><div class="where">Grand Rapids</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="cedar table ann arbor" href="cedar-table.html"><div class="name">Cedar Table</div><div class="where">Ann Arbor</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="sage roadhouse detroit" href="sage-roadhouse.html"><div class="name">Sage Roadhouse</div><div class="where">Detroit</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="mesa brasserie grand rapids" href="mesa-brasserie.html"><div class="name">Mesa Brasserie</div><div class="where">Grand Rapids</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="real_estate" data-search="green harbor property partners detroit" href="green-harbor-property-partners.html"><div class="name">Green Harbor Property Partners</div><div class="where">Detroit</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="harbor real estate grand rapids" href="harbor-real-estate.html"><div class="name">Harbor Real Estate</div><div class="where">Grand Rapids</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="jones prestige realty ann arbor" href="jones-prestige-realty.html"><div class="name">Jones Prestige Realty</div><div class="where">Ann Arbor</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="taylor legacy property partners detroit" href="taylor-legacy-property-partners.html"><div class="name">Taylor Legacy Property Partners</div><div class="where">Detroit</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="harbor realty grand rapids" href="harbor-realty.html"><div class="name">Harbor Realty</div><div class="where">Grand Rapids</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="golden gate homes ann arbor" href="golden-gate-homes.html"><div class="name">Golden Gate Homes</div><div class="where">Ann Arbor</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="sanchez ridge realty detroit" href="sanchez-ridge-realty.html"><div class="name">Sanchez Ridge Realty</div><div class="where">Detroit</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="premier realty co. grand rapids" href="premier-realty-co.html"><div class="name">Premier Realty Co.</div><div class="where">Grand Rapids</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="health" data-search="rodriguez grandview health partners detroit" href="rodriguez-grandview-health-partners.html"><div class="name">Rodriguez Grandview Health Partners</div><div class="where">Detroit</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="evergreen chiropractic grand rapids" href="evergreen-chiropractic.html"><div class="name">Evergreen Chiropractic</div><div class="where">Grand Rapids</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="heritage family medicine ann arbor" href="heritage-family-medicine.html"><div class="name">Heritage Family Medicine</div><div class="where">Ann Arbor</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="cedar physical therapy detroit" href="cedar-physical-therapy.html"><div class="name">Cedar Physical Therapy</div><div class="where">Detroit</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="mercy physical therapy grand rapids" href="mercy-physical-therapy.html"><div class="name">Mercy Physical Therapy</div><div class="where">Grand Rapids</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="hall summit smiles dental ann arbor" href="hall-summit-smiles-dental.html"><div class="name">Hall Summit Smiles Dental</div><div class="where">Ann Arbor</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="pinewood medical group detroit" href="pinewood-medical-group.html"><div class="name">Pinewood Medical Group</div><div class="where">Detroit</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="harborview dermatology grand rapids" href="harborview-dermatology.html"><div class="name">Harborview Dermatology</div><div class="where">Grand Rapids</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="law_firms" data-search="coleman law group detroit" href="coleman-law-group.html"><div class="name">Coleman Law Group</div><div class="where">Detroit</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="young brennan &amp; associates grand rapids" href="young-brennan-and-associates.html"><div class="name">Young Brennan &amp; Associates</div><div class="where">Grand Rapids</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="martinez bennett law ann arbor" href="martinez-bennett-law.html"><div class="name">Martinez Bennett Law</div><div class="where">Ann Arbor</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="green bennett &amp; partners detroit" href="green-bennett-and-partners.html"><div class="name">Green Bennett &amp; Partners</div><div class="where">Detroit</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="scott bennett &amp; associates grand rapids" href="scott-bennett-and-associates.html"><div class="name">Scott Bennett &amp; Associates</div><div class="where">Grand Rapids</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="rutherford law firm ann arbor" href="rutherford-law-firm.html"><div class="name">Rutherford Law Firm</div><div class="where">Ann Arbor</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="wright whitaker law firm detroit" href="wright-whitaker-law-firm.html"><div class="name">Wright Whitaker Law Firm</div><div class="where">Detroit</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="pierce &amp; co., attorneys at law grand rapids" href="pierce-and-co-attorneys-at-law.html"><div class="name">Pierce &amp; Co., Attorneys at Law</div><div class="where">Grand Rapids</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Michigan</h1>
+<p class="sub">48 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./apex-heating-and-air.html"><div class="card-name">Apex Heating And Air</div><div class="card-url">apex-heating-and-air.html</div></a>
+    <a class="card" href="./blue-door-roadhouse.html"><div class="card-name">Blue Door Roadhouse</div><div class="card-url">blue-door-roadhouse.html</div></a>
+    <a class="card" href="./bluebird-bookkeeping.html"><div class="card-name">Bluebird Bookkeeping</div><div class="card-url">bluebird-bookkeeping.html</div></a>
+    <a class="card" href="./brown-all-pro-carpet-care.html"><div class="card-name">Brown All Pro Carpet Care</div><div class="card-url">brown-all-pro-carpet-care.html</div></a>
+    <a class="card" href="./cedar-physical-therapy.html"><div class="card-name">Cedar Physical Therapy</div><div class="card-url">cedar-physical-therapy.html</div></a>
+    <a class="card" href="./cedar-table.html"><div class="card-name">Cedar Table</div><div class="card-url">cedar-table.html</div></a>
+    <a class="card" href="./citrus-cafe.html"><div class="card-name">Citrus Cafe</div><div class="card-url">citrus-cafe.html</div></a>
+    <a class="card" href="./coleman-law-group.html"><div class="card-name">Coleman Law Group</div><div class="card-url">coleman-law-group.html</div></a>
+    <a class="card" href="./copper-creek-studio.html"><div class="card-name">Copper Creek Studio</div><div class="card-url">copper-creek-studio.html</div></a>
+    <a class="card" href="./elite-pro.html"><div class="card-name">Elite Pro</div><div class="card-url">elite-pro.html</div></a>
+    <a class="card" href="./evergreen-chiropractic.html"><div class="card-name">Evergreen Chiropractic</div><div class="card-url">evergreen-chiropractic.html</div></a>
+    <a class="card" href="./evergreen-provisions.html"><div class="card-name">Evergreen Provisions</div><div class="card-url">evergreen-provisions.html</div></a>
+    <a class="card" href="./first-choice-landscaping.html"><div class="card-name">First Choice Landscaping</div><div class="card-url">first-choice-landscaping.html</div></a>
+    <a class="card" href="./first-choice-pro.html"><div class="card-name">First Choice Pro</div><div class="card-url">first-choice-pro.html</div></a>
+    <a class="card" href="./golden-cafe.html"><div class="card-name">Golden Cafe</div><div class="card-url">golden-cafe.html</div></a>
+    <a class="card" href="./golden-gate-homes.html"><div class="card-name">Golden Gate Homes</div><div class="card-url">golden-gate-homes.html</div></a>
+    <a class="card" href="./green-bennett-and-partners.html"><div class="card-name">Green Bennett And Partners</div><div class="card-url">green-bennett-and-partners.html</div></a>
+    <a class="card" href="./green-harbor-property-partners.html"><div class="card-name">Green Harbor Property Partners</div><div class="card-url">green-harbor-property-partners.html</div></a>
+    <a class="card" href="./hall-summit-smiles-dental.html"><div class="card-name">Hall Summit Smiles Dental</div><div class="card-url">hall-summit-smiles-dental.html</div></a>
+    <a class="card" href="./harbor-real-estate.html"><div class="card-name">Harbor Real Estate</div><div class="card-url">harbor-real-estate.html</div></a>
+    <a class="card" href="./harbor-realty.html"><div class="card-name">Harbor Realty</div><div class="card-url">harbor-realty.html</div></a>
+    <a class="card" href="./harborview-dermatology.html"><div class="card-name">Harborview Dermatology</div><div class="card-url">harborview-dermatology.html</div></a>
+    <a class="card" href="./heritage-depot.html"><div class="card-name">Heritage Depot</div><div class="card-url">heritage-depot.html</div></a>
+    <a class="card" href="./heritage-family-medicine.html"><div class="card-name">Heritage Family Medicine</div><div class="card-url">heritage-family-medicine.html</div></a>
+    <a class="card" href="./jones-prestige-realty.html"><div class="card-name">Jones Prestige Realty</div><div class="card-url">jones-prestige-realty.html</div></a>
+    <a class="card" href="./lee-precision-plumbing.html"><div class="card-name">Lee Precision Plumbing</div><div class="card-url">lee-precision-plumbing.html</div></a>
+    <a class="card" href="./martinez-bennett-law.html"><div class="card-name">Martinez Bennett Law</div><div class="card-url">martinez-bennett-law.html</div></a>
+    <a class="card" href="./mercy-physical-therapy.html"><div class="card-name">Mercy Physical Therapy</div><div class="card-url">mercy-physical-therapy.html</div></a>
+    <a class="card" href="./mesa-brasserie.html"><div class="card-name">Mesa Brasserie</div><div class="card-url">mesa-brasserie.html</div></a>
+    <a class="card" href="./northside-studio.html"><div class="card-name">Northside Studio</div><div class="card-url">northside-studio.html</div></a>
+    <a class="card" href="./pierce-and-co-attorneys-at-law.html"><div class="card-name">Pierce And Co Attorneys At Law</div><div class="card-url">pierce-and-co-attorneys-at-law.html</div></a>
+    <a class="card" href="./pinewood-medical-group.html"><div class="card-name">Pinewood Medical Group</div><div class="card-url">pinewood-medical-group.html</div></a>
+    <a class="card" href="./premier-realty-co.html"><div class="card-name">Premier Realty Co</div><div class="card-url">premier-realty-co.html</div></a>
+    <a class="card" href="./red-barn-brasserie.html"><div class="card-name">Red Barn Brasserie</div><div class="card-url">red-barn-brasserie.html</div></a>
+    <a class="card" href="./red-barn-smokehouse.html"><div class="card-name">Red Barn Smokehouse</div><div class="card-url">red-barn-smokehouse.html</div></a>
+    <a class="card" href="./redleaf-print-shop.html"><div class="card-name">Redleaf Print Shop</div><div class="card-url">redleaf-print-shop.html</div></a>
+    <a class="card" href="./redleaf-services.html"><div class="card-name">Redleaf Services</div><div class="card-url">redleaf-services.html</div></a>
+    <a class="card" href="./redleaf-workshop.html"><div class="card-name">Redleaf Workshop</div><div class="card-url">redleaf-workshop.html</div></a>
+    <a class="card" href="./rodriguez-grandview-health-partners.html"><div class="card-name">Rodriguez Grandview Health Partners</div><div class="card-url">rodriguez-grandview-health-partners.html</div></a>
+    <a class="card" href="./rutherford-law-firm.html"><div class="card-name">Rutherford Law Firm</div><div class="card-url">rutherford-law-firm.html</div></a>
+    <a class="card" href="./sage-roadhouse.html"><div class="card-name">Sage Roadhouse</div><div class="card-url">sage-roadhouse.html</div></a>
+    <a class="card" href="./sanchez-ridge-realty.html"><div class="card-name">Sanchez Ridge Realty</div><div class="card-url">sanchez-ridge-realty.html</div></a>
+    <a class="card" href="./scott-bennett-and-associates.html"><div class="card-name">Scott Bennett And Associates</div><div class="card-url">scott-bennett-and-associates.html</div></a>
+    <a class="card" href="./taylor-legacy-property-partners.html"><div class="card-name">Taylor Legacy Property Partners</div><div class="card-url">taylor-legacy-property-partners.html</div></a>
+    <a class="card" href="./thompson-profix-plumbing.html"><div class="card-name">Thompson Profix Plumbing</div><div class="card-url">thompson-profix-plumbing.html</div></a>
+    <a class="card" href="./wilson-apex-hvac.html"><div class="card-name">Wilson Apex Hvac</div><div class="card-url">wilson-apex-hvac.html</div></a>
+    <a class="card" href="./wright-whitaker-law-firm.html"><div class="card-name">Wright Whitaker Law Firm</div><div class="card-url">wright-whitaker-law-firm.html</div></a>
+    <a class="card" href="./young-brennan-and-associates.html"><div class="card-name">Young Brennan And Associates</div><div class="card-url">young-brennan-and-associates.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

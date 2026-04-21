@@ -1,100 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Florida (FL) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Florida — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 48 businesses in Florida.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Florida <span style="opacity:.6;font-size:24px">(FL)</span></h1>
-    <p>Tourism (Orlando/Miami), real estate, retirees, aerospace</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Florida</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="tourism">🏔️ Tourism &amp; Hospitality (8)</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="beauty">💅 Beauty &amp; Wellness (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="tourism" data-search="stonebridge tours miami" href="stonebridge-tours.html"><div class="name">Stonebridge Tours</div><div class="where">Miami</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="pine ridge getaway orlando" href="pine-ridge-getaway.html"><div class="name">Pine Ridge Getaway</div><div class="where">Orlando</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="heritage adventures tampa" href="heritage-adventures.html"><div class="name">Heritage Adventures</div><div class="where">Tampa</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="cascade retreat miami" href="cascade-retreat.html"><div class="name">Cascade Retreat</div><div class="where">Miami</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="pine ridge inn orlando" href="pine-ridge-inn.html"><div class="name">Pine Ridge Inn</div><div class="where">Orlando</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="heritage getaway tampa" href="heritage-getaway.html"><div class="name">Heritage Getaway</div><div class="where">Tampa</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="mountain lodge miami" href="mountain-lodge.html"><div class="name">Mountain Lodge</div><div class="where">Miami</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="bayfront resort orlando" href="bayfront-resort.html"><div class="name">Bayfront Resort</div><div class="where">Orlando</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="real_estate" data-search="premier realty co. miami" href="premier-realty-co.html"><div class="name">Premier Realty Co.</div><div class="where">Miami</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="heritage estates orlando" href="heritage-estates.html"><div class="name">Heritage Estates</div><div class="where">Orlando</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="johnson prestige estates tampa" href="johnson-prestige-estates.html"><div class="name">Johnson Prestige Estates</div><div class="where">Tampa</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="urban estates miami" href="urban-estates.html"><div class="name">Urban Estates</div><div class="where">Miami</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="prestige realty group orlando" href="prestige-realty-group.html"><div class="name">Prestige Realty Group</div><div class="where">Orlando</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="keystone realty tampa" href="keystone-realty.html"><div class="name">Keystone Realty</div><div class="where">Tampa</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="beacon real estate group miami" href="beacon-real-estate-group.html"><div class="name">Beacon Real Estate Group</div><div class="where">Miami</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="pinnacle properties orlando" href="pinnacle-properties.html"><div class="name">Pinnacle Properties</div><div class="where">Orlando</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="restaurants" data-search="wagon alehouse miami" href="wagon-alehouse.html"><div class="name">Wagon Alehouse</div><div class="where">Miami</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="citrus public house orlando" href="citrus-public-house.html"><div class="name">Citrus Public House</div><div class="where">Orlando</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="golden steakhouse tampa" href="golden-steakhouse.html"><div class="name">Golden Steakhouse</div><div class="where">Tampa</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="iron skillet diner miami" href="iron-skillet-diner.html"><div class="name">Iron Skillet Diner</div><div class="where">Miami</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="market steakhouse orlando" href="market-steakhouse.html"><div class="name">Market Steakhouse</div><div class="where">Orlando</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="brickhouse grill tampa" href="brickhouse-grill.html"><div class="name">Brickhouse Grill</div><div class="where">Tampa</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="sage diner miami" href="sage-diner.html"><div class="name">Sage Diner</div><div class="where">Miami</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="silver eatery orlando" href="silver-eatery.html"><div class="name">Silver Eatery</div><div class="where">Orlando</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="health" data-search="bayside dermatology miami" href="bayside-dermatology.html"><div class="name">Bayside Dermatology</div><div class="where">Miami</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="lakeshore health partners orlando" href="lakeshore-health-partners.html"><div class="name">Lakeshore Health Partners</div><div class="where">Orlando</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="hillside family medicine tampa" href="hillside-family-medicine.html"><div class="name">Hillside Family Medicine</div><div class="where">Tampa</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="ramirez prairie pediatrics miami" href="ramirez-prairie-pediatrics.html"><div class="name">Ramirez Prairie Pediatrics</div><div class="where">Miami</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="grandview physical therapy orlando" href="grandview-physical-therapy.html"><div class="name">Grandview Physical Therapy</div><div class="where">Orlando</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="cedar med spa tampa" href="cedar-med-spa.html"><div class="name">Cedar Med Spa</div><div class="where">Tampa</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="northgate urgent care miami" href="northgate-urgent-care.html"><div class="name">Northgate Urgent Care</div><div class="where">Miami</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="southpoint dermatology orlando" href="southpoint-dermatology.html"><div class="name">Southpoint Dermatology</div><div class="where">Orlando</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="beauty" data-search="orchid beauty bar miami" href="orchid-beauty-bar.html"><div class="name">Orchid Beauty Bar</div><div class="where">Miami</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="radiance aesthetics orlando" href="radiance-aesthetics.html"><div class="name">Radiance Aesthetics</div><div class="where">Orlando</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="pearl nails tampa" href="pearl-nails.html"><div class="name">Pearl Nails</div><div class="where">Tampa</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="serenity boutique miami" href="serenity-boutique.html"><div class="name">Serenity Boutique</div><div class="where">Miami</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="velvet hair lounge orlando" href="velvet-hair-lounge.html"><div class="name">Velvet Hair Lounge</div><div class="where">Orlando</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="pearl hair lounge tampa" href="pearl-hair-lounge.html"><div class="name">Pearl Hair Lounge</div><div class="where">Tampa</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="muse studio miami" href="muse-studio.html"><div class="name">Muse Studio</div><div class="where">Miami</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="sage beauty bar orlando" href="sage-beauty-bar.html"><div class="name">Sage Beauty Bar</div><div class="where">Orlando</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="law_firms" data-search="whitaker &amp; partners miami" href="whitaker-and-partners.html"><div class="name">Whitaker &amp; Partners</div><div class="where">Miami</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="bennett law group orlando" href="bennett-law-group.html"><div class="name">Bennett Law Group</div><div class="where">Orlando</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="pierce legal tampa" href="pierce-legal.html"><div class="name">Pierce Legal</div><div class="where">Tampa</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="bennett attorneys miami" href="bennett-attorneys.html"><div class="name">Bennett Attorneys</div><div class="where">Miami</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="goldstein law orlando" href="goldstein-law.html"><div class="name">Goldstein Law</div><div class="where">Orlando</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="goldstein attorneys tampa" href="goldstein-attorneys.html"><div class="name">Goldstein Attorneys</div><div class="where">Tampa</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="blackwell law miami" href="blackwell-law.html"><div class="name">Blackwell Law</div><div class="where">Miami</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="caldwell legal services orlando" href="caldwell-legal-services.html"><div class="name">Caldwell Legal Services</div><div class="where">Orlando</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Florida</h1>
+<p class="sub">48 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./bayfront-resort.html"><div class="card-name">Bayfront Resort</div><div class="card-url">bayfront-resort.html</div></a>
+    <a class="card" href="./bayside-dermatology.html"><div class="card-name">Bayside Dermatology</div><div class="card-url">bayside-dermatology.html</div></a>
+    <a class="card" href="./beacon-real-estate-group.html"><div class="card-name">Beacon Real Estate Group</div><div class="card-url">beacon-real-estate-group.html</div></a>
+    <a class="card" href="./bennett-attorneys.html"><div class="card-name">Bennett Attorneys</div><div class="card-url">bennett-attorneys.html</div></a>
+    <a class="card" href="./bennett-law-group.html"><div class="card-name">Bennett Law Group</div><div class="card-url">bennett-law-group.html</div></a>
+    <a class="card" href="./blackwell-law.html"><div class="card-name">Blackwell Law</div><div class="card-url">blackwell-law.html</div></a>
+    <a class="card" href="./brickhouse-grill.html"><div class="card-name">Brickhouse Grill</div><div class="card-url">brickhouse-grill.html</div></a>
+    <a class="card" href="./caldwell-legal-services.html"><div class="card-name">Caldwell Legal Services</div><div class="card-url">caldwell-legal-services.html</div></a>
+    <a class="card" href="./cascade-retreat.html"><div class="card-name">Cascade Retreat</div><div class="card-url">cascade-retreat.html</div></a>
+    <a class="card" href="./cedar-med-spa.html"><div class="card-name">Cedar Med Spa</div><div class="card-url">cedar-med-spa.html</div></a>
+    <a class="card" href="./citrus-public-house.html"><div class="card-name">Citrus Public House</div><div class="card-url">citrus-public-house.html</div></a>
+    <a class="card" href="./golden-steakhouse.html"><div class="card-name">Golden Steakhouse</div><div class="card-url">golden-steakhouse.html</div></a>
+    <a class="card" href="./goldstein-attorneys.html"><div class="card-name">Goldstein Attorneys</div><div class="card-url">goldstein-attorneys.html</div></a>
+    <a class="card" href="./goldstein-law.html"><div class="card-name">Goldstein Law</div><div class="card-url">goldstein-law.html</div></a>
+    <a class="card" href="./grandview-physical-therapy.html"><div class="card-name">Grandview Physical Therapy</div><div class="card-url">grandview-physical-therapy.html</div></a>
+    <a class="card" href="./heritage-adventures.html"><div class="card-name">Heritage Adventures</div><div class="card-url">heritage-adventures.html</div></a>
+    <a class="card" href="./heritage-estates.html"><div class="card-name">Heritage Estates</div><div class="card-url">heritage-estates.html</div></a>
+    <a class="card" href="./heritage-getaway.html"><div class="card-name">Heritage Getaway</div><div class="card-url">heritage-getaway.html</div></a>
+    <a class="card" href="./hillside-family-medicine.html"><div class="card-name">Hillside Family Medicine</div><div class="card-url">hillside-family-medicine.html</div></a>
+    <a class="card" href="./iron-skillet-diner.html"><div class="card-name">Iron Skillet Diner</div><div class="card-url">iron-skillet-diner.html</div></a>
+    <a class="card" href="./johnson-prestige-estates.html"><div class="card-name">Johnson Prestige Estates</div><div class="card-url">johnson-prestige-estates.html</div></a>
+    <a class="card" href="./keystone-realty.html"><div class="card-name">Keystone Realty</div><div class="card-url">keystone-realty.html</div></a>
+    <a class="card" href="./lakeshore-health-partners.html"><div class="card-name">Lakeshore Health Partners</div><div class="card-url">lakeshore-health-partners.html</div></a>
+    <a class="card" href="./market-steakhouse.html"><div class="card-name">Market Steakhouse</div><div class="card-url">market-steakhouse.html</div></a>
+    <a class="card" href="./mountain-lodge.html"><div class="card-name">Mountain Lodge</div><div class="card-url">mountain-lodge.html</div></a>
+    <a class="card" href="./muse-studio.html"><div class="card-name">Muse Studio</div><div class="card-url">muse-studio.html</div></a>
+    <a class="card" href="./northgate-urgent-care.html"><div class="card-name">Northgate Urgent Care</div><div class="card-url">northgate-urgent-care.html</div></a>
+    <a class="card" href="./orchid-beauty-bar.html"><div class="card-name">Orchid Beauty Bar</div><div class="card-url">orchid-beauty-bar.html</div></a>
+    <a class="card" href="./pearl-hair-lounge.html"><div class="card-name">Pearl Hair Lounge</div><div class="card-url">pearl-hair-lounge.html</div></a>
+    <a class="card" href="./pearl-nails.html"><div class="card-name">Pearl Nails</div><div class="card-url">pearl-nails.html</div></a>
+    <a class="card" href="./pierce-legal.html"><div class="card-name">Pierce Legal</div><div class="card-url">pierce-legal.html</div></a>
+    <a class="card" href="./pine-ridge-getaway.html"><div class="card-name">Pine Ridge Getaway</div><div class="card-url">pine-ridge-getaway.html</div></a>
+    <a class="card" href="./pine-ridge-inn.html"><div class="card-name">Pine Ridge Inn</div><div class="card-url">pine-ridge-inn.html</div></a>
+    <a class="card" href="./pinnacle-properties.html"><div class="card-name">Pinnacle Properties</div><div class="card-url">pinnacle-properties.html</div></a>
+    <a class="card" href="./premier-realty-co.html"><div class="card-name">Premier Realty Co</div><div class="card-url">premier-realty-co.html</div></a>
+    <a class="card" href="./prestige-realty-group.html"><div class="card-name">Prestige Realty Group</div><div class="card-url">prestige-realty-group.html</div></a>
+    <a class="card" href="./radiance-aesthetics.html"><div class="card-name">Radiance Aesthetics</div><div class="card-url">radiance-aesthetics.html</div></a>
+    <a class="card" href="./ramirez-prairie-pediatrics.html"><div class="card-name">Ramirez Prairie Pediatrics</div><div class="card-url">ramirez-prairie-pediatrics.html</div></a>
+    <a class="card" href="./sage-beauty-bar.html"><div class="card-name">Sage Beauty Bar</div><div class="card-url">sage-beauty-bar.html</div></a>
+    <a class="card" href="./sage-diner.html"><div class="card-name">Sage Diner</div><div class="card-url">sage-diner.html</div></a>
+    <a class="card" href="./serenity-boutique.html"><div class="card-name">Serenity Boutique</div><div class="card-url">serenity-boutique.html</div></a>
+    <a class="card" href="./silver-eatery.html"><div class="card-name">Silver Eatery</div><div class="card-url">silver-eatery.html</div></a>
+    <a class="card" href="./southpoint-dermatology.html"><div class="card-name">Southpoint Dermatology</div><div class="card-url">southpoint-dermatology.html</div></a>
+    <a class="card" href="./stonebridge-tours.html"><div class="card-name">Stonebridge Tours</div><div class="card-url">stonebridge-tours.html</div></a>
+    <a class="card" href="./urban-estates.html"><div class="card-name">Urban Estates</div><div class="card-url">urban-estates.html</div></a>
+    <a class="card" href="./velvet-hair-lounge.html"><div class="card-name">Velvet Hair Lounge</div><div class="card-url">velvet-hair-lounge.html</div></a>
+    <a class="card" href="./wagon-alehouse.html"><div class="card-name">Wagon Alehouse</div><div class="card-url">wagon-alehouse.html</div></a>
+    <a class="card" href="./whitaker-and-partners.html"><div class="card-name">Whitaker And Partners</div><div class="card-url">whitaker-and-partners.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

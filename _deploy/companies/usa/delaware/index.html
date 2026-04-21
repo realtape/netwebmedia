@@ -1,100 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Delaware (DE) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Delaware — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 47 businesses in Delaware.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Delaware <span style="opacity:.6;font-size:24px">(DE)</span></h1>
-    <p>Corporate law, banking, chemicals, beach tourism</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Delaware</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="tourism">🏔️ Tourism &amp; Hospitality (8)</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="law_firms" data-search="jackson coleman law firm wilmington" href="jackson-coleman-law-firm.html"><div class="name">Jackson Coleman Law Firm</div><div class="where">Wilmington</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="martinez montgomery attorneys dover" href="martinez-montgomery-attorneys.html"><div class="name">Martinez Montgomery Attorneys</div><div class="where">Dover</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="harrison &amp; associates newark" href="harrison-and-associates.html"><div class="name">Harrison &amp; Associates</div><div class="where">Newark</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="morgan &amp; co., attorneys at law wilmington" href="morgan-and-co-attorneys-at-law.html"><div class="name">Morgan &amp; Co., Attorneys at Law</div><div class="where">Wilmington</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="harrison attorneys dover" href="harrison-attorneys.html"><div class="name">Harrison Attorneys</div><div class="where">Dover</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="coleman law newark" href="coleman-law.html"><div class="name">Coleman Law</div><div class="where">Newark</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="williams kensington &amp; co., attorneys at law wilmington" href="williams-kensington-and-co-attorneys-at-law.html"><div class="name">Williams Kensington &amp; Co., Attorneys at Law</div><div class="where">Wilmington</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="kensington &amp; partners dover" href="kensington-and-partners.html"><div class="name">Kensington &amp; Partners</div><div class="where">Dover</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="real_estate" data-search="heritage realty partners wilmington" href="heritage-realty-partners.html"><div class="name">Heritage Realty Partners</div><div class="where">Wilmington</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="skyline realty co. dover" href="skyline-realty-co.html"><div class="name">Skyline Realty Co.</div><div class="where">Dover</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="signature home team newark" href="signature-home-team.html"><div class="name">Signature Home Team</div><div class="where">Newark</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="beacon real estate group wilmington" href="beacon-real-estate-group.html"><div class="name">Beacon Real Estate Group</div><div class="where">Wilmington</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="martin legacy estates dover" href="martin-legacy-estates.html"><div class="name">Martin Legacy Estates</div><div class="where">Dover</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="coastal realty group newark" href="coastal-realty-group.html"><div class="name">Coastal Realty Group</div><div class="where">Newark</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="heritage realty wilmington" href="heritage-realty.html"><div class="name">Heritage Realty</div><div class="where">Wilmington</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="prestige home team dover" href="prestige-home-team.html"><div class="name">Prestige Home Team</div><div class="where">Dover</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="tourism" data-search="eagle getaway wilmington" href="eagle-getaway.html"><div class="name">Eagle Getaway</div><div class="where">Wilmington</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="heritage hideaway dover" href="heritage-hideaway.html"><div class="name">Heritage Hideaway</div><div class="where">Dover</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="wildwood bed &amp; breakfast newark" href="wildwood-bed-and-breakfast.html"><div class="name">Wildwood Bed &amp; Breakfast</div><div class="where">Newark</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="redwood suites wilmington" href="redwood-suites.html"><div class="name">Redwood Suites</div><div class="where">Wilmington</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="cypress hideaway dover" href="cypress-hideaway.html"><div class="name">Cypress Hideaway</div><div class="where">Dover</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="heritage suites newark" href="heritage-suites.html"><div class="name">Heritage Suites</div><div class="where">Newark</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="wildwood lodge wilmington" href="wildwood-lodge.html"><div class="name">Wildwood Lodge</div><div class="where">Wilmington</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="coastal villas dover" href="coastal-villas.html"><div class="name">Coastal Villas</div><div class="where">Dover</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="health" data-search="flores grandview physical therapy wilmington" href="flores-grandview-physical-therapy.html"><div class="name">Flores Grandview Physical Therapy</div><div class="where">Wilmington</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="valley chiropractic dover" href="valley-chiropractic.html"><div class="name">Valley Chiropractic</div><div class="where">Dover</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="hillside dermatology newark" href="hillside-dermatology.html"><div class="name">Hillside Dermatology</div><div class="where">Newark</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="crestview health partners wilmington" href="crestview-health-partners.html"><div class="name">Crestview Health Partners</div><div class="where">Wilmington</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="king lakeshore clinic dover" href="king-lakeshore-clinic.html"><div class="name">King Lakeshore Clinic</div><div class="where">Dover</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="southpoint pediatrics newark" href="southpoint-pediatrics.html"><div class="name">Southpoint Pediatrics</div><div class="where">Newark</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="rodriguez northgate dermatology wilmington" href="rodriguez-northgate-dermatology.html"><div class="name">Rodriguez Northgate Dermatology</div><div class="where">Wilmington</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="valley health partners dover" href="valley-health-partners.html"><div class="name">Valley Health Partners</div><div class="where">Dover</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="restaurants" data-search="olive table wilmington" href="olive-table.html"><div class="name">Olive Table</div><div class="where">Wilmington</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="iron skillet cafe dover" href="iron-skillet-cafe.html"><div class="name">Iron Skillet Cafe</div><div class="where">Dover</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="harvest roadhouse newark" href="harvest-roadhouse.html"><div class="name">Harvest Roadhouse</div><div class="where">Newark</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="red barn eatery wilmington" href="red-barn-eatery.html"><div class="name">Red Barn Eatery</div><div class="where">Wilmington</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="wagon eatery dover" href="wagon-eatery.html"><div class="name">Wagon Eatery</div><div class="where">Dover</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="pine table newark" href="pine-table.html"><div class="name">Pine Table</div><div class="where">Newark</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="oak eatery wilmington" href="oak-eatery.html"><div class="name">Oak Eatery</div><div class="where">Wilmington</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="iron skillet cafe dover" href="iron-skillet-cafe.html"><div class="name">Iron Skillet Cafe</div><div class="where">Dover</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="smb" data-search="cornerstone signs wilmington" href="cornerstone-signs.html"><div class="name">Cornerstone Signs</div><div class="where">Wilmington</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="hilltop workshop dover" href="hilltop-workshop.html"><div class="name">Hilltop Workshop</div><div class="where">Dover</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="parkside mercantile newark" href="parkside-mercantile.html"><div class="name">Parkside Mercantile</div><div class="where">Newark</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="southside services wilmington" href="southside-services.html"><div class="name">Southside Services</div><div class="where">Wilmington</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="southside provisions dover" href="southside-provisions.html"><div class="name">Southside Provisions</div><div class="where">Dover</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="ironwood trading co. newark" href="ironwood-trading-co.html"><div class="name">Ironwood Trading Co.</div><div class="where">Newark</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="redleaf hardware wilmington" href="redleaf-hardware.html"><div class="name">Redleaf Hardware</div><div class="where">Wilmington</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="oakwood provisions dover" href="oakwood-provisions.html"><div class="name">Oakwood Provisions</div><div class="where">Dover</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Delaware</h1>
+<p class="sub">47 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./beacon-real-estate-group.html"><div class="card-name">Beacon Real Estate Group</div><div class="card-url">beacon-real-estate-group.html</div></a>
+    <a class="card" href="./coastal-realty-group.html"><div class="card-name">Coastal Realty Group</div><div class="card-url">coastal-realty-group.html</div></a>
+    <a class="card" href="./coastal-villas.html"><div class="card-name">Coastal Villas</div><div class="card-url">coastal-villas.html</div></a>
+    <a class="card" href="./coleman-law.html"><div class="card-name">Coleman Law</div><div class="card-url">coleman-law.html</div></a>
+    <a class="card" href="./cornerstone-signs.html"><div class="card-name">Cornerstone Signs</div><div class="card-url">cornerstone-signs.html</div></a>
+    <a class="card" href="./crestview-health-partners.html"><div class="card-name">Crestview Health Partners</div><div class="card-url">crestview-health-partners.html</div></a>
+    <a class="card" href="./cypress-hideaway.html"><div class="card-name">Cypress Hideaway</div><div class="card-url">cypress-hideaway.html</div></a>
+    <a class="card" href="./eagle-getaway.html"><div class="card-name">Eagle Getaway</div><div class="card-url">eagle-getaway.html</div></a>
+    <a class="card" href="./flores-grandview-physical-therapy.html"><div class="card-name">Flores Grandview Physical Therapy</div><div class="card-url">flores-grandview-physical-therapy.html</div></a>
+    <a class="card" href="./harrison-and-associates.html"><div class="card-name">Harrison And Associates</div><div class="card-url">harrison-and-associates.html</div></a>
+    <a class="card" href="./harrison-attorneys.html"><div class="card-name">Harrison Attorneys</div><div class="card-url">harrison-attorneys.html</div></a>
+    <a class="card" href="./harvest-roadhouse.html"><div class="card-name">Harvest Roadhouse</div><div class="card-url">harvest-roadhouse.html</div></a>
+    <a class="card" href="./heritage-hideaway.html"><div class="card-name">Heritage Hideaway</div><div class="card-url">heritage-hideaway.html</div></a>
+    <a class="card" href="./heritage-realty-partners.html"><div class="card-name">Heritage Realty Partners</div><div class="card-url">heritage-realty-partners.html</div></a>
+    <a class="card" href="./heritage-realty.html"><div class="card-name">Heritage Realty</div><div class="card-url">heritage-realty.html</div></a>
+    <a class="card" href="./heritage-suites.html"><div class="card-name">Heritage Suites</div><div class="card-url">heritage-suites.html</div></a>
+    <a class="card" href="./hillside-dermatology.html"><div class="card-name">Hillside Dermatology</div><div class="card-url">hillside-dermatology.html</div></a>
+    <a class="card" href="./hilltop-workshop.html"><div class="card-name">Hilltop Workshop</div><div class="card-url">hilltop-workshop.html</div></a>
+    <a class="card" href="./iron-skillet-cafe.html"><div class="card-name">Iron Skillet Cafe</div><div class="card-url">iron-skillet-cafe.html</div></a>
+    <a class="card" href="./ironwood-trading-co.html"><div class="card-name">Ironwood Trading Co</div><div class="card-url">ironwood-trading-co.html</div></a>
+    <a class="card" href="./jackson-coleman-law-firm.html"><div class="card-name">Jackson Coleman Law Firm</div><div class="card-url">jackson-coleman-law-firm.html</div></a>
+    <a class="card" href="./kensington-and-partners.html"><div class="card-name">Kensington And Partners</div><div class="card-url">kensington-and-partners.html</div></a>
+    <a class="card" href="./king-lakeshore-clinic.html"><div class="card-name">King Lakeshore Clinic</div><div class="card-url">king-lakeshore-clinic.html</div></a>
+    <a class="card" href="./martin-legacy-estates.html"><div class="card-name">Martin Legacy Estates</div><div class="card-url">martin-legacy-estates.html</div></a>
+    <a class="card" href="./martinez-montgomery-attorneys.html"><div class="card-name">Martinez Montgomery Attorneys</div><div class="card-url">martinez-montgomery-attorneys.html</div></a>
+    <a class="card" href="./morgan-and-co-attorneys-at-law.html"><div class="card-name">Morgan And Co Attorneys At Law</div><div class="card-url">morgan-and-co-attorneys-at-law.html</div></a>
+    <a class="card" href="./oak-eatery.html"><div class="card-name">Oak Eatery</div><div class="card-url">oak-eatery.html</div></a>
+    <a class="card" href="./oakwood-provisions.html"><div class="card-name">Oakwood Provisions</div><div class="card-url">oakwood-provisions.html</div></a>
+    <a class="card" href="./olive-table.html"><div class="card-name">Olive Table</div><div class="card-url">olive-table.html</div></a>
+    <a class="card" href="./parkside-mercantile.html"><div class="card-name">Parkside Mercantile</div><div class="card-url">parkside-mercantile.html</div></a>
+    <a class="card" href="./pine-table.html"><div class="card-name">Pine Table</div><div class="card-url">pine-table.html</div></a>
+    <a class="card" href="./prestige-home-team.html"><div class="card-name">Prestige Home Team</div><div class="card-url">prestige-home-team.html</div></a>
+    <a class="card" href="./red-barn-eatery.html"><div class="card-name">Red Barn Eatery</div><div class="card-url">red-barn-eatery.html</div></a>
+    <a class="card" href="./redleaf-hardware.html"><div class="card-name">Redleaf Hardware</div><div class="card-url">redleaf-hardware.html</div></a>
+    <a class="card" href="./redwood-suites.html"><div class="card-name">Redwood Suites</div><div class="card-url">redwood-suites.html</div></a>
+    <a class="card" href="./rodriguez-northgate-dermatology.html"><div class="card-name">Rodriguez Northgate Dermatology</div><div class="card-url">rodriguez-northgate-dermatology.html</div></a>
+    <a class="card" href="./signature-home-team.html"><div class="card-name">Signature Home Team</div><div class="card-url">signature-home-team.html</div></a>
+    <a class="card" href="./skyline-realty-co.html"><div class="card-name">Skyline Realty Co</div><div class="card-url">skyline-realty-co.html</div></a>
+    <a class="card" href="./southpoint-pediatrics.html"><div class="card-name">Southpoint Pediatrics</div><div class="card-url">southpoint-pediatrics.html</div></a>
+    <a class="card" href="./southside-provisions.html"><div class="card-name">Southside Provisions</div><div class="card-url">southside-provisions.html</div></a>
+    <a class="card" href="./southside-services.html"><div class="card-name">Southside Services</div><div class="card-url">southside-services.html</div></a>
+    <a class="card" href="./valley-chiropractic.html"><div class="card-name">Valley Chiropractic</div><div class="card-url">valley-chiropractic.html</div></a>
+    <a class="card" href="./valley-health-partners.html"><div class="card-name">Valley Health Partners</div><div class="card-url">valley-health-partners.html</div></a>
+    <a class="card" href="./wagon-eatery.html"><div class="card-name">Wagon Eatery</div><div class="card-url">wagon-eatery.html</div></a>
+    <a class="card" href="./wildwood-bed-and-breakfast.html"><div class="card-name">Wildwood Bed And Breakfast</div><div class="card-url">wildwood-bed-and-breakfast.html</div></a>
+    <a class="card" href="./wildwood-lodge.html"><div class="card-name">Wildwood Lodge</div><div class="card-url">wildwood-lodge.html</div></a>
+    <a class="card" href="./williams-kensington-and-co-attorneys-at-law.html"><div class="card-name">Williams Kensington And Co Attorneys At Law</div><div class="card-url">williams-kensington-and-co-attorneys-at-law.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

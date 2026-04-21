@@ -1,100 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arizona (AZ) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Arizona — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 48 businesses in Arizona.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Arizona <span style="opacity:.6;font-size:24px">(AZ)</span></h1>
-    <p>Tech (Phoenix), tourism (Grand Canyon/Sedona), retirees, real estate</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Arizona</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="tourism">🏔️ Tourism &amp; Hospitality (8)</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="beauty">💅 Beauty &amp; Wellness (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="real_estate" data-search="signature realty co. phoenix" href="signature-realty-co.html"><div class="name">Signature Realty Co.</div><div class="where">Phoenix</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="green keystone realty partners tucson" href="green-keystone-realty-partners.html"><div class="name">Green Keystone Realty Partners</div><div class="where">Tucson</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="premier estates scottsdale" href="premier-estates.html"><div class="name">Premier Estates</div><div class="where">Scottsdale</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="wilson pinnacle homes phoenix" href="wilson-pinnacle-homes.html"><div class="name">Wilson Pinnacle Homes</div><div class="where">Phoenix</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="ridge property partners tucson" href="ridge-property-partners.html"><div class="name">Ridge Property Partners</div><div class="where">Tucson</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="gonzalez legacy realty group scottsdale" href="gonzalez-legacy-realty-group.html"><div class="name">Gonzalez Legacy Realty Group</div><div class="where">Scottsdale</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="beacon real estate group phoenix" href="beacon-real-estate-group.html"><div class="name">Beacon Real Estate Group</div><div class="where">Phoenix</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="keystone real estate tucson" href="keystone-real-estate.html"><div class="name">Keystone Real Estate</div><div class="where">Tucson</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="tourism" data-search="wildwood getaway phoenix" href="wildwood-getaway.html"><div class="name">Wildwood Getaway</div><div class="where">Phoenix</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="summit ranch tucson" href="summit-ranch.html"><div class="name">Summit Ranch</div><div class="where">Tucson</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="aspen ranch scottsdale" href="aspen-ranch.html"><div class="name">Aspen Ranch</div><div class="where">Scottsdale</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="pine ridge retreat phoenix" href="pine-ridge-retreat.html"><div class="name">Pine Ridge Retreat</div><div class="where">Phoenix</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="pine ridge getaway tucson" href="pine-ridge-getaway.html"><div class="name">Pine Ridge Getaway</div><div class="where">Tucson</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="lakeview lodge scottsdale" href="lakeview-lodge.html"><div class="name">Lakeview Lodge</div><div class="where">Scottsdale</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="sunset getaway phoenix" href="sunset-getaway.html"><div class="name">Sunset Getaway</div><div class="where">Phoenix</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="sunrise outfitters tucson" href="sunrise-outfitters.html"><div class="name">Sunrise Outfitters</div><div class="where">Tucson</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="health" data-search="hillside dermatology phoenix" href="hillside-dermatology.html"><div class="name">Hillside Dermatology</div><div class="where">Phoenix</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="grandview smiles dental tucson" href="grandview-smiles-dental.html"><div class="name">Grandview Smiles Dental</div><div class="where">Tucson</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="northgate health partners scottsdale" href="northgate-health-partners.html"><div class="name">Northgate Health Partners</div><div class="where">Scottsdale</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="prairie urgent care phoenix" href="prairie-urgent-care.html"><div class="name">Prairie Urgent Care</div><div class="where">Phoenix</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="southpoint medical group tucson" href="southpoint-medical-group.html"><div class="name">Southpoint Medical Group</div><div class="where">Tucson</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="anderson grandview physical therapy scottsdale" href="anderson-grandview-physical-therapy.html"><div class="name">Anderson Grandview Physical Therapy</div><div class="where">Scottsdale</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="ramirez valley dental phoenix" href="ramirez-valley-dental.html"><div class="name">Ramirez Valley Dental</div><div class="where">Phoenix</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="grandview chiropractic tucson" href="grandview-chiropractic.html"><div class="name">Grandview Chiropractic</div><div class="where">Tucson</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="restaurants" data-search="pine cafe phoenix" href="pine-cafe.html"><div class="name">Pine Cafe</div><div class="where">Phoenix</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="market table tucson" href="market-table.html"><div class="name">Market Table</div><div class="where">Tucson</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="stonefire grill scottsdale" href="stonefire-grill.html"><div class="name">Stonefire Grill</div><div class="where">Scottsdale</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="pepper eatery phoenix" href="pepper-eatery.html"><div class="name">Pepper Eatery</div><div class="where">Phoenix</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="stonefire kitchen tucson" href="stonefire-kitchen.html"><div class="name">Stonefire Kitchen</div><div class="where">Tucson</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="red barn alehouse scottsdale" href="red-barn-alehouse.html"><div class="name">Red Barn Alehouse</div><div class="where">Scottsdale</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="golden steakhouse phoenix" href="golden-steakhouse.html"><div class="name">Golden Steakhouse</div><div class="where">Phoenix</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="citrus smokehouse tucson" href="citrus-smokehouse.html"><div class="name">Citrus Smokehouse</div><div class="where">Tucson</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="law_firms" data-search="morgan &amp; partners phoenix" href="morgan-and-partners.html"><div class="name">Morgan &amp; Partners</div><div class="where">Phoenix</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="hernandez harrison attorneys tucson" href="hernandez-harrison-attorneys.html"><div class="name">Hernandez Harrison Attorneys</div><div class="where">Tucson</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="green hawthorne law group scottsdale" href="green-hawthorne-law-group.html"><div class="name">Green Hawthorne Law Group</div><div class="where">Scottsdale</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="o&#x27;connor legal phoenix" href="oconnor-legal.html"><div class="name">O&#x27;Connor Legal</div><div class="where">Phoenix</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="baker pierce &amp; associates tucson" href="baker-pierce-and-associates.html"><div class="name">Baker Pierce &amp; Associates</div><div class="where">Tucson</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="hawthorne law scottsdale" href="hawthorne-law.html"><div class="name">Hawthorne Law</div><div class="where">Scottsdale</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="morgan law group phoenix" href="morgan-law-group.html"><div class="name">Morgan Law Group</div><div class="where">Phoenix</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="kensington &amp; co., attorneys at law tucson" href="kensington-and-co-attorneys-at-law.html"><div class="name">Kensington &amp; Co., Attorneys at Law</div><div class="where">Tucson</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="beauty" data-search="pearl nails phoenix" href="pearl-nails.html"><div class="name">Pearl Nails</div><div class="where">Phoenix</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="muse spa tucson" href="muse-spa.html"><div class="name">Muse Spa</div><div class="where">Tucson</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="noir aesthetics scottsdale" href="noir-aesthetics.html"><div class="name">Noir Aesthetics</div><div class="where">Scottsdale</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="sage hair lounge phoenix" href="sage-hair-lounge.html"><div class="name">Sage Hair Lounge</div><div class="where">Phoenix</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="polished wellness tucson" href="polished-wellness.html"><div class="name">Polished Wellness</div><div class="where">Tucson</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="orchid wellness scottsdale" href="orchid-wellness.html"><div class="name">Orchid Wellness</div><div class="where">Scottsdale</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="pearl hair lounge phoenix" href="pearl-hair-lounge.html"><div class="name">Pearl Hair Lounge</div><div class="where">Phoenix</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="ivory boutique tucson" href="ivory-boutique.html"><div class="name">Ivory Boutique</div><div class="where">Tucson</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Arizona</h1>
+<p class="sub">48 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./anderson-grandview-physical-therapy.html"><div class="card-name">Anderson Grandview Physical Therapy</div><div class="card-url">anderson-grandview-physical-therapy.html</div></a>
+    <a class="card" href="./aspen-ranch.html"><div class="card-name">Aspen Ranch</div><div class="card-url">aspen-ranch.html</div></a>
+    <a class="card" href="./baker-pierce-and-associates.html"><div class="card-name">Baker Pierce And Associates</div><div class="card-url">baker-pierce-and-associates.html</div></a>
+    <a class="card" href="./beacon-real-estate-group.html"><div class="card-name">Beacon Real Estate Group</div><div class="card-url">beacon-real-estate-group.html</div></a>
+    <a class="card" href="./citrus-smokehouse.html"><div class="card-name">Citrus Smokehouse</div><div class="card-url">citrus-smokehouse.html</div></a>
+    <a class="card" href="./golden-steakhouse.html"><div class="card-name">Golden Steakhouse</div><div class="card-url">golden-steakhouse.html</div></a>
+    <a class="card" href="./gonzalez-legacy-realty-group.html"><div class="card-name">Gonzalez Legacy Realty Group</div><div class="card-url">gonzalez-legacy-realty-group.html</div></a>
+    <a class="card" href="./grandview-chiropractic.html"><div class="card-name">Grandview Chiropractic</div><div class="card-url">grandview-chiropractic.html</div></a>
+    <a class="card" href="./grandview-smiles-dental.html"><div class="card-name">Grandview Smiles Dental</div><div class="card-url">grandview-smiles-dental.html</div></a>
+    <a class="card" href="./green-hawthorne-law-group.html"><div class="card-name">Green Hawthorne Law Group</div><div class="card-url">green-hawthorne-law-group.html</div></a>
+    <a class="card" href="./green-keystone-realty-partners.html"><div class="card-name">Green Keystone Realty Partners</div><div class="card-url">green-keystone-realty-partners.html</div></a>
+    <a class="card" href="./hawthorne-law.html"><div class="card-name">Hawthorne Law</div><div class="card-url">hawthorne-law.html</div></a>
+    <a class="card" href="./hernandez-harrison-attorneys.html"><div class="card-name">Hernandez Harrison Attorneys</div><div class="card-url">hernandez-harrison-attorneys.html</div></a>
+    <a class="card" href="./hillside-dermatology.html"><div class="card-name">Hillside Dermatology</div><div class="card-url">hillside-dermatology.html</div></a>
+    <a class="card" href="./ivory-boutique.html"><div class="card-name">Ivory Boutique</div><div class="card-url">ivory-boutique.html</div></a>
+    <a class="card" href="./kensington-and-co-attorneys-at-law.html"><div class="card-name">Kensington And Co Attorneys At Law</div><div class="card-url">kensington-and-co-attorneys-at-law.html</div></a>
+    <a class="card" href="./keystone-real-estate.html"><div class="card-name">Keystone Real Estate</div><div class="card-url">keystone-real-estate.html</div></a>
+    <a class="card" href="./lakeview-lodge.html"><div class="card-name">Lakeview Lodge</div><div class="card-url">lakeview-lodge.html</div></a>
+    <a class="card" href="./market-table.html"><div class="card-name">Market Table</div><div class="card-url">market-table.html</div></a>
+    <a class="card" href="./morgan-and-partners.html"><div class="card-name">Morgan And Partners</div><div class="card-url">morgan-and-partners.html</div></a>
+    <a class="card" href="./morgan-law-group.html"><div class="card-name">Morgan Law Group</div><div class="card-url">morgan-law-group.html</div></a>
+    <a class="card" href="./muse-spa.html"><div class="card-name">Muse Spa</div><div class="card-url">muse-spa.html</div></a>
+    <a class="card" href="./noir-aesthetics.html"><div class="card-name">Noir Aesthetics</div><div class="card-url">noir-aesthetics.html</div></a>
+    <a class="card" href="./northgate-health-partners.html"><div class="card-name">Northgate Health Partners</div><div class="card-url">northgate-health-partners.html</div></a>
+    <a class="card" href="./oconnor-legal.html"><div class="card-name">Oconnor Legal</div><div class="card-url">oconnor-legal.html</div></a>
+    <a class="card" href="./orchid-wellness.html"><div class="card-name">Orchid Wellness</div><div class="card-url">orchid-wellness.html</div></a>
+    <a class="card" href="./pearl-hair-lounge.html"><div class="card-name">Pearl Hair Lounge</div><div class="card-url">pearl-hair-lounge.html</div></a>
+    <a class="card" href="./pearl-nails.html"><div class="card-name">Pearl Nails</div><div class="card-url">pearl-nails.html</div></a>
+    <a class="card" href="./pepper-eatery.html"><div class="card-name">Pepper Eatery</div><div class="card-url">pepper-eatery.html</div></a>
+    <a class="card" href="./pine-cafe.html"><div class="card-name">Pine Cafe</div><div class="card-url">pine-cafe.html</div></a>
+    <a class="card" href="./pine-ridge-getaway.html"><div class="card-name">Pine Ridge Getaway</div><div class="card-url">pine-ridge-getaway.html</div></a>
+    <a class="card" href="./pine-ridge-retreat.html"><div class="card-name">Pine Ridge Retreat</div><div class="card-url">pine-ridge-retreat.html</div></a>
+    <a class="card" href="./polished-wellness.html"><div class="card-name">Polished Wellness</div><div class="card-url">polished-wellness.html</div></a>
+    <a class="card" href="./prairie-urgent-care.html"><div class="card-name">Prairie Urgent Care</div><div class="card-url">prairie-urgent-care.html</div></a>
+    <a class="card" href="./premier-estates.html"><div class="card-name">Premier Estates</div><div class="card-url">premier-estates.html</div></a>
+    <a class="card" href="./ramirez-valley-dental.html"><div class="card-name">Ramirez Valley Dental</div><div class="card-url">ramirez-valley-dental.html</div></a>
+    <a class="card" href="./red-barn-alehouse.html"><div class="card-name">Red Barn Alehouse</div><div class="card-url">red-barn-alehouse.html</div></a>
+    <a class="card" href="./ridge-property-partners.html"><div class="card-name">Ridge Property Partners</div><div class="card-url">ridge-property-partners.html</div></a>
+    <a class="card" href="./sage-hair-lounge.html"><div class="card-name">Sage Hair Lounge</div><div class="card-url">sage-hair-lounge.html</div></a>
+    <a class="card" href="./signature-realty-co.html"><div class="card-name">Signature Realty Co</div><div class="card-url">signature-realty-co.html</div></a>
+    <a class="card" href="./southpoint-medical-group.html"><div class="card-name">Southpoint Medical Group</div><div class="card-url">southpoint-medical-group.html</div></a>
+    <a class="card" href="./stonefire-grill.html"><div class="card-name">Stonefire Grill</div><div class="card-url">stonefire-grill.html</div></a>
+    <a class="card" href="./stonefire-kitchen.html"><div class="card-name">Stonefire Kitchen</div><div class="card-url">stonefire-kitchen.html</div></a>
+    <a class="card" href="./summit-ranch.html"><div class="card-name">Summit Ranch</div><div class="card-url">summit-ranch.html</div></a>
+    <a class="card" href="./sunrise-outfitters.html"><div class="card-name">Sunrise Outfitters</div><div class="card-url">sunrise-outfitters.html</div></a>
+    <a class="card" href="./sunset-getaway.html"><div class="card-name">Sunset Getaway</div><div class="card-url">sunset-getaway.html</div></a>
+    <a class="card" href="./wildwood-getaway.html"><div class="card-name">Wildwood Getaway</div><div class="card-url">wildwood-getaway.html</div></a>
+    <a class="card" href="./wilson-pinnacle-homes.html"><div class="card-name">Wilson Pinnacle Homes</div><div class="card-url">wilson-pinnacle-homes.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

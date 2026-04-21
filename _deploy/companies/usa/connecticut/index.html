@@ -1,100 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Connecticut (CT) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Connecticut — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 48 businesses in Connecticut.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Connecticut <span style="opacity:.6;font-size:24px">(CT)</span></h1>
-    <p>Insurance, finance, pharma, education</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Connecticut</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="beauty">💅 Beauty &amp; Wellness (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="law_firms" data-search="smith pierce &amp; partners hartford" href="smith-pierce-and-partners.html"><div class="name">Smith Pierce &amp; Partners</div><div class="where">Hartford</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="brennan &amp; associates new haven" href="brennan-and-associates.html"><div class="name">Brennan &amp; Associates</div><div class="where">New Haven</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="perez brennan law office stamford" href="perez-brennan-law-office.html"><div class="name">Perez Brennan Law Office</div><div class="where">Stamford</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="morgan &amp; partners hartford" href="morgan-and-partners.html"><div class="name">Morgan &amp; Partners</div><div class="where">Hartford</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="kensington law firm new haven" href="kensington-law-firm.html"><div class="name">Kensington Law Firm</div><div class="where">New Haven</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="lee harrison legal stamford" href="lee-harrison-legal.html"><div class="name">Lee Harrison Legal</div><div class="where">Stamford</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="lee pierce attorneys hartford" href="lee-pierce-attorneys.html"><div class="name">Lee Pierce Attorneys</div><div class="where">Hartford</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="kensington law office new haven" href="kensington-law-office.html"><div class="name">Kensington Law Office</div><div class="where">New Haven</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="real_estate" data-search="martinez landmark homes hartford" href="martinez-landmark-homes.html"><div class="name">Martinez Landmark Homes</div><div class="where">Hartford</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="skyline realty group new haven" href="skyline-realty-group.html"><div class="name">Skyline Realty Group</div><div class="where">New Haven</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="lakefront realty partners stamford" href="lakefront-realty-partners.html"><div class="name">Lakefront Realty Partners</div><div class="where">Stamford</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="legacy realty co. hartford" href="legacy-realty-co.html"><div class="name">Legacy Realty Co.</div><div class="where">Hartford</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="jackson keystone homes new haven" href="jackson-keystone-homes.html"><div class="name">Jackson Keystone Homes</div><div class="where">New Haven</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="coastal realty partners stamford" href="coastal-realty-partners.html"><div class="name">Coastal Realty Partners</div><div class="where">Stamford</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="hill legacy property partners hartford" href="hill-legacy-property-partners.html"><div class="name">Hill Legacy Property Partners</div><div class="where">Hartford</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="skyline estates new haven" href="skyline-estates.html"><div class="name">Skyline Estates</div><div class="where">New Haven</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="health" data-search="prairie dental hartford" href="prairie-dental.html"><div class="name">Prairie Dental</div><div class="where">Hartford</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="summit orthodontics new haven" href="summit-orthodontics.html"><div class="name">Summit Orthodontics</div><div class="where">New Haven</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="taylor mercy dental stamford" href="taylor-mercy-dental.html"><div class="name">Taylor Mercy Dental</div><div class="where">Stamford</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="northgate family medicine hartford" href="northgate-family-medicine.html"><div class="name">Northgate Family Medicine</div><div class="where">Hartford</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="northgate wellness new haven" href="northgate-wellness.html"><div class="name">Northgate Wellness</div><div class="where">New Haven</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="taylor mercy orthodontics stamford" href="taylor-mercy-orthodontics.html"><div class="name">Taylor Mercy Orthodontics</div><div class="where">Stamford</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="martin riverside chiropractic hartford" href="martin-riverside-chiropractic.html"><div class="name">Martin Riverside Chiropractic</div><div class="where">Hartford</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="bayside wellness new haven" href="bayside-wellness.html"><div class="name">Bayside Wellness</div><div class="where">New Haven</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="restaurants" data-search="golden pizzeria hartford" href="golden-pizzeria.html"><div class="name">Golden Pizzeria</div><div class="where">Hartford</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="pine roadhouse new haven" href="pine-roadhouse.html"><div class="name">Pine Roadhouse</div><div class="where">New Haven</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="sage diner stamford" href="sage-diner.html"><div class="name">Sage Diner</div><div class="where">Stamford</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="stonefire pizzeria hartford" href="stonefire-pizzeria.html"><div class="name">Stonefire Pizzeria</div><div class="where">Hartford</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="rustic smokehouse new haven" href="rustic-smokehouse.html"><div class="name">Rustic Smokehouse</div><div class="where">New Haven</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="maple smokehouse stamford" href="maple-smokehouse.html"><div class="name">Maple Smokehouse</div><div class="where">Stamford</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="harvest brasserie hartford" href="harvest-brasserie.html"><div class="name">Harvest Brasserie</div><div class="where">Hartford</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="golden kitchen new haven" href="golden-kitchen.html"><div class="name">Golden Kitchen</div><div class="where">New Haven</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="smb" data-search="redleaf bookkeeping hartford" href="redleaf-bookkeeping.html"><div class="name">Redleaf Bookkeeping</div><div class="where">Hartford</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="millbrook trading co. new haven" href="millbrook-trading-co.html"><div class="name">Millbrook Trading Co.</div><div class="where">New Haven</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="cornerstone studio stamford" href="cornerstone-studio.html"><div class="name">Cornerstone Studio</div><div class="where">Stamford</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="hilltop trading co. hartford" href="hilltop-trading-co.html"><div class="name">Hilltop Trading Co.</div><div class="where">Hartford</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="millbrook supply co. new haven" href="millbrook-supply-co.html"><div class="name">Millbrook Supply Co.</div><div class="where">New Haven</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="bluebird mercantile stamford" href="bluebird-mercantile.html"><div class="name">Bluebird Mercantile</div><div class="where">Stamford</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="northside signs hartford" href="northside-signs.html"><div class="name">Northside Signs</div><div class="where">Hartford</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="ironwood trading co. new haven" href="ironwood-trading-co.html"><div class="name">Ironwood Trading Co.</div><div class="where">New Haven</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="beauty" data-search="serenity salon hartford" href="serenity-salon.html"><div class="name">Serenity Salon</div><div class="where">Hartford</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="muse barber co. new haven" href="muse-barber-co.html"><div class="name">Muse Barber Co.</div><div class="where">New Haven</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="polished boutique stamford" href="polished-boutique.html"><div class="name">Polished Boutique</div><div class="where">Stamford</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="noir aesthetics hartford" href="noir-aesthetics.html"><div class="name">Noir Aesthetics</div><div class="where">Hartford</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="amber med spa new haven" href="amber-med-spa.html"><div class="name">Amber Med Spa</div><div class="where">New Haven</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="velvet spa stamford" href="velvet-spa.html"><div class="name">Velvet Spa</div><div class="where">Stamford</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="willow nails hartford" href="willow-nails.html"><div class="name">Willow Nails</div><div class="where">Hartford</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="velvet barber co. new haven" href="velvet-barber-co.html"><div class="name">Velvet Barber Co.</div><div class="where">New Haven</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Connecticut</h1>
+<p class="sub">48 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./amber-med-spa.html"><div class="card-name">Amber Med Spa</div><div class="card-url">amber-med-spa.html</div></a>
+    <a class="card" href="./bayside-wellness.html"><div class="card-name">Bayside Wellness</div><div class="card-url">bayside-wellness.html</div></a>
+    <a class="card" href="./bluebird-mercantile.html"><div class="card-name">Bluebird Mercantile</div><div class="card-url">bluebird-mercantile.html</div></a>
+    <a class="card" href="./brennan-and-associates.html"><div class="card-name">Brennan And Associates</div><div class="card-url">brennan-and-associates.html</div></a>
+    <a class="card" href="./coastal-realty-partners.html"><div class="card-name">Coastal Realty Partners</div><div class="card-url">coastal-realty-partners.html</div></a>
+    <a class="card" href="./cornerstone-studio.html"><div class="card-name">Cornerstone Studio</div><div class="card-url">cornerstone-studio.html</div></a>
+    <a class="card" href="./golden-kitchen.html"><div class="card-name">Golden Kitchen</div><div class="card-url">golden-kitchen.html</div></a>
+    <a class="card" href="./golden-pizzeria.html"><div class="card-name">Golden Pizzeria</div><div class="card-url">golden-pizzeria.html</div></a>
+    <a class="card" href="./harvest-brasserie.html"><div class="card-name">Harvest Brasserie</div><div class="card-url">harvest-brasserie.html</div></a>
+    <a class="card" href="./hill-legacy-property-partners.html"><div class="card-name">Hill Legacy Property Partners</div><div class="card-url">hill-legacy-property-partners.html</div></a>
+    <a class="card" href="./hilltop-trading-co.html"><div class="card-name">Hilltop Trading Co</div><div class="card-url">hilltop-trading-co.html</div></a>
+    <a class="card" href="./ironwood-trading-co.html"><div class="card-name">Ironwood Trading Co</div><div class="card-url">ironwood-trading-co.html</div></a>
+    <a class="card" href="./jackson-keystone-homes.html"><div class="card-name">Jackson Keystone Homes</div><div class="card-url">jackson-keystone-homes.html</div></a>
+    <a class="card" href="./kensington-law-firm.html"><div class="card-name">Kensington Law Firm</div><div class="card-url">kensington-law-firm.html</div></a>
+    <a class="card" href="./kensington-law-office.html"><div class="card-name">Kensington Law Office</div><div class="card-url">kensington-law-office.html</div></a>
+    <a class="card" href="./lakefront-realty-partners.html"><div class="card-name">Lakefront Realty Partners</div><div class="card-url">lakefront-realty-partners.html</div></a>
+    <a class="card" href="./lee-harrison-legal.html"><div class="card-name">Lee Harrison Legal</div><div class="card-url">lee-harrison-legal.html</div></a>
+    <a class="card" href="./lee-pierce-attorneys.html"><div class="card-name">Lee Pierce Attorneys</div><div class="card-url">lee-pierce-attorneys.html</div></a>
+    <a class="card" href="./legacy-realty-co.html"><div class="card-name">Legacy Realty Co</div><div class="card-url">legacy-realty-co.html</div></a>
+    <a class="card" href="./maple-smokehouse.html"><div class="card-name">Maple Smokehouse</div><div class="card-url">maple-smokehouse.html</div></a>
+    <a class="card" href="./martin-riverside-chiropractic.html"><div class="card-name">Martin Riverside Chiropractic</div><div class="card-url">martin-riverside-chiropractic.html</div></a>
+    <a class="card" href="./martinez-landmark-homes.html"><div class="card-name">Martinez Landmark Homes</div><div class="card-url">martinez-landmark-homes.html</div></a>
+    <a class="card" href="./millbrook-supply-co.html"><div class="card-name">Millbrook Supply Co</div><div class="card-url">millbrook-supply-co.html</div></a>
+    <a class="card" href="./millbrook-trading-co.html"><div class="card-name">Millbrook Trading Co</div><div class="card-url">millbrook-trading-co.html</div></a>
+    <a class="card" href="./morgan-and-partners.html"><div class="card-name">Morgan And Partners</div><div class="card-url">morgan-and-partners.html</div></a>
+    <a class="card" href="./muse-barber-co.html"><div class="card-name">Muse Barber Co</div><div class="card-url">muse-barber-co.html</div></a>
+    <a class="card" href="./noir-aesthetics.html"><div class="card-name">Noir Aesthetics</div><div class="card-url">noir-aesthetics.html</div></a>
+    <a class="card" href="./northgate-family-medicine.html"><div class="card-name">Northgate Family Medicine</div><div class="card-url">northgate-family-medicine.html</div></a>
+    <a class="card" href="./northgate-wellness.html"><div class="card-name">Northgate Wellness</div><div class="card-url">northgate-wellness.html</div></a>
+    <a class="card" href="./northside-signs.html"><div class="card-name">Northside Signs</div><div class="card-url">northside-signs.html</div></a>
+    <a class="card" href="./perez-brennan-law-office.html"><div class="card-name">Perez Brennan Law Office</div><div class="card-url">perez-brennan-law-office.html</div></a>
+    <a class="card" href="./pine-roadhouse.html"><div class="card-name">Pine Roadhouse</div><div class="card-url">pine-roadhouse.html</div></a>
+    <a class="card" href="./polished-boutique.html"><div class="card-name">Polished Boutique</div><div class="card-url">polished-boutique.html</div></a>
+    <a class="card" href="./prairie-dental.html"><div class="card-name">Prairie Dental</div><div class="card-url">prairie-dental.html</div></a>
+    <a class="card" href="./redleaf-bookkeeping.html"><div class="card-name">Redleaf Bookkeeping</div><div class="card-url">redleaf-bookkeeping.html</div></a>
+    <a class="card" href="./rustic-smokehouse.html"><div class="card-name">Rustic Smokehouse</div><div class="card-url">rustic-smokehouse.html</div></a>
+    <a class="card" href="./sage-diner.html"><div class="card-name">Sage Diner</div><div class="card-url">sage-diner.html</div></a>
+    <a class="card" href="./serenity-salon.html"><div class="card-name">Serenity Salon</div><div class="card-url">serenity-salon.html</div></a>
+    <a class="card" href="./skyline-estates.html"><div class="card-name">Skyline Estates</div><div class="card-url">skyline-estates.html</div></a>
+    <a class="card" href="./skyline-realty-group.html"><div class="card-name">Skyline Realty Group</div><div class="card-url">skyline-realty-group.html</div></a>
+    <a class="card" href="./smith-pierce-and-partners.html"><div class="card-name">Smith Pierce And Partners</div><div class="card-url">smith-pierce-and-partners.html</div></a>
+    <a class="card" href="./stonefire-pizzeria.html"><div class="card-name">Stonefire Pizzeria</div><div class="card-url">stonefire-pizzeria.html</div></a>
+    <a class="card" href="./summit-orthodontics.html"><div class="card-name">Summit Orthodontics</div><div class="card-url">summit-orthodontics.html</div></a>
+    <a class="card" href="./taylor-mercy-dental.html"><div class="card-name">Taylor Mercy Dental</div><div class="card-url">taylor-mercy-dental.html</div></a>
+    <a class="card" href="./taylor-mercy-orthodontics.html"><div class="card-name">Taylor Mercy Orthodontics</div><div class="card-url">taylor-mercy-orthodontics.html</div></a>
+    <a class="card" href="./velvet-barber-co.html"><div class="card-name">Velvet Barber Co</div><div class="card-url">velvet-barber-co.html</div></a>
+    <a class="card" href="./velvet-spa.html"><div class="card-name">Velvet Spa</div><div class="card-url">velvet-spa.html</div></a>
+    <a class="card" href="./willow-nails.html"><div class="card-name">Willow Nails</div><div class="card-url">willow-nails.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

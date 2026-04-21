@@ -1,100 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wyoming (WY) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Wyoming — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 48 businesses in Wyoming.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Wyoming <span style="opacity:.6;font-size:24px">(WY)</span></h1>
-    <p>Coal/natural gas, tourism (Yellowstone/Grand Teton), ranching</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Wyoming</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="tourism">🏔️ Tourism &amp; Hospitality (8)</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span><span class="filter" data-n="local_specialist">🔧 Local Specialist Services (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="tourism" data-search="sunrise bed &amp; breakfast cheyenne" href="sunrise-bed-and-breakfast.html"><div class="name">Sunrise Bed &amp; Breakfast</div><div class="where">Cheyenne</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="silver outfitters casper" href="silver-outfitters.html"><div class="name">Silver Outfitters</div><div class="where">Casper</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="sunset hideaway jackson" href="sunset-hideaway.html"><div class="name">Sunset Hideaway</div><div class="where">Jackson</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="aspen cabins cheyenne" href="aspen-cabins.html"><div class="name">Aspen Cabins</div><div class="where">Cheyenne</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="redwood lodge casper" href="redwood-lodge.html"><div class="name">Redwood Lodge</div><div class="where">Casper</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="pine ridge getaway jackson" href="pine-ridge-getaway.html"><div class="name">Pine Ridge Getaway</div><div class="where">Jackson</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="crystal lodge cheyenne" href="crystal-lodge.html"><div class="name">Crystal Lodge</div><div class="where">Cheyenne</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="stonebridge inn casper" href="stonebridge-inn.html"><div class="name">Stonebridge Inn</div><div class="where">Casper</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="local_specialist" data-search="elite electric cheyenne" href="elite-electric.html"><div class="name">Elite Electric</div><div class="where">Cheyenne</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="all-pro handyman casper" href="all-pro-handyman.html"><div class="name">All-Pro Handyman</div><div class="where">Casper</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="redline roofing jackson" href="redline-roofing.html"><div class="name">Redline Roofing</div><div class="where">Jackson</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="guardian garage doors cheyenne" href="guardian-garage-doors.html"><div class="name">Guardian Garage Doors</div><div class="where">Cheyenne</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="adams blue line landscaping casper" href="adams-blue-line-landscaping.html"><div class="name">Adams Blue Line Landscaping</div><div class="where">Casper</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="redline electric jackson" href="redline-electric.html"><div class="name">Redline Electric</div><div class="where">Jackson</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="thompson aaa plumbing cheyenne" href="thompson-aaa-plumbing.html"><div class="name">Thompson AAA Plumbing</div><div class="where">Cheyenne</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="handy handyman casper" href="handy-handyman.html"><div class="name">Handy Handyman</div><div class="where">Casper</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="smb" data-search="main street hardware cheyenne" href="main-street-hardware.html"><div class="name">Main Street Hardware</div><div class="where">Cheyenne</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="riverstone workshop casper" href="riverstone-workshop.html"><div class="name">Riverstone Workshop</div><div class="where">Casper</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="parkside services jackson" href="parkside-services.html"><div class="name">Parkside Services</div><div class="where">Jackson</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="hilltop workshop cheyenne" href="hilltop-workshop.html"><div class="name">Hilltop Workshop</div><div class="where">Cheyenne</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="southside provisions casper" href="southside-provisions.html"><div class="name">Southside Provisions</div><div class="where">Casper</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="copper creek hardware jackson" href="copper-creek-hardware.html"><div class="name">Copper Creek Hardware</div><div class="where">Jackson</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="copper creek workshop cheyenne" href="copper-creek-workshop.html"><div class="name">Copper Creek Workshop</div><div class="where">Cheyenne</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="heritage outfitters casper" href="heritage-outfitters.html"><div class="name">Heritage Outfitters</div><div class="where">Casper</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="restaurants" data-search="citrus grill cheyenne" href="citrus-grill.html"><div class="name">Citrus Grill</div><div class="where">Cheyenne</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="hickory cafe casper" href="hickory-cafe.html"><div class="name">Hickory Cafe</div><div class="where">Casper</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="wagon roadhouse jackson" href="wagon-roadhouse.html"><div class="name">Wagon Roadhouse</div><div class="where">Jackson</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="citrus pizzeria cheyenne" href="citrus-pizzeria.html"><div class="name">Citrus Pizzeria</div><div class="where">Cheyenne</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="blue door smokehouse casper" href="blue-door-smokehouse.html"><div class="name">Blue Door Smokehouse</div><div class="where">Casper</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="birch alehouse jackson" href="birch-alehouse.html"><div class="name">Birch Alehouse</div><div class="where">Jackson</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="olive pizzeria cheyenne" href="olive-pizzeria.html"><div class="name">Olive Pizzeria</div><div class="where">Cheyenne</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="silver steakhouse casper" href="silver-steakhouse.html"><div class="name">Silver Steakhouse</div><div class="where">Casper</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="real_estate" data-search="ridge homes cheyenne" href="ridge-homes.html"><div class="name">Ridge Homes</div><div class="where">Cheyenne</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="urban real estate group casper" href="urban-real-estate-group.html"><div class="name">Urban Real Estate Group</div><div class="where">Casper</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="ridge property partners jackson" href="ridge-property-partners.html"><div class="name">Ridge Property Partners</div><div class="where">Jackson</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="premier properties cheyenne" href="premier-properties.html"><div class="name">Premier Properties</div><div class="where">Cheyenne</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="keystone home team casper" href="keystone-home-team.html"><div class="name">Keystone Home Team</div><div class="where">Casper</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="hernandez premier realty partners jackson" href="hernandez-premier-realty-partners.html"><div class="name">Hernandez Premier Realty Partners</div><div class="where">Jackson</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="baker legacy real estate cheyenne" href="baker-legacy-real-estate.html"><div class="name">Baker Legacy Real Estate</div><div class="where">Cheyenne</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="skyline realty partners casper" href="skyline-realty-partners.html"><div class="name">Skyline Realty Partners</div><div class="where">Casper</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="health" data-search="southpoint urgent care cheyenne" href="southpoint-urgent-care.html"><div class="name">Southpoint Urgent Care</div><div class="where">Cheyenne</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="taylor hillside health partners casper" href="taylor-hillside-health-partners.html"><div class="name">Taylor Hillside Health Partners</div><div class="where">Casper</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="northgate pediatrics jackson" href="northgate-pediatrics.html"><div class="name">Northgate Pediatrics</div><div class="where">Jackson</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="pinewood wellness cheyenne" href="pinewood-wellness.html"><div class="name">Pinewood Wellness</div><div class="where">Cheyenne</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="bayside chiropractic casper" href="bayside-chiropractic.html"><div class="name">Bayside Chiropractic</div><div class="where">Casper</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="grandview dental jackson" href="grandview-dental.html"><div class="name">Grandview Dental</div><div class="where">Jackson</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="summit med spa cheyenne" href="summit-med-spa.html"><div class="name">Summit Med Spa</div><div class="where">Cheyenne</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="heritage clinic casper" href="heritage-clinic.html"><div class="name">Heritage Clinic</div><div class="where">Casper</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Wyoming</h1>
+<p class="sub">48 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./adams-blue-line-landscaping.html"><div class="card-name">Adams Blue Line Landscaping</div><div class="card-url">adams-blue-line-landscaping.html</div></a>
+    <a class="card" href="./all-pro-handyman.html"><div class="card-name">All Pro Handyman</div><div class="card-url">all-pro-handyman.html</div></a>
+    <a class="card" href="./aspen-cabins.html"><div class="card-name">Aspen Cabins</div><div class="card-url">aspen-cabins.html</div></a>
+    <a class="card" href="./baker-legacy-real-estate.html"><div class="card-name">Baker Legacy Real Estate</div><div class="card-url">baker-legacy-real-estate.html</div></a>
+    <a class="card" href="./bayside-chiropractic.html"><div class="card-name">Bayside Chiropractic</div><div class="card-url">bayside-chiropractic.html</div></a>
+    <a class="card" href="./birch-alehouse.html"><div class="card-name">Birch Alehouse</div><div class="card-url">birch-alehouse.html</div></a>
+    <a class="card" href="./blue-door-smokehouse.html"><div class="card-name">Blue Door Smokehouse</div><div class="card-url">blue-door-smokehouse.html</div></a>
+    <a class="card" href="./citrus-grill.html"><div class="card-name">Citrus Grill</div><div class="card-url">citrus-grill.html</div></a>
+    <a class="card" href="./citrus-pizzeria.html"><div class="card-name">Citrus Pizzeria</div><div class="card-url">citrus-pizzeria.html</div></a>
+    <a class="card" href="./copper-creek-hardware.html"><div class="card-name">Copper Creek Hardware</div><div class="card-url">copper-creek-hardware.html</div></a>
+    <a class="card" href="./copper-creek-workshop.html"><div class="card-name">Copper Creek Workshop</div><div class="card-url">copper-creek-workshop.html</div></a>
+    <a class="card" href="./crystal-lodge.html"><div class="card-name">Crystal Lodge</div><div class="card-url">crystal-lodge.html</div></a>
+    <a class="card" href="./elite-electric.html"><div class="card-name">Elite Electric</div><div class="card-url">elite-electric.html</div></a>
+    <a class="card" href="./grandview-dental.html"><div class="card-name">Grandview Dental</div><div class="card-url">grandview-dental.html</div></a>
+    <a class="card" href="./guardian-garage-doors.html"><div class="card-name">Guardian Garage Doors</div><div class="card-url">guardian-garage-doors.html</div></a>
+    <a class="card" href="./handy-handyman.html"><div class="card-name">Handy Handyman</div><div class="card-url">handy-handyman.html</div></a>
+    <a class="card" href="./heritage-clinic.html"><div class="card-name">Heritage Clinic</div><div class="card-url">heritage-clinic.html</div></a>
+    <a class="card" href="./heritage-outfitters.html"><div class="card-name">Heritage Outfitters</div><div class="card-url">heritage-outfitters.html</div></a>
+    <a class="card" href="./hernandez-premier-realty-partners.html"><div class="card-name">Hernandez Premier Realty Partners</div><div class="card-url">hernandez-premier-realty-partners.html</div></a>
+    <a class="card" href="./hickory-cafe.html"><div class="card-name">Hickory Cafe</div><div class="card-url">hickory-cafe.html</div></a>
+    <a class="card" href="./hilltop-workshop.html"><div class="card-name">Hilltop Workshop</div><div class="card-url">hilltop-workshop.html</div></a>
+    <a class="card" href="./keystone-home-team.html"><div class="card-name">Keystone Home Team</div><div class="card-url">keystone-home-team.html</div></a>
+    <a class="card" href="./main-street-hardware.html"><div class="card-name">Main Street Hardware</div><div class="card-url">main-street-hardware.html</div></a>
+    <a class="card" href="./northgate-pediatrics.html"><div class="card-name">Northgate Pediatrics</div><div class="card-url">northgate-pediatrics.html</div></a>
+    <a class="card" href="./olive-pizzeria.html"><div class="card-name">Olive Pizzeria</div><div class="card-url">olive-pizzeria.html</div></a>
+    <a class="card" href="./parkside-services.html"><div class="card-name">Parkside Services</div><div class="card-url">parkside-services.html</div></a>
+    <a class="card" href="./pine-ridge-getaway.html"><div class="card-name">Pine Ridge Getaway</div><div class="card-url">pine-ridge-getaway.html</div></a>
+    <a class="card" href="./pinewood-wellness.html"><div class="card-name">Pinewood Wellness</div><div class="card-url">pinewood-wellness.html</div></a>
+    <a class="card" href="./premier-properties.html"><div class="card-name">Premier Properties</div><div class="card-url">premier-properties.html</div></a>
+    <a class="card" href="./redline-electric.html"><div class="card-name">Redline Electric</div><div class="card-url">redline-electric.html</div></a>
+    <a class="card" href="./redline-roofing.html"><div class="card-name">Redline Roofing</div><div class="card-url">redline-roofing.html</div></a>
+    <a class="card" href="./redwood-lodge.html"><div class="card-name">Redwood Lodge</div><div class="card-url">redwood-lodge.html</div></a>
+    <a class="card" href="./ridge-homes.html"><div class="card-name">Ridge Homes</div><div class="card-url">ridge-homes.html</div></a>
+    <a class="card" href="./ridge-property-partners.html"><div class="card-name">Ridge Property Partners</div><div class="card-url">ridge-property-partners.html</div></a>
+    <a class="card" href="./riverstone-workshop.html"><div class="card-name">Riverstone Workshop</div><div class="card-url">riverstone-workshop.html</div></a>
+    <a class="card" href="./silver-outfitters.html"><div class="card-name">Silver Outfitters</div><div class="card-url">silver-outfitters.html</div></a>
+    <a class="card" href="./silver-steakhouse.html"><div class="card-name">Silver Steakhouse</div><div class="card-url">silver-steakhouse.html</div></a>
+    <a class="card" href="./skyline-realty-partners.html"><div class="card-name">Skyline Realty Partners</div><div class="card-url">skyline-realty-partners.html</div></a>
+    <a class="card" href="./southpoint-urgent-care.html"><div class="card-name">Southpoint Urgent Care</div><div class="card-url">southpoint-urgent-care.html</div></a>
+    <a class="card" href="./southside-provisions.html"><div class="card-name">Southside Provisions</div><div class="card-url">southside-provisions.html</div></a>
+    <a class="card" href="./stonebridge-inn.html"><div class="card-name">Stonebridge Inn</div><div class="card-url">stonebridge-inn.html</div></a>
+    <a class="card" href="./summit-med-spa.html"><div class="card-name">Summit Med Spa</div><div class="card-url">summit-med-spa.html</div></a>
+    <a class="card" href="./sunrise-bed-and-breakfast.html"><div class="card-name">Sunrise Bed And Breakfast</div><div class="card-url">sunrise-bed-and-breakfast.html</div></a>
+    <a class="card" href="./sunset-hideaway.html"><div class="card-name">Sunset Hideaway</div><div class="card-url">sunset-hideaway.html</div></a>
+    <a class="card" href="./taylor-hillside-health-partners.html"><div class="card-name">Taylor Hillside Health Partners</div><div class="card-url">taylor-hillside-health-partners.html</div></a>
+    <a class="card" href="./thompson-aaa-plumbing.html"><div class="card-name">Thompson Aaa Plumbing</div><div class="card-url">thompson-aaa-plumbing.html</div></a>
+    <a class="card" href="./urban-real-estate-group.html"><div class="card-name">Urban Real Estate Group</div><div class="card-url">urban-real-estate-group.html</div></a>
+    <a class="card" href="./wagon-roadhouse.html"><div class="card-name">Wagon Roadhouse</div><div class="card-url">wagon-roadhouse.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

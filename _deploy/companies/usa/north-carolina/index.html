@@ -1,100 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>North Carolina (NC) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>North Carolina — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 48 businesses in North Carolina.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>North Carolina <span style="opacity:.6;font-size:24px">(NC)</span></h1>
-    <p>Banking (Charlotte), tech (RDU), tobacco, furniture</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in North Carolina</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="beauty">💅 Beauty &amp; Wellness (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="real_estate" data-search="landmark property partners charlotte" href="landmark-property-partners.html"><div class="name">Landmark Property Partners</div><div class="where">Charlotte</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="harris summit home team raleigh" href="harris-summit-home-team.html"><div class="name">Harris Summit Home Team</div><div class="where">Raleigh</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="lakefront realty co. greensboro" href="lakefront-realty-co.html"><div class="name">Lakefront Realty Co.</div><div class="where">Greensboro</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="coastal real estate charlotte" href="coastal-real-estate.html"><div class="name">Coastal Real Estate</div><div class="where">Charlotte</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="skyline real estate raleigh" href="skyline-real-estate.html"><div class="name">Skyline Real Estate</div><div class="where">Raleigh</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="king golden gate realty group greensboro" href="king-golden-gate-realty-group.html"><div class="name">King Golden Gate Realty Group</div><div class="where">Greensboro</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="coastal home team charlotte" href="coastal-home-team.html"><div class="name">Coastal Home Team</div><div class="where">Charlotte</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="taylor skyline real estate group raleigh" href="taylor-skyline-real-estate-group.html"><div class="name">Taylor Skyline Real Estate Group</div><div class="where">Raleigh</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="health" data-search="mercy dermatology charlotte" href="mercy-dermatology.html"><div class="name">Mercy Dermatology</div><div class="where">Charlotte</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="southpoint family medicine raleigh" href="southpoint-family-medicine.html"><div class="name">Southpoint Family Medicine</div><div class="where">Raleigh</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="westbrook dermatology greensboro" href="westbrook-dermatology.html"><div class="name">Westbrook Dermatology</div><div class="where">Greensboro</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="harris prairie orthodontics charlotte" href="harris-prairie-orthodontics.html"><div class="name">Harris Prairie Orthodontics</div><div class="where">Charlotte</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="heritage clinic raleigh" href="heritage-clinic.html"><div class="name">Heritage Clinic</div><div class="where">Raleigh</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="prairie smiles dental greensboro" href="prairie-smiles-dental.html"><div class="name">Prairie Smiles Dental</div><div class="where">Greensboro</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="evergreen physical therapy charlotte" href="evergreen-physical-therapy.html"><div class="name">Evergreen Physical Therapy</div><div class="where">Charlotte</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="riverside family medicine raleigh" href="riverside-family-medicine.html"><div class="name">Riverside Family Medicine</div><div class="where">Raleigh</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="restaurants" data-search="olive steakhouse charlotte" href="olive-steakhouse.html"><div class="name">Olive Steakhouse</div><div class="where">Charlotte</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="tavern bistro raleigh" href="tavern-bistro.html"><div class="name">Tavern Bistro</div><div class="where">Raleigh</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="iron skillet alehouse greensboro" href="iron-skillet-alehouse.html"><div class="name">Iron Skillet Alehouse</div><div class="where">Greensboro</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="citrus grill charlotte" href="citrus-grill.html"><div class="name">Citrus Grill</div><div class="where">Charlotte</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="red barn roadhouse raleigh" href="red-barn-roadhouse.html"><div class="name">Red Barn Roadhouse</div><div class="where">Raleigh</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="silver steakhouse greensboro" href="silver-steakhouse.html"><div class="name">Silver Steakhouse</div><div class="where">Greensboro</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="mesa steakhouse charlotte" href="mesa-steakhouse.html"><div class="name">Mesa Steakhouse</div><div class="where">Charlotte</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="red barn steakhouse raleigh" href="red-barn-steakhouse.html"><div class="name">Red Barn Steakhouse</div><div class="where">Raleigh</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="law_firms" data-search="ashford law group charlotte" href="ashford-law-group.html"><div class="name">Ashford Law Group</div><div class="where">Charlotte</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="mitchell morgan law firm raleigh" href="mitchell-morgan-law-firm.html"><div class="name">Mitchell Morgan Law Firm</div><div class="where">Raleigh</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="coleman attorneys greensboro" href="coleman-attorneys.html"><div class="name">Coleman Attorneys</div><div class="where">Greensboro</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="robinson rutherford legal services charlotte" href="robinson-rutherford-legal-services.html"><div class="name">Robinson Rutherford Legal Services</div><div class="where">Charlotte</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="brown sinclair legal services raleigh" href="brown-sinclair-legal-services.html"><div class="name">Brown Sinclair Legal Services</div><div class="where">Raleigh</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="lee montgomery &amp; partners greensboro" href="lee-montgomery-and-partners.html"><div class="name">Lee Montgomery &amp; Partners</div><div class="where">Greensboro</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="smith hawthorne &amp; co., attorneys at law charlotte" href="smith-hawthorne-and-co-attorneys-at-law.html"><div class="name">Smith Hawthorne &amp; Co., Attorneys at Law</div><div class="where">Charlotte</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="sullivan &amp; co., attorneys at law raleigh" href="sullivan-and-co-attorneys-at-law.html"><div class="name">Sullivan &amp; Co., Attorneys at Law</div><div class="where">Raleigh</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="beauty" data-search="noir lash lounge charlotte" href="noir-lash-lounge.html"><div class="name">Noir Lash Lounge</div><div class="where">Charlotte</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="serenity hair lounge raleigh" href="serenity-hair-lounge.html"><div class="name">Serenity Hair Lounge</div><div class="where">Raleigh</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="velvet lash lounge greensboro" href="velvet-lash-lounge.html"><div class="name">Velvet Lash Lounge</div><div class="where">Greensboro</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="essence salon charlotte" href="essence-salon.html"><div class="name">Essence Salon</div><div class="where">Charlotte</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="willow salon raleigh" href="willow-salon.html"><div class="name">Willow Salon</div><div class="where">Raleigh</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="sage barber co. greensboro" href="sage-barber-co.html"><div class="name">Sage Barber Co.</div><div class="where">Greensboro</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="orchid boutique charlotte" href="orchid-boutique.html"><div class="name">Orchid Boutique</div><div class="where">Charlotte</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="opal aesthetics raleigh" href="opal-aesthetics.html"><div class="name">Opal Aesthetics</div><div class="where">Raleigh</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="smb" data-search="oakwood services charlotte" href="oakwood-services.html"><div class="name">Oakwood Services</div><div class="where">Charlotte</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="main street depot raleigh" href="main-street-depot.html"><div class="name">Main Street Depot</div><div class="where">Raleigh</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="copper creek workshop greensboro" href="copper-creek-workshop.html"><div class="name">Copper Creek Workshop</div><div class="where">Greensboro</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="redleaf print shop charlotte" href="redleaf-print-shop.html"><div class="name">Redleaf Print Shop</div><div class="where">Charlotte</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="main street solutions raleigh" href="main-street-solutions.html"><div class="name">Main Street Solutions</div><div class="where">Raleigh</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="brookside bookkeeping greensboro" href="brookside-bookkeeping.html"><div class="name">Brookside Bookkeeping</div><div class="where">Greensboro</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="heritage services charlotte" href="heritage-services.html"><div class="name">Heritage Services</div><div class="where">Charlotte</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="greenway depot raleigh" href="greenway-depot.html"><div class="name">Greenway Depot</div><div class="where">Raleigh</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>North Carolina</h1>
+<p class="sub">48 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./ashford-law-group.html"><div class="card-name">Ashford Law Group</div><div class="card-url">ashford-law-group.html</div></a>
+    <a class="card" href="./brookside-bookkeeping.html"><div class="card-name">Brookside Bookkeeping</div><div class="card-url">brookside-bookkeeping.html</div></a>
+    <a class="card" href="./brown-sinclair-legal-services.html"><div class="card-name">Brown Sinclair Legal Services</div><div class="card-url">brown-sinclair-legal-services.html</div></a>
+    <a class="card" href="./citrus-grill.html"><div class="card-name">Citrus Grill</div><div class="card-url">citrus-grill.html</div></a>
+    <a class="card" href="./coastal-home-team.html"><div class="card-name">Coastal Home Team</div><div class="card-url">coastal-home-team.html</div></a>
+    <a class="card" href="./coastal-real-estate.html"><div class="card-name">Coastal Real Estate</div><div class="card-url">coastal-real-estate.html</div></a>
+    <a class="card" href="./coleman-attorneys.html"><div class="card-name">Coleman Attorneys</div><div class="card-url">coleman-attorneys.html</div></a>
+    <a class="card" href="./copper-creek-workshop.html"><div class="card-name">Copper Creek Workshop</div><div class="card-url">copper-creek-workshop.html</div></a>
+    <a class="card" href="./essence-salon.html"><div class="card-name">Essence Salon</div><div class="card-url">essence-salon.html</div></a>
+    <a class="card" href="./evergreen-physical-therapy.html"><div class="card-name">Evergreen Physical Therapy</div><div class="card-url">evergreen-physical-therapy.html</div></a>
+    <a class="card" href="./greenway-depot.html"><div class="card-name">Greenway Depot</div><div class="card-url">greenway-depot.html</div></a>
+    <a class="card" href="./harris-prairie-orthodontics.html"><div class="card-name">Harris Prairie Orthodontics</div><div class="card-url">harris-prairie-orthodontics.html</div></a>
+    <a class="card" href="./harris-summit-home-team.html"><div class="card-name">Harris Summit Home Team</div><div class="card-url">harris-summit-home-team.html</div></a>
+    <a class="card" href="./heritage-clinic.html"><div class="card-name">Heritage Clinic</div><div class="card-url">heritage-clinic.html</div></a>
+    <a class="card" href="./heritage-services.html"><div class="card-name">Heritage Services</div><div class="card-url">heritage-services.html</div></a>
+    <a class="card" href="./iron-skillet-alehouse.html"><div class="card-name">Iron Skillet Alehouse</div><div class="card-url">iron-skillet-alehouse.html</div></a>
+    <a class="card" href="./king-golden-gate-realty-group.html"><div class="card-name">King Golden Gate Realty Group</div><div class="card-url">king-golden-gate-realty-group.html</div></a>
+    <a class="card" href="./lakefront-realty-co.html"><div class="card-name">Lakefront Realty Co</div><div class="card-url">lakefront-realty-co.html</div></a>
+    <a class="card" href="./landmark-property-partners.html"><div class="card-name">Landmark Property Partners</div><div class="card-url">landmark-property-partners.html</div></a>
+    <a class="card" href="./lee-montgomery-and-partners.html"><div class="card-name">Lee Montgomery And Partners</div><div class="card-url">lee-montgomery-and-partners.html</div></a>
+    <a class="card" href="./main-street-depot.html"><div class="card-name">Main Street Depot</div><div class="card-url">main-street-depot.html</div></a>
+    <a class="card" href="./main-street-solutions.html"><div class="card-name">Main Street Solutions</div><div class="card-url">main-street-solutions.html</div></a>
+    <a class="card" href="./mercy-dermatology.html"><div class="card-name">Mercy Dermatology</div><div class="card-url">mercy-dermatology.html</div></a>
+    <a class="card" href="./mesa-steakhouse.html"><div class="card-name">Mesa Steakhouse</div><div class="card-url">mesa-steakhouse.html</div></a>
+    <a class="card" href="./mitchell-morgan-law-firm.html"><div class="card-name">Mitchell Morgan Law Firm</div><div class="card-url">mitchell-morgan-law-firm.html</div></a>
+    <a class="card" href="./noir-lash-lounge.html"><div class="card-name">Noir Lash Lounge</div><div class="card-url">noir-lash-lounge.html</div></a>
+    <a class="card" href="./oakwood-services.html"><div class="card-name">Oakwood Services</div><div class="card-url">oakwood-services.html</div></a>
+    <a class="card" href="./olive-steakhouse.html"><div class="card-name">Olive Steakhouse</div><div class="card-url">olive-steakhouse.html</div></a>
+    <a class="card" href="./opal-aesthetics.html"><div class="card-name">Opal Aesthetics</div><div class="card-url">opal-aesthetics.html</div></a>
+    <a class="card" href="./orchid-boutique.html"><div class="card-name">Orchid Boutique</div><div class="card-url">orchid-boutique.html</div></a>
+    <a class="card" href="./prairie-smiles-dental.html"><div class="card-name">Prairie Smiles Dental</div><div class="card-url">prairie-smiles-dental.html</div></a>
+    <a class="card" href="./red-barn-roadhouse.html"><div class="card-name">Red Barn Roadhouse</div><div class="card-url">red-barn-roadhouse.html</div></a>
+    <a class="card" href="./red-barn-steakhouse.html"><div class="card-name">Red Barn Steakhouse</div><div class="card-url">red-barn-steakhouse.html</div></a>
+    <a class="card" href="./redleaf-print-shop.html"><div class="card-name">Redleaf Print Shop</div><div class="card-url">redleaf-print-shop.html</div></a>
+    <a class="card" href="./riverside-family-medicine.html"><div class="card-name">Riverside Family Medicine</div><div class="card-url">riverside-family-medicine.html</div></a>
+    <a class="card" href="./robinson-rutherford-legal-services.html"><div class="card-name">Robinson Rutherford Legal Services</div><div class="card-url">robinson-rutherford-legal-services.html</div></a>
+    <a class="card" href="./sage-barber-co.html"><div class="card-name">Sage Barber Co</div><div class="card-url">sage-barber-co.html</div></a>
+    <a class="card" href="./serenity-hair-lounge.html"><div class="card-name">Serenity Hair Lounge</div><div class="card-url">serenity-hair-lounge.html</div></a>
+    <a class="card" href="./silver-steakhouse.html"><div class="card-name">Silver Steakhouse</div><div class="card-url">silver-steakhouse.html</div></a>
+    <a class="card" href="./skyline-real-estate.html"><div class="card-name">Skyline Real Estate</div><div class="card-url">skyline-real-estate.html</div></a>
+    <a class="card" href="./smith-hawthorne-and-co-attorneys-at-law.html"><div class="card-name">Smith Hawthorne And Co Attorneys At Law</div><div class="card-url">smith-hawthorne-and-co-attorneys-at-law.html</div></a>
+    <a class="card" href="./southpoint-family-medicine.html"><div class="card-name">Southpoint Family Medicine</div><div class="card-url">southpoint-family-medicine.html</div></a>
+    <a class="card" href="./sullivan-and-co-attorneys-at-law.html"><div class="card-name">Sullivan And Co Attorneys At Law</div><div class="card-url">sullivan-and-co-attorneys-at-law.html</div></a>
+    <a class="card" href="./tavern-bistro.html"><div class="card-name">Tavern Bistro</div><div class="card-url">tavern-bistro.html</div></a>
+    <a class="card" href="./taylor-skyline-real-estate-group.html"><div class="card-name">Taylor Skyline Real Estate Group</div><div class="card-url">taylor-skyline-real-estate-group.html</div></a>
+    <a class="card" href="./velvet-lash-lounge.html"><div class="card-name">Velvet Lash Lounge</div><div class="card-url">velvet-lash-lounge.html</div></a>
+    <a class="card" href="./westbrook-dermatology.html"><div class="card-name">Westbrook Dermatology</div><div class="card-url">westbrook-dermatology.html</div></a>
+    <a class="card" href="./willow-salon.html"><div class="card-name">Willow Salon</div><div class="card-url">willow-salon.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

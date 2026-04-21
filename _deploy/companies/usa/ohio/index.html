@@ -1,100 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ohio (OH) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Ohio — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 48 businesses in Ohio.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Ohio <span style="opacity:.6;font-size:24px">(OH)</span></h1>
-    <p>Auto manufacturing, healthcare (Cleveland Clinic), logistics</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Ohio</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span><span class="filter" data-n="local_specialist">🔧 Local Specialist Services (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="health" data-search="westbrook physical therapy columbus" href="westbrook-physical-therapy.html"><div class="name">Westbrook Physical Therapy</div><div class="where">Columbus</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="valley urgent care cleveland" href="valley-urgent-care.html"><div class="name">Valley Urgent Care</div><div class="where">Cleveland</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="westbrook pediatrics cincinnati" href="westbrook-pediatrics.html"><div class="name">Westbrook Pediatrics</div><div class="where">Cincinnati</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="harborview pediatrics columbus" href="harborview-pediatrics.html"><div class="name">Harborview Pediatrics</div><div class="where">Columbus</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="hillside pediatrics cleveland" href="hillside-pediatrics.html"><div class="name">Hillside Pediatrics</div><div class="where">Cleveland</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="bayside orthodontics cincinnati" href="bayside-orthodontics.html"><div class="name">Bayside Orthodontics</div><div class="where">Cincinnati</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="grandview health partners columbus" href="grandview-health-partners.html"><div class="name">Grandview Health Partners</div><div class="where">Columbus</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="ramirez hillside chiropractic cleveland" href="ramirez-hillside-chiropractic.html"><div class="name">Ramirez Hillside Chiropractic</div><div class="where">Cleveland</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="smb" data-search="bluebird bookkeeping columbus" href="bluebird-bookkeeping.html"><div class="name">Bluebird Bookkeeping</div><div class="where">Columbus</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="bluebird outfitters cleveland" href="bluebird-outfitters.html"><div class="name">Bluebird Outfitters</div><div class="where">Cleveland</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="bluebird services cincinnati" href="bluebird-services.html"><div class="name">Bluebird Services</div><div class="where">Cincinnati</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="southside hardware columbus" href="southside-hardware.html"><div class="name">Southside Hardware</div><div class="where">Columbus</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="redleaf services cleveland" href="redleaf-services.html"><div class="name">Redleaf Services</div><div class="where">Cleveland</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="copper creek depot cincinnati" href="copper-creek-depot.html"><div class="name">Copper Creek Depot</div><div class="where">Cincinnati</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="copper creek workshop columbus" href="copper-creek-workshop.html"><div class="name">Copper Creek Workshop</div><div class="where">Columbus</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="heritage provisions cleveland" href="heritage-provisions.html"><div class="name">Heritage Provisions</div><div class="where">Cleveland</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="restaurants" data-search="tavern diner columbus" href="tavern-diner.html"><div class="name">Tavern Diner</div><div class="where">Columbus</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="prairie bistro cleveland" href="prairie-bistro.html"><div class="name">Prairie Bistro</div><div class="where">Cleveland</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="golden brasserie cincinnati" href="golden-brasserie.html"><div class="name">Golden Brasserie</div><div class="where">Cincinnati</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="hickory public house columbus" href="hickory-public-house.html"><div class="name">Hickory Public House</div><div class="where">Columbus</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="blue door steakhouse cleveland" href="blue-door-steakhouse.html"><div class="name">Blue Door Steakhouse</div><div class="where">Cleveland</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="sage table cincinnati" href="sage-table.html"><div class="name">Sage Table</div><div class="where">Cincinnati</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="sage pizzeria columbus" href="sage-pizzeria.html"><div class="name">Sage Pizzeria</div><div class="where">Columbus</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="brickhouse kitchen cleveland" href="brickhouse-kitchen.html"><div class="name">Brickhouse Kitchen</div><div class="where">Cleveland</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="real_estate" data-search="ridge properties columbus" href="ridge-properties.html"><div class="name">Ridge Properties</div><div class="where">Columbus</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="summit home team cleveland" href="summit-home-team.html"><div class="name">Summit Home Team</div><div class="where">Cleveland</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="summit properties cincinnati" href="summit-properties.html"><div class="name">Summit Properties</div><div class="where">Cincinnati</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="perez metro homes columbus" href="perez-metro-homes.html"><div class="name">Perez Metro Homes</div><div class="where">Columbus</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="lakefront property partners cleveland" href="lakefront-property-partners.html"><div class="name">Lakefront Property Partners</div><div class="where">Cleveland</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="beacon real estate group cincinnati" href="beacon-real-estate-group.html"><div class="name">Beacon Real Estate Group</div><div class="where">Cincinnati</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="heritage realty co. columbus" href="heritage-realty-co.html"><div class="name">Heritage Realty Co.</div><div class="where">Columbus</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="skyline home team cleveland" href="skyline-home-team.html"><div class="name">Skyline Home Team</div><div class="where">Cleveland</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="local_specialist" data-search="swift pest control columbus" href="swift-pest-control.html"><div class="name">Swift Pest Control</div><div class="where">Columbus</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="ironclad plumbing cleveland" href="ironclad-plumbing.html"><div class="name">Ironclad Plumbing</div><div class="where">Cleveland</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="white all-pro painting cincinnati" href="white-all-pro-painting.html"><div class="name">White All-Pro Painting</div><div class="where">Cincinnati</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="swift garage doors columbus" href="swift-garage-doors.html"><div class="name">Swift Garage Doors</div><div class="where">Columbus</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="handy garage doors cleveland" href="handy-garage-doors.html"><div class="name">Handy Garage Doors</div><div class="where">Cleveland</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="robinson guardian electric cincinnati" href="robinson-guardian-electric.html"><div class="name">Robinson Guardian Electric</div><div class="where">Cincinnati</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="adams direct landscaping columbus" href="adams-direct-landscaping.html"><div class="name">Adams Direct Landscaping</div><div class="where">Columbus</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="precision heating &amp; air cleveland" href="precision-heating-and-air.html"><div class="name">Precision Heating &amp; Air</div><div class="where">Cleveland</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="law_firms" data-search="hawthorne &amp; associates columbus" href="hawthorne-and-associates.html"><div class="name">Hawthorne &amp; Associates</div><div class="where">Columbus</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="o&#x27;connor law group cleveland" href="oconnor-law-group.html"><div class="name">O&#x27;Connor Law Group</div><div class="where">Cleveland</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="montgomery &amp; co., attorneys at law cincinnati" href="montgomery-and-co-attorneys-at-law.html"><div class="name">Montgomery &amp; Co., Attorneys at Law</div><div class="where">Cincinnati</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="morgan legal services columbus" href="morgan-legal-services.html"><div class="name">Morgan Legal Services</div><div class="where">Columbus</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="hill caldwell &amp; co., attorneys at law cleveland" href="hill-caldwell-and-co-attorneys-at-law.html"><div class="name">Hill Caldwell &amp; Co., Attorneys at Law</div><div class="where">Cleveland</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="sullivan law firm cincinnati" href="sullivan-law-firm.html"><div class="name">Sullivan Law Firm</div><div class="where">Cincinnati</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="whitaker law group columbus" href="whitaker-law-group.html"><div class="name">Whitaker Law Group</div><div class="where">Columbus</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="rutherford law cleveland" href="rutherford-law.html"><div class="name">Rutherford Law</div><div class="where">Cleveland</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Ohio</h1>
+<p class="sub">48 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./adams-direct-landscaping.html"><div class="card-name">Adams Direct Landscaping</div><div class="card-url">adams-direct-landscaping.html</div></a>
+    <a class="card" href="./bayside-orthodontics.html"><div class="card-name">Bayside Orthodontics</div><div class="card-url">bayside-orthodontics.html</div></a>
+    <a class="card" href="./beacon-real-estate-group.html"><div class="card-name">Beacon Real Estate Group</div><div class="card-url">beacon-real-estate-group.html</div></a>
+    <a class="card" href="./blue-door-steakhouse.html"><div class="card-name">Blue Door Steakhouse</div><div class="card-url">blue-door-steakhouse.html</div></a>
+    <a class="card" href="./bluebird-bookkeeping.html"><div class="card-name">Bluebird Bookkeeping</div><div class="card-url">bluebird-bookkeeping.html</div></a>
+    <a class="card" href="./bluebird-outfitters.html"><div class="card-name">Bluebird Outfitters</div><div class="card-url">bluebird-outfitters.html</div></a>
+    <a class="card" href="./bluebird-services.html"><div class="card-name">Bluebird Services</div><div class="card-url">bluebird-services.html</div></a>
+    <a class="card" href="./brickhouse-kitchen.html"><div class="card-name">Brickhouse Kitchen</div><div class="card-url">brickhouse-kitchen.html</div></a>
+    <a class="card" href="./copper-creek-depot.html"><div class="card-name">Copper Creek Depot</div><div class="card-url">copper-creek-depot.html</div></a>
+    <a class="card" href="./copper-creek-workshop.html"><div class="card-name">Copper Creek Workshop</div><div class="card-url">copper-creek-workshop.html</div></a>
+    <a class="card" href="./golden-brasserie.html"><div class="card-name">Golden Brasserie</div><div class="card-url">golden-brasserie.html</div></a>
+    <a class="card" href="./grandview-health-partners.html"><div class="card-name">Grandview Health Partners</div><div class="card-url">grandview-health-partners.html</div></a>
+    <a class="card" href="./handy-garage-doors.html"><div class="card-name">Handy Garage Doors</div><div class="card-url">handy-garage-doors.html</div></a>
+    <a class="card" href="./harborview-pediatrics.html"><div class="card-name">Harborview Pediatrics</div><div class="card-url">harborview-pediatrics.html</div></a>
+    <a class="card" href="./hawthorne-and-associates.html"><div class="card-name">Hawthorne And Associates</div><div class="card-url">hawthorne-and-associates.html</div></a>
+    <a class="card" href="./heritage-provisions.html"><div class="card-name">Heritage Provisions</div><div class="card-url">heritage-provisions.html</div></a>
+    <a class="card" href="./heritage-realty-co.html"><div class="card-name">Heritage Realty Co</div><div class="card-url">heritage-realty-co.html</div></a>
+    <a class="card" href="./hickory-public-house.html"><div class="card-name">Hickory Public House</div><div class="card-url">hickory-public-house.html</div></a>
+    <a class="card" href="./hill-caldwell-and-co-attorneys-at-law.html"><div class="card-name">Hill Caldwell And Co Attorneys At Law</div><div class="card-url">hill-caldwell-and-co-attorneys-at-law.html</div></a>
+    <a class="card" href="./hillside-pediatrics.html"><div class="card-name">Hillside Pediatrics</div><div class="card-url">hillside-pediatrics.html</div></a>
+    <a class="card" href="./ironclad-plumbing.html"><div class="card-name">Ironclad Plumbing</div><div class="card-url">ironclad-plumbing.html</div></a>
+    <a class="card" href="./lakefront-property-partners.html"><div class="card-name">Lakefront Property Partners</div><div class="card-url">lakefront-property-partners.html</div></a>
+    <a class="card" href="./montgomery-and-co-attorneys-at-law.html"><div class="card-name">Montgomery And Co Attorneys At Law</div><div class="card-url">montgomery-and-co-attorneys-at-law.html</div></a>
+    <a class="card" href="./morgan-legal-services.html"><div class="card-name">Morgan Legal Services</div><div class="card-url">morgan-legal-services.html</div></a>
+    <a class="card" href="./oconnor-law-group.html"><div class="card-name">Oconnor Law Group</div><div class="card-url">oconnor-law-group.html</div></a>
+    <a class="card" href="./perez-metro-homes.html"><div class="card-name">Perez Metro Homes</div><div class="card-url">perez-metro-homes.html</div></a>
+    <a class="card" href="./prairie-bistro.html"><div class="card-name">Prairie Bistro</div><div class="card-url">prairie-bistro.html</div></a>
+    <a class="card" href="./precision-heating-and-air.html"><div class="card-name">Precision Heating And Air</div><div class="card-url">precision-heating-and-air.html</div></a>
+    <a class="card" href="./ramirez-hillside-chiropractic.html"><div class="card-name">Ramirez Hillside Chiropractic</div><div class="card-url">ramirez-hillside-chiropractic.html</div></a>
+    <a class="card" href="./redleaf-services.html"><div class="card-name">Redleaf Services</div><div class="card-url">redleaf-services.html</div></a>
+    <a class="card" href="./ridge-properties.html"><div class="card-name">Ridge Properties</div><div class="card-url">ridge-properties.html</div></a>
+    <a class="card" href="./robinson-guardian-electric.html"><div class="card-name">Robinson Guardian Electric</div><div class="card-url">robinson-guardian-electric.html</div></a>
+    <a class="card" href="./rutherford-law.html"><div class="card-name">Rutherford Law</div><div class="card-url">rutherford-law.html</div></a>
+    <a class="card" href="./sage-pizzeria.html"><div class="card-name">Sage Pizzeria</div><div class="card-url">sage-pizzeria.html</div></a>
+    <a class="card" href="./sage-table.html"><div class="card-name">Sage Table</div><div class="card-url">sage-table.html</div></a>
+    <a class="card" href="./skyline-home-team.html"><div class="card-name">Skyline Home Team</div><div class="card-url">skyline-home-team.html</div></a>
+    <a class="card" href="./southside-hardware.html"><div class="card-name">Southside Hardware</div><div class="card-url">southside-hardware.html</div></a>
+    <a class="card" href="./sullivan-law-firm.html"><div class="card-name">Sullivan Law Firm</div><div class="card-url">sullivan-law-firm.html</div></a>
+    <a class="card" href="./summit-home-team.html"><div class="card-name">Summit Home Team</div><div class="card-url">summit-home-team.html</div></a>
+    <a class="card" href="./summit-properties.html"><div class="card-name">Summit Properties</div><div class="card-url">summit-properties.html</div></a>
+    <a class="card" href="./swift-garage-doors.html"><div class="card-name">Swift Garage Doors</div><div class="card-url">swift-garage-doors.html</div></a>
+    <a class="card" href="./swift-pest-control.html"><div class="card-name">Swift Pest Control</div><div class="card-url">swift-pest-control.html</div></a>
+    <a class="card" href="./tavern-diner.html"><div class="card-name">Tavern Diner</div><div class="card-url">tavern-diner.html</div></a>
+    <a class="card" href="./valley-urgent-care.html"><div class="card-name">Valley Urgent Care</div><div class="card-url">valley-urgent-care.html</div></a>
+    <a class="card" href="./westbrook-pediatrics.html"><div class="card-name">Westbrook Pediatrics</div><div class="card-url">westbrook-pediatrics.html</div></a>
+    <a class="card" href="./westbrook-physical-therapy.html"><div class="card-name">Westbrook Physical Therapy</div><div class="card-url">westbrook-physical-therapy.html</div></a>
+    <a class="card" href="./whitaker-law-group.html"><div class="card-name">Whitaker Law Group</div><div class="card-url">whitaker-law-group.html</div></a>
+    <a class="card" href="./white-all-pro-painting.html"><div class="card-name">White All Pro Painting</div><div class="card-url">white-all-pro-painting.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

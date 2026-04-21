@@ -1,100 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pennsylvania (PA) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Pennsylvania — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 47 businesses in Pennsylvania.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Pennsylvania <span style="opacity:.6;font-size:24px">(PA)</span></h1>
-    <p>Healthcare, steel, energy (fracking), finance</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Pennsylvania</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="beauty">💅 Beauty &amp; Wellness (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="health" data-search="martinez grandview physical therapy philadelphia" href="martinez-grandview-physical-therapy.html"><div class="name">Martinez Grandview Physical Therapy</div><div class="where">Philadelphia</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="hillside health partners pittsburgh" href="hillside-health-partners.html"><div class="name">Hillside Health Partners</div><div class="where">Pittsburgh</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="ramirez riverside urgent care harrisburg" href="ramirez-riverside-urgent-care.html"><div class="name">Ramirez Riverside Urgent Care</div><div class="where">Harrisburg</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="valley urgent care philadelphia" href="valley-urgent-care.html"><div class="name">Valley Urgent Care</div><div class="where">Philadelphia</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="summit dental pittsburgh" href="summit-dental.html"><div class="name">Summit Dental</div><div class="where">Pittsburgh</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="parkview health partners harrisburg" href="parkview-health-partners.html"><div class="name">Parkview Health Partners</div><div class="where">Harrisburg</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="prairie smiles dental philadelphia" href="prairie-smiles-dental.html"><div class="name">Prairie Smiles Dental</div><div class="where">Philadelphia</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="hillside chiropractic pittsburgh" href="hillside-chiropractic.html"><div class="name">Hillside Chiropractic</div><div class="where">Pittsburgh</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="law_firms" data-search="brennan legal philadelphia" href="brennan-legal.html"><div class="name">Brennan Legal</div><div class="where">Philadelphia</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="o&#x27;connor legal pittsburgh" href="oconnor-legal.html"><div class="name">O&#x27;Connor Legal</div><div class="where">Pittsburgh</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="blackwell &amp; associates harrisburg" href="blackwell-and-associates.html"><div class="name">Blackwell &amp; Associates</div><div class="where">Harrisburg</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="roberts sullivan law firm philadelphia" href="roberts-sullivan-law-firm.html"><div class="name">Roberts Sullivan Law Firm</div><div class="where">Philadelphia</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="ashford &amp; co., attorneys at law pittsburgh" href="ashford-and-co-attorneys-at-law.html"><div class="name">Ashford &amp; Co., Attorneys at Law</div><div class="where">Pittsburgh</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="lopez whitaker law office harrisburg" href="lopez-whitaker-law-office.html"><div class="name">Lopez Whitaker Law Office</div><div class="where">Harrisburg</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="nelson brennan attorneys philadelphia" href="nelson-brennan-attorneys.html"><div class="name">Nelson Brennan Attorneys</div><div class="where">Philadelphia</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="rutherford &amp; co., attorneys at law pittsburgh" href="rutherford-and-co-attorneys-at-law.html"><div class="name">Rutherford &amp; Co., Attorneys at Law</div><div class="where">Pittsburgh</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="restaurants" data-search="copper public house philadelphia" href="copper-public-house.html"><div class="name">Copper Public House</div><div class="where">Philadelphia</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="copper public house pittsburgh" href="copper-public-house.html"><div class="name">Copper Public House</div><div class="where">Pittsburgh</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="stonefire eatery harrisburg" href="stonefire-eatery.html"><div class="name">Stonefire Eatery</div><div class="where">Harrisburg</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="cedar alehouse philadelphia" href="cedar-alehouse.html"><div class="name">Cedar Alehouse</div><div class="where">Philadelphia</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="rustic bistro pittsburgh" href="rustic-bistro.html"><div class="name">Rustic Bistro</div><div class="where">Pittsburgh</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="tavern pizzeria harrisburg" href="tavern-pizzeria.html"><div class="name">Tavern Pizzeria</div><div class="where">Harrisburg</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="oak alehouse philadelphia" href="oak-alehouse.html"><div class="name">Oak Alehouse</div><div class="where">Philadelphia</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="stonefire grill pittsburgh" href="stonefire-grill.html"><div class="name">Stonefire Grill</div><div class="where">Pittsburgh</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="real_estate" data-search="metro estates philadelphia" href="metro-estates.html"><div class="name">Metro Estates</div><div class="where">Philadelphia</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="urban real estate pittsburgh" href="urban-real-estate.html"><div class="name">Urban Real Estate</div><div class="where">Pittsburgh</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="signature homes harrisburg" href="signature-homes.html"><div class="name">Signature Homes</div><div class="where">Harrisburg</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="wilson lakefront home team philadelphia" href="wilson-lakefront-home-team.html"><div class="name">Wilson Lakefront Home Team</div><div class="where">Philadelphia</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="prestige homes pittsburgh" href="prestige-homes.html"><div class="name">Prestige Homes</div><div class="where">Pittsburgh</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="landmark home team harrisburg" href="landmark-home-team.html"><div class="name">Landmark Home Team</div><div class="where">Harrisburg</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="legacy property partners philadelphia" href="legacy-property-partners.html"><div class="name">Legacy Property Partners</div><div class="where">Philadelphia</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="coastal properties pittsburgh" href="coastal-properties.html"><div class="name">Coastal Properties</div><div class="where">Pittsburgh</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="smb" data-search="main street solutions philadelphia" href="main-street-solutions.html"><div class="name">Main Street Solutions</div><div class="where">Philadelphia</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="northside signs pittsburgh" href="northside-signs.html"><div class="name">Northside Signs</div><div class="where">Pittsburgh</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="greenway hardware harrisburg" href="greenway-hardware.html"><div class="name">Greenway Hardware</div><div class="where">Harrisburg</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="greenway studio philadelphia" href="greenway-studio.html"><div class="name">Greenway Studio</div><div class="where">Philadelphia</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="northside hardware pittsburgh" href="northside-hardware.html"><div class="name">Northside Hardware</div><div class="where">Pittsburgh</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="millbrook solutions harrisburg" href="millbrook-solutions.html"><div class="name">Millbrook Solutions</div><div class="where">Harrisburg</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="copper creek signs philadelphia" href="copper-creek-signs.html"><div class="name">Copper Creek Signs</div><div class="where">Philadelphia</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="northside services pittsburgh" href="northside-services.html"><div class="name">Northside Services</div><div class="where">Pittsburgh</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="beauty" data-search="noir barber co. philadelphia" href="noir-barber-co.html"><div class="name">Noir Barber Co.</div><div class="where">Philadelphia</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="lotus boutique pittsburgh" href="lotus-boutique.html"><div class="name">Lotus Boutique</div><div class="where">Pittsburgh</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="opal nails harrisburg" href="opal-nails.html"><div class="name">Opal Nails</div><div class="where">Harrisburg</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="luxe studio philadelphia" href="luxe-studio.html"><div class="name">Luxe Studio</div><div class="where">Philadelphia</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="vivid barber co. pittsburgh" href="vivid-barber-co.html"><div class="name">Vivid Barber Co.</div><div class="where">Pittsburgh</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="luxe beauty bar harrisburg" href="luxe-beauty-bar.html"><div class="name">Luxe Beauty Bar</div><div class="where">Harrisburg</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="bliss studio philadelphia" href="bliss-studio.html"><div class="name">Bliss Studio</div><div class="where">Philadelphia</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="bliss lash lounge pittsburgh" href="bliss-lash-lounge.html"><div class="name">Bliss Lash Lounge</div><div class="where">Pittsburgh</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Pennsylvania</h1>
+<p class="sub">47 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./ashford-and-co-attorneys-at-law.html"><div class="card-name">Ashford And Co Attorneys At Law</div><div class="card-url">ashford-and-co-attorneys-at-law.html</div></a>
+    <a class="card" href="./blackwell-and-associates.html"><div class="card-name">Blackwell And Associates</div><div class="card-url">blackwell-and-associates.html</div></a>
+    <a class="card" href="./bliss-lash-lounge.html"><div class="card-name">Bliss Lash Lounge</div><div class="card-url">bliss-lash-lounge.html</div></a>
+    <a class="card" href="./bliss-studio.html"><div class="card-name">Bliss Studio</div><div class="card-url">bliss-studio.html</div></a>
+    <a class="card" href="./brennan-legal.html"><div class="card-name">Brennan Legal</div><div class="card-url">brennan-legal.html</div></a>
+    <a class="card" href="./cedar-alehouse.html"><div class="card-name">Cedar Alehouse</div><div class="card-url">cedar-alehouse.html</div></a>
+    <a class="card" href="./coastal-properties.html"><div class="card-name">Coastal Properties</div><div class="card-url">coastal-properties.html</div></a>
+    <a class="card" href="./copper-creek-signs.html"><div class="card-name">Copper Creek Signs</div><div class="card-url">copper-creek-signs.html</div></a>
+    <a class="card" href="./copper-public-house.html"><div class="card-name">Copper Public House</div><div class="card-url">copper-public-house.html</div></a>
+    <a class="card" href="./greenway-hardware.html"><div class="card-name">Greenway Hardware</div><div class="card-url">greenway-hardware.html</div></a>
+    <a class="card" href="./greenway-studio.html"><div class="card-name">Greenway Studio</div><div class="card-url">greenway-studio.html</div></a>
+    <a class="card" href="./hillside-chiropractic.html"><div class="card-name">Hillside Chiropractic</div><div class="card-url">hillside-chiropractic.html</div></a>
+    <a class="card" href="./hillside-health-partners.html"><div class="card-name">Hillside Health Partners</div><div class="card-url">hillside-health-partners.html</div></a>
+    <a class="card" href="./landmark-home-team.html"><div class="card-name">Landmark Home Team</div><div class="card-url">landmark-home-team.html</div></a>
+    <a class="card" href="./legacy-property-partners.html"><div class="card-name">Legacy Property Partners</div><div class="card-url">legacy-property-partners.html</div></a>
+    <a class="card" href="./lopez-whitaker-law-office.html"><div class="card-name">Lopez Whitaker Law Office</div><div class="card-url">lopez-whitaker-law-office.html</div></a>
+    <a class="card" href="./lotus-boutique.html"><div class="card-name">Lotus Boutique</div><div class="card-url">lotus-boutique.html</div></a>
+    <a class="card" href="./luxe-beauty-bar.html"><div class="card-name">Luxe Beauty Bar</div><div class="card-url">luxe-beauty-bar.html</div></a>
+    <a class="card" href="./luxe-studio.html"><div class="card-name">Luxe Studio</div><div class="card-url">luxe-studio.html</div></a>
+    <a class="card" href="./main-street-solutions.html"><div class="card-name">Main Street Solutions</div><div class="card-url">main-street-solutions.html</div></a>
+    <a class="card" href="./martinez-grandview-physical-therapy.html"><div class="card-name">Martinez Grandview Physical Therapy</div><div class="card-url">martinez-grandview-physical-therapy.html</div></a>
+    <a class="card" href="./metro-estates.html"><div class="card-name">Metro Estates</div><div class="card-url">metro-estates.html</div></a>
+    <a class="card" href="./millbrook-solutions.html"><div class="card-name">Millbrook Solutions</div><div class="card-url">millbrook-solutions.html</div></a>
+    <a class="card" href="./nelson-brennan-attorneys.html"><div class="card-name">Nelson Brennan Attorneys</div><div class="card-url">nelson-brennan-attorneys.html</div></a>
+    <a class="card" href="./noir-barber-co.html"><div class="card-name">Noir Barber Co</div><div class="card-url">noir-barber-co.html</div></a>
+    <a class="card" href="./northside-hardware.html"><div class="card-name">Northside Hardware</div><div class="card-url">northside-hardware.html</div></a>
+    <a class="card" href="./northside-services.html"><div class="card-name">Northside Services</div><div class="card-url">northside-services.html</div></a>
+    <a class="card" href="./northside-signs.html"><div class="card-name">Northside Signs</div><div class="card-url">northside-signs.html</div></a>
+    <a class="card" href="./oak-alehouse.html"><div class="card-name">Oak Alehouse</div><div class="card-url">oak-alehouse.html</div></a>
+    <a class="card" href="./oconnor-legal.html"><div class="card-name">Oconnor Legal</div><div class="card-url">oconnor-legal.html</div></a>
+    <a class="card" href="./opal-nails.html"><div class="card-name">Opal Nails</div><div class="card-url">opal-nails.html</div></a>
+    <a class="card" href="./parkview-health-partners.html"><div class="card-name">Parkview Health Partners</div><div class="card-url">parkview-health-partners.html</div></a>
+    <a class="card" href="./prairie-smiles-dental.html"><div class="card-name">Prairie Smiles Dental</div><div class="card-url">prairie-smiles-dental.html</div></a>
+    <a class="card" href="./prestige-homes.html"><div class="card-name">Prestige Homes</div><div class="card-url">prestige-homes.html</div></a>
+    <a class="card" href="./ramirez-riverside-urgent-care.html"><div class="card-name">Ramirez Riverside Urgent Care</div><div class="card-url">ramirez-riverside-urgent-care.html</div></a>
+    <a class="card" href="./roberts-sullivan-law-firm.html"><div class="card-name">Roberts Sullivan Law Firm</div><div class="card-url">roberts-sullivan-law-firm.html</div></a>
+    <a class="card" href="./rustic-bistro.html"><div class="card-name">Rustic Bistro</div><div class="card-url">rustic-bistro.html</div></a>
+    <a class="card" href="./rutherford-and-co-attorneys-at-law.html"><div class="card-name">Rutherford And Co Attorneys At Law</div><div class="card-url">rutherford-and-co-attorneys-at-law.html</div></a>
+    <a class="card" href="./signature-homes.html"><div class="card-name">Signature Homes</div><div class="card-url">signature-homes.html</div></a>
+    <a class="card" href="./stonefire-eatery.html"><div class="card-name">Stonefire Eatery</div><div class="card-url">stonefire-eatery.html</div></a>
+    <a class="card" href="./stonefire-grill.html"><div class="card-name">Stonefire Grill</div><div class="card-url">stonefire-grill.html</div></a>
+    <a class="card" href="./summit-dental.html"><div class="card-name">Summit Dental</div><div class="card-url">summit-dental.html</div></a>
+    <a class="card" href="./tavern-pizzeria.html"><div class="card-name">Tavern Pizzeria</div><div class="card-url">tavern-pizzeria.html</div></a>
+    <a class="card" href="./urban-real-estate.html"><div class="card-name">Urban Real Estate</div><div class="card-url">urban-real-estate.html</div></a>
+    <a class="card" href="./valley-urgent-care.html"><div class="card-name">Valley Urgent Care</div><div class="card-url">valley-urgent-care.html</div></a>
+    <a class="card" href="./vivid-barber-co.html"><div class="card-name">Vivid Barber Co</div><div class="card-url">vivid-barber-co.html</div></a>
+    <a class="card" href="./wilson-lakefront-home-team.html"><div class="card-name">Wilson Lakefront Home Team</div><div class="card-url">wilson-lakefront-home-team.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

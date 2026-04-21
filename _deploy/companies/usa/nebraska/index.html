@@ -1,100 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nebraska (NE) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Nebraska — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 48 businesses in Nebraska.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Nebraska <span style="opacity:.6;font-size:24px">(NE)</span></h1>
-    <p>Cattle, corn, insurance (Berkshire), logistics</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Nebraska</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span><span class="filter" data-n="local_specialist">🔧 Local Specialist Services (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="smb" data-search="evergreen services omaha" href="evergreen-services.html"><div class="name">Evergreen Services</div><div class="where">Omaha</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="ironwood studio lincoln" href="ironwood-studio.html"><div class="name">Ironwood Studio</div><div class="where">Lincoln</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="hilltop depot grand island" href="hilltop-depot.html"><div class="name">Hilltop Depot</div><div class="where">Grand Island</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="evergreen provisions omaha" href="evergreen-provisions.html"><div class="name">Evergreen Provisions</div><div class="where">Omaha</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="copper creek mercantile lincoln" href="copper-creek-mercantile.html"><div class="name">Copper Creek Mercantile</div><div class="where">Lincoln</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="riverstone services grand island" href="riverstone-services.html"><div class="name">Riverstone Services</div><div class="where">Grand Island</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="main street services omaha" href="main-street-services.html"><div class="name">Main Street Services</div><div class="where">Omaha</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="ironwood supply co. lincoln" href="ironwood-supply-co.html"><div class="name">Ironwood Supply Co.</div><div class="where">Lincoln</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="local_specialist" data-search="ironclad locksmith omaha" href="ironclad-locksmith.html"><div class="name">Ironclad Locksmith</div><div class="where">Omaha</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="direct pro lincoln" href="direct-pro.html"><div class="name">Direct Pro</div><div class="where">Lincoln</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="harris pioneer painting grand island" href="harris-pioneer-painting.html"><div class="name">Harris Pioneer Painting</div><div class="where">Grand Island</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="ironclad painting omaha" href="ironclad-painting.html"><div class="name">Ironclad Painting</div><div class="where">Omaha</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="garcia pioneer pest control lincoln" href="garcia-pioneer-pest-control.html"><div class="name">Garcia Pioneer Pest Control</div><div class="where">Lincoln</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="aaa carpet care grand island" href="aaa-carpet-care.html"><div class="name">AAA Carpet Care</div><div class="where">Grand Island</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="elite electric omaha" href="elite-electric.html"><div class="name">Elite Electric</div><div class="where">Omaha</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="elite landscaping lincoln" href="elite-landscaping.html"><div class="name">Elite Landscaping</div><div class="where">Lincoln</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="restaurants" data-search="stonefire alehouse omaha" href="stonefire-alehouse.html"><div class="name">Stonefire Alehouse</div><div class="where">Omaha</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="red barn cafe lincoln" href="red-barn-cafe.html"><div class="name">Red Barn Cafe</div><div class="where">Lincoln</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="stonefire roadhouse grand island" href="stonefire-roadhouse.html"><div class="name">Stonefire Roadhouse</div><div class="where">Grand Island</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="cedar brasserie omaha" href="cedar-brasserie.html"><div class="name">Cedar Brasserie</div><div class="where">Omaha</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="olive alehouse lincoln" href="olive-alehouse.html"><div class="name">Olive Alehouse</div><div class="where">Lincoln</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="olive eatery grand island" href="olive-eatery.html"><div class="name">Olive Eatery</div><div class="where">Grand Island</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="silver smokehouse omaha" href="silver-smokehouse.html"><div class="name">Silver Smokehouse</div><div class="where">Omaha</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="pepper public house lincoln" href="pepper-public-house.html"><div class="name">Pepper Public House</div><div class="where">Lincoln</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="health" data-search="lee northgate chiropractic omaha" href="lee-northgate-chiropractic.html"><div class="name">Lee Northgate Chiropractic</div><div class="where">Omaha</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="thomas evergreen dental lincoln" href="thomas-evergreen-dental.html"><div class="name">Thomas Evergreen Dental</div><div class="where">Lincoln</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="hernandez hillside physical therapy grand island" href="hernandez-hillside-physical-therapy.html"><div class="name">Hernandez Hillside Physical Therapy</div><div class="where">Grand Island</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="parkview wellness omaha" href="parkview-wellness.html"><div class="name">Parkview Wellness</div><div class="where">Omaha</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="gonzalez evergreen urgent care lincoln" href="gonzalez-evergreen-urgent-care.html"><div class="name">Gonzalez Evergreen Urgent Care</div><div class="where">Lincoln</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="riverside orthodontics grand island" href="riverside-orthodontics.html"><div class="name">Riverside Orthodontics</div><div class="where">Grand Island</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="smith mercy wellness omaha" href="smith-mercy-wellness.html"><div class="name">Smith Mercy Wellness</div><div class="where">Omaha</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="heritage dental lincoln" href="heritage-dental.html"><div class="name">Heritage Dental</div><div class="where">Lincoln</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="real_estate" data-search="harbor real estate group omaha" href="harbor-real-estate-group.html"><div class="name">Harbor Real Estate Group</div><div class="where">Omaha</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="prestige estates lincoln" href="prestige-estates.html"><div class="name">Prestige Estates</div><div class="where">Lincoln</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="jones legacy homes grand island" href="jones-legacy-homes.html"><div class="name">Jones Legacy Homes</div><div class="where">Grand Island</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="rodriguez summit home team omaha" href="rodriguez-summit-home-team.html"><div class="name">Rodriguez Summit Home Team</div><div class="where">Omaha</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="landmark homes lincoln" href="landmark-homes.html"><div class="name">Landmark Homes</div><div class="where">Lincoln</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="urban real estate group grand island" href="urban-real-estate-group.html"><div class="name">Urban Real Estate Group</div><div class="where">Grand Island</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="beacon realty group omaha" href="beacon-realty-group.html"><div class="name">Beacon Realty Group</div><div class="where">Omaha</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="urban real estate lincoln" href="urban-real-estate.html"><div class="name">Urban Real Estate</div><div class="where">Lincoln</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="law_firms" data-search="bennett attorneys omaha" href="bennett-attorneys.html"><div class="name">Bennett Attorneys</div><div class="where">Omaha</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="white montgomery &amp; co., attorneys at law lincoln" href="white-montgomery-and-co-attorneys-at-law.html"><div class="name">White Montgomery &amp; Co., Attorneys at Law</div><div class="where">Lincoln</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="sullivan law office grand island" href="sullivan-law-office.html"><div class="name">Sullivan Law Office</div><div class="where">Grand Island</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="ashford law office omaha" href="ashford-law-office.html"><div class="name">Ashford Law Office</div><div class="where">Omaha</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="kensington legal lincoln" href="kensington-legal.html"><div class="name">Kensington Legal</div><div class="where">Lincoln</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="coleman law grand island" href="coleman-law.html"><div class="name">Coleman Law</div><div class="where">Grand Island</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="davis hawthorne &amp; partners omaha" href="davis-hawthorne-and-partners.html"><div class="name">Davis Hawthorne &amp; Partners</div><div class="where">Omaha</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="pierce &amp; co., attorneys at law lincoln" href="pierce-and-co-attorneys-at-law.html"><div class="name">Pierce &amp; Co., Attorneys at Law</div><div class="where">Lincoln</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Nebraska</h1>
+<p class="sub">48 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./aaa-carpet-care.html"><div class="card-name">Aaa Carpet Care</div><div class="card-url">aaa-carpet-care.html</div></a>
+    <a class="card" href="./ashford-law-office.html"><div class="card-name">Ashford Law Office</div><div class="card-url">ashford-law-office.html</div></a>
+    <a class="card" href="./beacon-realty-group.html"><div class="card-name">Beacon Realty Group</div><div class="card-url">beacon-realty-group.html</div></a>
+    <a class="card" href="./bennett-attorneys.html"><div class="card-name">Bennett Attorneys</div><div class="card-url">bennett-attorneys.html</div></a>
+    <a class="card" href="./cedar-brasserie.html"><div class="card-name">Cedar Brasserie</div><div class="card-url">cedar-brasserie.html</div></a>
+    <a class="card" href="./coleman-law.html"><div class="card-name">Coleman Law</div><div class="card-url">coleman-law.html</div></a>
+    <a class="card" href="./copper-creek-mercantile.html"><div class="card-name">Copper Creek Mercantile</div><div class="card-url">copper-creek-mercantile.html</div></a>
+    <a class="card" href="./davis-hawthorne-and-partners.html"><div class="card-name">Davis Hawthorne And Partners</div><div class="card-url">davis-hawthorne-and-partners.html</div></a>
+    <a class="card" href="./direct-pro.html"><div class="card-name">Direct Pro</div><div class="card-url">direct-pro.html</div></a>
+    <a class="card" href="./elite-electric.html"><div class="card-name">Elite Electric</div><div class="card-url">elite-electric.html</div></a>
+    <a class="card" href="./elite-landscaping.html"><div class="card-name">Elite Landscaping</div><div class="card-url">elite-landscaping.html</div></a>
+    <a class="card" href="./evergreen-provisions.html"><div class="card-name">Evergreen Provisions</div><div class="card-url">evergreen-provisions.html</div></a>
+    <a class="card" href="./evergreen-services.html"><div class="card-name">Evergreen Services</div><div class="card-url">evergreen-services.html</div></a>
+    <a class="card" href="./garcia-pioneer-pest-control.html"><div class="card-name">Garcia Pioneer Pest Control</div><div class="card-url">garcia-pioneer-pest-control.html</div></a>
+    <a class="card" href="./gonzalez-evergreen-urgent-care.html"><div class="card-name">Gonzalez Evergreen Urgent Care</div><div class="card-url">gonzalez-evergreen-urgent-care.html</div></a>
+    <a class="card" href="./harbor-real-estate-group.html"><div class="card-name">Harbor Real Estate Group</div><div class="card-url">harbor-real-estate-group.html</div></a>
+    <a class="card" href="./harris-pioneer-painting.html"><div class="card-name">Harris Pioneer Painting</div><div class="card-url">harris-pioneer-painting.html</div></a>
+    <a class="card" href="./heritage-dental.html"><div class="card-name">Heritage Dental</div><div class="card-url">heritage-dental.html</div></a>
+    <a class="card" href="./hernandez-hillside-physical-therapy.html"><div class="card-name">Hernandez Hillside Physical Therapy</div><div class="card-url">hernandez-hillside-physical-therapy.html</div></a>
+    <a class="card" href="./hilltop-depot.html"><div class="card-name">Hilltop Depot</div><div class="card-url">hilltop-depot.html</div></a>
+    <a class="card" href="./ironclad-locksmith.html"><div class="card-name">Ironclad Locksmith</div><div class="card-url">ironclad-locksmith.html</div></a>
+    <a class="card" href="./ironclad-painting.html"><div class="card-name">Ironclad Painting</div><div class="card-url">ironclad-painting.html</div></a>
+    <a class="card" href="./ironwood-studio.html"><div class="card-name">Ironwood Studio</div><div class="card-url">ironwood-studio.html</div></a>
+    <a class="card" href="./ironwood-supply-co.html"><div class="card-name">Ironwood Supply Co</div><div class="card-url">ironwood-supply-co.html</div></a>
+    <a class="card" href="./jones-legacy-homes.html"><div class="card-name">Jones Legacy Homes</div><div class="card-url">jones-legacy-homes.html</div></a>
+    <a class="card" href="./kensington-legal.html"><div class="card-name">Kensington Legal</div><div class="card-url">kensington-legal.html</div></a>
+    <a class="card" href="./landmark-homes.html"><div class="card-name">Landmark Homes</div><div class="card-url">landmark-homes.html</div></a>
+    <a class="card" href="./lee-northgate-chiropractic.html"><div class="card-name">Lee Northgate Chiropractic</div><div class="card-url">lee-northgate-chiropractic.html</div></a>
+    <a class="card" href="./main-street-services.html"><div class="card-name">Main Street Services</div><div class="card-url">main-street-services.html</div></a>
+    <a class="card" href="./olive-alehouse.html"><div class="card-name">Olive Alehouse</div><div class="card-url">olive-alehouse.html</div></a>
+    <a class="card" href="./olive-eatery.html"><div class="card-name">Olive Eatery</div><div class="card-url">olive-eatery.html</div></a>
+    <a class="card" href="./parkview-wellness.html"><div class="card-name">Parkview Wellness</div><div class="card-url">parkview-wellness.html</div></a>
+    <a class="card" href="./pepper-public-house.html"><div class="card-name">Pepper Public House</div><div class="card-url">pepper-public-house.html</div></a>
+    <a class="card" href="./pierce-and-co-attorneys-at-law.html"><div class="card-name">Pierce And Co Attorneys At Law</div><div class="card-url">pierce-and-co-attorneys-at-law.html</div></a>
+    <a class="card" href="./prestige-estates.html"><div class="card-name">Prestige Estates</div><div class="card-url">prestige-estates.html</div></a>
+    <a class="card" href="./red-barn-cafe.html"><div class="card-name">Red Barn Cafe</div><div class="card-url">red-barn-cafe.html</div></a>
+    <a class="card" href="./riverside-orthodontics.html"><div class="card-name">Riverside Orthodontics</div><div class="card-url">riverside-orthodontics.html</div></a>
+    <a class="card" href="./riverstone-services.html"><div class="card-name">Riverstone Services</div><div class="card-url">riverstone-services.html</div></a>
+    <a class="card" href="./rodriguez-summit-home-team.html"><div class="card-name">Rodriguez Summit Home Team</div><div class="card-url">rodriguez-summit-home-team.html</div></a>
+    <a class="card" href="./silver-smokehouse.html"><div class="card-name">Silver Smokehouse</div><div class="card-url">silver-smokehouse.html</div></a>
+    <a class="card" href="./smith-mercy-wellness.html"><div class="card-name">Smith Mercy Wellness</div><div class="card-url">smith-mercy-wellness.html</div></a>
+    <a class="card" href="./stonefire-alehouse.html"><div class="card-name">Stonefire Alehouse</div><div class="card-url">stonefire-alehouse.html</div></a>
+    <a class="card" href="./stonefire-roadhouse.html"><div class="card-name">Stonefire Roadhouse</div><div class="card-url">stonefire-roadhouse.html</div></a>
+    <a class="card" href="./sullivan-law-office.html"><div class="card-name">Sullivan Law Office</div><div class="card-url">sullivan-law-office.html</div></a>
+    <a class="card" href="./thomas-evergreen-dental.html"><div class="card-name">Thomas Evergreen Dental</div><div class="card-url">thomas-evergreen-dental.html</div></a>
+    <a class="card" href="./urban-real-estate-group.html"><div class="card-name">Urban Real Estate Group</div><div class="card-url">urban-real-estate-group.html</div></a>
+    <a class="card" href="./urban-real-estate.html"><div class="card-name">Urban Real Estate</div><div class="card-url">urban-real-estate.html</div></a>
+    <a class="card" href="./white-montgomery-and-co-attorneys-at-law.html"><div class="card-name">White Montgomery And Co Attorneys At Law</div><div class="card-url">white-montgomery-and-co-attorneys-at-law.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

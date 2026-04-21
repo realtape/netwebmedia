@@ -1,100 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kansas (KS) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Kansas — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 47 businesses in Kansas.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Kansas <span style="opacity:.6;font-size:24px">(KS)</span></h1>
-    <p>Agriculture, aerospace (Wichita), energy</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Kansas</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span><span class="filter" data-n="local_specialist">🔧 Local Specialist Services (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="smb" data-search="millbrook supply co. wichita" href="millbrook-supply-co.html"><div class="name">Millbrook Supply Co.</div><div class="where">Wichita</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="greenway bookkeeping overland park" href="greenway-bookkeeping.html"><div class="name">Greenway Bookkeeping</div><div class="where">Overland Park</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="copper creek supply co. kansas city" href="copper-creek-supply-co.html"><div class="name">Copper Creek Supply Co.</div><div class="where">Kansas City</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="millbrook depot wichita" href="millbrook-depot.html"><div class="name">Millbrook Depot</div><div class="where">Wichita</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="oakwood studio overland park" href="oakwood-studio.html"><div class="name">Oakwood Studio</div><div class="where">Overland Park</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="parkside depot kansas city" href="parkside-depot.html"><div class="name">Parkside Depot</div><div class="where">Kansas City</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="main street solutions wichita" href="main-street-solutions.html"><div class="name">Main Street Solutions</div><div class="where">Wichita</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="oakwood print shop overland park" href="oakwood-print-shop.html"><div class="name">Oakwood Print Shop</div><div class="where">Overland Park</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="local_specialist" data-search="elite pro wichita" href="elite-pro.html"><div class="name">Elite Pro</div><div class="where">Wichita</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="guardian electric overland park" href="guardian-electric.html"><div class="name">Guardian Electric</div><div class="where">Overland Park</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="robinson aaa plumbing kansas city" href="robinson-aaa-plumbing.html"><div class="name">Robinson AAA Plumbing</div><div class="where">Kansas City</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="apex heating &amp; air wichita" href="apex-heating-and-air.html"><div class="name">Apex Heating &amp; Air</div><div class="where">Wichita</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="premier handyman overland park" href="premier-handyman.html"><div class="name">Premier Handyman</div><div class="where">Overland Park</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="precision locksmith kansas city" href="precision-locksmith.html"><div class="name">Precision Locksmith</div><div class="where">Kansas City</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="ironclad handyman wichita" href="ironclad-handyman.html"><div class="name">Ironclad Handyman</div><div class="where">Wichita</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="first choice carpet care overland park" href="first-choice-carpet-care.html"><div class="name">First Choice Carpet Care</div><div class="where">Overland Park</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="restaurants" data-search="market diner wichita" href="market-diner.html"><div class="name">Market Diner</div><div class="where">Wichita</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="oak pizzeria overland park" href="oak-pizzeria.html"><div class="name">Oak Pizzeria</div><div class="where">Overland Park</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="prairie bistro kansas city" href="prairie-bistro.html"><div class="name">Prairie Bistro</div><div class="where">Kansas City</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="maple kitchen wichita" href="maple-kitchen.html"><div class="name">Maple Kitchen</div><div class="where">Wichita</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="prairie table overland park" href="prairie-table.html"><div class="name">Prairie Table</div><div class="where">Overland Park</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="rustic cafe kansas city" href="rustic-cafe.html"><div class="name">Rustic Cafe</div><div class="where">Kansas City</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="prairie roadhouse wichita" href="prairie-roadhouse.html"><div class="name">Prairie Roadhouse</div><div class="where">Wichita</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="birch alehouse overland park" href="birch-alehouse.html"><div class="name">Birch Alehouse</div><div class="where">Overland Park</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="health" data-search="grandview clinic wichita" href="grandview-clinic.html"><div class="name">Grandview Clinic</div><div class="where">Wichita</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="westbrook wellness overland park" href="westbrook-wellness.html"><div class="name">Westbrook Wellness</div><div class="where">Overland Park</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="riverside dental kansas city" href="riverside-dental.html"><div class="name">Riverside Dental</div><div class="where">Kansas City</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="riverside med spa wichita" href="riverside-med-spa.html"><div class="name">Riverside Med Spa</div><div class="where">Wichita</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="crestview med spa overland park" href="crestview-med-spa.html"><div class="name">Crestview Med Spa</div><div class="where">Overland Park</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="northgate chiropractic kansas city" href="northgate-chiropractic.html"><div class="name">Northgate Chiropractic</div><div class="where">Kansas City</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="valley physical therapy wichita" href="valley-physical-therapy.html"><div class="name">Valley Physical Therapy</div><div class="where">Wichita</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="heritage med spa overland park" href="heritage-med-spa.html"><div class="name">Heritage Med Spa</div><div class="where">Overland Park</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="real_estate" data-search="prestige realty group wichita" href="prestige-realty-group.html"><div class="name">Prestige Realty Group</div><div class="where">Wichita</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="coastal home team overland park" href="coastal-home-team.html"><div class="name">Coastal Home Team</div><div class="where">Overland Park</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="landmark properties kansas city" href="landmark-properties.html"><div class="name">Landmark Properties</div><div class="where">Kansas City</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="rivera golden gate home team wichita" href="rivera-golden-gate-home-team.html"><div class="name">Rivera Golden Gate Home Team</div><div class="where">Wichita</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="heritage realty overland park" href="heritage-realty.html"><div class="name">Heritage Realty</div><div class="where">Overland Park</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="baker cornerstone property partners kansas city" href="baker-cornerstone-property-partners.html"><div class="name">Baker Cornerstone Property Partners</div><div class="where">Kansas City</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="ridge realty group wichita" href="ridge-realty-group.html"><div class="name">Ridge Realty Group</div><div class="where">Wichita</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="prestige realty group overland park" href="prestige-realty-group.html"><div class="name">Prestige Realty Group</div><div class="where">Overland Park</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="law_firms" data-search="hill caldwell &amp; co., attorneys at law wichita" href="hill-caldwell-and-co-attorneys-at-law.html"><div class="name">Hill Caldwell &amp; Co., Attorneys at Law</div><div class="where">Wichita</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="bennett &amp; partners overland park" href="bennett-and-partners.html"><div class="name">Bennett &amp; Partners</div><div class="where">Overland Park</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="anderson pierce legal kansas city" href="anderson-pierce-legal.html"><div class="name">Anderson Pierce Legal</div><div class="where">Kansas City</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="coleman law firm wichita" href="coleman-law-firm.html"><div class="name">Coleman Law Firm</div><div class="where">Wichita</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="walker pierce law overland park" href="walker-pierce-law.html"><div class="name">Walker Pierce Law</div><div class="where">Overland Park</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="garcia kensington law office kansas city" href="garcia-kensington-law-office.html"><div class="name">Garcia Kensington Law Office</div><div class="where">Kansas City</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="moore kensington attorneys wichita" href="moore-kensington-attorneys.html"><div class="name">Moore Kensington Attorneys</div><div class="where">Wichita</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="bennett law overland park" href="bennett-law.html"><div class="name">Bennett Law</div><div class="where">Overland Park</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Kansas</h1>
+<p class="sub">47 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./anderson-pierce-legal.html"><div class="card-name">Anderson Pierce Legal</div><div class="card-url">anderson-pierce-legal.html</div></a>
+    <a class="card" href="./apex-heating-and-air.html"><div class="card-name">Apex Heating And Air</div><div class="card-url">apex-heating-and-air.html</div></a>
+    <a class="card" href="./baker-cornerstone-property-partners.html"><div class="card-name">Baker Cornerstone Property Partners</div><div class="card-url">baker-cornerstone-property-partners.html</div></a>
+    <a class="card" href="./bennett-and-partners.html"><div class="card-name">Bennett And Partners</div><div class="card-url">bennett-and-partners.html</div></a>
+    <a class="card" href="./bennett-law.html"><div class="card-name">Bennett Law</div><div class="card-url">bennett-law.html</div></a>
+    <a class="card" href="./birch-alehouse.html"><div class="card-name">Birch Alehouse</div><div class="card-url">birch-alehouse.html</div></a>
+    <a class="card" href="./coastal-home-team.html"><div class="card-name">Coastal Home Team</div><div class="card-url">coastal-home-team.html</div></a>
+    <a class="card" href="./coleman-law-firm.html"><div class="card-name">Coleman Law Firm</div><div class="card-url">coleman-law-firm.html</div></a>
+    <a class="card" href="./copper-creek-supply-co.html"><div class="card-name">Copper Creek Supply Co</div><div class="card-url">copper-creek-supply-co.html</div></a>
+    <a class="card" href="./crestview-med-spa.html"><div class="card-name">Crestview Med Spa</div><div class="card-url">crestview-med-spa.html</div></a>
+    <a class="card" href="./elite-pro.html"><div class="card-name">Elite Pro</div><div class="card-url">elite-pro.html</div></a>
+    <a class="card" href="./first-choice-carpet-care.html"><div class="card-name">First Choice Carpet Care</div><div class="card-url">first-choice-carpet-care.html</div></a>
+    <a class="card" href="./garcia-kensington-law-office.html"><div class="card-name">Garcia Kensington Law Office</div><div class="card-url">garcia-kensington-law-office.html</div></a>
+    <a class="card" href="./grandview-clinic.html"><div class="card-name">Grandview Clinic</div><div class="card-url">grandview-clinic.html</div></a>
+    <a class="card" href="./greenway-bookkeeping.html"><div class="card-name">Greenway Bookkeeping</div><div class="card-url">greenway-bookkeeping.html</div></a>
+    <a class="card" href="./guardian-electric.html"><div class="card-name">Guardian Electric</div><div class="card-url">guardian-electric.html</div></a>
+    <a class="card" href="./heritage-med-spa.html"><div class="card-name">Heritage Med Spa</div><div class="card-url">heritage-med-spa.html</div></a>
+    <a class="card" href="./heritage-realty.html"><div class="card-name">Heritage Realty</div><div class="card-url">heritage-realty.html</div></a>
+    <a class="card" href="./hill-caldwell-and-co-attorneys-at-law.html"><div class="card-name">Hill Caldwell And Co Attorneys At Law</div><div class="card-url">hill-caldwell-and-co-attorneys-at-law.html</div></a>
+    <a class="card" href="./ironclad-handyman.html"><div class="card-name">Ironclad Handyman</div><div class="card-url">ironclad-handyman.html</div></a>
+    <a class="card" href="./landmark-properties.html"><div class="card-name">Landmark Properties</div><div class="card-url">landmark-properties.html</div></a>
+    <a class="card" href="./main-street-solutions.html"><div class="card-name">Main Street Solutions</div><div class="card-url">main-street-solutions.html</div></a>
+    <a class="card" href="./maple-kitchen.html"><div class="card-name">Maple Kitchen</div><div class="card-url">maple-kitchen.html</div></a>
+    <a class="card" href="./market-diner.html"><div class="card-name">Market Diner</div><div class="card-url">market-diner.html</div></a>
+    <a class="card" href="./millbrook-depot.html"><div class="card-name">Millbrook Depot</div><div class="card-url">millbrook-depot.html</div></a>
+    <a class="card" href="./millbrook-supply-co.html"><div class="card-name">Millbrook Supply Co</div><div class="card-url">millbrook-supply-co.html</div></a>
+    <a class="card" href="./moore-kensington-attorneys.html"><div class="card-name">Moore Kensington Attorneys</div><div class="card-url">moore-kensington-attorneys.html</div></a>
+    <a class="card" href="./northgate-chiropractic.html"><div class="card-name">Northgate Chiropractic</div><div class="card-url">northgate-chiropractic.html</div></a>
+    <a class="card" href="./oak-pizzeria.html"><div class="card-name">Oak Pizzeria</div><div class="card-url">oak-pizzeria.html</div></a>
+    <a class="card" href="./oakwood-print-shop.html"><div class="card-name">Oakwood Print Shop</div><div class="card-url">oakwood-print-shop.html</div></a>
+    <a class="card" href="./oakwood-studio.html"><div class="card-name">Oakwood Studio</div><div class="card-url">oakwood-studio.html</div></a>
+    <a class="card" href="./parkside-depot.html"><div class="card-name">Parkside Depot</div><div class="card-url">parkside-depot.html</div></a>
+    <a class="card" href="./prairie-bistro.html"><div class="card-name">Prairie Bistro</div><div class="card-url">prairie-bistro.html</div></a>
+    <a class="card" href="./prairie-roadhouse.html"><div class="card-name">Prairie Roadhouse</div><div class="card-url">prairie-roadhouse.html</div></a>
+    <a class="card" href="./prairie-table.html"><div class="card-name">Prairie Table</div><div class="card-url">prairie-table.html</div></a>
+    <a class="card" href="./precision-locksmith.html"><div class="card-name">Precision Locksmith</div><div class="card-url">precision-locksmith.html</div></a>
+    <a class="card" href="./premier-handyman.html"><div class="card-name">Premier Handyman</div><div class="card-url">premier-handyman.html</div></a>
+    <a class="card" href="./prestige-realty-group.html"><div class="card-name">Prestige Realty Group</div><div class="card-url">prestige-realty-group.html</div></a>
+    <a class="card" href="./ridge-realty-group.html"><div class="card-name">Ridge Realty Group</div><div class="card-url">ridge-realty-group.html</div></a>
+    <a class="card" href="./rivera-golden-gate-home-team.html"><div class="card-name">Rivera Golden Gate Home Team</div><div class="card-url">rivera-golden-gate-home-team.html</div></a>
+    <a class="card" href="./riverside-dental.html"><div class="card-name">Riverside Dental</div><div class="card-url">riverside-dental.html</div></a>
+    <a class="card" href="./riverside-med-spa.html"><div class="card-name">Riverside Med Spa</div><div class="card-url">riverside-med-spa.html</div></a>
+    <a class="card" href="./robinson-aaa-plumbing.html"><div class="card-name">Robinson Aaa Plumbing</div><div class="card-url">robinson-aaa-plumbing.html</div></a>
+    <a class="card" href="./rustic-cafe.html"><div class="card-name">Rustic Cafe</div><div class="card-url">rustic-cafe.html</div></a>
+    <a class="card" href="./valley-physical-therapy.html"><div class="card-name">Valley Physical Therapy</div><div class="card-url">valley-physical-therapy.html</div></a>
+    <a class="card" href="./walker-pierce-law.html"><div class="card-name">Walker Pierce Law</div><div class="card-url">walker-pierce-law.html</div></a>
+    <a class="card" href="./westbrook-wellness.html"><div class="card-name">Westbrook Wellness</div><div class="card-url">westbrook-wellness.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

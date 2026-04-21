@@ -1,100 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rhode Island (RI) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Rhode Island — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 47 businesses in Rhode Island.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Rhode Island <span style="opacity:.6;font-size:24px">(RI)</span></h1>
-    <p>Healthcare, tourism, defense, education</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Rhode Island</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="tourism">🏔️ Tourism &amp; Hospitality (8)</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="beauty">💅 Beauty &amp; Wellness (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="restaurants" data-search="rustic eatery providence" href="rustic-eatery.html"><div class="name">Rustic Eatery</div><div class="where">Providence</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="brickhouse table warwick" href="brickhouse-table.html"><div class="name">Brickhouse Table</div><div class="where">Warwick</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="birch eatery cranston" href="birch-eatery.html"><div class="name">Birch Eatery</div><div class="where">Cranston</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="stonefire kitchen providence" href="stonefire-kitchen.html"><div class="name">Stonefire Kitchen</div><div class="where">Providence</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="rustic brasserie warwick" href="rustic-brasserie.html"><div class="name">Rustic Brasserie</div><div class="where">Warwick</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="blue door steakhouse cranston" href="blue-door-steakhouse.html"><div class="name">Blue Door Steakhouse</div><div class="where">Cranston</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="silver public house providence" href="silver-public-house.html"><div class="name">Silver Public House</div><div class="where">Providence</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="pepper steakhouse warwick" href="pepper-steakhouse.html"><div class="name">Pepper Steakhouse</div><div class="where">Warwick</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="health" data-search="adams bayside family medicine providence" href="adams-bayside-family-medicine.html"><div class="name">Adams Bayside Family Medicine</div><div class="where">Providence</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="prairie pediatrics warwick" href="prairie-pediatrics.html"><div class="name">Prairie Pediatrics</div><div class="where">Warwick</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="evergreen health partners cranston" href="evergreen-health-partners.html"><div class="name">Evergreen Health Partners</div><div class="where">Cranston</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="prairie pediatrics providence" href="prairie-pediatrics.html"><div class="name">Prairie Pediatrics</div><div class="where">Providence</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="campbell bayside dental warwick" href="campbell-bayside-dental.html"><div class="name">Campbell Bayside Dental</div><div class="where">Warwick</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="grandview pediatrics cranston" href="grandview-pediatrics.html"><div class="name">Grandview Pediatrics</div><div class="where">Cranston</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="bayside chiropractic providence" href="bayside-chiropractic.html"><div class="name">Bayside Chiropractic</div><div class="where">Providence</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="southpoint clinic warwick" href="southpoint-clinic.html"><div class="name">Southpoint Clinic</div><div class="where">Warwick</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="real_estate" data-search="scott landmark home team providence" href="scott-landmark-home-team.html"><div class="name">Scott Landmark Home Team</div><div class="where">Providence</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="coastal properties warwick" href="coastal-properties.html"><div class="name">Coastal Properties</div><div class="where">Warwick</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="beacon real estate group cranston" href="beacon-real-estate-group.html"><div class="name">Beacon Real Estate Group</div><div class="where">Cranston</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="cornerstone estates providence" href="cornerstone-estates.html"><div class="name">Cornerstone Estates</div><div class="where">Providence</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="signature realty partners warwick" href="signature-realty-partners.html"><div class="name">Signature Realty Partners</div><div class="where">Warwick</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="heritage real estate group cranston" href="heritage-real-estate-group.html"><div class="name">Heritage Real Estate Group</div><div class="where">Cranston</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="davis premier realty partners providence" href="davis-premier-realty-partners.html"><div class="name">Davis Premier Realty Partners</div><div class="where">Providence</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="coastal realty co. warwick" href="coastal-realty-co.html"><div class="name">Coastal Realty Co.</div><div class="where">Warwick</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="tourism" data-search="blue ridge cabins providence" href="blue-ridge-cabins.html"><div class="name">Blue Ridge Cabins</div><div class="where">Providence</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="summit inn warwick" href="summit-inn.html"><div class="name">Summit Inn</div><div class="where">Warwick</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="aspen cabins cranston" href="aspen-cabins.html"><div class="name">Aspen Cabins</div><div class="where">Cranston</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="oceanview villas providence" href="oceanview-villas.html"><div class="name">Oceanview Villas</div><div class="where">Providence</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="heritage lodge warwick" href="heritage-lodge.html"><div class="name">Heritage Lodge</div><div class="where">Warwick</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="horizon ranch cranston" href="horizon-ranch.html"><div class="name">Horizon Ranch</div><div class="where">Cranston</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="silver cabins providence" href="silver-cabins.html"><div class="name">Silver Cabins</div><div class="where">Providence</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="grand hotel warwick" href="grand-hotel.html"><div class="name">Grand Hotel</div><div class="where">Warwick</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="law_firms" data-search="green montgomery &amp; partners providence" href="green-montgomery-and-partners.html"><div class="name">Green Montgomery &amp; Partners</div><div class="where">Providence</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="kensington law office warwick" href="kensington-law-office.html"><div class="name">Kensington Law Office</div><div class="where">Warwick</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="whitaker attorneys cranston" href="whitaker-attorneys.html"><div class="name">Whitaker Attorneys</div><div class="where">Cranston</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="pierce legal providence" href="pierce-legal.html"><div class="name">Pierce Legal</div><div class="where">Providence</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="caldwell law firm warwick" href="caldwell-law-firm.html"><div class="name">Caldwell Law Firm</div><div class="where">Warwick</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="hawthorne legal services cranston" href="hawthorne-legal-services.html"><div class="name">Hawthorne Legal Services</div><div class="where">Cranston</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="sinclair legal services providence" href="sinclair-legal-services.html"><div class="name">Sinclair Legal Services</div><div class="where">Providence</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="harrison legal services warwick" href="harrison-legal-services.html"><div class="name">Harrison Legal Services</div><div class="where">Warwick</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="beauty" data-search="vivid med spa providence" href="vivid-med-spa.html"><div class="name">Vivid Med Spa</div><div class="where">Providence</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="vivid aesthetics warwick" href="vivid-aesthetics.html"><div class="name">Vivid Aesthetics</div><div class="where">Warwick</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="opal studio cranston" href="opal-studio.html"><div class="name">Opal Studio</div><div class="where">Cranston</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="polished barber co. providence" href="polished-barber-co.html"><div class="name">Polished Barber Co.</div><div class="where">Providence</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="willow brow bar warwick" href="willow-brow-bar.html"><div class="name">Willow Brow Bar</div><div class="where">Warwick</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="lotus lash lounge cranston" href="lotus-lash-lounge.html"><div class="name">Lotus Lash Lounge</div><div class="where">Cranston</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="luxe wellness providence" href="luxe-wellness.html"><div class="name">Luxe Wellness</div><div class="where">Providence</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="amber brow bar warwick" href="amber-brow-bar.html"><div class="name">Amber Brow Bar</div><div class="where">Warwick</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Rhode Island</h1>
+<p class="sub">47 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./adams-bayside-family-medicine.html"><div class="card-name">Adams Bayside Family Medicine</div><div class="card-url">adams-bayside-family-medicine.html</div></a>
+    <a class="card" href="./amber-brow-bar.html"><div class="card-name">Amber Brow Bar</div><div class="card-url">amber-brow-bar.html</div></a>
+    <a class="card" href="./aspen-cabins.html"><div class="card-name">Aspen Cabins</div><div class="card-url">aspen-cabins.html</div></a>
+    <a class="card" href="./bayside-chiropractic.html"><div class="card-name">Bayside Chiropractic</div><div class="card-url">bayside-chiropractic.html</div></a>
+    <a class="card" href="./beacon-real-estate-group.html"><div class="card-name">Beacon Real Estate Group</div><div class="card-url">beacon-real-estate-group.html</div></a>
+    <a class="card" href="./birch-eatery.html"><div class="card-name">Birch Eatery</div><div class="card-url">birch-eatery.html</div></a>
+    <a class="card" href="./blue-door-steakhouse.html"><div class="card-name">Blue Door Steakhouse</div><div class="card-url">blue-door-steakhouse.html</div></a>
+    <a class="card" href="./blue-ridge-cabins.html"><div class="card-name">Blue Ridge Cabins</div><div class="card-url">blue-ridge-cabins.html</div></a>
+    <a class="card" href="./brickhouse-table.html"><div class="card-name">Brickhouse Table</div><div class="card-url">brickhouse-table.html</div></a>
+    <a class="card" href="./caldwell-law-firm.html"><div class="card-name">Caldwell Law Firm</div><div class="card-url">caldwell-law-firm.html</div></a>
+    <a class="card" href="./campbell-bayside-dental.html"><div class="card-name">Campbell Bayside Dental</div><div class="card-url">campbell-bayside-dental.html</div></a>
+    <a class="card" href="./coastal-properties.html"><div class="card-name">Coastal Properties</div><div class="card-url">coastal-properties.html</div></a>
+    <a class="card" href="./coastal-realty-co.html"><div class="card-name">Coastal Realty Co</div><div class="card-url">coastal-realty-co.html</div></a>
+    <a class="card" href="./cornerstone-estates.html"><div class="card-name">Cornerstone Estates</div><div class="card-url">cornerstone-estates.html</div></a>
+    <a class="card" href="./davis-premier-realty-partners.html"><div class="card-name">Davis Premier Realty Partners</div><div class="card-url">davis-premier-realty-partners.html</div></a>
+    <a class="card" href="./evergreen-health-partners.html"><div class="card-name">Evergreen Health Partners</div><div class="card-url">evergreen-health-partners.html</div></a>
+    <a class="card" href="./grand-hotel.html"><div class="card-name">Grand Hotel</div><div class="card-url">grand-hotel.html</div></a>
+    <a class="card" href="./grandview-pediatrics.html"><div class="card-name">Grandview Pediatrics</div><div class="card-url">grandview-pediatrics.html</div></a>
+    <a class="card" href="./green-montgomery-and-partners.html"><div class="card-name">Green Montgomery And Partners</div><div class="card-url">green-montgomery-and-partners.html</div></a>
+    <a class="card" href="./harrison-legal-services.html"><div class="card-name">Harrison Legal Services</div><div class="card-url">harrison-legal-services.html</div></a>
+    <a class="card" href="./hawthorne-legal-services.html"><div class="card-name">Hawthorne Legal Services</div><div class="card-url">hawthorne-legal-services.html</div></a>
+    <a class="card" href="./heritage-lodge.html"><div class="card-name">Heritage Lodge</div><div class="card-url">heritage-lodge.html</div></a>
+    <a class="card" href="./heritage-real-estate-group.html"><div class="card-name">Heritage Real Estate Group</div><div class="card-url">heritage-real-estate-group.html</div></a>
+    <a class="card" href="./horizon-ranch.html"><div class="card-name">Horizon Ranch</div><div class="card-url">horizon-ranch.html</div></a>
+    <a class="card" href="./kensington-law-office.html"><div class="card-name">Kensington Law Office</div><div class="card-url">kensington-law-office.html</div></a>
+    <a class="card" href="./lotus-lash-lounge.html"><div class="card-name">Lotus Lash Lounge</div><div class="card-url">lotus-lash-lounge.html</div></a>
+    <a class="card" href="./luxe-wellness.html"><div class="card-name">Luxe Wellness</div><div class="card-url">luxe-wellness.html</div></a>
+    <a class="card" href="./oceanview-villas.html"><div class="card-name">Oceanview Villas</div><div class="card-url">oceanview-villas.html</div></a>
+    <a class="card" href="./opal-studio.html"><div class="card-name">Opal Studio</div><div class="card-url">opal-studio.html</div></a>
+    <a class="card" href="./pepper-steakhouse.html"><div class="card-name">Pepper Steakhouse</div><div class="card-url">pepper-steakhouse.html</div></a>
+    <a class="card" href="./pierce-legal.html"><div class="card-name">Pierce Legal</div><div class="card-url">pierce-legal.html</div></a>
+    <a class="card" href="./polished-barber-co.html"><div class="card-name">Polished Barber Co</div><div class="card-url">polished-barber-co.html</div></a>
+    <a class="card" href="./prairie-pediatrics.html"><div class="card-name">Prairie Pediatrics</div><div class="card-url">prairie-pediatrics.html</div></a>
+    <a class="card" href="./rustic-brasserie.html"><div class="card-name">Rustic Brasserie</div><div class="card-url">rustic-brasserie.html</div></a>
+    <a class="card" href="./rustic-eatery.html"><div class="card-name">Rustic Eatery</div><div class="card-url">rustic-eatery.html</div></a>
+    <a class="card" href="./scott-landmark-home-team.html"><div class="card-name">Scott Landmark Home Team</div><div class="card-url">scott-landmark-home-team.html</div></a>
+    <a class="card" href="./signature-realty-partners.html"><div class="card-name">Signature Realty Partners</div><div class="card-url">signature-realty-partners.html</div></a>
+    <a class="card" href="./silver-cabins.html"><div class="card-name">Silver Cabins</div><div class="card-url">silver-cabins.html</div></a>
+    <a class="card" href="./silver-public-house.html"><div class="card-name">Silver Public House</div><div class="card-url">silver-public-house.html</div></a>
+    <a class="card" href="./sinclair-legal-services.html"><div class="card-name">Sinclair Legal Services</div><div class="card-url">sinclair-legal-services.html</div></a>
+    <a class="card" href="./southpoint-clinic.html"><div class="card-name">Southpoint Clinic</div><div class="card-url">southpoint-clinic.html</div></a>
+    <a class="card" href="./stonefire-kitchen.html"><div class="card-name">Stonefire Kitchen</div><div class="card-url">stonefire-kitchen.html</div></a>
+    <a class="card" href="./summit-inn.html"><div class="card-name">Summit Inn</div><div class="card-url">summit-inn.html</div></a>
+    <a class="card" href="./vivid-aesthetics.html"><div class="card-name">Vivid Aesthetics</div><div class="card-url">vivid-aesthetics.html</div></a>
+    <a class="card" href="./vivid-med-spa.html"><div class="card-name">Vivid Med Spa</div><div class="card-url">vivid-med-spa.html</div></a>
+    <a class="card" href="./whitaker-attorneys.html"><div class="card-name">Whitaker Attorneys</div><div class="card-url">whitaker-attorneys.html</div></a>
+    <a class="card" href="./willow-brow-bar.html"><div class="card-name">Willow Brow Bar</div><div class="card-url">willow-brow-bar.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

@@ -1,100 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colorado (CO) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Colorado — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 47 businesses in Colorado.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Colorado <span style="opacity:.6;font-size:24px">(CO)</span></h1>
-    <p>Tech (Denver/Boulder), outdoor tourism, cannabis, energy</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Colorado</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="tourism">🏔️ Tourism &amp; Hospitality (8)</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="beauty">💅 Beauty &amp; Wellness (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="tourism" data-search="blue ridge bed &amp; breakfast denver" href="blue-ridge-bed-and-breakfast.html"><div class="name">Blue Ridge Bed &amp; Breakfast</div><div class="where">Denver</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="sunset getaway colorado springs" href="sunset-getaway.html"><div class="name">Sunset Getaway</div><div class="where">Colorado Springs</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="lakeside bed &amp; breakfast boulder" href="lakeside-bed-and-breakfast.html"><div class="name">Lakeside Bed &amp; Breakfast</div><div class="where">Boulder</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="pine ridge tours denver" href="pine-ridge-tours.html"><div class="name">Pine Ridge Tours</div><div class="where">Denver</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="stonebridge hotel colorado springs" href="stonebridge-hotel.html"><div class="name">Stonebridge Hotel</div><div class="where">Colorado Springs</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="aspen suites boulder" href="aspen-suites.html"><div class="name">Aspen Suites</div><div class="where">Boulder</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="redwood outfitters denver" href="redwood-outfitters.html"><div class="name">Redwood Outfitters</div><div class="where">Denver</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="redwood outfitters colorado springs" href="redwood-outfitters.html"><div class="name">Redwood Outfitters</div><div class="where">Colorado Springs</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="real_estate" data-search="premier estates denver" href="premier-estates.html"><div class="name">Premier Estates</div><div class="where">Denver</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="coastal realty colorado springs" href="coastal-realty.html"><div class="name">Coastal Realty</div><div class="where">Colorado Springs</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="legacy realty partners boulder" href="legacy-realty-partners.html"><div class="name">Legacy Realty Partners</div><div class="where">Boulder</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="harbor property partners denver" href="harbor-property-partners.html"><div class="name">Harbor Property Partners</div><div class="where">Denver</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="robinson urban home team colorado springs" href="robinson-urban-home-team.html"><div class="name">Robinson Urban Home Team</div><div class="where">Colorado Springs</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="golden gate realty co. boulder" href="golden-gate-realty-co.html"><div class="name">Golden Gate Realty Co.</div><div class="where">Boulder</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="baker heritage home team denver" href="baker-heritage-home-team.html"><div class="name">Baker Heritage Home Team</div><div class="where">Denver</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="green coastal realty group colorado springs" href="green-coastal-realty-group.html"><div class="name">Green Coastal Realty Group</div><div class="where">Colorado Springs</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="restaurants" data-search="tavern steakhouse denver" href="tavern-steakhouse.html"><div class="name">Tavern Steakhouse</div><div class="where">Denver</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="birch cafe colorado springs" href="birch-cafe.html"><div class="name">Birch Cafe</div><div class="where">Colorado Springs</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="rustic roadhouse boulder" href="rustic-roadhouse.html"><div class="name">Rustic Roadhouse</div><div class="where">Boulder</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="maple eatery denver" href="maple-eatery.html"><div class="name">Maple Eatery</div><div class="where">Denver</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="iron skillet bistro colorado springs" href="iron-skillet-bistro.html"><div class="name">Iron Skillet Bistro</div><div class="where">Colorado Springs</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="olive eatery boulder" href="olive-eatery.html"><div class="name">Olive Eatery</div><div class="where">Boulder</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="wagon smokehouse denver" href="wagon-smokehouse.html"><div class="name">Wagon Smokehouse</div><div class="where">Denver</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="sage smokehouse colorado springs" href="sage-smokehouse.html"><div class="name">Sage Smokehouse</div><div class="where">Colorado Springs</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="health" data-search="evergreen health partners denver" href="evergreen-health-partners.html"><div class="name">Evergreen Health Partners</div><div class="where">Denver</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="hill pinewood clinic colorado springs" href="hill-pinewood-clinic.html"><div class="name">Hill Pinewood Clinic</div><div class="where">Colorado Springs</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="taylor bayside medical group boulder" href="taylor-bayside-medical-group.html"><div class="name">Taylor Bayside Medical Group</div><div class="where">Boulder</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="rodriguez harborview clinic denver" href="rodriguez-harborview-clinic.html"><div class="name">Rodriguez Harborview Clinic</div><div class="where">Denver</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="cedar dermatology colorado springs" href="cedar-dermatology.html"><div class="name">Cedar Dermatology</div><div class="where">Colorado Springs</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="jackson summit medical group boulder" href="jackson-summit-medical-group.html"><div class="name">Jackson Summit Medical Group</div><div class="where">Boulder</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="grandview dental denver" href="grandview-dental.html"><div class="name">Grandview Dental</div><div class="where">Denver</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="riverside physical therapy colorado springs" href="riverside-physical-therapy.html"><div class="name">Riverside Physical Therapy</div><div class="where">Colorado Springs</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="law_firms" data-search="whitaker legal denver" href="whitaker-legal.html"><div class="name">Whitaker Legal</div><div class="where">Denver</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="rutherford &amp; associates colorado springs" href="rutherford-and-associates.html"><div class="name">Rutherford &amp; Associates</div><div class="where">Colorado Springs</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="o&#x27;connor law office boulder" href="oconnor-law-office.html"><div class="name">O&#x27;Connor Law Office</div><div class="where">Boulder</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="thomas sinclair law denver" href="thomas-sinclair-law.html"><div class="name">Thomas Sinclair Law</div><div class="where">Denver</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="blackwell attorneys colorado springs" href="blackwell-attorneys.html"><div class="name">Blackwell Attorneys</div><div class="where">Colorado Springs</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="clark hawthorne attorneys boulder" href="clark-hawthorne-attorneys.html"><div class="name">Clark Hawthorne Attorneys</div><div class="where">Boulder</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="coleman law group denver" href="coleman-law-group.html"><div class="name">Coleman Law Group</div><div class="where">Denver</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="sullivan &amp; partners colorado springs" href="sullivan-and-partners.html"><div class="name">Sullivan &amp; Partners</div><div class="where">Colorado Springs</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="beauty" data-search="muse nails denver" href="muse-nails.html"><div class="name">Muse Nails</div><div class="where">Denver</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="orchid nails colorado springs" href="orchid-nails.html"><div class="name">Orchid Nails</div><div class="where">Colorado Springs</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="willow wellness boulder" href="willow-wellness.html"><div class="name">Willow Wellness</div><div class="where">Boulder</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="velvet spa denver" href="velvet-spa.html"><div class="name">Velvet Spa</div><div class="where">Denver</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="polished wellness colorado springs" href="polished-wellness.html"><div class="name">Polished Wellness</div><div class="where">Colorado Springs</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="willow lash lounge boulder" href="willow-lash-lounge.html"><div class="name">Willow Lash Lounge</div><div class="where">Boulder</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="polished nails denver" href="polished-nails.html"><div class="name">Polished Nails</div><div class="where">Denver</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="vivid lash lounge colorado springs" href="vivid-lash-lounge.html"><div class="name">Vivid Lash Lounge</div><div class="where">Colorado Springs</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Colorado</h1>
+<p class="sub">47 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./aspen-suites.html"><div class="card-name">Aspen Suites</div><div class="card-url">aspen-suites.html</div></a>
+    <a class="card" href="./baker-heritage-home-team.html"><div class="card-name">Baker Heritage Home Team</div><div class="card-url">baker-heritage-home-team.html</div></a>
+    <a class="card" href="./birch-cafe.html"><div class="card-name">Birch Cafe</div><div class="card-url">birch-cafe.html</div></a>
+    <a class="card" href="./blackwell-attorneys.html"><div class="card-name">Blackwell Attorneys</div><div class="card-url">blackwell-attorneys.html</div></a>
+    <a class="card" href="./blue-ridge-bed-and-breakfast.html"><div class="card-name">Blue Ridge Bed And Breakfast</div><div class="card-url">blue-ridge-bed-and-breakfast.html</div></a>
+    <a class="card" href="./cedar-dermatology.html"><div class="card-name">Cedar Dermatology</div><div class="card-url">cedar-dermatology.html</div></a>
+    <a class="card" href="./clark-hawthorne-attorneys.html"><div class="card-name">Clark Hawthorne Attorneys</div><div class="card-url">clark-hawthorne-attorneys.html</div></a>
+    <a class="card" href="./coastal-realty.html"><div class="card-name">Coastal Realty</div><div class="card-url">coastal-realty.html</div></a>
+    <a class="card" href="./coleman-law-group.html"><div class="card-name">Coleman Law Group</div><div class="card-url">coleman-law-group.html</div></a>
+    <a class="card" href="./evergreen-health-partners.html"><div class="card-name">Evergreen Health Partners</div><div class="card-url">evergreen-health-partners.html</div></a>
+    <a class="card" href="./golden-gate-realty-co.html"><div class="card-name">Golden Gate Realty Co</div><div class="card-url">golden-gate-realty-co.html</div></a>
+    <a class="card" href="./grandview-dental.html"><div class="card-name">Grandview Dental</div><div class="card-url">grandview-dental.html</div></a>
+    <a class="card" href="./green-coastal-realty-group.html"><div class="card-name">Green Coastal Realty Group</div><div class="card-url">green-coastal-realty-group.html</div></a>
+    <a class="card" href="./harbor-property-partners.html"><div class="card-name">Harbor Property Partners</div><div class="card-url">harbor-property-partners.html</div></a>
+    <a class="card" href="./hill-pinewood-clinic.html"><div class="card-name">Hill Pinewood Clinic</div><div class="card-url">hill-pinewood-clinic.html</div></a>
+    <a class="card" href="./iron-skillet-bistro.html"><div class="card-name">Iron Skillet Bistro</div><div class="card-url">iron-skillet-bistro.html</div></a>
+    <a class="card" href="./jackson-summit-medical-group.html"><div class="card-name">Jackson Summit Medical Group</div><div class="card-url">jackson-summit-medical-group.html</div></a>
+    <a class="card" href="./lakeside-bed-and-breakfast.html"><div class="card-name">Lakeside Bed And Breakfast</div><div class="card-url">lakeside-bed-and-breakfast.html</div></a>
+    <a class="card" href="./legacy-realty-partners.html"><div class="card-name">Legacy Realty Partners</div><div class="card-url">legacy-realty-partners.html</div></a>
+    <a class="card" href="./maple-eatery.html"><div class="card-name">Maple Eatery</div><div class="card-url">maple-eatery.html</div></a>
+    <a class="card" href="./muse-nails.html"><div class="card-name">Muse Nails</div><div class="card-url">muse-nails.html</div></a>
+    <a class="card" href="./oconnor-law-office.html"><div class="card-name">Oconnor Law Office</div><div class="card-url">oconnor-law-office.html</div></a>
+    <a class="card" href="./olive-eatery.html"><div class="card-name">Olive Eatery</div><div class="card-url">olive-eatery.html</div></a>
+    <a class="card" href="./orchid-nails.html"><div class="card-name">Orchid Nails</div><div class="card-url">orchid-nails.html</div></a>
+    <a class="card" href="./pine-ridge-tours.html"><div class="card-name">Pine Ridge Tours</div><div class="card-url">pine-ridge-tours.html</div></a>
+    <a class="card" href="./polished-nails.html"><div class="card-name">Polished Nails</div><div class="card-url">polished-nails.html</div></a>
+    <a class="card" href="./polished-wellness.html"><div class="card-name">Polished Wellness</div><div class="card-url">polished-wellness.html</div></a>
+    <a class="card" href="./premier-estates.html"><div class="card-name">Premier Estates</div><div class="card-url">premier-estates.html</div></a>
+    <a class="card" href="./redwood-outfitters.html"><div class="card-name">Redwood Outfitters</div><div class="card-url">redwood-outfitters.html</div></a>
+    <a class="card" href="./riverside-physical-therapy.html"><div class="card-name">Riverside Physical Therapy</div><div class="card-url">riverside-physical-therapy.html</div></a>
+    <a class="card" href="./robinson-urban-home-team.html"><div class="card-name">Robinson Urban Home Team</div><div class="card-url">robinson-urban-home-team.html</div></a>
+    <a class="card" href="./rodriguez-harborview-clinic.html"><div class="card-name">Rodriguez Harborview Clinic</div><div class="card-url">rodriguez-harborview-clinic.html</div></a>
+    <a class="card" href="./rustic-roadhouse.html"><div class="card-name">Rustic Roadhouse</div><div class="card-url">rustic-roadhouse.html</div></a>
+    <a class="card" href="./rutherford-and-associates.html"><div class="card-name">Rutherford And Associates</div><div class="card-url">rutherford-and-associates.html</div></a>
+    <a class="card" href="./sage-smokehouse.html"><div class="card-name">Sage Smokehouse</div><div class="card-url">sage-smokehouse.html</div></a>
+    <a class="card" href="./stonebridge-hotel.html"><div class="card-name">Stonebridge Hotel</div><div class="card-url">stonebridge-hotel.html</div></a>
+    <a class="card" href="./sullivan-and-partners.html"><div class="card-name">Sullivan And Partners</div><div class="card-url">sullivan-and-partners.html</div></a>
+    <a class="card" href="./sunset-getaway.html"><div class="card-name">Sunset Getaway</div><div class="card-url">sunset-getaway.html</div></a>
+    <a class="card" href="./tavern-steakhouse.html"><div class="card-name">Tavern Steakhouse</div><div class="card-url">tavern-steakhouse.html</div></a>
+    <a class="card" href="./taylor-bayside-medical-group.html"><div class="card-name">Taylor Bayside Medical Group</div><div class="card-url">taylor-bayside-medical-group.html</div></a>
+    <a class="card" href="./thomas-sinclair-law.html"><div class="card-name">Thomas Sinclair Law</div><div class="card-url">thomas-sinclair-law.html</div></a>
+    <a class="card" href="./velvet-spa.html"><div class="card-name">Velvet Spa</div><div class="card-url">velvet-spa.html</div></a>
+    <a class="card" href="./vivid-lash-lounge.html"><div class="card-name">Vivid Lash Lounge</div><div class="card-url">vivid-lash-lounge.html</div></a>
+    <a class="card" href="./wagon-smokehouse.html"><div class="card-name">Wagon Smokehouse</div><div class="card-url">wagon-smokehouse.html</div></a>
+    <a class="card" href="./whitaker-legal.html"><div class="card-name">Whitaker Legal</div><div class="card-url">whitaker-legal.html</div></a>
+    <a class="card" href="./willow-lash-lounge.html"><div class="card-name">Willow Lash Lounge</div><div class="card-url">willow-lash-lounge.html</div></a>
+    <a class="card" href="./willow-wellness.html"><div class="card-name">Willow Wellness</div><div class="card-url">willow-wellness.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

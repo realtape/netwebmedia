@@ -33,10 +33,10 @@ Visit netwebmedia dot com. Starting at two hundred forty-nine dollars."
 
 SHOT-BY-SHOT DIRECTION:
 - 0–3s: Talking head, tight crop, founder speaks directly to camera.
-- 3–8s: B-roll — cluttered desk with multiple screens showing disconnected
-  marketing dashboards, sticky notes, dim office lighting. Problem framing.
-- 8–12s: Quick cuts — each "disconnected tool" represented by a different
-  logo/dashboard flash. Red X marks on screen.
+- 3–8s: B-roll — developer at dual desktop monitors in a professional office,
+  screens showing multiple disconnected marketing dashboards. Problem framing.
+- 8–12s: Quick cuts — each "disconnected tool" shown as a separate desktop
+  monitor screen with a red X overlay. Office environment, multiple screens.
 - 12–18s: Clean product UI mockup b-roll — showing a unified dashboard with
   Strategy, Content, AEO, CRM icons in electric cyan.
 - 18–24s: Talking head returns, confident close-up, modern minimal office

@@ -5,3 +5,5 @@
 - [Carlos's Google Calendar](reference_calendar.md) — carlos@netwebmedia.com, timezone America/Santiago; NWM tasks follow "NWM - Area - Task" naming + color coding
 - [Brand palette — Gulf Oil inspired](project_brand_palette.md) — Navy #010F3B + Orange #FF671F + Inter/Poppins; `css/styles.css` is canonical, NOT root `styles.css`
 - [Carlos's computers](user_computers.md) — Computer 1 = this Windows machine (Usuario); Computer 2 = his other computer
+- [NWM canonical plan docs](reference_nwm_plans.md) — Always incorporate `plans/business-plan.html`, `plans/marketing-plan.html`, `plans/brand-book.html`, `plans/execution-90day.html`, `plans/index.html` (hub) when reasoning about NetWebMedia
+- [Claude Pro Max, not ChatGPT](feedback_claude_not_chatgpt.md) — NWM's internal AI is Claude Pro Max / Anthropic API; ChatGPT is an AEO target, not an internal tool

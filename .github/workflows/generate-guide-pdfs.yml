@@ -1,7 +1,9 @@
-name: Generate Guide PDFs
+name: Generate Guide & Plan PDFs
 
 # Runs after the blog publisher commits new guides, or manually.
-# Converts /guides/*.html to /assets/guides/*.pdf using Puppeteer.
+# Converts /guides/*.html → /assets/guides/*.pdf
+#          /plans/*.html   → /assets/plans/*.pdf
+# Uses Puppeteer (headless Chrome) for pixel-perfect brand rendering.
 
 on:
   push:
@@ -9,10 +11,15 @@ on:
       - 'guides/**'
       - 'lp/**'
       - 'css/guide.css'
+      - 'plans/**'
   workflow_dispatch:
     inputs:
       slug:
         description: 'Specific guide slug to re-generate (leave blank for all)'
+        required: false
+        default: ''
+      plan_slug:
+        description: 'Specific plan slug to re-generate (leave blank for all, e.g. business-plan)'
         required: false
         default: ''
 
@@ -34,10 +41,9 @@ jobs:
       - name: Install Puppeteer
         run: |
           npm install puppeteer
-          # Install Chromium system deps
           npx puppeteer browsers install chrome
 
-      - name: Generate PDFs from guide HTMLs
+      - name: Generate Guide PDFs (guides/ → assets/guides/)
         run: |
           mkdir -p assets/guides
           node - <<'EOF'
@@ -46,8 +52,8 @@ jobs:
           const path = require('path');
 
           const slug = process.env.GUIDE_SLUG || '';
-          const guidesDir = 'guides';
-          const outDir = 'assets/guides';
+          const inputDir  = 'guides';
+          const outputDir = 'assets/guides';
 
           async function generatePDF(htmlFile, pdfFile) {
             const browser = await puppeteer.launch({
@@ -72,20 +78,19 @@ jobs:
           }
 
           async function main() {
-            const files = fs.readdirSync(guidesDir)
+            const files = fs.readdirSync(inputDir)
               .filter(f => f.endsWith('.html'))
               .filter(f => !slug || f === slug + '.html');
-
             for (const f of files) {
-              const htmlPath = path.join(guidesDir, f);
-              const pdfPath  = path.join(outDir, f.replace('.html', '.pdf'));
+              const htmlPath = path.join(inputDir, f);
+              const pdfPath  = path.join(outputDir, f.replace('.html', '.pdf'));
               try {
                 await generatePDF(htmlPath, pdfPath);
               } catch (err) {
                 console.error('✗', f, err.message);
               }
             }
-            console.log('Done.');
+            console.log('Guides done.');
           }
 
           main();
@@ -93,18 +98,102 @@ jobs:
         env:
           GUIDE_SLUG: ${{ github.event.inputs.slug }}
 
-      - name: Check for new PDFs
+      - name: Generate Plan PDFs (plans/ → assets/plans/)
+        run: |
+          mkdir -p assets/plans
+          node - <<'EOF'
+          const puppeteer = require('puppeteer');
+          const fs = require('fs');
+          const path = require('path');
+
+          const slug = process.env.PLAN_SLUG || '';
+          const inputDir  = 'plans';
+          const outputDir = 'assets/plans';
+
+          // Files to skip — index.html is a hub nav page, not a standalone doc
+          const SKIP = ['index.html'];
+
+          async function generatePDF(htmlFile, pdfFile) {
+            const browser = await puppeteer.launch({
+              args: ['--no-sandbox', '--disable-setuid-sandbox'],
+              headless: true
+            });
+            try {
+              const page = await browser.newPage();
+              // Inject print-only CSS: hide nav bar and TOC sidebar in PDFs
+              // so the document body fills the page cleanly.
+              await page.setContent(
+                fs.readFileSync(htmlFile, 'utf8').replace(
+                  '</head>',
+                  `<style>
+                    @media print {
+                      .plans-nav { display: none !important; }
+                      body { padding-top: 0 !important; }
+                    }
+                  </style></head>`
+                ),
+                {
+                  waitUntil: 'networkidle0',
+                  // Set base URL so relative CSS/font paths resolve correctly
+                }
+              );
+              // Use setContent with base URL workaround — goto file:// handles CSS better
+              const absolutePath = path.resolve(htmlFile);
+              const page2 = await browser.newPage();
+              await page2.goto('file://' + absolutePath, { waitUntil: 'networkidle0', timeout: 45000 });
+              await page2.evaluateHandle('document.fonts.ready');
+              // Hide nav for PDF only via page.addStyleTag
+              await page2.addStyleTag({
+                content: '.plans-nav { display: none !important; } body { padding-top: 0 !important; }'
+              });
+              await page2.pdf({
+                path: pdfFile,
+                format: 'Letter',
+                printBackground: true,
+                margin: { top: '24px', right: '32px', bottom: '24px', left: '32px' }
+              });
+              console.log('✓', pdfFile);
+              await page2.close();
+            } finally {
+              await browser.close();
+            }
+          }
+
+          async function main() {
+            const files = fs.readdirSync(inputDir)
+              .filter(f => f.endsWith('.html'))
+              .filter(f => !SKIP.includes(f))
+              .filter(f => !slug || f === slug + '.html');
+            for (const f of files) {
+              const htmlPath = path.join(inputDir, f);
+              const pdfPath  = path.join(outputDir, f.replace('.html', '.pdf'));
+              try {
+                await generatePDF(htmlPath, pdfPath);
+              } catch (err) {
+                console.error('✗', f, err.message);
+              }
+            }
+            console.log('Plans done.');
+          }
+
+          main();
+          EOF
+        env:
+          PLAN_SLUG: ${{ github.event.inputs.plan_slug }}
+
+      - name: Check for new/changed PDFs
         id: check
         run: |
-          COUNT=$(git status --porcelain assets/guides/ | wc -l)
+          COUNT=$(git status --porcelain assets/guides/ assets/plans/ | wc -l)
           echo "changed=$COUNT" >> "$GITHUB_OUTPUT"
           echo "PDF files changed: $COUNT"
+          git status --short assets/guides/ assets/plans/ || true
 
       - name: Commit and push PDFs
         if: steps.check.outputs.changed != '0'
         run: |
-          git config user.name "NWM Guide Bot"
+          git config user.name "NWM PDF Bot"
           git config user.email "bot@netwebmedia.com"
-          git add assets/guides/
-          git commit -m "guides: regenerate PDFs $(date -u '+%Y-%m-%d %H:%M') UTC"
+          git add assets/guides/ assets/plans/
+          git commit -m "pdfs: regenerate guides + plans $(date -u '+%Y-%m-%d %H:%M') UTC"
           git push

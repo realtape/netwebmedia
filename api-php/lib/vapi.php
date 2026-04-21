@@ -91,8 +91,8 @@ function vapi_create_assistant(string $name, string $system_prompt, array $opts 
       'messages' => [['role' => 'system', 'content' => $system_prompt]],
     ],
     'voice' => [
-      'provider' => '11labs',
-      'voiceId'  => 'rachel',
+      'provider' => 'playai',
+      'voiceId'  => 'jennifer',
     ],
     'firstMessage'         => $opts['first_message'] ?? 'Hi! Thanks for calling. How can I help you today?',
     'endCallFunctionEnabled' => true,

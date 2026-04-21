@@ -3,20 +3,24 @@ const fs = require('fs');
 const path = require('path');
 process.chdir(path.join(__dirname, '..'));
 
+const PEOPLE_POOL = [
+  '1758762641372-e3b52bf061d4',
+  '1522071820081-009f0129c71c',
+  '1542744173-8e7e53415bb0',
+  '1758691737568-a1572060ce5a',
+  '1748256373165-e4d125c5124f',
+  '1758691736424-4b4273948341',
+  '1702047063975-0841a0621b5a',
+  '1758876022088-2d46af5635c2',
+  '1690264695514-3af95dfa51be',
+  '1690264697065-33256aa3729b',
+  '1713947501966-34897f21162e',
+];
 const IMG_POOL = {
-  ai:         ['Ds5FesTkKhk','QckxruozjRg','3SxHV8OJEnQ','gMsnXqILjp4','YyJNda7nsPo'],
-  code:       ['1ozhKlzsEzg','SxaGgDQl2rU','M35xxKGb_tA','hXwm85W3uvc','OpOsPgGiFwc'],
-  data:       ['3SxHV8OJEnQ','Ds5FesTkKhk','zZ7J5qri6qY','MsCIMdM8WH8','QckxruozjRg'],
-  seo:        ['gMsnXqILjp4','YyJNda7nsPo','_RPfBzHpHEs','xuSRrlDsJtQ','OpOsPgGiFwc'],
-  video:      ['zZ7J5qri6qY','hXwm85W3uvc','M35xxKGb_tA','gMsnXqILjp4','Ds5FesTkKhk'],
-  voice:      ['xuSRrlDsJtQ','_RPfBzHpHEs','YyJNda7nsPo','QckxruozjRg','SxaGgDQl2rU'],
-  paid:       ['OpOsPgGiFwc','MsCIMdM8WH8','3SxHV8OJEnQ','gMsnXqILjp4','zZ7J5qri6qY'],
-  regulation: ['SxaGgDQl2rU','xuSRrlDsJtQ','hXwm85W3uvc','Ds5FesTkKhk','YyJNda7nsPo'],
-  mobile:     ['_RPfBzHpHEs','QckxruozjRg','M35xxKGb_tA','OpOsPgGiFwc','1ozhKlzsEzg'],
-  chips:      ['MsCIMdM8WH8','3SxHV8OJEnQ','zZ7J5qri6qY','SxaGgDQl2rU','gMsnXqILjp4'],
-  creative:   ['YyJNda7nsPo','hXwm85W3uvc','xuSRrlDsJtQ','Ds5FesTkKhk','_RPfBzHpHEs'],
-  meta:       ['1ozhKlzsEzg','OpOsPgGiFwc','QckxruozjRg','MsCIMdM8WH8','zZ7J5qri6qY'],
-  sales:      ['gMsnXqILjp4','_RPfBzHpHEs','hXwm85W3uvc','3SxHV8OJEnQ','xuSRrlDsJtQ'],
+  ai: PEOPLE_POOL, code: PEOPLE_POOL, data: PEOPLE_POOL, seo: PEOPLE_POOL,
+  video: PEOPLE_POOL, voice: PEOPLE_POOL, paid: PEOPLE_POOL, regulation: PEOPLE_POOL,
+  mobile: PEOPLE_POOL, chips: PEOPLE_POOL, creative: PEOPLE_POOL, meta: PEOPLE_POOL,
+  sales: PEOPLE_POOL,
 };
 
 const TAG_TO_TOPIC = {
@@ -47,8 +51,8 @@ for (const f of files) {
   const filePath = path.join(BLOG_DIR, f);
   let html = fs.readFileSync(filePath, 'utf8');
 
-  // Skip if already using new slug-based IDs (no /photo- pattern)
-  if (!html.includes('unsplash.com/photo-')) continue;
+  // Skip if already using verified CDN hashes from PEOPLE_POOL
+  if (PEOPLE_POOL.some(id => html.includes('unsplash.com/photo-' + id))) continue;
 
   const slug = f.replace(/\.html$/, '');
 
@@ -59,8 +63,8 @@ for (const f of files) {
 
   const newImg = imageFor(slug, topic);
 
-  // Replace all old photo- URLs (article hero + og:image + twitter:image)
-  html = html.replace(/https:\/\/images\.unsplash\.com\/photo-[^?'"]+\?[^'"]+/g, newImg);
+  // Replace all Unsplash URLs regardless of format (photo- numeric, slug, etc.)
+  html = html.replace(/https:\/\/images\.unsplash\.com\/[^?'"]+\?[^'"]+/g, newImg);
 
   fs.writeFileSync(filePath, html);
   patched++;

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — NetWebMedia</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/svg+xml" href="/assets/nwm-logo.svg" />
+  <link rel="stylesheet" href="/css/styles.css?v=6" />
+  <style>
+    .co-wrap { max-width:520px; margin:80px auto 100px; padding:0 20px; }
+    .co-back { display:inline-flex; align-items:center; gap:6px; color:#64748b; font-size:13px; text-decoration:none; margin-bottom:28px; }
+    .co-back:hover { color:#e6f1ff; }
+
+    /* Product card */
+    .co-product { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.1); border-radius:16px; padding:24px; margin-bottom:24px; }
+    .co-prod-type { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#64748b; margin-bottom:8px; }
+    .co-prod-name { font-size:18px; font-weight:800; color:#e6f1ff; margin:0 0 6px; }
+    .co-prod-delivery { font-size:13px; color:#64748b; margin:0 0 16px; }
+    .co-prod-price { font-size:36px; font-weight:900; color:#e6f1ff; }
+    .co-prod-price small { font-size:14px; color:#64748b; font-weight:400; }
+
+    /* Form */
+    .co-form { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:24px; margin-bottom:20px; }
+    .co-form h3 { font-size:15px; font-weight:700; color:#ccd6f6; margin:0 0 18px; }
+    .co-field { margin-bottom:16px; }
+    .co-field label { display:block; font-size:12px; font-weight:600; color:#64748b; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; }
+    .co-field input { width:100%; padding:11px 14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:9px; color:#e6f1ff; font-size:14px; box-sizing:border-box; outline:none; transition:border-color .15s; }
+    .co-field input:focus { border-color:#6366f1; }
+    .co-field input::placeholder { color:#475569; }
+
+    /* Payment methods */
+    .co-methods { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
+    .co-method-btn { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:18px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.03); cursor:pointer; font-size:13px; font-weight:700; color:#ccd6f6; transition:all .2s; }
+    .co-method-btn:hover:not(:disabled) { border-color:#6366f1; background:rgba(99,102,241,.08); }
+    .co-method-btn.stripe-btn:hover:not(:disabled) { border-color:#635BFF; background:rgba(99,91,255,.08); }
+    .co-method-btn.mp-btn:hover:not(:disabled) { border-color:#009EE3; background:rgba(0,158,227,.08); }
+    .co-method-btn:disabled { opacity:.5; cursor:not-allowed; }
+    .co-method-btn .btn-logo { font-size:22px; }
+    .co-method-btn .btn-label { font-size:12px; color:#64748b; font-weight:400; }
+
+    /* States */
+    .co-spinner { display:none; text-align:center; padding:40px 20px; color:#64748b; }
+    .co-spinner.active { display:block; }
+    .co-success { display:none; text-align:center; padding:40px 20px; }
+    .co-success.active { display:block; }
+    .co-success .success-icon { font-size:56px; margin-bottom:16px; }
+    .co-success h2 { font-size:22px; font-weight:800; color:#34d399; margin:0 0 10px; }
+    .co-success p { color:#8892b0; font-size:14px; line-height:1.6; margin:0 0 24px; }
+    .co-success a { display:inline-block; padding:12px 24px; border-radius:10px; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; text-decoration:none; font-weight:700; font-size:14px; }
+    .co-error { display:none; padding:14px 18px; background:rgba(248,113,113,.1); border:1px solid rgba(248,113,113,.3); border-radius:10px; color:#f87171; font-size:13px; margin-bottom:16px; }
+    .co-error.active { display:block; }
+
+    /* Guarantee */
+    .co-guarantee { text-align:center; color:#475569; font-size:12px; margin-top:16px; line-height:1.6; }
+    .co-guarantee a { color:#6366f1; }
+
+    /* Skeleton */
+    .co-skeleton { background:rgba(255,255,255,.04); border-radius:8px; height:20px; margin-bottom:10px; animation:pulse 1.5s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:.9} }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="/index.html" class="nav-logo">
+        <img src="/assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px" loading="lazy">
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="co-wrap">
+  <a href="/catalogue.html" class="co-back">← Back to catalogue</a>
+
+  <!-- Success state -->
+  <div class="co-success" id="stateSuccess">
+    <div class="success-icon">✅</div>
+    <h2>Payment confirmed!</h2>
+    <p id="successMsg">Thank you for your purchase. You'll receive your access link within 15 minutes via WhatsApp or email.</p>
+    <a href="/catalogue.html">Browse more courses →</a>
+  </div>
+
+  <!-- Checkout form -->
+  <div id="stateCheckout">
+    <!-- Product info -->
+    <div class="co-product" id="productCard">
+      <div class="co-skeleton" style="width:80px;height:11px"></div>
+      <div class="co-skeleton" style="width:100%;height:22px;margin-top:12px"></div>
+      <div class="co-skeleton" style="width:60%;height:14px;margin-top:8px"></div>
+      <div class="co-skeleton" style="width:100px;height:36px;margin-top:16px"></div>
+    </div>
+
+    <!-- Error -->
+    <div class="co-error" id="errorBox"></div>
+
+    <!-- Form -->
+    <div class="co-form">
+      <h3>Contact info <span style="color:#475569;font-weight:400">(for delivery)</span></h3>
+      <div class="co-field">
+        <label>Email *</label>
+        <input type="email" id="fieldEmail" placeholder="you@company.com" required />
+      </div>
+      <div class="co-field">
+        <label>Name (optional)</label>
+        <input type="text" id="fieldName" placeholder="Your name" />
+      </div>
+
+      <div id="methodsLabel" style="font-size:13px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-top:20px;margin-bottom:12px">Choose payment method</div>
+      <div class="co-methods">
+        <button class="co-method-btn stripe-btn" id="btnStripe" onclick="startCheckout('stripe')">
+          <span class="btn-logo">💳</span>
+          <span>Stripe</span>
+          <span class="btn-label">Credit / Debit card</span>
+        </button>
+        <button class="co-method-btn mp-btn" id="btnMP" onclick="startCheckout('mp')">
+          <span class="btn-logo">🔵</span>
+          <span>Mercado Pago</span>
+          <span class="btn-label">Cards · Cash · Transfer</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="co-guarantee">
+      🛡️ 7-day money-back guarantee &nbsp;·&nbsp; Secure checkout &nbsp;·&nbsp;
+      <a href="/privacy.html">Privacy policy</a>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="co-spinner" id="stateSpinner">
+    <div style="font-size:32px;margin-bottom:12px">⏳</div>
+    <div style="color:#ccd6f6;font-weight:600">Redirecting to payment…</div>
+    <div style="font-size:13px;margin-top:6px">You'll be back here after payment.</div>
+  </div>
+</div>
+
+<script>
+/* ── Product catalog (mirrors catalogue.php) ── */
+var PRODUCTS = {
+  'whatsapp-course': { name:'WhatsApp Business Automation Mastery',     usd:297, type:'course', delivery:'Course access link via WhatsApp within 15 min' },
+  'chatbot-course':  { name:'AI Chatbot Automation — Full Deployment',   usd:347, type:'course', delivery:'Course access link via WhatsApp within 15 min' },
+  'sms-course':      { name:'SMS & Multi-Platform Messaging Automation', usd:197, type:'course', delivery:'Course access link via WhatsApp within 15 min' },
+  'course-trilogy':  { name:'Course Trilogy — All 3 Courses',           usd:597, type:'bundle', delivery:'All 3 access links via WhatsApp within 15 min' },
+  'automation-os':   { name:'Automation OS — Complete Bundle',           usd:697, type:'bundle', delivery:'All courses + PDF links via WhatsApp within 15 min' },
+  'whatsapp-pdf':    { name:'WhatsApp Automation Playbook (PDF)',         usd:47,  type:'pdf',    delivery:'PDF download link via email within 5 min' },
+  'chatbot-pdf':     { name:'AI Chatbot Automation Playbook (PDF)',       usd:57,  type:'pdf',    delivery:'PDF download link via email within 5 min' },
+  'pdf-bundle':      { name:'PDF Bundle — Both Playbooks',               usd:77,  type:'pdf',    delivery:'Both PDF download links via email within 5 min' },
+};
+
+var TYPE_LABEL = { course:'Course', bundle:'Bundle', pdf:'PDF Playbook' };
+
+var params  = new URLSearchParams(location.search);
+var prodCode = params.get('product');
+
+/* ── Success state ── */
+if (params.get('success') === '1' || params.get('success') === 'pending') {
+  show('stateSuccess');
+  hide('stateCheckout');
+  var prod = PRODUCTS[prodCode];
+  var msg = params.get('success') === 'pending'
+    ? 'Your payment is being processed. You'll receive your access link via WhatsApp or email within 30 minutes.'
+    : (prod ? prod.delivery : 'You\'ll receive your access link shortly.');
+  document.getElementById('successMsg').textContent = msg;
+} else {
+  renderProduct();
+}
+
+function renderProduct() {
+  var card = document.getElementById('productCard');
+  var prod = PRODUCTS[prodCode];
+  if (!prod) {
+    card.innerHTML = '<p style="color:#f87171">Product not found. <a href="/catalogue.html" style="color:#6366f1">Back to catalogue →</a></p>';
+    document.querySelector('.co-form').style.display = 'none';
+    document.querySelector('.co-guarantee').style.display = 'none';
+    return;
+  }
+  card.innerHTML =
+    '<div class="co-prod-type">' + TYPE_LABEL[prod.type] + '</div>' +
+    '<div class="co-prod-name">' + prod.name + '</div>' +
+    '<div class="co-prod-delivery">📬 ' + prod.delivery + '</div>' +
+    '<div class="co-prod-price">$' + prod.usd + '<small> USD</small></div>';
+  if (params.get('cancelled') === '1') showError('Payment was cancelled. You can try again below.');
+  if (params.get('failed') === '1')    showError('Payment failed. Please try a different method.');
+}
+
+/* ── Checkout ── */
+function startCheckout(method) {
+  var email = document.getElementById('fieldEmail').value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showError('Please enter a valid email address to receive your purchase.');
+    document.getElementById('fieldEmail').focus();
+    return;
+  }
+  hideError();
+  setLoading(true);
+
+  fetch('/api/catalogue/checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      product_code: prodCode,
+      method: method,
+      email: email,
+      name: document.getElementById('fieldName').value.trim()
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.checkout_url) {
+      window.location.href = data.checkout_url;
+    } else {
+      setLoading(false);
+      showError(data.error || 'Checkout failed. Please try again or contact us on WhatsApp.');
+    }
+  })
+  .catch(function(e) {
+    setLoading(false);
+    showError('Network error. Please check your connection and try again.');
+  });
+}
+
+/* ── Helpers ── */
+function show(id) { document.getElementById(id).classList.add('active'); }
+function hide(id) { document.getElementById(id).classList.remove('active'); }
+function showError(msg) { var el = document.getElementById('errorBox'); el.textContent = msg; el.classList.add('active'); }
+function hideError() { document.getElementById('errorBox').classList.remove('active'); }
+function setLoading(on) {
+  var form    = document.querySelector('.co-form');
+  var spinner = document.getElementById('stateSpinner');
+  if (on) {
+    form.style.display = 'none';
+    spinner.classList.add('active');
+    document.querySelector('.co-guarantee').style.display = 'none';
+  } else {
+    form.style.display = '';
+    spinner.classList.remove('active');
+    document.querySelector('.co-guarantee').style.display = '';
+  }
+}
+</script>
+</body>
+</html>

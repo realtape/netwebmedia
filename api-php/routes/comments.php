@@ -1,7 +1,7 @@
 <?php
 /* Blog post comments — public, no auth required
-   GET  /api/public/comments?slug=xxx  → list approved comments
-   POST /api/public/comments           → submit a comment
+   GET  /api/comments?slug=xxx  → list approved comments
+   POST /api/comments           → submit a comment
 */
 
 function comments_ensure_schema() {

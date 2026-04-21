@@ -16,12 +16,12 @@
   RewriteRule ^api-php(/|$)             - [F,L]
   RewriteRule ^n8n-templates(/|$)       - [F,L]
   RewriteRule ^plans(/|$)               - [F,L]
-  RewriteRule ^guides(/|$)              - [F,L]
   RewriteRule ^proposals(/|$)           - [F,L]
   RewriteRule ^deliverables(/|$)        - [F,L]
   RewriteRule ^email-templates(/|$)     - [F,L]
   RewriteRule ^site-upload(/|$)         - [F,L]
-  RewriteRule ^lp(/|$)                  - [F,L]
+  # /guides/ and /lp/ are public marketing content (noindex prevents SEO,
+  # but bot + paid ads link to them directly — must be reachable).
 </IfModule>
 
 # ── URL redirects (301) ────────────────────────────────────────────────

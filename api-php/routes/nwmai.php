@@ -16,18 +16,25 @@
 require_once __DIR__ . '/../lib/db.php';
 require_once __DIR__ . '/../lib/response.php';
 require_once __DIR__ . '/../lib/auth.php';
+require_once __DIR__ . '/../lib/knowledge-base.php';
 require_once __DIR__ . '/ai.php';  // for ai_call_claude() + ai_ensure_schema()
 
 function nwmai_system_prompt($context = []) {
-  $base = "You are NWMai, the unified AI assistant built into the NetWebMedia platform (CRM + CMS + Marketing).\n"
-        . "You help users: draft emails and SMS, summarize deals and tickets, generate CMS pages and blog posts,\n"
-        . "write SEO meta, translate content (EN/ES), build automations, and suggest next best actions.\n"
+  // Prepend the full NetWebMedia KB so NWMai can answer any prospect/client
+  // question about pricing, plans, features, tutorials, etc. in addition to
+  // its in-app assistant role. Context-injection (route/entity/user) is kept.
+  $kb = nwm_unified_kb();
+  $role = "━━ NWMai ROLE (in addition to the KB above) ━━\n"
+        . "You are NWMai, the unified AI assistant built into the NetWebMedia platform (CRM + CMS + Marketing).\n"
+        . "Beyond answering any NetWebMedia question from the knowledge base above, you also help logged-in users:\n"
+        . "draft emails and SMS, summarize deals and tickets, generate CMS pages and blog posts, write SEO meta,\n"
+        . "translate content (EN/ES), build automations, and suggest next best actions.\n"
         . "Be concise, action-oriented, and executive in tone. Never invent data — if you don't have it, ask.\n"
         . "Default language: English. If the user writes in Spanish, reply in Spanish.";
-  if (!empty($context['route']))  $base .= "\n\nCurrent CRM route: {$context['route']}";
-  if (!empty($context['entity'])) $base .= "\nCurrent entity: " . json_encode($context['entity']);
-  if (!empty($context['user']))   $base .= "\nUser: " . json_encode($context['user']);
-  return $base;
+  if (!empty($context['route']))  $role .= "\n\nCurrent CRM route: {$context['route']}";
+  if (!empty($context['entity'])) $role .= "\nCurrent entity: " . json_encode($context['entity']);
+  if (!empty($context['user']))   $role .= "\nUser: " . json_encode($context['user']);
+  return $kb . "\n\n" . $role;
 }
 
 function nwmai_load_history($sessionId, $limit = 20) {

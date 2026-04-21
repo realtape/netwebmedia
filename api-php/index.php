@@ -51,6 +51,14 @@ try {
     require __DIR__ . '/routes/resources.php';
     route_resources($parts, $method);
   } elseif ($group === 'public') {
+    // Short-circuit prospect chat before loading routes/public.php — the
+    // unified-KB chatbot endpoint lives in its own file to avoid OPcache
+    // collisions with the rest of the public router.
+    if (($parts[0] ?? '') === 'chat' && !isset($parts[1])) {
+      require __DIR__ . '/routes/public-chat.php';
+      route_public_chat();
+      exit;
+    }
     require __DIR__ . '/routes/public.php';
     route_public($parts, $method);
   } elseif ($group === 'workflows') {

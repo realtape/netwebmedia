@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>B2B Intent Data + AI: The Account Targeting Playbook — NetWebMedia Guide</title>
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="../css/guide.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+</head>
+<body class="guide-body">
+
+<!-- COVER -->
+<div class="guide-cover">
+  <div class="guide-cover-top">
+    <div class="guide-cover-nwm">NetWebMedia</div>
+    <div class="guide-cover-year">2026</div>
+  </div>
+  <div class="guide-cover-body">
+    <div class="guide-cover-tag">B2B Marketing Guide</div>
+    <h1 class="guide-cover-title">B2B Intent Data + AI: The Account Targeting Playbook</h1>
+    <p class="guide-cover-subtitle">Stop chasing noise — build a scoring model that finds ready-to-buy accounts before your competitors do</p>
+  </div>
+  <div class="guide-cover-bottom">
+    <div class="guide-cover-author">
+      <strong>Carlos Rivera</strong>
+      Founder, NetWebMedia
+    </div>
+    <div class="guide-cover-meta">
+      13 pages<br>
+      netwebmedia.com
+    </div>
+  </div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="guide-toc">
+  <div class="guide-toc-header"><h2>Contents</h2></div>
+  
+    <div class="toc-item">
+      <span class="toc-item-title">Why Intent Data Alone Fails: The Signal-to-Noise Problem</span>
+      <span class="toc-item-desc">Why raw intent scores produce low conversion rates and how to reframe the problem correctly.</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-item-title">The Intent Signal Taxonomy: 1st-, 2nd-, and 3rd-Party Signals Ranked by Reliability</span>
+      <span class="toc-item-desc">A ranked taxonomy of every signal type, from your own behavioral data down to third-party keyword surges.</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-item-title">Building the Scoring Model: Variables, Weights, and Training Data Requirements</span>
+      <span class="toc-item-desc">How to design a scoring model that reflects actual buying behavior rather than vendor-provided scores.</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-item-title">The 5-Tier Account Prioritization Framework</span>
+      <span class="toc-item-desc">A practical tier system that maps composite intent scores to specific SLA and activation plays.</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-item-title">Activation Playbook: Different Plays for Each Tier</span>
+      <span class="toc-item-desc">The exact sequence structure, messaging approach, and channel mix for each intent tier.</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-item-title">Stack Architecture: Bombora + Clay + HubSpot + Your Own Data</span>
+      <span class="toc-item-desc">How to connect the four core components into a unified intent data pipeline with minimal manual steps.</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-item-title">First-Party Signal Collection: The 12 On-Site and In-Product Signals Worth Capturing</span>
+      <span class="toc-item-desc">The specific behavioral events you should be tracking on your own properties — and how to capture them correctly.</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-item-title">Measuring Model Accuracy: Precision, Recall, and Business Impact</span>
+      <span class="toc-item-desc">The metrics that tell you whether your intent model is actually working — and how to calculate them.</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-item-title">The 6-Week Implementation Timeline</span>
+      <span class="toc-item-desc">A week-by-week rollout plan that takes you from raw data access to a live scoring model in production.</span>
+    </div>
+  <div class="guide-footer"><span class="guide-footer-brand">NetWebMedia</span><span class="guide-footer-url">netwebmedia.com</span></div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<div class="guide-exec-summary">
+  <div class="guide-exec-tag">Executive Summary</div>
+  <h2>B2B Intent Data + AI: The Account Targeting Playbook</h2>
+  <p>Intent data promised to end cold outreach by revealing which accounts are actively researching your category right now. The reality for most B2B teams: a noisy firehose of signals that floods SDR queues, burns rep credibility, and produces conversion rates indistinguishable from cold lists. The problem is not the data — it is the absence of a scoring architecture that distinguishes genuine buying intent from routine content browsing. This guide builds that architecture from the ground up, covering signal taxonomy, model design, tiered activation, and the stack required to operationalize it at scale.</p>
+  <div class="guide-takeaways-box">
+    <h3>In this guide</h3>
+    <ul>
+      <li>How to classify and rank 1st-, 2nd-, and 3rd-party intent signals by actual predictive value</li>
+      <li>A scoring model framework with variable weights, decay functions, and training data thresholds</li>
+      <li>A 5-tier account prioritization system with specific activation plays for each tier</li>
+      <li>The exact stack architecture connecting Bombora, Clay, HubSpot, and your own behavioral data</li>
+      <li>A 6-week rollout timeline with measurable milestones at each phase</li>
+    </ul>
+  </div>
+  <p><strong>Who this is for:</strong> B2B marketing and revenue ops leaders who are already purchasing intent data but struggling to translate signals into pipeline.</p>
+  <div class="guide-footer"><span class="guide-footer-brand">NetWebMedia</span><span class="guide-footer-url">netwebmedia.com</span></div>
+</div>
+
+<!-- CONTENT SECTIONS -->
+
+<div class="guide-section">
+  <div class="guide-section-header">
+    <div class="guide-section-num">Section 1</div>
+    <h2>Why Intent Data Alone Fails: The Signal-to-Noise Problem</h2>
+  </div><p>Third-party intent vendors report that an account is 'surging' on a topic when its employees consume above-average volumes of content matching a keyword cluster over a rolling window — typically 30 or 60 days. This methodology has two structural weaknesses. First, keyword clusters are broad by design; 'marketing automation' captures everyone from a Fortune 500 replacing Marketo to a solopreneur reading beginner blog posts. Second, the surge threshold is relative to that account's own historical baseline, which means a company that never reads anything appears 'active' the first time a single employee clicks one article. Most intent platforms are incentivized to report more accounts as surging because volume justifies their pricing. The result: a 10,000-account ICP list where 3,000 accounts are flagged as active, SDRs call all 3,000, and conversion to meeting hovers around 0.8% — barely above the 0.6% you'd get from a cold dial without any data. The fix is not better data in isolation. It is a filtering and scoring layer that combines multiple signal types, applies firmographic and technographic qualifiers, and surfaces accounts where multiple independent signals align simultaneously. When three or more independent signals converge on the same account in the same two-week window, meeting conversion rates in well-tuned models consistently reach 4–6%, a 5x to 7x lift over unfiltered intent.</p><p>Signal convergence is the core concept. One intent spike is noise. A third-party topic surge combined with a G2 category page visit, two LinkedIn job postings for roles in your buyer's title, and a recent funding announcement is a pattern. Your scoring model's primary job is to detect these convergence events and rank accounts by their density and recency. Everything else in this guide flows from that insight.</p><div class="guide-callout"><p>Accounts with 3+ independent signals converging in a 14-day window convert to meetings at 4–6% vs. 0.8% for unfiltered intent queues.</p></div><div class="guide-stat-box">
+        <div class="guide-stat-num">68%</div>
+        <div class="guide-stat-label">of SDR-worked intent leads show no follow-on engagement after first outreach (Forrester, 2025)</div>
+      </div>
+  <div class="guide-footer"><span class="guide-footer-brand">NetWebMedia</span><span class="guide-footer-url">netwebmedia.com</span></div>
+</div>
+
+<div class="guide-section">
+  <div class="guide-section-header">
+    <div class="guide-section-num">Section 2</div>
+    <h2>The Intent Signal Taxonomy: 1st-, 2nd-, and 3rd-Party Signals Ranked by Reliability</h2>
+  </div><p>Not all intent signals are created equal. The most reliable signals are those you control and observe directly — first-party data from your own digital properties. These carry zero interpretation risk and no vendor intermediary. Second-party signals come from partner data shares and review platforms where the behavior is still relatively direct but passes through one layer of aggregation. Third-party signals are inferred from publisher networks and cookie-based browsing behavior, making them the least reliable but often the most scalable in terms of account coverage. Ranking signals by reliability before assigning weights to your scoring model prevents you from over-indexing on what is most available (third-party volume) versus what is most predictive (first-party intent). The reliability ranking from highest to lowest: (1) product trial or freemium login activity, (2) pricing page visits on your own site, (3) G2 or Capterra category page visits for your specific subcategory, (4) direct competitor comparison searches on your site, (5) webinar or event attendance, (6) content downloads with form fill, (7) Bombora topic surge for your exact category keyword, (8) LinkedIn content engagement with your posts, (9) job postings matching buyer or technical roles, (10) news events such as funding rounds or leadership changes.</p><p>The tier boundaries matter operationally. First-party signals above a threshold should trigger immediate SDR action within 24 hours. Second-party signals alone should route to a nurture sequence, not a sales queue. Third-party signals should only escalate to SDR when they are corroborated by at least one signal from a higher tier. Enforcing these routing rules — not just building the model — is where most teams fail.</p><ul><li>Tier 1 (highest): On-site pricing/demo page visits, trial activations, in-product usage events</li><li>Tier 2: G2/Capterra category page views, review reading, competitor comparison pages</li><li>Tier 3: Webinar/event registrations and attendance, gated content downloads</li><li>Tier 4: Bombora or TechTarget keyword surges on category-specific topics</li><li>Tier 5 (lowest but wide coverage): Job postings, LinkedIn engagement, funding news, leadership changes</li><li>Cross-tier rule: Never escalate a Tier 4 or 5 signal to sales without Tier 2 or 3 corroboration</li><li>Decay rule: Weight signals on recency — a signal older than 21 days should lose 50% of its weight</li></ul><div class="guide-stat-box">
+        <div class="guide-stat-num">4.2x</div>
+        <div class="guide-stat-label">higher meeting conversion when first-party and third-party signals are combined vs. third-party alone</div>
+      </div>
+  <div class="guide-footer"><span class="guide-footer-brand">NetWebMedia</span><span class="guide-footer-url">netwebmedia.com</span></div>
+</div>
+
+<div class="guide-section">
+  <div class="guide-section-header">
+    <div class="guide-section-num">Section 3</div>
+    <h2>Building the Scoring Model: Variables, Weights, and Training Data Requirements</h2>
+  </div><p>A properly constructed intent scoring model has three layers: a firmographic qualifier gate that removes accounts outside your ICP before any behavioral scoring runs; a signal scoring layer that assigns weighted points to each observed behavior; and a time-decay function that reduces score for signals older than a defined threshold. The firmographic gate is non-negotiable. Scoring an account that is a two-person startup when your minimum deal size requires 200 employees wastes SDR time regardless of how many intent signals fire. Define hard gates on employee count, revenue range, industry vertical, geography, and technology stack before any behavioral scoring begins. The signal scoring layer should weight signals according to the reliability taxonomy above, but the specific weights need to be calibrated against your own closed-won data. Pull 12 months of closed-won accounts from your CRM and retroactively identify which intent signals were present at or before the opportunity creation date. The signals that appear most frequently in won accounts, and least frequently in lost or stalled accounts, are your highest-weight variables. Start with a 100-point scale. Assign your highest-reliability signal — typically a pricing page visit or trial activation — a value of 40–50 points. First-party content downloads at 15–20 points. G2 activity at 15 points. Bombora surge at 10 points. Technographic fit bonus of 5–10 points for confirmed stack match. Firmographic fit bonus of 5 points for exact ICP match on all dimensions.</p><p>Training data requirements are often underestimated. A reliable model needs at minimum 150 closed-won accounts with intent signal history available at the time of opportunity creation. If you have fewer, start with a manual scoring approach using the taxonomy above and treat it as a 'v0' model until you accumulate enough data to validate weight assignments. Retrain the model quarterly using the prior quarter's closed-won and churned data. Track the model's precision (what percentage of high-intent accounts actually convert to opportunity) and recall (what percentage of accounts that eventually converted were flagged as high-intent before the deal opened). Target precision above 40% and recall above 60% for a mature model.</p><ul><li>Gate 1 — Firmographic qualifier: employee count, revenue, industry, geo, tech stack must all match ICP</li><li>Gate 2 — Recency qualifier: at least one signal within the last 30 days required to enter scoring</li><li>Signal weight assignment: calibrate against 12+ months of closed-won CRM data</li><li>Apply 50% decay to signals older than 21 days; drop signals older than 60 days entirely</li><li>Composite score threshold for SDR routing: set at the point where historical precision exceeds 35%</li><li>Require minimum 150 closed-won accounts with retroactive signal data before trusting model weights</li><li>Retrain quarterly; track precision and recall as primary model health metrics</li></ul><div class="guide-callout"><p>The single biggest modeling mistake: using vendor-provided intent scores as input variables rather than raw signal events. Vendor scores already apply their own opaque weighting, making your model a black box on top of a black box.</p></div>
+  <div class="guide-footer"><span class="guide-footer-brand">NetWebMedia</span><span class="guide-footer-url">netwebmedia.com</span></div>
+</div>
+
+<div class="guide-section">
+  <div class="guide-section-header">
+    <div class="guide-section-num">Section 4</div>
+    <h2>The 5-Tier Account Prioritization Framework</h2>
+  </div><p>Once your scoring model produces composite scores, you need a tier system that translates scores into clear routing rules, SLAs, and resource allocation. A five-tier framework covers the full range from net-new cold accounts to accounts showing imminent purchase signals. Tier 1 — Hot (score 80–100): Accounts with multiple converging signals, confirmed ICP fit, and at least one first-party signal in the last 7 days. SDR SLA is same-day outreach with personalized multi-channel sequence. These are your highest-velocity opportunities. In a mature model, this tier should contain 1–3% of your total addressable account list at any given time. If it contains more than 5%, your scoring thresholds are too loose. Tier 2 — Warm (score 60–79): Strong intent with at least two signal types but no first-party trigger, or first-party trigger older than 7 days. SDR SLA is 48-hour outreach with a lighter personalized sequence. Tier 3 — Active (score 40–59): One or two signals, typically third-party, with solid firmographic fit. Route to Marketing Qualified Account nurture tracks — educational sequences, retargeting, and event invitations. No SDR involvement unless score elevates.</p><p>Tier 4 — Watch (score 20–39): Minimal signal activity but strong ICP fit. These accounts warrant low-cost engagement only — quarterly newsletter inclusion, event invitations, awareness-level ads. Maintain visibility without burning sales resources. Tier 5 — Cold (score 0–19): ICP-fit accounts with no current signal activity. These should receive only top-of-funnel brand touchpoints and be monitored for score changes. The critical operational rule: enforce strict tier boundaries in your CRM. Create a custom account property for intent tier and automate its update via your data enrichment layer. Without hard-coded tier assignments that auto-update, teams default to working every account that looks interesting and the scoring model becomes decoration rather than infrastructure.</p><div class="guide-stat-box">
+        <div class="guide-stat-num">73%</div>
+        <div class="guide-stat-label">of marketing-generated pipeline in top-quartile B2B companies originates from Tier 1 and Tier 2 intent accounts</div>
+      </div>
+  <div class="guide-footer"><span class="guide-footer-brand">NetWebMedia</span><span class="guide-footer-url">netwebmedia.com</span></div>
+</div>
+
+<div class="guide-section">
+  <div class="guide-section-header">
+    <div class="guide-section-num">Section 5</div>
+    <h2>Activation Playbook: Different Plays for Each Tier</h2>
+  </div><p>Tier 1 activation requires genuine personalization at the account and contact level, not mail-merge tokens. The SDR should review the account's specific intent signals before outreach, reference the buyer's likely research question in the first touch, and connect the account's firmographic context (industry, company size, recent news) to a specific use case. A Tier 1 sequence should span 10–14 days and include: Day 1 — personalized email referencing a specific pain point implied by the intent signal; Day 1 — LinkedIn connection request with short personalized note; Day 3 — phone call with a voicemail that references the same research theme; Day 5 — email with a relevant case study from the same vertical; Day 7 — LinkedIn InMail if email has not opened; Day 10 — breakup email with a direct ask. The sequence should pause and notify the SDR if any reply, meeting book, or positive engagement signal is received. The personalization brief for each Tier 1 account should take no more than 5 minutes if your Clay enrichment layer is set up correctly — the account research should be pre-populated into the CRM before the SDR ever opens the record.</p><p>Tier 2 plays are lighter on research but heavier on content. A 21-day, 6-touch sequence that leads with a relevant piece of thought leadership rather than a direct meeting ask. The goal is to confirm active interest before investing full SDR attention. Tier 3 accounts enter automated Marketing Qualified Account tracks: a 45-day educational email sequence, inclusion in retargeting audiences, and an invitation to a category-relevant webinar. If a Tier 3 account books a webinar, downloads content, or visits the pricing page, it should automatically re-score and potentially promote to Tier 2 or Tier 1. Tier 4 accounts receive one-to-many content distribution only — newsletter, event outreach, awareness retargeting. Never assign Tier 4 accounts to an SDR queue.</p><ul><li>Tier 1: 10-14 day, 6-touch sequence; personalize to specific intent signals; SDR-led; 24-hour SLA</li><li>Tier 2: 21-day, 6-touch sequence; content-led opening; SDR-assisted; 48-hour SLA</li><li>Tier 3: 45-day automated MQA nurture; educational content + retargeting; no SDR until re-score</li><li>Tier 4: Quarterly low-touch engagement only; newsletter and event invitations</li><li>Tier 5: Brand awareness retargeting only; monitor for score changes weekly</li><li>All tiers: Any positive engagement event (reply, click, form fill) should trigger immediate re-scoring</li><li>Build a 'tier promotion' alert in HubSpot that notifies SDR when a Tier 3 account elevates to Tier 2+</li></ul><div class="guide-callout"><p>The most common activation failure: treating all intent tiers with the same sequence. A Tier 3 account that receives a pushy 'ready to buy?' opener will permanently disengage — and it would have been a Tier 1 account in 60 days.</p></div>
+  <div class="guide-footer"><span class="guide-footer-brand">NetWebMedia</span><span class="guide-footer-url">netwebmedia.com</span></div>
+</div>
+
+<div class="guide-section">
+  <div class="guide-section-header">
+    <div class="guide-section-num">Section 6</div>
+    <h2>Stack Architecture: Bombora + Clay + HubSpot + Your Own Data</h2>
+  </div><p>The recommended stack for mid-market B2B teams has four layers. Layer 1 — Signal ingestion: Bombora (or a comparable co-op provider) for third-party topic signals; your own website analytics (GA4 + HubSpot page view tracking) for first-party behavioral signals; G2 Buyer Intent for review platform signals; and LinkedIn Campaign Manager for engagement signals. Each source should feed into a central enrichment hub — Clay is the current best-in-class tool for this because it combines enrichment APIs, conditional logic, and CRM write-back in a single workflow builder. Layer 2 — Enrichment and scoring in Clay: Build a Clay table that pulls ICP accounts from HubSpot, enriches each with Bombora intent signals (via API), firmographic data from Clearbit or Apollo, technographic data from BuiltWith, and job posting data from Predictleads or LinkedIn. Write a Clay formula that computes your composite intent score based on the weights you have calibrated. Set a workflow trigger that pushes updated scores back to HubSpot account records every 24 hours. Layer 3 — Routing and activation in HubSpot: Use HubSpot Workflows to translate intent tier assignments (the property that Clay writes) into enrollment in the appropriate sequence, task creation for SDRs, and notification triggers. Build a smart list for each tier that auto-updates as Clay refreshes scores.</p><p>Layer 4 — Your own behavioral data is the most valuable layer and the most often neglected. Ensure every meaningful on-site interaction is firing a HubSpot custom event — pricing page views, demo button clicks, specific blog post reads, resource downloads, chatbot interactions. These events should feed directly into the Clay scoring table via HubSpot's API. If you have a product with a freemium or trial tier, product usage events should be your single highest-weighted signal and should route directly to a Tier 1 activation play regardless of other signal activity.</p><ul><li>Bombora API integration: pull company-level topic scores for your top 5-10 category keywords daily</li><li>Clay table structure: one row per ICP account; columns for each signal source plus composite score</li><li>HubSpot custom property: 'Intent Score' (number) and 'Intent Tier' (dropdown 1-5)</li><li>Clay → HubSpot sync: run every 24 hours via Clay's HubSpot integration; update score and tier</li><li>HubSpot Workflow: if Intent Tier = 1, create SDR task + enroll in Tier 1 sequence + notify manager</li><li>Pricing page event: fire HubSpot custom event on every pricing page visit; trigger immediate re-score</li><li>Data hygiene: deduplicate company records in Clay before syncing; mismatched domains corrupt scores</li></ul><div class="guide-stat-box">
+        <div class="guide-stat-num">11 hours</div>
+        <div class="guide-stat-label">average weekly SDR time saved on account research when Clay enrichment is fully configured</div>
+      </div>
+  <div class="guide-footer"><span class="guide-footer-brand">NetWebMedia</span><span class="guide-footer-url">netwebmedia.com</span></div>
+</div>
+
+<div class="guide-section">
+  <div class="guide-section-header">
+    <div class="guide-section-num">Section 7</div>
+    <h2>First-Party Signal Collection: The 12 On-Site and In-Product Signals Worth Capturing</h2>
+  </div><p>First-party intent signals are consistently the most predictive inputs to any scoring model, yet most B2B companies capture fewer than four of them reliably. The gap is usually technical: marketing teams rely on standard HubSpot page view tracking without implementing custom event instrumentation for high-value interactions. Standard page view tracking tells you that someone visited your website. Custom events tell you that a specific person at a specific company clicked the pricing calculator, scrolled to 80% of a case study page, watched 75% of a product demo video, or triggered the exit-intent overlay on a comparison page. These behavioral micro-signals are exponentially more predictive than aggregate page view data because they indicate active evaluation behavior rather than passive browsing. The 12 signals worth capturing are: (1) pricing page visit, (2) pricing calculator interaction, (3) demo request button click (even if form is abandoned), (4) case study page visit + 60%+ scroll depth, (5) ROI calculator interaction, (6) product page visit for a specific use case, (7) comparison page visit, (8) documentation or integration page visit (indicates technical evaluation), (9) chatbot interaction initiated, (10) careers page visit for technical roles at a company that is your prospect, (11) blog post read with 70%+ scroll depth on bottom-of-funnel topics, and (12) any return visit within 7 days of a previous pricing or demo page visit.</p><p>Implementation requires placing custom JavaScript event tracking on each of these interactions and firing them as HubSpot custom behavioral events. If you are using GA4, configure the same events as GA4 custom events and pipe them into BigQuery for deeper analysis. For in-product signals (trials, freemium usage), ensure that product analytics events from tools like Amplitude or Mixpanel are synced to HubSpot via a reverse ETL tool such as Census or Hightouch. Do not skip this step — in-product signals are your strongest leading indicator of expansion and conversion.</p><ul><li>Pricing page: track visit + time on page >90 seconds as two separate events</li><li>Demo request: track button click separately from form submission to capture abandoned intents</li><li>Case study: fire event only when scroll depth exceeds 60% on specific use-case pages</li><li>ROI calculator: capture every input interaction, not just final submission</li><li>Documentation visits: integration and API docs signal technical evaluation — weight them at Tier 2</li><li>Return visits: a second pricing page visit within 7 days should auto-elevate to Tier 1 consideration</li><li>In-product: sync trial activation, feature adoption milestones, and usage drop-off via reverse ETL</li></ul><div class="guide-callout"><p>A demo button click that results in a form abandonment is more predictive of purchase intent than 20 blog page views. Capture it and score it accordingly.</p></div>
+  <div class="guide-footer"><span class="guide-footer-brand">NetWebMedia</span><span class="guide-footer-url">netwebmedia.com</span></div>
+</div>
+
+<div class="guide-section">
+  <div class="guide-section-header">
+    <div class="guide-section-num">Section 8</div>
+    <h2>Measuring Model Accuracy: Precision, Recall, and Business Impact</h2>
+  </div><p>Most teams measure their intent program by volume metrics: number of accounts identified, number of sequences sent, number of meetings booked. These metrics describe activity, not accuracy. To know whether your scoring model is producing a genuine signal — versus the noise you started with — you need to measure precision and recall against your conversion funnel. Precision measures the percentage of accounts your model flagged as Tier 1 or Tier 2 that actually converted to a sales-qualified opportunity within 90 days. A model with 40% precision means 4 out of every 10 SDR-worked intent accounts turn into a real pipeline opportunity. The industry median for well-tuned models is 35–45%. Below 25% precision, your model is not adding value over a cold outbound list. Recall measures the percentage of accounts that eventually became opportunities that your model correctly identified as high-intent before the opportunity was created. High recall means you are catching most of the buyers before they raise their hand; low recall means you are missing buyers who close without ever being in your intent queue. Target recall above 60% — this means you are identifying most of your eventual buyers before the deal opens, which is the entire value proposition of an intent program.</p><p>Beyond precision and recall, track three business-impact metrics monthly. First, intent-influenced pipeline: the dollar value of opportunities where the account was in Tier 1 or 2 at the time of opportunity creation. Second, intent-sourced pipeline: opportunities where the intent trigger was the first outreach touchpoint. Third, time-to-opportunity for intent-qualified accounts versus all other sourced accounts. A mature program should show a 30–50% shorter time-to-opportunity for intent accounts, reflecting that you are engaging buyers who are already mid-research rather than triggering the research cycle from scratch.</p><ul><li>Track precision monthly: % of Tier 1+2 accounts that convert to SQO within 90 days</li><li>Track recall monthly: % of all new SQOs that were Tier 1+2 flagged before opportunity creation</li><li>Target: precision >35%, recall >60% for a mature model</li><li>Business metric 1: intent-influenced pipeline (account was Tier 1/2 at opportunity creation)</li><li>Business metric 2: intent-sourced pipeline (first touch was intent-triggered)</li><li>Business metric 3: time-to-opportunity for intent accounts vs. non-intent accounts</li><li>Review model performance quarterly; if precision drops below 25%, audit signal weights and ICP gate</li></ul><div class="guide-stat-box">
+        <div class="guide-stat-num">38%</div>
+        <div class="guide-stat-label">shorter time-to-opportunity for accounts engaged through calibrated intent scoring vs. traditional outbound</div>
+      </div>
+  <div class="guide-footer"><span class="guide-footer-brand">NetWebMedia</span><span class="guide-footer-url">netwebmedia.com</span></div>
+</div>
+
+<div class="guide-section">
+  <div class="guide-section-header">
+    <div class="guide-section-num">Section 9</div>
+    <h2>The 6-Week Implementation Timeline</h2>
+  </div><p>Week 1 — Data audit and ICP gate: Pull your last 24 months of closed-won accounts from the CRM. Document the firmographic profile of your highest-value customers by employee range, industry, revenue, and tech stack. Define the hard ICP gate criteria that every account must pass before entering the scoring model. Simultaneously, audit your current first-party tracking — identify which of the 12 on-site events are already firing correctly and which need to be instrumented. Week 2 — Signal sourcing: Ensure Bombora or your chosen third-party intent provider is configured with your category keywords and that you have API access. Set up G2 Buyer Intent if applicable. Verify that HubSpot custom events are firing for at least the 5 highest-priority first-party signals. Week 3 — Clay table build: Create your master Clay enrichment table. Set up the Bombora API connection, firmographic enrichment, and technographic data pulls. Build the scoring formula using your initial weight assumptions. Set up the 24-hour sync back to HubSpot. Week 4 — HubSpot workflow build: Create the intent tier property, build the smart lists for each tier, and build the routing workflows that create tasks and enroll sequences based on tier assignment.</p><p>Week 5 — Pilot and calibration: Activate Tier 1 and Tier 2 routing for a subset of your SDR team. Monitor precision in real time — are the accounts they're working actually converting to conversations? Adjust scoring thresholds based on early feedback. Week 6 — Full rollout and baseline: Activate the full scoring model across all ICP accounts. Establish your baseline metrics for precision, recall, and time-to-opportunity. Commit to a 90-day review cycle where model weights are re-evaluated against the latest closed-won data. The model is never finished — treat it as a living system that improves as you feed it more outcome data.</p><ul><li>Week 1: Close-won data audit + ICP gate definition + first-party tracking audit</li><li>Week 2: Intent provider API configuration + G2 setup + priority event instrumentation</li><li>Week 3: Clay table build + scoring formula + HubSpot sync</li><li>Week 4: HubSpot properties, smart lists, routing workflows, sequence enrollment</li><li>Week 5: Pilot launch with subset of SDR team + threshold calibration</li><li>Week 6: Full rollout + baseline metrics established + 90-day review scheduled</li></ul><div class="guide-callout"><p>Do not skip the pilot week. Launching a scoring model without a calibration period produces bad early data that poisons model trust and leads teams to abandon the system before it matures.</p></div>
+  <div class="guide-footer"><span class="guide-footer-brand">NetWebMedia</span><span class="guide-footer-url">netwebmedia.com</span></div>
+</div>
+
+<!-- CHECKLIST -->
+
+<div class="guide-checklist">
+  <h2>Implementation Checklist</h2>
+  
+  <div class="checklist-group">
+    <h3>Phase 1 — Foundation</h3>
+    
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Export 24 months of closed-won accounts from CRM with firmographic data</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Define ICP hard gate: employee range, revenue, industry, geo, tech stack</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Document which intent signals were present at opportunity creation for 150+ won accounts</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Audit current on-site event tracking; identify gaps vs. the 12 priority signals</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Instrument missing first-party events (pricing page, demo click, scroll depth, return visits)</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Select and configure third-party intent provider with category-specific keyword clusters</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Set up Clay account with Bombora API, firmographic, and technographic data sources</span>
+    </div>
+  </div>
+  <div class="checklist-group">
+    <h3>Phase 2 — Build and Launch</h3>
+    
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Build Clay scoring table with composite formula; validate weights against closed-won data</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Configure 24-hour Clay → HubSpot sync for intent score and tier properties</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Create HubSpot smart lists for each of the 5 intent tiers</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Build HubSpot routing workflows: task creation, sequence enrollment, SDR notification</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Write and load Tier 1 and Tier 2 outreach sequences with personalization variables</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Define MQA nurture track for Tier 3 accounts with 45-day content calendar</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Run 2-week pilot with 2 SDRs; monitor precision and refine thresholds</span>
+    </div>
+  </div>
+  <div class="checklist-group">
+    <h3>Phase 3 — Optimize</h3>
+    
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Establish baseline precision, recall, and time-to-opportunity metrics</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Set up monthly model performance review: pull precision/recall from CRM data</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Retrain signal weights quarterly using prior quarter's closed-won and lost data</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Add reverse ETL for in-product signals if applicable (Census, Hightouch → HubSpot)</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Review and prune ICP gate quarterly as ICP evolves</span>
+    </div>
+    <div class="checklist-item">
+      <div class="checklist-box"></div>
+      <span>Build executive dashboard: intent-influenced pipeline, intent-sourced pipeline, conversion rates by tier</span>
+    </div>
+  </div>
+  <div class="guide-footer"><span class="guide-footer-brand">NetWebMedia</span><span class="guide-footer-url">netwebmedia.com</span></div>
+</div>
+
+<!-- NWM CTA PAGE -->
+<div class="guide-nwm-page">
+  <div class="nwm-logo">NetWebMedia</div>
+  <h2>We Build Intent Scoring Systems That Actually Fill Pipeline</h2>
+  <p>NetWebMedia designs and implements B2B intent data architectures — from signal taxonomy and model calibration to Clay enrichment pipelines and HubSpot activation workflows. We specialize in connecting third-party intent providers with your first-party behavioral data to build scoring models calibrated against your own closed-won history, not industry averages.</p>
+  <div class="guide-nwm-services">
+    <span class="guide-nwm-service">AI Marketing Automation</span>
+    <span class="guide-nwm-service">AEO &amp; AI-First SEO</span>
+    <span class="guide-nwm-service">Autonomous AI Agents</span>
+    <span class="guide-nwm-service">Paid Media + AI Creative</span>
+    <span class="guide-nwm-service">CRM + AI Workflows</span>
+  </div>
+  <div class="guide-cta-url">netwebmedia.com/contact</div>
+</div>
+
+</body>
+</html>

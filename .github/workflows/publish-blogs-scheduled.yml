@@ -1,0 +1,50 @@
+name: Publish Blog Posts (Scheduled)
+
+# Runs every hour from 11:00–20:00 UTC = 7 AM–4 PM Santiago (UTC-4)
+# 2 posts per run × 10 runs = 20 posts/day
+# Posts are read from _deploy/posts-queue/*.json (pre-written queue)
+# After publishing, blog/*.html + blog.html are committed, which triggers deploy-site-root.yml
+
+on:
+  schedule:
+    - cron: '0 11-20 * * *'
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Number of posts to publish (default: 2)'
+        default: '2'
+        required: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate posts from queue
+        id: generate
+        run: |
+          LIMIT="${{ github.event.inputs.limit || '2' }}"
+          node _deploy/generate-blogs.js --limit "$LIMIT"
+          COUNT=$(git status --porcelain | wc -l)
+          echo "changed=$COUNT" >> "$GITHUB_OUTPUT"
+          echo "Posts changed: $COUNT file(s)"
+
+      - name: Commit and push published posts
+        if: steps.generate.outputs.changed != '0'
+        run: |
+          git config user.name "NWM Blog Bot"
+          git config user.email "bot@netwebmedia.com"
+          git add blog/ blog.html _deploy/posts-queue/_published/
+          git commit -m "publish: auto-publish $(date -u '+%Y-%m-%d %H:%M') UTC"
+          git push
+
+      - name: No posts in queue
+        if: steps.generate.outputs.changed == '0'
+        run: echo "Queue is empty — add JSON files to _deploy/posts-queue/ to schedule posts."

@@ -28,10 +28,12 @@
 
     seenCookie:      'nwm_chat_seen',
     dismissCookie:   'nwm_chat_dismissed',
+    sessionKey:      'nwm_chat_session_v1',
     tooltipDelayMs:  4000,
     openAutoDelayMs: 0,               // 0 = never auto-open; set >0 to auto-open
     emailEndpoint:   '/api/public/newsletter/subscribe',
-    leadEndpoint:    '/api/public/forms/submit'
+    leadEndpoint:    '/api/public/forms/submit',
+    chatEndpoint:    '/api/public/chat'   // unified-KB fallback for open-ended Qs
   };
 
   // ── Language detection ───────────────────────────────────────────────────
@@ -79,7 +81,7 @@
           ]
         },
         pricing: {
-          reply: "Three bundles, all-in-one (CRM + CMS + Email + Video + AI CMO):\n\n🚀 *Launch* — $1,295/mo (US$ from $997/mo with code Carlos26)\n📈 *Grow* — $2,997/mo (most popular)\n⭐ *Scale* — $4,497/mo (full-stack execution)\n\nNo long contracts — month-to-month. Setup fee waived for launch cohort.\n\nWant a custom quote or see the full pricing page?",
+          reply: "Three Fractional CMO tiers (strategy + software + execution):\n\n🚀 **CMO Lite** — $249/mo · no setup · NWM CRM included\n📈 **CMO Growth** — $999/mo + $499 setup · ads mgmt at cost + 12% (most popular)\n⭐ **CMO Scale** — $2,499/mo + $999 setup · AI SDR, Video Factory, weekly calls\n\n90-day minimum, then month-to-month. Pay annually and save **15%**. If you start on Lite and upgrade within 90 days, we credit $249 toward your new tier.\n\nAsk a question or see the full pricing page?",
           replies: [
             { id: 'pricing-page',   label: '💳 See full pricing',   href: '/pricing.html' },
             { id: 'pricing-quote',  label: '📝 Get custom quote',   action: 'audit' },
@@ -303,7 +305,7 @@
           ]
         },
         pricing: {
-          reply: "Precios desde $67/mes para CRM, $249/mes para CMS, $99/mes para Email. Los paquetes ahorran 10-25%. Sin contratos largos — mes a mes.\n\n¿Quieres una cotización o ver la página completa?",
+          reply: "Tres niveles de Fractional CMO (estrategia + software + ejecución):\n\n🚀 **CMO Lite** — $249/mes · sin setup · incluye NWM CRM\n📈 **CMO Growth** — $999/mes + $499 setup · manejo de ads al costo + 12% (más popular)\n⭐ **CMO Scale** — $2,499/mes + $999 setup · AI SDR, Video Factory, llamadas semanales\n\nMínimo 90 días, después mes-a-mes. Pago anual ahorra **15%**. Si empiezas en Lite y subes de plan en los primeros 90 días, acreditamos $249 al nuevo tier.\n\n¿Alguna pregunta específica o ver la página completa?",
           replies: [
             { id: 'pricing-page',   label: '💳 Ver precios completos', href: '/pricing.html' },
             { id: 'pricing-quote',  label: '📝 Cotización personal',   action: 'audit' },
@@ -703,8 +705,47 @@
     });
   }
 
+  // ── Chat API session (open-ended fallback) ───────────────
+  function getChatSessionId(){
+    try {
+      var s = localStorage.getItem(CONFIG.sessionKey);
+      if (s && /^[a-z0-9_\-]{6,64}$/i.test(s)) return s;
+    } catch(_) {}
+    var fresh = 'pub_' + Math.random().toString(36).slice(2, 12) + Date.now().toString(36);
+    try { localStorage.setItem(CONFIG.sessionKey, fresh); } catch(_) {}
+    return fresh;
+  }
+
+  function askChatAPI(text, onReply, onError){
+    var payload = {
+      message:    text,
+      language:   LANG,
+      session_id: getChatSessionId(),
+      page:       location.pathname
+    };
+    var ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+    var timeout = setTimeout(function(){ if (ctrl) ctrl.abort(); }, 25000);
+    fetch(CONFIG.chatEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: ctrl ? ctrl.signal : undefined
+    })
+      .then(function(res){ return res.json().then(function(j){ return { ok: res.ok, status: res.status, json: j }; }); })
+      .then(function(out){
+        clearTimeout(timeout);
+        if (out.json && out.json.reply) {
+          onReply(out.json.reply, out.json.suggested_actions || [], out.status === 429);
+        } else {
+          onError();
+        }
+      })
+      .catch(function(){ clearTimeout(timeout); onError(); });
+  }
+
   // ── Free-text smart router ────────────────────────────────
-  // Maps user free-text to existing intents using keyword matching.
+  // Fast path: keyword matcher routes common intents client-side.
+  // Slow path: anything unmatched goes to /api/public/chat (unified KB + Claude).
   function handleFreeText(text){
     addUserMessage(text);
     trackEvent('chat_freetext', { text: text.slice(0, 200), page: location.pathname });
@@ -713,14 +754,32 @@
       // Route directly — do NOT call handleReply() here because that would
       // call addUserMessage() a second time, causing the double-message bug.
       routeIntent(intentId);
-    } else {
-      // No match → friendly fallback
-      var fallback = LANG === 'es'
-        ? "Buena pregunta. Déjame conectar tu mensaje con la mejor opción 👇"
-        : "Good question. Let me match your message to the best option 👇";
-      addBotMessage(fallback, T.menuIntents.map(toReply));
-      saveState();
+      return;
     }
+    // No local intent match → ask the unified-KB chat API.
+    var typing = addTyping();
+    askChatAPI(text,
+      function onReply(reply, actions, rateLimited){
+        if (typing) typing.remove();
+        var replies = (actions || []).map(function(a){ return { id: 'api-' + encodeURIComponent(a.href||a.label), label: a.label, href: a.href }; });
+        // Always offer a "back to menu" escape hatch when we came from the free-text path
+        if (!rateLimited) {
+          replies.push({ id: 'back', label: LANG === 'es' ? '← Menú' : '← Menu', action: 'menu' });
+        }
+        addBotMessage(reply, replies);
+      },
+      function onError(){
+        if (typing) typing.remove();
+        var fallback = LANG === 'es'
+          ? "Buena pregunta — me cuesta conectarme en este momento. Escríbenos a *hello@netwebmedia.com* o agenda 30 min en /contact.html y te respondemos en pocas horas."
+          : "Good question — I'm having trouble connecting right now. Email *hello@netwebmedia.com* or book 30 min at /contact.html and we'll reply within a few business hours.";
+        addBotMessage(fallback, [
+          { id: 'human-call', label: LANG === 'es' ? '📞 Agendar llamada' : '📞 Book a call', href: '/contact.html' },
+          { id: 'human-email', label: '✉️ Email', href: 'mailto:hello@netwebmedia.com?subject=Chat%20handoff' },
+          { id: 'back', label: LANG === 'es' ? '← Menú' : '← Menu', action: 'menu' }
+        ]);
+      }
+    );
   }
 
   // Routes to an intent without adding a user message bubble (used by handleFreeText).
@@ -752,6 +811,12 @@
 
   function matchIntent(text){
     var t = text.toLowerCase();
+    // Prefer the AI endpoint (unified KB) for anything that looks like a real
+    // question — comparison, upgrade, annual/phone/refund specifics, anything
+    // containing "?" on a message longer than ~25 chars, etc. Keyword routing
+    // is ONLY for short intent tokens (e.g. "pricing", "services").
+    var looksLikeQuestion = /\?|\bdifferen|\bvs\b|\bcompar|upgrade|annual|yearly|phone|refund|cancel|contract|diferenc|anual|telefono|teléfono|reembols|contrat|compar(a|ar)/.test(t);
+    if (looksLikeQuestion && t.length > 25) return null;
     // Real estate / properties / house / agent / mls
     if (/real\s*estate|propert|house|home\s*selling|listing|mls|realtor|agent|broker|inmobil|propied|casa|venta de cas/.test(t)) return 'rec-real-estate';
     // Healthcare / medical / clinic / patient / spa

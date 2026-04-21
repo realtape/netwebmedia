@@ -273,7 +273,7 @@ function wa_call_claude(string $userMessage, array $history): array {
       'anthropic-beta: prompt-caching-2024-07-31',
     ],
     CURLOPT_POSTFIELDS => json_encode([
-      'model'      => 'claude-haiku-4-5-20251001',
+      'model'      => 'claude-haiku-4-5',
       'max_tokens' => 400,
       'system'     => [
         [

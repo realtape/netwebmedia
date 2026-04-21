@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luxury Property Showcase — Real Estate Template | NetWebMedia CMS</title>
+  <meta name="description" content="A cinematic luxury property landing page template — hero listing, 6-unit gallery, neighborhood stats, and agent CTA. Built on NetWebMedia CMS.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/real-estate/template-1.html" />
+  <meta property="og:title" content="Luxury Property Showcase — NetWebMedia Real Estate Template" />
+  <meta property="og:description" content="Cinematic single-property landing page with gallery, neighborhood stats, and agent booking." />
+  <meta property="og:url" content="https://netwebmedia.com/industries/real-estate/template-1.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body{background:#0b1220;color:#dde3ee;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    .tpl-nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+    .tpl-nav .logo{font-weight:900;font-size:18px;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .tpl-nav .links{display:flex;gap:18px;align-items:center}
+    .tpl-nav a{color:#b8c4d9;text-decoration:none;font-size:14px}
+    .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:10px 20px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:10px 20px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+    .prod-hero{padding:70px 20px 40px;text-align:center;max-width:1100px;margin:0 auto}
+    .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+    .prod-hero h1{font-size:clamp(32px,6vw,56px);margin:0 0 16px;line-height:1.1}
+    .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:720px;margin:0 auto 28px;line-height:1.5}
+    .prod-hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .prod-hero .btn-teal,.prod-hero .btn-ghost{padding:14px 28px;font-size:16px}
+
+    .hero-image{max-width:1000px;margin:30px auto;height:380px;border-radius:20px;background:linear-gradient(135deg,#0891B2 0%,#22d3ee 40%,#334155 100%);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+    .hero-image::before{content:"🏛️";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:140px;opacity:.5}
+    .hero-image .price-badge{position:absolute;top:20px;right:20px;background:rgba(11,18,32,.85);padding:12px 20px;border-radius:12px;border:1px solid rgba(6,182,212,.4)}
+    .hero-image .price-badge .label{font-size:11px;color:#9aa;text-transform:uppercase;letter-spacing:.08em}
+    .hero-image .price-badge .price{font-size:24px;font-weight:900;color:#22d3ee}
+    .hero-image .addr{position:absolute;bottom:20px;left:20px;background:rgba(11,18,32,.85);padding:12px 20px;border-radius:12px}
+    .hero-image .addr .street{font-weight:700;color:#fff}
+    .hero-image .addr .city{font-size:13px;color:#9aa}
+
+    .prod-stats{max-width:1000px;margin:40px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:18px;padding:0 20px}
+    .prod-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;text-align:center}
+    .prod-stat .n{font-size:30px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+    .prod-stat .l{font-size:13px;color:#9aa;margin-top:6px;text-transform:uppercase;letter-spacing:.08em}
+
+    .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+    .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+    .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+    .gal-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;transition:transform .2s,border-color .2s}
+    .gal-card:hover{transform:translateY(-4px);border-color:rgba(6,182,212,.45)}
+    .gal-img{height:180px;background:linear-gradient(135deg,#1e293b,#0891B2);display:flex;align-items:center;justify-content:center;font-size:64px}
+    .gal-body{padding:16px}
+    .gal-body h4{margin:0 0 6px;font-size:15px;color:#fff}
+    .gal-body p{margin:0;color:#9aa;font-size:13px}
+
+    .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+    .feat-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px}
+    .feat-icon{font-size:28px;margin-bottom:12px}
+    .feat-card h3{margin:0 0 10px;font-size:17px}
+    .feat-card p{color:#b8c4d9;font-size:14px;line-height:1.55;margin:0}
+
+    .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(8,145,178,.06));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;text-align:center;margin-top:60px}
+    .cta-band h3{font-size:clamp(22px,3.5vw,32px);margin:0 0 12px}
+    .cta-band p{color:#b8c4d9;max-width:620px;margin:0 auto 22px;font-size:15px;line-height:1.55}
+
+    .nwm-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#67e8f9;margin:30px auto;text-decoration:none}
+
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:32px 20px;text-align:center;color:#9aa;font-size:13px}
+    footer a{color:#67e8f9;margin:0 10px;text-decoration:none}
+
+    @media(max-width:700px){.tpl-nav .links{gap:10px}.tpl-nav .links a:not(.btn-teal){display:none}}
+  </style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <div class="logo">LUXE · Haven Estates</div>
+  <div class="links">
+    <a href="/industries/">← Industries</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">Now Showing · Pacific Heights</div>
+  <h1>A <span class="hl">once-in-a-generation</span> residence above the bay</h1>
+  <p class="sub">Five bedrooms, panoramic views, and a private rooftop terrace crowning one of San Francisco's most sought-after addresses. By appointment only.</p>
+  <div class="ctas">
+    <a href="#gallery" class="btn-teal">View the Residence →</a>
+    <a href="#contact-agent" class="btn-ghost">Schedule Private Tour</a>
+  </div>
+</section>
+
+<div class="hero-image">
+  <div class="price-badge"><div class="label">Offered at</div><div class="price">$12,450,000</div></div>
+  <div class="addr"><div class="street">2840 Broadway</div><div class="city">Pacific Heights, San Francisco</div></div>
+</div>
+
+<div class="prod-stats">
+  <div class="prod-stat"><div class="n">5</div><div class="l">Bedrooms</div></div>
+  <div class="prod-stat"><div class="n">6.5</div><div class="l">Bathrooms</div></div>
+  <div class="prod-stat"><div class="n">7,240</div><div class="l">Square feet</div></div>
+  <div class="prod-stat"><div class="n">0.31</div><div class="l">Acre lot</div></div>
+</div>
+
+<section class="prod-section" id="gallery">
+  <h2>A home designed for every hour of the day</h2>
+  <p class="sub">From the sunlit kitchen to the wine cellar, every room was conceived as an experience. Tour the property room-by-room.</p>
+  <div class="gallery-grid">
+    <div class="gal-card"><div class="gal-img">🛋️</div><div class="gal-body"><h4>Grand Living Room</h4><p>Double-height ceilings, original fireplace, bay-facing oriel windows.</p></div></div>
+    <div class="gal-card"><div class="gal-img">🍳</div><div class="gal-body"><h4>Chef's Kitchen</h4><p>La Cornue range, Sub-Zero, Calacatta marble island, butler's pantry.</p></div></div>
+    <div class="gal-card"><div class="gal-img">🛏️</div><div class="gal-body"><h4>Primary Suite</h4><p>Private terrace, walk-in dressing room, spa bath with heated floors.</p></div></div>
+    <div class="gal-card"><div class="gal-img">🍷</div><div class="gal-body"><h4>Wine Cellar</h4><p>Climate-controlled, 2,400-bottle capacity, adjacent tasting lounge.</p></div></div>
+    <div class="gal-card"><div class="gal-img">🌇</div><div class="gal-body"><h4>Rooftop Terrace</h4><p>Golden Gate views, outdoor kitchen, fire pit, infrared heaters.</p></div></div>
+    <div class="gal-card"><div class="gal-img">🏊</div><div class="gal-body"><h4>Lap Pool & Spa</h4><p>Heated year-round, integrated jacuzzi, cabana with full bath.</p></div></div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Pacific Heights by the numbers</h2>
+  <p class="sub">One of the most exclusive neighborhoods in North America — and why.</p>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">📈</div><h3>Median sale $8.4M</h3><p>YoY appreciation 4.2%. 28 closed sales above $10M in the last 18 months.</p></div>
+    <div class="feat-card"><div class="feat-icon">🎓</div><h3>Top-rated schools</h3><p>Walking distance to Hamlin, Convent of the Sacred Heart, and Town School.</p></div>
+    <div class="feat-card"><div class="feat-icon">🌳</div><h3>Lafayette Park</h3><p>Three blocks to the reservoir walk. Dog-friendly. Sweeping downtown skyline.</p></div>
+    <div class="feat-card"><div class="feat-icon">☕</div><h3>Fillmore corridor</h3><p>SPQR, State Bird Provisions, Bi-Rite Market — all under a ten-minute stroll.</p></div>
+  </div>
+</section>
+
+<section class="cta-band" id="contact-agent">
+  <h3>Private appointments with Isabel Moreno</h3>
+  <p>Isabel has represented homes in Pacific Heights for over 18 years. Tours are by appointment only and include a private preview book.</p>
+  <div class="ctas"><a href="/contact.html" class="btn-teal">Request a Showing →</a></div>
+  <a class="nwm-badge" href="https://netwebmedia.com">⚡ Built on NetWebMedia CMS</a>
+</section>
+
+<section class="prod-section" style="text-align:center">
+  <h2>Launch this template with NetWebMedia</h2>
+  <p class="sub">Your listing site, built and live in under a week. Cinematic, mobile-perfect, IDX-ready.</p>
+  <div class="ctas" style="justify-content:center"><a href="/contact.html" class="btn-teal">Get This Template →</a><a href="/industries/" class="btn-ghost">See All Industries</a></div>
+</section>
+
+<footer>
+  <a href="/industries/">Industries</a> ·
+  <a href="/pricing.html">Pricing</a> ·
+  <a href="/contact.html">Contact</a>
+  <div style="margin-top:10px">© NetWebMedia · Demo template for illustration only</div>
+</footer>
+
+</body>
+</html>

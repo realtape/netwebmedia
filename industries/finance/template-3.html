@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fintech Startup — Product Launch Template | NetWebMedia CMS</title>
+<meta name="description" content="Fintech Startup template — product screenshot hero, three killer features, SOC2 + compliance badges and waitlist CTA. Modern dark-theme website built on NetWebMedia CMS.">
+<link rel="canonical" href="https://netwebmedia.com/industries/finance/template-3.html">
+<meta property="og:title" content="Fintech Startup — NetWebMedia CMS Template">
+<meta property="og:description" content="Fintech launch page with product hero, features, compliance and waitlist CTA.">
+<meta property="og:url" content="https://netwebmedia.com/industries/finance/template-3.html">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+  body{background:#0b1220;color:#dde3ee;font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+  .tpl-nav{position:sticky;top:0;z-index:10;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+  .tpl-nav a.logo{color:#22d3ee;font-weight:900;text-decoration:none;font-size:18px}
+  .tpl-nav .r{display:flex;gap:12px;align-items:center}
+  .tpl-nav .back{color:#9aa;text-decoration:none;font-size:14px}
+  .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:12px 22px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+  .prod-hero{padding:80px 20px 30px;text-align:center;max-width:1100px;margin:0 auto}
+  .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+  .prod-hero h1{font-size:clamp(36px,6vw,60px);margin:0 0 16px;line-height:1.05}
+  .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:700px;margin:0 auto 28px;line-height:1.5}
+  .prod-hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  .product-screen{max-width:980px;margin:0 auto 60px;padding:0 20px;position:relative}
+  .screen-frame{aspect-ratio:16/9;border-radius:18px;background:linear-gradient(135deg,#131a2a,#0b1220);border:1px solid rgba(6,182,212,.3);box-shadow:0 30px 80px rgba(6,182,212,.18);overflow:hidden;position:relative}
+  .screen-frame::before{content:"";position:absolute;top:0;left:0;right:0;height:28px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center}
+  .screen-dots{position:absolute;top:10px;left:16px;display:flex;gap:6px;z-index:2}
+  .screen-dots span{width:10px;height:10px;border-radius:50%;background:#444}
+  .screen-dots span:nth-child(1){background:#ff5f56}.screen-dots span:nth-child(2){background:#ffbd2e}.screen-dots span:nth-child(3){background:#27c93f}
+  .screen-content{position:absolute;inset:40px 24px 24px;display:grid;grid-template-columns:2fr 1fr;gap:20px}
+  .sc-panel{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:16px}
+  .sc-bal{font-size:32px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+  .sc-label{color:#9aa;font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+  .sc-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(255,255,255,.06);font-size:13px}
+  .sc-row .a{color:#fff}.sc-row .b{color:#22d3ee;font-weight:700}
+  .sc-chart{height:80px;background:linear-gradient(180deg,rgba(34,211,238,.2),transparent);border-radius:6px;position:relative;margin-top:10px}
+  .sc-chart::after{content:"";position:absolute;inset:auto 0 0 0;height:2px;background:#22d3ee}
+
+  .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+  .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+  .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+  .killer-feat{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .killer-card{background:linear-gradient(135deg,rgba(34,211,238,.05),rgba(139,92,246,.03));border:1px solid rgba(34,211,238,.2);border-radius:18px;padding:32px;transition:border-color .2s}
+  .killer-card:hover{border-color:rgba(139,92,246,.5)}
+  .killer-card .num{font-size:13px;color:#22d3ee;font-weight:800;letter-spacing:.12em;margin-bottom:10px}
+  .killer-card h3{font-size:22px;margin:0 0 10px}
+  .killer-card p{color:#b8c4d9;font-size:14px;line-height:1.6;margin:0}
+  .killer-card .spec{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);color:#22d3ee;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+
+  .compliance-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:30px}
+  .comp-chip{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:18px 22px;display:flex;flex-direction:column;align-items:center;min-width:130px}
+  .comp-chip .icon{font-size:26px;margin-bottom:6px}
+  .comp-chip .name{color:#fff;font-weight:800;font-size:14px}
+  .comp-chip .sub{color:#9aa;font-size:11px;margin-top:2px}
+
+  .waitlist{background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(34,211,238,.05));border-top:1px solid rgba(139,92,246,.3);border-bottom:1px solid rgba(139,92,246,.3);padding:60px 20px;margin:60px 0 0;text-align:center}
+  .waitlist h3{font-size:clamp(24px,4vw,36px);margin:0 0 10px}
+  .waitlist p{color:#b8c4d9;max-width:600px;margin:0 auto 20px}
+  .waitlist form{display:flex;gap:10px;max-width:460px;margin:0 auto}
+  .waitlist input{flex:1;background:#0b1220;border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;padding:14px;font-size:15px}
+  .waitlist button{background:linear-gradient(135deg,#8b5cf6,#22d3ee);color:#fff;padding:14px 22px;border:0;border-radius:10px;font-weight:800;cursor:pointer}
+  .waitlist .count{color:#22d3ee;font-weight:800;margin-top:14px}
+  .badge-built{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.12);color:#67e8f9;padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  footer{padding:32px 20px;text-align:center;border-top:1px solid rgba(255,255,255,.06);color:#9aa;font-size:14px}
+  footer a{color:#22d3ee;text-decoration:none;margin:0 10px}
+  @media(max-width:880px){.killer-feat{grid-template-columns:1fr}.screen-content{grid-template-columns:1fr}.waitlist form{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <a href="/" class="logo">🪙 Orbit · Money that moves</a>
+  <div class="r">
+    <a href="/industries/" class="back">← Industries</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">Invite-only beta · 14,200 on waitlist</div>
+  <h1>A high-yield account that <span class="hl">pays you to pay bills.</span></h1>
+  <p class="sub">Orbit is an FDIC-insured neobank offering 5.1% APY on your full balance, 1.5% cashback on recurring bills, and instant virtual cards for every subscription. No minimums. No overdraft fees. No monthly charge.</p>
+  <div class="ctas">
+    <a href="#waitlist" class="btn-teal">Claim your spot →</a>
+    <a href="#features" class="btn-ghost">See the product</a>
+  </div>
+</section>
+
+<div class="product-screen">
+  <div class="screen-frame">
+    <div class="screen-dots"><span></span><span></span><span></span></div>
+    <div class="screen-content">
+      <div class="sc-panel">
+        <div class="sc-bal">$42,186.52</div>
+        <div class="sc-label">Total balance · earning 5.10% APY</div>
+        <div class="sc-chart"></div>
+        <div style="margin-top:14px">
+          <div class="sc-row"><div class="a">🏢 Rent · Aug</div><div class="b">–$2,400</div></div>
+          <div class="sc-row"><div class="a">⚡ ComEd</div><div class="b">–$112 +1.5%</div></div>
+          <div class="sc-row"><div class="a">🌐 Comcast</div><div class="b">–$89 +1.5%</div></div>
+          <div class="sc-row"><div class="a">💼 Payroll</div><div class="b" style="color:#10b981">+$4,820</div></div>
+        </div>
+      </div>
+      <div class="sc-panel">
+        <div class="sc-label">This Month's Yield</div>
+        <div style="font-size:22px;font-weight:900;color:#22d3ee;margin-top:6px">+$178.50</div>
+        <div style="height:10px"></div>
+        <div class="sc-label">Cashback Earned</div>
+        <div style="font-size:22px;font-weight:900;color:#8b5cf6;margin-top:6px">+$42.31</div>
+        <div style="height:14px"></div>
+        <div class="sc-label">Virtual Cards</div>
+        <div style="color:#b8c4d9;font-size:12px;margin-top:6px">Netflix · Spotify · AWS · +8</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="prod-section" id="features">
+  <h2>Three reasons people switch</h2>
+  <p class="sub">We don't sell 27 features. We built the three that matter.</p>
+  <div class="killer-feat">
+    <div class="killer-card">
+      <div class="num">01 · HIGH-YIELD</div>
+      <h3>5.10% APY on every dollar</h3>
+      <p>No tiers. No minimums. No "only the first $2k." Every cent earns the top rate the moment it hits the account, compounded daily and paid monthly.</p>
+      <div class="spec">FDIC insured up to $500k via partner banks</div>
+    </div>
+    <div class="killer-card">
+      <div class="num">02 · CASHBACK</div>
+      <h3>1.5% back on bills + subs</h3>
+      <p>Pay rent, electric, streaming, insurance — get 1.5% back on every recurring charge. No cap. Credit bills usually don't earn cashback. These do.</p>
+      <div class="spec">Paid automatically on the 1st of every month</div>
+    </div>
+    <div class="killer-card">
+      <div class="num">03 · VIRTUAL CARDS</div>
+      <h3>One card per subscription</h3>
+      <p>Spin up a dedicated virtual card for every service. Freeze, rename or delete with a tap. Cancel a subscription without calling anybody, ever.</p>
+      <div class="spec">Unlimited cards · Apple Pay / Google Pay ready</div>
+    </div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Built for real regulation, not the appearance of it</h2>
+  <p class="sub">Every dollar is held at a partner chartered bank. Every certification is independently audited.</p>
+  <div class="compliance-row">
+    <div class="comp-chip"><div class="icon">🏦</div><div class="name">FDIC</div><div class="sub">Up to $500k</div></div>
+    <div class="comp-chip"><div class="icon">🛡️</div><div class="name">SOC 2 Type II</div><div class="sub">Audited 2026</div></div>
+    <div class="comp-chip"><div class="icon">🔒</div><div class="name">PCI-DSS L1</div><div class="sub">Cards infra</div></div>
+    <div class="comp-chip"><div class="icon">✓</div><div class="name">CCPA</div><div class="sub">CA compliant</div></div>
+    <div class="comp-chip"><div class="icon">🇪🇺</div><div class="name">GDPR</div><div class="sub">EU ready</div></div>
+    <div class="comp-chip"><div class="icon">🕵️</div><div class="name">KYC / AML</div><div class="sub">BSA-aligned</div></div>
+    <div class="comp-chip"><div class="icon">🧾</div><div class="name">Reg E + Z</div><div class="sub">Consumer protected</div></div>
+  </div>
+</section>
+
+<div class="waitlist" id="waitlist">
+  <h3>Join the waitlist</h3>
+  <p>Beta invites rolling out weekly in priority order. First 10,000 get a $50 starter credit and lifetime 5.25% APY guarantee.</p>
+  <form onsubmit="event.preventDefault();alert('Template demo — connect to NetWebMedia CMS to activate the waitlist.')">
+    <input type="email" placeholder="you@example.com" required>
+    <button type="submit">Claim my spot →</button>
+  </form>
+  <div class="count">14,237 people in line · you'd be #14,238</div>
+  <div style="margin-top:22px"><span class="badge-built">⚡ Built on NetWebMedia CMS</span></div>
+</div>
+
+<footer>
+  <div><a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a></div>
+  <div style="margin-top:12px;color:#666">© 2026 Orbit Financial — demo template. Banking services via partner bank, Member FDIC. Powered by NetWebMedia CMS.</div>
+</footer>
+
+</body>
+</html>

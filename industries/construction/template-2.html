@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commercial Contractor — Project Portfolio Template | NetWebMedia CMS</title>
+<meta name="description" content="Commercial Contractor template — sectors served, project portfolio, certifications and a request-bid CTA. Modern dark-theme website built on NetWebMedia CMS.">
+<link rel="canonical" href="https://netwebmedia.com/industries/construction/template-2.html">
+<meta property="og:title" content="Commercial Contractor — NetWebMedia CMS Template">
+<meta property="og:description" content="Commercial construction portfolio, sectors and bid-request CTA.">
+<meta property="og:url" content="https://netwebmedia.com/industries/construction/template-2.html">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+  body{background:#0b1220;color:#dde3ee;font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+  .tpl-nav{position:sticky;top:0;z-index:10;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+  .tpl-nav a.logo{color:#22d3ee;font-weight:900;text-decoration:none;font-size:18px}
+  .tpl-nav .r{display:flex;gap:12px;align-items:center}
+  .tpl-nav .back{color:#9aa;text-decoration:none;font-size:14px}
+  .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:12px 22px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+  .prod-hero{padding:80px 20px 40px;text-align:center;max-width:1100px;margin:0 auto}
+  .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+  .prod-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+  .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:700px;margin:0 auto 28px;line-height:1.5}
+  .prod-hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  .prod-stats{max-width:1000px;margin:40px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;padding:0 20px}
+  .prod-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;text-align:center}
+  .prod-stat .n{font-size:28px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prod-stat .l{font-size:12px;color:#9aa;margin-top:6px;text-transform:uppercase;letter-spacing:.08em}
+
+  .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+  .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+  .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+  .sector-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+  .sector-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px}
+  .sector-icon{font-size:28px;margin-bottom:10px}
+  .sector-card h3{margin:0 0 8px;font-size:17px}
+  .sector-card p{color:#b8c4d9;font-size:13px;line-height:1.5;margin:0 0 10px}
+  .sector-card .meta{color:#22d3ee;font-size:12px;font-weight:700}
+
+  .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px}
+  .proj-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;transition:transform .2s,border-color .2s}
+  .proj-card:hover{transform:translateY(-4px);border-color:rgba(6,182,212,.45)}
+  .proj-thumb{aspect-ratio:5/3;display:flex;align-items:center;justify-content:center;color:#fff;font-size:72px;position:relative}
+  .proj-thumb .overlay{position:absolute;inset:auto 0 0 0;padding:14px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.7));color:#fff}
+  .proj-thumb .overlay .tag{display:inline-block;background:rgba(6,182,212,.25);padding:3px 10px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;backdrop-filter:blur(8px)}
+  .proj-card .body{padding:20px}
+  .proj-card h4{margin:0 0 6px;font-size:18px}
+  .proj-card p{color:#b8c4d9;font-size:13px;line-height:1.55;margin:0 0 12px}
+  .proj-metrics{display:flex;gap:18px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:#9aa}
+  .proj-metrics span strong{color:#fff;display:block;font-size:15px}
+
+  .certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+  .cert-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;display:flex;gap:12px;align-items:center}
+  .cert-item .c{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,#22d3ee,#0891B2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+  .cert-item h4{margin:0 0 2px;font-size:14px}
+  .cert-item p{margin:0;color:#9aa;font-size:12px}
+
+  .bid-form{background:linear-gradient(135deg,rgba(6,182,212,.08),rgba(8,145,178,.03));border:1px solid rgba(6,182,212,.25);border-radius:18px;padding:36px;max-width:680px;margin:0 auto}
+  .bid-form h3{margin:0 0 10px;text-align:center;font-size:22px}
+  .bid-form .sub{color:#b8c4d9;text-align:center;margin:0 0 20px}
+  .bid-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .bid-form label{display:block;color:#9aa;font-size:12px;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+  .bid-form input,.bid-form select,.bid-form textarea{width:100%;background:#0b1220;border:1px solid rgba(255,255,255,.12);border-radius:8px;color:#fff;padding:12px;font-size:14px;box-sizing:border-box;font-family:inherit}
+  .bid-form button{margin-top:18px;width:100%;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:14px;border:0;border-radius:10px;font-weight:800;cursor:pointer;font-size:15px}
+
+  .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(8,145,178,.05));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;margin:60px 0 0;text-align:center}
+  .cta-band h3{font-size:clamp(22px,3.5vw,30px);margin:0 0 10px}
+  .cta-band p{color:#b8c4d9;max-width:600px;margin:0 auto 20px}
+  .badge-built{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.12);color:#67e8f9;padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  footer{padding:32px 20px;text-align:center;border-top:1px solid rgba(255,255,255,.06);color:#9aa;font-size:14px}
+  footer a{color:#22d3ee;text-decoration:none;margin:0 10px}
+  @media(max-width:720px){.bid-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <a href="/" class="logo">🏗 Axiom Commercial Construction</a>
+  <div class="r">
+    <a href="/industries/" class="back">← Industries</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">General Contractor · Licensed in 6 states</div>
+  <h1>Commercial buildings, <span class="hl">delivered on time. Every time.</span></h1>
+  <p class="sub">Axiom is a top-100 ENR commercial GC with 42 years building healthcare, education, industrial and mixed-use projects from $2M to $180M. Self-performed concrete, steel and carpentry. Zero lost-time incidents in the last 18 months.</p>
+  <div class="ctas">
+    <a href="#bid" class="btn-teal">Request a bid →</a>
+    <a href="#projects" class="btn-ghost">View portfolio</a>
+  </div>
+</section>
+
+<div class="prod-stats">
+  <div class="prod-stat"><div class="n">$2.8B</div><div class="l">Work-in-place, 2025</div></div>
+  <div class="prod-stat"><div class="n">420+</div><div class="l">Projects delivered</div></div>
+  <div class="prod-stat"><div class="n">97%</div><div class="l">On-schedule completion</div></div>
+  <div class="prod-stat"><div class="n">0.42</div><div class="l">EMR (industry avg 1.0)</div></div>
+</div>
+
+<section class="prod-section">
+  <h2>Sectors we serve</h2>
+  <p class="sub">Deep domain expertise. Code experts on staff for every sector below.</p>
+  <div class="sector-grid">
+    <div class="sector-card"><div class="sector-icon">🏥</div><h3>Healthcare</h3><p>Acute care, ASCs, imaging, infusion, MOBs. ILSM-aware phasing for occupied facilities.</p><div class="meta">85 projects delivered</div></div>
+    <div class="sector-card"><div class="sector-icon">🎓</div><h3>K-12 &amp; Higher Ed</h3><p>Schools, STEM labs, athletic facilities, dorms. CMAR and design-build delivery methods.</p><div class="meta">62 projects delivered</div></div>
+    <div class="sector-card"><div class="sector-icon">🏭</div><h3>Industrial &amp; Manufacturing</h3><p>Tilt-up, pre-engineered metal, heavy industrial, cold storage. Design-build specialty.</p><div class="meta">78 projects delivered</div></div>
+    <div class="sector-card"><div class="sector-icon">🏨</div><h3>Hospitality &amp; Multifamily</h3><p>Full-service hotels, limited-service flags, wrap + podium apartments up to 8 stories.</p><div class="meta">54 projects delivered</div></div>
+    <div class="sector-card"><div class="sector-icon">🛒</div><h3>Retail &amp; Mixed-Use</h3><p>Grocery anchors, big-box, urban infill mixed-use with ground-floor retail.</p><div class="meta">91 projects delivered</div></div>
+    <div class="sector-card"><div class="sector-icon">🏛</div><h3>Public / Municipal</h3><p>Libraries, courthouses, police and fire. Full prevailing-wage and MBE/WBE reporting.</p><div class="meta">48 projects delivered</div></div>
+  </div>
+</section>
+
+<section class="prod-section" id="projects">
+  <h2>Featured projects</h2>
+  <p class="sub">A sample from the last two years.</p>
+  <div class="project-grid">
+    <div class="proj-card">
+      <div class="proj-thumb" style="background:linear-gradient(135deg,#0891B2,#0e7490)">🏥<div class="overlay"><span class="tag">Healthcare</span></div></div>
+      <div class="body">
+        <h4>Riverside Heart Center Expansion</h4>
+        <p>68,000 sqft cardiac-care addition with cath lab, imaging suite and pre-op holding. Occupied-facility phasing across 14 months.</p>
+        <div class="proj-metrics"><span>Value<strong>$42M</strong></span><span>Duration<strong>14 mo</strong></span><span>Delivery<strong>CMAR</strong></span></div>
+      </div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-thumb" style="background:linear-gradient(135deg,#1e3a8a,#22d3ee)">🎓<div class="overlay"><span class="tag">Education</span></div></div>
+      <div class="body">
+        <h4>Northshore HS Innovation Campus</h4>
+        <p>142,000 sqft new-build with maker spaces, esports arena, TV-production studio and a 680-seat theater. On time for fall opening.</p>
+        <div class="proj-metrics"><span>Value<strong>$68M</strong></span><span>Duration<strong>22 mo</strong></span><span>Delivery<strong>Design-Build</strong></span></div>
+      </div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-thumb" style="background:linear-gradient(135deg,#7c2d12,#0891B2)">🏭<div class="overlay"><span class="tag">Industrial</span></div></div>
+      <div class="body">
+        <h4>Meridian EV Battery Facility</h4>
+        <p>480,000 sqft manufacturing + 85,000 sqft office/R&amp;D. Tilt-up shell, Class 8 cleanroom, 34 MW service.</p>
+        <div class="proj-metrics"><span>Value<strong>$118M</strong></span><span>Duration<strong>19 mo</strong></span><span>Delivery<strong>Design-Build</strong></span></div>
+      </div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-thumb" style="background:linear-gradient(135deg,#4c1d95,#22d3ee)">🏨<div class="overlay"><span class="tag">Hospitality</span></div></div>
+      <div class="body">
+        <h4>The Rowan Hotel &amp; Residences</h4>
+        <p>8-story mixed-use with 182 keys, 64 residences, rooftop restaurant and 460-space podium garage.</p>
+        <div class="proj-metrics"><span>Value<strong>$92M</strong></span><span>Duration<strong>24 mo</strong></span><span>Delivery<strong>GMP</strong></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Licenses, certifications &amp; bonding</h2>
+  <p class="sub">Single-project bonding capacity: $200M. Aggregate: $850M.</p>
+  <div class="certs-grid">
+    <div class="cert-item"><div class="c">✓</div><div><h4>ENR Top 100</h4><p>General contractor, 2025</p></div></div>
+    <div class="cert-item"><div class="c">🏗</div><div><h4>OSHA VPP Star</h4><p>Voluntary Protection Program</p></div></div>
+    <div class="cert-item"><div class="c">🌱</div><div><h4>LEED AP staff</h4><p>12 accredited professionals</p></div></div>
+    <div class="cert-item"><div class="c">🏥</div><div><h4>ILSM / ICRA</h4><p>Healthcare infection-control trained</p></div></div>
+    <div class="cert-item"><div class="c">🤝</div><div><h4>MBE / WBE Mentor</h4><p>DOT-certified mentor program</p></div></div>
+    <div class="cert-item"><div class="c">🛡</div><div><h4>ISO 45001</h4><p>OH&amp;S management system certified</p></div></div>
+  </div>
+</section>
+
+<section class="prod-section" id="bid">
+  <h2>Request a bid</h2>
+  <p class="sub">Send us the scope. A preconstruction lead will respond within one business day.</p>
+  <form class="bid-form" onsubmit="event.preventDefault();alert('Template demo — connect to NetWebMedia CMS to route bid requests to your preconstruction team.')">
+    <h3>Project bid request</h3>
+    <div class="sub">Fields marked required help us route to the right preconstruction team.</div>
+    <div class="bid-row">
+      <div><label>Company *</label><input type="text" required></div>
+      <div><label>Contact name *</label><input type="text" required></div>
+    </div>
+    <div class="bid-row">
+      <div><label>Email *</label><input type="email" required></div>
+      <div><label>Phone</label><input type="tel"></div>
+    </div>
+    <div class="bid-row">
+      <div>
+        <label>Sector</label>
+        <select><option>Healthcare</option><option>Education</option><option>Industrial</option><option>Hospitality</option><option>Retail / Mixed-Use</option><option>Public / Municipal</option></select>
+      </div>
+      <div>
+        <label>Estimated value</label>
+        <select><option>Under $5M</option><option>$5M - $20M</option><option>$20M - $75M</option><option>$75M+</option></select>
+      </div>
+    </div>
+    <label>Project description &amp; timeline</label>
+    <textarea rows="4" placeholder="Location, square footage, delivery method if known, target start and occupancy dates..."></textarea>
+    <button type="submit">Submit bid request →</button>
+  </form>
+</section>
+
+<div class="cta-band">
+  <h3>Launch this template with NetWebMedia</h3>
+  <p>Commercial Contractor ships with a project-portfolio CMS, bid-request routing, team-bios module and a secure preconstruction-doc portal. Live in 48 hours.</p>
+  <a href="/contact.html" class="btn-teal">Start with this template →</a>
+  <div style="margin-top:22px"><span class="badge-built">⚡ Built on NetWebMedia CMS</span></div>
+</div>
+
+<footer>
+  <div><a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a></div>
+  <div style="margin-top:12px;color:#666">© 2026 Axiom Commercial Construction — demo template. Powered by NetWebMedia CMS.</div>
+</footer>
+
+</body>
+</html>

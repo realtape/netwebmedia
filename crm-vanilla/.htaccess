@@ -1,0 +1,19 @@
+# /crm/.htaccess — no auth gate (moved to client-side JS), no HTML caching.
+# The old Basic Auth on /crm/ was removed; the client-side enforceAuthGate()
+# in app.js now handles authentication and redirects unauthenticated users
+# to /login.html.
+
+<IfModule mod_headers.c>
+  # Force fresh HTML every time — no browser cache, no proxy cache.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  # CSS/JS: let the query-string (?v=8) cache-bust handle versioning.
+  # We still let them cache briefly so reloads are fast once bumped.
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=300, must-revalidate"
+  </FilesMatch>
+</IfModule>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workflows - NetWeb CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../crm/css/app.css">
+  <link rel="stylesheet" href="css/cms.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div id="summaryCards" class="summary-cards"></div>
+        <div id="wfList" class="wf-list"></div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/api-client.js"></script>
+  <script src="js/cms.js"></script>
+  <script src="js/workflows.js"></script>
+  <style>
+    .nwm-modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center; z-index:9999; }
+    .nwm-modal { background:#fff; color:#111; border-radius:12px; width:min(720px, 92vw); max-height:90vh; overflow:auto; }
+    .nwm-modal-head { display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid #eee; }
+    .nwm-modal-head h3 { margin:0; font-size:18px; }
+    .nwm-modal-close { background:none; border:none; font-size:28px; cursor:pointer; line-height:1; }
+    .nwm-modal-body { padding:20px; }
+    .nwm-modal-foot { margin-top:16px; display:flex; gap:8px; justify-content:flex-end; }
+    .lbl { display:block; margin-bottom:14px; font-size:13px; color:#444; }
+    .inp { display:block; width:100%; padding:10px 12px; border:1px solid #d5d9e2; border-radius:8px; font-size:14px; margin-top:4px; }
+    .btn-sm { padding:4px 10px; font-size:12px; }
+    .btn-danger { background:#e74c3c; color:#fff; border-color:#e74c3c; }
+    .run-row { padding:10px 12px; border:1px solid #eee; border-radius:8px; margin-bottom:8px; font-size:13px; }
+    .run-logs { margin:6px 0 0 16px; font-size:12px; color:#555; }
+    .runs-list { max-height:60vh; overflow:auto; }
+    .err { color:#c0392b; font-size:12px; margin-top:4px; }
+    .wf-steps-preview code { padding:1px 4px; background:rgba(108,92,231,0.1); border-radius:4px; }
+  </style>
+<script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

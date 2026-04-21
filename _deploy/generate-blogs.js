@@ -191,7 +191,6 @@ ${bodyHtml}
       </ul></div>
       <div class="footer-col"><h4>Connect</h4><ul>
         <li><a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a></li>
-        <li><a href="https://wa.me/56965322427" target="_blank" rel="noopener">WhatsApp</a></li>
       </ul></div>
     </div>
     <div class="footer-bottom">

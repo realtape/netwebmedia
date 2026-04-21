@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dental Clinic — Healthcare Template | NetWebMedia CMS</title>
+  <meta name="description" content="Dental practice template — services, before/after results, payment plans, and new patient offer. Built on NetWebMedia CMS.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/healthcare/template-3.html" />
+  <meta property="og:title" content="Dental Clinic — NetWebMedia Template" />
+  <meta property="og:description" content="Dental site with services, smile gallery, financing, and new-patient intake." />
+  <meta property="og:url" content="https://netwebmedia.com/industries/healthcare/template-3.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body{background:#0b1220;color:#dde3ee;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    .tpl-nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+    .tpl-nav .logo{font-weight:900;font-size:18px;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .tpl-nav .links{display:flex;gap:18px;align-items:center}
+    .tpl-nav a{color:#b8c4d9;text-decoration:none;font-size:14px}
+    .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:10px 20px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:10px 20px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+    .prod-hero{padding:70px 20px 40px;text-align:center;max-width:1100px;margin:0 auto}
+    .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+    .prod-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+    .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#b8c4d9;max-width:720px;margin:0 auto 28px;line-height:1.5}
+    .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .prod-hero .btn-teal,.prod-hero .btn-ghost{padding:14px 28px;font-size:16px}
+
+    .prod-stats{max-width:1000px;margin:20px auto 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;padding:0 20px}
+    .prod-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px;text-align:center}
+    .prod-stat .n{font-size:26px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .prod-stat .l{font-size:12px;color:#9aa;margin-top:4px;text-transform:uppercase;letter-spacing:.08em}
+
+    .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+    .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+    .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+    .svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+    .svc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px;transition:transform .2s,border-color .2s}
+    .svc:hover{transform:translateY(-4px);border-color:rgba(6,182,212,.45)}
+    .svc .icon{font-size:30px;margin-bottom:10px}
+    .svc h4{margin:0 0 6px;color:#fff;font-size:15px}
+    .svc p{margin:0;color:#b8c4d9;font-size:13px;line-height:1.55}
+
+    .ba-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .ba-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden}
+    .ba-split{display:grid;grid-template-columns:1fr 1fr;height:180px}
+    .ba-before,.ba-after{display:flex;align-items:center;justify-content:center;font-size:52px;position:relative}
+    .ba-before{background:linear-gradient(135deg,#374151,#1f2937)}
+    .ba-after{background:linear-gradient(135deg,#0891B2,#22d3ee)}
+    .ba-before::before,.ba-after::before{position:absolute;top:8px;left:10px;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:rgba(11,18,32,.75);color:#fff}
+    .ba-before::before{content:"Before"}
+    .ba-after::before{content:"After"}
+    .ba-body{padding:14px}
+    .ba-body h5{margin:0 0 4px;color:#fff;font-size:14px}
+    .ba-body p{margin:0;color:#9aa;font-size:12px;line-height:1.5}
+
+    .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .plan{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px;text-align:center}
+    .plan h4{margin:0 0 8px;color:#fff;font-size:16px}
+    .plan .amt{font-size:28px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent;margin:8px 0}
+    .plan .sub{color:#9aa;font-size:12px;margin-bottom:14px;text-align:center}
+    .plan p{color:#b8c4d9;font-size:13px;line-height:1.55;margin:0}
+
+    .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(8,145,178,.06));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;text-align:center;margin-top:60px}
+    .cta-band h3{font-size:clamp(22px,3.5vw,32px);margin:0 0 12px}
+    .cta-band p{color:#b8c4d9;max-width:620px;margin:0 auto 22px;font-size:15px;line-height:1.55}
+
+    .nwm-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#67e8f9;margin:30px auto;text-decoration:none}
+
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:32px 20px;text-align:center;color:#9aa;font-size:13px}
+    footer a{color:#67e8f9;margin:0 10px;text-decoration:none}
+
+    @media(max-width:700px){.tpl-nav .links a:not(.btn-teal){display:none}}
+  </style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <div class="logo">🦷 Bayview Dental Studio</div>
+  <div class="links">
+    <a href="/industries/">← Industries</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">New Patient Special · $99</div>
+  <h1>Modern dentistry, <span class="hl">painless experience</span></h1>
+  <p class="sub">Comprehensive exam, digital X-rays, and professional cleaning — all for $99 on your first visit. Sedation options, Saturday hours, and financing available.</p>
+  <div class="ctas">
+    <a href="#book" class="btn-teal">Claim $99 New Patient Offer →</a>
+    <a href="#services" class="btn-ghost">Explore Services</a>
+  </div>
+</section>
+
+<div class="prod-stats">
+  <div class="prod-stat"><div class="n">14 yrs</div><div class="l">In practice</div></div>
+  <div class="prod-stat"><div class="n">8,400+</div><div class="l">Smiles served</div></div>
+  <div class="prod-stat"><div class="n">4.9★</div><div class="l">Google rating</div></div>
+  <div class="prod-stat"><div class="n">Sat</div><div class="l">Weekend hours</div></div>
+</div>
+
+<section class="prod-section" id="services">
+  <h2>Services we provide</h2>
+  <p class="sub">From routine hygiene to full-mouth restoration, all in one location.</p>
+  <div class="svc-grid">
+    <div class="svc"><div class="icon">🪥</div><h4>Preventive</h4><p>Cleanings, exams, fluoride, sealants, and oral cancer screening.</p></div>
+    <div class="svc"><div class="icon">✨</div><h4>Cosmetic</h4><p>Professional whitening, porcelain veneers, and smile design.</p></div>
+    <div class="svc"><div class="icon">🦷</div><h4>Restorative</h4><p>Crowns, bridges, fillings, and tooth-colored composites.</p></div>
+    <div class="svc"><div class="icon">🔩</div><h4>Dental Implants</h4><p>Single-tooth and full-arch solutions with 3D-guided placement.</p></div>
+    <div class="svc"><div class="icon">😬</div><h4>Invisalign®</h4><p>Clear aligner treatment, Diamond+ Provider status.</p></div>
+    <div class="svc"><div class="icon">💤</div><h4>Sleep Dentistry</h4><p>Oral sedation and nitrous oxide for anxiety-free visits.</p></div>
+    <div class="svc"><div class="icon">🚨</div><h4>Emergency Care</h4><p>Same-day appointments for pain, trauma, or broken teeth.</p></div>
+    <div class="svc"><div class="icon">👶</div><h4>Pediatric</h4><p>Ages 3 and up, kid-friendly operatory, iPad ceilings.</p></div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Real smiles, real results</h2>
+  <p class="sub">A sample from our before-and-after gallery. Full portfolio available at consultation.</p>
+  <div class="ba-grid">
+    <div class="ba-card"><div class="ba-split"><div class="ba-before">😐</div><div class="ba-after">😁</div></div><div class="ba-body"><h5>Full Veneer Case · 8 units</h5><p>Age 42 · 2 visits · Closed gap, brightened 6 shades</p></div></div>
+    <div class="ba-card"><div class="ba-split"><div class="ba-before">😕</div><div class="ba-after">😊</div></div><div class="ba-body"><h5>Invisalign · 14 months</h5><p>Age 28 · Corrected crowding, open bite</p></div></div>
+    <div class="ba-card"><div class="ba-split"><div class="ba-before">😟</div><div class="ba-after">😃</div></div><div class="ba-body"><h5>Single Implant · Upper right</h5><p>Age 55 · Replaced missing molar, natural color match</p></div></div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Payment plans that fit real budgets</h2>
+  <p class="sub">We accept most PPO insurance and offer three financing paths so cost never delays care.</p>
+  <div class="plans">
+    <div class="plan"><h4>CareCredit</h4><div class="amt">0% APR</div><div class="sub">Up to 24 months</div><p>No-interest healthcare financing, soft credit check, instant approval in the chair.</p></div>
+    <div class="plan"><h4>In-House Plan</h4><div class="amt">$35/mo</div><div class="sub">Annual membership</div><p>No insurance needed. 2 cleanings, X-rays, and 15% off all other services.</p></div>
+    <div class="plan"><h4>PPO Insurance</h4><div class="amt">In-Network</div><div class="sub">Most major carriers</div><p>Delta, Cigna, Aetna, MetLife, Guardian, Blue Cross. We file the claim for you.</p></div>
+  </div>
+</section>
+
+<section class="cta-band" id="book">
+  <h3>$99 covers exam, X-rays, and cleaning</h3>
+  <p>Reserve your new patient visit online in under 90 seconds. Limited to patients without dental insurance.</p>
+  <div class="ctas"><a href="/contact.html" class="btn-teal">Claim the $99 Offer →</a><a href="tel:+14085550300" class="btn-ghost">📞 (408) 555-0300</a></div>
+  <a class="nwm-badge" href="https://netwebmedia.com">⚡ Built on NetWebMedia CMS</a>
+</section>
+
+<section class="prod-section" style="text-align:center">
+  <h2>Launch this template with NetWebMedia</h2>
+  <p class="sub">Dental sites with HIPAA-safe intake forms, smile galleries, and insurance verification.</p>
+  <div class="ctas" style="justify-content:center"><a href="/contact.html" class="btn-teal">Get This Template →</a><a href="/industries/" class="btn-ghost">See All Industries</a></div>
+</section>
+
+<footer>
+  <a href="/industries/">Industries</a> ·
+  <a href="/pricing.html">Pricing</a> ·
+  <a href="/contact.html">Contact</a>
+  <div style="margin-top:10px">© NetWebMedia · Demo template for illustration only</div>
+</footer>
+
+</body>
+</html>

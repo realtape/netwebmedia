@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Paid Ads - NetWeb CMS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../crm/css/app.css">
+  <link rel="stylesheet" href="css/cms.css">
+  <style>
+    .nwm-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:9999}
+    .nwm-modal{background:#fff;color:#111;border-radius:12px;width:min(680px,92vw);max-height:90vh;overflow:auto}
+    .nwm-modal-head{display:flex;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #eee}.nwm-modal-head h3{margin:0}
+    .nwm-modal-close{background:none;border:none;font-size:28px;cursor:pointer}.nwm-modal-body{padding:20px}.nwm-modal-foot{margin-top:16px;display:flex;gap:8px;justify-content:flex-end}
+    .lbl{display:block;margin-bottom:14px;font-size:13px;color:#444}.inp{display:block;width:100%;padding:10px 12px;border:1px solid #d5d9e2;border-radius:8px;font-size:14px;margin-top:4px}
+    .mod-table th,.mod-table td{padding:10px 12px;border-bottom:1px solid #eee;text-align:left;font-size:14px}.mod-table th{background:#f7f7fb;font-size:12px;text-transform:uppercase;color:#666}
+    .btn-sm{padding:4px 10px;font-size:12px}.btn-danger{background:#e74c3c;color:#fff}
+    .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+    .stat-card{background:#fff;border:1px solid #eee;border-radius:10px;padding:14px}.stat-card .lbl{font-size:11px;color:#888;text-transform:uppercase}.stat-card .val{font-size:22px;font-weight:700;margin-top:4px}
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body"><div id="stats" class="stat-grid"></div><div id="list"></div></div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/api-client.js"></script>
+  <script src="js/cms.js"></script>
+  <script src="js/module-table.js"></script>
+  <script>
+    function renderStats(items) {
+      var spend = 0, impr = 0, clicks = 0, conv = 0, rev = 0;
+      items.forEach(function (it) { var d = it.data || {}; spend += +d.spend_usd || 0; impr += +d.impressions || 0; clicks += +d.clicks || 0; conv += +d.conversions || 0; rev += +d.revenue_usd || 0; });
+      var ctr = impr ? ((clicks / impr) * 100).toFixed(2) : '0';
+      var cvr = clicks ? ((conv / clicks) * 100).toFixed(2) : '0';
+      var roas = spend ? (rev / spend).toFixed(2) : '0';
+      var html =
+        '<div class="stat-card"><div class="lbl">Total spend</div><div class="val">$' + spend.toLocaleString() + '</div></div>' +
+        '<div class="stat-card"><div class="lbl">Impressions</div><div class="val">' + impr.toLocaleString() + '</div></div>' +
+        '<div class="stat-card"><div class="lbl">Clicks</div><div class="val">' + clicks.toLocaleString() + '</div></div>' +
+        '<div class="stat-card"><div class="lbl">CTR</div><div class="val">' + ctr + '%</div></div>' +
+        '<div class="stat-card"><div class="lbl">Conversions</div><div class="val">' + conv + '</div></div>' +
+        '<div class="stat-card"><div class="lbl">CVR</div><div class="val">' + cvr + '%</div></div>' +
+        '<div class="stat-card"><div class="lbl">Revenue</div><div class="val">$' + rev.toLocaleString() + '</div></div>' +
+        '<div class="stat-card"><div class="lbl">ROAS</div><div class="val">' + roas + '×</div></div>';
+      document.getElementById('stats').innerHTML = html;
+    }
+
+    NWMApi.list('ad_campaign').then(function (r) { renderStats(r.items || []); }).catch(function(){});
+
+    NWM.mount({
+      type: 'ad_campaign',
+      title: 'Paid Ads',
+      subtitle: 'Track campaign performance across platforms',
+      listEl: 'list',
+      columns: [
+        { label: 'Campaign', key: 'title' },
+        { label: 'Platform', key: 'platform' },
+        { label: 'Spend (USD)', key: 'spend_usd', fmt: function (v) { return '$' + (+v || 0).toLocaleString(); } },
+        { label: 'Clicks', key: 'clicks' },
+        { label: 'Conv.', key: 'conversions' },
+        { label: 'ROAS', key: 'roas' },
+        { label: 'Status', key: 'status' },
+      ],
+      fields: [
+        { name: 'title', label: 'Campaign name', type: 'text', required: true },
+        { name: 'platform', label: 'Platform', type: 'select', options: [
+          { value: 'google', label: 'Google Ads' }, { value: 'meta', label: 'Meta (Facebook/IG)' },
+          { value: 'tiktok', label: 'TikTok' }, { value: 'linkedin', label: 'LinkedIn' },
+          { value: 'youtube', label: 'YouTube' }, { value: 'other', label: 'Other' },
+        ]},
+        { name: 'budget_usd', label: 'Monthly budget (USD)', type: 'number' },
+        { name: 'spend_usd', label: 'Spend to date (USD)', type: 'number' },
+        { name: 'impressions', label: 'Impressions', type: 'number' },
+        { name: 'clicks', label: 'Clicks', type: 'number' },
+        { name: 'conversions', label: 'Conversions', type: 'number' },
+        { name: 'revenue_usd', label: 'Revenue (USD)', type: 'number' },
+        { name: 'roas', label: 'ROAS', type: 'number' },
+        { name: 'notes', label: 'Notes', type: 'textarea', rows: 3 },
+        { name: 'status', label: 'Status', type: 'select', options: [
+          { value: 'active', label: 'Active' }, { value: 'paused', label: 'Paused' }, { value: 'ended', label: 'Ended' },
+        ]},
+      ],
+    });
+  </script>
+<script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

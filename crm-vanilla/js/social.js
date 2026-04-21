@@ -90,8 +90,9 @@
       ? ["Lun","Mar","Mi\u00e9","Jue","Vie","S\u00e1b","Dom"]
       : ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 
+    var pageTitle = (CRM_APP.t ? CRM_APP.t("nav.social") : null) || (isEs ? "Social" : "Social Planner");
     CRM_APP.buildHeader(
-      CRM_APP.t("nav.social"),
+      pageTitle,
       '<button class="btn btn-primary" onclick="window._socialNewPost()">' + CRM_APP.ICONS.plus + " " + L.newPost + "</button>"
     );
 

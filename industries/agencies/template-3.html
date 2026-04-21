@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>White-Label SaaS Reseller — Agency Template | NetWebMedia CMS</title>
+  <meta name="description" content="Resell the full NetWebMedia platform under your own brand. Landing page for agencies launching their own SaaS. Built on NetWebMedia CMS.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/agencies/template-3.html" />
+  <meta property="og:title" content="White-Label SaaS Reseller — NetWebMedia Template" />
+  <meta property="og:description" content="Launch your own branded marketing SaaS in 2 weeks. Powered by NetWebMedia. 60–80% recurring margin." />
+  <meta property="og:url" content="https://netwebmedia.com/industries/agencies/template-3.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body{background:#0b1220;color:#dde3ee;margin:0;font-family:system-ui,-apple-system,sans-serif}
+    .tpl-nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+    .tpl-nav .logo{font-weight:900;font-size:20px;background:linear-gradient(135deg,#22d3ee,#6366f1);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.04em}
+    .tpl-nav .links{display:flex;gap:18px;align-items:center}
+    .tpl-nav a{color:#b8c4d9;text-decoration:none;font-size:14px}
+    .btn-g{background:linear-gradient(135deg,#22d3ee,#6366f1);color:#0b1220;padding:11px 22px;border-radius:10px;font-weight:800;text-decoration:none;display:inline-block;font-size:14px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:11px 22px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+    .hero{padding:90px 20px 50px;text-align:center;max-width:1000px;margin:0 auto;position:relative;overflow:hidden}
+    .hero::before{content:"";position:absolute;inset:-20% 0 auto 0;height:60%;background:radial-gradient(ellipse at 50% 40%,rgba(99,102,241,.25),transparent 65%);pointer-events:none;z-index:-1}
+    .hero .eyebrow{display:inline-block;background:linear-gradient(135deg,rgba(34,211,238,.2),rgba(99,102,241,.2));color:#a5f3fc;padding:6px 14px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;border:1px solid rgba(34,211,238,.4)}
+    .hero h1{font-size:clamp(36px,6.5vw,64px);margin:0 0 20px;line-height:1.08;font-weight:900;letter-spacing:-.02em}
+    .hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#6366f1);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero p.sub{font-size:clamp(17px,2.4vw,20px);color:#b8c4d9;max-width:700px;margin:0 auto 30px;line-height:1.55}
+    .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+    .rev-calc{background:rgba(34,211,238,.06);border:1px solid rgba(34,211,238,.3);border-radius:18px;padding:30px;max-width:760px;margin:40px auto;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center}
+    .rev-calc .row{display:flex;flex-direction:column;align-items:center}
+    .rev-calc .n{font-size:34px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#6366f1);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+    .rev-calc .l{color:#9aa;font-size:11px;margin-top:8px;text-transform:uppercase;letter-spacing:.1em}
+    .rev-calc .arrow{color:#6366f1;font-size:24px;align-self:center}
+
+    .section{max-width:1100px;margin:80px auto;padding:0 20px}
+    .section h2{font-size:clamp(28px,4vw,42px);margin:0 0 14px;text-align:center;font-weight:900;letter-spacing:-.01em}
+    .section .sub{color:#9aa;font-size:16px;max-width:640px;margin:0 auto 44px;text-align:center;line-height:1.55}
+
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .feat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px;transition:border-color .2s}
+    .feat:hover{border-color:rgba(34,211,238,.4)}
+    .feat .ico{font-size:28px;margin-bottom:12px}
+    .feat h3{margin:0 0 10px;font-size:17px;color:#fff}
+    .feat p{margin:0;color:#b8c4d9;font-size:13px;line-height:1.55}
+
+    .pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;max-width:1000px;margin:0 auto}
+    .tier{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:30px;position:relative}
+    .tier.mid{border-color:rgba(34,211,238,.5);background:linear-gradient(180deg,rgba(34,211,238,.08),rgba(99,102,241,.03))}
+    .tier.mid::before{content:"MOST POPULAR";position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#22d3ee,#6366f1);color:#0b1220;padding:4px 12px;border-radius:99px;font-size:10px;font-weight:900;letter-spacing:.1em}
+    .tier h3{margin:0 0 8px;color:#fff;font-size:20px;font-weight:800}
+    .tier .price{font-size:36px;font-weight:900;margin:8px 0 4px;color:#fff}
+    .tier .price .mo{font-size:14px;color:#9aa;font-weight:500}
+    .tier .desc{color:#b8c4d9;font-size:13px;margin-bottom:18px;line-height:1.5}
+    .tier ul{list-style:none;padding:0;margin:0 0 22px}
+    .tier li{color:#dde3ee;font-size:13px;padding:7px 0;border-bottom:1px dashed rgba(255,255,255,.08);line-height:1.5}
+    .tier li:last-child{border:0}
+    .tier li::before{content:"✓ ";color:#22d3ee;font-weight:900}
+    .tier .btn-g{display:block;text-align:center}
+
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;max-width:1000px;margin:0 auto}
+    .step{text-align:center;padding:24px 18px;background:rgba(99,102,241,.04);border:1px solid rgba(99,102,241,.2);border-radius:14px}
+    .step .n{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#22d3ee,#6366f1);color:#0b1220;font-weight:900;font-size:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+    .step h4{margin:0 0 8px;color:#fff;font-size:16px}
+    .step p{margin:0;color:#9aa;font-size:13px;line-height:1.5}
+
+    .cta-band{background:linear-gradient(135deg,rgba(34,211,238,.12),rgba(99,102,241,.06));border-top:1px solid rgba(34,211,238,.3);border-bottom:1px solid rgba(34,211,238,.3);padding:70px 20px;text-align:center;margin-top:70px}
+    .cta-band h3{font-size:clamp(26px,4vw,38px);margin:0 0 14px;font-weight:900}
+    .cta-band p{color:#b8c4d9;max-width:620px;margin:0 auto 24px;font-size:16px;line-height:1.55}
+    .nwm-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#67e8f9;margin:30px auto;text-decoration:none}
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:32px 20px;text-align:center;color:#9aa;font-size:13px}
+    footer a{color:#22d3ee;margin:0 10px;text-decoration:none}
+    @media(max-width:680px){.rev-calc{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <div class="logo">LAUNCHPAD</div>
+  <div class="links">
+    <a href="/industries/">← Industries</a>
+    <a href="#pricing">Pricing</a>
+    <a href="/contact.html" class="btn-g">Become a Partner</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">⚡ White-Label SaaS · Powered by NetWebMedia</div>
+  <h1>Launch your own <span class="hl">marketing SaaS</span> in 14 days.</h1>
+  <p class="sub">Take the entire NetWebMedia platform — CRM, CMS, email, ads, AI agents, NWMai — and resell it under your own brand, your own domain, your own pricing. Every new client becomes recurring revenue for you.</p>
+  <div class="ctas">
+    <a href="/contact.html" class="btn-g">Become a Partner →</a>
+    <a href="#pricing" class="btn-ghost">See Pricing</a>
+  </div>
+</section>
+
+<div class="rev-calc">
+  <div class="row"><div class="n">$97</div><div class="l">Your cost per seat</div></div>
+  <div class="arrow">→</div>
+  <div class="row"><div class="n">$297</div><div class="l">Your client pays</div></div>
+  <div class="row"><div class="n">+67%</div><div class="l">Recurring margin</div></div>
+</div>
+
+<section class="section">
+  <h2>Everything, <span style="color:#22d3ee">rebranded.</span></h2>
+  <p class="sub">Your logo. Your colors. Your domain. Your email. Your app name. Your clients never know we're behind it.</p>
+  <div class="features">
+    <div class="feat"><div class="ico">🎨</div><h3>Full Brand Control</h3><p>Custom domain, logo, color palette, favicon, and app name. Even the login screen is yours.</p></div>
+    <div class="feat"><div class="ico">📧</div><h3>Your Email Domain</h3><p>Notifications and nurture emails send from @yourbrand.com. Full SPF/DKIM/DMARC setup included.</p></div>
+    <div class="feat"><div class="ico">💳</div><h3>Your Billing</h3><p>Stripe Connect integration. You set client prices, we auto-split. Revenue hits your account first.</p></div>
+    <div class="feat"><div class="ico">🏢</div><h3>Sub-Account Isolation</h3><p>Every client lives in an isolated tenant with their own users, data, and settings. Zero cross-contamination.</p></div>
+    <div class="feat"><div class="ico">🤖</div><h3>All AI Features Included</h3><p>NWMai, AI Copilot, AI SDR, Voice AI, Video Factory, Content AI — every agent, every feature, day one.</p></div>
+    <div class="feat"><div class="ico">📊</div><h3>Partner Dashboard</h3><p>One cockpit: MRR, active clients, feature adoption, support tickets, billing. Drill into any sub-account.</p></div>
+    <div class="feat"><div class="ico">📚</div><h3>Co-Branded Academy</h3><p>Your clients learn from "Your-Brand Academy" — all tutorials rebranded, no NetWebMedia trace.</p></div>
+    <div class="feat"><div class="ico">🎯</div><h3>Leads + GTM Support</h3><p>Quarterly strategy calls, private Slack, partner-only promotions, and lead-sharing in your territory.</p></div>
+  </div>
+</section>
+
+<section class="section" id="pricing">
+  <h2>Partner tiers</h2>
+  <p class="sub">Start small, scale fast. All tiers include unlimited sub-accounts.</p>
+  <div class="pricing">
+    <div class="tier">
+      <h3>Starter</h3>
+      <div class="price">$497<span class="mo">/mo</span></div>
+      <div class="desc">Perfect for agencies with 5–20 clients ready to move.</div>
+      <ul>
+        <li>Up to 25 active sub-accounts</li>
+        <li>$97 / seat wholesale rate</li>
+        <li>Basic white-label (logo + colors)</li>
+        <li>Shared Stripe collection</li>
+        <li>Email support</li>
+      </ul>
+      <a href="/contact.html" class="btn-g">Start on Starter →</a>
+    </div>
+    <div class="tier mid">
+      <h3>Growth</h3>
+      <div class="price">$1,497<span class="mo">/mo</span></div>
+      <div class="desc">For growing agencies scaling past 25 clients. Most popular.</div>
+      <ul>
+        <li>Up to 150 active sub-accounts</li>
+        <li>$67 / seat wholesale rate</li>
+        <li>Full white-label (domain + email)</li>
+        <li>Stripe Connect direct billing</li>
+        <li>Co-branded tutorials</li>
+        <li>Quarterly strategy call</li>
+        <li>Priority Slack support</li>
+      </ul>
+      <a href="/contact.html" class="btn-g">Start on Growth →</a>
+    </div>
+    <div class="tier">
+      <h3>Scale</h3>
+      <div class="price">Custom<span class="mo"></span></div>
+      <div class="desc">For 150+ clients, multi-region, or regulated industries.</div>
+      <ul>
+        <li>Unlimited sub-accounts</li>
+        <li>Volume pricing ($39+/seat)</li>
+        <li>Custom region &amp; SLA</li>
+        <li>Dedicated partner manager</li>
+        <li>Custom integrations + API</li>
+        <li>SOC2 / HIPAA add-ons</li>
+      </ul>
+      <a href="/contact.html" class="btn-g">Talk to Sales →</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>How it works</h2>
+  <p class="sub">Fourteen days from signed partner agreement to first paying sub-account. No exceptions.</p>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><h4>Day 1</h4><p>Sign partner agreement + Stripe Connect.</p></div>
+    <div class="step"><div class="n">2</div><h4>Days 2–5</h4><p>Brand setup — logo, colors, domain, email DNS.</p></div>
+    <div class="step"><div class="n">3</div><h4>Days 6–10</h4><p>Onboarding calls, academy rebrand, GTM strategy.</p></div>
+    <div class="step"><div class="n">4</div><h4>Day 14</h4><p>Launch. Start onboarding your first client on your branded platform.</p></div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <h3>Stop renting HubSpot's margin.</h3>
+  <p>Most agencies lose 40–60% of their potential MRR to HubSpot, Mailchimp, and other vendors. You do the work, they get the margin. Own your stack instead.</p>
+  <div class="ctas"><a href="/contact.html" class="btn-g">Become a Partner →</a><a href="/pricing.html" class="btn-ghost">Compare Plans</a></div>
+  <a class="nwm-badge" href="https://netwebmedia.com">⚡ Built on NetWebMedia CMS</a>
+</section>
+
+<footer>
+  <a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a>
+  <div style="margin-top:10px">© NetWebMedia · Demo template for illustration only</div>
+</footer>
+
+</body>
+</html>

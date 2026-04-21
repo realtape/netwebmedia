@@ -1,0 +1,1814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp Automation Playbook 2026 — NetWebMedia</title>
+<style>
+  /* ===== BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #25d366;
+    --accent-dark: #128c4e;
+    --accent-light: #dcfce7;
+    --text: #111827;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --bg-section: #f9fafb;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', Courier, monospace;
+  }
+
+  body {
+    font-family: var(--font);
+    color: var(--text);
+    background: #fff;
+    font-size: 10.5pt;
+    line-height: 1.6;
+  }
+
+  /* ===== PRINT ===== */
+  @media print {
+    @page { size: A4; margin: 18mm 16mm 22mm 16mm; }
+    body { font-size: 9.5pt; }
+    nav, .no-print { display: none !important; }
+    .page-break { page-break-before: always; break-before: page; }
+    .avoid-break { page-break-inside: avoid; break-inside: avoid; }
+    a { text-decoration: none; color: inherit; }
+    .cover { page-break-after: always; break-after: page; }
+    footer.watermark { display: block !important; }
+  }
+
+  @media screen {
+    body { max-width: 820px; margin: 0 auto; padding: 20px; }
+    .page-break { border-top: 3px dashed #e5e7eb; margin: 48px 0 8px; padding-top: 8px; }
+    footer.watermark { display: block; }
+  }
+
+  /* ===== WATERMARK FOOTER ===== */
+  footer.watermark {
+    position: running(footer);
+    text-align: center;
+    font-size: 7.5pt;
+    color: #9ca3af;
+    padding-top: 4px;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 24px;
+  }
+  @page { @bottom-center { content: element(footer); } }
+
+  /* ===== COVER ===== */
+  .cover {
+    min-height: 96vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 40px 40px;
+    border-left: 8px solid var(--accent);
+    background: linear-gradient(160deg, #f0fdf4 0%, #fff 60%);
+  }
+  .cover-brand { display: flex; align-items: center; gap: 10px; }
+  .cover-brand .logo-mark {
+    width: 38px; height: 38px; background: var(--accent);
+    border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; color: #fff; font-weight: 800; font-size: 16pt;
+  }
+  .cover-brand .brand-name { font-weight: 700; font-size: 13pt; color: var(--accent-dark); }
+  .cover-brand .brand-tagline { font-size: 8pt; color: var(--muted); }
+  .cover-main { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 40px 0 20px; }
+  .cover-eyebrow { font-size: 8.5pt; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--accent-dark); margin-bottom: 14px; }
+  .cover-title { font-size: 32pt; font-weight: 800; line-height: 1.15; color: #111827; margin-bottom: 12px; }
+  .cover-title span { color: var(--accent); }
+  .cover-subtitle { font-size: 13pt; color: #374151; font-weight: 400; max-width: 500px; margin-bottom: 28px; line-height: 1.5; }
+  .cover-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 8pt; font-weight: 600; background: var(--accent-light); color: var(--accent-dark); border: 1px solid var(--accent); }
+  .cover-meta { font-size: 8.5pt; color: var(--muted); border-top: 1px solid var(--border); padding-top: 16px; display: flex; justify-content: space-between; }
+
+  /* ===== TOC ===== */
+  .toc-wrapper { padding: 32px 0; }
+  .toc-title { font-size: 18pt; font-weight: 700; color: var(--text); margin-bottom: 24px; padding-bottom: 10px; border-bottom: 3px solid var(--accent); }
+  .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; }
+  .toc-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dotted var(--border); font-size: 9.5pt; }
+  .toc-item:hover { background: var(--accent-light); }
+  .toc-section { font-weight: 600; }
+  .toc-num { color: var(--muted); font-size: 8.5pt; min-width: 28px; text-align: right; }
+  .toc-section-header { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--accent-dark); padding: 12px 0 4px; grid-column: 1 / -1; }
+
+  /* ===== SECTION DIVIDER ===== */
+  .section-divider {
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 6px;
+    margin: 32px 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-divider .sec-num { font-size: 22pt; font-weight: 900; opacity: .4; line-height: 1; }
+  .section-divider .sec-label { font-size: 7pt; text-transform: uppercase; letter-spacing: .1em; opacity: .85; }
+  .section-divider .sec-title { font-size: 14pt; font-weight: 700; line-height: 1.2; }
+
+  /* ===== TYPOGRAPHY ===== */
+  h2 { font-size: 14pt; font-weight: 700; color: var(--text); margin: 24px 0 10px; padding-left: 10px; border-left: 4px solid var(--accent); }
+  h3 { font-size: 11pt; font-weight: 700; color: var(--accent-dark); margin: 18px 0 8px; }
+  h4 { font-size: 10pt; font-weight: 600; color: var(--text); margin: 14px 0 6px; }
+  p { margin-bottom: 10px; }
+  ul, ol { margin: 0 0 10px 20px; }
+  li { margin-bottom: 4px; }
+  strong { color: var(--text); }
+
+  /* ===== CALLOUT BOXES ===== */
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-light);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin: 14px 0;
+    font-size: 9.5pt;
+  }
+  .callout.warning { border-color: #f59e0b; background: #fef3c7; }
+  .callout.info { border-color: #3b82f6; background: #eff6ff; }
+  .callout-label { font-size: 7pt; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--accent-dark); margin-bottom: 4px; }
+
+  /* ===== TEMPLATE BOXES ===== */
+  .template-box {
+    background: #f8fafc;
+    border: 1.5px solid var(--accent);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin: 12px 0;
+    font-family: var(--mono);
+    font-size: 8.5pt;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .template-label {
+    font-family: var(--font);
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--accent-dark);
+    background: var(--accent-light);
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+  }
+  .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media print { .template-grid { grid-template-columns: 1fr 1fr; } }
+
+  /* ===== CHECKLIST ===== */
+  .checklist { list-style: none; margin: 0 0 12px; padding: 0; }
+  .checklist li { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; border-bottom: 1px solid #f3f4f6; font-size: 9.5pt; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li .check { flex-shrink: 0; font-size: 13pt; color: var(--accent); margin-top: -1px; }
+  .checklist-section { background: var(--bg-section); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; margin: 12px 0; }
+  .checklist-section h4 { margin-top: 0; color: var(--accent-dark); }
+
+  /* ===== TABLES ===== */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 9pt; }
+  th { background: var(--accent); color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; font-size: 8.5pt; }
+  td { padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) { background: var(--bg-section); }
+  tr:hover { background: var(--accent-light); }
+  .tag { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 7.5pt; font-weight: 600; background: var(--accent-light); color: var(--accent-dark); border: 1px solid var(--accent); margin: 1px 2px; }
+  .tag.blue { background: #eff6ff; color: #1d4ed8; border-color: #3b82f6; }
+  .tag.red { background: #fef2f2; color: #b91c1c; border-color: #ef4444; }
+  .tag.yellow { background: #fef3c7; color: #92400e; border-color: #f59e0b; }
+
+  /* ===== KPI CARDS ===== */
+  .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0; }
+  .kpi-card { border: 1.5px solid var(--border); border-radius: 8px; padding: 14px; text-align: center; background: var(--bg-section); }
+  .kpi-card .kpi-value { font-size: 22pt; font-weight: 800; color: var(--accent-dark); line-height: 1; }
+  .kpi-card .kpi-label { font-size: 8pt; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .06em; }
+  .kpi-card .kpi-target { font-size: 8.5pt; font-weight: 600; color: var(--text); margin-top: 6px; }
+  .kpi-card .kpi-alert { font-size: 7.5pt; color: #b91c1c; margin-top: 2px; }
+
+  /* ===== ROADMAP ===== */
+  .roadmap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin: 14px 0; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .roadmap-step { padding: 14px 12px; border-right: 1px solid var(--border); background: var(--bg-section); }
+  .roadmap-step:last-child { border-right: none; }
+  .roadmap-step.active { background: var(--accent-light); }
+  .roadmap-step .step-milestone { font-size: 11pt; font-weight: 800; color: var(--accent-dark); }
+  .roadmap-step .step-label { font-size: 7.5pt; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 8px; }
+  .roadmap-step ul { margin: 0; padding-left: 14px; font-size: 8.5pt; }
+
+  /* ===== PRISM FRAMEWORK ===== */
+  .framework-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 14px 0; }
+  .framework-step { background: var(--accent); color: #fff; border-radius: 8px; padding: 12px 10px; text-align: center; }
+  .framework-step .step-letter { font-size: 20pt; font-weight: 900; line-height: 1; }
+  .framework-step .step-word { font-size: 7pt; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; opacity: .9; margin-top: 2px; }
+  .framework-step .step-desc { font-size: 7pt; opacity: .85; margin-top: 6px; line-height: 1.4; }
+
+  /* ===== SERVE SEQUENCE ===== */
+  .sequence-step { display: flex; gap: 14px; margin: 10px 0; align-items: flex-start; }
+  .sequence-step .step-badge { flex-shrink: 0; width: 32px; height: 32px; background: var(--accent); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12pt; }
+  .sequence-step .step-content { flex: 1; }
+  .sequence-step .step-name { font-weight: 700; color: var(--accent-dark); font-size: 9.5pt; }
+
+  /* ===== BANT ===== */
+  .dialog-turn { margin: 6px 0; padding: 8px 12px; border-radius: 6px; font-size: 9pt; font-family: var(--mono); }
+  .dialog-turn.bot { background: var(--accent-light); border-left: 3px solid var(--accent); }
+  .dialog-turn.user { background: #f3f4f6; border-left: 3px solid #9ca3af; }
+  .dialog-label { font-size: 7pt; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 2px; font-family: var(--font); }
+
+  /* ===== CRM MAP ===== */
+  .crm-chain { display: flex; align-items: stretch; gap: 0; margin: 12px 0; border-radius: 8px; overflow: hidden; border: 1.5px solid var(--border); }
+  .crm-block { flex: 1; padding: 12px 10px; font-size: 8.5pt; }
+  .crm-block.tag-col { background: #eff6ff; border-right: 1px solid var(--border); }
+  .crm-block.stage-col { background: var(--accent-light); border-right: 1px solid var(--border); }
+  .crm-block.action-col { background: #f0fdf4; }
+  .crm-block h5 { font-size: 7pt; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 8px; }
+  .crm-block ul { margin: 0; padding-left: 12px; }
+
+  /* ===== BROADCAST CALENDAR ===== */
+  .cal-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 12px 0; }
+  .cal-week { border: 1.5px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .cal-week-header { background: var(--accent-dark); color: #fff; padding: 6px 10px; font-size: 8pt; font-weight: 700; }
+  .cal-week-body { padding: 8px 10px; font-size: 8pt; }
+  .cal-day { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px solid #f3f4f6; }
+  .cal-day:last-child { border-bottom: none; }
+  .cal-type { font-weight: 600; color: var(--accent-dark); font-size: 7.5pt; }
+
+  /* ===== FOOTER ===== */
+  .doc-footer { margin-top: 40px; padding-top: 12px; border-top: 1.5px solid var(--border); display: flex; justify-content: space-between; font-size: 8pt; color: var(--muted); }
+  .page-num { color: var(--accent-dark); font-weight: 600; }
+
+</style>
+</head>
+<body>
+
+<!-- WATERMARK FOOTER -->
+<footer class="watermark">
+  Confidential — Licensed to {{buyer_name}} &nbsp;|&nbsp; NetWebMedia &copy; 2026 &nbsp;|&nbsp; netwebmedia.com &nbsp;|&nbsp; WhatsApp Automation Playbook
+</footer>
+
+<!-- ============================= COVER ============================= -->
+<div class="cover">
+  <div class="cover-brand">
+    <div class="logo-mark">N</div>
+    <div>
+      <div class="brand-name">NetWebMedia</div>
+      <div class="brand-tagline">AI-Powered Growth Agency</div>
+    </div>
+  </div>
+
+  <div class="cover-main">
+    <div class="cover-eyebrow">Premium Implementation Guide &mdash; 2026 Edition</div>
+    <div class="cover-title">WhatsApp<br><span>Automation</span><br>Playbook</div>
+    <div class="cover-subtitle">30 copy-paste templates, complete sales flows, CRM integration maps, and a scaling roadmap from 500 to 10,000 contacts.</div>
+    <div class="cover-badges">
+      <span class="badge">30 Message Templates</span>
+      <span class="badge">SERVE Sequence</span>
+      <span class="badge">BANT Sales Flow</span>
+      <span class="badge">PRISM Optimization</span>
+      <span class="badge">EN + ES</span>
+    </div>
+  </div>
+
+  <div class="cover-meta">
+    <span>Published: April 2026 &nbsp;|&nbsp; Version 3.1</span>
+    <span>netwebmedia.com &nbsp;|&nbsp; hello@netwebmedia.com</span>
+  </div>
+</div>
+
+<!-- ============================= TABLE OF CONTENTS ============================= -->
+<div class="toc-wrapper page-break">
+  <div class="toc-title">Table of Contents</div>
+  <div class="toc-grid">
+    <div class="toc-section-header">Foundation</div>
+    <div class="toc-item"><span class="toc-section">1. Executive Summary</span><span class="toc-num">3</span></div>
+    <div class="toc-item"><span class="toc-section">2. Setup Checklist</span><span class="toc-num">4</span></div>
+
+    <div class="toc-section-header">Templates</div>
+    <div class="toc-item"><span class="toc-section">3. The 30 Must-Have Templates</span><span class="toc-num">5</span></div>
+    <div class="toc-item"><span class="toc-section">4. The SERVE Welcome Sequence</span><span class="toc-num">9</span></div>
+
+    <div class="toc-section-header">Sales &amp; Service</div>
+    <div class="toc-item"><span class="toc-section">5. Sales Flow — BANT + Close</span><span class="toc-num">11</span></div>
+    <div class="toc-item"><span class="toc-section">6. Service Bot Scripts</span><span class="toc-num">13</span></div>
+
+    <div class="toc-section-header">Operations</div>
+    <div class="toc-item"><span class="toc-section">7. Broadcast Calendar</span><span class="toc-num">15</span></div>
+    <div class="toc-item"><span class="toc-section">8. CRM Integration Map</span><span class="toc-num">17</span></div>
+
+    <div class="toc-section-header">Performance</div>
+    <div class="toc-item"><span class="toc-section">9. KPI Dashboard</span><span class="toc-num">19</span></div>
+    <div class="toc-item"><span class="toc-section">10. Monthly Optimization — PRISM</span><span class="toc-num">21</span></div>
+    <div class="toc-item"><span class="toc-section">11. Scaling Roadmap</span><span class="toc-num">23</span></div>
+  </div>
+
+  <div style="margin-top:28px; padding:14px 16px; background:var(--accent-light); border-radius:6px; font-size:9pt;">
+    <strong>How to use this playbook:</strong> Sections 1–2 are strategic reads. Sections 3–6 are operational — copy the templates directly into your BSP dashboard. Sections 7–11 are management tools to be referenced monthly. Variables in <code>{{double_braces}}</code> must be filled in before sending.
+  </div>
+</div>
+
+<!-- ============================= SECTION 1 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div>
+    <div class="sec-num">01</div>
+  </div>
+  <div>
+    <div class="sec-label">Foundation</div>
+    <div class="sec-title">Executive Summary — Why WhatsApp Automation Is Non-Negotiable in 2026</div>
+  </div>
+</div>
+
+<h2>The Opportunity</h2>
+<p>WhatsApp reached <strong>3.2 billion monthly active users</strong> in Q1 2026. In Latin America, Southeast Asia, and Southern Europe, it is the default messaging layer — not email, not SMS. Your prospects are already there. The question is whether your business is ready to meet them.</p>
+
+<div class="kpi-grid" style="grid-template-columns: repeat(3,1fr);">
+  <div class="kpi-card">
+    <div class="kpi-value">98%</div>
+    <div class="kpi-label">Open Rate</div>
+    <div class="kpi-target">vs. 21% email average</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">45%</div>
+    <div class="kpi-label">CTR on rich messages</div>
+    <div class="kpi-target">vs. 2.1% email</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">8x</div>
+    <div class="kpi-label">Faster response cycle</div>
+    <div class="kpi-target">vs. email lead nurture</div>
+  </div>
+</div>
+
+<h2>The Business Case</h2>
+<ul>
+  <li><strong>Lead Response Speed:</strong> Studies consistently show that responding within 5 minutes of a lead inquiry increases conversion by 9x. WhatsApp automation enables sub-30-second response, 24/7.</li>
+  <li><strong>Cost Efficiency:</strong> A bot handling 2,000 monthly conversations costs &lt;$80/mo on most BSPs. The equivalent human cost is 40–80 agent-hours.</li>
+  <li><strong>Trust Signal:</strong> WhatsApp Business verified checkmarks increase reply rates by 37% over unverified accounts.</li>
+  <li><strong>GDPR/LGPD Safe Harbor:</strong> Opt-in architecture means WhatsApp contacts have demonstrably higher consent quality than scraped email lists.</li>
+</ul>
+
+<h2>What Automation Handles (and What It Doesn't)</h2>
+<table>
+  <tr><th>Automation Handles</th><th>Needs Human Touch</th></tr>
+  <tr><td>Lead qualification (BANT)</td><td>Custom pricing negotiations</td></tr>
+  <tr><td>Appointment scheduling + reminders</td><td>Complex complaint resolution</td></tr>
+  <tr><td>FAQ resolution (Tier 1)</td><td>Legal/compliance questions</td></tr>
+  <tr><td>Re-engagement sequences</td><td>Executive relationships</td></tr>
+  <tr><td>Status updates &amp; notifications</td><td>Crisis communications</td></tr>
+  <tr><td>Proposal follow-up sequences</td><td>Strategic upsell discussions</td></tr>
+</table>
+
+<div class="callout">
+  <div class="callout-label">Key Principle</div>
+  Automation captures, qualifies, and nurtures. Humans close, resolve, and retain. Build your flows to honor this boundary — never let a bot handle what requires judgment.
+</div>
+
+<h2>Three Automation Models</h2>
+<ol>
+  <li><strong>Broadcast Model:</strong> One-to-many template messages. Good for promotions, updates, newsletters. Subject to WhatsApp rate limits and 24-hour messaging windows.</li>
+  <li><strong>Flow Model:</strong> Triggered, personalized sequences based on user action or CRM state. Best for onboarding, nurturing, and reactivation.</li>
+  <li><strong>Conversational Model:</strong> Real-time NLP-driven dialogue. Best for FAQ, lead qualification, and booking. Requires AI integration (GPT/Claude) or a decision-tree builder.</li>
+</ol>
+<p>This playbook covers all three, with concrete implementation templates for each.</p>
+</div>
+
+<!-- ============================= SECTION 2 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">02</div></div>
+  <div>
+    <div class="sec-label">Foundation</div>
+    <div class="sec-title">Setup Checklist — API, BSP, Webhook, Phone Warmup</div>
+  </div>
+</div>
+
+<h2>Phase 1 — Account &amp; API Setup</h2>
+<div class="checklist-section avoid-break">
+  <h4>Meta Business Manager</h4>
+  <ul class="checklist">
+    <li><span class="check">&#9744;</span> Create or verify Meta Business Manager account (business.facebook.com)</li>
+    <li><span class="check">&#9744;</span> Complete Business Verification — upload certificate of incorporation + utility bill</li>
+    <li><span class="check">&#9744;</span> Enable Two-Factor Authentication on all admin accounts</li>
+    <li><span class="check">&#9744;</span> Create a WhatsApp Business Account (WABA) under your verified Business Manager</li>
+    <li><span class="check">&#9744;</span> Submit for Official Business Account (Green Checkmark) — attach brand press coverage or Meta Business Manager verification</li>
+  </ul>
+</div>
+
+<div class="checklist-section avoid-break">
+  <h4>BSP (Business Solution Provider) Selection Criteria</h4>
+  <ul class="checklist">
+    <li><span class="check">&#9744;</span> Confirm BSP is on <a href="https://www.whatsapp.com/business/partners">Meta's official partner list</a></li>
+    <li><span class="check">&#9744;</span> Verify: Does the BSP support template submission via API (not just UI)?</li>
+    <li><span class="check">&#9744;</span> Verify: Conversation-based pricing vs message-based pricing — calculate at your expected volume</li>
+    <li><span class="check">&#9744;</span> Confirm webhook reliability SLA (&gt;99.9% uptime guaranteed in contract)</li>
+    <li><span class="check">&#9744;</span> Check CRM integration: native connectors for your stack (HubSpot, Salesforce, NWM CRM)</li>
+    <li><span class="check">&#9744;</span> Test support response time — ticket a dummy issue before signing</li>
+    <li><span class="check">&#9744;</span> Confirm data residency region (EU, US, LATAM) matches your compliance requirements</li>
+  </ul>
+  <div style="font-size:8.5pt; color:var(--muted); margin-top:8px;">Recommended BSPs (2026): Twilio, Infobip, 360dialog, Respond.io, Bird (MessageBird), Vonage</div>
+</div>
+
+<div class="checklist-section avoid-break">
+  <h4>Phone Number Setup</h4>
+  <ul class="checklist">
+    <li><span class="check">&#9744;</span> Acquire a dedicated business number — <strong>never use a personal number</strong></li>
+    <li><span class="check">&#9744;</span> Confirm the number has never previously been registered on WhatsApp Consumer</li>
+    <li><span class="check">&#9744;</span> If migrating from consumer WhatsApp: complete backup, then deregister before adding to API</li>
+    <li><span class="check">&#9744;</span> Register number through BSP portal — receive OTP via call or SMS</li>
+    <li><span class="check">&#9744;</span> Configure Display Name (must match registered business name within 15% tolerance)</li>
+    <li><span class="check">&#9744;</span> Upload business profile photo (640x640px, PNG)</li>
+    <li><span class="check">&#9744;</span> Write business description (max 256 characters)</li>
+    <li><span class="check">&#9744;</span> Set business category, address, website, email</li>
+  </ul>
+</div>
+
+<h2>Phase 2 — Webhook Configuration</h2>
+<div class="checklist-section avoid-break">
+  <ul class="checklist">
+    <li><span class="check">&#9744;</span> Deploy webhook endpoint on HTTPS (TLS 1.2+) — no self-signed certificates</li>
+    <li><span class="check">&#9744;</span> Implement webhook verification: return <code>hub.challenge</code> on GET requests from Meta</li>
+    <li><span class="check">&#9744;</span> Validate <code>X-Hub-Signature-256</code> on every incoming POST request</li>
+    <li><span class="check">&#9744;</span> Return HTTP 200 within 5 seconds (use async queue for processing)</li>
+    <li><span class="check">&#9744;</span> Subscribe to event types: <code>messages</code>, <code>message_status</code>, <code>message_template_status_update</code></li>
+    <li><span class="check">&#9744;</span> Implement idempotency — deduplicate by <code>message_id</code> to prevent double-processing</li>
+    <li><span class="check">&#9744;</span> Set up dead-letter queue for failed webhook events (&gt;3 retry attempts)</li>
+    <li><span class="check">&#9744;</span> Test webhook with Meta's Test Event Tool in Developer Dashboard</li>
+  </ul>
+</div>
+
+<h2>Phase 3 — Phone Number Warmup Protocol</h2>
+<div class="callout warning">
+  <div class="callout-label">Critical</div>
+  New WhatsApp Business numbers have a quality score that limits messaging volume. Ignoring warmup leads to number suspension. Follow this protocol exactly for the first 30 days.
+</div>
+<table class="avoid-break">
+  <tr><th>Week</th><th>Max Daily Messages</th><th>Allowed Template Types</th><th>Action</th></tr>
+  <tr><td>Week 1</td><td>250/day</td><td>Transactional only</td><td>Send to existing warm contacts only (previous customers)</td></tr>
+  <tr><td>Week 2</td><td>1,000/day</td><td>Transactional + Utility</td><td>Monitor quality rating — must stay GREEN</td></tr>
+  <tr><td>Week 3</td><td>5,000/day</td><td>All approved templates</td><td>Begin marketing broadcasts at low volume</td></tr>
+  <tr><td>Week 4+</td><td>100,000/day</td><td>Full catalog</td><td>Normal operations — maintain quality rating</td></tr>
+</table>
+<ul class="checklist" style="margin-top:8px;">
+  <li><span class="check">&#9744;</span> Check quality rating daily in BSP dashboard during warmup</li>
+  <li><span class="check">&#9744;</span> If quality drops to YELLOW: reduce volume 50% for 48 hours</li>
+  <li><span class="check">&#9744;</span> If quality drops to RED: pause all broadcasts, review block reasons</li>
+  <li><span class="check">&#9744;</span> Block rate must stay below 0.5% — clean your list before Day 1</li>
+</ul>
+</div>
+
+<!-- ============================= SECTION 3 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">03</div></div>
+  <div>
+    <div class="sec-label">Templates</div>
+    <div class="sec-title">The 30 Must-Have Templates</div>
+  </div>
+</div>
+
+<div class="callout info">
+  <div class="callout-label">How to Use</div>
+  All templates below are pre-formatted for WhatsApp Cloud API. Submit via <code>POST /v17.0/{phone-number-id}/messages</code>. Variables in <code>{{1}}</code>, <code>{{2}}</code> format map to the <code>components[].parameters[]</code> array. Maximum body: 1,024 characters.
+</div>
+
+<h3>CATEGORY A — Welcome &amp; Onboarding (Templates 1–5)</h3>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 1 — EN: Welcome</div>
+  <div class="template-box">Hi {{1}}! 👋
+
+Welcome to *{{2}}*. We're glad you're here.
+
+Here's what you can do right now:
+1️⃣ Reply *SERVICES* to see what we offer
+2️⃣ Reply *PRICE* for pricing info
+3️⃣ Reply *TALK* to speak with a specialist
+
+We typically respond within 5 minutes during business hours (Mon–Fri, 9AM–6PM).
+
+— The {{2}} Team</div>
+</div>
+<div>
+  <div class="template-label">Template 1 — ES: Bienvenida</div>
+  <div class="template-box">¡Hola {{1}}! 👋
+
+Bienvenido/a a *{{2}}*. Nos alegra tenerte aquí.
+
+Esto puedes hacer ahora mismo:
+1️⃣ Escribe *SERVICIOS* para ver lo que ofrecemos
+2️⃣ Escribe *PRECIO* para información de precios
+3️⃣ Escribe *HABLAR* para hablar con un especialista
+
+Respondemos en menos de 5 minutos en horario laboral (Lun–Vie, 9AM–6PM).
+
+— El equipo de {{2}}</div>
+</div>
+</div>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 2 — EN: Opt-in Confirmation</div>
+  <div class="template-box">✅ {{1}}, you're confirmed!
+
+You'll now receive updates from *{{2}}* via WhatsApp including:
+• Exclusive offers
+• Project updates
+• Important announcements
+
+To stop receiving messages, reply *STOP* at any time. Your privacy matters — we never share your number.
+
+Questions? Reply *HELP*.</div>
+</div>
+<div>
+  <div class="template-label">Template 2 — ES: Confirmación Opt-in</div>
+  <div class="template-box">✅ ¡{{1}}, confirmado!
+
+A partir de ahora recibirás actualizaciones de *{{2}}* por WhatsApp:
+• Ofertas exclusivas
+• Actualizaciones de proyectos
+• Anuncios importantes
+
+Para dejar de recibir mensajes, responde *STOP* en cualquier momento. Tu privacidad importa.
+
+¿Preguntas? Responde *AYUDA*.</div>
+</div>
+</div>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 3 — EN: Lead Magnet Delivery</div>
+  <div class="template-box">Hi {{1}} 👋
+
+Your *{{2}}* is ready!
+
+📥 Download here: {{3}}
+
+This link expires in 48 hours.
+
+One quick question while you have it — what's your biggest challenge with {{4}} right now?
+
+Your answer helps us send you the most relevant content.</div>
+</div>
+<div>
+  <div class="template-label">Template 4 — EN: Meeting Booked</div>
+  <div class="template-box">📅 *Meeting Confirmed*
+
+Hi {{1}},
+
+Your call with *{{2}}* is scheduled for:
+🗓 {{3}} at {{4}} ({{5}})
+
+*Join link:* {{6}}
+
+We'll send a reminder 1 hour before. To reschedule, reply *RESCHEDULE*. To cancel, reply *CANCEL*.
+
+See you then! 🎯</div>
+</div>
+</div>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 5 — EN: Post-Meeting Follow-up</div>
+  <div class="template-box">Hi {{1}} 👋
+
+Great talking with you today!
+
+Here's a quick recap of what we discussed:
+✓ {{2}}
+✓ {{3}}
+
+*Next step:* {{4}}
+
+I'll have your *{{5}}* ready by {{6}}.
+
+Any questions before then? Just reply here.</div>
+</div>
+<div>
+  <div class="template-label">Template 5 — ES: Seguimiento Post-reunión</div>
+  <div class="template-box">Hola {{1}} 👋
+
+¡Fue un gusto hablar hoy!
+
+Resumen rápido de lo que conversamos:
+✓ {{2}}
+✓ {{3}}
+
+*Próximo paso:* {{4}}
+
+Tendré tu *{{5}}* listo para el {{6}}.
+
+¿Alguna pregunta antes? Solo responde aquí.</div>
+</div>
+</div>
+
+<h3>CATEGORY B — Follow-up &amp; Nurture (Templates 6–10)</h3>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 6 — Day 1 Follow-up</div>
+  <div class="template-box">Hi {{1}},
+
+Just checking in — did you get a chance to review {{2}}?
+
+I know things get busy. I wanted to make sure it didn't get buried.
+
+If you have 15 minutes this week, I'd love to walk you through how we've helped {{3}} achieve {{4}}.
+
+Reply *YES* to see availability, or *NOT YET* if you need more time.</div>
+</div>
+<div>
+  <div class="template-label">Template 7 — Day 3 Follow-up</div>
+  <div class="template-box">Hi {{1}} 👋
+
+A quick thought — companies like {{2}} were struggling with {{3}} before working with us.
+
+After {{4}} months, they achieved:
+📈 {{5}} increase in {{6}}
+⏱ {{7}} hours saved per week
+💰 {{8}} in additional revenue
+
+Would results like these be relevant for your business?
+
+Reply *INTERESTED* or *NO THANKS* — either is fine!</div>
+</div>
+</div>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 8 — Day 7 Follow-up (Last Try)</div>
+  <div class="template-box">Hi {{1}},
+
+I don't want to be a nuisance, so this will be my last message for now.
+
+If the timing isn't right, I completely understand. I'll close out your file.
+
+If things change or you'd like to revisit {{2}}, you can reach me anytime at {{3}}.
+
+Wishing you and {{4}} all the best. 🙏
+
+— {{5}}, {{6}}</div>
+</div>
+<div>
+  <div class="template-label">Template 9 — Proposal Sent Alert</div>
+  <div class="template-box">📋 *Your Proposal is Ready*
+
+Hi {{1}},
+
+Your custom proposal from *{{2}}* is now live:
+
+🔗 {{3}}
+
+*What's inside:*
+• Tailored solution for {{4}}
+• Investment options
+• Timeline &amp; deliverables
+
+This proposal is valid until {{5}}. Reply *QUESTIONS* if anything needs clarification.
+
+Ready to move forward? Reply *APPROVE*.</div>
+</div>
+</div>
+
+<div>
+  <div class="template-label">Template 10 — EN/ES: Proposal Expiry Warning</div>
+  <div class="template-box">⏰ {{1}}, your proposal expires in *48 hours*.
+
+We've reserved a spot in our delivery schedule for you, but we can't hold it past {{2}}.
+
+To lock in your pricing and timeline, reply *CONFIRM* now and we'll get started.
+
+If you need an extension, reply *EXTEND* — we'll do our best to accommodate.
+
+(EN) Questions? Call {{3}} | (ES) ¿Preguntas? Llame al {{3}}</div>
+</div>
+
+<h3>CATEGORY C — Appointment &amp; Scheduling (Templates 11–14)</h3>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 11 — Appointment Reminder (24h)</div>
+  <div class="template-box">📅 *Tomorrow's Reminder*
+
+Hi {{1}},
+
+Your appointment with *{{2}}* is tomorrow:
+
+🗓 {{3}} at {{4}}
+📍 {{5}}
+
+*Please bring:* {{6}}
+
+To confirm, reply *YES*. To reschedule: *RESCHEDULE*
+
+See you tomorrow! 🎯</div>
+</div>
+<div>
+  <div class="template-label">Template 12 — Appointment Reminder (1h)</div>
+  <div class="template-box">⏰ *Starting in 1 Hour*
+
+Hi {{1}},
+
+Your meeting with *{{2}}* begins at *{{3}}*.
+
+🔗 Join here: {{4}}
+
+If you're running late, reply *LATE* and we'll hold your slot for 10 minutes.
+
+See you soon! 👋</div>
+</div>
+</div>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 13 — Reschedule Request</div>
+  <div class="template-box">Hi {{1}},
+
+No problem at all — let's find another time.
+
+Here are 3 available slots:
+1️⃣ {{2}}
+2️⃣ {{3}}
+3️⃣ {{4}}
+
+Reply *1*, *2*, or *3* to confirm, or reply with your preferred time and I'll check availability.
+
+Or book directly: {{5}}</div>
+</div>
+<div>
+  <div class="template-label">Template 14 — No-Show Recovery</div>
+  <div class="template-box">Hi {{1}},
+
+We missed you at our {{2}} meeting! Life happens — no worries.
+
+Would you like to:
+A) *Reschedule* — reply *RESCHEDULE*
+B) *Get info by message* — reply *INFO*
+C) *Pause for now* — reply *PAUSE*
+
+We'll keep your file active for 30 days.
+
+— {{3}}</div>
+</div>
+</div>
+
+<h3>CATEGORY D — Objection Handling (Templates 15–18)</h3>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 15 — Price Objection</div>
+  <div class="template-box">Hi {{1}},
+
+I hear you — budget is real.
+
+Here's some perspective:
+• Our clients typically see {{2}} ROI within {{3}} months
+• The cost of *not* solving {{4}} is usually {{5}}/month in {{6}}
+• We offer {{7}} payment options
+
+I can also put together a *scaled-down version* at {{8}} that covers your most urgent need.
+
+Would that be worth 15 minutes? Reply *YES* or *NO*.</div>
+</div>
+<div>
+  <div class="template-label">Template 16 — Timing Objection</div>
+  <div class="template-box">Totally understand, {{1}} — timing matters.
+
+Quick thought: the businesses that tend to fall behind are the ones that wait for the "perfect moment" that never comes.
+
+What if we did this:
+✅ Lock in today's pricing (we're raising rates in {{2}})
+✅ Set a start date for {{3}}
+✅ Zero pressure until then
+
+You get certainty. We get to plan ahead.
+
+Does that work? Reply *YES* or *MAYBE*.</div>
+</div>
+</div>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 17 — Competitor Objection</div>
+  <div class="template-box">Glad you're doing your research, {{1}} — that's smart.
+
+The main differences clients tell us they noticed:
+
+💡 *We* {{2}}
+💡 *They* typically {{3}}
+
+{{4}} (a business like yours) switched to us from {{5}} and saw {{6}} within 90 days.
+
+I can send you a side-by-side comparison if that's helpful. Reply *COMPARE* and I'll have it to you in an hour.</div>
+</div>
+<div>
+  <div class="template-label">Template 18 — "Need to Think" Objection</div>
+  <div class="template-box">Of course, {{1}} — this is a real decision.
+
+To make it easier, here's what I can do:
+
+📋 Send you a 1-page summary
+📞 Set up a 10-minute Q&amp;A call
+💬 Answer any specific questions right here
+
+What would help you most?
+
+Also — is there a specific concern I haven't addressed? Sometimes there's one thing blocking a decision. I'd rather know it now than later.</div>
+</div>
+</div>
+
+<h3>CATEGORY E — Re-engagement &amp; Win-back (Templates 19–22)</h3>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 19 — 30-Day Re-engagement</div>
+  <div class="template-box">Hi {{1}} 👋
+
+It's been a while since we connected! A lot has changed since {{2}}.
+
+We just launched *{{3}}* — specifically designed for businesses like {{4}}.
+
+Early results: {{5}} clients are averaging *{{6}}* in the first {{7}} weeks.
+
+Worth a quick look? Reply *TELL ME MORE* or *NOT NOW*.
+
+No pressure either way. 🙌</div>
+</div>
+<div>
+  <div class="template-label">Template 20 — 90-Day Win-back</div>
+  <div class="template-box">Hi {{1}},
+
+We haven't spoken since {{2}} — I wanted to reach out one more time before closing your file.
+
+We've helped {{3}} businesses this quarter achieve {{4}}.
+
+If you're open to it, I'd love a 15-minute call to see if there's still a fit. If not, I completely respect that.
+
+Reply *OPEN* to connect, or *CLOSE* and I'll wish you well.
+
+Either way — thanks for the time you gave us. 🙏</div>
+</div>
+</div>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 21 — Flash Offer (Limited)</div>
+  <div class="template-box">🔥 *48-Hour Exclusive Offer*
+
+Hi {{1}},
+
+Because you've shown interest in *{{2}}*, I'm authorized to offer you:
+
+✅ {{3}} off our standard rate
+✅ Free {{4}} (normally ${{5}})
+✅ Priority onboarding slot
+
+*This expires {{6}} at midnight.*
+
+Reply *CLAIM* to reserve or *DETAILS* for more info.
+
+(This offer is exclusive to this WhatsApp conversation and cannot be combined with other promotions.)</div>
+</div>
+<div>
+  <div class="template-label">Template 22 — Referral Request</div>
+  <div class="template-box">Hi {{1}}! 🌟
+
+You've been an amazing client — we're so glad to have you.
+
+Quick ask: do you know anyone who might benefit from {{2}}?
+
+For every referral you send that becomes a client, you get:
+🎁 {{3}} credit on your next invoice
+🎁 {{4}} bonus
+
+Just reply with their name + WhatsApp number, or share this link: {{5}}
+
+Thank you for trusting us with your business! 🙏</div>
+</div>
+</div>
+
+<h3>CATEGORY F — Service Updates &amp; Broadcasts (Templates 23–27)</h3>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 23 — Service Update</div>
+  <div class="template-box">📢 *Update on Your Project*
+
+Hi {{1}},
+
+Here's a quick status update on *{{2}}*:
+
+✅ Completed: {{3}}
+🔄 In Progress: {{4}} (ETA: {{5}})
+⏳ Upcoming: {{6}}
+
+*Current status:* {{7}} — ON TRACK 🟢
+
+Questions or changes? Just reply here.
+
+— {{8}}, Project Lead</div>
+</div>
+<div>
+  <div class="template-label">Template 24 — Invoice / Payment Reminder</div>
+  <div class="template-box">💳 *Invoice Reminder*
+
+Hi {{1}},
+
+Invoice *#{{2}}* for *${{3}}* is due on *{{4}}*.
+
+*Services covered:* {{5}}
+
+Pay securely here: {{6}}
+
+Payment methods accepted:
+💳 Card | 🏦 Bank Transfer | 💻 PayPal
+
+Questions about this invoice? Reply *BILLING*.
+
+Thank you for your prompt payment! 🙏</div>
+</div>
+</div>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 25 — EN: Maintenance Announcement</div>
+  <div class="template-box">⚙️ *Scheduled Maintenance*
+
+Hi {{1}},
+
+We have scheduled maintenance on *{{2}}* from:
+
+🕐 {{3}} to {{4}} ({{5}} timezone)
+
+*Impact:* {{6}} may be unavailable during this window.
+
+*What to do:* {{7}}
+
+We'll notify you the moment service is restored. Thank you for your patience!
+
+— {{8}} Support Team</div>
+</div>
+<div>
+  <div class="template-label">Template 26 — Launch / New Feature</div>
+  <div class="template-box">🚀 *New: {{1}}*
+
+Hi {{2}},
+
+We just launched *{{1}}* — and you're among the first to know.
+
+*What it does:* {{3}}
+
+*Why you'll love it:* {{4}}
+
+*How to access:* {{5}}
+
+Early adopter bonus: {{6}} (expires {{7}})
+
+Reply *SHOW ME* for a walkthrough or *LATER* to be reminded next week.</div>
+</div>
+</div>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 27 — EN: Broadcast Newsletter</div>
+  <div class="template-box">📰 *{{1}} — {{2}} Digest*
+
+Hi {{3}} 👋
+
+This week's highlights:
+
+🔥 *{{4}}*: {{5}}
+💡 *Tip:* {{6}}
+📊 *Stat worth knowing:* {{7}}
+
+*Featured resource:* {{8}}
+🔗 {{9}}
+
+Reply *UNSUBSCRIBE* to opt out, or *MORE* for full newsletter.
+
+— The {{10}} Team</div>
+</div>
+<div>
+  <div class="template-label">Template 27 — ES: Difusión</div>
+  <div class="template-box">📰 *{{1}} — Resumen de {{2}}*
+
+Hola {{3}} 👋
+
+Lo más destacado esta semana:
+
+🔥 *{{4}}*: {{5}}
+💡 *Consejo:* {{6}}
+📊 *Dato clave:* {{7}}
+
+*Recurso destacado:* {{8}}
+🔗 {{9}}
+
+Responde *BAJA* para cancelar suscripción, o *MÁS* para el boletín completo.
+
+— El equipo de {{10}}</div>
+</div>
+</div>
+
+<h3>CATEGORY G — Close &amp; Onboard (Templates 28–30)</h3>
+
+<div class="template-grid">
+<div>
+  <div class="template-label">Template 28 — Deal Closed / Welcome Client</div>
+  <div class="template-box">🎉 *Welcome to the {{1}} Family, {{2}}!*
+
+We're thrilled to have you on board.
+
+*Your onboarding starts {{3}}.*
+
+Here's what happens next:
+1. Kick-off call: {{4}}
+2. Access credentials sent to: {{5}}
+3. First milestone: {{6}} by {{7}}
+
+Your dedicated point of contact is *{{8}}* — you can reach them directly at {{9}}.
+
+Any questions before we kick off? We're here for you! 🚀</div>
+</div>
+<div>
+  <div class="template-label">Template 29 — Testimonial Request</div>
+  <div class="template-box">Hi {{1}} 🌟
+
+You've been with us for *{{2}} months* — time flies!
+
+We'd love to hear about your experience. It takes less than 2 minutes:
+
+📝 Written review (Google): {{3}}
+📹 Video testimonial (Loom): {{4}}
+⭐ Quick rating: {{5}}
+
+In exchange, we'll give you {{6}} on your next invoice.
+
+Your feedback genuinely helps other businesses make a confident decision.
+
+Thank you so much! 🙏 — {{7}}</div>
+</div>
+</div>
+
+<div>
+  <div class="template-label">Template 30 — EN/ES: Contract Renewal</div>
+  <div class="template-box">📋 *{{1}}, Your Contract Renews in 30 Days*
+
+*EN:* Your agreement with {{2}} expires on *{{3}}*. We'd love to continue the partnership!
+
+Here's what's new for renewing clients in 2026:
+✅ {{4}} added at no extra cost
+✅ Locked-in rate of *${{5}}/month* (new clients pay ${{6}})
+✅ Priority support queue
+
+To renew: reply *RENEW* or click: {{7}}
+
+*ES:* Su contrato con {{2}} vence el *{{3}}*. Responda *RENOVAR* para continuar o llame a {{8}} para hablar con su gestor de cuenta.</div>
+</div>
+</div>
+
+<!-- ============================= SECTION 4 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">04</div></div>
+  <div>
+    <div class="sec-label">Templates</div>
+    <div class="sec-title">The SERVE Welcome Sequence — 5-Message Automated Flow</div>
+  </div>
+</div>
+
+<p>The SERVE sequence is triggered when a new contact opts in via any channel (landing page, QR code, web chat, ad click-to-WhatsApp). It runs over 7 days and moves the contact from "cold stranger" to "qualified prospect."</p>
+
+<table class="avoid-break" style="margin-bottom:16px;">
+  <tr><th>Letter</th><th>Phase</th><th>Message #</th><th>Trigger</th><th>Objective</th></tr>
+  <tr><td><strong>S</strong></td><td>Surprise</td><td>1</td><td>Immediate (0s)</td><td>Delight — give instant value, set expectations</td></tr>
+  <tr><td><strong>E</strong></td><td>Educate</td><td>2</td><td>Day 1 (24h)</td><td>Teach — deliver one insight that establishes credibility</td></tr>
+  <tr><td><strong>R</strong></td><td>Relate</td><td>3</td><td>Day 2 (48h)</td><td>Build rapport — share a relevant case study</td></tr>
+  <tr><td><strong>V</strong></td><td>Value</td><td>4</td><td>Day 4 (96h)</td><td>Convert — make the offer with specific ROI framing</td></tr>
+  <tr><td><strong>E</strong></td><td>Engage</td><td>5</td><td>Day 7 (168h)</td><td>Qualify — ask the single best qualifying question</td></tr>
+</table>
+
+<div class="sequence-step avoid-break">
+  <div class="step-badge">S</div>
+  <div class="step-content">
+    <div class="step-name">Message 1 — SURPRISE (Sent immediately on opt-in)</div>
+    <div class="template-box">Hi {{first_name}}! 👋
+
+I'm {{agent_name}} from *NetWebMedia*. You just made a great move.
+
+Here's your *free* {{lead_magnet_name}}:
+📥 {{download_link}}
+
+*Inside you'll find:*
+✓ {{benefit_1}}
+✓ {{benefit_2}}
+✓ {{benefit_3}}
+
+Most people see {{outcome}} within {{timeframe}} of applying this.
+
+Quick question: which of these is your biggest challenge right now?
+
+A) {{pain_point_1}}
+B) {{pain_point_2}}
+C) {{pain_point_3}}
+
+Just reply A, B, or C — takes 2 seconds. 🎯</div>
+  </div>
+</div>
+
+<div class="sequence-step avoid-break">
+  <div class="step-badge">E</div>
+  <div class="step-content">
+    <div class="step-name">Message 2 — EDUCATE (Day 1, 24h after opt-in)</div>
+    <div class="template-box">Hey {{first_name}} 👋
+
+Yesterday you told me {{their_answer}}. That's exactly what we help with.
+
+Here's something most businesses in {{industry}} don't know:
+
+💡 *The {{insight_title}}*
+
+{{statistic_or_finding}} — and the reason is {{short_explanation}}.
+
+The businesses solving this fastest are doing 3 things:
+1. {{action_1}}
+2. {{action_2}}
+3. {{action_3}}
+
+We've documented exactly how to do all three in our {{resource_name}}.
+
+Want me to send it over? Reply *YES* and it's yours. No strings. 🎁</div>
+  </div>
+</div>
+
+<div class="sequence-step avoid-break">
+  <div class="step-badge">R</div>
+  <div class="step-content">
+    <div class="step-name">Message 3 — RELATE (Day 2, 48h after opt-in)</div>
+    <div class="template-box">{{first_name}}, quick story 📖
+
+*{{client_name}}* came to us {{months}} months ago. They were dealing with:
+❌ {{pain_1}}
+❌ {{pain_2}}
+
+Sound familiar?
+
+Here's what happened after {{timeframe}} working with us:
+✅ {{result_1}} — {{metric_1}}
+✅ {{result_2}} — {{metric_2}}
+✅ {{result_3}} — {{metric_3}}
+
+*{{client_name}}'s words:* "{{short_testimonial}}"
+
+They're a {{company_size}} company in {{industry}} — very similar to where you are now.
+
+If you'd like the full case study, reply *CASE STUDY*.
+
+And if you're thinking "that could be us" — I'd love to explore that with you. Reply *EXPLORE*. 🚀</div>
+  </div>
+</div>
+
+<div class="sequence-step avoid-break">
+  <div class="step-badge">V</div>
+  <div class="step-content">
+    <div class="step-name">Message 4 — VALUE (Day 4, 96h after opt-in)</div>
+    <div class="template-box">{{first_name}}, I want to be direct with you. 🎯
+
+You've been engaging with our content — that tells me you're serious about {{goal}}.
+
+I'd like to offer you a *free 30-minute Strategy Session* where we'll:
+✓ Map your current {{area}} setup
+✓ Identify your top 3 growth bottlenecks
+✓ Build a 90-day action plan (yours to keep, no obligations)
+
+This isn't a sales pitch — it's a working session. You'll leave with clarity whether we work together or not.
+
+I have *2 spots* open this week:
+📅 {{slot_1}}
+📅 {{slot_2}}
+
+Reply *SESSION* to claim one. Or reply *NOT YET* if the timing isn't right — I'll follow up in {{days}} days.
+
+— {{agent_name}}, {{agent_title}} at NetWebMedia</div>
+  </div>
+</div>
+
+<div class="sequence-step avoid-break">
+  <div class="step-badge">E</div>
+  <div class="step-content">
+    <div class="step-name">Message 5 — ENGAGE (Day 7, if no session booked)</div>
+    <div class="template-box">Last one, {{first_name}} — promise. 🙏
+
+I don't want to flood your inbox. But before I wrap up...
+
+One question: *What would need to be true for {{goal}} to be your #1 priority this quarter?*
+
+Seriously — reply with your answer. Even a few words helps.
+
+It tells me whether we're a fit, and if we are, I'll know exactly how to help you.
+
+If we're not — no hard feelings. I'll send you one final resource and leave you alone. 😊
+
+Either way, thanks for the time this week. You're the kind of business owner we love working with.
+
+— {{agent_name}}
+
+P.S. If you change your mind about the strategy session, the link is always open: {{booking_link}}</div>
+  </div>
+</div>
+</div>
+
+<!-- ============================= SECTION 5 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">05</div></div>
+  <div>
+    <div class="sec-label">Sales &amp; Service</div>
+    <div class="sec-title">Sales Flow — BANT Qualification + Close Sequence</div>
+  </div>
+</div>
+
+<p>This is the conversational flow for live or bot-assisted sales qualification. Use it as a decision tree. Each [BOT:] turn should be in your WhatsApp bot platform. Each [USER:] represents expected responses — set intent detection to catch synonyms.</p>
+
+<h2>BANT Qualification Conversation</h2>
+<h3>B — Budget</h3>
+
+<div class="dialog-turn bot avoid-break"><div class="dialog-label">BOT — Budget Opener</div>
+{{first_name}}, to make sure I recommend the right solution, I need to understand your situation a bit better. Is that OK?
+
+First — what's the approximate budget you're working with for this project? This helps me match you with the right package.
+
+A) Under $500/month
+B) $500–$1,500/month
+C) $1,500–$5,000/month
+D) $5,000+/month
+E) Not sure yet</div>
+
+<div class="dialog-turn user"><div class="dialog-label">USER responds: A / B / C / D / E</div>
+[System routes to appropriate product tier or DISQUALIFY flow if A with high-ticket product]</div>
+
+<div class="dialog-turn bot avoid-break"><div class="dialog-label">BOT — Budget Confirmation</div>
+Got it — {{budget_range}} works. That puts you in range for our {{product_tier}} solutions.
+
+Now, is this budget confirmed internally, or does it need approval from someone else?
+
+A) It's confirmed — I can decide
+B) I need approval from my boss/partner
+C) We don't have a budget set yet</div>
+
+<h3>A — Authority</h3>
+<div class="dialog-turn bot avoid-break"><div class="dialog-label">BOT — Authority Check</div>
+Perfect. And just to make sure we're talking to the right person — what's your role in this decision?
+
+A) I'm the final decision-maker
+B) I'm one of several stakeholders
+C) I'm researching for someone else
+D) Other</div>
+
+<div class="dialog-turn user"><div class="dialog-label">USER: B or C detected</div></div>
+<div class="dialog-turn bot"><div class="dialog-label">BOT — Multi-stakeholder path</div>
+No worries! We can put together a presentation deck made for group decisions — it covers ROI, case studies, and risk reduction.
+
+Would it be helpful to loop in {{decision_maker_name}} on our next call? I can facilitate that conversation if you'd like.
+
+Reply *YES* or *NOT YET*.</div>
+
+<h3>N — Need</h3>
+<div class="dialog-turn bot avoid-break"><div class="dialog-label">BOT — Needs Discovery</div>
+Let's dig into the actual problem. What's driving your interest in {{service_name}} right now?
+
+Pick your top 2 (reply with numbers):
+1. We're not getting enough leads
+2. Our current solution is too expensive
+3. We're losing deals to competitors
+4. We need to automate manual processes
+5. We need better reporting/visibility
+6. We're scaling and need infrastructure
+7. Other — I'll explain</div>
+
+<div class="dialog-turn bot avoid-break"><div class="dialog-label">BOT — Needs Deepening</div>
+Interesting. If {{selected_need}} stays unsolved for another 6 months, what does that cost you?
+
+Think about it in terms of:
+💸 Revenue lost: ___
+⏱ Time wasted: ___
+😤 Team frustration: ___
+
+(Just reply with rough estimates — even a ballpark helps.)</div>
+
+<h3>T — Timeline</h3>
+<div class="dialog-turn bot avoid-break"><div class="dialog-label">BOT — Timeline Check</div>
+Last question — when do you need this running by?
+
+A) ASAP — this is urgent
+B) Within 30 days
+C) Within 90 days
+D) In 6+ months — still exploring
+E) No deadline yet</div>
+
+<h2>Close Sequence (Post-BANT)</h2>
+
+<div class="dialog-turn bot avoid-break"><div class="dialog-label">BOT — Qualification Summary + Handoff</div>
+{{first_name}}, based on what you've shared:
+
+✅ Budget: {{budget}} — confirmed
+✅ You: {{role}} with decision authority
+✅ Challenge: {{need_summary}}
+✅ Timeline: {{timeline}}
+
+This is a strong fit for our *{{recommended_product}}* at *${{price}}/month*.
+
+Here's what happens next:
+1. I'll send you a custom proposal in the next 2 hours
+2. We schedule a 30-min review call
+3. If it works — we can start {{start_timeline}}
+
+Does that work? Reply *YES* to proceed or *QUESTIONS* if you need anything clarified first. 🎯</div>
+
+<div class="dialog-turn bot avoid-break"><div class="dialog-label">BOT — Close Confirmation</div>
+Excellent! You're one step away from {{goal}}.
+
+*Your proposal is being prepared now.*
+
+While I do that — is there anything specific you want me to include or emphasize? Budget breakdowns, ROI projections, implementation timeline?
+
+Reply with anything, or reply *NOTHING — JUST SEND IT* and I'll have it to you in 90 minutes. ⚡</div>
+
+<div class="callout avoid-break">
+  <div class="callout-label">BANT Scoring Guide</div>
+  <strong>Hot (Book call immediately):</strong> Budget confirmed + Decision-maker + Clear pain + Timeline &lt;30 days<br>
+  <strong>Warm (Enter nurture):</strong> Budget uncertain OR multiple stakeholders OR 90-day timeline<br>
+  <strong>Cold (Long nurture):</strong> No budget + Researcher + 6+ months<br>
+  <strong>Disqualify:</strong> Budget below minimum OR no business need OR opt-out
+</div>
+</div>
+
+<!-- ============================= SECTION 6 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">06</div></div>
+  <div>
+    <div class="sec-label">Sales &amp; Service</div>
+    <div class="sec-title">Service Bot Scripts — FAQ, Tickets, Proactive Updates</div>
+  </div>
+</div>
+
+<h2>FAQ Resolution Scripts (Tier 1)</h2>
+<p>These are the 10 most common service questions and their bot responses. Load these as intents in your NLP platform or as keyword-triggered flows in your BSP.</p>
+
+<table class="avoid-break">
+  <tr><th>Intent Keyword(s)</th><th>Bot Response</th></tr>
+  <tr><td>PRICE, COST, HOW MUCH</td><td>"Our plans start at ${{min_price}}/month. Full pricing: {{pricing_url}} — or reply *ADVISOR* for a custom quote in &lt;1 hour."</td></tr>
+  <tr><td>HOURS, SCHEDULE, OPEN</td><td>"We're open Mon–Fri, {{hours}}. For urgent matters outside hours, reply *URGENT* and our on-call team responds within {{after_hours_sla}}."</td></tr>
+  <tr><td>CANCEL, CANCELLATION</td><td>"We're sorry to hear that. To process your cancellation, reply *CANCEL CONFIRM*. Or reply *RETENTION* to speak with our client success team — they may be able to help."</td></tr>
+  <tr><td>REFUND, MONEY BACK</td><td>"Our refund policy: {{refund_policy_summary}}. To start a refund request, reply *REFUND* and a billing specialist will respond within {{refund_sla}}."</td></tr>
+  <tr><td>INVOICE, BILLING, PAYMENT</td><td>"For billing questions, reply with your invoice number or email address and our billing team will assist within 2 business hours."</td></tr>
+  <tr><td>STATUS, UPDATE, PROGRESS</td><td>"Checking your project status... {{dynamic_status_lookup}} — For a detailed update, reply *FULL STATUS* and your project manager will respond within 1 hour."</td></tr>
+  <tr><td>CONTACT, SPEAK, HUMAN, AGENT</td><td>"Connecting you with a human agent now. Average wait: {{wait_time}}. Or book a callback at your preferred time: {{booking_link}}"</td></tr>
+  <tr><td>HELP, SUPPORT, ISSUE, PROBLEM</td><td>"I'm here to help! Describe your issue in a few words and I'll route you to the right person or resource immediately."</td></tr>
+  <tr><td>TUTORIAL, HOW TO, GUIDE</td><td>"Our knowledge base: {{kb_url}} — Search or browse by category. Can't find it? Reply *GUIDE: [topic]* and I'll find it for you."</td></tr>
+  <tr><td>LOCATION, ADDRESS, WHERE</td><td>"We're a remote-first agency serving clients globally. Our team is based in {{headquarters_city}}. For in-person meetings: {{meeting_booking_link}}"</td></tr>
+</table>
+
+<h2>Ticket Creation Script</h2>
+<div class="template-box avoid-break">
+[Triggered when: user describes an issue not resolved by FAQ]
+
+BOT: Got it, {{first_name}} — I'm creating a support ticket for you right now.
+
+Here's what I captured:
+📋 *Issue:* {{issue_summary}}
+🔢 *Your contact:* {{phone_number}}
+📅 *Submitted:* {{timestamp}}
+
+*Ticket #:* {{ticket_id}} — save this for reference.
+
+A {{team_name}} specialist will respond via WhatsApp within:
+• Standard issues: 4 business hours
+• Billing issues: 2 business hours
+• Urgent/down issues: 1 hour (reply URGENT to escalate)
+
+Is anything else I missed about your issue? Reply to add details to your ticket.
+
+[System action: POST to CRM API → Create Ticket → Assign to {{department}} queue → Send internal Slack notification to #support-queue]</div>
+
+<h2>Proactive Status Update Script</h2>
+<div class="template-box avoid-break">
+[Triggered by: project milestone completion event in CRM]
+
+Hi {{first_name}}! 👋
+
+*Proactive update on {{project_name}}:*
+
+🎉 *Just completed:* {{milestone_name}}
+
+Here's what this means for you:
+→ {{impact_on_client}}
+→ {{next_milestone}} starts {{date}}
+→ Projected completion: {{completion_date}} ({{days_ahead_or_behind}} schedule)
+
+*No action needed from you* — we just wanted to keep you in the loop.
+
+Questions? Reply here and your PM {{pm_name}} will respond. Or review everything in your client portal: {{portal_link}}</div>
+
+<h2>Escalation Protocol</h2>
+<table class="avoid-break">
+  <tr><th>Trigger Condition</th><th>Escalation Level</th><th>Action</th><th>SLA</th></tr>
+  <tr><td>User says "angry", "furious", "lawyer", "BBB"</td><td>L3 — Management</td><td>Immediate human takeover + manager alert</td><td>15 min</td></tr>
+  <tr><td>3 consecutive unresolved bot turns</td><td>L2 — Senior Agent</td><td>Auto-assign to senior support queue</td><td>1 hour</td></tr>
+  <tr><td>Issue open &gt;24h without resolution</td><td>L2 — Senior Agent</td><td>Auto-escalate + client proactive update</td><td>2 hours</td></tr>
+  <tr><td>Keywords: "cancel", "switch", "competitor"</td><td>L2 — Retention</td><td>Route to retention specialist</td><td>30 min</td></tr>
+  <tr><td>Billing dispute &gt;$500</td><td>L3 — Finance</td><td>Pause bot, assign billing manager</td><td>2 hours</td></tr>
+</table>
+</div>
+
+<!-- ============================= SECTION 7 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">07</div></div>
+  <div>
+    <div class="sec-label">Operations</div>
+    <div class="sec-title">Broadcast Calendar — Monthly Template with Rules</div>
+  </div>
+</div>
+
+<h2>Monthly Broadcast Cadence</h2>
+<p>Maximum recommended broadcast frequency: <strong>8–10 messages per contact per month</strong>. Exceeding this correlates with block rate spikes above 0.5%.</p>
+
+<div class="cal-grid avoid-break">
+  <div class="cal-week">
+    <div class="cal-week-header">Week 1 — Educate</div>
+    <div class="cal-week-body">
+      <div class="cal-day"><span>Monday</span><span class="cal-type">Value Insight</span></div>
+      <div class="cal-day"><span>Wednesday</span><span class="cal-type">Resource Share</span></div>
+      <div class="cal-day"><span>Friday</span><span class="cal-type">Tip/Checklist</span></div>
+    </div>
+  </div>
+  <div class="cal-week">
+    <div class="cal-week-header">Week 2 — Engage</div>
+    <div class="cal-week-body">
+      <div class="cal-day"><span>Tuesday</span><span class="cal-type">Case Study</span></div>
+      <div class="cal-day"><span>Thursday</span><span class="cal-type">Poll/Question</span></div>
+    </div>
+  </div>
+  <div class="cal-week">
+    <div class="cal-week-header">Week 3 — Convert</div>
+    <div class="cal-week-body">
+      <div class="cal-day"><span>Monday</span><span class="cal-type">Soft Offer</span></div>
+      <div class="cal-day"><span>Wednesday</span><span class="cal-type">Testimonial</span></div>
+      <div class="cal-day"><span>Friday</span><span class="cal-type">Hard CTA</span></div>
+    </div>
+  </div>
+  <div class="cal-week">
+    <div class="cal-week-header">Week 4 — Retain</div>
+    <div class="cal-week-body">
+      <div class="cal-day"><span>Tuesday</span><span class="cal-type">Client Update</span></div>
+      <div class="cal-day"><span>Thursday</span><span class="cal-type">Win-Back</span></div>
+    </div>
+  </div>
+</div>
+
+<h2>Broadcast Rules (Non-Negotiable)</h2>
+<div class="checklist-section avoid-break">
+  <ul class="checklist">
+    <li><span class="check">&#9744;</span> <strong>Only send to opted-in contacts.</strong> Using broadcast to contacts who haven't opted in to WhatsApp marketing = Meta policy violation = number ban.</li>
+    <li><span class="check">&#9744;</span> <strong>Use approved templates only.</strong> All broadcast messages must be pre-approved by Meta. Approval takes 24–48 hours — plan ahead.</li>
+    <li><span class="check">&#9744;</span> <strong>Segment before sending.</strong> Never blast your entire list. Segment by: industry, lead stage, last interaction date, language (EN/ES).</li>
+    <li><span class="check">&#9744;</span> <strong>Check quality rating before each broadcast.</strong> If rating is YELLOW — send to 25% of list first, check block rate for 2 hours, then continue if &lt;0.5%.</li>
+    <li><span class="check">&#9744;</span> <strong>Respect opt-outs immediately.</strong> STOP/UNSUBSCRIBE must remove the contact from ALL marketing lists within 30 seconds via webhook.</li>
+    <li><span class="check">&#9744;</span> <strong>Best send times:</strong> Tue–Thu, 10AM–12PM or 2PM–5PM local time. Avoid Monday 9AM, Friday 5PM+, weekends.</li>
+    <li><span class="check">&#9744;</span> <strong>A/B test every broadcast.</strong> Split 20% of list into 2 variants, send winner to remaining 80% after 2-hour result period.</li>
+    <li><span class="check">&#9744;</span> <strong>Track per-broadcast metrics:</strong> delivered %, opened (session started %), replied %, link clicked %, blocked %.</li>
+  </ul>
+</div>
+
+<h2>Broadcast Performance Benchmarks</h2>
+<table class="avoid-break">
+  <tr><th>Metric</th><th>Red (Stop)</th><th>Yellow (Review)</th><th>Green (Continue)</th></tr>
+  <tr><td>Delivery Rate</td><td>&lt;85%</td><td>85–92%</td><td>&gt;92%</td></tr>
+  <tr><td>Session Start Rate</td><td>&lt;15%</td><td>15–30%</td><td>&gt;30%</td></tr>
+  <tr><td>Reply Rate</td><td>&lt;3%</td><td>3–8%</td><td>&gt;8%</td></tr>
+  <tr><td>Block Rate</td><td>&gt;1.5%</td><td>0.5–1.5%</td><td>&lt;0.5%</td></tr>
+  <tr><td>Opt-out Rate</td><td>&gt;3%</td><td>1–3%</td><td>&lt;1%</td></tr>
+</table>
+</div>
+
+<!-- ============================= SECTION 8 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">08</div></div>
+  <div>
+    <div class="sec-label">Operations</div>
+    <div class="sec-title">CRM Integration Map — TAG → STAGE → ACTION</div>
+  </div>
+</div>
+
+<p>This map defines the automation rules that connect WhatsApp activity to your CRM pipeline. Each row is a trigger-action pair. Implement in your CRM's workflow builder or via your BSP's webhook → CRM API bridge.</p>
+
+<h2>TAG → STAGE → ACTION Chain</h2>
+
+<div class="crm-chain avoid-break">
+  <div class="crm-block tag-col"><h5>WhatsApp TAG Applied</h5><ul><li>WA_OPT_IN</li></ul></div>
+  <div class="crm-block stage-col"><h5>CRM Stage Updated To</h5><ul><li>Lead → New Lead</li></ul></div>
+  <div class="crm-block action-col"><h5>Automated ACTION</h5><ul><li>Enroll in SERVE Sequence</li><li>Assign to SDR round-robin</li><li>Create contact record</li><li>Add to "Warm Prospects" list</li></ul></div>
+</div>
+
+<div class="crm-chain avoid-break">
+  <div class="crm-block tag-col"><h5>WhatsApp TAG Applied</h5><ul><li>BANT_COMPLETE</li><li>QUALIFIED</li></ul></div>
+  <div class="crm-block stage-col"><h5>CRM Stage Updated To</h5><ul><li>Lead → Qualified Lead</li></ul></div>
+  <div class="crm-block action-col"><h5>Automated ACTION</h5><ul><li>Assign to Account Executive</li><li>Schedule AE intro call</li><li>Send Template 9 (Proposal Alert)</li><li>Create Deal in pipeline</li></ul></div>
+</div>
+
+<div class="crm-chain avoid-break">
+  <div class="crm-block tag-col"><h5>WhatsApp TAG Applied</h5><ul><li>PROPOSAL_SENT</li></ul></div>
+  <div class="crm-block stage-col"><h5>CRM Stage Updated To</h5><ul><li>Deal → Proposal Sent</li></ul></div>
+  <div class="crm-block action-col"><h5>Automated ACTION</h5><ul><li>Start 48h follow-up timer</li><li>Send Template 10 (Expiry Warning) at T+48h</li><li>Notify AE if no response at T+24h</li><li>Log proposal value to deal</li></ul></div>
+</div>
+
+<div class="crm-chain avoid-break">
+  <div class="crm-block tag-col"><h5>WhatsApp TAG Applied</h5><ul><li>DEAL_CLOSED_WON</li></ul></div>
+  <div class="crm-block stage-col"><h5>CRM Stage Updated To</h5><ul><li>Deal → Closed Won</li><li>Contact → Active Client</li></ul></div>
+  <div class="crm-block action-col"><h5>Automated ACTION</h5><ul><li>Send Template 28 (Welcome Client)</li><li>Create onboarding project</li><li>Assign Project Manager</li><li>Schedule kickoff call invite</li><li>Start client health score tracking</li></ul></div>
+</div>
+
+<div class="crm-chain avoid-break">
+  <div class="crm-block tag-col"><h5>WhatsApp TAG Applied</h5><ul><li>NO_RESPONSE_7D</li></ul></div>
+  <div class="crm-block stage-col"><h5>CRM Stage Updated To</h5><ul><li>Deal → Stalled</li></ul></div>
+  <div class="crm-block action-col"><h5>Automated ACTION</h5><ul><li>Send Template 8 (Last Follow-up)</li><li>Notify SDR to call</li><li>Move to "At Risk" segment</li><li>Set 30-day re-engagement trigger</li></ul></div>
+</div>
+
+<div class="crm-chain avoid-break">
+  <div class="crm-block tag-col"><h5>WhatsApp TAG Applied</h5><ul><li>WA_BLOCKED</li><li>OPT_OUT</li></ul></div>
+  <div class="crm-block stage-col"><h5>CRM Stage Updated To</h5><ul><li>Contact → Suppressed</li></ul></div>
+  <div class="crm-block action-col"><h5>Automated ACTION</h5><ul><li>Remove from ALL WA broadcast lists</li><li>Set "Do Not Contact — WA" flag</li><li>Log opt-out timestamp + reason</li><li>Try email channel if consented</li></ul></div>
+</div>
+
+<div class="crm-chain avoid-break">
+  <div class="crm-block tag-col"><h5>WhatsApp TAG Applied</h5><ul><li>TICKET_OPEN</li></ul></div>
+  <div class="crm-block stage-col"><h5>CRM Stage Updated To</h5><ul><li>Service → Support Active</li></ul></div>
+  <div class="crm-block action-col"><h5>Automated ACTION</h5><ul><li>Create support ticket in helpdesk</li><li>Send ticket confirmation (Template in Sec 6)</li><li>Alert support queue Slack channel</li><li>Start SLA timer</li></ul></div>
+</div>
+
+<h2>Webhook → CRM Field Mapping</h2>
+<table class="avoid-break">
+  <tr><th>WhatsApp Webhook Field</th><th>CRM Field</th><th>Transform</th></tr>
+  <tr><td><code>contacts[0].wa_id</code></td><td>WhatsApp Phone</td><td>Prepend + country code if missing</td></tr>
+  <tr><td><code>contacts[0].profile.name</code></td><td>Display Name</td><td>Split on first space → First Name / Last Name</td></tr>
+  <tr><td><code>messages[0].timestamp</code></td><td>Last WA Activity</td><td>Convert Unix to ISO 8601</td></tr>
+  <tr><td><code>messages[0].type</code></td><td>Last Message Type</td><td>Map: text/image/audio/document/interactive</td></tr>
+  <tr><td><code>statuses[0].status</code></td><td>Message Delivery Status</td><td>Map: sent/delivered/read/failed</td></tr>
+  <tr><td><code>statuses[0].recipient_id</code></td><td>Contact Lookup Key</td><td>Match by phone → update existing record</td></tr>
+</table>
+</div>
+
+<!-- ============================= SECTION 9 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">09</div></div>
+  <div>
+    <div class="sec-label">Performance</div>
+    <div class="sec-title">KPI Dashboard — 6 Metrics, Targets, Alert Thresholds</div>
+  </div>
+</div>
+
+<div class="kpi-grid avoid-break">
+  <div class="kpi-card">
+    <div class="kpi-value">98%</div>
+    <div class="kpi-label">Delivery Rate</div>
+    <div class="kpi-target">Target: &gt;95%</div>
+    <div class="kpi-alert">Alert if: &lt;90% for 3+ consecutive broadcasts</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">35%</div>
+    <div class="kpi-label">Session Start Rate</div>
+    <div class="kpi-target">Target: &gt;25%</div>
+    <div class="kpi-alert">Alert if: &lt;15% — review template copy</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">&lt;0.5%</div>
+    <div class="kpi-label">Block Rate</div>
+    <div class="kpi-target">Target: &lt;0.5%</div>
+    <div class="kpi-alert">Alert if: &gt;1% — PAUSE broadcasts immediately</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">12%</div>
+    <div class="kpi-label">Lead-to-SQL Rate</div>
+    <div class="kpi-target">Target: &gt;10%</div>
+    <div class="kpi-alert">Alert if: &lt;5% — audit BANT flow + qualification</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">$14</div>
+    <div class="kpi-label">Cost per Conversation</div>
+    <div class="kpi-target">Target: &lt;$20</div>
+    <div class="kpi-alert">Alert if: &gt;$35 — review BSP plan tier</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">4.2x</div>
+    <div class="kpi-label">WhatsApp ROI</div>
+    <div class="kpi-target">Target: &gt;3x</div>
+    <div class="kpi-alert">Alert if: &lt;1.5x — full audit required</div>
+  </div>
+</div>
+
+<h2>KPI Measurement Guide</h2>
+<table class="avoid-break">
+  <tr><th>KPI</th><th>How to Calculate</th><th>Data Source</th><th>Review Cadence</th></tr>
+  <tr><td>Delivery Rate</td><td>Delivered / Sent × 100</td><td>BSP analytics dashboard</td><td>Per broadcast</td></tr>
+  <tr><td>Session Start Rate</td><td>Sessions initiated / Delivered × 100</td><td>BSP + CRM events</td><td>Per broadcast</td></tr>
+  <tr><td>Block Rate</td><td>Blocks / Delivered × 100</td><td>BSP quality dashboard</td><td>Daily during warmup; weekly after</td></tr>
+  <tr><td>Lead-to-SQL Rate</td><td>SQLs created / New WA leads × 100</td><td>CRM pipeline report</td><td>Weekly</td></tr>
+  <tr><td>Cost per Conversation</td><td>Total BSP cost / Total conversations</td><td>BSP billing + CRM conversation count</td><td>Monthly</td></tr>
+  <tr><td>WhatsApp ROI</td><td>(Revenue attributed to WA – Cost) / Cost</td><td>CRM revenue attribution</td><td>Monthly</td></tr>
+</table>
+
+<h2>Monthly KPI Review Agenda</h2>
+<ol>
+  <li><strong>Pull reports:</strong> BSP analytics + CRM pipeline filtered by "Source: WhatsApp" (15 min)</li>
+  <li><strong>Compare to targets:</strong> RAG status each KPI — Red/Amber/Green (10 min)</li>
+  <li><strong>Root-cause analysis:</strong> For any RED KPI — trace back to template, segment, or flow issue (20 min)</li>
+  <li><strong>Action items:</strong> Assign owners, set deadlines, prioritize by impact (10 min)</li>
+  <li><strong>Forecast:</strong> Project next month's metrics based on planned changes (5 min)</li>
+</ol>
+</div>
+
+<!-- ============================= SECTION 10 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">10</div></div>
+  <div>
+    <div class="sec-label">Performance</div>
+    <div class="sec-title">Monthly Optimization — The PRISM Framework</div>
+  </div>
+</div>
+
+<p>PRISM is a 5-step monthly optimization cycle. Run it on the last Friday of each month. It takes 3–4 hours and consistently compounds performance by 10–20% per quarter.</p>
+
+<div class="framework-steps avoid-break">
+  <div class="framework-step">
+    <div class="step-letter">P</div>
+    <div class="step-word">Purge</div>
+    <div class="step-desc">Remove dead contacts, failed deliveries, and stale leads older than 90 days</div>
+  </div>
+  <div class="framework-step">
+    <div class="step-letter">R</div>
+    <div class="step-word">Review</div>
+    <div class="step-desc">Analyze last month's KPIs vs. targets. Identify top 3 underperformers</div>
+  </div>
+  <div class="framework-step">
+    <div class="step-letter">I</div>
+    <div class="step-word">Iterate</div>
+    <div class="step-desc">A/B test one change per underperforming template or flow</div>
+  </div>
+  <div class="framework-step">
+    <div class="step-letter">S</div>
+    <div class="step-word">Scale</div>
+    <div class="step-desc">Identify top 3 performers. Expand their reach or increase cadence</div>
+  </div>
+  <div class="framework-step">
+    <div class="step-letter">M</div>
+    <div class="step-word">Map</div>
+    <div class="step-desc">Plan next month's broadcast calendar, new templates, and sequence updates</div>
+  </div>
+</div>
+
+<h2>PRISM Checklist — Monthly Execution</h2>
+<div class="checklist-section avoid-break">
+  <h4>P — Purge (Week 4, Day 1)</h4>
+  <ul class="checklist">
+    <li><span class="check">&#9744;</span> Export all contacts with "No Activity — 90 Days" CRM filter</li>
+    <li><span class="check">&#9744;</span> Remove blocked contacts from all broadcast lists</li>
+    <li><span class="check">&#9744;</span> Archive closed-lost deals older than 60 days (unless in re-engagement sequence)</li>
+    <li><span class="check">&#9744;</span> Validate phone number format on new contacts — remove invalid numbers</li>
+    <li><span class="check">&#9744;</span> Clean duplicate contacts — merge by phone number primary key</li>
+  </ul>
+</div>
+<div class="checklist-section avoid-break">
+  <h4>R — Review (Week 4, Day 1)</h4>
+  <ul class="checklist">
+    <li><span class="check">&#9744;</span> Pull all 6 KPIs — compare to previous month and 90-day average</li>
+    <li><span class="check">&#9744;</span> Identify top 3 performing templates (by reply rate + downstream conversion)</li>
+    <li><span class="check">&#9744;</span> Identify bottom 3 performing templates (by block rate + low engagement)</li>
+    <li><span class="check">&#9744;</span> Review sequence drop-off rates — where are contacts disengaging?</li>
+    <li><span class="check">&#9744;</span> Analyze BANT conversion rates — which qualifier is causing the most disqualifications?</li>
+  </ul>
+</div>
+<div class="checklist-section avoid-break">
+  <h4>I — Iterate (Week 4, Day 2)</h4>
+  <ul class="checklist">
+    <li><span class="check">&#9744;</span> Select ONE element to test per underperforming template: opening line, CTA, emoji use, or length</li>
+    <li><span class="check">&#9744;</span> Write variant B — change only that one element (controlled test)</li>
+    <li><span class="check">&#9744;</span> Set success metric before testing: what constitutes a winner?</li>
+    <li><span class="check">&#9744;</span> Segment 20% of next broadcast for A/B — 10% per variant, 80% gets winner</li>
+    <li><span class="check">&#9744;</span> Submit new template variants to Meta for pre-approval (48h turnaround)</li>
+  </ul>
+</div>
+<div class="checklist-section avoid-break">
+  <h4>S — Scale + M — Map (Week 4, Day 3)</h4>
+  <ul class="checklist">
+    <li><span class="check">&#9744;</span> Identify top-performing template — create 2 sibling variants for broader use</li>
+    <li><span class="check">&#9744;</span> Expand best-performing segment — increase broadcast frequency from 1x to 2x/week if block rate allows</li>
+    <li><span class="check">&#9744;</span> Plan next month's broadcast calendar (use Week 7 template above)</li>
+    <li><span class="check">&#9744;</span> Schedule all broadcasts in BSP dashboard — no ad-hoc sends</li>
+    <li><span class="check">&#9744;</span> Review SERVE sequence performance — update case studies/testimonials to current quarter</li>
+    <li><span class="check">&#9744;</span> Update {{contact_name}}, {{company_name}} personalization tokens with fresh CRM data</li>
+    <li><span class="check">&#9744;</span> Document learnings in optimization log — date, change made, result, action</li>
+  </ul>
+</div>
+</div>
+
+<!-- ============================= SECTION 11 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">11</div></div>
+  <div>
+    <div class="sec-label">Performance</div>
+    <div class="sec-title">Scaling Roadmap — 500 to 10,000 Contacts</div>
+  </div>
+</div>
+
+<div class="roadmap avoid-break">
+  <div class="roadmap-step active">
+    <div class="step-milestone">500</div>
+    <div class="step-label">Contacts — Launch</div>
+    <ul>
+      <li>1 BSP account</li>
+      <li>1 phone number</li>
+      <li>Manual agent oversight</li>
+      <li>SERVE sequence only</li>
+      <li>5 broadcast templates</li>
+      <li>Weekly KPI check</li>
+      <li>Budget: ~$80/mo BSP</li>
+    </ul>
+  </div>
+  <div class="roadmap-step">
+    <div class="step-milestone">2,000</div>
+    <div class="step-label">Contacts — Automate</div>
+    <ul>
+      <li>Full BANT bot enabled</li>
+      <li>CRM webhook live</li>
+      <li>30 templates active</li>
+      <li>1 dedicated WA agent</li>
+      <li>A/B testing cadence</li>
+      <li>Daily KPI monitoring</li>
+      <li>Budget: ~$250/mo BSP</li>
+    </ul>
+  </div>
+  <div class="roadmap-step">
+    <div class="step-milestone">5,000</div>
+    <div class="step-label">Contacts — Optimize</div>
+    <ul>
+      <li>AI/NLP layer added</li>
+      <li>Multi-agent routing</li>
+      <li>Language segmentation (EN/ES)</li>
+      <li>Custom WABA per product line</li>
+      <li>Broadcast at 80% capacity</li>
+      <li>Real-time dashboard</li>
+      <li>Budget: ~$600/mo BSP</li>
+    </ul>
+  </div>
+  <div class="roadmap-step">
+    <div class="step-milestone">10,000</div>
+    <div class="step-label">Contacts — Scale</div>
+    <ul>
+      <li>Multiple WABAs</li>
+      <li>Dedicated BSP account manager</li>
+      <li>Custom API integrations</li>
+      <li>Proactive NPS tracking</li>
+      <li>Predictive send-time optimization</li>
+      <li>Compliance audit quarterly</li>
+      <li>Budget: ~$1,200/mo BSP</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Milestone-Specific Actions</h2>
+<table class="avoid-break">
+  <tr><th>Milestone</th><th>Must Have Before Scaling</th><th>Key Risk at This Stage</th></tr>
+  <tr><td>500 → 2,000</td><td>Block rate &lt;0.5% sustained 30 days; SERVE sequence live and converting; CRM webhook tested</td><td>Sending too fast — quality rating drops. Slow ramp: add 200 contacts/week max.</td></tr>
+  <tr><td>2,000 → 5,000</td><td>BANT bot handling &gt;80% of leads without human; SQL rate &gt;8%; template library fully approved</td><td>Bot mishandling edge cases at volume. Audit 50 random conversations weekly.</td></tr>
+  <tr><td>5,000 → 10,000</td><td>Multi-agent routing tested; AI fallback to human &lt;15% of conversations; compliance framework documented</td><td>Data compliance gaps at scale (LGPD/GDPR). Commission a privacy audit at 5k contacts.</td></tr>
+</table>
+
+<h2>Technology Stack by Milestone</h2>
+<table class="avoid-break">
+  <tr><th>Layer</th><th>500 Contacts</th><th>2,000 Contacts</th><th>10,000 Contacts</th></tr>
+  <tr><td>BSP</td><td>Twilio / Respond.io (entry plan)</td><td>Same BSP, higher tier</td><td>Enterprise BSP with SLA</td></tr>
+  <tr><td>Bot Builder</td><td>BSP native flow builder</td><td>Dedicated chatbot platform (Landbot, Tidio)</td><td>Custom-built or Voiceflow Enterprise</td></tr>
+  <tr><td>AI Layer</td><td>None</td><td>Claude/GPT via API for FAQ resolution</td><td>Fine-tuned model + RAG knowledge base</td></tr>
+  <tr><td>CRM</td><td>Manual tagging + NWM CRM</td><td>Webhook integration live</td><td>Bidirectional sync, full attribution</td></tr>
+  <tr><td>Analytics</td><td>BSP built-in dashboard</td><td>Google Looker Studio connector</td><td>Custom BI dashboard with real-time alerts</td></tr>
+</table>
+
+<div class="callout" style="margin-top:24px;">
+  <div class="callout-label">Final Word</div>
+  WhatsApp automation rewards consistency over perfection. Start with the SERVE sequence and 10 templates. Get to 100 conversations. Review what worked. Then add. The businesses that fail do so by over-building upfront and under-measuring afterward. The businesses that win reverse that ratio.
+</div>
+
+<div class="doc-footer">
+  <span>NetWebMedia &mdash; WhatsApp Automation Playbook 2026</span>
+  <span class="page-num">netwebmedia.com &nbsp;|&nbsp; hello@netwebmedia.com</span>
+</div>
+</div>
+
+</body>
+</html>

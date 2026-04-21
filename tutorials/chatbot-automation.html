@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Chatbot Automation — Full Deployment Guide (9-Module Playbook) — NetWebMedia</title>
+  <meta name="description" content="The exact system NetWebMedia uses to automate 100% of initial contact across web, WhatsApp, Instagram, Facebook, and SMS. 9 modules. Real scripts. Zero phone calls." />
+  <link rel="canonical" href="https://netwebmedia.com/blog/ai-chatbot-automation-deployment-guide.html" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:title" content="AI Chatbot Automation — Full Deployment Guide" />
+  <meta property="og:description" content="The exact system NetWebMedia uses to automate 100% of initial contact across web, WhatsApp, Instagram, Facebook, and SMS. 9 modules. Real scripts. Zero phone calls." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://netwebmedia.com/blog/ai-chatbot-automation-deployment-guide.html" />
+  <meta property="og:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="NetWebMedia" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="article:published_time" content="2026-04-20" />
+  <meta property="article:author" content="Carlos Martinez" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AI Chatbot Automation — Full Deployment Guide" />
+  <meta name="twitter:description" content="The exact system NetWebMedia uses to automate 100% of initial contact across web, WhatsApp, Instagram, Facebook, and SMS. 9 modules. Real scripts. Zero phone calls." />
+  <meta name="twitter:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="icon" type="image/svg+xml" href="../assets/nwm-logo.svg" />
+  <link rel="apple-touch-icon" href="../assets/nwm-logo.svg" />
+  <style>
+    /* Playbook-specific styles */
+    .playbook-toc {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,103,31,0.25);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin: 40px 0;
+    }
+    .playbook-toc h3 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #FFB082;
+      margin-bottom: 16px;
+    }
+    .playbook-toc ol {
+      margin: 0 0 0 18px;
+      padding: 0;
+    }
+    .playbook-toc ol li {
+      list-style: decimal;
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+    .playbook-toc ol li a {
+      color: var(--text-secondary);
+      border-bottom: none;
+    }
+    .playbook-toc ol li a:hover { color: #FFB082; }
+
+    .module-header {
+      background: linear-gradient(135deg, rgba(255,103,31,0.10), rgba(1,33,105,0.18));
+      border: 1px solid rgba(255,103,31,0.30);
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin: 56px 0 28px;
+    }
+    .module-header .module-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #FFB082;
+      margin-bottom: 6px;
+    }
+    .module-header h2 {
+      margin: 0 !important;
+      font-size: 26px !important;
+    }
+
+    .lesson-block {
+      border-left: 3px solid rgba(255,103,31,0.40);
+      padding-left: 22px;
+      margin: 36px 0;
+    }
+    .lesson-block .lesson-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #FFB082;
+      margin-bottom: 6px;
+    }
+    .lesson-block h3 {
+      margin-top: 0 !important;
+      margin-bottom: 14px !important;
+    }
+
+    .framework-box {
+      background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.25);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 22px 0;
+    }
+    .framework-box .framework-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #7ab8f5;
+      margin-bottom: 8px;
+    }
+    .framework-box p { margin-bottom: 8px; }
+    .framework-box ul { margin-bottom: 0; }
+
+    .dialog-block {
+      background: rgba(1,15,59,0.60);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 22px 0;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .dialog-block .dialog-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+    .dialog-block .d-user {
+      color: #7ab8f5;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .dialog-block .d-bot {
+      color: #c8d4e6;
+      display: block;
+      margin-bottom: 14px;
+      padding-left: 16px;
+      border-left: 2px solid rgba(255,103,31,0.35);
+    }
+    .dialog-block .d-bot:last-child { margin-bottom: 0; }
+    .dialog-block .d-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-style: italic;
+      display: block;
+      margin: 8px 0 14px 0;
+    }
+
+    .checklist-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 22px 0;
+    }
+    .checklist-box .checklist-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #FFB082;
+      margin-bottom: 12px;
+    }
+    .checklist-box ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .checklist-box ul li {
+      list-style: none !important;
+      padding-left: 24px;
+      position: relative;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .checklist-box ul li::before {
+      content: "☐";
+      position: absolute;
+      left: 0;
+      color: #FFB082;
+      font-size: 14px;
+    }
+
+    .bilingual-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 22px 0;
+    }
+    @media (max-width: 640px) {
+      .bilingual-block { grid-template-columns: 1fr; }
+    }
+    .bilingual-block .dialog-block { margin: 0; }
+    .bilingual-block .dialog-block .dialog-label { color: #7ab8f5; }
+  </style>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "AI Chatbot Automation — Full Deployment Guide",
+  "description": "A 9-module playbook covering conversation design, intent mapping, lead qualification, sales automation, customer service, multi-platform deployment, AI integration, handoff protocols, and optimization.",
+  "provider": {
+    "@type": "Organization",
+    "name": "NetWebMedia",
+    "url": "https://netwebmedia.com"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Carlos Martinez"
+  },
+  "datePublished": "2026-04-20",
+  "inLanguage": ["en-US", "es"],
+  "educationalLevel": "Intermediate",
+  "teaches": "Chatbot automation, conversational AI, lead qualification, multi-platform deployment"
+}
+  </script>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
+  </script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- Launch promo banner -->
+<div class="promo-banner">
+  🎉 Launch week: <strong>50% OFF</strong> your first 3 months with code <code>Carlos26</code> — ends in 7 days
+</div>
+
+<div class="lang-bar"><div class="container">
+  <button class="lang-btn active" data-lang="en"><img class="flag" src="https://flagcdn.com/w40/us.png" alt="EN" loading="lazy" width="20" height="15" /> English</button>
+  <button class="lang-btn" data-lang="es"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="ES" loading="lazy" width="20" height="15" /> Español</button>
+  <a href="/crm/" class="lang-client-login" data-i18n="nav_dashboard">🔐 Client Login</a>
+</div></div>
+
+<nav class="navbar has-lang-bar" id="navbar"><div class="container"><div class="navbar-inner">
+  <a href="../index.html" class="nav-logo"><img src="../assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px"></a>
+  <div class="nav-links">
+    <a href="../about.html">About</a>
+    <div class="nav-item">
+      <a href="../services.html">Services</a>
+      <div class="nav-dropdown">
+        <a href="../services.html#fractional-cmo" style="color:#FF671F;font-weight:700">&#9733; Fractional CMO</a>
+        <a href="../services.html#ai-automations">AI Automations</a>
+        <a href="../services.html#ai-agents">AI Agents</a>
+        <a href="../services.html#paid-ads">Paid Ads</a>
+        <a href="../services.html#ai-seo">AI SEO &amp; Content</a>
+        <a href="../services.html#social">Social Media</a>
+        <a href="/email-marketing.html">Email Marketing</a>
+      </div>
+    </div>
+    <a href="../partners.html" style="color:#6366f1;font-weight:600">Partners</a>
+    <a href="../blog.html" class="active">Blog</a>
+    <a href="../faq.html">Q&amp;A</a>
+    <div class="nav-item">
+      <a href="../tutorials.html" style="color:#22d3ee;font-weight:600">Help</a>
+      <div class="nav-dropdown">
+        <a href="/tutorials.html"><strong>All Tutorials</strong></a>
+        <a href="/tutorials/nwm-crm.html">NWM CRM (all 7 hubs)</a>
+        <a href="/tutorials/nwm-cms.html">NWM CMS</a>
+        <a href="/tutorials/ai-automate.html">AI Automations</a>
+        <a href="/tutorials/ai-chat-agents.html">AI Chat Agents</a>
+        <a href="/tutorials/ai-seo.html">AI SEO</a>
+        <a href="/tutorials/email-marketing.html">Email Marketing</a>
+        <a href="/tutorials/paid-ads.html">Paid Ads</a>
+        <a href="/tutorials/social-media.html">Social Media</a>
+        <a href="/tutorials/video-factory.html">Video Factory</a>
+        <a href="/tutorials/websites.html">Websites</a>
+        <a href="/tutorials/fractional-cmo.html">Fractional CMO</a>
+        <a href="/tutorials/analyzer.html">Analyzer</a>
+        <a href="/tutorials/whatsapp-automation.html" style="color:#25d366">WhatsApp Automation</a>
+        <a href="/tutorials/chatbot-automation.html" style="color:#22d3ee">AI Chatbot Automation</a>
+        <a href="/tutorials/sms-automation.html" style="color:#a29bfe">SMS & Messaging</a>
+      </div>
+    </div>
+    <a href="../contact.html">Contact</a>
+  </div>
+  <div class="nav-ctas">
+    <a href="../cart.html" class="nav-cart" aria-label="View cart">🛒<span class="nav-cart-count" aria-hidden="true">0</span></a>
+    <a href="../dashboard.html" class="btn-nav-outline">Dashboard</a>
+    <a href="../contact.html" class="btn-nav-solid">Get a Free Audit</a>
+  </div>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</div></div></nav>
+
+<main id="main">
+<div class="mobile-menu" id="mobile-menu">
+  <a href="../about.html">About</a>
+  <a href="../services.html">Services</a>
+  <a href="../partners.html" style="color:#6366f1;font-weight:600">Partners</a>
+  <a href="../blog.html">Blog</a>
+  <a href="../faq.html">Q&amp;A</a>
+  <a href="../tutorials.html" style="color:#22d3ee;font-weight:600">Help &amp; Tutorials</a>
+  <a href="../contact.html">Contact</a>
+  <a href="../contact.html" class="btn-primary">Get a Free Audit</a>
+</div>
+
+<section class="article-hero">
+  <div class="container">
+    <a class="article-back" href="../blog.html">← All articles</a>
+    <div class="tag">Playbook</div>
+    <h1>AI Chatbot Automation — Full Deployment Guide</h1>
+    <div class="article-meta">By Carlos Martinez · April 20, 2026 · 45 min read · 9 Modules</div>
+    <div class="article-cover" style="background-image:url('https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=1200&q=80&auto=format&fit=crop');background-size:cover;background-position:center;" role="img" aria-label="Article cover — chatbot automation dashboard"></div>
+  </div>
+</section>
+
+<article class="article-body">
+
+<p>NetWebMedia does not answer the phone. Not because no one is available — because no one needs to be. Every inbound lead across web, WhatsApp, Instagram, Facebook, and SMS is handled by an automated system that qualifies, sells, supports, and routes without a single human in the loop for initial contact. This playbook is the exact architecture behind that system. Nine modules. Real scripts. Every failure state mapped. Deploy it and your business runs contact-to-qualification around the clock, in any language, across every channel your customers actually use.</p>
+
+<p>This is not theory. Every script, framework, and checklist in here was built from production deployments. The names of frameworks are named so you can remember and teach them. The dialog examples are exact — copy them, adjust the product nouns, deploy.</p>
+
+<div class="playbook-toc">
+  <h3>Course Modules</h3>
+  <ol>
+    <li><a href="#module-1">Conversation Design Fundamentals — The DIAL Framework</a></li>
+    <li><a href="#module-2">Intent Mapping &amp; NLP Architecture</a></li>
+    <li><a href="#module-3">Lead Qualification Flows</a></li>
+    <li><a href="#module-4">Sales Conversation Automation</a></li>
+    <li><a href="#module-5">Customer Service Automation</a></li>
+    <li><a href="#module-6">Multi-Platform Deployment</a></li>
+    <li><a href="#module-7">AI &amp; NLP Integration</a></li>
+    <li><a href="#module-8">Handoff Protocols &amp; Escalation Logic</a></li>
+    <li><a href="#module-9">Testing, Analytics &amp; Optimization</a></li>
+  </ol>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODULE 1 -->
+<!-- ============================================================ -->
+
+<div class="module-header" id="module-1">
+  <div class="module-label">Module 1 of 9</div>
+  <h2>Conversation Design Fundamentals — The DIAL Framework</h2>
+</div>
+
+<p>Most chatbots fail in the first exchange. Not because the AI is bad — because the designer confused a transaction with a conversation. A transaction is a form. A conversation is a relationship. The bot that says "Please select from the following options: 1) Sales 2) Support 3) Billing" is a transaction. The bot that says "Hey — what brought you here today?" is a conversation. One creates friction. One creates trust. The entire performance of your automation system depends on which one you build.</p>
+
+<!-- LESSON 1.1 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 1.1</div>
+  <h3>The DIAL Framework: Detect, Intend, Answer, Loop</h3>
+
+  <p>Every chatbot interaction — on every platform, in every language, for every use case — follows four phases. Memorize them, and you have a mental model for diagnosing any broken conversation.</p>
+
+  <p><strong>Detect</strong> is the opening phase. The bot observes the user's first message and gathers signal: language, sentiment, urgency, platform context, and any prior session history. Detection is passive. You are not asking questions yet — you are reading. A user who types "URGENT help with my order" carries different signal than one who types "hi." The Detect phase processes both before the bot says a single word back.</p>
+
+  <p><strong>Intend</strong> is classification. Based on the detected signal, the bot forms a hypothesis about what the user actually wants — not what they literally said. "I want to know the price" is the literal message. The intent is likely <em>evaluate_purchase</em>. Misidentify the intent and the entire conversation goes sideways. The Intent phase maps raw language to one of your defined intent categories (covered in Module 2).</p>
+
+  <p><strong>Answer</strong> is delivery. The bot delivers the most useful, concise response to the identified intent. Useful does not mean long. It means the user's need moves forward. A one-sentence answer that resolves the intent beats a paragraph that hedges. This phase is where your scripts, product knowledge, and tone all live.</p>
+
+  <p><strong>Loop</strong> is continuation. The bot does not end the conversation — it creates the next opening. Every Answer should include a forward question, a soft prompt, or a clear next step. The Loop phase prevents dead-ends and keeps the user moving toward the outcome your business needs them to reach (booked call, purchase, ticket closed).</p>
+
+  <div class="framework-box">
+    <div class="framework-label">The DIAL Framework — Summary</div>
+    <ul>
+      <li><strong>D — Detect:</strong> Read language, sentiment, urgency, channel context, session history</li>
+      <li><strong>I — Intend:</strong> Classify into a defined intent category with a confidence score</li>
+      <li><strong>A — Answer:</strong> Deliver the most useful, concise response to that intent</li>
+      <li><strong>L — Loop:</strong> Create a forward prompt that moves the user to the next step</li>
+    </ul>
+  </div>
+
+  <div class="dialog-block">
+    <div class="dialog-label">DIAL in action — Web widget, inbound lead</div>
+    <span class="d-user">[USER:] how much does it cost</span>
+    <span class="d-note">// Detect: short message, no greeting, direct question. Likely evaluate_purchase or price_lookup intent. No prior session.</span>
+    <span class="d-bot">[BOT:] Good question — our pricing depends on what you need. Are you looking to grow more leads, improve your website, or automate something specific in your business?</span>
+    <span class="d-note">// Intend: evaluate_purchase confirmed. Answer: reframe price question into discovery. Loop: open-ended question to gather qualifying context.</span>
+    <span class="d-user">[USER:] leads mostly</span>
+    <span class="d-bot">[BOT:] Got it. Lead generation packages start at $997/mo and go up depending on channels and volume. Most businesses in your space see 30-50 qualified leads per month in the first 90 days. Want me to show you what that would look like for your business?</span>
+    <span class="d-note">// Answer: anchor price, social proof number. Loop: yes/no forward prompt leading into qualification.</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 1.1 — Action Checklist</div>
+    <ul>
+      <li>Map the four DIAL phases to your first 3 conversation flows before writing any scripts</li>
+      <li>Define what "Detect" reads on each platform (web has full URL context; WhatsApp does not)</li>
+      <li>Write your Loop prompts first — work backwards from the outcome you want</li>
+      <li>Test your opening exchange with 10 real people before deploying</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 1.2 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 1.2</div>
+  <h3>Conversation vs. Transaction — Why the Distinction Changes Everything</h3>
+
+  <p>A transactional bot presents options. A conversational bot asks questions. The difference sounds small. The revenue impact is not. Internal benchmarks across chatbot deployments show that conversational-style openers generate 2.3x more completed qualification flows than menu-driven openers. The reason is simple: menus externalize the user's thinking back at them before you've built any trust. Questions invite them into a dialogue where your bot is positioned as a helpful advisor, not a phone tree.</p>
+
+  <p>The test for whether you've built a transaction or a conversation: read your bot's first three messages out loud. Would a competent human sales rep say those words in a real call? If not, you've built a transaction. Rebuild it. The friction isn't the technology — it's the design.</p>
+
+  <p>There is one legitimate use for menus: when the user is mid-flow and needs to navigate between discrete options (e.g., checking order status vs. initiating a return). Even then, the menu should follow a conversational opener, not replace it. Lead with the human, then give them the shortcuts.</p>
+
+  <div class="dialog-block">
+    <div class="dialog-label">Transaction vs. Conversation — side by side</div>
+    <span class="d-note">// WRONG — Transaction approach:</span>
+    <span class="d-user">[USER:] hi</span>
+    <span class="d-bot">[BOT:] Welcome! Please choose an option:
+1. Sales Inquiry
+2. Customer Support
+3. Billing
+4. Other</span>
+    <span class="d-note">// RIGHT — Conversation approach:</span>
+    <span class="d-user">[USER:] hi</span>
+    <span class="d-bot">[BOT:] Hey! I'm Alex, the NetWebMedia assistant. What's going on — are you looking to grow your business or do you need help with something?</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 1.2 — Action Checklist</div>
+    <ul>
+      <li>Audit every existing bot opener — replace menus with open questions where possible</li>
+      <li>Write three conversational openers for each channel (web, WhatsApp, Instagram)</li>
+      <li>Record a human sales rep doing 5 real calls — extract their opening questions and use those as bot copy</li>
+      <li>Menus are only permitted after the first qualifying exchange</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 1.3 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 1.3</div>
+  <h3>Persona Design — Building a Bot Identity That Converts</h3>
+
+  <p>Your bot needs a name, a voice, and a character. Not because branding is nice — because unnamed, voiceless bots feel like forms, and forms get abandoned. When users feel they are talking to someone (even someone who is transparently AI), they engage longer, share more context, and convert at higher rates. The persona is not a lie — it is a user experience decision.</p>
+
+  <p>Persona design has five components. <strong>Name:</strong> short, professional, gender-neutral when possible (Alex, Sam, Jordan, Riley). <strong>Voice:</strong> match your brand — if your website copy is formal, the bot is formal; if it's casual, the bot is casual. <strong>Expertise signal:</strong> the bot should demonstrate domain knowledge within the first three exchanges. <strong>Transparency:</strong> always disclose that the user is talking to an AI assistant when asked directly. <strong>Consistency:</strong> the persona must be identical across every platform — if Alex on WhatsApp says "Hey!" but Alex on the web widget says "Greetings," you have two bots that happen to share a name.</p>
+
+  <p>One practical note on names and languages: if you serve a bilingual market (English and Spanish), your bot name should work in both languages without sounding odd. "Alex" works. "Brad" is harder to pronounce in Spanish. "Alejandro" works in Spanish but sounds stiff in English casual contexts. Pick for the full audience.</p>
+
+  <div class="framework-box">
+    <div class="framework-label">The 5-Point Persona Spec</div>
+    <ul>
+      <li><strong>Name:</strong> Short, pronounceable in all target languages, gender-neutral preferred</li>
+      <li><strong>Voice:</strong> 3 adjectives that define tone (e.g., "Direct, warm, expert")</li>
+      <li><strong>Expertise signal:</strong> Domain knowledge demonstrated within turn 3</li>
+      <li><strong>Transparency:</strong> "I'm an AI assistant" disclosed on direct inquiry, never hidden</li>
+      <li><strong>Consistency:</strong> Same name, same voice, same personality — every channel, every language</li>
+    </ul>
+  </div>
+
+  <div class="dialog-block">
+    <div class="dialog-label">Persona introduction — bilingual (EN + ES)</div>
+    <span class="d-note">// English:</span>
+    <span class="d-user">[USER:] are you a real person?</span>
+    <span class="d-bot">[BOT:] I'm Alex — an AI assistant for NetWebMedia. I handle everything here: questions, quotes, scheduling. I'm not human, but I'll get you answers faster than waiting for one. What can I help you with?</span>
+    <span class="d-note">// Español:</span>
+    <span class="d-user">[USER:] ¿eres una persona real?</span>
+    <span class="d-bot">[BOT:] Soy Alex, el asistente de inteligencia artificial de NetWebMedia. Me encargo de todo: preguntas, cotizaciones, citas. No soy humano, pero te doy respuestas más rápido que esperar uno. ¿En qué te puedo ayudar?</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 1.3 — Action Checklist</div>
+    <ul>
+      <li>Write a one-paragraph persona brief (name, 3 voice adjectives, expertise domain)</li>
+      <li>Create a "are you a bot?" response for every language you deploy in</li>
+      <li>Review persona consistency across all platforms before launch</li>
+      <li>Test persona voice with 5 real team members — does it match your brand?</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 1.4 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 1.4</div>
+  <h3>Tone Calibration — Matching Energy Without Losing Authority</h3>
+
+  <p>Tone is not a static setting. It adjusts based on the user's message. A user who types in all caps is expressing urgency or frustration — the bot's tone should shift toward calm efficiency. A user who types with exclamation points and emoji is relaxed and friendly — the bot can mirror that energy slightly. A user who writes in formal complete sentences expects formality back. This dynamic adjustment is called tone mirroring, and it is a learnable, scriptable behavior.</p>
+
+  <p>The rule: match energy, never match negativity. If a user is frustrated, do not become curt or defensive. Become more grounded. If a user is excited, you can be warm — but do not become so casual that you lose authority. The bot should always feel like the most competent, composed person in the room.</p>
+
+  <div class="framework-box">
+    <div class="framework-label">Tone Calibration Matrix</div>
+    <ul>
+      <li><strong>User: casual / excited</strong> → Bot: warm, direct, light energy. "Great choice — here's exactly how it works."</li>
+      <li><strong>User: formal / professional</strong> → Bot: precise, structured. "I'd be happy to provide specifications for each package."</li>
+      <li><strong>User: frustrated / urgent</strong> → Bot: calm, efficient, immediate ownership. "I've got this — let me pull that up right now."</li>
+      <li><strong>User: confused / overwhelmed</strong> → Bot: simple language, one step at a time. "No worries. Let's start with one thing."</li>
+    </ul>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 1.4 — Action Checklist</div>
+    <ul>
+      <li>Write 4 tone variants of your standard greeting for each matrix state</li>
+      <li>Tag frustration/urgency signals in your NLP training data (all-caps, "URGENT", "frustrated", "this is ridiculous")</li>
+      <li>Define the maximum casualness level for your brand (some brands should never use slang, even if the user does)</li>
+      <li>Review all scripts for passive voice — replace with active</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 1.5 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 1.5</div>
+  <h3>Failure States — Designing for What Goes Wrong</h3>
+
+  <p>A conversation fails in one of three ways: the bot misunderstands the intent, the bot understands but has no answer, or the user's need is outside the system's scope entirely. Each failure state needs a designed response. An unhandled failure state produces dead silence, a generic error, or an infinite loop — all of which end the conversation and, likely, the lead.</p>
+
+  <p>The <strong>misunderstanding failure</strong> is the most common. The bot classifies the wrong intent. The correct response is a graceful clarification request — not "I don't understand," which is a dead-end, but a reframing question: "I want to make sure I get you the right answer — are you asking about X or Y?" Two options, not an open field. Open fields after a misunderstanding produce more misunderstandings.</p>
+
+  <p>The <strong>no-answer failure</strong> occurs when the intent is correctly classified but the knowledge base has no response. The correct behavior: acknowledge, set an expectation, collect contact info, trigger an async follow-up. "I don't have that detail on hand, but I can have the right person send it to you within an hour. What's the best email?" The conversation ends with a forward commitment, not a wall.</p>
+
+  <p>The <strong>out-of-scope failure</strong> is when the user asks something the system was never designed to handle (e.g., a legal question, a personal emergency). The correct behavior: acknowledge, do not attempt to answer, route to a human or relevant resource. Never let the bot improvise on topics outside its defined scope.</p>
+
+  <div class="dialog-block">
+    <div class="dialog-label">Failure state scripts — all three types</div>
+    <span class="d-note">// Misunderstanding failure:</span>
+    <span class="d-user">[USER:] I need to sort this out</span>
+    <span class="d-bot">[BOT:] I want to make sure I help with the right thing — are you looking to sort out an existing order, or something about getting started with our services?</span>
+    <span class="d-note">// No-answer failure:</span>
+    <span class="d-user">[USER:] do you integrate with SAP B1?</span>
+    <span class="d-bot">[BOT:] That's a specific technical question and I want to give you the right answer, not a guess. Let me have our tech team confirm this for you — what email should I send it to? I'll have it to you within the hour.</span>
+    <span class="d-note">// Out-of-scope failure:</span>
+    <span class="d-user">[USER:] I think my account was hacked and I'm really worried</span>
+    <span class="d-bot">[BOT:] I hear you — that's stressful. I'm flagging this immediately for our security team. They'll reach out to you directly within 15 minutes. What's the phone number on your account so they can verify it's you?</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 1.5 — Action Checklist</div>
+    <ul>
+      <li>Write a clarification script for each major intent category (2-option reframe format)</li>
+      <li>Build a "no-answer" flow that collects email and triggers a human notification</li>
+      <li>Define 10 out-of-scope topics and write explicit bot responses for each</li>
+      <li>Set a maximum clarification loop limit of 2 — third failure always escalates to human</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODULE 2 -->
+<!-- ============================================================ -->
+
+<div class="module-header" id="module-2">
+  <div class="module-label">Module 2 of 9</div>
+  <h2>Intent Mapping &amp; NLP Architecture</h2>
+</div>
+
+<p>Every word a user types is a data point. The NLP layer's job is to convert those data points into actionable classifications that route the conversation correctly. Most chatbot projects fail here — not because the AI is wrong, but because the intent architecture was never designed. You cannot train a bot to understand what you haven't defined. This module is about building the definition layer that makes everything else work.</p>
+
+<!-- LESSON 2.1 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 2.1</div>
+  <h3>Intent Categories — Building Your Intent Taxonomy</h3>
+
+  <p>An intent taxonomy is the master list of everything a user might want to do in your system, organized into a hierarchy. At the top level are intent groups — broad categories like Sales, Support, and Account. Below each group are specific intents. Below each intent are the phrases that trigger it. The hierarchy is not optional — without it, your bot's training data becomes a flat list that produces collisions (two intents matching the same phrase) and gaps (phrases that match nothing).</p>
+
+  <p>Start with 5-8 top-level intent groups. Expand from there. Common groups for a B2B service business: <em>new_lead_inquiry</em>, <em>pricing_and_packaging</em>, <em>support_and_troubleshooting</em>, <em>account_management</em>, <em>scheduling</em>, <em>general_information</em>, <em>objection_or_hesitation</em>, and <em>out_of_scope</em>. Each group should have 3-8 specific intents beneath it. More than 10 intents per group and the classifier struggles to discriminate.</p>
+
+  <div class="framework-box">
+    <div class="framework-label">Sample Intent Taxonomy — B2B Service Business</div>
+    <ul>
+      <li><strong>new_lead_inquiry:</strong> evaluate_product, request_demo, ask_about_services, compare_competitors</li>
+      <li><strong>pricing_and_packaging:</strong> get_price, understand_tiers, ask_about_discounts, request_custom_quote</li>
+      <li><strong>support_and_troubleshooting:</strong> report_bug, ask_how_to, check_status, request_refund</li>
+      <li><strong>account_management:</strong> update_info, cancel_subscription, upgrade_plan, add_user</li>
+      <li><strong>scheduling:</strong> book_meeting, reschedule, cancel_appointment</li>
+      <li><strong>objection_or_hesitation:</strong> price_objection, competitor_comparison, need_more_time, not_convinced</li>
+      <li><strong>out_of_scope:</strong> everything else — route to human or polite decline</li>
+    </ul>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 2.1 — Action Checklist</div>
+    <ul>
+      <li>Build your full intent taxonomy before writing any training phrases</li>
+      <li>Limit top-level groups to 8 maximum</li>
+      <li>Validate taxonomy against 30 real customer messages — every message must map to an intent</li>
+      <li>Flag any message that maps to more than one intent — that is a discrimination problem to solve</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 2.2 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 2.2</div>
+  <h3>Entity Types — Extracting the Variables That Matter</h3>
+
+  <p>Intents tell you what the user wants. Entities tell you the specifics. When a user says "I need a quote for 3 locations in Texas," the intent is <em>request_custom_quote</em> and the entities are <em>quantity: 3</em>, <em>entity_type: locations</em>, and <em>geography: Texas</em>. Without entity extraction, your bot has to ask follow-up questions for information the user already provided. That friction is annoying and it's your fault for not building entity extraction.</p>
+
+  <p>Standard entity types to define: <strong>product_name</strong> (which specific service or product), <strong>quantity</strong> (how many), <strong>timeframe</strong> (when, how long), <strong>geography</strong> (city, state, country), <strong>contact_info</strong> (email, phone), <strong>account_id</strong> (existing customer identifiers), and <strong>sentiment_marker</strong> (urgency words, negative emotion words). Most NLP platforms support these out-of-the-box for contact_info and quantity. Product names, timeframes, and sentiment markers need custom training.</p>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 2.2 — Action Checklist</div>
+    <ul>
+      <li>Define all entity types for your use case before training begins</li>
+      <li>Create entity synonym lists (e.g., "asap", "urgent", "right away", "ASAP" all map to urgency: high)</li>
+      <li>Test entity extraction on 20 real messages before declaring the model ready</li>
+      <li>Build entity confirmation into flows where the wrong entity would cause a bad outcome (e.g., booking wrong date)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 2.3 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 2.3</div>
+  <h3>Training Phrases — Writing Data That Actually Trains</h3>
+
+  <p>Training phrases are the examples you provide to teach the NLP model what each intent sounds like. Most teams write too few, make them too similar to each other, and forget to include misspellings and abbreviations. All three mistakes produce a brittle classifier that performs well in testing and fails in production.</p>
+
+  <p>The rule for training phrase quality: minimum 15 phrases per intent, maximum similarity of 70% between any two phrases in the same intent. Every phrase should represent a genuinely different way of expressing that intent. Include at least 3 misspelled variants. Include at least 3 very short variants (1-3 words). Include at least 2 phrases in each additional language you serve. If you have fewer than 15 distinct phrases, you don't have training data — you have a list of synonyms.</p>
+
+  <div class="framework-box">
+    <div class="framework-label">Training Phrase Standards per Intent</div>
+    <ul>
+      <li>Minimum 15 phrases per intent, target 25</li>
+      <li>At least 3 misspelled or abbreviated variants ("hw much", "pric?", "wat does it cost")</li>
+      <li>At least 3 ultra-short variants ("price", "how much", "cost")</li>
+      <li>At least 2 variants per additional language</li>
+      <li>No two phrases may be more than 70% lexically similar</li>
+      <li>Include question and statement forms ("what does it cost" and "I want to know the price")</li>
+    </ul>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 2.3 — Action Checklist</div>
+    <ul>
+      <li>Count your training phrases per intent — anything under 15 needs expansion</li>
+      <li>Pull real user messages from any existing chat logs and add them as training phrases</li>
+      <li>Run a similarity audit — remove phrases that are near-duplicates</li>
+      <li>Add 5 Spanish training phrases for each intent you plan to serve bilingually</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 2.4 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 2.4</div>
+  <h3>Confidence Thresholds &amp; Fallback Logic</h3>
+
+  <p>Every NLP classification comes with a confidence score — a number between 0 and 1 representing how certain the model is. Most teams deploy with default thresholds and never think about them again. That is a mistake that produces silent failures. Setting thresholds correctly is the difference between a bot that routes well and one that confidently sends leads into the wrong flow.</p>
+
+  <p>The three-zone model: <strong>High confidence (above 0.80)</strong> — execute the intent without confirmation. <strong>Medium confidence (0.50–0.80)</strong> — execute but include a soft confirmation ("It sounds like you're asking about pricing — is that right?"). <strong>Low confidence (below 0.50)</strong> — do not guess. Trigger the clarification flow. The exact thresholds depend on your data volume and error tolerance — start with these defaults and adjust based on false positive rates from your testing cadence (Module 9).</p>
+
+  <div class="dialog-block">
+    <div class="dialog-label">Confidence-gated response — medium confidence example</div>
+    <span class="d-user">[USER:] I'm thinking about the whole thing</span>
+    <span class="d-note">// Confidence: 0.62 on evaluate_product. Medium zone — soft confirm before executing.</span>
+    <span class="d-bot">[BOT:] Sounds like you're considering the full service package — am I reading that right? I can walk you through exactly what's included.</span>
+    <span class="d-user">[USER:] yeah that's it</span>
+    <span class="d-bot">[BOT:] Perfect. Let me give you the breakdown. Our complete package includes...</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 2.4 — Action Checklist</div>
+    <ul>
+      <li>Set explicit confidence thresholds in your bot platform (high / medium / low zones)</li>
+      <li>Write a soft-confirm template for every major intent (used in medium-confidence zone)</li>
+      <li>Log all low-confidence events — review weekly and add training phrases from them</li>
+      <li>Never let a low-confidence classification execute a consequential action (booking, payment, cancellation)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODULE 3 -->
+<!-- ============================================================ -->
+
+<div class="module-header" id="module-3">
+  <div class="module-label">Module 3 of 9</div>
+  <h2>Lead Qualification Flows</h2>
+</div>
+
+<p>Qualification is the most commercially valuable thing your bot does. Done right, it delivers a pre-scored, context-rich lead to your CRM before any human has spoken to the prospect. Done wrong, it interrogates the user like a government form. The difference is sequence: a qualification flow that feels like a conversation, not a questionnaire.</p>
+
+<!-- LESSON 3.1 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 3.1</div>
+  <h3>BANT Automation — Budget, Authority, Need, Timeline as a Dialogue</h3>
+
+  <p>BANT (Budget, Authority, Need, Timeline) is the oldest qualification framework in B2B sales. The problem is that most teams try to ask all four BANT questions sequentially, which feels like an interrogation. The fix: weave BANT into a natural conversation where each question emerges logically from the previous answer. The user never sees "budget question #2 of 4." They experience a helpful advisor learning about their situation.</p>
+
+  <p>Start with Need — it's the most natural entry point and the answer shapes how you frame the other questions. Then move to Timeline (it signals urgency and helps prioritize your pipeline). Then Authority (frame it as "who else would be involved in this decision" — less confrontational than "are you the decision-maker"). Budget last — after they've explained their need and timeline, budget questions feel like responsible planning, not gatekeeping.</p>
+
+  <div class="framework-box">
+    <div class="framework-label">BANT Sequence for Chatbot — Optimal Order</div>
+    <ul>
+      <li><strong>Step 1 — Need:</strong> "What specifically are you trying to achieve?"</li>
+      <li><strong>Step 2 — Timeline:</strong> "Is there a date you're working toward, or are you more in the research phase?"</li>
+      <li><strong>Step 3 — Authority:</strong> "Would it just be you making this call, or would others on your team be involved?"</li>
+      <li><strong>Step 4 — Budget:</strong> "Do you have a ballpark budget in mind, or is that something we'd need to scope out together?"</li>
+    </ul>
+  </div>
+
+  <div class="dialog-block">
+    <div class="dialog-label">Full BANT qualification flow — EN + ES bilingual</div>
+    <span class="d-note">// English version:</span>
+    <span class="d-user">[USER:] I'm interested in your marketing services</span>
+    <span class="d-bot">[BOT:] Great — let's figure out if we're a good fit. What's the main thing you're trying to fix or grow right now?</span>
+    <span class="d-user">[USER:] we need more leads. our current agency isn't delivering</span>
+    <span class="d-bot">[BOT:] Understood — that's a frustrating spot to be in. Are you looking to move on this quickly, or are you still in the evaluation phase?</span>
+    <span class="d-user">[USER:] pretty quickly, ideally within 30 days</span>
+    <span class="d-bot">[BOT:] Good — that's a timeline we can work with. Is this a decision you'd make on your own, or would others on your team be part of the process?</span>
+    <span class="d-user">[USER:] it'd be me and my business partner</span>
+    <span class="d-bot">[BOT:] Perfect. And do you have a rough monthly budget in mind for this, or is that something you'd want to scope once you see what's possible?</span>
+    <span class="d-user">[USER:] we're thinking $2,000-$3,000 per month</span>
+    <span class="d-bot">[BOT:] That budget works well for what you're describing. Let me set up a 20-minute call with our strategy team — they'll map out exactly what 30-60 qualified leads per month looks like for your business. What's the best email and phone to reach you?</span>
+    <span class="d-note">// Spanish version — same flow:</span>
+    <span class="d-user">[USER:] me interesan sus servicios de marketing</span>
+    <span class="d-bot">[BOT:] Perfecto — veamos si somos una buena opción para ti. ¿Cuál es el principal resultado que estás buscando mejorar ahora mismo?</span>
+    <span class="d-user">[USER:] necesitamos más clientes potenciales, la agencia actual no está dando resultados</span>
+    <span class="d-bot">[BOT:] Entendido — eso es frustrante. ¿Quieres actuar rápido o todavía estás evaluando opciones?</span>
+    <span class="d-user">[USER:] rápido, idealmente en 30 días</span>
+    <span class="d-bot">[BOT:] Bien — ese es un plazo con el que podemos trabajar. ¿Tomarías esta decisión solo o participarían otras personas en tu equipo?</span>
+    <span class="d-user">[USER:] yo y mi socio</span>
+    <span class="d-bot">[BOT:] Perfecto. ¿Tienen un presupuesto mensual aproximado en mente, o prefieren ver primero qué es posible?</span>
+    <span class="d-user">[USER:] entre $2,000 y $3,000 por mes</span>
+    <span class="d-bot">[BOT:] Ese presupuesto encaja bien con lo que describes. Voy a agendar una llamada de 20 minutos con nuestro equipo estratégico. ¿Cuál es el mejor correo y teléfono para contactarte?</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 3.1 — Action Checklist</div>
+    <ul>
+      <li>Script the full BANT flow in Need → Timeline → Authority → Budget order</li>
+      <li>Write Spanish variants of every BANT question</li>
+      <li>Build a branch for "still researching" timeline responses — route to nurture, not sales</li>
+      <li>Define budget thresholds that determine routing (e.g., under $1k/mo → self-serve, $1k-$5k → inside sales, above $5k → account exec)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 3.2 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 3.2</div>
+  <h3>Lead Scoring Logic — Automated Scoring Before CRM Handoff</h3>
+
+  <p>Not every lead is equal. A chatbot that routes every conversation equally to your sales team is wasting their time and yours. Build a numeric scoring model that runs in the background during qualification and attaches a score to the CRM record before any human sees it. Sales reps work the high-score leads first. Nurture sequences handle the rest automatically.</p>
+
+  <p>The scoring model has four inputs mapped from BANT: Need strength (0-25 points), Timeline urgency (0-25 points), Authority level (0-25 points), and Budget fit (0-25 points). Total score 0-100. Thresholds: 75+ is a hot lead (immediate routing to sales). 50-74 is a warm lead (24-hour follow-up sequence). Below 50 is a cool lead (automated nurture, 2-week cadence). The exact point allocations should be calibrated to your sales cycle — adjust after 30 days of data.</p>
+
+  <div class="framework-box">
+    <div class="framework-label">Lead Scoring Matrix</div>
+    <ul>
+      <li><strong>Need (0-25):</strong> 25 = specific pain with quantified impact; 15 = general dissatisfaction; 5 = vague interest</li>
+      <li><strong>Timeline (0-25):</strong> 25 = within 30 days; 15 = 1-3 months; 5 = 3-6 months; 0 = no timeline</li>
+      <li><strong>Authority (0-25):</strong> 25 = sole decision-maker; 15 = co-decision with known partner; 5 = influencer only</li>
+      <li><strong>Budget (0-25):</strong> 25 = stated budget above your minimum; 15 = budget in range; 5 = no budget stated; 0 = below minimum</li>
+      <li><strong>75-100:</strong> Hot — route to sales immediately</li>
+      <li><strong>50-74:</strong> Warm — 24-hour automated follow-up</li>
+      <li><strong>0-49:</strong> Cool — 2-week nurture sequence</li>
+    </ul>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 3.2 — Action Checklist</div>
+    <ul>
+      <li>Define point values for each BANT dimension in your scoring model</li>
+      <li>Set the three routing thresholds (hot/warm/cool) and document them</li>
+      <li>Configure CRM to receive score as a custom field with every chatbot lead</li>
+      <li>Review scoring accuracy after 30 days — do your hot leads actually close?</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 3.3 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 3.3</div>
+  <h3>CRM Handoff Triggers — What Gets Sent, When, and How</h3>
+
+  <p>The handoff from bot to CRM is a data event, not just a notification. Every qualified conversation should push a structured record containing: contact name, email, phone, company (if B2B), lead score, BANT answers verbatim, conversation transcript, intent path (which intents were triggered in sequence), channel of origin, timestamp, and language. That is your hot lead package. A sales rep who reads it before calling has a massive advantage over one who calls cold.</p>
+
+  <p>Trigger conditions for CRM handoff: (1) user provides contact information, (2) user reaches a minimum score threshold (50+), or (3) user explicitly requests to speak to someone. Any one of these triggers the push. The push should happen in real-time via webhook, not in a batch at end of day. A hot lead that waits four hours is a cool lead.</p>
+
+  <div class="dialog-block">
+    <div class="dialog-label">Contact collection script — end of qualification</div>
+    <span class="d-user">[USER:] yeah that budget works for us</span>
+    <span class="d-bot">[BOT:] Excellent. I'm going to connect you with our strategy team — they'll have a custom plan for your situation. To set that up, what's the best email address for you?</span>
+    <span class="d-user">[USER:] mark@acmecorp.com</span>
+    <span class="d-bot">[BOT:] Got it. And a mobile number where they can reach you if needed?</span>
+    <span class="d-user">[USER:] 555-234-8800</span>
+    <span class="d-bot">[BOT:] Perfect. Mark, you're all set. Someone from our team will reach out within 2 business hours. In the meantime, is there anything specific you'd like them to come prepared to discuss?</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 3.3 — Action Checklist</div>
+    <ul>
+      <li>Define the exact fields pushed to CRM at handoff (minimum 10 fields listed above)</li>
+      <li>Build real-time webhook — no batch processing for lead data</li>
+      <li>Set response SLA for hot leads (we use 2 business hours — never more than same business day)</li>
+      <li>Test handoff with 5 fake leads before deploying — confirm every field arrives correctly</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODULE 4 -->
+<!-- ============================================================ -->
+
+<div class="module-header" id="module-4">
+  <div class="module-label">Module 4 of 9</div>
+  <h2>Sales Conversation Automation</h2>
+</div>
+
+<p>A bot that only qualifies leads leaves money on the table. Buyers often make decisions in the conversation — before they ever talk to a human. A well-designed sales flow can close warm leads, handle objections, and book paid calls without a salesperson in the loop. This module is the playbook for that flow.</p>
+
+<!-- LESSON 4.1 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 4.1</div>
+  <h3>Product Presentation Flow — The PACE Script</h3>
+
+  <p>When a lead has been qualified and shows high intent, the bot transitions from discovery into presentation. The PACE framework governs this transition: <strong>P</strong>oint of Pain (restate the user's need back to them), <strong>A</strong>nswer (present the solution directly), <strong>C</strong>redential (one piece of evidence — a result, a client, a number), <strong>E</strong>xtension (the next step). PACE is four sentences minimum, seven sentences maximum. Any longer and you are writing a brochure, not having a conversation.</p>
+
+  <p>The discipline of PACE is that it forces you to earn the presentation by opening with the user's own words. Starting with "You mentioned you need more leads and your current agency isn't delivering" is more persuasive than starting with "Our service offers." One is about them. One is about you. Bots that open with "Our service offers" lose prospects at a higher rate — because the prospect hasn't been shown they were heard.</p>
+
+  <div class="dialog-block">
+    <div class="dialog-label">PACE script — B2B lead generation service</div>
+    <span class="d-user">[USER:] ok so what do you actually do for businesses like mine</span>
+    <span class="d-bot">[BOT:] You said you need more qualified leads and your current agency hasn't delivered — that's exactly the problem we fix. We run full-funnel digital marketing: paid search, SEO, and conversion optimization, all managed by our AI-powered system that optimizes daily, not monthly. Our clients in your space average 35-50 new qualified leads per month within the first 90 days. Ready to see what that looks like specifically for you?</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 4.1 — Action Checklist</div>
+    <ul>
+      <li>Write a PACE script for each of your top 3 services</li>
+      <li>Include one specific result number (not a range) in every Credential section</li>
+      <li>End every PACE with a clear binary CTA — yes/no decision, not an open question</li>
+      <li>Keep each PACE to 4-6 sentences — test by reading aloud</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 4.2 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 4.2</div>
+  <h3>Price Anchoring in Chat — How to Present Cost Without Losing the Lead</h3>
+
+  <p>Price is the moment most bots go wrong. They either refuse to give a number ("pricing varies, contact us") which destroys trust, or they dump a price with no context which causes sticker shock. The right approach is anchored presentation: state the value before the cost, give a range rather than a fixed number, and immediately follow the price with a bridge to the next step.</p>
+
+  <p>The anchor sequence: (1) restate the outcome they get, (2) give the price range, (3) normalize the investment with a comparison or ROI frame, (4) move to next step. Never let a price hang in the air without a frame. A number alone is just a number. A number with an ROI context is an investment decision.</p>
+
+  <div class="dialog-block">
+    <div class="dialog-label">Price anchoring — correct and incorrect versions</div>
+    <span class="d-note">// WRONG — no anchor, no bridge:</span>
+    <span class="d-user">[USER:] how much is it?</span>
+    <span class="d-bot">[BOT:] Our packages start at $997 per month.</span>
+    <span class="d-note">// RIGHT — anchored presentation:</span>
+    <span class="d-user">[USER:] how much is it?</span>
+    <span class="d-bot">[BOT:] For the lead generation system that delivers 30-50 qualified leads per month, investment runs $997-$2,500/mo depending on your channels and volume. Most clients see a 4-6x return in the first quarter — so if a new client is worth $3,000 to you, ten new clients covers the year. Want to figure out your specific numbers on a quick call?</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 4.2 — Action Checklist</div>
+    <ul>
+      <li>Write price anchoring scripts for every service tier</li>
+      <li>Always state the outcome before the number</li>
+      <li>Include an ROI frame (client LTV × lead volume vs. investment)</li>
+      <li>Follow every price reveal with a specific next-step prompt</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 4.3 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 4.3</div>
+  <h3>Objection Handling Trees — The Four Objections and How to Script Them</h3>
+
+  <p>In chatbot sales flows, 90% of objections fall into four categories: price ("too expensive"), timing ("not right now"), trust ("I've been burned before"), and authority ("I need to check with my partner"). Each one has a distinct handling approach — and mixing them up is worse than giving no response at all. Treating a trust objection as a price objection (offering a discount when someone is actually skeptical) destroys the conversation.</p>
+
+  <p>Build a decision tree: detect the objection type from keywords, route to the correct handling script, include a re-engage question at the end. The re-engage question is critical — every objection handling script must end with a question that invites the user to continue. Without it, you've handled the objection into a dead end.</p>
+
+  <div class="dialog-block">
+    <div class="dialog-label">All four objection scripts</div>
+    <span class="d-note">// PRICE OBJECTION:</span>
+    <span class="d-user">[USER:] that's more than I was thinking of spending</span>
+    <span class="d-bot">[BOT:] Totally fair — let me reframe it. If you close 3 new clients from 30 leads per month, and each client is worth $2k, that's $6k from a $1k investment. The math usually works. That said, we do have a lighter entry point at $497 that's worth looking at. Want me to show you what that includes?</span>
+    <span class="d-note">// TIMING OBJECTION:</span>
+    <span class="d-user">[USER:] I don't think this is the right time for us</span>
+    <span class="d-bot">[BOT:] Understood. Can I ask — what would need to change for the timing to be right? Sometimes there's something specific I can address, and sometimes it genuinely is better to wait. I'd rather help you figure out which one this is.</span>
+    <span class="d-note">// TRUST OBJECTION:</span>
+    <span class="d-user">[USER:] we tried an agency before and got burned</span>
+    <span class="d-bot">[BOT:] That happens more than it should — and it's a legitimate reason to be skeptical. What I can offer: we start with a 30-day pilot with a lower commitment so you can see results before you're fully invested. Would it help to see exactly what we deliver in month one?</span>
+    <span class="d-note">// AUTHORITY OBJECTION:</span>
+    <span class="d-user">[USER:] I need to run this by my partner first</span>
+    <span class="d-bot">[BOT:] Of course — big decisions should involve everyone. Would it help if I put together a one-page summary you could share with them? I can email it to you right now. What's the best address?</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 4.3 — Action Checklist</div>
+    <ul>
+      <li>Write detection keywords for all four objection types (price, timing, trust, authority)</li>
+      <li>Build a separate handling script for each — do not combine</li>
+      <li>End every objection script with a forward question</li>
+      <li>Build a "second objection" path — if they object twice, route to human</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 4.4 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 4.4</div>
+  <h3>Close Sequences &amp; Follow-Up Triggers</h3>
+
+  <p>The close in a chatbot context is a booking, not a signature. The bot's job is to get the prospect into a meeting with a human (or, for lower-ticket items, directly into a payment flow). The close sequence has three steps: confirm interest, reduce friction, lock the commitment. Do not ask "would you like to schedule a call?" — that is a question with an easy no. Ask "I have Tuesday at 2pm or Wednesday at 10am — which works better for you?" That is a choice between two yeses.</p>
+
+  <p>Every prospect who doesn't close in session should enter a follow-up trigger sequence. The bot captures enough contact info to continue the conversation via a different channel. Typical sequence: WhatsApp message 24 hours later, email 48 hours later, final WhatsApp 7 days later. Three touches, then move to a low-frequency nurture. Do not spam. Four unanswered touches is harassment, not sales.</p>
+
+  <div class="dialog-block">
+    <div class="dialog-label">Close sequence — calendar booking</div>
+    <span class="d-user">[USER:] yeah I think I want to move forward</span>
+    <span class="d-bot">[BOT:] Excellent. I can get you on our strategy team's calendar right now. They have Tuesday April 23rd at 2pm or Wednesday April 24th at 10am Eastern. Which works better?</span>
+    <span class="d-user">[USER:] Tuesday works</span>
+    <span class="d-bot">[BOT:] Locked in. You'll get a calendar invite at mark@acmecorp.com in the next 2 minutes with a Zoom link. The call is 20 minutes — come with questions. Is there anything specific you want them to prepare?</span>
+    <span class="d-user">[USER:] just the pricing breakdown</span>
+    <span class="d-bot">[BOT:] Done — I'll add that to the notes. See you Tuesday, Mark.</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 4.4 — Action Checklist</div>
+    <ul>
+      <li>Build a 2-option time-slot close for every booking flow — never open-ended calendar links</li>
+      <li>Automate calendar invite via Calendly API or native CRM calendar</li>
+      <li>Build 3-touch follow-up sequence for unclosed sessions (24h, 48h, 7-day)</li>
+      <li>Define the "stop follow-up" trigger — unsubscribe, or 3 unanswered messages</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODULE 5 -->
+<!-- ============================================================ -->
+
+<div class="module-header" id="module-5">
+  <div class="module-label">Module 5 of 9</div>
+  <h2>Customer Service Automation</h2>
+</div>
+
+<p>Customer service is where chatbot automation pays its rent. FAQ deflection, order status, ticket creation, refunds — these interactions are high-volume, low-complexity, and perfectly suited to automation. A well-built service bot resolves 60-70% of inbound contacts without human involvement. The ones that fail add friction instead of removing it.</p>
+
+<!-- LESSON 5.1 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 5.1</div>
+  <h3>FAQ Resolution Flow — The Three-Strike System</h3>
+
+  <p>FAQ resolution is not "show the user the FAQ page." It is delivering the precise answer to the precise question in the precise moment. The three-strike system: first, attempt direct intent match and deliver the answer. Second, if the user signals the answer didn't help, rephrase and add one more detail. Third, if the user is still unsatisfied, escalate to ticket creation with the full conversation as context. Three strikes, then a human owns it.</p>
+
+  <p>The most common FAQ failure is answer mismatch — the bot correctly identifies the intent but delivers a generic answer that doesn't match the user's specific situation. Fix this by building conditional FAQ responses: "if the user mentioned X in a prior turn, use answer variant B, not A." Context-aware FAQ responses are 40% more satisfying to users than static responses, based on internal conversation rating data.</p>
+
+  <div class="dialog-block">
+    <div class="dialog-label">FAQ three-strike flow — refund policy</div>
+    <span class="d-user">[USER:] what's your refund policy?</span>
+    <span class="d-bot">[BOT:] We offer full refunds within 14 days of purchase for any unused services. For services already in progress, we prorate based on work completed. Is this about a current purchase, or just checking before you buy?</span>
+    <span class="d-user">[USER:] current purchase — I already paid last week</span>
+    <span class="d-bot">[BOT:] Got it. Since it's been less than 14 days and we'd need to check how much has been started, let me pull your account. What email did you sign up with?</span>
+    <span class="d-user">[USER:] mark@acmecorp.com</span>
+    <span class="d-bot">[BOT:] Found it. Your account shows 3 days of onboarding work completed. Based on our proration policy, a refund of approximately $840 would apply. To process this, I'm creating a ticket for our billing team — they'll confirm the exact amount and issue it within 2 business days. You'll get an email confirmation at mark@acmecorp.com. Does that work?</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 5.1 — Action Checklist</div>
+    <ul>
+      <li>List your top 20 FAQ topics and write a primary answer + one "didn't help" variant for each</li>
+      <li>Add context-conditional variants for your top 5 FAQs</li>
+      <li>Set strike 3 to auto-create a ticket — never let a user loop more than 3 times on the same topic</li>
+      <li>Review FAQ match rate monthly — any FAQ under 80% match accuracy needs retraining</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 5.2 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 5.2</div>
+  <h3>Ticket Creation, Status Lookup &amp; Escalation Routing</h3>
+
+  <p>When the bot cannot resolve an issue, it creates a ticket. The ticket must contain everything the human agent needs: conversation transcript, issue category, severity level, user contact info, prior resolution attempts, and a plain-language summary of what went wrong and what was tried. A ticket that arrives without context forces the human to re-ask questions the user already answered — which is the fastest way to turn an annoyed customer into a lost customer.</p>
+
+  <p>Status lookup is one of the highest-value automations in customer service. "Where is my order?" and "What's the status of my ticket?" are two of the top five most common service inquiries across every industry. Build a status lookup flow that authenticates the user (email or order number), queries your system in real-time, and delivers a human-readable status update. Real-time lookup eliminates the need for a human in the loop for 80% of status inquiries.</p>
+
+  <div class="dialog-block">
+    <div class="dialog-label">Ticket creation and status lookup — bilingual</div>
+    <span class="d-note">// English — ticket creation:</span>
+    <span class="d-user">[USER:] I've been waiting 5 days for someone to call me back</span>
+    <span class="d-bot">[BOT:] That's too long — I'm sorry. I'm escalating this right now with a priority flag. What's the best number for our team to reach you in the next 2 hours?</span>
+    <span class="d-user">[USER:] 555-234-8800</span>
+    <span class="d-bot">[BOT:] Done. Ticket #48821 has been created and flagged urgent. You'll receive a call at 555-234-8800 within 2 hours. I'll also send you an email confirmation. What's your email?</span>
+    <span class="d-note">// Spanish — status lookup:</span>
+    <span class="d-user">[USER:] ¿en qué estado está mi ticket?</span>
+    <span class="d-bot">[BOT:] Con gusto te lo busco. ¿Cuál es el número de ticket o el correo que usaste para registrarte?</span>
+    <span class="d-user">[USER:] ticket #48821</span>
+    <span class="d-bot">[BOT:] Tu ticket #48821 está en revisión activa con nuestro equipo técnico. Última actualización: hace 3 horas. Tiempo estimado de resolución: 24 horas. ¿Quieres que te avisen por WhatsApp cuando haya una actualización?</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 5.2 — Action Checklist</div>
+    <ul>
+      <li>Define the minimum data fields for every ticket type (7 fields minimum)</li>
+      <li>Build real-time status lookup via API connection to your helpdesk</li>
+      <li>Set SLA commitments by tier — hot ticket (2h), standard (24h), low (48h)</li>
+      <li>Write Spanish versions of all ticket confirmation and status messages</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 5.3 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 5.3</div>
+  <h3>Complaint Routing &amp; Satisfaction Surveys</h3>
+
+  <p>Complaints are data. Mishandled, they become churn and negative reviews. Handled well, they become retention and loyalty. The bot's role in a complaint is not to resolve it — it is to de-escalate, acknowledge, and route with speed. The fastest path to de-escalation is demonstrating that someone has taken ownership and set a real timeline. Vague promises accelerate anger.</p>
+
+  <p>Satisfaction surveys should be triggered at the end of every resolved interaction — not after every conversation, but after resolution events (ticket closed, FAQ answered, refund issued). Keep the survey to one question: "Did we resolve your issue today?" Yes/No. If no, trigger a re-open flow. If yes, optionally ask "On a scale of 1-5, how would you rate the experience?" Do not make the survey mandatory. Do not ask more than two questions. Survey fatigue kills response rates, and zero data is worse than imperfect data.</p>
+
+  <div class="dialog-block">
+    <div class="dialog-label">Complaint de-escalation + satisfaction survey</div>
+    <span class="d-user">[USER:] This is absolutely ridiculous. I've paid $1500 and nothing has been done.</span>
+    <span class="d-bot">[BOT:] I hear you — and that's not acceptable. I'm flagging your account right now and marking this as a priority. Our account manager will personally review what's happened and call you within the next 60 minutes. What's the best number?</span>
+    <span class="d-user">[USER:] 555-234-8800. This better actually happen.</span>
+    <span class="d-bot">[BOT:] It will. Ticket #48929 is open, flagged priority, assigned to our account manager. You'll receive a call by [time]. I'll send you the ticket number by email too — what address?</span>
+    <span class="d-note">// After resolution — satisfaction survey:</span>
+    <span class="d-bot">[BOT:] Quick check-in: did we fully resolve your issue today?</span>
+    <span class="d-user">[USER:] yes finally</span>
+    <span class="d-bot">[BOT:] Glad to hear it. On a scale of 1-5, how would you rate the experience overall?</span>
+    <span class="d-user">[USER:] 3</span>
+    <span class="d-bot">[BOT:] Noted — and we take that seriously. Thank you for the honest feedback. Is there one thing we could have done better?</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 5.3 — Action Checklist</div>
+    <ul>
+      <li>Write a complaint de-escalation script for your top 3 complaint types</li>
+      <li>Set maximum response time commitment you can actually keep (not a fantasy SLA)</li>
+      <li>Build satisfaction survey as a triggered post-resolution event, not a scheduled batch</li>
+      <li>Route all 1-2 star survey responses to a human review queue within 1 hour</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODULE 6 -->
+<!-- ============================================================ -->
+
+<div class="module-header" id="module-6">
+  <div class="module-label">Module 6 of 9</div>
+  <h2>Multi-Platform Deployment</h2>
+</div>
+
+<p>Every channel your customers use has a different technical environment, character limit, media capability, and user behavior pattern. A bot designed for the web widget and copy-pasted onto WhatsApp will perform badly — not because the content is wrong, but because the format is wrong. Platform-specific design is not optional. This module covers the five channels NetWebMedia runs and what makes each one different.</p>
+
+<!-- LESSON 6.1 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 6.1</div>
+  <h3>WhatsApp Business API — The Highest-ROI Channel</h3>
+
+  <p>WhatsApp is the most effective channel in the stack. Open rates exceed 95%. Response rates are 3-5x higher than email. And because WhatsApp conversations happen in a personal messaging context, the tone threshold for what feels "pushy" is lower than email cold outreach. Users who contact you via WhatsApp expect a real conversation — make sure they get one.</p>
+
+  <p>Technical constraints: messages are limited to 4,096 characters (rarely an issue). Media support is rich: images, PDFs, video, audio. Template messages (for outbound proactive messages) must be pre-approved by Meta — approval takes 24-72 hours, plan accordingly. Session windows: once a user messages you, you have a 24-hour window to respond freely. After 24 hours without user response, you can only send pre-approved templates. Build your follow-up sequences around this window.</p>
+
+  <div class="framework-box">
+    <div class="framework-label">WhatsApp Deployment Checklist</div>
+    <ul>
+      <li>Verify your WhatsApp Business Account (green checkmark) — essential for trust</li>
+      <li>Pre-approve at least 5 template messages for outbound follow-ups before launch</li>
+      <li>Set automated welcome message triggered on first user contact</li>
+      <li>Build 24-hour session tracking — alert system when session window closes</li>
+      <li>Media strategy: use images for product/service examples, PDF for proposals</li>
+    </ul>
+  </div>
+
+  <div class="dialog-block">
+    <div class="dialog-label">WhatsApp welcome + qualification opener</div>
+    <span class="d-user">[USER:] Hi, I saw your ad on Instagram</span>
+    <span class="d-bot">[BOT:] Hey! Thanks for reaching out — I'm Alex, the NetWebMedia assistant. What did you see that caught your attention? I can walk you through exactly how it works.</span>
+    <span class="d-user">[USER:] the chatbot automation one</span>
+    <span class="d-bot">[BOT:] Good choice to look into — it's one of our most popular services. Quick question: do you currently have any chatbots running, or are you starting from scratch?</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 6.1 — Action Checklist</div>
+    <ul>
+      <li>Apply for and verify WhatsApp Business API access (via Meta or approved BSP)</li>
+      <li>Submit 5 template messages for outbound follow-up approval</li>
+      <li>Write a welcome message that fires within 5 seconds of first user contact</li>
+      <li>Build a re-engagement template for leads who go silent after 24 hours</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 6.2 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 6.2</div>
+  <h3>Instagram DM Automation — Context from the Feed</h3>
+
+  <p>Instagram DMs carry unique context: you often know which post the user came from. A user who DMs after seeing a Reel about chatbot automation has different intent than one who DMs from your bio. Build your Instagram bot to read the entry point and customize the opening response accordingly. This context-aware opening increases engagement rates significantly compared to a generic "Hi, how can I help?"</p>
+
+  <p>Constraints: Instagram's messaging API is accessed via Meta's Graph API, same infrastructure as Messenger. Automated responses to comments (triggering a DM when someone comments a keyword) are subject to Meta's spam policies — keep keyword triggers specific and relevant. Character limits are generous (1,000 chars per message). Stories can include a swipe-up link that opens a DM thread with a pre-populated message — use this for lead generation campaigns.</p>
+
+  <div class="dialog-block">
+    <div class="dialog-label">Instagram DM — entry from specific Reel</div>
+    <span class="d-note">// User commented "info" on a Reel about chatbot automation. Bot is triggered by keyword "info".</span>
+    <span class="d-user">[USER:] info</span>
+    <span class="d-bot">[BOT:] Hey! You asked about the chatbot automation system we showed in that video. That's the exact system we run for our own business and our clients. What type of business do you have? I want to show you how it would work specifically for you.</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 6.2 — Action Checklist</div>
+    <ul>
+      <li>Map the top 3 posts/Reels that drive DMs — write custom opening scripts for each</li>
+      <li>Set up keyword trigger automation for your top 3 comment keywords ("info", "price", "how")</li>
+      <li>Build a generic fallback for DMs without a detectable entry point</li>
+      <li>Test comment-to-DM trigger with a real post before scaling to campaigns</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 6.3 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 6.3</div>
+  <h3>Facebook Messenger, Web Widget &amp; SMS — Platform-Specific Notes</h3>
+
+  <p><strong>Facebook Messenger</strong> uses the same API infrastructure as Instagram DMs (Meta Graph API). The audience skews older than Instagram. Messenger supports rich cards (image + title + buttons), quick replies, and persistent menu — use persistent menu for returning users who need navigation shortcuts, not for first-time conversations. The 24-hour session window rule applies here identically to WhatsApp.</p>
+
+  <p><strong>Web widget</strong> is your highest-context channel — you know the page the user is on, their session history, and often their CRM record if they're a returning customer. Build page-aware triggers: users on the pricing page see a different opener than users on the homepage. Users on the blog see a content-aware opener. The web widget is also your only channel where full HTML formatting renders (buttons, carousels) — use it for the richest interactive experiences.</p>
+
+  <p><strong>SMS</strong> has the tightest constraints: 160 characters per segment (concatenated messages up to 1,600 chars), no rich media in standard SMS, no session window concept. SMS is best used for transactional notifications (appointment reminders, ticket updates, follow-ups) rather than open conversation flows. Keep SMS messages under 320 characters. Never initiate SMS contact without explicit opt-in — the regulatory exposure (TCPA in the US) is significant.</p>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 6.3 — Action Checklist</div>
+    <ul>
+      <li>Build page-aware web widget triggers for pricing, homepage, and blog pages minimum</li>
+      <li>Messenger: design persistent menu for 3 main navigation paths (Sales / Support / Account)</li>
+      <li>SMS: write all follow-up templates under 320 characters</li>
+      <li>Confirm TCPA compliance for SMS — double opt-in required before first message</li>
+      <li>Test each platform independently before cross-channel routing is activated</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODULE 7 -->
+<!-- ============================================================ -->
+
+<div class="module-header" id="module-7">
+  <div class="module-label">Module 7 of 9</div>
+  <h2>AI &amp; NLP Integration</h2>
+</div>
+
+<p>Rule-based bots are predictable but brittle. AI-powered bots handle variance, edge cases, and novel phrasing that would break any decision tree. This module is about integrating a real LLM (OpenAI or Anthropic) into your chatbot stack to give it genuine language understanding — while keeping it constrained enough to be reliable in production.</p>
+
+<!-- LESSON 7.1 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 7.1</div>
+  <h3>Connecting to OpenAI / Claude API — Architecture Decision</h3>
+
+  <p>The architecture question is not "which LLM is best" — it is "where does the LLM sit in your system." Two patterns: <strong>LLM-as-classifier</strong> (the LLM only handles intent classification and entity extraction; all responses come from pre-written scripts) and <strong>LLM-as-responder</strong> (the LLM generates responses directly from a system prompt + knowledge base). Both have legitimate use cases. LLM-as-classifier is cheaper, more predictable, and easier to audit. LLM-as-responder handles edge cases better but requires more careful prompt engineering and output validation.</p>
+
+  <p>For most business deployments, start with LLM-as-classifier. Use the LLM to classify intent and extract entities, then route to human-written scripts for all responses. This gives you the language flexibility of AI without the hallucination risk of fully generative responses. Add LLM-as-responder for specific flows (open-ended support, complex discovery) once you've established baseline performance metrics.</p>
+
+  <div class="framework-box">
+    <div class="framework-label">LLM Integration Architecture — Two Patterns</div>
+    <ul>
+      <li><strong>Pattern A (LLM-as-Classifier):</strong> User message → LLM classifies intent + extracts entities → route to pre-written script → deliver response. Cost: ~$0.002/conversation. Predictability: high. Risk: low.</li>
+      <li><strong>Pattern B (LLM-as-Responder):</strong> User message → LLM generates response from system prompt + KB → output validation → deliver response. Cost: ~$0.02-0.10/conversation. Predictability: medium. Risk: medium (hallucination).</li>
+      <li><strong>Recommended start:</strong> Pattern A with Pattern B for open-ended flows only</li>
+    </ul>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 7.1 — Action Checklist</div>
+    <ul>
+      <li>Choose your LLM provider (OpenAI GPT-4o or Anthropic Claude Sonnet are the production defaults in 2026)</li>
+      <li>Decide Pattern A vs B for each flow type — document the decision</li>
+      <li>Set up API key management with environment variables — never hardcode keys</li>
+      <li>Implement rate limiting and fallback to rule-based responses if API is unavailable</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 7.2 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 7.2</div>
+  <h3>Prompt Engineering for Production Bots</h3>
+
+  <p>The system prompt is the most important piece of code in an LLM-powered bot. It defines the persona, the constraints, the knowledge, the tone, and the behavior in every edge case. A weak system prompt produces an unpredictable bot. A strong system prompt produces a bot that is reliably on-brand, on-topic, and useful in 95%+ of conversations.</p>
+
+  <p>The anatomy of a production system prompt: <strong>Role declaration</strong> (who the bot is and what business it serves), <strong>Behavioral rules</strong> (what it must and must not do), <strong>Tone guidelines</strong> (how it speaks), <strong>Knowledge scope</strong> (what topics it knows and what are out-of-scope), <strong>Escalation rules</strong> (when to hand off to human), and <strong>Output format</strong> (response length, structure, language rules). Every element is mandatory. Missing one produces predictable failure modes.</p>
+
+  <div class="framework-box">
+    <div class="framework-label">System Prompt Template — Production Bot</div>
+    <p>You are Alex, the AI assistant for NetWebMedia, a digital marketing agency. Your role is to help potential clients understand our services, qualify leads, answer support questions, and schedule meetings.</p>
+    <p><strong>Rules you must follow:</strong> Always respond in the user's language. Never claim to be human — if asked, say you are an AI assistant. Never discuss competitors by name. Never quote a price without first understanding the user's specific need. Escalate to a human if the user expresses legal concerns, payment disputes over $500, or three consecutive expressions of frustration.</p>
+    <p><strong>Tone:</strong> Direct, warm, expert. Short sentences. Active voice. No corporate jargon.</p>
+    <p><strong>Knowledge scope:</strong> NetWebMedia services (SEO, paid ads, chatbot automation, CRM), general digital marketing questions. Out of scope: legal advice, financial advice, competitor pricing, personal topics.</p>
+    <p><strong>Response length:</strong> Maximum 3 short paragraphs or 5 bullet points. Prefer shorter.</p>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 7.2 — Action Checklist</div>
+    <ul>
+      <li>Write your full system prompt covering all 6 anatomy elements</li>
+      <li>Test the system prompt against 20 edge case inputs before deploying</li>
+      <li>Version-control your system prompt — date every change</li>
+      <li>Review system prompt performance monthly — update when failure patterns emerge</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 7.3 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 7.3</div>
+  <h3>Context Management &amp; Memory Systems</h3>
+
+  <p>LLMs are stateless. Every API call is independent — the model remembers nothing from the previous message unless you explicitly include it. Context management is your engineering responsibility. The simplest approach: include the full conversation history in every API call, up to the model's context window limit. This works for short conversations (under 20 exchanges). For longer conversations or returning users, you need a memory system.</p>
+
+  <p>Three levels of memory: <strong>Conversation memory</strong> (the current session — include in context window), <strong>Short-term memory</strong> (cross-session, last 7 days — store in fast key-value store like Redis, pull relevant facts on session start), and <strong>Long-term memory</strong> (persistent user profile — stored in CRM or vector DB, retrieved via semantic search). Most business chatbots need Conversation + Short-term. Long-term memory is for high-touch use cases where personalization at scale matters.</p>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 7.3 — Action Checklist</div>
+    <ul>
+      <li>Implement conversation history injection into every LLM API call</li>
+      <li>Set maximum context window usage — truncate old turns if approaching limit</li>
+      <li>Build short-term memory for returning users (store: name, company, stated need, last intent)</li>
+      <li>Test returning user experience — does the bot remember who they are?</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODULE 8 -->
+<!-- ============================================================ -->
+
+<div class="module-header" id="module-8">
+  <div class="module-label">Module 8 of 9</div>
+  <h2>Handoff Protocols &amp; Escalation Logic</h2>
+</div>
+
+<p>The promise of full automation is not that humans never get involved — it is that humans only get involved when they add value. A bot that hands off too easily wastes your team's time. A bot that never hands off loses customers. The line between them is your escalation logic, and it needs to be designed, not discovered through failure.</p>
+
+<!-- LESSON 8.1 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 8.1</div>
+  <h3>Trigger Conditions — When the Bot Hands Off</h3>
+
+  <p>Escalation triggers fall into two categories: hard triggers (always escalate, no exceptions) and soft triggers (escalate if other conditions are also met). Hard triggers: user explicitly requests a human, user expresses a legal complaint, user uses crisis language (self-harm signals, emergency situations), payment dispute above your threshold, or three consecutive unresolved clarification loops. These are non-negotiable — no business logic overrides them.</p>
+
+  <p>Soft triggers: user sentiment has been negative for three consecutive turns, confidence score has been below 0.50 for two consecutive intents, the session is 15+ minutes old without a resolution, or the user's lead score is 80+ and the bot hasn't converted them. Soft triggers escalate only if a human agent is available. If not, they move to a priority queue with an explicit wait-time commitment communicated to the user.</p>
+
+  <div class="framework-box">
+    <div class="framework-label">Escalation Trigger Reference</div>
+    <ul>
+      <li><strong>Hard triggers (always escalate):</strong> Explicit human request, legal complaint, crisis language, payment dispute above threshold, 3 clarification loops</li>
+      <li><strong>Soft triggers (escalate if agent available):</strong> 3 negative-sentiment turns, 2 low-confidence intents, 15-min session without resolution, hot lead not converting</li>
+      <li><strong>After-hours rule:</strong> Hard trigger → priority queue with real callback time. Soft trigger → schedule a callback for next business day</li>
+    </ul>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 8.1 — Action Checklist</div>
+    <ul>
+      <li>Document every hard trigger and confirm they are programmatically enforced (not prompt-based)</li>
+      <li>Define your soft trigger thresholds and test them with synthetic conversations</li>
+      <li>Build an agent availability check — bot must know if humans are online before promising immediate handoff</li>
+      <li>Write after-hours escalation scripts that set accurate expectations</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 8.2 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 8.2</div>
+  <h3>Warm Transfer Scripts &amp; Context Packaging</h3>
+
+  <p>A cold handoff is: "I'm transferring you now." A warm handoff is: "I'm connecting you with Sarah from our account team. I've sent her the full context of our conversation — she already knows about your 30-day timeline and $2,500 budget. She'll be with you in about 2 minutes." The difference in customer experience is significant. The difference in first-call resolution rate is measurable — warm handoffs resolve in one touch at roughly 2x the rate of cold handoffs.</p>
+
+  <p>Context packaging is the data object the bot assembles before the handoff: conversation summary (2-3 sentences), intent path (what flows were triggered), BANT data (if qualification occurred), lead score, contact info, channel of origin, and the reason for escalation. This package is displayed to the human agent in your CRM or helpdesk before they engage. Agents should never start a conversation with "So, what can I help you with?" when the bot has already gathered that information.</p>
+
+  <div class="dialog-block">
+    <div class="dialog-label">Warm transfer script — bilingual</div>
+    <span class="d-note">// English:</span>
+    <span class="d-user">[USER:] I really need to talk to someone directly</span>
+    <span class="d-bot">[BOT:] Completely understand — I'm connecting you with someone on our team right now. I'm sending them everything we've discussed: your lead generation goal, the 30-day timeline, and the $2,500 budget range. They'll be ready for you. One moment.</span>
+    <span class="d-note">// Spanish:</span>
+    <span class="d-user">[USER:] necesito hablar con alguien directamente</span>
+    <span class="d-bot">[BOT:] Entendido — te conecto con alguien de nuestro equipo ahora mismo. Les estoy enviando todo lo que hablamos: tu objetivo de generación de leads, el plazo de 30 días y el presupuesto de $2,500. Ya estarán preparados. Un momento.</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 8.2 — Action Checklist</div>
+    <ul>
+      <li>Write warm transfer scripts for your top 3 escalation scenarios</li>
+      <li>Build the context package object — define all fields and test with 5 mock handoffs</li>
+      <li>Configure your CRM/helpdesk to display the context package before the agent's first message</li>
+      <li>Train agents on the context package format — they should never re-ask questions already answered</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 8.3 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 8.3</div>
+  <h3>After-Hours Handling &amp; SLA Rules</h3>
+
+  <p>After-hours conversations are where most automation systems fail. The bot either pretends it's going to escalate immediately (and doesn't), or it drops the conversation entirely. Both outcomes damage trust. The correct approach: acknowledge the time constraint honestly, commit to a specific callback time, and collect the contact information to fulfill that commitment.</p>
+
+  <p>SLA rules must be defined, documented, and enforced programmatically. Three tiers: urgent (legal, payment, crisis — 2 hours, any time including after-hours), standard (qualification, support — next business day by 10am), and low-priority (general inquiry, nurture — 48 business hours). Every user who triggers a handoff receives a specific commitment matching their tier, not a generic "someone will be in touch soon."</p>
+
+  <div class="dialog-block">
+    <div class="dialog-label">After-hours handoff script</div>
+    <span class="d-user">[USER:] I need to speak with someone urgently about my account</span>
+    <span class="d-bot">[BOT:] I hear the urgency. Our team is offline right now — it's outside business hours. I'm flagging this as urgent. A member of our team will call you at the number on your account by 9am Eastern tomorrow. If this is a true emergency (account security, active billing error), type "URGENT" and I'll escalate to our on-call contact. Is this a security or billing issue?</span>
+    <span class="d-user">[USER:] billing issue</span>
+    <span class="d-bot">[BOT:] Got it — escalating now. Our billing team will contact you within 2 hours at the number on file. You'll also receive a text confirmation. Is there anything specific you need them to be prepared to discuss?</span>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 8.3 — Action Checklist</div>
+    <ul>
+      <li>Define your business hours and configure the bot to detect after-hours status</li>
+      <li>Write after-hours scripts for each SLA tier</li>
+      <li>Build a real on-call process for urgent escalations — the bot can only promise what the team can deliver</li>
+      <li>Test after-hours flow — send a test message at 2am and verify the correct script fires</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODULE 9 -->
+<!-- ============================================================ -->
+
+<div class="module-header" id="module-9">
+  <div class="module-label">Module 9 of 9</div>
+  <h2>Testing, Analytics &amp; Optimization</h2>
+</div>
+
+<p>A chatbot deployed without a measurement system is a chatbot that will slowly degrade. Language evolves, user behavior shifts, and intents that were rare become common. The testing and optimization cadence is what keeps your system performing at launch levels — and improving past them.</p>
+
+<!-- LESSON 9.1 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 9.1</div>
+  <h3>QA Conversation Testing — Pre-Launch Protocol</h3>
+
+  <p>Before any bot goes live, run 50 scripted test conversations covering your full intent taxonomy plus all failure states. Scripted tests are not enough alone — also run 10 unscripted tests where real people attempt to use the bot naturally, without knowing what intents exist. The unscripted tests will reveal the gaps your scripted tests don't. Users say things you never anticipated. That is not a complaint — it is a testing opportunity.</p>
+
+  <p>Track four outcomes per test conversation: intent classification accuracy (did the bot identify the right intent?), entity extraction accuracy (did it extract the right data?), response appropriateness (was the response helpful and on-brand?), and flow completion (did the conversation reach its intended outcome?). Score each conversation on a 0-3 scale for each dimension. Target: 80%+ scores across all four dimensions before launch. Below that threshold, keep training.</p>
+
+  <div class="framework-box">
+    <div class="framework-label">Pre-Launch QA Scorecard</div>
+    <ul>
+      <li><strong>Intent Accuracy:</strong> Correct intent identified / Total intents tested — target 85%+</li>
+      <li><strong>Entity Accuracy:</strong> Entities correctly extracted / Total entities in test set — target 90%+</li>
+      <li><strong>Response Appropriateness:</strong> Responses rated helpful + on-brand / Total responses — target 80%+</li>
+      <li><strong>Flow Completion:</strong> Conversations reaching intended outcome / Total conversations — target 70%+</li>
+      <li><strong>Launch gate:</strong> All four metrics must meet threshold simultaneously</li>
+    </ul>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 9.1 — Action Checklist</div>
+    <ul>
+      <li>Write 50 scripted test cases covering full intent taxonomy + all failure states</li>
+      <li>Run 10 unscripted tests with real people unfamiliar with the bot design</li>
+      <li>Score every test conversation on the four-dimension scorecard</li>
+      <li>Do not launch until all four metrics meet threshold — fix gaps first</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 9.2 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 9.2</div>
+  <h3>Key Metrics — What to Measure and Why</h3>
+
+  <p>Five metrics run your chatbot's performance dashboard. <strong>Intent recognition rate:</strong> the percentage of messages correctly classified. Below 80% and your training data needs expansion. <strong>Containment rate:</strong> the percentage of conversations fully resolved by the bot without human escalation. Target varies by use case — 60% is a reasonable baseline for a mixed sales/support bot. <strong>Conversion rate:</strong> the percentage of chatbot conversations that result in a qualified lead, booked meeting, or completed transaction. <strong>Drop-off rate by flow step:</strong> where in your defined flows do users abandon? High drop-off on step 3 of a 5-step flow means step 3 is broken. <strong>Average conversation length:</strong> measured in turns (exchanges). Too short suggests users aren't engaging. Too long suggests the bot isn't resolving efficiently.</p>
+
+  <div class="framework-box">
+    <div class="framework-label">Core KPI Dashboard — 5 Metrics</div>
+    <ul>
+      <li><strong>Intent Recognition Rate</strong> — target 85%+ | alert threshold: below 75%</li>
+      <li><strong>Containment Rate</strong> — target 60%+ | alert threshold: below 45%</li>
+      <li><strong>Conversion Rate</strong> — target 8-15% for cold traffic | alert threshold: below 5%</li>
+      <li><strong>Drop-off Rate by Step</strong> — any step above 40% drop-off is a fix priority</li>
+      <li><strong>Average Turns to Resolution</strong> — target 4-8 turns | alert: below 2 (too shallow) or above 12 (too complex)</li>
+    </ul>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 9.2 — Action Checklist</div>
+    <ul>
+      <li>Configure your analytics dashboard to track all 5 KPIs from day one</li>
+      <li>Set alert thresholds — automated notification when any metric drops below threshold</li>
+      <li>Build a funnel view for each major flow showing drop-off at each step</li>
+      <li>Review dashboard weekly for first 60 days, then monthly once stable</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 9.3 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 9.3</div>
+  <h3>A/B Testing Flows — What to Test and How</h3>
+
+  <p>A/B testing a chatbot is not the same as A/B testing a landing page. Conversation is sequential — a change in turn 1 affects the likelihood of every subsequent turn. Test one element at a time, wait for statistical significance (minimum 200 complete conversations per variant), and measure impact on the end goal (conversion), not just the local metric (click rate on a button). Testing a button color in a chatbot is a waste of time. Testing whether a BANT opener vs. a pain-first opener produces more qualified leads is worth doing.</p>
+
+  <p>High-value test candidates: opening message (the first thing the bot says), price anchoring script (sequence A vs. B), BANT question order, objection handling approach for your most common objection, follow-up timing (24h vs. 48h), and call-to-action phrasing in the close sequence. Run one test at a time. Document every test with hypothesis, variant definitions, success metric, and result.</p>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 9.3 — Action Checklist</div>
+    <ul>
+      <li>Identify your top 3 A/B test candidates from drop-off data</li>
+      <li>Define success metric for each test before running it</li>
+      <li>Minimum 200 conversations per variant before calling a winner</li>
+      <li>Document every test result — wins and losses are both valuable data</li>
+    </ul>
+  </div>
+</div>
+
+<!-- LESSON 9.4 -->
+<div class="lesson-block">
+  <div class="lesson-label">Lesson 9.4</div>
+  <h3>Monthly Optimization Cadence — The 4-Step Review</h3>
+
+  <p>Set a fixed monthly date for your optimization review. Skipping it for two months in a row means your bot is degrading undetected. The four-step review takes two hours maximum and produces a prioritized action list for the month ahead.</p>
+
+  <p><strong>Step 1 — Data review:</strong> Pull the 5 core KPIs. Flag anything that moved more than 10% from last month. <strong>Step 2 — Failure analysis:</strong> Pull all low-confidence events and misclassified intents from the past 30 days. Read 20 at random. Every one is a training phrase to add or a flow to fix. <strong>Step 3 — Drop-off analysis:</strong> Identify the one flow with the highest drop-off rate at any step. That is your priority fix for the month — not the lowest-hanging fruit, the highest-impact problem. <strong>Step 4 — Prioritized action list:</strong> Output a list of 3-5 specific changes (not "improve the bot" — "add 10 training phrases to the price_objection intent" or "rewrite step 3 of the qualification flow").</p>
+
+  <div class="framework-box">
+    <div class="framework-label">Monthly Optimization Review — 4-Step Protocol</div>
+    <ul>
+      <li><strong>Step 1:</strong> Review 5 KPIs vs. prior month — flag changes &gt;10%</li>
+      <li><strong>Step 2:</strong> Read 20 random low-confidence / misclassified events — extract training phrases</li>
+      <li><strong>Step 3:</strong> Identify the single highest-drop-off flow step</li>
+      <li><strong>Step 4:</strong> Output 3-5 specific, actionable changes for the coming month</li>
+      <li><strong>Time budget:</strong> 2 hours total. If it takes longer, you are analyzing instead of deciding.</li>
+    </ul>
+  </div>
+
+  <div class="checklist-box">
+    <div class="checklist-label">Lesson 9.4 — Action Checklist</div>
+    <ul>
+      <li>Book a recurring monthly calendar block for the optimization review — same day, same time</li>
+      <li>Create a shared doc or Notion template for the 4-step review output</li>
+      <li>Assign ownership of each action item with a deadline</li>
+      <li>Review the previous month's action items at the start of each review — did they move the metric?</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- FINAL CTA -->
+<!-- ============================================================ -->
+
+<blockquote>The business that automates first contact across every channel doesn't just save time — it creates a compounding advantage. Every conversation is data. Every data point improves the next conversation. The businesses still answering every inquiry manually are running a system that degrades with volume. Automation scales. People don't have to.</blockquote>
+
+<h2>What You Have Now</h2>
+
+<p>Nine modules. Forty-one lessons. Every intent mapped. Every failure state scripted. Every platform addressed. The DIAL framework gives you a mental model for any conversation design decision. The BANT automation gives you a qualification engine that runs at any scale. The PACE script gives your bot a sales voice that earns the presentation. The escalation logic gives you a system where humans are always in the right place at the right time — not every place all the time.</p>
+
+<p>This is exactly the system NetWebMedia runs. No one answers the phone. Everything qualified comes through the bot, scored, contextualized, and ready for a human to close. The system handles the floor so humans can own the ceiling. Deploy it with discipline and the same will be true for your business.</p>
+
+  <div class="article-cta-box">
+    <h3>Want this system built for your business?</h3>
+    <p>NetWebMedia deploys full chatbot automation across WhatsApp, Instagram, web, Facebook, and SMS — strategy through launch. Book a free 30-minute strategy call and we'll map the exact flows your business needs.</p>
+    <a class="btn-primary" href="../contact.html">Book Your Free Strategy Call →</a>
+  </div>
+
+  <p style="text-align:center;margin-top:40px;">
+    <a class="article-back" href="../blog.html">← Back to all articles</a>
+  </p>
+</article>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="nav-logo"><img src="../assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px" loading="lazy" width="200" height="52"></a>
+        <p>The world's most advanced AI marketing agency.</p>
+      </div>
+      <div class="footer-col"><h4>Services</h4><ul>
+        <li><a href="../services.html#ai-automations">AI Automations</a></li>
+        <li><a href="../services.html#ai-agents">AI Agents</a></li>
+        <li><a href="../services.html#ai-seo">AI SEO</a></li>
+        <li><a href="../services.html#paid-ads">Paid Ads</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Company</h4><ul>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../results.html">Results</a></li>
+        <li><a href="../blog.html">Blog</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Connect</h4><ul>
+        <li><a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 NetWebMedia. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<script src="../js/main.js" defer></script>
+<script src="../js/cart.js" defer></script>
+</body>
+</html>

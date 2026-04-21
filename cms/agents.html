@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agents - NetWeb CMS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../crm/css/app.css">
+  <link rel="stylesheet" href="css/cms.css">
+  <style>
+    .nwm-modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center; z-index:9999; }
+    .nwm-modal { background:#fff; color:#111; border-radius:12px; width:min(720px, 92vw); max-height:90vh; overflow:auto; }
+    .nwm-modal-head { display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid #eee; }
+    .nwm-modal-head h3 { margin:0; font-size:18px; }
+    .nwm-modal-close { background:none; border:none; font-size:28px; cursor:pointer; }
+    .nwm-modal-body { padding:20px; }
+    .nwm-modal-foot { margin-top:16px; display:flex; gap:8px; justify-content:flex-end; }
+    .lbl { display:block; margin-bottom:14px; font-size:13px; color:#444; }
+    .inp { display:block; width:100%; padding:10px 12px; border:1px solid #d5d9e2; border-radius:8px; font-size:14px; margin-top:4px; }
+    .btn-sm { padding:4px 10px; font-size:12px; }
+    .btn-danger { background:#e74c3c; color:#fff; }
+    .mod-table th, .mod-table td { padding:10px 12px; border-bottom:1px solid #eee; text-align:left; font-size:14px; }
+    .mod-table th { background:#f7f7fb; font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:#666; }
+    .embed-box { background:#f6f6f9; padding:10px; border-radius:8px; font-family:monospace; font-size:12px; word-break:break-all; margin-top:8px; }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body"><div id="list"></div></div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/api-client.js"></script>
+  <script src="js/cms.js"></script>
+  <script src="js/module-table.js"></script>
+  <script>
+    function genToken() { return 'ag_' + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10); }
+    NWM.mount({
+      type: 'ai_agent',
+      title: 'AI Agents',
+      subtitle: 'Custom chat agents you can embed on any website',
+      listEl: 'list',
+      columns: [
+        { label: 'Name', key: 'title' },
+        { label: 'Model', key: 'model' },
+        { label: 'Status', key: 'status' },
+        { label: 'Updated', key: 'updated_at' },
+      ],
+      fields: [
+        { name: 'title', label: 'Agent name', type: 'text', required: true, placeholder: 'Support Bot' },
+        { name: 'model', label: 'Model', type: 'select', options: [
+          { value: 'claude-3-5-sonnet-20241022', label: 'Claude 3.5 Sonnet' },
+          { value: 'claude-3-5-haiku-20241022', label: 'Claude 3.5 Haiku (cheaper)' },
+        ]},
+        { name: 'system_prompt', label: 'System prompt', type: 'textarea', rows: 8, placeholder: 'You are a helpful assistant for Acme Co…' },
+        { name: 'welcome_message', label: 'Welcome message', type: 'text', placeholder: 'Hi! How can I help?' },
+        { name: 'public_token', label: 'Public embed token', type: 'text', placeholder: '(auto-generated on save if blank)' },
+        { name: 'status', label: 'Status', type: 'select', options: [
+          { value: 'active', label: 'Active' }, { value: 'paused', label: 'Paused' },
+        ]},
+      ],
+      rowActions: [
+        { act: 'embed', label: 'Embed' },
+        { act: 'test',  label: 'Test' },
+      ],
+      onRow: function (act, it, reload) {
+        var d = it.data || {};
+        var token = d.public_token;
+        if (act === 'embed') {
+          if (!token) {
+            token = 'ag_' + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
+            d.public_token = token;
+            NWMApi.update('ai_agent', it.id, { data: d }).then(reload);
+          }
+          var code = '<script src="https://netwebmedia.com/assets/nwm-agent-widget.js" data-agent-token="' + token + '" data-label="' + (it.title || 'Chat') + '"></' + 'script>';
+          var m = document.createElement('div');
+          m.className = 'nwm-modal-backdrop';
+          m.innerHTML = '<div class="nwm-modal"><div class="nwm-modal-head"><h3>Embed code</h3><button class="nwm-modal-close">×</button></div><div class="nwm-modal-body"><p>Paste this before <code>&lt;/body&gt;</code> on any page:</p><div class="embed-box">' + code.replace(/[<>]/g, function (c) { return { '<': '&lt;', '>': '&gt;' }[c]; }) + '</div><button class="btn btn-primary" id="cp">Copy</button></div></div>';
+          document.body.appendChild(m);
+          m.querySelector('.nwm-modal-close').onclick = function () { m.remove(); };
+          m.querySelector('#cp').onclick = function () { navigator.clipboard.writeText(code); this.textContent = 'Copied!'; };
+        }
+        if (act === 'test') {
+          var q = prompt('Send a test message to this agent:');
+          if (!q) return;
+          fetch('/api/ai/chat', {
+            method: 'POST', credentials: 'include',
+            headers: { 'Content-Type': 'application/json', 'X-Auth-Token': NWMApi.token() },
+            body: JSON.stringify({ agent_id: it.id, message: q })
+          }).then(function (r) { return r.json(); }).then(function (r) {
+            alert(r.reply || r.error || 'No reply');
+          });
+        }
+      }
+    });
+  </script>
+<script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

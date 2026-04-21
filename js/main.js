@@ -587,51 +587,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ── WhatsApp Floating Widget ───────────────────────────────
-(function initWhatsAppWidget(){
-  const PHONE = '56965322427';
-  const MSG = encodeURIComponent("Hi NetWebMedia — I'd like to learn more about your AI marketing services.");
-  const HREF = 'https://wa.me/' + PHONE + '?text=' + MSG;
-
-  function mount(){
-    if (document.getElementById('nwm-wa-widget')) return;
-
-    const css = `
-      #nwm-wa-widget{position:fixed;right:20px;bottom:20px;z-index:9999;display:flex;align-items:center;gap:10px;flex-direction:row-reverse;}
-      #nwm-wa-widget .nwm-wa-btn{display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:50%;background:#25D366;color:#fff;box-shadow:0 8px 24px rgba(37,211,102,.45),0 2px 6px rgba(0,0,0,.25);text-decoration:none;transition:transform .2s ease, box-shadow .2s ease;cursor:pointer;border:none;outline:none;}
-      #nwm-wa-widget .nwm-wa-btn:hover{transform:scale(1.08);box-shadow:0 10px 28px rgba(37,211,102,.6),0 2px 6px rgba(0,0,0,.3);}
-      #nwm-wa-widget .nwm-wa-btn svg{width:32px;height:32px;fill:#fff;}
-      #nwm-wa-widget .nwm-wa-tip{background:#0a1033;color:#fff;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.3);white-space:nowrap;opacity:0;transform:translateX(8px);transition:opacity .25s ease, transform .25s ease;pointer-events:none;border:1px solid rgba(255,255,255,.1);}
-      #nwm-wa-widget:hover .nwm-wa-tip{opacity:1;transform:translateX(0);}
-      #nwm-wa-widget .nwm-wa-pulse{position:absolute;right:20px;bottom:20px;width:60px;height:60px;border-radius:50%;background:#25D366;opacity:.5;animation:nwmWaPulse 2s ease-out infinite;pointer-events:none;z-index:-1;}
-      @keyframes nwmWaPulse{0%{transform:scale(1);opacity:.5;}100%{transform:scale(1.8);opacity:0;}}
-      @media (max-width:640px){#nwm-wa-widget{right:14px;bottom:calc(14px + env(safe-area-inset-bottom, 0px));}#nwm-wa-widget .nwm-wa-btn{width:54px;height:54px;}#nwm-wa-widget .nwm-wa-pulse{width:54px;height:54px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom, 0px));}#nwm-wa-widget .nwm-wa-tip{display:none;}}
-    `;
-    const style = document.createElement('style');
-    style.id = 'nwm-wa-style';
-    style.textContent = css;
-    document.head.appendChild(style);
-
-    const pulse = document.createElement('div');
-    pulse.className = 'nwm-wa-pulse';
-    document.body.appendChild(pulse);
-
-    const wrap = document.createElement('div');
-    wrap.id = 'nwm-wa-widget';
-    wrap.innerHTML =
-      '<a class="nwm-wa-btn" href="' + HREF + '" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">' +
-        '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.778 2.687.778.688 0 2.035-.514 2.35-1.176.216-.458.216-.845.158-.945-.13-.195-.45-.3-.788-.45z" /><path d="M16.026 0C7.2 0 .025 7.17.025 16c0 3.16.92 6.21 2.615 8.815L.18 32l7.425-2.45A15.94 15.94 0 0 0 16.026 32C24.88 32 32 24.84 32 16S24.88 0 16.026 0zm0 29.33a13.27 13.27 0 0 1-7.395-2.31l-.53-.315-5.45 1.805 1.83-5.3-.345-.545A13.33 13.33 0 1 1 29.34 16c0 7.35-5.97 13.33-13.32 13.33z"/></svg>' +
-      '</a>' +
-      '<span class="nwm-wa-tip">Chat with us on WhatsApp</span>';
-    document.body.appendChild(wrap);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', mount);
-  } else {
-    mount();
-  }
-})();
 
 // ── Welcome Chatbot (auto-loads /js/nwm-chat.js) ──────────────────────────
 (function loadNwmChat(){
@@ -641,7 +596,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('nwm-chat-script')) return;
     const s = document.createElement('script');
     s.id = 'nwm-chat-script';
-    s.src = '/js/nwm-chat.js?v=1';
+    s.src = '/js/nwm-chat.js?v=2';
     s.async = true;
     s.defer = true;
     document.head.appendChild(s);

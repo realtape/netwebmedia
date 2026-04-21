@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Courses & Playbooks — NetWebMedia</title>
+  <meta name="description" content="Agency-grade automation courses and playbooks. WhatsApp, Chatbot, SMS — real scripts, real templates, zero fluff. Instant digital delivery." />
+  <link rel="canonical" href="https://netwebmedia.com/catalogue.html" />
+  <meta property="og:title" content="NetWebMedia — Courses & Playbooks" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://netwebmedia.com/catalogue.html" />
+  <meta property="og:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+  <link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg" />
+  <link rel="stylesheet" href="css/styles.css?v=6" />
+  <style>
+    :root { --cat-cyan:#22d3ee; --cat-purple:#8b5cf6; --cat-green:#25d366; --cat-orange:#f97316; }
+
+    .cat-wrap { max-width:1200px; margin:0 auto; padding:80px 24px 100px; }
+
+    /* HERO */
+    .cat-hero { text-align:center; margin-bottom:56px; }
+    .cat-hero-tag { display:inline-block; padding:5px 14px; background:rgba(34,211,238,.12); border:1px solid rgba(34,211,238,.3); border-radius:20px; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--cat-cyan); margin-bottom:20px; }
+    .cat-hero h1 { font-size:clamp(30px,6vw,54px); font-weight:900; margin:0 0 16px; line-height:1.1; }
+    .cat-hero h1 span { background:linear-gradient(135deg,var(--cat-cyan),var(--cat-purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .cat-hero p { font-size:17px; color:#8892b0; max-width:600px; margin:0 auto 28px; line-height:1.6; }
+
+    /* TOGGLES ROW */
+    .toggles-row { display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; margin-bottom:48px; }
+    .toggle-group { display:inline-flex; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:40px; padding:4px; }
+    .toggle-btn { padding:7px 18px; border-radius:30px; font-size:13px; font-weight:700; cursor:pointer; border:none; transition:all .2s; background:transparent; color:#8892b0; }
+    .toggle-btn.active { background:linear-gradient(135deg,var(--cat-cyan),var(--cat-purple)); color:#fff; }
+
+    /* LANGUAGE SHOW/HIDE */
+    .en { } .es { display:none; }
+    body.es-mode .en { display:none; }
+    body.es-mode .es { display:block; }
+    body.es-mode span.en { display:none; }
+    body.es-mode span.es { display:inline; }
+    span.es { display:none; }
+
+    
+
+    /* HERO PRODUCT */
+    .hero-product { background:linear-gradient(135deg,rgba(34,211,238,.07),rgba(139,92,246,.1)); border:1px solid rgba(139,92,246,.4); border-radius:24px; padding:40px 48px; margin-bottom:48px; display:grid; grid-template-columns:1fr auto; gap:32px; align-items:center; position:relative; overflow:hidden; }
+    .hero-product::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--cat-cyan),var(--cat-purple),#ec4899); }
+    .hero-badge { position:absolute; top:20px; right:20px; background:linear-gradient(135deg,#f97316,#ec4899); color:#fff; font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; padding:5px 12px; border-radius:20px; }
+    .hero-product-left h2 { font-size:26px; font-weight:900; margin:0 0 10px; color:#e6f1ff; }
+    .hero-product-left .hero-sub { font-size:14px; color:#8892b0; margin:0 0 20px; line-height:1.5; }
+    .hero-chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+    .chip { display:inline-flex; align-items:center; gap:5px; padding:5px 12px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:20px; font-size:12px; color:#ccd6f6; }
+    .hero-right { text-align:center; min-width:180px; }
+    .hero-was { font-size:13px; color:#6b7280; text-decoration:line-through; margin-bottom:4px; }
+    .hero-price-num { font-size:50px; font-weight:900; color:#e6f1ff; line-height:1; }
+    .hero-price-num small { font-size:17px; font-weight:400; color:#8892b0; }
+    .save-badge { display:inline-block; background:#0a7a69; color:#fff; font-size:11px; font-weight:800; padding:3px 10px; border-radius:10px; margin:6px 0 20px; }
+    .hero-btn { display:block; background:linear-gradient(135deg,var(--cat-cyan),var(--cat-purple)); color:#fff; font-weight:700; padding:14px 28px; border-radius:12px; text-decoration:none; font-size:15px; text-align:center; }
+    .hero-btn:hover { opacity:.85; }
+
+    /* SECTION LABEL */
+    .section-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#64748b; margin:48px 0 20px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,.07); }
+
+    /* GRID */
+    .products-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; margin-bottom:40px; }
+
+    /* PRODUCT CARD */
+    .prod-card { background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:28px; display:flex; flex-direction:column; position:relative; transition:border-color .2s, transform .15s; overflow:hidden; }
+    .prod-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--ac, var(--cat-cyan)); opacity:.5; transition:opacity .2s; }
+    .prod-card:hover { border-color:var(--ac, var(--cat-cyan)); transform:translateY(-2px); }
+    .prod-card:hover::before { opacity:1; }
+    .prod-card.featured { border-color:rgba(139,92,246,.4); box-shadow:0 0 0 1px rgba(139,92,246,.15), 0 20px 60px rgba(139,92,246,.1); }
+    .prod-type-badge { display:inline-block; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; padding:3px 9px; border-radius:12px; margin-bottom:14px; background:color-mix(in srgb, var(--ac, var(--cat-cyan)) 12%, transparent); color:var(--ac, var(--cat-cyan)); border:1px solid color-mix(in srgb, var(--ac, var(--cat-cyan)) 25%, transparent); }
+    .prod-icon { font-size:34px; margin-bottom:10px; line-height:1; }
+    .prod-title { font-size:18px; font-weight:800; color:#e6f1ff; margin:0 0 8px; }
+    .prod-sub { font-size:13px; color:#8892b0; margin:0 0 16px; line-height:1.5; flex:1; }
+    .prod-stats { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px; }
+    .ps { font-size:11px; color:#64748b; }
+    .ps span { color:#94a3b8; }
+    .price-row { display:flex; align-items:baseline; gap:6px; margin-bottom:16px; }
+    .price-num { font-size:32px; font-weight:900; color:#e6f1ff; }
+    .price-num small { font-size:13px; color:#8892b0; font-weight:400; }
+    .prod-actions { display:grid; grid-template-columns:1fr 44px; gap:8px; align-items:center; }
+    .buy-btn { display:block; text-align:center; padding:12px; border-radius:10px; background:linear-gradient(135deg, var(--ac, var(--cat-cyan)), color-mix(in srgb, var(--ac, var(--cat-cyan)) 55%, #8b5cf6)); color:#fff; font-weight:700; font-size:14px; text-decoration:none; }
+    .buy-btn:hover { opacity:.85; }
+    .prev-btn { display:flex; align-items:center; justify-content:center; height:44px; border-radius:10px; border:1px solid rgba(255,255,255,.1); color:#8892b0; text-decoration:none; font-size:15px; }
+    .prev-btn:hover { border-color:var(--ac, var(--cat-cyan)); color:var(--ac, var(--cat-cyan)); }
+
+    /* BUNDLE STRIP */
+    .bundle-strip { background:linear-gradient(135deg,rgba(37,211,102,.06),rgba(139,92,246,.08)); border:1px solid rgba(37,211,102,.25); border-radius:16px; padding:24px 28px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; margin-bottom:8px; }
+    .bundle-info h3 { font-size:17px; font-weight:800; color:#e6f1ff; margin:0 0 4px; }
+    .bundle-info p { font-size:13px; color:#8892b0; margin:0; }
+    .bundle-right { display:flex; align-items:center; gap:14px; flex-shrink:0; flex-wrap:wrap; }
+    .bwas { font-size:13px; color:#6b7280; text-decoration:line-through; }
+    .bprice { font-size:28px; font-weight:900; color:#e6f1ff; }
+    .bsave { background:#0a7a69; color:#fff; font-size:10px; font-weight:800; padding:2px 8px; border-radius:8px; }
+    .bundle-btn { padding:11px 22px; border-radius:10px; background:linear-gradient(135deg,#25d366,#1da851); color:#fff; font-weight:700; font-size:14px; text-decoration:none; white-space:nowrap; }
+    .bundle-btn:hover { opacity:.85; }
+
+    /* GUARANTEE */
+    .guarantee { margin-top:40px; padding:24px 32px; background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.07); border-radius:14px; display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+    .guarantee-icon { font-size:32px; flex-shrink:0; }
+    .guarantee h4 { font-size:15px; font-weight:700; color:#e6f1ff; margin:0 0 3px; }
+    .guarantee p { font-size:13px; color:#8892b0; margin:0; }
+    .guarantee-link { margin-left:auto; flex-shrink:0; padding:9px 18px; border-radius:9px; border:1px solid rgba(255,255,255,.1); color:#8892b0; text-decoration:none; font-size:13px; font-weight:600; }
+    .guarantee-link:hover { border-color:var(--cat-cyan); color:var(--cat-cyan); }
+
+    /* FAQ */
+    .cat-faq { margin-top:56px; }
+    .cat-faq h2 { font-size:22px; font-weight:800; margin-bottom:20px; }
+    .faq-item { border-bottom:1px solid rgba(255,255,255,.07); padding:18px 0; }
+    .faq-q { font-size:15px; font-weight:600; color:#ccd6f6; margin-bottom:6px; }
+    .faq-a { font-size:13px; color:#8892b0; line-height:1.6; }
+
+    /* RESPONSIVE */
+    @media(max-width:768px){
+      .hero-product { grid-template-columns:1fr; padding:24px; }
+      .hero-right { border-top:1px solid rgba(255,255,255,.07); padding-top:20px; }
+      .hero-price-num { font-size:40px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ───────────────────────────────────────────── -->
+<nav class="navbar has-lang-bar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="/index.html" class="nav-logo">
+        <img src="/assets/nwm-logo-horizontal.svg" alt="NetWebMedia" class="logo-lockup" style="height:52px">
+      </a>
+      <div class="nav-links">
+    <a href="/about.html" data-i18n="nav_about">About</a>
+    <div class="nav-item">
+      <a href="/services.html" data-i18n="nav_services">Services</a>
+      <div class="nav-dropdown">
+        <a href="/services.html#fractional-cmo" style="color:#FF671F;font-weight:700">&#9733; Fractional CMO</a>
+        <a href="/services.html#ai-automations">AI Automations</a>
+        <a href="/services.html#ai-agents">AI Agents</a>
+        <a href="/services.html#paid-ads">Paid Ads</a>
+        <a href="/services.html#ai-seo">AI SEO &amp; Content</a>
+        <a href="/services.html#social">Social Media</a>
+        <a href="/email-marketing.html">Email Marketing</a>
+      </div>
+    </div>
+    <a href="/partners.html" style="color:#6366f1;font-weight:600">Partners</a>
+    <a href="/blog.html" data-i18n="nav_blog">Blog</a>
+    <a href="/faq.html">Q&amp;A</a>
+    <div class="nav-item">
+      <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help</a>
+      <div class="nav-dropdown">
+        <a href="/tutorials.html"><strong>All Tutorials</strong></a>
+        <a href="/catalogue.html" style="color:#25d366;font-weight:700">&#128218; Courses &amp; Playbooks &rarr;</a>
+        <a href="/tutorials/nwm-crm.html">NWM CRM</a>
+        <a href="/tutorials/nwm-cms.html">NWM CMS</a>
+        <a href="/tutorials/ai-automate.html">AI Automations</a>
+        <a href="/tutorials/ai-chat-agents.html">AI Chat Agents</a>
+        <a href="/tutorials/ai-seo.html">AI SEO</a>
+        <a href="/tutorials/email-marketing.html">Email Marketing</a>
+        <a href="/tutorials/paid-ads.html">Paid Ads</a>
+        <a href="/tutorials/social-media.html">Social Media</a>
+        <a href="/tutorials/video-factory.html">Video Factory</a>
+        <a href="/tutorials/websites.html">Websites</a>
+        <a href="/tutorials/fractional-cmo.html">Fractional CMO</a>
+        <a href="/tutorials/analyzer.html">Analyzer</a>
+        <a href="/tutorials/whatsapp-automation.html" style="color:#25d366">WhatsApp Automation</a>
+        <a href="/tutorials/chatbot-automation.html" style="color:#22d3ee">AI Chatbot Automation</a>
+        <a href="/tutorials/sms-automation.html" style="color:#a29bfe">SMS &amp; Messaging</a>
+      </div>
+    </div>
+    <a href="/contact.html" data-i18n="nav_contact">Contact</a>
+  </div>
+      <div class="nav-ctas">
+        <a href="/cart.html" class="nav-cart" aria-label="View cart">&#128722;<span class="nav-cart-count" aria-hidden="true">0</span></a>
+        <a href="/contact.html" class="btn-nav-solid" data-i18n="nav_cta">Get a Free Audit</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="cat-wrap">
+
+  <!-- HERO -->
+  <div class="cat-hero">
+    <div class="cat-hero-tag">
+      <span class="en">📚 Instant Digital Delivery</span>
+      <span class="es">📚 Entrega Digital Inmediata</span>
+    </div>
+    <h1>
+      <span class="en">Automation Courses<br><span>& Playbooks</span></span>
+      <span class="es">Cursos de Automatización<br><span>& Playbooks</span></span>
+    </h1>
+    <p>
+      <span class="en">Agency-grade systems for WhatsApp, AI chatbots, and SMS — built by the team that runs 100% automated client communication. Real scripts. Real templates. Zero fluff.</span>
+      <span class="es">Sistemas de nivel agencia para WhatsApp, chatbots de IA y SMS — construidos por el equipo que opera comunicación 100% automatizada con clientes. Scripts reales. Templates reales. Sin relleno.</span>
+    </p>
+
+    <!-- LANGUAGE + CURRENCY TOGGLES -->
+    <div class="toggles-row">
+      <div class="toggle-group">
+        <button class="toggle-btn active" id="btnEN" onclick="setLang('en')">🇺🇸 English</button>
+        <button class="toggle-btn" id="btnES" onclick="setLang('es')">🇨🇱 Español</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO PRODUCT: ALL-IN-ONE -->
+  <div class="hero-product">
+    <div class="hero-badge">
+      <span class="en">⭐ Best Value</span><span class="es">⭐ Mejor Valor</span>
+    </div>
+    <div class="hero-product-left">
+      <h2>🚀 <span class="en">Automation OS — Complete Bundle</span><span class="es">Automation OS — Bundle Completo</span></h2>
+      <p class="hero-sub">
+        <span class="en">All 3 courses + both PDF playbooks. Everything to automate WhatsApp, chatbot, and SMS — from setup to 10,000 contacts. One purchase, lifetime access.</span>
+        <span class="es">Los 3 cursos + ambos playbooks PDF. Todo para automatizar WhatsApp, chatbot y SMS — desde la configuración hasta 10.000 contactos. Una compra, acceso de por vida.</span>
+      </p>
+      <div class="hero-chips">
+        <div class="chip">💬 <span class="en">WhatsApp Course</span><span class="es">Curso WhatsApp</span></div>
+        <div class="chip">🤖 <span class="en">AI Chatbot Course</span><span class="es">Curso Chatbot IA</span></div>
+        <div class="chip">📲 <span class="en">SMS Course</span><span class="es">Curso SMS</span></div>
+        <div class="chip">📄 <span class="en">WhatsApp PDF</span><span class="es">PDF WhatsApp</span></div>
+        <div class="chip">📄 <span class="en">Chatbot PDF</span><span class="es">PDF Chatbot</span></div>
+        <div class="chip">🌎 EN + ES</div>
+        <div class="chip">♾️ <span class="en">Lifetime Access</span><span class="es">Acceso de por vida</span></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-was"><span class="en">$1,045 if bought separately</span><span class="es">$1.045 si se compra por separado</span></div>
+      <div class="hero-price-num">
+        $697<small> USD</small>
+        
+      </div>
+      <div class="save-badge">
+        <span class="en">Save $348 — 33% off</span>
+        <span class="es">Ahorra $348 — 33% descuento</span>
+      </div>
+      <a href="https://api.whatsapp.com/send/?phone=56965322427&text=Hola+NetWebMedia+—+quiero+el+bundle+Automation+OS+($697)" class="hero-btn" target="_blank" rel="noopener">
+        <span class="en">Get Automation OS →</span>
+        <span class="es">Obtener Automation OS →</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ─── COURSES ─── -->
+  <div class="section-label">
+    <span class="en">🎓 Courses — Individual</span>
+    <span class="es">🎓 Cursos — Individuales</span>
+  </div>
+  <div class="products-grid">
+
+    <!-- WhatsApp Course -->
+    <div class="prod-card" style="--ac:#25d366">
+      <div class="prod-type-badge">
+        <span class="en">Course · 38 Lessons</span><span class="es">Curso · 38 Lecciones</span>
+      </div>
+      <div class="prod-icon">💬</div>
+      <div class="prod-title">
+        <span class="en">WhatsApp Business Automation Mastery</span>
+        <span class="es">Maestría en Automatización de WhatsApp Business</span>
+      </div>
+      <div class="prod-sub">
+        <span class="en">API setup, 180+ templates, welcome sequences, BANT qualification, objection handling, broadcasts, CRM integration — 100% automated, zero manual replies.</span>
+        <span class="es">Configuración API, 180+ templates, secuencias de bienvenida, calificación BANT, manejo de objeciones, broadcasts, integración CRM — 100% automatizado, cero respuestas manuales.</span>
+      </div>
+      <div class="prod-stats">
+        <div class="ps">⏱ <span>4h 45m</span></div>
+        <div class="ps">📦 <span>8 <span class="en">modules</span><span class="es">módulos</span></span></div>
+        <div class="ps">📝 <span>180+ templates</span></div>
+        <div class="ps">🌎 <span>EN + ES</span></div>
+      </div>
+      <div class="price-row">
+        <div class="price-num">$297<small> USD</small></div>
+        
+      </div>
+      <div class="prod-actions">
+        <a href="https://api.whatsapp.com/send/?phone=56965322427&text=Hola+NetWebMedia+—+quiero+el+curso+de+WhatsApp+($297)" class="buy-btn" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#25d366,#1da851)">
+          <span class="en">Buy Now</span><span class="es">Comprar</span>
+        </a>
+        <a href="/tutorials/whatsapp-automation.html" class="prev-btn" target="_blank" title="Preview">👁</a>
+      </div>
+    </div>
+
+    <!-- Chatbot Course — FEATURED -->
+    <div class="prod-card featured" style="--ac:#22d3ee">
+      <div class="prod-type-badge" style="position:relative">
+        <span class="en">Course · 42 Lessons</span><span class="es">Curso · 42 Lecciones</span>
+        &nbsp;<span style="background:#8b5cf6;color:#fff;font-size:9px;padding:2px 7px;border-radius:8px">
+          <span class="en">MOST ADVANCED</span><span class="es">MÁS AVANZADO</span>
+        </span>
+      </div>
+      <div class="prod-icon">🤖</div>
+      <div class="prod-title">
+        <span class="en">AI Chatbot Automation — Full Deployment</span>
+        <span class="es">Automatización con Chatbot IA — Despliegue Completo</span>
+      </div>
+      <div class="prod-sub">
+        <span class="en">DIAL framework, 50-intent library, BANT flows, multi-platform deployment (WhatsApp/Web/IG/FB/SMS), AI/NLP integration, QA scorecard — the complete chatbot OS.</span>
+        <span class="es">Framework DIAL, biblioteca de 50 intents, flujos BANT, despliegue multiplataforma (WhatsApp/Web/IG/FB/SMS), integración IA/NLP, scorecard de QA — el sistema operativo completo de chatbot.</span>
+      </div>
+      <div class="prod-stats">
+        <div class="ps">⏱ <span>5h 10m</span></div>
+        <div class="ps">📦 <span>9 <span class="en">modules</span><span class="es">módulos</span></span></div>
+        <div class="ps">🤖 <span>50 intents</span></div>
+        <div class="ps">🌎 <span>EN + ES</span></div>
+      </div>
+      <div class="price-row">
+        <div class="price-num">$347<small> USD</small></div>
+        
+      </div>
+      <div class="prod-actions">
+        <a href="https://api.whatsapp.com/send/?phone=56965322427&text=Hola+NetWebMedia+—+quiero+el+curso+de+Chatbot+IA+($347)" class="buy-btn" target="_blank" rel="noopener">
+          <span class="en">Buy Now</span><span class="es">Comprar</span>
+        </a>
+        <a href="/tutorials/chatbot-automation.html" class="prev-btn" target="_blank" title="Preview">👁</a>
+      </div>
+    </div>
+
+    <!-- SMS Course -->
+    <div class="prod-card" style="--ac:#a29bfe">
+      <div class="prod-type-badge">
+        <span class="en">Course · 31 Lessons</span><span class="es">Curso · 31 Lecciones</span>
+      </div>
+      <div class="prod-icon">📲</div>
+      <div class="prod-title">
+        <span class="en">SMS & Multi-Platform Messaging Automation</span>
+        <span class="es">Automatización SMS y Mensajería Multiplataforma</span>
+      </div>
+      <div class="prod-sub">
+        <span class="en">TCPA compliance, keyword triggers, drip sequences, two-way automation, Instagram DM, Facebook Messenger, Google Business — unified automated inbox across every text channel.</span>
+        <span class="es">Cumplimiento TCPA, triggers por palabras clave, secuencias drip, automatización bidireccional, Instagram DM, Facebook Messenger, Google Business — bandeja de entrada unificada en todos los canales de texto.</span>
+      </div>
+      <div class="prod-stats">
+        <div class="ps">⏱ <span>3h 50m</span></div>
+        <div class="ps">📦 <span>7 <span class="en">modules</span><span class="es">módulos</span></span></div>
+        <div class="ps">📱 <span>5 <span class="en">platforms</span><span class="es">plataformas</span></span></div>
+        <div class="ps">🌎 <span>EN + ES</span></div>
+      </div>
+      <div class="price-row">
+        <div class="price-num">$197<small> USD</small></div>
+        
+      </div>
+      <div class="prod-actions">
+        <a href="https://api.whatsapp.com/send/?phone=56965322427&text=Hola+NetWebMedia+—+quiero+el+curso+de+SMS+($197)" class="buy-btn" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#a29bfe,#6c5ce7)">
+          <span class="en">Buy Now</span><span class="es">Comprar</span>
+        </a>
+        <a href="/tutorials/sms-automation.html" class="prev-btn" target="_blank" title="Preview">👁</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COURSE BUNDLE -->
+  <div class="bundle-strip">
+    <div class="bundle-info">
+      <h3>🎓 <span class="en">Course Trilogy — All 3 Courses</span><span class="es">Trilogía de Cursos — Los 3 Cursos</span></h3>
+      <p><span class="en">WhatsApp + AI Chatbot + SMS. Complete messaging automation stack.</span><span class="es">WhatsApp + Chatbot IA + SMS. Stack completo de automatización de mensajería.</span></p>
+    </div>
+    <div class="bundle-right">
+      <div>
+        <div class="bwas">$841 <span class="en">separately</span><span class="es">por separado</span></div>
+        <div class="bprice">$597 <span style="font-size:14px;color:#8892b0">USD</span></div>
+        <div class="bsave"><span class="en">Save $244 · 29% off</span><span class="es">Ahorra $244 · 29% descuento</span></div>
+      </div>
+      <a href="https://api.whatsapp.com/send/?phone=56965322427&text=Hola+NetWebMedia+—+quiero+la+Trilogía+de+Cursos+($597)" class="bundle-btn" target="_blank" rel="noopener">
+        <span class="en">Get Trilogy →</span><span class="es">Obtener Trilogía →</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ─── PDF PLAYBOOKS ─── -->
+  <div class="section-label" style="margin-top:52px">
+    <span class="en">📄 Sellable PDF Playbooks — Standalone</span>
+    <span class="es">📄 Playbooks PDF Vendibles — Individual</span>
+  </div>
+  <div class="products-grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+
+    <!-- WhatsApp PDF -->
+    <div class="prod-card" style="--ac:#25d366">
+      <div class="prod-type-badge"><span class="en">PDF Playbook · Printable</span><span class="es">Playbook PDF · Imprimible</span></div>
+      <div class="prod-icon">📗</div>
+      <div class="prod-title"><span class="en">WhatsApp Automation Playbook</span><span class="es">Playbook de Automatización WhatsApp</span></div>
+      <div class="prod-sub">
+        <span class="en">30 copy-paste templates, SERVE welcome sequence, BANT sales flow, service scripts, broadcast calendar, CRM tag map, KPI dashboard. A4 print-ready.</span>
+        <span class="es">30 templates listos para copiar y pegar, secuencia de bienvenida SERVE, flujo de ventas BANT, scripts de servicio, calendario de broadcasts, mapa de tags CRM, dashboard de KPIs. Formato A4 listo para imprimir.</span>
+      </div>
+      <div class="prod-stats">
+        <div class="ps">📝 <span>30 templates</span></div>
+        <div class="ps">📊 <span>6 KPIs</span></div>
+        <div class="ps">🌎 <span>EN + ES</span></div>
+        <div class="ps">🖨️ <span><span class="en">Print-ready</span><span class="es">Imprimible</span></span></div>
+      </div>
+      <div class="price-row">
+        <div class="price-num">$47<small> USD</small></div>
+        
+      </div>
+      <div class="prod-actions">
+        <a href="https://api.whatsapp.com/send/?phone=56965322427&text=Hola+NetWebMedia+—+quiero+el+Playbook+PDF+de+WhatsApp+($47)" class="buy-btn" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#25d366,#1da851)">
+          <span class="en">Buy Now</span><span class="es">Comprar</span>
+        </a>
+        <a href="/pdf/whatsapp-automation-playbook.html" class="prev-btn" target="_blank" title="Preview">👁</a>
+      </div>
+    </div>
+
+    <!-- Chatbot PDF -->
+    <div class="prod-card" style="--ac:#22d3ee">
+      <div class="prod-type-badge"><span class="en">PDF Playbook · Printable</span><span class="es">Playbook PDF · Imprimible</span></div>
+      <div class="prod-icon">📘</div>
+      <div class="prod-title"><span class="en">AI Chatbot Automation Playbook</span><span class="es">Playbook de Automatización Chatbot IA</span></div>
+      <div class="prod-sub">
+        <span class="en">DIAL framework, 50-intent library, full BANT dialog tree, PACE sales scripts, 3-STRIKE service system, AI system prompt template, 20-case QA scorecard.</span>
+        <span class="es">Framework DIAL, biblioteca de 50 intents, árbol de diálogo BANT completo, scripts de ventas PACE, sistema 3-STRIKE de servicio, template de system prompt IA, scorecard QA de 20 casos.</span>
+      </div>
+      <div class="prod-stats">
+        <div class="ps">🧠 <span>50 intents</span></div>
+        <div class="ps">✅ <span>20 QA <span class="en">cases</span><span class="es">casos</span></span></div>
+        <div class="ps">🌎 <span>EN + ES</span></div>
+        <div class="ps">🖨️ <span><span class="en">Print-ready</span><span class="es">Imprimible</span></span></div>
+      </div>
+      <div class="price-row">
+        <div class="price-num">$57<small> USD</small></div>
+        
+      </div>
+      <div class="prod-actions">
+        <a href="https://api.whatsapp.com/send/?phone=56965322427&text=Hola+NetWebMedia+—+quiero+el+Playbook+PDF+de+Chatbot+($57)" class="buy-btn" target="_blank" rel="noopener">
+          <span class="en">Buy Now</span><span class="es">Comprar</span>
+        </a>
+        <a href="/pdf/chatbot-automation-playbook.html" class="prev-btn" target="_blank" title="Preview">👁</a>
+      </div>
+    </div>
+
+    <!-- PDF Bundle -->
+    <div class="prod-card" style="--ac:#f97316; background:linear-gradient(135deg,rgba(249,115,22,.05),rgba(139,92,246,.05))">
+      <div class="prod-type-badge"><span class="en">PDF Bundle · Both Playbooks</span><span class="es">Bundle PDF · Ambos Playbooks</span></div>
+      <div class="prod-icon">📦</div>
+      <div class="prod-title"><span class="en">PDF Bundle — Both Playbooks</span><span class="es">Bundle PDF — Ambos Playbooks</span></div>
+      <div class="prod-sub">
+        <span class="en">WhatsApp + Chatbot playbooks together. Perfect starter kit or client upsell. Re-brandable — add your agency logo and share with clients.</span>
+        <span class="es">Playbooks de WhatsApp + Chatbot juntos. Kit de inicio perfecto o upsell para clientes. Re-brandeable — agrega el logo de tu agencia y comparte con clientes.</span>
+      </div>
+      <div class="prod-stats">
+        <div class="ps">📄 <span>2 playbooks</span></div>
+        <div class="ps">📝 <span>80+ templates</span></div>
+        <div class="ps">🌎 <span>EN + ES</span></div>
+        <div class="ps">🏷️ <span><span class="en">Re-brandable</span><span class="es">Re-brandeable</span></span></div>
+      </div>
+      <div class="price-row">
+        <div class="price-num">$77<small> USD</small></div>
+        
+      </div>
+      <div style="margin-bottom:10px">
+        <span class="bsave"><span class="en">Save $27 vs individual</span><span class="es">Ahorra $27 vs individual</span></span>
+      </div>
+      <div class="prod-actions">
+        <a href="https://api.whatsapp.com/send/?phone=56965322427&text=Hola+NetWebMedia+—+quiero+el+Bundle+PDF+($77)" class="buy-btn" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#f97316,#ec4899)">
+          <span class="en">Buy Bundle</span><span class="es">Comprar Bundle</span>
+        </a>
+        <a href="/pdf/whatsapp-automation-playbook.html" class="prev-btn" target="_blank" title="Preview">👁</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GUARANTEE -->
+  <div class="guarantee">
+    <div class="guarantee-icon">🛡️</div>
+    <div>
+      <h4><span class="en">7-Day Money-Back Guarantee</span><span class="es">Garantía de Devolución de 7 Días</span></h4>
+      <p><span class="en">Go through the course. If it doesn't deliver value, message us on WhatsApp within 7 days for a full refund. No questions, no hoops.</span><span class="es">Toma el curso. Si no te aporta valor, escríbenos por WhatsApp dentro de 7 días para un reembolso completo. Sin preguntas, sin complicaciones.</span></p>
+    </div>
+    <a href="https://api.whatsapp.com/send/?phone=56965322427&text=Hola+NetWebMedia+—+tengo+una+pregunta+sobre+un+curso" class="guarantee-link" target="_blank" rel="noopener">
+      <span class="en">Ask us first →</span><span class="es">Pregúntanos →</span>
+    </a>
+  </div>
+
+  <!-- FAQ -->
+  <div class="cat-faq">
+    <h2><span class="en">Frequently Asked Questions</span><span class="es">Preguntas Frecuentes</span></h2>
+
+    <div class="faq-item">
+      <div class="faq-q"><span class="en">How do I access the course after purchase?</span><span class="es">¿Cómo accedo al curso después de comprar?</span></div>
+      <div class="faq-a"><span class="en">You'll receive a WhatsApp message with your access link within 15 minutes. Courses are web-based — no app needed. Access is lifetime on any device.</span><span class="es">Recibirás un mensaje de WhatsApp con tu link de acceso en máximo 15 minutos. Los cursos son web — no necesitas ninguna app. El acceso es de por vida en cualquier dispositivo.</span></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span class="en">Are the templates ready to copy and use?</span><span class="es">¿Los templates están listos para copiar y usar?</span></div>
+      <div class="faq-a"><span class="en">Yes. Every template has {{variable}} placeholders. For WhatsApp, we include the exact format for Meta's template approval process. Most templates are approved within 24 hours.</span><span class="es">Sí. Cada template tiene marcadores {{variable}} que reemplazas con la info de tu negocio. Para WhatsApp, incluimos el formato exacto para el proceso de aprobación de Meta. La mayoría se aprueba en 24 horas.</span></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span class="en">Do I need technical experience?</span><span class="es">¿Necesito experiencia técnica?</span></div>
+      <div class="faq-a"><span class="en">Intermediate level. You should be comfortable connecting tools via Zapier or n8n. We cover setup step by step, but this isn't a beginner clickops course.</span><span class="es">Nivel intermedio. Debes sentirte cómodo conectando herramientas vía Zapier o n8n. Cubrimos la configuración paso a paso, pero no es un curso para principiantes absolutos.</span></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span class="en">Can I use the playbooks with my own clients?</span><span class="es">¿Puedo usar los playbooks con mis propios clientes?</span></div>
+      <div class="faq-a"><span class="en">The PDF Bundle includes re-branding rights — add your logo and share with clients. Individual PDFs are for personal use. Contact us for full white-label licensing.</span><span class="es">El Bundle PDF incluye derechos de re-branding — agrega tu logo y comparte con clientes. Los PDFs individuales son para uso personal. Contáctanos para licenciamiento white-label completo.</span></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span class="en">What's the difference between a course and a PDF playbook?</span><span class="es">¿Cuál es la diferencia entre un curso y un playbook PDF?</span></div>
+      <div class="faq-a"><span class="en">Courses are structured learning paths — modules, lessons, frameworks, full dialog scripts. PDFs are condensed reference documents — great for implementation alongside a course, or as team quick-reference guides.</span><span class="es">Los cursos son rutas de aprendizaje estructuradas — módulos, lecciones, frameworks, scripts de diálogo completos. Los PDFs son documentos de referencia condensados — ideales para implementación junto al curso o como guías de referencia rápida para tu equipo.</span></div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p style="text-align:center;color:#8892b0;font-size:13px">
+      © 2026 NetWebMedia ·
+      <a href="/privacy.html" style="color:#8892b0">Privacy</a> ·
+      <a href="/terms.html" style="color:#8892b0">Terms</a> ·
+      <a href="/pricing.html" style="color:#8892b0"><span class="en">Agency Plans</span><span class="es">Planes de Agencia</span></a>
+    </p>
+  </div>
+</footer>
+
+<script>
+function setLang(l) {
+  document.body.classList.toggle('es-mode', l === 'es');
+  document.documentElement.lang = l;
+  document.getElementById('btnEN').classList.toggle('active', l === 'en');
+  document.getElementById('btnES').classList.toggle('active', l === 'es');
+  localStorage.setItem('nwm_lang', l);
+}
+
+// Restore preferences
+var sl = localStorage.getItem('nwm_lang');
+var sc = localStorage.getItem('nwm_currency');
+if (sl === 'es') setLang('es');
+if (sc === 'clp') setCurrency('clp');
+</script>
+
+</body>
+</html>

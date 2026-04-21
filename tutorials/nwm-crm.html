@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NWM CRM — The Full Operator's Guide | NetWebMedia</title>
-<meta name="description" content="The complete NWM CRM tutorial: every screen, every field, every decision. From first login to running a 20-person sales team.">
+<meta name="description" content="The complete NWM CRM tutorial in plain English — covers all 7 hubs (Sales, Marketing, Service, CMS, AI Agents, Operations, Agency) across 46 modules.">
 <link rel="canonical" href="https://netwebmedia.com/tutorials/nwm-crm.html">
 <link rel="icon" type="image/svg+xml" href="../assets/nwm-logo.svg">
 <link rel="stylesheet" href="../css/styles.css">
@@ -55,715 +55,778 @@
 </div>
 
 <h1>NWM CRM — The Full Operator's Guide</h1>
-<p class="tut-lede">Every screen. Every field. Every decision. Every common mistake — and the fix. This is the guide we give every new customer on day 1. Read it end-to-end once (45 min), then use it as a reference forever.</p>
+<p class="tut-lede">NWM CRM is one place to keep every customer, every deal, every email, every text, every payment. Seven sections cover the whole business: sales, marketing, customer service, your website, smart AI helpers, settings, and an agency layer for people who run things for clients. 46 tools total. This page walks you through every one of them in plain English. Read the short tour first (about 15 minutes). Then come back to the deeper sections when you need them.</p>
 
 <div class="tut-meta">
-  <span>⏱ 45 min full read</span>
-  <span>📖 16 sections · 120+ steps</span>
+  <span>⏱ 60 min full read</span>
+  <span>📖 17 sections · 7 hubs · 46 tools</span>
   <span>🆕 Updated Apr 2026</span>
+</div>
+
+<div class="callout tip">
+  <strong>What you'll need</strong>
+  <ul style="margin:6px 0 0;padding-left:18px">
+    <li>A list of your customers (even a messy spreadsheet works)</li>
+    <li>An email account (Gmail, Outlook, or anything else — we connect to it)</li>
+    <li>4 hours to set things up properly (don't squeeze it between meetings)</li>
+    <li>One person inside your company who owns the tool (not a committee)</li>
+    <li>A credit card when you're ready to move past the free trial</li>
+  </ul>
 </div>
 
 <div class="tut-toc">
   <h4>Full contents</h4>
   <ol>
-    <li><a href="#pre">0. Before you start — pre-flight checklist</a></li>
+    <li><a href="#pre">0. Before you start — the simple checklist</a></li>
     <li><a href="#intro">1. What NWM CRM is (and what it isn't)</a></li>
-    <li><a href="#signup">2. Account signup &amp; first login</a></li>
-    <li><a href="#orient">3. The 7-minute tour — every screen explained</a></li>
-    <li><a href="#model">4. Data model — contacts · companies · deals · activities</a></li>
-    <li><a href="#import">5. Importing data (CSV, HubSpot, Pipedrive, Salesforce)</a></li>
-    <li><a href="#pipeline">6. Pipeline design — stages, probability, aging</a></li>
-    <li><a href="#contacts">7. Contacts — daily workflow</a></li>
-    <li><a href="#deals">8. Deals — creation → close → handoff</a></li>
-    <li><a href="#inbox">9. Conversations inbox — email, SMS, WhatsApp setup</a></li>
-    <li><a href="#templates">10. Templates &amp; snippets — write once, use forever</a></li>
-    <li><a href="#campaigns">11. Campaigns — broadcasts &amp; automation sequences</a></li>
-    <li><a href="#reporting">12. Reporting — 8 dashboards that matter</a></li>
-    <li><a href="#team">13. Team setup — roles, permissions, SSO</a></li>
-    <li><a href="#api">14. API, webhooks &amp; integrations</a></li>
-    <li><a href="#trouble">15. Troubleshooting — the 20 issues we see most</a></li>
-    <li><a href="#playbook">16. Your 30 · 60 · 90-day playbook</a></li>
+    <li><a href="#hubs">2. The 7 sections — at a glance</a></li>
+    <li><a href="#signup">3. Signing up &amp; first login</a></li>
+    <li><a href="#orient">4. The 7-minute tour — every tool explained</a></li>
+    <li><a href="#model">5. How your data is organized</a></li>
+    <li><a href="#import">6. Bringing your data in (spreadsheet, HubSpot, Pipedrive, Salesforce)</a></li>
+    <li><a href="#pipeline">7. Setting up your sales stages</a></li>
+    <li><a href="#contacts">8. Contacts — daily use</a></li>
+    <li><a href="#deals">9. Deals — from new to closed</a></li>
+    <li><a href="#inbox">10. Shared inbox — email, text, WhatsApp</a></li>
+    <li><a href="#templates">11. Saved emails — write once, reuse forever</a></li>
+    <li><a href="#campaigns">12. Marketing: broadcasts &amp; automatic follow-ups</a></li>
+    <li><a href="#reporting">13. Reports &amp; forecasts</a></li>
+    <li><a href="#agency">14. Agency tools — for people running many clients</a></li>
+    <li><a href="#team">15. Your team — roles, access, secure login</a></li>
+    <li><a href="#api">16. Connecting other apps</a></li>
+    <li><a href="#playbook">17. Your 30 · 60 · 90-day plan</a></li>
   </ol>
 </div>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="pre">0. Before you start — pre-flight checklist</h2>
-<p>Do these <strong>before</strong> you create an account. 80% of bad CRM rollouts skip this step, which is why 80% of CRM rollouts fail.</p>
+<h2 id="pre">0. Before you start — the simple checklist</h2>
+<p>Do these <strong>before</strong> you create the account. 8 out of 10 CRM setups fail because people skip this step.</p>
 
 <div class="checklist">
-  <h4>Pre-flight (30 min, get it right once)</h4>
+  <h4>Quick checklist (30 min, get it right once)</h4>
   <ul>
-    <li>Export your current contact list (CSV) — even if it's a mess, export it</li>
-    <li>Decide who owns the CRM internally (one person, not a committee)</li>
-    <li>List the 5–7 pipeline stages your sales actually goes through today</li>
-    <li>List every source of inbound leads (website forms, referrals, events, paid ads, etc.)</li>
-    <li>Decide on 3–5 custom fields you truly need (industry, deal size, use case, referral source, churn reason)</li>
-    <li>Pick a naming convention for deals (e.g. <code>{Company} — {Service} — {Start Month}</code>)</li>
-    <li>Get SMTP credentials ready (Gmail App Password, Outlook, or SendGrid API key)</li>
-    <li>Block 4 hours on your calendar for setup — don't try to squeeze it between meetings</li>
+    <li>Export your current customer list as a spreadsheet (messy is fine)</li>
+    <li>Pick one person to own the CRM (not a group, not a committee)</li>
+    <li>Write down the 5 to 7 steps your sale actually goes through today</li>
+    <li>List where your leads come from (website, referrals, events, paid ads, etc.)</li>
+    <li>Pick 3 to 5 extra fields you'll actually use (industry, deal size, referral source)</li>
+    <li>Pick a way to name deals (example: <code>{Company} — {Service} — {Start Month}</code>)</li>
+    <li>Get your email login ready (Gmail app password, Outlook password, or a sending service key)</li>
+    <li>Block 4 hours on your calendar — don't try to squeeze setup between meetings</li>
   </ul>
 </div>
 
-<h3>The #1 decision you must make upfront</h3>
-<p><strong>Contacts vs. companies: which is the primary record?</strong></p>
+<h3>The #1 choice you have to make first</h3>
+<p><strong>People or companies — which is the main record?</strong></p>
 <ul>
-  <li>If you sell to individuals (coaches, therapists, real estate agents) → <strong>contact-primary</strong>. Deals attach to contacts directly.</li>
-  <li>If you sell to businesses (B2B SaaS, agencies, professional services) → <strong>company-primary</strong>. Deals attach to companies; contacts are attached to companies.</li>
+  <li>Selling to individuals (coaches, therapists, real estate agents)? Pick <strong>people-first</strong>. Deals hang off the person.</li>
+  <li>Selling to businesses? Pick <strong>company-first</strong>. Deals hang off the company, and each company has one or more people.</li>
 </ul>
-<p>You can change this later, but migrating mid-stream is painful. Decide now.</p>
+<p>You can change this later, but it hurts. Decide now.</p>
 
 <div class="callout warn">
-  <strong>⚠️ The most common first-week mistake</strong>
-  <p>Importing 10,000 contacts before configuring pipeline stages. You end up with 10,000 contacts in "New Lead" with no structure. Fix the pipeline first, then import.</p>
+  <strong>⚠️ The biggest first-week mistake</strong>
+  <p>Dumping 10,000 names into the CRM before you set up the sales stages. You end up with 10,000 people stuck in "New Lead" and no plan. Set up stages first. Then import.</p>
 </div>
 
 <!-- ────────────────────────────────────────────────────────── -->
 <h2 id="intro">1. What NWM CRM is (and what it isn't)</h2>
 
-<p>NWM CRM is the operational hub for sales and customer relationships at SMBs. It replaces 4–7 tools for most customers:</p>
+<p>NWM CRM runs everything that faces your customers. Most customers replace 8 to 15 separate tools with it:</p>
 <ul>
-  <li>HubSpot / Pipedrive / Salesforce (CRM core)</li>
-  <li>Mailchimp / Klaviyo / ActiveCampaign (marketing email)</li>
-  <li>Calendly / Cal.com (booking, via integration)</li>
-  <li>Intercom / Drift (basic support messaging)</li>
-  <li>Google Sheets (the list you've been maintaining manually — stop)</li>
+  <li>HubSpot, Pipedrive, or Salesforce (customer database and sales)</li>
+  <li>Mailchimp, Klaviyo, or ActiveCampaign (marketing emails)</li>
+  <li>Intercom, Drift, or Zendesk (website chat and support tickets)</li>
+  <li>WordPress or Webflow (your marketing website)</li>
+  <li>Kajabi, Teachable, or Circle (online courses, memberships, community)</li>
+  <li>Calendly or Cal.com (meeting booking, through a connection)</li>
+  <li>Agency-only: AgencyAnalytics or GoHighLevel (running many clients at once)</li>
 </ul>
 
 <h3>What it's good at</h3>
 <ul>
-  <li><strong>Single source of truth</strong> — every email, call, meeting, and deal in one contact record</li>
-  <li><strong>Speed</strong> — built on vanilla PHP + MySQL + vanilla JS. Pages load in &lt; 400 ms. HubSpot takes 2–4 seconds.</li>
-  <li><strong>AI-assistance</strong> — draft replies, score leads, summarize calls — all on tap</li>
-  <li><strong>Price</strong> — $49/mo starter, $99 pro, $249 enterprise. HubSpot Professional is $800/mo for the same features.</li>
+  <li><strong>One place for everything</strong> — every email, call, meeting, deal, support ticket, course completion, and community post is on the customer's record</li>
+  <li><strong>Fast</strong> — built simple. Pages open in under half a second. HubSpot usually takes 2 to 4 seconds.</li>
+  <li><strong>Smart AI helpers</strong> — AI drafts emails, calls leads, writes blog posts, makes short videos, all built in</li>
+  <li><strong>Made for agencies</strong> — if you run the CRM for your own clients, all the agency tools are included. HubSpot doesn't ship this at any price.</li>
+  <li><strong>Price</strong> — $49/month starter, $99 pro, $249 enterprise. A HubSpot + Circle + Kajabi + Zendesk stack is $1,500+/month for the same thing.</li>
 </ul>
 
 <h3>What it's not</h3>
 <ul>
-  <li><strong>Not for &gt; 500-person sales orgs</strong> — no multi-division reporting, no territory management. Stay on Salesforce if you're that big.</li>
-  <li><strong>Not a service desk</strong> — we do basic ticketing, but for full CS, pair with Zendesk or Intercom</li>
-  <li><strong>Not a marketing automation monster</strong> — we do email + SMS + WhatsApp well. For ads spend attribution and multi-touch models, pair with HubSpot Marketing Hub or Ortto</li>
-  <li><strong>Not a payments processor</strong> — we link to Stripe, we don't replace it</li>
+  <li><strong>Not for sales teams over 500 people</strong> — we don't do multi-division reporting. Stay on Salesforce if you're that big.</li>
+  <li><strong>Not a payment processor</strong> — we connect to Stripe, we don't replace it</li>
+  <li><strong>Not inventory or manufacturing software</strong> — warehouse, shipping, and factory stuff lives elsewhere</li>
 </ul>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="signup">2. Account signup &amp; first login</h2>
+<h2 id="hubs">2. The 7 sections — at a glance</h2>
+<p>Every tool in NWM CRM lives in one of 7 sections. The left sidebar is grouped this way. All 7 share the same customer database underneath.</p>
 
-<h3>2.1 Try the free live demo first</h3>
-<p>Before paying anything, test-drive the actual product:</p>
+<h3>2.1 Sales section</h3>
+<p>Nine tools for running sales: <a href="https://netwebmedia.com/crm/contacts">Contacts</a>, <a href="https://netwebmedia.com/crm/companies">Companies</a>, <a href="https://netwebmedia.com/crm/pipeline">Pipeline</a>, <a href="https://netwebmedia.com/crm/forecasting">Forecasting</a>, <a href="https://netwebmedia.com/crm/products">Products</a>, <a href="https://netwebmedia.com/crm/quotes">Quotes</a>, <a href="https://netwebmedia.com/crm/calendar">Calendar</a>, <a href="https://netwebmedia.com/crm/playbooks">Playbooks</a>, <a href="https://netwebmedia.com/crm/sequences">Sequences</a>. Start at <a href="https://netwebmedia.com/crm/pipeline">Pipeline</a>.</p>
+
+<h3>2.2 Marketing section</h3>
+<p>Eleven tools for bringing in leads: <a href="https://netwebmedia.com/crm/campaigns">Campaigns</a>, <a href="https://netwebmedia.com/crm/automations">Automations</a>, <a href="https://netwebmedia.com/crm/landing-pages">Landing Pages</a>, <a href="https://netwebmedia.com/crm/forms">Forms</a>, <a href="https://netwebmedia.com/crm/ab-tests">A/B Tests</a>, <a href="https://netwebmedia.com/crm/sms">SMS</a>, <a href="https://netwebmedia.com/crm/social">Social</a>, <a href="https://netwebmedia.com/crm/ads">Ads</a>, <a href="https://netwebmedia.com/crm/lead-scoring">Lead Scoring</a>, <a href="https://netwebmedia.com/crm/blog">Blog</a>, <a href="https://netwebmedia.com/crm/conversations">Conversations</a>. Start at <a href="https://netwebmedia.com/crm/campaigns">Campaigns</a>.</p>
+
+<h3>2.3 Service section</h3>
+<p>Six tools for looking after customers after they've bought: <a href="https://netwebmedia.com/crm/tickets">Tickets</a>, <a href="https://netwebmedia.com/crm/knowledge-base">Knowledge Base</a>, <a href="https://netwebmedia.com/crm/customer-portal">Customer Portal</a>, <a href="https://netwebmedia.com/crm/surveys">Surveys</a>, <a href="https://netwebmedia.com/crm/slas">SLAs</a>, <a href="https://netwebmedia.com/crm/calls">Calls</a>. Start at <a href="https://netwebmedia.com/crm/tickets">Tickets</a>.</p>
+
+<h3>2.4 Website section</h3>
+<p>Four tools for running your website and any paid content: <a href="https://netwebmedia.com/crm/pages">Pages</a>, <a href="https://netwebmedia.com/crm/memberships">Memberships</a>, <a href="https://netwebmedia.com/crm/courses">Courses</a>, <a href="https://netwebmedia.com/crm/community">Community</a>. Start at <a href="https://netwebmedia.com/crm/pages">Pages</a>.</p>
+
+<h3>2.5 AI Agents section</h3>
+<p>Five smart AI helpers: <a href="https://netwebmedia.com/crm/ai-copilot">AI Copilot</a> (helps your team), <a href="https://netwebmedia.com/crm/ai-sdr">AI SDR</a> (reaches out to new leads), <a href="https://netwebmedia.com/crm/voice-ai">Voice AI</a> (takes and makes phone calls), <a href="https://netwebmedia.com/crm/video-factory">Video Factory</a> (makes short videos), <a href="https://netwebmedia.com/crm/content-ai">Content AI</a> (writes longer pages and emails). Start at <a href="https://netwebmedia.com/crm/ai-copilot">AI Copilot</a>.</p>
+
+<h3>2.6 Operations section</h3>
+<p>Six tools for settings and connecting everything together: <a href="https://netwebmedia.com/crm/integrations">Integrations</a>, <a href="https://netwebmedia.com/crm/webhooks">Webhooks</a>, <a href="https://netwebmedia.com/crm/custom-code">Custom Code</a>, <a href="https://netwebmedia.com/crm/api-keys">API Keys</a>, <a href="https://netwebmedia.com/crm/reports">Reports</a>, <a href="https://netwebmedia.com/crm/settings">Settings</a>. Start at <a href="https://netwebmedia.com/crm/reports">Reports</a>.</p>
+
+<h3>2.7 Agency section</h3>
+<p>Five tools HubSpot doesn't offer at any price: <a href="https://netwebmedia.com/crm/sub-accounts">Sub-accounts</a>, <a href="https://netwebmedia.com/crm/white-label">White-label</a>, <a href="https://netwebmedia.com/crm/billing">Billing</a>, <a href="https://netwebmedia.com/crm/affiliates">Affiliates</a>, <a href="https://netwebmedia.com/crm/reputation">Reputation</a>. Full walkthrough in <a href="#agency">section 14</a>. Start at <a href="https://netwebmedia.com/crm/sub-accounts">Sub-accounts</a>.</p>
+
+<!-- ────────────────────────────────────────────────────────── -->
+<h2 id="signup">3. Signing up &amp; first login</h2>
+
+<h3>3.1 Try the free live demo first</h3>
+<p>Before paying anything, play with the real product:</p>
 <div class="step"><div class="num">1</div><div>
   <h4>Open the demo</h4>
-  <p>Go to <a href="/crm-demo/">netwebmedia.com/crm-demo/</a>. No signup, no email capture. Pre-loaded with 42 sample contacts, 18 deals across the full pipeline, and 60+ conversations.</p>
+  <p>Go to <a href="/crm-demo/">netwebmedia.com/crm-demo/</a>. No signup needed. It already has 42 sample contacts, 18 deals at different stages, and 60+ conversations.</p>
 </div></div>
 <div class="step"><div class="num">2</div><div>
-  <h4>Try every destructive action you want</h4>
-  <p>Delete contacts, move deals, send "emails" (they don't actually send). State resets on every page refresh, so you cannot break anything. Spend 15 minutes clicking around.</p>
+  <h4>Try anything you want — you can't break it</h4>
+  <p>Delete contacts, move deals around, send pretend emails (they don't actually send). The demo resets when you refresh the page. Spend 15 minutes clicking around.</p>
 </div></div>
 <div class="step"><div class="num">3</div><div>
-  <h4>Click the "Load sample report" button</h4>
-  <p>Bottom-right of the dashboard. Shows you what real reports look like after 3 months of usage. This is what your CRM looks like if you actually use it.</p>
+  <h4>Click "Load sample report" at the bottom right</h4>
+  <p>Shows what real reports look like after 3 months of use. This is what your CRM will look like if you actually use it.</p>
 </div></div>
 
-<h3>2.2 Starting a paid account</h3>
+<h3>3.2 Starting a paid account</h3>
 <p>When you're ready to use real data:</p>
 
 <div class="step"><div class="num">1</div><div>
   <h4>Pick a plan</h4>
   <p>Go to <a href="../nwm-crm.html">nwm-crm.html</a>. Plans:</p>
   <div class="kv">
-    <b>Starter — $49/mo</b><span>1 user, 2,500 contacts, basic email, 1 pipeline. For solopreneurs &amp; early-stage.</span>
-    <b>Professional — $99/mo</b><span>5 users, 10,000 contacts, campaigns, SMS, 5 pipelines, HubSpot sync, API access. <strong>Most popular.</strong></span>
-    <b>Enterprise — $249/mo</b><span>Unlimited users + contacts, WhatsApp, custom domains, SSO, white-label, priority support. For 20+ person teams.</span>
+    <b>Starter — $49/mo</b><span>1 user, 2,500 contacts, basic email, 1 sales pipeline. Right for solo founders and early-stage businesses.</span>
+    <b>Professional — $99/mo</b><span>5 users, 10,000 contacts, marketing emails, texts, 5 pipelines, HubSpot connection, connects to other apps. <strong>Most popular.</strong></span>
+    <b>Enterprise — $249/mo</b><span>Unlimited users and contacts, WhatsApp, your own domain, single sign-on, your brand on everything, priority support. For 20+ person teams.</span>
   </div>
   <p>Use coupon <code>Carlos26</code> for 50% off the first 3 months (launch week only).</p>
 </div></div>
 
 <div class="step"><div class="num">2</div><div>
-  <h4>Checkout</h4>
-  <p>Stripe form. No long-term contract; month-to-month. You can cancel anytime from Settings → Billing. First charge happens immediately; renewals on the same day of the month.</p>
+  <h4>Pay</h4>
+  <p>Stripe form. No long contract — month to month. Cancel any time from Settings → Billing. Your card gets charged right away. Renewals happen on the same day each month.</p>
 </div></div>
 
 <div class="step"><div class="num">3</div><div>
-  <h4>Activation email</h4>
-  <p>Within 5 minutes you get an email from <code>hello@netwebmedia.com</code> with a one-click magic link. Click it. You're logged in.</p>
-  <p>If you don't see it: check spam, then <a href="mailto:support@netwebmedia.com">email support</a>. Most common issue is corporate spam filters blocking the sender.</p>
+  <h4>Check your email</h4>
+  <p>Within 5 minutes you get an email from <code>hello@netwebmedia.com</code> with a one-click link. Click it. You're in.</p>
+  <p>Didn't see it? Check spam. Still nothing? <a href="mailto:support@netwebmedia.com">Email support</a>. The usual cause is a corporate spam filter blocking our sender.</p>
 </div></div>
 
 <div class="step"><div class="num">4</div><div>
   <h4>You land on the setup wizard</h4>
-  <p>It walks you through 6 steps (covered in section 3). Don't skip it — every question sets up defaults that are painful to change later.</p>
+  <p>It asks you 6 questions. Don't skip — each answer sets up a default that's painful to change later.</p>
 </div></div>
 
-<h3>2.3 The setup wizard — every question explained</h3>
+<h3>3.3 The setup wizard — every question explained</h3>
 
 <div class="kv">
-  <b>Q1: Business name</b><span>Exactly as you want it to appear in email signatures and invoices. Can edit later in Settings → General.</span>
-  <b>Q2: Industry</b><span>Pick from 24 presets. Determines default pipeline stages and email templates. Pick "Other" only if nothing fits — you'll configure from scratch.</span>
-  <b>Q3: Team size</b><span>1, 2–5, 6–20, 21–50, 51+. Sets default permission model and dashboard layout.</span>
-  <b>Q4: Primary sales motion</b><span>Inbound (leads come to you), Outbound (you prospect), Both. Pre-loads relevant templates.</span>
-  <b>Q5: Current tools you use</b><span>Check all that apply (HubSpot, Pipedrive, Mailchimp, Google Sheets…). Unlocks the right import wizards.</span>
-  <b>Q6: Timezone &amp; currency</b><span>Affects reporting rollups, email send times, and deal value display. Set once, propagates everywhere.</span>
+  <b>Q1: Business name</b><span>Exactly as you want it to show in email signatures and invoices. You can change it later in Settings → General.</span>
+  <b>Q2: Industry</b><span>Pick from 24 options. Sets up default sales stages and email templates for your field. Only pick "Other" if nothing fits.</span>
+  <b>Q3: Team size</b><span>1, 2 to 5, 6 to 20, 21 to 50, 51+. Sets your default permissions and dashboard layout.</span>
+  <b>Q4: How do you sell?</b><span>Inbound (leads come to you), Outbound (you reach out), or Both. Loads the right templates.</span>
+  <b>Q5: Tools you use today</b><span>Tick every one (HubSpot, Pipedrive, Mailchimp, Google Sheets). Unlocks the right import helpers.</span>
+  <b>Q6: Time zone &amp; currency</b><span>Affects reports, email send times, and how deal values show. Set once, used everywhere.</span>
 </div>
 
 <div class="callout tip">
-  <strong>💡 You can come back to the wizard later</strong>
-  <p>Settings → Onboarding re-runs it. But fresh defaults only apply to new data — existing records don't get retroactively re-configured.</p>
+  <strong>💡 You can redo the wizard later</strong>
+  <p>Settings → Onboarding restarts it. But fresh defaults only apply to new data. Records already in the CRM don't get re-configured.</p>
 </div>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="orient">3. The 7-minute tour — every screen explained</h2>
+<h2 id="orient">4. The 7-minute tour — every tool explained</h2>
 
-<p>Left sidebar navigates between 11 main sections. Here's what each does, in the order you'll use them.</p>
+<p>The left sidebar is grouped by section. Here's each tool in one sentence, in the order a new user touches them.</p>
 
-<h3>3.1 Dashboard (<code>/app/index.html</code>)</h3>
-<p>Your home screen. Shows:</p>
+<h3>4.1 Sales section</h3>
 <ul>
-  <li><strong>Top row KPIs</strong> — new leads this week, deals closed this month, revenue MTD, pipeline total</li>
-  <li><strong>My day</strong> — tasks due today, meetings today, overdue follow-ups</li>
-  <li><strong>Recent activity</strong> — last 20 events across the account (signals what's happening)</li>
-  <li><strong>Quick add</strong> — shortcut buttons to add contact, deal, task, or log a call</li>
+  <li><a href="https://netwebmedia.com/crm/contacts">Contacts</a> — every person you've ever dealt with, searchable by anything.</li>
+  <li><a href="https://netwebmedia.com/crm/companies">Companies</a> — the parent record for a business customer. All their people and deals roll up here.</li>
+  <li><a href="https://netwebmedia.com/crm/pipeline">Pipeline</a> — the sticky-note view of every deal. Drag cards from one stage to the next.</li>
+  <li><a href="https://netwebmedia.com/crm/forecasting">Forecasting</a> — how much revenue is realistically coming in this quarter.</li>
+  <li><a href="https://netwebmedia.com/crm/products">Products</a> — your catalog. Feeds into <a href="https://netwebmedia.com/crm/quotes">Quotes</a>.</li>
+  <li><a href="https://netwebmedia.com/crm/quotes">Quotes</a> — create, send, e-sign, turn into an invoice without leaving the deal.</li>
+  <li><a href="https://netwebmedia.com/crm/calendar">Calendar</a> — meetings, tasks, and a link people can use to book you. Syncs both ways with Google and Microsoft.</li>
+  <li><a href="https://netwebmedia.com/crm/playbooks">Playbooks</a> — step-by-step checklists that keep every rep on script.</li>
+  <li><a href="https://netwebmedia.com/crm/sequences">Sequences</a> — a series of follow-up emails, texts, and reminders, sent automatically.</li>
 </ul>
 
-<h3>3.2 Contacts (<code>/app/contacts.html</code>)</h3>
-<p>Every person you've ever touched. Filterable by status, tags, company, source, last contact, deal value, etc. Default view: "My contacts with activity in last 30 days" (you can change this).</p>
+<h3>4.2 Marketing section</h3>
+<ul>
+  <li><a href="https://netwebmedia.com/crm/campaigns">Campaigns</a> — a one-time email or text to a list of people.</li>
+  <li><a href="https://netwebmedia.com/crm/automations">Automations</a> — "if this happens, do that" rules across every channel.</li>
+  <li><a href="https://netwebmedia.com/crm/landing-pages">Landing Pages</a> — pages tied to a campaign, connected to a form.</li>
+  <li><a href="https://netwebmedia.com/crm/forms">Forms</a> — where people fill in their info. Creates a new contact automatically.</li>
+  <li><a href="https://netwebmedia.com/crm/ab-tests">A/B Tests</a> — try two versions side by side. Subject lines, pages, buttons. The system picks the winner.</li>
+  <li><a href="https://netwebmedia.com/crm/sms">SMS</a> — text messaging, both directions.</li>
+  <li><a href="https://netwebmedia.com/crm/social">Social</a> — schedule and reply on LinkedIn, Meta, X, TikTok.</li>
+  <li><a href="https://netwebmedia.com/crm/ads">Ads</a> — buy Meta and Google ads, targeting pulled straight from your CRM.</li>
+  <li><a href="https://netwebmedia.com/crm/lead-scoring">Lead Scoring</a> — rules and AI that tell your team which leads are hot.</li>
+  <li><a href="https://netwebmedia.com/crm/blog">Blog</a> — write long posts, schedule them, get them ready to be quoted by AI tools.</li>
+  <li><a href="https://netwebmedia.com/crm/conversations">Conversations</a> — one inbox for email, text, WhatsApp, website chat, and social messages.</li>
+</ul>
 
-<h3>3.3 Pipeline (<code>/app/pipeline.html</code>)</h3>
-<p>Kanban view of deals. Drag cards between columns. Click a card for full deal detail.</p>
+<h3>4.3 Service section</h3>
+<ul>
+  <li><a href="https://netwebmedia.com/crm/tickets">Tickets</a> — support requests with status, owner, priority, and linked deal.</li>
+  <li><a href="https://netwebmedia.com/crm/knowledge-base">Knowledge Base</a> — help articles, public or members-only. Auto-suggested in chat.</li>
+  <li><a href="https://netwebmedia.com/crm/customer-portal">Customer Portal</a> — what your customers see when they log in: open tickets, invoices, files, course progress.</li>
+  <li><a href="https://netwebmedia.com/crm/surveys">Surveys</a> — "how are we doing?" and "how likely are you to recommend us?" Scores stick to the customer record.</li>
+  <li><a href="https://netwebmedia.com/crm/slas">SLAs</a> — promises on how fast you'll respond, with alerts if you're about to miss.</li>
+  <li><a href="https://netwebmedia.com/crm/calls">Calls</a> — phone call records, with recordings and transcripts (works with Voice AI).</li>
+</ul>
 
-<h3>3.4 Conversations (<code>/app/conversations.html</code>)</h3>
-<p>Unified inbox. Every email thread, SMS, and WhatsApp conversation in one place. Filters: channel, unread, assigned-to-me, deal-related.</p>
+<h3>4.4 Website section</h3>
+<p>Full walkthrough in the <a href="nwm-cms.html">NWM CMS tutorial</a>. Tools: <a href="https://netwebmedia.com/crm/pages">Pages</a>, <a href="https://netwebmedia.com/crm/memberships">Memberships</a>, <a href="https://netwebmedia.com/crm/courses">Courses</a>, <a href="https://netwebmedia.com/crm/community">Community</a>.</p>
 
-<h3>3.5 Calendar (<code>/app/calendar.html</code>)</h3>
-<p>Meetings, calls, tasks. Syncs two-way with Google Calendar or Microsoft 365 (once connected).</p>
+<h3>4.5 AI Agents section</h3>
+<ul>
+  <li><a href="https://netwebmedia.com/crm/ai-copilot">AI Copilot</a> — a smart assistant next to every record. Drafts emails, summarizes calls, suggests next steps.</li>
+  <li><a href="https://netwebmedia.com/crm/ai-sdr">AI SDR</a> — reaches out to new prospects on its own: researches them, writes personal emails, follows up, hands off to a human when they reply.</li>
+  <li><a href="https://netwebmedia.com/crm/voice-ai">Voice AI</a> — answers incoming calls, confirms appointments on outgoing calls, writes the transcript into the contact record.</li>
+  <li><a href="https://netwebmedia.com/crm/video-factory">Video Factory</a> — AI makes short videos at scale.</li>
+  <li><a href="https://netwebmedia.com/crm/content-ai">Content AI</a> — writes longer stuff: blog posts, web pages, landing pages, emails.</li>
+</ul>
 
-<h3>3.6 Marketing (<code>/app/marketing.html</code>)</h3>
-<p>Campaigns, segments, email templates, automation sequences. The "send stuff to many contacts" hub.</p>
+<h3>4.6 Operations section</h3>
+<ul>
+  <li><a href="https://netwebmedia.com/crm/integrations">Integrations</a> — one-click connections to 200+ other apps.</li>
+  <li><a href="https://netwebmedia.com/crm/webhooks">Webhooks</a> — event signals so other apps can hear what's happening in the CRM.</li>
+  <li><a href="https://netwebmedia.com/crm/custom-code">Custom Code</a> — a safe place to drop in a little JavaScript for custom logic.</li>
+  <li><a href="https://netwebmedia.com/crm/api-keys">API Keys</a> — passwords used by other apps to talk to the CRM.</li>
+  <li><a href="https://netwebmedia.com/crm/reports">Reports</a> — make your own reports, save them as dashboards.</li>
+  <li><a href="https://netwebmedia.com/crm/settings">Settings</a> — team, billing, custom fields, email/SMS/WhatsApp setup.</li>
+</ul>
 
-<h3>3.7 Automation (<code>/app/automation.html</code>)</h3>
-<p>Visual workflow builder. Triggers (new contact, stage change, form submit) → conditions → actions (send email, add tag, create task, assign rep).</p>
-
-<h3>3.8 Reporting (<code>/app/reporting.html</code>)</h3>
-<p>8 pre-built dashboards + custom reports. Covered in section 12.</p>
-
-<h3>3.9 Payments (<code>/app/payments.html</code>)</h3>
-<p>Invoices, subscriptions, payment links (via Stripe). Optional — only enabled if you connect Stripe.</p>
-
-<h3>3.10 Documents (<code>/app/documents.html</code>)</h3>
-<p>Proposals, contracts, NDAs. E-sign-enabled (via Dropbox Sign / DocuSign integration). Each document attaches to a deal or contact.</p>
-
-<h3>3.11 Settings (<code>/app/settings.html</code>)</h3>
-<p>Team, billing, integrations, custom fields, automations, email/SMS/WhatsApp setup, API keys.</p>
+<h3>4.7 Agency section</h3>
+<p>The part HubSpot doesn't ship. Full walkthrough in <a href="#agency">section 14</a>. Tools: <a href="https://netwebmedia.com/crm/sub-accounts">Sub-accounts</a>, <a href="https://netwebmedia.com/crm/white-label">White-label</a>, <a href="https://netwebmedia.com/crm/billing">Billing</a>, <a href="https://netwebmedia.com/crm/affiliates">Affiliates</a>, <a href="https://netwebmedia.com/crm/reputation">Reputation</a>.</p>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="model">4. Data model — contacts · companies · deals · activities</h2>
+<h2 id="model">5. How your data is organized</h2>
 
-<p>Understanding the data model is the single highest-leverage thing you can do. It determines how everything else works.</p>
+<p>This is the most important thing in this guide. It decides how everything else works.</p>
 
-<h3>4.1 Contacts</h3>
-<p>A <strong>contact</strong> is a person — named human with an email or phone. Core fields:</p>
+<h3>5.1 Contacts</h3>
+<p>A <strong>contact</strong> is one human being with a name and an email or phone. Standard fields:</p>
 <div class="kv">
-  <b>name</b><span>Required. Full display name. We index this for search.</span>
-  <b>email</b><span>Unique per account. Primary identifier. Lowercase-stored.</span>
-  <b>phone</b><span>E.164 format recommended (<code>+14155551234</code>). We normalize on save.</span>
-  <b>company</b><span>Free-text OR foreign key to companies table (see 4.2).</span>
-  <b>role / title</b><span>"VP Marketing", "Founder", "Procurement Lead" — used in reporting + personalization.</span>
-  <b>status</b><span>enum: <code>lead</code> · <code>prospect</code> · <code>customer</code> · <code>churned</code>. Auto-updates when deals close.</span>
-  <b>value</b><span>Lifetime value in your account currency. Auto-calculated from closed deals.</span>
-  <b>last_contact</b><span>Date of last logged activity. Key metric for stale-contact reports.</span>
-  <b>tags</b><span>Free-form labels. Use for segmentation ("conference-RSA-2026", "enterprise-fit", "passed-budget-check").</span>
-  <b>source</b><span>Where they came from. Pre-loaded options: website-form, referral, ad, event, cold-outbound, other.</span>
-  <b>owner</b><span>The team member who owns this relationship. Affects permissions + reporting.</span>
+  <b>name</b><span>Required. The full display name. We use it for search.</span>
+  <b>email</b><span>Must be unique in your account. The main identifier. Stored lowercase.</span>
+  <b>phone</b><span>We recommend the standard format (<code>+14155551234</code>). We clean it up on save.</span>
+  <b>company</b><span>Either free text, or linked to the companies table (see 5.2).</span>
+  <b>role / title</b><span>"VP Marketing", "Founder", "Buyer" — used in reports and personal touches.</span>
+  <b>status</b><span>One of: <code>lead</code> · <code>prospect</code> · <code>customer</code> · <code>churned</code>. Updates on its own when deals close.</span>
+  <b>value</b><span>Total spend from this person over their lifetime. Calculated automatically from closed deals.</span>
+  <b>last_contact</b><span>When you last logged an activity with them. Key signal for stale-contact reports.</span>
+  <b>tags</b><span>Free-form labels for sorting. Use them for things like "conference-RSA-2026", "enterprise-fit", "passed-budget-check".</span>
+  <b>source</b><span>Where they came from. Options built in: website-form, referral, ad, event, cold-outbound, other.</span>
+  <b>owner</b><span>The team member who owns the relationship. Affects who can see the record and how reports roll up.</span>
 </div>
 
-<h3>4.2 Companies</h3>
-<p>A <strong>company</strong> is an organization. Contacts attach to companies. Deals can attach to either.</p>
+<h3>5.2 Companies</h3>
+<p>A <strong>company</strong> is a business. Contacts are attached to companies. Deals can be attached to either.</p>
 <div class="kv">
-  <b>name</b><span>Required. Canonical name — we dedupe on lowercase + no-whitespace match.</span>
-  <b>domain</b><span>The root domain (<code>acme.com</code>). Used for auto-attachment of contacts whose email matches.</span>
-  <b>industry</b><span>Free-text with autocomplete from your existing industries.</span>
-  <b>size</b><span>enum: <code>1-10</code> · <code>11-50</code> · <code>51-200</code> · <code>201-500</code> · <code>501-1000</code> · <code>1000+</code></span>
-  <b>arr / revenue</b><span>Annual revenue of the company. Optional but powerful for ICP scoring.</span>
-  <b>country / city</b><span>For geo reporting + timezone-aware outreach.</span>
+  <b>name</b><span>Required. The business's standard name. We check for duplicates ignoring case and spaces.</span>
+  <b>domain</b><span>The root of their website (<code>acme.com</code>). Used to auto-link contacts whose email matches.</span>
+  <b>industry</b><span>Free text, with suggestions from industries you've already used.</span>
+  <b>size</b><span>One of: <code>1-10</code> · <code>11-50</code> · <code>51-200</code> · <code>201-500</code> · <code>501-1000</code> · <code>1000+</code></span>
+  <b>yearly revenue</b><span>How much money the company makes a year. Optional but useful for picking your best-fit customers.</span>
+  <b>country / city</b><span>For geographic reports and sending at the right time of day.</span>
 </div>
 
-<p><strong>Auto-attachment rule:</strong> when you add a contact with email <code>sarah@acme.com</code>, we check for a company with domain <code>acme.com</code>. If it exists, we attach. If not, we create it with name <code>Acme</code> (inferred) — you can rename later.</p>
+<p><strong>Auto-linking rule:</strong> when you add a contact with email <code>sarah@acme.com</code>, we look for a company with domain <code>acme.com</code>. If found, we link it. If not, we create it with name <code>Acme</code> (best guess) — you can rename later.</p>
 
-<h3>4.3 Deals</h3>
-<p>A <strong>deal</strong> is a specific sales opportunity. One company can have many deals (new business, renewal, upsell).</p>
+<h3>5.3 Deals</h3>
+<p>A <strong>deal</strong> is one sales opportunity. One company can have many deals (new business, renewal, upsell).</p>
 <div class="kv">
-  <b>title</b><span>Human-readable name. Follow the naming convention from section 0.</span>
-  <b>contact_id</b><span>Primary contact (the decision-maker or champion).</span>
-  <b>company_id</b><span>Company the deal is for (optional for contact-primary setups).</span>
-  <b>stage_id</b><span>Current pipeline stage. Drives probability + aging color.</span>
-  <b>value</b><span>Total deal value. For subscriptions, use annual value (ARR).</span>
-  <b>probability</b><span>0–100%. Can be stage-default or manually overridden.</span>
-  <b>expected_close</b><span>Date. Drives forecast reports.</span>
-  <b>days_in_stage</b><span>Auto-calculated. Resets when you move to a new stage.</span>
-  <b>source</b><span>Inherits from contact source by default. Override if the specific deal has a different origin.</span>
+  <b>title</b><span>A human-readable name. Use the naming rule from section 0.</span>
+  <b>contact_id</b><span>The main person (the decision-maker or champion).</span>
+  <b>company_id</b><span>The company (optional if you're people-first).</span>
+  <b>stage_id</b><span>Current sales stage. Drives the odds and aging color.</span>
+  <b>value</b><span>Total deal value. For subscriptions, use annual value.</span>
+  <b>probability</b><span>0 to 100%. Set by the stage's default, or change it yourself.</span>
+  <b>expected_close</b><span>Date. Drives forecasts.</span>
+  <b>days_in_stage</b><span>Calculated for you. Resets when you move the deal.</span>
+  <b>source</b><span>Starts from the contact's source. Change if this specific deal came from somewhere else.</span>
 </div>
 
-<h3>4.4 Activities</h3>
-<p>Every touchpoint attaches to a contact + optionally a deal. Activity types:</p>
+<h3>5.4 Activities</h3>
+<p>Every touchpoint is attached to a contact, and optionally a deal. Types:</p>
 <table class="ref">
-  <thead><tr><th>Type</th><th>Auto-logged?</th><th>Use when</th></tr></thead>
+  <thead><tr><th>Type</th><th>Logged for you?</th><th>Use when</th></tr></thead>
   <tbody>
-    <tr><td>email_sent</td><td>Yes (via conversations)</td><td>You sent or replied</td></tr>
-    <tr><td>email_received</td><td>Yes (via conversations)</td><td>Inbound reply landed</td></tr>
-    <tr><td>call</td><td>No (log manually)</td><td>Phone call, include duration + outcome</td></tr>
-    <tr><td>meeting</td><td>Yes (via calendar sync)</td><td>Scheduled meeting happened</td></tr>
+    <tr><td>email_sent</td><td>Yes (from inbox)</td><td>You sent or replied</td></tr>
+    <tr><td>email_received</td><td>Yes (from inbox)</td><td>Their reply came back</td></tr>
+    <tr><td>call</td><td>No (log by hand)</td><td>Phone call — include how long + what happened</td></tr>
+    <tr><td>meeting</td><td>Yes (from calendar)</td><td>Meeting happened</td></tr>
     <tr><td>sms</td><td>Yes</td><td>Text exchange</td></tr>
     <tr><td>whatsapp</td><td>Yes</td><td>WhatsApp exchange</td></tr>
-    <tr><td>note</td><td>No</td><td>Internal observation, not a touchpoint</td></tr>
+    <tr><td>note</td><td>No</td><td>Internal observation, not a touch</td></tr>
     <tr><td>task</td><td>No (you create)</td><td>"Follow up next Tuesday"</td></tr>
-    <tr><td>stage_change</td><td>Yes</td><td>Deal moved between pipeline stages</td></tr>
-    <tr><td>document_sent</td><td>Yes</td><td>Proposal/contract sent via Documents</td></tr>
+    <tr><td>stage_change</td><td>Yes</td><td>Deal moved between stages</td></tr>
+    <tr><td>document_sent</td><td>Yes</td><td>Proposal or contract was sent</td></tr>
   </tbody>
 </table>
 
-<h3>4.5 Custom fields — when and how</h3>
+<h3>5.5 Custom fields — when and how</h3>
 <p>Settings → Custom Fields. You can add custom fields to contacts, companies, or deals. Field types:</p>
 <ul>
-  <li><strong>Text</strong> (single-line, multi-line)</li>
-  <li><strong>Number</strong> (integer, decimal, currency)</li>
-  <li><strong>Date</strong> / <strong>Datetime</strong></li>
-  <li><strong>Select</strong> (single dropdown)</li>
-  <li><strong>Multi-select</strong> (checkboxes)</li>
-  <li><strong>URL</strong>, <strong>Email</strong>, <strong>Phone</strong> (typed text with validation)</li>
-  <li><strong>Boolean</strong> (yes/no toggle)</li>
+  <li><strong>Text</strong> (one line, or many lines)</li>
+  <li><strong>Number</strong> (whole, decimal, or currency)</li>
+  <li><strong>Date</strong> or <strong>Date + time</strong></li>
+  <li><strong>Dropdown</strong> (pick one)</li>
+  <li><strong>Multi-pick</strong> (checkboxes)</li>
+  <li><strong>URL</strong>, <strong>Email</strong>, <strong>Phone</strong> (text with the right format check)</li>
+  <li><strong>Yes/no toggle</strong></li>
 </ul>
 
 <div class="callout warn">
-  <strong>⚠️ Don't go custom-field-crazy</strong>
-  <p>5 custom fields is a lot. 20 is unmanageable. Every custom field is a field your team must fill in, or it's just noise. Start with 3, add more only when you miss them.</p>
+  <strong>⚠️ Don't go crazy with custom fields</strong>
+  <p>5 custom fields is a lot. 20 is unmanageable. Every custom field is another thing your team has to fill in, or it's just noise. Start with 3. Add more only when you miss them.</p>
 </div>
 
-<p>Our recommended starter custom fields for B2B:</p>
+<p>Our recommended starter custom fields for business-to-business:</p>
 <ol>
-  <li><strong>use_case</strong> (select) — what they want to solve</li>
-  <li><strong>budget_range</strong> (select: <$5k, $5-20k, $20-50k, $50k+)</li>
-  <li><strong>decision_timeframe</strong> (select: this week, this month, this quarter, next quarter, no timeline)</li>
+  <li><strong>use_case</strong> (dropdown) — what they want to solve</li>
+  <li><strong>budget_range</strong> (dropdown: under $5k, $5 to 20k, $20 to 50k, $50k+)</li>
+  <li><strong>decision_timeframe</strong> (dropdown: this week, this month, this quarter, next quarter, no timeline)</li>
 </ol>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="import">5. Importing data — CSV, HubSpot, Pipedrive, Salesforce</h2>
+<h2 id="import">6. Bringing your data in — spreadsheet, HubSpot, Pipedrive, Salesforce</h2>
 
-<h3>5.1 CSV import — the canonical method</h3>
+<h3>6.1 Spreadsheet import — the main way</h3>
 
 <div class="step"><div class="num">1</div><div>
-  <h4>Prepare the CSV</h4>
+  <h4>Prepare the spreadsheet</h4>
   <p>Required columns: <code>name</code>, <code>email</code>. Recommended: <code>phone</code>, <code>company</code>, <code>role</code>, <code>status</code>, <code>source</code>, <code>tags</code>, <code>owner_email</code>.</p>
   <p><strong>Format rules:</strong></p>
   <ul>
-    <li>UTF-8 encoding. Excel exports as Windows-1252 by default → re-save as "CSV UTF-8"</li>
-    <li>Comma-separated. Quote fields that contain commas (<code>"Smith, John"</code>)</li>
+    <li>Save the file as "CSV UTF-8" — Excel's default CSV breaks special characters</li>
+    <li>Separate fields with commas. Wrap fields that contain commas in quotes (<code>"Smith, John"</code>)</li>
     <li>One header row, then data rows</li>
-    <li>Phone numbers in E.164 format recommended (<code>+14155551234</code>)</li>
-    <li>Dates in ISO format (<code>2026-04-20</code>)</li>
-    <li>Tags comma-separated inside a single cell: <code>"vip,enterprise,rsa-2026"</code></li>
+    <li>Phone numbers in the standard format (<code>+14155551234</code>) work best</li>
+    <li>Dates as <code>2026-04-20</code> (year-month-day)</li>
+    <li>Tags separated by commas inside one cell: <code>"vip,enterprise,rsa-2026"</code></li>
   </ul>
-  <p><a href="/assets/crm-import-template.csv">Download our template CSV →</a></p>
+  <p><a href="/assets/crm-import-template.csv">Download our template spreadsheet →</a></p>
 </div></div>
 
 <div class="step"><div class="num">2</div><div>
   <h4>Upload</h4>
-  <p>Settings → Import Data → Contacts → Upload CSV. File size limit: 10 MB per upload (~30,000 rows). For larger, split into multiple files.</p>
+  <p>Settings → Import Data → Contacts → Upload. File size limit: 10 MB per upload (about 30,000 rows). For more, split into multiple files.</p>
 </div></div>
 
 <div class="step"><div class="num">3</div><div>
-  <h4>Map columns</h4>
-  <p>You see a 3-row preview of your data. For each source column, pick the target field. Our importer auto-detects common column names (email → email, "Full Name" → name, etc.); you fix the rest.</p>
-  <p><strong>Map custom fields:</strong> If your CSV has a column we don't recognize (e.g. "Lead Source Detail"), map it to "Create new custom field" → give it a name + type.</p>
+  <h4>Match columns</h4>
+  <p>You see the first 3 rows of your file. For each column in your file, pick which CRM field it goes to. We auto-match the obvious ones (email → email, "Full Name" → name). You fix the rest.</p>
+  <p><strong>For columns we don't recognize</strong> (like "Lead Source Detail"), pick "Create new custom field" and give it a name and type.</p>
 </div></div>
 
 <div class="step"><div class="num">4</div><div>
-  <h4>Dedup strategy</h4>
-  <p>Choose what to do when a CSV row matches an existing contact (by email):</p>
+  <h4>What to do with duplicates</h4>
+  <p>When a spreadsheet row matches an existing contact (by email):</p>
   <ul>
-    <li><strong>Skip</strong> (safe default) — keep existing data, ignore CSV row</li>
-    <li><strong>Overwrite</strong> — CSV wins, replaces existing data</li>
-    <li><strong>Merge (non-empty wins)</strong> — CSV fills in blanks, preserves existing non-blank fields</li>
+    <li><strong>Skip</strong> (safe default) — keep what's there, ignore the spreadsheet row</li>
+    <li><strong>Overwrite</strong> — the spreadsheet wins, replaces existing info</li>
+    <li><strong>Fill in blanks</strong> — the spreadsheet fills empty fields only, keeps what's already there</li>
   </ul>
-  <p>Use "Merge" for monthly re-imports. Use "Skip" for one-off imports. Use "Overwrite" only if you're sure the CSV is more recent than what's in the CRM.</p>
+  <p>Use "Fill in blanks" for monthly re-imports. Use "Skip" for one-offs. Use "Overwrite" only when you know the spreadsheet is fresher.</p>
 </div></div>
 
 <div class="step"><div class="num">5</div><div>
-  <h4>Preview &amp; confirm</h4>
-  <p>Shows: X new contacts, Y updates, Z skips (duplicates or invalid). Any row with a problem (missing email, invalid date) shows with a red flag. You can download the error CSV, fix, and re-upload the fixes.</p>
+  <h4>Preview and confirm</h4>
+  <p>You see: X new contacts, Y updates, Z skips (duplicates or bad rows). Bad rows (missing email, wrong date format) are flagged in red. Download the error list, fix, and re-upload the fixes.</p>
 </div></div>
 
 <div class="step"><div class="num">6</div><div>
   <h4>Run the import</h4>
-  <p>Click "Import". Progress bar shows live count. ~1000 rows/sec. 10k rows completes in ~10 seconds. You get an email when done with a summary.</p>
+  <p>Click "Import". A progress bar shows the live count. About 1,000 rows per second. 10,000 rows takes about 10 seconds. You get an email with the summary when it's done.</p>
 </div></div>
 
 <div class="warn-box">
-  <strong>⚠️ Import validation pitfalls</strong>
-  <p>(1) Rows with no email get stored only if you also map a phone (at least one identifier required). (2) Bounced-looking emails (e.g. <code>noreply@</code>, <code>donotreply@</code>) get imported but auto-tagged <code>suspicious-email</code>. Review + clean before campaigns. (3) Dates in American MM/DD/YYYY format without the year century (e.g. <code>04/20/26</code>) are ambiguous — always use <code>2026-04-20</code>.</p>
+  <strong>⚠️ Import pitfalls</strong>
+  <p>(1) Rows with no email only save if you also have a phone. (2) Fake-looking addresses (<code>noreply@</code>, <code>donotreply@</code>) get imported but tagged <code>suspicious-email</code> — clean them before you send campaigns. (3) American dates like <code>04/20/26</code> without a century year are ambiguous — always use <code>2026-04-20</code>.</p>
 </div>
 
-<h3>5.2 HubSpot migration</h3>
-<p>Settings → Integrations → HubSpot → "Migrate from HubSpot". You'll need:</p>
+<h3>6.2 HubSpot migration</h3>
+<p>Settings → Integrations → HubSpot → "Migrate from HubSpot". You need:</p>
 <ol>
-  <li>HubSpot Private App Token (Settings → Integrations → Private Apps in HubSpot)</li>
-  <li>Scopes: <code>crm.objects.contacts.read</code>, <code>crm.objects.companies.read</code>, <code>crm.objects.deals.read</code>, <code>crm.objects.owners.read</code></li>
+  <li>A HubSpot private app token (Settings → Integrations → Private Apps in HubSpot)</li>
+  <li>Permissions: read contacts, read companies, read deals, read owners</li>
 </ol>
-<p>Paste the token. We fetch contacts, companies, deals, and activities. A typical 5k-contact HubSpot account migrates in 15–30 minutes. We preserve:</p>
+<p>Paste the token. We fetch contacts, companies, deals, and activities. A typical 5,000-contact HubSpot account moves in 15 to 30 minutes. We bring across:</p>
 <ul>
-  <li>Contact + company + deal records</li>
-  <li>Associations (which contacts belong to which companies + deals)</li>
-  <li>Owner assignments (mapped to NWM CRM users by email — users must already exist)</li>
-  <li>Activity timeline (emails, calls, meetings, notes — mapped to closest equivalent type)</li>
-  <li>Deal stages (mapped to your NWM CRM pipeline — you choose the mapping)</li>
+  <li>Contact, company, and deal records</li>
+  <li>Their links (which contacts belong to which companies + deals)</li>
+  <li>Who owns each record (matched to your NWM users by email — users must already exist)</li>
+  <li>The activity timeline (emails, calls, meetings, notes)</li>
+  <li>Deal stages (you choose how each HubSpot stage maps to an NWM stage)</li>
 </ul>
 <p>What we <strong>don't</strong> bring across:</p>
 <ul>
-  <li>Workflows (rebuild in NWM Automation — usually 30–60 min each)</li>
-  <li>Custom objects (HubSpot custom objects don't have a 1:1 equivalent — we import them as tags)</li>
-  <li>Marketing email history (kept in HubSpot, but attribution carries via "first-touch source" field)</li>
+  <li>Workflows (rebuild in NWM Automations — usually 30 to 60 minutes each)</li>
+  <li>Custom objects (no direct match — we import them as tags)</li>
+  <li>Historic marketing email sends (stays in HubSpot, but the "first-touch source" carries over)</li>
 </ul>
 
-<h3>5.3 Pipedrive migration</h3>
-<p>Same flow. Needs Pipedrive API token (Settings → Personal Preferences → API). Migrates persons, organizations, deals, activities.</p>
+<h3>6.3 Pipedrive migration</h3>
+<p>Same flow. Needs a Pipedrive API token (Settings → Personal Preferences → API). Moves persons, organizations, deals, activities.</p>
 
-<h3>5.4 Salesforce migration</h3>
-<p>Enterprise plan only (Salesforce export is complex). We do it as a white-glove service: you give us read-only API access, we extract + transform + load, validate with you, and hand over within 3 business days. Included free with Enterprise plan.</p>
+<h3>6.4 Salesforce migration</h3>
+<p>Enterprise plan only (Salesforce exports are complicated). We do it as a white-glove service: you give us read-only access, we pull the data, clean it up, load it, check with you, and hand over within 3 business days. Free with Enterprise plan.</p>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="pipeline">6. Pipeline design — stages, probability, aging</h2>
+<h2 id="pipeline">7. Setting up your sales stages</h2>
 
-<h3>6.1 Designing your stages</h3>
-<p>Good pipelines have 5–7 stages. Too few: not actionable. Too many: data entry hell. Here's the default we ship, battle-tested across 500+ customers:</p>
+<h3>7.1 Designing your stages</h3>
+<p>Good pipelines have 5 to 7 stages. Too few and it's useless. Too many and no one fills them in. Here's the default we ship, proven across 500+ customers:</p>
 
 <table class="ref">
-  <thead><tr><th>Stage</th><th>Meaning</th><th>Default probability</th><th>Aging threshold</th></tr></thead>
+  <thead><tr><th>Stage</th><th>What it means</th><th>Default odds</th><th>Aging warning</th></tr></thead>
   <tbody>
-    <tr><td>1. New Lead</td><td>Just entered CRM, not yet contacted</td><td>5%</td><td>2 days (if &gt; 2, overdue)</td></tr>
-    <tr><td>2. Contacted</td><td>First outreach made, awaiting response</td><td>15%</td><td>5 days</td></tr>
-    <tr><td>3. Qualified</td><td>Responded + fits ICP + has budget/authority/need/timeline (BANT)</td><td>30%</td><td>10 days</td></tr>
-    <tr><td>4. Proposal Sent</td><td>Formal proposal / contract delivered</td><td>55%</td><td>7 days</td></tr>
-    <tr><td>5. Negotiation</td><td>In back-and-forth on terms / redlines / pricing</td><td>75%</td><td>10 days</td></tr>
-    <tr><td>6. Closed Won</td><td>Contract signed, first payment made (or invoice accepted)</td><td>100%</td><td>—</td></tr>
-    <tr><td>7. Closed Lost</td><td>Deal won't close (pick reason from list)</td><td>0%</td><td>—</td></tr>
+    <tr><td>1. New Lead</td><td>Just landed in the CRM, not yet contacted</td><td>5%</td><td>2 days (after that, overdue)</td></tr>
+    <tr><td>2. Contacted</td><td>First outreach made, waiting for a reply</td><td>15%</td><td>5 days</td></tr>
+    <tr><td>3. Qualified</td><td>Replied, is a good fit, has budget, authority, need, timeline</td><td>30%</td><td>10 days</td></tr>
+    <tr><td>4. Proposal Sent</td><td>Formal proposal or contract delivered</td><td>55%</td><td>7 days</td></tr>
+    <tr><td>5. Negotiation</td><td>Back and forth on terms, changes, pricing</td><td>75%</td><td>10 days</td></tr>
+    <tr><td>6. Closed Won</td><td>Contract signed, first payment made</td><td>100%</td><td>—</td></tr>
+    <tr><td>7. Closed Lost</td><td>Deal won't happen (pick a reason)</td><td>0%</td><td>—</td></tr>
   </tbody>
 </table>
 
-<h3>6.2 Customizing stages</h3>
+<h3>7.2 Customizing stages</h3>
 <div class="step"><div class="num">1</div><div>
-  <h4>Open stage editor</h4>
-  <p>Settings → Pipelines → (pick pipeline) → Stages. Drag to reorder. Click to rename, change color, set default probability.</p>
+  <h4>Open the stage editor</h4>
+  <p>Settings → Pipelines → (pick pipeline) → Stages. Drag to reorder. Click to rename, change color, or set default odds.</p>
 </div></div>
 <div class="step"><div class="num">2</div><div>
-  <h4>Set aging thresholds</h4>
-  <p>Per stage: "days before yellow warning" and "days before red alert". Defaults in table above.</p>
+  <h4>Set aging warnings</h4>
+  <p>For each stage: "days until yellow warning" and "days until red alarm". Defaults are in the table above.</p>
 </div></div>
 <div class="step"><div class="num">3</div><div>
   <h4>Lock certain stages</h4>
-  <p>You can mark stages as "closed-won" or "closed-lost" (any number of each). When a deal moves into a closed-lost stage, it must pick a reason from your reasons list (configured per pipeline).</p>
+  <p>You can mark any stage as "closed won" or "closed lost" (any number of each). When a deal lands in a closed-lost stage, the user must pick a reason from your list.</p>
 </div></div>
 
-<h3>6.3 Multi-pipeline setups</h3>
-<p>On Professional + Enterprise plans, you can have multiple pipelines. Common setups:</p>
+<h3>7.3 Multiple pipelines</h3>
+<p>Professional and Enterprise plans let you have more than one pipeline. Common setups:</p>
 <ul>
-  <li><strong>New Business</strong> — as above, for net-new deals</li>
-  <li><strong>Renewals</strong> — 3-4 stages: Renewal Due → Renewal At-Risk → Renewed → Churned</li>
-  <li><strong>Upsell / Cross-sell</strong> — same structure as new business but triggered from customer status</li>
+  <li><strong>New Business</strong> — as above, for new deals</li>
+  <li><strong>Renewals</strong> — 3 or 4 stages: Renewal Due → At Risk → Renewed → Churned</li>
+  <li><strong>Upsell / Cross-sell</strong> — same shape as new business, triggered from customer status</li>
   <li><strong>Partner Deals</strong> — leads from partners, different commission rules</li>
 </ul>
-<p>Each deal lives in exactly one pipeline. Moving a deal between pipelines requires permission (Enterprise plan feature).</p>
+<p>Each deal lives in exactly one pipeline. Moving a deal between pipelines requires extra permission (Enterprise plan).</p>
 
-<h3>6.4 Deal aging — how to actually use it</h3>
-<p>The pipeline view color-codes cards:</p>
+<h3>7.4 Deal aging — how to actually use it</h3>
+<p>The pipeline view colors each card:</p>
 <ul>
-  <li><strong>White</strong> — under threshold, healthy</li>
-  <li><strong>Yellow</strong> — between threshold and 2× threshold, getting stale</li>
-  <li><strong>Red</strong> — &gt; 2× threshold, likely dead</li>
+  <li><strong>White</strong> — under the threshold, healthy</li>
+  <li><strong>Yellow</strong> — past the threshold, getting stale</li>
+  <li><strong>Red</strong> — way past the threshold, likely dead</li>
 </ul>
-<p><strong>Weekly Monday ritual:</strong></p>
+<p><strong>Every Monday morning:</strong></p>
 <ol>
-  <li>Open pipeline view</li>
-  <li>Filter to "red" cards</li>
-  <li>For each: one of three actions — (a) log a specific next step, (b) move to a different stage, (c) move to Closed-Lost with a reason</li>
+  <li>Open the pipeline view</li>
+  <li>Filter to red cards</li>
+  <li>For each: either (a) write a specific next step, (b) move it to a different stage, or (c) move it to Closed Lost with a reason</li>
 </ol>
-<p>If you do this every Monday for 10 weeks, your forecast accuracy improves 40–60%. Stale deals kill pipelines silently.</p>
+<p>Do this every Monday for 10 weeks and your forecast gets 40 to 60% more accurate. Stale deals kill pipelines silently.</p>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="contacts">7. Contacts — daily workflow</h2>
+<h2 id="contacts">8. Contacts — daily use</h2>
 
-<h3>7.1 The contact list view</h3>
-<p>Default view shows: Name · Company · Status · Last Contact · Value · Owner. Click any column header to sort.</p>
+<h3>8.1 The contacts list view</h3>
+<p>Default view shows: Name · Company · Status · Last Contact · Value · Owner. Click any column title to sort.</p>
 <p><strong>Filters (top right):</strong></p>
 <ul>
   <li>Quick filters: My Contacts, Unassigned, Needs Follow-up, Recent Leads</li>
-  <li>Advanced filter: combine any fields — e.g. "status=lead AND tag contains 'enterprise' AND last_contact &lt; 30 days ago"</li>
-  <li>Saved views: name + save any filter combo. Appears in sidebar.</li>
+  <li>Advanced filter: combine any fields — for example "status = lead AND tag contains 'enterprise' AND last contact less than 30 days ago"</li>
+  <li>Saved views: name any filter combo and save. Appears in the sidebar.</li>
 </ul>
 
-<h3>7.2 Adding a contact — all 4 ways</h3>
+<h3>8.2 Adding a contact — 4 ways</h3>
 
-<p><strong>Method A — Quick add (fastest)</strong></p>
-<p>Top-right "+ New" button → Contact. 4 fields: name, email, phone, company. Save. 95% of daily use.</p>
+<p><strong>Way A — Quick add (fastest)</strong></p>
+<p>Top-right "+ New" button → Contact. 4 fields: name, email, phone, company. Save. Used 95% of the time.</p>
 
-<p><strong>Method B — Full form (more fields)</strong></p>
-<p>Contacts page → "New Contact" button. Full form with all standard + custom fields. Use when you have rich data upfront (e.g. post-event import from a Form).</p>
+<p><strong>Way B — Full form (more fields)</strong></p>
+<p>Contacts page → "New Contact" button. Full form with all standard + custom fields. Use this when you have a lot of info up front.</p>
 
-<p><strong>Method C — From email (auto-create)</strong></p>
-<p>When you reply to an email from someone not in the CRM, we auto-prompt "Create contact?" at the top of the thread. One click creates them + attaches the email thread.</p>
+<p><strong>Way C — From email (auto-create)</strong></p>
+<p>When you reply to an email from someone who isn't in the CRM, we ask "Create contact?" at the top of the thread. One click adds them and links the email.</p>
 
-<p><strong>Method D — From form submission</strong></p>
-<p>Forms embedded on your website or NWM CMS auto-create contacts with mapped fields. Zero manual entry. See section 14.3 for form setup.</p>
+<p><strong>Way D — From form submission</strong></p>
+<p>Forms embedded on your website create a contact automatically. Zero manual entry. See section 16.3 for form setup.</p>
 
-<h3>7.3 Contact detail page — walked through</h3>
+<h3>8.3 The contact detail page — explained</h3>
 <p>Click any contact to open their record. Tabs across the top:</p>
 <ol>
-  <li><strong>Overview</strong> — header info (name, email, phone, company, role, avatar), status, value, tags. Quick actions: email, call, schedule, add note.</li>
-  <li><strong>Timeline</strong> — chronological activity: every email, call, meeting, note, stage change. Newest first. Filter by type.</li>
-  <li><strong>Deals</strong> — every deal associated. Click any to jump to deal detail.</li>
-  <li><strong>Conversations</strong> — all email/SMS/WhatsApp threads.</li>
-  <li><strong>Notes</strong> — internal notes (not visible externally). Markdown-supported.</li>
-  <li><strong>Files</strong> — proposals, contracts, any docs uploaded.</li>
-  <li><strong>Custom</strong> — if you have custom fields, they appear here.</li>
+  <li><strong>Overview</strong> — the basics (name, email, phone, company, role, photo), status, value, tags. Quick buttons: email, call, schedule, add note.</li>
+  <li><strong>Timeline</strong> — every email, call, meeting, note, stage change, newest first. Filter by type.</li>
+  <li><strong>Deals</strong> — every deal linked to them. Click any to open it.</li>
+  <li><strong>Conversations</strong> — all email, text, WhatsApp threads.</li>
+  <li><strong>Notes</strong> — internal notes (never seen by the outside world). Supports basic formatting.</li>
+  <li><strong>Files</strong> — proposals, contracts, any documents you upload.</li>
+  <li><strong>Custom</strong> — if you have custom fields, they show here.</li>
 </ol>
 
-<h3>7.4 Bulk actions</h3>
-<p>Select multiple contacts (checkboxes). Bulk actions bar appears at bottom:</p>
+<h3>8.4 Bulk actions</h3>
+<p>Tick the boxes next to multiple contacts. A bar appears at the bottom:</p>
 <ul>
   <li>Add tag / Remove tag</li>
   <li>Change status</li>
   <li>Reassign owner</li>
-  <li>Export to CSV</li>
-  <li>Add to segment</li>
-  <li>Enroll in automation sequence</li>
-  <li>Delete (soft delete — recoverable for 30 days)</li>
+  <li>Export to spreadsheet</li>
+  <li>Add to a segment</li>
+  <li>Start a sequence</li>
+  <li>Delete (recoverable for 30 days)</li>
 </ul>
 
-<h3>7.5 Deduplication</h3>
-<p>Settings → Data Tools → Find Duplicates. Runs daily automatically, flags potential dupes. Matching rules (any of):</p>
+<h3>8.5 Finding duplicates</h3>
+<p>Settings → Data Tools → Find Duplicates. Runs every day automatically. Matches by:</p>
 <ul>
-  <li>Exact email match</li>
-  <li>Normalized phone match (strips formatting)</li>
+  <li>Exact email</li>
+  <li>Cleaned-up phone match (strips formatting)</li>
   <li>Name + company exact match</li>
-  <li>Name + domain match</li>
+  <li>Name + website domain match</li>
 </ul>
-<p>For each flagged pair/group, you can: merge (pick which fields to keep from each), mark as distinct (prevents future flagging), or ignore.</p>
+<p>For each duplicate pair, you can: merge (pick which fields to keep from each), mark as different people, or ignore.</p>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="deals">8. Deals — creation → close → handoff</h2>
+<h2 id="deals">9. Deals — from new to closed</h2>
 
-<h3>8.1 Creating a deal</h3>
-<p>Four entry points, use whichever matches your flow:</p>
+<h3>9.1 Creating a deal</h3>
+<p>Four ways in, use whichever fits:</p>
 <ol>
-  <li><strong>From pipeline</strong> — click "+" in any stage column. Great when working live in pipeline view.</li>
-  <li><strong>From contact</strong> — contact detail page → "New Deal" button. Auto-attaches contact.</li>
-  <li><strong>From company</strong> — company detail page → "New Deal". Auto-attaches company + suggests primary contact.</li>
-  <li><strong>Quick add</strong> — top-right "+ New" → Deal. Fills fields manually.</li>
+  <li><strong>From the pipeline</strong> — click "+" in any stage column. Best when working in the pipeline view.</li>
+  <li><strong>From a contact</strong> — contact page → "New Deal" button. Auto-links the contact.</li>
+  <li><strong>From a company</strong> — company page → "New Deal". Auto-links the company and suggests the primary contact.</li>
+  <li><strong>Quick add</strong> — top-right "+ New" → Deal. Fill in by hand.</li>
 </ol>
 
-<h3>8.2 Deal form fields — every one explained</h3>
+<h3>9.2 Deal form fields — every one explained</h3>
 <div class="kv">
-  <b>Title</b><span>Follow your naming convention. Example: <code>Acme Corp — Fractional CMO — May 2026</code></span>
+  <b>Title</b><span>Follow your naming rule. Example: <code>Acme Corp — Fractional CMO — May 2026</code></span>
   <b>Pipeline</b><span>Pick the pipeline (if you have more than one)</span>
   <b>Stage</b><span>Starting stage. 95% of new deals start in "New Lead"</span>
-  <b>Value</b><span>Total deal value. For subs: annual value (ARR). For one-shots: total contract. For retainers: monthly × 12.</span>
-  <b>Contact</b><span>Primary. Should be your champion or decision-maker.</span>
-  <b>Company</b><span>Auto-populates from contact's company. Edit if different.</span>
-  <b>Owner</b><span>Sales rep. Defaults to you; change for assigned deals.</span>
-  <b>Expected close</b><span>Your best guess. Be realistic — forecasts depend on this.</span>
-  <b>Probability</b><span>0-100%. Defaults from stage; override if you know better.</span>
-  <b>Source</b><span>Inherits from contact. Change if needed.</span>
-  <b>Next step</b><span>Free-text. "Send proposal v2 by Friday" — visible in pipeline cards.</span>
-  <b>Close reason</b><span>Only filled on Closed Won / Closed Lost. Picks from your configured reasons.</span>
+  <b>Value</b><span>Total deal value. For subscriptions: yearly value. For one-time projects: total. For retainers: monthly × 12.</span>
+  <b>Contact</b><span>Main person. Should be the decision-maker or your champion.</span>
+  <b>Company</b><span>Auto-filled from the contact's company. Edit if different.</span>
+  <b>Owner</b><span>Sales rep. Defaults to you.</span>
+  <b>Expected close</b><span>Your best guess at when this closes. Be realistic — forecasts depend on it.</span>
+  <b>Probability</b><span>0 to 100%. Defaults from the stage; override if you know better.</span>
+  <b>Source</b><span>Inherits from the contact. Change if needed.</span>
+  <b>Next step</b><span>Free text. "Send proposal v2 by Friday" — shows on the pipeline card.</span>
+  <b>Close reason</b><span>Only filled on Closed Won / Closed Lost. Picks from your list.</span>
 </div>
 
-<h3>8.3 Moving deals through stages</h3>
+<h3>9.3 Moving deals through stages</h3>
 <p>Three ways to advance a deal:</p>
 <ol>
-  <li><strong>Drag and drop</strong> in pipeline view (fastest)</li>
-  <li><strong>Change stage dropdown</strong> on deal detail page</li>
-  <li><strong>Programmatic</strong> — via automation or API (see section 14)</li>
+  <li><strong>Drag and drop</strong> in the pipeline view (fastest)</li>
+  <li><strong>Change stage</strong> dropdown on the deal page</li>
+  <li><strong>Automatic</strong> — through an automation or connected app (see section 16)</li>
 </ol>
 
-<p><strong>What happens when a deal moves stages:</strong></p>
+<p><strong>What happens when a deal moves:</strong></p>
 <ul>
-  <li>Activity logged: <code>stage_change</code> with from/to + timestamp</li>
+  <li>Activity logged: <code>stage_change</code> with from, to, and time</li>
   <li><code>days_in_stage</code> resets to 0</li>
-  <li>Probability auto-updates to new stage's default (unless manually overridden)</li>
-  <li>Automations trigger (e.g. "when deal → Proposal Sent, create task: follow up in 3 days")</li>
-  <li>Notifications fire based on your team's preferences</li>
+  <li>Probability updates to the new stage's default (unless you set it yourself)</li>
+  <li>Automations fire (example: "when deal → Proposal Sent, create task: follow up in 3 days")</li>
+  <li>Notifications go out based on your team's preferences</li>
 </ul>
 
-<h3>8.4 Closing a deal</h3>
-<p><strong>Closing Won:</strong></p>
+<h3>9.4 Closing a deal</h3>
+<p><strong>Won:</strong></p>
 <ol>
-  <li>Drag to Closed Won (or update stage)</li>
-  <li>Modal asks: Final value? (sometimes differs from expected), Close reason? (pick "Sold - primary driver" from list), Close date? (defaults today)</li>
-  <li>Contact status auto-updates: <code>prospect</code> → <code>customer</code></li>
-  <li>Revenue rolls up to dashboards immediately</li>
-  <li>If Customer Success handoff is configured: CS rep auto-assigned, onboarding automation fires</li>
+  <li>Drag to Closed Won (or change the stage)</li>
+  <li>A box asks: final value? (sometimes different from expected), reason? (pick from list), close date? (defaults today)</li>
+  <li>Contact status updates: <code>prospect</code> → <code>customer</code></li>
+  <li>Revenue rolls up to dashboards right away</li>
+  <li>If you set up a Customer Success handoff: CS rep auto-assigned, onboarding automation fires</li>
 </ol>
 
-<p><strong>Closing Lost:</strong></p>
+<p><strong>Lost:</strong></p>
 <ol>
   <li>Drag to Closed Lost</li>
-  <li>Modal asks: Reason (picked from configured list — e.g. "Price too high", "Went with competitor", "No timeline", "No budget this year")</li>
-  <li>Optional: competitor name, if "Went with competitor"</li>
-  <li>Optional: nurture? (add to "Closed Lost - Nurture" sequence for 90-day re-engagement)</li>
+  <li>A box asks: reason (pick from your list — "Price too high", "Went with competitor", "No timeline", "No budget this year")</li>
+  <li>Optional: competitor name</li>
+  <li>Optional: nurture? (adds them to a 90-day re-engagement sequence)</li>
 </ol>
 
-<h3>8.5 Re-opening a closed deal</h3>
-<p>Situations happen. Open the deal → "Re-open" button. Pick a new stage. Original close log preserved in timeline. The deal returns to the active pipeline.</p>
+<h3>9.5 Re-opening a closed deal</h3>
+<p>Things change. Open the deal → "Re-open" button. Pick a new stage. The original close note stays on the timeline. The deal goes back into the active pipeline.</p>
 
-<h3>8.6 Deal attachments &amp; collaboration</h3>
-<p>On the deal detail page:</p>
+<h3>9.6 Deal attachments &amp; team comments</h3>
+<p>On the deal page:</p>
 <ul>
-  <li><strong>Files tab</strong> — upload proposals, contracts, competitive research. Versioning: v1, v2, v3 (auto-numbered on re-upload).</li>
-  <li><strong>@-mentions</strong> — in any note or comment, type <code>@</code> + teammate name. They get notified.</li>
-  <li><strong>Internal comments</strong> — team-only discussion, never visible to the contact.</li>
-  <li><strong>Documents integration</strong> — generate proposal from template, e-sign, track opens (see section 10).</li>
+  <li><strong>Files tab</strong> — upload proposals, contracts, research. Versioning: v1, v2, v3 (auto-numbered when you re-upload).</li>
+  <li><strong>@-mentions</strong> — in any note or comment, type <code>@</code> + teammate name. They get a notification.</li>
+  <li><strong>Internal comments</strong> — team-only chat, never shared with the customer.</li>
+  <li><strong>Documents</strong> — make a proposal from a template, e-sign, track opens (see section 10).</li>
 </ul>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="inbox">9. Conversations inbox — email, SMS, WhatsApp setup</h2>
+<h2 id="inbox">10. Shared inbox — email, text, WhatsApp</h2>
 
-<h3>9.1 Connecting email (the most important thing you'll do)</h3>
+<h3>10.1 Connecting email (the most important setup you'll do)</h3>
 
-<p>Settings → Integrations → Email. Three options:</p>
+<p>Settings → Integrations → Email. Three ways:</p>
 
 <h4>Option 1: Google Workspace / Gmail</h4>
 <ol>
   <li>Click "Connect Google"</li>
-  <li>OAuth consent screen → grant scopes: Gmail read, Gmail send, Gmail modify</li>
-  <li>Pick the account to connect</li>
-  <li>Done. Setup time: 60 seconds.</li>
+  <li>Log into your Google account and grant permission: read Gmail, send Gmail, modify Gmail</li>
+  <li>Pick which account to connect</li>
+  <li>Done. About 60 seconds.</li>
 </ol>
-<p>Note: if your Google Workspace admin disabled 3rd-party apps, you'll get "permission denied". Ask them to whitelist NWM CRM (OAuth client ID shown on the error page).</p>
+<p>Note: if your Google Workspace admin blocks third-party apps, you'll get a "permission denied" error. Ask them to allow NWM CRM (our app ID shows on the error page).</p>
 
 <h4>Option 2: Microsoft 365 / Outlook</h4>
 <ol>
   <li>Click "Connect Microsoft"</li>
-  <li>Azure AD consent → scopes: Mail.Read, Mail.Send, Mail.ReadWrite</li>
+  <li>Grant permission: read mail, send mail, read/write mail</li>
   <li>Done.</li>
 </ol>
 
 <h4>Option 3: SMTP (any provider)</h4>
-<p>For self-hosted email, SendGrid, Mailgun, Amazon SES, or anyone not covered above.</p>
+<p>For self-hosted email, SendGrid, Mailgun, Amazon SES, or anything not covered above.</p>
 <div class="kv">
-  <b>SMTP host</b><span>e.g. <code>smtp.sendgrid.net</code>, <code>smtp.mailgun.org</code>, <code>email-smtp.us-east-1.amazonaws.com</code></span>
+  <b>SMTP host</b><span>Example: <code>smtp.sendgrid.net</code>, <code>smtp.mailgun.org</code>, <code>email-smtp.us-east-1.amazonaws.com</code></span>
   <b>Port</b><span>465 (SSL) or 587 (TLS). 587 preferred.</span>
-  <b>Username</b><span>SMTP user (for SendGrid: literally "apikey")</span>
-  <b>Password</b><span>SMTP password / API key</span>
-  <b>From address</b><span>The email address emails will send from</span>
-  <b>From name</b><span>e.g. "Carlos at NetWebMedia"</span>
-  <b>Reply-to</b><span>Where replies go. Often same as From, but can differ.</span>
+  <b>Username</b><span>SMTP user (for SendGrid, literally "apikey")</span>
+  <b>Password</b><span>SMTP password or API key</span>
+  <b>From address</b><span>The email address your messages come from</span>
+  <b>From name</b><span>Example: "Carlos at NetWebMedia"</span>
+  <b>Reply-to</b><span>Where replies go. Usually same as From, but can differ.</span>
 </div>
-<p>We run a test send immediately. If it works, you're connected. If not, we show the exact error (most commonly: auth failed, sending limit hit, or DNS records missing).</p>
+<p>We run a test send right away. If it works, you're connected. If not, we show the exact error (usually: wrong login, sending limit hit, or DNS missing).</p>
 
-<h4>DNS records — non-negotiable for deliverability</h4>
-<p>Regardless of which option you picked, set these on your sending domain:</p>
+<h4>DNS records — you must do this for emails to actually land</h4>
+<p>No matter which option you picked, set these on your sending domain. They prove your emails are really yours. Without them, most go to spam.</p>
 <ul>
-  <li><strong>SPF</strong> — authorizes your sender. Settings → Email → "Show SPF" shows your exact record. Copy to your DNS as a TXT record at the root (<code>@</code>).</li>
-  <li><strong>DKIM</strong> — signs outbound messages. We generate a keypair. Copy the provided TXT record into DNS (usually at <code>nwmcrm._domainkey</code>).</li>
-  <li><strong>DMARC</strong> — policy. Start with <code>v=DMARC1; p=none; rua=mailto:dmarc@yourdomain.com</code>. Monitor 30 days, then move to <code>p=quarantine</code>, then <code>p=reject</code>.</li>
+  <li><strong>SPF</strong> — says which servers can send for you. Settings → Email → "Show SPF" shows your record. Copy it into DNS as a TXT record at the root (<code>@</code>).</li>
+  <li><strong>DKIM</strong> — signs each email so recipients can verify it's yours. We give you the record. Copy it into DNS (usually at <code>nwmcrm._domainkey</code>).</li>
+  <li><strong>DMARC</strong> — your policy if SPF or DKIM fails. Start with <code>v=DMARC1; p=none; rua=mailto:dmarc@yourdomain.com</code>. Watch for 30 days, then move to <code>p=quarantine</code>, then <code>p=reject</code>.</li>
 </ul>
 
 <div class="warn-box">
   <strong>⚠️ Don't send marketing email without DNS set up</strong>
-  <p>You'll land in spam. Google + Microsoft both require authenticated email starting Feb 2024. Skip DNS = skip the inbox.</p>
+  <p>You'll land in spam. Google and Microsoft both require this as of Feb 2024. Skip DNS = skip the inbox.</p>
 </div>
 
-<h3>9.2 Using the inbox</h3>
+<h3>10.2 Using the inbox</h3>
 <p>Conversations tab (<code>/app/conversations.html</code>):</p>
 <ul>
   <li>Left sidebar: threads, newest first. Unread in bold.</li>
   <li>Filters at top: All · Unread · Assigned to me · Mentions · Deal-related</li>
-  <li>Right side: reading pane with full thread + contact mini-card</li>
+  <li>Right side: the thread you're reading + a mini contact card</li>
 </ul>
 
-<h3>9.3 Composing</h3>
+<h3>10.3 Writing a message</h3>
 <p>Three ways:</p>
 <ol>
-  <li>New conversation (no thread yet): top-right "Compose" → pick contact → subject + body → send</li>
-  <li>Reply to existing: open thread → type in reply box → Send or Schedule</li>
-  <li>From contact detail: "Send email" button → same flow</li>
+  <li>New conversation: top-right "Compose" → pick contact → subject + body → send</li>
+  <li>Reply to an existing thread: open it → type → Send or Schedule</li>
+  <li>From a contact's page: "Send email" button → same flow</li>
 </ol>
 
-<p><strong>Features in the composer:</strong></p>
+<p><strong>What's in the composer:</strong></p>
 <ul>
-  <li>Templates (section 10) — dropdown to insert a saved template</li>
-  <li>Snippets — <code>/signature</code>, <code>/calendar</code>, <code>/pricing</code> expand to saved snippets</li>
-  <li>AI draft — "Generate reply" uses context (the thread so far + contact info + deal info) to draft a reply. Edit before sending.</li>
-  <li>Attachments — files from your computer or linked from Documents (e.g. a proposal)</li>
-  <li>Schedule send — pick a date/time. Email sends at that time. You can edit or cancel until sent.</li>
-  <li>Track opens — we embed an invisible pixel. Shows read/unread status on the thread.</li>
-  <li>Track clicks — any link in your email gets rewritten to a tracker that logs the click + redirects.</li>
+  <li>Templates (section 11) — dropdown to drop in a saved email</li>
+  <li>Snippets — type <code>/signature</code>, <code>/calendar</code>, <code>/pricing</code> to expand a saved bit of text</li>
+  <li>AI draft — "Generate reply" uses the thread + contact + deal info to write a reply. Edit before sending.</li>
+  <li>Attachments — files from your computer or from Documents (like a proposal)</li>
+  <li>Schedule send — pick a date and time. Edit or cancel until it goes.</li>
+  <li>Track opens — a tiny invisible image tells us when they read. Shows on the thread.</li>
+  <li>Track clicks — any link gets quietly rewritten to log clicks before forwarding.</li>
 </ul>
 
-<h3>9.4 SMS setup (Professional plan and up)</h3>
+<h3>10.4 Text message setup (Professional plan and up)</h3>
 <p>Needs a Twilio account.</p>
 <ol>
-  <li>Create Twilio account if you don't have one. Fund with $20 to start.</li>
-  <li>Buy a Twilio phone number (local, toll-free, or shortcode). ~$1/mo for local US.</li>
-  <li>In Twilio console: Settings → API Keys → create a key. Copy SID + secret.</li>
-  <li>In NWM CRM: Settings → Integrations → SMS → paste SID, auth token, and the phone number.</li>
-  <li>Send a test SMS to your own phone. Should arrive within 10 seconds.</li>
+  <li>Create a Twilio account. Put $20 on it to start.</li>
+  <li>Buy a Twilio phone number (local, toll-free, or short code). About $1/month for a local US number.</li>
+  <li>In the Twilio console: Settings → API Keys → create a key. Copy the SID and secret.</li>
+  <li>In NWM CRM: Settings → Integrations → SMS → paste the SID, token, and phone number.</li>
+  <li>Send a test text to your own phone. It should arrive within 10 seconds.</li>
 </ol>
 
-<p><strong>A2P 10DLC registration (US numbers):</strong></p>
-<p>If you're sending from a US local number to US recipients, you must register with The Campaign Registry (A2P 10DLC). Twilio walks you through it; takes 3–5 business days. Without it, carriers filter your messages.</p>
+<p><strong>US number registration (A2P 10DLC):</strong></p>
+<p>If you're sending from a US local number to US recipients, you must register with The Campaign Registry. Twilio walks you through it. Takes 3 to 5 business days. Without it, carriers block your messages.</p>
 
-<h3>9.5 WhatsApp setup (Enterprise plan)</h3>
-<p>Two paths:</p>
+<h3>10.5 WhatsApp setup (Enterprise plan)</h3>
+<p>Two ways:</p>
 <ol>
-  <li><strong>Twilio WhatsApp API</strong> — simpler setup, works in 24h. Best for most customers.</li>
-  <li><strong>Meta Business API direct</strong> — more control, lower cost at scale. 2-3 weeks to set up (includes Business Verification).</li>
+  <li><strong>Twilio for WhatsApp</strong> — simpler. Works in 24 hours. Best for most.</li>
+  <li><strong>Meta Business direct</strong> — more control, lower cost at scale. 2 to 3 weeks to set up (includes business verification).</li>
 </ol>
-<p>Both routes require a verified business + a dedicated WhatsApp number (can be your existing phone number, but that number then loses personal WhatsApp access — use a dedicated one).</p>
+<p>Both need a verified business and a dedicated WhatsApp number (can be your existing phone, but that phone loses personal WhatsApp — use a dedicated one).</p>
 
-<p><strong>Template messages:</strong> outside of 24-hour "open session" windows, you can only send pre-approved message templates. We ship 12 pre-approved templates; you can request more via Meta (each takes 24–48h to approve).</p>
+<p><strong>Template messages:</strong> outside a 24-hour "open session" window, you can only send pre-approved templates. We ship 12 pre-approved ones. You can request more through Meta (each takes 24 to 48 hours).</p>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="templates">10. Templates &amp; snippets — write once, use forever</h2>
+<h2 id="templates">11. Saved emails — write once, reuse forever</h2>
 
-<h3>10.1 Email templates</h3>
-<p>Settings → Email Templates. Or click "+ New Template" inside the composer dropdown.</p>
+<h3>11.1 Email templates</h3>
+<p>Settings → Email Templates. Or click "+ New Template" in the composer dropdown.</p>
 <p>Each template has:</p>
 <ul>
-  <li>Name (internal)</li>
-  <li>Subject (with variables)</li>
-  <li>Body (with variables + formatting)</li>
+  <li>Name (for you)</li>
+  <li>Subject (with personal variables)</li>
+  <li>Body (with variables and formatting)</li>
   <li>Category (intro, follow-up, proposal, closing, nurture, etc.)</li>
-  <li>Attachment defaults (optional)</li>
+  <li>Default attachment (optional)</li>
 </ul>
 
-<p><strong>Variables</strong> — curly-brace syntax, auto-filled from contact/deal:</p>
+<p><strong>Variables</strong> — wrapped in curly braces, filled in from the contact or deal:</p>
 <table class="ref">
-  <thead><tr><th>Variable</th><th>Resolves to</th><th>Example</th></tr></thead>
+  <thead><tr><th>Variable</th><th>Fills in with</th><th>Example</th></tr></thead>
   <tbody>
-    <tr><td><code>{{contact.first_name}}</code></td><td>First name (parsed from full name)</td><td>Sarah</td></tr>
+    <tr><td><code>{{contact.first_name}}</code></td><td>First name (from full name)</td><td>Sarah</td></tr>
     <tr><td><code>{{contact.full_name}}</code></td><td>Full name</td><td>Sarah Kim</td></tr>
     <tr><td><code>{{contact.company}}</code></td><td>Company name</td><td>Acme Corp</td></tr>
     <tr><td><code>{{contact.role}}</code></td><td>Job title</td><td>VP Marketing</td></tr>
     <tr><td><code>{{deal.title}}</code></td><td>Deal title</td><td>Acme — Fractional CMO — May 2026</td></tr>
-    <tr><td><code>{{deal.value|usd}}</code></td><td>Deal value formatted</td><td>$48,000</td></tr>
+    <tr><td><code>{{deal.value|usd}}</code></td><td>Deal value formatted as money</td><td>$48,000</td></tr>
     <tr><td><code>{{owner.first_name}}</code></td><td>Your first name</td><td>Carlos</td></tr>
-    <tr><td><code>{{owner.calendar_link}}</code></td><td>Your scheduling link</td><td>https://cal.com/carlos</td></tr>
-    <tr><td><code>{{today|dateformat:"%B %d"}}</code></td><td>Formatted date</td><td>April 20</td></tr>
-    <tr><td><code>{{custom.use_case}}</code></td><td>Custom field value</td><td>Lead gen for B2B SaaS</td></tr>
+    <tr><td><code>{{owner.calendar_link}}</code></td><td>Your booking link</td><td>https://cal.com/carlos</td></tr>
+    <tr><td><code>{{today|dateformat:"%B %d"}}</code></td><td>Today's date, formatted</td><td>April 20</td></tr>
+    <tr><td><code>{{custom.use_case}}</code></td><td>A custom field value</td><td>Lead gen for B2B SaaS</td></tr>
   </tbody>
 </table>
 
-<p><strong>Fallbacks:</strong> if a variable is blank, it renders as a fallback. Syntax: <code>{{contact.first_name|default:"there"}}</code> renders "Hi Sarah" or "Hi there" if no first name.</p>
+<p><strong>Fallbacks:</strong> if a variable is blank, it uses your fallback. Syntax: <code>{{contact.first_name|default:"there"}}</code> renders "Hi Sarah" or "Hi there" if no first name.</p>
 
-<h3>10.2 Snippets (quick text insertions)</h3>
-<p>Smaller than templates — for commonly reused sentences, signatures, meeting invites. Settings → Snippets.</p>
-<p>In any composer, type <code>/</code> + snippet name to expand. Examples:</p>
+<h3>11.2 Snippets (tiny reusable chunks)</h3>
+<p>Smaller than templates — for signatures, one-line calendar invites, pricing paragraphs. Settings → Snippets.</p>
+<p>In any composer, type <code>/</code> + the snippet name to drop it in. Examples:</p>
 <ul>
   <li><code>/sig</code> → your email signature</li>
   <li><code>/cal</code> → "Here's my calendar: https://cal.com/carlos"</li>
-  <li><code>/pricing</code> → a pre-written paragraph with pricing</li>
+  <li><code>/pricing</code> → a pre-written pricing paragraph</li>
   <li><code>/nextsteps</code> → "Next steps: 1. You send me X. 2. I'll send you Y. 3. We meet on Z."</li>
 </ul>
 
-<h3>10.3 Best-practice templates we include</h3>
-<p>Every new account ships with 12 pre-written templates you can edit:</p>
+<h3>11.3 Templates we ship out of the box</h3>
+<p>Every new account gets 12 pre-written templates you can edit:</p>
 <ol>
   <li>Discovery call request (cold)</li>
   <li>Discovery call request (warm, referred)</li>
@@ -780,19 +843,19 @@
 </ol>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="campaigns">11. Campaigns — broadcasts &amp; automation sequences</h2>
+<h2 id="campaigns">12. Marketing: broadcasts &amp; automatic follow-ups</h2>
 
-<h3>11.1 Segments (the foundation)</h3>
-<p>A segment is a live-updating list of contacts matching filters. Contacts move in and out automatically as their data changes.</p>
+<h3>12.1 Segments (the starting point)</h3>
+<p>A segment is a self-updating list of contacts matching rules. People move in and out automatically as their info changes.</p>
 
 <p>Marketing → Segments → "New Segment":</p>
 <div class="step"><div class="num">1</div><div>
   <h4>Give it a name</h4>
-  <p>e.g. "Enterprise SaaS leads, qualified, no activity 14+ days"</p>
+  <p>Example: "Enterprise SaaS leads, qualified, no activity 14+ days"</p>
 </div></div>
 <div class="step"><div class="num">2</div><div>
-  <h4>Build the filter</h4>
-  <p>Visual builder. AND/OR groups. Example filters:</p>
+  <h4>Build the rule</h4>
+  <p>Visual builder. AND/OR groups. Example:</p>
   <div class="flow">
 status <span class="arrow">=</span> "lead" <span class="arrow">AND</span><br>
 tags <span class="arrow">contains</span> "enterprise" <span class="arrow">AND</span><br>
@@ -802,39 +865,39 @@ last_contact <span class="arrow">&lt;</span> 14 days ago
 </div></div>
 <div class="step"><div class="num">3</div><div>
   <h4>Preview</h4>
-  <p>Shows matching count + first 20 contacts. Adjust filters if count looks wrong.</p>
+  <p>Shows the match count and first 20 contacts. Tweak the rules if the count looks wrong.</p>
 </div></div>
 <div class="step"><div class="num">4</div><div>
   <h4>Save</h4>
-  <p>Segment appears in sidebar. Auto-updates every time contacts change. You can also include/exclude other segments (e.g. "Enterprise" AND NOT "Already a customer").</p>
+  <p>Segment shows in the sidebar. Updates on its own. You can also include or exclude other segments (for example "Enterprise" AND NOT "Already a customer").</p>
 </div></div>
 
-<h3>11.2 Broadcasts (one-shot sends)</h3>
+<h3>12.2 Broadcasts (one-time sends)</h3>
 <p>Marketing → Broadcasts → "New Broadcast":</p>
 <ol>
-  <li>Pick segment (or build one-off from a filter)</li>
-  <li>Pick template (or compose fresh)</li>
-  <li>Personalize subject + body with variables</li>
-  <li>Preview (desktop + mobile rendering)</li>
-  <li>Test send to yourself + 1-2 colleagues — always do this</li>
-  <li>Schedule: now, or pick a date/time</li>
-  <li>Confirm — shows count + cost (0.0008/email included in plan up to limit; extras billed at plan rate)</li>
+  <li>Pick a segment (or build one on the spot)</li>
+  <li>Pick a template (or write fresh)</li>
+  <li>Personalize subject and body with variables</li>
+  <li>Preview (on desktop and phone)</li>
+  <li>Send a test to yourself and one colleague — always do this</li>
+  <li>Schedule: now, or pick a time</li>
+  <li>Confirm — shows count and cost (free inside your plan limit; extras at plan rate)</li>
 </ol>
 
-<p><strong>During send:</strong> progress bar live-updates. Sending throttled to 500/hour by default (protects your reputation); upgrade to 5000/hour on Enterprise. Pause mid-send if something's wrong.</p>
+<p><strong>While sending:</strong> a live progress bar. Sending is capped at 500/hour by default (protects your sender reputation). Enterprise can go to 5,000/hour. Pause mid-send if something's off.</p>
 
-<p><strong>After send:</strong> real-time stats appear:</p>
+<p><strong>After sending:</strong> live stats:</p>
 <ul>
-  <li>Sent · Delivered · Opened (unique + total opens) · Clicked (unique + total clicks) · Replied · Unsubscribed · Bounced · Spam-reported</li>
-  <li>Top links clicked</li>
-  <li>Best-engaged time-of-day (for planning next send)</li>
-  <li>Geographic distribution of opens (by country)</li>
+  <li>Sent · Delivered · Opened (unique + total) · Clicked (unique + total) · Replied · Unsubscribed · Bounced · Marked as spam</li>
+  <li>Top clicked links</li>
+  <li>Best time of day (for planning next send)</li>
+  <li>Where opens happened (by country)</li>
 </ul>
 
-<h3>11.3 Automation sequences (multi-step drips)</h3>
-<p>Automation → Sequences → "New Sequence". Visual canvas.</p>
+<h3>12.3 Automatic follow-up sequences</h3>
+<p>Automation → Sequences → "New Sequence". A visual canvas.</p>
 
-<p><strong>Triggers (what starts the sequence):</strong></p>
+<p><strong>Starts (what kicks off the sequence):</strong></p>
 <ul>
   <li>Contact created</li>
   <li>Contact tagged with X</li>
@@ -842,29 +905,29 @@ last_contact <span class="arrow">&lt;</span> 14 days ago
   <li>Form submitted</li>
   <li>Deal created</li>
   <li>Deal stage changed</li>
-  <li>Date reached (e.g. renewal date minus 60 days)</li>
-  <li>Manual enrollment</li>
+  <li>Date reached (example: 60 days before renewal)</li>
+  <li>Added by hand</li>
 </ul>
 
 <p><strong>Actions (what the sequence does):</strong></p>
 <ul>
-  <li>Send email (from template)</li>
-  <li>Send SMS</li>
+  <li>Send email (from a template)</li>
+  <li>Send text</li>
   <li>Send WhatsApp template</li>
-  <li>Add tag · Remove tag</li>
+  <li>Add tag / Remove tag</li>
   <li>Change status</li>
   <li>Create task (assigned to owner)</li>
   <li>Notify user (email + in-app)</li>
-  <li>HTTP webhook call</li>
-  <li>Update field</li>
-  <li>Branch (if/else based on condition)</li>
-  <li>Wait (delay: X minutes/hours/days, or until specific day-of-week)</li>
+  <li>Send a signal to another app</li>
+  <li>Update a field</li>
+  <li>Branch (go one way if X, another if Y)</li>
+  <li>Wait (for minutes, hours, days, or until a specific day of the week)</li>
   <li>End sequence</li>
 </ul>
 
-<h3>11.4 Example: "New lead welcome" sequence</h3>
+<h3>12.4 Example: "New lead welcome" sequence</h3>
 <div class="flow">
-<strong>Trigger:</strong> Contact created with status=lead<br>
+<strong>Start:</strong> Contact created with status = lead<br>
 <span class="arrow">↓</span><br>
 <strong>Wait:</strong> 5 minutes<br>
 <span class="arrow">↓</span><br>
@@ -873,91 +936,91 @@ last_contact <span class="arrow">&lt;</span> 14 days ago
 <strong>Wait:</strong> 2 days<br>
 <span class="arrow">↓</span><br>
 <strong>Branch:</strong> did they open the first email?<br>
-<span class="arrow">├─ Yes:</span> Send "Here's a case study" email<br>
+<span class="arrow">├─ Yes:</span> Send "Here's a case study"<br>
 <span class="arrow">└─ No:</span> Send "Different angle" email<br>
 <span class="arrow">↓</span><br>
 <strong>Wait:</strong> 5 days<br>
 <span class="arrow">↓</span><br>
 <strong>Branch:</strong> has a deal been created for them?<br>
-<span class="arrow">├─ Yes:</span> End sequence (sales rep is engaged)<br>
+<span class="arrow">├─ Yes:</span> End (sales rep has it)<br>
 <span class="arrow">└─ No:</span> Create task for owner: "Personal outreach"<br>
 </div>
 
-<p>This one sequence handles ~300 leads/month for a typical Professional customer, and replaces 6+ hours/week of manual follow-up.</p>
+<p>This one sequence handles about 300 leads a month for a typical Professional customer. Replaces 6+ hours a week of manual follow-up.</p>
 
-<h3>11.5 Suppression &amp; unsubscribes (critical)</h3>
-<p>Every marketing email automatically includes an unsubscribe link (non-removable). When clicked:</p>
+<h3>12.5 Unsubscribes (very important)</h3>
+<p>Every marketing email automatically includes an unsubscribe link (you can't remove it). When someone clicks:</p>
 <ol>
   <li>Contact marked <code>unsubscribed: true</code></li>
-  <li>Removed from all active sequences</li>
+  <li>Pulled out of every active sequence</li>
   <li>Future campaigns automatically skip them</li>
-  <li>Re-subscription requires them to re-opt-in via a form</li>
+  <li>They have to opt back in through a form to get marketing again</li>
 </ol>
 
 <div class="warn-box">
-  <strong>⚠️ Never try to bypass unsubscribes</strong>
-  <p>Legally, you must honor every unsubscribe within 10 business days (CAN-SPAM) or immediately (GDPR/CASL). We enforce this at the platform level — the suppression list is not editable. If you need to contact someone for a non-commercial reason (e.g. renewal), use transactional 1:1 email, not marketing send.</p>
+  <strong>⚠️ Never try to work around an unsubscribe</strong>
+  <p>The law says you must honor every unsubscribe within 10 business days (US) or right away (EU and Canada). We enforce this in the platform — the block list can't be edited. If you need to contact someone for a non-marketing reason (like renewal), send a 1-to-1 transactional email, not a marketing blast.</p>
 </div>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="reporting">12. Reporting — 8 dashboards that matter</h2>
+<h2 id="reporting">13. Reports &amp; forecasts</h2>
 
-<h3>12.1 Sales pipeline dashboard</h3>
+<h3>13.1 Sales pipeline dashboard</h3>
 <p>Shows:</p>
 <ul>
   <li>Pipeline value by stage (bar chart)</li>
-  <li>Weighted pipeline (value × probability)</li>
-  <li>Age distribution per stage</li>
-  <li>Deal flow: deals added vs. deals closed per week</li>
+  <li>Weighted pipeline (value × odds)</li>
+  <li>How old deals are in each stage</li>
+  <li>Deal flow: deals added versus deals closed each week</li>
 </ul>
 <p><strong>What to watch:</strong> if weighted pipeline is less than 3× your monthly revenue target, you have a pipeline problem (not a closing problem).</p>
 
-<h3>12.2 Revenue dashboard</h3>
+<h3>13.2 Revenue dashboard</h3>
 <ul>
-  <li>MRR · ARR (for subscription businesses)</li>
-  <li>New revenue · Expansion · Churn (month over month)</li>
+  <li>Monthly recurring revenue · Annual recurring revenue (for subscription businesses)</li>
+  <li>New revenue · Expansions · Lost customers (month to month)</li>
   <li>Revenue by source (which marketing channel drove it)</li>
   <li>Revenue by rep (who's closing)</li>
 </ul>
 
-<h3>12.3 Funnel conversion</h3>
+<h3>13.3 Funnel conversion</h3>
 <ul>
-  <li>Stage-to-stage conversion % (if 50 leads become 20 qualified, it's 40% lead→qualified)</li>
-  <li>Time in stage (median + p90) per stage</li>
-  <li>Drop-off analysis (which stage loses most deals, and why — from close-lost reasons)</li>
+  <li>Stage-to-stage rate (if 50 leads become 20 qualified, that's 40%)</li>
+  <li>Time in stage (average plus the slowest 10%) for each stage</li>
+  <li>Drop-off analysis (which stage loses the most deals, and why — from close-lost reasons)</li>
 </ul>
 
-<h3>12.4 Activity dashboard</h3>
+<h3>13.4 Activity dashboard</h3>
 <ul>
   <li>Calls, emails, meetings per rep per week</li>
   <li>Activity → deal conversion (does more activity drive more deals?)</li>
-  <li>Response time (median time to first reply when lead inbound)</li>
+  <li>Response time (average time to first reply when a lead contacts you)</li>
 </ul>
 
-<h3>12.5 Campaign performance</h3>
+<h3>13.5 Campaign performance</h3>
 <ul>
-  <li>Per campaign: sent, delivered, open rate, click rate, reply rate, unsubscribe rate, revenue attributed</li>
+  <li>For each campaign: sent, delivered, open rate, click rate, reply rate, unsubscribe rate, revenue it drove</li>
   <li>Trends over time</li>
-  <li>Best-performing subject lines + preview text</li>
+  <li>Best-performing subject lines and preview text</li>
 </ul>
 
-<h3>12.6 Contact/list health</h3>
+<h3>13.6 Contact list health</h3>
 <ul>
-  <li>Bounce rate (hard + soft) — should be &lt; 2% on healthy lists</li>
-  <li>Engagement decay — % of list active in last 30/60/90 days</li>
-  <li>Email verification status — verified vs. suspected bad</li>
+  <li>Bounce rate (hard + soft) — should be under 2% on a healthy list</li>
+  <li>How many contacts have engaged in the last 30/60/90 days</li>
+  <li>How many emails are verified as good versus suspected bad</li>
 </ul>
 
-<h3>12.7 Customer health (for existing customers)</h3>
+<h3>13.7 Customer health (for existing customers)</h3>
 <ul>
   <li>Days since last meaningful contact</li>
-  <li>Support tickets open</li>
-  <li>NPS / satisfaction scores (if tracked)</li>
-  <li>Usage decline signals (for SaaS — connect via API)</li>
-  <li>Renewal risk score (auto-calculated from all above)</li>
+  <li>Open support tickets</li>
+  <li>Satisfaction scores (if tracked)</li>
+  <li>Usage drops (for software companies — connect through API)</li>
+  <li>Renewal risk score (auto-calculated from all the above)</li>
 </ul>
 
-<h3>12.8 Team scorecard</h3>
+<h3>13.8 Team scorecard</h3>
 <ul>
   <li>Quota attainment per rep</li>
   <li>Rep activity (calls, emails, meetings)</li>
@@ -966,80 +1029,104 @@ last_contact <span class="arrow">&lt;</span> 14 days ago
   <li>Rep average deal size</li>
 </ul>
 
-<h3>12.9 Custom reports</h3>
-<p>Reporting → Custom → "New Report". Pick a data source (contacts, deals, activities, campaigns), filter, group, and visualize. Save, share, schedule (weekly email).</p>
+<h3>13.9 Custom reports</h3>
+<p>Reporting → Custom → "New Report". Pick your data (contacts, deals, activities, campaigns), filter, group, and draw the chart. Save, share, send weekly by email.</p>
 
-<h3>12.10 Export formats</h3>
+<h3>13.10 Export formats</h3>
 <ul>
-  <li>PDF — for decks and formal reviews</li>
-  <li>CSV — for further analysis in Excel / Sheets</li>
-  <li>PNG — for Slack/email quick-shares</li>
-  <li>API — JSON endpoint for any report, updated live</li>
+  <li>PDF — for slide decks and formal reviews</li>
+  <li>Spreadsheet — for deeper digging in Excel or Google Sheets</li>
+  <li>PNG — for quick Slack or email shares</li>
+  <li>API — a live link any other app can read from</li>
 </ul>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="team">13. Team setup — roles, permissions, SSO</h2>
+<h2 id="agency">14. Agency tools — for people running many clients</h2>
+<p>If you resell, put your own brand on the tool, or run it for clients, this is the reason to pick NWM over HubSpot. Five tools HubSpot doesn't ship at any price.</p>
 
-<h3>13.1 Adding users</h3>
+<h3>14.1 Sub-accounts</h3>
+<p><a href="https://netwebmedia.com/crm/sub-accounts">Sub-accounts</a> give you one parent login that can jump into any client's space. Each client has their own data, their own users, their own pipelines. You see everything rolled up. Spin up a new client from a template in under 60 seconds.</p>
+
+<h3>14.2 White-label</h3>
+<p><a href="https://netwebmedia.com/crm/white-label">White-label</a> puts your brand on every surface your clients see: your domain (<code>crm.youragency.com</code>), your logo, your colors, your email sender, your favicon, your login screen. NetWebMedia disappears from view. Per sub-account, so each client can have a different brand.</p>
+
+<h3>14.3 Billing</h3>
+<p><a href="https://netwebmedia.com/crm/billing">Billing</a> is the reseller money layer. Set your own plans and prices. Charge clients monthly. NWM takes a small platform fee. Runs on Stripe Connect underneath. Invoices and failed-payment follow-ups happen through the Billing module, not a separate tool.</p>
+
+<h3>14.4 Affiliates</h3>
+<p><a href="https://netwebmedia.com/crm/affiliates">Affiliates</a> runs your referral program. Track signups, approve payouts, pay commission on first sale or recurring. Affiliate links work on every landing page and form across every sub-account, with credit going back to the right referrer.</p>
+
+<h3>14.5 Reputation</h3>
+<p><a href="https://netwebmedia.com/crm/reputation">Reputation</a> handles review requests and replies across Google, Yelp, Trustpilot, and G2. Trigger a request from any automation. Watch for new reviews. Reply in-product. See sentiment trends in Reports. Use it for your own agency brand, or sell it as a service to your clients. Both work.</p>
+
+<div class="callout tip">
+  <strong>💡 Why this section is the real reason to pick NWM</strong>
+  <p>An agency running 20 clients on HubSpot pays for 20 HubSpot licenses, glues a fake white-label together with GoHighLevel, bills through Stripe by hand, and tracks referrals in a spreadsheet. One NWM license does all of it, with data shared across every sub-account.</p>
+</div>
+
+<!-- ────────────────────────────────────────────────────────── -->
+<h2 id="team">15. Your team — roles, access, secure login</h2>
+
+<h3>15.1 Adding users</h3>
 <p>Settings → Team → "+ Invite User":</p>
 <ol>
   <li>Email</li>
-  <li>Role (see 13.2)</li>
-  <li>Pipeline access (which pipelines they can see/edit)</li>
-  <li>Contact visibility (All, Team, Assigned only, Custom)</li>
+  <li>Role (see 15.2)</li>
+  <li>Which pipelines they can see or edit</li>
+  <li>Which contacts they can see (All, Team, Assigned only, Custom)</li>
 </ol>
-<p>Invited user gets a magic-link email, clicks, sets name + avatar + timezone, they're in.</p>
+<p>The user gets a one-click login email, clicks, sets their name, photo, time zone, and they're in.</p>
 
-<h3>13.2 Built-in roles</h3>
+<h3>15.2 Built-in roles</h3>
 <table class="ref">
   <thead><tr><th>Role</th><th>Can do</th><th>Can't do</th></tr></thead>
   <tbody>
-    <tr><td>User</td><td>Manage own contacts, deals, conversations. See team pipeline.</td><td>Edit team settings, billing, other users' data.</td></tr>
-    <tr><td>Manager</td><td>Everything User can, + edit team members' data + view all reports.</td><td>Billing, integrations, team structure.</td></tr>
-    <tr><td>Admin</td><td>Everything Manager can, + settings, integrations, team, pipelines, custom fields.</td><td>Delete the account, change billing email.</td></tr>
+    <tr><td>User</td><td>Manage their own contacts, deals, conversations. See the team pipeline.</td><td>Edit team settings, billing, or other people's data.</td></tr>
+    <tr><td>Manager</td><td>Everything User can, plus edit team members' data plus see all reports.</td><td>Billing, integrations, team structure.</td></tr>
+    <tr><td>Admin</td><td>Everything Manager can, plus settings, integrations, team, pipelines, custom fields.</td><td>Delete the whole account or change the billing email.</td></tr>
     <tr><td>Superadmin</td><td>Everything. Billing, account deletion, ownership transfer.</td><td>—</td></tr>
   </tbody>
 </table>
-<p>Only one Superadmin per account (typically the founder/owner). Multiple Admins OK.</p>
+<p>Only one Superadmin per account (usually the founder). Multiple Admins is fine.</p>
 
-<h3>13.3 Custom roles (Enterprise)</h3>
-<p>Build your own role by picking granular permissions across: contacts (read/write/delete), deals (read/write/delete/close), conversations (read/write), reports (read/export), settings (by subsystem), team (invite/edit), integrations, API keys.</p>
+<h3>15.3 Custom roles (Enterprise)</h3>
+<p>Build your own role by ticking specific permissions: contacts (read/write/delete), deals (read/write/delete/close), conversations (read/write), reports (read/export), settings (by area), team (invite/edit), integrations, API keys.</p>
 
-<h3>13.4 Contact ownership rules</h3>
-<p>Settings → Data → Ownership Rules. Auto-assign contacts to owners based on:</p>
+<h3>15.4 Contact ownership rules</h3>
+<p>Settings → Data → Ownership Rules. Assign contacts to owners automatically based on:</p>
 <ul>
   <li>Round-robin (next rep in rotation)</li>
-  <li>Load-balanced (rep with fewest active deals)</li>
-  <li>Territory (by country / region / state)</li>
-  <li>Industry / custom field</li>
+  <li>Fairness (rep with fewest active deals)</li>
+  <li>Territory (by country, region, or state)</li>
+  <li>Industry or a custom field</li>
   <li>Deal size (big deals → senior reps)</li>
-  <li>Source (leads from ads → AE rotation; leads from referral → partnerships rep)</li>
+  <li>Source (ads → one group; referrals → another)</li>
 </ul>
 
-<h3>13.5 SSO (Enterprise plan)</h3>
-<p>Supported providers: Okta, Azure AD, Google Workspace, JumpCloud, OneLogin, any SAML 2.0 IdP.</p>
+<h3>15.5 Single sign-on (Enterprise plan)</h3>
+<p>Lets your team log in with their company login instead of a separate password. Supported: Okta, Azure AD, Google Workspace, JumpCloud, OneLogin, any SAML 2.0 provider.</p>
 
 <ol>
-  <li>Settings → Security → SSO → "Configure"</li>
-  <li>Copy our Service Provider (SP) metadata (ACS URL, Entity ID)</li>
-  <li>In your IdP, create a new SAML app with our metadata</li>
-  <li>Back in NWM: paste IdP metadata (XML upload or URL)</li>
+  <li>Settings → Security → Single Sign-On → "Configure"</li>
+  <li>Copy our setup info (a web address and an ID)</li>
+  <li>In your company's login provider, create a new app with our info</li>
+  <li>Back in NWM: paste their setup info (XML file or URL)</li>
   <li>Test with a test user</li>
-  <li>Enable for all users (optional: enforce — blocks password login)</li>
+  <li>Turn on for everyone (optional: require it — blocks password logins)</li>
 </ol>
 
-<h3>13.6 2FA (all plans)</h3>
-<p>Settings → Security → 2FA. Supported: TOTP (Google Authenticator, Authy, 1Password), SMS (fallback), WebAuthn/Passkeys. Superadmins can enforce 2FA for all team members.</p>
+<h3>15.6 Two-factor login (all plans)</h3>
+<p>Settings → Security → 2FA. Options: code-generator app (Google Authenticator, Authy, 1Password), text message (fallback), passkey. Superadmins can require it for every team member.</p>
 
-<h3>13.7 Audit log</h3>
-<p>Settings → Security → Audit Log. Every significant action logged: logins, deletions, permission changes, exports, API key creation, deal modifications over $X. Export to CSV or pipe to SIEM via webhook (Enterprise).</p>
+<h3>15.7 Audit log</h3>
+<p>Settings → Security → Audit Log. Every important action logged: logins, deletions, permission changes, exports, new API keys, changes to deals over a certain value. Export to spreadsheet or pipe into your security tools (Enterprise).</p>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="api">14. API, webhooks &amp; integrations</h2>
+<h2 id="api">16. Connecting other apps</h2>
 
-<h3>14.1 API basics</h3>
+<h3>16.1 API basics</h3>
 <p>Base URL: <code>https://netwebmedia.com/app/api/</code></p>
-<p>Auth: Bearer token in <code>Authorization</code> header. Get a token: Settings → API Keys → "New Key". Token scope: read-only, read-write, or admin.</p>
+<p>Sign in: send a bearer token in the <code>Authorization</code> header. Get a token: Settings → API Keys → "New Key". Pick the access level: read-only, read-write, or admin.</p>
 
 <h4>Create a contact</h4>
 <div class="pre"><code>curl -X POST https://netwebmedia.com/app/api/contacts \
@@ -1076,13 +1163,13 @@ last_contact <span class="arrow">&lt;</span> 14 days ago
   -H "Content-Type: application/json" \
   -d '{"stage_id": 4, "value": 52000, "probability": 60}'</code></div>
 
-<h3>14.2 Webhooks</h3>
-<p>Settings → Webhooks → "New Webhook". Configure:</p>
+<h3>16.2 Event signals (webhooks)</h3>
+<p>Settings → Webhooks → "New Webhook". Set up:</p>
 <ul>
-  <li>URL (your endpoint)</li>
-  <li>Events to subscribe to (pick from 30+ events)</li>
-  <li>Secret (used to sign payloads)</li>
-  <li>Retry policy (exponential backoff up to 24h on failure)</li>
+  <li>URL (your address)</li>
+  <li>Which events you want (pick from 30+)</li>
+  <li>A secret (to prove messages are from us)</li>
+  <li>Retry rule (we retry up to 24 hours on failure)</li>
 </ul>
 
 <p><strong>Event list (sample):</strong></p>
@@ -1094,7 +1181,7 @@ last_contact <span class="arrow">&lt;</span> 14 days ago
   <li><code>campaign.opened</code> · <code>campaign.clicked</code> · <code>campaign.unsubscribed</code></li>
 </ul>
 
-<p><strong>Payload example (deal.stage_changed):</strong></p>
+<p><strong>Example message (deal.stage_changed):</strong></p>
 <div class="pre"><code>{
   "event": "deal.stage_changed",
   "timestamp": "2026-04-20T14:23:09Z",
@@ -1107,175 +1194,193 @@ last_contact <span class="arrow">&lt;</span> 14 days ago
   }
 }</code></div>
 
-<h3>14.3 Forms</h3>
-<p>Settings → Forms → "New Form". Drag fields, pick destination:</p>
+<h3>16.3 Forms</h3>
+<p>Settings → Forms → "New Form". Drag fields, pick what happens on submit:</p>
 <ul>
-  <li>Create contact with mapped fields</li>
-  <li>Assign to owner (fixed or rotation)</li>
-  <li>Enroll in an automation sequence</li>
-  <li>Send instant notification to team</li>
-  <li>Redirect to a thank-you URL</li>
+  <li>Create a contact with the right fields</li>
+  <li>Assign to an owner (fixed or rotation)</li>
+  <li>Start an automation sequence</li>
+  <li>Notify the team right away</li>
+  <li>Send them to a thank-you page</li>
 </ul>
-<p>Embed options:</p>
+<p>Ways to put the form on your site:</p>
 <ul>
-  <li><strong>JS embed</strong> — one script tag + div, loads form inline on your site</li>
-  <li><strong>Iframe</strong> — for sites where you can't run JS</li>
+  <li><strong>JavaScript</strong> — one script tag + a div, form shows inline on your site</li>
+  <li><strong>Iframe</strong> — for sites where you can't run JavaScript</li>
   <li><strong>Hosted URL</strong> — <code>forms.netwebmedia.com/your-form</code>, no embedding needed</li>
-  <li><strong>Popover</strong> — triggers on exit intent or time-on-page</li>
+  <li><strong>Pop-up</strong> — triggered when someone's about to leave, or after a set time on page</li>
 </ul>
 
-<h3>14.4 Ecosystem integrations (native)</h3>
+<h3>16.4 Built-in connections</h3>
 <p>Settings → Integrations. One-click setup for:</p>
 <ul>
-  <li><strong>HubSpot</strong> — two-way sync (contacts, companies, deals, activities)</li>
-  <li><strong>Slack</strong> — notifications on deal wins/losses, new leads, mentions</li>
+  <li><strong>HubSpot</strong> — two-way sync of contacts, companies, deals, activities</li>
+  <li><strong>Slack</strong> — alerts on deal wins/losses, new leads, mentions</li>
   <li><strong>Google Calendar / Outlook</strong> — two-way meeting sync</li>
   <li><strong>Zoom / Google Meet</strong> — auto-create meeting links when scheduling</li>
-  <li><strong>Stripe</strong> — deal won → invoice created; paid → customer status</li>
+  <li><strong>Stripe</strong> — deal won → invoice created; paid → customer status updated</li>
   <li><strong>Calendly / Cal.com</strong> — booked meetings auto-create deals</li>
   <li><strong>Dropbox Sign / DocuSign</strong> — send proposals, track signatures</li>
-  <li><strong>Zapier</strong> — 6000+ apps via Zap templates</li>
-  <li><strong>n8n</strong> — for self-hosted workflow automation</li>
-  <li><strong>Make (Integromat)</strong> — native connector</li>
+  <li><strong>Zapier</strong> — connects to 6,000+ apps via templates</li>
+  <li><strong>n8n</strong> — for self-hosted automation</li>
+  <li><strong>Make (Integromat)</strong> — built-in connector</li>
 </ul>
 
-<h3>14.5 Embeddable widgets</h3>
-<p>Drop these anywhere on your site:</p>
+<h3>16.5 Drop-in widgets</h3>
+<p>Add these anywhere on your site:</p>
 <ul>
-  <li><strong>Chat widget</strong> — opens a Conversation (requires Chat Agents add-on)</li>
+  <li><strong>Chat widget</strong> — opens a conversation (needs the Chat Agents add-on)</li>
   <li><strong>Booking widget</strong> — calendar embed</li>
-  <li><strong>Lead form</strong> — as above (14.3)</li>
-  <li><strong>Live pipeline stats</strong> — public "X deals closed this month" counter for social proof</li>
+  <li><strong>Lead form</strong> — as above (16.3)</li>
+  <li><strong>Live pipeline stats</strong> — a public counter like "X deals closed this month" for social proof</li>
 </ul>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="trouble">15. Troubleshooting — the 20 issues we see most</h2>
+<h2 id="trouble">Troubleshooting — the 20 things we see most</h2>
 
 <ol>
-  <li><strong>"My emails go to spam"</strong> — 9 times out of 10 it's missing SPF/DKIM/DMARC. Settings → Email → Run Deliverability Check. Fix the red flags.</li>
-  <li><strong>"I imported a CSV but contacts are missing"</strong> — check import log (Settings → Import History). Rows without email + phone are skipped. Re-upload fixed rows.</li>
-  <li><strong>"HubSpot sync stopped"</strong> — token likely expired or scope removed. Settings → Integrations → HubSpot → Reconnect.</li>
-  <li><strong>"Deal won't move to next stage"</strong> — check if stage requires a field to be filled (e.g. "expected_close date required to leave Qualified"). Error appears in red at bottom of modal.</li>
-  <li><strong>"Automation didn't fire"</strong> — Automation → (sequence) → Log shows why. Common reasons: contact already enrolled, filter didn't match, trigger disabled.</li>
-  <li><strong>"Campaign open rate is 0%"</strong> — most likely your image host blocked (Gmail image proxy caches). Open tracking relies on image loads. Still use click rate as the real signal.</li>
-  <li><strong>"I can't find a contact I just created"</strong> — 98% of the time it's a filter applied to your contacts view. Click "Clear filters".</li>
-  <li><strong>"Calendar sync is pulling old events"</strong> — initial sync pulls 90 days back. If you need longer history, Settings → Integrations → Calendar → Extend sync range.</li>
-  <li><strong>"SMS won't send"</strong> — Twilio balance might be $0, or A2P 10DLC registration pending. Twilio console shows the real error.</li>
-  <li><strong>"My custom field isn't showing"</strong> — you added it to Contacts but are viewing it on a Company or Deal. Custom fields are per-object.</li>
-  <li><strong>"Duplicate contacts keep appearing"</strong> — check import settings. Switch to "Merge" not "Create new" for recurring imports.</li>
-  <li><strong>"I'm getting rate-limited on the API"</strong> — default is 1000 req/min. Professional gets 5000, Enterprise custom. Batch writes into 100-item chunks.</li>
-  <li><strong>"Pipeline is slow to load"</strong> — you have &gt; 500 deals in active stages. Archive closed-won/lost older than 6 months: Settings → Data → Archive Old Deals.</li>
-  <li><strong>"Reports show wrong numbers"</strong> — timezone mismatch. Every user has their own timezone; reports aggregate in the account's timezone. Settings → General → Timezone.</li>
-  <li><strong>"Form submissions aren't coming through"</strong> — check the form's "Status" is Published, not Draft. And that the target field names match your current schema.</li>
-  <li><strong>"@-mentions don't notify"</strong> — teammate has notifications off. Settings → Notifications → review.</li>
-  <li><strong>"I can't log in"</strong> — magic link expired (5-min window). Request a new one. If blocked by corporate email filter, try the password fallback (Settings → Security).</li>
-  <li><strong>"I lost access after an SSO change"</strong> — admin needs to re-sync your account. Contact support if you're the only admin.</li>
-  <li><strong>"Export CSV is truncated"</strong> — at 100k rows, we split into multiple CSVs (downloaded as a ZIP).</li>
-  <li><strong>"Whatsapp template was rejected"</strong> — Meta template rejections usually due to marketing content in a Utility template, or vice versa. Re-submit with correct category.</li>
+  <li><strong>"My emails go to spam"</strong> — 9 times out of 10 it's missing SPF, DKIM, or DMARC. Settings → Email → Run Deliverability Check. Fix what's red.</li>
+  <li><strong>"I imported a spreadsheet but contacts are missing"</strong> — check Settings → Import History. Rows without email or phone are skipped. Re-upload the fixed ones.</li>
+  <li><strong>"HubSpot sync stopped"</strong> — token probably expired. Settings → Integrations → HubSpot → Reconnect.</li>
+  <li><strong>"Deal won't move to the next stage"</strong> — the stage requires a field (like expected close date). The error shows in red at the bottom of the box.</li>
+  <li><strong>"Automation didn't fire"</strong> — Automation → (sequence) → Log shows why. Common: contact already in the sequence, filter didn't match, trigger disabled.</li>
+  <li><strong>"Campaign open rate is 0%"</strong> — Gmail's image proxy is blocking. Open tracking relies on loading an invisible image. Use click rate as the real signal.</li>
+  <li><strong>"I can't find a contact I just created"</strong> — 98% of the time, a filter is applied. Click "Clear filters".</li>
+  <li><strong>"Calendar is pulling old events"</strong> — initial sync pulls the last 90 days. Need longer? Settings → Integrations → Calendar → Extend sync range.</li>
+  <li><strong>"Texts won't send"</strong> — Twilio balance might be $0, or US number registration is pending. The Twilio console shows the real error.</li>
+  <li><strong>"My custom field isn't showing"</strong> — you added it to Contacts but are viewing a Company or Deal. Custom fields are per record type.</li>
+  <li><strong>"Duplicate contacts keep appearing"</strong> — check your import setting. Switch to "Fill in blanks" instead of "Create new" for regular imports.</li>
+  <li><strong>"I'm getting rate-limited on the API"</strong> — default is 1,000 requests per minute. Professional gets 5,000, Enterprise is custom. Batch writes in chunks of 100.</li>
+  <li><strong>"Pipeline is slow to load"</strong> — more than 500 deals in active stages. Archive closed-won/lost older than 6 months: Settings → Data → Archive Old Deals.</li>
+  <li><strong>"Reports show wrong numbers"</strong> — time zone mismatch. Every user has their own; reports use the account time zone. Settings → General → Timezone.</li>
+  <li><strong>"Form submissions aren't coming through"</strong> — check the form's Status is Published, not Draft. And that field names match your current setup.</li>
+  <li><strong>"@-mentions don't notify"</strong> — teammate has notifications off. Settings → Notifications → check.</li>
+  <li><strong>"I can't log in"</strong> — the one-click link expires in 5 minutes. Ask for a new one. If blocked by a corporate filter, use the password fallback (Settings → Security).</li>
+  <li><strong>"I lost access after a single sign-on change"</strong> — your admin needs to re-link your account. Contact support if you're the only admin.</li>
+  <li><strong>"Export is cut off"</strong> — at 100,000 rows we split into multiple files (downloaded as a ZIP).</li>
+  <li><strong>"WhatsApp template was rejected"</strong> — usually because the content doesn't match the category. Re-submit with the right one.</li>
 </ol>
 
 <div class="callout">
   <strong>🆘 Still stuck?</strong>
-  <p>Email <a href="mailto:support@netwebmedia.com">support@netwebmedia.com</a> (4-hour response on business days, included all plans). Enterprise gets Slack Connect + a dedicated success manager.</p>
+  <p>Email <a href="mailto:support@netwebmedia.com">support@netwebmedia.com</a> (4-hour response on business days, all plans). Enterprise gets Slack Connect and a dedicated success manager.</p>
 </div>
 
 <!-- ────────────────────────────────────────────────────────── -->
-<h2 id="playbook">16. Your 30 · 60 · 90-day playbook</h2>
+<h2 id="playbook">17. Your 30 · 60 · 90-day plan</h2>
 
-<h3>Days 1–7: Foundation</h3>
+<h3>Days 1 to 7: Foundation</h3>
 <div class="checklist">
   <h4>Week 1</h4>
   <ul>
-    <li>Complete setup wizard</li>
-    <li>Configure pipeline stages + aging thresholds</li>
-    <li>Configure 3 custom fields</li>
+    <li>Finish the setup wizard</li>
+    <li>Set up pipeline stages and aging warnings</li>
+    <li>Add 3 custom fields</li>
     <li>Connect email (SPF + DKIM + DMARC all green)</li>
-    <li>Import contacts (CSV or HubSpot)</li>
+    <li>Import contacts (spreadsheet or HubSpot)</li>
     <li>Invite your team (users + roles)</li>
     <li>Create 3 email templates (discovery, follow-up, proposal)</li>
-    <li>Create 1 automation sequence: new-lead welcome (covered in 11.4)</li>
-    <li>Connect calendar</li>
-    <li>Run at least 1 test broadcast to yourself</li>
+    <li>Create 1 automatic sequence: new-lead welcome (see 12.4)</li>
+    <li>Connect your calendar</li>
+    <li>Send at least 1 test broadcast to yourself</li>
   </ul>
 </div>
 
-<h3>Days 8–30: First usage cycle</h3>
+<h3>Days 8 to 30: First cycle of real use</h3>
 <div class="checklist">
-  <h4>Weeks 2–4</h4>
+  <h4>Weeks 2 to 4</h4>
   <ul>
-    <li>All new leads go into CRM (not spreadsheets, not email, not memory)</li>
-    <li>Every email-conversation logged (automatic if email connected)</li>
-    <li>Every deal has a next step set</li>
-    <li>Monday ritual: review stale deals, advance or close</li>
-    <li>Friday ritual: log any offline activity (calls, in-person meetings)</li>
+    <li>Every new lead goes into the CRM (not spreadsheets, not email, not memory)</li>
+    <li>Every email thread is logged (automatic if your email is connected)</li>
+    <li>Every deal has a next step written on it</li>
+    <li>Monday routine: review stale deals, either move or close</li>
+    <li>Friday routine: log any offline activity (calls, in-person meetings)</li>
     <li>Weekly team review (30 min): pipeline + forecast + blockers</li>
   </ul>
 </div>
 
-<h3>Days 31–60: Optimization</h3>
+<h3>Days 31 to 60: Tuning</h3>
 <div class="checklist">
   <h4>Month 2</h4>
   <ul>
-    <li>Review actual close reasons → adjust pipeline stages if needed</li>
-    <li>Identify top 3 bottleneck stages (longest age, biggest drop-off)</li>
-    <li>Build 1–2 more automation sequences based on what you do manually often</li>
-    <li>Set up reporting dashboards your team + execs actually read</li>
-    <li>Connect Stripe if you haven't (revenue flows through CRM)</li>
-    <li>Run 1–2 real marketing broadcasts to warm segments</li>
+    <li>Review your actual close-lost reasons → adjust stages if needed</li>
+    <li>Find the 3 slowest stages (longest age, biggest drop-off)</li>
+    <li>Build 1 or 2 more automatic sequences for things you do manually often</li>
+    <li>Set up reports your team and execs actually read</li>
+    <li>Connect Stripe if you haven't (so revenue flows through the CRM)</li>
+    <li>Run 1 or 2 real marketing broadcasts to warm segments</li>
   </ul>
 </div>
 
-<h3>Days 61–90: Scale &amp; integrate</h3>
+<h3>Days 61 to 90: Scale &amp; connect</h3>
 <div class="checklist">
   <h4>Month 3</h4>
   <ul>
-    <li>Integrate 2–3 ecosystem tools (Slack, Calendly, Dropbox Sign)</li>
-    <li>Build at least 1 custom report (e.g. "deals-by-industry-by-quarter")</li>
-    <li>If you're doing outbound: set up cold-outbound sequences</li>
-    <li>If you're SaaS: set up usage-based alerts via webhook</li>
-    <li>If you have a team: enforce activity minimums (N calls/week per rep)</li>
-    <li>Run your first QBR with CRM data</li>
-    <li>Evaluate: is forecast accuracy improving? Are deals closing faster? Fewer falling through cracks?</li>
+    <li>Connect 2 or 3 outside tools (Slack, Calendly, Dropbox Sign)</li>
+    <li>Build at least 1 custom report (example: deals by industry by quarter)</li>
+    <li>If you're doing outbound: set up cold-outreach sequences</li>
+    <li>If you're in software: set up usage-based alerts through an event signal</li>
+    <li>If you have a team: set minimum activity levels (example: N calls per week per rep)</li>
+    <li>Run your first business review using CRM data</li>
+    <li>Check: is the forecast getting more accurate? Are deals closing faster? Fewer falling through the cracks?</li>
   </ul>
 </div>
 
 <div class="callout tip">
   <strong>💡 The compounding effect</strong>
-  <p>Teams that follow this playbook report 20–40% more deals closed in Q2 vs. Q1 without increasing headcount. CRM is leverage — but only if you use it as a system, not as a spreadsheet-with-prettier-colors.</p>
+  <p>Teams that follow this plan report 20 to 40% more deals closed in Q2 than Q1, without adding headcount. The CRM only works if you use it as a system, not as a fancier spreadsheet.</p>
 </div>
+
+<h3>What success looks like</h3>
+<ul>
+  <li>Within 7 days: every new lead lives in the CRM, email is connected, your pipeline is set up.</li>
+  <li>Within 30 days: your team uses it daily, every deal has a next step, the Monday review is a habit.</li>
+  <li>Within 90 days: forecasts are reliable, you know your cost per customer and value per customer, fewer deals go stale.</li>
+</ul>
+
+<h3>Common mistakes to avoid</h3>
+<ul>
+  <li><strong>Importing data before setting up stages.</strong> You end up with everyone stuck in "New Lead" and no plan. Fix the pipeline first.</li>
+  <li><strong>Adding too many custom fields.</strong> Every field is another thing your team has to fill in. Start with 3.</li>
+  <li><strong>Skipping the email DNS setup.</strong> Skip it and your emails go to spam. No exceptions.</li>
+  <li><strong>Treating it like a spreadsheet.</strong> The whole point is the automation. Build at least one sequence in week one.</li>
+</ul>
 
 <div class="next-cta">
   <h3>Ready for the real thing?</h3>
-  <p>Free 14-day trial. White-glove import + setup included. No credit card to start.</p>
+  <p>Free 14-day trial. White-glove import and setup included. No card needed to start.</p>
   <a class="btn-next" href="/crm-demo/">Try the demo →</a>
   <a class="btn-ghost" href="../contact.html">Start a trial</a>
 </div>
 
+<h3>Still stuck? Here's what to do</h3>
+<p>Email <a href="mailto:support@netwebmedia.com">support@netwebmedia.com</a> or <a href="../contact.html">book a free 30-minute call</a>. We'll look at your current tools, tell you which ones NWM replaces, and set your account up with you on the call.</p>
+
 <h3>Common questions (quick reference)</h3>
 <div class="faq">
-  <details><summary>Can I migrate from HubSpot without downtime?</summary>
-    <p>Yes. We run HubSpot + NWM CRM in parallel for 1–2 weeks via two-way sync. Your team works in whichever they prefer; every change syncs. When you're confident, we turn off HubSpot. Zero data loss, zero downtime.</p>
+  <details><summary>Can I move from HubSpot without any downtime?</summary>
+    <p>Yes. We run HubSpot and NWM side by side for 1 to 2 weeks with a two-way sync. Your team uses whichever they prefer; every change syncs both ways. When you're confident, we turn off HubSpot. No lost data, no downtime.</p>
   </details>
-  <details><summary>How many contacts can NWM CRM handle?</summary>
-    <p>Starter: 2,500. Professional: 10,000. Enterprise: unlimited (we've seen 400k+ contact accounts perform fine).</p>
+  <details><summary>How many contacts can NWM handle?</summary>
+    <p>Starter: 2,500. Professional: 10,000. Enterprise: unlimited (we've seen 400,000+ contact accounts run fine).</p>
   </details>
-  <details><summary>Is my data deletable on request?</summary>
-    <p>Yes. Each contact has a "Delete all data" action that hard-deletes (not soft-delete) within 24h. Account-wide deletion on request (GDPR right-to-erasure) processed within 30 days.</p>
+  <details><summary>Can I delete a customer's data on request?</summary>
+    <p>Yes. Each contact has a "Delete all data" action that permanently deletes within 24 hours. Whole-account deletions (for things like GDPR) are done within 30 days.</p>
   </details>
-  <details><summary>Can I white-label for my clients?</summary>
-    <p>Enterprise plan. Your logo, your domain (<code>crm.yourcompany.com</code>), your colors, your email sender. We disappear from the UI.</p>
+  <details><summary>Can I put my own brand on it for my clients?</summary>
+    <p>Yes, on Enterprise. Your logo, your domain (<code>crm.yourcompany.com</code>), your colors, your email sender. We disappear from the UI.</p>
   </details>
-  <details><summary>What's the uptime SLA?</summary>
-    <p>99.9% on Starter/Professional. 99.95% on Enterprise (credits issued if breached). Status page at <a href="https://status.netwebmedia.com">status.netwebmedia.com</a>.</p>
+  <details><summary>What's the uptime promise?</summary>
+    <p>99.9% on Starter and Professional. 99.95% on Enterprise (credits if we miss). Status page at <a href="https://status.netwebmedia.com">status.netwebmedia.com</a>.</p>
   </details>
-  <details><summary>Data residency — can I host in EU / specific regions?</summary>
-    <p>EU data residency available on Enterprise (+$99/mo). US is default. Other regions case-by-case.</p>
+  <details><summary>Can my data live in the EU or a specific region?</summary>
+    <p>EU-only hosting on Enterprise (+$99/mo). US is the default. Other regions, ask us.</p>
   </details>
   <details><summary>What happens if I cancel?</summary>
-    <p>You get 60 days to export everything (contacts, deals, activities, documents — full CSV + JSON export). After 60 days, data is deleted per our retention policy.</p>
+    <p>You have 60 days to export everything (contacts, deals, activities, documents — as a spreadsheet and as raw data). After 60 days, the data is deleted per our retention policy.</p>
   </details>
-  <details><summary>Do you have a mobile app?</summary>
-    <p>The web app is fully mobile-responsive (try it on your phone right now). Native iOS + Android apps shipping Q3 2026.</p>
+  <details><summary>Is there a phone app?</summary>
+    <p>The web app works fully on a phone browser (try it right now). Native iPhone and Android apps ship Q3 2026.</p>
   </details>
 </div>
 

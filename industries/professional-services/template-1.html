@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Law Firm — Professional Services Template | NetWebMedia CMS</title>
+  <meta name="description" content="Law firm landing page — practice areas, partner bios, case-result stats, consultation CTA. Built on NetWebMedia CMS.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/professional-services/template-1.html" />
+  <meta property="og:title" content="Law Firm — NetWebMedia Template" />
+  <meta property="og:description" content="Full-service law firm site with practice areas, partner profiles, and consultation booking." />
+  <meta property="og:url" content="https://netwebmedia.com/industries/professional-services/template-1.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body{background:#0a0f1d;color:#dde3ee;margin:0;font-family:Georgia,serif}
+    .tpl-nav{position:sticky;top:0;z-index:50;background:rgba(10,15,29,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,168,110,.2);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;font-family:system-ui,-apple-system,sans-serif}
+    .tpl-nav .logo{font-weight:900;font-size:18px;color:#c9a86e;letter-spacing:.22em}
+    .tpl-nav .links{display:flex;gap:18px;align-items:center}
+    .tpl-nav a{color:#b8c4d9;text-decoration:none;font-size:14px}
+    .btn-gold{background:linear-gradient(135deg,#c9a86e,#a68348);color:#0a0f1d;padding:11px 22px;border-radius:6px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px;font-family:system-ui,sans-serif}
+    .btn-ghost{background:transparent;border:1px solid rgba(201,168,110,.4);color:#c9a86e;padding:11px 22px;border-radius:6px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px;font-family:system-ui,sans-serif}
+
+    .hero{padding:90px 20px 60px;text-align:center;max-width:960px;margin:0 auto}
+    .hero .eyebrow{display:inline-block;border:1px solid rgba(201,168,110,.4);color:#c9a86e;padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;margin-bottom:24px;font-family:system-ui,sans-serif}
+    .hero h1{font-size:clamp(38px,6.5vw,64px);margin:0 0 22px;line-height:1.08;font-weight:400;letter-spacing:-.01em}
+    .hero h1 .hl{color:#c9a86e;font-style:italic}
+    .hero p.sub{font-size:clamp(17px,2.4vw,20px);color:#b8c4d9;max-width:640px;margin:0 auto 32px;line-height:1.6}
+    .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:system-ui,sans-serif}
+
+    .trust{display:flex;flex-wrap:wrap;gap:28px;justify-content:center;margin:40px auto 0;max-width:900px;padding:24px 20px;border-top:1px solid rgba(201,168,110,.15);border-bottom:1px solid rgba(201,168,110,.15)}
+    .trust .item{text-align:center;font-family:system-ui,sans-serif}
+    .trust .n{font-size:28px;color:#c9a86e;font-weight:800;font-family:Georgia,serif}
+    .trust .l{color:#9aa;font-size:12px;text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+
+    .section{max-width:1100px;margin:80px auto;padding:0 20px}
+    .section h2{font-size:clamp(28px,4vw,40px);margin:0 0 14px;text-align:center;font-weight:400}
+    .section h2 em{color:#c9a86e;font-style:italic}
+    .section .sub{color:#9aa;font-size:15px;max-width:640px;margin:0 auto 44px;text-align:center;line-height:1.6;font-family:system-ui,sans-serif}
+
+    .practices{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+    .prac{background:rgba(201,168,110,.03);border:1px solid rgba(201,168,110,.15);border-radius:6px;padding:26px;transition:border-color .2s}
+    .prac:hover{border-color:rgba(201,168,110,.45)}
+    .prac .ico{font-size:28px;margin-bottom:14px}
+    .prac h3{margin:0 0 10px;color:#c9a86e;font-size:18px;font-weight:400}
+    .prac p{margin:0;color:#b8c4d9;font-size:14px;line-height:1.6;font-family:system-ui,sans-serif}
+
+    .partners{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+    .partner{text-align:center}
+    .partner .portrait{aspect-ratio:3/4;border-radius:6px;background:linear-gradient(180deg,#1a2236,#0f172a);display:flex;align-items:center;justify-content:center;font-size:70px;margin-bottom:16px;border:1px solid rgba(201,168,110,.15)}
+    .partner h3{margin:0 0 4px;font-size:19px;color:#fff;font-weight:400}
+    .partner .title{color:#c9a86e;font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;font-family:system-ui,sans-serif}
+    .partner p{color:#9aa;font-size:13px;line-height:1.55;margin:0;font-family:system-ui,sans-serif}
+
+    .results{background:rgba(201,168,110,.04);border-top:1px solid rgba(201,168,110,.15);border-bottom:1px solid rgba(201,168,110,.15);padding:60px 20px;text-align:center}
+    .results h2{margin-bottom:40px}
+    .results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:30px;max-width:960px;margin:0 auto}
+    .result .n{font-size:44px;color:#c9a86e;font-weight:800;line-height:1}
+    .result .l{color:#b8c4d9;font-size:13px;margin-top:10px;font-family:system-ui,sans-serif}
+
+    .quote{max-width:760px;margin:0 auto;text-align:center;padding:40px 24px;border-left:3px solid #c9a86e;border-right:3px solid #c9a86e;background:rgba(201,168,110,.03)}
+    .quote p{font-size:20px;line-height:1.65;color:#dde3ee;margin:0 0 16px;font-style:italic}
+    .quote .cite{color:#c9a86e;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-family:system-ui,sans-serif}
+
+    .cta-band{background:linear-gradient(135deg,rgba(201,168,110,.1),rgba(166,131,72,.05));border-top:1px solid rgba(201,168,110,.3);border-bottom:1px solid rgba(201,168,110,.3);padding:70px 20px;text-align:center;margin-top:70px}
+    .cta-band h3{font-size:clamp(26px,4vw,36px);margin:0 0 14px;font-weight:400}
+    .cta-band p{color:#b8c4d9;max-width:620px;margin:0 auto 24px;font-size:15px;line-height:1.6;font-family:system-ui,sans-serif}
+
+    .nwm-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#67e8f9;margin:30px auto;text-decoration:none;font-family:system-ui,sans-serif}
+    footer{border-top:1px solid rgba(201,168,110,.15);padding:32px 20px;text-align:center;color:#9aa;font-size:13px;font-family:system-ui,sans-serif}
+    footer a{color:#c9a86e;margin:0 10px;text-decoration:none}
+  </style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <div class="logo">HARLOW &amp; WEST</div>
+  <div class="links">
+    <a href="/industries/">← Industries</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/contact.html" class="btn-gold">Schedule Consultation</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">Established 1987 · New York · Los Angeles · Chicago</div>
+  <h1>When the stakes are high, <span class="hl">precision matters.</span></h1>
+  <p class="sub">A full-service law firm representing Fortune 500 companies, privately-held businesses, and high-net-worth individuals in complex litigation, M&amp;A, and regulatory matters.</p>
+  <div class="ctas">
+    <a href="/contact.html" class="btn-gold">Schedule a Consultation →</a>
+    <a href="#practices" class="btn-ghost">Our Practice Areas</a>
+  </div>
+  <div class="trust">
+    <div class="item"><div class="n">38</div><div class="l">Years Practicing</div></div>
+    <div class="item"><div class="n">120+</div><div class="l">Attorneys</div></div>
+    <div class="item"><div class="n">$4.2B</div><div class="l">Recovered for Clients</div></div>
+    <div class="item"><div class="n">94%</div><div class="l">Favorable Outcomes</div></div>
+  </div>
+</section>
+
+<section class="section" id="practices">
+  <h2>Our <em>practice areas</em></h2>
+  <p class="sub">Deep bench strength across the eight areas where the stakes are highest and the law is most complex.</p>
+  <div class="practices">
+    <div class="prac"><div class="ico">⚖️</div><h3>Commercial Litigation</h3><p>Breach of contract, trade secrets, commercial fraud, and fiduciary duty disputes.</p></div>
+    <div class="prac"><div class="ico">🤝</div><h3>M&amp;A</h3><p>Buy-side and sell-side transactions $50M+, cross-border deals, and private equity.</p></div>
+    <div class="prac"><div class="ico">🏛️</div><h3>Regulatory &amp; Compliance</h3><p>SEC, FINRA, FTC, and DOJ investigations. Antitrust, securities, and healthcare compliance.</p></div>
+    <div class="prac"><div class="ico">📜</div><h3>Intellectual Property</h3><p>Patent litigation, trademark disputes, trade secret protection, and IP portfolio strategy.</p></div>
+    <div class="prac"><div class="ico">🏗️</div><h3>Real Estate</h3><p>Commercial acquisitions, development, leasing, and financing for institutional clients.</p></div>
+    <div class="prac"><div class="ico">💼</div><h3>Corporate Counsel</h3><p>Board advisory, governance, entity formation, and ongoing general counsel services.</p></div>
+    <div class="prac"><div class="ico">⚡</div><h3>Employment</h3><p>Executive compensation, non-competes, wage-and-hour class actions, and discrimination defense.</p></div>
+    <div class="prac"><div class="ico">🔒</div><h3>White Collar Defense</h3><p>Government investigations, internal investigations, and enforcement defense.</p></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Our <em>partners</em></h2>
+  <p class="sub">Seven of our partners are ranked in Chambers USA. Five are former federal prosecutors. Two clerked at the Supreme Court.</p>
+  <div class="partners">
+    <div class="partner"><div class="portrait">👨🏽‍💼</div><h3>Michael Harlow</h3><div class="title">Managing Partner</div><p>Commercial litigation, 27 years. Former AUSA, SDNY. JD Harvard Law.</p></div>
+    <div class="partner"><div class="portrait">👩🏼‍💼</div><h3>Sarah West</h3><div class="title">Partner · M&amp;A</div><p>Led $18B in closed transactions since 2015. Chambers Band 1. JD Yale Law.</p></div>
+    <div class="partner"><div class="portrait">👨🏻‍⚖️</div><h3>David Chen</h3><div class="title">Partner · White Collar</div><p>Former DOJ Fraud Section. Tried 40+ federal cases. JD Stanford Law.</p></div>
+    <div class="partner"><div class="portrait">👩🏾‍💼</div><h3>Aisha Patel</h3><div class="title">Partner · IP</div><p>Registered patent attorney. PhD Chemistry MIT. JD Columbia Law.</p></div>
+  </div>
+</section>
+
+<section class="results">
+  <h2>Results that matter</h2>
+  <div class="results-grid">
+    <div class="result"><div class="n">$340M</div><div class="l">Largest Trade Secrets Verdict</div></div>
+    <div class="result"><div class="n">$1.8B</div><div class="l">Transaction, Consumer Goods M&amp;A</div></div>
+    <div class="result"><div class="n">Dismissed</div><div class="l">SEC Investigation, 2024</div></div>
+    <div class="result"><div class="n">Tier 1</div><div class="l">U.S. News Best Law Firms 2026</div></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="quote">
+    <p>"Harlow &amp; West represented us through a five-year commercial dispute that threatened the company's viability. They won it at trial and recovered our full damages. I can't imagine working with anyone else when the stakes are this high."</p>
+    <div class="cite">— GC, Fortune 250 Industrial Company</div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <h3>Considering a <em style="color:#c9a86e;font-style:italic">new counsel relationship</em>?</h3>
+  <p>Initial consultations are confidential and complimentary for qualified matters. Our intake partner will respond within one business day.</p>
+  <div class="ctas"><a href="/contact.html" class="btn-gold">Schedule a Consultation →</a><a href="tel:+12125550200" class="btn-ghost">📞 (212) 555-0200</a></div>
+  <a class="nwm-badge" href="https://netwebmedia.com">⚡ Built on NetWebMedia CMS</a>
+</section>
+
+<footer>
+  <a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a>
+  <div style="margin-top:10px">© NetWebMedia · Demo template for illustration only</div>
+</footer>
+
+</body>
+</html>

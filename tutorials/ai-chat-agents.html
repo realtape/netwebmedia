@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Chat Agents Tutorial — 24/7 Lead Capture | NetWebMedia</title>
-<meta name="description" content="Launch an AI chatbot trained on your site. FAQ auto-answers, lead capture, smart human handoff.">
+<title>AI Chat Agents Tutorial — An AI That Answers for You | NetWebMedia</title>
+<meta name="description" content="A plain-English guide to setting up the AI chat helper on your website, your phone line, and inside your team's CRM. No coding needed.">
 <link rel="canonical" href="https://netwebmedia.com/tutorials/ai-chat-agents.html">
 <link rel="icon" type="image/svg+xml" href="../assets/nwm-logo.svg">
 <link rel="stylesheet" href="../css/styles.css">
@@ -32,51 +32,112 @@
   <a href="../index.html">Home</a> / <a href="/tutorials.html">Tutorials</a> / <strong>AI Chat Agents</strong>
 </div>
 
-<h1>AI Chat Agents — 24/7 lead capture on autopilot</h1>
-<p class="tut-lede">Deploy an AI chatbot on your site that answers FAQs, captures leads, books meetings, and hands off to humans when it should. Trained on your own content in under 30 minutes.</p>
+<h1>AI Chat Agents — An AI that answers customers and helps your team</h1>
+<p class="tut-lede">This page shows you how to put a smart AI on your website, in your inbox, and on your phone line — in under an hour. It will answer easy questions, collect leads, and book meetings, so your team only touches the ones that matter.</p>
 
 <div class="tut-meta">
   <span>⏱ 8 min read</span>
-  <span>📖 6 sections</span>
+  <span>📖 7 sections</span>
   <span>🆕 Updated Apr 2026</span>
+</div>
+
+<div class="callout tip">
+  <strong>What you'll need</strong>
+  <ul style="margin:6px 0 0;padding-left:18px">
+    <li>A NetWebMedia account (or 30 minutes with our team)</li>
+    <li>Your website URL or a few PDFs (price lists, FAQs, policies)</li>
+    <li>One clear rule for when to hand a conversation to a human</li>
+    <li>About 30 minutes start to finish</li>
+  </ul>
 </div>
 
 <div class="tut-toc">
   <h4>What's inside</h4>
-  <ol><li><a href="#what">1. What AI Chat Agents do</a></li><li><a href="#setup">2. Setup — 30 minutes start to finish</a></li><li><a href="#train">3. Training &amp; guardrails</a></li><li><a href="#integrate">4. Integrations</a></li><li><a href="#analytics">5. Analytics &amp; tuning</a></li><li><a href="#pricing">6. Pricing</a></li></ol>
+  <ol><li><a href="#what">1. Two AIs, one plan</a></li><li><a href="#voice">2. The phone-line AI</a></li><li><a href="#setup">3. Set it up in 30 minutes</a></li><li><a href="#train">4. Train it and fence it in</a></li><li><a href="#integrate">5. Connect it to your other tools</a></li><li><a href="#analytics">6. See what it's doing</a></li><li><a href="#pricing">7. Pricing</a></li></ol>
 </div>
 
-<h2 id="what">1. What AI Chat Agents do</h2>
-<p>A chat widget bottom-right on your site. Visitors ask questions; the AI answers from your own content (pages, PDFs, help docs). When intent is high — pricing, booking, support — it collects contact info and routes the conversation to your team.</p><div class="feat-sm"><div class="c"><b>FAQ auto-answer</b><p>Handles 60–80% of common questions instantly.</p></div><div class="c"><b>Lead capture</b><p>Ask for email/phone when intent spikes. Lands in CRM.</p></div><div class="c"><b>Booking</b><p>Hooks into Calendly or Google Calendar.</p></div><div class="c"><b>Human handoff</b><p>Live-takeover or scheduled follow-up.</p></div></div>
+<h2 id="what">1. Two AIs, one plan</h2>
+<p>Answering customers is different from helping your team. NWM CRM ships two AIs so you can tune each one on its own.</p>
 
-<h2 id="setup">2. Setup — 30 minutes start to finish</h2>
-<div class="step"><div class="num">1</div><div><h4>Point it at your content</h4><p>Drop in your site URL, upload PDFs, or paste text. The agent indexes in ~2 minutes.</p></div></div><div class="step"><div class="num">2</div><div><h4>Pick a persona</h4><p>Friendly assistant, expert consultant, customer-service rep. Sets the tone + opening line.</p></div></div><div class="step"><div class="num">3</div><div><h4>Define handoff rules</h4><p>"When visitor mentions pricing over $5k, collect email + route to sales@."</p></div></div><div class="step"><div class="num">4</div><div><h4>Embed the widget</h4><p>Copy a one-line script tag; paste before <code>&lt;/body&gt;</code>. Done.</p></div></div>
+<h3>AI Copilot — for your team</h3>
+<p>A helper pane next to every customer record. Your reps ask it to write replies, summarize a contact's history, or pull a quick report. Lives at <a href="https://netwebmedia.com/crm/ai-copilot">/crm/ai-copilot</a>. It sees your CRM. It never talks to your customers.</p>
 
-<h2 id="train">3. Training &amp; guardrails</h2>
-<p>The agent will only answer from content you provide. If it doesn't know, it says so and offers human handoff. You can add:</p><ul><li><strong>Must-answer</strong> Q&amp;A pairs (pricing, hours, policies) that get verbatim replies.</li><li><strong>Blocked topics</strong> — agent refuses to speculate (legal advice, medical, competitor disparagement).</li><li><strong>Escalation phrases</strong> — "refund", "cancel", "speak to manager" auto-trigger a human alert.</li></ul><div class="callout warn"><strong>⚠️ Never let it hallucinate prices</strong><p>Always hard-code current pricing in the must-answer list. LLMs will invent numbers otherwise.</p></div>
+<h3>Conversations — for your customers</h3>
+<p>One inbox at <a href="https://netwebmedia.com/crm/conversations">/crm/conversations</a> for every customer message. Website chat. Email. Text. WhatsApp. Social DMs. The AI answers common questions from your own content. It hands off to a human the moment a real opportunity shows up.</p>
 
-<h2 id="integrate">4. Integrations</h2>
-<ul><li><strong>NWM CRM</strong> — every captured lead lands as a contact with full chat transcript attached.</li><li><strong>HubSpot / Pipedrive / Salesforce</strong> — via webhooks or Zapier.</li><li><strong>Calendar</strong> — Calendly, Google Cal, Microsoft Bookings, Cal.com.</li><li><strong>Slack / Email</strong> — push every high-intent conversation to a channel or inbox in real time.</li></ul>
+<div class="feat-sm"><div class="c"><b>Answers common questions</b><p>Handles 6 or 7 of every 10 routine questions in Conversations, instantly.</p></div><div class="c"><b>Captures leads</b><p>Asks for an email or phone when interest spikes. Creates a new contact right away.</p></div><div class="c"><b>Books meetings</b><p>Connects to your Calendar or Calendly and books a time on the spot.</p></div><div class="c"><b>Hands off to humans</b><p>Passes the chat to a live rep, or routes it to the right person's queue.</p></div></div>
 
-<h2 id="analytics">5. Analytics &amp; tuning</h2>
-<p>Weekly dashboard surfaces:</p><ul><li>Conversations handled · resolved vs. escalated</li><li>Top unanswered questions (add these to your FAQ)</li><li>Leads captured, meetings booked, revenue attributed</li><li>Drop-off points in long chats (signals a weak answer)</li></ul><p>Review every Monday. Add missing content; the agent gets smarter each week.</p>
+<h2 id="voice">2. The phone-line AI</h2>
+<p><a href="https://netwebmedia.com/crm/voice-ai">Voice AI</a> is Conversations for the phone. Incoming calls: answers common questions, qualifies the caller, books meetings. Outgoing calls: runs reminders, confirms appointments, makes first-touch calls. It hands hot ones to a real human by name.</p>
+<p>Every call is written down into the customer's record. Your inbox and your phone line share one history.</p>
 
-<h2 id="pricing">6. Pricing</h2>
-<p>$149/mo up to 1,000 conversations. $349/mo up to 5,000. Enterprise: custom. Every plan includes: unlimited pages indexed, CRM integration, weekly tuning, branding removal.</p>
+<h2 id="setup">3. Set it up in 30 minutes</h2>
+<div class="step"><div class="num">1</div><div><h4>Show it your content.</h4><p>Paste your website URL. Upload PDFs. Drop in text. The AI reads everything in about two minutes.</p></div></div>
+<div class="step"><div class="num">2</div><div><h4>Pick a personality.</h4><p>Friendly helper. Expert consultant. Customer service rep. This sets the tone and the opening line.</p></div></div>
+<div class="step"><div class="num">3</div><div><h4>Write one handoff rule.</h4><p>Example: "When the visitor asks about pricing over $5,000, collect their email and send the chat to sales."</p></div></div>
+<div class="step"><div class="num">4</div><div><h4>Paste one line of code on your site.</h4><p>Copy the small script tag we give you. Paste it before the <code>&lt;/body&gt;</code> tag on your website. Done. (Your web person can do this in 2 minutes. We can do it for you.)</p></div></div>
+
+<h2 id="train">4. Train it and fence it in</h2>
+<p>The AI only answers from the content you gave it. If it does not know something, it says so and offers to get a human. You can add:</p>
+<ul>
+<li><strong>Locked-in answers</strong> for prices, hours, and policies. It reads them back word for word.</li>
+<li><strong>Blocked topics</strong> where the AI will not guess. Legal advice. Medical advice. Competitor bashing.</li>
+<li><strong>Alert words</strong> like "refund", "cancel", or "manager" that instantly ping a human.</li>
+</ul>
+<div class="callout warn"><strong>Never let the AI guess at prices</strong><p>Always hard-code your current prices in the locked-in answers. AIs will invent numbers otherwise. That is the fastest way to lose trust.</p></div>
+
+<h2 id="integrate">5. Connect it to your other tools</h2>
+<ul>
+<li><strong>NWM CRM</strong> — every captured lead becomes a contact with the full chat saved to their record. Voice AI calls do the same.</li>
+<li><strong>HubSpot, Pipedrive, Salesforce</strong> — works through event signals or Zapier.</li>
+<li><strong>Calendars</strong> — Calendly, Google Calendar, Microsoft Bookings, Cal.com.</li>
+<li><strong>Slack and email</strong> — sends every high-interest chat to a channel or inbox right away.</li>
+</ul>
+
+<h2 id="analytics">6. See what it's doing</h2>
+<p>Your Monday dashboard shows:</p>
+<ul>
+<li>How many chats happened, how many got solved, how many went to a human.</li>
+<li>The top questions it could not answer. (Add these to your FAQ.)</li>
+<li>Leads captured, meetings booked, revenue earned.</li>
+<li>Where long chats drop off (a weak answer is hiding there).</li>
+</ul>
+<p>Review it every Monday. Fill the gaps. The AI gets smarter every week.</p>
+
+<h2 id="pricing">7. Pricing</h2>
+<p>$149/month for up to 1,000 chats across AI Copilot and Conversations. $349/month for up to 5,000. Voice AI calls are billed separately. Enterprise is custom.</p>
+<p>Every plan includes unlimited pages indexed, CRM connection, weekly tuning by us, and no NWM branding on your widget.</p>
+
+<h3>What success looks like</h3>
+<ul>
+<li>Within one week: your website chat widget is live and answering 60% or more of routine questions.</li>
+<li>Within one month: 20 to 40 hours of reply time saved per rep per month.</li>
+<li>Within three months: a steady flow of new leads captured from chat that would have bounced from your site.</li>
+</ul>
+
+<h3>Common mistakes to avoid</h3>
+<ul>
+<li><strong>Skipping the handoff rule.</strong> Without one, the AI will try to close deals it has no business closing.</li>
+<li><strong>Letting prices live only on a PDF.</strong> Put prices in the locked-in answers. PDFs change. Locked-in answers do not.</li>
+<li><strong>Ignoring the weekly "unanswered" list.</strong> That is where your next FAQ update comes from. Skip it and the AI plateaus.</li>
+</ul>
 
 <div class="next-cta">
-  <h3>Get your AI agent live this week</h3>
-  <p>Free 14-day trial. White-glove setup included — we do the hard part.</p>
+  <h3>Get your AI live this week</h3>
+  <p>Free 14-day trial. We do the hard part — you click approve.</p>
   <a class="btn-next" href="../contact.html">Start free trial →</a>
   <a class="btn-ghost" href="../contact.html">Talk to us</a>
 </div>
 
+<h3>Still stuck? Here's what to do</h3>
+<p>Email us at <a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a> or <a href="../contact.html">book a free 30-minute audit</a>. We'll set up a test widget on your site for free so you can try before you buy.</p>
+
 <h3>Common questions</h3>
 <div class="faq">
-<details><summary>How does it handle off-topic questions?</summary><p>It politely declines and offers to connect the visitor with a human. You can customize the decline message in Settings.</p></details>
-<details><summary>What about GDPR / privacy?</summary><p>Transcripts are stored in EU data centers for EU visitors. You choose how long to retain (default 90 days). "Delete all my data" is one click.</p></details>
-<details><summary>Can it work in Spanish?</summary><p>Yes — Spanish, Portuguese, French, German out of the box. Auto-detects from browser language.</p></details>
-<details><summary>Will it replace my sales team?</summary><p>No — it makes them 5x more productive. It handles the first touch; humans close.</p></details>
+<details><summary>What does it do with questions it doesn't understand?</summary><p>It politely declines and offers to connect the visitor with a human. You can edit the wording in Settings.</p></details>
+<details><summary>What about privacy laws (GDPR)?</summary><p>Chats from EU visitors are stored in EU data centers. You pick how long to keep them — default is 90 days. "Delete all my data" is one click.</p></details>
+<details><summary>Can it speak Spanish?</summary><p>Yes. Spanish, Portuguese, French, and German work out of the box. It picks the language from the visitor's browser.</p></details>
+<details><summary>Will it replace my sales team?</summary><p>No. It makes them roughly five times more productive. The AI takes the first touch. Humans close the deal.</p></details>
 </div>
 
 </main>

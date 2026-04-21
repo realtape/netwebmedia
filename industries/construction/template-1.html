@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Residential Builder — Custom Home Gallery Template | NetWebMedia CMS</title>
+<meta name="description" content="Residential Builder template — home designs gallery, build process, financing options and a start-your-build CTA. Modern dark-theme website built on NetWebMedia CMS.">
+<link rel="canonical" href="https://netwebmedia.com/industries/construction/template-1.html">
+<meta property="og:title" content="Residential Builder — NetWebMedia CMS Template">
+<meta property="og:description" content="Home designs, process, financing and build-start CTA.">
+<meta property="og:url" content="https://netwebmedia.com/industries/construction/template-1.html">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+  body{background:#0b1220;color:#dde3ee;font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+  .tpl-nav{position:sticky;top:0;z-index:10;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+  .tpl-nav a.logo{color:#22d3ee;font-weight:900;text-decoration:none;font-size:18px}
+  .tpl-nav .r{display:flex;gap:12px;align-items:center}
+  .tpl-nav .back{color:#9aa;text-decoration:none;font-size:14px}
+  .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:12px 22px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+  .prod-hero{padding:80px 20px 50px;text-align:center;max-width:1100px;margin:0 auto}
+  .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+  .prod-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+  .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:700px;margin:0 auto 28px;line-height:1.5}
+  .prod-hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+  .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+  .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+  .home-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+  .home-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;transition:transform .2s,border-color .2s}
+  .home-card:hover{transform:translateY(-4px);border-color:rgba(6,182,212,.45)}
+  .home-thumb{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;color:#fff;font-size:68px;position:relative}
+  .home-thumb::after{content:"";position:absolute;inset:auto 0 0 0;height:50%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.5))}
+  .home-card .body{padding:20px}
+  .home-card h4{margin:0 0 4px;font-size:19px}
+  .home-card .meta{color:#22d3ee;font-size:13px;font-weight:700;margin-bottom:10px}
+  .home-card p{color:#b8c4d9;font-size:14px;line-height:1.5;margin:0 0 14px}
+  .home-specs{display:flex;gap:14px;font-size:12px;color:#9aa;border-top:1px solid rgba(255,255,255,.08);padding-top:12px}
+  .home-specs span strong{color:#fff;display:block;font-size:14px;font-weight:800}
+
+  .process-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+  .proc-step{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px;position:relative}
+  .proc-step .num{position:absolute;top:-14px;left:20px;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#22d3ee,#0891B2);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:14px}
+  .proc-step h4{margin:8px 0 6px;font-size:16px}
+  .proc-step p{color:#b8c4d9;font-size:13px;line-height:1.5;margin:0}
+  .proc-step .t{color:#22d3ee;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+
+  .finance-box{background:linear-gradient(135deg,rgba(6,182,212,.08),rgba(8,145,178,.03));border:1px solid rgba(6,182,212,.25);border-radius:18px;padding:36px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+  .finance-box h3{margin:0 0 10px;font-size:22px}
+  .finance-box p{color:#b8c4d9;font-size:14px;line-height:1.6}
+  .finance-box ul{list-style:none;padding:0;margin:14px 0 0}
+  .finance-box li{padding:10px 0;border-bottom:1px dashed rgba(255,255,255,.06);color:#b8c4d9;font-size:14px}
+  .finance-box li strong{color:#22d3ee}
+  .finance-calc{background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px;text-align:center}
+  .finance-calc .big{font-size:38px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(8,145,178,.05));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;margin:60px 0 0;text-align:center}
+  .cta-band h3{font-size:clamp(22px,3.5vw,30px);margin:0 0 10px}
+  .cta-band p{color:#b8c4d9;max-width:600px;margin:0 auto 20px}
+  .badge-built{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.12);color:#67e8f9;padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  footer{padding:32px 20px;text-align:center;border-top:1px solid rgba(255,255,255,.06);color:#9aa;font-size:14px}
+  footer a{color:#22d3ee;text-decoration:none;margin:0 10px}
+  @media(max-width:720px){.finance-box{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <a href="/" class="logo">🏡 Cedar &amp; Stone Custom Homes</a>
+  <div class="r">
+    <a href="/industries/" class="back">← Industries</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">Licensed GC · A+ BBB · 3rd-generation builder</div>
+  <h1>Your forever home, <span class="hl">built on time and on budget.</span></h1>
+  <p class="sub">We build 38 custom homes a year across the metro. Fixed-price contracts, weekly progress video updates from your site supervisor, and a 10-year structural warranty that comes in writing — not small print.</p>
+  <div class="ctas">
+    <a href="#build" class="btn-teal">Start your build →</a>
+    <a href="#gallery" class="btn-ghost">Browse designs</a>
+  </div>
+</section>
+
+<section class="prod-section" id="gallery">
+  <h2>Signature home designs</h2>
+  <p class="sub">Six starting points — each one fully customizable before ground-breaking.</p>
+  <div class="home-grid">
+    <div class="home-card">
+      <div class="home-thumb" style="background:linear-gradient(135deg,#0891B2,#22d3ee)">🏡</div>
+      <div class="body">
+        <h4>The Heritage Farmhouse</h4>
+        <div class="meta">Modern Farmhouse · 3,240 sqft</div>
+        <p>Open-concept living, vaulted ceilings, a proper mudroom and a wrap-around porch made for watching the sunset.</p>
+        <div class="home-specs"><span>Beds<strong>4</strong></span><span>Baths<strong>3.5</strong></span><span>Starting<strong>$695k</strong></span></div>
+      </div>
+    </div>
+    <div class="home-card">
+      <div class="home-thumb" style="background:linear-gradient(135deg,#1e3a8a,#0891B2)">🏘️</div>
+      <div class="body">
+        <h4>The Meridian Modern</h4>
+        <div class="meta">Contemporary · 2,820 sqft</div>
+        <p>Floor-to-ceiling windows, flat rooflines, chef's kitchen and a zero-step entry designed for aging-in-place.</p>
+        <div class="home-specs"><span>Beds<strong>3</strong></span><span>Baths<strong>2.5</strong></span><span>Starting<strong>$625k</strong></span></div>
+      </div>
+    </div>
+    <div class="home-card">
+      <div class="home-thumb" style="background:linear-gradient(135deg,#854d0e,#0891B2)">🏚️</div>
+      <div class="body">
+        <h4>The Craftsman Classic</h4>
+        <div class="meta">Craftsman · 2,410 sqft</div>
+        <p>Exposed beams, built-in cabinetry, a proper front porch and a stone fireplace that anchors the great room.</p>
+        <div class="home-specs"><span>Beds<strong>3</strong></span><span>Baths<strong>2</strong></span><span>Starting<strong>$548k</strong></span></div>
+      </div>
+    </div>
+    <div class="home-card">
+      <div class="home-thumb" style="background:linear-gradient(135deg,#064e3b,#22d3ee)">🌲</div>
+      <div class="body">
+        <h4>The Lakeview Lodge</h4>
+        <div class="meta">Mountain Modern · 4,100 sqft</div>
+        <p>Walkout basement, stone chimney, great-room ceiling, and a screened-in porch built for four-season entertaining.</p>
+        <div class="home-specs"><span>Beds<strong>5</strong></span><span>Baths<strong>4.5</strong></span><span>Starting<strong>$895k</strong></span></div>
+      </div>
+    </div>
+    <div class="home-card">
+      <div class="home-thumb" style="background:linear-gradient(135deg,#7c2d12,#0891B2)">🏠</div>
+      <div class="body">
+        <h4>The Prairie Ranch</h4>
+        <div class="meta">Ranch · 2,180 sqft single-level</div>
+        <p>Single-story, wide hallways, covered back patio and a garage big enough for a boat. Empty-nester favorite.</p>
+        <div class="home-specs"><span>Beds<strong>3</strong></span><span>Baths<strong>2</strong></span><span>Starting<strong>$485k</strong></span></div>
+      </div>
+    </div>
+    <div class="home-card">
+      <div class="home-thumb" style="background:linear-gradient(135deg,#4c1d95,#22d3ee)">🏛️</div>
+      <div class="body">
+        <h4>The Estate Colonial</h4>
+        <div class="meta">Colonial · 4,650 sqft</div>
+        <p>Grand entry, formal dining, 3-car garage, private study and an in-law suite above the garage with its own entrance.</p>
+        <div class="home-specs"><span>Beds<strong>5</strong></span><span>Baths<strong>4.5</strong></span><span>Starting<strong>$995k</strong></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Our build process</h2>
+  <p class="sub">Transparent. Documented. No surprise change-orders halfway in.</p>
+  <div class="process-steps">
+    <div class="proc-step"><div class="num">1</div><div class="t">Week 1-2</div><h4>Discovery &amp; Lot Visit</h4><p>Meet your builder, walk your lot and review your needs. No cost, no obligation.</p></div>
+    <div class="proc-step"><div class="num">2</div><div class="t">Week 3-6</div><h4>Design &amp; Spec</h4><p>Architect drafts your custom plan. You approve every finish before we finalize the fixed-price contract.</p></div>
+    <div class="proc-step"><div class="num">3</div><div class="t">Week 7-10</div><h4>Permitting</h4><p>We pull every permit — zoning, septic, grading, building. You sit back.</p></div>
+    <div class="proc-step"><div class="num">4</div><div class="t">Month 3-10</div><h4>Construction</h4><p>Weekly video walkthroughs from your site supervisor. Real-time photos in your client portal.</p></div>
+    <div class="proc-step"><div class="num">5</div><div class="t">Month 11</div><h4>Walkthrough &amp; Punch</h4><p>Two pre-closing walkthroughs. Every item gets a photo, a due-date and a sign-off.</p></div>
+    <div class="proc-step"><div class="num">6</div><div class="t">Lifetime</div><h4>Warranty Care</h4><p>1-year workmanship, 2-year mechanical, 10-year structural. One call, one point of contact.</p></div>
+  </div>
+</section>
+
+<section class="prod-section" id="build">
+  <h2>Financing made simple</h2>
+  <div class="finance-box">
+    <div>
+      <h3>Construction-to-permanent loans through trusted lenders</h3>
+      <p>Building your own home doesn't mean juggling two loans and two closings. Our lending partners offer single-close construction-to-perm — lock your permanent rate at contract signing.</p>
+      <ul>
+        <li><strong>Single-close</strong> C-to-P loans from 4 local credit unions + 2 national banks</li>
+        <li><strong>Interest-only</strong> during build phase to preserve your cash flow</li>
+        <li><strong>Rate locks</strong> up to 12 months from contract signing</li>
+        <li><strong>VA / FHA / USDA</strong> construction programs for qualifying buyers</li>
+        <li><strong>Land-included</strong> financing if you don't own your lot yet</li>
+      </ul>
+    </div>
+    <div>
+      <div class="finance-calc">
+        <div style="color:#9aa;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">Monthly Payment Estimator</div>
+        <div class="big">$3,820/mo</div>
+        <div style="color:#b8c4d9;font-size:13px;margin-top:8px">Based on $695k build · 20% down · 6.25% 30-yr fixed</div>
+        <div style="margin-top:18px"><a href="#build" class="btn-teal" style="display:inline-block">Get pre-qualified →</a></div>
+        <div style="color:#666;font-size:11px;margin-top:12px">Not a commitment to lend. Rates vary by credit profile.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h3>Launch this template with NetWebMedia</h3>
+  <p>Residential Builder ships with a design gallery CMS, lot-and-budget intake form, lender integration stubs and a construction-portal placeholder. Live in 48 hours.</p>
+  <a href="/contact.html" class="btn-teal">Start with this template →</a>
+  <div style="margin-top:22px"><span class="badge-built">⚡ Built on NetWebMedia CMS</span></div>
+</div>
+
+<footer>
+  <div><a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a></div>
+  <div style="margin-top:12px;color:#666">© 2026 Cedar &amp; Stone Custom Homes — demo template. Powered by NetWebMedia CMS.</div>
+</footer>
+
+</body>
+</html>

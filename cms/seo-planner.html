@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI SEO & Content - NetWeb CMS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../crm/css/app.css">
+  <link rel="stylesheet" href="css/cms.css">
+  <style>
+    .nwm-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:9999}
+    .nwm-modal{background:#fff;color:#111;border-radius:12px;width:min(780px,92vw);max-height:90vh;overflow:auto}
+    .nwm-modal-head{display:flex;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #eee}.nwm-modal-head h3{margin:0}
+    .nwm-modal-close{background:none;border:none;font-size:28px;cursor:pointer}.nwm-modal-body{padding:20px}.nwm-modal-foot{margin-top:16px;display:flex;gap:8px;justify-content:flex-end}
+    .lbl{display:block;margin-bottom:14px;font-size:13px;color:#444}.inp{display:block;width:100%;padding:10px 12px;border:1px solid #d5d9e2;border-radius:8px;font-size:14px;margin-top:4px}
+    .mod-table th,.mod-table td{padding:10px 12px;border-bottom:1px solid #eee;text-align:left;font-size:14px}.mod-table th{background:#f7f7fb;font-size:12px;text-transform:uppercase;color:#666}
+    .btn-sm{padding:4px 10px;font-size:12px}.btn-danger{background:#e74c3c;color:#fff}
+    .tabs{display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid #eee}
+    .tab{padding:10px 16px;border:0;background:transparent;cursor:pointer;color:#666;font-weight:600;border-bottom:2px solid transparent}
+    .tab.active{color:#222;border-bottom-color:#8b5cf6}
+    .brief-out{background:#f7f7fb;border:1px solid #eee;border-radius:10px;padding:14px;font-family:monospace;font-size:12px;white-space:pre-wrap;max-height:50vh;overflow:auto;margin-top:14px}
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="kw">Keyword Planner</button>
+          <button class="tab" data-tab="brief">Content Brief Generator</button>
+        </div>
+        <div id="kwPane"><div id="list"></div></div>
+        <div id="briefPane" style="display:none;">
+          <label class="lbl">Topic<input class="inp" id="bfTopic" placeholder="e.g. AI SEO for SaaS startups"></label>
+          <label class="lbl">Target keywords (comma-separated)<input class="inp" id="bfKw" placeholder="ai seo, saas seo"></label>
+          <button class="btn btn-primary" id="bfGo">Generate brief</button>
+          <div id="bfOut" class="brief-out" style="display:none;"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/api-client.js"></script>
+  <script src="js/cms.js"></script>
+  <script src="js/module-table.js"></script>
+  <script>
+    document.querySelectorAll('.tab').forEach(function (t) {
+      t.onclick = function () {
+        document.querySelectorAll('.tab').forEach(function (x) { x.classList.remove('active'); });
+        t.classList.add('active');
+        var k = t.dataset.tab;
+        document.getElementById('kwPane').style.display = k === 'kw' ? '' : 'none';
+        document.getElementById('briefPane').style.display = k === 'brief' ? '' : 'none';
+      };
+    });
+
+    NWM.mount({
+      type: 'seo_keyword',
+      title: 'AI SEO & Content',
+      subtitle: 'Keyword planning + AI content briefs',
+      listEl: 'list',
+      columns: [
+        { label: 'Keyword', key: 'title' },
+        { label: 'Volume', key: 'search_volume' },
+        { label: 'Difficulty', key: 'difficulty' },
+        { label: 'Current rank', key: 'current_rank' },
+        { label: 'Target URL', key: 'target_url' },
+        { label: 'Status', key: 'status' },
+      ],
+      fields: [
+        { name: 'title', label: 'Keyword', type: 'text', required: true },
+        { name: 'search_volume', label: 'Monthly search volume', type: 'number' },
+        { name: 'difficulty', label: 'Difficulty (0-100)', type: 'number' },
+        { name: 'cpc_usd', label: 'CPC (USD)', type: 'number' },
+        { name: 'current_rank', label: 'Current rank', type: 'number' },
+        { name: 'target_url', label: 'Target URL', type: 'text' },
+        { name: 'intent', label: 'Search intent', type: 'select', options: [
+          { value: 'informational', label: 'Informational' }, { value: 'commercial', label: 'Commercial' },
+          { value: 'transactional', label: 'Transactional' }, { value: 'navigational', label: 'Navigational' },
+        ]},
+        { name: 'notes', label: 'Notes', type: 'textarea', rows: 3 },
+        { name: 'status', label: 'Status', type: 'select', options: [
+          { value: 'active', label: 'Active' }, { value: 'won', label: 'Ranked' }, { value: 'archived', label: 'Archived' },
+        ]},
+      ],
+    });
+
+    document.getElementById('bfGo').onclick = function () {
+      var topic = document.getElementById('bfTopic').value.trim();
+      var kw = document.getElementById('bfKw').value.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+      if (!topic) return alert('Topic required');
+      var out = document.getElementById('bfOut');
+      out.style.display = ''; out.textContent = 'Generating…';
+      this.disabled = true;
+      var btn = this;
+      fetch('/api/ai/brief', {
+        method: 'POST', credentials: 'include',
+        headers: { 'Content-Type': 'application/json', 'X-Auth-Token': NWMApi.token() },
+        body: JSON.stringify({ topic: topic, keywords: kw })
+      }).then(function (r) { return r.json(); }).then(function (r) {
+        out.textContent = r.brief || r.error || 'No brief returned';
+        if (r.mock) out.textContent = '(Mock — ANTHROPIC_API_KEY not configured)\n\n' + out.textContent;
+        btn.disabled = false;
+      }).catch(function (e) { out.textContent = 'Error: ' + e.message; btn.disabled = false; });
+    };
+  </script>
+<script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

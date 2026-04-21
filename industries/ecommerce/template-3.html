@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Brand Marketplace — E-Commerce Template | NetWebMedia CMS</title>
+  <meta name="description" content="Multi-brand marketplace template — category tiles, featured stores, trending products, and unified shop CTA. Built on NetWebMedia CMS.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/ecommerce/template-3.html" />
+  <meta property="og:title" content="Multi-Brand Marketplace — NetWebMedia Template" />
+  <meta property="og:description" content="Marketplace site with category tiles, featured stores, and trending products." />
+  <meta property="og:url" content="https://netwebmedia.com/industries/ecommerce/template-3.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body{background:#0b1220;color:#dde3ee;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    .tpl-nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+    .tpl-nav .logo{font-weight:900;font-size:18px;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .tpl-nav .links{display:flex;gap:18px;align-items:center}
+    .tpl-nav a{color:#b8c4d9;text-decoration:none;font-size:14px}
+    .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:10px 20px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:10px 20px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+    .prod-hero{padding:70px 20px 40px;text-align:center;max-width:1100px;margin:0 auto}
+    .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+    .prod-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+    .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#b8c4d9;max-width:720px;margin:0 auto 28px;line-height:1.5}
+    .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .prod-hero .btn-teal,.prod-hero .btn-ghost{padding:14px 28px;font-size:16px}
+
+    .searchbar{max-width:640px;margin:20px auto 40px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:6px;display:flex;gap:6px}
+    .searchbar input{flex:1;background:transparent;border:0;padding:12px 16px;font-size:15px;color:#fff;outline:none}
+    .searchbar button{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;border:0;padding:12px 22px;border-radius:10px;font-weight:700;cursor:pointer}
+
+    .prod-stats{max-width:1000px;margin:20px auto 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;padding:0 20px}
+    .prod-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px;text-align:center}
+    .prod-stat .n{font-size:26px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .prod-stat .l{font-size:12px;color:#9aa;margin-top:4px;text-transform:uppercase;letter-spacing:.08em}
+
+    .prod-section{max-width:1200px;margin:70px auto;padding:0 20px}
+    .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+    .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+    .cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+    .cat{aspect-ratio:5/6;border-radius:14px;background:linear-gradient(135deg,#1e293b,#0891B2);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:18px;position:relative;overflow:hidden;text-decoration:none;color:#fff;border:1px solid rgba(255,255,255,.08);transition:transform .2s}
+    .cat:hover{transform:translateY(-4px)}
+    .cat .emoji{font-size:60px;margin-bottom:auto;margin-top:auto;opacity:.9}
+    .cat h4{margin:0 0 4px;font-size:15px}
+    .cat .count{color:#b8c4d9;font-size:12px}
+
+    .stores{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+    .store{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;display:flex;gap:16px;align-items:center;transition:border-color .2s}
+    .store:hover{border-color:rgba(6,182,212,.45)}
+    .store-logo{width:60px;height:60px;border-radius:14px;background:linear-gradient(135deg,#06B6D4,#0891B2);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+    .store h4{margin:0 0 4px;color:#fff;font-size:16px}
+    .store p{margin:0;color:#9aa;font-size:12px;line-height:1.5}
+    .store .stars{color:#fbbf24;font-size:11px;margin-top:4px}
+
+    .trending{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+    .prod{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;transition:transform .2s}
+    .prod:hover{transform:translateY(-3px)}
+    .prod-thumb{height:160px;background:linear-gradient(135deg,#0891B2,#1e293b);display:flex;align-items:center;justify-content:center;font-size:54px;position:relative}
+    .prod-thumb .brand-chip{position:absolute;top:8px;left:8px;background:rgba(11,18,32,.85);padding:4px 8px;border-radius:99px;font-size:10px;color:#67e8f9;font-weight:700}
+    .prod-body{padding:12px}
+    .prod-body h4{margin:0 0 4px;color:#fff;font-size:13px;line-height:1.3}
+    .prod-body .price{color:#22d3ee;font-weight:800;font-size:14px}
+
+    .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(8,145,178,.06));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;text-align:center;margin-top:60px}
+    .cta-band h3{font-size:clamp(22px,3.5vw,32px);margin:0 0 12px}
+    .cta-band p{color:#b8c4d9;max-width:620px;margin:0 auto 22px;font-size:15px;line-height:1.55}
+
+    .nwm-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#67e8f9;margin:30px auto;text-decoration:none}
+
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:32px 20px;text-align:center;color:#9aa;font-size:13px}
+    footer a{color:#67e8f9;margin:0 10px;text-decoration:none}
+
+    @media(max-width:700px){.tpl-nav .links a:not(.btn-teal){display:none}}
+  </style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <div class="logo">🛍️ MAKERMARKET</div>
+  <div class="links">
+    <a href="/industries/">← Industries</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">The home for 840+ independent brands</div>
+  <h1>Shop the <span class="hl">makers you'd never find on Amazon</span></h1>
+  <p class="sub">A curated marketplace of small, independent, sustainable brands — ceramics, apparel, home goods, skincare, pantry. One cart, one checkout, fast shipping from each maker.</p>
+  <div class="searchbar"><input type="search" placeholder="Search 12,000+ products…"><button>Search</button></div>
+  <div class="ctas">
+    <a href="#categories" class="btn-teal">Start Shopping →</a>
+    <a href="/contact.html" class="btn-ghost">Sell On MakerMarket</a>
+  </div>
+</section>
+
+<div class="prod-stats">
+  <div class="prod-stat"><div class="n">840+</div><div class="l">Brands</div></div>
+  <div class="prod-stat"><div class="n">12K</div><div class="l">Products</div></div>
+  <div class="prod-stat"><div class="n">2.4M</div><div class="l">Shoppers</div></div>
+  <div class="prod-stat"><div class="n">4.8★</div><div class="l">Avg rating</div></div>
+</div>
+
+<section class="prod-section" id="categories">
+  <h2>Shop by category</h2>
+  <p class="sub">Everything here is made by an independent brand. Every purchase supports a real person.</p>
+  <div class="cats">
+    <a href="#" class="cat"><div class="emoji">🏺</div><h4>Ceramics</h4><div class="count">218 stores</div></a>
+    <a href="#" class="cat"><div class="emoji">👚</div><h4>Apparel</h4><div class="count">184 stores</div></a>
+    <a href="#" class="cat"><div class="emoji">🧴</div><h4>Skincare</h4><div class="count">112 stores</div></a>
+    <a href="#" class="cat"><div class="emoji">🍯</div><h4>Pantry</h4><div class="count">96 stores</div></a>
+    <a href="#" class="cat"><div class="emoji">🕯️</div><h4>Home</h4><div class="count">148 stores</div></a>
+    <a href="#" class="cat"><div class="emoji">📿</div><h4>Jewelry</h4><div class="count">82 stores</div></a>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Featured stores this month</h2>
+  <p class="sub">Six makers hand-picked by our editorial team.</p>
+  <div class="stores">
+    <div class="store"><div class="store-logo">🏺</div><div><h4>Hollow Clay Studio</h4><p>Hand-thrown dinnerware · Portland, OR</p><div class="stars">★★★★★ 4.9 · 312 reviews</div></div></div>
+    <div class="store"><div class="store-logo">🧵</div><div><h4>Thread Theory</h4><p>Indie menswear patterns · Victoria, BC</p><div class="stars">★★★★★ 4.8 · 184 reviews</div></div></div>
+    <div class="store"><div class="store-logo">🌿</div><div><h4>Wild Veda Botanicals</h4><p>Ayurvedic skincare · Austin, TX</p><div class="stars">★★★★★ 5.0 · 267 reviews</div></div></div>
+    <div class="store"><div class="store-logo">🍞</div><div><h4>Hearth &amp; Grain</h4><p>Small-batch sourdough kits · Burlington, VT</p><div class="stars">★★★★☆ 4.7 · 91 reviews</div></div></div>
+    <div class="store"><div class="store-logo">🪵</div><div><h4>Timber &amp; Twine</h4><p>Reclaimed wood furniture · Asheville, NC</p><div class="stars">★★★★★ 4.9 · 148 reviews</div></div></div>
+    <div class="store"><div class="store-logo">💎</div><div><h4>Moss &amp; Stone Jewelry</h4><p>Hand-set gemstone rings · Brooklyn, NY</p><div class="stars">★★★★★ 4.8 · 203 reviews</div></div></div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Trending this week</h2>
+  <p class="sub">What our shoppers are buying most right now.</p>
+  <div class="trending">
+    <div class="prod"><div class="prod-thumb">🏺<div class="brand-chip">Hollow Clay</div></div><div class="prod-body"><h4>Matte White Dinner Plates · Set of 4</h4><div class="price">$92</div></div></div>
+    <div class="prod"><div class="prod-thumb">🧴<div class="brand-chip">Wild Veda</div></div><div class="prod-body"><h4>Turmeric Glow Cleanser</h4><div class="price">$34</div></div></div>
+    <div class="prod"><div class="prod-thumb">🕯️<div class="brand-chip">Ember Co.</div></div><div class="prod-body"><h4>Sandalwood Vessel Candle</h4><div class="price">$28</div></div></div>
+    <div class="prod"><div class="prod-thumb">📿<div class="brand-chip">Moss &amp; Stone</div></div><div class="prod-body"><h4>Tourmaline Stacking Ring</h4><div class="price">$145</div></div></div>
+    <div class="prod"><div class="prod-thumb">🍯<div class="brand-chip">Hearth Grain</div></div><div class="prod-body"><h4>Sourdough Starter Kit</h4><div class="price">$42</div></div></div>
+    <div class="prod"><div class="prod-thumb">👚<div class="brand-chip">Thread Theory</div></div><div class="prod-body"><h4>Linen Shirt Pattern · PDF</h4><div class="price">$18</div></div></div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <h3>One cart. Every maker. Free shipping over $75.</h3>
+  <p>Buy from five different brands in one order. We handle the logistics so you never juggle shipments.</p>
+  <div class="ctas"><a href="/contact.html" class="btn-teal">Start Shopping →</a><a href="/contact.html" class="btn-ghost">Become a Maker</a></div>
+  <a class="nwm-badge" href="https://netwebmedia.com">⚡ Built on NetWebMedia CMS</a>
+</section>
+
+<section class="prod-section" style="text-align:center">
+  <h2>Launch this template with NetWebMedia</h2>
+  <p class="sub">Marketplace builds with vendor portals, multi-seller payouts, and unified checkout.</p>
+  <div class="ctas" style="justify-content:center"><a href="/contact.html" class="btn-teal">Get This Template →</a><a href="/industries/" class="btn-ghost">See All Industries</a></div>
+</section>
+
+<footer>
+  <a href="/industries/">Industries</a> ·
+  <a href="/pricing.html">Pricing</a> ·
+  <a href="/contact.html">Contact</a>
+  <div style="margin-top:10px">© NetWebMedia · Demo template for illustration only</div>
+</footer>
+
+</body>
+</html>

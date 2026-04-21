@@ -16,7 +16,7 @@
   <meta property="og:image" content="https://netwebmedia.com/assets/og-cover.svg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=2">
+  <link rel="stylesheet" href="css/styles.css?v=6">
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-V71R6PD7C0',{anonymize_ip:true});</script>
@@ -124,13 +124,15 @@
   <span data-lang-block="es">🏆 NWM vs HubSpot vs GoHighLevel — mira el desglose completo</span>
 </div>
 
-<div class="top-bar">
+<div class="lang-bar" id="lang-bar">
   <div class="container">
-    <div class="lang-switch">
-      <button class="lang-btn active" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="es">ES</button>
-    </div>
-    <a href="/crm/" class="lang-client-login">🔐 <span data-lang-block="en">Client Login</span><span data-lang-block="es">Acceso Clientes</span></a>
+    <button class="lang-btn active" data-lang="en" id="lang-en">
+      <img class="flag" src="https://flagcdn.com/w40/us.png" alt="EN" loading="lazy" width="20" height="15" /> English
+    </button>
+    <button class="lang-btn" data-lang="es" id="lang-es">
+      <img class="flag" src="https://flagcdn.com/w40/es.png" alt="ES" loading="lazy" width="20" height="15" /> Español
+    </button>
+    <a href="/crm/" class="lang-client-login" data-i18n="nav_dashboard">&#128274; Client Login</a>
   </div>
 </div>
 
@@ -161,6 +163,7 @@
       <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help</a>
       <div class="nav-dropdown">
         <a href="/tutorials.html"><strong>All Tutorials</strong></a>
+        <a href="/catalogue.html" style="color:#25d366;font-weight:700">&#128218; Courses &amp; Playbooks &rarr;</a>
         <a href="/tutorials/nwm-crm.html">NWM CRM (all 7 hubs)</a>
         <a href="/tutorials/nwm-cms.html">NWM CMS</a>
         <a href="/tutorials/ai-automate.html">AI Automations</a>
@@ -173,9 +176,11 @@
         <a href="/tutorials/websites.html">Websites</a>
         <a href="/tutorials/fractional-cmo.html">Fractional CMO</a>
         <a href="/tutorials/analyzer.html">Analyzer</a>
+        <a href="/tutorials/whatsapp-automation.html" style="color:#25d366">WhatsApp Automation</a>
+        <a href="/tutorials/chatbot-automation.html" style="color:#22d3ee">AI Chatbot Automation</a>
+        <a href="/tutorials/sms-automation.html" style="color:#a29bfe">SMS & Messaging</a>
       </div>
-    </div>
-    <a href="contact.html" data-i18n="nav_contact">Contact</a>
+    </div><a href="contact.html" data-i18n="nav_contact">Contact</a>
   </div>
       <div class="nav-ctas">
         <a href="cart.html" class="nav-cart" aria-label="View cart">🛒<span class="nav-cart-count" aria-hidden="true">0</span></a>
@@ -351,23 +356,23 @@
     <div class="quick-row"><span class="lbl" data-lang-block="en">Mandatory onboarding fee</span><span class="lbl" data-lang-block="es">Onboarding obligatorio</span><span class="v hs">$1,080+</span><span class="v ghl">$0</span><span class="v nwm">$999</span></div>
     <div class="quick-row"><span class="lbl" data-lang-block="en">Per-seat / per-contact fees</span><span class="lbl" data-lang-block="es">Cobro por usuario / contacto</span><span class="v hs">Yes</span><span class="v ghl">No</span><span class="v nwm">No</span></div>
     <div class="quick-row"><span class="lbl" data-lang-block="en">Annual contract required</span><span class="lbl" data-lang-block="es">Contrato anual</span><span class="v hs">Yes</span><span class="v ghl">No</span><span class="v nwm">No</span></div>
-    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/white-label" style="color:inherit;text-decoration:none">White-label / SaaS mode</a></span><span class="lbl" data-lang-block="es"><a href="/crm/white-label" style="color:inherit;text-decoration:none">Marca blanca / SaaS</a></span><span class="v hs">No</span><span class="v ghl">Yes</span><span class="v nwm">Yes</span></div>
+    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/app/white-label" style="color:inherit;text-decoration:none">White-label / SaaS mode</a></span><span class="lbl" data-lang-block="es"><a href="/app/white-label" style="color:inherit;text-decoration:none">Marca blanca / SaaS</a></span><span class="v hs">No</span><span class="v ghl">Yes</span><span class="v nwm">Yes</span></div>
     <div class="quick-row"><span class="lbl" data-lang-block="en">Bilingual EN/ES UI</span><span class="lbl" data-lang-block="es">UI bilingüe EN/ES</span><span class="v hs">Partial</span><span class="v ghl">No</span><span class="v nwm">Yes</span></div>
     <div class="quick-row"><span class="lbl" data-lang-block="en">Done-for-you builds</span><span class="lbl" data-lang-block="es">Construcción incluida</span><span class="v hs">No</span><span class="v ghl">No</span><span class="v nwm">Yes</span></div>
-    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/ai-sdr" style="color:inherit;text-decoration:none">AI SDR (sends + books)</a></span><span class="lbl" data-lang-block="es"><a href="/crm/ai-sdr" style="color:inherit;text-decoration:none">AI SDR (envía + agenda)</a></span><span class="v hs">Add-on</span><span class="v ghl">Partial</span><span class="v nwm">Included</span></div>
-    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/voice-ai" style="color:inherit;text-decoration:none">Voice AI (answers calls)</a></span><span class="lbl" data-lang-block="es"><a href="/crm/voice-ai" style="color:inherit;text-decoration:none">IA de Voz (responde)</a></span><span class="v hs">No</span><span class="v ghl">Rebilled</span><span class="v nwm">Included</span></div>
-    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/video-factory" style="color:inherit;text-decoration:none">Video Factory (AI video / avatar)</a></span><span class="lbl" data-lang-block="es"><a href="/crm/video-factory" style="color:inherit;text-decoration:none">Video Factory (video IA / avatar)</a></span><span class="v hs">No</span><span class="v ghl">No</span><span class="v nwm">Yes</span></div>
-    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/conversations" style="color:inherit;text-decoration:none">WhatsApp Business native</a></span><span class="lbl" data-lang-block="es"><a href="/crm/conversations" style="color:inherit;text-decoration:none">WhatsApp Business nativo</a></span><span class="v hs">Partial</span><span class="v ghl">Partial</span><span class="v nwm">Yes</span></div>
-    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/reports" style="color:inherit;text-decoration:none">Multi-touch attribution</a></span><span class="lbl" data-lang-block="es"><a href="/crm/reports" style="color:inherit;text-decoration:none">Atribución multi-touch</a></span><span class="v hs">Enterprise</span><span class="v ghl">No</span><span class="v nwm">Yes</span></div>
-    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/landing-pages" style="color:inherit;text-decoration:none">Funnel / landing builder</a></span><span class="lbl" data-lang-block="es"><a href="/crm/landing-pages" style="color:inherit;text-decoration:none">Funnel / landing</a></span><span class="v hs">Pro+</span><span class="v ghl">Yes</span><span class="v nwm">Yes</span></div>
-    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/memberships" style="color:inherit;text-decoration:none">Memberships / courses / community</a></span><span class="lbl" data-lang-block="es"><a href="/crm/memberships" style="color:inherit;text-decoration:none">Membresías / cursos / comunidad</a></span><span class="v hs">Partial</span><span class="v ghl">Yes</span><span class="v nwm">Yes</span></div>
+    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/app/ai-sdr" style="color:inherit;text-decoration:none">AI SDR (sends + books)</a></span><span class="lbl" data-lang-block="es"><a href="/app/ai-sdr" style="color:inherit;text-decoration:none">AI SDR (envía + agenda)</a></span><span class="v hs">Add-on</span><span class="v ghl">Partial</span><span class="v nwm">Included</span></div>
+    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/app/voice-ai" style="color:inherit;text-decoration:none">Voice AI (answers calls)</a></span><span class="lbl" data-lang-block="es"><a href="/app/voice-ai" style="color:inherit;text-decoration:none">IA de Voz (responde)</a></span><span class="v hs">No</span><span class="v ghl">Rebilled</span><span class="v nwm">Included</span></div>
+    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/app/video-factory" style="color:inherit;text-decoration:none">Video Factory (AI video / avatar)</a></span><span class="lbl" data-lang-block="es"><a href="/app/video-factory" style="color:inherit;text-decoration:none">Video Factory (video IA / avatar)</a></span><span class="v hs">No</span><span class="v ghl">No</span><span class="v nwm">Yes</span></div>
+    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/conversations.html" style="color:inherit;text-decoration:none">WhatsApp Business native</a></span><span class="lbl" data-lang-block="es"><a href="/crm/conversations.html" style="color:inherit;text-decoration:none">WhatsApp Business nativo</a></span><span class="v hs">Partial</span><span class="v ghl">Partial</span><span class="v nwm">Yes</span></div>
+    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/app/reports" style="color:inherit;text-decoration:none">Multi-touch attribution</a></span><span class="lbl" data-lang-block="es"><a href="/app/reports" style="color:inherit;text-decoration:none">Atribución multi-touch</a></span><span class="v hs">Enterprise</span><span class="v ghl">No</span><span class="v nwm">Yes</span></div>
+    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/app/landing-pages" style="color:inherit;text-decoration:none">Funnel / landing builder</a></span><span class="lbl" data-lang-block="es"><a href="/app/landing-pages" style="color:inherit;text-decoration:none">Funnel / landing</a></span><span class="v hs">Pro+</span><span class="v ghl">Yes</span><span class="v nwm">Yes</span></div>
+    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/app/memberships" style="color:inherit;text-decoration:none">Memberships / courses / community</a></span><span class="lbl" data-lang-block="es"><a href="/app/memberships" style="color:inherit;text-decoration:none">Membresías / cursos / comunidad</a></span><span class="v hs">Partial</span><span class="v ghl">Yes</span><span class="v nwm">Yes</span></div>
     <div class="quick-row"><span class="lbl" data-lang-block="en">Fractional CMO included</span><span class="lbl" data-lang-block="es">CMO fraccional incluido</span><span class="v hs">No</span><span class="v ghl">No</span><span class="v nwm">Scale</span></div>
-    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/companies" style="color:inherit;text-decoration:none">Companies (B2B account object)</a></span><span class="lbl" data-lang-block="es"><a href="/crm/companies" style="color:inherit;text-decoration:none">Empresas (cuentas B2B)</a></span><span class="v hs">Yes</span><span class="v ghl">No</span><span class="v nwm">Yes</span></div>
-    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/products" style="color:inherit;text-decoration:none">Products catalog</a></span><span class="lbl" data-lang-block="es"><a href="/crm/products" style="color:inherit;text-decoration:none">Catálogo de productos</a></span><span class="v hs">Pro+</span><span class="v ghl">Partial</span><span class="v nwm">Yes</span></div>
-    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/forecasting" style="color:inherit;text-decoration:none">Forecasting (AI-weighted)</a></span><span class="lbl" data-lang-block="es"><a href="/crm/forecasting" style="color:inherit;text-decoration:none">Pronóstico (IA)</a></span><span class="v hs">Pro+</span><span class="v ghl">No</span><span class="v nwm">Yes</span></div>
-    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/customer-portal" style="color:inherit;text-decoration:none">Customer Portal</a></span><span class="lbl" data-lang-block="es"><a href="/crm/customer-portal" style="color:inherit;text-decoration:none">Portal de clientes</a></span><span class="v hs">Pro+</span><span class="v ghl">Partial</span><span class="v nwm">Yes</span></div>
-    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/knowledge-base" style="color:inherit;text-decoration:none">Knowledge Base</a></span><span class="lbl" data-lang-block="es"><a href="/crm/knowledge-base" style="color:inherit;text-decoration:none">Base de conocimiento</a></span><span class="v hs">Pro+</span><span class="v ghl">No</span><span class="v nwm">Yes</span></div>
-    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/crm/reports" style="color:inherit;text-decoration:none">Reports (first-class suite)</a></span><span class="lbl" data-lang-block="es"><a href="/crm/reports" style="color:inherit;text-decoration:none">Reportes (suite completa)</a></span><span class="v hs">Yes</span><span class="v ghl">Basic</span><span class="v nwm">Yes</span></div>
+    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/app/companies" style="color:inherit;text-decoration:none">Companies (B2B account object)</a></span><span class="lbl" data-lang-block="es"><a href="/app/companies" style="color:inherit;text-decoration:none">Empresas (cuentas B2B)</a></span><span class="v hs">Yes</span><span class="v ghl">No</span><span class="v nwm">Yes</span></div>
+    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/app/products" style="color:inherit;text-decoration:none">Products catalog</a></span><span class="lbl" data-lang-block="es"><a href="/app/products" style="color:inherit;text-decoration:none">Catálogo de productos</a></span><span class="v hs">Pro+</span><span class="v ghl">Partial</span><span class="v nwm">Yes</span></div>
+    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/app/forecasting" style="color:inherit;text-decoration:none">Forecasting (AI-weighted)</a></span><span class="lbl" data-lang-block="es"><a href="/app/forecasting" style="color:inherit;text-decoration:none">Pronóstico (IA)</a></span><span class="v hs">Pro+</span><span class="v ghl">No</span><span class="v nwm">Yes</span></div>
+    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/app/customer-portal" style="color:inherit;text-decoration:none">Customer Portal</a></span><span class="lbl" data-lang-block="es"><a href="/app/customer-portal" style="color:inherit;text-decoration:none">Portal de clientes</a></span><span class="v hs">Pro+</span><span class="v ghl">Partial</span><span class="v nwm">Yes</span></div>
+    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/app/knowledge-base" style="color:inherit;text-decoration:none">Knowledge Base</a></span><span class="lbl" data-lang-block="es"><a href="/app/knowledge-base" style="color:inherit;text-decoration:none">Base de conocimiento</a></span><span class="v hs">Pro+</span><span class="v ghl">No</span><span class="v nwm">Yes</span></div>
+    <div class="quick-row"><span class="lbl" data-lang-block="en"><a href="/app/reports" style="color:inherit;text-decoration:none">Reports (first-class suite)</a></span><span class="lbl" data-lang-block="es"><a href="/app/reports" style="color:inherit;text-decoration:none">Reportes (suite completa)</a></span><span class="v hs">Yes</span><span class="v ghl">Basic</span><span class="v nwm">Yes</span></div>
   </div>
 </section>
 
@@ -379,15 +384,15 @@
   <p class="sub" data-lang-block="es">No son "funciones en el roadmap" — están activas desde el día 1.</p>
 
   <div class="features-grid">
-    <div class="f-card"><div class="emoji">🎙️</div><h4 data-lang-block="en"><a href="/crm/voice-ai" style="color:inherit;text-decoration:none">Voice AI that books calls</a></h4><h4 data-lang-block="es"><a href="/crm/voice-ai" style="color:inherit;text-decoration:none">Voz IA que agenda llamadas</a></h4><p data-lang-block="en">Inbound phone calls answered 24/7 by a GPT-4 voice agent that qualifies, books the slot into Calendar, and logs the call — in English or Spanish.</p><p data-lang-block="es">Llamadas entrantes respondidas 24/7 por un agente GPT-4 de voz que califica, agenda en el Calendar y registra — en inglés o español.</p><small data-lang-block="en">HubSpot: ✗ · GHL: Rebilled</small><small data-lang-block="es">HubSpot: ✗ · GHL: Remarca</small></div>
+    <div class="f-card"><div class="emoji">🎙️</div><h4 data-lang-block="en"><a href="/app/voice-ai" style="color:inherit;text-decoration:none">Voice AI that books calls</a></h4><h4 data-lang-block="es"><a href="/app/voice-ai" style="color:inherit;text-decoration:none">Voz IA que agenda llamadas</a></h4><p data-lang-block="en">Inbound phone calls answered 24/7 by a GPT-4 voice agent that qualifies, books the slot into Calendar, and logs the call — in English or Spanish.</p><p data-lang-block="es">Llamadas entrantes respondidas 24/7 por un agente GPT-4 de voz que califica, agenda en el Calendar y registra — en inglés o español.</p><small data-lang-block="en">HubSpot: ✗ · GHL: Rebilled</small><small data-lang-block="es">HubSpot: ✗ · GHL: Remarca</small></div>
 
-    <div class="f-card"><div class="emoji">🎬</div><h4 data-lang-block="en"><a href="/crm/video-factory" style="color:inherit;text-decoration:none">Video Factory</a></h4><h4 data-lang-block="es"><a href="/crm/video-factory" style="color:inherit;text-decoration:none">Video Factory</a></h4><p data-lang-block="en">Generate branded spokesperson videos from a script. Avatars in your brand colors, lip-sync, subtitles, social-ratio crops.</p><p data-lang-block="es">Genera videos con presentador desde un guión. Avatares con tus colores, lip-sync, subtítulos, cortes para redes.</p><small data-lang-block="en">HubSpot: ✗ · GHL: ✗</small><small data-lang-block="es">HubSpot: ✗ · GHL: ✗</small></div>
+    <div class="f-card"><div class="emoji">🎬</div><h4 data-lang-block="en"><a href="/app/video-factory" style="color:inherit;text-decoration:none">Video Factory</a></h4><h4 data-lang-block="es"><a href="/app/video-factory" style="color:inherit;text-decoration:none">Video Factory</a></h4><p data-lang-block="en">Generate branded spokesperson videos from a script. Avatars in your brand colors, lip-sync, subtitles, social-ratio crops.</p><p data-lang-block="es">Genera videos con presentador desde un guión. Avatares con tus colores, lip-sync, subtítulos, cortes para redes.</p><small data-lang-block="en">HubSpot: ✗ · GHL: ✗</small><small data-lang-block="es">HubSpot: ✗ · GHL: ✗</small></div>
 
     <div class="f-card"><div class="emoji">🌎</div><h4 data-lang-block="en">Bilingual UI + geo-IP</h4><h4 data-lang-block="es">UI bilingüe + geo-IP</h4><p data-lang-block="en">Chile / Mexico / Spain / LatAm visitors auto-see Spanish. Your US traffic auto-sees English. No toggle required.</p><p data-lang-block="es">Visitantes de Chile / México / España / LatAm ven español automáticamente. Tráfico US ve inglés. Sin toggle.</p><small data-lang-block="en">HubSpot: Add-on · GHL: ✗</small><small data-lang-block="es">HubSpot: Pago · GHL: ✗</small></div>
 
     <div class="f-card"><div class="emoji">🧑‍💼</div><h4 data-lang-block="en">Fractional CMO included</h4><h4 data-lang-block="es">CMO fraccional incluido</h4><p data-lang-block="en">Scale plan includes a weekly strategy call with a senior marketing leader. They own the funnel, not just the tool.</p><p data-lang-block="es">El plan Scale incluye una reunión semanal con un líder de marketing senior. Ellos son dueños del funnel, no solo la herramienta.</p><small data-lang-block="en">HubSpot: ✗ · GHL: ✗</small><small data-lang-block="es">HubSpot: ✗ · GHL: ✗</small></div>
 
-    <div class="f-card"><div class="emoji">🏗️</div><h4 data-lang-block="en">Done-for-you onboarding</h4><h4 data-lang-block="es">Onboarding hecho por nosotros</h4><p data-lang-block="en">Your first 5 funnels, 10 <a href="/crm/automations" style="color:inherit;text-decoration:underline">Automations</a> and 3 <a href="/crm/sequences" style="color:inherit;text-decoration:underline">Sequences</a> are built FOR you in the first 14 days. No "good luck" handoffs.</p><p data-lang-block="es">Los primeros 5 funnels, 10 <a href="/crm/automations" style="color:inherit;text-decoration:underline">Automations</a> y 3 <a href="/crm/sequences" style="color:inherit;text-decoration:underline">Sequences</a> se construyen POR ti en los primeros 14 días. Nada de "suerte con eso".</p><small data-lang-block="en">HubSpot: ✗ · GHL: ✗</small><small data-lang-block="es">HubSpot: ✗ · GHL: ✗</small></div>
+    <div class="f-card"><div class="emoji">🏗️</div><h4 data-lang-block="en">Done-for-you onboarding</h4><h4 data-lang-block="es">Onboarding hecho por nosotros</h4><p data-lang-block="en">Your first 5 funnels, 10 <a href="/app/automations" style="color:inherit;text-decoration:underline">Automations</a> and 3 <a href="/app/sequences" style="color:inherit;text-decoration:underline">Sequences</a> are built FOR you in the first 14 days. No "good luck" handoffs.</p><p data-lang-block="es">Los primeros 5 funnels, 10 <a href="/app/automations" style="color:inherit;text-decoration:underline">Automations</a> y 3 <a href="/app/sequences" style="color:inherit;text-decoration:underline">Sequences</a> se construyen POR ti en los primeros 14 días. Nada de "suerte con eso".</p><small data-lang-block="en">HubSpot: ✗ · GHL: ✗</small><small data-lang-block="es">HubSpot: ✗ · GHL: ✗</small></div>
 
     <div class="f-card"><div class="emoji">📉</div><h4 data-lang-block="en">Zero per-contact penalties</h4><h4 data-lang-block="es">Cero penalidad por contacto</h4><p data-lang-block="en">Unlike HubSpot's tiered "marketing contact" pricing, NWM bills a flat monthly rate no matter how many contacts you store or email.</p><p data-lang-block="es">A diferencia del precio por tiers de "contactos de marketing" de HubSpot, NWM cobra una tarifa plana sin importar cuántos contactos guardes o envíes.</p><small data-lang-block="en">HubSpot: Tiered · GHL: N/A</small><small data-lang-block="es">HubSpot: Por tiers · GHL: N/A</small></div>
 
@@ -462,7 +467,7 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=2" defer></script>
+<script src="js/main.js?v=7" defer></script>
 <script src="js/cart.js" defer></script>
 <script src="js/nwm-chat.js" defer></script>
 </body>

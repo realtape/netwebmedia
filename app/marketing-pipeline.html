@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketing Pipeline - NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/pipelines.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div class="summary-cards" id="mktSummary"></div>
+
+        <div class="mkt-grid">
+          <div class="card mkt-funnel-card">
+            <div class="card-header">
+              <h2 class="card-title">Lead Funnel</h2>
+              <span class="stat-change positive" id="mktOverallConv">—</span>
+            </div>
+            <div id="mktFunnel"></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h2 class="card-title">Source Attribution</h2></div>
+            <div id="mktSources"></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+          <div class="card-header">
+            <h2 class="card-title">Stage-to-Stage Conversion</h2>
+          </div>
+          <div id="mktConversion"></div>
+        </div>
+
+        <div class="card" style="margin-top:20px">
+          <div class="card-header">
+            <h2 class="card-title">Active Campaigns Contributing</h2>
+          </div>
+          <div id="mktCampaignTable"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/marketing-pipeline.js"></script>
+</body>
+</html>

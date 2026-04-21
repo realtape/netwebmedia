@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Analytics - NetWeb CMS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../crm/css/app.css">
+  <link rel="stylesheet" href="css/cms.css">
+  <style>
+    .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px}
+    .stat-card{background:#fff;border:1px solid #eee;border-radius:12px;padding:16px}
+    .stat-card .lbl{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.05em}
+    .stat-card .val{font-size:28px;font-weight:700;margin-top:6px}
+    .stat-card .sub{font-size:12px;color:#999;margin-top:4px}
+    .panel{background:#fff;border:1px solid #eee;border-radius:12px;padding:18px;margin-bottom:18px}
+    .panel h3{margin:0 0 12px;font-size:16px}
+    .bar{height:24px;background:linear-gradient(90deg,#6366f1,#8b5cf6);border-radius:4px;margin-bottom:6px;color:#fff;font-size:12px;padding:4px 8px}
+    table.ana{width:100%;border-collapse:collapse}
+    table.ana th,table.ana td{padding:8px 10px;border-bottom:1px solid #eee;font-size:13px;text-align:left}
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div id="stats" class="stat-grid">Loading…</div>
+        <div class="panel">
+          <h3>Submissions by form (30 days)</h3>
+          <div id="byForm"></div>
+        </div>
+        <div class="panel">
+          <h3>Recent submissions</h3>
+          <table class="ana"><thead><tr><th>When</th><th>Form</th><th>Email</th><th>Name</th></tr></thead><tbody id="recent"></tbody></table>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/api-client.js"></script>
+  <script src="js/cms.js"></script>
+  <script>
+    if (window.CMS_APP) CMS_APP.buildHeader('Analytics', '', 'Your conversion performance at a glance');
+
+    function fmt(n) { return Number(n || 0).toLocaleString(); }
+
+    Promise.all([
+      fetch('/api/public/stats').then(function (r) { return r.json(); }).catch(function () { return {}; }),
+      NWMApi.list('form').catch(function () { return { items: [] }; }),
+      NWMApi.list('contact').catch(function () { return { items: [] }; }),
+      NWMApi.list('deal').catch(function () { return { items: [] }; }),
+    ]).then(function (res) {
+      var stats = res[0] || {};
+      var forms = res[1].items || [];
+      var contacts = res[2].items || [];
+      var deals = res[3].items || [];
+      var dealValue = 0; deals.forEach(function (d) { var v = (d.data && d.data.value) || 0; dealValue += +v || 0; });
+
+      document.getElementById('stats').innerHTML =
+        '<div class="stat-card"><div class="lbl">Forms</div><div class="val">' + forms.length + '</div></div>' +
+        '<div class="stat-card"><div class="lbl">Contacts</div><div class="val">' + contacts.length + '</div></div>' +
+        '<div class="stat-card"><div class="lbl">Submissions 30d</div><div class="val">' + fmt(stats.form_submissions_30d) + '</div></div>' +
+        '<div class="stat-card"><div class="lbl">Deals</div><div class="val">' + deals.length + '</div></div>' +
+        '<div class="stat-card"><div class="lbl">Pipeline value</div><div class="val">$' + fmt(dealValue) + '</div></div>';
+
+      // Bar chart by form (based on forms' own submissions counter if present)
+      var max = 1;
+      forms.forEach(function (f) { max = Math.max(max, ((f.data && f.data.submissions) || 0)); });
+      var bh = forms.slice(0, 10).map(function (f) {
+        var n = (f.data && f.data.submissions) || 0;
+        var pct = (n / max) * 100;
+        return '<div class="bar" style="width:' + Math.max(pct, 4) + '%;">' + (f.title || 'Form #' + f.id) + ' — ' + n + '</div>';
+      }).join('');
+      document.getElementById('byForm').innerHTML = bh || '<p style="color:#888">No form activity yet.</p>';
+
+      var rows = contacts.slice(0, 15).map(function (c) {
+        var d = c.data || {};
+        return '<tr><td>' + (c.created_at || '') + '</td><td>' + ((d.source || d.form_title) || '') + '</td><td>' + (d.email || c.title || '') + '</td><td>' + (d.name || '') + '</td></tr>';
+      }).join('');
+      document.getElementById('recent').innerHTML = rows || '<tr><td colspan="4" style="padding:20px;color:#888;text-align:center;">No recent submissions.</td></tr>';
+    });
+  </script>
+<script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

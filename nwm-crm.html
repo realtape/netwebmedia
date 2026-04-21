@@ -11,7 +11,7 @@
   <meta property="og:url" content="https://netwebmedia.com/nwm-crm.html" />
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=2">
+  <link rel="stylesheet" href="css/styles.css?v=6">
 
   <style>
     .promo-banner{background:linear-gradient(135deg,#FF6B00,#ff3d00);color:#fff;text-align:center;padding:12px 16px;font-weight:700;font-size:14px;letter-spacing:.3px;position:relative;z-index:50}
@@ -78,13 +78,15 @@
 </div>
 
 <!-- Top bar (lang / login) -->
-<div class="top-bar">
+<div class="lang-bar" id="lang-bar">
   <div class="container">
-    <div class="lang-switch">
-      <button class="lang-btn active" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="es">ES</button>
-    </div>
-    <a href="/crm/" class="lang-client-login">🔐 Client Login</a>
+    <button class="lang-btn active" data-lang="en" id="lang-en">
+      <img class="flag" src="https://flagcdn.com/w40/us.png" alt="EN" loading="lazy" width="20" height="15" /> English
+    </button>
+    <button class="lang-btn" data-lang="es" id="lang-es">
+      <img class="flag" src="https://flagcdn.com/w40/es.png" alt="ES" loading="lazy" width="20" height="15" /> Español
+    </button>
+    <a href="/crm/" class="lang-client-login" data-i18n="nav_dashboard">&#128274; Client Login</a>
   </div>
 </div>
 
@@ -116,6 +118,7 @@
       <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help</a>
       <div class="nav-dropdown">
         <a href="/tutorials.html"><strong>All Tutorials</strong></a>
+        <a href="/catalogue.html" style="color:#25d366;font-weight:700">&#128218; Courses &amp; Playbooks &rarr;</a>
         <a href="/tutorials/nwm-crm.html">NWM CRM (all 7 hubs)</a>
         <a href="/tutorials/nwm-cms.html">NWM CMS</a>
         <a href="/tutorials/ai-automate.html">AI Automations</a>
@@ -128,9 +131,11 @@
         <a href="/tutorials/websites.html">Websites</a>
         <a href="/tutorials/fractional-cmo.html">Fractional CMO</a>
         <a href="/tutorials/analyzer.html">Analyzer</a>
+        <a href="/tutorials/whatsapp-automation.html" style="color:#25d366">WhatsApp Automation</a>
+        <a href="/tutorials/chatbot-automation.html" style="color:#22d3ee">AI Chatbot Automation</a>
+        <a href="/tutorials/sms-automation.html" style="color:#a29bfe">SMS & Messaging</a>
       </div>
-    </div>
-    <a href="contact.html" data-i18n="nav_contact">Contact</a>
+    </div><a href="contact.html" data-i18n="nav_contact">Contact</a>
   </div>
       <div class="nav-ctas">
         <a href="cart.html" class="nav-cart" aria-label="View cart">🛒<span class="nav-cart-count" aria-hidden="true">0</span></a>
@@ -219,15 +224,15 @@
       <h3 class="hub-title">📊 Sales Hub <span class="hub-count">· 9 modules · Live</span></h3>
       <p>Contacts, pipeline, forecasts, quotes and cadences — everything a modern sales team runs on, with AI ranking every deal.</p>
       <div class="hub-pills">
-        <a class="hub-pill sales" href="/crm/contacts">Contacts</a>
-        <a class="hub-pill sales" href="/crm/companies">Companies</a>
-        <a class="hub-pill sales" href="/crm/pipeline">Pipeline</a>
-        <a class="hub-pill sales" href="/crm/forecasting">Forecasting</a>
-        <a class="hub-pill sales" href="/crm/products">Products</a>
-        <a class="hub-pill sales" href="/crm/quotes">Quotes</a>
-        <a class="hub-pill sales" href="/crm/calendar">Calendar</a>
-        <a class="hub-pill sales" href="/crm/playbooks">Playbooks</a>
-        <a class="hub-pill sales" href="/crm/sequences">Sequences</a>
+        <a class="hub-pill sales" href="/crm/contacts.html">Contacts</a>
+        <a class="hub-pill sales" href="/app/companies">Companies</a>
+        <a class="hub-pill sales" href="/crm/pipeline.html">Pipeline</a>
+        <a class="hub-pill sales" href="/app/forecasting">Forecasting</a>
+        <a class="hub-pill sales" href="/app/products">Products</a>
+        <a class="hub-pill sales" href="/app/quotes">Quotes</a>
+        <a class="hub-pill sales" href="/crm/calendar.html">Calendar</a>
+        <a class="hub-pill sales" href="/app/playbooks">Playbooks</a>
+        <a class="hub-pill sales" href="/app/sequences">Sequences</a>
       </div>
     </div>
 
@@ -236,17 +241,17 @@
       <h3 class="hub-title">📣 Marketing Hub <span class="hub-count">· 11 modules · Live</span></h3>
       <p>Campaigns, automations, landing pages, forms, A/B tests, SMS, social, ads and the NWM Chat conversations inbox — one workspace, one schema.</p>
       <div class="hub-pills">
-        <a class="hub-pill mkt" href="/crm/campaigns">Campaigns</a>
-        <a class="hub-pill mkt" href="/crm/automations">Automations</a>
-        <a class="hub-pill mkt" href="/crm/landing-pages">Landing Pages</a>
-        <a class="hub-pill mkt" href="/crm/forms">Forms</a>
-        <a class="hub-pill mkt" href="/crm/ab-tests">A/B Tests</a>
-        <a class="hub-pill mkt" href="/crm/sms">SMS</a>
-        <a class="hub-pill mkt" href="/crm/social">Social</a>
-        <a class="hub-pill mkt" href="/crm/ads">Ads</a>
-        <a class="hub-pill mkt" href="/crm/lead-scoring">Lead Scoring</a>
-        <a class="hub-pill mkt" href="/crm/blog">Blog</a>
-        <a class="hub-pill mkt" href="/crm/conversations">Conversations</a>
+        <a class="hub-pill mkt" href="/app/campaigns">Campaigns</a>
+        <a class="hub-pill mkt" href="/app/automations">Automations</a>
+        <a class="hub-pill mkt" href="/app/landing-pages">Landing Pages</a>
+        <a class="hub-pill mkt" href="/app/forms">Forms</a>
+        <a class="hub-pill mkt" href="/app/ab-tests">A/B Tests</a>
+        <a class="hub-pill mkt" href="/app/sms">SMS</a>
+        <a class="hub-pill mkt" href="/crm/social.html">Social</a>
+        <a class="hub-pill mkt" href="/app/ads">Ads</a>
+        <a class="hub-pill mkt" href="/app/lead-scoring">Lead Scoring</a>
+        <a class="hub-pill mkt" href="/app/blog">Blog</a>
+        <a class="hub-pill mkt" href="/crm/conversations.html">Conversations</a>
       </div>
     </div>
 
@@ -255,12 +260,12 @@
       <h3 class="hub-title">🛟 Service Hub <span class="hub-count">· 6 modules · Live</span></h3>
       <p>Tickets, SLAs, a branded customer portal, a public knowledge base, NPS/CSAT surveys, and call logging. Keep the revenue your marketing earned.</p>
       <div class="hub-pills">
-        <a class="hub-pill svc" href="/crm/tickets">Tickets</a>
-        <a class="hub-pill svc" href="/crm/knowledge-base">Knowledge Base</a>
-        <a class="hub-pill svc" href="/crm/customer-portal">Customer Portal</a>
-        <a class="hub-pill svc" href="/crm/surveys">Surveys</a>
-        <a class="hub-pill svc" href="/crm/slas">SLAs</a>
-        <a class="hub-pill svc" href="/crm/calls">Calls</a>
+        <a class="hub-pill svc" href="/app/tickets">Tickets</a>
+        <a class="hub-pill svc" href="/app/knowledge-base">Knowledge Base</a>
+        <a class="hub-pill svc" href="/app/customer-portal">Customer Portal</a>
+        <a class="hub-pill svc" href="/app/surveys">Surveys</a>
+        <a class="hub-pill svc" href="/app/slas">SLAs</a>
+        <a class="hub-pill svc" href="/app/calls">Calls</a>
       </div>
     </div>
 
@@ -269,10 +274,10 @@
       <h3 class="hub-title">🌐 CMS <span class="hub-count">· 4 modules · Live</span></h3>
       <p>Publish marketing pages, gated membership areas, paid courses, and a customer community — no Kajabi or Circle subscription required.</p>
       <div class="hub-pills">
-        <a class="hub-pill cms" href="/crm/pages">Pages</a>
-        <a class="hub-pill cms" href="/crm/memberships">Memberships</a>
-        <a class="hub-pill cms" href="/crm/courses">Courses</a>
-        <a class="hub-pill cms" href="/crm/community">Community</a>
+        <a class="hub-pill cms" href="/app/pages">Pages</a>
+        <a class="hub-pill cms" href="/app/memberships">Memberships</a>
+        <a class="hub-pill cms" href="/crm/courses.html">Courses</a>
+        <a class="hub-pill cms" href="/app/community">Community</a>
       </div>
     </div>
 
@@ -281,11 +286,11 @@
       <h3 class="hub-title">🤖 AI Agents Hub <span class="hub-count">· 5 modules · Live</span></h3>
       <p>Five autonomous agents baked into the platform — a Copilot that sits next to every team, an SDR that prospects 24/7, a Voice AI that picks up every call, a Video Factory that ships Reels, and Content AI for copy + images.</p>
       <div class="hub-pills">
-        <a class="hub-pill ai" href="/crm/ai-copilot">AI Copilot</a>
-        <a class="hub-pill ai" href="/crm/ai-sdr">AI SDR</a>
-        <a class="hub-pill ai" href="/crm/voice-ai">Voice AI</a>
-        <a class="hub-pill ai" href="/crm/video-factory">Video Factory</a>
-        <a class="hub-pill ai" href="/crm/content-ai">Content AI</a>
+        <a class="hub-pill ai" href="/app/ai-copilot">AI Copilot</a>
+        <a class="hub-pill ai" href="/app/ai-sdr">AI SDR</a>
+        <a class="hub-pill ai" href="/app/voice-ai">Voice AI</a>
+        <a class="hub-pill ai" href="/app/video-factory">Video Factory</a>
+        <a class="hub-pill ai" href="/app/content-ai">Content AI</a>
       </div>
     </div>
 
@@ -294,12 +299,12 @@
       <h3 class="hub-title">⚙️ Operations <span class="hub-count">· 6 modules · Live</span></h3>
       <p>The plumbing: native integrations, webhooks, API keys, server-side custom code, reports, and workspace settings. GDPR-ready audit log, bulk import/export included.</p>
       <div class="hub-pills">
-        <a class="hub-pill ops" href="/crm/integrations">Integrations</a>
-        <a class="hub-pill ops" href="/crm/webhooks">Webhooks</a>
-        <a class="hub-pill ops" href="/crm/custom-code">Custom Code</a>
-        <a class="hub-pill ops" href="/crm/api-keys">API Keys</a>
-        <a class="hub-pill ops" href="/crm/reports">Reports</a>
-        <a class="hub-pill ops" href="/crm/settings">Settings</a>
+        <a class="hub-pill ops" href="/app/integrations">Integrations</a>
+        <a class="hub-pill ops" href="/app/webhooks">Webhooks</a>
+        <a class="hub-pill ops" href="/app/custom-code">Custom Code</a>
+        <a class="hub-pill ops" href="/app/api-keys">API Keys</a>
+        <a class="hub-pill ops" href="/app/reports">Reports</a>
+        <a class="hub-pill ops" href="/crm/settings.html">Settings</a>
       </div>
     </div>
 
@@ -309,11 +314,11 @@
       <h3 class="hub-title">💼 Agency / Partner Hub <span class="hub-count">· 5 modules · Live</span></h3>
       <p>Rebill every module above under your own domain, SSL, email and logo. Unlimited sub-accounts, Stripe Connect auto-invoicing at your markup, an affiliate engine, and reputation monitoring across Google / G2 / Capterra / Trustpilot.</p>
       <div class="hub-pills" style="gap:8px">
-        <a class="hub-pill agy" href="/crm/sub-accounts">Sub-accounts</a>
-        <a class="hub-pill agy" href="/crm/white-label">White-label</a>
-        <a class="hub-pill agy" href="/crm/billing">Billing (Stripe Connect)</a>
-        <a class="hub-pill agy" href="/crm/affiliates">Affiliates</a>
-        <a class="hub-pill agy" href="/crm/reputation">Reputation</a>
+        <a class="hub-pill agy" href="/app/sub-accounts">Sub-accounts</a>
+        <a class="hub-pill agy" href="/app/white-label">White-label</a>
+        <a class="hub-pill agy" href="/app/billing">Billing (Stripe Connect)</a>
+        <a class="hub-pill agy" href="/app/affiliates">Affiliates</a>
+        <a class="hub-pill agy" href="/crm/reputation.html">Reputation</a>
       </div>
       <div style="margin-top:14px">
         <a href="/partners.html" style="display:inline-block;padding:10px 18px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:700;text-decoration:none;font-size:14px">See the partner program →</a>
@@ -481,7 +486,7 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=2" defer></script>
+<script src="js/main.js?v=7" defer></script>
 <script src="js/cart.js" defer></script>
 </body>
 </html>

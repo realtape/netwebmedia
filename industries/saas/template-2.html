@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Tool — SaaS Template | NetWebMedia CMS</title>
+  <meta name="description" content="Developer tool landing page — code snippet hero, API features, docs and GitHub links, install CTA. Built on NetWebMedia CMS.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/saas/template-2.html" />
+  <meta property="og:title" content="Developer Tool — NetWebMedia Template" />
+  <meta property="og:description" content="Dev-facing SaaS landing with code hero, API features, and install flow." />
+  <meta property="og:url" content="https://netwebmedia.com/industries/saas/template-2.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body{background:#0b1220;color:#dde3ee;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    .tpl-nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+    .tpl-nav .logo{font-weight:900;font-size:18px;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent;font-family:ui-monospace,Menlo,Monaco,Consolas,monospace}
+    .tpl-nav .links{display:flex;gap:18px;align-items:center}
+    .tpl-nav a{color:#b8c4d9;text-decoration:none;font-size:14px}
+    .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:10px 20px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:10px 20px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+    .hero-split{max-width:1200px;margin:0 auto;padding:60px 20px 20px;display:grid;grid-template-columns:1fr 1.1fr;gap:50px;align-items:center}
+    .hero-split .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+    .hero-split h1{font-size:clamp(30px,5vw,50px);margin:0 0 16px;line-height:1.05}
+    .hero-split h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero-split p.sub{font-size:17px;color:#b8c4d9;line-height:1.55;margin:0 0 22px}
+    .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+    .ctas .btn-teal,.ctas .btn-ghost{padding:13px 24px;font-size:15px}
+
+    .install-chip{display:inline-flex;align-items:center;gap:8px;background:#0f172a;border:1px solid rgba(255,255,255,.12);padding:10px 16px;border-radius:10px;font-family:ui-monospace,Menlo,Monaco,Consolas,monospace;font-size:14px;color:#22d3ee;margin-bottom:16px}
+    .install-chip::before{content:"$";color:#64748b;margin-right:4px}
+    .install-chip .copy{color:#64748b;margin-left:8px;font-size:12px;cursor:pointer}
+
+    .code-hero{background:#0f172a;border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;box-shadow:0 40px 100px -20px rgba(6,182,212,.3)}
+    .code-head{background:#1e293b;padding:10px 14px;display:flex;gap:8px;align-items:center;font-family:ui-monospace,monospace;font-size:12px;color:#94a3b8}
+    .code-head .dots{display:flex;gap:6px;margin-right:10px}
+    .code-head .dots span{width:11px;height:11px;border-radius:99px;background:#475569}
+    .code-head .file{background:rgba(255,255,255,.05);padding:4px 10px;border-radius:6px;color:#dde3ee}
+    .code-body{padding:22px 24px;font-family:ui-monospace,Menlo,Monaco,Consolas,monospace;font-size:13px;line-height:1.75;color:#dde3ee;overflow-x:auto}
+    .code-body .kw{color:#67e8f9}
+    .code-body .str{color:#a7f3d0}
+    .code-body .fn{color:#fbbf24}
+    .code-body .cm{color:#64748b;font-style:italic}
+    .code-body .num{color:#f472b6}
+
+    .logos{max-width:900px;margin:30px auto;padding:20px;display:flex;gap:30px;justify-content:center;flex-wrap:wrap;opacity:.7}
+    .logos span{color:#9aa;font-weight:700;font-size:15px;letter-spacing:.08em}
+
+    .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+    .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+    .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+    .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+    .feat-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px;transition:transform .2s,border-color .2s}
+    .feat-card:hover{transform:translateY(-4px);border-color:rgba(6,182,212,.45)}
+    .feat-icon{font-size:28px;margin-bottom:12px}
+    .feat-card h3{margin:0 0 10px;font-size:17px;color:#fff}
+    .feat-card p{color:#b8c4d9;font-size:14px;line-height:1.6;margin:0 0 8px}
+    .feat-card code{font-family:ui-monospace,monospace;font-size:12px;color:#22d3ee;background:rgba(6,182,212,.1);padding:2px 6px;border-radius:4px}
+
+    .links-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:900px;margin:0 auto}
+    .link-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;display:flex;gap:12px;align-items:center;text-decoration:none;color:#fff;transition:border-color .2s}
+    .link-card:hover{border-color:rgba(6,182,212,.45)}
+    .link-card .icon{font-size:26px}
+    .link-card h5{margin:0 0 2px;font-size:14px}
+    .link-card p{margin:0;color:#9aa;font-size:12px}
+
+    .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(8,145,178,.06));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;text-align:center;margin-top:60px}
+    .cta-band h3{font-size:clamp(22px,3.5vw,32px);margin:0 0 12px}
+    .cta-band p{color:#b8c4d9;max-width:620px;margin:0 auto 22px;font-size:15px;line-height:1.55}
+    .cta-band .ctas{justify-content:center}
+
+    .nwm-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#67e8f9;margin:30px auto;text-decoration:none}
+
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:32px 20px;text-align:center;color:#9aa;font-size:13px}
+    footer a{color:#67e8f9;margin:0 10px;text-decoration:none}
+
+    @media(max-width:900px){.hero-split{grid-template-columns:1fr}.tpl-nav .links a:not(.btn-teal){display:none}}
+  </style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <div class="logo">⚡ stratum.dev</div>
+  <div class="links">
+    <a href="/industries/">← Industries</a>
+    <a href="#docs">Docs</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="hero-split">
+  <div>
+    <div class="eyebrow">Open Beta · v0.9.4</div>
+    <h1>Typed data pipelines, <span class="hl">straight from your IDE</span></h1>
+    <p class="sub">Stratum is the TypeScript-first ETL framework for engineers who are tired of YAML. Define schemas in code, run locally, deploy to any cloud.</p>
+    <div class="install-chip">npm install @stratum/core<span class="copy">📋 copy</span></div>
+    <div class="ctas">
+      <a href="#docs" class="btn-teal">Read the Docs →</a>
+      <a href="#" class="btn-ghost">⭐ Star on GitHub · 8.4k</a>
+    </div>
+  </div>
+  <div class="code-hero">
+    <div class="code-head">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="file">pipeline.ts</div>
+    </div>
+    <div class="code-body"><span class="cm">// 1. Define the source</span>
+<span class="kw">import</span> { pipeline, source, sink } <span class="kw">from</span> <span class="str">'@stratum/core'</span>
+
+<span class="kw">const</span> orders = source.postgres({
+  table: <span class="str">'orders'</span>,
+  watermark: <span class="str">'updated_at'</span>
+})
+
+<span class="cm">// 2. Transform with types</span>
+<span class="kw">const</span> enriched = orders
+  .<span class="fn">filter</span>(o =&gt; o.total &gt; <span class="num">0</span>)
+  .<span class="fn">join</span>(users, <span class="str">'user_id'</span>)
+  .<span class="fn">select</span>({
+    id: o =&gt; o.id,
+    revenue: o =&gt; o.total * <span class="num">0.97</span>,
+    cohort: o =&gt; o.user.plan
+  })
+
+<span class="cm">// 3. Ship it</span>
+<span class="kw">await</span> <span class="fn">pipeline</span>(<span class="str">'orders_fact'</span>)
+  .<span class="fn">from</span>(enriched)
+  .<span class="fn">to</span>(sink.snowflake({ table: <span class="str">'fact_orders'</span> }))
+  .<span class="fn">run</span>()</div>
+  </div>
+</section>
+
+<div class="logos">
+  <span>VERCEL</span><span>RAMP</span><span>LINEAR</span><span>RETOOL</span><span>CODECOV</span><span>GRAFANA</span>
+</div>
+
+<section class="prod-section">
+  <h2>Built for engineers, not YAML parsers</h2>
+  <p class="sub">Real types. Real git-diffs. Real tests. Everything you expect from application code, applied to your data pipelines.</p>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">🧬</div><h3>End-to-end typed</h3><p>Schema inferred from your source connection. Column renames are compile errors, not production incidents. <code>stratum check</code> runs in CI.</p></div>
+    <div class="feat-card"><div class="feat-icon">🏠</div><h3>Runs on your laptop</h3><p>No hosted-sandbox latency. <code>stratum dev</code> spins up DuckDB, tails your source, and runs your pipeline in under 2 seconds.</p></div>
+    <div class="feat-card"><div class="feat-icon">☁️</div><h3>Deploy anywhere</h3><p>One command to AWS, GCP, Fly, or your own Kubernetes. <code>stratum deploy</code> builds the image, ships the secrets, and sets the schedule.</p></div>
+    <div class="feat-card"><div class="feat-icon">🔄</div><h3>Incremental by default</h3><p>Watermarks handled automatically. No more "ingest the whole table every night because nobody remembered to set the cursor."</p></div>
+    <div class="feat-card"><div class="feat-icon">🧪</div><h3>First-class testing</h3><p><code>pipeline.test(fixtures)</code> runs against synthetic data. Diff the output. Assert schemas. Block PRs that break contracts.</p></div>
+    <div class="feat-card"><div class="feat-icon">📊</div><h3>Observability included</h3><p>OTel traces for every stage. Row counts, lag, retries — shipped to Grafana, Datadog, or your warehouse.</p></div>
+  </div>
+</section>
+
+<section class="prod-section" id="docs">
+  <h2>Get started</h2>
+  <p class="sub">A CLI, a docs site, a Discord, and an open issue tracker. That's it. No sales call required.</p>
+  <div class="links-row">
+    <a href="#" class="link-card"><div class="icon">📘</div><div><h5>Read the Docs</h5><p>Quickstart, API ref, recipes</p></div></a>
+    <a href="#" class="link-card"><div class="icon">🐙</div><div><h5>GitHub</h5><p>Source, issues, discussions</p></div></a>
+    <a href="#" class="link-card"><div class="icon">💬</div><div><h5>Discord</h5><p>1,200 engineers, core team present</p></div></a>
+    <a href="#" class="link-card"><div class="icon">📺</div><div><h5>Video tutorial</h5><p>10-minute ETL from scratch</p></div></a>
+  </div>
+</section>
+
+<section class="cta-band">
+  <h3>Install in 60 seconds</h3>
+  <p>MIT licensed. Cloud tier free for teams under 5. No credit card until you're ready to scale.</p>
+  <div class="ctas"><a href="/contact.html" class="btn-teal">npm install @stratum/core →</a><a href="#docs" class="btn-ghost">Read the Docs</a></div>
+  <a class="nwm-badge" href="https://netwebmedia.com">⚡ Built on NetWebMedia CMS</a>
+</section>
+
+<section class="prod-section" style="text-align:center">
+  <h2>Launch this template with NetWebMedia</h2>
+  <p class="sub">Dev-tool sites that rank, convert, and pass Lighthouse 100. Code-hero, typed copy, actual docs.</p>
+  <div class="ctas" style="justify-content:center"><a href="/contact.html" class="btn-teal">Get This Template →</a><a href="/industries/" class="btn-ghost">See All Industries</a></div>
+</section>
+
+<footer>
+  <a href="/industries/">Industries</a> ·
+  <a href="/pricing.html">Pricing</a> ·
+  <a href="/contact.html">Contact</a>
+  <div style="margin-top:10px">© NetWebMedia · Demo template for illustration only</div>
+</footer>
+
+</body>
+</html>

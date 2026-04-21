@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wealth Management — Fiduciary Advisor Template | NetWebMedia CMS</title>
+<meta name="description" content="Wealth Management template — services, investment philosophy, fiduciary trust signals and schedule-consultation CTA. Modern dark-theme website built on NetWebMedia CMS.">
+<link rel="canonical" href="https://netwebmedia.com/industries/finance/template-1.html">
+<meta property="og:title" content="Wealth Management — NetWebMedia CMS Template">
+<meta property="og:description" content="Fiduciary wealth advisor template with services, philosophy and consultation booking.">
+<meta property="og:url" content="https://netwebmedia.com/industries/finance/template-1.html">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+  body{background:#0b1220;color:#dde3ee;font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+  .tpl-nav{position:sticky;top:0;z-index:10;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+  .tpl-nav a.logo{color:#22d3ee;font-weight:900;text-decoration:none;font-size:18px}
+  .tpl-nav .r{display:flex;gap:12px;align-items:center}
+  .tpl-nav .back{color:#9aa;text-decoration:none;font-size:14px}
+  .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:12px 22px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+  .prod-hero{padding:90px 20px 50px;text-align:center;max-width:1100px;margin:0 auto}
+  .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+  .prod-hero h1{font-size:clamp(32px,6vw,56px);margin:0 0 16px;line-height:1.1}
+  .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:700px;margin:0 auto 28px;line-height:1.5}
+  .prod-hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  .prod-stats{max-width:1000px;margin:40px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;padding:0 20px}
+  .prod-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;text-align:center}
+  .prod-stat .n{font-size:28px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prod-stat .l{font-size:12px;color:#9aa;margin-top:6px;text-transform:uppercase;letter-spacing:.08em}
+
+  .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+  .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+  .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+  .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+  .feat-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px}
+  .feat-icon{font-size:30px;margin-bottom:12px}
+  .feat-card h3{margin:0 0 10px;font-size:18px}
+  .feat-card p{color:#b8c4d9;font-size:14px;line-height:1.55;margin:0}
+
+  .phil{background:linear-gradient(135deg,rgba(6,182,212,.08),rgba(8,145,178,.03));border:1px solid rgba(6,182,212,.25);border-radius:18px;padding:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+  .phil-item .num{font-size:40px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin-bottom:10px}
+  .phil-item h4{margin:0 0 8px;font-size:18px}
+  .phil-item p{color:#b8c4d9;font-size:14px;line-height:1.6;margin:0}
+
+  .trust-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:30px}
+  .trust-chip{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:16px 20px;text-align:center;min-width:150px}
+  .trust-chip .lbl{font-size:11px;color:#9aa;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+  .trust-chip .v{color:#fff;font-weight:800;font-size:15px;margin-top:4px}
+
+  .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(8,145,178,.05));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;margin:60px 0 0;text-align:center}
+  .cta-band h3{font-size:clamp(22px,3.5vw,30px);margin:0 0 10px}
+  .cta-band p{color:#b8c4d9;max-width:600px;margin:0 auto 20px}
+  .badge-built{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.12);color:#67e8f9;padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  footer{padding:32px 20px;text-align:center;border-top:1px solid rgba(255,255,255,.06);color:#9aa;font-size:14px}
+  footer a{color:#22d3ee;text-decoration:none;margin:0 10px}
+</style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <a href="/" class="logo">🏛 Meridian Wealth Partners</a>
+  <div class="r">
+    <a href="/industries/" class="back">← Industries</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">Fee-only · Fiduciary · SEC Registered</div>
+  <h1>The plan doesn't change when <span class="hl">the market does.</span></h1>
+  <p class="sub">Meridian is an independent fee-only fiduciary advisor managing $2.4B for 340 families across retirement, tax, estate and multi-generational wealth. No commissions. No product sales. Just advice that has to be in your best interest by law.</p>
+  <div class="ctas">
+    <a href="#consult" class="btn-teal">Schedule a consultation →</a>
+    <a href="#philosophy" class="btn-ghost">Read our philosophy</a>
+  </div>
+</section>
+
+<div class="prod-stats">
+  <div class="prod-stat"><div class="n">$2.4B</div><div class="l">Assets under management</div></div>
+  <div class="prod-stat"><div class="n">340</div><div class="l">Client families</div></div>
+  <div class="prod-stat"><div class="n">22</div><div class="l">Avg client tenure (yrs)</div></div>
+  <div class="prod-stat"><div class="n">100%</div><div class="l">Fiduciary · every dollar</div></div>
+</div>
+
+<section class="prod-section">
+  <h2>What we do for you</h2>
+  <p class="sub">Wealth management is more than an index fund. These are the six pillars of every Meridian plan.</p>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">📈</div><h3>Investment Management</h3><p>Evidence-based portfolios built on low-cost index and factor funds. Rebalanced with tax-loss harvesting. No hot-stock picking.</p></div>
+    <div class="feat-card"><div class="feat-icon">🎯</div><h3>Retirement Planning</h3><p>Monte Carlo simulations, Social-Security claiming strategies, Roth-conversion ladders and withdrawal-rate modeling.</p></div>
+    <div class="feat-card"><div class="feat-icon">🧮</div><h3>Tax Strategy</h3><p>Annual tax-alpha review coordinated with your CPA. Asset-location, charitable stacking and QBI planning for business owners.</p></div>
+    <div class="feat-card"><div class="feat-icon">🏛️</div><h3>Estate &amp; Legacy</h3><p>Trust structuring, beneficiary audits and gifting strategies. We coordinate with your attorney — or refer one from our network.</p></div>
+    <div class="feat-card"><div class="feat-icon">🏢</div><h3>Business Owner Planning</h3><p>Solo-401(k), cash-balance plans, defined-benefit overlays and exit planning for owners eyeing a sale in 3–10 years.</p></div>
+    <div class="feat-card"><div class="feat-icon">🛡️</div><h3>Risk &amp; Insurance Review</h3><p>Independent review of life, disability and long-term-care needs. We don't sell it — we just tell you what you actually need.</p></div>
+  </div>
+</section>
+
+<section class="prod-section" id="philosophy">
+  <h2>Our investment philosophy</h2>
+  <p class="sub">Four principles that have governed how we invest every client dollar since 1998.</p>
+  <div class="phil">
+    <div class="phil-item">
+      <div class="num">01</div>
+      <h4>Costs compound against you</h4>
+      <p>Every 1% in annual fees is 28% less wealth over 30 years. We target all-in expense ratios under 0.18%.</p>
+    </div>
+    <div class="phil-item">
+      <div class="num">02</div>
+      <h4>Markets work — don't fight them</h4>
+      <p>Active managers underperform their index ~85% of the time over 15 years. We build around capital markets, not around predictions.</p>
+    </div>
+    <div class="phil-item">
+      <div class="num">03</div>
+      <h4>Diversify across what actually matters</h4>
+      <p>Factor tilts toward value, size, profitability and duration — not 50 ETFs that all own the same seven names.</p>
+    </div>
+    <div class="phil-item">
+      <div class="num">04</div>
+      <h4>Behavior is the last alpha source</h4>
+      <p>The biggest wealth destroyer isn't the market — it's selling low in a panic. Our job is to keep you in your seat.</p>
+    </div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Why fiduciary matters</h2>
+  <p class="sub">Most "financial advisors" aren't legally required to put your interests first. We are — in writing, at every meeting.</p>
+  <div class="trust-row">
+    <div class="trust-chip"><div class="lbl">Regulator</div><div class="v">SEC Registered</div></div>
+    <div class="trust-chip"><div class="lbl">Custodian</div><div class="v">Schwab / Fidelity</div></div>
+    <div class="trust-chip"><div class="lbl">Compensation</div><div class="v">Fee-only · no commissions</div></div>
+    <div class="trust-chip"><div class="lbl">Standard</div><div class="v">Fiduciary 100% of the time</div></div>
+    <div class="trust-chip"><div class="lbl">Credentials</div><div class="v">CFP® · CFA® · CPA</div></div>
+    <div class="trust-chip"><div class="lbl">Form ADV</div><div class="v">Public &amp; current</div></div>
+  </div>
+  <div style="text-align:center;margin-top:24px;color:#9aa;font-size:13px">Securities offered through Meridian Wealth Advisors LLC. Past performance does not guarantee future results. Investing involves risk.</div>
+</section>
+
+<div class="cta-band" id="consult">
+  <h3>Launch this template with NetWebMedia</h3>
+  <p>Wealth Management ships with a compliant consultation booker, client portal link, gated-download lead magnets and automatic ADV/disclosures handling. Live in 48 hours.</p>
+  <a href="/contact.html" class="btn-teal">Start with this template →</a>
+  <div style="margin-top:22px"><span class="badge-built">⚡ Built on NetWebMedia CMS</span></div>
+</div>
+
+<footer>
+  <div><a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a></div>
+  <div style="margin-top:12px;color:#666">© 2026 Meridian Wealth Partners — demo template. Powered by NetWebMedia CMS.</div>
+</footer>
+
+</body>
+</html>

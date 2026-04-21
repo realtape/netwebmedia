@@ -44,7 +44,7 @@ if ($action === 'create_user') {
         $data['company'] ?? '',
         $data['role'] ?? 'user',
         $data['plan'] ?? 'starter',
-        'active'
+        $data['status'] ?? 'pending_payment'
     ]);
     jsonResponse(['created' => true, 'id' => (int)$db->lastInsertId()]);
 }

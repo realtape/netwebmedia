@@ -1,0 +1,299 @@
+{
+  "version": "1.1.0",
+  "updated": "2026-04-20",
+  "from": {
+    "name": "Carlos at NetWebMedia",
+    "email": "hello@netwebmedia.com",
+    "reply_to": "hello@netwebmedia.com"
+  },
+  "global_footer": {
+    "address": "NetWebMedia · Remote-first · Serving US & Chile",
+    "unsubscribe_token_param": "token",
+    "preference_center_url": "https://netwebmedia.com/api/public/email/preferences"
+  },
+  "sequences": {
+    "welcome": {
+      "name": "Welcome — New Customer Onboarding",
+      "description": "Onboards new customers to the NetWebMedia platform (46 modules, 7 hubs). Sequence walks from account-live, to first 10-minute win, to AI Agents + Agency tier upsell.",
+      "trigger": "account_created",
+      "audience": "new_customer",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "welcome-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your NetWebMedia account is live",
+            "es": "Tu cuenta NetWebMedia está activa"
+          },
+          "preview": {
+            "en": "7 hubs, 46 modules, one login — start here",
+            "es": "7 hubs, 46 módulos, un login — empieza aquí"
+          },
+          "template": "welcome-1.html",
+          "primary_cta": {
+            "en": "Open my dashboard",
+            "es": "Abrir mi dashboard"
+          },
+          "primary_url": "https://netwebmedia.com/crm"
+        },
+        {
+          "id": "welcome-2",
+          "delay_minutes": 4320,
+          "subject": {
+            "en": "Your 10-minute first win on the platform",
+            "es": "Tu primera victoria en 10 minutos"
+          },
+          "preview": {
+            "en": "Contacts + Pipeline + Automations, done in ten",
+            "es": "Contactos + Pipeline + Automatizaciones, en diez"
+          },
+          "template": "welcome-2.html",
+          "primary_cta": {
+            "en": "Start with Contacts",
+            "es": "Empezar con Contactos"
+          },
+          "primary_url": "https://netwebmedia.com/crm/contacts"
+        },
+        {
+          "id": "welcome-3",
+          "delay_minutes": 10080,
+          "subject": {
+            "en": "Meet the 5 AI Agents in your account",
+            "es": "Conoce a los 5 Agentes IA en tu cuenta"
+          },
+          "preview": {
+            "en": "Copilot, SDR, Voice AI, Video Factory, Content AI",
+            "es": "Copilot, SDR, Voice AI, Video Factory, Content AI"
+          },
+          "template": "welcome-3.html",
+          "primary_cta": {
+            "en": "Launch AI Copilot",
+            "es": "Lanzar AI Copilot"
+          },
+          "primary_url": "https://netwebmedia.com/crm/ai-copilot"
+        }
+      ]
+    },
+
+    "audit_followup": {
+      "name": "Free Audit Request — Follow-up",
+      "description": "Diagnostic-tone follow-up for prospects who requested a free audit. References canonical modules (Automations, Conversations, Content AI) to seed product awareness.",
+      "trigger": "audit_request",
+      "audience": "audit_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "audit-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Audit request received — here's the timeline",
+            "es": "Solicitud recibida — aquí el cronograma"
+          },
+          "preview": {
+            "en": "Your 90-day growth roadmap arrives in 48h",
+            "es": "Tu roadmap de 90 días llega en 48 horas"
+          },
+          "template": "audit-1.html",
+          "primary_cta": {
+            "en": "Book a 30-min strategy call",
+            "es": "Agendar llamada de 30 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=audit-1"
+        },
+        {
+          "id": "audit-2",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Your audit roadmap is ready, {{first_name|there}}",
+            "es": "Tu roadmap está listo, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "3 quick wins + 90-day plan on our modules",
+            "es": "3 victorias rápidas + plan 90 días en nuestros módulos"
+          },
+          "template": "audit-2.html",
+          "primary_cta": {
+            "en": "Schedule the walkthrough",
+            "es": "Agendar el recorrido"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=audit-2"
+        },
+        {
+          "id": "audit-3",
+          "delay_minutes": 7200,
+          "subject": {
+            "en": "Did the audit make sense, {{first_name|there}}?",
+            "es": "¿Te hizo sentido la auditoría, {{first_name|hola}}?"
+          },
+          "preview": {
+            "en": "Open invitation: 30-min strategy call, no pressure",
+            "es": "Invitación abierta: llamada de 30 min, sin presión"
+          },
+          "template": "audit-3.html",
+          "primary_cta": {
+            "en": "Yes, let's talk",
+            "es": "Sí, hablemos"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=audit-3"
+        }
+      ]
+    },
+
+    "partner_application": {
+      "name": "Agency Partner Recruiting",
+      "description": "Hard-sell the Agency/Partner tier: Sub-accounts, White-label, Stripe Connect billing, Affiliates, Reputation. Positioning: keep 100% of the client AND 100% of the markup. Partner-1 cold pitch, Partner-2 case study, Partner-3 founder pricing CTA.",
+      "trigger": "partner_application",
+      "audience": "partner_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "partner-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Keep 100% of the client AND 100% of the markup",
+            "es": "Quédate con 100% del cliente Y 100% del markup"
+          },
+          "preview": {
+            "en": "Sub-accounts, white-label, Stripe Connect — all in",
+            "es": "Sub-cuentas, white-label, Stripe Connect — todo adentro"
+          },
+          "template": "partner-1.html",
+          "primary_cta": {
+            "en": "Book onboarding call",
+            "es": "Agendar llamada de onboarding"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?topic=partner&source=partner-1"
+        },
+        {
+          "id": "partner-2",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "How one partner hit $34k/mo net in 90 days",
+            "es": "Cómo un partner llegó a $34k/mes neto en 90 días"
+          },
+          "preview": {
+            "en": "The exact playbook on our Agency tier",
+            "es": "El playbook exacto sobre el tier Agencia"
+          },
+          "template": "partner-2.html",
+          "primary_cta": {
+            "en": "Get the partner playbook",
+            "es": "Obtener el playbook"
+          },
+          "primary_url": "https://netwebmedia.com/partners.html#partner-signup"
+        },
+        {
+          "id": "partner-3",
+          "delay_minutes": 10080,
+          "subject": {
+            "en": "Founder pricing closes soon, {{first_name|there}}",
+            "es": "El precio fundador cierra pronto, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "6 founder slots left — lifetime price lock",
+            "es": "Quedan 6 cupos fundadores — precio bloqueado de por vida"
+          },
+          "template": "partner-3.html",
+          "primary_cta": {
+            "en": "Claim my founder slot",
+            "es": "Reservar mi cupo fundador"
+          },
+          "primary_url": "https://netwebmedia.com/partners.html#partner-signup"
+        }
+      ]
+    },
+
+    "re_engagement": {
+      "name": "Re-engagement — Dormant Lead",
+      "description": "For dormant leads (30d+ no opens). Reintroduces the platform after shipping 30+ new modules (AI Agents hub, Agency tier, Service hub, CMS hub). Drives to /nwm-crm or /pricing.",
+      "trigger": "inactive_30d",
+      "audience": "inactive_subscriber",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "reengage-1",
+          "delay_minutes": 0,
+          "subject": {
+            "en": "We've shipped 30+ new modules since you checked",
+            "es": "Lanzamos 30+ módulos nuevos desde la última vez"
+          },
+          "preview": {
+            "en": "AI Agents, Agency tier, Service hub, CMS hub",
+            "es": "Agentes IA, tier Agencia, hub Servicio, hub CMS"
+          },
+          "template": "reengage-1.html",
+          "primary_cta": {
+            "en": "See what's new",
+            "es": "Ver lo nuevo"
+          },
+          "primary_url": "https://netwebmedia.com/nwm-crm"
+        },
+        {
+          "id": "reengage-2",
+          "delay_minutes": 20160,
+          "subject": {
+            "en": "Last note — one more reason to stay",
+            "es": "Última nota — una razón más para quedarte"
+          },
+          "preview": {
+            "en": "AI Agents + Agency tier are the headline",
+            "es": "Agentes IA + tier Agencia son lo grande"
+          },
+          "template": "reengage-2.html",
+          "primary_cta": {
+            "en": "See current pricing",
+            "es": "Ver pricing actual"
+          },
+          "primary_url": "https://netwebmedia.com/pricing"
+        }
+      ]
+    },
+
+    "winback": {
+      "name": "Win-back — Cancelled Customer",
+      "description": "For churned customers. Winback-1 asks why they left and offers a free 30-day Agency plan trial if they're an agency. Winback-2 recaps the 46-module expansion, AI Agents, and offers COMEBACK30 discount.",
+      "trigger": "subscription_cancelled",
+      "audience": "churned_customer",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "winback-1",
+          "delay_minutes": 43200,
+          "subject": {
+            "en": "Hey {{first_name|there}} — what wasn't right?",
+            "es": "Hola {{first_name|amigo}} — ¿qué no estuvo bien?"
+          },
+          "preview": {
+            "en": "Honest feedback wanted — free Agency trial if you're an agency",
+            "es": "Feedback honesto — trial gratis de Agencia si eres agencia"
+          },
+          "template": "winback-1.html",
+          "primary_cta": {
+            "en": "Reply with feedback",
+            "es": "Responder con feedback"
+          },
+          "primary_url": "mailto:hello@netwebmedia.com?subject=Winback%20feedback"
+        },
+        {
+          "id": "winback-2",
+          "delay_minutes": 129600,
+          "subject": {
+            "en": "The platform tripled since you left, {{first_name|there}}",
+            "es": "La plataforma triplicó desde que te fuiste"
+          },
+          "preview": {
+            "en": "46 modules, AI Agents, Agency tier — and 30% off to return",
+            "es": "46 módulos, Agentes IA, tier Agencia — y 30% off para volver"
+          },
+          "template": "winback-2.html",
+          "primary_cta": {
+            "en": "Restart with 30% off",
+            "es": "Reactivar con 30% off"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=winback-2&promo=COMEBACK30"
+        }
+      ]
+    }
+  }
+}

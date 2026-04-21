@@ -120,14 +120,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `phone` VARCHAR(50) DEFAULT NULL,
   `role` ENUM('user','admin','superadmin') DEFAULT 'user',
   `plan` ENUM('starter','professional','enterprise') DEFAULT 'starter',
-  `status` ENUM('active','suspended','cancelled') DEFAULT 'active',
+  `status` ENUM('active','suspended','cancelled','pending_payment') DEFAULT 'pending_payment',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `last_login` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   INDEX `idx_email` (`email`),
   INDEX `idx_status` (`status`)
 ) ENGINE=InnoDB;
 
--- Seed a default admin user (password: admin123 — change immediately!)
+-- Idempotent migration for existing installs: add pending_payment to status enum.
+-- Safe to re-run; MySQL will no-op if the enum already matches.
+-- ALTER TABLE `users` MODIFY `status` ENUM('active','suspended','cancelled','pending_payment') DEFAULT 'pending_payment';
+
+-- Seed Carlos as superadmin with active status (bypass payment gate for ops/support)
 INSERT INTO `users` (`name`, `email`, `password_hash`, `company`, `role`, `plan`, `status`) VALUES
   ('Carlos Martinez', 'carlos@netwebmedia.com', '$2y$10$YXJyYXktcGFzc3dvcmQtaGFzaC1wbGFjZWhvbGRlcg', 'NetWebMedia', 'superadmin', 'enterprise', 'active')
-ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);
+ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), `role` = 'superadmin', `status` = 'active';

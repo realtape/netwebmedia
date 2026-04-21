@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Pipeline - NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/pipelines.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div class="summary-cards" id="salesSummary"></div>
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-header">
+            <h2 class="card-title">Weighted Pipeline Forecast</h2>
+            <div class="pipeline-controls">
+              <select id="ownerFilter" class="pipeline-select">
+                <option value="">All owners</option>
+              </select>
+              <select id="stageFilter" class="pipeline-select">
+                <option value="">All stages</option>
+              </select>
+            </div>
+          </div>
+          <div id="forecastBars"></div>
+        </div>
+        <div class="pipeline-board" id="salesPipelineBoard"></div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/sales-pipeline.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Content Writer - NetWeb CMS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../crm/css/app.css">
+  <link rel="stylesheet" href="css/cms.css">
+  <style>
+    .lbl{display:block;margin:0 0 14px;font-size:13px;color:#444}
+    .inp{display:block;width:100%;padding:10px 12px;border:1px solid #d5d9e2;border-radius:8px;font-size:14px;margin-top:4px;font-family:inherit}
+    .row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:12px}
+    .preview{background:#fff;color:#111;border:1px solid #ddd;border-radius:10px;padding:24px;margin-top:14px;max-height:60vh;overflow:auto}
+    .preview h1{font-size:28px;margin:0 0 14px}
+    .preview h2{font-size:20px;margin:24px 0 10px}
+    .preview h3{font-size:16px;margin:16px 0 6px}
+    .preview p,.preview li{line-height:1.55}
+    .preview ul{padding-left:22px}
+    .toolbar{display:flex;gap:8px;margin-top:12px}
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div class="row">
+          <label class="lbl">Topic<input class="inp" id="w-topic" placeholder="e.g. AI marketing for Chilean boutique hotels"></label>
+          <label class="lbl">Length<select class="inp" id="w-length"><option>short</option><option selected>medium</option><option>long</option></select></label>
+          <label class="lbl">Tone<select class="inp" id="w-tone"><option>professional</option><option>friendly</option><option>authoritative</option><option>casual</option></select></label>
+          <label class="lbl">Intent<select class="inp" id="w-intent"><option>commercial</option><option>informational</option><option>transactional</option></select></label>
+        </div>
+        <label class="lbl">Keywords (comma-separated)<input class="inp" id="w-kw" placeholder="ai seo, marketing chile, hoteles boutique"></label>
+        <label class="lbl" style="display:flex;gap:10px;align-items:center;margin-top:6px;"><input type="checkbox" id="w-aeo"> Also generate AEO (FAQ + JSON-LD schema)</label>
+
+        <div class="toolbar">
+          <button class="btn btn-primary" id="w-gen">Generate</button>
+          <button class="btn" id="w-publish" disabled>Publish to Blog</button>
+          <span id="w-status" style="color:#666;font-size:12px;align-self:center;"></span>
+        </div>
+        <div class="preview" id="w-preview">Draft will appear here.</div>
+        <div class="preview" id="w-aeo-out" style="display:none;margin-top:14px;"><em>AEO FAQ + JSON-LD will appear here.</em></div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/api-client.js"></script>
+  <script src="js/cms.js"></script>
+  <script>
+  (function() {
+    var TOK = NWMApi.token();
+    var H = { 'Content-Type': 'application/json', 'X-Auth-Token': TOK };
+    if (window.CMS_APP) CMS_APP.buildHeader('AI Content Writer', '', 'Claude-powered blog + AEO generator');
+
+    var lastHtml = '';
+    function api(p, body) { return fetch('/api' + p, { method:'POST', headers:H, body: JSON.stringify(body) }).then(function(r){return r.json();}); }
+    function $(id){ return document.getElementById(id); }
+
+    $('w-gen').onclick = function() {
+      var topic = $('w-topic').value.trim();
+      if (!topic) return alert('Topic required');
+      $('w-gen').disabled = true; $('w-status').textContent = 'Generating…';
+      var payload = {
+        topic: topic,
+        keywords: $('w-kw').value.split(',').map(function(s){return s.trim();}).filter(Boolean),
+        length: $('w-length').value,
+        tone: $('w-tone').value,
+        intent: $('w-intent').value,
+      };
+      api('/ai/content/write', payload).then(function(r) {
+        if (r.mock) $('w-status').textContent = '(mock: Anthropic credit needed)';
+        else if (r.error) $('w-status').textContent = 'Error: ' + r.error;
+        else $('w-status').textContent = 'Draft ready.';
+        lastHtml = r.html || '';
+        $('w-preview').innerHTML = lastHtml || '<p style="color:#c00">No content returned.</p>';
+        $('w-publish').disabled = !lastHtml;
+        if ($('w-aeo').checked) {
+          api('/ai/content/aeo', { topic: topic, questions: [] }).then(function(a) {
+            $('w-aeo-out').style.display = '';
+            $('w-aeo-out').innerHTML = '<strong>AEO result:</strong><pre style="white-space:pre-wrap;font-size:12px;">' +
+              (a.result ? String(a.result).replace(/[<>&]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;'}[c];}) : (a.error || '(mock)')) + '</pre>';
+          });
+        }
+        $('w-gen').disabled = false;
+      });
+    };
+
+    $('w-publish').onclick = function() {
+      if (!lastHtml) return;
+      // Extract H1 as title
+      var m = lastHtml.match(/<h1[^>]*>(.*?)<\/h1>/i);
+      var title = m ? m[1].replace(/<[^>]+>/g,'').trim() : ($('w-topic').value || 'Untitled');
+      var slug = title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0, 80);
+      var meta = lastHtml.match(/<p[^>]*>(.*?)<\/p>/i);
+      var metaDesc = meta ? meta[1].replace(/<[^>]+>/g,'').slice(0, 155) : '';
+      api('/ai/content/publish', { title: title, slug: slug, html: lastHtml, meta_description: metaDesc }).then(function(r) {
+        if (r.ok) { $('w-status').textContent = 'Published as blog_post id=' + r.id + ' (/blog/' + r.slug + '.html after regen)'; }
+        else { alert('Publish failed: ' + (r.error || '?')); }
+      });
+    };
+  })();
+  </script>
+<script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

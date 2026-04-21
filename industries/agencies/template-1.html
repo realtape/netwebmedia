@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Marketing Agency — NetWebMedia Template | CMS</title>
+  <meta name="description" content="Full-service digital agency landing page — services, client logos, case-study teaser, discovery-call CTA. Built on NetWebMedia CMS.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/agencies/template-1.html" />
+  <meta property="og:title" content="Digital Marketing Agency — NetWebMedia Template" />
+  <meta property="og:url" content="https://netwebmedia.com/industries/agencies/template-1.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body{background:#0b1220;color:#dde3ee;margin:0;font-family:system-ui,-apple-system,sans-serif}
+    .tpl-nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+    .tpl-nav .logo{font-weight:900;font-size:22px;background:linear-gradient(135deg,#ec4899,#f43f5e);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.04em}
+    .tpl-nav .links{display:flex;gap:18px;align-items:center}
+    .tpl-nav a{color:#b8c4d9;text-decoration:none;font-size:14px}
+    .btn-p{background:linear-gradient(135deg,#ec4899,#f43f5e);color:#fff;padding:10px 20px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:10px 20px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+    .hero{padding:90px 20px 50px;text-align:center;max-width:1000px;margin:0 auto;position:relative;overflow:hidden}
+    .hero::before{content:"";position:absolute;inset:-30% -10% auto -10%;height:70%;background:radial-gradient(ellipse at 50% 40%,rgba(236,72,153,.18),transparent 60%);pointer-events:none;z-index:-1}
+    .hero .eyebrow{display:inline-block;background:rgba(236,72,153,.15);color:#f9a8d4;padding:6px 14px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;border:1px solid rgba(236,72,153,.3)}
+    .hero h1{font-size:clamp(40px,7vw,72px);margin:0 0 20px;line-height:1.02;font-weight:900;letter-spacing:-.02em}
+    .hero h1 .hl{background:linear-gradient(135deg,#ec4899,#f43f5e);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero p.sub{font-size:clamp(17px,2.5vw,21px);color:#b8c4d9;max-width:680px;margin:0 auto 30px;line-height:1.5}
+    .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+    .logos-strip{max-width:1000px;margin:40px auto;padding:0 20px}
+    .logos-strip .label{color:#9aa;font-size:11px;text-transform:uppercase;letter-spacing:.15em;text-align:center;margin-bottom:18px;font-weight:700}
+    .logos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:20px;align-items:center;opacity:.7}
+    .logos-grid .logo-plate{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);padding:16px;border-radius:10px;text-align:center;font-weight:800;font-size:14px;color:#b8c4d9}
+
+    .section{max-width:1100px;margin:80px auto;padding:0 20px}
+    .section h2{font-size:clamp(28px,4.5vw,42px);margin:0 0 14px;text-align:center;font-weight:900;letter-spacing:-.02em}
+    .section .sub{color:#9aa;font-size:16px;max-width:640px;margin:0 auto 46px;text-align:center;line-height:1.55}
+
+    .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .svc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:28px;transition:transform .2s,border-color .2s}
+    .svc:hover{transform:translateY(-3px);border-color:rgba(236,72,153,.45)}
+    .svc .ico{font-size:32px;margin-bottom:14px}
+    .svc h3{margin:0 0 10px;font-size:18px;color:#fff}
+    .svc p{margin:0 0 12px;color:#b8c4d9;font-size:14px;line-height:1.55}
+    .svc .price{display:inline-block;background:rgba(236,72,153,.12);color:#f9a8d4;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700}
+
+    .case-teaser{display:grid;grid-template-columns:1fr 1fr;gap:30px;background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(244,63,94,.04));border:1px solid rgba(236,72,153,.25);border-radius:20px;padding:36px;max-width:1000px;margin:0 auto}
+    .case-teaser .visual{aspect-ratio:4/3;border-radius:14px;background:linear-gradient(135deg,#ec4899,#6366f1);display:flex;align-items:center;justify-content:center;font-size:90px}
+    .case-teaser .tag{display:inline-block;background:rgba(236,72,153,.2);color:#f9a8d4;padding:4px 12px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+    .case-teaser h3{font-size:26px;margin:0 0 16px;color:#fff;line-height:1.25}
+    .case-teaser .metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:18px 0}
+    .case-teaser .metric{background:rgba(0,0,0,.2);padding:14px;border-radius:10px;text-align:center}
+    .case-teaser .metric .n{color:#f9a8d4;font-size:24px;font-weight:900;line-height:1}
+    .case-teaser .metric .l{color:#9aa;font-size:11px;margin-top:6px;text-transform:uppercase;letter-spacing:.06em}
+    .case-teaser p{color:#b8c4d9;font-size:14px;line-height:1.6;margin:0 0 16px}
+
+    .proof{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px;max-width:900px;margin:0 auto;padding:40px 20px;background:rgba(236,72,153,.04);border-top:1px solid rgba(236,72,153,.2);border-bottom:1px solid rgba(236,72,153,.2)}
+    .proof .item{text-align:center}
+    .proof .n{font-size:38px;background:linear-gradient(135deg,#ec4899,#f43f5e);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900;line-height:1}
+    .proof .l{color:#b8c4d9;font-size:13px;margin-top:8px}
+
+    .cta-band{background:linear-gradient(135deg,rgba(236,72,153,.15),rgba(244,63,94,.05));border-top:1px solid rgba(236,72,153,.35);border-bottom:1px solid rgba(236,72,153,.35);padding:70px 20px;text-align:center;margin-top:70px}
+    .cta-band h3{font-size:clamp(28px,4vw,40px);margin:0 0 14px;font-weight:900;letter-spacing:-.01em}
+    .cta-band p{color:#b8c4d9;max-width:620px;margin:0 auto 24px;font-size:16px;line-height:1.55}
+    .nwm-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#67e8f9;margin:30px auto;text-decoration:none}
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:32px 20px;text-align:center;color:#9aa;font-size:13px}
+    footer a{color:#f9a8d4;margin:0 10px;text-decoration:none}
+    @media(max-width:720px){.case-teaser{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <div class="logo">SPARK/</div>
+  <div class="links">
+    <a href="/industries/">← Industries</a>
+    <a href="#services">Services</a>
+    <a href="/contact.html" class="btn-p">Book Discovery Call</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">🔥 Full-Stack Growth Agency</div>
+  <h1>Growth that <span class="hl">actually compounds.</span></h1>
+  <p class="sub">A full-funnel agency for consumer and B2B brands between $1M and $50M. Paid, organic, lifecycle, and creative — under one roof, built to compound month over month.</p>
+  <div class="ctas">
+    <a href="/contact.html" class="btn-p">Book a Discovery Call →</a>
+    <a href="#case" class="btn-ghost">See Recent Work</a>
+  </div>
+</section>
+
+<div class="logos-strip">
+  <div class="label">Trusted by growth-stage teams at</div>
+  <div class="logos-grid">
+    <div class="logo-plate">BRIGHT.CO</div>
+    <div class="logo-plate">NORTHWIND</div>
+    <div class="logo-plate">FLORA &amp; FERN</div>
+    <div class="logo-plate">KITE LABS</div>
+    <div class="logo-plate">OVERLAND</div>
+    <div class="logo-plate">AXION</div>
+    <div class="logo-plate">MESA</div>
+    <div class="logo-plate">WELLPATH</div>
+  </div>
+</div>
+
+<section class="section" id="services">
+  <h2>What we do</h2>
+  <p class="sub">One team, six services that actually talk to each other. No agency hand-offs. No "that's not our department."</p>
+  <div class="services">
+    <div class="svc"><div class="ico">🎯</div><h3>Paid Media</h3><p>Meta, Google, TikTok, LinkedIn, YouTube. Creative-driven testing and compounding optimization.</p><span class="price">from $6k/mo</span></div>
+    <div class="svc"><div class="ico">🔍</div><h3>SEO &amp; AI Search</h3><p>Rank in Google, Perplexity, ChatGPT, and Gemini. Technical SEO + AEO content engine.</p><span class="price">from $5k/mo</span></div>
+    <div class="svc"><div class="ico">📧</div><h3>Lifecycle (Email + SMS)</h3><p>Klaviyo / Iterable / HubSpot. Behavioral automations that turn first buyers into loyalists.</p><span class="price">from $4k/mo</span></div>
+    <div class="svc"><div class="ico">🎨</div><h3>Creative &amp; Video</h3><p>Ad creative, UGC, motion, video shorts. 40+ variants per month, always-on pipeline.</p><span class="price">from $5k/mo</span></div>
+    <div class="svc"><div class="ico">📈</div><h3>CRO &amp; Landing Pages</h3><p>Weekly A/B testing, heatmap analysis, and high-converting landers.</p><span class="price">from $4k/mo</span></div>
+    <div class="svc"><div class="ico">🧠</div><h3>Fractional CMO</h3><p>Senior strategic oversight for a founder-CEO or small in-house team.</p><span class="price">from $8k/mo</span></div>
+  </div>
+</section>
+
+<section class="section" id="case">
+  <h2>Recent work</h2>
+  <p class="sub">One of eight engagements we've shipped this year.</p>
+  <div class="case-teaser">
+    <div class="visual">🌿</div>
+    <div>
+      <span class="tag">DTC · Beauty · 12-mo engagement</span>
+      <h3>Flora &amp; Fern — from $1.2M to $9.8M ARR</h3>
+      <p>A founder-led beauty brand with a cult product but no growth engine. We rebuilt their paid + lifecycle stack, shipped 420 new ad variants over 12 months, and scaled lifecycle to 38% of revenue.</p>
+      <div class="metrics">
+        <div class="metric"><div class="n">8.2×</div><div class="l">Revenue</div></div>
+        <div class="metric"><div class="n">3.4×</div><div class="l">ROAS</div></div>
+        <div class="metric"><div class="n">38%</div><div class="l">Email Revenue</div></div>
+      </div>
+      <a href="/contact.html" class="btn-p">Read Full Case Study →</a>
+    </div>
+  </div>
+</section>
+
+<div class="proof">
+  <div class="item"><div class="n">82</div><div class="l">Active Clients</div></div>
+  <div class="item"><div class="n">$214M</div><div class="l">Managed Ad Spend YTD</div></div>
+  <div class="item"><div class="n">3.2×</div><div class="l">Avg Client ROAS</div></div>
+  <div class="item"><div class="n">47</div><div class="l">Team Members</div></div>
+</div>
+
+<section class="cta-band">
+  <h3>Our next cohort starts May 1.</h3>
+  <p>We take on a max of 6 new engagements per quarter. Discovery calls are 30 minutes, free, and if we're not the fit we'll say so on the call and refer you.</p>
+  <div class="ctas"><a href="/contact.html" class="btn-p">Book Discovery Call →</a><a href="mailto:hello@spark.co" class="btn-ghost">hello@spark.co</a></div>
+  <a class="nwm-badge" href="https://netwebmedia.com">⚡ Built on NetWebMedia CMS</a>
+</section>
+
+<footer>
+  <a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a>
+  <div style="margin-top:10px">© NetWebMedia · Demo template for illustration only</div>
+</footer>
+
+</body>
+</html>

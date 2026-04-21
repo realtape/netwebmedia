@@ -16,7 +16,7 @@
   <meta property="og:image" content="https://netwebmedia.com/assets/og-cover.svg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=2">
+  <link rel="stylesheet" href="css/styles.css?v=6">
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-V71R6PD7C0',{anonymize_ip:true});</script>
@@ -189,13 +189,15 @@
 </div>
 
 <!-- Top bar -->
-<div class="top-bar">
+<div class="lang-bar" id="lang-bar">
   <div class="container">
-    <div class="lang-switch">
-      <button class="lang-btn active" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="es">ES</button>
-    </div>
-    <a href="/crm/" class="lang-client-login">🔐 <span data-lang-block="en">Client Login</span><span data-lang-block="es">Acceso Clientes</span></a>
+    <button class="lang-btn active" data-lang="en" id="lang-en">
+      <img class="flag" src="https://flagcdn.com/w40/us.png" alt="EN" loading="lazy" width="20" height="15" /> English
+    </button>
+    <button class="lang-btn" data-lang="es" id="lang-es">
+      <img class="flag" src="https://flagcdn.com/w40/es.png" alt="ES" loading="lazy" width="20" height="15" /> Español
+    </button>
+    <a href="/crm/" class="lang-client-login" data-i18n="nav_dashboard">&#128274; Client Login</a>
   </div>
 </div>
 
@@ -227,6 +229,7 @@
       <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help</a>
       <div class="nav-dropdown">
         <a href="/tutorials.html"><strong>All Tutorials</strong></a>
+        <a href="/catalogue.html" style="color:#25d366;font-weight:700">&#128218; Courses &amp; Playbooks &rarr;</a>
         <a href="/tutorials/nwm-crm.html">NWM CRM (all 7 hubs)</a>
         <a href="/tutorials/nwm-cms.html">NWM CMS</a>
         <a href="/tutorials/ai-automate.html">AI Automations</a>
@@ -239,9 +242,11 @@
         <a href="/tutorials/websites.html">Websites</a>
         <a href="/tutorials/fractional-cmo.html">Fractional CMO</a>
         <a href="/tutorials/analyzer.html">Analyzer</a>
+        <a href="/tutorials/whatsapp-automation.html" style="color:#25d366">WhatsApp Automation</a>
+        <a href="/tutorials/chatbot-automation.html" style="color:#22d3ee">AI Chatbot Automation</a>
+        <a href="/tutorials/sms-automation.html" style="color:#a29bfe">SMS & Messaging</a>
       </div>
-    </div>
-    <a href="contact.html" data-i18n="nav_contact">Contact</a>
+    </div><a href="contact.html" data-i18n="nav_contact">Contact</a>
   </div>
       <div class="nav-ctas">
         <a href="cart.html" class="nav-cart" aria-label="View cart">🛒<span class="nav-cart-count" aria-hidden="true">0</span></a>
@@ -407,28 +412,28 @@
         <tr class="cat-row" data-hub="marketing"><td colspan="3"><span data-lang-block="en">📣 Marketing Hub</span><span data-lang-block="es">📣 Marketing Hub</span></td></tr>
 
         <tr data-hub="marketing">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/campaigns" style="color:inherit">Email Campaigns (drag-drop builder)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/campaigns" style="color:inherit">Campaigns email (constructor drag-drop)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/campaigns" style="color:inherit">Email Campaigns (drag-drop builder)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/campaigns" style="color:inherit">Campaigns email (constructor drag-drop)</a></span>
               <div class="feat-desc" data-lang-block="en">Templates, personalization tokens, A/B subjects</div>
               <div class="feat-desc" data-lang-block="es">Plantillas, tokens de personalización, A/B</div></td>
           <td class="hs-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Pro tier+</span><span class="cell-note" data-lang-block="es">Pro+</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">All plans, AI-written</span><span class="cell-note" data-lang-block="es">Todos los planes, con IA</span></td>
         </tr>
         <tr data-hub="marketing">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/landing-pages" style="color:inherit">Landing Pages</a> & <a href="/crm/forms" style="color:inherit">Forms</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/landing-pages" style="color:inherit">Landing Pages</a> y <a href="/crm/forms" style="color:inherit">Forms</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/landing-pages" style="color:inherit">Landing Pages</a> & <a href="/app/forms" style="color:inherit">Forms</a></span><span class="feat-name" data-lang-block="es"><a href="/app/landing-pages" style="color:inherit">Landing Pages</a> y <a href="/app/forms" style="color:inherit">Forms</a></span>
               <div class="feat-desc" data-lang-block="en">Unlimited landing pages with personalization</div>
               <div class="feat-desc" data-lang-block="es">Landing pages ilimitadas con personalización</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Limited on Starter</span><span class="cell-partial" data-lang-block="es">Limitado en Starter</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Unlimited, DFY</span><span class="cell-note" data-lang-block="es">Ilimitadas, DFY</span></td>
         </tr>
         <tr data-hub="marketing">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/automations" style="color:inherit">Marketing Automations</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/automations" style="color:inherit">Automations</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/automations" style="color:inherit">Marketing Automations</a></span><span class="feat-name" data-lang-block="es"><a href="/app/automations" style="color:inherit">Automations</a></span>
               <div class="feat-desc" data-lang-block="en">Drip sequences, triggers, branching logic</div>
               <div class="feat-desc" data-lang-block="es">Secuencias drip, triggers, ramificaciones</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Pro tier only</span><span class="cell-partial" data-lang-block="es">Solo Pro</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Included every plan</span><span class="cell-note" data-lang-block="es">Incluido en cada plan</span></td>
         </tr>
         <tr data-hub="marketing">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/lead-scoring" style="color:inherit">Lead Scoring</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/lead-scoring" style="color:inherit">Lead Scoring</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/lead-scoring" style="color:inherit">Lead Scoring</a></span><span class="feat-name" data-lang-block="es"><a href="/app/lead-scoring" style="color:inherit">Lead Scoring</a></span>
               <div class="feat-desc" data-lang-block="en">Behavioral + AI-predictive scoring</div>
               <div class="feat-desc" data-lang-block="es">Puntuación por comportamiento + IA predictiva</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Enterprise for predictive</span><span class="cell-partial" data-lang-block="es">Enterprise para predictivo</span></td>
@@ -442,49 +447,49 @@
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">AI Analyzer included</span><span class="cell-note" data-lang-block="es">AI Analyzer incluido</span></td>
         </tr>
         <tr data-hub="marketing">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/blog" style="color:inherit">Blog builder</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/blog" style="color:inherit">Constructor de Blog</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/blog" style="color:inherit">Blog builder</a></span><span class="feat-name" data-lang-block="es"><a href="/app/blog" style="color:inherit">Constructor de Blog</a></span>
               <div class="feat-desc" data-lang-block="en">Native blog with SEO + AI content</div>
               <div class="feat-desc" data-lang-block="es">Blog nativo con SEO + contenido IA</div></td>
           <td class="hs-col"><span class="cell-yes">✓</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">AI writes posts for you</span><span class="cell-note" data-lang-block="es">IA escribe los posts</span></td>
         </tr>
         <tr data-hub="marketing">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/social" style="color:inherit">Social media publishing</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/social" style="color:inherit">Publicación en redes sociales</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/crm/social.html" style="color:inherit">Social media publishing</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/social.html" style="color:inherit">Publicación en redes sociales</a></span>
               <div class="feat-desc" data-lang-block="en">Schedule + monitor FB/IG/LinkedIn/X</div>
               <div class="feat-desc" data-lang-block="es">Agendar + monitorear FB/IG/LinkedIn/X</div></td>
           <td class="hs-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Pro+</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">AI Social Agent included</span><span class="cell-note" data-lang-block="es">AI Social Agent incluido</span></td>
         </tr>
         <tr data-hub="marketing">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/ads" style="color:inherit">Ads management (Google / Meta / LinkedIn)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/ads" style="color:inherit">Ads (Google / Meta / LinkedIn)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/ads" style="color:inherit">Ads management (Google / Meta / LinkedIn)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/ads" style="color:inherit">Ads (Google / Meta / LinkedIn)</a></span>
               <div class="feat-desc" data-lang-block="en">Attribution from click to deal</div>
               <div class="feat-desc" data-lang-block="es">Atribución desde click hasta venta</div></td>
           <td class="hs-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Pro+</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Included + we run the ads</span><span class="cell-note" data-lang-block="es">Incluido + corremos los ads</span></td>
         </tr>
         <tr data-hub="marketing">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/ab-tests" style="color:inherit">A/B Tests</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/ab-tests" style="color:inherit">Test A/B</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/ab-tests" style="color:inherit">A/B Tests</a></span><span class="feat-name" data-lang-block="es"><a href="/app/ab-tests" style="color:inherit">Test A/B</a></span>
               <div class="feat-desc" data-lang-block="en">Pages, emails, CTAs</div>
               <div class="feat-desc" data-lang-block="es">Páginas, emails, CTAs</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Pro+</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">All plans</span><span class="cell-note" data-lang-block="es">Todos los planes</span></td>
         </tr>
         <tr data-hub="marketing">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/sms" style="color:inherit">SMS Marketing</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/sms" style="color:inherit">SMS Marketing</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/sms" style="color:inherit">SMS Marketing</a></span><span class="feat-name" data-lang-block="es"><a href="/app/sms" style="color:inherit">SMS Marketing</a></span>
               <div class="feat-desc" data-lang-block="en">Triggered + broadcast SMS</div>
               <div class="feat-desc" data-lang-block="es">SMS automatizado + masivo</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Pro+ add-on</span><span class="cell-partial" data-lang-block="es">Complemento en Pro+</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Included Growth+</span><span class="cell-note" data-lang-block="es">Incluido en Growth+</span></td>
         </tr>
         <tr data-hub="marketing">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/conversations" style="color:inherit">WhatsApp Business messaging (Conversations)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/conversations" style="color:inherit">WhatsApp Business (Conversations)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/crm/conversations.html" style="color:inherit">WhatsApp Business messaging (Conversations)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/conversations.html" style="color:inherit">WhatsApp Business (Conversations)</a></span>
               <div class="feat-desc" data-lang-block="en">Two-way chat, templates, automations</div>
               <div class="feat-desc" data-lang-block="es">Chat 2 vías, plantillas, automatizaciones</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Add-on / limited</span><span class="cell-partial" data-lang-block="es">Complemento / limitado</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Native, all plans</span><span class="cell-note" data-lang-block="es">Nativo, todos los planes</span></td>
         </tr>
         <tr data-hub="marketing">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/reports" style="color:inherit">Campaign analytics & attribution (Reports)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/reports" style="color:inherit">Analítica y atribución (Reports)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/reports" style="color:inherit">Campaign analytics & attribution (Reports)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/reports" style="color:inherit">Analítica y atribución (Reports)</a></span>
               <div class="feat-desc" data-lang-block="en">Revenue attribution, multi-touch</div>
               <div class="feat-desc" data-lang-block="es">Atribución de ingresos, multi-touch</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Enterprise for multi-touch</span><span class="cell-partial" data-lang-block="es">Enterprise para multi-touch</span></td>
@@ -509,28 +514,28 @@
         <tr class="cat-row" data-hub="sales"><td colspan="3"><span data-lang-block="en">💼 Sales Hub</span><span data-lang-block="es">💼 Sales Hub</span></td></tr>
 
         <tr data-hub="sales">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/contacts" style="color:inherit">Contacts (CRM)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/contacts" style="color:inherit">Contactos (CRM)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/crm/contacts.html" style="color:inherit">Contacts (CRM)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/contacts.html" style="color:inherit">Contactos (CRM)</a></span>
               <div class="feat-desc" data-lang-block="en">Unlimited contacts, custom properties</div>
               <div class="feat-desc" data-lang-block="es">Contactos ilimitados, propiedades personalizadas</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Free but 2K limit for marketing</span><span class="cell-partial" data-lang-block="es">Gratis pero límite 2K marketing</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">25K-unlimited, no tiers</span><span class="cell-note" data-lang-block="es">25K-ilimitado, sin tiers</span></td>
         </tr>
         <tr data-hub="sales">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/companies" style="color:inherit">Companies (B2B account object)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/companies" style="color:inherit">Companies (cuenta B2B)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/companies" style="color:inherit">Companies (B2B account object)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/companies" style="color:inherit">Companies (cuenta B2B)</a></span>
               <div class="feat-desc" data-lang-block="en">Firmographic records, hierarchy, deal rollups</div>
               <div class="feat-desc" data-lang-block="es">Datos firmográficos, jerarquía, rollup de deals</div></td>
           <td class="hs-col"><span class="cell-yes">✓</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">All plans</span><span class="cell-note" data-lang-block="es">Todos los planes</span></td>
         </tr>
         <tr data-hub="sales">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/products" style="color:inherit">Products catalog</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/products" style="color:inherit">Products (catálogo)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/products" style="color:inherit">Products catalog</a></span><span class="feat-name" data-lang-block="es"><a href="/app/products" style="color:inherit">Products (catálogo)</a></span>
               <div class="feat-desc" data-lang-block="en">SKU library with pricing, tiers, line items on deals</div>
               <div class="feat-desc" data-lang-block="es">Librería SKU con precios, niveles, líneas en deals</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Pro+</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">All plans</span><span class="cell-note" data-lang-block="es">Todos los planes</span></td>
         </tr>
         <tr data-hub="sales">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/pipeline" style="color:inherit">Pipeline & kanban</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/pipeline" style="color:inherit">Pipeline y kanban</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/crm/pipeline.html" style="color:inherit">Pipeline & kanban</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/pipeline.html" style="color:inherit">Pipeline y kanban</a></span>
               <div class="feat-desc" data-lang-block="en">Multiple pipelines, custom stages</div>
               <div class="feat-desc" data-lang-block="es">Múltiples pipelines, etapas personalizadas</div></td>
           <td class="hs-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">2 pipelines free, 15+ Pro</span><span class="cell-note" data-lang-block="es">2 pipelines gratis, 15+ Pro</span></td>
@@ -551,14 +556,14 @@
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">AI-generated per persona</span><span class="cell-note" data-lang-block="es">Con IA por persona</span></td>
         </tr>
         <tr data-hub="sales">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/calendar" style="color:inherit">Calendar</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/calendar" style="color:inherit">Calendar</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/crm/calendar.html" style="color:inherit">Calendar</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/calendar.html" style="color:inherit">Calendar</a></span>
               <div class="feat-desc" data-lang-block="en">Calendly-style booking links</div>
               <div class="feat-desc" data-lang-block="es">Links de agendamiento estilo Calendly</div></td>
           <td class="hs-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">1 link free, unlimited Starter+</span><span class="cell-note" data-lang-block="es">1 gratis, ilimitados Starter+</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Unlimited + Voice AI booking</span><span class="cell-note" data-lang-block="es">Ilimitado + Voz IA agenda</span></td>
         </tr>
         <tr data-hub="sales">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/calls" style="color:inherit">Calls (tracking & recording)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/calls" style="color:inherit">Calls (seguimiento + grabación)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/calls" style="color:inherit">Calls (tracking & recording)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/calls" style="color:inherit">Calls (seguimiento + grabación)</a></span>
               <div class="feat-desc" data-lang-block="en">Click-to-call, recording, transcripts</div>
               <div class="feat-desc" data-lang-block="es">Click-to-call, grabación, transcripciones</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Pro+ (limited minutes)</span><span class="cell-partial" data-lang-block="es">Pro+ (minutos limitados)</span></td>
@@ -572,14 +577,14 @@
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Growth+</span></td>
         </tr>
         <tr data-hub="sales">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/sequences" style="color:inherit">Sequences (automated outreach)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/sequences" style="color:inherit">Sequences (outreach automatizado)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/sequences" style="color:inherit">Sequences (automated outreach)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/sequences" style="color:inherit">Sequences (outreach automatizado)</a></span>
               <div class="feat-desc" data-lang-block="en">Multi-step drip with tasks</div>
               <div class="feat-desc" data-lang-block="es">Drip multi-paso con tareas</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Pro+, 1K/month limit</span><span class="cell-partial" data-lang-block="es">Pro+, límite 1K/mes</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Unlimited, AI-personalized</span><span class="cell-note" data-lang-block="es">Ilimitadas, personalizadas IA</span></td>
         </tr>
         <tr data-hub="sales">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/quotes" style="color:inherit">Quotes & proposals</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/quotes" style="color:inherit">Quotes y propuestas</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/quotes" style="color:inherit">Quotes & proposals</a></span><span class="feat-name" data-lang-block="es"><a href="/app/quotes" style="color:inherit">Quotes y propuestas</a></span>
               <div class="feat-desc" data-lang-block="en">Branded PDFs + e-sign</div>
               <div class="feat-desc" data-lang-block="es">PDFs con marca + firma digital</div></td>
           <td class="hs-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Pro+</span></td>
@@ -593,14 +598,14 @@
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Unlimited Growth+</span><span class="cell-note" data-lang-block="es">Ilimitadas Growth+</span></td>
         </tr>
         <tr data-hub="sales">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/playbooks" style="color:inherit">Playbooks</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/playbooks" style="color:inherit">Playbooks</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/playbooks" style="color:inherit">Playbooks</a></span><span class="feat-name" data-lang-block="es"><a href="/app/playbooks" style="color:inherit">Playbooks</a></span>
               <div class="feat-desc" data-lang-block="en">Sales call scripts & checklists</div>
               <div class="feat-desc" data-lang-block="es">Scripts de llamadas + checklists</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Pro+</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">AI playbooks, all plans</span><span class="cell-note" data-lang-block="es">Playbooks IA, todos los planes</span></td>
         </tr>
         <tr data-hub="sales">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/forecasting" style="color:inherit">Forecasting</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/forecasting" style="color:inherit">Forecasting</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/forecasting" style="color:inherit">Forecasting</a></span><span class="feat-name" data-lang-block="es"><a href="/app/forecasting" style="color:inherit">Forecasting</a></span>
               <div class="feat-desc" data-lang-block="en">Deal-weighted revenue forecast</div>
               <div class="feat-desc" data-lang-block="es">Pronóstico ponderado por deal</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Pro+</span></td>
@@ -630,47 +635,47 @@
         <tr class="cat-row" data-hub="service"><td colspan="3"><span data-lang-block="en">🎧 Service Hub</span><span data-lang-block="es">🎧 Service Hub</span></td></tr>
 
         <tr data-hub="service">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/tickets" style="color:inherit">Tickets (help desk)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/tickets" style="color:inherit">Tickets (help desk)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/tickets" style="color:inherit">Tickets (help desk)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/tickets" style="color:inherit">Tickets (help desk)</a></span>
               <div class="feat-desc" data-lang-block="en">Multi-channel ticket inbox</div>
               <div class="feat-desc" data-lang-block="es">Inbox multi-canal</div></td>
           <td class="hs-col"><span class="cell-yes">✓</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span></td>
         </tr>
         <tr data-hub="service">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/knowledge-base" style="color:inherit">Knowledge Base</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/knowledge-base" style="color:inherit">Knowledge Base</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/knowledge-base" style="color:inherit">Knowledge Base</a></span><span class="feat-name" data-lang-block="es"><a href="/app/knowledge-base" style="color:inherit">Knowledge Base</a></span>
               <div class="feat-desc" data-lang-block="en">Searchable help articles</div>
               <div class="feat-desc" data-lang-block="es">Artículos de ayuda buscables</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Pro+</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">AI auto-suggests articles</span><span class="cell-note" data-lang-block="es">IA sugiere artículos</span></td>
         </tr>
         <tr data-hub="service">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/customer-portal" style="color:inherit">Customer Portal</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/customer-portal" style="color:inherit">Customer Portal</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/customer-portal" style="color:inherit">Customer Portal</a></span><span class="feat-name" data-lang-block="es"><a href="/app/customer-portal" style="color:inherit">Customer Portal</a></span>
               <div class="feat-desc" data-lang-block="en">Self-service ticket tracking</div>
               <div class="feat-desc" data-lang-block="es">Autoservicio para tickets</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Pro+</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">All plans</span><span class="cell-note" data-lang-block="es">Todos los planes</span></td>
         </tr>
         <tr data-hub="service">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/conversations" style="color:inherit">Conversations (NWM Chat + chatbots)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/conversations" style="color:inherit">Conversations (NWM Chat + bots)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/crm/conversations.html" style="color:inherit">Conversations (NWM Chat + chatbots)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/conversations.html" style="color:inherit">Conversations (NWM Chat + bots)</a></span>
               <div class="feat-desc" data-lang-block="en">Unified inbox for web chat, WhatsApp, SMS, email — bilingual nurture</div>
               <div class="feat-desc" data-lang-block="es">Inbox unificado web chat, WhatsApp, SMS, email — nurture bilingüe</div></td>
           <td class="hs-col"><span class="cell-yes">✓</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">NWM Chat + WhatsApp built-in</span><span class="cell-note" data-lang-block="es">NWM Chat + WhatsApp nativo</span></td>
         </tr>
         <tr data-hub="service">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/surveys" style="color:inherit">Surveys (NPS/CSAT)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/surveys" style="color:inherit">Surveys (NPS/CSAT)</a></span></td>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/surveys" style="color:inherit">Surveys (NPS/CSAT)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/surveys" style="color:inherit">Surveys (NPS/CSAT)</a></span></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Pro+</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span></td>
         </tr>
         <tr data-hub="service">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/slas" style="color:inherit">SLAs (management)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/slas" style="color:inherit">SLAs (gestión)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/slas" style="color:inherit">SLAs (management)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/slas" style="color:inherit">SLAs (gestión)</a></span>
               <div class="feat-desc" data-lang-block="en">Response / resolution targets</div>
               <div class="feat-desc" data-lang-block="es">Objetivos de respuesta / resolución</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Pro+</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Growth+</span></td>
         </tr>
         <tr data-hub="service">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/calls" style="color:inherit">Inbound calling (Calls / VoIP)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/calls" style="color:inherit">Llamadas entrantes (Calls / VoIP)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/calls" style="color:inherit">Inbound calling (Calls / VoIP)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/calls" style="color:inherit">Llamadas entrantes (Calls / VoIP)</a></span>
               <div class="feat-desc" data-lang-block="en">Call queue, voicemail, routing</div>
               <div class="feat-desc" data-lang-block="es">Cola, buzón, ruteo</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Add-on fee</span><span class="cell-partial" data-lang-block="es">Complemento pago</span></td>
@@ -681,7 +686,7 @@
         <tr class="cat-row" data-hub="cms"><td colspan="3"><span data-lang-block="en">🌐 CMS Hub</span><span data-lang-block="es">🌐 CMS Hub</span></td></tr>
 
         <tr data-hub="cms">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/pages" style="color:inherit">Pages (drag-drop builder)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/pages" style="color:inherit">Pages (constructor drag-drop)</a></span></td>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/pages" style="color:inherit">Pages (drag-drop builder)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/pages" style="color:inherit">Pages (constructor drag-drop)</a></span></td>
           <td class="hs-col"><span class="cell-yes">✓</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">NWM CMS + DFY build</span><span class="cell-note" data-lang-block="es">NWM CMS + DFY</span></td>
         </tr>
@@ -698,7 +703,7 @@
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Geo-IP + behavior, all plans</span><span class="cell-note" data-lang-block="es">Geo-IP + comportamiento, todos</span></td>
         </tr>
         <tr data-hub="cms">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/memberships" style="color:inherit">Memberships & gated content</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/memberships" style="color:inherit">Memberships + contenido cerrado</a></span></td>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/memberships" style="color:inherit">Memberships & gated content</a></span><span class="feat-name" data-lang-block="es"><a href="/app/memberships" style="color:inherit">Memberships + contenido cerrado</a></span></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Enterprise</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Growth+</span></td>
         </tr>
@@ -727,14 +732,14 @@
         <tr class="cat-row" data-hub="ops"><td colspan="3"><span data-lang-block="en">⚙️ Operations Hub</span><span data-lang-block="es">⚙️ Operations Hub</span></td></tr>
 
         <tr data-hub="ops">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/integrations" style="color:inherit">Integrations (two-way sync)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/integrations" style="color:inherit">Integrations (sincronización)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/integrations" style="color:inherit">Integrations (two-way sync)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/integrations" style="color:inherit">Integrations (sincronización)</a></span>
               <div class="feat-desc" data-lang-block="en">150+ app integrations</div>
               <div class="feat-desc" data-lang-block="es">150+ integraciones</div></td>
           <td class="hs-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Paid add-on</span><span class="cell-note" data-lang-block="es">Complemento pago</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Zapier + n8n included</span><span class="cell-note" data-lang-block="es">Zapier + n8n incluidos</span></td>
         </tr>
         <tr data-hub="ops">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/custom-code" style="color:inherit">Custom Code actions</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/custom-code" style="color:inherit">Custom Code</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/custom-code" style="color:inherit">Custom Code actions</a></span><span class="feat-name" data-lang-block="es"><a href="/app/custom-code" style="color:inherit">Custom Code</a></span>
               <div class="feat-desc" data-lang-block="en">JS / PHP inside workflows</div>
               <div class="feat-desc" data-lang-block="es">JS / PHP dentro de workflows</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Pro+, JS only</span></td>
@@ -755,7 +760,7 @@
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Every plan</span><span class="cell-note" data-lang-block="es">Cada plan</span></td>
         </tr>
         <tr data-hub="ops">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/webhooks" style="color:inherit">Webhooks (in + out)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/webhooks" style="color:inherit">Webhooks (in + out)</a></span></td>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/webhooks" style="color:inherit">Webhooks (in + out)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/webhooks" style="color:inherit">Webhooks (in + out)</a></span></td>
           <td class="hs-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Ops Hub+</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">All plans</span><span class="cell-note" data-lang-block="es">Todos los planes</span></td>
         </tr>
@@ -770,14 +775,14 @@
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Scale plan</span><span class="cell-note" data-lang-block="es">Plan Scale</span></td>
         </tr>
         <tr data-hub="ops">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/reports" style="color:inherit">Reports (first-class suite)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/reports" style="color:inherit">Reports (suite completa)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/reports" style="color:inherit">Reports (first-class suite)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/reports" style="color:inherit">Reports (suite completa)</a></span>
               <div class="feat-desc" data-lang-block="en">Drag-build dashboards, multi-touch attribution, exec exports</div>
               <div class="feat-desc" data-lang-block="es">Dashboards drag-build, atribución multi-touch, exports ejecutivos</div></td>
           <td class="hs-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Pro+, best-in-class</span><span class="cell-note" data-lang-block="es">Pro+, lo mejor</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">All plans, F500-polish</span><span class="cell-note" data-lang-block="es">Todos los planes, pulido F500</span></td>
         </tr>
         <tr data-hub="ops">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/api-keys" style="color:inherit">REST API + SDK access (API Keys)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/api-keys" style="color:inherit">REST API + SDK (API Keys)</a></span></td>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/api-keys" style="color:inherit">REST API + SDK access (API Keys)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/api-keys" style="color:inherit">REST API + SDK (API Keys)</a></span></td>
           <td class="hs-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Rate limited by tier</span><span class="cell-note" data-lang-block="es">Limitado por tier</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Open REST + GraphQL</span><span class="cell-note" data-lang-block="es">REST + GraphQL abierto</span></td>
         </tr>
@@ -786,35 +791,35 @@
         <tr class="cat-row" data-hub="ai"><td colspan="3"><span data-lang-block="en">🤖 AI Features (HubSpot Breeze vs NWM AI)</span><span data-lang-block="es">🤖 Funciones IA (Breeze vs NWM AI)</span></td></tr>
 
         <tr data-hub="ai">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/content-ai" style="color:inherit">Content AI</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/content-ai" style="color:inherit">Content AI</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/content-ai" style="color:inherit">Content AI</a></span><span class="feat-name" data-lang-block="es"><a href="/app/content-ai" style="color:inherit">Content AI</a></span>
               <div class="feat-desc" data-lang-block="en">Generate blog posts, emails, pages</div>
               <div class="feat-desc" data-lang-block="es">Genera blog posts, emails, páginas</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Limited credits</span><span class="cell-partial" data-lang-block="es">Créditos limitados</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Unlimited (GPT-4 class)</span><span class="cell-note" data-lang-block="es">Ilimitado (GPT-4)</span></td>
         </tr>
         <tr data-hub="ai">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/ai-sdr" style="color:inherit">AI SDR</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/ai-sdr" style="color:inherit">AI SDR</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/ai-sdr" style="color:inherit">AI SDR</a></span><span class="feat-name" data-lang-block="es"><a href="/app/ai-sdr" style="color:inherit">AI SDR</a></span>
               <div class="feat-desc" data-lang-block="en">Writes follow-ups, qualifies leads, books</div>
               <div class="feat-desc" data-lang-block="es">Escribe follow-ups, califica leads, agenda</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Breeze Prospecting, add-on</span><span class="cell-partial" data-lang-block="es">Breeze Prospecting, complemento</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Included Growth+</span><span class="cell-note" data-lang-block="es">Incluido Growth+</span></td>
         </tr>
         <tr data-hub="ai">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/conversations" style="color:inherit">AI customer agent (Conversations)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/conversations" style="color:inherit">Agente IA de clientes (Conversations)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/crm/conversations.html" style="color:inherit">AI customer agent (Conversations)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/conversations.html" style="color:inherit">Agente IA de clientes (Conversations)</a></span>
               <div class="feat-desc" data-lang-block="en">Chat answers using your Knowledge Base</div>
               <div class="feat-desc" data-lang-block="es">Chat responde usando tu Knowledge Base</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Breeze Customer Agent, add-on</span><span class="cell-partial" data-lang-block="es">Breeze Customer, complemento</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">NWM Chat included</span><span class="cell-note" data-lang-block="es">NWM Chat incluido</span></td>
         </tr>
         <tr data-hub="ai">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/content-ai" style="color:inherit">Content AI remix</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/content-ai" style="color:inherit">Content AI remix</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/content-ai" style="color:inherit">Content AI remix</a></span><span class="feat-name" data-lang-block="es"><a href="/app/content-ai" style="color:inherit">Content AI remix</a></span>
               <div class="feat-desc" data-lang-block="en">Blog → social → email auto-repurpose</div>
               <div class="feat-desc" data-lang-block="es">Blog → social → email automático</div></td>
           <td class="hs-col"><span class="cell-partial" data-lang-block="en">Breeze, limited</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Unlimited repurpose</span><span class="cell-note" data-lang-block="es">Reutilización ilimitada</span></td>
         </tr>
         <tr data-hub="ai">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/ai-copilot" style="color:inherit">AI Copilot in-app</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/ai-copilot" style="color:inherit">AI Copilot in-app</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/ai-copilot" style="color:inherit">AI Copilot in-app</a></span><span class="feat-name" data-lang-block="es"><a href="/app/ai-copilot" style="color:inherit">AI Copilot in-app</a></span>
               <div class="feat-desc" data-lang-block="en">Ask the CRM anything in natural language</div>
               <div class="feat-desc" data-lang-block="es">Pregunta cualquier cosa al CRM en lenguaje natural</div></td>
           <td class="hs-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Breeze Copilot</span></td>
@@ -828,14 +833,14 @@
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Clearbit+Apollo integrated</span><span class="cell-note" data-lang-block="es">Clearbit+Apollo integrados</span></td>
         </tr>
         <tr data-hub="ai">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/voice-ai" style="color:inherit">Voice AI (inbound calls)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/voice-ai" style="color:inherit">Voice AI (llamadas entrantes)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/voice-ai" style="color:inherit">Voice AI (inbound calls)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/voice-ai" style="color:inherit">Voice AI (llamadas entrantes)</a></span>
               <div class="feat-desc" data-lang-block="en">Answers calls, books into Calendar</div>
               <div class="feat-desc" data-lang-block="es">Responde llamadas, agenda en el Calendar</div></td>
           <td class="hs-col"><span class="cell-no">✗</span><span class="cell-note" data-lang-block="en">Not offered</span><span class="cell-note" data-lang-block="es">No ofrecido</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Included Growth+</span><span class="cell-note" data-lang-block="es">Incluido Growth+</span></td>
         </tr>
         <tr data-hub="ai">
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/video-factory" style="color:inherit">Video Factory (AI video / avatar)</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/video-factory" style="color:inherit">Video Factory (video / avatar IA)</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/video-factory" style="color:inherit">Video Factory (AI video / avatar)</a></span><span class="feat-name" data-lang-block="es"><a href="/app/video-factory" style="color:inherit">Video Factory (video / avatar IA)</a></span>
               <div class="feat-desc" data-lang-block="en">Generate spokesperson videos</div>
               <div class="feat-desc" data-lang-block="es">Genera videos con presentador</div></td>
           <td class="hs-col"><span class="cell-no">✗</span></td>
@@ -846,35 +851,35 @@
         <tr class="cat-row"><td colspan="3"><span data-lang-block="en">🏢 Agency / Partner (HubSpot has no agency tier)</span><span data-lang-block="es">🏢 Agencia / Partner (HubSpot no tiene plan de agencia)</span></td></tr>
 
         <tr>
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/sub-accounts" style="color:inherit">Sub-accounts</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/sub-accounts" style="color:inherit">Sub-accounts</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/sub-accounts" style="color:inherit">Sub-accounts</a></span><span class="feat-name" data-lang-block="es"><a href="/app/sub-accounts" style="color:inherit">Sub-accounts</a></span>
               <div class="feat-desc" data-lang-block="en">Unlimited client sub-accounts with isolated data</div>
               <div class="feat-desc" data-lang-block="es">Sub-cuentas ilimitadas con datos aislados por cliente</div></td>
           <td class="hs-col"><span class="cell-no">✗</span><span class="cell-note" data-lang-block="en">Not offered</span><span class="cell-note" data-lang-block="es">No ofrecido</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Unlimited, Partner plan</span><span class="cell-note" data-lang-block="es">Ilimitadas, Plan Partner</span></td>
         </tr>
         <tr>
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/white-label" style="color:inherit">White-label</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/white-label" style="color:inherit">White-label</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/white-label" style="color:inherit">White-label</a></span><span class="feat-name" data-lang-block="es"><a href="/app/white-label" style="color:inherit">White-label</a></span>
               <div class="feat-desc" data-lang-block="en">Custom domain, logo, email, hide "Powered By"</div>
               <div class="feat-desc" data-lang-block="es">Dominio propio, logo, email, oculta "Powered By"</div></td>
           <td class="hs-col"><span class="cell-no">✗</span><span class="cell-note" data-lang-block="en">Not offered</span><span class="cell-note" data-lang-block="es">No ofrecido</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Full white-label included</span><span class="cell-note" data-lang-block="es">Marca blanca completa</span></td>
         </tr>
         <tr>
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/billing" style="color:inherit">Billing / SaaS</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/billing" style="color:inherit">Billing / SaaS</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/billing" style="color:inherit">Billing / SaaS</a></span><span class="feat-name" data-lang-block="es"><a href="/app/billing" style="color:inherit">Billing / SaaS</a></span>
               <div class="feat-desc" data-lang-block="en">Rebill clients at markup via Stripe Connect</div>
               <div class="feat-desc" data-lang-block="es">Refactura clientes con markup vía Stripe Connect</div></td>
           <td class="hs-col"><span class="cell-no">✗</span><span class="cell-note" data-lang-block="en">Not offered</span><span class="cell-note" data-lang-block="es">No ofrecido</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Stripe Connect built-in</span><span class="cell-note" data-lang-block="es">Stripe Connect incluido</span></td>
         </tr>
         <tr>
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/affiliates" style="color:inherit">Affiliates</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/affiliates" style="color:inherit">Affiliates</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/app/affiliates" style="color:inherit">Affiliates</a></span><span class="feat-name" data-lang-block="es"><a href="/app/affiliates" style="color:inherit">Affiliates</a></span>
               <div class="feat-desc" data-lang-block="en">Affiliate program with Stripe / PayPal payouts</div>
               <div class="feat-desc" data-lang-block="es">Programa de afiliados con payouts Stripe / PayPal</div></td>
           <td class="hs-col"><span class="cell-no">✗</span><span class="cell-note" data-lang-block="en">Not offered</span><span class="cell-note" data-lang-block="es">No ofrecido</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Growth+</span></td>
         </tr>
         <tr>
-          <td><span class="feat-name" data-lang-block="en"><a href="/crm/reputation" style="color:inherit">Reputation</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/reputation" style="color:inherit">Reputation</a></span>
+          <td><span class="feat-name" data-lang-block="en"><a href="/crm/reputation.html" style="color:inherit">Reputation</a></span><span class="feat-name" data-lang-block="es"><a href="/crm/reputation.html" style="color:inherit">Reputation</a></span>
               <div class="feat-desc" data-lang-block="en">Google / G2 / Capterra / Trustpilot review monitoring</div>
               <div class="feat-desc" data-lang-block="es">Monitoreo reviews Google / G2 / Capterra / Trustpilot</div></td>
           <td class="hs-col"><span class="cell-no">✗</span><span class="cell-note" data-lang-block="en">Not offered</span><span class="cell-note" data-lang-block="es">No ofrecido</span></td>
@@ -906,8 +911,8 @@
         </tr>
         <tr>
           <td><span class="feat-name" data-lang-block="en">Done-for-you service</span><span class="feat-name" data-lang-block="es">Servicio hecho por nosotros</span>
-              <div class="feat-desc" data-lang-block="en">Campaigns, <a href="/crm/automations" style="color:inherit;text-decoration:underline">Automations</a>, copy — built FOR you</div>
-              <div class="feat-desc" data-lang-block="es">Campañas, <a href="/crm/automations" style="color:inherit;text-decoration:underline">Automations</a>, copy — hecho POR nosotros</div></td>
+              <div class="feat-desc" data-lang-block="en">Campaigns, <a href="/app/automations" style="color:inherit;text-decoration:underline">Automations</a>, copy — built FOR you</div>
+              <div class="feat-desc" data-lang-block="es">Campañas, <a href="/app/automations" style="color:inherit;text-decoration:underline">Automations</a>, copy — hecho POR nosotros</div></td>
           <td class="hs-col"><span class="cell-no">✗</span><span class="cell-note" data-lang-block="en">Self-service only</span><span class="cell-note" data-lang-block="es">Solo autoservicio</span></td>
           <td class="nwm-col"><span class="cell-yes">✓</span><span class="cell-note" data-lang-block="en">Fractional CMO on Growth+</span><span class="cell-note" data-lang-block="es">CMO fraccional en Growth+</span></td>
         </tr>
@@ -1208,7 +1213,7 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=2" defer></script>
+<script src="js/main.js?v=7" defer></script>
 <script src="js/cart.js" defer></script>
 <script src="js/nwm-chat.js" defer></script>
 

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insurance Agency — Instant Quote &amp; Coverage Template | NetWebMedia CMS</title>
+<meta name="description" content="Insurance Agency template — coverage types, instant quote engine, agent locator and get-quote CTA. Modern dark-theme website built on NetWebMedia CMS.">
+<link rel="canonical" href="https://netwebmedia.com/industries/finance/template-2.html">
+<meta property="og:title" content="Insurance Agency — NetWebMedia CMS Template">
+<meta property="og:description" content="Independent insurance agency template with instant quotes and agent locator.">
+<meta property="og:url" content="https://netwebmedia.com/industries/finance/template-2.html">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+  body{background:#0b1220;color:#dde3ee;font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+  .tpl-nav{position:sticky;top:0;z-index:10;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+  .tpl-nav a.logo{color:#22d3ee;font-weight:900;text-decoration:none;font-size:18px}
+  .tpl-nav .r{display:flex;gap:12px;align-items:center}
+  .tpl-nav .back{color:#9aa;text-decoration:none;font-size:14px}
+  .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:12px 22px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+  .prod-hero{padding:80px 20px 40px;text-align:center;max-width:1100px;margin:0 auto}
+  .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+  .prod-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+  .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:680px;margin:0 auto 28px;line-height:1.5}
+  .prod-hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+  .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+  .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+  .coverage-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  .cov-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px;text-align:center;transition:transform .2s,border-color .2s;cursor:pointer}
+  .cov-card:hover{transform:translateY(-4px);border-color:rgba(6,182,212,.45)}
+  .cov-icon{font-size:40px;margin-bottom:10px}
+  .cov-card h4{margin:0 0 6px;font-size:16px}
+  .cov-card p{color:#9aa;font-size:13px;margin:0 0 10px;line-height:1.5}
+  .cov-card .tag{display:inline-block;background:rgba(6,182,212,.15);color:#67e8f9;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px}
+
+  .quote-box{background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(8,145,178,.03));border:1px solid rgba(6,182,212,.3);border-radius:18px;padding:36px;max-width:640px;margin:0 auto}
+  .quote-box h3{margin:0 0 12px;font-size:22px;text-align:center}
+  .quote-box .sub{color:#b8c4d9;text-align:center;margin:0 0 20px}
+  .quote-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .quote-box label{display:block;color:#9aa;font-size:12px;margin:12px 0 6px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+  .quote-box input,.quote-box select{width:100%;background:#0b1220;border:1px solid rgba(255,255,255,.12);border-radius:8px;color:#fff;padding:12px;font-size:14px;box-sizing:border-box}
+  .quote-box button{margin-top:20px;width:100%;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:14px;border:0;border-radius:10px;font-weight:800;font-size:16px;cursor:pointer}
+  .quote-box .disclaimer{color:#666;font-size:11px;text-align:center;margin-top:10px}
+
+  .agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+  .agent-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;display:flex;gap:14px;align-items:flex-start}
+  .agent-avatar{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#06B6D4,#0891B2);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff;flex-shrink:0}
+  .agent-card h4{margin:0 0 2px;font-size:16px}
+  .agent-card .reg{color:#22d3ee;font-size:12px;font-weight:700}
+  .agent-card p{color:#b8c4d9;font-size:13px;margin:6px 0 8px;line-height:1.5}
+  .agent-card a{color:#22d3ee;font-size:13px;font-weight:700;text-decoration:none}
+
+  .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(8,145,178,.05));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;margin:60px 0 0;text-align:center}
+  .cta-band h3{font-size:clamp(22px,3.5vw,30px);margin:0 0 10px}
+  .cta-band p{color:#b8c4d9;max-width:600px;margin:0 auto 20px}
+  .badge-built{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.12);color:#67e8f9;padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  footer{padding:32px 20px;text-align:center;border-top:1px solid rgba(255,255,255,.06);color:#9aa;font-size:14px}
+  footer a{color:#22d3ee;text-decoration:none;margin:0 10px}
+  @media(max-width:720px){.quote-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <a href="/" class="logo">🛡 Keystone Insurance Group</a>
+  <div class="r">
+    <a href="/industries/" class="back">← Industries</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">Independent Agency · 48 carriers</div>
+  <h1>One form. <span class="hl">48 carriers compared.</span> Your best price.</h1>
+  <p class="sub">Captive agents can only sell you their one company's policy. We shop 48 top-rated carriers in 90 seconds and bring you the best coverage-to-price match. On average, switching customers save $612 a year.</p>
+  <div class="ctas">
+    <a href="#quote" class="btn-teal">Get instant quote →</a>
+    <a href="#agents" class="btn-ghost">Find my local agent</a>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Coverage for every part of your life</h2>
+  <p class="sub">Bundle two or more policies and save an average of 18%.</p>
+  <div class="coverage-grid">
+    <a class="cov-card"><div class="cov-icon">🚗</div><h4>Auto</h4><p>Liability, collision, comprehensive, SR-22.</p><div class="tag">From $56/mo</div></a>
+    <a class="cov-card"><div class="cov-icon">🏠</div><h4>Home</h4><p>Dwelling, contents, liability, replacement cost.</p><div class="tag">From $78/mo</div></a>
+    <a class="cov-card"><div class="cov-icon">🏢</div><h4>Renters</h4><p>Contents, liability and loss-of-use coverage.</p><div class="tag">From $14/mo</div></a>
+    <a class="cov-card"><div class="cov-icon">❤️</div><h4>Life</h4><p>Term, whole, final expense and IUL options.</p><div class="tag">From $22/mo</div></a>
+    <a class="cov-card"><div class="cov-icon">🏥</div><h4>Health / Medicare</h4><p>ACA marketplace, Medicare Advantage, supplements.</p><div class="tag">Plans from $0</div></a>
+    <a class="cov-card"><div class="cov-icon">💼</div><h4>Business / BOP</h4><p>General liability, property, cyber, workers' comp.</p><div class="tag">From $48/mo</div></a>
+    <a class="cov-card"><div class="cov-icon">🏍️</div><h4>Motorcycle / RV / Boat</h4><p>Full specialty-vehicle coverage across all seasons.</p><div class="tag">From $21/mo</div></a>
+    <a class="cov-card"><div class="cov-icon">🌊</div><h4>Flood &amp; Umbrella</h4><p>NFIP, excess liability, high-net-worth riders.</p><div class="tag">From $19/mo</div></a>
+  </div>
+</section>
+
+<section class="prod-section" id="quote">
+  <h2>Instant quote engine</h2>
+  <p class="sub">Answer 5 quick questions. Compare 48 carriers. Bind the policy right now or hand it off to a human agent.</p>
+  <div class="quote-box">
+    <h3>Start your quote</h3>
+    <div class="sub">Takes about 90 seconds. No SSN required to preview.</div>
+    <form onsubmit="event.preventDefault();alert('Template demo — connect to NetWebMedia CMS to activate the carrier-rater integration.')">
+      <label>What do you need covered?</label>
+      <select><option>Auto insurance</option><option>Home insurance</option><option>Renters</option><option>Life</option><option>Business / BOP</option><option>Bundle auto + home</option></select>
+      <div class="quote-row">
+        <div><label>First name</label><input type="text" placeholder="Alex"></div>
+        <div><label>Last name</label><input type="text" placeholder="Hernandez"></div>
+      </div>
+      <div class="quote-row">
+        <div><label>Zip code</label><input type="text" placeholder="60601"></div>
+        <div><label>Date of birth</label><input type="date"></div>
+      </div>
+      <label>Email</label>
+      <input type="email" placeholder="you@example.com">
+      <button type="submit">Compare 48 carriers →</button>
+      <div class="disclaimer">We'll never sell your info. Comparison shown instantly; final bind requires verification by a licensed agent.</div>
+    </form>
+  </div>
+</section>
+
+<section class="prod-section" id="agents">
+  <h2>Meet your local agents</h2>
+  <p class="sub">Humans, not a call center. Each agent below is licensed and reachable on their direct line.</p>
+  <div class="agent-grid">
+    <div class="agent-card">
+      <div class="agent-avatar">MC</div>
+      <div>
+        <h4>Miguel Carrasco</h4>
+        <div class="reg">Lic. #IN-42181 · Chicago, IL</div>
+        <p>Specializes in auto + home bundles and small business BOPs. Bilingual (EN/ES). 11 years in industry.</p>
+        <a href="tel:+13125551821">(312) 555-1821</a>
+      </div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-avatar">SP</div>
+      <div>
+        <h4>Sarah Pham</h4>
+        <div class="reg">Lic. #IN-38920 · Naperville, IL</div>
+        <p>Life &amp; health specialist. Medicare AEP certified. Helps families with final-expense and IUL planning.</p>
+        <a href="tel:+16305557210">(630) 555-7210</a>
+      </div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-avatar">DJ</div>
+      <div>
+        <h4>Devon Jackson</h4>
+        <div class="reg">Lic. #IN-51074 · Aurora, IL</div>
+        <p>Commercial lines focus — contractors, trucking, restaurants. ICB certified risk advisor.</p>
+        <a href="tel:+16305559930">(630) 555-9930</a>
+      </div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-avatar">LT</div>
+      <div>
+        <h4>Lindsay Torres</h4>
+        <div class="reg">Lic. #IN-44562 · Evanston, IL</div>
+        <p>Umbrella + high-net-worth personal lines. Condo, landlord policies and scheduled-jewelry riders.</p>
+        <a href="tel:+18475554408">(847) 555-4408</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h3>Launch this template with NetWebMedia</h3>
+  <p>Insurance Agency ships with a carrier-rater quote form, agent locator by zip, digital policy delivery and HIPAA-aware contact handling. Live in 48 hours.</p>
+  <a href="/contact.html" class="btn-teal">Start with this template →</a>
+  <div style="margin-top:22px"><span class="badge-built">⚡ Built on NetWebMedia CMS</span></div>
+</div>
+
+<footer>
+  <div><a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a></div>
+  <div style="margin-top:12px;color:#666">© 2026 Keystone Insurance Group — demo template. Powered by NetWebMedia CMS.</div>
+</footer>
+
+</body>
+</html>

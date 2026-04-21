@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant — Hospitality Template | NetWebMedia CMS</title>
+  <meta name="description" content="Restaurant landing page — menu highlights, private dining, chef bio, and reserve-table CTA. Built on NetWebMedia CMS.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/hospitality/template-1.html" />
+  <meta property="og:title" content="Restaurant — NetWebMedia Template" />
+  <meta property="og:description" content="Fine-dining restaurant site with menu highlights, private events, and reservations." />
+  <meta property="og:url" content="https://netwebmedia.com/industries/hospitality/template-1.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body{background:#0b1220;color:#dde3ee;margin:0;font-family:Georgia,"Playfair Display",serif}
+    .tpl-nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;font-family:system-ui,-apple-system,sans-serif}
+    .tpl-nav .logo{font-weight:900;font-size:20px;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.15em}
+    .tpl-nav .links{display:flex;gap:18px;align-items:center}
+    .tpl-nav a{color:#b8c4d9;text-decoration:none;font-size:14px}
+    .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:10px 20px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px;font-family:system-ui,sans-serif}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:10px 20px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px;font-family:system-ui,sans-serif}
+
+    .prod-hero{padding:80px 20px 40px;text-align:center;max-width:1000px;margin:0 auto}
+    .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;font-family:system-ui,sans-serif}
+    .prod-hero h1{font-size:clamp(38px,6.5vw,68px);margin:0 0 20px;line-height:1.02;font-weight:400;letter-spacing:-.01em}
+    .prod-hero h1 .hl{font-style:italic;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .prod-hero p.sub{font-size:clamp(17px,2.5vw,22px);color:#b8c4d9;max-width:640px;margin:0 auto 32px;line-height:1.55;font-style:italic}
+    .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-family:system-ui,sans-serif}
+    .prod-hero .btn-teal,.prod-hero .btn-ghost{padding:14px 28px;font-size:15px}
+
+    .hero-plate{max-width:800px;margin:30px auto;height:340px;border-radius:50% 50% 12px 12px / 12% 12% 12px 12px;background:radial-gradient(circle at 50% 55%,#0891B2,#0f172a 70%);display:flex;align-items:center;justify-content:center;font-size:130px;border:1px solid rgba(255,255,255,.08)}
+
+    .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+    .prod-section h2{font-size:clamp(28px,4vw,40px);margin:0 0 14px;text-align:center;font-weight:400;letter-spacing:-.01em}
+    .prod-section h2 em{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .prod-section .sub{color:#9aa;font-size:16px;max-width:620px;margin:0 auto 40px;text-align:center;line-height:1.55;font-style:italic;font-family:system-ui,sans-serif}
+
+    .menu-section{background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);padding:50px 20px}
+    .menu-grid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+    .menu-col h3{font-size:22px;color:#22d3ee;letter-spacing:.14em;text-transform:uppercase;margin:0 0 24px;font-weight:600;text-align:center;font-family:system-ui,sans-serif;font-size:14px}
+    .menu-item{margin-bottom:22px;padding-bottom:22px;border-bottom:1px dashed rgba(255,255,255,.08)}
+    .menu-item:last-child{border:0}
+    .menu-item .ln1{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-bottom:6px}
+    .menu-item h4{margin:0;font-size:19px;color:#fff;font-weight:500}
+    .menu-item .price{color:#22d3ee;font-weight:700;font-size:16px;font-family:system-ui,sans-serif;white-space:nowrap}
+    .menu-item p{margin:0;color:#9aa;font-size:13px;line-height:1.55;font-style:italic;font-family:system-ui,sans-serif}
+
+    .chef{display:grid;grid-template-columns:260px 1fr;gap:40px;align-items:center;max-width:1000px;margin:0 auto}
+    .chef-portrait{aspect-ratio:3/4;border-radius:12px;background:linear-gradient(135deg,#1e293b,#0891B2);display:flex;align-items:center;justify-content:center;font-size:100px;border:1px solid rgba(255,255,255,.08)}
+    .chef h2{text-align:left;margin:0 0 14px}
+    .chef p{color:#b8c4d9;font-size:16px;line-height:1.75;margin:0 0 14px;font-family:Georgia,serif}
+    .chef .signature{font-style:italic;color:#22d3ee;font-size:15px;font-family:Georgia,serif}
+
+    .private{text-align:center;background:linear-gradient(180deg,rgba(6,182,212,.06),transparent);border:1px solid rgba(6,182,212,.2);border-radius:20px;padding:40px 30px;max-width:900px;margin:0 auto}
+    .private h3{font-size:30px;margin:0 0 14px;font-weight:400}
+    .private p{font-family:system-ui,sans-serif;color:#b8c4d9;font-size:15px;line-height:1.6;margin:0 auto 20px;max-width:620px}
+
+    .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(8,145,178,.06));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;text-align:center;margin-top:60px}
+    .cta-band h3{font-size:clamp(24px,3.5vw,34px);margin:0 0 12px;font-weight:400}
+    .cta-band p{color:#b8c4d9;max-width:620px;margin:0 auto 22px;font-size:15px;line-height:1.55;font-family:system-ui,sans-serif}
+
+    .nwm-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#67e8f9;margin:30px auto;text-decoration:none;font-family:system-ui,sans-serif}
+
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:32px 20px;text-align:center;color:#9aa;font-size:13px;font-family:system-ui,sans-serif}
+    footer a{color:#67e8f9;margin:0 10px;text-decoration:none}
+
+    @media(max-width:820px){.chef,.menu-grid{grid-template-columns:1fr}.tpl-nav .links a:not(.btn-teal){display:none}}
+  </style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <div class="logo">MARÉ</div>
+  <div class="links">
+    <a href="/industries/">← Industries</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">Dinner · Tuesday – Sunday · 5:30 pm</div>
+  <h1>A coastal table, <span class="hl">set by the tide</span></h1>
+  <p class="sub">Modern Italian fine dining rooted in the waters between Liguria and the Pacific. A seasonal tasting menu and a raw bar, on Bush Street since 2019.</p>
+  <div class="ctas">
+    <a href="#reserve" class="btn-teal">Reserve a Table →</a>
+    <a href="#menu" class="btn-ghost">View the Menu</a>
+  </div>
+</section>
+
+<div class="hero-plate">🍝</div>
+
+<section class="menu-section" id="menu">
+  <div class="prod-section" style="margin:0 auto;padding:0">
+    <h2>The <em>Spring</em> menu</h2>
+    <p class="sub">Tasting and à la carte available. Menu changes with the market every four weeks.</p>
+    <div class="menu-grid">
+      <div class="menu-col">
+        <h3>— Crudo &amp; Antipasti —</h3>
+        <div class="menu-item"><div class="ln1"><h4>Kanpachi Crudo</h4><div class="price">22</div></div><p>meyer lemon, fennel pollen, puntarelle, castelvetrano</p></div>
+        <div class="menu-item"><div class="ln1"><h4>Hokkaido Scallop</h4><div class="price">26</div></div><p>brown butter, capers, sea beans, citrus</p></div>
+        <div class="menu-item"><div class="ln1"><h4>Burrata &amp; Stone Fruit</h4><div class="price">19</div></div><p>nectarine, basil oil, aged balsamic, grilled levain</p></div>
+        <div class="menu-item"><div class="ln1"><h4>Whole Ocean Trout</h4><div class="price">34</div></div><p>salt-baked, salsa verde, charred artichokes</p></div>
+      </div>
+      <div class="menu-col">
+        <h3>— Primi &amp; Secondi —</h3>
+        <div class="menu-item"><div class="ln1"><h4>Tagliatelle al Ragù</h4><div class="price">32</div></div><p>short rib, soffritto, parmigiano reggiano 36-mo</p></div>
+        <div class="menu-item"><div class="ln1"><h4>Risotto al Nero</h4><div class="price">38</div></div><p>squid ink, calamari, saffron, toasted pine nut</p></div>
+        <div class="menu-item"><div class="ln1"><h4>Whole Branzino</h4><div class="price">54</div></div><p>salsa salmoriglio, grilled lemon, olive oil</p></div>
+        <div class="menu-item"><div class="ln1"><h4>Wagyu Flatiron</h4><div class="price">72</div></div><p>miyazaki A5, black garlic jus, fingerlings</p></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:30px;font-family:system-ui,sans-serif;color:#9aa;font-size:14px">Tasting menu · 7 courses · 145 per guest · optional wine pairing 95</div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <div class="chef">
+    <div class="chef-portrait">👨🏻‍🍳</div>
+    <div>
+      <h2>From the <em>kitchen</em></h2>
+      <p>"My grandmother ran a small trattoria outside Genova. She insisted every plate taste like the place it came from. At Maré, I cook the way she taught me — restraint, patience, and the best ingredient doing the least amount of work."</p>
+      <p>Chef Giovanni Caruso trained at Uliassi, Osteria Francescana, and Quince. Maré is his first solo restaurant. Three Michelin Bib Gourmands. James Beard Rising Chef finalist 2024.</p>
+      <div class="signature">— Giovanni Caruso, Chef / Owner</div>
+    </div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <div class="private">
+    <h3>Private events &amp; buyouts</h3>
+    <p>Our downstairs Cellar Room seats 18 for intimate dinners. Full-restaurant buyouts for 48 seated or 80 standing. Custom menus designed around your wine cellar — we have a coordinator who will meet with you personally.</p>
+    <div class="ctas" style="justify-content:center"><a href="/contact.html" class="btn-teal">Inquire About Private Dining →</a></div>
+  </div>
+</section>
+
+<section class="cta-band" id="reserve">
+  <h3>Reservations open 28 days in advance</h3>
+  <p>Tuesday through Sunday, 5:30 – 10:00 pm. Walk-ins welcome at the bar. Parties of 6 or more please call.</p>
+  <div class="ctas"><a href="/contact.html" class="btn-teal">Reserve a Table →</a><a href="tel:+14155550500" class="btn-ghost">📞 (415) 555-0500</a></div>
+  <a class="nwm-badge" href="https://netwebmedia.com">⚡ Built on NetWebMedia CMS</a>
+</section>
+
+<section class="prod-section" style="text-align:center">
+  <h2>Launch this template with NetWebMedia</h2>
+  <p class="sub">Restaurant sites with OpenTable/Resy integration, live menus, and private-event inquiry flows.</p>
+  <div class="ctas" style="justify-content:center"><a href="/contact.html" class="btn-teal">Get This Template →</a><a href="/industries/" class="btn-ghost">See All Industries</a></div>
+</section>
+
+<footer>
+  <a href="/industries/">Industries</a> ·
+  <a href="/pricing.html">Pricing</a> ·
+  <a href="/contact.html">Contact</a>
+  <div style="margin-top:10px">© NetWebMedia · Demo template for illustration only</div>
+</footer>
+
+</body>
+</html>

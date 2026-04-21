@@ -16,7 +16,7 @@
   <meta property="og:image" content="https://netwebmedia.com/assets/og-cover.svg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg" />
-  <link rel="stylesheet" href="css/styles.css?v=2">
+  <link rel="stylesheet" href="css/styles.css?v=6">
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-V71R6PD7C0',{anonymize_ip:true});</script>
@@ -166,13 +166,15 @@
 </div>
 
 <!-- Top bar (lang / login) -->
-<div class="top-bar">
+<div class="lang-bar" id="lang-bar">
   <div class="container">
-    <div class="lang-switch">
-      <button class="lang-btn active" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="es">ES</button>
-    </div>
-    <a href="/crm/" class="lang-client-login">🔐 Partner Login</a>
+    <button class="lang-btn active" data-lang="en" id="lang-en">
+      <img class="flag" src="https://flagcdn.com/w40/us.png" alt="EN" loading="lazy" width="20" height="15" /> English
+    </button>
+    <button class="lang-btn" data-lang="es" id="lang-es">
+      <img class="flag" src="https://flagcdn.com/w40/es.png" alt="ES" loading="lazy" width="20" height="15" /> Español
+    </button>
+    <a href="/crm/" class="lang-client-login" data-i18n="nav_dashboard">&#128274; Client Login</a>
   </div>
 </div>
 
@@ -204,6 +206,7 @@
       <a href="/tutorials.html" style="color:#22d3ee;font-weight:600">Help</a>
       <div class="nav-dropdown">
         <a href="/tutorials.html"><strong>All Tutorials</strong></a>
+        <a href="/catalogue.html" style="color:#25d366;font-weight:700">&#128218; Courses &amp; Playbooks &rarr;</a>
         <a href="/tutorials/nwm-crm.html">NWM CRM (all 7 hubs)</a>
         <a href="/tutorials/nwm-cms.html">NWM CMS</a>
         <a href="/tutorials/ai-automate.html">AI Automations</a>
@@ -216,13 +219,14 @@
         <a href="/tutorials/websites.html">Websites</a>
         <a href="/tutorials/fractional-cmo.html">Fractional CMO</a>
         <a href="/tutorials/analyzer.html">Analyzer</a>
+        <a href="/tutorials/whatsapp-automation.html" style="color:#25d366">WhatsApp Automation</a>
+        <a href="/tutorials/chatbot-automation.html" style="color:#22d3ee">AI Chatbot Automation</a>
+        <a href="/tutorials/sms-automation.html" style="color:#a29bfe">SMS & Messaging</a>
       </div>
-    </div>
-    <a href="contact.html" data-i18n="nav_contact">Contact</a>
+    </div><a href="contact.html" data-i18n="nav_contact">Contact</a>
   </div>
       <div class="nav-ctas">
-        <a href="/crm/" class="lang-client-login">🔐 Client Login</a>
-        <a href="#partner-signup" class="btn-nav-solid">Become a Partner</a>
+        <a href="/contact.html" class="btn-nav-solid" data-i18n="nav_cta">Get a Free Audit</a>
       </div>
       <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
@@ -690,7 +694,7 @@
   </div>
 </footer>
 
-<script src="js/main.js?v=2" defer></script>
+<script src="js/main.js?v=7" defer></script>
 <script>
 /* Margin calculator */
 document.addEventListener('DOMContentLoaded', function(){

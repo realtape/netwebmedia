@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Development Pre-Launch — Real Estate Template | NetWebMedia CMS</title>
+  <meta name="description" content="Pre-construction condo launch template — project timeline, floor plans, amenities grid, and reservation CTA. Built on NetWebMedia CMS.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/real-estate/template-3.html" />
+  <meta property="og:title" content="New Development Pre-Launch — NetWebMedia Template" />
+  <meta property="og:description" content="Pre-construction landing with timeline, floor plans, amenities, and reserve flow." />
+  <meta property="og:url" content="https://netwebmedia.com/industries/real-estate/template-3.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body{background:#0b1220;color:#dde3ee;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    .tpl-nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+    .tpl-nav .logo{font-weight:900;font-size:18px;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .tpl-nav .links{display:flex;gap:18px;align-items:center}
+    .tpl-nav a{color:#b8c4d9;text-decoration:none;font-size:14px}
+    .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:10px 20px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:10px 20px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+    .prod-hero{padding:70px 20px 40px;text-align:center;max-width:1100px;margin:0 auto}
+    .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+    .prod-hero h1{font-size:clamp(32px,6vw,56px);margin:0 0 16px;line-height:1.1}
+    .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:720px;margin:0 auto 28px;line-height:1.5}
+    .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .prod-hero .btn-teal,.prod-hero .btn-ghost{padding:14px 28px;font-size:16px}
+
+    .render{max-width:1000px;margin:30px auto;height:360px;border-radius:20px;background:linear-gradient(135deg,#0f172a 0%,#0891B2 50%,#334155 100%);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:140px;opacity:.95}
+
+    .prod-stats{max-width:1000px;margin:40px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;padding:0 20px}
+    .prod-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px;text-align:center}
+    .prod-stat .n{font-size:26px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .prod-stat .l{font-size:12px;color:#9aa;margin-top:4px;text-transform:uppercase;letter-spacing:.08em}
+
+    .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+    .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+    .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+    .timeline{max-width:820px;margin:0 auto;position:relative}
+    .timeline::before{content:"";position:absolute;left:22px;top:10px;bottom:10px;width:2px;background:linear-gradient(180deg,#22d3ee,rgba(34,211,238,.15))}
+    .tl-row{display:grid;grid-template-columns:46px 1fr;gap:18px;align-items:start;margin:22px 0}
+    .tl-dot{width:46px;height:46px;border-radius:99px;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center;z-index:1;position:relative;letter-spacing:.05em}
+    .tl-row h4{margin:6px 0 4px;color:#fff;font-size:16px}
+    .tl-row p{margin:0;color:#b8c4d9;font-size:14px;line-height:1.55}
+    .tl-row.done .tl-dot{background:linear-gradient(135deg,#10b981,#059669)}
+
+    .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .plan{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px;transition:transform .2s,border-color .2s}
+    .plan:hover{transform:translateY(-4px);border-color:rgba(6,182,212,.45)}
+    .plan .diagram{height:120px;border-radius:10px;background:repeating-linear-gradient(45deg,rgba(6,182,212,.08),rgba(6,182,212,.08) 10px,rgba(6,182,212,.16) 10px,rgba(6,182,212,.16) 20px);border:1px dashed rgba(6,182,212,.4);margin-bottom:14px;display:flex;align-items:center;justify-content:center;font-size:36px}
+    .plan h4{margin:0 0 6px;color:#fff;font-size:16px}
+    .plan .sqft{color:#22d3ee;font-weight:700;font-size:14px}
+    .plan .from{color:#9aa;font-size:12px;margin-top:6px}
+
+    .amen-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+    .amen{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;text-align:center}
+    .amen .icon{font-size:32px;margin-bottom:8px}
+    .amen h5{margin:0 0 4px;color:#fff;font-size:14px}
+    .amen p{margin:0;color:#9aa;font-size:12px;line-height:1.5}
+
+    .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(8,145,178,.06));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;text-align:center;margin-top:60px}
+    .cta-band h3{font-size:clamp(22px,3.5vw,32px);margin:0 0 12px}
+    .cta-band p{color:#b8c4d9;max-width:620px;margin:0 auto 22px;font-size:15px;line-height:1.55}
+
+    .nwm-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#67e8f9;margin:30px auto;text-decoration:none}
+
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:32px 20px;text-align:center;color:#9aa;font-size:13px}
+    footer a{color:#67e8f9;margin:0 10px;text-decoration:none}
+
+    @media(max-width:700px){.tpl-nav .links a:not(.btn-teal){display:none}}
+  </style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <div class="logo">AZURE Residences</div>
+  <div class="links">
+    <a href="/industries/">← Industries</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">Now Reserving · Q3 2027 Delivery</div>
+  <h1>Waterfront living, <span class="hl">re-imagined for the next decade</span></h1>
+  <p class="sub">72 owner residences crowning the Embarcadero. Pre-construction pricing from $1.8M. Founders pricing ends July 31.</p>
+  <div class="ctas">
+    <a href="#reserve" class="btn-teal">Reserve a Residence →</a>
+    <a href="#plans" class="btn-ghost">Explore Floor Plans</a>
+  </div>
+</section>
+
+<div class="render">🏙️</div>
+
+<div class="prod-stats">
+  <div class="prod-stat"><div class="n">72</div><div class="l">Residences</div></div>
+  <div class="prod-stat"><div class="n">18</div><div class="l">Stories</div></div>
+  <div class="prod-stat"><div class="n">$1.8M</div><div class="l">Starting from</div></div>
+  <div class="prod-stat"><div class="n">Q3 '27</div><div class="l">First occupancy</div></div>
+</div>
+
+<section class="prod-section">
+  <h2>Project timeline</h2>
+  <p class="sub">Transparent milestones from groundbreaking to move-in day.</p>
+  <div class="timeline">
+    <div class="tl-row done"><div class="tl-dot">✓</div><div><h4>Q2 2025 · Entitlements approved</h4><p>Full planning approval from the Port of San Francisco and SF Planning Commission.</p></div></div>
+    <div class="tl-row done"><div class="tl-dot">✓</div><div><h4>Q4 2025 · Groundbreaking</h4><p>Excavation and foundation complete. Tower crane erected January 2026.</p></div></div>
+    <div class="tl-row"><div class="tl-dot">NOW</div><div><h4>Q2 2026 · Structure rising</h4><p>Floor 8 poured this month. On track for topping-out by late 2026.</p></div></div>
+    <div class="tl-row"><div class="tl-dot">2027</div><div><h4>Q1 2027 · Enclosure &amp; finishes</h4><p>Curtain wall install, lobby build-out, amenity deck construction begins.</p></div></div>
+    <div class="tl-row"><div class="tl-dot">2027</div><div><h4>Q3 2027 · First closings</h4><p>Temporary certificate of occupancy targeted July 2027. Closings begin immediately after.</p></div></div>
+  </div>
+</section>
+
+<section class="prod-section" id="plans">
+  <h2>Floor plans</h2>
+  <p class="sub">One-bedroom to four-bedroom penthouse layouts. Three corner configurations still available.</p>
+  <div class="plans">
+    <div class="plan"><div class="diagram">▭</div><h4>Plan A · 1 bed</h4><div class="sqft">782 sq ft</div><div class="from">From $1,850,000</div></div>
+    <div class="plan"><div class="diagram">◫</div><h4>Plan B · 2 bed</h4><div class="sqft">1,240 sq ft</div><div class="from">From $2,695,000</div></div>
+    <div class="plan"><div class="diagram">▨</div><h4>Plan C · 2 bed + den</h4><div class="sqft">1,510 sq ft</div><div class="from">From $3,250,000</div></div>
+    <div class="plan"><div class="diagram">▦</div><h4>Plan D · 3 bed corner</h4><div class="sqft">2,080 sq ft</div><div class="from">From $4,890,000</div></div>
+    <div class="plan"><div class="diagram">⬚</div><h4>Penthouse · 4 bed</h4><div class="sqft">3,640 sq ft</div><div class="from">Priced on request</div></div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Amenities that earn the premium</h2>
+  <p class="sub">Designed in partnership with SOM and Yabu Pushelberg.</p>
+  <div class="amen-grid">
+    <div class="amen"><div class="icon">🏊</div><h5>75' Lap Pool</h5><p>Heated year-round, floor 4 amenity deck</p></div>
+    <div class="amen"><div class="icon">🏋️</div><h5>Wellness Club</h5><p>Peloton, Pilates studio, spa &amp; sauna</p></div>
+    <div class="amen"><div class="icon">🍷</div><h5>Private Dining</h5><p>Chef's table for 14, catering kitchen</p></div>
+    <div class="amen"><div class="icon">🎬</div><h5>Screening Room</h5><p>Dolby Atmos, 12 leather armchairs</p></div>
+    <div class="amen"><div class="icon">🐶</div><h5>Pet Spa</h5><p>Grooming station, outdoor run</p></div>
+    <div class="amen"><div class="icon">🚗</div><h5>Valet &amp; EV Charging</h5><p>24/7 attended valet, L2 at every stall</p></div>
+    <div class="amen"><div class="icon">🌳</div><h5>Rooftop Garden</h5><p>Firepits, bay views, seasonal programming</p></div>
+    <div class="amen"><div class="icon">🏢</div><h5>Co-Working Lounge</h5><p>Bookable pods, videoconference suites</p></div>
+  </div>
+</section>
+
+<section class="cta-band" id="reserve">
+  <h3>Secure your residence with a $25K refundable deposit</h3>
+  <p>Founders pricing locks your price today. Fully refundable until contract signing. Priority selection by deposit order.</p>
+  <div class="ctas"><a href="/contact.html" class="btn-teal">Start Reservation →</a><a href="#plans" class="btn-ghost">Compare Plans</a></div>
+  <a class="nwm-badge" href="https://netwebmedia.com">⚡ Built on NetWebMedia CMS</a>
+</section>
+
+<section class="prod-section" style="text-align:center">
+  <h2>Launch this template with NetWebMedia</h2>
+  <p class="sub">Pre-launch landing pages, reservation flows, and investor portals — delivered in under ten days.</p>
+  <div class="ctas" style="justify-content:center"><a href="/contact.html" class="btn-teal">Get This Template →</a><a href="/industries/" class="btn-ghost">See All Industries</a></div>
+</section>
+
+<footer>
+  <a href="/industries/">Industries</a> ·
+  <a href="/pricing.html">Pricing</a> ·
+  <a href="/contact.html">Contact</a>
+  <div style="margin-top:10px">© NetWebMedia · Demo template for illustration only</div>
+</footer>
+
+</body>
+</html>

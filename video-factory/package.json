@@ -1,0 +1,27 @@
+{
+  "name": "nwm-video-factory",
+  "version": "0.1.0",
+  "description": "Remotion-based programmatic short-form video renderer for NetWebMedia clients.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "render": "remotion render src/index.tsx",
+    "preview": "remotion preview src/index.tsx"
+  },
+  "dependencies": {
+    "@remotion/bundler": "^4.0.0",
+    "@remotion/cli": "^4.0.0",
+    "@remotion/renderer": "^4.0.0",
+    "express": "^4.19.0",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

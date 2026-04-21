@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Social Media - NetWeb CMS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../crm/css/app.css">
+  <link rel="stylesheet" href="css/cms.css">
+  <style>
+    .nwm-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:9999}
+    .nwm-modal{background:#fff;color:#111;border-radius:12px;width:min(680px,92vw);max-height:90vh;overflow:auto}
+    .nwm-modal-head{display:flex;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #eee}.nwm-modal-head h3{margin:0}
+    .nwm-modal-close{background:none;border:none;font-size:28px;cursor:pointer}.nwm-modal-body{padding:20px}.nwm-modal-foot{margin-top:16px;display:flex;gap:8px;justify-content:flex-end}
+    .lbl{display:block;margin-bottom:14px;font-size:13px;color:#444}.inp{display:block;width:100%;padding:10px 12px;border:1px solid #d5d9e2;border-radius:8px;font-size:14px;margin-top:4px}
+    .mod-table th,.mod-table td{padding:10px 12px;border-bottom:1px solid #eee;text-align:left;font-size:14px}.mod-table th{background:#f7f7fb;font-size:12px;text-transform:uppercase;color:#666}
+    .btn-sm{padding:4px 10px;font-size:12px}.btn-danger{background:#e74c3c;color:#fff}
+    .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:20px}
+    .cal-d{background:#fff;border:1px solid #eee;border-radius:8px;min-height:100px;padding:6px;font-size:12px;position:relative}
+    .cal-d .d{font-weight:600;color:#666;margin-bottom:4px}
+    .cal-post{background:#8b5cf6;color:#fff;border-radius:4px;padding:2px 6px;margin-bottom:2px;font-size:11px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .tabs{display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid #eee}
+    .tab{padding:10px 16px;border:0;background:transparent;cursor:pointer;color:#666;font-weight:600;border-bottom:2px solid transparent}
+    .tab.active{color:#222;border-bottom-color:#8b5cf6}
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div class="tabs">
+          <button class="tab active" data-tab="list">List</button>
+          <button class="tab" data-tab="cal">Calendar</button>
+        </div>
+        <div id="listPane"><div id="list"></div></div>
+        <div id="calPane" style="display:none;"><h3 id="calTitle"></h3><div class="cal-grid" id="cal"></div></div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/api-client.js"></script>
+  <script src="js/cms.js"></script>
+  <script src="js/module-table.js"></script>
+  <script>
+    document.querySelectorAll('.tab').forEach(function (t) {
+      t.onclick = function () {
+        document.querySelectorAll('.tab').forEach(function (x) { x.classList.remove('active'); });
+        t.classList.add('active');
+        var k = t.dataset.tab;
+        document.getElementById('listPane').style.display = k === 'list' ? '' : 'none';
+        document.getElementById('calPane').style.display = k === 'cal' ? '' : 'none';
+        if (k === 'cal') renderCal();
+      };
+    });
+
+    function renderCal() {
+      NWMApi.list('social_post').then(function (r) {
+        var items = r.items || [];
+        var now = new Date();
+        var year = now.getFullYear(), month = now.getMonth();
+        document.getElementById('calTitle').textContent = now.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+        var first = new Date(year, month, 1);
+        var startCol = first.getDay();
+        var lastDay = new Date(year, month + 1, 0).getDate();
+        var grid = document.getElementById('cal');
+        grid.innerHTML = '';
+        ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(function (d) {
+          var h = document.createElement('div'); h.style.cssText = 'font-size:11px;color:#888;padding:4px;'; h.textContent = d; grid.appendChild(h);
+        });
+        for (var i = 0; i < startCol; i++) { var pad = document.createElement('div'); grid.appendChild(pad); }
+        for (var day = 1; day <= lastDay; day++) {
+          var d = document.createElement('div'); d.className = 'cal-d';
+          d.innerHTML = '<div class="d">' + day + '</div>';
+          var dayStr = year + '-' + String(month+1).padStart(2,'0') + '-' + String(day).padStart(2,'0');
+          items.forEach(function (p) {
+            var dt = (p.data && p.data.scheduled_at) || '';
+            if (dt.indexOf(dayStr) === 0) {
+              var pe = document.createElement('div');
+              pe.className = 'cal-post';
+              pe.title = p.title;
+              pe.textContent = ((p.data && p.data.platform) || '?').slice(0,2).toUpperCase() + ' · ' + p.title;
+              d.appendChild(pe);
+            }
+          });
+          grid.appendChild(d);
+        }
+      });
+    }
+
+    NWM.mount({
+      type: 'social_post',
+      title: 'Social Media',
+      subtitle: 'Schedule and manage posts across platforms',
+      listEl: 'list',
+      columns: [
+        { label: 'Post', key: 'title' },
+        { label: 'Platform', key: 'platform' },
+        { label: 'Scheduled', key: 'scheduled_at' },
+        { label: 'Status', key: 'status' },
+      ],
+      fields: [
+        { name: 'title', label: 'Post name / internal label', type: 'text', required: true },
+        { name: 'platform', label: 'Platform', type: 'select', options: [
+          { value: 'instagram', label: 'Instagram' }, { value: 'facebook', label: 'Facebook' },
+          { value: 'tiktok', label: 'TikTok' }, { value: 'linkedin', label: 'LinkedIn' },
+          { value: 'youtube', label: 'YouTube' }, { value: 'x', label: 'X (Twitter)' },
+        ]},
+        { name: 'content', label: 'Caption / content', type: 'textarea', rows: 6 },
+        { name: 'media_url', label: 'Media URL (image/video)', type: 'text' },
+        { name: 'scheduled_at', label: 'Scheduled at', type: 'datetime-local' },
+        { name: 'status', label: 'Status', type: 'select', options: [
+          { value: 'draft', label: 'Draft' }, { value: 'scheduled', label: 'Scheduled' },
+          { value: 'published', label: 'Published' }, { value: 'failed', label: 'Failed' },
+        ]},
+      ],
+    });
+  </script>
+<script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

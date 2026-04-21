@@ -186,7 +186,7 @@ ul.issues li {{ padding: 12px 14px; margin-bottom: 8px; background: #fff4ef; bor
     <h2>NetWebMedia proposal for {name}</h2>
     <p style="font-size:15px;opacity:.95;">Based on the audit above, here are the services that close the gap fastest:</p>
     <div class="services">{service_chips}</div>
-    <p style="margin-top:18px;font-size:14px;opacity:.9;">Typical engagement for {niche_name}: <strong>$997/mo Growth retainer</strong> (AI Website + Social + CRM + Ads) or <strong>$497/mo Starter</strong> (social + CRM only). Fractional CMO tier at $1,997/mo available.</p>
+    <p style="margin-top:18px;font-size:14px;opacity:.9;">Typical engagement for {niche_name}: <strong>$997/mo Growth retainer</strong> (AI Website + Social + CRM + Ads) or <strong>$497/mo Starter</strong> (social + CRM only). AI Fractional CMO from <strong>$249/mo Starter · $999/mo Growth · $1,999/mo Scale</strong>.</p>
     <a class="cta" href="https://netwebmedia.com/contact">Book a 20-minute strategy call →</a>
   </div>
 </div>

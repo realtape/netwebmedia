@@ -25,54 +25,54 @@ function bl_round_clp($usd) {
 }
 
 function bl_plans_seed() {
-  // USD only. CRM-only SKUs benchmarked against GoHighLevel with new-market discount.
+  // USD only. Anchor: CRM $49/$249/$449 — derived across all SKUs.
   return [
     // ── Standalone CRM (3 tiers) ──
     [
       'code'     => 'crm_starter',
       'name'     => 'CRM Starter',
       'category' => 'crm',
-      'usd'      => 67,
-      'setup'    => 500,
-      'tagline'  => 'CRM only - 1 user - replaces GHL Starter ($97)',
+      'usd'      => 49,
+      'setup'    => 297,
+      'tagline'  => 'Full CRM · 1 user — vs GHL Starter ($97) · save 49%',
       'features' => [
         'Unlimited contacts, deals & pipelines',
         'Email campaigns + workflow automations',
         'AI chat agent + calendar booking',
-        '1 user, 500 active contacts',
-        'vs. GoHighLevel Starter ($97) - save 31%',
+        '1 user · 500 active contacts',
+        'vs. GoHighLevel Starter ($97) — save 49%',
       ],
     ],
     [
       'code'      => 'crm_pro',
       'name'      => 'CRM Pro',
       'category'  => 'crm',
-      'usd'       => 197,
-      'setup'     => 750,
-      'tagline'   => 'Unlimited users - replaces GHL Unlimited ($297)',
+      'usd'       => 249,
+      'setup'     => 497,
+      'tagline'   => 'Unlimited users + AI — vs GHL Unlimited ($297) · save 16%',
       'features'  => [
         'Everything in Starter',
         'Unlimited users + contacts',
         'Landing pages, memberships, workflows',
         'A/B tests, AI Content Writer, Knowledge Base',
-        'vs. GoHighLevel Unlimited ($297) - save 34%',
+        'vs. GoHighLevel Unlimited ($297) — save 16%',
       ],
       'highlight' => true,
     ],
     [
-      'code'     => 'crm_agency',
-      'name'     => 'CRM Agency',
-      'category' => 'crm',
-      'usd'      => 347,
-      'setup'    => 1000,
+      'code'          => 'crm_agency',
+      'name'          => 'CRM Agency',
+      'category'      => 'crm',
+      'usd'           => 449,
+      'setup'         => 797,
       'needs_contact' => true,
-      'tagline'  => 'White-label + sub-accounts - replaces GHL SaaS Pro ($497)',
-      'features' => [
+      'tagline'       => 'White-label + sub-accounts — vs GHL SaaS Pro ($497) · save 10%',
+      'features'      => [
         'Everything in Pro',
         'White-label (your domain + your logo)',
         'Unlimited client sub-accounts',
         'Resell at your own margin',
-        'vs. GoHighLevel SaaS Pro ($497) - save 30%',
+        'vs. GoHighLevel SaaS Pro ($497) — save 10%',
       ],
     ],
     // ── Standalone Website SKUs (build + care plan) ──
@@ -80,32 +80,32 @@ function bl_plans_seed() {
       'code'     => 'website_basic',
       'name'     => 'Website Basic',
       'category' => 'website',
-      'usd'      => 97,
+      'usd'      => 149,
       'setup'    => 1800,
-      'tagline'  => '5-page site + Care - vs $3K build at typical agency',
+      'tagline'  => '5-page site + Care — vs $3K build at typical agency',
       'features' => [
         '5 pages: Home, Services, About, Blog, Contact',
         'Bilingual EN/ES ready',
         'On-page SEO + AEO + schema.org markup',
         'Forms wired to your CRM',
         'Care Basic: hosting, SSL, backups, monthly edits',
-        'vs. typical agency ($3,000 + $200/mo) - save ~50%',
+        'vs. typical agency ($3,000 + $200/mo) — save ~50%',
       ],
     ],
     [
       'code'      => 'website_standard',
       'name'      => 'Website Standard',
       'category'  => 'website',
-      'usd'       => 147,
+      'usd'       => 349,
       'setup'     => 3500,
-      'tagline'   => '10 pages + funnel - vs $6K build at typical agency',
+      'tagline'   => '10 pages + funnel — vs $6K build at typical agency',
       'features'  => [
         'Everything in Basic',
         '10 pages + 1 conversion funnel',
         'Newsletter, popups, exit intent',
         'Advanced analytics + Meta Pixel + GA4',
         'Care Full: monthly SEO refresh + A/B tests',
-        'vs. typical agency ($6,000 + $300/mo) - save ~50%',
+        'vs. typical agency ($6,000 + $300/mo) — save ~50%',
       ],
       'highlight' => true,
     ],
@@ -113,9 +113,9 @@ function bl_plans_seed() {
       'code'     => 'website_premium',
       'name'     => 'Website Premium',
       'category' => 'website',
-      'usd'      => 197,
+      'usd'      => 649,
       'setup'    => 5500,
-      'tagline'  => '15+ pages + CRO - vs $12K custom build',
+      'tagline'  => '15+ pages + CRO — vs $12K custom build',
       'features' => [
         'Everything in Standard',
         '15+ pages + 2 conversion funnels',
@@ -123,168 +123,260 @@ function bl_plans_seed() {
         'Membership / gated content areas',
         'E-commerce ready (Mercado Pago integrated)',
         'Care Full + priority support',
-        'vs. typical custom build ($12,000 + $500/mo) - save ~55%',
+        'vs. typical custom build ($12,000 + $500/mo) — save ~55%',
       ],
     ],
     // ── AI Agents (chatbots) ──
     [
-      'code'=>'agent_starter','name'=>'AI Agent Starter','category'=>'agents','usd'=>39,'setup'=>250,
-      'tagline'=>'1 agent - vs Intercom ($74), Tidio ($29)',
-      'features'=>['1 Claude-powered chat agent','Embed on any website','Your knowledge base + FAQ','500 conversations/mo','Email transcripts + CRM capture','vs. Intercom ($74/mo) - save 47%'],
+      'code'    => 'agent_starter',
+      'name'    => 'AI Agent Starter',
+      'category'=> 'agents',
+      'usd'     => 99,
+      'setup'   => 297,
+      'tagline' => '1 agent — vs Intercom ($74) with more AI power',
+      'features'=> ['1 Claude-powered chat agent','Embed on any website','Your knowledge base + FAQ','500 conversations/mo','Email transcripts + CRM capture','vs. Intercom ($74/mo) — comparable price, more AI'],
     ],
     [
-      'code'=>'agent_pro','name'=>'AI Agent Pro','category'=>'agents','usd'=>97,'setup'=>500,
-      'tagline'=>'3 agents + RAG - vs Intercom Advanced ($169)',
-      'features'=>['Everything in Starter','3 agents (sales / support / booking)','RAG knowledge base search','Unlimited conversations','Handoff to human via CRM conversations','vs. Intercom Advanced ($169) - save 43%'],
-      'highlight'=>true,
+      'code'     => 'agent_pro',
+      'name'     => 'AI Agent Pro',
+      'category' => 'agents',
+      'usd'      => 249,
+      'setup'    => 497,
+      'tagline'  => '3 agents + RAG — vs Intercom Advanced ($169)',
+      'features' => ['Everything in Starter','3 agents (sales / support / booking)','RAG knowledge base search','Unlimited conversations','Handoff to human via CRM conversations','vs. Intercom Advanced ($169) — deeper AI, lower cost'],
+      'highlight'=> true,
     ],
     [
-      'code'=>'agent_max','name'=>'AI Agent Max','category'=>'agents','usd'=>197,'setup'=>1000,'needs_contact'=>true,
-      'tagline'=>'Unlimited + custom voice - vs Drift ($2,500)',
-      'features'=>['Everything in Pro','Unlimited agents + custom model tuning','Lead scoring + qualification flows','Multi-language (EN/ES native)','Priority SLA + monthly performance review','vs. Drift ($2,500/mo) - save 92%'],
+      'code'          => 'agent_max',
+      'name'          => 'AI Agent Max',
+      'category'      => 'agents',
+      'usd'           => 449,
+      'setup'         => 797,
+      'needs_contact' => true,
+      'tagline'       => 'Unlimited + custom voice — vs Drift ($2,500)',
+      'features'      => ['Everything in Pro','Unlimited agents + custom model tuning','Lead scoring + qualification flows','Multi-language (EN/ES native)','Priority SLA + monthly performance review','vs. Drift ($2,500/mo) — save 82%'],
     ],
     // ── AI Automate (workflows + integrations) ──
     [
-      'code'=>'automate_starter','name'=>'Automate Starter','category'=>'automate','usd'=>97,'setup'=>500,
-      'tagline'=>'3 flows, 5K exec/mo - vs Zapier Pro ($19+usage)',
-      'features'=>['3 live workflows built for you','5,000 monthly executions','n8n + Make + HubSpot/CRM integrations','Lead capture -> CRM routing','Monthly report','3-day setup'],
+      'code'    => 'automate_starter',
+      'name'    => 'Automate Starter',
+      'category'=> 'automate',
+      'usd'     => 249,
+      'setup'   => 497,
+      'tagline' => '3 flows, 5K exec/mo — vs Zapier Pro ($49) + dev time',
+      'features'=> ['3 live workflows built for you','5,000 monthly executions','n8n + Make + CRM integrations','Lead capture → CRM routing','Monthly report','3-day setup'],
     ],
     [
-      'code'=>'automate_growth','name'=>'Automate Growth','category'=>'automate','usd'=>197,'setup'=>800,
-      'tagline'=>'10 flows, 25K exec/mo - most common',
-      'features'=>['10 live workflows','25,000 monthly executions','AI-scored lead enrichment + routing','Multi-channel (Email/SMS/WhatsApp hooks)','Weekly dashboards','7-day setup'],
-      'highlight'=>true,
+      'code'     => 'automate_growth',
+      'name'     => 'Automate Growth',
+      'category' => 'automate',
+      'usd'      => 549,
+      'setup'    => 797,
+      'tagline'  => '10 flows, 25K exec/mo — most common',
+      'features' => ['10 live workflows','25,000 monthly executions','AI-scored lead enrichment + routing','Multi-channel (Email/SMS/WhatsApp hooks)','Weekly dashboards','7-day setup'],
+      'highlight'=> true,
     ],
     [
-      'code'=>'automate_scale','name'=>'Automate Scale','category'=>'automate','usd'=>397,'setup'=>1500,'needs_contact'=>true,
-      'tagline'=>'Unlimited flows + priority - enterprise',
-      'features'=>['Unlimited workflows + executions','Custom integrations included','Dedicated automation engineer','14-day setup + weekly tuning','SLA: 2hr response'],
+      'code'          => 'automate_scale',
+      'name'          => 'Automate Scale',
+      'category'      => 'automate',
+      'usd'           => 949,
+      'setup'         => 1497,
+      'needs_contact' => true,
+      'tagline'       => 'Unlimited flows + dedicated engineer',
+      'features'      => ['Unlimited workflows + executions','Custom integrations included','Dedicated automation engineer','14-day setup + weekly tuning','SLA: 2hr response'],
     ],
     // ── Short-Form Video Factory ──
     [
-      'code'=>'video_starter','name'=>'Video 2/week','category'=>'video','usd'=>800,'setup'=>900,
-      'tagline'=>'2 Reels/week - vs agency $1,500/mo',
-      'features'=>['2 Reels per week (8/mo)','Heygen AI avatar + Higgsfield motion','Seedance I2V pipeline','Cross-posted to IG, TikTok, YT Shorts, LinkedIn','Hook A/B tests','Weekly scorecard'],
+      'code'    => 'video_starter',
+      'name'    => 'Video 2/week',
+      'category'=> 'video',
+      'usd'     => 497,
+      'setup'   => 900,
+      'tagline' => '2 Reels/week — vs agency $1,500/mo · save 67%',
+      'features'=> ['2 Reels per week (8/mo)','Heygen AI avatar + Higgsfield motion','Seedance I2V pipeline','Cross-posted to IG, TikTok, YT Shorts','Hook A/B tests','Weekly scorecard'],
     ],
     [
-      'code'=>'video_pro','name'=>'Video 5/week','category'=>'video','usd'=>1800,'setup'=>900,
-      'tagline'=>'5 Reels/week - full-steam cadence',
-      'features'=>['Everything in 2/week','5 Reels per week (20/mo)','Scripted + UGC-style mix','Bilingual EN/ES content','Monthly performance review'],
-      'highlight'=>true,
+      'code'     => 'video_pro',
+      'name'     => 'Video 5/week',
+      'category' => 'video',
+      'usd'      => 997,
+      'setup'    => 900,
+      'tagline'  => '5 Reels/week — full-steam cadence',
+      'features' => ['Everything in 2/week','5 Reels per week (20/mo)','Scripted + UGC-style mix','Bilingual EN/ES content','Monthly performance review'],
+      'highlight'=> true,
     ],
     [
-      'code'=>'video_premium','name'=>'Video Premium','category'=>'video','usd'=>2800,'setup'=>900,'needs_contact'=>true,
-      'tagline'=>'5 Reels + 2 YouTube long-form/mo',
-      'features'=>['Everything in 5/week','2 YouTube long-form videos/mo (8-15 min)','Podcast-to-Reel repurposing','Thumbnail design + optimization','Creator manager assigned'],
+      'code'          => 'video_premium',
+      'name'          => 'Video Premium',
+      'category'      => 'video',
+      'usd'           => 1997,
+      'setup'         => 900,
+      'needs_contact' => true,
+      'tagline'       => '5 Reels + 2 YouTube long-form/mo',
+      'features'      => ['Everything in 5/week','2 YouTube long-form videos/mo (8-15 min)','Podcast-to-Reel repurposing','Thumbnail design + optimization','Creator manager assigned'],
     ],
     // ── AI SEO & Content ──
     [
-      'code'=>'seo_starter','name'=>'SEO Starter','category'=>'seo','usd'=>297,'setup'=>500,
-      'tagline'=>'4 articles + keyword tracking - vs Surfer ($89) + writer',
-      'features'=>['Keyword research + rank tracking','4 AI-written SEO articles/mo (1,500+ words)','On-page optimization','AEO (FAQ + JSON-LD schema)','Monthly rank report'],
+      'code'    => 'seo_starter',
+      'name'    => 'SEO Starter',
+      'category'=> 'seo',
+      'usd'     => 497,
+      'setup'   => 500,
+      'tagline' => '4 articles + keyword tracking — vs agency $1,500/mo',
+      'features'=> ['Keyword research + rank tracking','4 AI-written SEO articles/mo (1,500+ words)','On-page optimization','AEO (FAQ + JSON-LD schema)','Monthly rank report'],
     ],
     [
-      'code'=>'seo_pro','name'=>'SEO Pro','category'=>'seo','usd'=>497,'setup'=>750,
-      'tagline'=>'8 articles + backlink building',
-      'features'=>['Everything in Starter','8 articles/mo + human editing','Backlink outreach (3-5 links/mo)','Competitor gap analysis','Quarterly strategy call'],
-      'highlight'=>true,
+      'code'     => 'seo_pro',
+      'name'     => 'SEO Pro',
+      'category' => 'seo',
+      'usd'      => 997,
+      'setup'    => 997,
+      'tagline'  => '8 articles + backlink building',
+      'features' => ['Everything in Starter','8 articles/mo + human editing','Backlink outreach (3-5 links/mo)','Competitor gap analysis','Quarterly strategy call'],
+      'highlight'=> true,
     ],
     [
-      'code'=>'seo_max','name'=>'SEO Max','category'=>'seo','usd'=>797,'setup'=>1500,'needs_contact'=>true,
-      'tagline'=>'16 articles + technical SEO audit',
-      'features'=>['Everything in Pro','16 articles/mo','Full technical SEO audit + fixes','Internal linking strategy','Schema markup for every page','Priority rankings focus'],
+      'code'          => 'seo_max',
+      'name'          => 'SEO Max',
+      'category'      => 'seo',
+      'usd'           => 1497,
+      'setup'         => 1500,
+      'needs_contact' => true,
+      'tagline'       => '16 articles + full technical SEO',
+      'features'      => ['Everything in Pro','16 articles/mo','Full technical SEO audit + fixes','Internal linking strategy','Schema markup for every page','Priority rankings focus'],
     ],
-    // ── Paid Ads Management ──
+    // ── Paid Ads Management ── (unchanged — market rate)
     [
-      'code'=>'ads_starter','name'=>'Ads Starter','category'=>'ads','usd'=>497,'setup'=>500,
-      'tagline'=>'1 platform - flat fee, no % skim',
-      'features'=>['1 platform (Google OR Meta)','Up to $5K/mo ad spend managed','Creative testing + ROAS tracking','Weekly optimization','Monthly report','Flat fee - not % of spend'],
+      'code'    => 'ads_starter',
+      'name'    => 'Ads Starter',
+      'category'=> 'ads',
+      'usd'     => 497,
+      'setup'   => 500,
+      'tagline' => '1 platform — flat fee, no % skim',
+      'features'=> ['1 platform (Google OR Meta)','Up to $5K/mo ad spend managed','Creative testing + ROAS tracking','Weekly optimization','Monthly report','Flat fee — not % of spend'],
     ],
     [
-      'code'=>'ads_pro','name'=>'Ads Pro','category'=>'ads','usd'=>997,'setup'=>800,
-      'tagline'=>'2 platforms - vs agency 15% of spend',
-      'features'=>['2 platforms (Google + Meta)','Up to $20K/mo ad spend managed','Landing page A/B tests','Retargeting + lookalikes','Bi-weekly optimization calls'],
-      'highlight'=>true,
+      'code'     => 'ads_pro',
+      'name'     => 'Ads Pro',
+      'category' => 'ads',
+      'usd'      => 997,
+      'setup'    => 800,
+      'tagline'  => '2 platforms — vs agency 15% of spend',
+      'features' => ['2 platforms (Google + Meta)','Up to $20K/mo ad spend managed','Landing page A/B tests','Retargeting + lookalikes','Bi-weekly optimization calls'],
+      'highlight'=> true,
     ],
     [
-      'code'=>'ads_max','name'=>'Ads Max','category'=>'ads','usd'=>1997,'setup'=>1500,'needs_contact'=>true,
-      'tagline'=>'All platforms, unlimited spend',
-      'features'=>['Google, Meta, TikTok, LinkedIn, YouTube','Unlimited ad spend management','Creative production included (video + static)','Dedicated ads strategist','Weekly sync + real-time Slack'],
+      'code'          => 'ads_max',
+      'name'          => 'Ads Max',
+      'category'      => 'ads',
+      'usd'           => 1997,
+      'setup'         => 1500,
+      'needs_contact' => true,
+      'tagline'       => 'All platforms, unlimited spend',
+      'features'      => ['Google, Meta, TikTok, LinkedIn, YouTube','Unlimited ad spend management','Creative production included (video + static)','Dedicated ads strategist','Weekly sync + real-time Slack'],
     ],
     // ── Social Media Management ──
     [
-      'code'=>'social_starter','name'=>'Social Starter','category'=>'social','usd'=>397,'setup'=>500,
-      'tagline'=>'2 platforms, 12 posts/mo',
-      'features'=>['2 social platforms','12 posts/month','Content calendar planning','Hashtag research','Monthly analytics report'],
+      'code'    => 'social_starter',
+      'name'    => 'Social Starter',
+      'category'=> 'social',
+      'usd'     => 297,
+      'setup'   => 500,
+      'tagline' => '2 platforms, 12 posts/mo',
+      'features'=> ['2 social platforms','12 posts/month','Content calendar planning','Hashtag research','Monthly analytics report'],
     ],
     [
-      'code'=>'social_pro','name'=>'Social Pro','category'=>'social','usd'=>797,'setup'=>800,
-      'tagline'=>'4 platforms, 20 posts/mo + community',
-      'features'=>['4 platforms','20 posts/mo','Community management (reply to DMs/comments)','Story/Reel creation included','Engagement strategy','Bi-weekly review'],
-      'highlight'=>true,
+      'code'     => 'social_pro',
+      'name'     => 'Social Pro',
+      'category' => 'social',
+      'usd'      => 597,
+      'setup'    => 800,
+      'tagline'  => '4 platforms, 20 posts/mo + community',
+      'features' => ['4 platforms','20 posts/mo','Community management (reply to DMs/comments)','Story/Reel creation included','Engagement strategy','Bi-weekly review'],
+      'highlight'=> true,
     ],
     [
-      'code'=>'social_max','name'=>'Social Max','category'=>'social','usd'=>1497,'setup'=>1500,'needs_contact'=>true,
-      'tagline'=>'All platforms + influencer outreach',
-      'features'=>['All major platforms','30+ posts/mo','Influencer partnership outreach','Live social listening + trend response','Dedicated community manager','Weekly strategy call'],
+      'code'          => 'social_max',
+      'name'          => 'Social Max',
+      'category'      => 'social',
+      'usd'           => 997,
+      'setup'         => 1500,
+      'needs_contact' => true,
+      'tagline'       => 'All platforms + influencer outreach',
+      'features'      => ['All major platforms','30+ posts/mo','Influencer partnership outreach','Live social listening + trend response','Dedicated community manager','Weekly strategy call'],
     ],
-    // ── AI Fractional CMO (agent + human review) ──
+    // ── AI Fractional CMO (agent + human review) ── (unchanged)
     [
-      'code'=>'cmo_starter','name'=>'CMO Starter','category'=>'cmo','usd'=>249,'setup'=>249,
-      'tagline'=>'AI CMO + human review monthly - vs $5K-10K/mo human fractional CMO',
-      'features'=>['24/7 AI Fractional CMO agent (Claude-powered)','Chat anytime about strategy, pricing, positioning','Generate deliverables on demand (8 templates)','Monthly written review by NWM strategist','Metric dashboard + KPI targets','vs. human fractional CMO ($5K-10K/mo) - save 95%'],
+      'code'    => 'cmo_starter',
+      'name'    => 'CMO Starter',
+      'category'=> 'cmo',
+      'usd'     => 249,
+      'setup'   => 249,
+      'tagline' => 'AI CMO + human review monthly — vs $5K-10K/mo fractional CMO',
+      'features'=> ['24/7 AI Fractional CMO agent (Claude-powered)','Chat anytime about strategy, pricing, positioning','Generate deliverables on demand (8 templates)','Monthly written review by NWM strategist','Metric dashboard + KPI targets','vs. human fractional CMO ($5K-10K/mo) — save 95%'],
     ],
     [
-      'code'=>'cmo_growth','name'=>'CMO Growth','category'=>'cmo','usd'=>999,'setup'=>999,'highlight'=>true,
-      'tagline'=>'AI CMO + bi-weekly human strategist - most common',
-      'features'=>['Everything in Starter','Bi-weekly 45-min strategy calls with senior CMO','90-day marketing plan refreshed quarterly','Competitive analysis + positioning review','Campaign briefs on demand (up to 4/mo)','Priority Slack Connect','vs. $8K-15K/mo fractional CMO - save 87%'],
+      'code'     => 'cmo_growth',
+      'name'     => 'CMO Growth',
+      'category' => 'cmo',
+      'usd'      => 999,
+      'setup'    => 999,
+      'highlight'=> true,
+      'tagline'  => 'AI CMO + bi-weekly human strategist — most common',
+      'features' => ['Everything in Starter','Bi-weekly 45-min strategy calls with senior CMO','90-day marketing plan refreshed quarterly','Competitive analysis + positioning review','Campaign briefs on demand (up to 4/mo)','Priority Slack Connect','vs. $8K-15K/mo fractional CMO — save 87%'],
     ],
     [
-      'code'=>'cmo_scale','name'=>'CMO Scale','category'=>'cmo','usd'=>1999,'setup'=>1999,'needs_contact'=>true,
-      'tagline'=>'Embedded CMO - weekly calls + board-ready reports',
-      'features'=>['Everything in Growth','Weekly 60-min calls with senior CMO','Board-ready monthly reports','Attends your leadership meetings (remote)','Custom KPI dashboard + anomaly alerts','Unlimited deliverables','Hiring guidance for marketing team'],
+      'code'          => 'cmo_scale',
+      'name'          => 'CMO Scale',
+      'category'      => 'cmo',
+      'usd'           => 1999,
+      'setup'         => 1999,
+      'needs_contact' => true,
+      'tagline'       => 'Embedded CMO — weekly calls + board-ready reports',
+      'features'      => ['Everything in Growth','Weekly 60-min calls with senior CMO','Board-ready monthly reports','Attends your leadership meetings (remote)','Custom KPI dashboard + anomaly alerts','Unlimited deliverables','Hiring guidance for marketing team'],
     ],
-    // ── Agency bundles (CRM + Automate + Website + Video) ──
+    // ── Full-stack bundles (CRM + Automate + Website + Video) ──
     [
-      'code'     => 'launch',
-      'name'     => 'Launch',
-      'category' => 'bundle',
-      'usd'      => 1295,
-      'setup'    => 2970,
-      'tagline'  => 'For SMBs under $1M - 4 services bundled',
-      'features' => [
+      'code'    => 'launch',
+      'name'    => 'Launch',
+      'category'=> 'bundle',
+      'usd'     => 1295,
+      'setup'   => 2970,
+      'tagline' => 'For SMBs under $1M — 4 services bundled · save 10%',
+      'features'=> [
         'NWM CRM Starter (included)',
         'NWM Automate Starter (3 flows, 5K exec/mo)',
         'Website Basic (5 pages)',
         'Care Basic (hosting + edits)',
-        'Short-Form Video - 2 Reels/week',
+        'Short-Form Video — 2 Reels/week',
       ],
     ],
     [
-      'code'      => 'grow',
-      'name'      => 'Grow',
-      'category'  => 'bundle',
-      'usd'       => 2997,
-      'setup'     => 4920,
-      'tagline'   => 'For SMBs $1-5M - most common',
-      'features'  => [
+      'code'     => 'grow',
+      'name'     => 'Grow',
+      'category' => 'bundle',
+      'usd'      => 2497,
+      'setup'    => 4920,
+      'tagline'  => 'For SMBs $1-5M — most common · save 18%',
+      'features' => [
         'NWM CRM Pro (unlimited users, included)',
         'NWM Automate Growth (10 flows, 25K exec/mo)',
         'Website Standard + 1 funnel',
         'Care Full (SEO refresh included)',
-        'Short-Form Video - 5 Reels/week',
+        'Short-Form Video — 5 Reels/week',
       ],
-      'highlight' => true,
+      'highlight'=> true,
     ],
     [
-      'code'     => 'scale',
-      'name'     => 'Scale',
-      'category' => 'bundle',
-      'usd'      => 4497,
-      'setup'    => 8175,
+      'code'          => 'scale',
+      'name'          => 'Scale',
+      'category'      => 'bundle',
+      'usd'           => 3997,
+      'setup'         => 8175,
       'needs_contact' => true,
-      'tagline'  => 'For SMBs $5-20M - market leaders',
-      'features' => [
+      'tagline'       => 'For SMBs $5-20M — market leaders · save 25%',
+      'features'      => [
         'NWM CRM Agency (white-label, included)',
         'NWM Automate Scale (unlimited flows + exec)',
         'Website Premium (15+ pp, 2 funnels, CRO)',
@@ -414,6 +506,17 @@ function bl_ensure_schema() {
   db()->exec("INSERT INTO coupons (code, discount_pct, discount_cycles, applies_to, max_uses, valid_until, notes)
     VALUES ('Carlos26', 50, 3, 'cmo_starter,cmo_growth,cmo_scale,crm_starter,crm_pro,crm_agency', 500, DATE_ADD(NOW(), INTERVAL 7 DAY), 'NWM CRM launch week')
     ON DUPLICATE KEY UPDATE discount_pct=VALUES(discount_pct), discount_cycles=VALUES(discount_cycles), applies_to=VALUES(applies_to), active=1, valid_until=VALUES(valid_until)");
+
+  // Access-control lockdown: ensure users.status column exists so the webhook
+  // can flip pending_payment → active. Swallow duplicate-column errors so this
+  // is safe to run on every billing route hit.
+  try {
+    db()->exec("ALTER TABLE users ADD COLUMN status VARCHAR(20) DEFAULT 'pending_payment' AFTER role");
+    // Grandfather any pre-lockdown users into active so we don't lock existing customers out.
+    db()->exec("UPDATE users SET status='active' WHERE status IS NULL OR status=''");
+  } catch (PDOException $e) {
+    // Duplicate column / already migrated — ignore.
+  }
 }
 
 /* ---------- Coupon helpers ---------- */
@@ -629,6 +732,27 @@ function route_billing($parts, $method) {
           $local = $status === 'authorized' ? 'active' : ($status === 'cancelled' ? 'cancelled' : ($status === 'paused' ? 'paused' : 'pending'));
           qExec("UPDATE subscriptions SET status=?, current_period_start=COALESCE(current_period_start, NOW()) WHERE id=?", [$local, $sub['id']]);
           qExec("UPDATE billing_events SET subscription_id=?, status=? WHERE mp_id=? AND topic='preapproval'", [$sub['id'], $status, $dataId]);
+
+          // Access-control lockdown: flip the owning user from pending_payment → active
+          // and promote them to admin of their org when MP confirms authorization.
+          // Carlos stays superadmin (never overwritten — we scope by role != 'superadmin').
+          if ($status === 'authorized' && !empty($sub['user_id'])) {
+            qExec(
+              "UPDATE users
+                 SET status = 'active',
+                     role = CASE WHEN role = 'superadmin' THEN role ELSE 'admin' END
+               WHERE id = ?",
+              [$sub['user_id']]
+            );
+          }
+          // If MP tells us the subscription was cancelled/paused, suspend app access too.
+          if ($status === 'cancelled' && !empty($sub['user_id'])) {
+            qExec(
+              "UPDATE users SET status = 'suspended'
+                 WHERE id = ? AND role != 'superadmin'",
+              [$sub['user_id']]
+            );
+          }
         }
       }
     }

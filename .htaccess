@@ -4,6 +4,13 @@
 </IfModule>
 # php -- END cPanel-generated handler, do not edit
 
+# ── Legacy URL redirects (301) ─────────────────────────────────────────
+# /qna.html was an old nav link that 404'd; all Q&A lives on /faq.html now.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^qna\.html$ /faq.html [R=301,L,NC]
+</IfModule>
+
 # ── Security headers ───────────────────────────────────────────────────
 <IfModule mod_headers.c>
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"

@@ -111,7 +111,7 @@ jobs:
           # Apache config — ships as a dotfile so the FTP step doesn't filter it out
           [ -f .htaccess ] && cp .htaccess _stage/.htaccess || true
           # Directories
-          for d in css js assets images fonts crm api-php tutorials crm-demo cms-demo blog lp guides plans; do
+          for d in css js assets images fonts crm api api-php tutorials crm-demo cms-demo blog lp guides plans; do
             [ -d "$d" ] && cp -r "$d" "_stage/$d" || true
           done
           # Drop dev/test artifacts that shouldn't ship
@@ -231,11 +231,12 @@ jobs:
       - name: Verify coupon endpoint
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
         run: |
-          # Confirm the Carlos26 coupon is live after deploy
+          # Post-deploy smoke test: /api/ root returns the canonical router info
+          # (Carlos26 coupon validation retired 2026-04-21 — promo is dead.)
           # -A needed — ModSecurity on InMotion 406s bare curl user-agents
           resp=$(curl -sS --max-time 15 \
             -A "Mozilla/5.0 (gh-actions smoke test)" \
-            "https://netwebmedia.com/api/billing/validate-coupon?code=Carlos26&plan=cmo_growth")
-          echo "Coupon response: $resp"
-          echo "$resp" | grep -q '"valid":true' && echo "Carlos26 live" || \
-            { echo "Carlos26 validation failed"; exit 1; }
+            "https://netwebmedia.com/api/")
+          echo "API root response: $resp"
+          echo "$resp" | grep -q '"name":"NetWebMedia API"' && echo "API bridge live" || \
+            { echo "API bridge smoke test failed — check /api/ routing"; exit 1; }

@@ -398,9 +398,6 @@ ${hasGuide ? `  <aside class="article-guide-cta" style="margin:48px 0;border-rad
         <li><a href="../blog.html">Blog</a></li>
         <li><a href="../contact.html">Contact</a></li>
       </ul></div>
-      <div class="footer-col"><h4>Connect</h4><ul>
-        <li><a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a></li>
-      </ul></div>
     </div>
     <div class="footer-bottom">
       <p>© 2026 NetWebMedia. All rights reserved.</p>

@@ -301,6 +301,14 @@ function route_public($parts, $method) {
     return;
   }
 
+  // /api/public/chat — prospect chatbot on nwm-chat.js (unified KB + Claude)
+  // Rate-limited: 20 user messages / IP / 24h. No auth.
+  if ($sub === 'chat' && !isset($parts[1]) && $method === 'POST') {
+    require_once __DIR__ . '/public-chat.php';
+    route_public_chat();
+    return;
+  }
+
   // /api/public/audit — deep website + social audit
   if ($sub === 'audit' && $method === 'POST') {
     require_once __DIR__ . '/audit.php';

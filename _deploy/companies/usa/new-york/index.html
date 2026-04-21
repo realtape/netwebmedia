@@ -1,100 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>New York (NY) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>New York — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 48 businesses in New York.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>New York <span style="opacity:.6;font-size:24px">(NY)</span></h1>
-    <p>Finance (NYC), media, real estate, tourism</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in New York</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="tourism">🏔️ Tourism &amp; Hospitality (8)</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="beauty">💅 Beauty &amp; Wellness (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="real_estate" data-search="walker golden gate properties new york" href="walker-golden-gate-properties.html"><div class="name">Walker Golden Gate Properties</div><div class="where">New York</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="skyline properties buffalo" href="skyline-properties.html"><div class="name">Skyline Properties</div><div class="where">Buffalo</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="premier estates rochester" href="premier-estates.html"><div class="name">Premier Estates</div><div class="where">Rochester</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="harbor realty group new york" href="harbor-realty-group.html"><div class="name">Harbor Realty Group</div><div class="where">New York</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="coastal realty group buffalo" href="coastal-realty-group.html"><div class="name">Coastal Realty Group</div><div class="where">Buffalo</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="skyline realty partners rochester" href="skyline-realty-partners.html"><div class="name">Skyline Realty Partners</div><div class="where">Rochester</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="keystone property partners new york" href="keystone-property-partners.html"><div class="name">Keystone Property Partners</div><div class="where">New York</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="premier properties buffalo" href="premier-properties.html"><div class="name">Premier Properties</div><div class="where">Buffalo</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="law_firms" data-search="smith pierce attorneys new york" href="smith-pierce-attorneys.html"><div class="name">Smith Pierce Attorneys</div><div class="where">New York</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="montgomery pllc buffalo" href="montgomery-pllc.html"><div class="name">Montgomery PLLC</div><div class="where">Buffalo</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="smith coleman attorneys rochester" href="smith-coleman-attorneys.html"><div class="name">Smith Coleman Attorneys</div><div class="where">Rochester</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="coleman &amp; co., attorneys at law new york" href="coleman-and-co-attorneys-at-law.html"><div class="name">Coleman &amp; Co., Attorneys at Law</div><div class="where">New York</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="scott caldwell pllc buffalo" href="scott-caldwell-pllc.html"><div class="name">Scott Caldwell PLLC</div><div class="where">Buffalo</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="rutherford pllc rochester" href="rutherford-pllc.html"><div class="name">Rutherford PLLC</div><div class="where">Rochester</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="blackwell pllc new york" href="blackwell-pllc.html"><div class="name">Blackwell PLLC</div><div class="where">New York</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="brennan &amp; associates buffalo" href="brennan-and-associates.html"><div class="name">Brennan &amp; Associates</div><div class="where">Buffalo</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="restaurants" data-search="citrus alehouse new york" href="citrus-alehouse.html"><div class="name">Citrus Alehouse</div><div class="where">New York</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="olive public house buffalo" href="olive-public-house.html"><div class="name">Olive Public House</div><div class="where">Buffalo</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="market kitchen rochester" href="market-kitchen.html"><div class="name">Market Kitchen</div><div class="where">Rochester</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="stonefire public house new york" href="stonefire-public-house.html"><div class="name">Stonefire Public House</div><div class="where">New York</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="market eatery buffalo" href="market-eatery.html"><div class="name">Market Eatery</div><div class="where">Buffalo</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="silver grill rochester" href="silver-grill.html"><div class="name">Silver Grill</div><div class="where">Rochester</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="wagon eatery new york" href="wagon-eatery.html"><div class="name">Wagon Eatery</div><div class="where">New York</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="stonefire kitchen buffalo" href="stonefire-kitchen.html"><div class="name">Stonefire Kitchen</div><div class="where">Buffalo</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="health" data-search="hillside urgent care new york" href="hillside-urgent-care.html"><div class="name">Hillside Urgent Care</div><div class="where">New York</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="brown riverside medical group buffalo" href="brown-riverside-medical-group.html"><div class="name">Brown Riverside Medical Group</div><div class="where">Buffalo</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="sanchez cedar medical group rochester" href="sanchez-cedar-medical-group.html"><div class="name">Sanchez Cedar Medical Group</div><div class="where">Rochester</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="northgate family medicine new york" href="northgate-family-medicine.html"><div class="name">Northgate Family Medicine</div><div class="where">New York</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="parkview clinic buffalo" href="parkview-clinic.html"><div class="name">Parkview Clinic</div><div class="where">Buffalo</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="smith southpoint family medicine rochester" href="smith-southpoint-family-medicine.html"><div class="name">Smith Southpoint Family Medicine</div><div class="where">Rochester</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="anderson bayside wellness new york" href="anderson-bayside-wellness.html"><div class="name">Anderson Bayside Wellness</div><div class="where">New York</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="davis bayside urgent care buffalo" href="davis-bayside-urgent-care.html"><div class="name">Davis Bayside Urgent Care</div><div class="where">Buffalo</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="beauty" data-search="radiance studio new york" href="radiance-studio.html"><div class="name">Radiance Studio</div><div class="where">New York</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="willow spa buffalo" href="willow-spa.html"><div class="name">Willow Spa</div><div class="where">Buffalo</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="amber spa rochester" href="amber-spa.html"><div class="name">Amber Spa</div><div class="where">Rochester</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="velvet brow bar new york" href="velvet-brow-bar.html"><div class="name">Velvet Brow Bar</div><div class="where">New York</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="amber boutique buffalo" href="amber-boutique.html"><div class="name">Amber Boutique</div><div class="where">Buffalo</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="ivory hair lounge rochester" href="ivory-hair-lounge.html"><div class="name">Ivory Hair Lounge</div><div class="where">Rochester</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="opal med spa new york" href="opal-med-spa.html"><div class="name">Opal Med Spa</div><div class="where">New York</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="opal studio buffalo" href="opal-studio.html"><div class="name">Opal Studio</div><div class="where">Buffalo</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="tourism" data-search="cascade hotel new york" href="cascade-hotel.html"><div class="name">Cascade Hotel</div><div class="where">New York</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="cypress ranch buffalo" href="cypress-ranch.html"><div class="name">Cypress Ranch</div><div class="where">Buffalo</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="eagle hotel rochester" href="eagle-hotel.html"><div class="name">Eagle Hotel</div><div class="where">Rochester</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="sunrise hotel new york" href="sunrise-hotel.html"><div class="name">Sunrise Hotel</div><div class="where">New York</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="wildwood lodge buffalo" href="wildwood-lodge.html"><div class="name">Wildwood Lodge</div><div class="where">Buffalo</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="cypress hideaway rochester" href="cypress-hideaway.html"><div class="name">Cypress Hideaway</div><div class="where">Rochester</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="oceanview cabins new york" href="oceanview-cabins.html"><div class="name">Oceanview Cabins</div><div class="where">New York</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="stonebridge outfitters buffalo" href="stonebridge-outfitters.html"><div class="name">Stonebridge Outfitters</div><div class="where">Buffalo</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>New York</h1>
+<p class="sub">48 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./amber-boutique.html"><div class="card-name">Amber Boutique</div><div class="card-url">amber-boutique.html</div></a>
+    <a class="card" href="./amber-spa.html"><div class="card-name">Amber Spa</div><div class="card-url">amber-spa.html</div></a>
+    <a class="card" href="./anderson-bayside-wellness.html"><div class="card-name">Anderson Bayside Wellness</div><div class="card-url">anderson-bayside-wellness.html</div></a>
+    <a class="card" href="./blackwell-pllc.html"><div class="card-name">Blackwell Pllc</div><div class="card-url">blackwell-pllc.html</div></a>
+    <a class="card" href="./brennan-and-associates.html"><div class="card-name">Brennan And Associates</div><div class="card-url">brennan-and-associates.html</div></a>
+    <a class="card" href="./brown-riverside-medical-group.html"><div class="card-name">Brown Riverside Medical Group</div><div class="card-url">brown-riverside-medical-group.html</div></a>
+    <a class="card" href="./cascade-hotel.html"><div class="card-name">Cascade Hotel</div><div class="card-url">cascade-hotel.html</div></a>
+    <a class="card" href="./citrus-alehouse.html"><div class="card-name">Citrus Alehouse</div><div class="card-url">citrus-alehouse.html</div></a>
+    <a class="card" href="./coastal-realty-group.html"><div class="card-name">Coastal Realty Group</div><div class="card-url">coastal-realty-group.html</div></a>
+    <a class="card" href="./coleman-and-co-attorneys-at-law.html"><div class="card-name">Coleman And Co Attorneys At Law</div><div class="card-url">coleman-and-co-attorneys-at-law.html</div></a>
+    <a class="card" href="./cypress-hideaway.html"><div class="card-name">Cypress Hideaway</div><div class="card-url">cypress-hideaway.html</div></a>
+    <a class="card" href="./cypress-ranch.html"><div class="card-name">Cypress Ranch</div><div class="card-url">cypress-ranch.html</div></a>
+    <a class="card" href="./davis-bayside-urgent-care.html"><div class="card-name">Davis Bayside Urgent Care</div><div class="card-url">davis-bayside-urgent-care.html</div></a>
+    <a class="card" href="./eagle-hotel.html"><div class="card-name">Eagle Hotel</div><div class="card-url">eagle-hotel.html</div></a>
+    <a class="card" href="./harbor-realty-group.html"><div class="card-name">Harbor Realty Group</div><div class="card-url">harbor-realty-group.html</div></a>
+    <a class="card" href="./hillside-urgent-care.html"><div class="card-name">Hillside Urgent Care</div><div class="card-url">hillside-urgent-care.html</div></a>
+    <a class="card" href="./ivory-hair-lounge.html"><div class="card-name">Ivory Hair Lounge</div><div class="card-url">ivory-hair-lounge.html</div></a>
+    <a class="card" href="./keystone-property-partners.html"><div class="card-name">Keystone Property Partners</div><div class="card-url">keystone-property-partners.html</div></a>
+    <a class="card" href="./market-eatery.html"><div class="card-name">Market Eatery</div><div class="card-url">market-eatery.html</div></a>
+    <a class="card" href="./market-kitchen.html"><div class="card-name">Market Kitchen</div><div class="card-url">market-kitchen.html</div></a>
+    <a class="card" href="./montgomery-pllc.html"><div class="card-name">Montgomery Pllc</div><div class="card-url">montgomery-pllc.html</div></a>
+    <a class="card" href="./northgate-family-medicine.html"><div class="card-name">Northgate Family Medicine</div><div class="card-url">northgate-family-medicine.html</div></a>
+    <a class="card" href="./oceanview-cabins.html"><div class="card-name">Oceanview Cabins</div><div class="card-url">oceanview-cabins.html</div></a>
+    <a class="card" href="./olive-public-house.html"><div class="card-name">Olive Public House</div><div class="card-url">olive-public-house.html</div></a>
+    <a class="card" href="./opal-med-spa.html"><div class="card-name">Opal Med Spa</div><div class="card-url">opal-med-spa.html</div></a>
+    <a class="card" href="./opal-studio.html"><div class="card-name">Opal Studio</div><div class="card-url">opal-studio.html</div></a>
+    <a class="card" href="./parkview-clinic.html"><div class="card-name">Parkview Clinic</div><div class="card-url">parkview-clinic.html</div></a>
+    <a class="card" href="./premier-estates.html"><div class="card-name">Premier Estates</div><div class="card-url">premier-estates.html</div></a>
+    <a class="card" href="./premier-properties.html"><div class="card-name">Premier Properties</div><div class="card-url">premier-properties.html</div></a>
+    <a class="card" href="./radiance-studio.html"><div class="card-name">Radiance Studio</div><div class="card-url">radiance-studio.html</div></a>
+    <a class="card" href="./rutherford-pllc.html"><div class="card-name">Rutherford Pllc</div><div class="card-url">rutherford-pllc.html</div></a>
+    <a class="card" href="./sanchez-cedar-medical-group.html"><div class="card-name">Sanchez Cedar Medical Group</div><div class="card-url">sanchez-cedar-medical-group.html</div></a>
+    <a class="card" href="./scott-caldwell-pllc.html"><div class="card-name">Scott Caldwell Pllc</div><div class="card-url">scott-caldwell-pllc.html</div></a>
+    <a class="card" href="./silver-grill.html"><div class="card-name">Silver Grill</div><div class="card-url">silver-grill.html</div></a>
+    <a class="card" href="./skyline-properties.html"><div class="card-name">Skyline Properties</div><div class="card-url">skyline-properties.html</div></a>
+    <a class="card" href="./skyline-realty-partners.html"><div class="card-name">Skyline Realty Partners</div><div class="card-url">skyline-realty-partners.html</div></a>
+    <a class="card" href="./smith-coleman-attorneys.html"><div class="card-name">Smith Coleman Attorneys</div><div class="card-url">smith-coleman-attorneys.html</div></a>
+    <a class="card" href="./smith-pierce-attorneys.html"><div class="card-name">Smith Pierce Attorneys</div><div class="card-url">smith-pierce-attorneys.html</div></a>
+    <a class="card" href="./smith-southpoint-family-medicine.html"><div class="card-name">Smith Southpoint Family Medicine</div><div class="card-url">smith-southpoint-family-medicine.html</div></a>
+    <a class="card" href="./stonebridge-outfitters.html"><div class="card-name">Stonebridge Outfitters</div><div class="card-url">stonebridge-outfitters.html</div></a>
+    <a class="card" href="./stonefire-kitchen.html"><div class="card-name">Stonefire Kitchen</div><div class="card-url">stonefire-kitchen.html</div></a>
+    <a class="card" href="./stonefire-public-house.html"><div class="card-name">Stonefire Public House</div><div class="card-url">stonefire-public-house.html</div></a>
+    <a class="card" href="./sunrise-hotel.html"><div class="card-name">Sunrise Hotel</div><div class="card-url">sunrise-hotel.html</div></a>
+    <a class="card" href="./velvet-brow-bar.html"><div class="card-name">Velvet Brow Bar</div><div class="card-url">velvet-brow-bar.html</div></a>
+    <a class="card" href="./wagon-eatery.html"><div class="card-name">Wagon Eatery</div><div class="card-url">wagon-eatery.html</div></a>
+    <a class="card" href="./walker-golden-gate-properties.html"><div class="card-name">Walker Golden Gate Properties</div><div class="card-url">walker-golden-gate-properties.html</div></a>
+    <a class="card" href="./wildwood-lodge.html"><div class="card-name">Wildwood Lodge</div><div class="card-url">wildwood-lodge.html</div></a>
+    <a class="card" href="./willow-spa.html"><div class="card-name">Willow Spa</div><div class="card-url">willow-spa.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

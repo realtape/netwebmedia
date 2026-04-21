@@ -13,14 +13,7 @@ const store = {
     { id: 'comp_5', name: 'Pinnacle Realty', website: 'https://pinnaclerealty.com', industry: 'Real Estate', companySize: '10-50', status: 'prospect', owner: 'admin', metadata: {}, createdAt: '2026-04-01T10:00:00Z', updatedAt: '2026-04-12T10:00:00Z' },
   ],
 
-  contacts: [
-    { id: 'cont_1', firstName: 'Sarah', lastName: 'Chen', email: 'sarah@acme.com', phone: '+1-555-0101', jobTitle: 'VP Marketing', lifecycleStage: 'customer', companyId: 'comp_1', owner: 'admin', createdAt: '2026-03-01T10:00:00Z', updatedAt: '2026-04-10T08:00:00Z' },
-    { id: 'cont_2', firstName: 'Marcus', lastName: 'Williams', email: 'marcus@blueskymedia.io', phone: '+1-555-0102', jobTitle: 'CEO', lifecycleStage: 'mql', companyId: 'comp_2', owner: 'admin', createdAt: '2026-03-15T14:00:00Z', updatedAt: '2026-04-08T12:00:00Z' },
-    { id: 'cont_3', firstName: 'Elena', lastName: 'Rodriguez', email: 'elena@greenleafhealth.com', phone: '+1-555-0103', jobTitle: 'Director of Digital', lifecycleStage: 'sql', companyId: 'comp_3', owner: 'admin', createdAt: '2026-02-20T09:00:00Z', updatedAt: '2026-04-12T15:00:00Z' },
-    { id: 'cont_4', firstName: 'James', lastName: 'Park', email: 'james@novalegal.com', phone: '+1-555-0104', jobTitle: 'Managing Partner', lifecycleStage: 'customer', companyId: 'comp_4', owner: 'admin', createdAt: '2026-01-10T11:00:00Z', updatedAt: '2026-04-11T09:00:00Z' },
-    { id: 'cont_5', firstName: 'Priya', lastName: 'Sharma', email: 'priya@pinnaclerealty.com', phone: '+1-555-0105', jobTitle: 'Marketing Manager', lifecycleStage: 'lead', companyId: 'comp_5', owner: 'admin', createdAt: '2026-04-01T10:00:00Z', updatedAt: '2026-04-12T10:00:00Z' },
-    { id: 'cont_6', firstName: 'David', lastName: 'Kim', email: 'david@acme.com', phone: '+1-555-0106', jobTitle: 'CTO', lifecycleStage: 'customer', companyId: 'comp_1', owner: 'admin', createdAt: '2026-03-05T10:00:00Z', updatedAt: '2026-04-10T08:00:00Z' },
-  ],
+  contacts: [],
 
   pipelines: [
     {

@@ -1,100 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Washington (WA) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Washington — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 45 businesses in Washington.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Washington <span style="opacity:.6;font-size:24px">(WA)</span></h1>
-    <p>Tech (Microsoft/Amazon), aerospace (Boeing), coffee, wine</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Washington</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="tourism">🏔️ Tourism &amp; Hospitality (8)</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="beauty">💅 Beauty &amp; Wellness (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="real_estate" data-search="white landmark realty group seattle" href="white-landmark-realty-group.html"><div class="name">White Landmark Realty Group</div><div class="where">Seattle</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="prestige realty co. spokane" href="prestige-realty-co.html"><div class="name">Prestige Realty Co.</div><div class="where">Spokane</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="anderson legacy real estate tacoma" href="anderson-legacy-real-estate.html"><div class="name">Anderson Legacy Real Estate</div><div class="where">Tacoma</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="skyline property partners seattle" href="skyline-property-partners.html"><div class="name">Skyline Property Partners</div><div class="where">Seattle</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="keystone realty co. spokane" href="keystone-realty-co.html"><div class="name">Keystone Realty Co.</div><div class="where">Spokane</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="hernandez premier realty tacoma" href="hernandez-premier-realty.html"><div class="name">Hernandez Premier Realty</div><div class="where">Tacoma</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="landmark realty partners seattle" href="landmark-realty-partners.html"><div class="name">Landmark Realty Partners</div><div class="where">Seattle</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="white skyline property partners spokane" href="white-skyline-property-partners.html"><div class="name">White Skyline Property Partners</div><div class="where">Spokane</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="restaurants" data-search="red barn bistro seattle" href="red-barn-bistro.html"><div class="name">Red Barn Bistro</div><div class="where">Seattle</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="harvest bistro spokane" href="harvest-bistro.html"><div class="name">Harvest Bistro</div><div class="where">Spokane</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="wagon pizzeria tacoma" href="wagon-pizzeria.html"><div class="name">Wagon Pizzeria</div><div class="where">Tacoma</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="market steakhouse seattle" href="market-steakhouse.html"><div class="name">Market Steakhouse</div><div class="where">Seattle</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="mesa smokehouse spokane" href="mesa-smokehouse.html"><div class="name">Mesa Smokehouse</div><div class="where">Spokane</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="prairie diner tacoma" href="prairie-diner.html"><div class="name">Prairie Diner</div><div class="where">Tacoma</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="harvest bistro seattle" href="harvest-bistro.html"><div class="name">Harvest Bistro</div><div class="where">Seattle</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="birch cafe spokane" href="birch-cafe.html"><div class="name">Birch Cafe</div><div class="where">Spokane</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="tourism" data-search="coastal lodge seattle" href="coastal-lodge.html"><div class="name">Coastal Lodge</div><div class="where">Seattle</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="harbor villas spokane" href="harbor-villas.html"><div class="name">Harbor Villas</div><div class="where">Spokane</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="horizon hideaway tacoma" href="horizon-hideaway.html"><div class="name">Horizon Hideaway</div><div class="where">Tacoma</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="wildwood bed &amp; breakfast seattle" href="wildwood-bed-and-breakfast.html"><div class="name">Wildwood Bed &amp; Breakfast</div><div class="where">Seattle</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="bayfront outfitters spokane" href="bayfront-outfitters.html"><div class="name">Bayfront Outfitters</div><div class="where">Spokane</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="silver adventures tacoma" href="silver-adventures.html"><div class="name">Silver Adventures</div><div class="where">Tacoma</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="timber villas seattle" href="timber-villas.html"><div class="name">Timber Villas</div><div class="where">Seattle</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="grand getaway spokane" href="grand-getaway.html"><div class="name">Grand Getaway</div><div class="where">Spokane</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="health" data-search="northgate family medicine seattle" href="northgate-family-medicine.html"><div class="name">Northgate Family Medicine</div><div class="where">Seattle</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="baker parkview orthodontics spokane" href="baker-parkview-orthodontics.html"><div class="name">Baker Parkview Orthodontics</div><div class="where">Spokane</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="evergreen smiles dental tacoma" href="evergreen-smiles-dental.html"><div class="name">Evergreen Smiles Dental</div><div class="where">Tacoma</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="thompson lakeshore smiles dental seattle" href="thompson-lakeshore-smiles-dental.html"><div class="name">Thompson Lakeshore Smiles Dental</div><div class="where">Seattle</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="lakeshore physical therapy spokane" href="lakeshore-physical-therapy.html"><div class="name">Lakeshore Physical Therapy</div><div class="where">Spokane</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="bayside orthodontics tacoma" href="bayside-orthodontics.html"><div class="name">Bayside Orthodontics</div><div class="where">Tacoma</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="johnson southpoint urgent care seattle" href="johnson-southpoint-urgent-care.html"><div class="name">Johnson Southpoint Urgent Care</div><div class="where">Seattle</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="thompson summit urgent care spokane" href="thompson-summit-urgent-care.html"><div class="name">Thompson Summit Urgent Care</div><div class="where">Spokane</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="beauty" data-search="pearl salon seattle" href="pearl-salon.html"><div class="name">Pearl Salon</div><div class="where">Seattle</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="luxe studio spokane" href="luxe-studio.html"><div class="name">Luxe Studio</div><div class="where">Spokane</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="bliss hair lounge tacoma" href="bliss-hair-lounge.html"><div class="name">Bliss Hair Lounge</div><div class="where">Tacoma</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="halo boutique seattle" href="halo-boutique.html"><div class="name">Halo Boutique</div><div class="where">Seattle</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="polished hair lounge spokane" href="polished-hair-lounge.html"><div class="name">Polished Hair Lounge</div><div class="where">Spokane</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="pearl salon tacoma" href="pearl-salon.html"><div class="name">Pearl Salon</div><div class="where">Tacoma</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="bliss wellness seattle" href="bliss-wellness.html"><div class="name">Bliss Wellness</div><div class="where">Seattle</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="opal wellness spokane" href="opal-wellness.html"><div class="name">Opal Wellness</div><div class="where">Spokane</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="law_firms" data-search="morgan law seattle" href="morgan-law.html"><div class="name">Morgan Law</div><div class="where">Seattle</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="o&#x27;connor &amp; partners spokane" href="oconnor-and-partners.html"><div class="name">O&#x27;Connor &amp; Partners</div><div class="where">Spokane</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="brennan law group tacoma" href="brennan-law-group.html"><div class="name">Brennan Law Group</div><div class="where">Tacoma</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="o&#x27;connor &amp; partners seattle" href="oconnor-and-partners.html"><div class="name">O&#x27;Connor &amp; Partners</div><div class="where">Seattle</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="whitaker law office spokane" href="whitaker-law-office.html"><div class="name">Whitaker Law Office</div><div class="where">Spokane</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="kensington law firm tacoma" href="kensington-law-firm.html"><div class="name">Kensington Law Firm</div><div class="where">Tacoma</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="o&#x27;connor law office seattle" href="oconnor-law-office.html"><div class="name">O&#x27;Connor Law Office</div><div class="where">Seattle</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="morgan law firm spokane" href="morgan-law-firm.html"><div class="name">Morgan Law Firm</div><div class="where">Spokane</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Washington</h1>
+<p class="sub">45 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./anderson-legacy-real-estate.html"><div class="card-name">Anderson Legacy Real Estate</div><div class="card-url">anderson-legacy-real-estate.html</div></a>
+    <a class="card" href="./baker-parkview-orthodontics.html"><div class="card-name">Baker Parkview Orthodontics</div><div class="card-url">baker-parkview-orthodontics.html</div></a>
+    <a class="card" href="./bayfront-outfitters.html"><div class="card-name">Bayfront Outfitters</div><div class="card-url">bayfront-outfitters.html</div></a>
+    <a class="card" href="./bayside-orthodontics.html"><div class="card-name">Bayside Orthodontics</div><div class="card-url">bayside-orthodontics.html</div></a>
+    <a class="card" href="./birch-cafe.html"><div class="card-name">Birch Cafe</div><div class="card-url">birch-cafe.html</div></a>
+    <a class="card" href="./bliss-hair-lounge.html"><div class="card-name">Bliss Hair Lounge</div><div class="card-url">bliss-hair-lounge.html</div></a>
+    <a class="card" href="./bliss-wellness.html"><div class="card-name">Bliss Wellness</div><div class="card-url">bliss-wellness.html</div></a>
+    <a class="card" href="./brennan-law-group.html"><div class="card-name">Brennan Law Group</div><div class="card-url">brennan-law-group.html</div></a>
+    <a class="card" href="./coastal-lodge.html"><div class="card-name">Coastal Lodge</div><div class="card-url">coastal-lodge.html</div></a>
+    <a class="card" href="./evergreen-smiles-dental.html"><div class="card-name">Evergreen Smiles Dental</div><div class="card-url">evergreen-smiles-dental.html</div></a>
+    <a class="card" href="./grand-getaway.html"><div class="card-name">Grand Getaway</div><div class="card-url">grand-getaway.html</div></a>
+    <a class="card" href="./halo-boutique.html"><div class="card-name">Halo Boutique</div><div class="card-url">halo-boutique.html</div></a>
+    <a class="card" href="./harbor-villas.html"><div class="card-name">Harbor Villas</div><div class="card-url">harbor-villas.html</div></a>
+    <a class="card" href="./harvest-bistro.html"><div class="card-name">Harvest Bistro</div><div class="card-url">harvest-bistro.html</div></a>
+    <a class="card" href="./hernandez-premier-realty.html"><div class="card-name">Hernandez Premier Realty</div><div class="card-url">hernandez-premier-realty.html</div></a>
+    <a class="card" href="./horizon-hideaway.html"><div class="card-name">Horizon Hideaway</div><div class="card-url">horizon-hideaway.html</div></a>
+    <a class="card" href="./johnson-southpoint-urgent-care.html"><div class="card-name">Johnson Southpoint Urgent Care</div><div class="card-url">johnson-southpoint-urgent-care.html</div></a>
+    <a class="card" href="./kensington-law-firm.html"><div class="card-name">Kensington Law Firm</div><div class="card-url">kensington-law-firm.html</div></a>
+    <a class="card" href="./keystone-realty-co.html"><div class="card-name">Keystone Realty Co</div><div class="card-url">keystone-realty-co.html</div></a>
+    <a class="card" href="./lakeshore-physical-therapy.html"><div class="card-name">Lakeshore Physical Therapy</div><div class="card-url">lakeshore-physical-therapy.html</div></a>
+    <a class="card" href="./landmark-realty-partners.html"><div class="card-name">Landmark Realty Partners</div><div class="card-url">landmark-realty-partners.html</div></a>
+    <a class="card" href="./luxe-studio.html"><div class="card-name">Luxe Studio</div><div class="card-url">luxe-studio.html</div></a>
+    <a class="card" href="./market-steakhouse.html"><div class="card-name">Market Steakhouse</div><div class="card-url">market-steakhouse.html</div></a>
+    <a class="card" href="./mesa-smokehouse.html"><div class="card-name">Mesa Smokehouse</div><div class="card-url">mesa-smokehouse.html</div></a>
+    <a class="card" href="./morgan-law-firm.html"><div class="card-name">Morgan Law Firm</div><div class="card-url">morgan-law-firm.html</div></a>
+    <a class="card" href="./morgan-law.html"><div class="card-name">Morgan Law</div><div class="card-url">morgan-law.html</div></a>
+    <a class="card" href="./northgate-family-medicine.html"><div class="card-name">Northgate Family Medicine</div><div class="card-url">northgate-family-medicine.html</div></a>
+    <a class="card" href="./oconnor-and-partners.html"><div class="card-name">Oconnor And Partners</div><div class="card-url">oconnor-and-partners.html</div></a>
+    <a class="card" href="./oconnor-law-office.html"><div class="card-name">Oconnor Law Office</div><div class="card-url">oconnor-law-office.html</div></a>
+    <a class="card" href="./opal-wellness.html"><div class="card-name">Opal Wellness</div><div class="card-url">opal-wellness.html</div></a>
+    <a class="card" href="./pearl-salon.html"><div class="card-name">Pearl Salon</div><div class="card-url">pearl-salon.html</div></a>
+    <a class="card" href="./polished-hair-lounge.html"><div class="card-name">Polished Hair Lounge</div><div class="card-url">polished-hair-lounge.html</div></a>
+    <a class="card" href="./prairie-diner.html"><div class="card-name">Prairie Diner</div><div class="card-url">prairie-diner.html</div></a>
+    <a class="card" href="./prestige-realty-co.html"><div class="card-name">Prestige Realty Co</div><div class="card-url">prestige-realty-co.html</div></a>
+    <a class="card" href="./red-barn-bistro.html"><div class="card-name">Red Barn Bistro</div><div class="card-url">red-barn-bistro.html</div></a>
+    <a class="card" href="./silver-adventures.html"><div class="card-name">Silver Adventures</div><div class="card-url">silver-adventures.html</div></a>
+    <a class="card" href="./skyline-property-partners.html"><div class="card-name">Skyline Property Partners</div><div class="card-url">skyline-property-partners.html</div></a>
+    <a class="card" href="./thompson-lakeshore-smiles-dental.html"><div class="card-name">Thompson Lakeshore Smiles Dental</div><div class="card-url">thompson-lakeshore-smiles-dental.html</div></a>
+    <a class="card" href="./thompson-summit-urgent-care.html"><div class="card-name">Thompson Summit Urgent Care</div><div class="card-url">thompson-summit-urgent-care.html</div></a>
+    <a class="card" href="./timber-villas.html"><div class="card-name">Timber Villas</div><div class="card-url">timber-villas.html</div></a>
+    <a class="card" href="./wagon-pizzeria.html"><div class="card-name">Wagon Pizzeria</div><div class="card-url">wagon-pizzeria.html</div></a>
+    <a class="card" href="./whitaker-law-office.html"><div class="card-name">Whitaker Law Office</div><div class="card-url">whitaker-law-office.html</div></a>
+    <a class="card" href="./white-landmark-realty-group.html"><div class="card-name">White Landmark Realty Group</div><div class="card-url">white-landmark-realty-group.html</div></a>
+    <a class="card" href="./white-skyline-property-partners.html"><div class="card-name">White Skyline Property Partners</div><div class="card-url">white-skyline-property-partners.html</div></a>
+    <a class="card" href="./wildwood-bed-and-breakfast.html"><div class="card-name">Wildwood Bed And Breakfast</div><div class="card-url">wildwood-bed-and-breakfast.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

@@ -1,100 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Virginia (VA) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Virginia — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 46 businesses in Virginia.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Virginia <span style="opacity:.6;font-size:24px">(VA)</span></h1>
-    <p>Federal government, defense, data centers, wine</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Virginia</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="beauty">💅 Beauty &amp; Wellness (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="law_firms" data-search="sinclair legal services virginia beach" href="sinclair-legal-services.html"><div class="name">Sinclair Legal Services</div><div class="where">Virginia Beach</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="robinson sinclair &amp; partners richmond" href="robinson-sinclair-and-partners.html"><div class="name">Robinson Sinclair &amp; Partners</div><div class="where">Richmond</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="brennan law group arlington" href="brennan-law-group.html"><div class="name">Brennan Law Group</div><div class="where">Arlington</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="wright coleman attorneys virginia beach" href="wright-coleman-attorneys.html"><div class="name">Wright Coleman Attorneys</div><div class="where">Virginia Beach</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="goldstein law office richmond" href="goldstein-law-office.html"><div class="name">Goldstein Law Office</div><div class="where">Richmond</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="o&#x27;connor &amp; partners arlington" href="oconnor-and-partners.html"><div class="name">O&#x27;Connor &amp; Partners</div><div class="where">Arlington</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="hill montgomery law firm virginia beach" href="hill-montgomery-law-firm.html"><div class="name">Hill Montgomery Law Firm</div><div class="where">Virginia Beach</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="kensington law office richmond" href="kensington-law-office.html"><div class="name">Kensington Law Office</div><div class="where">Richmond</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="real_estate" data-search="landmark estates virginia beach" href="landmark-estates.html"><div class="name">Landmark Estates</div><div class="where">Virginia Beach</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="cornerstone real estate group richmond" href="cornerstone-real-estate-group.html"><div class="name">Cornerstone Real Estate Group</div><div class="where">Richmond</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="landmark real estate arlington" href="landmark-real-estate.html"><div class="name">Landmark Real Estate</div><div class="where">Arlington</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="coastal realty co. virginia beach" href="coastal-realty-co.html"><div class="name">Coastal Realty Co.</div><div class="where">Virginia Beach</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="perez keystone realty richmond" href="perez-keystone-realty.html"><div class="name">Perez Keystone Realty</div><div class="where">Richmond</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="urban real estate group arlington" href="urban-real-estate-group.html"><div class="name">Urban Real Estate Group</div><div class="where">Arlington</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="cornerstone home team virginia beach" href="cornerstone-home-team.html"><div class="name">Cornerstone Home Team</div><div class="where">Virginia Beach</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="lopez signature real estate richmond" href="lopez-signature-real-estate.html"><div class="name">Lopez Signature Real Estate</div><div class="where">Richmond</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="health" data-search="scott evergreen smiles dental virginia beach" href="scott-evergreen-smiles-dental.html"><div class="name">Scott Evergreen Smiles Dental</div><div class="where">Virginia Beach</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="baker crestview clinic richmond" href="baker-crestview-clinic.html"><div class="name">Baker Crestview Clinic</div><div class="where">Richmond</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="northgate urgent care arlington" href="northgate-urgent-care.html"><div class="name">Northgate Urgent Care</div><div class="where">Arlington</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="valley urgent care virginia beach" href="valley-urgent-care.html"><div class="name">Valley Urgent Care</div><div class="where">Virginia Beach</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="riverside family medicine richmond" href="riverside-family-medicine.html"><div class="name">Riverside Family Medicine</div><div class="where">Richmond</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="summit wellness arlington" href="summit-wellness.html"><div class="name">Summit Wellness</div><div class="where">Arlington</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="green grandview physical therapy virginia beach" href="green-grandview-physical-therapy.html"><div class="name">Green Grandview Physical Therapy</div><div class="where">Virginia Beach</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="lopez valley smiles dental richmond" href="lopez-valley-smiles-dental.html"><div class="name">Lopez Valley Smiles Dental</div><div class="where">Richmond</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="restaurants" data-search="birch kitchen virginia beach" href="birch-kitchen.html"><div class="name">Birch Kitchen</div><div class="where">Virginia Beach</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="harvest public house richmond" href="harvest-public-house.html"><div class="name">Harvest Public House</div><div class="where">Richmond</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="mesa grill arlington" href="mesa-grill.html"><div class="name">Mesa Grill</div><div class="where">Arlington</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="rustic brasserie virginia beach" href="rustic-brasserie.html"><div class="name">Rustic Brasserie</div><div class="where">Virginia Beach</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="harvest public house richmond" href="harvest-public-house.html"><div class="name">Harvest Public House</div><div class="where">Richmond</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="prairie brasserie arlington" href="prairie-brasserie.html"><div class="name">Prairie Brasserie</div><div class="where">Arlington</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="prairie brasserie virginia beach" href="prairie-brasserie.html"><div class="name">Prairie Brasserie</div><div class="where">Virginia Beach</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="oak cafe richmond" href="oak-cafe.html"><div class="name">Oak Cafe</div><div class="where">Richmond</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="beauty" data-search="radiance spa virginia beach" href="radiance-spa.html"><div class="name">Radiance Spa</div><div class="where">Virginia Beach</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="vivid studio richmond" href="vivid-studio.html"><div class="name">Vivid Studio</div><div class="where">Richmond</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="ivory med spa arlington" href="ivory-med-spa.html"><div class="name">Ivory Med Spa</div><div class="where">Arlington</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="halo boutique virginia beach" href="halo-boutique.html"><div class="name">Halo Boutique</div><div class="where">Virginia Beach</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="essence boutique richmond" href="essence-boutique.html"><div class="name">Essence Boutique</div><div class="where">Richmond</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="essence studio arlington" href="essence-studio.html"><div class="name">Essence Studio</div><div class="where">Arlington</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="pearl salon virginia beach" href="pearl-salon.html"><div class="name">Pearl Salon</div><div class="where">Virginia Beach</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="noir nails richmond" href="noir-nails.html"><div class="name">Noir Nails</div><div class="where">Richmond</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="smb" data-search="brookside signs virginia beach" href="brookside-signs.html"><div class="name">Brookside Signs</div><div class="where">Virginia Beach</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="hilltop provisions richmond" href="hilltop-provisions.html"><div class="name">Hilltop Provisions</div><div class="where">Richmond</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="heritage services arlington" href="heritage-services.html"><div class="name">Heritage Services</div><div class="where">Arlington</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="fox run workshop virginia beach" href="fox-run-workshop.html"><div class="name">Fox Run Workshop</div><div class="where">Virginia Beach</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="millbrook solutions richmond" href="millbrook-solutions.html"><div class="name">Millbrook Solutions</div><div class="where">Richmond</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="bluebird signs arlington" href="bluebird-signs.html"><div class="name">Bluebird Signs</div><div class="where">Arlington</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="parkside studio virginia beach" href="parkside-studio.html"><div class="name">Parkside Studio</div><div class="where">Virginia Beach</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="greenway solutions richmond" href="greenway-solutions.html"><div class="name">Greenway Solutions</div><div class="where">Richmond</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Virginia</h1>
+<p class="sub">46 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./baker-crestview-clinic.html"><div class="card-name">Baker Crestview Clinic</div><div class="card-url">baker-crestview-clinic.html</div></a>
+    <a class="card" href="./birch-kitchen.html"><div class="card-name">Birch Kitchen</div><div class="card-url">birch-kitchen.html</div></a>
+    <a class="card" href="./bluebird-signs.html"><div class="card-name">Bluebird Signs</div><div class="card-url">bluebird-signs.html</div></a>
+    <a class="card" href="./brennan-law-group.html"><div class="card-name">Brennan Law Group</div><div class="card-url">brennan-law-group.html</div></a>
+    <a class="card" href="./brookside-signs.html"><div class="card-name">Brookside Signs</div><div class="card-url">brookside-signs.html</div></a>
+    <a class="card" href="./coastal-realty-co.html"><div class="card-name">Coastal Realty Co</div><div class="card-url">coastal-realty-co.html</div></a>
+    <a class="card" href="./cornerstone-home-team.html"><div class="card-name">Cornerstone Home Team</div><div class="card-url">cornerstone-home-team.html</div></a>
+    <a class="card" href="./cornerstone-real-estate-group.html"><div class="card-name">Cornerstone Real Estate Group</div><div class="card-url">cornerstone-real-estate-group.html</div></a>
+    <a class="card" href="./essence-boutique.html"><div class="card-name">Essence Boutique</div><div class="card-url">essence-boutique.html</div></a>
+    <a class="card" href="./essence-studio.html"><div class="card-name">Essence Studio</div><div class="card-url">essence-studio.html</div></a>
+    <a class="card" href="./fox-run-workshop.html"><div class="card-name">Fox Run Workshop</div><div class="card-url">fox-run-workshop.html</div></a>
+    <a class="card" href="./goldstein-law-office.html"><div class="card-name">Goldstein Law Office</div><div class="card-url">goldstein-law-office.html</div></a>
+    <a class="card" href="./green-grandview-physical-therapy.html"><div class="card-name">Green Grandview Physical Therapy</div><div class="card-url">green-grandview-physical-therapy.html</div></a>
+    <a class="card" href="./greenway-solutions.html"><div class="card-name">Greenway Solutions</div><div class="card-url">greenway-solutions.html</div></a>
+    <a class="card" href="./halo-boutique.html"><div class="card-name">Halo Boutique</div><div class="card-url">halo-boutique.html</div></a>
+    <a class="card" href="./harvest-public-house.html"><div class="card-name">Harvest Public House</div><div class="card-url">harvest-public-house.html</div></a>
+    <a class="card" href="./heritage-services.html"><div class="card-name">Heritage Services</div><div class="card-url">heritage-services.html</div></a>
+    <a class="card" href="./hill-montgomery-law-firm.html"><div class="card-name">Hill Montgomery Law Firm</div><div class="card-url">hill-montgomery-law-firm.html</div></a>
+    <a class="card" href="./hilltop-provisions.html"><div class="card-name">Hilltop Provisions</div><div class="card-url">hilltop-provisions.html</div></a>
+    <a class="card" href="./ivory-med-spa.html"><div class="card-name">Ivory Med Spa</div><div class="card-url">ivory-med-spa.html</div></a>
+    <a class="card" href="./kensington-law-office.html"><div class="card-name">Kensington Law Office</div><div class="card-url">kensington-law-office.html</div></a>
+    <a class="card" href="./landmark-estates.html"><div class="card-name">Landmark Estates</div><div class="card-url">landmark-estates.html</div></a>
+    <a class="card" href="./landmark-real-estate.html"><div class="card-name">Landmark Real Estate</div><div class="card-url">landmark-real-estate.html</div></a>
+    <a class="card" href="./lopez-signature-real-estate.html"><div class="card-name">Lopez Signature Real Estate</div><div class="card-url">lopez-signature-real-estate.html</div></a>
+    <a class="card" href="./lopez-valley-smiles-dental.html"><div class="card-name">Lopez Valley Smiles Dental</div><div class="card-url">lopez-valley-smiles-dental.html</div></a>
+    <a class="card" href="./mesa-grill.html"><div class="card-name">Mesa Grill</div><div class="card-url">mesa-grill.html</div></a>
+    <a class="card" href="./millbrook-solutions.html"><div class="card-name">Millbrook Solutions</div><div class="card-url">millbrook-solutions.html</div></a>
+    <a class="card" href="./noir-nails.html"><div class="card-name">Noir Nails</div><div class="card-url">noir-nails.html</div></a>
+    <a class="card" href="./northgate-urgent-care.html"><div class="card-name">Northgate Urgent Care</div><div class="card-url">northgate-urgent-care.html</div></a>
+    <a class="card" href="./oak-cafe.html"><div class="card-name">Oak Cafe</div><div class="card-url">oak-cafe.html</div></a>
+    <a class="card" href="./oconnor-and-partners.html"><div class="card-name">Oconnor And Partners</div><div class="card-url">oconnor-and-partners.html</div></a>
+    <a class="card" href="./parkside-studio.html"><div class="card-name">Parkside Studio</div><div class="card-url">parkside-studio.html</div></a>
+    <a class="card" href="./pearl-salon.html"><div class="card-name">Pearl Salon</div><div class="card-url">pearl-salon.html</div></a>
+    <a class="card" href="./perez-keystone-realty.html"><div class="card-name">Perez Keystone Realty</div><div class="card-url">perez-keystone-realty.html</div></a>
+    <a class="card" href="./prairie-brasserie.html"><div class="card-name">Prairie Brasserie</div><div class="card-url">prairie-brasserie.html</div></a>
+    <a class="card" href="./radiance-spa.html"><div class="card-name">Radiance Spa</div><div class="card-url">radiance-spa.html</div></a>
+    <a class="card" href="./riverside-family-medicine.html"><div class="card-name">Riverside Family Medicine</div><div class="card-url">riverside-family-medicine.html</div></a>
+    <a class="card" href="./robinson-sinclair-and-partners.html"><div class="card-name">Robinson Sinclair And Partners</div><div class="card-url">robinson-sinclair-and-partners.html</div></a>
+    <a class="card" href="./rustic-brasserie.html"><div class="card-name">Rustic Brasserie</div><div class="card-url">rustic-brasserie.html</div></a>
+    <a class="card" href="./scott-evergreen-smiles-dental.html"><div class="card-name">Scott Evergreen Smiles Dental</div><div class="card-url">scott-evergreen-smiles-dental.html</div></a>
+    <a class="card" href="./sinclair-legal-services.html"><div class="card-name">Sinclair Legal Services</div><div class="card-url">sinclair-legal-services.html</div></a>
+    <a class="card" href="./summit-wellness.html"><div class="card-name">Summit Wellness</div><div class="card-url">summit-wellness.html</div></a>
+    <a class="card" href="./urban-real-estate-group.html"><div class="card-name">Urban Real Estate Group</div><div class="card-url">urban-real-estate-group.html</div></a>
+    <a class="card" href="./valley-urgent-care.html"><div class="card-name">Valley Urgent Care</div><div class="card-url">valley-urgent-care.html</div></a>
+    <a class="card" href="./vivid-studio.html"><div class="card-name">Vivid Studio</div><div class="card-url">vivid-studio.html</div></a>
+    <a class="card" href="./wright-coleman-attorneys.html"><div class="card-name">Wright Coleman Attorneys</div><div class="card-url">wright-coleman-attorneys.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

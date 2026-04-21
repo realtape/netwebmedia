@@ -1,0 +1,7 @@
+- [User role — Carlos Martinez](user_role.md) — CEO/founder of NetWebMedia; prefers executive framing and vanilla tech
+- [NetWebMedia org & agents](netwebmedia_org.md) — 12 custom agents in `.claude/agents/` mirror the agency's org chart; delegate by role
+- [No LinkedIn distribution](feedback_distribution_no_linkedin.md) — Carlos declined LinkedIn for NetWebMedia campaign content; omit from distribution plans
+- [Sync calendar on date changes](feedback_sync_calendar_on_date_change.md) — When a date changes in any file, automatically check and update Google Calendar too
+- [Carlos's Google Calendar](reference_calendar.md) — carlos@netwebmedia.com, timezone America/Santiago; NWM tasks follow "NWM - Area - Task" naming + color coding
+- [Brand palette — Gulf Oil inspired](project_brand_palette.md) — Navy #010F3B + Orange #FF671F + Inter/Poppins; `css/styles.css` is canonical, NOT root `styles.css`
+- [Carlos's computers](user_computers.md) — Computer 1 = this Windows machine (Usuario); Computer 2 = his other computer

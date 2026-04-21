@@ -1,100 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vermont (VT) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Vermont — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 47 businesses in Vermont.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Vermont <span style="opacity:.6;font-size:24px">(VT)</span></h1>
-    <p>Maple syrup, tourism (skiing/foliage), craft beer, dairy</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Vermont</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="tourism">🏔️ Tourism &amp; Hospitality (8)</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span><span class="filter" data-n="local_specialist">🔧 Local Specialist Services (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="tourism" data-search="bayfront resort burlington" href="bayfront-resort.html"><div class="name">Bayfront Resort</div><div class="where">Burlington</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="cascade getaway montpelier" href="cascade-getaway.html"><div class="name">Cascade Getaway</div><div class="where">Montpelier</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="timber adventures rutland" href="timber-adventures.html"><div class="name">Timber Adventures</div><div class="where">Rutland</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="sunset ranch burlington" href="sunset-ranch.html"><div class="name">Sunset Ranch</div><div class="where">Burlington</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="lakeside hotel montpelier" href="lakeside-hotel.html"><div class="name">Lakeside Hotel</div><div class="where">Montpelier</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="harbor tours rutland" href="harbor-tours.html"><div class="name">Harbor Tours</div><div class="where">Rutland</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="silver retreat burlington" href="silver-retreat.html"><div class="name">Silver Retreat</div><div class="where">Burlington</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="oceanview hideaway montpelier" href="oceanview-hideaway.html"><div class="name">Oceanview Hideaway</div><div class="where">Montpelier</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="restaurants" data-search="harvest pizzeria burlington" href="harvest-pizzeria.html"><div class="name">Harvest Pizzeria</div><div class="where">Burlington</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="rustic alehouse montpelier" href="rustic-alehouse.html"><div class="name">Rustic Alehouse</div><div class="where">Montpelier</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="olive table rutland" href="olive-table.html"><div class="name">Olive Table</div><div class="where">Rutland</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="olive kitchen burlington" href="olive-kitchen.html"><div class="name">Olive Kitchen</div><div class="where">Burlington</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="mesa cafe montpelier" href="mesa-cafe.html"><div class="name">Mesa Cafe</div><div class="where">Montpelier</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="copper public house rutland" href="copper-public-house.html"><div class="name">Copper Public House</div><div class="where">Rutland</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="tavern steakhouse burlington" href="tavern-steakhouse.html"><div class="name">Tavern Steakhouse</div><div class="where">Burlington</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="copper alehouse montpelier" href="copper-alehouse.html"><div class="name">Copper Alehouse</div><div class="where">Montpelier</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="local_specialist" data-search="handy heating &amp; air burlington" href="handy-heating-and-air.html"><div class="name">Handy Heating &amp; Air</div><div class="where">Burlington</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="guardian carpet care montpelier" href="guardian-carpet-care.html"><div class="name">Guardian Carpet Care</div><div class="where">Montpelier</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="rodriguez quick landscaping rutland" href="rodriguez-quick-landscaping.html"><div class="name">Rodriguez Quick Landscaping</div><div class="where">Rutland</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="reliable locksmith burlington" href="reliable-locksmith.html"><div class="name">Reliable Locksmith</div><div class="where">Burlington</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="lopez pioneer garage doors montpelier" href="lopez-pioneer-garage-doors.html"><div class="name">Lopez Pioneer Garage Doors</div><div class="where">Montpelier</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="first choice services rutland" href="first-choice-services.html"><div class="name">First Choice Services</div><div class="where">Rutland</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="first choice pro burlington" href="first-choice-pro.html"><div class="name">First Choice Pro</div><div class="where">Burlington</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="first choice heating &amp; air montpelier" href="first-choice-heating-and-air.html"><div class="name">First Choice Heating &amp; Air</div><div class="where">Montpelier</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="smb" data-search="main street outfitters burlington" href="main-street-outfitters.html"><div class="name">Main Street Outfitters</div><div class="where">Burlington</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="cornerstone solutions montpelier" href="cornerstone-solutions.html"><div class="name">Cornerstone Solutions</div><div class="where">Montpelier</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="hilltop outfitters rutland" href="hilltop-outfitters.html"><div class="name">Hilltop Outfitters</div><div class="where">Rutland</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="parkside trading co. burlington" href="parkside-trading-co.html"><div class="name">Parkside Trading Co.</div><div class="where">Burlington</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="southside supply co. montpelier" href="southside-supply-co.html"><div class="name">Southside Supply Co.</div><div class="where">Montpelier</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="brookside services rutland" href="brookside-services.html"><div class="name">Brookside Services</div><div class="where">Rutland</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="redleaf studio burlington" href="redleaf-studio.html"><div class="name">Redleaf Studio</div><div class="where">Burlington</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="southside supply co. montpelier" href="southside-supply-co.html"><div class="name">Southside Supply Co.</div><div class="where">Montpelier</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="real_estate" data-search="golden gate estates burlington" href="golden-gate-estates.html"><div class="name">Golden Gate Estates</div><div class="where">Burlington</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="harbor real estate group montpelier" href="harbor-real-estate-group.html"><div class="name">Harbor Real Estate Group</div><div class="where">Montpelier</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="johnson metro realty group rutland" href="johnson-metro-realty-group.html"><div class="name">Johnson Metro Realty Group</div><div class="where">Rutland</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="lakefront realty burlington" href="lakefront-realty.html"><div class="name">Lakefront Realty</div><div class="where">Burlington</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="pinnacle realty group montpelier" href="pinnacle-realty-group.html"><div class="name">Pinnacle Realty Group</div><div class="where">Montpelier</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="ridge estates rutland" href="ridge-estates.html"><div class="name">Ridge Estates</div><div class="where">Rutland</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="metro realty partners burlington" href="metro-realty-partners.html"><div class="name">Metro Realty Partners</div><div class="where">Burlington</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="nguyen ridge realty co. montpelier" href="nguyen-ridge-realty-co.html"><div class="name">Nguyen Ridge Realty Co.</div><div class="where">Montpelier</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="health" data-search="sanchez grandview dermatology burlington" href="sanchez-grandview-dermatology.html"><div class="name">Sanchez Grandview Dermatology</div><div class="where">Burlington</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="southpoint physical therapy montpelier" href="southpoint-physical-therapy.html"><div class="name">Southpoint Physical Therapy</div><div class="where">Montpelier</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="cedar family medicine rutland" href="cedar-family-medicine.html"><div class="name">Cedar Family Medicine</div><div class="where">Rutland</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="walker grandview health partners burlington" href="walker-grandview-health-partners.html"><div class="name">Walker Grandview Health Partners</div><div class="where">Burlington</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="riverside dental montpelier" href="riverside-dental.html"><div class="name">Riverside Dental</div><div class="where">Montpelier</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="valley urgent care rutland" href="valley-urgent-care.html"><div class="name">Valley Urgent Care</div><div class="where">Rutland</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="valley chiropractic burlington" href="valley-chiropractic.html"><div class="name">Valley Chiropractic</div><div class="where">Burlington</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="wright harborview wellness montpelier" href="wright-harborview-wellness.html"><div class="name">Wright Harborview Wellness</div><div class="where">Montpelier</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Vermont</h1>
+<p class="sub">47 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./bayfront-resort.html"><div class="card-name">Bayfront Resort</div><div class="card-url">bayfront-resort.html</div></a>
+    <a class="card" href="./brookside-services.html"><div class="card-name">Brookside Services</div><div class="card-url">brookside-services.html</div></a>
+    <a class="card" href="./cascade-getaway.html"><div class="card-name">Cascade Getaway</div><div class="card-url">cascade-getaway.html</div></a>
+    <a class="card" href="./cedar-family-medicine.html"><div class="card-name">Cedar Family Medicine</div><div class="card-url">cedar-family-medicine.html</div></a>
+    <a class="card" href="./copper-alehouse.html"><div class="card-name">Copper Alehouse</div><div class="card-url">copper-alehouse.html</div></a>
+    <a class="card" href="./copper-public-house.html"><div class="card-name">Copper Public House</div><div class="card-url">copper-public-house.html</div></a>
+    <a class="card" href="./cornerstone-solutions.html"><div class="card-name">Cornerstone Solutions</div><div class="card-url">cornerstone-solutions.html</div></a>
+    <a class="card" href="./first-choice-heating-and-air.html"><div class="card-name">First Choice Heating And Air</div><div class="card-url">first-choice-heating-and-air.html</div></a>
+    <a class="card" href="./first-choice-pro.html"><div class="card-name">First Choice Pro</div><div class="card-url">first-choice-pro.html</div></a>
+    <a class="card" href="./first-choice-services.html"><div class="card-name">First Choice Services</div><div class="card-url">first-choice-services.html</div></a>
+    <a class="card" href="./golden-gate-estates.html"><div class="card-name">Golden Gate Estates</div><div class="card-url">golden-gate-estates.html</div></a>
+    <a class="card" href="./guardian-carpet-care.html"><div class="card-name">Guardian Carpet Care</div><div class="card-url">guardian-carpet-care.html</div></a>
+    <a class="card" href="./handy-heating-and-air.html"><div class="card-name">Handy Heating And Air</div><div class="card-url">handy-heating-and-air.html</div></a>
+    <a class="card" href="./harbor-real-estate-group.html"><div class="card-name">Harbor Real Estate Group</div><div class="card-url">harbor-real-estate-group.html</div></a>
+    <a class="card" href="./harbor-tours.html"><div class="card-name">Harbor Tours</div><div class="card-url">harbor-tours.html</div></a>
+    <a class="card" href="./harvest-pizzeria.html"><div class="card-name">Harvest Pizzeria</div><div class="card-url">harvest-pizzeria.html</div></a>
+    <a class="card" href="./hilltop-outfitters.html"><div class="card-name">Hilltop Outfitters</div><div class="card-url">hilltop-outfitters.html</div></a>
+    <a class="card" href="./johnson-metro-realty-group.html"><div class="card-name">Johnson Metro Realty Group</div><div class="card-url">johnson-metro-realty-group.html</div></a>
+    <a class="card" href="./lakefront-realty.html"><div class="card-name">Lakefront Realty</div><div class="card-url">lakefront-realty.html</div></a>
+    <a class="card" href="./lakeside-hotel.html"><div class="card-name">Lakeside Hotel</div><div class="card-url">lakeside-hotel.html</div></a>
+    <a class="card" href="./lopez-pioneer-garage-doors.html"><div class="card-name">Lopez Pioneer Garage Doors</div><div class="card-url">lopez-pioneer-garage-doors.html</div></a>
+    <a class="card" href="./main-street-outfitters.html"><div class="card-name">Main Street Outfitters</div><div class="card-url">main-street-outfitters.html</div></a>
+    <a class="card" href="./mesa-cafe.html"><div class="card-name">Mesa Cafe</div><div class="card-url">mesa-cafe.html</div></a>
+    <a class="card" href="./metro-realty-partners.html"><div class="card-name">Metro Realty Partners</div><div class="card-url">metro-realty-partners.html</div></a>
+    <a class="card" href="./nguyen-ridge-realty-co.html"><div class="card-name">Nguyen Ridge Realty Co</div><div class="card-url">nguyen-ridge-realty-co.html</div></a>
+    <a class="card" href="./oceanview-hideaway.html"><div class="card-name">Oceanview Hideaway</div><div class="card-url">oceanview-hideaway.html</div></a>
+    <a class="card" href="./olive-kitchen.html"><div class="card-name">Olive Kitchen</div><div class="card-url">olive-kitchen.html</div></a>
+    <a class="card" href="./olive-table.html"><div class="card-name">Olive Table</div><div class="card-url">olive-table.html</div></a>
+    <a class="card" href="./parkside-trading-co.html"><div class="card-name">Parkside Trading Co</div><div class="card-url">parkside-trading-co.html</div></a>
+    <a class="card" href="./pinnacle-realty-group.html"><div class="card-name">Pinnacle Realty Group</div><div class="card-url">pinnacle-realty-group.html</div></a>
+    <a class="card" href="./redleaf-studio.html"><div class="card-name">Redleaf Studio</div><div class="card-url">redleaf-studio.html</div></a>
+    <a class="card" href="./reliable-locksmith.html"><div class="card-name">Reliable Locksmith</div><div class="card-url">reliable-locksmith.html</div></a>
+    <a class="card" href="./ridge-estates.html"><div class="card-name">Ridge Estates</div><div class="card-url">ridge-estates.html</div></a>
+    <a class="card" href="./riverside-dental.html"><div class="card-name">Riverside Dental</div><div class="card-url">riverside-dental.html</div></a>
+    <a class="card" href="./rodriguez-quick-landscaping.html"><div class="card-name">Rodriguez Quick Landscaping</div><div class="card-url">rodriguez-quick-landscaping.html</div></a>
+    <a class="card" href="./rustic-alehouse.html"><div class="card-name">Rustic Alehouse</div><div class="card-url">rustic-alehouse.html</div></a>
+    <a class="card" href="./sanchez-grandview-dermatology.html"><div class="card-name">Sanchez Grandview Dermatology</div><div class="card-url">sanchez-grandview-dermatology.html</div></a>
+    <a class="card" href="./silver-retreat.html"><div class="card-name">Silver Retreat</div><div class="card-url">silver-retreat.html</div></a>
+    <a class="card" href="./southpoint-physical-therapy.html"><div class="card-name">Southpoint Physical Therapy</div><div class="card-url">southpoint-physical-therapy.html</div></a>
+    <a class="card" href="./southside-supply-co.html"><div class="card-name">Southside Supply Co</div><div class="card-url">southside-supply-co.html</div></a>
+    <a class="card" href="./sunset-ranch.html"><div class="card-name">Sunset Ranch</div><div class="card-url">sunset-ranch.html</div></a>
+    <a class="card" href="./tavern-steakhouse.html"><div class="card-name">Tavern Steakhouse</div><div class="card-url">tavern-steakhouse.html</div></a>
+    <a class="card" href="./timber-adventures.html"><div class="card-name">Timber Adventures</div><div class="card-url">timber-adventures.html</div></a>
+    <a class="card" href="./valley-chiropractic.html"><div class="card-name">Valley Chiropractic</div><div class="card-url">valley-chiropractic.html</div></a>
+    <a class="card" href="./valley-urgent-care.html"><div class="card-name">Valley Urgent Care</div><div class="card-url">valley-urgent-care.html</div></a>
+    <a class="card" href="./walker-grandview-health-partners.html"><div class="card-name">Walker Grandview Health Partners</div><div class="card-url">walker-grandview-health-partners.html</div></a>
+    <a class="card" href="./wright-harborview-wellness.html"><div class="card-name">Wright Harborview Wellness</div><div class="card-url">wright-harborview-wellness.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

@@ -1,100 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Utah (UT) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Utah — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 48 businesses in Utah.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Utah <span style="opacity:.6;font-size:24px">(UT)</span></h1>
-    <p>Tech (Silicon Slopes), tourism (Zion/Arches), finance</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Utah</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="tourism">🏔️ Tourism &amp; Hospitality (8)</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="beauty">💅 Beauty &amp; Wellness (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="tourism" data-search="mountain inn salt lake city" href="mountain-inn.html"><div class="name">Mountain Inn</div><div class="where">Salt Lake City</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="cypress cabins provo" href="cypress-cabins.html"><div class="name">Cypress Cabins</div><div class="where">Provo</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="stonebridge tours saint george" href="stonebridge-tours.html"><div class="name">Stonebridge Tours</div><div class="where">Saint George</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="sunrise suites salt lake city" href="sunrise-suites.html"><div class="name">Sunrise Suites</div><div class="where">Salt Lake City</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="oceanview retreat provo" href="oceanview-retreat.html"><div class="name">Oceanview Retreat</div><div class="where">Provo</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="lakeview cabins saint george" href="lakeview-cabins.html"><div class="name">Lakeview Cabins</div><div class="where">Saint George</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="horizon hotel salt lake city" href="horizon-hotel.html"><div class="name">Horizon Hotel</div><div class="where">Salt Lake City</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="aspen villas provo" href="aspen-villas.html"><div class="name">Aspen Villas</div><div class="where">Provo</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="real_estate" data-search="pinnacle real estate group salt lake city" href="pinnacle-real-estate-group.html"><div class="name">Pinnacle Real Estate Group</div><div class="where">Salt Lake City</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="ridge realty co. provo" href="ridge-realty-co.html"><div class="name">Ridge Realty Co.</div><div class="where">Provo</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="signature estates saint george" href="signature-estates.html"><div class="name">Signature Estates</div><div class="where">Saint George</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="skyline real estate salt lake city" href="skyline-real-estate.html"><div class="name">Skyline Real Estate</div><div class="where">Salt Lake City</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="legacy realty provo" href="legacy-realty.html"><div class="name">Legacy Realty</div><div class="where">Provo</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="ridge real estate group saint george" href="ridge-real-estate-group.html"><div class="name">Ridge Real Estate Group</div><div class="where">Saint George</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="urban properties salt lake city" href="urban-properties.html"><div class="name">Urban Properties</div><div class="where">Salt Lake City</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="premier real estate group provo" href="premier-real-estate-group.html"><div class="name">Premier Real Estate Group</div><div class="where">Provo</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="restaurants" data-search="sage steakhouse salt lake city" href="sage-steakhouse.html"><div class="name">Sage Steakhouse</div><div class="where">Salt Lake City</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="harvest alehouse provo" href="harvest-alehouse.html"><div class="name">Harvest Alehouse</div><div class="where">Provo</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="rustic pizzeria saint george" href="rustic-pizzeria.html"><div class="name">Rustic Pizzeria</div><div class="where">Saint George</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="wagon bistro salt lake city" href="wagon-bistro.html"><div class="name">Wagon Bistro</div><div class="where">Salt Lake City</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="tavern roadhouse provo" href="tavern-roadhouse.html"><div class="name">Tavern Roadhouse</div><div class="where">Provo</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="market cafe saint george" href="market-cafe.html"><div class="name">Market Cafe</div><div class="where">Saint George</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="red barn bistro salt lake city" href="red-barn-bistro.html"><div class="name">Red Barn Bistro</div><div class="where">Salt Lake City</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="olive bistro provo" href="olive-bistro.html"><div class="name">Olive Bistro</div><div class="where">Provo</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="health" data-search="riverside dental salt lake city" href="riverside-dental.html"><div class="name">Riverside Dental</div><div class="where">Salt Lake City</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="cedar orthodontics provo" href="cedar-orthodontics.html"><div class="name">Cedar Orthodontics</div><div class="where">Provo</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="summit dental saint george" href="summit-dental.html"><div class="name">Summit Dental</div><div class="where">Saint George</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="riverside orthodontics salt lake city" href="riverside-orthodontics.html"><div class="name">Riverside Orthodontics</div><div class="where">Salt Lake City</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="mitchell grandview physical therapy provo" href="mitchell-grandview-physical-therapy.html"><div class="name">Mitchell Grandview Physical Therapy</div><div class="where">Provo</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="prairie health partners saint george" href="prairie-health-partners.html"><div class="name">Prairie Health Partners</div><div class="where">Saint George</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="westbrook smiles dental salt lake city" href="westbrook-smiles-dental.html"><div class="name">Westbrook Smiles Dental</div><div class="where">Salt Lake City</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="smith crestview wellness provo" href="smith-crestview-wellness.html"><div class="name">Smith Crestview Wellness</div><div class="where">Provo</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="smb" data-search="oakwood provisions salt lake city" href="oakwood-provisions.html"><div class="name">Oakwood Provisions</div><div class="where">Salt Lake City</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="northside signs provo" href="northside-signs.html"><div class="name">Northside Signs</div><div class="where">Provo</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="riverstone workshop saint george" href="riverstone-workshop.html"><div class="name">Riverstone Workshop</div><div class="where">Saint George</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="greenway mercantile salt lake city" href="greenway-mercantile.html"><div class="name">Greenway Mercantile</div><div class="where">Salt Lake City</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="ironwood supply co. provo" href="ironwood-supply-co.html"><div class="name">Ironwood Supply Co.</div><div class="where">Provo</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="northside print shop saint george" href="northside-print-shop.html"><div class="name">Northside Print Shop</div><div class="where">Saint George</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="oakwood outfitters salt lake city" href="oakwood-outfitters.html"><div class="name">Oakwood Outfitters</div><div class="where">Salt Lake City</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="hilltop solutions provo" href="hilltop-solutions.html"><div class="name">Hilltop Solutions</div><div class="where">Provo</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="beauty" data-search="vivid med spa salt lake city" href="vivid-med-spa.html"><div class="name">Vivid Med Spa</div><div class="where">Salt Lake City</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="polished brow bar provo" href="polished-brow-bar.html"><div class="name">Polished Brow Bar</div><div class="where">Provo</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="bliss studio saint george" href="bliss-studio.html"><div class="name">Bliss Studio</div><div class="where">Saint George</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="muse wellness salt lake city" href="muse-wellness.html"><div class="name">Muse Wellness</div><div class="where">Salt Lake City</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="bliss hair lounge provo" href="bliss-hair-lounge.html"><div class="name">Bliss Hair Lounge</div><div class="where">Provo</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="opal aesthetics saint george" href="opal-aesthetics.html"><div class="name">Opal Aesthetics</div><div class="where">Saint George</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="sage wellness salt lake city" href="sage-wellness.html"><div class="name">Sage Wellness</div><div class="where">Salt Lake City</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="radiance beauty bar provo" href="radiance-beauty-bar.html"><div class="name">Radiance Beauty Bar</div><div class="where">Provo</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Utah</h1>
+<p class="sub">48 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./aspen-villas.html"><div class="card-name">Aspen Villas</div><div class="card-url">aspen-villas.html</div></a>
+    <a class="card" href="./bliss-hair-lounge.html"><div class="card-name">Bliss Hair Lounge</div><div class="card-url">bliss-hair-lounge.html</div></a>
+    <a class="card" href="./bliss-studio.html"><div class="card-name">Bliss Studio</div><div class="card-url">bliss-studio.html</div></a>
+    <a class="card" href="./cedar-orthodontics.html"><div class="card-name">Cedar Orthodontics</div><div class="card-url">cedar-orthodontics.html</div></a>
+    <a class="card" href="./cypress-cabins.html"><div class="card-name">Cypress Cabins</div><div class="card-url">cypress-cabins.html</div></a>
+    <a class="card" href="./greenway-mercantile.html"><div class="card-name">Greenway Mercantile</div><div class="card-url">greenway-mercantile.html</div></a>
+    <a class="card" href="./harvest-alehouse.html"><div class="card-name">Harvest Alehouse</div><div class="card-url">harvest-alehouse.html</div></a>
+    <a class="card" href="./hilltop-solutions.html"><div class="card-name">Hilltop Solutions</div><div class="card-url">hilltop-solutions.html</div></a>
+    <a class="card" href="./horizon-hotel.html"><div class="card-name">Horizon Hotel</div><div class="card-url">horizon-hotel.html</div></a>
+    <a class="card" href="./ironwood-supply-co.html"><div class="card-name">Ironwood Supply Co</div><div class="card-url">ironwood-supply-co.html</div></a>
+    <a class="card" href="./lakeview-cabins.html"><div class="card-name">Lakeview Cabins</div><div class="card-url">lakeview-cabins.html</div></a>
+    <a class="card" href="./legacy-realty.html"><div class="card-name">Legacy Realty</div><div class="card-url">legacy-realty.html</div></a>
+    <a class="card" href="./market-cafe.html"><div class="card-name">Market Cafe</div><div class="card-url">market-cafe.html</div></a>
+    <a class="card" href="./mitchell-grandview-physical-therapy.html"><div class="card-name">Mitchell Grandview Physical Therapy</div><div class="card-url">mitchell-grandview-physical-therapy.html</div></a>
+    <a class="card" href="./mountain-inn.html"><div class="card-name">Mountain Inn</div><div class="card-url">mountain-inn.html</div></a>
+    <a class="card" href="./muse-wellness.html"><div class="card-name">Muse Wellness</div><div class="card-url">muse-wellness.html</div></a>
+    <a class="card" href="./northside-print-shop.html"><div class="card-name">Northside Print Shop</div><div class="card-url">northside-print-shop.html</div></a>
+    <a class="card" href="./northside-signs.html"><div class="card-name">Northside Signs</div><div class="card-url">northside-signs.html</div></a>
+    <a class="card" href="./oakwood-outfitters.html"><div class="card-name">Oakwood Outfitters</div><div class="card-url">oakwood-outfitters.html</div></a>
+    <a class="card" href="./oakwood-provisions.html"><div class="card-name">Oakwood Provisions</div><div class="card-url">oakwood-provisions.html</div></a>
+    <a class="card" href="./oceanview-retreat.html"><div class="card-name">Oceanview Retreat</div><div class="card-url">oceanview-retreat.html</div></a>
+    <a class="card" href="./olive-bistro.html"><div class="card-name">Olive Bistro</div><div class="card-url">olive-bistro.html</div></a>
+    <a class="card" href="./opal-aesthetics.html"><div class="card-name">Opal Aesthetics</div><div class="card-url">opal-aesthetics.html</div></a>
+    <a class="card" href="./pinnacle-real-estate-group.html"><div class="card-name">Pinnacle Real Estate Group</div><div class="card-url">pinnacle-real-estate-group.html</div></a>
+    <a class="card" href="./polished-brow-bar.html"><div class="card-name">Polished Brow Bar</div><div class="card-url">polished-brow-bar.html</div></a>
+    <a class="card" href="./prairie-health-partners.html"><div class="card-name">Prairie Health Partners</div><div class="card-url">prairie-health-partners.html</div></a>
+    <a class="card" href="./premier-real-estate-group.html"><div class="card-name">Premier Real Estate Group</div><div class="card-url">premier-real-estate-group.html</div></a>
+    <a class="card" href="./radiance-beauty-bar.html"><div class="card-name">Radiance Beauty Bar</div><div class="card-url">radiance-beauty-bar.html</div></a>
+    <a class="card" href="./red-barn-bistro.html"><div class="card-name">Red Barn Bistro</div><div class="card-url">red-barn-bistro.html</div></a>
+    <a class="card" href="./ridge-real-estate-group.html"><div class="card-name">Ridge Real Estate Group</div><div class="card-url">ridge-real-estate-group.html</div></a>
+    <a class="card" href="./ridge-realty-co.html"><div class="card-name">Ridge Realty Co</div><div class="card-url">ridge-realty-co.html</div></a>
+    <a class="card" href="./riverside-dental.html"><div class="card-name">Riverside Dental</div><div class="card-url">riverside-dental.html</div></a>
+    <a class="card" href="./riverside-orthodontics.html"><div class="card-name">Riverside Orthodontics</div><div class="card-url">riverside-orthodontics.html</div></a>
+    <a class="card" href="./riverstone-workshop.html"><div class="card-name">Riverstone Workshop</div><div class="card-url">riverstone-workshop.html</div></a>
+    <a class="card" href="./rustic-pizzeria.html"><div class="card-name">Rustic Pizzeria</div><div class="card-url">rustic-pizzeria.html</div></a>
+    <a class="card" href="./sage-steakhouse.html"><div class="card-name">Sage Steakhouse</div><div class="card-url">sage-steakhouse.html</div></a>
+    <a class="card" href="./sage-wellness.html"><div class="card-name">Sage Wellness</div><div class="card-url">sage-wellness.html</div></a>
+    <a class="card" href="./signature-estates.html"><div class="card-name">Signature Estates</div><div class="card-url">signature-estates.html</div></a>
+    <a class="card" href="./skyline-real-estate.html"><div class="card-name">Skyline Real Estate</div><div class="card-url">skyline-real-estate.html</div></a>
+    <a class="card" href="./smith-crestview-wellness.html"><div class="card-name">Smith Crestview Wellness</div><div class="card-url">smith-crestview-wellness.html</div></a>
+    <a class="card" href="./stonebridge-tours.html"><div class="card-name">Stonebridge Tours</div><div class="card-url">stonebridge-tours.html</div></a>
+    <a class="card" href="./summit-dental.html"><div class="card-name">Summit Dental</div><div class="card-url">summit-dental.html</div></a>
+    <a class="card" href="./sunrise-suites.html"><div class="card-name">Sunrise Suites</div><div class="card-url">sunrise-suites.html</div></a>
+    <a class="card" href="./tavern-roadhouse.html"><div class="card-name">Tavern Roadhouse</div><div class="card-url">tavern-roadhouse.html</div></a>
+    <a class="card" href="./urban-properties.html"><div class="card-name">Urban Properties</div><div class="card-url">urban-properties.html</div></a>
+    <a class="card" href="./vivid-med-spa.html"><div class="card-name">Vivid Med Spa</div><div class="card-url">vivid-med-spa.html</div></a>
+    <a class="card" href="./wagon-bistro.html"><div class="card-name">Wagon Bistro</div><div class="card-url">wagon-bistro.html</div></a>
+    <a class="card" href="./westbrook-smiles-dental.html"><div class="card-name">Westbrook Smiles Dental</div><div class="card-url">westbrook-smiles-dental.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

@@ -310,7 +310,7 @@ def card_6_cta(service):
 
     # Price block
     center_text(d, 900, "Starting at", font(54, bold=False), DIM)
-    center_text(d, 980, "$1,997", font(180), ORANGE)
+    center_text(d, 980, "$249", font(180), ORANGE)
     center_text(d, 1220, "/ month", font(52, bold=False), DIM)
 
     center_text(d, H - 180, "Book a call today.", font(48, bold=False), WHITE)
@@ -493,10 +493,10 @@ SERVICE_CONFIGS = [
         # 46 words. "Visit" is word index 42.
         "shot_word_starts": [0, 10, 24, 27, 30, 42],
         "b_roll": [
-            "auto_8849287.jpg",   # Shot 2 — robot hand / AI
-            "auto_32026165.jpg",  # Shot 3 — multi-screen command station
-            "auto_7693142.jpg",   # Shot 4 — laptop analytics dashboard
-            "m_6937860.jpg",      # Shot 5 — man at startup desk
+            "m_7580707.jpg",     # Shot 2 — open office, multiple desktop monitors
+            "w_3861958.jpg",     # Shot 3 — woman at dual monitors, code on screen
+            "m_15318754.jpg",    # Shot 4 — man peeking over dual desktop monitors
+            "m_6937860.jpg",     # Shot 5 — man at iMac, creative studio
         ],
     },
     {
@@ -531,10 +531,10 @@ SERVICE_CONFIGS = [
         #   6 (50):    "Visit netwebmedia dot com."
         "shot_word_starts": [0, 16, 28, 43, 47, 50],
         "b_roll": [
-            "w_3861958.jpg",      # Shot 2 — woman at dual monitors
-            "auto_7693142.jpg",   # Shot 3 — analytics dashboard
-            "auto_32026165.jpg",  # Shot 4 — command station
-            "photo_7688336.jpg",  # Shot 5 — overhead marketing meeting
+            "w_19125851.jpg",    # Shot 2 — woman at Dell desktop, software UI on screen
+            "w_7108393.jpg",     # Shot 3 — woman typing at desktop monitor
+            "photo_6476808.jpg", # Shot 4 — iMac with digital marketing content on screen
+            "m_8682779.jpg",     # Shot 5 — person at desktop with headset, business formal
         ],
     },
     {
@@ -568,10 +568,10 @@ SERVICE_CONFIGS = [
         #   6 (47):    "Visit netwebmedia dot com."
         "shot_word_starts": [0, 4, 23, 26, 31, 47],
         "b_roll": [
-            "photo_7688336.jpg",  # Shot 2 — overhead meeting
-            "auto_7693142.jpg",   # Shot 3 — analytics dashboard
-            "auto_32026165.jpg",  # Shot 4 — multi-screen command station
-            "m_6937860.jpg",      # Shot 5 — man at startup desk
+            "m_19747887.jpg",    # Shot 2 — man at iMac Pro, smiling, dark background
+            "person_7709110.jpg",# Shot 3 — call center team with headsets in professional office
+            "photo_380769.jpg",  # Shot 4 — creative open office, multiple iMac desktops
+            "m_1528172.jpg",     # Shot 5 — man in studio, desktop monitors behind
         ],
     },
     {
@@ -605,10 +605,10 @@ SERVICE_CONFIGS = [
         #   6 (37):    "Visit netwebmedia dot com."
         "shot_word_starts": [0, 6, 16, 24, 33, 37],
         "b_roll": [
-            "auto_8849287.jpg",    # Shot 2 — robot hand
-            "auto_7693142.jpg",    # Shot 3 — analytics dashboard
-            "auto_32026165.jpg",   # Shot 4 — command station
-            "sleep_31964019.jpg",  # Shot 5 — cafe laptop workspace
+            "person_6476260.jpg",# Shot 2 — team table overhead, large ad-spend monitor visible
+            "photo_265087.jpg",  # Shot 3 — MacBook + iPad with analytics charts on desk
+            "sleep_7970815.jpg", # Shot 4 — MacBook on clean desk, social media strategy doc
+            "person_3183132.jpg",# Shot 5 — creative workspace flat-lay (keyboard, Magic Mouse, iPad)
         ],
     },
     {
@@ -641,10 +641,10 @@ SERVICE_CONFIGS = [
         #   6 (41):    "Visit netwebmedia dot com."
         "shot_word_starts": [0, 12, 24, 33, 37, 41],
         "b_roll": [
-            "w_3861958.jpg",       # Shot 2 — woman at dual monitors
-            "auto_7693142.jpg",    # Shot 3 — analytics dashboard
-            "sleep_31964019.jpg",  # Shot 4 — cafe laptop workspace
-            "m_6937860.jpg",       # Shot 5 — man at startup desk
+            "w_3776200.jpg",     # Shot 2 — woman with laptop, clean minimal aesthetic
+            "w_33176067.jpg",    # Shot 3 — woman working at professional desk
+            "w_1181465.jpg",     # Shot 4 — MacBook on white minimal desk, shallow DoF
+            "w_3184583.jpg",     # Shot 5 — woman at desktop monitor, creative brick-wall office
         ],
     },
 ]

@@ -1,100 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Indiana (IN) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Indiana — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 46 businesses in Indiana.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>Indiana <span style="opacity:.6;font-size:24px">(IN)</span></h1>
-    <p>Auto manufacturing, pharma (Eli Lilly), agriculture</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in Indiana</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span><span class="filter" data-n="local_specialist">🔧 Local Specialist Services (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="smb" data-search="parkside print shop indianapolis" href="parkside-print-shop.html"><div class="name">Parkside Print Shop</div><div class="where">Indianapolis</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="copper creek mercantile fort wayne" href="copper-creek-mercantile.html"><div class="name">Copper Creek Mercantile</div><div class="where">Fort Wayne</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="millbrook mercantile evansville" href="millbrook-mercantile.html"><div class="name">Millbrook Mercantile</div><div class="where">Evansville</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="northside outfitters indianapolis" href="northside-outfitters.html"><div class="name">Northside Outfitters</div><div class="where">Indianapolis</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="cornerstone studio fort wayne" href="cornerstone-studio.html"><div class="name">Cornerstone Studio</div><div class="where">Fort Wayne</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="northside signs evansville" href="northside-signs.html"><div class="name">Northside Signs</div><div class="where">Evansville</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="heritage services indianapolis" href="heritage-services.html"><div class="name">Heritage Services</div><div class="where">Indianapolis</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="millbrook outfitters fort wayne" href="millbrook-outfitters.html"><div class="name">Millbrook Outfitters</div><div class="where">Fort Wayne</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="local_specialist" data-search="apex roofing indianapolis" href="apex-roofing.html"><div class="name">Apex Roofing</div><div class="where">Indianapolis</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="aaa pest control fort wayne" href="aaa-pest-control.html"><div class="name">AAA Pest Control</div><div class="where">Fort Wayne</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="profix locksmith evansville" href="profix-locksmith.html"><div class="name">ProFix Locksmith</div><div class="where">Evansville</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="all-pro hvac indianapolis" href="all-pro-hvac.html"><div class="name">All-Pro HVAC</div><div class="where">Indianapolis</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="roberts pioneer hvac fort wayne" href="roberts-pioneer-hvac.html"><div class="name">Roberts Pioneer HVAC</div><div class="where">Fort Wayne</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="roberts handy pest control evansville" href="roberts-handy-pest-control.html"><div class="name">Roberts Handy Pest Control</div><div class="where">Evansville</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="apex roofing indianapolis" href="apex-roofing.html"><div class="name">Apex Roofing</div><div class="where">Indianapolis</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="hill aaa garage doors fort wayne" href="hill-aaa-garage-doors.html"><div class="name">Hill AAA Garage Doors</div><div class="where">Fort Wayne</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="restaurants" data-search="maple pizzeria indianapolis" href="maple-pizzeria.html"><div class="name">Maple Pizzeria</div><div class="where">Indianapolis</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="maple public house fort wayne" href="maple-public-house.html"><div class="name">Maple Public House</div><div class="where">Fort Wayne</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="oak steakhouse evansville" href="oak-steakhouse.html"><div class="name">Oak Steakhouse</div><div class="where">Evansville</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="blue door bistro indianapolis" href="blue-door-bistro.html"><div class="name">Blue Door Bistro</div><div class="where">Indianapolis</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="cedar steakhouse fort wayne" href="cedar-steakhouse.html"><div class="name">Cedar Steakhouse</div><div class="where">Fort Wayne</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="blue door grill evansville" href="blue-door-grill.html"><div class="name">Blue Door Grill</div><div class="where">Evansville</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="harvest public house indianapolis" href="harvest-public-house.html"><div class="name">Harvest Public House</div><div class="where">Indianapolis</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="pepper grill fort wayne" href="pepper-grill.html"><div class="name">Pepper Grill</div><div class="where">Fort Wayne</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="health" data-search="robinson valley smiles dental indianapolis" href="robinson-valley-smiles-dental.html"><div class="name">Robinson Valley Smiles Dental</div><div class="where">Indianapolis</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="allen hillside smiles dental fort wayne" href="allen-hillside-smiles-dental.html"><div class="name">Allen Hillside Smiles Dental</div><div class="where">Fort Wayne</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="pinewood health partners evansville" href="pinewood-health-partners.html"><div class="name">Pinewood Health Partners</div><div class="where">Evansville</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="lakeshore orthodontics indianapolis" href="lakeshore-orthodontics.html"><div class="name">Lakeshore Orthodontics</div><div class="where">Indianapolis</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="heritage health partners fort wayne" href="heritage-health-partners.html"><div class="name">Heritage Health Partners</div><div class="where">Fort Wayne</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="hernandez mercy medical group evansville" href="hernandez-mercy-medical-group.html"><div class="name">Hernandez Mercy Medical Group</div><div class="where">Evansville</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="pinewood clinic indianapolis" href="pinewood-clinic.html"><div class="name">Pinewood Clinic</div><div class="where">Indianapolis</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="adams westbrook clinic fort wayne" href="adams-westbrook-clinic.html"><div class="name">Adams Westbrook Clinic</div><div class="where">Fort Wayne</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="real_estate" data-search="golden gate property partners indianapolis" href="golden-gate-property-partners.html"><div class="name">Golden Gate Property Partners</div><div class="where">Indianapolis</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="roberts signature properties fort wayne" href="roberts-signature-properties.html"><div class="name">Roberts Signature Properties</div><div class="where">Fort Wayne</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="coastal real estate evansville" href="coastal-real-estate.html"><div class="name">Coastal Real Estate</div><div class="where">Evansville</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="cornerstone real estate group indianapolis" href="cornerstone-real-estate-group.html"><div class="name">Cornerstone Real Estate Group</div><div class="where">Indianapolis</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="lee prestige property partners fort wayne" href="lee-prestige-property-partners.html"><div class="name">Lee Prestige Property Partners</div><div class="where">Fort Wayne</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="flores harbor home team evansville" href="flores-harbor-home-team.html"><div class="name">Flores Harbor Home Team</div><div class="where">Evansville</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="premier homes indianapolis" href="premier-homes.html"><div class="name">Premier Homes</div><div class="where">Indianapolis</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="johnson premier homes fort wayne" href="johnson-premier-homes.html"><div class="name">Johnson Premier Homes</div><div class="where">Fort Wayne</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="law_firms" data-search="goldstein &amp; associates indianapolis" href="goldstein-and-associates.html"><div class="name">Goldstein &amp; Associates</div><div class="where">Indianapolis</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="hawthorne &amp; partners fort wayne" href="hawthorne-and-partners.html"><div class="name">Hawthorne &amp; Partners</div><div class="where">Fort Wayne</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="kensington legal evansville" href="kensington-legal.html"><div class="name">Kensington Legal</div><div class="where">Evansville</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="rutherford legal indianapolis" href="rutherford-legal.html"><div class="name">Rutherford Legal</div><div class="where">Indianapolis</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="goldstein &amp; associates fort wayne" href="goldstein-and-associates.html"><div class="name">Goldstein &amp; Associates</div><div class="where">Fort Wayne</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="walker caldwell legal evansville" href="walker-caldwell-legal.html"><div class="name">Walker Caldwell Legal</div><div class="where">Evansville</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="morgan legal services indianapolis" href="morgan-legal-services.html"><div class="name">Morgan Legal Services</div><div class="where">Indianapolis</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="goldstein law fort wayne" href="goldstein-law.html"><div class="name">Goldstein Law</div><div class="where">Fort Wayne</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>Indiana</h1>
+<p class="sub">46 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./aaa-pest-control.html"><div class="card-name">Aaa Pest Control</div><div class="card-url">aaa-pest-control.html</div></a>
+    <a class="card" href="./adams-westbrook-clinic.html"><div class="card-name">Adams Westbrook Clinic</div><div class="card-url">adams-westbrook-clinic.html</div></a>
+    <a class="card" href="./all-pro-hvac.html"><div class="card-name">All Pro Hvac</div><div class="card-url">all-pro-hvac.html</div></a>
+    <a class="card" href="./allen-hillside-smiles-dental.html"><div class="card-name">Allen Hillside Smiles Dental</div><div class="card-url">allen-hillside-smiles-dental.html</div></a>
+    <a class="card" href="./apex-roofing.html"><div class="card-name">Apex Roofing</div><div class="card-url">apex-roofing.html</div></a>
+    <a class="card" href="./blue-door-bistro.html"><div class="card-name">Blue Door Bistro</div><div class="card-url">blue-door-bistro.html</div></a>
+    <a class="card" href="./blue-door-grill.html"><div class="card-name">Blue Door Grill</div><div class="card-url">blue-door-grill.html</div></a>
+    <a class="card" href="./cedar-steakhouse.html"><div class="card-name">Cedar Steakhouse</div><div class="card-url">cedar-steakhouse.html</div></a>
+    <a class="card" href="./coastal-real-estate.html"><div class="card-name">Coastal Real Estate</div><div class="card-url">coastal-real-estate.html</div></a>
+    <a class="card" href="./copper-creek-mercantile.html"><div class="card-name">Copper Creek Mercantile</div><div class="card-url">copper-creek-mercantile.html</div></a>
+    <a class="card" href="./cornerstone-real-estate-group.html"><div class="card-name">Cornerstone Real Estate Group</div><div class="card-url">cornerstone-real-estate-group.html</div></a>
+    <a class="card" href="./cornerstone-studio.html"><div class="card-name">Cornerstone Studio</div><div class="card-url">cornerstone-studio.html</div></a>
+    <a class="card" href="./flores-harbor-home-team.html"><div class="card-name">Flores Harbor Home Team</div><div class="card-url">flores-harbor-home-team.html</div></a>
+    <a class="card" href="./golden-gate-property-partners.html"><div class="card-name">Golden Gate Property Partners</div><div class="card-url">golden-gate-property-partners.html</div></a>
+    <a class="card" href="./goldstein-and-associates.html"><div class="card-name">Goldstein And Associates</div><div class="card-url">goldstein-and-associates.html</div></a>
+    <a class="card" href="./goldstein-law.html"><div class="card-name">Goldstein Law</div><div class="card-url">goldstein-law.html</div></a>
+    <a class="card" href="./harvest-public-house.html"><div class="card-name">Harvest Public House</div><div class="card-url">harvest-public-house.html</div></a>
+    <a class="card" href="./hawthorne-and-partners.html"><div class="card-name">Hawthorne And Partners</div><div class="card-url">hawthorne-and-partners.html</div></a>
+    <a class="card" href="./heritage-health-partners.html"><div class="card-name">Heritage Health Partners</div><div class="card-url">heritage-health-partners.html</div></a>
+    <a class="card" href="./heritage-services.html"><div class="card-name">Heritage Services</div><div class="card-url">heritage-services.html</div></a>
+    <a class="card" href="./hernandez-mercy-medical-group.html"><div class="card-name">Hernandez Mercy Medical Group</div><div class="card-url">hernandez-mercy-medical-group.html</div></a>
+    <a class="card" href="./hill-aaa-garage-doors.html"><div class="card-name">Hill Aaa Garage Doors</div><div class="card-url">hill-aaa-garage-doors.html</div></a>
+    <a class="card" href="./johnson-premier-homes.html"><div class="card-name">Johnson Premier Homes</div><div class="card-url">johnson-premier-homes.html</div></a>
+    <a class="card" href="./kensington-legal.html"><div class="card-name">Kensington Legal</div><div class="card-url">kensington-legal.html</div></a>
+    <a class="card" href="./lakeshore-orthodontics.html"><div class="card-name">Lakeshore Orthodontics</div><div class="card-url">lakeshore-orthodontics.html</div></a>
+    <a class="card" href="./lee-prestige-property-partners.html"><div class="card-name">Lee Prestige Property Partners</div><div class="card-url">lee-prestige-property-partners.html</div></a>
+    <a class="card" href="./maple-pizzeria.html"><div class="card-name">Maple Pizzeria</div><div class="card-url">maple-pizzeria.html</div></a>
+    <a class="card" href="./maple-public-house.html"><div class="card-name">Maple Public House</div><div class="card-url">maple-public-house.html</div></a>
+    <a class="card" href="./millbrook-mercantile.html"><div class="card-name">Millbrook Mercantile</div><div class="card-url">millbrook-mercantile.html</div></a>
+    <a class="card" href="./millbrook-outfitters.html"><div class="card-name">Millbrook Outfitters</div><div class="card-url">millbrook-outfitters.html</div></a>
+    <a class="card" href="./morgan-legal-services.html"><div class="card-name">Morgan Legal Services</div><div class="card-url">morgan-legal-services.html</div></a>
+    <a class="card" href="./northside-outfitters.html"><div class="card-name">Northside Outfitters</div><div class="card-url">northside-outfitters.html</div></a>
+    <a class="card" href="./northside-signs.html"><div class="card-name">Northside Signs</div><div class="card-url">northside-signs.html</div></a>
+    <a class="card" href="./oak-steakhouse.html"><div class="card-name">Oak Steakhouse</div><div class="card-url">oak-steakhouse.html</div></a>
+    <a class="card" href="./parkside-print-shop.html"><div class="card-name">Parkside Print Shop</div><div class="card-url">parkside-print-shop.html</div></a>
+    <a class="card" href="./pepper-grill.html"><div class="card-name">Pepper Grill</div><div class="card-url">pepper-grill.html</div></a>
+    <a class="card" href="./pinewood-clinic.html"><div class="card-name">Pinewood Clinic</div><div class="card-url">pinewood-clinic.html</div></a>
+    <a class="card" href="./pinewood-health-partners.html"><div class="card-name">Pinewood Health Partners</div><div class="card-url">pinewood-health-partners.html</div></a>
+    <a class="card" href="./premier-homes.html"><div class="card-name">Premier Homes</div><div class="card-url">premier-homes.html</div></a>
+    <a class="card" href="./profix-locksmith.html"><div class="card-name">Profix Locksmith</div><div class="card-url">profix-locksmith.html</div></a>
+    <a class="card" href="./roberts-handy-pest-control.html"><div class="card-name">Roberts Handy Pest Control</div><div class="card-url">roberts-handy-pest-control.html</div></a>
+    <a class="card" href="./roberts-pioneer-hvac.html"><div class="card-name">Roberts Pioneer Hvac</div><div class="card-url">roberts-pioneer-hvac.html</div></a>
+    <a class="card" href="./roberts-signature-properties.html"><div class="card-name">Roberts Signature Properties</div><div class="card-url">roberts-signature-properties.html</div></a>
+    <a class="card" href="./robinson-valley-smiles-dental.html"><div class="card-name">Robinson Valley Smiles Dental</div><div class="card-url">robinson-valley-smiles-dental.html</div></a>
+    <a class="card" href="./rutherford-legal.html"><div class="card-name">Rutherford Legal</div><div class="card-url">rutherford-legal.html</div></a>
+    <a class="card" href="./walker-caldwell-legal.html"><div class="card-name">Walker Caldwell Legal</div><div class="card-url">walker-caldwell-legal.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

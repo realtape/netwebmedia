@@ -66,6 +66,7 @@ DIR_TREES = [
     ("crm-vanilla", "crm"),  # legacy vanilla CRM → /public_html/crm/
     ("blog", "blog"),        # blog posts including messaging playbooks
     ("pdf", "pdf"),          # sellable PDF playbooks
+    ("_deploy/companies", "companies"),  # city/state audit indexes
 ]
 
 # 3. CRM static export → /public_html/app/

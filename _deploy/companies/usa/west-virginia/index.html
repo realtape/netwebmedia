@@ -1,100 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>West Virginia (WV) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>West Virginia — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 48 businesses in West Virginia.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>West Virginia <span style="opacity:.6;font-size:24px">(WV)</span></h1>
-    <p>Coal, natural gas, outdoor tourism, chemicals</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in West Virginia</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="tourism">🏔️ Tourism &amp; Hospitality (8)</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span><span class="filter" data-n="local_specialist">🔧 Local Specialist Services (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="smb" data-search="redleaf studio charleston" href="redleaf-studio.html"><div class="name">Redleaf Studio</div><div class="where">Charleston</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="heritage print shop huntington" href="heritage-print-shop.html"><div class="name">Heritage Print Shop</div><div class="where">Huntington</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="riverstone depot morgantown" href="riverstone-depot.html"><div class="name">Riverstone Depot</div><div class="where">Morgantown</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="redleaf mercantile charleston" href="redleaf-mercantile.html"><div class="name">Redleaf Mercantile</div><div class="where">Charleston</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="millbrook print shop huntington" href="millbrook-print-shop.html"><div class="name">Millbrook Print Shop</div><div class="where">Huntington</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="ironwood solutions morgantown" href="ironwood-solutions.html"><div class="name">Ironwood Solutions</div><div class="where">Morgantown</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="bluebird hardware charleston" href="bluebird-hardware.html"><div class="name">Bluebird Hardware</div><div class="where">Charleston</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="greenway provisions huntington" href="greenway-provisions.html"><div class="name">Greenway Provisions</div><div class="where">Huntington</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="local_specialist" data-search="roberts first choice landscaping charleston" href="roberts-first-choice-landscaping.html"><div class="name">Roberts First Choice Landscaping</div><div class="where">Charleston</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="profix carpet care huntington" href="profix-carpet-care.html"><div class="name">ProFix Carpet Care</div><div class="where">Huntington</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="first choice electric morgantown" href="first-choice-electric.html"><div class="name">First Choice Electric</div><div class="where">Morgantown</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="aaa garage doors charleston" href="aaa-garage-doors.html"><div class="name">AAA Garage Doors</div><div class="where">Charleston</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="profix landscaping huntington" href="profix-landscaping.html"><div class="name">ProFix Landscaping</div><div class="where">Huntington</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="aaa painting morgantown" href="aaa-painting.html"><div class="name">AAA Painting</div><div class="where">Morgantown</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="quick services charleston" href="quick-services.html"><div class="name">Quick Services</div><div class="where">Charleston</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="local_specialist" data-search="aaa pest control huntington" href="aaa-pest-control.html"><div class="name">AAA Pest Control</div><div class="where">Huntington</div><span class="niche" style="background:#16a085">🔧 Local Specialist Services</span></a><a class="prospect" data-niche="restaurants" data-search="sage roadhouse charleston" href="sage-roadhouse.html"><div class="name">Sage Roadhouse</div><div class="where">Charleston</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="hickory alehouse huntington" href="hickory-alehouse.html"><div class="name">Hickory Alehouse</div><div class="where">Huntington</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="brickhouse smokehouse morgantown" href="brickhouse-smokehouse.html"><div class="name">Brickhouse Smokehouse</div><div class="where">Morgantown</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="oak alehouse charleston" href="oak-alehouse.html"><div class="name">Oak Alehouse</div><div class="where">Charleston</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="cedar grill huntington" href="cedar-grill.html"><div class="name">Cedar Grill</div><div class="where">Huntington</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="blue door diner morgantown" href="blue-door-diner.html"><div class="name">Blue Door Diner</div><div class="where">Morgantown</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="prairie diner charleston" href="prairie-diner.html"><div class="name">Prairie Diner</div><div class="where">Charleston</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="cedar kitchen huntington" href="cedar-kitchen.html"><div class="name">Cedar Kitchen</div><div class="where">Huntington</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="tourism" data-search="mountain getaway charleston" href="mountain-getaway.html"><div class="name">Mountain Getaway</div><div class="where">Charleston</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="timber outfitters huntington" href="timber-outfitters.html"><div class="name">Timber Outfitters</div><div class="where">Huntington</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="wildwood outfitters morgantown" href="wildwood-outfitters.html"><div class="name">Wildwood Outfitters</div><div class="where">Morgantown</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="heritage outfitters charleston" href="heritage-outfitters.html"><div class="name">Heritage Outfitters</div><div class="where">Charleston</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="lakeview tours huntington" href="lakeview-tours.html"><div class="name">Lakeview Tours</div><div class="where">Huntington</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="timber cabins morgantown" href="timber-cabins.html"><div class="name">Timber Cabins</div><div class="where">Morgantown</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="bayfront bed &amp; breakfast charleston" href="bayfront-bed-and-breakfast.html"><div class="name">Bayfront Bed &amp; Breakfast</div><div class="where">Charleston</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="tourism" data-search="silver inn huntington" href="silver-inn.html"><div class="name">Silver Inn</div><div class="where">Huntington</div><span class="niche" style="background:#3498db">🏔️ Tourism &amp; Hospitality</span></a><a class="prospect" data-niche="health" data-search="crestview pediatrics charleston" href="crestview-pediatrics.html"><div class="name">Crestview Pediatrics</div><div class="where">Charleston</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="young valley dermatology huntington" href="young-valley-dermatology.html"><div class="name">Young Valley Dermatology</div><div class="where">Huntington</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="wright pinewood chiropractic morgantown" href="wright-pinewood-chiropractic.html"><div class="name">Wright Pinewood Chiropractic</div><div class="where">Morgantown</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="parkview clinic charleston" href="parkview-clinic.html"><div class="name">Parkview Clinic</div><div class="where">Charleston</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="williams mercy orthodontics huntington" href="williams-mercy-orthodontics.html"><div class="name">Williams Mercy Orthodontics</div><div class="where">Huntington</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="hall pinewood dental morgantown" href="hall-pinewood-dental.html"><div class="name">Hall Pinewood Dental</div><div class="where">Morgantown</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="mercy dental charleston" href="mercy-dental.html"><div class="name">Mercy Dental</div><div class="where">Charleston</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="nguyen evergreen chiropractic huntington" href="nguyen-evergreen-chiropractic.html"><div class="name">Nguyen Evergreen Chiropractic</div><div class="where">Huntington</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="real_estate" data-search="roberts landmark properties charleston" href="roberts-landmark-properties.html"><div class="name">Roberts Landmark Properties</div><div class="where">Charleston</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="urban homes huntington" href="urban-homes.html"><div class="name">Urban Homes</div><div class="where">Huntington</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="beacon estates morgantown" href="beacon-estates.html"><div class="name">Beacon Estates</div><div class="where">Morgantown</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="harbor homes charleston" href="harbor-homes.html"><div class="name">Harbor Homes</div><div class="where">Charleston</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="signature realty group huntington" href="signature-realty-group.html"><div class="name">Signature Realty Group</div><div class="where">Huntington</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="urban real estate group morgantown" href="urban-real-estate-group.html"><div class="name">Urban Real Estate Group</div><div class="where">Morgantown</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="landmark real estate group charleston" href="landmark-real-estate-group.html"><div class="name">Landmark Real Estate Group</div><div class="where">Charleston</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="brown keystone homes huntington" href="brown-keystone-homes.html"><div class="name">Brown Keystone Homes</div><div class="where">Huntington</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>West Virginia</h1>
+<p class="sub">48 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./aaa-garage-doors.html"><div class="card-name">Aaa Garage Doors</div><div class="card-url">aaa-garage-doors.html</div></a>
+    <a class="card" href="./aaa-painting.html"><div class="card-name">Aaa Painting</div><div class="card-url">aaa-painting.html</div></a>
+    <a class="card" href="./aaa-pest-control.html"><div class="card-name">Aaa Pest Control</div><div class="card-url">aaa-pest-control.html</div></a>
+    <a class="card" href="./bayfront-bed-and-breakfast.html"><div class="card-name">Bayfront Bed And Breakfast</div><div class="card-url">bayfront-bed-and-breakfast.html</div></a>
+    <a class="card" href="./beacon-estates.html"><div class="card-name">Beacon Estates</div><div class="card-url">beacon-estates.html</div></a>
+    <a class="card" href="./blue-door-diner.html"><div class="card-name">Blue Door Diner</div><div class="card-url">blue-door-diner.html</div></a>
+    <a class="card" href="./bluebird-hardware.html"><div class="card-name">Bluebird Hardware</div><div class="card-url">bluebird-hardware.html</div></a>
+    <a class="card" href="./brickhouse-smokehouse.html"><div class="card-name">Brickhouse Smokehouse</div><div class="card-url">brickhouse-smokehouse.html</div></a>
+    <a class="card" href="./brown-keystone-homes.html"><div class="card-name">Brown Keystone Homes</div><div class="card-url">brown-keystone-homes.html</div></a>
+    <a class="card" href="./cedar-grill.html"><div class="card-name">Cedar Grill</div><div class="card-url">cedar-grill.html</div></a>
+    <a class="card" href="./cedar-kitchen.html"><div class="card-name">Cedar Kitchen</div><div class="card-url">cedar-kitchen.html</div></a>
+    <a class="card" href="./crestview-pediatrics.html"><div class="card-name">Crestview Pediatrics</div><div class="card-url">crestview-pediatrics.html</div></a>
+    <a class="card" href="./first-choice-electric.html"><div class="card-name">First Choice Electric</div><div class="card-url">first-choice-electric.html</div></a>
+    <a class="card" href="./greenway-provisions.html"><div class="card-name">Greenway Provisions</div><div class="card-url">greenway-provisions.html</div></a>
+    <a class="card" href="./hall-pinewood-dental.html"><div class="card-name">Hall Pinewood Dental</div><div class="card-url">hall-pinewood-dental.html</div></a>
+    <a class="card" href="./harbor-homes.html"><div class="card-name">Harbor Homes</div><div class="card-url">harbor-homes.html</div></a>
+    <a class="card" href="./heritage-outfitters.html"><div class="card-name">Heritage Outfitters</div><div class="card-url">heritage-outfitters.html</div></a>
+    <a class="card" href="./heritage-print-shop.html"><div class="card-name">Heritage Print Shop</div><div class="card-url">heritage-print-shop.html</div></a>
+    <a class="card" href="./hickory-alehouse.html"><div class="card-name">Hickory Alehouse</div><div class="card-url">hickory-alehouse.html</div></a>
+    <a class="card" href="./ironwood-solutions.html"><div class="card-name">Ironwood Solutions</div><div class="card-url">ironwood-solutions.html</div></a>
+    <a class="card" href="./lakeview-tours.html"><div class="card-name">Lakeview Tours</div><div class="card-url">lakeview-tours.html</div></a>
+    <a class="card" href="./landmark-real-estate-group.html"><div class="card-name">Landmark Real Estate Group</div><div class="card-url">landmark-real-estate-group.html</div></a>
+    <a class="card" href="./mercy-dental.html"><div class="card-name">Mercy Dental</div><div class="card-url">mercy-dental.html</div></a>
+    <a class="card" href="./millbrook-print-shop.html"><div class="card-name">Millbrook Print Shop</div><div class="card-url">millbrook-print-shop.html</div></a>
+    <a class="card" href="./mountain-getaway.html"><div class="card-name">Mountain Getaway</div><div class="card-url">mountain-getaway.html</div></a>
+    <a class="card" href="./nguyen-evergreen-chiropractic.html"><div class="card-name">Nguyen Evergreen Chiropractic</div><div class="card-url">nguyen-evergreen-chiropractic.html</div></a>
+    <a class="card" href="./oak-alehouse.html"><div class="card-name">Oak Alehouse</div><div class="card-url">oak-alehouse.html</div></a>
+    <a class="card" href="./parkview-clinic.html"><div class="card-name">Parkview Clinic</div><div class="card-url">parkview-clinic.html</div></a>
+    <a class="card" href="./prairie-diner.html"><div class="card-name">Prairie Diner</div><div class="card-url">prairie-diner.html</div></a>
+    <a class="card" href="./profix-carpet-care.html"><div class="card-name">Profix Carpet Care</div><div class="card-url">profix-carpet-care.html</div></a>
+    <a class="card" href="./profix-landscaping.html"><div class="card-name">Profix Landscaping</div><div class="card-url">profix-landscaping.html</div></a>
+    <a class="card" href="./quick-services.html"><div class="card-name">Quick Services</div><div class="card-url">quick-services.html</div></a>
+    <a class="card" href="./redleaf-mercantile.html"><div class="card-name">Redleaf Mercantile</div><div class="card-url">redleaf-mercantile.html</div></a>
+    <a class="card" href="./redleaf-studio.html"><div class="card-name">Redleaf Studio</div><div class="card-url">redleaf-studio.html</div></a>
+    <a class="card" href="./riverstone-depot.html"><div class="card-name">Riverstone Depot</div><div class="card-url">riverstone-depot.html</div></a>
+    <a class="card" href="./roberts-first-choice-landscaping.html"><div class="card-name">Roberts First Choice Landscaping</div><div class="card-url">roberts-first-choice-landscaping.html</div></a>
+    <a class="card" href="./roberts-landmark-properties.html"><div class="card-name">Roberts Landmark Properties</div><div class="card-url">roberts-landmark-properties.html</div></a>
+    <a class="card" href="./sage-roadhouse.html"><div class="card-name">Sage Roadhouse</div><div class="card-url">sage-roadhouse.html</div></a>
+    <a class="card" href="./signature-realty-group.html"><div class="card-name">Signature Realty Group</div><div class="card-url">signature-realty-group.html</div></a>
+    <a class="card" href="./silver-inn.html"><div class="card-name">Silver Inn</div><div class="card-url">silver-inn.html</div></a>
+    <a class="card" href="./timber-cabins.html"><div class="card-name">Timber Cabins</div><div class="card-url">timber-cabins.html</div></a>
+    <a class="card" href="./timber-outfitters.html"><div class="card-name">Timber Outfitters</div><div class="card-url">timber-outfitters.html</div></a>
+    <a class="card" href="./urban-homes.html"><div class="card-name">Urban Homes</div><div class="card-url">urban-homes.html</div></a>
+    <a class="card" href="./urban-real-estate-group.html"><div class="card-name">Urban Real Estate Group</div><div class="card-url">urban-real-estate-group.html</div></a>
+    <a class="card" href="./wildwood-outfitters.html"><div class="card-name">Wildwood Outfitters</div><div class="card-url">wildwood-outfitters.html</div></a>
+    <a class="card" href="./williams-mercy-orthodontics.html"><div class="card-name">Williams Mercy Orthodontics</div><div class="card-url">williams-mercy-orthodontics.html</div></a>
+    <a class="card" href="./wright-pinewood-chiropractic.html"><div class="card-name">Wright Pinewood Chiropractic</div><div class="card-url">wright-pinewood-chiropractic.html</div></a>
+    <a class="card" href="./young-valley-dermatology.html"><div class="card-name">Young Valley Dermatology</div><div class="card-url">young-valley-dermatology.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

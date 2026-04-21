@@ -1,100 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>New Jersey (NJ) — 48 prospects | NetWebMedia</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.55}
-.container{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
-.hero{background:linear-gradient(135deg,#FF6B00,#ff4e00);color:#fff;padding:48px 32px;border-radius:18px;margin-bottom:28px;box-shadow:0 20px 48px rgba(255,107,0,.28)}
-.hero h1{font-size:40px;margin-bottom:10px;letter-spacing:-.5px}
-.hero p{font-size:16px;opacity:.95;max-width:720px}
-.hero .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-.hero .chip{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:99px;font-size:13px;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:28px}
-.kpi{background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.04);text-align:center}
-.kpi .n{font-size:32px;font-weight:800;color:#FF6B00;line-height:1}
-.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-top:6px;font-weight:700}
-section{background:#fff;padding:26px;border-radius:14px;box-shadow:0 2px 6px rgba(0,0,0,.04);margin-bottom:22px}
-section h2{font-size:22px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
-section h2::before{content:'';width:4px;height:24px;background:#FF6B00;border-radius:2px}
-.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-.state{display:block;text-decoration:none;color:inherit;background:#fafbff;padding:14px 16px;border-radius:10px;border:1px solid #eee;transition:all .15s}
-.state:hover{background:#fff4ef;border-color:#FF6B00;transform:translateY(-2px);box-shadow:0 6px 18px rgba(255,107,0,.12)}
-.state .code{font-size:11px;color:#999;font-weight:700;letter-spacing:.5px}
-.state .name{font-size:15px;font-weight:700;margin:2px 0 4px}
-.state .count{font-size:12px;color:#FF6B00;font-weight:600}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
-.filter{padding:6px 14px;border-radius:99px;background:#eef;font-size:12px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:all .12s;user-select:none}
-.filter.active{background:#FF6B00;color:#fff;border-color:#FF6B00}
-.filter:hover{border-color:#FF6B00}
-input[type=search]{width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:10px;font-size:14px;margin-bottom:14px;font-family:inherit}
-input[type=search]:focus{outline:none;border-color:#FF6B00;box-shadow:0 0 0 3px rgba(255,107,0,.15)}
-.prospects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.prospect{background:#fafbff;padding:14px 16px;border-radius:10px;border-left:4px solid #FF6B00;text-decoration:none;color:inherit;transition:all .15s;display:block}
-.prospect:hover{background:#fff;box-shadow:0 8px 22px rgba(0,0,0,.07);transform:translateX(2px)}
-.prospect .name{font-size:14px;font-weight:700;margin-bottom:2px}
-.prospect .where{font-size:12px;color:#666}
-.prospect .niche{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:99px;color:#fff;margin-top:6px}
-.niche-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;font-size:12px}
-.niche-legend .leg{display:flex;align-items:center;gap:6px}
-.niche-legend .sw{width:12px;height:12px;border-radius:3px}
-.showing{font-size:13px;color:#666;margin-bottom:12px}
-footer{text-align:center;color:#999;font-size:12px;margin-top:30px}
-@media(max-width:640px){.hero h1{font-size:28px}.prospects{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>New Jersey — Business Audit | NetWebMedia</title>
+  <meta name="description" content="NetWebMedia audit of 48 businesses in New Jersey.">
+  <link rel="canonical" href="https://netwebmedia.com/companies/">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:#0b0d1a; color:#ccd6f6; font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; padding:48px 20px 80px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .back { color:#8892b0; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:20px; }
+    .back:hover { color:#22d3ee; }
+    h1 { font-size:clamp(26px,5vw,42px); background:linear-gradient(135deg,#22d3ee,#a29bfe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:12px; font-weight:800; }
+    .sub { color:#8892b0; font-size:15px; margin-bottom:32px; line-height:1.5; }
+    .stats { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:32px; }
+    .stat { background:#12152b; border:1px solid #1e2340; border-radius:12px; padding:16px 22px; }
+    .stat-num { font-size:22px; font-weight:800; color:#e6f1ff; }
+    .stat-lbl { font-size:11px; color:#8892b0; text-transform:uppercase; letter-spacing:.08em; margin-top:2px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
+    .card { background:#12152b; border:1px solid #1e2340; border-radius:10px; padding:14px 18px; text-decoration:none; color:#ccd6f6; transition:border-color .2s,transform .1s; }
+    .card:hover { border-color:#22d3ee; color:#e6f1ff; transform:translateY(-1px); }
+    .card-name { font-size:14px; font-weight:600; }
+    .card-url { font-size:11px; color:#64748b; margin-top:3px; }
+  </style>
 </head>
-<body>
-<div class="container">
-  <p><a href="../index.html" style="color:#FF6B00;text-decoration:none;font-size:13px">← All 50 states</a></p>
-  <div class="hero">
-    <h1>New Jersey <span style="opacity:.6;font-size:24px">(NJ)</span></h1>
-    <p>Pharma, finance, ports, dense suburbs of NYC</p>
-    <div class="chips">
-      <span class="chip">🇺🇸 48 prospects</span>
-      <span class="chip">🎯 6 niches</span>
-      <span class="chip">📍 3 cities</span>
-    </div>
-  </div>
-  <section>
-    <h2>Prospects in New Jersey</h2>
-    <input type="search" id="q" placeholder="Search by company or city..." />
-    <div class="filters"><span class="filter active" data-n="all">All 48</span><span class="filter" data-n="restaurants">🍽️ Restaurants &amp; Gastronomy (8)</span><span class="filter" data-n="health">⚕️ Health &amp; Medical (8)</span><span class="filter" data-n="beauty">💅 Beauty &amp; Wellness (8)</span><span class="filter" data-n="smb">🏪 Small/Medium Business (8)</span><span class="filter" data-n="law_firms">⚖️ Law Firms &amp; Legal (8)</span><span class="filter" data-n="real_estate">🏡 Real Estate &amp; Property (8)</span></div>
-    <div class="showing" id="showing">Showing all 48 prospects</div>
-    <div class="prospects" id="list"><a class="prospect" data-niche="health" data-search="riverside medical group newark" href="riverside-medical-group.html"><div class="name">Riverside Medical Group</div><div class="where">Newark</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="clark hillside pediatrics jersey city" href="clark-hillside-pediatrics.html"><div class="name">Clark Hillside Pediatrics</div><div class="where">Jersey City</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="lee harborview clinic paterson" href="lee-harborview-clinic.html"><div class="name">Lee Harborview Clinic</div><div class="where">Paterson</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="robinson pinewood pediatrics newark" href="robinson-pinewood-pediatrics.html"><div class="name">Robinson Pinewood Pediatrics</div><div class="where">Newark</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="westbrook dental jersey city" href="westbrook-dental.html"><div class="name">Westbrook Dental</div><div class="where">Jersey City</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="crestview clinic paterson" href="crestview-clinic.html"><div class="name">Crestview Clinic</div><div class="where">Paterson</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="williams valley urgent care newark" href="williams-valley-urgent-care.html"><div class="name">Williams Valley Urgent Care</div><div class="where">Newark</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="health" data-search="cedar clinic jersey city" href="cedar-clinic.html"><div class="name">Cedar Clinic</div><div class="where">Jersey City</div><span class="niche" style="background:#27ae60">⚕️ Health &amp; Medical</span></a><a class="prospect" data-niche="real_estate" data-search="harbor realty newark" href="harbor-realty.html"><div class="name">Harbor Realty</div><div class="where">Newark</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="skyline home team jersey city" href="skyline-home-team.html"><div class="name">Skyline Home Team</div><div class="where">Jersey City</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="harris coastal realty partners paterson" href="harris-coastal-realty-partners.html"><div class="name">Harris Coastal Realty Partners</div><div class="where">Paterson</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="smith summit homes newark" href="smith-summit-homes.html"><div class="name">Smith Summit Homes</div><div class="where">Newark</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="lopez cornerstone real estate jersey city" href="lopez-cornerstone-real-estate.html"><div class="name">Lopez Cornerstone Real Estate</div><div class="where">Jersey City</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="premier realty paterson" href="premier-realty.html"><div class="name">Premier Realty</div><div class="where">Paterson</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="landmark realty co. newark" href="landmark-realty-co.html"><div class="name">Landmark Realty Co.</div><div class="where">Newark</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="real_estate" data-search="landmark estates jersey city" href="landmark-estates.html"><div class="name">Landmark Estates</div><div class="where">Jersey City</div><span class="niche" style="background:#c0392b">🏡 Real Estate &amp; Property</span></a><a class="prospect" data-niche="law_firms" data-search="hall o&#x27;connor law newark" href="hall-oconnor-law.html"><div class="name">Hall O&#x27;Connor Law</div><div class="where">Newark</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="nelson sinclair &amp; partners jersey city" href="nelson-sinclair-and-partners.html"><div class="name">Nelson Sinclair &amp; Partners</div><div class="where">Jersey City</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="kensington &amp; partners paterson" href="kensington-and-partners.html"><div class="name">Kensington &amp; Partners</div><div class="where">Paterson</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="harrison &amp; associates newark" href="harrison-and-associates.html"><div class="name">Harrison &amp; Associates</div><div class="where">Newark</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="perez morgan &amp; partners jersey city" href="perez-morgan-and-partners.html"><div class="name">Perez Morgan &amp; Partners</div><div class="where">Jersey City</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="harrison &amp; partners paterson" href="harrison-and-partners.html"><div class="name">Harrison &amp; Partners</div><div class="where">Paterson</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="brown harrison &amp; associates newark" href="brown-harrison-and-associates.html"><div class="name">Brown Harrison &amp; Associates</div><div class="where">Newark</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="law_firms" data-search="caldwell &amp; co., attorneys at law jersey city" href="caldwell-and-co-attorneys-at-law.html"><div class="name">Caldwell &amp; Co., Attorneys at Law</div><div class="where">Jersey City</div><span class="niche" style="background:#1a1a2e">⚖️ Law Firms &amp; Legal</span></a><a class="prospect" data-niche="restaurants" data-search="silver roadhouse newark" href="silver-roadhouse.html"><div class="name">Silver Roadhouse</div><div class="where">Newark</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="oak cafe jersey city" href="oak-cafe.html"><div class="name">Oak Cafe</div><div class="where">Jersey City</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="tavern smokehouse paterson" href="tavern-smokehouse.html"><div class="name">Tavern Smokehouse</div><div class="where">Paterson</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="prairie diner newark" href="prairie-diner.html"><div class="name">Prairie Diner</div><div class="where">Newark</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="birch brasserie jersey city" href="birch-brasserie.html"><div class="name">Birch Brasserie</div><div class="where">Jersey City</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="cedar pizzeria paterson" href="cedar-pizzeria.html"><div class="name">Cedar Pizzeria</div><div class="where">Paterson</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="brickhouse kitchen newark" href="brickhouse-kitchen.html"><div class="name">Brickhouse Kitchen</div><div class="where">Newark</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="restaurants" data-search="red barn public house jersey city" href="red-barn-public-house.html"><div class="name">Red Barn Public House</div><div class="where">Jersey City</div><span class="niche" style="background:#e67e22">🍽️ Restaurants &amp; Gastronomy</span></a><a class="prospect" data-niche="beauty" data-search="willow salon newark" href="willow-salon.html"><div class="name">Willow Salon</div><div class="where">Newark</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="vivid beauty bar jersey city" href="vivid-beauty-bar.html"><div class="name">Vivid Beauty Bar</div><div class="where">Jersey City</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="orchid beauty bar paterson" href="orchid-beauty-bar.html"><div class="name">Orchid Beauty Bar</div><div class="where">Paterson</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="halo salon newark" href="halo-salon.html"><div class="name">Halo Salon</div><div class="where">Newark</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="glow hair lounge jersey city" href="glow-hair-lounge.html"><div class="name">Glow Hair Lounge</div><div class="where">Jersey City</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="velvet beauty bar paterson" href="velvet-beauty-bar.html"><div class="name">Velvet Beauty Bar</div><div class="where">Paterson</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="willow brow bar newark" href="willow-brow-bar.html"><div class="name">Willow Brow Bar</div><div class="where">Newark</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="beauty" data-search="muse med spa jersey city" href="muse-med-spa.html"><div class="name">Muse Med Spa</div><div class="where">Jersey City</div><span class="niche" style="background:#e91e63">💅 Beauty &amp; Wellness</span></a><a class="prospect" data-niche="smb" data-search="riverstone provisions newark" href="riverstone-provisions.html"><div class="name">Riverstone Provisions</div><div class="where">Newark</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="southside mercantile jersey city" href="southside-mercantile.html"><div class="name">Southside Mercantile</div><div class="where">Jersey City</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="fox run provisions paterson" href="fox-run-provisions.html"><div class="name">Fox Run Provisions</div><div class="where">Paterson</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="southside supply co. newark" href="southside-supply-co.html"><div class="name">Southside Supply Co.</div><div class="where">Newark</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="northside hardware jersey city" href="northside-hardware.html"><div class="name">Northside Hardware</div><div class="where">Jersey City</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="oakwood supply co. paterson" href="oakwood-supply-co.html"><div class="name">Oakwood Supply Co.</div><div class="where">Paterson</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="ironwood print shop newark" href="ironwood-print-shop.html"><div class="name">Ironwood Print Shop</div><div class="where">Newark</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a><a class="prospect" data-niche="smb" data-search="riverstone services jersey city" href="riverstone-services.html"><div class="name">Riverstone Services</div><div class="where">Jersey City</div><span class="niche" style="background:#9b59b6">🏪 Small/Medium Business</span></a></div>
-  </section>
-  <footer>NetWebMedia · April 2026</footer>
+<body><div class="wrap"><a class="back" href="../">&larr; All states</a>
+<h1>New Jersey</h1>
+<p class="sub">48 businesses audited.</p>
+<div class="grid">
+    <a class="card" href="./birch-brasserie.html"><div class="card-name">Birch Brasserie</div><div class="card-url">birch-brasserie.html</div></a>
+    <a class="card" href="./brickhouse-kitchen.html"><div class="card-name">Brickhouse Kitchen</div><div class="card-url">brickhouse-kitchen.html</div></a>
+    <a class="card" href="./brown-harrison-and-associates.html"><div class="card-name">Brown Harrison And Associates</div><div class="card-url">brown-harrison-and-associates.html</div></a>
+    <a class="card" href="./caldwell-and-co-attorneys-at-law.html"><div class="card-name">Caldwell And Co Attorneys At Law</div><div class="card-url">caldwell-and-co-attorneys-at-law.html</div></a>
+    <a class="card" href="./cedar-clinic.html"><div class="card-name">Cedar Clinic</div><div class="card-url">cedar-clinic.html</div></a>
+    <a class="card" href="./cedar-pizzeria.html"><div class="card-name">Cedar Pizzeria</div><div class="card-url">cedar-pizzeria.html</div></a>
+    <a class="card" href="./clark-hillside-pediatrics.html"><div class="card-name">Clark Hillside Pediatrics</div><div class="card-url">clark-hillside-pediatrics.html</div></a>
+    <a class="card" href="./crestview-clinic.html"><div class="card-name">Crestview Clinic</div><div class="card-url">crestview-clinic.html</div></a>
+    <a class="card" href="./fox-run-provisions.html"><div class="card-name">Fox Run Provisions</div><div class="card-url">fox-run-provisions.html</div></a>
+    <a class="card" href="./glow-hair-lounge.html"><div class="card-name">Glow Hair Lounge</div><div class="card-url">glow-hair-lounge.html</div></a>
+    <a class="card" href="./hall-oconnor-law.html"><div class="card-name">Hall Oconnor Law</div><div class="card-url">hall-oconnor-law.html</div></a>
+    <a class="card" href="./halo-salon.html"><div class="card-name">Halo Salon</div><div class="card-url">halo-salon.html</div></a>
+    <a class="card" href="./harbor-realty.html"><div class="card-name">Harbor Realty</div><div class="card-url">harbor-realty.html</div></a>
+    <a class="card" href="./harris-coastal-realty-partners.html"><div class="card-name">Harris Coastal Realty Partners</div><div class="card-url">harris-coastal-realty-partners.html</div></a>
+    <a class="card" href="./harrison-and-associates.html"><div class="card-name">Harrison And Associates</div><div class="card-url">harrison-and-associates.html</div></a>
+    <a class="card" href="./harrison-and-partners.html"><div class="card-name">Harrison And Partners</div><div class="card-url">harrison-and-partners.html</div></a>
+    <a class="card" href="./ironwood-print-shop.html"><div class="card-name">Ironwood Print Shop</div><div class="card-url">ironwood-print-shop.html</div></a>
+    <a class="card" href="./kensington-and-partners.html"><div class="card-name">Kensington And Partners</div><div class="card-url">kensington-and-partners.html</div></a>
+    <a class="card" href="./landmark-estates.html"><div class="card-name">Landmark Estates</div><div class="card-url">landmark-estates.html</div></a>
+    <a class="card" href="./landmark-realty-co.html"><div class="card-name">Landmark Realty Co</div><div class="card-url">landmark-realty-co.html</div></a>
+    <a class="card" href="./lee-harborview-clinic.html"><div class="card-name">Lee Harborview Clinic</div><div class="card-url">lee-harborview-clinic.html</div></a>
+    <a class="card" href="./lopez-cornerstone-real-estate.html"><div class="card-name">Lopez Cornerstone Real Estate</div><div class="card-url">lopez-cornerstone-real-estate.html</div></a>
+    <a class="card" href="./muse-med-spa.html"><div class="card-name">Muse Med Spa</div><div class="card-url">muse-med-spa.html</div></a>
+    <a class="card" href="./nelson-sinclair-and-partners.html"><div class="card-name">Nelson Sinclair And Partners</div><div class="card-url">nelson-sinclair-and-partners.html</div></a>
+    <a class="card" href="./northside-hardware.html"><div class="card-name">Northside Hardware</div><div class="card-url">northside-hardware.html</div></a>
+    <a class="card" href="./oak-cafe.html"><div class="card-name">Oak Cafe</div><div class="card-url">oak-cafe.html</div></a>
+    <a class="card" href="./oakwood-supply-co.html"><div class="card-name">Oakwood Supply Co</div><div class="card-url">oakwood-supply-co.html</div></a>
+    <a class="card" href="./orchid-beauty-bar.html"><div class="card-name">Orchid Beauty Bar</div><div class="card-url">orchid-beauty-bar.html</div></a>
+    <a class="card" href="./perez-morgan-and-partners.html"><div class="card-name">Perez Morgan And Partners</div><div class="card-url">perez-morgan-and-partners.html</div></a>
+    <a class="card" href="./prairie-diner.html"><div class="card-name">Prairie Diner</div><div class="card-url">prairie-diner.html</div></a>
+    <a class="card" href="./premier-realty.html"><div class="card-name">Premier Realty</div><div class="card-url">premier-realty.html</div></a>
+    <a class="card" href="./red-barn-public-house.html"><div class="card-name">Red Barn Public House</div><div class="card-url">red-barn-public-house.html</div></a>
+    <a class="card" href="./riverside-medical-group.html"><div class="card-name">Riverside Medical Group</div><div class="card-url">riverside-medical-group.html</div></a>
+    <a class="card" href="./riverstone-provisions.html"><div class="card-name">Riverstone Provisions</div><div class="card-url">riverstone-provisions.html</div></a>
+    <a class="card" href="./riverstone-services.html"><div class="card-name">Riverstone Services</div><div class="card-url">riverstone-services.html</div></a>
+    <a class="card" href="./robinson-pinewood-pediatrics.html"><div class="card-name">Robinson Pinewood Pediatrics</div><div class="card-url">robinson-pinewood-pediatrics.html</div></a>
+    <a class="card" href="./silver-roadhouse.html"><div class="card-name">Silver Roadhouse</div><div class="card-url">silver-roadhouse.html</div></a>
+    <a class="card" href="./skyline-home-team.html"><div class="card-name">Skyline Home Team</div><div class="card-url">skyline-home-team.html</div></a>
+    <a class="card" href="./smith-summit-homes.html"><div class="card-name">Smith Summit Homes</div><div class="card-url">smith-summit-homes.html</div></a>
+    <a class="card" href="./southside-mercantile.html"><div class="card-name">Southside Mercantile</div><div class="card-url">southside-mercantile.html</div></a>
+    <a class="card" href="./southside-supply-co.html"><div class="card-name">Southside Supply Co</div><div class="card-url">southside-supply-co.html</div></a>
+    <a class="card" href="./tavern-smokehouse.html"><div class="card-name">Tavern Smokehouse</div><div class="card-url">tavern-smokehouse.html</div></a>
+    <a class="card" href="./velvet-beauty-bar.html"><div class="card-name">Velvet Beauty Bar</div><div class="card-url">velvet-beauty-bar.html</div></a>
+    <a class="card" href="./vivid-beauty-bar.html"><div class="card-name">Vivid Beauty Bar</div><div class="card-url">vivid-beauty-bar.html</div></a>
+    <a class="card" href="./westbrook-dental.html"><div class="card-name">Westbrook Dental</div><div class="card-url">westbrook-dental.html</div></a>
+    <a class="card" href="./williams-valley-urgent-care.html"><div class="card-name">Williams Valley Urgent Care</div><div class="card-url">williams-valley-urgent-care.html</div></a>
+    <a class="card" href="./willow-brow-bar.html"><div class="card-name">Willow Brow Bar</div><div class="card-url">willow-brow-bar.html</div></a>
+    <a class="card" href="./willow-salon.html"><div class="card-name">Willow Salon</div><div class="card-url">willow-salon.html</div></a>
 </div>
-<script>
-(function(){
-  var list = document.getElementById('list');
-  var items = list.querySelectorAll('.prospect');
-  var showing = document.getElementById('showing');
-  var q = document.getElementById('q');
-  var currentNiche = 'all';
-  function apply(){
-    var term = (q.value||'').toLowerCase().trim();
-    var count = 0;
-    items.forEach(function(el){
-      var okN = currentNiche==='all' || el.dataset.niche===currentNiche;
-      var okQ = !term || el.dataset.search.indexOf(term) !== -1;
-      var show = okN && okQ;
-      el.style.display = show ? '' : 'none';
-      if (show) count++;
-    });
-    showing.textContent = 'Showing ' + count.toLocaleString() + ' prospects';
-  }
-  q.addEventListener('input', apply);
-  document.querySelectorAll('.filter').forEach(function(f){
-    f.addEventListener('click', function(){
-      document.querySelectorAll('.filter').forEach(function(x){x.classList.remove('active')});
-      f.classList.add('active');
-      currentNiche = f.dataset.n;
-      apply();
-    });
-  });
-})();
-</script>
-</body>
-</html>
+</div></body></html>

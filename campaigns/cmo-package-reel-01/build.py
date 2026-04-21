@@ -39,9 +39,9 @@ REG = str(FONT_DIR / "arial.ttf")
 
 # Stock + logo assets
 PHOTO_HOOK     = STOCK / "w_3861958.jpg"       # Woman at dual monitors / code (Shot 1)
-PHOTO_AUTO     = STOCK / "auto_8849287.jpg"    # Robot hand, blue bokeh — AI/automation (Shot 2)
-PHOTO_FEATURES = STOCK / "auto_7693142.jpg"    # Laptop with analytics dashboard (Shot 3)
-PHOTO_SLEEP    = STOCK / "sleep_31964019.jpg"  # Cafe laptop coffee workspace (Shot 4)
+PHOTO_AUTO     = STOCK / "m_16129728.jpg"      # Developer at dual desktop monitors (Shot 2)
+PHOTO_FEATURES = STOCK / "w_7971641.jpg"       # Woman at clean desktop workstation (Shot 3)
+PHOTO_SLEEP    = STOCK / "m_8123856.jpg"       # Man at iMac desktop, business attire (Shot 4)
 PHOTO_PROOF    = STOCK / "m_6937860.jpg"       # Man at startup desk, professional (Shot 5)
 LOGO_512 = ASSETS / "nwm-logo-512.png"
 LOGO_256 = ASSETS / "nwm-logo-256.png"

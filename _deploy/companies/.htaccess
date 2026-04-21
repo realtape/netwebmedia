@@ -1,0 +1,20 @@
+# /companies/.htaccess — smart 404 handler
+# Any .html file that doesn't exist in a city folder redirects to that city's index.
+# So /companies/temuco/gasfiteria-don-luis.html → /companies/temuco/ (shows all 61 Temuco businesses)
+
+RewriteEngine On
+
+# If the request is for a file in /companies/<city>/<slug>.html that doesn't exist,
+# redirect (302) to the city folder's index.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)/[^/]+\.html$ /companies/$1/ [R=302,L]
+
+# If the request is for a file in /companies/usa/<state>/<slug>.html that doesn't exist,
+# redirect to the state index.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^usa/([^/]+)/[^/]+\.html$ /companies/usa/$1/ [R=302,L]
+
+# Everything else that 404s inside /companies/ → bounce to /companies/ root
+ErrorDocument 404 /companies/

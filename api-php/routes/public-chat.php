@@ -178,35 +178,22 @@ function route_public_chat() {
   $r = ai_call_claude($sys, $message, $history, 'claude-3-5-sonnet-20241022');
 
   if (!empty($r['error'])) {
+    // Log the raw Claude error server-side for diagnosis (error_log → PHP log).
+    error_log('public-chat: claude error code=' . ($r['code'] ?? '?') . ' msg=' . ($r['error'] ?? '?'));
     $reply = $lang === 'es'
-      ? "Tuve un problema técnico respondiendo. Escríbenos a *hello@netwebmedia.com* o agenda 30 min en /contact.html."
-      : "I hit a technical issue. Please email *hello@netwebmedia.com* or book 30 min at /contact.html.";
+      ? "Tuve un problema técnico respondiendo ahora mismo. Mientras lo resolvemos: escríbenos a *hello@netwebmedia.com*, chatea con nosotros en WhatsApp, o agenda 30 min en /contact.html — respondemos en pocas horas hábiles."
+      : "I hit a technical issue just now. While we sort it out: email *hello@netwebmedia.com*, ping us on WhatsApp, or book a 30-min call at /contact.html — we reply within a few business hours.";
     pchat_log_turn($sessionId, $ip, $lang, 'assistant', $reply . ' [error:' . ($r['error'] ?? '?') . ']', $page, $ref, $ua);
-    $out = [
+    json_out([
       'session_id' => $sessionId,
       'reply' => $reply,
       'suggested_actions' => [
         ['label' => $lang === 'es' ? 'Agendar llamada' : 'Book a call', 'href' => '/contact.html'],
         ['label' => 'hello@netwebmedia.com', 'href' => 'mailto:hello@netwebmedia.com'],
+        ['label' => 'WhatsApp', 'href' => 'https://wa.me/message/'],
       ],
       'error_internal' => true,
-    ];
-    // TEMP diagnostic: surface claude error when X-Debug-Token matches.
-    // Remove this block once ai/key issue is resolved.
-    if (($_SERVER['HTTP_X_DEBUG_TOKEN'] ?? '') === 'nwm-diag-2026-04-21') {
-      $cfg = function_exists('config') ? config() : [];
-      $key = $cfg['anthropic_api_key'] ?? '';
-      $out['_debug'] = [
-        'claude_error' => $r['error'] ?? null,
-        'claude_code' => $r['code'] ?? null,
-        'claude_raw' => isset($r['raw']) ? substr($r['raw'], 0, 300) : null,
-        'key_present' => !empty($key),
-        'key_prefix' => $key ? substr($key, 0, 7) . '...' : null,
-        'key_length' => $key ? strlen($key) : 0,
-        'config_local_exists' => file_exists(__DIR__ . '/../config.local.php'),
-      ];
-    }
-    json_out($out);
+    ]);
   }
 
   $reply = $r['text'] ?? '';

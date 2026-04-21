@@ -4,6 +4,26 @@
 </IfModule>
 # php -- END cPanel-generated handler, do not edit
 
+# ── Block sensitive directories from public access ─────────────────────
+# robots.txt disallows these, but server-level denial is the hard guarantee.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^\.venv(/|$)              - [F,L]
+  RewriteRule ^_deploy(/|$)             - [F,L]
+  RewriteRule ^_backup(/|$)             - [F,L]
+  RewriteRule ^_cron(/|$)               - [F,L]
+  RewriteRule ^backend(/|$)             - [F,L]
+  RewriteRule ^api-php(/|$)             - [F,L]
+  RewriteRule ^n8n-templates(/|$)       - [F,L]
+  RewriteRule ^plans(/|$)               - [F,L]
+  RewriteRule ^guides(/|$)              - [F,L]
+  RewriteRule ^proposals(/|$)           - [F,L]
+  RewriteRule ^deliverables(/|$)        - [F,L]
+  RewriteRule ^email-templates(/|$)     - [F,L]
+  RewriteRule ^site-upload(/|$)         - [F,L]
+  RewriteRule ^lp(/|$)                  - [F,L]
+</IfModule>
+
 # ── URL redirects (301) ────────────────────────────────────────────────
 # Clean URLs → canonical .html destinations.
 # /qna.html was an old nav link; Q&A now lives at /faq.html.

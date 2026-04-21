@@ -175,7 +175,7 @@ function route_public_chat() {
   pchat_log_turn($sessionId, $ip, $lang, 'user', $message, $page, $ref, $ua);
 
   $sys = pchat_public_system_prompt($lang);
-  $r = ai_call_claude($sys, $message, $history, 'claude-3-5-sonnet-20241022');
+  $r = ai_call_claude($sys, $message, $history, 'claude-sonnet-4-5');
 
   if (!empty($r['error'])) {
     // Log the raw Claude error server-side for diagnosis (error_log → PHP log).
@@ -184,20 +184,7 @@ function route_public_chat() {
       ? "Tuve un problema técnico respondiendo ahora mismo. Mientras lo resolvemos: escríbenos a *hello@netwebmedia.com*, chatea con nosotros en WhatsApp, o agenda 30 min en /contact.html — respondemos en pocas horas hábiles."
       : "I hit a technical issue just now. While we sort it out: email *hello@netwebmedia.com*, ping us on WhatsApp, or book a 30-min call at /contact.html — we reply within a few business hours.";
     pchat_log_turn($sessionId, $ip, $lang, 'assistant', $reply . ' [error:' . ($r['error'] ?? '?') . ']', $page, $ref, $ua);
-    $dbg = $_SERVER['HTTP_X_DEBUG_TOKEN'] ?? '';
-    $dbgPayload = ($dbg === 'nwm-diag-2026-04-21c') ? [
-      'debug_error' => $r['error'] ?? null,
-      'debug_code'  => $r['code']  ?? null,
-      'debug_key_preview' => function_exists('ai_anthropic_key')
-        ? (substr((string)ai_anthropic_key(), 0, 22) . '...' . substr((string)ai_anthropic_key(), -6) . ' (' . strlen((string)ai_anthropic_key()) . 'ch)')
-        : 'n/a',
-      'debug_config_local_exists' => file_exists(__DIR__ . '/../config.local.php'),
-      'debug_config_local_mtime' => file_exists(__DIR__ . '/../config.local.php')
-        ? date('c', filemtime(__DIR__ . '/../config.local.php'))
-        : null,
-      'debug_opcache_reset' => function_exists('opcache_reset') ? opcache_reset() : 'not-available',
-    ] : [];
-    json_out(array_merge([
+    json_out([
       'session_id' => $sessionId,
       'reply' => $reply,
       'suggested_actions' => [
@@ -206,7 +193,7 @@ function route_public_chat() {
         ['label' => 'WhatsApp', 'href' => 'https://wa.me/message/'],
       ],
       'error_internal' => true,
-    ], $dbgPayload));
+    ]);
   }
 
   $reply = $r['text'] ?? '';

@@ -794,6 +794,261 @@ WHAT HAPPENS WHEN YOU CANCEL
   write the job description, interview candidates alongside you, and
   hand off the strategy context. No drama.
 
+━━ 20. TUTORIAL ESSENTIALS — DEEP REFERENCE FACTS ━━
+
+These facts are extracted from the live tutorial pages. Use them when a prospect
+asks technical or process questions about specific services. Cite the tutorial
+URL where relevant to encourage self-service and signal credibility.
+
+TUTORIAL: /tutorials/whatsapp-automation.html — WhatsApp Bot Setup
+Key facts:
+  • Course: 8 modules, 38 lessons, 180+ copy-paste message templates (EN + ES bilingual).
+  • Three API tiers exist: Consumer App, Business App (manual), and Business API
+    (automation-grade). Only the API enables webhooks, chatbots, and broadcast at scale.
+    Any business sending >50 conversations/day needs the API.
+  • Top BSPs: Twilio, 360dialog, Meta Cloud API, Vonage, MessageBird.
+    360dialog is the fastest to go live — 24–48 hours from application to approval.
+    Meta Cloud API is the cheapest (free hosting) but requires more technical setup.
+  • Webhook must respond HTTP 200 within 20 seconds or Meta marks delivery failed.
+    Use a queue (Redis, SQS) to acknowledge instantly and process asynchronously.
+  • Four conversation categories: Marketing, Utility, Authentication, Service.
+    Service conversations (user-initiated) cost the least. Marketing costs the most.
+  • Phone number quality rating: Green / Yellow / Red. Red limits sends to 250/day.
+    Warm-up schedule: 250 → 500 → 1k → 2k → 10k over 6 weeks.
+    Block/report rate above 0.3% means messaging needs adjustment.
+  • Template approval: 24–72 hours. Build the library before you need it.
+    CATS framework (Category → Action → Text → Submit) lifts approval rate from ~70% to ~95%.
+  • Welcome sequence: 5 automated messages over 30 minutes (T+0, T+8, T+15, T+22, T+30 min).
+    SERVE framework: Start, Educate, Reveal, Validate, Execute.
+  • Broadcast targets: Open Rate >60% (industry avg 45%), Reply Rate >20% on broadcasts,
+    >60% on sequences. Conversation-to-Lead target >30%, Lead-to-Close >15%.
+  • KPIs to track: Template Delivery Rate (>97%), Open Rate, Reply Rate, Conversation-to-Lead,
+    Lead-to-Close, Quality Rating (always Green).
+  • Scale thresholds: 500 contacts → 1 number OK; 5,000 → consider 2nd number;
+    10,000 → multi-number WABA, dedicated BSP account manager, compliance audit quarterly.
+  • NetWebMedia deploys full WhatsApp automation — API to first 1,000 automated
+    conversations — in 14 days.
+Common pitfalls:
+  • Using WhatsApp Business App instead of API — cannot automate, cannot scale.
+  • Doing database writes or AI calls inside the synchronous webhook handler — causes timeouts.
+  • Broadcasting to the full list without SLICE segmentation (Stage, Language, Industry, City,
+    Engagement-date) — higher block rates, lower quality score.
+  • Skipping the warm-up schedule — a spammy broadcast can destroy number health in 48 hours.
+  • Letting a 24-hour conversation window expire without capturing a reply — wasted slot.
+When to recommend: Any prospect who wants zero manual replies to inbound messages,
+  runs a bilingual (EN/ES) operation, or needs to scale beyond 50 conversations/day.
+  Also recommend when they ask how NetWebMedia itself communicates with clients.
+
+TUTORIAL: /tutorials/chatbot-automation.html — Web Chatbot Setup
+Key facts:
+  • Course: 9 modules, 45-minute read. Covers web widget, WhatsApp, Instagram DM,
+    Facebook Messenger, and SMS as one unified automation system.
+  • DIAL Framework: every chatbot interaction follows Detect → Intend → Answer → Loop.
+    Every broken conversation can be diagnosed against these four phases.
+  • Conversational openers outperform menu-driven openers: internal benchmarks show
+    2.3x more completed qualification flows with conversational style vs. menus.
+  • Intent taxonomy: 5–8 top-level intent groups, 3–8 specific intents per group.
+    More than 10 intents per group and the classifier struggles to discriminate.
+  • Training phrases: minimum 15 per intent (target 25), max 70% lexical similarity
+    between any two phrases, at least 3 misspelled variants, 3 ultra-short variants,
+    2 per additional language.
+  • Confidence thresholds (three-zone model): >0.80 execute without confirmation;
+    0.50–0.80 execute with soft confirmation; <0.50 trigger clarification flow.
+  • BANT qualification order via chatbot: Need → Timeline → Authority → Budget.
+    Asking budget first feels like gatekeeping; asking need first feels like advising.
+  • Failure states: misunderstanding → 2-option reframe question; no-answer → collect
+    email and trigger async follow-up within an hour; out-of-scope → acknowledge and
+    route to human, never improvise.
+  • Maximum clarification loop: 2 attempts — third failure always escalates to human.
+  • Persona must be consistent across every channel. Name "Alex" works in EN + ES.
+    Disclose AI status when directly asked — never hide it.
+  • Channels deployed simultaneously: web widget, WhatsApp, Instagram DM, Facebook
+    Messenger, SMS. One intent taxonomy serves all channels.
+Common pitfalls:
+  • Building a transaction (menu of options) instead of a conversation (open question)
+    as the bot's first message — kills qualification rate.
+  • Fewer than 15 training phrases per intent — produces brittle classifier that fails in
+    production.
+  • Not handling all three failure states (misunderstanding, no-answer, out-of-scope) —
+    broken conversations become lost leads.
+  • Inconsistent persona across channels (casual on WhatsApp, formal on web widget) —
+    erodes brand trust.
+When to recommend: Prospect wants 24/7 lead qualification without hiring staff, or
+  asks how the bot on the website handles different types of questions.
+
+TUTORIAL: /tutorials/nwm-crm.html — NWM CRM Walkthrough
+Key facts:
+  • 7 hubs, 46 tools total. Replaces 8–15 separate tools (HubSpot, Mailchimp,
+    Intercom, WordPress, Kajabi, Calendly, AgencyAnalytics).
+  • Pricing: Starter $49/mo (1 user, 2,500 contacts, 1 pipeline);
+    Professional $99/mo (5 users, 10,000 contacts, 5 pipelines, HubSpot connection);
+    Enterprise $249/mo (unlimited users + contacts, WhatsApp, SSO, white-label).
+    Month-to-month, cancel anytime. Comparable HubSpot + Circle + Kajabi + Zendesk
+    stack costs $1,500+/month for equivalent features.
+  • Demo: live at netwebmedia.com/crm-demo/ — 42 sample contacts, 18 deals, 60+
+    conversations. No signup needed. Resets on refresh.
+  • Setup time: 4 hours minimum; don't squeeze between meetings.
+    Setup wizard: 6 questions covering business name, industry (24 options), team size,
+    sales method, current tools, timezone/currency.
+  • #1 pre-setup decision: people-first vs. company-first. Changing this later is painful.
+  • #1 first-week mistake: importing all contacts before setting sales stages. Set stages
+    first, then import.
+  • Import: CSV upload, file size limit 10 MB (~30,000 rows). Speed: ~1,000 rows/second.
+    Migrates from HubSpot in 15–30 min (5,000-contact account). Pipedrive migration same.
+    Salesforce migration is Enterprise-only white-glove, 3 business days.
+  • Default pipeline: 7 stages (New Lead 5% → Contacted 15% → Qualified 30% →
+    Proposal Sent 55% → Negotiation 75% → Closed Won 100% → Closed Lost 0%).
+    Deal aging colors: white (healthy), yellow (threshold passed), red (likely dead).
+    Monday pipeline review discipline improves forecast accuracy 40–60%.
+  • Connections: Integrations hub connects 200+ apps via one-click. Webhooks for
+    event-driven triggers. Calendar syncs both ways with Google and Microsoft.
+  • AI Agents inside CRM: AI Copilot (drafts emails, summarizes calls), AI SDR
+    (prospects outbound autonomously, hands off when reply received), Voice AI
+    (takes/makes calls, writes transcript to contact record), Video Factory,
+    Content AI.
+  • Not for: sales teams over 500 people, payment processing (Stripe connected,
+    not replaced), inventory/manufacturing software.
+Common pitfalls:
+  • Importing contacts before defining sales stages — 10,000 people stuck in "New Lead."
+  • Going over 5 custom fields — every extra field is noise if nobody fills it in.
+  • Using a committee to own the CRM instead of one named person — adoption fails.
+  • Skipping the setup wizard — default settings are painful to change after data exists.
+When to recommend: Any prospect asking what CRM NetWebMedia uses, whether they need
+  to replace HubSpot, or how to manage contacts, deals, and automations in one place.
+
+TUTORIAL: /tutorials/paid-ads.html — Paid Ads Management
+Key facts:
+  • Minimum ad spend requirement: $5,000/month. Below that, management fee eats results.
+    Under $5k, the tutorial itself redirects to "automatic workflows" instead.
+  • Channels: Google Search (high buying intent), Meta/Facebook+Instagram (broad reach,
+    retargeting), TikTok Ads (cheap awareness, under-35 audiences),
+    LinkedIn (expensive but precise, B2B deals >$10,000).
+  • Week 1 setup: audit existing accounts, fix tracking (GA4, Meta Pixel, Google
+    Conversions, enhanced conversions), map buyer journey, wire ads to NWM CRM,
+    audit creative library.
+  • Creative is 90% of ad performance — not targeting. Weekly brief: 5 new ad ideas.
+    Test at $50/day per ad for 3 days. Scale ads beating avg cost per customer by 30%+.
+    Kill ads at 1.5x average cost by day 4.
+  • Budget split: 70% winners (made money last 30 days), 20% scale tests (finding
+    ceiling of recent winners), 10% experiments (new channels, formats, angles).
+  • Weekly review: every Monday 10am in client's timezone. 30-minute call covering
+    spend, cost per customer, ROAS, top 3 ads, bottom 3 ads, next week's brief.
+  • Attribution triangulation: GA4 (baseline truth), post-purchase survey ("where did
+    you hear about us?"), quarterly turn-off tests by region, full media modeling for
+    accounts >$50,000/month spend. Never trust platform-reported numbers alone —
+    Meta and Google both over-claim.
+  • STANDALONE PRICING (separate from CMO bundle):
+      Essentials: 1 channel, up to $10k/month ad spend → $1,490/month management fee
+      Multi-channel: 2–3 channels, up to $50k/month → $2,990/month
+      Scale: 4+ channels, $50k+/month → 10% of ad spend
+  • CMO Growth/Scale bundle: 12% of ad spend (different from standalone 10% on Scale).
+    IMPORTANT: standalone Scale tier = 10%; CMO bundle fee = 12%. Both are correct —
+    context determines which applies.
+  • Client owns all ad accounts always — NWM added as a user, never as owner.
+  • Results timeline: weeks 2–3 winning ads emerge; month 2 ROAS stabilizes;
+    month 3+ winners scaled, losers eliminated, higher returns than start.
+Common pitfalls:
+  • Running one ad forever — audiences get tired fast; refresh creative weekly.
+  • Tracking clicks, not customers — clicks are cheap; track cost per acquired customer.
+  • Trusting platform-reported numbers only — always cross-check against GA4 and CRM.
+  • Starting with less than $5,000/month spend — management overhead outweighs results.
+When to recommend: Prospect with $5k+/month ad budget who wants data-driven management,
+  or anyone asking about Facebook Ads, Google Ads, or TikTok Ads management pricing.
+
+TUTORIAL: /tutorials/ai-seo.html — AEO/SEO Content Engine
+Key facts:
+  • AEO (Answer Engine Optimization): getting named in ChatGPT, Perplexity, Claude,
+    and Google AI Overviews. Different from Google ranking — AI rewards clear Q&A pages,
+    real numbers and specifics, recent content, and original proprietary data.
+  • Three-part plan: (A) Topic clusters — 5–8 pillar pages (3,000 words each) with
+    10–20 supporting articles per pillar; (B) Question pages — every sales question
+    answered on its own URL; (C) Original data — case studies and stats AI tools
+    cannot find elsewhere.
+  • Content output: 2 long pillar articles + 4 supporting articles per week.
+    AI writes first draft; human expert from client's industry edits; editor polishes.
+    Final content is approximately 50% AI, 50% human.
+  • Internal linking rule: every new article links to 3–5 older ones. Builds authority
+    fast for both Google and AI systems.
+  • Quarterly deep site check: speed, structure, broken links, search engine readability.
+  • Tools: Ahrefs or Semrush (keyword research + backlink tracking), NWM CRM Content AI
+    (brand-voice-matched drafts), NWM Blog (auto internal links), human editors (2 on
+    staff, each 5+ years B2B writing), ChatGPT/Perplexity/Claude queried weekly to
+    check if client site is being named.
+  • Measurement: website sessions, Google keyword rankings (top 10 count), AI mentions
+    (30+ target questions per week across ChatGPT/Perplexity/Claude), revenue impact
+    (% of SQLs that touched an article before buying).
+  • STANDALONE PRICING:
+      Starter: 4 articles/month, monthly reporting → $1,490/month
+      Growth: 12 articles/month, weekly reporting, link building → $3,490/month
+      Scale: 24 articles/month, dedicated writer + strategist, quarterly deep audit
+             → $6,990/month
+    Link building (Growth + Scale plans): outreach-based PR only — podcasts, data
+    stories, expert quotes. Never paid links — paid links get sites banned by Google.
+  • Content in Spanish: available; ~40% of NWM's work is bilingual; native Spanish
+    editors on staff.
+  • Timeline: months 1–3 foundation, first rankings appear; months 4–6 traffic 2–4x,
+    first AI mentions; months 7–12 traffic 5–10x, regular AI mentions, direct brand
+    searches grow.
+Common pitfalls:
+  • Publishing AI drafts without human editing — Google and AI both reward unique human
+    insight; unedited AI content blends into noise.
+  • Chasing keyword volume instead of customer questions — a page answering one real
+    buyer question beats ten high-volume pages.
+  • Giving up at month 3 — that is the dip before compounding begins (month 4 onward).
+  • Anyone promising SEO results in 30 days is lying or using paid links that risk a
+    Google ban. Real SEO takes 6 months minimum.
+When to recommend: Prospect who asks "how do I show up when someone asks ChatGPT about
+  my industry?" or wants organic lead generation without ongoing ad spend.
+
+TUTORIAL: /tutorials/sms-automation.html — SMS Bot Setup
+Key facts:
+  • Course: 7 modules, 31 lessons. Covers SMS, Instagram DM, and Facebook Messenger as
+    a unified multi-platform automation system.
+  • SMS open rate: 98%. Average response time: 90 seconds. Email open rate: 20–22%.
+    The gap has been stable for a decade.
+  • US compliance: TCPA violations start at $500/message, up to $1,500 for willful.
+    FCC 23-107 (effective January 27, 2025) ended blanket consent — each brand needs
+    its own consent record per contact. Third-party lead gen consent no longer transfers.
+  • Double opt-in reduces opt-out rates 40–60% in most deployments vs. single opt-in.
+    3-Touch Consent Loop: (1) form submission + checkbox, (2) confirmation SMS within
+    60 seconds asking reply YES, (3) YES reply triggers welcome + logs consent-confirmed
+    timestamp. All three touches logged separately as legal defense.
+  • Mandatory compliance keywords: STOP (+ STOPALL, UNSUBSCRIBE, CANCEL, END, QUIT),
+    HELP (+ INFO), JOIN/START/YES. All variants must be handled. Response time: under
+    5 seconds. Never delay compliance keywords behind a rate limiter.
+  • Consent documentation (6 required CRM fields): contact phone, timestamp, source URL,
+    exact consent language shown, IP address, processing agent/system. Back up monthly
+    to encrypted cold storage — legal defense cannot depend on SaaS data availability
+    4 years later.
+  • Keyword Taxonomy (4 tiers): Tier 1 Compliance (STOP/HELP), Tier 2 Intent
+    (INFO/DEMO/QUOTE/PRICE), Tier 3 Action (YES/CONFIRM/BOOK/BUY), Tier 4 Recovery
+    (CANCEL/PAUSE/NO/NOT NOW). Priority stack: Tier 1 wins all; within Tier 2–4 most
+    specific wins; Tier 3 action beats Tier 4 recovery.
+  • Platform limits: SMS 10DLC — no technical keyword limit but keep menu choices
+    3–5 per message; toll-free verified — 1 msg/sec throughput; shortcodes —
+    100 msg/sec, 6–8 week provisioning lead time; Instagram/FB ManyChat — 50 keyword
+    triggers on Growth plan. Stay under 80% of platform limit for headroom.
+  • Send-time rules: US contacts 8am–9pm local; Chilean contacts 8am–10pm local.
+    After-hours auto-reply must set explicit next-business-day expectation.
+  • Chile/LATAM: governed by Ley 19.628 (Chile), LGPD (Brazil). Build to US TCPA
+    standards and you're covered everywhere. STOP recognized universally; configure
+    DETENER/BASTA/CANCELAR as Spanish opt-out synonyms for LATAM contacts.
+  • Meta DM rule: respond to inbound only — cold-initiating a DM is against Meta's
+    policies and potentially illegal. For DM campaigns with promotional content, collect
+    explicit consent via linked landing page with full documentation.
+Common pitfalls:
+  • Overriding STOP/HELP in custom logic — carrier-level compliance keywords must never
+    be intercepted by custom automation.
+  • Single opt-in only — legally sufficient but deliverability suffers without double opt-in.
+  • Not tagging contacts by jurisdiction (US vs. CL vs. BR) — different send-time
+    rules and consent language required per country.
+  • Using one ad for Instagram DM and trying to cold-initiate — violates Meta policy.
+  • Shortcode provisioning takes 6–8 weeks — plan ahead; campaigns blocked waiting on
+    a shortcode that wasn't ordered early enough.
+When to recommend: Prospect asking about text message marketing, re-engagement campaigns,
+  Instagram DM automation, or any business that wants the highest-open-rate channel
+  automated without manual replies.
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                          BASE DE CONOCIMIENTO EN ESPAÑOL
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1472,6 +1727,298 @@ QUÉ PASA CUANDO CANCELAS
   Si contratas un CMO in-house: nos traslapamos hasta 60 días, ayudamos a escribir
   la descripción del cargo, entrevistamos candidatos contigo, y hacemos el handoff
   de contexto estratégico.
+
+━━ 20. ESENCIALES DE TUTORIALES — HECHOS DE REFERENCIA PROFUNDA ━━
+
+Estos hechos se extraen de las páginas de tutoriales activas. Úsalos cuando un prospecto
+haga preguntas técnicas o de proceso sobre servicios específicos. Cita la URL del tutorial
+cuando sea relevante para fomentar el autoservicio y señalar credibilidad.
+
+TUTORIAL: /tutorials/whatsapp-automation.html — Configuración del Bot de WhatsApp
+Hechos clave:
+  • Curso: 8 módulos, 38 lecciones, más de 180 plantillas de mensajes listas para copiar
+    y pegar (bilingüe EN + ES).
+  • Tres niveles de API: App de Consumidor, App de Negocio (manual) y API de Negocio
+    (nivel de automatización). Solo la API permite mensajería automática, webhooks,
+    integración con chatbots y broadcasts a escala. Cualquier negocio que envíe más de
+    50 conversaciones por día necesita la API.
+  • BSPs principales: Twilio, 360dialog, Meta Cloud API, Vonage, MessageBird.
+    360dialog es el más rápido para entrar en producción — 24 a 48 horas desde la
+    solicitud hasta la aprobación. Meta Cloud API es el más económico (hosting gratis)
+    pero requiere más configuración técnica.
+  • El webhook debe responder HTTP 200 en menos de 20 segundos o Meta marca el envío
+    como fallido. Usar una cola (Redis, SQS) para acusar recibo de inmediato y procesar
+    de forma asíncrona.
+  • Cuatro categorías de conversación: Marketing, Utilidad, Autenticación, Servicio.
+    Las conversaciones de Servicio (iniciadas por el usuario) cuestan menos. Marketing
+    es la más cara.
+  • Clasificación de calidad del número: Verde / Amarillo / Rojo. Rojo limita envíos a
+    250 por día. Calendario de calentamiento: 250 → 500 → 1k → 2k → 10k en 6 semanas.
+    Tasa de bloqueo/reporte superior a 0.3% indica que la mensajería necesita ajuste.
+  • Aprobación de plantillas: 24 a 72 horas. Construir la biblioteca antes de necesitarla.
+    El framework CATS (Categoría → Acción → Texto → Enviar) eleva la tasa de aprobación
+    del ~70% al ~95%.
+  • Secuencia de bienvenida: 5 mensajes automatizados en 30 minutos (T+0, T+8, T+15,
+    T+22, T+30 min). Framework SERVE: Start (Iniciar), Educate (Educar), Reveal
+    (Revelar), Validate (Validar), Execute (Ejecutar).
+  • Objetivos de broadcast: Open Rate >60% (promedio del sector 45%), Reply Rate >20%
+    en broadcasts, >60% en secuencias. Conversación-a-Lead objetivo >30%,
+    Lead-a-Cierre >15%.
+  • KPIs a seguir: Tasa de Entrega de Plantillas (>97%), Open Rate, Reply Rate,
+    Conversación-a-Lead, Lead-a-Cierre, Clasificación de Calidad (siempre Verde).
+  • NetWebMedia despliega la automatización completa de WhatsApp — desde la conexión API
+    hasta las primeras 1.000 conversaciones automatizadas — en 14 días.
+Errores comunes:
+  • Usar la App de WhatsApp Business en lugar de la API — no permite automatizar ni
+    escalar.
+  • Hacer escrituras en base de datos o llamadas a IA dentro del manejador sincrónico
+    del webhook — causa timeouts.
+  • Hacer broadcast a toda la lista sin segmentación SLICE (Stage, Language, Industry,
+    City, Engagement-date) — mayores tasas de bloqueo, menor calificación de calidad.
+  • Saltarse el calendario de calentamiento — una campaña de broadcast sin control puede
+    destruir la salud del número en 48 horas.
+Cuándo recomendar: Prospectos que quieren cero respuestas manuales a mensajes entrantes,
+  operan en formato bilingüe (EN/ES), o necesitan escalar más allá de 50 conversaciones
+  diarias. También recomendar cuando preguntan cómo NetWebMedia se comunica con sus clientes.
+
+TUTORIAL: /tutorials/chatbot-automation.html — Configuración del Chatbot Web
+Hechos clave:
+  • Curso: 9 módulos, 45 minutos de lectura. Cubre widget web, WhatsApp, Instagram DM,
+    Facebook Messenger y SMS como un sistema de automatización unificado.
+  • Framework DIAL: toda interacción con chatbot sigue Detectar → Identificar intención →
+    Responder → Continuar. Cualquier conversación rota puede diagnosticarse con estas
+    cuatro fases.
+  • Los aperturas conversacionales superan a los menús de opciones: benchmarks internos
+    muestran 2,3 veces más flujos de calificación completados con estilo conversacional
+    frente a menús.
+  • Taxonomía de intenciones: 5 a 8 grupos de intenciones de alto nivel, 3 a 8 intenciones
+    específicas por grupo. Más de 10 intenciones por grupo dificultan la discriminación
+    del clasificador.
+  • Frases de entrenamiento: mínimo 15 por intención (objetivo 25), similitud léxica
+    máxima del 70% entre dos frases del mismo grupo, al menos 3 variantes con errores
+    ortográficos, 3 variantes muy cortas, 2 por idioma adicional.
+  • Umbrales de confianza (modelo de tres zonas): >0,80 ejecutar sin confirmación;
+    0,50–0,80 ejecutar con confirmación suave; <0,50 activar flujo de aclaración.
+  • Orden óptimo del BANT via chatbot: Necesidad → Plazo → Autoridad → Presupuesto.
+    Preguntar el presupuesto primero se siente como un filtro; preguntar la necesidad
+    primero se siente como asesoría.
+  • Estados de fallo: malentendido → pregunta de reencuadre con 2 opciones; sin respuesta
+    → recoger email y activar seguimiento asíncrono en una hora; fuera de alcance →
+    reconocer y derivar a un humano, nunca improvisar.
+  • Límite máximo de bucle de aclaración: 2 intentos — el tercer fallo siempre escala
+    a un humano.
+  • El bot "Alex" funciona bien en inglés y español. Revelar el estado de IA cuando se
+    pregunta directamente — nunca ocultarlo.
+Errores comunes:
+  • Construir una transacción (menú de opciones) en lugar de una conversación (pregunta
+    abierta) como primer mensaje del bot — destruye la tasa de calificación.
+  • Menos de 15 frases de entrenamiento por intención — produce un clasificador frágil
+    que falla en producción.
+  • No gestionar los tres estados de fallo — las conversaciones rotas se convierten en
+    leads perdidos.
+Cuándo recomendar: Prospectos que quieren calificación de leads 24/7 sin contratar
+  personal, o que preguntan cómo el bot del sitio web maneja distintos tipos de preguntas.
+
+TUTORIAL: /tutorials/nwm-crm.html — Recorrido por el NWM CRM
+Hechos clave:
+  • 7 secciones (hubs), 46 herramientas en total. Reemplaza 8 a 15 herramientas separadas
+    (HubSpot, Mailchimp, Intercom, WordPress, Kajabi, Calendly, AgencyAnalytics).
+  • Precios: Starter $49/mes (1 usuario, 2.500 contactos, 1 pipeline);
+    Professional $99/mes (5 usuarios, 10.000 contactos, 5 pipelines, conexión a HubSpot);
+    Enterprise $249/mes (usuarios y contactos ilimitados, WhatsApp, SSO, marca blanca).
+    Facturación mes a mes, cancelación en cualquier momento. Un stack equivalente de
+    HubSpot + Circle + Kajabi + Zendesk cuesta más de $1.500/mes.
+  • Demo: disponible en netwebmedia.com/crm-demo/ — 42 contactos de muestra, 18 deals,
+    más de 60 conversaciones. Sin necesidad de registro. Se resetea al refrescar la página.
+  • Tiempo de configuración: mínimo 4 horas; no hacer entre reuniones.
+    Asistente de configuración: 6 preguntas (nombre del negocio, industria entre 24
+    opciones, tamaño del equipo, método de venta, herramientas actuales, zona horaria
+    y moneda).
+  • Decisión previa más importante: personas primero vs. empresas primero. Cambiar esto
+    después es doloroso.
+  • Error más frecuente la primera semana: importar contactos antes de configurar las
+    etapas de ventas. Configurar primero las etapas, luego importar.
+  • Importación: CSV, límite de 10 MB por archivo (~30.000 filas). Velocidad: ~1.000
+    filas por segundo. Migración desde HubSpot en 15–30 min (cuenta de 5.000 contactos).
+    Migración de Salesforce solo en plan Enterprise, servicio personalizado de 3 días
+    laborables.
+  • Pipeline por defecto: 7 etapas (New Lead 5% → Contacted 15% → Qualified 30% →
+    Proposal Sent 55% → Negotiation 75% → Closed Won 100% → Closed Lost 0%).
+    Colores por antigüedad: blanco (saludable), amarillo (umbral superado), rojo
+    (probablemente muerto). La revisión del pipeline cada lunes mejora la precisión del
+    forecast entre un 40% y un 60%.
+  • AI Agents dentro del CRM: AI Copilot (redacta emails, resume llamadas), AI SDR
+    (prospección outbound autónoma, deriva al humano cuando hay respuesta), Voice AI
+    (atiende y realiza llamadas, escribe transcripción en el registro del contacto),
+    Video Factory, Content AI.
+  • No es para: equipos de ventas de más de 500 personas, procesamiento de pagos (se
+    conecta a Stripe, no lo reemplaza), software de inventario o manufactura.
+Errores comunes:
+  • Importar contactos antes de definir las etapas de ventas — 10.000 personas atascadas
+    en "New Lead".
+  • Superar 5 campos personalizados — cada campo extra es ruido si nadie lo llena.
+  • Usar un comité como dueño del CRM en lugar de una persona asignada — la adopción
+    fracasa.
+Cuándo recomendar: Prospectos que preguntan qué CRM usa NetWebMedia, si deben reemplazar
+  HubSpot, o cómo gestionar contactos, deals y automatizaciones en un solo lugar.
+
+TUTORIAL: /tutorials/paid-ads.html — Gestión de Publicidad Pagada
+Hechos clave:
+  • Inversión mínima en ads requerida: $5.000/mes. Por debajo de eso, la tarifa de
+    gestión consume los resultados. Con menos de $5k, el tutorial redirige a
+    "flujos automáticos" en lugar de gestión de ads.
+  • Canales: Google Search (alta intención de compra), Meta/Facebook+Instagram
+    (alcance amplio, retargeting), TikTok Ads (alcance económico, audiencias menores
+    de 35 años), LinkedIn (caro pero preciso, deals B2B mayores a $10.000).
+  • Configuración semana 1: auditar cuentas existentes, corregir el tracking (GA4,
+    Meta Pixel, Google Conversions, conversiones mejoradas), mapear el viaje del
+    comprador, conectar ads al NWM CRM, auditar la biblioteca de creatividades.
+  • La creatividad representa el 90% del rendimiento del anuncio — no el targeting.
+    Brief semanal: 5 ideas nuevas de anuncio. Test a $50/día por anuncio durante 3 días.
+    Escalar anuncios que superen el costo promedio por cliente en un 30%+.
+    Pausar anuncios a 1,5 veces el costo promedio en el día 4.
+  • División del presupuesto: 70% ganadores (generaron dinero en los últimos 30 días),
+    20% pruebas de escala (encontrando el techo de ganadores recientes), 10%
+    experimentos (nuevos canales, formatos, ángulos).
+  • Revisión semanal: cada lunes a las 10am en la zona horaria del cliente. Llamada de
+    30 minutos con gasto, costo por cliente, ROAS, top 3 anuncios, 3 peores, brief
+    de la semana siguiente.
+  • Atribución: triangulación con GA4 (verdad base), encuesta post-compra ("¿cómo nos
+    conociste?"), pruebas de apagado trimestrales por región, modelado de medios completo
+    para cuentas de más de $50.000/mes. Meta y Google sobreestiman sus propias
+    conversiones — nunca confiar solo en los números de la plataforma.
+  • PRECIOS STANDALONE (separados del paquete CMO):
+      Essentials: 1 canal, hasta $10k/mes de gasto → $1.490/mes de tarifa de gestión
+      Multi-channel: 2–3 canales, hasta $50k/mes → $2.990/mes
+      Scale: 4+ canales, $50k+/mes → 10% del gasto en ads
+  • Paquete CMO Growth/Scale: 12% del gasto en ads (diferente al 10% standalone en Scale).
+    IMPORTANTE: nivel Scale standalone = 10%; tarifa del paquete CMO = 12%. Ambos son
+    correctos — el contexto determina cuál aplica.
+  • El cliente es siempre dueño de las cuentas de ads — NWM se agrega como usuario,
+    nunca como propietario.
+  • Cronograma de resultados: semanas 2–3 emergen los anuncios ganadores; mes 2 el ROAS
+    se estabiliza; mes 3+ ganadores escalados, perdedores eliminados.
+Errores comunes:
+  • Correr un solo anuncio indefinidamente — las audiencias se agotan rápido; renovar
+    creatividades semanalmente.
+  • Medir clics en lugar de clientes — los clics son baratos; lo que importa es el
+    costo por cliente adquirido.
+  • Confiar solo en los números de la plataforma — siempre cruzar con GA4 y el CRM.
+  • Empezar con menos de $5.000/mes de gasto — la sobrecarga de gestión supera
+    los resultados.
+Cuándo recomendar: Prospectos con $5k+/mes de presupuesto en ads que quieren gestión
+  basada en datos, o que preguntan por precios de gestión de Facebook Ads, Google Ads
+  o TikTok Ads.
+
+TUTORIAL: /tutorials/ai-seo.html — Motor de Contenido AEO/SEO
+Hechos clave:
+  • AEO (Answer Engine Optimization): ser nombrado en ChatGPT, Perplexity, Claude y
+    los AI Overviews de Google. Diferente al ranking en Google — la IA premia páginas
+    de preguntas y respuestas claras, números y datos específicos reales, contenido
+    reciente y datos originales y propios.
+  • Plan de tres partes: (A) Clusters temáticos — 5 a 8 páginas pilar (3.000 palabras
+    cada una) con 10 a 20 artículos de soporte por pilar; (B) Páginas de preguntas —
+    cada pregunta de ventas respondida en su propia URL; (C) Datos originales —
+    estudios de caso y estadísticas que los sistemas de IA no pueden encontrar en
+    otro lugar.
+  • Producción de contenido: 2 artículos pilar largos + 4 artículos de apoyo por semana.
+    La IA escribe el primer borrador; un experto humano de la industria del cliente
+    edita; un editor pule. El contenido final es aproximadamente 50% IA, 50% humano.
+  • Regla de enlaces internos: cada artículo nuevo enlaza 3 a 5 artículos anteriores.
+    Construye autoridad rápido tanto para Google como para sistemas de IA.
+  • Revisión técnica profunda trimestral: velocidad, estructura, enlaces rotos,
+    legibilidad para motores de búsqueda.
+  • Herramientas: Ahrefs o Semrush (investigación de palabras clave y backlinks),
+    NWM CRM Content AI (borradores con voz de marca), NWM Blog (enlaces internos
+    automáticos), editores humanos (2 en staff con 5+ años en escritura B2B),
+    ChatGPT/Perplexity/Claude consultados semanalmente para verificar si el sitio
+    del cliente está siendo nombrado.
+  • PRECIOS STANDALONE:
+      Starter: 4 artículos/mes, reporte mensual → $1.490/mes
+      Growth: 12 artículos/mes, reporte semanal, link building → $3.490/mes
+      Scale: 24 artículos/mes, escritor + estratega dedicados, auditoría trimestral
+             profunda → $6.990/mes
+    Link building (planes Growth + Scale): solo PR outreach — podcasts, historias de
+    datos, citas de expertos. Nunca links pagados — los links pagados pueden resultar
+    en penalización de Google.
+  • Contenido en español: disponible; ~40% del trabajo de NWM es bilingüe; editores
+    nativos en español en el equipo.
+  • Cronograma: meses 1–3 cimientos, primeros rankings aparecen; meses 4–6 tráfico
+    2 a 4 veces mayor, primeras menciones en IA; meses 7–12 tráfico 5 a 10 veces
+    mayor, menciones regulares en IA, crecen las búsquedas directas de la marca.
+Errores comunes:
+  • Publicar borradores de IA sin edición humana — Google y la IA premian el insight
+    humano único; el contenido de IA sin editar se mezcla con el ruido.
+  • Perseguir volumen de palabras clave en lugar de preguntas de clientes — una página
+    que responde una pregunta real del comprador vale más que diez páginas de alto
+    volumen sin foco.
+  • Abandonar en el mes 3 — ese es el valle antes del crecimiento compuesto (a partir
+    del mes 4).
+  • Quien promete resultados de SEO en 30 días miente o usa links pagados que
+    arriesgan una penalización de Google. El SEO real toma mínimo 6 meses.
+Cuándo recomendar: Prospectos que preguntan "¿cómo aparezco cuando alguien le pregunta
+  a ChatGPT sobre mi industria?" o que quieren generación de leads orgánicos sin gasto
+  continuo en ads.
+
+TUTORIAL: /tutorials/sms-automation.html — Configuración del Bot SMS
+Hechos clave:
+  • Curso: 7 módulos, 31 lecciones. Cubre SMS, Instagram DM y Facebook Messenger como
+    un sistema de automatización multi-plataforma unificado.
+  • Tasa de apertura de SMS: 98%. Tiempo promedio de respuesta: 90 segundos. Tasa de
+    apertura de email: 20–22%. La brecha es estable desde hace una década.
+  • Cumplimiento en EE.UU.: las multas TCPA comienzan en $500 por mensaje, hasta
+    $1.500 por infracciones deliberadas. FCC 23-107 (vigente desde el 27 de enero de
+    2025) eliminó el consentimiento genérico — cada marca necesita su propio registro
+    de consentimiento por contacto. El consentimiento obtenido mediante formularios
+    de terceros ya no se transfiere.
+  • El doble opt-in reduce las tasas de baja entre un 40% y 60% en la mayoría de los
+    despliegues frente al opt-in simple. 3-Touch Consent Loop: (1) envío del formulario
+    + casilla de verificación, (2) SMS de confirmación en menos de 60 segundos
+    solicitando respuesta SÍ, (3) respuesta SÍ activa la bienvenida y registra el
+    timestamp de consentimiento confirmado. Los tres toques se registran por separado
+    como respaldo legal.
+  • Palabras clave de cumplimiento obligatorio: STOP (+ STOPALL, UNSUBSCRIBE, CANCEL,
+    END, QUIT), HELP (+ INFO), JOIN/START/YES. Todas las variantes deben ser manejadas.
+    Tiempo de respuesta: menos de 5 segundos. Nunca retrasar palabras clave de
+    cumplimiento con un limitador de velocidad.
+  • Documentación de consentimiento (6 campos CRM requeridos): teléfono del contacto,
+    timestamp, URL de origen, idioma exacto de consentimiento mostrado, dirección IP,
+    agente o sistema de procesamiento. Respaldar mensualmente en almacenamiento
+    cifrado en frío — la defensa legal no puede depender de la disponibilidad de datos
+    de un SaaS 4 años después.
+  • Taxonomía de palabras clave (4 niveles): Nivel 1 Cumplimiento (STOP/HELP), Nivel 2
+    Intención (INFO/DEMO/QUOTE/PRICE), Nivel 3 Acción (YES/CONFIRM/BOOK/BUY), Nivel 4
+    Recuperación (CANCEL/PAUSE/NO/NOT NOW). Prioridad: Nivel 1 gana sobre todo; dentro
+    de Niveles 2–4, la más específica gana; Nivel 3 Acción supera a Nivel 4 Recuperación.
+  • Límites de plataforma: SMS 10DLC — sin límite técnico de palabras clave pero mantener
+    opciones en menú a 3–5 por mensaje; toll-free verificado — 1 msg/seg de throughput;
+    shortcodes — 100 msg/seg, 6–8 semanas de aprovisionamiento; Instagram/FB ManyChat
+    — 50 triggers de palabras clave en el plan Growth. Mantenerse bajo el 80% del
+    límite de la plataforma para tener margen.
+  • Reglas de horario de envío: contactos en EE.UU. 8am–9pm hora local; contactos
+    en Chile 8am–10pm hora local. La respuesta automática fuera de horario debe
+    establecer explícitamente la expectativa del siguiente día hábil.
+  • Chile/LATAM: regulado por Ley 19.628 (Chile), LGPD (Brasil). Construir según
+    estándares TCPA de EE.UU. y tendrás cobertura en todos lados. STOP es universal;
+    configurar DETENER/BASTA/CANCELAR como sinónimos de baja en español para
+    contactos de LATAM.
+  • Regla de Meta DMs: solo responder a inbound — iniciar un DM frío viola las políticas
+    de Meta y puede ser ilegal. Para campañas de DM con contenido promocional, recoger
+    consentimiento explícito mediante página de aterrizaje con documentación completa.
+Errores comunes:
+  • Interceptar STOP/HELP en la lógica personalizada — las palabras clave de
+    cumplimiento a nivel de operadora no deben ser bloqueadas por la automatización
+    personalizada.
+  • Solo opt-in simple — legalmente suficiente pero la entregabilidad sufre sin
+    doble opt-in.
+  • No etiquetar contactos por jurisdicción (EE.UU. vs. CL vs. BR) — diferentes reglas
+    de horario de envío e idioma de consentimiento requeridos por país.
+  • Intentar iniciar DMs fríos en Instagram — viola la política de Meta.
+  • El aprovisionamiento de shortcodes toma 6–8 semanas — planificar con anticipación;
+    las campañas se bloquean esperando un shortcode que no se encargó a tiempo.
+Cuándo recomendar: Prospectos que preguntan sobre marketing por mensaje de texto,
+  campañas de reactivación, automatización de Instagram DM, o cualquier negocio que
+  quiera el canal de mayor tasa de apertura automatizado sin respuestas manuales.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                      REGLAS GLOBALES — NUNCA ROMPER / NEVER BREAK

@@ -89,6 +89,9 @@ try {
   } elseif ($group === 'cmo') {
     require __DIR__ . '/routes/cmo.php';
     route_cmo($parts, $method);
+  } elseif ($group === 'catalogue') {
+    require __DIR__ . '/routes/catalogue.php';
+    route_catalogue($parts, $method);
   } elseif ($group === 'whatsapp') {
     require __DIR__ . '/routes/whatsapp.php';
     route_whatsapp($parts, $method);

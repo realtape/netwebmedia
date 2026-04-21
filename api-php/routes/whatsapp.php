@@ -93,7 +93,7 @@ function wa_handle_inbound(): void {
   // Detect provider by Content-Type
   $ct = $_SERVER['CONTENT_TYPE'] ?? '';
 
-  if (str_contains($ct, 'application/json')) {
+  if (strpos($ct, 'application/json') !== false) {
     wa_handle_meta();
   } else {
     // Twilio sends application/x-www-form-urlencoded

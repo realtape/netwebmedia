@@ -1,7 +1,7 @@
 # NWM CRM Launch Campaign — Operational Plan
 
 **Campaign name:** `NWM CRM Launch — Carlos26`
-**Launch date:** Today
+**Launch date:** Wednesday, April 22, 2026
 **Duration:** 7 days (launch window) + 14-day extension if under-subscribed
 **Target:** 500 activations of `Carlos26` → realistically 80–120 paid signups
 
@@ -41,35 +41,88 @@
 - **From name:** `Carlos @ NetWebMedia`
 - **From email:** `hello@netwebmedia.com`
 - **Reply-to:** `hello@netwebmedia.com`
-- **SPF / DKIM / DMARC:** verify before first send (`https://mxtoolbox.com/dmarc.aspx?domain=netwebmedia.com`)
+
+### DNS pre-flight checklist (must complete before Wave 1)
+
+Current state as of 2026-04-20:
+- SPF ✅ exists: `v=spf1 +a +mx include:relay.mailchannels.net include:_spf.google.com ~all`
+- DKIM ❌ missing (Resend domain not verified)
+- DMARC ❌ missing
+
+#### Step 1 — Verify netwebmedia.com in Resend
+1. Log in at **resend.com** → Domains → **Add Domain** → enter `netwebmedia.com`
+2. Resend will display two DNS records. Add both at your DNS host (InMotion cPanel → Zone Editor):
+
+| Type | Host | Value |
+|------|------|-------|
+| TXT | `resend._domainkey.netwebmedia.com` | (DKIM value shown by Resend — paste exactly) |
+| TXT | `_dmarc.netwebmedia.com` | `v=DMARC1; p=quarantine; rua=mailto:hello@netwebmedia.com; adkim=r; aspf=r` |
+
+3. Click **Verify** in Resend — propagation takes 5-30 min.
+
+#### Step 2 — Update SPF to include Resend
+In cPanel DNS, **edit** the existing TXT record for `netwebmedia.com` to add `include:amazonses.com`:
+
+```
+v=spf1 +a +mx include:relay.mailchannels.net include:_spf.google.com include:amazonses.com ~all
+```
+
+#### Step 3 — Confirm with MXToolbox
+```
+https://mxtoolbox.com/dmarc.aspx?domain=netwebmedia.com
+https://mxtoolbox.com/spf.aspx?domain=netwebmedia.com
+```
+Both should pass before sending Wave 1.
+
+#### Step 4 — Set RESEND_API_KEY on the server
+In cPanel → File Manager → `crm-vanilla/api/config.local.php`, add:
+```php
+define('RESEND_API_KEY', 're_...');  // from resend.com → API Keys
+```
 
 ---
 
-## 4. List segmentation & waves
+## 4. List segmentation & send schedule — Month 1 (Resend Free, 100/day)
 
-We will send to our **~3,400 existing contacts** (2,400 USA + ~1,000 Chile) in waves to protect deliverability.
+**Constraint:** Resend free plan = 100 emails/day, 3,000/month.  
+**Total contacts:** ~3,400 → full list covered in ~34 days.  
+**Month 1 goal:** Get the announcement email to every contact in priority order.  
+**Drip sequence:** Starts Month 2 (upgrade to Resend Pro at $20/mo for 50K sends).
 
-| Wave | Segment | Size | When |
-|---|---|---|---|
-| 1 — Top leads | `segment=top_leads` (170 scored 98+) | 170 | Day 0, 10:00 local |
-| 2 — USA high-intent | USA contacts with `website!=null` and `score>=60` | ~800 | Day 1, 10:00 |
-| 3 — Chile active | Chile contacts opened email in last 60 days | ~400 | Day 2, 10:00 |
-| 4 — USA broad | Remaining USA contacts | ~1,600 | Day 3–4, spread 500/day |
-| 5 — Chile broad | Remaining Chile contacts | ~600 | Day 5, 10:00 |
+> ⚠️ **ACTION REQUIRED before April 22:** Extend `Carlos26` expiry in DB.  
+> With 100/day the last contacts get the email on ~May 25 — the code must be valid then.  
+> Remove the time limit and rely only on `max_uses = 500`:
+> ```sql
+> UPDATE coupons SET valid_until = NULL WHERE code = 'Carlos26';
+> ```
 
-**Daily cap:** 500 sends/day max from `hello@netwebmedia.com` during launch week to maintain domain reputation.
+### Day-by-day schedule (send at 10:00 local each day)
+
+| Dates | Days | Emails | Segment | Cumulative |
+|---|---|---|---|---|
+| Apr 22 | 1 | 100 | Top leads — batch 1 (score 98+) | 100 |
+| Apr 23 | 1 | 100 | Top leads — batch 2 (70) + USA high-intent start (30) | 200 |
+| Apr 24 – May 1 | 8 | 800 | USA high-intent (`score ≥ 60`, `website != null`) | 1,000 |
+| May 2 – May 5 | 4 | 400 | Chile active (opened email last 60 days) | 1,400 |
+| May 6 – May 21 | 16 | 1,600 | USA broad (remaining USA contacts) | 3,000 |
+| May 22 – May 27 | 6 | 400 | Chile broad (remaining Chile contacts) | 3,400 ✓ |
+
+**All contacts reached by ~May 27.** Month 2 (June): upgrade to Pro and start the 5-email drip for everyone who opened/clicked.
 
 ---
 
-## 5. Drip sequence (per wave)
+## 5. Drip sequence — Month 2+ (requires Resend Pro, $20/mo)
 
-| Day | Type | Subject (EN) | Subject (ES) |
+Triggered per contact starting the day after they receive their announcement email.
+
+| Delay | Type | Subject (EN) | Subject (ES) |
 |---|---|---|---|
-| 0  | Announce | `NWM CRM is live — 50% off for launch week` | `NWM CRM ya está en vivo — 50% de descuento esta semana` |
-| 3  | Demo | `See NWM CRM in 90 seconds (no signup)` | `NWM CRM en 90 segundos (sin registro)` |
-| 7  | Case study | `How {{company_example}} 3×'d pipeline in 30 days` | `Cómo {{company_example}} triplicó su pipeline en 30 días` |
-| 10 | FAQ | `Your questions about NWM CRM — answered` | `Tus preguntas sobre NWM CRM — respondidas` |
-| 14 | Last call | `Carlos26 expires in 24 hours` | `Carlos26 expira en 24 horas` |
+| +3 days | Demo | `See NWM CRM in 90 seconds (no signup)` | `NWM CRM en 90 segundos (sin registro)` |
+| +7 days | Case study | `How {{company_example}} 3×'d pipeline in 30 days` | `Cómo {{company_example}} triplicó su pipeline en 30 días` |
+| +10 days | FAQ | `Your questions about NWM CRM — answered` | `Tus preguntas sobre NWM CRM — respondidas` |
+| +14 days | Last call | `Carlos26 — only X activations left` | `Carlos26 — quedan solo X activaciones` |
+
+> Note: "Last call" copy changed from expiry-date to uses-remaining, since the time limit was removed.
 
 Links in every email:
 - Primary CTA → `https://netwebmedia.com/nwm-crm.html?promo=Carlos26&utm_source=email&utm_campaign=nwm_crm_launch&utm_content={{day}}`
@@ -128,13 +181,15 @@ The current CRM grants role='user' on signup and lets them in. For the launch we
 
 ---
 
-## 9. Daily checklist during launch week
+## 9. Daily checklist — Month 1 (100/day send rhythm)
 
 - [ ] 09:00 — check MP dashboard for overnight webhook failures
-- [ ] 09:30 — send that day's wave (launch from `/crm/marketing.html` → Campaign builder)
-- [ ] 10:00 — monitor `/api/billing/validate-coupon` usage via `coupons.uses_count`
+- [ ] 09:45 — queue today's 100-contact batch in CRM → Marketing → Campaign builder (filter by segment + offset)
+- [ ] 10:00 — fire send; confirm Resend delivery report shows 100 queued
 - [ ] 16:00 — respond to reply-to inbox (`hello@netwebmedia.com`)
-- [ ] 17:00 — check unsubscribe rate; if >2% pause the next wave and re-copy
+- [ ] 17:00 — check unsubscribe rate in Resend dashboard; if >2% on a segment, pause and revise copy before next batch
+
+**Weekly:** Check `coupons.uses_count` for Carlos26 — pause if approaching 500.
 
 ---
 

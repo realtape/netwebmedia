@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Fractional CMO | NetWebMedia CRM</title>
+<link rel="icon" type="image/svg+xml" href="/assets/nwm-logo.svg">
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="AI Fractional CMO | NetWebMedia CRM" />
+<meta name="twitter:description" content="Chat with your 24/7 AI Fractional CMO — strategy, reviews, campaign briefs, GTM, and more." />
+<meta name="twitter:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+<meta property="og:title" content="AI Fractional CMO | NetWebMedia CRM" />
+<meta property="og:description" content="Chat with your 24/7 AI Fractional CMO." />
+<meta property="og:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-V71R6PD7C0',{anonymize_ip:true});</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"AI Fractional CMO","url":"https://netwebmedia.com/crm/cmo.html"}</script>
+
+<style>
+:root{--bg:#0a0f1e;--panel:#111827;--panel2:#0f172a;--border:#1f2937;--text:#e5e7eb;--muted:#9ca3af;--brand:#8b5cf6;--brand2:#FF671F;--ok:#10b981;--warn:#f59e0b;--bad:#ef4444}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);padding:28px 20px 80px;}
+.wrap{max-width:1280px;margin:0 auto;}
+.head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;gap:20px;flex-wrap:wrap;}
+h1{margin:0 0 4px;font-size:32px;background:linear-gradient(135deg,var(--brand2),var(--brand));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.sub{color:var(--muted);font-size:14px;}
+.back{color:#93c5fd;text-decoration:none;font-size:13px;}
+.tabs{display:flex;gap:6px;margin:12px 0 22px;border-bottom:1px solid var(--border);}
+.tab{padding:10px 18px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;font-size:14px;font-weight:600;user-select:none;}
+.tab.active{color:#fff;border-bottom-color:var(--brand);}
+
+/* Chat pane */
+.chat-shell{display:grid;grid-template-columns:1fr 300px;gap:20px;}
+@media(max-width:900px){.chat-shell{grid-template-columns:1fr;}}
+.chat{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px;min-height:520px;display:flex;flex-direction:column;}
+.chat-log{flex:1;overflow-y:auto;max-height:540px;padding-right:6px;}
+.msg{margin-bottom:14px;padding:12px 16px;border-radius:12px;max-width:90%;line-height:1.55;font-size:14px;white-space:pre-wrap;}
+.msg.user{background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(255,103,31,.1));border:1px solid rgba(139,92,246,.25);margin-left:auto;}
+.msg.assistant{background:var(--panel2);border:1px solid var(--border);}
+.msg h1,.msg h2,.msg h3{margin:14px 0 8px;}
+.msg strong{color:#fff;}
+.chat-input{display:flex;gap:10px;padding-top:16px;border-top:1px solid var(--border);margin-top:14px;}
+.chat-input textarea{flex:1;padding:12px;border-radius:10px;background:var(--panel2);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:14px;resize:vertical;min-height:60px;}
+.chat-input button{background:linear-gradient(135deg,var(--brand2),var(--brand));color:#fff;border:0;padding:12px 22px;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px;}
+.chat-input button[disabled]{opacity:.6;cursor:wait;}
+
+/* Sidebar */
+.side{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px;}
+.side h3{margin:0 0 10px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:700;}
+.side .field{margin-bottom:12px;}
+.side label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em;}
+.side input,.side textarea{width:100%;padding:9px 12px;border-radius:8px;background:var(--panel2);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:13px;resize:vertical;}
+.side textarea{min-height:54px;}
+
+/* Deliverables */
+.deliv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+.deliv-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px;cursor:pointer;transition:all .2s;}
+.deliv-card:hover{border-color:var(--brand);transform:translateY(-2px);}
+.deliv-card .icon{font-size:32px;margin-bottom:8px;}
+.deliv-card h3{margin:0 0 6px;font-size:17px;}
+.deliv-card .desc{color:var(--muted);font-size:13px;line-height:1.45;}
+.deliv-form{display:none;}
+.deliv-form.active{display:block;}
+.deliv-form .field{margin-bottom:14px;}
+.deliv-form label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;}
+.deliv-form input,.deliv-form textarea{width:100%;padding:10px 14px;border-radius:10px;background:var(--panel2);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:14px;}
+.deliv-form textarea{min-height:80px;}
+.btn-gen{background:linear-gradient(135deg,var(--brand2),var(--brand));color:#fff;border:0;padding:14px 28px;border-radius:10px;font-weight:700;cursor:pointer;font-size:15px;}
+.btn-gen[disabled]{opacity:.6;cursor:wait;}
+.btn-back{background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px 18px;border-radius:10px;cursor:pointer;margin-right:10px;font-size:13px;}
+
+/* Output */
+.output-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:30px;margin-top:20px;line-height:1.65;font-size:15px;}
+.output-card h1{font-size:24px;margin:0 0 14px;}
+.output-card h2{font-size:19px;margin:26px 0 10px;color:#fff;border-bottom:1px solid var(--border);padding-bottom:6px;}
+.output-card h3{font-size:16px;margin:18px 0 8px;color:#c4b5fd;}
+.output-card p,.output-card li{font-size:15px;color:#dde3ee;}
+.output-card ul,.output-card ol{padding-left:24px;}
+.output-card table{border-collapse:collapse;margin:14px 0;}
+.output-card th,.output-card td{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+.output-card th{background:var(--panel2);color:var(--muted);font-weight:700;}
+
+/* History */
+.history-row{display:grid;grid-template-columns:1fr auto;gap:14px;padding:12px 16px;background:var(--panel2);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;align-items:center;}
+.history-row a{color:var(--text);text-decoration:none;}
+.history-row .meta{color:var(--muted);font-size:12px;}
+
+.toast{position:fixed;bottom:30px;right:30px;background:var(--panel);border:1px solid var(--border);padding:14px 20px;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.5);z-index:999;transition:all .3s;transform:translateY(100px);opacity:0;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.ok{border-color:var(--ok);}
+.toast.err{border-color:var(--bad);}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:8px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="/crm/" class="back">← Back to CRM</a>
+  <div class="head">
+    <div>
+      <h1>AI Fractional CMO</h1>
+      <div class="sub">Your 24/7 senior marketing executive. Chat about strategy or generate a structured deliverable.</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="chat">💬 Chat</div>
+    <div class="tab" data-tab="deliverables">📋 Deliverables</div>
+    <div class="tab" data-tab="history">🗂️ History</div>
+  </div>
+
+  <!-- CHAT -->
+  <div id="pane-chat" class="pane">
+    <div class="chat-shell">
+      <div class="chat">
+        <div id="chatLog" class="chat-log">
+          <div class="msg assistant"><strong>Your AI CMO · Ready.</strong>
+Tell me about the company in the sidebar → then ask anything. Try: <em>"What's the #1 thing we should fix this month?"</em> or <em>"Generate a 90-day plan."</em></div>
+        </div>
+        <div class="chat-input">
+          <textarea id="chatInput" placeholder="Ask your CMO anything — strategy, pricing, channels, reviews…"></textarea>
+          <button id="chatSend" onclick="sendChat()">Send</button>
+        </div>
+      </div>
+      <div class="side">
+        <h3>Client context</h3>
+        <div class="field"><label>Company</label><input id="ctx_company" placeholder="Acme Co."></div>
+        <div class="field"><label>Product / offer</label><textarea id="ctx_product" placeholder="Bilingual e-commerce SaaS for LATAM boutique retailers"></textarea></div>
+        <div class="field"><label>ICP</label><textarea id="ctx_icp" placeholder="Retailers $500K-$5M GMV, 1-20 staff, LATAM"></textarea></div>
+        <div class="field"><label>Current MRR / revenue</label><input id="ctx_mrr" placeholder="$45K MRR"></div>
+        <div class="field"><label>Monthly marketing budget</label><input id="ctx_budget" placeholder="$8K/mo"></div>
+        <div class="field"><label>Top goal (next 90 days)</label><textarea id="ctx_goal" placeholder="2x inbound demos"></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELIVERABLES -->
+  <div id="pane-deliverables" class="pane" style="display:none;">
+    <div id="delivList" class="deliv-grid">Loading…</div>
+    <div id="delivForm" class="deliv-form"></div>
+    <div id="delivOutput"></div>
+  </div>
+
+  <!-- HISTORY -->
+  <div id="pane-history" class="pane" style="display:none;">
+    <div id="historyList">Loading…</div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="/crm/js/api-client.js"></script>
+<script>
+(function(){
+  var STATE = { thread: null, library: [], activeDeliv: null };
+
+  function $(id){ return document.getElementById(id); }
+  function toast(msg, kind){
+    var t = $('toast'); t.textContent = msg; t.className = 'toast show ' + (kind||'');
+    setTimeout(function(){ t.className = 'toast ' + (kind||''); }, 3500);
+  }
+  function apiHeaders(){
+    var h = { 'Content-Type': 'application/json' };
+    if (window.NWMApi && NWMApi.isAuthed()) h['X-Auth-Token'] = NWMApi.token();
+    return h;
+  }
+  function ensureAuth(){
+    if (!window.NWMApi || !NWMApi.isAuthed()) {
+      location.href = '/login.html?next=' + encodeURIComponent(location.pathname);
+      return false;
+    }
+    return true;
+  }
+
+  // Markdown → HTML (tiny, handles headings + bold + lists + tables + line breaks)
+  function md(s){
+    s = s.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    // Tables
+    s = s.replace(/((?:^\|.*\|\s*\n?)+)/gm, function(block){
+      var lines = block.trim().split('\n');
+      if (lines.length < 2) return block;
+      var headers = lines[0].split('|').slice(1,-1).map(function(c){return '<th>'+c.trim()+'</th>';}).join('');
+      var rows = lines.slice(2).map(function(row){
+        return '<tr>' + row.split('|').slice(1,-1).map(function(c){return '<td>'+c.trim()+'</td>';}).join('') + '</tr>';
+      }).join('');
+      return '<table><thead><tr>'+headers+'</tr></thead><tbody>'+rows+'</tbody></table>';
+    });
+    // Headings
+    s = s.replace(/^### (.*)$/gm,'<h3>$1</h3>');
+    s = s.replace(/^## (.*)$/gm,'<h2>$1</h2>');
+    s = s.replace(/^# (.*)$/gm,'<h1>$1</h1>');
+    // Bold + italic
+    s = s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+    s = s.replace(/\*(.+?)\*/g,'<em>$1</em>');
+    // Lists
+    s = s.replace(/^(?:\d+)\. (.*)$/gm,'<li data-ol>$1</li>');
+    s = s.replace(/^- (.*)$/gm,'<li data-ul>$1</li>');
+    s = s.replace(/(?:<li data-ol>.*<\/li>\s*)+/g, function(m){return '<ol>'+m.replace(/ data-ol/g,'')+'</ol>';});
+    s = s.replace(/(?:<li data-ul>.*<\/li>\s*)+/g, function(m){return '<ul>'+m.replace(/ data-ul/g,'')+'</ul>';});
+    // Paragraphs (very light)
+    s = s.replace(/\n{2,}/g,'</p><p>');
+    return '<p>' + s + '</p>';
+  }
+
+  function ctxPayload(){
+    return {
+      product: $('ctx_product').value,
+      icp: $('ctx_icp').value,
+      current_revenue_mo: $('ctx_mrr').value,
+      marketing_budget_mo: $('ctx_budget').value,
+      top_goal: $('ctx_goal').value,
+    };
+  }
+
+  // Chat
+  window.sendChat = function(){
+    if (!ensureAuth()) return;
+    var input = $('chatInput').value.trim();
+    if (!input) return;
+    var btn = $('chatSend'); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Sending';
+
+    var log = $('chatLog');
+    log.insertAdjacentHTML('beforeend', '<div class="msg user">' + md(input) + '</div>');
+    log.scrollTop = log.scrollHeight;
+    $('chatInput').value = '';
+
+    fetch('/api/cmo/chat', {
+      method: 'POST', credentials: 'include', headers: apiHeaders(),
+      body: JSON.stringify({ message: input, thread_id: STATE.thread, company: $('ctx_company').value, context: ctxPayload() }),
+    }).then(function(r){ return r.json(); }).then(function(r){
+      btn.disabled = false; btn.textContent = 'Send';
+      if (!r.ok && !r.reply) { toast(r.error || 'Chat failed', 'err'); return; }
+      STATE.thread = r.thread_id;
+      log.insertAdjacentHTML('beforeend', '<div class="msg assistant">' + md(r.reply) + '</div>');
+      log.scrollTop = log.scrollHeight;
+    }).catch(function(e){
+      btn.disabled = false; btn.textContent = 'Send';
+      toast('Network: ' + e.message, 'err');
+    });
+  };
+
+  $('chatInput').addEventListener('keydown', function(e){
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendChat(); }
+  });
+
+  // Tabs
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('active'); });
+      t.classList.add('active');
+      var tab = t.dataset.tab;
+      document.querySelectorAll('.pane').forEach(function(p){ p.style.display = 'none'; });
+      $('pane-' + tab).style.display = 'block';
+      if (tab === 'deliverables') loadLibrary();
+      if (tab === 'history') loadHistory();
+    });
+  });
+
+  function loadLibrary(){
+    fetch('/api/cmo/library').then(function(r){return r.json();}).then(function(r){
+      STATE.library = r.items || [];
+      var el = $('delivList');
+      el.innerHTML = STATE.library.map(function(d){
+        return '<div class="deliv-card" onclick="pickDeliv(\''+d.code+'\')"><div class="icon">'+d.icon+'</div><h3>'+d.name+'</h3><div class="desc">'+d.desc+'</div></div>';
+      }).join('');
+      $('delivForm').classList.remove('active');
+      $('delivOutput').innerHTML = '';
+    });
+  }
+
+  window.pickDeliv = function(code){
+    var d = STATE.library.find(function(x){ return x.code === code; });
+    if (!d) return;
+    STATE.activeDeliv = d;
+    $('delivList').style.display = 'none';
+    var fields = d.required.map(function(f){
+      var label = f.replace(/_/g,' ').replace(/\b\w/g, function(c){return c.toUpperCase();});
+      var hint = ctxPayload()[f] || ($('ctx_' + f.replace('company_name','company').replace('current_revenue_mo','mrr').replace('marketing_budget_mo','budget').replace('top_goal','goal').replace('product','product').replace('icp','icp'))||{}).value || '';
+      return '<div class="field"><label>'+label+'</label><textarea name="'+f+'" placeholder="'+label+'">'+(hint||'')+'</textarea></div>';
+    }).join('');
+    $('delivForm').innerHTML =
+      '<button class="btn-back" onclick="cancelDeliv()">← Back</button>' +
+      '<h2 style="display:inline-block;margin:0 0 12px;font-size:22px;">'+d.icon+' '+d.name+'</h2>' +
+      '<p style="color:#9ca3af;font-size:14px;margin-bottom:20px;">'+d.desc+'</p>' +
+      fields +
+      '<button class="btn-gen" onclick="genDeliv()">Generate →</button>';
+    $('delivForm').classList.add('active');
+  };
+
+  window.cancelDeliv = function(){
+    $('delivList').style.display = 'grid';
+    $('delivForm').classList.remove('active');
+    $('delivOutput').innerHTML = '';
+    STATE.activeDeliv = null;
+  };
+
+  window.genDeliv = function(){
+    if (!ensureAuth()) return;
+    var d = STATE.activeDeliv; if (!d) return;
+    var inputs = {};
+    document.querySelectorAll('#delivForm textarea').forEach(function(t){
+      inputs[t.name] = t.value.trim();
+    });
+    var btn = document.querySelector('.btn-gen');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Your CMO is thinking… (30-60s)';
+    $('delivOutput').innerHTML = '';
+
+    fetch('/api/cmo/deliverable', {
+      method: 'POST', credentials: 'include', headers: apiHeaders(),
+      body: JSON.stringify({ type: d.code, inputs: inputs, company: inputs.company_name || $('ctx_company').value, context: ctxPayload() }),
+    }).then(function(r){ return r.json(); }).then(function(r){
+      btn.disabled = false; btn.textContent = 'Generate →';
+      if (!r.ok) { toast(r.error || 'Generation failed', 'err'); return; }
+      $('delivOutput').innerHTML =
+        '<div class="output-card">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">' +
+            '<h1 style="margin:0;">'+r.title+'</h1>' +
+            '<button onclick="downloadOutput(\''+r.id+'\', \''+d.name.replace(/[^a-z0-9]/gi,'_')+'\')" style="background:var(--brand);color:#fff;border:0;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;">Download .md</button>' +
+          '</div>' +
+          md(r.output_md) +
+        '</div>';
+      toast('Deliverable saved (#'+r.id+')','ok');
+    }).catch(function(e){
+      btn.disabled = false; btn.textContent = 'Generate →';
+      toast('Network: '+e.message,'err');
+    });
+  };
+
+  window.downloadOutput = function(id, prefix){
+    var text = document.querySelector('#delivOutput .output-card').innerText;
+    var blob = new Blob([text], {type:'text/markdown'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = prefix + '_' + id + '.md'; a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  function loadHistory(){
+    if (!ensureAuth()) return;
+    fetch('/api/cmo/deliverables', { credentials:'include', headers: apiHeaders() })
+      .then(function(r){return r.json();}).then(function(r){
+        var items = r.items || [];
+        if (!items.length) { $('historyList').innerHTML = '<p style="color:#9ca3af;">No deliverables yet. Go to the Deliverables tab to generate your first one.</p>'; return; }
+        $('historyList').innerHTML = items.map(function(d){
+          return '<div class="history-row"><a href="#" onclick="openDeliv('+d.id+');return false;">'+d.title+'<div class="meta">'+d.type+' · '+d.created_at+'</div></a><button class="btn-back" onclick="openDeliv('+d.id+')">View</button></div>';
+        }).join('');
+      });
+  }
+
+  window.openDeliv = function(id){
+    fetch('/api/cmo/deliverables/'+id, { credentials:'include', headers: apiHeaders() })
+      .then(function(r){return r.json();}).then(function(d){
+        // switch to deliverables tab and show output
+        document.querySelector('.tab[data-tab="deliverables"]').click();
+        setTimeout(function(){
+          $('delivList').style.display = 'none';
+          $('delivForm').classList.remove('active');
+          $('delivOutput').innerHTML =
+            '<button class="btn-back" onclick="cancelDeliv()">← Back to library</button>' +
+            '<div class="output-card"><h1>'+d.title+'</h1>' + md(d.output_md) + '</div>';
+        }, 100);
+      });
+  };
+
+  // Init
+  if (window.NWMApi && NWMApi.isAuthed()) {
+    // ok
+  }
+})();
+</script>
+</body>
+</html>

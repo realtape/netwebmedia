@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Services Pro — Plumbing, HVAC &amp; Electrical Template | NetWebMedia CMS</title>
+<meta name="description" content="Home Services Pro template — a conversion-ready website for plumbers, HVAC techs and electricians with service menu, same-day booking, service-area map and 24/7 emergency CTA. Built on NetWebMedia CMS.">
+<link rel="canonical" href="https://netwebmedia.com/industries/local-services/template-1.html">
+<meta property="og:title" content="Home Services Pro — NetWebMedia CMS Template">
+<meta property="og:description" content="Plumbing / HVAC / Electric template with same-day booking and service-area map.">
+<meta property="og:url" content="https://netwebmedia.com/industries/local-services/template-1.html">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+  body{background:#0b1220;color:#dde3ee;font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+  .tpl-nav{position:sticky;top:0;z-index:10;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+  .tpl-nav a.logo{color:#22d3ee;font-weight:900;text-decoration:none;font-size:18px;letter-spacing:.03em}
+  .tpl-nav .r{display:flex;gap:12px;align-items:center}
+  .tpl-nav .back{color:#9aa;text-decoration:none;font-size:14px}
+  .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:12px 22px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+  .btn-emergency{background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;padding:14px 24px;border-radius:10px;font-weight:800;text-decoration:none;display:inline-block}
+
+  .prod-hero{padding:80px 20px 50px;text-align:center;max-width:1100px;margin:0 auto;position:relative}
+  .prod-hero::before{content:"";position:absolute;top:20px;left:50%;transform:translateX(-50%);width:80%;height:280px;background:radial-gradient(ellipse,rgba(6,182,212,.12),transparent 70%);z-index:-1}
+  .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+  .prod-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+  .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:680px;margin:0 auto 28px;line-height:1.5}
+  .prod-hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+  .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+  .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+  .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+  .feat-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px;transition:transform .2s,border-color .2s}
+  .feat-card:hover{transform:translateY(-4px);border-color:rgba(6,182,212,.45)}
+  .feat-icon{font-size:30px;margin-bottom:10px}
+  .feat-card h3{margin:0 0 8px;font-size:17px}
+  .feat-card p{color:#b8c4d9;font-size:14px;line-height:1.55;margin:0}
+  .feat-card .price{margin-top:12px;color:#22d3ee;font-weight:800;font-size:15px}
+
+  .svc-menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+  .svc-row{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .svc-row .n{font-weight:700;color:#fff}
+  .svc-row .d{color:#9aa;font-size:13px;margin-top:2px}
+  .svc-row .p{color:#22d3ee;font-weight:800;white-space:nowrap}
+
+  .area-map{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+  .area-map .map-ph{aspect-ratio:4/3;border-radius:14px;background:linear-gradient(135deg,rgba(6,182,212,.15),rgba(8,145,178,.05));border:1px solid rgba(6,182,212,.25);position:relative;overflow:hidden}
+  .area-map .map-ph svg{width:100%;height:100%}
+  .area-map ul{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .area-map li{color:#b8c4d9;font-size:14px;padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.06)}
+  .area-map li::before{content:"◆ ";color:#22d3ee}
+
+  .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(8,145,178,.05));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;margin:60px 0 0;text-align:center}
+  .cta-band h3{font-size:clamp(22px,3.5vw,30px);margin:0 0 10px}
+  .cta-band p{color:#b8c4d9;max-width:600px;margin:0 auto 20px}
+
+  .badge-built{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.12);color:#67e8f9;padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  footer{padding:32px 20px;text-align:center;border-top:1px solid rgba(255,255,255,.06);color:#9aa;font-size:14px}
+  footer a{color:#22d3ee;text-decoration:none;margin:0 10px}
+
+  @media(max-width:720px){.area-map{grid-template-columns:1fr}.area-map ul{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <a href="/" class="logo">⚡ RapidFix Home Services</a>
+  <div class="r">
+    <a href="/industries/" class="back">← Industries</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">Licensed · Insured · Available 24/7</div>
+  <h1>Same-day service from your <span class="hl">local home-service pros</span></h1>
+  <p class="sub">Plumbing, HVAC and electrical emergencies don't wait. Neither do we. Licensed technicians on the road across the metro — most calls booked and dispatched within 90 minutes. Transparent flat-rate pricing, no hourly surprises.</p>
+  <div class="ctas">
+    <a href="#book" class="btn-teal">Book same-day service →</a>
+    <a href="tel:+18005551234" class="btn-emergency">🚨 24/7 Emergency Line</a>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>What we fix today</h2>
+  <p class="sub">Flat-rate pricing for the 90% of jobs we handle every week. Need something custom? Get a free in-home estimate.</p>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">🚽</div><h3>Plumbing</h3><p>Leaks, clogs, water heaters, sump pumps, re-pipes and emergency shutoffs. Licensed master plumbers on every truck.</p><div class="price">From $89 diagnostic</div></div>
+    <div class="feat-card"><div class="feat-icon">❄️</div><h3>HVAC &amp; Cooling</h3><p>AC repairs, furnace tune-ups, mini-split installs and duct cleaning. NATE-certified. Every install guaranteed 10 years.</p><div class="price">From $129 tune-up</div></div>
+    <div class="feat-card"><div class="feat-icon">⚡</div><h3>Electrical</h3><p>Panel upgrades, EV-charger installs, GFCI, ceiling fans, rewiring. Code-compliant, permit-pulled, inspected.</p><div class="price">From $119 diagnostic</div></div>
+    <div class="feat-card"><div class="feat-icon">🔥</div><h3>Water Heaters</h3><p>Tank, tankless, hybrid and heat-pump. Same-day replacement on most brands. Haul-away included.</p><div class="price">From $1,895 installed</div></div>
+    <div class="feat-card"><div class="feat-icon">🚿</div><h3>Drain Cleaning</h3><p>Camera inspection, hydro-jetting, sewer-line repair and trenchless replacement for the worst backups.</p><div class="price">From $149</div></div>
+    <div class="feat-card"><div class="feat-icon">🛠️</div><h3>Annual Maintenance</h3><p>Join ShieldClub — 2 tune-ups per year, priority dispatch, 15% off repairs and no emergency fees.</p><div class="price">$19/month</div></div>
+  </div>
+</section>
+
+<section class="prod-section" id="book">
+  <h2>Book your service window</h2>
+  <p class="sub">Pick a 2-hour arrival window. You'll get a photo and bio of your technician 30 minutes before they roll up — no mystery trucks in your driveway.</p>
+  <div class="svc-menu">
+    <div class="svc-row"><div><div class="n">Same-Day Service Call</div><div class="d">Book before 11 AM · tech dispatched today</div></div><div class="p">$89</div></div>
+    <div class="svc-row"><div><div class="n">Next-Day Scheduled Visit</div><div class="d">Pick a 2-hour window tomorrow</div></div><div class="p">$69</div></div>
+    <div class="svc-row"><div><div class="n">After-Hours Emergency</div><div class="d">6 PM – 6 AM · burst pipes, outages</div></div><div class="p">$189</div></div>
+    <div class="svc-row"><div><div class="n">Free Estimate (New Install)</div><div class="d">Water heaters, HVAC systems, panels</div></div><div class="p">Free</div></div>
+    <div class="svc-row"><div><div class="n">ShieldClub Member Visit</div><div class="d">Included with membership · priority slot</div></div><div class="p">$0</div></div>
+    <div class="svc-row"><div><div class="n">Commercial / Property Mgmt</div><div class="d">Net-30 billing · dedicated dispatcher</div></div><div class="p">Quote</div></div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Our service area</h2>
+  <p class="sub">We operate 14 trucks across the metro area. If your zip is on the list, we can be there today.</p>
+  <div class="area-map">
+    <div class="map-ph">
+      <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="200" cy="150" r="110" fill="rgba(34,211,238,0.12)" stroke="rgba(34,211,238,0.5)" stroke-width="2" stroke-dasharray="4 4"/>
+        <circle cx="200" cy="150" r="70" fill="rgba(34,211,238,0.18)" stroke="rgba(34,211,238,0.6)" stroke-width="2"/>
+        <circle cx="200" cy="150" r="8" fill="#22d3ee"/>
+        <text x="200" y="155" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">HQ</text>
+        <circle cx="140" cy="110" r="4" fill="#67e8f9"/><circle cx="260" cy="120" r="4" fill="#67e8f9"/>
+        <circle cx="120" cy="200" r="4" fill="#67e8f9"/><circle cx="280" cy="200" r="4" fill="#67e8f9"/>
+        <circle cx="180" cy="80" r="4" fill="#67e8f9"/><circle cx="230" cy="230" r="4" fill="#67e8f9"/>
+      </svg>
+    </div>
+    <div>
+      <h3 style="margin:0 0 10px">Primary service zone · 25-mile radius</h3>
+      <p style="color:#b8c4d9;margin:0 0 8px;font-size:14px">Standard dispatch fee applies inside the ring. Outside? Give us a call — we still go.</p>
+      <ul>
+        <li>Downtown</li><li>Westside</li>
+        <li>Northgate</li><li>Eastridge</li>
+        <li>Southpoint</li><li>Maplewood</li>
+        <li>Cedar Heights</li><li>Riverbend</li>
+        <li>Oakview</li><li>Summit Hills</li>
+        <li>Fox Valley</li><li>Lakeshore</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Why neighbors call us first</h2>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">📸</div><h3>Meet your tech before they arrive</h3><p>Photo, name, bio and a live tracking link 30 min before arrival. No strangers showing up unannounced.</p></div>
+    <div class="feat-card"><div class="feat-icon">💳</div><h3>Flat-rate, upfront pricing</h3><p>You approve the quote before any work starts. No hourly meter running while we diagnose.</p></div>
+    <div class="feat-card"><div class="feat-icon">🛡️</div><h3>5-year workmanship warranty</h3><p>If we touched it and it breaks, we come back free. Parts covered by manufacturer warranty.</p></div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h3>Launch this template with NetWebMedia</h3>
+  <p>Home Services Pro ships with same-day booking, SMS reminders, tech-dispatch integrations and a service-area map. We deploy it under your brand in 48 hours.</p>
+  <a href="/contact.html" class="btn-teal">Start with this template →</a>
+  <div style="margin-top:22px"><span class="badge-built">⚡ Built on NetWebMedia CMS</span></div>
+</div>
+
+<footer>
+  <div><a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a></div>
+  <div style="margin-top:12px;color:#666">© 2026 RapidFix Home Services — demo template. Powered by NetWebMedia CMS.</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Automation Recipes | NetWebMedia CRM</title>
+<link rel="icon" type="image/svg+xml" href="/assets/nwm-logo.svg">
+
+<!-- NWM-LIFT-TO-100 -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Automation Recipes | NetWebMedia CRM" />
+<meta name="twitter:description" content="Pre-built workflow snapshots — one-click install into your NetWebMedia CRM." />
+<meta name="twitter:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+<meta property="og:title" content="Automation Recipes | NetWebMedia CRM" />
+<meta property="og:description" content="Pre-built workflow snapshots — one-click install into your NetWebMedia CRM." />
+<meta property="og:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-V71R6PD7C0',{anonymize_ip:true});</script>
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','PLACEHOLDER_PIXEL_ID');fbq('track','PageView');</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Automation Recipes","url":"https://netwebmedia.com/crm/recipes.html"}</script>
+<!-- /NWM-LIFT-TO-100 -->
+
+<style>
+:root{--bg:#0a0f1e;--panel:#111827;--panel2:#0f172a;--border:#1f2937;--text:#e5e7eb;--muted:#9ca3af;--brand:#8b5cf6;--brand2:#FF671F;--ok:#10b981;--warn:#f59e0b;--bad:#ef4444}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);padding:40px 20px}
+.wrap{max-width:1200px;margin:0 auto}
+.head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:30px;gap:20px;flex-wrap:wrap}
+h1{margin:0 0 6px;font-size:32px;background:linear-gradient(135deg,var(--brand2),var(--brand));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:14px}
+.back{color:#93c5fd;text-decoration:none;font-size:13px}
+.filters{display:flex;gap:8px;margin:20px 0;flex-wrap:wrap}
+.pill{padding:6px 14px;border-radius:9999px;background:var(--panel);border:1px solid var(--border);color:var(--muted);font-size:13px;cursor:pointer;user-select:none}
+.pill.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:20px;display:flex;flex-direction:column}
+.card h3{margin:0 0 6px;font-size:18px}
+.card .tier{display:inline-block;font-size:11px;padding:3px 10px;border-radius:9999px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:10px}
+.tier.starter{background:#1e3a5f;color:#60a5fa}
+.tier.growth{background:#422e5e;color:#c4b5fd}
+.tier.scale{background:#5c2a3c;color:#fb7185}
+.desc{color:var(--muted);font-size:13px;line-height:1.5;flex:1;margin-bottom:12px}
+.meta{display:flex;gap:12px;color:var(--muted);font-size:12px;margin-bottom:12px}
+.meta b{color:var(--text)}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px}
+.tag{font-size:10px;background:var(--panel2);color:var(--muted);padding:2px 8px;border-radius:4px}
+.install-btn{background:linear-gradient(135deg,var(--brand2),var(--brand));border:0;color:#fff;padding:10px 16px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px}
+.install-btn[disabled]{opacity:.6;cursor:wait}
+.install-btn.installed{background:var(--ok)}
+.toast{position:fixed;bottom:30px;right:30px;background:var(--panel);border:1px solid var(--border);padding:14px 20px;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.5);z-index:999;transition:all .3s;transform:translateY(100px);opacity:0}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{border-color:var(--ok)}
+.toast.err{border-color:var(--bad)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div>
+      <a href="/crm/" class="back">← Back to CRM</a>
+      <h1>Automation Recipes</h1>
+      <div class="sub">Pre-built workflow snapshots. Click Install to clone into your workspace.</div>
+    </div>
+  </div>
+
+  <div class="filters" id="filters">
+    <span class="pill active" data-tier="all">All</span>
+    <span class="pill" data-tier="starter">Starter</span>
+    <span class="pill" data-tier="growth">Growth</span>
+    <span class="pill" data-tier="scale">Scale</span>
+  </div>
+
+  <div id="grid" class="grid">Loading…</div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="/crm/js/api-client.js"></script>
+<script>
+(function(){
+  var STATE = { recipes: [], filter: 'all' };
+
+  function toast(msg, kind) {
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.className = 'toast show ' + (kind || '');
+    setTimeout(function(){ t.className = 'toast ' + (kind || ''); }, 3500);
+  }
+
+  function render() {
+    var g = document.getElementById('grid');
+    var list = STATE.recipes.filter(function(r){
+      return STATE.filter === 'all' || r.tier === STATE.filter;
+    });
+    if (!list.length) { g.innerHTML = '<p style="color:#9ca3af;grid-column:1/-1">No recipes match that filter.</p>'; return; }
+    g.innerHTML = list.map(function(r){
+      return '<div class="card" data-code="'+r.code+'">' +
+        '<span class="tier '+r.tier+'">'+r.tier+'</span>' +
+        '<h3>'+r.name+'</h3>' +
+        '<div class="desc">'+r.desc+'</div>' +
+        '<div class="meta"><span>Trigger: <b>'+r.trigger+'</b></span><span>Steps: <b>'+r.steps+'</b></span></div>' +
+        '<div class="tags">' + r.tags.map(function(t){return '<span class="tag">#'+t+'</span>'}).join('') + '</div>' +
+        '<button class="install-btn" onclick="installRecipe(\''+r.code+'\', this)">Install →</button>' +
+      '</div>';
+    }).join('');
+  }
+
+  window.installRecipe = function(code, btn) {
+    if (!window.NWMApi || !NWMApi.isAuthed()) {
+      location.href = '/login.html?next=' + encodeURIComponent('/crm/recipes.html');
+      return;
+    }
+    btn.disabled = true; btn.textContent = 'Installing…';
+    fetch('/api/recipes/' + code + '/install', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'X-Auth-Token': NWMApi.token(), 'Content-Type': 'application/json' },
+    }).then(function(r){ return r.json(); }).then(function(r){
+      if (r.ok) {
+        btn.textContent = '✓ Installed';
+        btn.classList.add('installed');
+        toast('Installed "' + r.name + '" (workflow #' + r.workflow_id + ')', 'ok');
+      } else {
+        btn.disabled = false; btn.textContent = 'Install →';
+        toast(r.error || 'Install failed', 'err');
+      }
+    }).catch(function(e){
+      btn.disabled = false; btn.textContent = 'Install →';
+      toast('Network error: ' + e.message, 'err');
+    });
+  };
+
+  // Filter click
+  document.getElementById('filters').addEventListener('click', function(e){
+    var p = e.target.closest('.pill'); if (!p) return;
+    document.querySelectorAll('#filters .pill').forEach(function(x){ x.classList.remove('active'); });
+    p.classList.add('active');
+    STATE.filter = p.dataset.tier;
+    render();
+  });
+
+  // Load
+  fetch('/api/recipes').then(function(r){ return r.json(); }).then(function(r){
+    STATE.recipes = r.items || [];
+    render();
+  }).catch(function(){
+    document.getElementById('grid').textContent = 'Could not load recipes.';
+  });
+})();
+</script>
+</body>
+</html>

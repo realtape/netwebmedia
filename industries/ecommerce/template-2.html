@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Box — E-Commerce Template | NetWebMedia CMS</title>
+  <meta name="description" content="Subscription box landing page — how it works, box reveal, plan selector, and subscribe CTA. Built on NetWebMedia CMS.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/ecommerce/template-2.html" />
+  <meta property="og:title" content="Subscription Box — NetWebMedia Template" />
+  <meta property="og:description" content="Monthly subscription box site with how-it-works, plan selector, and reveal." />
+  <meta property="og:url" content="https://netwebmedia.com/industries/ecommerce/template-2.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body{background:#0b1220;color:#dde3ee;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    .tpl-nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+    .tpl-nav .logo{font-weight:900;font-size:18px;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .tpl-nav .links{display:flex;gap:18px;align-items:center}
+    .tpl-nav a{color:#b8c4d9;text-decoration:none;font-size:14px}
+    .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:10px 20px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:10px 20px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+    .prod-hero{padding:70px 20px 40px;text-align:center;max-width:1100px;margin:0 auto}
+    .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+    .prod-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+    .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#b8c4d9;max-width:720px;margin:0 auto 28px;line-height:1.5}
+    .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .prod-hero .btn-teal,.prod-hero .btn-ghost{padding:14px 28px;font-size:16px}
+
+    .box-hero{max-width:520px;margin:30px auto;aspect-ratio:5/4;border-radius:24px;background:linear-gradient(135deg,#0f172a 0%,#0891B2 60%,#22d3ee);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:130px}
+    .box-hero::after{content:"";position:absolute;inset:-40px;background:radial-gradient(closest-side,rgba(34,211,238,.25),transparent);pointer-events:none}
+
+    .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+    .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+    .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+    .how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+    .how-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px;text-align:center}
+    .how-num{width:44px;height:44px;border-radius:99px;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;font-weight:900;font-size:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+    .how-card h4{margin:0 0 8px;color:#fff;font-size:16px}
+    .how-card p{margin:0;color:#b8c4d9;font-size:13px;line-height:1.55}
+
+    .box-contents{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;max-width:900px;margin:0 auto}
+    .item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:16px;text-align:center}
+    .item .icon{font-size:36px;margin-bottom:8px}
+    .item h5{margin:0 0 4px;color:#fff;font-size:14px}
+    .item p{margin:0;color:#9aa;font-size:12px;line-height:1.5}
+
+    .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+    .plan{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:26px;position:relative;text-align:center}
+    .plan.feat{border-color:rgba(6,182,212,.6);background:linear-gradient(180deg,rgba(6,182,212,.08),rgba(255,255,255,.03))}
+    .plan.feat::before{content:"Best Value";position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;font-size:11px;font-weight:800;padding:5px 12px;border-radius:99px;letter-spacing:.1em;text-transform:uppercase}
+    .plan h4{margin:0 0 4px;color:#fff;font-size:18px}
+    .plan .billing{color:#9aa;font-size:13px}
+    .plan .amt{font-size:40px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent;margin:12px 0 4px}
+    .plan .per{color:#9aa;font-size:12px;margin-bottom:18px}
+    .plan ul{list-style:none;padding:0;margin:0 0 20px;color:#b8c4d9;font-size:14px;line-height:1.9;text-align:left}
+    .plan ul li::before{content:"✓ ";color:#22d3ee;font-weight:900}
+
+    .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(8,145,178,.06));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;text-align:center;margin-top:60px}
+    .cta-band h3{font-size:clamp(22px,3.5vw,32px);margin:0 0 12px}
+    .cta-band p{color:#b8c4d9;max-width:620px;margin:0 auto 22px;font-size:15px;line-height:1.55}
+
+    .nwm-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#67e8f9;margin:30px auto;text-decoration:none}
+
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:32px 20px;text-align:center;color:#9aa;font-size:13px}
+    footer a{color:#67e8f9;margin:0 10px;text-decoration:none}
+
+    @media(max-width:700px){.tpl-nav .links a:not(.btn-teal){display:none}}
+  </style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <div class="logo">📦 HEARTH Monthly</div>
+  <div class="links">
+    <a href="/industries/">← Industries</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">Ships the 15th of every month</div>
+  <h1>The home &amp; kitchen box <span class="hl">worth waiting for</span></h1>
+  <p class="sub">Six curated items from small-batch makers, plus a custom recipe card. $65 retail, your price $39. Cancel anytime.</p>
+  <div class="ctas">
+    <a href="#plans" class="btn-teal">Start Your Subscription →</a>
+    <a href="#peek" class="btn-ghost">Peek Inside the Box</a>
+  </div>
+</section>
+
+<div class="box-hero">📦</div>
+
+<section class="prod-section">
+  <h2>How it works</h2>
+  <p class="sub">Three steps, zero friction. Built to be the best thing that happens to your doorstep every month.</p>
+  <div class="how-grid">
+    <div class="how-card"><div class="how-num">1</div><h4>Take the style quiz</h4><p>Two minutes. Tell us your kitchen, your hosting style, your tolerance for clutter.</p></div>
+    <div class="how-card"><div class="how-num">2</div><h4>We curate the month</h4><p>Six items chosen by a human team. Never generic. Always small-batch or direct-from-maker.</p></div>
+    <div class="how-card"><div class="how-num">3</div><h4>Box arrives on the 15th</h4><p>Free US shipping. Gift-ready packaging. Includes a recipe card made for what's inside.</p></div>
+  </div>
+</section>
+
+<section class="prod-section" id="peek">
+  <h2>Inside April's box</h2>
+  <p class="sub">A preview of what subscribers received last month. Never the same twice.</p>
+  <div class="box-contents">
+    <div class="item"><div class="icon">🫒</div><h5>Single-Origin Olive Oil</h5><p>Sicilian, 250ml, cold-pressed</p></div>
+    <div class="item"><div class="icon">🍯</div><h5>Wildflower Honey</h5><p>Raw, 8oz, Vermont apiary</p></div>
+    <div class="item"><div class="icon">🧂</div><h5>Flake Finishing Salt</h5><p>Icelandic, reusable jar</p></div>
+    <div class="item"><div class="icon">🥄</div><h5>Handmade Oak Spoon</h5><p>Kentucky bourbon barrel reclaimed</p></div>
+    <div class="item"><div class="icon">🕯️</div><h5>Cedar Soy Candle</h5><p>8oz, 40-hour burn, ceramic vessel</p></div>
+    <div class="item"><div class="icon">📖</div><h5>Recipe Card · Spring</h5><p>Roast chicken, lemon, 3 sides</p></div>
+  </div>
+</section>
+
+<section class="prod-section" id="plans">
+  <h2>Pick your rhythm</h2>
+  <p class="sub">Monthly, quarterly, or annual. Skip a month anytime. Cancel without calling anyone.</p>
+  <div class="plans">
+    <div class="plan"><h4>Monthly</h4><div class="billing">Billed each month</div><div class="amt">$39</div><div class="per">per box</div><ul><li>6 curated items monthly</li><li>Recipe card included</li><li>Free US shipping</li><li>Skip or cancel anytime</li></ul><a href="/contact.html" class="btn-ghost">Start Monthly</a></div>
+    <div class="plan feat"><h4>Quarterly</h4><div class="billing">Billed every 3 months</div><div class="amt">$34</div><div class="per">per box · save 13%</div><ul><li>Everything in Monthly</li><li>Bonus seasonal item</li><li>Priority shipping</li><li>Free member swap month</li></ul><a href="/contact.html" class="btn-teal">Start Quarterly</a></div>
+    <div class="plan"><h4>Annual</h4><div class="billing">Billed yearly</div><div class="amt">$29</div><div class="per">per box · save 26%</div><ul><li>12 boxes prepaid</li><li>2 bonus seasonal items</li><li>Private subscriber store</li><li>Anniversary gift on month 12</li></ul><a href="/contact.html" class="btn-ghost">Start Annual</a></div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <h3>First box ships in 10 days</h3>
+  <p>Join 24,000 subscribers. No contracts, no lock-in, no "you need to call to cancel" nonsense.</p>
+  <div class="ctas"><a href="/contact.html" class="btn-teal">Subscribe Now →</a><a href="#plans" class="btn-ghost">Compare Plans</a></div>
+  <a class="nwm-badge" href="https://netwebmedia.com">⚡ Built on NetWebMedia CMS</a>
+</section>
+
+<section class="prod-section" style="text-align:center">
+  <h2>Launch this template with NetWebMedia</h2>
+  <p class="sub">Subscription commerce sites with Recharge/Stripe billing and subscriber portals.</p>
+  <div class="ctas" style="justify-content:center"><a href="/contact.html" class="btn-teal">Get This Template →</a><a href="/industries/" class="btn-ghost">See All Industries</a></div>
+</section>
+
+<footer>
+  <a href="/industries/">Industries</a> ·
+  <a href="/pricing.html">Pricing</a> ·
+  <a href="/contact.html">Contact</a>
+  <div style="margin-top:10px">© NetWebMedia · Demo template for illustration only</div>
+</footer>
+
+</body>
+</html>

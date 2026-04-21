@@ -53,4 +53,12 @@ if (!isset($handlers[$resource])) {
     jsonError('Unknown resource: ' . $resource, 404);
 }
 
+// Public routes need no auth. All others run the payment gate:
+// demo/guest users (no PHP session) pass through; pending_payment users get HTTP 402.
+$public_routes = ['auth', 'track', 'intake', 'leads', 'analyze', 'proposal'];
+if (!in_array($resource, $public_routes, true)) {
+    require_once __DIR__ . '/lib/guard.php';
+    require_guard();
+}
+
 require $handlers[$resource];

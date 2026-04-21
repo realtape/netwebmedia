@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chatbot Automation Playbook 2026 — NetWebMedia</title>
+<style>
+  /* ===== BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #22d3ee;
+    --accent-dark: #0e7490;
+    --accent-light: #ecfeff;
+    --text: #111827;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --bg-section: #f9fafb;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', Courier, monospace;
+  }
+
+  body {
+    font-family: var(--font);
+    color: var(--text);
+    background: #fff;
+    font-size: 10.5pt;
+    line-height: 1.6;
+  }
+
+  /* ===== PRINT ===== */
+  @media print {
+    @page { size: A4; margin: 18mm 16mm 22mm 16mm; }
+    body { font-size: 9.5pt; }
+    nav, .no-print { display: none !important; }
+    .page-break { page-break-before: always; break-before: page; }
+    .avoid-break { page-break-inside: avoid; break-inside: avoid; }
+    a { text-decoration: none; color: inherit; }
+    .cover { page-break-after: always; break-after: page; }
+    footer.watermark { display: block !important; }
+  }
+
+  @media screen {
+    body { max-width: 820px; margin: 0 auto; padding: 20px; }
+    .page-break { border-top: 3px dashed #e5e7eb; margin: 48px 0 8px; padding-top: 8px; }
+  }
+
+  /* ===== WATERMARK ===== */
+  footer.watermark {
+    position: running(footer);
+    text-align: center;
+    font-size: 7.5pt;
+    color: #9ca3af;
+    padding-top: 4px;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 24px;
+  }
+  @page { @bottom-center { content: element(footer); } }
+
+  /* ===== COVER ===== */
+  .cover {
+    min-height: 96vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 40px 40px;
+    border-left: 8px solid var(--accent);
+    background: linear-gradient(160deg, #ecfeff 0%, #fff 60%);
+  }
+  .cover-brand { display: flex; align-items: center; gap: 10px; }
+  .cover-brand .logo-mark {
+    width: 38px; height: 38px; background: var(--accent-dark);
+    border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; color: #fff; font-weight: 800; font-size: 16pt;
+  }
+  .cover-brand .brand-name { font-weight: 700; font-size: 13pt; color: var(--accent-dark); }
+  .cover-brand .brand-tagline { font-size: 8pt; color: var(--muted); }
+  .cover-main { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 40px 0 20px; }
+  .cover-eyebrow { font-size: 8.5pt; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--accent-dark); margin-bottom: 14px; }
+  .cover-title { font-size: 32pt; font-weight: 800; line-height: 1.15; color: #111827; margin-bottom: 12px; }
+  .cover-title span { color: var(--accent-dark); }
+  .cover-subtitle { font-size: 13pt; color: #374151; font-weight: 400; max-width: 520px; margin-bottom: 28px; line-height: 1.5; }
+  .cover-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 8pt; font-weight: 600; background: var(--accent-light); color: var(--accent-dark); border: 1px solid var(--accent); }
+  .cover-meta { font-size: 8.5pt; color: var(--muted); border-top: 1px solid var(--border); padding-top: 16px; display: flex; justify-content: space-between; }
+
+  /* ===== TOC ===== */
+  .toc-wrapper { padding: 32px 0; }
+  .toc-title { font-size: 18pt; font-weight: 700; color: var(--text); margin-bottom: 24px; padding-bottom: 10px; border-bottom: 3px solid var(--accent); }
+  .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; }
+  .toc-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dotted var(--border); font-size: 9.5pt; }
+  .toc-section { font-weight: 600; }
+  .toc-num { color: var(--muted); font-size: 8.5pt; min-width: 28px; text-align: right; }
+  .toc-section-header { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--accent-dark); padding: 12px 0 4px; grid-column: 1 / -1; }
+
+  /* ===== SECTION DIVIDER ===== */
+  .section-divider {
+    background: var(--accent-dark);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 6px;
+    margin: 32px 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-divider .sec-num { font-size: 22pt; font-weight: 900; opacity: .4; line-height: 1; }
+  .section-divider .sec-label { font-size: 7pt; text-transform: uppercase; letter-spacing: .1em; opacity: .85; }
+  .section-divider .sec-title { font-size: 14pt; font-weight: 700; line-height: 1.2; }
+
+  /* ===== TYPOGRAPHY ===== */
+  h2 { font-size: 14pt; font-weight: 700; color: var(--text); margin: 24px 0 10px; padding-left: 10px; border-left: 4px solid var(--accent); }
+  h3 { font-size: 11pt; font-weight: 700; color: var(--accent-dark); margin: 18px 0 8px; }
+  h4 { font-size: 10pt; font-weight: 600; color: var(--text); margin: 14px 0 6px; }
+  p { margin-bottom: 10px; }
+  ul, ol { margin: 0 0 10px 20px; }
+  li { margin-bottom: 4px; }
+  code { font-family: var(--mono); font-size: 8.5pt; background: #f3f4f6; padding: 1px 5px; border-radius: 3px; }
+
+  /* ===== CALLOUT BOXES ===== */
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-light);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin: 14px 0;
+    font-size: 9.5pt;
+  }
+  .callout.warning { border-color: #f59e0b; background: #fef3c7; }
+  .callout.info { border-color: #6366f1; background: #eef2ff; }
+  .callout.danger { border-color: #ef4444; background: #fef2f2; }
+  .callout-label { font-size: 7pt; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--accent-dark); margin-bottom: 4px; }
+
+  /* ===== TEMPLATE / SCRIPT BOXES ===== */
+  .template-box {
+    background: #f8fafc;
+    border: 1.5px solid var(--accent);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin: 12px 0;
+    font-family: var(--mono);
+    font-size: 8.5pt;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .template-label {
+    font-family: var(--font);
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--accent-dark);
+    background: var(--accent-light);
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+  }
+  .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* ===== CHECKLIST ===== */
+  .checklist { list-style: none; margin: 0 0 12px; padding: 0; }
+  .checklist li { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; border-bottom: 1px solid #f3f4f6; font-size: 9.5pt; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li .check { flex-shrink: 0; font-size: 13pt; color: var(--accent-dark); margin-top: -1px; }
+  .checklist-section { background: var(--bg-section); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; margin: 12px 0; }
+  .checklist-section h4 { margin-top: 0; color: var(--accent-dark); }
+
+  /* ===== TABLES ===== */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 9pt; }
+  th { background: var(--accent-dark); color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; font-size: 8.5pt; }
+  td { padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) { background: var(--bg-section); }
+  .tag { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 7.5pt; font-weight: 600; background: var(--accent-light); color: var(--accent-dark); border: 1px solid var(--accent); margin: 1px 2px; }
+
+  /* ===== KPI CARDS ===== */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0; }
+  .kpi-card { border: 1.5px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; background: var(--bg-section); }
+  .kpi-card .kpi-value { font-size: 18pt; font-weight: 800; color: var(--accent-dark); line-height: 1; }
+  .kpi-card .kpi-label { font-size: 7.5pt; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .06em; }
+  .kpi-card .kpi-target { font-size: 8pt; font-weight: 600; color: var(--text); margin-top: 5px; }
+  .kpi-card .kpi-alert { font-size: 7pt; color: #b91c1c; margin-top: 2px; }
+
+  /* ===== DIAL FRAMEWORK ===== */
+  .dial-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0; }
+  .dial-step { background: var(--accent-dark); color: #fff; border-radius: 10px; padding: 16px 12px; }
+  .dial-step .letter { font-size: 28pt; font-weight: 900; line-height: 1; opacity: .5; }
+  .dial-step .word { font-size: 10pt; font-weight: 700; margin-top: 2px; }
+  .dial-step .desc { font-size: 7.5pt; opacity: .85; margin-top: 8px; line-height: 1.5; }
+  .dial-step .example { font-size: 7pt; background: rgba(255,255,255,.15); border-radius: 4px; padding: 6px 8px; margin-top: 10px; font-family: var(--mono); line-height: 1.5; }
+
+  /* ===== DIALOG TURNS ===== */
+  .dialog-turn { margin: 5px 0; padding: 8px 12px; border-radius: 6px; font-size: 9pt; }
+  .dialog-turn.bot { background: var(--accent-light); border-left: 3px solid var(--accent-dark); font-family: var(--mono); white-space: pre-wrap; }
+  .dialog-turn.user { background: #f3f4f6; border-left: 3px solid #9ca3af; font-style: italic; }
+  .dialog-turn.system { background: #fef3c7; border-left: 3px solid #f59e0b; font-size: 8pt; color: #78350f; }
+  .dialog-label { font-size: 7pt; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 3px; font-family: var(--font); font-style: normal; }
+
+  /* ===== PLATFORM CARDS ===== */
+  .platform-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 14px 0; }
+  .platform-card { border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .platform-card .pf-header { padding: 8px 12px; font-weight: 700; font-size: 9pt; color: #fff; }
+  .platform-card .pf-body { padding: 10px 12px; font-size: 8.5pt; }
+  .platform-card .pf-body ul { margin: 0; padding-left: 14px; }
+  .platform-card .pf-body li { margin-bottom: 3px; }
+  .wa-color { background: #25d366; }
+  .web-color { background: #6366f1; }
+  .ig-color { background: #e1306c; }
+  .fb-color { background: #1877f2; }
+  .sms-color { background: #374151; }
+  .tg-color { background: #2ca5e0; }
+
+  /* ===== HANDOFF TABLE ===== */
+  .trigger-table td:first-child { font-family: var(--mono); font-size: 8pt; }
+
+  /* ===== 3-STRIKE ===== */
+  .strike-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 14px 0; }
+  .strike-card { border-radius: 8px; padding: 14px; border: 1.5px solid; }
+  .strike-card.s1 { background: #fef3c7; border-color: #f59e0b; }
+  .strike-card.s2 { background: #fee2e2; border-color: #f87171; }
+  .strike-card.s3 { background: #fce7f3; border-color: #ec4899; }
+  .strike-card .s-num { font-size: 20pt; font-weight: 900; line-height: 1; }
+  .strike-card.s1 .s-num { color: #92400e; }
+  .strike-card.s2 .s-num { color: #991b1b; }
+  .strike-card.s3 .s-num { color: #831843; }
+  .strike-card .s-name { font-weight: 700; font-size: 9pt; margin: 4px 0; }
+  .strike-card ul { margin: 0; padding-left: 14px; font-size: 8.5pt; }
+
+  /* ===== QA SCORECARD ===== */
+  .qa-item { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 9pt; }
+  .qa-num { flex-shrink: 0; width: 22px; height: 22px; background: var(--accent-dark); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8pt; font-weight: 700; }
+  .qa-content { flex: 1; }
+  .qa-label { font-weight: 600; font-size: 9pt; }
+  .qa-detail { font-size: 8pt; color: var(--muted); }
+  .qa-result { flex-shrink: 0; font-size: 7.5pt; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: #f3f4f6; color: var(--muted); white-space: nowrap; }
+
+  /* ===== PACE FRAMEWORK ===== */
+  .pace-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0; }
+  .pace-step { border-radius: 8px; border: 2px solid var(--accent-dark); padding: 14px 10px; }
+  .pace-step .p-letter { font-size: 22pt; font-weight: 900; color: var(--accent-dark); line-height: 1; }
+  .pace-step .p-word { font-size: 9pt; font-weight: 700; color: var(--text); }
+  .pace-step .p-desc { font-size: 8pt; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+
+  /* ===== INTENT LIBRARY ===== */
+  .intent-category { margin: 14px 0; }
+  .intent-cat-header { font-size: 8.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--accent-dark); padding: 6px 10px; background: var(--accent-light); border-radius: 4px; margin-bottom: 6px; }
+  .intent-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 16px; }
+  .intent-item { font-size: 8.5pt; padding: 4px 0; border-bottom: 1px dotted var(--border); display: flex; justify-content: space-between; }
+  .intent-item .i-name { font-weight: 600; }
+  .intent-item .i-trigger { font-size: 7.5pt; color: var(--muted); font-family: var(--mono); }
+
+  /* ===== FOOTER ===== */
+  .doc-footer { margin-top: 40px; padding-top: 12px; border-top: 1.5px solid var(--border); display: flex; justify-content: space-between; font-size: 8pt; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- WATERMARK FOOTER -->
+<footer class="watermark">
+  Confidential — Licensed to {{buyer_name}} &nbsp;|&nbsp; NetWebMedia &copy; 2026 &nbsp;|&nbsp; netwebmedia.com &nbsp;|&nbsp; Chatbot Automation Playbook
+</footer>
+
+<!-- ============================= COVER ============================= -->
+<div class="cover">
+  <div class="cover-brand">
+    <div class="logo-mark">N</div>
+    <div>
+      <div class="brand-name">NetWebMedia</div>
+      <div class="brand-tagline">AI-Powered Growth Agency</div>
+    </div>
+  </div>
+
+  <div class="cover-main">
+    <div class="cover-eyebrow">Premium Implementation Guide &mdash; 2026 Edition</div>
+    <div class="cover-title">Chatbot<br><span>Automation</span><br>Playbook</div>
+    <div class="cover-subtitle">The complete system for 100% automated first contact: 50 intents, DIAL framework, BANT dialog trees, PACE sales scripts, QA scorecard, and multi-platform deployment specs.</div>
+    <div class="cover-badges">
+      <span class="badge">DIAL Framework</span>
+      <span class="badge">50 Intent Library</span>
+      <span class="badge">BANT Dialog Trees</span>
+      <span class="badge">PACE Sales Scripts</span>
+      <span class="badge">20-Case QA Scorecard</span>
+    </div>
+  </div>
+
+  <div class="cover-meta">
+    <span>Published: April 2026 &nbsp;|&nbsp; Version 2.4</span>
+    <span>netwebmedia.com &nbsp;|&nbsp; hello@netwebmedia.com</span>
+  </div>
+</div>
+
+<!-- ============================= TABLE OF CONTENTS ============================= -->
+<div class="toc-wrapper page-break">
+  <div class="toc-title">Table of Contents</div>
+  <div class="toc-grid">
+    <div class="toc-section-header">Strategy</div>
+    <div class="toc-item"><span class="toc-section">1. Executive Summary</span><span class="toc-num">3</span></div>
+    <div class="toc-item"><span class="toc-section">2. The DIAL Framework</span><span class="toc-num">4</span></div>
+
+    <div class="toc-section-header">Content</div>
+    <div class="toc-item"><span class="toc-section">3. Intent Library (50 Intents)</span><span class="toc-num">6</span></div>
+    <div class="toc-item"><span class="toc-section">4. Lead Qualification — BANT Tree</span><span class="toc-num">8</span></div>
+
+    <div class="toc-section-header">Sales &amp; Service</div>
+    <div class="toc-item"><span class="toc-section">5. Sales Scripts — PACE Framework</span><span class="toc-num">11</span></div>
+    <div class="toc-item"><span class="toc-section">6. Customer Service — 3-STRIKE System</span><span class="toc-num">13</span></div>
+
+    <div class="toc-section-header">Technical</div>
+    <div class="toc-item"><span class="toc-section">7. Platform Deployment Specs</span><span class="toc-num">15</span></div>
+    <div class="toc-item"><span class="toc-section">8. AI/NLP Integration</span><span class="toc-num">17</span></div>
+
+    <div class="toc-section-header">Operations</div>
+    <div class="toc-item"><span class="toc-section">9. Handoff Protocol</span><span class="toc-num">19</span></div>
+    <div class="toc-item"><span class="toc-section">10. QA Scorecard — 20 Test Cases</span><span class="toc-num">21</span></div>
+    <div class="toc-item"><span class="toc-section">11. KPI Dashboard</span><span class="toc-num">23</span></div>
+  </div>
+
+  <div style="margin-top:28px; padding:14px 16px; background:var(--accent-light); border-radius:6px; font-size:9pt;">
+    <strong>How to use this playbook:</strong> Section 2 (DIAL) is your strategic foundation — read it first. Section 3 (Intent Library) is your build checklist. Sections 4–6 are copy-paste scripts. Sections 7–8 are for your technical team. Sections 9–11 are for ops and QA. All <code>[VARIABLE]</code> placeholders must be replaced with your specific data before deployment.
+  </div>
+</div>
+
+<!-- ============================= SECTION 1 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">01</div></div>
+  <div>
+    <div class="sec-label">Strategy</div>
+    <div class="sec-title">Executive Summary — The Case for 100% Automated First Contact</div>
+  </div>
+</div>
+
+<h2>The Shift Has Already Happened</h2>
+<p>By 2026, <strong>67% of B2B buyers</strong> complete more than half their research before ever speaking to a salesperson. They don't want to wait. They don't want to fill out a form and wait three days. They want answers now, at 11PM, on their phone.</p>
+<p>The businesses winning in this environment have one thing in common: their first contact is instant, intelligent, and consistent — regardless of hour, day, or agent availability. That first contact is a chatbot.</p>
+
+<div class="kpi-grid avoid-break">
+  <div class="kpi-card">
+    <div class="kpi-value">82%</div>
+    <div class="kpi-label">of buyers want instant response</div>
+    <div class="kpi-target">Source: HubSpot State of Sales 2026</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">3x</div>
+    <div class="kpi-label">higher conversion vs. email forms</div>
+    <div class="kpi-target">Conversational landing pages</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">73%</div>
+    <div class="kpi-label">of Tier-1 support automated</div>
+    <div class="kpi-target">Industry average with proper bot</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">$0.08</div>
+    <div class="kpi-label">Cost per bot conversation</div>
+    <div class="kpi-target">vs. $8–$12 per human chat</div>
+  </div>
+</div>
+
+<h2>What "100% Automated First Contact" Actually Means</h2>
+<p>It does <strong>not</strong> mean replacing your team with a robot. It means:</p>
+<ol>
+  <li><strong>Every inquiry is captured immediately</strong> — no missed leads, no form-limbo, no "we'll get back to you."</li>
+  <li><strong>Every contact is qualified before a human touches it</strong> — your team only spends time on leads that meet criteria.</li>
+  <li><strong>Every Tier-1 service question is resolved without a ticket</strong> — escalation only happens when it truly needs to.</li>
+</ol>
+
+<h2>The Automation Maturity Model</h2>
+<table class="avoid-break">
+  <tr><th>Level</th><th>Description</th><th>Automation %</th><th>Tech Required</th></tr>
+  <tr><td><strong>1 — Reactive</strong></td><td>FAQ bot answers keywords, routes to human for everything else</td><td>20–30%</td><td>Rule-based chatbot platform</td></tr>
+  <tr><td><strong>2 — Guided</strong></td><td>BANT qualification, appointment booking, lead capture automated</td><td>50–65%</td><td>Flow builder + CRM webhook</td></tr>
+  <tr><td><strong>3 — Conversational</strong></td><td>AI understands free-text, handles complex queries, context-aware</td><td>70–85%</td><td>NLP/LLM layer + intent classifier</td></tr>
+  <tr><td><strong>4 — Autonomous</strong></td><td>Full sales cycle, service resolution, proactive outreach — bot-led</td><td>85–95%</td><td>Fine-tuned LLM + RAG + full integrations</td></tr>
+</table>
+<p>This playbook builds you to <strong>Level 3</strong>. Level 4 requires custom AI engineering work (contact NetWebMedia for architecture services).</p>
+
+<h2>What This Playbook Delivers</h2>
+<ul>
+  <li>The <strong>DIAL Framework</strong> — a mental model for designing every bot conversation</li>
+  <li><strong>50 pre-classified intents</strong> — ready to load into your NLP platform</li>
+  <li><strong>Full BANT dialog tree</strong> — copy-paste scripts with branching logic</li>
+  <li><strong>PACE sales scripts</strong> — objection-handling conversation trees</li>
+  <li><strong>3-STRIKE service system</strong> — customer service flows that resolve without escalation</li>
+  <li><strong>Platform deployment specs</strong> — constraints and configurations for 5 channels</li>
+  <li><strong>AI system prompt template</strong> — plug-and-play for Claude/GPT integration</li>
+  <li><strong>20-case QA scorecard</strong> — pre-launch verification checklist</li>
+  <li><strong>8-metric KPI dashboard</strong> — with targets and monthly review cadence</li>
+</ul>
+</div>
+
+<!-- ============================= SECTION 2 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">02</div></div>
+  <div>
+    <div class="sec-label">Strategy</div>
+    <div class="sec-title">The DIAL Framework — Detect, Intent, Answer, Loop</div>
+  </div>
+</div>
+
+<p>DIAL is the architecture behind every high-performing chatbot conversation. Apply it to every flow you build. If a conversation doesn't map to DIAL, it will eventually break.</p>
+
+<div class="dial-grid avoid-break">
+  <div class="dial-step">
+    <div class="letter">D</div>
+    <div class="word">Detect</div>
+    <div class="desc">Identify who the user is and what triggered the conversation. Use context signals: channel, referrer, time of day, CRM data if available.</div>
+    <div class="example">User opens bot via WhatsApp ad
+→ Detect: source=paid_ad, channel=whatsapp, time=evening
+→ Apply: high-intent lead profile</div>
+  </div>
+  <div class="dial-step">
+    <div class="letter">I</div>
+    <div class="word">Intent</div>
+    <div class="desc">Classify what the user wants. Don't assume — ask or infer from keywords, buttons clicked, and prior conversation context.</div>
+    <div class="example">User types: "how much does it cost?"
+→ Intent: PRICING_INQUIRY
+→ Confidence: 0.94
+→ Route to: Pricing flow</div>
+  </div>
+  <div class="dial-step">
+    <div class="letter">A</div>
+    <div class="word">Answer</div>
+    <div class="desc">Deliver the most useful response for this intent and user context. Personalize when possible. Always include a clear next step.</div>
+    <div class="example">Context: lead from paid ad, evening
+→ Don't list all prices
+→ DO: "Our most popular plan for businesses like yours is $[X]/mo. Want to see if it fits your needs?" CTA: Yes / Tell me more</div>
+  </div>
+  <div class="dial-step">
+    <div class="letter">L</div>
+    <div class="word">Loop</div>
+    <div class="desc">Every answer creates a new opportunity. After each response, the bot re-enters D-I-A and advances the conversation toward the goal.</div>
+    <div class="example">User: "Yes, tell me more"
+→ Detect: still in pricing inquiry
+→ Intent: WANTS_DETAILS
+→ Answer: Send case study + book call CTA
+→ Loop again...</div>
+  </div>
+</div>
+
+<h2>DIAL in Practice — Applied Examples</h2>
+
+<h3>Example 1: First-Time Visitor (Web Widget)</h3>
+<table class="avoid-break">
+  <tr><th>DIAL Step</th><th>Bot Logic</th><th>Bot Output</th></tr>
+  <tr><td><strong>Detect</strong></td><td>New visitor, 0 prior sessions, landing on /pricing page</td><td>— (internal signal)</td></tr>
+  <tr><td><strong>Intent</strong></td><td>Assumed: PRICING_INTENT (page context)</td><td>—</td></tr>
+  <tr><td><strong>Answer</strong></td><td>Proactive opening tied to page context</td><td>"Hi there! Checking out our pricing? I can help you find the right fit in 2 minutes. What's the main thing you need help with?"</td></tr>
+  <tr><td><strong>Loop</strong></td><td>User clicks option → new Detect cycle begins</td><td>Routes to appropriate qualification flow</td></tr>
+</table>
+
+<h3>Example 2: Returning Client (WhatsApp)</h3>
+<table class="avoid-break">
+  <tr><th>DIAL Step</th><th>Bot Logic</th><th>Bot Output</th></tr>
+  <tr><td><strong>Detect</strong></td><td>Phone matches CRM: Active Client, plan=Pro, last contact=14 days</td><td>—</td></tr>
+  <tr><td><strong>Intent</strong></td><td>User says "I have a problem with my dashboard" → SUPPORT_INTENT</td><td>—</td></tr>
+  <tr><td><strong>Answer</strong></td><td>Personalized + account-aware</td><td>"Hi Sarah! I can see you're on the Pro plan. Let me pull up your dashboard status... Is the issue with [specific feature]?"</td></tr>
+  <tr><td><strong>Loop</strong></td><td>Narrows issue → resolves or creates ticket</td><td>Reaches resolution without human in 73% of cases</td></tr>
+</table>
+
+<h3>Example 3: Angry Customer (Any Channel)</h3>
+<table class="avoid-break">
+  <tr><th>DIAL Step</th><th>Signal Detected</th><th>Bot Behavior</th></tr>
+  <tr><td><strong>Detect</strong></td><td>Sentiment analysis: negative (score &lt;-0.6) OR keywords: "angry", "unacceptable", "refund NOW"</td><td>Flag as HIGH_PRIORITY</td></tr>
+  <tr><td><strong>Intent</strong></td><td>Override normal intent flow → ESCALATION_INTENT</td><td>Skip qualification</td></tr>
+  <tr><td><strong>Answer</strong></td><td>De-escalation script (never defensive, never robotic)</td><td>"I'm really sorry you're dealing with this — that's not the experience we want for you. I'm connecting you with a specialist right now. Hold on just a moment."</td></tr>
+  <tr><td><strong>Loop</strong></td><td>Human takes over — bot provides context summary to agent</td><td>Warm handoff with full context</td></tr>
+</table>
+
+<div class="callout avoid-break">
+  <div class="callout-label">DIAL Design Rule</div>
+  Every bot turn must advance toward ONE goal: qualification, resolution, or conversion. Any turn that doesn't advance the goal is friction. Audit your flows monthly for turns that generate no forward movement.
+</div>
+</div>
+
+<!-- ============================= SECTION 3 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">03</div></div>
+  <div>
+    <div class="sec-label">Content</div>
+    <div class="sec-title">Intent Library — 50 Intents by Category</div>
+  </div>
+</div>
+
+<p>Load these intents into your NLP platform (Dialogflow, Luis, Rasa, Voiceflow, or directly into your LLM system prompt). Each intent includes trigger phrases for training. Minimum 10 training utterances per intent is recommended; this library provides the canonical ones.</p>
+
+<div class="intent-category avoid-break">
+  <div class="intent-cat-header">SALES INTENTS (15)</div>
+  <div class="intent-grid">
+    <div class="intent-item"><span class="i-name">PRICING_INQUIRY</span><span class="i-trigger">"how much", "cost", "price", "rates", "plans"</span></div>
+    <div class="intent-item"><span class="i-name">DEMO_REQUEST</span><span class="i-trigger">"show me", "demo", "trial", "free test"</span></div>
+    <div class="intent-item"><span class="i-name">FEATURES_INQUIRY</span><span class="i-trigger">"what does it do", "features", "capabilities", "include"</span></div>
+    <div class="intent-item"><span class="i-name">COMPARISON_REQUEST</span><span class="i-trigger">"vs", "compare", "difference between", "better than"</span></div>
+    <div class="intent-item"><span class="i-name">CASE_STUDY_REQUEST</span><span class="i-trigger">"examples", "clients", "results", "case study", "proof"</span></div>
+    <div class="intent-item"><span class="i-name">PROPOSAL_REQUEST</span><span class="i-trigger">"send proposal", "quote", "custom offer", "package"</span></div>
+    <div class="intent-item"><span class="i-name">CONTRACT_INQUIRY</span><span class="i-trigger">"contract length", "commitment", "lock-in", "annual"</span></div>
+    <div class="intent-item"><span class="i-name">DISCOUNT_INQUIRY</span><span class="i-trigger">"discount", "deal", "promo", "special offer", "negotiate"</span></div>
+    <div class="intent-item"><span class="i-name">ONBOARDING_INQUIRY</span><span class="i-trigger">"how to start", "onboarding", "setup", "get started"</span></div>
+    <div class="intent-item"><span class="i-name">TIMELINE_INQUIRY</span><span class="i-trigger">"how long", "timeline", "when", "delivery time"</span></div>
+    <div class="intent-item"><span class="i-name">TEAM_INQUIRY</span><span class="i-trigger">"who will work on it", "team", "your people", "account manager"</span></div>
+    <div class="intent-item"><span class="i-name">ROI_INQUIRY</span><span class="i-trigger">"ROI", "return on investment", "what will I get", "worth it"</span></div>
+    <div class="intent-item"><span class="i-name">MEETING_REQUEST</span><span class="i-trigger">"book a call", "schedule", "meet", "speak to someone", "appointment"</span></div>
+    <div class="intent-item"><span class="i-name">OBJECTION_PRICE</span><span class="i-trigger">"too expensive", "can't afford", "over budget", "cheaper option"</span></div>
+    <div class="intent-item"><span class="i-name">OBJECTION_TIMING</span><span class="i-trigger">"not the right time", "maybe later", "not ready", "next quarter"</span></div>
+  </div>
+</div>
+
+<div class="intent-category avoid-break">
+  <div class="intent-cat-header">SERVICE INTENTS (15)</div>
+  <div class="intent-grid">
+    <div class="intent-item"><span class="i-name">SUPPORT_GENERAL</span><span class="i-trigger">"help", "issue", "problem", "not working", "broken"</span></div>
+    <div class="intent-item"><span class="i-name">TICKET_CREATE</span><span class="i-trigger">"open ticket", "report a bug", "submit issue", "log this"</span></div>
+    <div class="intent-item"><span class="i-name">TICKET_STATUS</span><span class="i-trigger">"ticket status", "my ticket", "update on my issue", "#[ticket_id]"</span></div>
+    <div class="intent-item"><span class="i-name">BILLING_INQUIRY</span><span class="i-trigger">"invoice", "charge", "payment", "bill"</span></div>
+    <div class="intent-item"><span class="i-name">REFUND_REQUEST</span><span class="i-trigger">"refund", "money back", "charge dispute", "cancel &amp; refund"</span></div>
+    <div class="intent-item"><span class="i-name">CANCEL_REQUEST</span><span class="i-trigger">"cancel", "stop service", "discontinue", "end my plan"</span></div>
+    <div class="intent-item"><span class="i-name">UPGRADE_REQUEST</span><span class="i-trigger">"upgrade", "higher plan", "more features", "bigger package"</span></div>
+    <div class="intent-item"><span class="i-name">DOWNGRADE_REQUEST</span><span class="i-trigger">"downgrade", "smaller plan", "reduce cost", "basic plan"</span></div>
+    <div class="intent-item"><span class="i-name">PASSWORD_RESET</span><span class="i-trigger">"forgot password", "can't login", "reset", "locked out"</span></div>
+    <div class="intent-item"><span class="i-name">ACCESS_ISSUE</span><span class="i-trigger">"can't access", "permission error", "no access", "blocked"</span></div>
+    <div class="intent-item"><span class="i-name">DATA_REQUEST</span><span class="i-trigger">"export data", "download my data", "data report", "my files"</span></div>
+    <div class="intent-item"><span class="i-name">ESCALATION_REQUEST</span><span class="i-trigger">"speak to manager", "escalate", "not satisfied", "supervisor"</span></div>
+    <div class="intent-item"><span class="i-name">SLA_INQUIRY</span><span class="i-trigger">"response time", "how long to fix", "SLA", "guaranteed time"</span></div>
+    <div class="intent-item"><span class="i-name">OUTAGE_REPORT</span><span class="i-trigger">"down", "outage", "not available", "site is down"</span></div>
+    <div class="intent-item"><span class="i-name">FEEDBACK_SUBMIT</span><span class="i-trigger">"feedback", "suggestion", "complaint", "love this", "hate this"</span></div>
+  </div>
+</div>
+
+<div class="intent-category avoid-break">
+  <div class="intent-cat-header">INFORMATION INTENTS (12)</div>
+  <div class="intent-grid">
+    <div class="intent-item"><span class="i-name">ABOUT_COMPANY</span><span class="i-trigger">"who are you", "about you", "tell me about", "your company"</span></div>
+    <div class="intent-item"><span class="i-name">HOURS_INQUIRY</span><span class="i-trigger">"hours", "open", "when are you available", "schedule"</span></div>
+    <div class="intent-item"><span class="i-name">LOCATION_INQUIRY</span><span class="i-trigger">"where are you", "office", "location", "address"</span></div>
+    <div class="intent-item"><span class="i-name">CONTACT_REQUEST</span><span class="i-trigger">"email", "phone number", "how to reach", "contact info"</span></div>
+    <div class="intent-item"><span class="i-name">PRIVACY_INQUIRY</span><span class="i-trigger">"privacy policy", "my data", "GDPR", "data protection"</span></div>
+    <div class="intent-item"><span class="i-name">TERMS_INQUIRY</span><span class="i-trigger">"terms", "T&amp;C", "agreement", "legal"</span></div>
+    <div class="intent-item"><span class="i-name">REFERRAL_INQUIRY</span><span class="i-trigger">"refer a friend", "partner program", "affiliate", "commission"</span></div>
+    <div class="intent-item"><span class="i-name">CAREERS_INQUIRY</span><span class="i-trigger">"job", "hiring", "career", "work with you", "openings"</span></div>
+    <div class="intent-item"><span class="i-name">MEDIA_INQUIRY</span><span class="i-trigger">"press", "media kit", "interview", "journalist"</span></div>
+    <div class="intent-item"><span class="i-name">INTEGRATION_INQUIRY</span><span class="i-trigger">"integrates with", "works with", "API", "Zapier", "HubSpot"</span></div>
+    <div class="intent-item"><span class="i-name">SECURITY_INQUIRY</span><span class="i-trigger">"secure", "safe", "encrypt", "ISO", "compliance"</span></div>
+    <div class="intent-item"><span class="i-name">KNOWLEDGE_BASE</span><span class="i-trigger">"tutorial", "guide", "how to", "documentation", "learn"</span></div>
+  </div>
+</div>
+
+<div class="intent-category avoid-break">
+  <div class="intent-cat-header">OPT-OUT / SYSTEM INTENTS (8)</div>
+  <div class="intent-grid">
+    <div class="intent-item"><span class="i-name">STOP</span><span class="i-trigger">"stop", "unsubscribe", "opt out", "no more", "remove me"</span></div>
+    <div class="intent-item"><span class="i-name">PAUSE</span><span class="i-trigger">"pause", "not now", "later", "busy", "come back"</span></div>
+    <div class="intent-item"><span class="i-name">GREETING</span><span class="i-trigger">"hello", "hi", "hey", "hola", "good morning"</span></div>
+    <div class="intent-item"><span class="i-name">GOODBYE</span><span class="i-trigger">"bye", "thanks", "goodbye", "that's all", "done"</span></div>
+    <div class="intent-item"><span class="i-name">POSITIVE_RESPONSE</span><span class="i-trigger">"yes", "sure", "absolutely", "let's do it", "agree"</span></div>
+    <div class="intent-item"><span class="i-name">NEGATIVE_RESPONSE</span><span class="i-trigger">"no", "not interested", "pass", "no thanks"</span></div>
+    <div class="intent-item"><span class="i-name">FALLBACK</span><span class="i-trigger">[When confidence &lt; 0.60 on all intents]</span></div>
+    <div class="intent-item"><span class="i-name">REPEAT_REQUEST</span><span class="i-trigger">"repeat", "what", "say that again", "didn't understand"</span></div>
+  </div>
+</div>
+
+<div class="callout avoid-break">
+  <div class="callout-label">NLP Training Tip</div>
+  Add at least 15 additional training utterances per intent before going live. Use real messages from your email support inbox as training data — they reflect actual user language far better than invented phrases. FALLBACK should trigger below 0.60 confidence and always offer a human option.
+</div>
+</div>
+
+<!-- ============================= SECTION 4 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">04</div></div>
+  <div>
+    <div class="sec-label">Content</div>
+    <div class="sec-title">Lead Qualification Flow — Full BANT Dialog Tree</div>
+  </div>
+</div>
+
+<p>This is the complete BANT qualification conversation tree. Use <strong>[USER:]</strong> lines as expected input patterns for intent detection. Use <strong>[BOT:]</strong> lines as your exact response copy. <strong>[SYSTEM:]</strong> lines are backend actions. Branch conditions are shown in italics.</p>
+
+<h2>ENTRY — User Makes First Contact</h2>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — Opening Message</div>
+Hi there! 👋 I'm [BOT_NAME] from [COMPANY_NAME].
+
+I can help you with:
+A) 🔍 Finding the right solution for your business
+B) 💬 Answering questions about our services
+C) 🛠️ Getting support for an existing account
+
+Which brings you here today?</div>
+
+<div class="dialog-turn user"><div class="dialog-label">USER — Sales path (selects A or types buying-related intent)</div></div>
+<div class="dialog-turn system"><div class="dialog-label">SYSTEM</div>Set user_intent = SALES. Tag CRM contact: intent_sales. Start BANT qualification flow.</div>
+
+<h2>BANT — Budget Discovery</h2>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — B.1 (Budget Open)</div>
+Great! I'd love to help you find the perfect fit.
+
+To make sure I show you the right options, what's your ballpark budget for this?
+
+A) 💼 Under $500/month
+B) 📈 $500–$1,500/month
+C) 🚀 $1,500–$5,000/month
+D) 🏢 $5,000+/month
+E) 🤔 I'm not sure yet</div>
+
+<div class="dialog-turn user"><div class="dialog-label">USER — Selects A</div></div>
+<div class="dialog-turn bot"><div class="dialog-label">BOT — B.2a (Low Budget Path)</div>
+No problem at all — we have a starter option at $[STARTER_PRICE]/month that covers [STARTER_BENEFITS].
+
+Most businesses your size start there and upgrade as they grow.
+
+Before I show you more, what's the main challenge you're trying to solve? That helps me recommend the right fit.</div>
+
+<div class="dialog-turn user"><div class="dialog-label">USER — Selects B, C, or D</div></div>
+<div class="dialog-turn bot avoid-break"><div class="dialog-label">BOT — B.2b (Mid/High Budget Path)</div>
+Excellent — [BUDGET_RANGE] is a great fit for our [PRODUCT_TIER].
+
+Before I show you details, one quick question: is this budget already approved, or does someone else need to sign off?
+
+A) ✅ I'm the decision-maker
+B) 👥 I share the decision with others
+C) 📋 I'm researching for my boss</div>
+
+<div class="dialog-turn user"><div class="dialog-label">USER — Selects E (not sure)</div></div>
+<div class="dialog-turn bot"><div class="dialog-label">BOT — B.2c (Budget Unknown Path)</div>
+No worries — budget often gets confirmed during the process.
+
+Let's look at it from a value angle: what outcome would make this investment worthwhile for you? (e.g., more leads, time saved, revenue growth)
+
+That helps me show you what fits.</div>
+
+<h2>BANT — Authority Discovery</h2>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — A.1 (Authority Check)</div>
+Got it. And just to make sure we cover everyone who matters in this decision — what's your role?
+
+A) 👔 Owner / Founder / CEO
+B) 📊 Director / VP / Manager
+C) 🔍 Evaluator (researching for others)
+D) 💻 Technical lead</div>
+
+<div class="dialog-turn user"><div class="dialog-label">USER — Selects C (Evaluator)</div></div>
+<div class="dialog-turn bot"><div class="dialog-label">BOT — A.2 (Evaluator Path)</div>
+Totally understand — research phase is important.
+
+I can put together a decision-ready packet for you that includes:
+📋 Executive summary (1 page)
+📊 ROI calculator for your use case
+🎥 5-minute demo video
+⭐ 3 relevant client case studies
+
+Would that be helpful to share with your decision-maker? Reply YES or I'LL THINK ABOUT IT.</div>
+
+<div class="dialog-turn system"><div class="dialog-label">SYSTEM — Evaluator</div>Tag: authority_indirect. Add to nurture sequence. Send decision packet if YES. Lower lead score by 20 points.</div>
+
+<h2>BANT — Needs Discovery</h2>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — N.1 (Needs Open)</div>
+Now let's dig into the real reason you're here.
+
+What's the problem you most need to solve? Pick the one that keeps you up at night:
+
+1️⃣ Not enough qualified leads coming in
+2️⃣ My team wastes too much time on manual tasks
+3️⃣ Losing deals to competitors
+4️⃣ Can't track what's working in marketing
+5️⃣ Struggling to scale without more headcount
+6️⃣ Something else — I'll describe it</div>
+
+<div class="dialog-turn user"><div class="dialog-label">USER — Selects 1 (Lead Generation)</div></div>
+<div class="dialog-turn bot avoid-break"><div class="dialog-label">BOT — N.2a (Lead Gen Deep Dive)</div>
+Leads — the lifeblood. Let's get specific.
+
+How many qualified leads are you generating per month right now?
+
+A) Under 10
+B) 10–50
+C) 50–200
+D) 200+
+
+And what's your current main lead source?</div>
+
+<div class="dialog-turn user"><div class="dialog-label">USER — Selects 6 (Other)</div></div>
+<div class="dialog-turn bot"><div class="dialog-label">BOT — N.2b (Open Needs)</div>
+Tell me more — what's the challenge in your own words?
+
+(Type a few sentences — I'll make sure I connect you with someone who has experience with exactly that.)</div>
+
+<div class="dialog-turn system"><div class="dialog-label">SYSTEM — Open needs</div>Store response as needs_verbatim. Flag for human review. Trigger AI analysis for intent classification.</div>
+
+<h2>BANT — Timeline Discovery</h2>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — T.1 (Timeline Check)</div>
+Last question — and then I'll show you exactly what I'd recommend.
+
+When do you need a solution in place?
+
+A) ⚡ Urgently — we needed this yesterday
+B) 📅 Within 30 days
+C) 🗓️ Within 90 days
+D) 📆 6+ months — still in planning
+E) 🔍 Exploring with no deadline</div>
+
+<div class="dialog-turn system"><div class="dialog-label">SYSTEM — Scoring Logic</div>
+Score calculation:
+Budget A = 5pts | B = 15pts | C = 25pts | D = 30pts
+Authority decision-maker = 25pts | shared = 15pts | evaluator = 5pts
+Need = 1–5 specificity score × 5pts
+Timeline A/B = 30pts | C = 20pts | D = 10pts | E = 5pts
+THRESHOLD: &gt;70pts = HOT (AE assigned) | 40–70pts = WARM (nurture) | &lt;40pts = COLD (long nurture)</div>
+
+<h2>BANT — Summary &amp; Next Step</h2>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — Qualification Summary (HOT lead)</div>
+[FIRST_NAME], based on everything you've shared — you're an excellent fit for our [RECOMMENDED_PRODUCT].
+
+Here's what I heard:
+✅ Budget: [BUDGET_CONFIRMED]
+✅ Decision: [AUTHORITY_LEVEL]
+✅ Challenge: [NEED_SUMMARY]
+✅ Timeline: [TIMELINE]
+
+I'm connecting you with [AE_NAME], our [TITLE], who specializes in exactly [NEED_AREA].
+
+📅 Available slots this week:
+→ [SLOT_1]
+→ [SLOT_2]
+→ [SLOT_3]
+
+Reply with *1*, *2*, or *3* to confirm your slot. Or book directly: [BOOKING_LINK]
+
+[AE_NAME] will come prepared with a custom solution — no generic pitch.</div>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — WARM lead path</div>
+Thanks for sharing all of that, [FIRST_NAME].
+
+You're on my radar — I'll have something tailored ready for you in [TIMEFRAME].
+
+In the meantime, here's something I think you'll find valuable right now: [RELEVANT_RESOURCE_LINK]
+
+I'll follow up on [DATE]. If you'd like to move faster, just reply FAST TRACK and I'll make it happen. 🚀</div>
+</div>
+
+<!-- ============================= SECTION 5 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">05</div></div>
+  <div>
+    <div class="sec-label">Sales &amp; Service</div>
+    <div class="sec-title">Sales Automation Scripts — PACE Framework + Objection Trees</div>
+  </div>
+</div>
+
+<p>PACE is the framework for moving a prospect from "interested" to "committed." Each step has exact bot copy and branch logic for the most common objections.</p>
+
+<div class="pace-grid avoid-break">
+  <div class="pace-step">
+    <div class="p-letter">P</div>
+    <div class="p-word">Problem</div>
+    <div class="p-desc">Confirm and amplify the pain. Make the cost of inaction real and personal.</div>
+  </div>
+  <div class="pace-step">
+    <div class="p-letter">A</div>
+    <div class="p-word">Agitate</div>
+    <div class="p-desc">Show what happens if they don't solve it. Use data, missed revenue, competitor growth.</div>
+  </div>
+  <div class="pace-step">
+    <div class="p-letter">C</div>
+    <div class="p-word">Connect</div>
+    <div class="p-desc">Introduce your solution as the bridge between current pain and desired outcome.</div>
+  </div>
+  <div class="pace-step">
+    <div class="p-letter">E</div>
+    <div class="p-word">Execute</div>
+    <div class="p-desc">Make it easy to say yes. Remove risk. Provide a clear, low-friction next step.</div>
+  </div>
+</div>
+
+<h2>PACE Scripts — Full Bot Conversation</h2>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — P: Problem Confirmation</div>
+[FIRST_NAME], earlier you mentioned [STATED_PROBLEM].
+
+I want to make sure I understand it fully. What does that actually cost you today?
+
+Thinking about it in terms of:
+💸 Revenue you're leaving on the table: ___
+⏰ Hours per week spent on this: ___
+😤 Impact on your team/customers: ___
+
+Just rough estimates — this helps me show you what solving it is actually worth.</div>
+
+<div class="dialog-turn user"><div class="dialog-label">USER — Shares impact (e.g. "about $5k/mo in lost deals, 10 hrs/week")</div></div>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — A: Agitate</div>
+So roughly $[IMPACT]/month — that's $[ANNUAL_IMPACT]/year.
+
+Here's what I see happen to businesses that let this continue:
+
+📉 [COMPETITOR_OR_INDUSTRY] businesses that solve this typically outgrow those that don't by [X]% within 12 months.
+
+The scary part? It compounds. The longer [PROBLEM] persists, the harder it becomes to recover the gap.
+
+The good news: you've already identified it — that puts you ahead of 80% of businesses in your space.
+
+Here's what solving it looks like...</div>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — C: Connect</div>
+What [COMPANY_NAME] does for businesses like yours:
+
+✅ [BENEFIT_1] → solves [PAIN_1]
+✅ [BENEFIT_2] → solves [PAIN_2]
+✅ [BENEFIT_3] → saves [TIME/MONEY]
+
+A client we worked with — [CLIENT_NAME] in [INDUSTRY] — was exactly where you are [TIMEFRAME] ago.
+
+[RESULT]: [SPECIFIC_METRIC] in [TIMEFRAME].
+
+[SHORT_TESTIMONIAL_QUOTE]
+
+Does this sound like the kind of result you're after?</div>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — E: Execute (Close)</div>
+[FIRST_NAME], here's how to get started:
+
+🎯 *[RECOMMENDED_PACKAGE]* at $[PRICE]/month
+⏱ Onboarding in [DAYS] days
+🔒 [GUARANTEE] — [GUARANTEE_DETAIL]
+
+To move forward:
+→ Reply *START* and I'll send your welcome packet
+→ Or reply *CALL* for a 30-min strategy call first
+
+If you want to start but need payment flexibility, reply *OPTIONS* and I'll show you what we can do.
+
+What works best for you?</div>
+
+<h2>Objection Handling Trees</h2>
+
+<h3>Objection: "It's too expensive"</h3>
+<div class="dialog-turn user"><div class="dialog-label">USER</div>"That's more than I expected / too expensive / out of budget"</div>
+<div class="dialog-turn bot avoid-break"><div class="dialog-label">BOT — Price Objection Response</div>
+I hear you — [PRICE] is a real number.
+
+Let me reframe it for a second.
+
+Based on what you shared — [PROBLEM_COST]/month in [PAIN] — this pays for itself in [PAYBACK_PERIOD] months.
+
+After that, you're ahead by $[NET_BENEFIT]/month.
+
+But if that's still a stretch right now, I have two options:
+A) 💳 *Split payments* — [PAYMENT_PLAN]
+B) 📦 *Starter package* — $[LOWER_PRICE]/month (includes [CORE_FEATURES])
+C) ⏳ *Lock in today's pricing for 30 days* while you finalize budget
+
+Which of these works for your situation?</div>
+
+<h3>Objection: "I need to think about it"</h3>
+<div class="dialog-turn user"><div class="dialog-label">USER</div>"Let me think about it / I need to discuss with my team / not sure yet"</div>
+<div class="dialog-turn bot avoid-break"><div class="dialog-label">BOT — Timing Objection Response</div>
+Of course — this is a real decision and I respect that.
+
+Quick honest question: is there a specific part of this that's giving you pause? Sometimes there's one thing blocking the decision that I can actually address right now.
+
+Is it:
+A) 💰 Budget needs approval
+B) 🤝 Need to loop in a colleague
+C) 🤔 Not 100% sure it'll solve my problem
+D) ⏰ Just not the right time
+
+Your answer helps me know how to best support you — not pressure you.</div>
+
+<h3>Objection: "We're using [Competitor]"</h3>
+<div class="dialog-turn user"><div class="dialog-label">USER</div>"We already have [COMPETITOR] / we're happy with our current solution"</div>
+<div class="dialog-turn bot avoid-break"><div class="dialog-label">BOT — Competitor Objection Response</div>
+That makes sense — [COMPETITOR] is a solid choice for many businesses.
+
+Can I ask one quick thing? What made you start researching alternatives?
+
+Most businesses that are "happy" with their current solution still have 1–2 things they wish it did better. What's yours?
+
+(Even if you don't switch, that answer helps me — and might just prove I have nothing to offer you. Either outcome is fine.)</div>
+</div>
+
+<!-- ============================= SECTION 6 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">06</div></div>
+  <div>
+    <div class="sec-label">Sales &amp; Service</div>
+    <div class="sec-title">Customer Service — The 3-STRIKE System</div>
+  </div>
+</div>
+
+<p>The 3-STRIKE system defines how the bot escalates customer service issues. Most issues are resolved at Strike 1. The system protects your team by ensuring human resources are reserved for cases that genuinely require them.</p>
+
+<div class="strike-grid avoid-break">
+  <div class="strike-card s1">
+    <div class="s-num">1</div>
+    <div class="s-name">STRIKE 1 — Bot Resolution</div>
+    <ul>
+      <li>Bot identifies issue via intent</li>
+      <li>Checks knowledge base for answer</li>
+      <li>Provides step-by-step resolution</li>
+      <li>Sends relevant documentation link</li>
+      <li>Asks: "Did that solve your issue?"</li>
+    </ul>
+    <div style="margin-top:8px; font-size:7.5pt; color:#92400e;">Resolves: ~65% of all service inquiries</div>
+  </div>
+  <div class="strike-card s2">
+    <div class="s-num">2</div>
+    <div class="s-name">STRIKE 2 — Guided Escalation</div>
+    <ul>
+      <li>User says "No" or issue persists</li>
+      <li>Bot collects detailed information</li>
+      <li>Creates ticket automatically</li>
+      <li>Offers: callback, live chat queue, email</li>
+      <li>Sets SLA expectation clearly</li>
+    </ul>
+    <div style="margin-top:8px; font-size:7.5pt; color:#991b1b;">Resolves: +20% (total 85%)</div>
+  </div>
+  <div class="strike-card s3">
+    <div class="s-num">3</div>
+    <div class="s-name">STRIKE 3 — Immediate Human</div>
+    <ul>
+      <li>Anger detected OR 3 unresolved turns</li>
+      <li>Bot pauses completely</li>
+      <li>Warm transfer to human agent</li>
+      <li>Agent receives full context summary</li>
+      <li>Manager alerted if severity = HIGH</li>
+    </ul>
+    <div style="margin-top:8px; font-size:7.5pt; color:#831843;">Final escalation: remaining 15%</div>
+  </div>
+</div>
+
+<h2>Strike 1 — Bot Resolution Scripts</h2>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — Strike 1 Generic Resolution</div>
+I can help with that right now! 🛠️
+
+The most common solution for "[ISSUE_TYPE]" is:
+
+Step 1: [STEP_1]
+Step 2: [STEP_2]
+Step 3: [STEP_3]
+
+📖 Full guide: [KNOWLEDGE_BASE_LINK]
+
+Did that solve your issue?
+A) ✅ Yes — all fixed!
+B) ❌ No — still having the problem
+C) 🤔 I need help with something different</div>
+
+<h2>Strike 2 — Ticket Creation Script</h2>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — Strike 2 Ticket Creation</div>
+I'm sorry the first solution didn't work — let's get this properly logged and resolved.
+
+I'm creating a support ticket right now. A couple of quick questions:
+
+1. Can you describe what you're seeing? (Error message, screenshot, or description)
+2. When did this start happening?
+3. What were you trying to do when it happened?
+
+(Reply with your answers and I'll have this to the right specialist immediately.)</div>
+
+<div class="dialog-turn system"><div class="dialog-label">SYSTEM — Strike 2</div>Collect answers → Create ticket → Assign to [SUPPORT_QUEUE] → Send confirmation with ticket # → Start SLA timer → Notify team via Slack #support-queue</div>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — Ticket Confirmed</div>
+✅ Ticket *#[TICKET_ID]* created.
+
+A [TEAM_NAME] specialist will contact you via [CHANNEL] within:
+• Standard: [STANDARD_SLA]
+• Urgent: Reply *URGENT* for [URGENT_SLA]
+• Billing: [BILLING_SLA]
+
+In the meantime, you can track your ticket at: [TICKET_PORTAL_URL]
+
+Is there anything else I can help you with while you wait?</div>
+
+<h2>Strike 3 — Immediate Escalation Script</h2>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — Strike 3 (Anger or repeated failure detected)</div>
+I completely understand your frustration — this is not the experience we want for you, and I'm truly sorry.
+
+I'm stopping our automated chat and connecting you directly with a senior specialist who can resolve this personally.
+
+[AGENT_NAME] is being notified right now. You'll receive a message from them within [SLA] minutes.
+
+Your reference number: *#[TICKET_ID]*
+
+Thank you for your patience — we're taking this seriously. 🙏</div>
+
+<div class="dialog-turn system"><div class="dialog-label">SYSTEM — Strike 3</div>
+1. Set bot_active = FALSE for this conversation thread
+2. Create P1 ticket tagged: ESCALATED, ANGER_DETECTED
+3. Assign to: SENIOR_AGENT (on-call)
+4. Send Slack DM to manager: "@[MANAGER] — Strike 3 escalation: contact=[NAME], issue=[SUMMARY], channel=[CHANNEL]"
+5. Start 15-minute SLA countdown
+6. Log full conversation to ticket thread</div>
+
+<h2>FAQ Resolution Library — Top 10 Issues</h2>
+<table class="avoid-break">
+  <tr><th>#</th><th>Issue</th><th>Strike 1 Bot Resolution</th><th>Escalate If...</th></tr>
+  <tr><td>1</td><td>Can't log in</td><td>Send password reset link → check email spam → clear browser cache guide</td><td>2FA issue or account locked</td></tr>
+  <tr><td>2</td><td>Invoice incorrect</td><td>Pull invoice from portal → review line items guide → billing FAQ link</td><td>Dispute &gt;$100 or recurring error</td></tr>
+  <tr><td>3</td><td>Feature not working</td><td>KB article for that feature → known issues status page → browser/device check</td><td>Confirmed bug, affects all users</td></tr>
+  <tr><td>4</td><td>Cancel request</td><td>Route to RETENTION intent immediately → offer pause, downgrade, credits</td><td>User says "final answer, cancel now"</td></tr>
+  <tr><td>5</td><td>Refund request</td><td>State refund policy → check eligibility → initiate if within policy</td><td>Dispute over policy, amount &gt;$500</td></tr>
+  <tr><td>6</td><td>Data not syncing</td><td>Sync troubleshooting guide → re-authenticate → cache clear</td><td>Confirmed API or webhook failure</td></tr>
+  <tr><td>7</td><td>Want to upgrade</td><td>Show upgrade options → pricing → handle objections → route to payment</td><td>Custom enterprise quote needed</td></tr>
+  <tr><td>8</td><td>Access/permission error</td><td>Role explanation → self-serve admin guide → resend invite</td><td>Admin account locked or org-wide issue</td></tr>
+  <tr><td>9</td><td>Slow performance</td><td>Status page link → browser test → known degradation notice</td><td>Confirmed outage</td></tr>
+  <tr><td>10</td><td>Billing failure</td><td>Payment FAQ → update card guide → retry payment link</td><td>Payment method repeatedly failing</td></tr>
+</table>
+</div>
+
+<!-- ============================= SECTION 7 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">07</div></div>
+  <div>
+    <div class="sec-label">Technical</div>
+    <div class="sec-title">Platform Deployment Specs — 5 Channels</div>
+  </div>
+</div>
+
+<div class="platform-grid avoid-break">
+  <div class="platform-card">
+    <div class="pf-header wa-color">WhatsApp</div>
+    <div class="pf-body">
+      <ul>
+        <li>Max message body: 1,024 chars</li>
+        <li>Button labels: max 20 chars each</li>
+        <li>Max 3 buttons per message</li>
+        <li>List messages: max 10 items</li>
+        <li>24-hour session window for free-form</li>
+        <li>Template required outside window</li>
+        <li>No HTML or markdown in body</li>
+        <li>Supported: text, image, video, PDF, audio, location, contact, sticker</li>
+        <li>Quick replies expire after 24h</li>
+        <li>Language: template must match user locale</li>
+      </ul>
+    </div>
+  </div>
+  <div class="platform-card">
+    <div class="pf-header web-color">Web Widget</div>
+    <div class="pf-body">
+      <ul>
+        <li>Full HTML/Markdown supported</li>
+        <li>No character limits (practical: &lt;500)</li>
+        <li>Supports: images, carousels, forms</li>
+        <li>Custom CSS theming available</li>
+        <li>Cookie-based session persistence</li>
+        <li>Integrate with: Intercom, Tidio, Crisp, custom</li>
+        <li>GDPR banner required in EU</li>
+        <li>Mobile: test at 375px viewport</li>
+        <li>A11y: must support keyboard nav</li>
+        <li>Load time: widget JS &lt;50KB ideal</li>
+      </ul>
+    </div>
+  </div>
+  <div class="platform-card">
+    <div class="pf-header ig-color">Instagram DM</div>
+    <div class="pf-body">
+      <ul>
+        <li>Max message: 1,000 chars</li>
+        <li>Generic template: 3 buttons max</li>
+        <li>Ice breaker: 4 questions max</li>
+        <li>24h window for human-in-loop</li>
+        <li>Story replies: treat as new session</li>
+        <li>Supported: text, image, sticker, heart</li>
+        <li>No audio/video files via API</li>
+        <li>Persistent menu: max 3 items</li>
+        <li>Requires FB Page connected to IG</li>
+        <li>Age-gating may limit reach</li>
+      </ul>
+    </div>
+  </div>
+  <div class="platform-card">
+    <div class="pf-header fb-color">Facebook Messenger</div>
+    <div class="pf-body">
+      <ul>
+        <li>Max message: 2,000 chars</li>
+        <li>Quick replies: max 13</li>
+        <li>Buttons: max 3 per template</li>
+        <li>Carousel: max 10 cards</li>
+        <li>24h + 1 messaging window</li>
+        <li>Tags for out-of-window messages</li>
+        <li>Persistent menu available</li>
+        <li>Supports: audio, video, file attachments</li>
+        <li>Handover protocol for human agents</li>
+        <li>Webhook: subscribe to messages + messaging_postbacks</li>
+      </ul>
+    </div>
+  </div>
+  <div class="platform-card">
+    <div class="pf-header sms-color">SMS</div>
+    <div class="pf-body">
+      <ul>
+        <li>Max 160 chars (GSM-7) per segment</li>
+        <li>Unicode reduces to 70 chars/segment</li>
+        <li>Concatenated: up to 1,600 chars (10 segments)</li>
+        <li>No rich media in standard SMS</li>
+        <li>MMS: image/video supported (US/CA)</li>
+        <li>Opt-in required: TCPA compliance (US)</li>
+        <li>STOP must be honored immediately</li>
+        <li>10DLC registration required (US)</li>
+        <li>No buttons — keyword-driven only</li>
+        <li>Best for: reminders, alerts, notifications</li>
+      </ul>
+    </div>
+  </div>
+  <div class="platform-card">
+    <div class="pf-header tg-color">Telegram (Optional)</div>
+    <div class="pf-body">
+      <ul>
+        <li>Max message: 4,096 chars</li>
+        <li>Full Markdown/HTML supported</li>
+        <li>Inline keyboards: unlimited buttons</li>
+        <li>No session window restrictions</li>
+        <li>Webhook or polling supported</li>
+        <li>Supports: all media types</li>
+        <li>Bot API: free, no approval required</li>
+        <li>Group/channel broadcasting possible</li>
+        <li>Mini Apps: full web app in Telegram</li>
+        <li>Best for: developer/tech audiences</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<h2>Cross-Platform Design Principles</h2>
+<ul>
+  <li><strong>Design for the most constrained platform first</strong> — SMS constraints force clarity. If it works in SMS, it works everywhere.</li>
+  <li><strong>Never assume button support</strong> — always provide a text fallback for interactive elements.</li>
+  <li><strong>Session continuity is per-channel</strong> — a user on WhatsApp and web chat are treated as different sessions unless you unify via phone/email lookup.</li>
+  <li><strong>Character limits are safety rails</strong> — if your message approaches the limit, it's too long. Cut it.</li>
+  <li><strong>Opt-out must work on every channel</strong> — STOP, UNSUBSCRIBE, BAJA, ARRÊTER must all trigger immediate suppression.</li>
+</ul>
+</div>
+
+<!-- ============================= SECTION 8 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">08</div></div>
+  <div>
+    <div class="sec-label">Technical</div>
+    <div class="sec-title">AI/NLP Integration — System Prompt, Context, Fallback Logic</div>
+  </div>
+</div>
+
+<h2>System Prompt Template (Claude/GPT/Gemini)</h2>
+<div class="template-box avoid-break">
+You are [BOT_NAME], the AI sales and service assistant for [COMPANY_NAME].
+
+## Identity
+- Company: [COMPANY_NAME]
+- Website: [WEBSITE_URL]
+- Industry: [INDUSTRY]
+- Tone: [e.g., "Professional but warm, direct, never pushy"]
+- Language: Respond in the same language as the user. Default: [DEFAULT_LANGUAGE]
+
+## Your Role
+You handle first contact for all incoming conversations on [CHANNELS]. Your goals in priority order:
+1. Resolve service issues without escalation (when possible)
+2. Qualify leads using the BANT framework
+3. Book discovery calls for qualified prospects
+4. Capture contact info for follow-up
+
+## What You Know
+- Services offered: [LIST_SERVICES]
+- Pricing: [PRICING_SUMMARY or "Do not discuss specific pricing — always say 'Let me have a specialist prepare a custom quote for you'"]
+- Business hours: [HOURS_AND_TIMEZONE]
+- Support email: [SUPPORT_EMAIL]
+- Booking link: [BOOKING_URL]
+
+## Rules — What You MUST Do
+- Always greet the user by first name if known from CRM context
+- Always end with a clear next action (question or CTA)
+- Always offer a human option after 2 unresolved bot turns
+- Always honor STOP/UNSUBSCRIBE immediately — confirm and cease all outreach
+- Always respond within the channel's character limits (WhatsApp: 1,024 chars; SMS: 160 chars)
+
+## Rules — What You MUST NOT Do
+- Do NOT make promises about pricing, timelines, or deliverables without checking with a human
+- Do NOT discuss competitors by name — redirect to our value
+- Do NOT collect payment information in chat
+- Do NOT engage with inappropriate, threatening, or off-topic content — redirect firmly and politely
+- Do NOT invent information — say "I'll find out and get back to you" if unsure
+
+## Escalation Triggers — Immediately hand off to human:
+- User expresses anger (SENTIMENT_SCORE &lt; -0.6)
+- User mentions: "lawyer", "legal action", "BBB", "fraud", "report you"
+- Bot cannot resolve after 3 attempts
+- User explicitly requests "human", "agent", "real person"
+- Billing dispute over $[THRESHOLD]
+
+## Context You Receive per Message
+[USER_ID]: {{user_id}}
+[CRM_STATUS]: {{crm_status}} (e.g., New Lead, Active Client, Churned)
+[CHANNEL]: {{channel}}
+[CONVERSATION_HISTORY]: {{last_5_turns}}
+[CURRENT_INTENT]: {{classified_intent}} (confidence: {{confidence_score}})
+
+Use this context to personalize every response. An Active Client asking a billing question should be addressed differently than a New Lead asking the same question.</div>
+
+<h2>Context Management Rules</h2>
+<table class="avoid-break">
+  <tr><th>Context Type</th><th>How to Use It</th><th>Max Retention</th></tr>
+  <tr><td>User's name</td><td>Use in opening of every message, not every turn (avoid sounding robotic)</td><td>Full session</td></tr>
+  <tr><td>Previous intent</td><td>If user returns to previous topic, acknowledge continuity</td><td>Last 10 turns</td></tr>
+  <tr><td>CRM status</td><td>Adjust tone (prospects vs. paying clients), skip qualification if already qualified</td><td>Pull fresh per conversation</td></tr>
+  <tr><td>Conversation goal</td><td>Track progress toward goal (book call, resolve issue, capture lead)</td><td>Full session</td></tr>
+  <tr><td>Unanswered questions</td><td>If user asks multiple things, address all. Log unresolved ones for follow-up</td><td>Current turn only</td></tr>
+</table>
+
+<h2>Fallback Logic Tree</h2>
+<div class="template-box avoid-break">
+IF intent_confidence &lt; 0.60:
+  → Trigger CLARIFICATION response:
+     "Just to make sure I understand — are you asking about [OPTION_A] or [OPTION_B]?"
+  → If user clarifies → re-classify → respond
+  → If user says "neither" → open question: "Tell me more in your own words"
+
+IF 2 consecutive FALLBACK events:
+  → Trigger HUMAN_OFFER:
+     "I want to make sure you get the best help possible.
+      Would you like to connect with a team member?
+      A) Yes, connect me now
+      B) No, let me try again"
+
+IF user selects "connect me now" OR 3 consecutive FALLBACK events:
+  → Trigger HANDOFF_PROTOCOL (see Section 9)
+  → Log conversation context for agent
+  → Notify support channel
+
+FALLBACK response templates (rotate to avoid repetition):
+1. "I want to make sure I answer exactly what you're asking. Could you rephrase that?"
+2. "Let me make sure I get this right — what's the main thing you need help with?"
+3. "That's outside my usual area! Let me connect you with someone who can help directly."</div>
+</div>
+
+<!-- ============================= SECTION 9 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">09</div></div>
+  <div>
+    <div class="sec-label">Operations</div>
+    <div class="sec-title">Handoff Protocol — Hard/Soft Triggers, Warm Transfer Scripts</div>
+  </div>
+</div>
+
+<h2>Trigger Conditions</h2>
+<table class="trigger-table avoid-break">
+  <tr><th>Trigger Type</th><th>Condition</th><th>Action</th><th>SLA</th></tr>
+  <tr><td><strong>HARD</strong></td><td>sentiment_score &lt; -0.6 (anger)</td><td>Immediate bot pause + human alert + de-escalation script</td><td>15 min</td></tr>
+  <tr><td><strong>HARD</strong></td><td>Keywords: "lawyer", "sue", "BBB", "fraud", "report"</td><td>Immediate human + manager notify + log conversation</td><td>10 min</td></tr>
+  <tr><td><strong>HARD</strong></td><td>User explicitly says "human", "agent", "person"</td><td>Immediate handoff, no further bot turns</td><td>5 min (queue)</td></tr>
+  <tr><td><strong>HARD</strong></td><td>Billing dispute &gt; $[THRESHOLD] OR legal question</td><td>Route to billing manager / legal team directly</td><td>30 min</td></tr>
+  <tr><td><strong>SOFT</strong></td><td>3 consecutive FALLBACK events</td><td>Offer human option, proceed only if user declines</td><td>Queue-based</td></tr>
+  <tr><td><strong>SOFT</strong></td><td>Intent: CANCEL or REFUND detected</td><td>Route to retention specialist, not general support</td><td>30 min</td></tr>
+  <tr><td><strong>SOFT</strong></td><td>HOT lead (score &gt;70) qualifies on BANT</td><td>Trigger AE notification + offer immediate call</td><td>5 min business hours</td></tr>
+  <tr><td><strong>SOFT</strong></td><td>Conversation duration &gt;15 minutes, unresolved</td><td>Proactively offer human: "I can connect you with a specialist if helpful"</td><td>Next available</td></tr>
+</table>
+
+<h2>Warm Transfer Script — Bot to Agent</h2>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — Warm Transfer Opening to User</div>
+[FIRST_NAME], I'm connecting you with [AGENT_NAME] right now.
+
+[AGENT_NAME] is our [TITLE] and specializes in exactly [RELEVANT_AREA].
+
+I've already shared the context of our conversation so you won't need to repeat yourself.
+
+Typical wait: [WAIT_TIME]
+
+While you wait, is there anything else I can clarify or prepare for your conversation with [AGENT_NAME]?</div>
+
+<div class="dialog-turn system avoid-break">
+<div class="dialog-label">SYSTEM — Context Packet sent to Agent</div>
+===== HANDOFF SUMMARY =====
+Contact: [NAME] | [PHONE/EMAIL] | CRM Status: [STATUS]
+Channel: [CHANNEL] | Session Duration: [DURATION]
+Trigger: [TRIGGER_REASON]
+
+BANT Qualification:
+Budget: [BUDGET_RANGE] | Authority: [ROLE]
+Need: [NEED_SUMMARY] | Timeline: [TIMELINE]
+Lead Score: [SCORE]/100
+
+Conversation Summary (last 5 turns):
+[TURN_1_SUMMARY]
+[TURN_2_SUMMARY]
+[TURN_3_SUMMARY]
+[TURN_4_SUMMARY]
+[TURN_5_SUMMARY]
+
+Unresolved Questions from User:
+- [UNANSWERED_Q_1]
+- [UNANSWERED_Q_2]
+
+Recommended Agent Action: [SUGGESTED_NEXT_STEP]
+Priority: [LOW / MEDIUM / HIGH / URGENT]
+===========================</div>
+
+<div class="dialog-turn bot avoid-break">
+<div class="dialog-label">BOT — Agent Opening Line (copy for human agent to send)</div>
+Hi [FIRST_NAME]! I'm [AGENT_NAME] — [TITLE] at [COMPANY].
+
+I've read through your conversation and I understand you're dealing with [SUMMARY_OF_ISSUE_OR_NEED].
+
+Let me address this directly...
+
+[AGENT CONTINUES FROM CONTEXT PACKET — NO RE-INTRODUCTION NEEDED]</div>
+
+<h2>Post-Handoff Follow-up</h2>
+<table class="avoid-break">
+  <tr><th>Scenario</th><th>Bot Follow-up (Timing)</th><th>Message</th></tr>
+  <tr><td>Support ticket created, not resolved</td><td>T+24h if ticket still open</td><td>"[FIRST_NAME], just checking — has [ISSUE] been resolved? Reply YES or reply STILL OPEN and I'll escalate immediately."</td></tr>
+  <tr><td>HOT lead handed to AE</td><td>T+2h if no AE contact logged</td><td>Alert AE via Slack: "@[AE_NAME] — HOT lead [NAME] has been waiting 2hrs. Score: [SCORE]. Please contact now: [PHONE]"</td></tr>
+  <tr><td>CSAT survey trigger</td><td>T+4h after ticket resolved</td><td>"Hi [FIRST_NAME]! Was your issue resolved to your satisfaction? Rate us: ⭐⭐⭐⭐⭐ or reply with your rating 1–5."</td></tr>
+</table>
+</div>
+
+<!-- ============================= SECTION 10 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">10</div></div>
+  <div>
+    <div class="sec-label">Operations</div>
+    <div class="sec-title">QA Scorecard — 20 Pre-Launch Test Cases</div>
+  </div>
+</div>
+
+<p>Run every test case before launching on any new channel. Log results in the table below. <strong>All 20 must PASS before go-live.</strong> Re-test after any major change to flows, intent library, or system prompt.</p>
+
+<div class="checklist-section avoid-break">
+  <h4>MODULE 1 — Intent Recognition (5 tests)</h4>
+  <div class="qa-item">
+    <div class="qa-num">1</div>
+    <div class="qa-content">
+      <div class="qa-label">Basic intent recognition</div>
+      <div class="qa-detail">Send "how much does it cost?" — Expected: PRICING_INQUIRY at &gt;90% confidence</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">2</div>
+    <div class="qa-content">
+      <div class="qa-label">Synonym intent recognition</div>
+      <div class="qa-detail">Send "what do you charge?" and "rates?" — Same intent as above, still &gt;85% confidence</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">3</div>
+    <div class="qa-content">
+      <div class="qa-label">Multilingual intent</div>
+      <div class="qa-detail">Send "¿cuánto cuesta?" — Expected: PRICING_INQUIRY + Spanish response triggered</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">4</div>
+    <div class="qa-content">
+      <div class="qa-label">Low-confidence fallback</div>
+      <div class="qa-detail">Send "banana elephant Tuesday" — Expected: FALLBACK triggered, human offer after 2nd failure</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">5</div>
+    <div class="qa-content">
+      <div class="qa-label">Multi-intent handling</div>
+      <div class="qa-detail">Send "I need pricing and also how do I cancel?" — Bot should address BOTH intents, not drop one</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+</div>
+
+<div class="checklist-section avoid-break">
+  <h4>MODULE 2 — BANT Flow (5 tests)</h4>
+  <div class="qa-item">
+    <div class="qa-num">6</div>
+    <div class="qa-content">
+      <div class="qa-label">Full BANT completion — HOT lead</div>
+      <div class="qa-detail">Complete full BANT with: Budget $2k, Decision-maker, Clear need, Timeline 30 days — Expected: HOT lead score &gt;70, AE notified, booking offer triggered</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">7</div>
+    <div class="qa-content">
+      <div class="qa-label">BANT — evaluator path</div>
+      <div class="qa-detail">Select "researching for boss" in authority — Expected: decision packet offered, lead score reduced, nurture sequence enrolled</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">8</div>
+    <div class="qa-content">
+      <div class="qa-label">BANT — user drops off mid-flow</div>
+      <div class="qa-detail">Abandon BANT at N step — Expected: bot waits 2h, sends re-engagement nudge, captures partial data to CRM</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">9</div>
+    <div class="qa-content">
+      <div class="qa-label">BANT — budget disqualification</div>
+      <div class="qa-detail">Select lowest budget option below minimum — Expected: graceful disqualification, offer starter product or resource, no abrupt cutoff</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">10</div>
+    <div class="qa-content">
+      <div class="qa-label">CRM data written correctly</div>
+      <div class="qa-detail">Complete full BANT — check CRM: contact created, BANT fields populated, lead score logged, stage updated to "Qualified"</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+</div>
+
+<div class="checklist-section avoid-break">
+  <h4>MODULE 3 — Service &amp; Escalation (5 tests)</h4>
+  <div class="qa-item">
+    <div class="qa-num">11</div>
+    <div class="qa-content">
+      <div class="qa-label">Strike 1 resolution</div>
+      <div class="qa-detail">Send "I can't log in" — Expected: password reset steps delivered, KB link included, satisfaction check asked</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">12</div>
+    <div class="qa-content">
+      <div class="qa-label">Strike 2 ticket creation</div>
+      <div class="qa-detail">Respond "No, still broken" after Strike 1 — Expected: detail collection, ticket created in helpdesk with correct fields, confirmation with ticket # sent</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">13</div>
+    <div class="qa-content">
+      <div class="qa-label">Strike 3 anger escalation</div>
+      <div class="qa-detail">Send "I am absolutely furious about this, this is unacceptable!" — Expected: bot pauses, de-escalation script fires, human alert sent &lt;2 min</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">14</div>
+    <div class="qa-content">
+      <div class="qa-label">Legal keyword escalation</div>
+      <div class="qa-detail">Send "I'm going to contact my lawyer about this" — Expected: HARD trigger fires, manager alerted, conversation logged</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">15</div>
+    <div class="qa-content">
+      <div class="qa-label">OPT-OUT compliance</div>
+      <div class="qa-detail">Send "STOP" — Expected: confirmed opt-out message, contact removed from ALL marketing lists, "do_not_contact_wa" flag set in CRM — test immediately</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+</div>
+
+<div class="checklist-section avoid-break">
+  <h4>MODULE 4 — Edge Cases &amp; Compliance (5 tests)</h4>
+  <div class="qa-item">
+    <div class="qa-num">16</div>
+    <div class="qa-content">
+      <div class="qa-label">Returning customer recognition</div>
+      <div class="qa-detail">Initiate conversation from a number already in CRM as "Active Client" — Expected: bot greets by name, skips cold intro, offers account-aware response</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">17</div>
+    <div class="qa-content">
+      <div class="qa-label">Inappropriate content handling</div>
+      <div class="qa-detail">Send offensive or off-topic content — Expected: firm but polite redirect, no engagement with content, offer relevant help</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">18</div>
+    <div class="qa-content">
+      <div class="qa-label">AI hallucination guard</div>
+      <div class="qa-detail">Ask bot about a service it doesn't offer — Expected: bot says "I'll find out" or "that's not something we offer currently" — NEVER invents an answer</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">19</div>
+    <div class="qa-content">
+      <div class="qa-label">Message length compliance</div>
+      <div class="qa-detail">Trigger the longest bot response in your flow — verify it's within channel character limits (WhatsApp: &lt;1,024; SMS: &lt;160 per segment)</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+  <div class="qa-item">
+    <div class="qa-num">20</div>
+    <div class="qa-content">
+      <div class="qa-label">Load test — concurrent conversations</div>
+      <div class="qa-detail">Simulate 50 concurrent conversations using test tool — verify: no message delays &gt;3s, no duplicate responses, no cross-conversation data leakage</div>
+    </div>
+    <div class="qa-result">PASS / FAIL</div>
+  </div>
+</div>
+
+<div class="callout danger avoid-break">
+  <div class="callout-label">Go-Live Gate</div>
+  Tests 13, 14, 15, and 20 are hard blockers. <strong>Do not go live</strong> if any of these 4 fail. The rest can be temporarily mitigated with human monitoring, but escalation failures, OPT-OUT failures, and load test failures are safety-critical.
+</div>
+</div>
+
+<!-- ============================= SECTION 11 ============================= -->
+<div class="page-break">
+<div class="section-divider">
+  <div><div class="sec-num">11</div></div>
+  <div>
+    <div class="sec-label">Operations</div>
+    <div class="sec-title">KPI Dashboard — 8 Metrics, Targets &amp; Monthly Review</div>
+  </div>
+</div>
+
+<div class="kpi-grid avoid-break">
+  <div class="kpi-card">
+    <div class="kpi-value">78%</div>
+    <div class="kpi-label">Containment Rate</div>
+    <div class="kpi-target">Target: &gt;70%</div>
+    <div class="kpi-alert">Alert if &lt;55% — review Strike system</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">4.2s</div>
+    <div class="kpi-label">Avg Response Time</div>
+    <div class="kpi-target">Target: &lt;5 seconds</div>
+    <div class="kpi-alert">Alert if &gt;10s — check infra/API</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">68%</div>
+    <div class="kpi-label">Intent Match Rate</div>
+    <div class="kpi-target">Target: &gt;75%</div>
+    <div class="kpi-alert">Alert if &lt;60% — retrain NLP</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">4.4/5</div>
+    <div class="kpi-label">CSAT Score</div>
+    <div class="kpi-target">Target: &gt;4.0/5</div>
+    <div class="kpi-alert">Alert if &lt;3.5 — full flow audit</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">18%</div>
+    <div class="kpi-label">Lead-to-Qualified %</div>
+    <div class="kpi-target">Target: &gt;15%</div>
+    <div class="kpi-alert">Alert if &lt;8% — BANT tuning</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">9.2%</div>
+    <div class="kpi-label">Escalation Rate</div>
+    <div class="kpi-target">Target: &lt;15%</div>
+    <div class="kpi-alert">Alert if &gt;25% — Strike 1 failing</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">$0.09</div>
+    <div class="kpi-label">Cost per Conversation</div>
+    <div class="kpi-target">Target: &lt;$0.25</div>
+    <div class="kpi-alert">Alert if &gt;$0.50 — model costs rising</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-value">62%</div>
+    <div class="kpi-label">Session Completion Rate</div>
+    <div class="kpi-target">Target: &gt;55%</div>
+    <div class="kpi-alert">Alert if &lt;40% — drop-off in flow</div>
+  </div>
+</div>
+
+<h2>Metric Definitions &amp; Measurement</h2>
+<table class="avoid-break">
+  <tr><th>KPI</th><th>Formula</th><th>Source</th><th>Cadence</th></tr>
+  <tr><td>Containment Rate</td><td>Conversations resolved by bot / Total conversations</td><td>Bot analytics + CRM handoff events</td><td>Weekly</td></tr>
+  <tr><td>Avg Response Time</td><td>Sum of (user_message_time – bot_reply_time) / message count</td><td>Platform API logs (p95 percentile)</td><td>Daily</td></tr>
+  <tr><td>Intent Match Rate</td><td>Messages with confidence &gt;0.75 / Total messages received</td><td>NLP platform analytics</td><td>Weekly</td></tr>
+  <tr><td>CSAT Score</td><td>Sum of ratings / Number of ratings received</td><td>Post-conversation survey (1–5 scale)</td><td>Weekly</td></tr>
+  <tr><td>Lead-to-Qualified %</td><td>BANT-qualified leads / Total leads who started BANT flow</td><td>CRM pipeline — stage tracking</td><td>Weekly</td></tr>
+  <tr><td>Escalation Rate</td><td>Conversations handed to human / Total conversations</td><td>Handoff trigger logs</td><td>Daily</td></tr>
+  <tr><td>Cost per Conversation</td><td>(AI API cost + Platform cost) / Total conversations</td><td>AI provider billing + platform billing</td><td>Monthly</td></tr>
+  <tr><td>Session Completion Rate</td><td>Sessions that reach defined endpoint / Total sessions started</td><td>Bot flow analytics — completion events</td><td>Weekly</td></tr>
+</table>
+
+<h2>Monthly Review Cadence — 90-Minute Meeting Template</h2>
+<table class="avoid-break">
+  <tr><th>Time</th><th>Agenda Item</th><th>Owner</th><th>Output</th></tr>
+  <tr><td>0:00–0:15</td><td>KPI review — all 8 metrics vs. targets, RAG status</td><td>Bot Manager</td><td>Status slide</td></tr>
+  <tr><td>0:15–0:35</td><td>Conversation audit — review 20 random escalated conversations</td><td>QA Lead</td><td>Issue log</td></tr>
+  <tr><td>0:35–0:50</td><td>Intent analysis — top 10 FALLBACK triggers from the month</td><td>NLP Engineer</td><td>Retraining backlog</td></tr>
+  <tr><td>0:50–1:05</td><td>CSAT analysis — lowest-rated conversations, pattern identification</td><td>CX Lead</td><td>Script updates</td></tr>
+  <tr><td>1:05–1:20</td><td>Action items — owners, deadlines, P1/P2/P3 priority</td><td>All</td><td>Updated task board</td></tr>
+  <tr><td>1:20–1:30</td><td>Next month planning — new intents, flow updates, A/B tests planned</td><td>Bot Manager</td><td>Sprint plan</td></tr>
+</table>
+
+<h2>Continuous Improvement Loop</h2>
+<ol>
+  <li><strong>Weekly:</strong> Export top 20 FALLBACK messages. Add best ones as training utterances to appropriate intents. Minimum 5 new utterances per affected intent.</li>
+  <li><strong>Monthly:</strong> Run the full 20-case QA scorecard. Update failing test cases. Re-deploy and re-test before the next broadcast cycle.</li>
+  <li><strong>Quarterly:</strong> Full flow audit. Remove flows with &lt;5% usage. Update case studies, pricing references, and team names in all bot scripts.</li>
+  <li><strong>Annually:</strong> Re-evaluate platform. Could a different BSP, NLP platform, or AI model improve containment rate by &gt;10%? Commission a technical review.</li>
+</ol>
+
+<div class="callout" style="margin-top:20px;">
+  <div class="callout-label">The One Metric That Matters Most</div>
+  If you can only track one thing, track <strong>Containment Rate</strong>. It captures everything: if intents work, containment is high. If scripts work, containment is high. If the 3-STRIKE system works, containment is high. A sustained containment rate &gt;75% is the hallmark of a world-class chatbot. Below 60% is a system with serious design problems that no KPI dashboard will fix on its own.
+</div>
+
+<div class="doc-footer">
+  <span>NetWebMedia &mdash; Chatbot Automation Playbook 2026</span>
+  <span>netwebmedia.com &nbsp;|&nbsp; hello@netwebmedia.com</span>
+</div>
+</div>
+
+</body>
+</html>

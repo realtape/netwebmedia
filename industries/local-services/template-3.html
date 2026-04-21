@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beauty Salon — Stylist Bookings &amp; Price Menu Template | NetWebMedia CMS</title>
+<meta name="description" content="Beauty Salon template — stylist team, service menu with live prices, gallery and a book-appointment CTA. Modern dark-theme website built on NetWebMedia CMS.">
+<link rel="canonical" href="https://netwebmedia.com/industries/local-services/template-3.html">
+<meta property="og:title" content="Beauty Salon — NetWebMedia CMS Template">
+<meta property="og:description" content="Stylist team, service menu with prices, gallery and online booking.">
+<meta property="og:url" content="https://netwebmedia.com/industries/local-services/template-3.html">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+  body{background:#0b1220;color:#dde3ee;font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+  .tpl-nav{position:sticky;top:0;z-index:10;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+  .tpl-nav a.logo{color:#22d3ee;font-weight:900;text-decoration:none;font-size:18px}
+  .tpl-nav .r{display:flex;gap:12px;align-items:center}
+  .tpl-nav .back{color:#9aa;text-decoration:none;font-size:14px}
+  .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:12px 22px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+  .prod-hero{padding:80px 20px 50px;text-align:center;max-width:1100px;margin:0 auto;position:relative}
+  .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#ec4899,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+  .prod-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+  .prod-hero h1 .hl{background:linear-gradient(135deg,#ec4899,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:680px;margin:0 auto 28px;line-height:1.5}
+  .prod-hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+  .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+  .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+  .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+  .team-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px;text-align:center}
+  .team-card .avatar{width:96px;height:96px;border-radius:50%;margin:0 auto 12px;background:linear-gradient(135deg,#ec4899,#22d3ee);display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:900;color:#fff}
+  .team-card h4{margin:0 0 4px;font-size:17px}
+  .team-card .role{color:#22d3ee;font-size:13px;font-weight:700;margin-bottom:8px}
+  .team-card p{color:#b8c4d9;font-size:13px;line-height:1.5;margin:0 0 10px}
+  .team-card a{color:#ec4899;font-size:13px;font-weight:700;text-decoration:none}
+
+  .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .menu-col h3{font-size:18px;margin:0 0 12px;color:#22d3ee;text-transform:uppercase;letter-spacing:.08em;font-size:14px;font-weight:800}
+  .menu-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed rgba(255,255,255,.08)}
+  .menu-row .n{color:#fff;font-weight:600;font-size:15px}
+  .menu-row .d{color:#9aa;font-size:12px;margin-top:2px}
+  .menu-row .p{color:#ec4899;font-weight:800;white-space:nowrap;font-size:15px}
+
+  .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+  .gal-tile{aspect-ratio:1;border-radius:12px;background:linear-gradient(135deg,#ec4899,#22d3ee);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:48px}
+  .gal-tile:nth-child(2){background:linear-gradient(135deg,#8b5cf6,#ec4899)}
+  .gal-tile:nth-child(3){background:linear-gradient(135deg,#22d3ee,#06B6D4)}
+  .gal-tile:nth-child(4){background:linear-gradient(135deg,#f59e0b,#ec4899)}
+  .gal-tile:nth-child(5){background:linear-gradient(135deg,#10b981,#22d3ee)}
+  .gal-tile:nth-child(6){background:linear-gradient(135deg,#ec4899,#f59e0b)}
+  .gal-tile:nth-child(7){background:linear-gradient(135deg,#8b5cf6,#22d3ee)}
+  .gal-tile:nth-child(8){background:linear-gradient(135deg,#f43f5e,#ec4899)}
+
+  .cta-band{background:linear-gradient(135deg,rgba(236,72,153,.1),rgba(6,182,212,.05));border-top:1px solid rgba(236,72,153,.3);border-bottom:1px solid rgba(236,72,153,.3);padding:60px 20px;margin:60px 0 0;text-align:center}
+  .cta-band h3{font-size:clamp(22px,3.5vw,30px);margin:0 0 10px}
+  .cta-band p{color:#b8c4d9;max-width:600px;margin:0 auto 20px}
+  .badge-built{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.12);color:#67e8f9;padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  footer{padding:32px 20px;text-align:center;border-top:1px solid rgba(255,255,255,.06);color:#9aa;font-size:14px}
+  footer a{color:#22d3ee;text-decoration:none;margin:0 10px}
+  @media(max-width:720px){.menu-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <a href="/" class="logo">💇 Lume Hair &amp; Beauty</a>
+  <div class="r">
+    <a href="/industries/" class="back">← Industries</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">Downtown flagship · Mon–Sat</div>
+  <h1>Walk in as you. <span class="hl">Walk out as you — amplified.</span></h1>
+  <p class="sub">A full-service hair, color and beauty studio from a team that has trained in Paris, Seoul and New York. Every appointment starts with a free 10-minute consultation — because great hair starts with a real conversation.</p>
+  <div class="ctas">
+    <a href="#book" class="btn-teal">Book an appointment →</a>
+    <a href="#team" class="btn-ghost">Meet the stylists</a>
+  </div>
+</section>
+
+<section class="prod-section" id="team">
+  <h2>Meet the team</h2>
+  <p class="sub">Five stylists, five specialties. Pick your favorite or let us match you.</p>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="avatar">MR</div>
+      <h4>Marisol Reyes</h4>
+      <div class="role">Master Colorist</div>
+      <p>Balayage, dimensional color and gray-blending. 14 years experience. Redken certified educator.</p>
+      <a href="#book">Book with Marisol →</a>
+    </div>
+    <div class="team-card">
+      <div class="avatar">JT</div>
+      <h4>Jordan Tate</h4>
+      <div class="role">Senior Stylist</div>
+      <p>Precision cuts, curly-hair specialist (DevaCurl Level 3) and bridal styling. Trained in London.</p>
+      <a href="#book">Book with Jordan →</a>
+    </div>
+    <div class="team-card">
+      <div class="avatar">AK</div>
+      <h4>Ava Kim</h4>
+      <div class="role">Extensions &amp; Keratin</div>
+      <p>Invisible tape-ins, hand-tied wefts, Brazilian smoothing. Former stage stylist for LA fashion week.</p>
+      <a href="#book">Book with Ava →</a>
+    </div>
+    <div class="team-card">
+      <div class="avatar">DL</div>
+      <h4>Devin Laurent</h4>
+      <div class="role">Men's Cuts &amp; Beards</div>
+      <p>Classic barbering meets modern fades. Hot-towel shaves and grooming consultations.</p>
+      <a href="#book">Book with Devin →</a>
+    </div>
+    <div class="team-card">
+      <div class="avatar">RP</div>
+      <h4>Rosa Prieto</h4>
+      <div class="role">Esthetician</div>
+      <p>HydraFacial provider, lash lifts, waxing and a botanical facial menu built for sensitive skin.</p>
+      <a href="#book">Book with Rosa →</a>
+    </div>
+  </div>
+</section>
+
+<section class="prod-section" id="menu">
+  <h2>Service menu</h2>
+  <p class="sub">Prices start at — final price quoted during your free consultation based on hair length and density.</p>
+  <div class="menu-grid">
+    <div class="menu-col">
+      <h3>Hair</h3>
+      <div class="menu-row"><div><div class="n">Women's Cut &amp; Style</div><div class="d">Includes shampoo, conditioning, blowout</div></div><div class="p">$85+</div></div>
+      <div class="menu-row"><div><div class="n">Men's Cut</div><div class="d">Clipper or scissor, with beard line-up</div></div><div class="p">$55+</div></div>
+      <div class="menu-row"><div><div class="n">Kids' Cut (under 12)</div><div class="d">Wash + trim</div></div><div class="p">$35</div></div>
+      <div class="menu-row"><div><div class="n">Blowout &amp; Styling</div><div class="d">No cut · 45 min</div></div><div class="p">$55+</div></div>
+      <div class="menu-row"><div><div class="n">Bridal Trial + Day-Of</div><div class="d">Trial session + day-of styling</div></div><div class="p">$350</div></div>
+    </div>
+    <div class="menu-col">
+      <h3>Color</h3>
+      <div class="menu-row"><div><div class="n">Single-Process Color</div><div class="d">Root touch-up or all-over</div></div><div class="p">$115+</div></div>
+      <div class="menu-row"><div><div class="n">Partial Highlights</div><div class="d">Crown &amp; face-framing</div></div><div class="p">$165+</div></div>
+      <div class="menu-row"><div><div class="n">Full Balayage</div><div class="d">Hand-painted dimensional</div></div><div class="p">$245+</div></div>
+      <div class="menu-row"><div><div class="n">Corrective Color</div><div class="d">Consultation required</div></div><div class="p">$350+</div></div>
+      <div class="menu-row"><div><div class="n">Gloss &amp; Toner</div><div class="d">Shine, tone or color refresh</div></div><div class="p">$65+</div></div>
+    </div>
+    <div class="menu-col">
+      <h3>Extensions &amp; Smoothing</h3>
+      <div class="menu-row"><div><div class="n">Tape-in Extensions</div><div class="d">Price includes install + hair</div></div><div class="p">$650+</div></div>
+      <div class="menu-row"><div><div class="n">Hand-tied Wefts</div><div class="d">Custom color-matched</div></div><div class="p">$950+</div></div>
+      <div class="menu-row"><div><div class="n">Keratin Smoothing</div><div class="d">3-month frizz-free</div></div><div class="p">$295+</div></div>
+    </div>
+    <div class="menu-col">
+      <h3>Skin &amp; Nails</h3>
+      <div class="menu-row"><div><div class="n">Classic Facial (60 min)</div><div class="d">Cleanse, exfoliate, mask</div></div><div class="p">$110</div></div>
+      <div class="menu-row"><div><div class="n">HydraFacial</div><div class="d">Deluxe glow treatment</div></div><div class="p">$195</div></div>
+      <div class="menu-row"><div><div class="n">Lash Lift &amp; Tint</div><div class="d">Lasts 6–8 weeks</div></div><div class="p">$95</div></div>
+      <div class="menu-row"><div><div class="n">Brow Shaping &amp; Tint</div><div class="d">Wax + tint</div></div><div class="p">$45</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Recent work</h2>
+  <p class="sub">A few favorites from the last month.</p>
+  <div class="gallery">
+    <div class="gal-tile">✨</div>
+    <div class="gal-tile">💇</div>
+    <div class="gal-tile">🎨</div>
+    <div class="gal-tile">👰</div>
+    <div class="gal-tile">💁</div>
+    <div class="gal-tile">🌸</div>
+    <div class="gal-tile">✂️</div>
+    <div class="gal-tile">💫</div>
+  </div>
+</section>
+
+<div class="cta-band" id="book">
+  <h3>Launch this template with NetWebMedia</h3>
+  <p>Beauty Salon ships with 24/7 online booking, stylist calendars, SMS reminders and an Instagram gallery sync. Live under your brand in 48 hours.</p>
+  <a href="/contact.html" class="btn-teal">Start with this template →</a>
+  <div style="margin-top:22px"><span class="badge-built">⚡ Built on NetWebMedia CMS</span></div>
+</div>
+
+<footer>
+  <div><a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a></div>
+  <div style="margin-top:12px;color:#666">© 2026 Lume Hair &amp; Beauty — demo template. Powered by NetWebMedia CMS.</div>
+</footer>
+
+</body>
+</html>

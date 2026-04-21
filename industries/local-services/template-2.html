@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto Repair Shop — Certified Garage Template | NetWebMedia CMS</title>
+<meta name="description" content="Auto Repair Shop template — services offered, fleet accounts, ASE certifications and an online appointment CTA. Modern dark-theme website built on NetWebMedia CMS.">
+<link rel="canonical" href="https://netwebmedia.com/industries/local-services/template-2.html">
+<meta property="og:title" content="Auto Repair Shop — NetWebMedia CMS Template">
+<meta property="og:description" content="Certified garage template with fleet accounts, service menu and online appointment booking.">
+<meta property="og:url" content="https://netwebmedia.com/industries/local-services/template-2.html">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+  body{background:#0b1220;color:#dde3ee;font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+  .tpl-nav{position:sticky;top:0;z-index:10;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+  .tpl-nav a.logo{color:#22d3ee;font-weight:900;text-decoration:none;font-size:18px}
+  .tpl-nav .r{display:flex;gap:12px;align-items:center}
+  .tpl-nav .back{color:#9aa;text-decoration:none;font-size:14px}
+  .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:12px 22px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+  .prod-hero{padding:80px 20px 50px;text-align:center;max-width:1100px;margin:0 auto}
+  .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+  .prod-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+  .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:680px;margin:0 auto 28px;line-height:1.5}
+  .prod-hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  .prod-stats{max-width:1000px;margin:40px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;padding:0 20px}
+  .prod-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;text-align:center}
+  .prod-stat .n{font-size:28px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prod-stat .l{font-size:12px;color:#9aa;margin-top:6px;text-transform:uppercase;letter-spacing:.08em}
+
+  .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+  .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+  .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+  .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+  .feat-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px}
+  .feat-card:hover{border-color:rgba(6,182,212,.45)}
+  .feat-icon{font-size:28px;margin-bottom:10px}
+  .feat-card h3{margin:0 0 8px;font-size:17px}
+  .feat-card p{color:#b8c4d9;font-size:14px;line-height:1.55;margin:0}
+
+  .certs{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:20px 0}
+  .cert-chip{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:99px;padding:10px 18px;display:flex;align-items:center;gap:8px;color:#b8c4d9;font-size:13px;font-weight:600}
+  .cert-chip .dot{width:8px;height:8px;background:#22d3ee;border-radius:50%}
+
+  .fleet-box{background:linear-gradient(135deg,rgba(6,182,212,.08),rgba(8,145,178,.03));border:1px solid rgba(6,182,212,.25);border-radius:18px;padding:36px;display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center}
+  .fleet-box ul{list-style:none;padding:0;margin:16px 0 0}
+  .fleet-box li{padding:8px 0;color:#b8c4d9;font-size:14px;border-bottom:1px dashed rgba(255,255,255,.06)}
+  .fleet-box li::before{content:"✓ ";color:#22d3ee;font-weight:800}
+
+  .appt-form{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px}
+  .appt-form label{display:block;color:#b8c4d9;font-size:12px;margin:12px 0 6px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+  .appt-form input,.appt-form select{width:100%;background:#0b1220;border:1px solid rgba(255,255,255,.12);border-radius:8px;color:#fff;padding:10px;font-size:14px;box-sizing:border-box}
+  .appt-form button{margin-top:16px;width:100%;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:12px;border:0;border-radius:10px;font-weight:700;cursor:pointer;font-size:15px}
+
+  .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(8,145,178,.05));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;margin:60px 0 0;text-align:center}
+  .cta-band h3{font-size:clamp(22px,3.5vw,30px);margin:0 0 10px}
+  .cta-band p{color:#b8c4d9;max-width:600px;margin:0 auto 20px}
+  .badge-built{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.12);color:#67e8f9;padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  footer{padding:32px 20px;text-align:center;border-top:1px solid rgba(255,255,255,.06);color:#9aa;font-size:14px}
+  footer a{color:#22d3ee;text-decoration:none;margin:0 10px}
+  @media(max-width:720px){.fleet-box{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <a href="/" class="logo">🔧 Precision Auto Care</a>
+  <div class="r">
+    <a href="/industries/" class="back">← Industries</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">ASE Master Certified · Family owned since 1998</div>
+  <h1>Honest repairs. <span class="hl">Real mechanics.</span> No surprise bills.</h1>
+  <p class="sub">We've kept local cars on the road for 28 years. Full-service repair shop with ASE-certified master techs, digital vehicle inspections with photos sent to your phone, and a 3-year / 36,000-mile nationwide warranty on every job.</p>
+  <div class="ctas">
+    <a href="#appt" class="btn-teal">Book an appointment →</a>
+    <a href="tel:+15555551234" class="btn-ghost">📞 (555) 555-1234</a>
+  </div>
+</section>
+
+<div class="prod-stats">
+  <div class="prod-stat"><div class="n">28</div><div class="l">Years in business</div></div>
+  <div class="prod-stat"><div class="n">4.9★</div><div class="l">Google (1,820 reviews)</div></div>
+  <div class="prod-stat"><div class="n">36k</div><div class="l">Mile warranty</div></div>
+  <div class="prod-stat"><div class="n">12</div><div class="l">ASE-certified techs</div></div>
+</div>
+
+<section class="prod-section">
+  <h2>Every service, one shop</h2>
+  <p class="sub">From your state-required inspection to a full engine rebuild — we're a dealer-quality alternative without the dealer markup.</p>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">🛢️</div><h3>Oil Change &amp; Maintenance</h3><p>Conventional, synthetic blend and full synthetic. Multi-point digital inspection included. Out in under 30 minutes.</p></div>
+    <div class="feat-card"><div class="feat-icon">🛞</div><h3>Tires, Alignment &amp; Brakes</h3><p>Major tire brands in stock. Hunter road-force balancing. Road-hazard warranty available on new sets.</p></div>
+    <div class="feat-card"><div class="feat-icon">🔋</div><h3>Battery &amp; Electrical</h3><p>Battery, alternator and starter diagnostics. Parasitic-drain testing. OEM and hybrid/EV-rated replacements.</p></div>
+    <div class="feat-card"><div class="feat-icon">❄️</div><h3>A/C &amp; Heating</h3><p>R-134a and R-1234yf recovery + recharge. Leak detection, compressor service, blend-door actuators.</p></div>
+    <div class="feat-card"><div class="feat-icon">⚙️</div><h3>Engine &amp; Transmission</h3><p>Check-engine diagnostics on all makes. Timing belts, head gaskets, transmission service and full rebuilds.</p></div>
+    <div class="feat-card"><div class="feat-icon">🔧</div><h3>State Inspection</h3><p>Safety and emissions in one visit. Same-day pass-or-fail report. We file with the state for you.</p></div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Certifications that matter</h2>
+  <p class="sub">You're trusting us with a $30,000+ machine. These aren't stickers — they're annual re-tests and manufacturer training hours.</p>
+  <div class="certs">
+    <div class="cert-chip"><div class="dot"></div>ASE Blue Seal Shop</div>
+    <div class="cert-chip"><div class="dot"></div>AAA Approved Auto Repair</div>
+    <div class="cert-chip"><div class="dot"></div>NAPA AutoCare Center</div>
+    <div class="cert-chip"><div class="dot"></div>BBB A+ Accredited</div>
+    <div class="cert-chip"><div class="dot"></div>BG Certified Shop</div>
+    <div class="cert-chip"><div class="dot"></div>EV / Hybrid Specialist</div>
+    <div class="cert-chip"><div class="dot"></div>I-CAR Gold Class</div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Fleet &amp; commercial accounts</h2>
+  <div class="fleet-box">
+    <div>
+      <h3 style="margin:0 0 10px;font-size:22px">Keep your trucks and vans where they belong — on the road.</h3>
+      <p style="color:#b8c4d9;margin:0;font-size:15px">We service fleets of 3 to 300 vehicles across the metro. Dedicated account manager, priority bay access, consolidated monthly billing and preventative maintenance scheduled to your routes.</p>
+      <ul>
+        <li>Net-30 billing with line-item invoicing</li>
+        <li>Scheduled PMs tied to mileage or hours</li>
+        <li>DOT inspections and annual re-certs</li>
+        <li>Tire and brake bulk pricing</li>
+        <li>Shuttle or loaner to keep drivers moving</li>
+        <li>Monthly utilization reports delivered to your ops manager</li>
+      </ul>
+    </div>
+    <div>
+      <a href="/contact.html" class="btn-teal">Request fleet pricing →</a>
+      <div style="margin-top:12px;color:#9aa;font-size:13px">Already running a fleet? Ask about our migration credit.</div>
+    </div>
+  </div>
+</section>
+
+<section class="prod-section" id="appt">
+  <h2>Book your appointment</h2>
+  <p class="sub">Pick a day and a service. We'll confirm by text within 15 minutes during business hours.</p>
+  <div style="max-width:540px;margin:0 auto">
+    <form class="appt-form" onsubmit="event.preventDefault();alert('Template demo — connect to NetWebMedia CMS to go live.')">
+      <label>Your name</label>
+      <input type="text" placeholder="Jane Driver" required>
+      <label>Phone</label>
+      <input type="tel" placeholder="(555) 555-1234" required>
+      <label>Vehicle year / make / model</label>
+      <input type="text" placeholder="2019 Toyota RAV4" required>
+      <label>Service needed</label>
+      <select>
+        <option>Oil change &amp; inspection</option>
+        <option>Check-engine diagnostic</option>
+        <option>Brakes / tires / alignment</option>
+        <option>A/C service</option>
+        <option>State inspection</option>
+        <option>Not sure — need a diagnosis</option>
+      </select>
+      <label>Preferred day</label>
+      <input type="date" required>
+      <button type="submit">Request appointment</button>
+    </form>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h3>Launch this template with NetWebMedia</h3>
+  <p>Auto Repair Shop ships with online appointment booking, fleet account pages, SMS reminders and a digital-vehicle-inspection module. Live under your brand in 48 hours.</p>
+  <a href="/contact.html" class="btn-teal">Start with this template →</a>
+  <div style="margin-top:22px"><span class="badge-built">⚡ Built on NetWebMedia CMS</span></div>
+</div>
+
+<footer>
+  <div><a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a></div>
+  <div style="margin-top:12px;color:#666">© 2026 Precision Auto Care — demo template. Powered by NetWebMedia CMS.</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulting Practice — Professional Services Template | NetWebMedia CMS</title>
+  <meta name="description" content="Management consulting firm landing page — methodologies, case studies, team bios, discovery-call CTA. Built on NetWebMedia CMS.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/professional-services/template-3.html" />
+  <meta property="og:title" content="Consulting Practice — NetWebMedia Template" />
+  <meta property="og:url" content="https://netwebmedia.com/industries/professional-services/template-3.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body{background:#0a0f1d;color:#dde3ee;margin:0;font-family:system-ui,-apple-system,sans-serif}
+    .tpl-nav{position:sticky;top:0;z-index:50;background:rgba(10,15,29,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+    .tpl-nav .logo{font-weight:900;font-size:18px;color:#8b5cf6;letter-spacing:.18em}
+    .tpl-nav .links{display:flex;gap:18px;align-items:center}
+    .tpl-nav a{color:#b8c4d9;text-decoration:none;font-size:14px}
+    .btn-v{background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:10px 20px;border-radius:8px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+    .hero{padding:90px 20px 50px;text-align:center;max-width:1000px;margin:0 auto}
+    .hero .eyebrow{display:inline-block;background:rgba(139,92,246,.15);color:#c4b5fd;padding:6px 14px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;border:1px solid rgba(139,92,246,.3)}
+    .hero h1{font-size:clamp(36px,6vw,60px);margin:0 0 20px;line-height:1.08;font-weight:800}
+    .hero h1 .hl{background:linear-gradient(135deg,#a78bfa,#6d28d9);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero p.sub{font-size:clamp(16px,2.3vw,20px);color:#b8c4d9;max-width:680px;margin:0 auto 30px;line-height:1.55}
+    .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+    .section{max-width:1100px;margin:70px auto;padding:0 20px}
+    .section h2{font-size:clamp(28px,4vw,38px);margin:0 0 14px;text-align:center}
+    .section .sub{color:#9aa;font-size:15px;max-width:620px;margin:0 auto 40px;text-align:center;line-height:1.55}
+
+    .method{display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:start;margin:22px 0;max-width:800px;margin-left:auto;margin-right:auto;padding:20px;background:rgba(139,92,246,.03);border:1px solid rgba(139,92,246,.15);border-radius:14px}
+    .method .num{width:60px;height:60px;border-radius:14px;background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;font-weight:900;font-size:24px;display:flex;align-items:center;justify-content:center}
+    .method h4{margin:0 0 6px;color:#c4b5fd;font-size:18px}
+    .method p{margin:0;color:#b8c4d9;font-size:14px;line-height:1.55}
+
+    .cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+    .case{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:26px;transition:border-color .2s}
+    .case:hover{border-color:rgba(139,92,246,.4)}
+    .case .tag{display:inline-block;background:rgba(139,92,246,.15);color:#c4b5fd;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+    .case h3{margin:0 0 8px;font-size:17px;color:#fff}
+    .case .client{color:#9aa;font-size:12px;margin-bottom:14px}
+    .case .result{background:rgba(139,92,246,.08);border-radius:10px;padding:14px;font-size:14px;color:#dde3ee;margin-bottom:14px;border-left:3px solid #8b5cf6}
+    .case .result strong{color:#c4b5fd}
+    .case p{margin:0;color:#b8c4d9;font-size:13px;line-height:1.55}
+
+    .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:1000px;margin:0 auto}
+    .tm{text-align:center}
+    .tm .portrait{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#1e293b,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:50px;margin:0 auto 14px;border:2px solid rgba(139,92,246,.3)}
+    .tm h4{margin:0 0 4px;font-size:16px;color:#fff}
+    .tm .role{color:#c4b5fd;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+    .tm p{margin:0;color:#9aa;font-size:12px;line-height:1.5}
+
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:20px;max-width:900px;margin:0 auto;padding:30px 20px;border-top:1px solid rgba(139,92,246,.15);border-bottom:1px solid rgba(139,92,246,.15);background:rgba(139,92,246,.03)}
+    .stats .item{text-align:center}
+    .stats .n{font-size:32px;color:#c4b5fd;font-weight:800;line-height:1}
+    .stats .l{color:#9aa;font-size:12px;margin-top:6px;text-transform:uppercase;letter-spacing:.08em}
+
+    .cta-band{background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(109,40,217,.05));border-top:1px solid rgba(139,92,246,.3);border-bottom:1px solid rgba(139,92,246,.3);padding:60px 20px;text-align:center;margin-top:60px}
+    .cta-band h3{font-size:clamp(24px,3.5vw,32px);margin:0 0 12px}
+    .cta-band p{color:#b8c4d9;max-width:620px;margin:0 auto 22px;font-size:15px;line-height:1.55}
+    .nwm-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#67e8f9;margin:30px auto;text-decoration:none}
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:32px 20px;text-align:center;color:#9aa;font-size:13px}
+    footer a{color:#c4b5fd;margin:0 10px;text-decoration:none}
+  </style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <div class="logo">NORTH &amp; BRIDGE</div>
+  <div class="links">
+    <a href="/industries/">← Industries</a>
+    <a href="#cases">Case Studies</a>
+    <a href="/contact.html" class="btn-v">Request a Discovery Call</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">Strategy · Operations · Digital</div>
+  <h1>We don't write <span class="hl">decks that collect dust.</span></h1>
+  <p class="sub">Management consulting for growth-stage companies who need a thinking partner, a build partner, and an accountability partner — not a 300-page PowerPoint.</p>
+  <div class="ctas">
+    <a href="/contact.html" class="btn-v">Request a Discovery Call →</a>
+    <a href="#cases" class="btn-ghost">See Our Work</a>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="item"><div class="n">12</div><div class="l">Years in business</div></div>
+  <div class="item"><div class="n">180+</div><div class="l">Engagements completed</div></div>
+  <div class="item"><div class="n">$2.4B</div><div class="l">Enterprise value created</div></div>
+  <div class="item"><div class="n">94%</div><div class="l">Client repeat rate</div></div>
+</div>
+
+<section class="section">
+  <h2>How we work</h2>
+  <p class="sub">Six-step methodology refined over 180+ engagements. Every engagement ends with something shipped — not a slide deck.</p>
+  <div class="method">
+    <div class="num">1</div>
+    <div><h4>Immersion</h4><p>Two weeks on-site (or Zoom) interviewing your team, mapping systems, and reading the last 6 months of metrics. We come in with questions, not answers.</p></div>
+  </div>
+  <div class="method">
+    <div class="num">2</div>
+    <div><h4>Diagnosis</h4><p>Written findings + a prioritized opportunity map. We rank every lever by impact × feasibility so you can say no to 80% of them without guilt.</p></div>
+  </div>
+  <div class="method">
+    <div class="num">3</div>
+    <div><h4>Strategy</h4><p>One-page strategy. Not a deck. A single page your CEO can print and hang on the wall.</p></div>
+  </div>
+  <div class="method">
+    <div class="num">4</div>
+    <div><h4>Build</h4><p>We embed with your team for the actual execution — process redesign, tooling rollout, hiring sprints, M&amp;A diligence — whatever the strategy requires.</p></div>
+  </div>
+  <div class="method">
+    <div class="num">5</div>
+    <div><h4>Transfer</h4><p>Documentation, training, and a 90-day handoff period. We don't create dependency. We create operators.</p></div>
+  </div>
+  <div class="method">
+    <div class="num">6</div>
+    <div><h4>Check-In</h4><p>Quarterly pulse checks for 12 months post-engagement. Included. No hourly billing.</p></div>
+  </div>
+</section>
+
+<section class="section" id="cases">
+  <h2>Recent work</h2>
+  <p class="sub">Three engagements from the last year. Client names available on request.</p>
+  <div class="cases">
+    <div class="case">
+      <span class="tag">GTM Reboot</span>
+      <h3>Series B SaaS — Pipeline Reboot</h3>
+      <div class="client">$24M ARR · 95 employees · B2B SaaS</div>
+      <div class="result">Result: <strong>Pipeline coverage went from 1.4× to 4.2× in 9 months.</strong> Sales cycle dropped from 82 to 47 days.</div>
+      <p>Redesigned ICP, rebuilt SDR playbook, implemented new CRM. Hired a VP Sales. Shipped 12 new sales assets.</p>
+    </div>
+    <div class="case">
+      <span class="tag">Ops Redesign</span>
+      <h3>Mid-Market Mfg — Supply Chain</h3>
+      <div class="client">$340M rev · 14 facilities · Industrial</div>
+      <div class="result">Result: <strong>$8.2M in annual savings</strong> via consolidated sourcing and a new S&amp;OP rhythm.</div>
+      <p>Mapped 60+ suppliers. Renegotiated contracts. Launched monthly S&amp;OP with exec dashboards. Reduced stockouts 72%.</p>
+    </div>
+    <div class="case">
+      <span class="tag">M&amp;A</span>
+      <h3>PE-Backed Rollup — Integration</h3>
+      <div class="client">$180M rev combined · 3 acquisitions · Services</div>
+      <div class="result">Result: <strong>All 3 acquisitions integrated on one ERP in 7 months</strong> — 4 months ahead of plan.</div>
+      <p>Led 100-day plan, cultural integration, systems cutover, and leadership team alignment across 3 pre-existing orgs.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>The team</h2>
+  <p class="sub">Seven senior operators. No pyramid, no army of analysts. You get partners on every call.</p>
+  <div class="team-grid">
+    <div class="tm"><div class="portrait">👩🏻‍💼</div><h4>Emma Bridge</h4><div class="role">Managing Partner</div><p>Ex-McKinsey · CEO turnaround, B2B SaaS.</p></div>
+    <div class="tm"><div class="portrait">👨🏽‍💼</div><h4>Rohan Iyer</h4><div class="role">Partner · Operations</div><p>Ex-Bain · Supply chain, manufacturing.</p></div>
+    <div class="tm"><div class="portrait">👨🏼‍💼</div><h4>Thomas Mueller</h4><div class="role">Partner · Digital</div><p>Ex-BCG · Product &amp; platform strategy.</p></div>
+    <div class="tm"><div class="portrait">👩🏾‍💼</div><h4>Naomi Okafor</h4><div class="role">Partner · PE Value Creation</div><p>Ex-Deloitte · M&amp;A integration lead.</p></div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <h3>30-minute discovery call. Free. No sales deck.</h3>
+  <p>We'll discuss your situation, share 2–3 things that usually work for companies like yours, and tell you honestly if we're the right team. Most of our engagements start this way.</p>
+  <div class="ctas"><a href="/contact.html" class="btn-v">Request a Discovery Call →</a><a href="mailto:partners@northbridge.com" class="btn-ghost">partners@northbridge.com</a></div>
+  <a class="nwm-badge" href="https://netwebmedia.com">⚡ Built on NetWebMedia CMS</a>
+</section>
+
+<footer>
+  <a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a>
+  <div style="margin-top:10px">© NetWebMedia · Demo template for illustration only</div>
+</footer>
+
+</body>
+</html>

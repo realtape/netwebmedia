@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cafe &amp; Bar — Hospitality Template | NetWebMedia CMS</title>
+  <meta name="description" content="Neighborhood cafe + bar landing page — menu, daily specials, events calendar, loyalty program. Built on NetWebMedia CMS.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/hospitality/template-3.html" />
+  <meta property="og:title" content="Cafe / Bar — NetWebMedia Template" />
+  <meta property="og:description" content="Modern cafe and cocktail bar site with menu, specials, events, and loyalty." />
+  <meta property="og:url" content="https://netwebmedia.com/industries/hospitality/template-3.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body{background:#0b1220;color:#dde3ee;margin:0;font-family:system-ui,-apple-system,sans-serif}
+    .tpl-nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+    .tpl-nav .logo{font-weight:900;font-size:20px;letter-spacing:.2em;color:#f4a261}
+    .tpl-nav .links{display:flex;gap:18px;align-items:center}
+    .tpl-nav a{color:#b8c4d9;text-decoration:none;font-size:14px}
+    .btn-teal{background:linear-gradient(135deg,#f4a261,#e76f51);color:#fff;padding:10px 20px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:10px 20px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+    .hero{padding:80px 20px 50px;text-align:center;max-width:1000px;margin:0 auto}
+    .hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#f4a261,#e76f51);color:#fff;padding:6px 14px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px}
+    .hero h1{font-size:clamp(36px,6.5vw,64px);margin:0 0 18px;line-height:1.05;font-weight:800}
+    .hero h1 .hl{background:linear-gradient(135deg,#f4a261,#e76f51);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero p.sub{font-size:clamp(16px,2.2vw,19px);color:#b8c4d9;max-width:620px;margin:0 auto 28px;line-height:1.55}
+    .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+    .hours-strip{background:rgba(244,162,97,.08);border:1px solid rgba(244,162,97,.3);padding:18px;border-radius:14px;max-width:700px;margin:30px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;text-align:center;font-size:13px}
+    .hours-strip .day{color:#f4a261;font-weight:700;margin-bottom:4px}
+    .hours-strip .time{color:#dde3ee}
+
+    .section{max-width:1100px;margin:70px auto;padding:0 20px}
+    .section h2{font-size:clamp(26px,4vw,38px);margin:0 0 12px;text-align:center}
+    .section .sub{color:#9aa;font-size:15px;max-width:620px;margin:0 auto 36px;text-align:center;line-height:1.55}
+
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+    .menu-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px}
+    .menu-card h3{margin:0 0 14px;color:#f4a261;font-size:15px;text-transform:uppercase;letter-spacing:.1em}
+    .mi{display:flex;justify-content:space-between;gap:10px;padding:7px 0;font-size:14px;border-bottom:1px dashed rgba(255,255,255,.06)}
+    .mi:last-child{border:0}
+    .mi .n{color:#dde3ee}
+    .mi .p{color:#f4a261;font-weight:700}
+
+    .specials{background:linear-gradient(135deg,rgba(244,162,97,.1),rgba(231,111,81,.05));border:1px solid rgba(244,162,97,.3);border-radius:20px;padding:30px;text-align:center;max-width:900px;margin:0 auto}
+    .specials h3{font-size:24px;margin:0 0 18px;color:#f4a261}
+    .spec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:16px}
+    .spec-card{background:rgba(0,0,0,.25);padding:16px;border-radius:10px;font-size:14px}
+    .spec-card .day{color:#f4a261;font-weight:800;font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+    .spec-card .item{color:#fff;margin-bottom:4px}
+    .spec-card .disc{color:#9aa;font-size:12px}
+
+    .events{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+    .event-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px;transition:transform .2s}
+    .event-card:hover{transform:translateY(-3px);border-color:rgba(244,162,97,.4)}
+    .event-card .date{color:#f4a261;font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+    .event-card h4{margin:0 0 8px;font-size:17px;color:#fff}
+    .event-card p{margin:0;color:#b8c4d9;font-size:13px;line-height:1.5}
+
+    .loyalty{background:#f4a261;color:#1a0f0a;border-radius:20px;padding:40px;text-align:center;max-width:900px;margin:0 auto}
+    .loyalty h3{font-size:28px;margin:0 0 12px;color:#1a0f0a}
+    .loyalty p{margin:0 auto 22px;max-width:600px;font-size:15px;line-height:1.5;color:#3a2416}
+    .loyalty .btn{display:inline-block;background:#1a0f0a;color:#f4a261;padding:12px 24px;border-radius:10px;font-weight:700;text-decoration:none}
+
+    .cta-band{background:linear-gradient(135deg,rgba(244,162,97,.12),rgba(231,111,81,.06));border-top:1px solid rgba(244,162,97,.3);border-bottom:1px solid rgba(244,162,97,.3);padding:60px 20px;text-align:center;margin-top:60px}
+    .cta-band h3{font-size:clamp(24px,3.5vw,32px);margin:0 0 12px}
+    .cta-band p{color:#b8c4d9;max-width:620px;margin:0 auto 22px;font-size:15px;line-height:1.55}
+    .nwm-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#67e8f9;margin:30px auto;text-decoration:none}
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:32px 20px;text-align:center;color:#9aa;font-size:13px}
+    footer a{color:#67e8f9;margin:0 10px;text-decoration:none}
+  </style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <div class="logo">TERRA &amp; ROAST</div>
+  <div class="links">
+    <a href="/industries/">← Industries</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">☕ Coffee by Day · 🍸 Cocktails by Night</div>
+  <h1>Your neighborhood <span class="hl">third place</span></h1>
+  <p class="sub">Single-origin espresso in the morning. Thoughtfully-crafted cocktails after 5. Live music Thursdays. The kind of place that remembers your name and your order.</p>
+  <div class="ctas">
+    <a href="#menu" class="btn-teal">See the Menu →</a>
+    <a href="#events" class="btn-ghost">This Week's Events</a>
+  </div>
+</section>
+
+<div class="hours-strip">
+  <div><div class="day">Mon–Wed</div><div class="time">7a – 10p</div></div>
+  <div><div class="day">Thu–Fri</div><div class="time">7a – 1a</div></div>
+  <div><div class="day">Saturday</div><div class="time">8a – 1a</div></div>
+  <div><div class="day">Sunday</div><div class="time">8a – 9p</div></div>
+</div>
+
+<section class="section" id="menu">
+  <h2>On the menu</h2>
+  <p class="sub">Sourced locally, served honest. Swap dairy free of charge. Full menus under the counter.</p>
+  <div class="menu-grid">
+    <div class="menu-card">
+      <h3>☕ Coffee</h3>
+      <div class="mi"><span class="n">Espresso</span><span class="p">$3.50</span></div>
+      <div class="mi"><span class="n">Cortado</span><span class="p">$4.25</span></div>
+      <div class="mi"><span class="n">Pour-Over (Ethiopia Yirg)</span><span class="p">$6.00</span></div>
+      <div class="mi"><span class="n">Oat Honey Latte</span><span class="p">$5.75</span></div>
+      <div class="mi"><span class="n">House Cold Brew</span><span class="p">$5.25</span></div>
+    </div>
+    <div class="menu-card">
+      <h3>🍳 Brunch (until 2p)</h3>
+      <div class="mi"><span class="n">Avocado Toast + Egg</span><span class="p">$14</span></div>
+      <div class="mi"><span class="n">Shakshuka</span><span class="p">$16</span></div>
+      <div class="mi"><span class="n">Breakfast Burrito</span><span class="p">$13</span></div>
+      <div class="mi"><span class="n">Sourdough French Toast</span><span class="p">$15</span></div>
+    </div>
+    <div class="menu-card">
+      <h3>🍸 Cocktails (after 5)</h3>
+      <div class="mi"><span class="n">Paper Plane</span><span class="p">$15</span></div>
+      <div class="mi"><span class="n">Mezcal Negroni</span><span class="p">$16</span></div>
+      <div class="mi"><span class="n">Espresso Martini</span><span class="p">$14</span></div>
+      <div class="mi"><span class="n">House Old Fashioned</span><span class="p">$15</span></div>
+      <div class="mi"><span class="n">Seasonal Spritz</span><span class="p">$13</span></div>
+    </div>
+    <div class="menu-card">
+      <h3>🍷 Wine &amp; Beer</h3>
+      <div class="mi"><span class="n">Natural reds by the glass</span><span class="p">$11–14</span></div>
+      <div class="mi"><span class="n">Crisp whites by the glass</span><span class="p">$10–13</span></div>
+      <div class="mi"><span class="n">Local drafts</span><span class="p">$7–9</span></div>
+      <div class="mi"><span class="n">Bottle list</span><span class="p">Varies</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="specials">
+    <h3>🔥 Weekly Specials</h3>
+    <p style="color:#b8c4d9;margin:0 auto 12px;max-width:500px;font-size:14px">Your excuse to visit every day of the week.</p>
+    <div class="spec-grid">
+      <div class="spec-card"><div class="day">Monday</div><div class="item">$1 off all pour-overs</div><div class="disc">All day</div></div>
+      <div class="spec-card"><div class="day">Tuesday</div><div class="item">Taco Tuesday</div><div class="disc">$3 street tacos, 5–8p</div></div>
+      <div class="spec-card"><div class="day">Wednesday</div><div class="item">Wine Wednesday</div><div class="disc">½ off bottles, 5–10p</div></div>
+      <div class="spec-card"><div class="day">Thursday</div><div class="item">Live Music</div><div class="disc">Local artists, 7–10p</div></div>
+      <div class="spec-card"><div class="day">Friday</div><div class="item">Happy Hour Extended</div><div class="disc">$8 cocktails, 4–7p</div></div>
+      <div class="spec-card"><div class="day">Saturday</div><div class="item">Brunch + Mimosas</div><div class="disc">Bottomless $18, until 2p</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="events">
+  <h2>This week's events</h2>
+  <p class="sub">Music, tastings, and pop-ups at the counter. RSVP optional, show up recommended.</p>
+  <div class="events">
+    <div class="event-card">
+      <div class="date">Thu · Apr 24 · 7p</div>
+      <h4>Isabel Torres Trio</h4>
+      <p>Brazilian jazz + bossa from one of Oakland's best combos. No cover, 2-drink minimum.</p>
+    </div>
+    <div class="event-card">
+      <div class="date">Sat · Apr 26 · 3p</div>
+      <h4>Natural Wine Tasting</h4>
+      <p>Six low-intervention wines with our wine buyer, paired with cheese from Cowgirl Creamery. $35.</p>
+    </div>
+    <div class="event-card">
+      <div class="date">Sun · Apr 27 · 10a</div>
+      <h4>Latte Art Throwdown</h4>
+      <p>Open to all skill levels. $5 entry, winner takes a $100 gift card. Free pastries for competitors.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="loyalty">
+    <h3>☕ Regulars' Club</h3>
+    <p>Buy 10 drinks, get the 11th free. Plus early access to events, member-only cocktails, and a birthday drink on the house.</p>
+    <a href="/contact.html" class="btn">Join Free →</a>
+  </div>
+</section>
+
+<section class="cta-band">
+  <h3>Swing by. We saved you a seat.</h3>
+  <p>Corner of 17th &amp; Valencia. WiFi fast, outlets plenty, and no laptop shame from 10a–4p. After 5, drop the laptop and pull up a stool.</p>
+  <div class="ctas"><a href="/contact.html" class="btn-teal">Get Directions →</a><a href="tel:+14155550317" class="btn-ghost">📞 (415) 555-0317</a></div>
+  <a class="nwm-badge" href="https://netwebmedia.com">⚡ Built on NetWebMedia CMS</a>
+</section>
+
+<footer>
+  <a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a>
+  <div style="margin-top:10px">© NetWebMedia · Demo template for illustration only</div>
+</footer>
+
+</body>
+</html>

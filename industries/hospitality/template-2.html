@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boutique Hotel — Hospitality Template | NetWebMedia CMS</title>
+  <meta name="description" content="Boutique hotel landing page — room showcases, amenities, location guide, and book-stay CTA. Built on NetWebMedia CMS.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/hospitality/template-2.html" />
+  <meta property="og:title" content="Boutique Hotel — NetWebMedia Template" />
+  <meta property="og:description" content="Boutique hotel site with rooms, amenities, neighborhood, and booking." />
+  <meta property="og:url" content="https://netwebmedia.com/industries/hospitality/template-2.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body{background:#0b1220;color:#dde3ee;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    .tpl-nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+    .tpl-nav .logo{font-weight:900;font-size:18px;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.1em}
+    .tpl-nav .links{display:flex;gap:18px;align-items:center}
+    .tpl-nav a{color:#b8c4d9;text-decoration:none;font-size:14px}
+    .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:10px 20px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:10px 20px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+    .prod-hero{padding:70px 20px 40px;text-align:center;max-width:1100px;margin:0 auto}
+    .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+    .prod-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+    .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#b8c4d9;max-width:720px;margin:0 auto 28px;line-height:1.5}
+    .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .prod-hero .btn-teal,.prod-hero .btn-ghost{padding:14px 28px;font-size:16px}
+
+    .booker{max-width:780px;margin:20px auto 30px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:12px;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:center}
+    .booker .fld{padding:8px 12px}
+    .booker .fld .lbl{font-size:10px;color:#9aa;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:2px}
+    .booker .fld .val{color:#fff;font-weight:600;font-size:14px}
+
+    .hero-render{max-width:1100px;margin:30px auto;height:380px;border-radius:20px;background:linear-gradient(135deg,#0891B2 0%,#1e293b 60%,#0f172a 100%);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:120px}
+    .hero-render::after{content:"";position:absolute;inset:-50px;background:radial-gradient(circle at 30% 40%,rgba(34,211,238,.25),transparent 50%);pointer-events:none}
+
+    .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+    .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+    .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+    .rooms{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+    .room{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;transition:transform .2s,border-color .2s}
+    .room:hover{transform:translateY(-4px);border-color:rgba(6,182,212,.45)}
+    .room-img{height:220px;background:linear-gradient(135deg,#1e293b,#0891B2);display:flex;align-items:center;justify-content:center;font-size:70px;position:relative}
+    .room-img .tag{position:absolute;top:12px;right:12px;background:rgba(11,18,32,.85);border:1px solid rgba(6,182,212,.35);padding:5px 10px;border-radius:99px;font-size:11px;font-weight:700;color:#67e8f9}
+    .room-body{padding:20px}
+    .room-body h4{margin:0 0 4px;color:#fff;font-size:18px}
+    .room-body .size{color:#9aa;font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+    .room-body p{margin:0 0 14px;color:#b8c4d9;font-size:13px;line-height:1.6}
+    .room-body .price{display:flex;align-items:baseline;gap:8px}
+    .room-body .price .from{font-size:11px;color:#9aa}
+    .room-body .price .amt{color:#22d3ee;font-size:22px;font-weight:900}
+    .room-body .price .per{color:#9aa;font-size:12px}
+
+    .amen-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+    .amen{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;text-align:center}
+    .amen .icon{font-size:32px;margin-bottom:8px}
+    .amen h5{margin:0 0 4px;color:#fff;font-size:14px}
+    .amen p{margin:0;color:#9aa;font-size:12px;line-height:1.5}
+
+    .neighborhood{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;max-width:1000px;margin:0 auto}
+    .map-viz{aspect-ratio:5/4;border-radius:16px;background:repeating-linear-gradient(0deg,rgba(6,182,212,.05),rgba(6,182,212,.05) 20px,transparent 20px,transparent 40px),repeating-linear-gradient(90deg,rgba(6,182,212,.05),rgba(6,182,212,.05) 20px,transparent 20px,transparent 40px),linear-gradient(135deg,#0f172a,#0891B2);border:1px solid rgba(6,182,212,.2);position:relative;display:flex;align-items:center;justify-content:center;font-size:80px}
+    .map-viz::before{content:"📍";position:absolute;top:30%;left:45%;font-size:48px;filter:drop-shadow(0 4px 10px rgba(34,211,238,.5))}
+    .nb-list{list-style:none;padding:0;margin:0}
+    .nb-list li{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px dashed rgba(255,255,255,.08);font-size:14px}
+    .nb-list li:last-child{border:0}
+    .nb-list li .name{color:#fff;font-weight:600}
+    .nb-list li .dist{color:#22d3ee;font-weight:700;font-size:13px}
+    .nb-list li p{margin:4px 0 0;color:#9aa;font-size:12px;font-weight:400}
+
+    .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(8,145,178,.06));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;text-align:center;margin-top:60px}
+    .cta-band h3{font-size:clamp(22px,3.5vw,32px);margin:0 0 12px}
+    .cta-band p{color:#b8c4d9;max-width:620px;margin:0 auto 22px;font-size:15px;line-height:1.55}
+
+    .nwm-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#67e8f9;margin:30px auto;text-decoration:none}
+
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:32px 20px;text-align:center;color:#9aa;font-size:13px}
+    footer a{color:#67e8f9;margin:0 10px;text-decoration:none}
+
+    @media(max-width:820px){.neighborhood{grid-template-columns:1fr}.booker{grid-template-columns:1fr 1fr}.tpl-nav .links a:not(.btn-teal){display:none}}
+  </style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <div class="logo">THE LANTERN HOUSE</div>
+  <div class="links">
+    <a href="/industries/">← Industries</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">Boutique Hotel · Healdsburg, CA</div>
+  <h1>28 rooms, <span class="hl">17 acres of vineyard</span></h1>
+  <p class="sub">A turn-of-the-century farmhouse reimagined as an intimate wine-country retreat. Private vineyard tastings, on-site chef, and nothing booked beyond a two-month horizon.</p>
+  <div class="booker">
+    <div class="fld"><div class="lbl">Check-in</div><div class="val">May 3, 2026</div></div>
+    <div class="fld"><div class="lbl">Check-out</div><div class="val">May 5, 2026</div></div>
+    <div class="fld"><div class="lbl">Guests</div><div class="val">2 adults</div></div>
+    <a href="#rooms" class="btn-teal">Check Rates</a>
+  </div>
+</section>
+
+<div class="hero-render">🏡</div>
+
+<section class="prod-section" id="rooms">
+  <h2>Choose your room</h2>
+  <p class="sub">Every room has a private terrace, a working fireplace, and a soaking tub. Nothing is cookie-cutter.</p>
+  <div class="rooms">
+    <div class="room"><div class="room-img">🛏️<div class="tag">Classic</div></div><div class="room-body"><h4>Vineyard King</h4><div class="size">320 sq ft · view of east block</div><p>King bed, clawfoot tub, terrace with firepit. Best value of the house.</p><div class="price"><span class="from">from</span><span class="amt">$445</span><span class="per">/ night</span></div></div></div>
+    <div class="room"><div class="room-img">🌿<div class="tag">Premium</div></div><div class="room-body"><h4>Garden Suite</h4><div class="size">480 sq ft · private rose garden</div><p>Separate sitting room, rainfall shower, custom Hastens bed, freestanding tub.</p><div class="price"><span class="from">from</span><span class="amt">$685</span><span class="per">/ night</span></div></div></div>
+    <div class="room"><div class="room-img">🏆<div class="tag">Signature</div></div><div class="room-body"><h4>Barrel Loft</h4><div class="size">620 sq ft · two-level, vineyard</div><p>Former fermentation room. Vaulted beams, wood-burning fireplace, clawfoot tub.</p><div class="price"><span class="from">from</span><span class="amt">$890</span><span class="per">/ night</span></div></div></div>
+    <div class="room"><div class="room-img">⭐<div class="tag">Flagship</div></div><div class="room-body"><h4>The Farmhouse</h4><div class="size">1,200 sq ft · detached, private yard</div><p>Standalone cottage. Full kitchen, dining for 6, private pool, outdoor shower.</p><div class="price"><span class="from">from</span><span class="amt">$1,450</span><span class="per">/ night</span></div></div></div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Hotel amenities</h2>
+  <p class="sub">Every stay includes full breakfast, daily wine tasting, and access to all hotel programming.</p>
+  <div class="amen-grid">
+    <div class="amen"><div class="icon">🍷</div><h5>Private Cellar</h5><p>2,400-bottle library, daily tasting</p></div>
+    <div class="amen"><div class="icon">🍳</div><h5>Farm Breakfast</h5><p>Included · 7:30 – 10:30 am</p></div>
+    <div class="amen"><div class="icon">🧖</div><h5>On-Site Spa</h5><p>Massage, facials, cold plunge</p></div>
+    <div class="amen"><div class="icon">🏊</div><h5>Saline Pool</h5><p>Heated year-round, adult-only</p></div>
+    <div class="amen"><div class="icon">🚴</div><h5>Guest Bikes</h5><p>Complimentary, maps provided</p></div>
+    <div class="amen"><div class="icon">🔥</div><h5>Firepit Lounge</h5><p>Evening s'mores &amp; cocktails</p></div>
+    <div class="amen"><div class="icon">🐕</div><h5>Dog Friendly</h5><p>Two pet-friendly cottages</p></div>
+    <div class="amen"><div class="icon">🚗</div><h5>Valet &amp; Driver</h5><p>Local vineyard shuttle included</p></div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Where you are</h2>
+  <p class="sub">Ten minutes from downtown Healdsburg. 75 minutes from San Francisco. Surrounded by twelve of the most-awarded wineries in Sonoma.</p>
+  <div class="neighborhood">
+    <div class="map-viz">🗺️</div>
+    <ul class="nb-list">
+      <li><div><div class="name">Ridge Vineyards</div><p>Walk-in tasting, $45</p></div><div class="dist">2.1 mi</div></li>
+      <li><div><div class="name">Jordan Winery</div><p>By reservation, $75</p></div><div class="dist">3.8 mi</div></li>
+      <li><div><div class="name">Downtown Healdsburg</div><p>14 restaurants, 22 shops</p></div><div class="dist">4.4 mi</div></li>
+      <li><div><div class="name">SingleThread</div><p>3-Michelin-star dining</p></div><div class="dist">4.6 mi</div></li>
+      <li><div><div class="name">Russian River</div><p>Swimming, canoeing</p></div><div class="dist">6.2 mi</div></li>
+      <li><div><div class="name">STS Airport</div><p>Sonoma County SFO shuttle</p></div><div class="dist">18 mi</div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="cta-band">
+  <h3>Book direct. Best rate guaranteed.</h3>
+  <p>Save 8% on every stay, earn a complimentary tasting for two, and get 4 pm late checkout — when you book directly with us.</p>
+  <div class="ctas"><a href="/contact.html" class="btn-teal">Check Availability →</a><a href="tel:+17075550600" class="btn-ghost">📞 (707) 555-0600</a></div>
+  <a class="nwm-badge" href="https://netwebmedia.com">⚡ Built on NetWebMedia CMS</a>
+</section>
+
+<section class="prod-section" style="text-align:center">
+  <h2>Launch this template with NetWebMedia</h2>
+  <p class="sub">Boutique hotel sites with live booking engines, direct-rate protection, and guest portals.</p>
+  <div class="ctas" style="justify-content:center"><a href="/contact.html" class="btn-teal">Get This Template →</a><a href="/industries/" class="btn-ghost">See All Industries</a></div>
+</section>
+
+<footer>
+  <a href="/industries/">Industries</a> ·
+  <a href="/pricing.html">Pricing</a> ·
+  <a href="/contact.html">Contact</a>
+  <div style="margin-top:10px">© NetWebMedia · Demo template for illustration only</div>
+</footer>
+
+</body>
+</html>

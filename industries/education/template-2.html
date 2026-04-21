@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Tutoring — Subject Matching &amp; Trial Template | NetWebMedia CMS</title>
+<meta name="description" content="Private Tutoring template — subjects, tutor matching, transparent pricing and a book-free-trial CTA. Modern dark-theme website built on NetWebMedia CMS.">
+<link rel="canonical" href="https://netwebmedia.com/industries/education/template-2.html">
+<meta property="og:title" content="Private Tutoring — NetWebMedia CMS Template">
+<meta property="og:description" content="Subjects, tutor matching, pricing and free-trial CTA.">
+<meta property="og:url" content="https://netwebmedia.com/industries/education/template-2.html">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+  body{background:#0b1220;color:#dde3ee;font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+  .tpl-nav{position:sticky;top:0;z-index:10;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+  .tpl-nav a.logo{color:#22d3ee;font-weight:900;text-decoration:none;font-size:18px}
+  .tpl-nav .r{display:flex;gap:12px;align-items:center}
+  .tpl-nav .back{color:#9aa;text-decoration:none;font-size:14px}
+  .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:12px 22px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+  .prod-hero{padding:80px 20px 50px;text-align:center;max-width:1100px;margin:0 auto}
+  .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+  .prod-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+  .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:680px;margin:0 auto 28px;line-height:1.5}
+  .prod-hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+  .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+  .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+  .subj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+  .subj-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px;text-align:center;transition:transform .2s,border-color .2s;cursor:pointer}
+  .subj-card:hover{transform:translateY(-4px);border-color:rgba(6,182,212,.45)}
+  .subj-icon{font-size:32px;margin-bottom:8px}
+  .subj-card h4{margin:0 0 4px;font-size:14px}
+  .subj-card p{color:#9aa;font-size:12px;margin:0}
+
+  .match-box{background:linear-gradient(135deg,rgba(6,182,212,.08),rgba(139,92,246,.03));border:1px solid rgba(6,182,212,.25);border-radius:18px;padding:36px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+  .match-box h3{font-size:22px;margin:0 0 12px}
+  .match-box p{color:#b8c4d9;font-size:14px;line-height:1.6}
+  .match-step{display:flex;gap:14px;margin:14px 0}
+  .step-num{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#22d3ee,#0891B2);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .step-body h4{margin:0 0 4px;font-size:15px}
+  .step-body p{margin:0;color:#b8c4d9;font-size:13px;line-height:1.5}
+
+  .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .price-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:28px;text-align:center}
+  .price-card.featured{border-color:rgba(6,182,212,.5);background:linear-gradient(135deg,rgba(6,182,212,.08),rgba(8,145,178,.03));position:relative}
+  .price-card.featured::before{content:"MOST POPULAR";position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#22d3ee,#0891B2);color:#fff;font-size:11px;font-weight:800;padding:4px 12px;border-radius:99px;letter-spacing:.08em}
+  .price-card h4{margin:0 0 8px;font-size:18px}
+  .price-card .p{font-size:38px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+  .price-card .per{color:#9aa;font-size:13px;margin-bottom:16px}
+  .price-card ul{list-style:none;padding:0;margin:0 0 20px;text-align:left}
+  .price-card li{color:#b8c4d9;font-size:13px;padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.06)}
+  .price-card li::before{content:"✓ ";color:#22d3ee;font-weight:800}
+
+  .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(8,145,178,.05));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;margin:60px 0 0;text-align:center}
+  .cta-band h3{font-size:clamp(22px,3.5vw,30px);margin:0 0 10px}
+  .cta-band p{color:#b8c4d9;max-width:600px;margin:0 auto 20px}
+  .badge-built{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.12);color:#67e8f9;padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  footer{padding:32px 20px;text-align:center;border-top:1px solid rgba(255,255,255,.06);color:#9aa;font-size:14px}
+  footer a{color:#22d3ee;text-decoration:none;margin:0 10px}
+  @media(max-width:860px){.match-box{grid-template-columns:1fr}.pricing{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <a href="/" class="logo">📚 BrightPath Tutoring</a>
+  <div class="r">
+    <a href="/industries/" class="back">← Industries</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">Free 30-min trial · No card required</div>
+  <h1>One-to-one tutors who <span class="hl">actually move the grade.</span></h1>
+  <p class="sub">Matched tutors from Ivy League and top-50 universities. K-12 through college, SAT/ACT, AP, IB — plus adult test prep like GRE, LSAT and MCAT. Average student gains 1.2 letter grades in the first 8 weeks.</p>
+  <div class="ctas">
+    <a href="#trial" class="btn-teal">Book free trial →</a>
+    <a href="#subjects" class="btn-ghost">Browse subjects</a>
+  </div>
+</section>
+
+<section class="prod-section" id="subjects">
+  <h2>Subjects we cover</h2>
+  <p class="sub">From phonics to multivariable calc. Adult test prep too.</p>
+  <div class="subj-grid">
+    <a class="subj-card"><div class="subj-icon">➕</div><h4>Math</h4><p>K-12 + Calc I-III</p></a>
+    <a class="subj-card"><div class="subj-icon">🧪</div><h4>Science</h4><p>Bio · Chem · Physics</p></a>
+    <a class="subj-card"><div class="subj-icon">📖</div><h4>English</h4><p>Reading · Writing · Lit</p></a>
+    <a class="subj-card"><div class="subj-icon">🌎</div><h4>Languages</h4><p>Spanish · French · ASL</p></a>
+    <a class="subj-card"><div class="subj-icon">🏛</div><h4>History / SS</h4><p>US · World · AP</p></a>
+    <a class="subj-card"><div class="subj-icon">💻</div><h4>Computer Science</h4><p>AP CS · Python · Java</p></a>
+    <a class="subj-card"><div class="subj-icon">📝</div><h4>SAT / ACT</h4><p>Full test prep</p></a>
+    <a class="subj-card"><div class="subj-icon">🎓</div><h4>AP / IB</h4><p>30+ subjects</p></a>
+    <a class="subj-card"><div class="subj-icon">⚖</div><h4>LSAT</h4><p>Law school prep</p></a>
+    <a class="subj-card"><div class="subj-icon">🏥</div><h4>MCAT</h4><p>Med school prep</p></a>
+    <a class="subj-card"><div class="subj-icon">🎯</div><h4>GRE / GMAT</h4><p>Grad + business</p></a>
+    <a class="subj-card"><div class="subj-icon">🎨</div><h4>Essay &amp; Admissions</h4><p>College apps</p></a>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>How tutor matching works</h2>
+  <div class="match-box">
+    <div>
+      <h3>Algorithm + human, not just a marketplace</h3>
+      <p>Most tutoring sites dump a list of 80 names on you. We interview every tutor in-house, track session outcomes, and match based on subject, teaching style, schedule fit and your child's learning profile.</p>
+      <div class="match-step">
+        <div class="step-num">1</div>
+        <div class="step-body"><h4>15-minute intake call</h4><p>An academic advisor understands the subject, goals and any learning differences — at no cost.</p></div>
+      </div>
+      <div class="match-step">
+        <div class="step-num">2</div>
+        <div class="step-body"><h4>Hand-matched tutor, 48 hours</h4><p>We send 2–3 vetted profiles. You pick. First 30 minutes are a free try-before-you-buy trial.</p></div>
+      </div>
+      <div class="match-step">
+        <div class="step-num">3</div>
+        <div class="step-body"><h4>Weekly progress reports</h4><p>Parents get a short report every week: what was covered, what clicked, what's next. Re-match anytime.</p></div>
+      </div>
+    </div>
+    <div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px">
+        <div style="color:#22d3ee;font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px">Tutor profile preview</div>
+        <div style="display:flex;gap:14px;align-items:center;margin-bottom:14px">
+          <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#22d3ee,#8b5cf6);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px">EN</div>
+          <div>
+            <div style="font-weight:800;color:#fff">Elena Nguyen</div>
+            <div style="color:#9aa;font-size:13px">Harvard '23 · Math + SAT</div>
+          </div>
+        </div>
+        <div style="color:#b8c4d9;font-size:13px;line-height:1.5">4 years tutoring · 218 sessions on platform · avg 1.4-grade improvement · 4.96★ rating from 87 families.</div>
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+          <span style="background:rgba(6,182,212,.15);color:#67e8f9;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700">Algebra II</span>
+          <span style="background:rgba(6,182,212,.15);color:#67e8f9;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700">AP Calc AB</span>
+          <span style="background:rgba(6,182,212,.15);color:#67e8f9;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700">SAT Math</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Transparent pricing</h2>
+  <p class="sub">No setup fees. Pause or cancel anytime. All plans include weekly progress reports.</p>
+  <div class="pricing">
+    <div class="price-card">
+      <h4>Starter</h4>
+      <div class="p">$65</div>
+      <div class="per">per 55-minute session</div>
+      <ul>
+        <li>Pay-as-you-go</li>
+        <li>Any subject K-12</li>
+        <li>Weekly parent report</li>
+        <li>Free rematching</li>
+        <li>24-hour cancel policy</li>
+      </ul>
+      <a href="#trial" class="btn-ghost">Start starter →</a>
+    </div>
+    <div class="price-card featured">
+      <h4>Essentials</h4>
+      <div class="p">$55</div>
+      <div class="per">per session · 4-pack/month</div>
+      <ul>
+        <li>Save $10 per session</li>
+        <li>Subject + test prep</li>
+        <li>Priority scheduling</li>
+        <li>Homework-help chat</li>
+        <li>Unused sessions roll</li>
+      </ul>
+      <a href="#trial" class="btn-teal">Choose Essentials →</a>
+    </div>
+    <div class="price-card">
+      <h4>Intensive</h4>
+      <div class="p">$48</div>
+      <div class="per">per session · 8-pack/month</div>
+      <ul>
+        <li>Best value</li>
+        <li>Includes AP / IB / SAT</li>
+        <li>Dedicated advisor</li>
+        <li>Unlimited rematches</li>
+        <li>Exam-week bonus slots</li>
+      </ul>
+      <a href="#trial" class="btn-ghost">Go intensive →</a>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band" id="trial">
+  <h3>Launch this template with NetWebMedia</h3>
+  <p>Private Tutoring ships with a matching intake form, calendar-integrated booking, Stripe packages, parent portal and session notes automation. Live in 48 hours.</p>
+  <a href="/contact.html" class="btn-teal">Start with this template →</a>
+  <div style="margin-top:22px"><span class="badge-built">⚡ Built on NetWebMedia CMS</span></div>
+</div>
+
+<footer>
+  <div><a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a></div>
+  <div style="margin-top:12px;color:#666">© 2026 BrightPath Tutoring — demo template. Powered by NetWebMedia CMS.</div>
+</footer>
+
+</body>
+</html>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Automate Tutorial — Agentic Workflows | NetWebMedia</title>
-<meta name="description" content="Build agentic workflows with n8n + Claude: lead scoring, invoice chasing, content repurposing, no-code.">
+<title>AI Automate Tutorial — Let Software Do Your Repetitive Work | NetWebMedia</title>
+<meta name="description" content="A plain-English guide to setting up automatic workflows inside NWM CRM. No code required. Real examples any owner can copy.">
 <link rel="canonical" href="https://netwebmedia.com/tutorials/ai-automate.html">
 <link rel="icon" type="image/svg+xml" href="../assets/nwm-logo.svg">
 <link rel="stylesheet" href="../css/styles.css">
@@ -32,54 +32,99 @@
   <a href="../index.html">Home</a> / <a href="/tutorials.html">Tutorials</a> / <strong>AI Automate</strong>
 </div>
 
-<h1>AI Automate — workflows that run your business</h1>
-<p class="tut-lede">Every repetitive task in your business — scoring leads, chasing invoices, repurposing content, onboarding customers — can run itself. This is how we build workflows that replace hours of manual work per week.</p>
+<h1>AI Automate — Let software handle the boring work</h1>
+<p class="tut-lede">This page shows you how to replace hours of weekly busywork with automatic workflows that run themselves. Chase unpaid invoices. Score new leads. Send welcome emails. We set it up. You get your time back.</p>
 
 <div class="tut-meta">
-  <span>⏱ 14 min read</span>
-  <span>📖 7 sections</span>
+  <span>⏱ 12 min read</span>
+  <span>📖 8 sections</span>
   <span>🆕 Updated Apr 2026</span>
+</div>
+
+<div class="callout tip">
+  <strong>What you'll need</strong>
+  <ul style="margin:6px 0 0;padding-left:18px">
+    <li>A NetWebMedia account (or a 30-min call with us)</li>
+    <li>A list of one or two tasks you do every week that you hate</li>
+    <li>About 30 minutes for our first planning call</li>
+  </ul>
 </div>
 
 <div class="tut-toc">
   <h4>What's inside</h4>
-  <ol><li><a href="#what">1. What AI Automate actually is</a></li><li><a href="#usecases">2. Highest-ROI use cases</a></li><li><a href="#build">3. How a workflow gets built</a></li><li><a href="#stack">4. What we connect it to</a></li><li><a href="#cost">5. Cost &amp; ROI</a></li><li><a href="#governance">6. Governance &amp; safety</a></li><li><a href="#startshort">7. Start small</a></li></ol>
+  <ol><li><a href="#what">1. What an automatic workflow is</a></li><li><a href="#usecases">2. The five workflows that pay back fastest</a></li><li><a href="#build">3. How we build one for you — step by step</a></li><li><a href="#integrations">4. How workflows connect to the rest of your CRM</a></li><li><a href="#stack">5. Apps we can connect</a></li><li><a href="#cost">6. What it costs and when it pays back</a></li><li><a href="#governance">7. Safety rails we put on every workflow</a></li><li><a href="#startshort">8. Start with one. Just one.</a></li></ol>
 </div>
 
-<h2 id="what">1. What AI Automate actually is</h2>
-<p>It's n8n (an open-source workflow platform) wired up with Claude, OpenAI, your CRM, your email, your billing system, and whatever else you use. We design the workflow, deploy it, monitor it, and tune it monthly.</p><p><strong>The "agentic" part:</strong> instead of rigid if-this-then-that rules, every step can ask an LLM to make a judgment call — "does this look like a real lead?", "is this invoice dispute-worthy?", "rewrite this email for a cold prospect".</p>
+<h2 id="what">1. What an automatic workflow is</h2>
+<p>An automatic workflow (we call it an Automation) is a small piece of software that does a repeatable job for you. No clicks. No reminders. It runs in the background 24/7.</p>
+<p>Every workflow lives inside the <a href="https://netwebmedia.com/crm/automations">Automations</a> section of NWM CRM. You tell us what you want it to do. We build it and turn it on.</p>
+<p><strong>The "AI" part:</strong> instead of rigid rules, each step can ask a smart AI to judge something. "Is this lead worth a call?" "Is this customer about to cancel?" "Rewrite this email in a friendlier tone." A human isn't in the loop for every tiny decision.</p>
 
-<h2 id="usecases">2. Highest-ROI use cases</h2>
-<div class="feat-sm"><div class="c"><b>Lead scoring &amp; enrichment</b><p>Every inbound lead → scraped from LinkedIn + Clearbit + Apollo → scored 0-100 → routed to the right rep.</p></div><div class="c"><b>Invoice chasing</b><p>Day 1 reminder, day 7 polite nudge, day 14 firm request, day 30 escalation to collections. Pauses automatically on payment.</p></div><div class="c"><b>Content repurposing</b><p>One blog post → 5 tweets + 1 LinkedIn post + 30s video script + email newsletter. Queued to publish over 2 weeks.</p></div><div class="c"><b>Customer onboarding</b><p>Signup → welcome email → calendar invite → training doc → 7-day check-in → renewal reminder.</p></div></div>
+<h2 id="usecases">2. The five workflows that pay back fastest</h2>
+<div class="feat-sm"><div class="c"><b>Score every new lead</b><p>A new form fills? The workflow looks them up online, grades them 0 to 100, and routes hot ones to your best salesperson.</p></div><div class="c"><b>Chase unpaid invoices</b><p>Day 1: polite reminder. Day 7: firm nudge. Day 14: escalation. Stops the moment they pay. You stop being the collections person.</p></div><div class="c"><b>Turn one blog post into ten</b><p>One post becomes 5 tweets, 1 LinkedIn post, a short video script, and a newsletter. Queued to post over two weeks.</p></div><div class="c"><b>Welcome new customers</b><p>Signup triggers a welcome email, a calendar invite, a training doc, a check-in after a week, and a reminder before renewal.</p></div><div class="c"><b>Answer the same question automatically</b><p>Common customer questions get answered on chat, SMS, or email before a human ever sees them.</p></div></div>
 
-<h2 id="build">3. How a workflow gets built</h2>
-<div class="step"><div class="num">1</div><div><h4>Map the current process</h4><p>30-min call. You walk us through the manual version. We document every step.</p></div></div><div class="step"><div class="num">2</div><div><h4>Identify judgment points</h4><p>Which decisions need an LLM ("is this lead worth pursuing?") vs. rules ("if contract_value &gt; $10k, loop in legal").</p></div></div><div class="step"><div class="num">3</div><div><h4>Draft the flow diagram</h4><p>We send you a visual flowchart. You approve or request changes.</p></div></div><div class="step"><div class="num">4</div><div><h4>Build + test</h4><p>We implement in n8n, test with 10+ real scenarios, share a sandbox URL.</p></div></div><div class="step"><div class="num">5</div><div><h4>Deploy + monitor</h4><p>Go live. Dashboard shows every execution. Errors alert us immediately. You see weekly report.</p></div></div>
+<h2 id="build">3. How we build one for you — step by step</h2>
+<div class="step"><div class="num">1</div><div><h4>Show us the task. Tell us why it matters.</h4><p>30-minute call. You walk us through the boring task. We write down every step. We ask what "done right" looks like for you.</p></div></div>
+<div class="step"><div class="num">2</div><div><h4>Spot the judgment calls.</h4><p>Which steps are simple rules ("if invoice over $10,000, copy Legal")? Which need AI to judge ("is this lead worth our time?")? We mark them.</p></div></div>
+<div class="step"><div class="num">3</div><div><h4>Draw you a picture of the workflow.</h4><p>We send you a visual map. You point at anything you don't like. We change it. Nobody starts building until you approve.</p></div></div>
+<div class="step"><div class="num">4</div><div><h4>Build it and test it where it's safe.</h4><p>We build the workflow inside <a href="https://netwebmedia.com/crm/automations">/crm/automations</a>. We run it against 10 or more made-up examples. You try it in a practice area before it touches real customers.</p></div></div>
+<div class="step"><div class="num">5</div><div><h4>Turn it on. Watch it work.</h4><p>Go live. A dashboard shows every run. If anything breaks, we get an alert the same second. You get a plain-English weekly report.</p></div></div>
 
-<h2 id="stack">4. What we connect it to</h2>
-<ul><li><strong>CRMs</strong> — NWM CRM, HubSpot, Salesforce, Pipedrive, Zoho, Close</li><li><strong>Email</strong> — Gmail, Outlook, SMTP, SendGrid, Mailgun, Postmark</li><li><strong>Billing</strong> — Stripe, QuickBooks, Xero, FreshBooks</li><li><strong>Data</strong> — Google Sheets, Airtable, PostgreSQL, MySQL, Snowflake</li><li><strong>Communication</strong> — Slack, MS Teams, Discord, WhatsApp, SMS (Twilio)</li><li><strong>AI</strong> — Claude (primary), GPT-4, Gemini, custom fine-tuned models</li></ul>
+<h2 id="integrations">4. How workflows connect to the rest of your CRM</h2>
+<p>Workflows are not a bolt-on. They talk to every other tool in your NWM CRM. That way one event can trigger many things without any duct tape.</p>
+<div class="feat-sm"><div class="c"><b>Ads</b><p>Pause <a href="https://netwebmedia.com/crm/ads">Ads</a> spend when your leads pile up. Or launch a retargeting group the moment a deal moves forward.</p></div><div class="c"><b>Text messages (SMS)</b><p>Fire a text through <a href="https://netwebmedia.com/crm/sms">SMS</a> the second a hot form lands — before the visitor closes the tab.</p></div><div class="c"><b>Sequences</b><p>Start or stop an email drip in <a href="https://netwebmedia.com/crm/sequences">Sequences</a> based on a lead's score, deal stage, or invoice status.</p></div><div class="c"><b>AI helpers</b><p>Hand off to <a href="https://netwebmedia.com/crm/ai-sdr">AI SDR</a>, <a href="https://netwebmedia.com/crm/voice-ai">Voice AI</a>, or <a href="https://netwebmedia.com/crm/ai-copilot">AI Copilot</a> when a workflow needs judgment a simple rule can't make.</p></div></div>
 
-<h2 id="cost">5. Cost &amp; ROI</h2>
-<p>Setup fee: $2,500–$7,500 per workflow (depends on complexity). Monthly: $200–$600 for monitoring + tuning + LLM API usage.</p><p>Typical payback: 1–3 months. A lead-scoring workflow that saves your SDR team 8 hours/week pays for itself by month 2.</p><div class="callout tip"><strong>💡 We guarantee payback</strong><p>If a workflow hasn't saved more than it cost by month 6, we rebuild it free or refund the setup fee.</p></div>
+<h2 id="stack">5. Apps we can connect</h2>
+<ul><li><strong>Customer databases</strong> — NWM CRM, HubSpot, Salesforce, Pipedrive, Zoho, Close</li><li><strong>Email</strong> — Gmail, Outlook, SendGrid, Mailgun, Postmark</li><li><strong>Billing</strong> — Stripe, QuickBooks, Xero, FreshBooks</li><li><strong>Spreadsheets and databases</strong> — Google Sheets, Airtable, and more</li><li><strong>Chat and messaging</strong> — Slack, MS Teams, WhatsApp, SMS</li><li><strong>AI brains</strong> — Claude (our main one), ChatGPT, Gemini</li></ul>
 
-<h2 id="governance">6. Governance &amp; safety</h2>
-<p>Every workflow has:</p><ul><li><strong>Human-in-the-loop gates</strong> on anything involving money, legal, or customer messaging above a threshold</li><li><strong>Full audit log</strong> — every step, every LLM call, every action, every input + output</li><li><strong>Kill switch</strong> — one click to pause a runaway workflow</li><li><strong>Monthly review</strong> — we surface drift, errors, and tuning opportunities</li></ul>
+<h2 id="cost">6. What it costs and when it pays back</h2>
+<p>Setup: $2,500 to $7,500 per workflow, depending on how complex it is. Monthly: $200 to $600 to keep it running and tuned.</p>
+<p>Typical payback: 1 to 3 months. A lead-scoring workflow that saves your team 8 hours a week pays for itself in month 2.</p>
+<div class="callout tip"><strong>We guarantee payback</strong><p>If a workflow hasn't saved more than it cost by month 6, we rebuild it for free or refund your setup fee. In writing.</p></div>
 
-<h2 id="startshort">7. Start small</h2>
-<p>Don't boil the ocean. Pick <em>one</em> workflow that annoys you every week. Automate it. Measure the savings. Then pick the next one.</p><p>Our most successful customers start with <strong>lead scoring</strong> or <strong>invoice chasing</strong> — easy wins with visible ROI in &lt; 30 days.</p>
+<h2 id="governance">7. Safety rails we put on every workflow</h2>
+<p>Every workflow we build includes:</p>
+<ul>
+<li><strong>A human check-in</strong> on anything touching money, contracts, or customer messaging above a limit you pick.</li>
+<li><strong>A full record</strong> of every step, every AI decision, every action. You can see exactly why it did what it did.</li>
+<li><strong>A kill switch</strong>. One click pauses the whole thing if it starts doing something weird.</li>
+<li><strong>A monthly review</strong>. We show you drift, errors, and ways to tune it tighter.</li>
+</ul>
+
+<h2 id="startshort">8. Start with one. Just one.</h2>
+<p>Do not try to automate your whole business in week one. Pick one task that annoys you every week. Build it. Measure the hours saved. Then pick the next one.</p>
+<p>Our happiest customers start with <strong>lead scoring</strong> or <strong>invoice chasing</strong>. Fast wins. Clear savings in under 30 days.</p>
+
+<h3>What success looks like</h3>
+<ul>
+<li>Within 30 days: at least one task you used to do every week now runs by itself.</li>
+<li>Within 60 days: 5 or more hours per week back on your calendar.</li>
+<li>Within 90 days: cleaner lead list, faster invoice collection, fewer customers falling through cracks.</li>
+</ul>
+
+<h3>Common mistakes to avoid</h3>
+<ul>
+<li><strong>Trying to automate everything at once.</strong> You end up with a tangled mess nobody understands. One at a time.</li>
+<li><strong>Skipping the test phase.</strong> Workflows that touch money or customers need to be tested on made-up data first. Always.</li>
+<li><strong>Ignoring the weekly report.</strong> Workflows drift. A five-minute read each week keeps them sharp.</li>
+</ul>
 
 <div class="next-cta">
   <h3>Tell us the task you'd pay to never do again</h3>
-  <p>30-min call. We'll tell you honestly if it's a good automation candidate and what it would cost.</p>
-  <a class="btn-next" href="../contact.html">Book an automation call →</a>
+  <p>30-minute call. We'll tell you honestly if it's a good workflow candidate and what it would cost.</p>
+  <a class="btn-next" href="../contact.html">Book a call →</a>
   <a class="btn-ghost" href="../contact.html">Talk to us</a>
 </div>
 
+<h3>Still stuck? Here's what to do</h3>
+<p>Email us at <a href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a> or <a href="../contact.html">book a free 30-minute audit</a>. We'll look at your business and tell you the one workflow that would save you the most time. No pitch.</p>
+
 <h3>Common questions</h3>
 <div class="faq">
-<details><summary>Do I need to know n8n or code?</summary><p>No. We build, deploy, and monitor. You see a dashboard; you approve changes; you don't touch the wiring.</p></details>
-<details><summary>What if I want to bring it in-house eventually?</summary><p>We document every workflow and can hand it over at any time. No lock-in.</p></details>
-<details><summary>How do you prevent AI mistakes?</summary><p>Every money/legal/customer-facing action has a human approval gate by default. LLMs suggest; humans confirm on anything high-stakes.</p></details>
-<details><summary>How fast to launch a first workflow?</summary><p>2–3 weeks from kickoff for a standard workflow. Complex multi-system ones: 4–6 weeks.</p></details>
+<details><summary>Do I need to know how to code?</summary><p>No. We build it, turn it on, and watch it. You see a dashboard. You approve changes. You never touch the wiring.</p></details>
+<details><summary>What if I want to bring this in-house later?</summary><p>We write down every step of every workflow and hand it over whenever you ask. No lock-in.</p></details>
+<details><summary>How do you stop the AI from making a big mistake?</summary><p>Every action that moves money, sends a contract, or emails a customer above a limit needs a human to approve it first. The AI suggests. A person confirms the important stuff.</p></details>
+<details><summary>How fast can you launch my first workflow?</summary><p>2 to 3 weeks from kickoff for a standard one. Complex workflows that touch many systems: 4 to 6 weeks.</p></details>
 </div>
 
 </main>

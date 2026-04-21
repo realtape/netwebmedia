@@ -1,6 +1,7 @@
 "use client";
 
 import { Users, TrendingUp, DollarSign, Target, BarChart3, UserPlus } from "lucide-react";
+import { useEffect, useState } from "react";
 import { StatCard } from "@/components/stat-card";
 import { dashboardStats, revenueData, deals, contacts, calendarEvents } from "@/lib/mock-data";
 import {
@@ -18,13 +19,28 @@ export default function DashboardPage() {
   const recentDeals = deals.filter((d) => d.stage !== "Closed Won" && d.stage !== "Closed Lost").slice(0, 5);
   const recentContacts = contacts.slice(0, 5);
 
+  // Read user from localStorage (set by /login.html or /register.html)
+  const [firstName, setFirstName] = useState<string>("there");
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("nwm_user");
+      if (raw) {
+        const u = JSON.parse(raw);
+        const name: string = u?.name || u?.full_name || u?.email?.split("@")[0] || "";
+        if (name) setFirstName(name.split(" ")[0]);
+      }
+    } catch {
+      // localStorage not available — keep default
+    }
+  }, []);
+
   return (
     <div>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight">Dashboard</h1>
-          <p className="text-sm text-text-dim mt-1">Welcome back, John. Here&apos;s your overview.</p>
+          <p className="text-sm text-text-dim mt-1">Welcome back, {firstName}. Here&apos;s your overview.</p>
         </div>
         <div className="flex gap-2">
           <button className="px-4 py-2 text-xs font-semibold bg-bg-card border border-border rounded-lg hover:bg-bg-hover transition-colors">

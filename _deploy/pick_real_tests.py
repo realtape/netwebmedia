@@ -4,7 +4,7 @@ import json, pathlib, random, time, urllib.request, urllib.error
 
 ROOT = pathlib.Path(__file__).parent
 BASE = "https://netwebmedia.com/companies/crm-vanilla/api/index.php"
-TO   = "entrepoker@gmail.com"
+TO   = "carlos@netwebmedia.com"
 UA   = "Mozilla/5.0 Chrome/120"
 
 WANT = {

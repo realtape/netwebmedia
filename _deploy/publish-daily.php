@@ -304,7 +304,7 @@ function renderPostHtml($post) {
   $html .= "      </ul></div>\n";
   $html .= "      <div class=\"footer-col\"><h4>Connect</h4><ul>\n";
   $html .= "        <li><a href=\"mailto:hello@netwebmedia.com\">hello@netwebmedia.com</a></li>\n";
-  $html .= "        <li><a href=\"https://wa.me/56965322427\" target=\"_blank\" rel=\"noopener\">WhatsApp</a></li>\n";
+  $html .= "        <li><a href=\"mailto:hello@netwebmedia.com" target=\"_blank\" rel=\"noopener\">WhatsApp</a></li>\n";
   $html .= "      </ul></div>\n";
   $html .= "    </div>\n";
   $html .= "    <div class=\"footer-bottom\">\n";

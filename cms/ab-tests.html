@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>A/B Tests - NetWeb CMS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../crm/css/app.css">
+  <link rel="stylesheet" href="css/cms.css">
+  <style>
+    .mod-table{width:100%;border-collapse:collapse}
+    .mod-table th,.mod-table td{padding:10px 12px;border-bottom:1px solid #eee;text-align:left;font-size:14px}
+    .mod-table th{background:#f7f7fb;font-size:12px;text-transform:uppercase;color:#666}
+    .badge{display:inline-block;padding:2px 10px;border-radius:9999px;font-size:11px;font-weight:600;background:#eef;color:#447}
+    .badge.running{background:#dcf7e3;color:#0d7028}
+    .nwm-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
+    .nwm-modal{background:#fff;color:#111;border-radius:12px;width:min(760px,96vw);margin:auto}
+    .nwm-modal-head{display:flex;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #eee}
+    .nwm-modal-close{background:none;border:none;font-size:28px;cursor:pointer}
+    .nwm-modal-body{padding:20px}
+    .nwm-modal-foot{margin-top:16px;display:flex;gap:8px;justify-content:flex-end}
+    .lbl{display:block;margin:0 0 14px;font-size:13px;color:#444}
+    .inp{display:block;width:100%;padding:10px 12px;border:1px solid #d5d9e2;border-radius:8px;font-size:14px;margin-top:4px;font-family:inherit}
+    .vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+    .vcard{background:#f7f7fb;border:1px solid #eee;border-radius:10px;padding:12px}
+    .vcard input{width:100%;padding:6px 8px;border:1px solid #ccc;border-radius:6px;font-size:13px;margin-top:4px}
+    .snippet-box{background:#0f172a;color:#9fef00;padding:14px;border-radius:8px;font-family:monospace;font-size:12px;white-space:pre-wrap;word-break:break-all}
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body"><div id="list"></div></div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/api-client.js"></script>
+  <script src="js/cms.js"></script>
+  <script>
+  (function() {
+    var H = { 'Content-Type': 'application/json', 'X-Auth-Token': NWMApi.token() };
+    if (window.CMS_APP) CMS_APP.buildHeader('A/B Tests',
+      '<button class="btn btn-primary" id="ab-new">+ New Test</button>',
+      'Assign variants to visitors, track conversions, pick winners');
+
+    function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
+    function api(p,opts){opts=opts||{};opts.headers=Object.assign({},H,opts.headers||{});if(opts.body&&typeof opts.body!=='string')opts.body=JSON.stringify(opts.body);return fetch('/api'+p,opts).then(function(r){return r.json();});}
+
+    var state = { items: [] };
+
+    function pivotStats(stats){var p={};(stats||[]).forEach(function(s){p[s.variant]=p[s.variant]||{assign:0,convert:0};p[s.variant][s.event]=parseInt(s.n,10)||0;});return p;}
+
+    function render() {
+      var rows = state.items.map(function(t){
+        var pv = pivotStats(t.stats);
+        var summary = (t.variants||[]).map(function(v){
+          var vn = v.name || v;
+          var s = pv[vn] || { assign:0, convert:0 };
+          var rate = s.assign ? (100*s.convert/s.assign).toFixed(1) + '%' : '—';
+          return vn + ': ' + s.assign + '→' + s.convert + ' (' + rate + ')';
+        }).join(' · ');
+        return '<tr>'+
+          '<td><strong>'+esc(t.name)+'</strong><div style="font-size:11px;color:#888">slug: '+esc(t.slug)+'</div></td>'+
+          '<td>'+((t.variants||[]).length)+' variants</td>'+
+          '<td><span class="badge '+esc(t.status||'draft')+'">'+esc(t.status)+'</span></td>'+
+          '<td style="font-size:12px;">'+esc(summary)+'</td>'+
+          '<td style="white-space:nowrap;">'+
+            '<button class="btn btn-sm" data-act="snippet" data-id="'+t.id+'">Snippet</button> '+
+            '<button class="btn btn-sm" data-act="edit" data-id="'+t.id+'">Edit</button> '+
+            '<button class="btn btn-sm btn-danger" data-act="del" data-id="'+t.id+'">×</button>'+
+          '</td></tr>';
+      }).join('');
+      document.getElementById('list').innerHTML =
+        '<table class="mod-table"><thead><tr><th>Name</th><th>Variants</th><th>Status</th><th>Results</th><th></th></tr></thead><tbody>'+
+        (rows || '<tr><td colspan="5" style="text-align:center;padding:30px;color:#888;">No tests yet. Click "New Test".</td></tr>')+
+        '</tbody></table>';
+    }
+
+    function modal(title, html, onOpen) {
+      var m = document.createElement('div');
+      m.className = 'nwm-modal-backdrop';
+      m.innerHTML = '<div class="nwm-modal"><div class="nwm-modal-head"><h3>'+esc(title)+'</h3><button class="nwm-modal-close">×</button></div><div class="nwm-modal-body">'+html+'</div></div>';
+      document.body.appendChild(m);
+      m.querySelector('.nwm-modal-close').onclick = function(){ m.remove(); };
+      m.addEventListener('click', function(e){ if(e.target===m)m.remove(); });
+      if (onOpen) onOpen(m);
+      return m;
+    }
+
+    function editor(t) {
+      var isNew = !t;
+      t = t || { name:'Pricing-CTA Test', slug:'pricing-cta', hypothesis:'Orange CTA converts more than purple', variants:[{name:'A', cta_text:'Ver planes'}, {name:'B', cta_text:'Comienza gratis'}], status:'running' };
+      var variantsHtml = (t.variants || []).map(function(v, i) {
+        return '<div class="vcard"><strong>Variant '+(v.name || String.fromCharCode(65+i))+'</strong>' +
+          '<input type="text" placeholder="Variant name" value="'+esc(v.name||'')+'" data-vi="'+i+'" data-vk="name">' +
+          '<input type="text" placeholder="CTA text / override" value="'+esc(v.cta_text||'')+'" data-vi="'+i+'" data-vk="cta_text">' +
+          '</div>';
+      }).join('');
+
+      var html = '<label class="lbl">Name<input class="inp" id="t-name" value="'+esc(t.name)+'"></label>' +
+        '<label class="lbl">Slug (URL-safe)<input class="inp" id="t-slug" value="'+esc(t.slug)+'" '+(t.id?'readonly':'')+'></label>' +
+        '<label class="lbl">Hypothesis<input class="inp" id="t-hypo" value="'+esc(t.hypothesis||'')+'"></label>' +
+        '<label class="lbl">Status<select class="inp" id="t-status"><option value="draft"'+(t.status==='draft'?' selected':'')+'>Draft</option><option value="running"'+(t.status==='running'?' selected':'')+'>Running</option><option value="paused"'+(t.status==='paused'?' selected':'')+'>Paused</option><option value="completed"'+(t.status==='completed'?' selected':'')+'>Completed</option></select></label>' +
+        '<label class="lbl">Variants</label>' +
+        '<div class="vgrid" id="t-vgrid">'+variantsHtml+'</div>' +
+        '<div style="margin-top:8px"><button class="btn btn-sm" id="t-addv">+ Add variant</button></div>' +
+        '<div class="nwm-modal-foot"><button class="btn btn-primary" id="t-save">Save</button> <button class="btn" id="t-cancel">Cancel</button></div>';
+
+      modal(isNew ? 'New A/B Test' : 'Edit: '+t.name, html, function(m) {
+        m.querySelector('#t-cancel').onclick = function(){ m.remove(); };
+        m.querySelector('#t-addv').onclick = function() {
+          var grid = m.querySelector('#t-vgrid');
+          var i = grid.children.length;
+          var div = document.createElement('div');
+          div.className = 'vcard';
+          div.innerHTML = '<strong>Variant '+String.fromCharCode(65+i)+'</strong>'+
+            '<input type="text" placeholder="Variant name" value="'+String.fromCharCode(65+i)+'" data-vi="'+i+'" data-vk="name">' +
+            '<input type="text" placeholder="CTA text" data-vi="'+i+'" data-vk="cta_text">';
+          grid.appendChild(div);
+        };
+        m.querySelector('#t-save').onclick = function() {
+          var variants = [];
+          m.querySelectorAll('[data-vi]').forEach(function(inp) {
+            var i = +inp.dataset.vi, k = inp.dataset.vk;
+            variants[i] = variants[i] || {};
+            variants[i][k] = inp.value;
+          });
+          var payload = {
+            slug: m.querySelector('#t-slug').value.trim(),
+            name: m.querySelector('#t-name').value.trim(),
+            hypothesis: m.querySelector('#t-hypo').value,
+            status: m.querySelector('#t-status').value,
+            variants: variants.filter(Boolean),
+          };
+          var p = t.id ? api('/ab-tests/'+t.id, { method:'PUT', body: payload }) : api('/ab-tests', { method:'POST', body: payload });
+          p.then(function(){ m.remove(); load(); }).catch(function(e){alert('Save failed');});
+        };
+      });
+    }
+
+    function showSnippet(t) {
+      var base = location.origin;
+      var code =
+        '<!-- NetWebMedia A/B Test: ' + t.slug + ' -->\n' +
+        '<script>\n' +
+        '(function(){\n' +
+        '  var v = localStorage.getItem("nwm_visitor"); if(!v){ v = crypto.randomUUID(); localStorage.setItem("nwm_visitor", v); }\n' +
+        '  fetch("' + base + '/api/public/ab/assign?test=' + encodeURIComponent(t.slug) + '&visitor=" + v)\n' +
+        '    .then(function(r){return r.json();}).then(function(d){\n' +
+        '      window.NWM_VARIANT = d.variant;\n' +
+        '      document.body.setAttribute("data-variant", d.variant);\n' +
+        '      if (d.payload && d.payload.cta_text) document.querySelectorAll("[data-ab-cta]").forEach(function(el){ el.textContent = d.payload.cta_text; });\n' +
+        '    });\n' +
+        '  window.nwmConvert = function(){ fetch("' + base + '/api/public/ab/convert?test=' + encodeURIComponent(t.slug) + '&visitor=" + localStorage.getItem("nwm_visitor")); };\n' +
+        '})();\n' +
+        '</' + 'script>';
+      modal('Snippet for "' + t.name + '"',
+        '<p>Drop this before <code>&lt;/body&gt;</code> on any page. Call <code>nwmConvert()</code> when the goal is hit.</p>'+
+        '<div class="snippet-box">'+esc(code)+'</div>'+
+        '<button class="btn btn-primary" id="t-copy" style="margin-top:10px;">Copy</button>',
+        function(m){ m.querySelector('#t-copy').onclick = function(){ navigator.clipboard.writeText(code); this.textContent='Copied!'; }; });
+    }
+
+    function load() { api('/ab-tests').then(function(r){ state.items = r.items || []; render(); }); }
+
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('#ab-new')) return editor(null);
+      var t = e.target.closest('[data-act]');
+      if (!t) return;
+      var id = +t.dataset.id;
+      var item = state.items.find(function(x){return x.id===id;});
+      if (!item) return;
+      if (t.dataset.act==='edit') return editor(item);
+      if (t.dataset.act==='snippet') return showSnippet(item);
+      if (t.dataset.act==='del' && confirm('Delete "'+item.name+'"?')) api('/ab-tests/'+id, {method:'DELETE'}).then(load);
+    });
+    load();
+  })();
+  </script>
+<script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

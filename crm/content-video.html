@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Video Factory | NetWebMedia CRM</title>
+<link rel="icon" type="image/svg+xml" href="/assets/nwm-logo.svg">
+
+<!-- NWM-LIFT-TO-100 -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Video Factory | NetWebMedia CRM" />
+<meta name="twitter:description" content="Programmatic short-form video rendering via Remotion — queue jobs, render, download MP4." />
+<meta name="twitter:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+<meta property="og:title" content="Video Factory | NetWebMedia CRM" />
+<meta property="og:description" content="Programmatic short-form video rendering via Remotion — queue jobs, render, download MP4." />
+<meta property="og:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-V71R6PD7C0',{anonymize_ip:true});</script>
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','PLACEHOLDER_PIXEL_ID');fbq('track','PageView');</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Video Factory","url":"https://netwebmedia.com/crm/content-video.html"}</script>
+<!-- /NWM-LIFT-TO-100 -->
+
+<style>
+:root{--bg:#0a0f1e;--panel:#111827;--panel2:#0f172a;--border:#1f2937;--text:#e5e7eb;--muted:#9ca3af;--brand:#8b5cf6;--brand2:#FF671F;--ok:#10b981;--warn:#f59e0b;--bad:#ef4444}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);padding:40px 20px}
+.wrap{max-width:1200px;margin:0 auto}
+h1{margin:0 0 6px;font-size:32px;background:linear-gradient(135deg,var(--brand2),var(--brand));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:14px;margin-bottom:30px}
+.back{color:#93c5fd;text-decoration:none;font-size:13px}
+.layout{display:grid;grid-template-columns:380px 1fr;gap:24px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:22px}
+.panel h2{margin:0 0 14px;font-size:18px}
+.tpl-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.tpl{padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--panel2);cursor:pointer;text-align:center;font-size:13px}
+.tpl.active{border-color:var(--brand);background:rgba(139,92,246,.15)}
+.tpl b{display:block;color:var(--text);font-size:14px;margin-bottom:4px}
+.tpl span{color:var(--muted);font-size:11px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.field input,.field textarea{width:100%;padding:10px 12px;border-radius:8px;background:var(--panel2);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:14px}
+.field input[type=color]{height:40px;padding:4px}
+.render-btn{width:100%;background:linear-gradient(135deg,var(--brand2),var(--brand));border:0;color:#fff;padding:14px;border-radius:10px;font-weight:700;cursor:pointer;font-size:15px;margin-top:6px}
+.render-btn[disabled]{opacity:.6;cursor:wait}
+.jobs{display:grid;gap:10px}
+.job{display:grid;grid-template-columns:80px 1fr auto;gap:14px;align-items:center;padding:12px;background:var(--panel2);border:1px solid var(--border);border-radius:10px}
+.job .status{padding:3px 10px;border-radius:9999px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;text-align:center}
+.job .status.queued{background:#422e5e;color:#c4b5fd}
+.job .status.rendering{background:#5f4a1e;color:#fbbf24}
+.job .status.complete{background:#1e4a3f;color:#6ee7b7}
+.job .status.failed{background:#5c2a3c;color:#fb7185}
+.job .meta{color:var(--muted);font-size:12px}
+.job a.dl{background:var(--ok);color:#fff;padding:6px 14px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600}
+.toast{position:fixed;bottom:30px;right:30px;background:var(--panel);border:1px solid var(--border);padding:14px 20px;border-radius:10px;z-index:999;transition:all .3s;transform:translateY(100px);opacity:0}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{border-color:var(--ok)}.toast.err{border-color:var(--bad)}
+.econ{margin-top:18px;padding:14px;border-radius:10px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);font-size:12px;color:#c4b5fd;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="/crm/" class="back">← Back to CRM</a>
+  <h1>Video Factory</h1>
+  <div class="sub">Pick a template, fill the fields, render. Powered by Remotion. 9:16 vertical, 10-18s, broadcast-quality MP4.</div>
+
+  <div class="layout">
+    <div class="panel">
+      <h2>New render</h2>
+      <div class="tpl-grid" id="tpl-picker">Loading…</div>
+      <div id="fields"></div>
+      <button class="render-btn" id="render-btn" onclick="submitRender()">Render video</button>
+      <div class="econ">
+        <strong>Per-render cost:</strong> $0.02–$0.50 (Lambda) · <strong>Time:</strong> ~30-120s per clip · <strong>Storage:</strong> /video-out/*.mp4
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Recent renders</h2>
+      <div id="jobs" class="jobs">Loading…</div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="/crm/js/api-client.js"></script>
+<script>
+(function(){
+  var STATE = { templates: [], picked: null, jobs: [] };
+
+  function toast(msg, kind) {
+    var t = document.getElementById('toast');
+    t.textContent = msg; t.className = 'toast show ' + (kind || '');
+    setTimeout(function(){ t.className = 'toast ' + (kind || ''); }, 3500);
+  }
+
+  function renderTemplates() {
+    var el = document.getElementById('tpl-picker');
+    el.innerHTML = STATE.templates.map(function(t, i){
+      return '<div class="tpl'+(i===0?' active':'')+'" data-id="'+t.id+'"><b>'+t.name+'</b><span>'+t.duration_s+'s · '+t.aspect+'</span></div>';
+    }).join('');
+    el.addEventListener('click', function(e){
+      var d = e.target.closest('.tpl'); if(!d) return;
+      [].forEach.call(el.querySelectorAll('.tpl'), function(x){ x.classList.remove('active'); });
+      d.classList.add('active');
+      pick(d.dataset.id);
+    });
+    pick(STATE.templates[0].id);
+  }
+
+  function pick(id) {
+    var t = STATE.templates.find(function(x){ return x.id===id; });
+    STATE.picked = t;
+    var f = document.getElementById('fields');
+    f.innerHTML = t.fields.map(function(fl){
+      var typeAttr = fl.type === 'color' ? 'color' : (fl.type === 'url' ? 'url' : 'text');
+      var val = fl.default || '';
+      return '<div class="field"><label>'+fl.label+(fl.required?' *':'')+'</label>' +
+             '<input name="'+fl.key+'" type="'+typeAttr+'" value="'+val+'" '+(fl.required?'required':'')+'></div>';
+    }).join('');
+  }
+
+  window.submitRender = function() {
+    if (!window.NWMApi || !NWMApi.isAuthed()) {
+      location.href = '/login.html?next=' + encodeURIComponent('/crm/content-video.html');
+      return;
+    }
+    var t = STATE.picked; if (!t) return;
+    var input = {};
+    var inputs = document.querySelectorAll('#fields input');
+    for (var i=0; i<inputs.length; i++) {
+      var v = inputs[i].value.trim();
+      if (inputs[i].required && !v) { toast('Please fill: ' + inputs[i].name, 'err'); return; }
+      if (v) input[inputs[i].name] = v;
+    }
+    var btn = document.getElementById('render-btn');
+    btn.disabled = true; btn.textContent = 'Queuing…';
+    fetch('/api/video/render', {
+      method: 'POST', credentials: 'include',
+      headers: { 'Content-Type': 'application/json', 'X-Auth-Token': NWMApi.token() },
+      body: JSON.stringify({ template_id: t.id, input: input }),
+    }).then(function(r){ return r.json(); }).then(function(r){
+      btn.disabled = false; btn.textContent = 'Render video';
+      if (r.ok) { toast('Job #'+r.job.id+' queued', 'ok'); loadJobs(); }
+      else     { toast(r.error || 'Render failed', 'err'); }
+    });
+  };
+
+  function loadJobs() {
+    if (!window.NWMApi || !NWMApi.isAuthed()) {
+      document.getElementById('jobs').innerHTML = '<p style="color:#9ca3af">Log in to see your renders.</p>';
+      return;
+    }
+    fetch('/api/video/jobs', { credentials:'include', headers: { 'X-Auth-Token': NWMApi.token() } })
+      .then(function(r){return r.json();}).then(function(r){
+        STATE.jobs = r.items || [];
+        var j = document.getElementById('jobs');
+        if (!STATE.jobs.length) { j.innerHTML = '<p style="color:#9ca3af">No renders yet.</p>'; return; }
+        j.innerHTML = STATE.jobs.map(function(x){
+          var when = new Date(x.created_at.replace(' ','T')+'Z').toLocaleString();
+          return '<div class="job">' +
+            '<span class="status '+x.status+'">'+x.status+'</span>' +
+            '<div><strong>'+x.template_id+'</strong> <span class="meta"> · #'+x.id+' · '+when+'</span></div>' +
+            (x.output_url ? '<a class="dl" href="'+x.output_url+'" download>Download</a>' : '<span class="meta">—</span>') +
+          '</div>';
+        }).join('');
+      });
+  }
+
+  fetch('/api/video/templates').then(function(r){return r.json();}).then(function(r){
+    STATE.templates = r.items || [];
+    if (!STATE.templates.length) { document.getElementById('tpl-picker').textContent='No templates available.'; return; }
+    renderTemplates();
+  });
+  loadJobs();
+  setInterval(loadJobs, 15000);
+})();
+</script>
+</body>
+</html>

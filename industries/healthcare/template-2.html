@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wellness Spa — Healthcare Template | NetWebMedia CMS</title>
+  <meta name="description" content="Wellness spa landing page — services menu, packages, treatment rooms, and membership CTA. Built on NetWebMedia CMS.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/healthcare/template-2.html" />
+  <meta property="og:title" content="Wellness Spa — NetWebMedia Template" />
+  <meta property="og:description" content="Luxury spa site with services, pricing packages, and membership signup." />
+  <meta property="og:url" content="https://netwebmedia.com/industries/healthcare/template-2.html" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body{background:#0b1220;color:#dde3ee;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    .tpl-nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+    .tpl-nav .logo{font-weight:900;font-size:18px;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .tpl-nav .links{display:flex;gap:18px;align-items:center}
+    .tpl-nav a{color:#b8c4d9;text-decoration:none;font-size:14px}
+    .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:10px 20px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:10px 20px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+    .prod-hero{padding:70px 20px 40px;text-align:center;max-width:1100px;margin:0 auto}
+    .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+    .prod-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+    .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#b8c4d9;max-width:720px;margin:0 auto 28px;line-height:1.5}
+    .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .prod-hero .btn-teal,.prod-hero .btn-ghost{padding:14px 28px;font-size:16px}
+
+    .zen-hero{max-width:1000px;margin:30px auto;height:320px;border-radius:20px;background:radial-gradient(circle at 30% 50%,rgba(6,182,212,.35),transparent 50%),linear-gradient(135deg,#0f172a,#0891B2 70%,#22d3ee);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:130px}
+
+    .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+    .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+    .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+    .menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+    .menu-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px}
+    .menu-card h4{margin:0 0 8px;color:#fff;font-size:17px;display:flex;justify-content:space-between;align-items:baseline}
+    .menu-card h4 .price{color:#22d3ee;font-weight:900;font-size:18px}
+    .menu-card .dur{color:#9aa;font-size:12px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+    .menu-card p{margin:0;color:#b8c4d9;font-size:14px;line-height:1.55}
+
+    .packages{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .pkg{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:26px;position:relative}
+    .pkg.feat{border-color:rgba(6,182,212,.6);background:linear-gradient(180deg,rgba(6,182,212,.08),rgba(255,255,255,.03))}
+    .pkg.feat::before{content:"Most Popular";position:absolute;top:-12px;right:20px;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;font-size:11px;font-weight:800;padding:5px 12px;border-radius:99px;letter-spacing:.1em;text-transform:uppercase}
+    .pkg h4{margin:0 0 6px;color:#fff;font-size:19px}
+    .pkg .price{font-size:32px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent;margin:10px 0}
+    .pkg ul{list-style:none;padding:0;margin:14px 0 18px;color:#b8c4d9;font-size:14px;line-height:1.8}
+    .pkg ul li::before{content:"✓ ";color:#22d3ee;font-weight:900}
+
+    .rooms{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+    .room{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden}
+    .room-img{height:140px;background:linear-gradient(135deg,#0891B2,#1e293b);display:flex;align-items:center;justify-content:center;font-size:48px}
+    .room-body{padding:16px}
+    .room-body h5{margin:0 0 4px;color:#fff;font-size:15px}
+    .room-body p{margin:0;color:#9aa;font-size:12px}
+
+    .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(8,145,178,.06));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;text-align:center;margin-top:60px}
+    .cta-band h3{font-size:clamp(22px,3.5vw,32px);margin:0 0 12px}
+    .cta-band p{color:#b8c4d9;max-width:620px;margin:0 auto 22px;font-size:15px;line-height:1.55}
+
+    .nwm-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;color:#67e8f9;margin:30px auto;text-decoration:none}
+
+    footer{border-top:1px solid rgba(255,255,255,.08);padding:32px 20px;text-align:center;color:#9aa;font-size:13px}
+    footer a{color:#67e8f9;margin:0 10px;text-decoration:none}
+
+    @media(max-width:700px){.tpl-nav .links a:not(.btn-teal){display:none}}
+  </style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <div class="logo">🌿 Serenity Wellness Spa</div>
+  <div class="links">
+    <a href="/industries/">← Industries</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">Open 7 days · 9am – 9pm</div>
+  <h1>Rest, restore, <span class="hl">rebalance</span></h1>
+  <p class="sub">A full-service day spa designed as an escape. Massage, facials, IV therapy, and cryotherapy — all under one calming roof in Palo Alto.</p>
+  <div class="ctas">
+    <a href="#book" class="btn-teal">Reserve a Treatment →</a>
+    <a href="#membership" class="btn-ghost">Explore Memberships</a>
+  </div>
+</section>
+
+<div class="zen-hero">🧘</div>
+
+<section class="prod-section">
+  <h2>Treatment menu</h2>
+  <p class="sub">Every treatment begins with a 10-minute intake consultation at no charge.</p>
+  <div class="menu">
+    <div class="menu-card"><h4>Deep Tissue Massage <span class="price">$180</span></h4><div class="dur">60 min · Optional 90 min +$70</div><p>Therapeutic pressure for chronic tension, athletic recovery, and postural correction.</p></div>
+    <div class="menu-card"><h4>Swedish Relaxation <span class="price">$155</span></h4><div class="dur">60 min · Optional hot stones +$40</div><p>Classic flowing strokes to calm the nervous system and release surface tension.</p></div>
+    <div class="menu-card"><h4>HydraFacial Platinum <span class="price">$295</span></h4><div class="dur">75 min · LED light therapy included</div><p>Medical-grade cleanse, exfoliate, extract, and infuse. Zero downtime.</p></div>
+    <div class="menu-card"><h4>IV Vitamin Drip <span class="price">$220</span></h4><div class="dur">45 min · Under RN supervision</div><p>Hydration, Myers' cocktail, or immune boost. Custom blends available.</p></div>
+    <div class="menu-card"><h4>Cryotherapy Session <span class="price">$75</span></h4><div class="dur">3 min · Whole-body chamber</div><p>-180°F exposure for inflammation reduction, energy, and recovery.</p></div>
+    <div class="menu-card"><h4>Infrared Sauna <span class="price">$60</span></h4><div class="dur">45 min · Private suite</div><p>Deep detox, skin clarity, and parasympathetic nervous system reset.</p></div>
+  </div>
+</section>
+
+<section class="prod-section" id="membership">
+  <h2>Membership tiers</h2>
+  <p class="sub">Priority booking, member pricing, and monthly credits that roll over for 90 days.</p>
+  <div class="packages">
+    <div class="pkg"><h4>Essentials</h4><div class="price">$149/mo</div><ul><li>1 massage or facial per month</li><li>10% off all add-ons</li><li>Unlimited sauna access</li><li>No contract — cancel anytime</li></ul><a href="/contact.html" class="btn-ghost">Join Essentials</a></div>
+    <div class="pkg feat"><h4>Balance</h4><div class="price">$289/mo</div><ul><li>2 treatments per month</li><li>4 cryotherapy sessions</li><li>15% off add-ons &amp; retail</li><li>Bring a guest monthly</li><li>Free birthday treatment</li></ul><a href="/contact.html" class="btn-teal">Join Balance</a></div>
+    <div class="pkg"><h4>Elite</h4><div class="price">$549/mo</div><ul><li>4 treatments per month</li><li>Unlimited cryo &amp; sauna</li><li>2 IV drips included</li><li>Private locker &amp; robe</li><li>20% off retail &amp; events</li></ul><a href="/contact.html" class="btn-ghost">Join Elite</a></div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Our treatment rooms</h2>
+  <p class="sub">Six dedicated suites, each designed for a specific modality.</p>
+  <div class="rooms">
+    <div class="room"><div class="room-img">💆</div><div class="room-body"><h5>Massage Suite 1</h5><p>Heated table, aromatherapy, Bluetooth audio</p></div></div>
+    <div class="room"><div class="room-img">✨</div><div class="room-body"><h5>HydraFacial Studio</h5><p>Medical-grade lighting, adjustable chair</p></div></div>
+    <div class="room"><div class="room-img">💧</div><div class="room-body"><h5>IV Drip Lounge</h5><p>Private recliner bays, Netflix, blankets</p></div></div>
+    <div class="room"><div class="room-img">❄️</div><div class="room-body"><h5>Cryo Chamber Room</h5><p>Nitrogen-cooled, operator assisted</p></div></div>
+    <div class="room"><div class="room-img">🔥</div><div class="room-body"><h5>Infrared Sauna Suite</h5><p>Full-spectrum, 1–2 person private</p></div></div>
+    <div class="room"><div class="room-img">🌿</div><div class="room-body"><h5>Couples Retreat</h5><p>Side-by-side tables, shared shower</p></div></div>
+  </div>
+</section>
+
+<section class="cta-band" id="book">
+  <h3>Your first visit is $40 off</h3>
+  <p>Book any single treatment online and we'll apply the credit at checkout. No promo code needed.</p>
+  <div class="ctas"><a href="/contact.html" class="btn-teal">Book Now →</a><a href="tel:+16505550200" class="btn-ghost">📞 (650) 555-0200</a></div>
+  <a class="nwm-badge" href="https://netwebmedia.com">⚡ Built on NetWebMedia CMS</a>
+</section>
+
+<section class="prod-section" style="text-align:center">
+  <h2>Launch this template with NetWebMedia</h2>
+  <p class="sub">Wellness brand sites with live booking, membership portals, and gift-card flows.</p>
+  <div class="ctas" style="justify-content:center"><a href="/contact.html" class="btn-teal">Get This Template →</a><a href="/industries/" class="btn-ghost">See All Industries</a></div>
+</section>
+
+<footer>
+  <a href="/industries/">Industries</a> ·
+  <a href="/pricing.html">Pricing</a> ·
+  <a href="/contact.html">Contact</a>
+  <div style="margin-top:10px">© NetWebMedia · Demo template for illustration only</div>
+</footer>
+
+</body>
+</html>

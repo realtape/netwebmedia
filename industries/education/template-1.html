@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Course Platform — EdTech Template | NetWebMedia CMS</title>
+<meta name="description" content="Online Course Platform template — featured courses, instructors, student outcomes and an enroll-now CTA. Modern dark-theme website built on NetWebMedia CMS.">
+<link rel="canonical" href="https://netwebmedia.com/industries/education/template-1.html">
+<meta property="og:title" content="Online Course Platform — NetWebMedia CMS Template">
+<meta property="og:description" content="EdTech landing page with course catalog, instructors and outcomes.">
+<meta property="og:url" content="https://netwebmedia.com/industries/education/template-1.html">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+  body{background:#0b1220;color:#dde3ee;font-family:system-ui,-apple-system,Segoe UI,sans-serif;margin:0}
+  .tpl-nav{position:sticky;top:0;z-index:10;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+  .tpl-nav a.logo{color:#22d3ee;font-weight:900;text-decoration:none;font-size:18px}
+  .tpl-nav .r{display:flex;gap:12px;align-items:center}
+  .tpl-nav .back{color:#9aa;text-decoration:none;font-size:14px}
+  .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:14px}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:12px 22px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:14px}
+
+  .prod-hero{padding:80px 20px 50px;text-align:center;max-width:1100px;margin:0 auto}
+  .prod-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+  .prod-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+  .prod-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prod-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:700px;margin:0 auto 28px;line-height:1.5}
+  .prod-hero .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  .prod-stats{max-width:1000px;margin:40px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;padding:0 20px}
+  .prod-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;text-align:center}
+  .prod-stat .n{font-size:28px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .prod-stat .l{font-size:12px;color:#9aa;margin-top:6px;text-transform:uppercase;letter-spacing:.08em}
+
+  .prod-section{max-width:1100px;margin:70px auto;padding:0 20px}
+  .prod-section h2{font-size:clamp(26px,4vw,36px);margin:0 0 14px;text-align:center}
+  .prod-section .sub{color:#9aa;font-size:16px;max-width:680px;margin:0 auto 40px;text-align:center;line-height:1.5}
+
+  .course-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+  .course-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;transition:transform .2s,border-color .2s;display:flex;flex-direction:column}
+  .course-card:hover{transform:translateY(-4px);border-color:rgba(6,182,212,.45)}
+  .course-thumb{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:56px;color:#fff;font-weight:900}
+  .course-card .body{padding:18px}
+  .course-card h4{margin:0 0 6px;font-size:17px;line-height:1.3}
+  .course-card .meta{color:#9aa;font-size:12px;margin-bottom:10px}
+  .course-card p{color:#b8c4d9;font-size:13px;line-height:1.5;margin:0 0 12px}
+  .course-card .foot{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid rgba(255,255,255,.08)}
+  .course-card .price{color:#22d3ee;font-weight:800;font-size:17px}
+  .course-card a{color:#fff;font-size:13px;font-weight:700;text-decoration:none;background:rgba(6,182,212,.2);padding:6px 12px;border-radius:8px}
+  .course-card .tag{display:inline-block;font-size:10px;font-weight:800;color:#fff;background:rgba(239,68,68,.5);padding:3px 8px;border-radius:99px;margin-bottom:8px;letter-spacing:.06em;text-transform:uppercase}
+
+  .instr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  .instr-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;text-align:center}
+  .instr-av{width:80px;height:80px;border-radius:50%;margin:0 auto 12px;background:linear-gradient(135deg,#22d3ee,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#fff}
+  .instr-card h4{margin:0 0 2px;font-size:16px}
+  .instr-card .title{color:#22d3ee;font-size:12px;font-weight:700;margin-bottom:8px}
+  .instr-card p{color:#b8c4d9;font-size:12px;margin:0;line-height:1.5}
+
+  .outcomes{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+  .out-card{background:linear-gradient(135deg,rgba(6,182,212,.08),rgba(139,92,246,.03));border:1px solid rgba(6,182,212,.2);border-radius:14px;padding:24px}
+  .out-card .n{font-size:32px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin-bottom:8px}
+  .out-card h4{margin:0 0 6px;font-size:15px}
+  .out-card p{color:#b8c4d9;font-size:13px;margin:0;line-height:1.5}
+
+  .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(8,145,178,.05));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;margin:60px 0 0;text-align:center}
+  .cta-band h3{font-size:clamp(22px,3.5vw,30px);margin:0 0 10px}
+  .cta-band p{color:#b8c4d9;max-width:600px;margin:0 auto 20px}
+  .badge-built{display:inline-flex;align-items:center;gap:8px;background:rgba(6,182,212,.12);color:#67e8f9;padding:8px 14px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  footer{padding:32px 20px;text-align:center;border-top:1px solid rgba(255,255,255,.06);color:#9aa;font-size:14px}
+  footer a{color:#22d3ee;text-decoration:none;margin:0 10px}
+</style>
+</head>
+<body>
+
+<nav class="tpl-nav">
+  <a href="/" class="logo">🎓 Fathom Academy</a>
+  <div class="r">
+    <a href="/industries/" class="back">← Industries</a>
+    <a href="/contact.html" class="btn-teal">Get This Template</a>
+  </div>
+</nav>
+
+<section class="prod-hero">
+  <div class="eyebrow">AI · Data · Engineering · 120 instructors</div>
+  <h1>Learn the skill. Get the job. <span class="hl">In 12 weeks or less.</span></h1>
+  <p class="sub">Project-based courses from senior engineers at Stripe, Shopify, Anthropic and Netflix. Live cohort sessions, 1:1 mentor reviews, job-hunt support and a 93% completion rate. No-questions refund for 14 days.</p>
+  <div class="ctas">
+    <a href="#courses" class="btn-teal">Enroll now →</a>
+    <a href="#instructors" class="btn-ghost">Meet the instructors</a>
+  </div>
+</section>
+
+<div class="prod-stats">
+  <div class="prod-stat"><div class="n">58k</div><div class="l">Students enrolled</div></div>
+  <div class="prod-stat"><div class="n">93%</div><div class="l">Cohort completion</div></div>
+  <div class="prod-stat"><div class="n">$78k</div><div class="l">Median post-grad salary</div></div>
+  <div class="prod-stat"><div class="n">4.9★</div><div class="l">Student rating</div></div>
+</div>
+
+<section class="prod-section" id="courses">
+  <h2>Featured cohorts — starting this quarter</h2>
+  <p class="sub">Each cohort runs 10–12 weeks with live sessions, mentors and capstone portfolio projects.</p>
+  <div class="course-grid">
+    <div class="course-card">
+      <div class="course-thumb" style="background:linear-gradient(135deg,#06B6D4,#0891B2)">🤖</div>
+      <div class="body">
+        <span class="tag">New · April</span>
+        <h4>AI Engineering Bootcamp</h4>
+        <div class="meta">12 weeks · Live · Cohort 14 · Limit 40</div>
+        <p>Ship production-ready LLM apps with RAG, agents, evals and cost controls. Capstone: your own deployed product.</p>
+        <div class="foot"><div class="price">$2,495</div><a href="#enroll">Enroll →</a></div>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-thumb" style="background:linear-gradient(135deg,#8b5cf6,#ec4899)">📊</div>
+      <div class="body">
+        <span class="tag" style="background:rgba(139,92,246,.5)">Bestseller</span>
+        <h4>Data Analyst Career Path</h4>
+        <div class="meta">10 weeks · Live + async · Cohort 28</div>
+        <p>SQL, Python, dbt, Looker and stakeholder communication. Job-prep mock interviews and resume teardown included.</p>
+        <div class="foot"><div class="price">$1,895</div><a href="#enroll">Enroll →</a></div>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-thumb" style="background:linear-gradient(135deg,#10b981,#22d3ee)">⚛️</div>
+      <div class="body">
+        <span class="tag" style="background:rgba(16,185,129,.5)">Top rated</span>
+        <h4>Full-Stack with Next.js 15</h4>
+        <div class="meta">12 weeks · Project-based · Cohort 9</div>
+        <p>Build, deploy and monetize a real SaaS. Server actions, auth, payments, edge deployment and postmortems.</p>
+        <div class="foot"><div class="price">$2,295</div><a href="#enroll">Enroll →</a></div>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-thumb" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">🛡️</div>
+      <div class="body">
+        <h4>Product Security Fundamentals</h4>
+        <div class="meta">8 weeks · Async + office hours</div>
+        <p>OWASP top 10, threat modeling, secure SDLC. Taught by an ex-Stripe security engineer.</p>
+        <div class="foot"><div class="price">$1,495</div><a href="#enroll">Enroll →</a></div>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-thumb" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)">🎨</div>
+      <div class="body">
+        <h4>Staff-Level Product Design</h4>
+        <div class="meta">10 weeks · Live · Cohort 6</div>
+        <p>From mid-level to staff IC: systems thinking, design rationale, cross-team leadership. Portfolio overhaul included.</p>
+        <div class="foot"><div class="price">$1,995</div><a href="#enroll">Enroll →</a></div>
+      </div>
+    </div>
+    <div class="course-card">
+      <div class="course-thumb" style="background:linear-gradient(135deg,#22d3ee,#10b981)">☁️</div>
+      <div class="body">
+        <h4>Cloud Infra &amp; SRE</h4>
+        <div class="meta">10 weeks · AWS + K8s</div>
+        <p>Terraform, observability, incident response, cost optimization. Real on-call rotations with post-mortems.</p>
+        <div class="foot"><div class="price">$2,195</div><a href="#enroll">Enroll →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="prod-section" id="instructors">
+  <h2>Learn from people who do the job</h2>
+  <p class="sub">No content creators. Every instructor is currently shipping at a top company.</p>
+  <div class="instr-grid">
+    <div class="instr-card"><div class="instr-av">AP</div><h4>Amara Patel</h4><div class="title">Staff ML Engineer · Anthropic</div><p>Leads eval infrastructure. Teaches AI Engineering Bootcamp.</p></div>
+    <div class="instr-card"><div class="instr-av">JC</div><h4>Jin Chen</h4><div class="title">Principal Data Sci · Stripe</div><p>Previously Shopify. Teaches Data Analyst Career Path.</p></div>
+    <div class="instr-card"><div class="instr-av">RM</div><h4>Ricardo Morales</h4><div class="title">Tech Lead · Vercel</div><p>Core contributor to Next.js. Teaches Full-Stack cohort.</p></div>
+    <div class="instr-card"><div class="instr-av">SK</div><h4>Sophie Kim</h4><div class="title">Head of Security · Ramp</div><p>Ex-Stripe. Teaches Product Security Fundamentals.</p></div>
+    <div class="instr-card"><div class="instr-av">DB</div><h4>Daniel Brooks</h4><div class="title">Staff Designer · Linear</div><p>Teaches Staff-Level Product Design cohort.</p></div>
+  </div>
+</section>
+
+<section class="prod-section">
+  <h2>Graduate outcomes — last 12 months</h2>
+  <p class="sub">We only count students who completed the cohort and applied to jobs. No vanity metrics.</p>
+  <div class="outcomes">
+    <div class="out-card"><div class="n">81%</div><h4>Placed within 6 months</h4><p>Of completers who actively job-hunted, 81% accepted an offer within 180 days of graduation.</p></div>
+    <div class="out-card"><div class="n">$78k</div><h4>Median starting salary</h4><p>Entry and mid-level roles combined. $102k median for students with 3+ years prior experience.</p></div>
+    <div class="out-card"><div class="n">+42%</div><h4>Salary increase</h4><p>Average compensation increase for students who were already employed before enrollment.</p></div>
+    <div class="out-card"><div class="n">320</div><h4>Hiring partners</h4><p>From 4-person startups to Fortune 500. Partners get early intros to graduates.</p></div>
+  </div>
+</section>
+
+<div class="cta-band" id="enroll">
+  <h3>Launch this template with NetWebMedia</h3>
+  <p>Online Course Platform ships with cohort registration, Stripe checkout, progress tracking, video hosting hooks and certificate generation. Live in 48 hours.</p>
+  <a href="/contact.html" class="btn-teal">Start with this template →</a>
+  <div style="margin-top:22px"><span class="badge-built">⚡ Built on NetWebMedia CMS</span></div>
+</div>
+
+<footer>
+  <div><a href="/industries/">Industries</a> · <a href="/pricing.html">Pricing</a> · <a href="/contact.html">Contact</a></div>
+  <div style="margin-top:12px;color:#666">© 2026 Fathom Academy — demo template. Powered by NetWebMedia CMS.</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Industry Solutions — Purpose-Built Templates + CRM | NetWebMedia</title>
+  <meta name="description" content="11 industry-specific website templates and vertical CRM backends — from real estate to SaaS, healthcare to agencies. Each built on NetWebMedia's AI-first platform.">
+  <link rel="canonical" href="https://netwebmedia.com/industries/" />
+  <meta property="og:title" content="Industry Solutions — NetWebMedia" />
+  <meta property="og:description" content="Purpose-built CMS templates and CRM backends for 11 industries. Launch a vertical-ready website and CRM in days, not months." />
+  <meta property="og:url" content="https://netwebmedia.com/industries/" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="/assets/nwm-logo.svg" />
+  <link rel="stylesheet" href="/css/styles.css">
+
+  <style>
+    .ind-hero{padding:90px 20px 40px;text-align:center;max-width:1100px;margin:0 auto}
+    .ind-hero .eyebrow{display:inline-block;background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px}
+    .ind-hero h1{font-size:clamp(32px,6vw,54px);margin:0 0 16px;line-height:1.1}
+    .ind-hero h1 .hl{background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .ind-hero p.sub{font-size:clamp(16px,2.5vw,20px);color:#9aa;max-width:720px;margin:0 auto 28px;line-height:1.5}
+
+    .ind-stats{max-width:980px;margin:40px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;padding:0 20px}
+    .ind-stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;text-align:center}
+    .ind-stat .n{font-size:34px;font-weight:900;background:linear-gradient(135deg,#22d3ee,#0891B2);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+    .ind-stat .l{font-size:12px;color:#9aa;margin-top:6px;text-transform:uppercase;letter-spacing:.08em}
+
+    .ind-grid{max-width:1200px;margin:60px auto;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
+    .ind-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:24px;transition:transform .2s,border-color .2s,box-shadow .2s;position:relative;overflow:hidden}
+    .ind-card:hover{transform:translateY(-4px);border-color:rgba(6,182,212,.45);box-shadow:0 20px 40px -20px rgba(6,182,212,.35)}
+    .ind-card .emoji{font-size:36px;margin-bottom:12px;display:block}
+    .ind-card h3{margin:0 0 8px;font-size:20px;color:#fff}
+    .ind-card .tagline{color:#9aa;font-size:14px;line-height:1.5;margin:0 0 16px;min-height:42px}
+    .ind-card .row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+    .ind-card .chip{font-size:10px;font-weight:700;letter-spacing:.06em;padding:3px 9px;border-radius:99px;background:rgba(6,182,212,.1);color:#67e8f9;border:1px solid rgba(6,182,212,.25)}
+    .ind-card .links{display:flex;flex-direction:column;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.07)}
+    .ind-card .links .label{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#9aa;margin-bottom:2px}
+    .ind-card .links a{font-size:13px;color:#dde3ee;text-decoration:none;padding:4px 0;transition:color .15s}
+    .ind-card .links a:hover{color:#22d3ee}
+    .ind-card .links a.crm{color:#a7f3d0;font-weight:600}
+    .ind-card .links a.crm:hover{color:#34d399}
+
+    .cta-band{background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(8,145,178,.05));border-top:1px solid rgba(6,182,212,.3);border-bottom:1px solid rgba(6,182,212,.3);padding:60px 20px;margin:60px 0 0;text-align:center}
+    .cta-band h2{font-size:clamp(24px,4vw,34px);margin:0 0 12px}
+    .cta-band p{color:#b8c4d9;max-width:640px;margin:0 auto 22px;font-size:16px;line-height:1.55}
+    .cta-band .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn-teal{background:linear-gradient(135deg,#06B6D4,#0891B2);color:#fff;padding:13px 26px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;font-size:15px}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;padding:13px 26px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;font-size:15px}
+
+    .breadcrumb{max-width:1200px;margin:24px auto 0;padding:0 20px;font-size:13px;color:#9aa}
+    .breadcrumb a{color:#22d3ee;text-decoration:none}
+    .breadcrumb a:hover{text-decoration:underline}
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar" id="navbar" style="padding:16px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:0 20px">
+    <a href="/" style="display:flex;align-items:center;text-decoration:none">
+      <img src="/assets/nwm-logo-horizontal.svg" alt="NetWebMedia" style="height:44px">
+    </a>
+    <div style="display:flex;gap:22px;align-items:center;font-size:14px">
+      <a href="/services.html" style="color:#dde3ee;text-decoration:none">Services</a>
+      <a href="/pricing.html" style="color:#dde3ee;text-decoration:none">Pricing</a>
+      <a href="/industries/" style="color:#22d3ee;font-weight:700;text-decoration:none">Industries</a>
+      <a href="/contact.html" class="btn-teal" style="padding:9px 18px;font-size:13px">Get a Free Audit</a>
+    </div>
+  </div>
+</nav>
+
+<div class="breadcrumb"><a href="/">Home</a> › Industries</div>
+
+<!-- Hero -->
+<section class="ind-hero">
+  <span class="eyebrow">11 Industries · 33 Templates · 33 CRM Modules</span>
+  <h1>Purpose-Built for <span class="hl">Your Industry</span></h1>
+  <p class="sub">Generic templates and generic CRMs lose to vertical-specific ones every time. We ship both — a conversion-optimized CMS template and a CRM backend with the exact objects your industry runs on.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="#grid" class="btn-teal">Browse Industries</a>
+    <a href="/contact.html" class="btn-ghost">Request a Custom Vertical</a>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="ind-stats">
+  <div class="ind-stat"><div class="n">11</div><div class="l">Industries Covered</div></div>
+  <div class="ind-stat"><div class="n">33</div><div class="l">CMS Templates</div></div>
+  <div class="ind-stat"><div class="n">33</div><div class="l">CRM Modules</div></div>
+  <div class="ind-stat"><div class="n">7d</div><div class="l">Typical Launch</div></div>
+</div>
+
+<!-- Grid -->
+<section class="ind-grid" id="grid">
+
+  <!-- Real Estate -->
+  <div class="ind-card">
+    <span class="emoji">🏡</span>
+    <h3>Real Estate</h3>
+    <p class="tagline">Listings, agent profiles, and buyer/seller workflows with showing bookings and automated nurture.</p>
+    <div class="row">
+      <span class="chip">Properties</span>
+      <span class="chip">Listings</span>
+      <span class="chip">Bookings</span>
+    </div>
+    <div class="links">
+      <span class="label">CMS Templates</span>
+      <a href="/industries/real-estate/template-1.html">→ Luxury Property Showcase</a>
+      <a href="/industries/real-estate/template-2.html">→ Agent / Broker Profile</a>
+      <a href="/industries/real-estate/template-3.html">→ New Development Pre-Launch</a>
+      <span class="label" style="margin-top:10px">CRM Vertical</span>
+      <a href="/app/industries/real-estate/properties/" class="crm">→ Properties</a>
+      <a href="/app/industries/real-estate/listings/" class="crm">→ Active Listings</a>
+      <a href="/app/industries/real-estate/bookings/" class="crm">→ Showing Bookings</a>
+    </div>
+  </div>
+
+  <!-- Healthcare -->
+  <div class="ind-card">
+    <span class="emoji">⚕️</span>
+    <h3>Healthcare / Wellness</h3>
+    <p class="tagline">Patient records, appointments, provider schedules, and HIPAA-aware workflows.</p>
+    <div class="row">
+      <span class="chip">Patients</span>
+      <span class="chip">Appointments</span>
+      <span class="chip">Providers</span>
+    </div>
+    <div class="links">
+      <span class="label">CMS Templates</span>
+      <a href="/industries/healthcare/template-1.html">→ Medical Practice</a>
+      <a href="/industries/healthcare/template-2.html">→ Wellness Spa</a>
+      <a href="/industries/healthcare/template-3.html">→ Dental Clinic</a>
+      <span class="label" style="margin-top:10px">CRM Vertical</span>
+      <a href="/app/industries/healthcare/patients/" class="crm">→ Patients</a>
+      <a href="/app/industries/healthcare/appointments/" class="crm">→ Appointments</a>
+      <a href="/app/industries/healthcare/providers/" class="crm">→ Providers</a>
+    </div>
+  </div>
+
+  <!-- E-Commerce -->
+  <div class="ind-card">
+    <span class="emoji">🛒</span>
+    <h3>E-Commerce / DTC</h3>
+    <p class="tagline">Product catalog, orders, inventory, cart abandonment flows, and lifecycle retention.</p>
+    <div class="row">
+      <span class="chip">Products</span>
+      <span class="chip">Orders</span>
+      <span class="chip">Inventory</span>
+    </div>
+    <div class="links">
+      <span class="label">CMS Templates</span>
+      <a href="/industries/ecommerce/template-1.html">→ DTC Brand Store</a>
+      <a href="/industries/ecommerce/template-2.html">→ Subscription Box</a>
+      <a href="/industries/ecommerce/template-3.html">→ Multi-Brand Marketplace</a>
+      <span class="label" style="margin-top:10px">CRM Vertical</span>
+      <a href="/app/industries/ecommerce/products/" class="crm">→ Products</a>
+      <a href="/app/industries/ecommerce/orders/" class="crm">→ Orders</a>
+      <a href="/app/industries/ecommerce/inventory/" class="crm">→ Inventory</a>
+    </div>
+  </div>
+
+  <!-- SaaS -->
+  <div class="ind-card">
+    <span class="emoji">💻</span>
+    <h3>SaaS / Technology</h3>
+    <p class="tagline">Subscribers, plans, usage metrics, activation funnels, and expansion/churn playbooks.</p>
+    <div class="row">
+      <span class="chip">Subscribers</span>
+      <span class="chip">Plans</span>
+      <span class="chip">Usage</span>
+    </div>
+    <div class="links">
+      <span class="label">CMS Templates</span>
+      <a href="/industries/saas/template-1.html">→ Product Landing</a>
+      <a href="/industries/saas/template-2.html">→ Developer Tool</a>
+      <a href="/industries/saas/template-3.html">→ Enterprise SaaS</a>
+      <span class="label" style="margin-top:10px">CRM Vertical</span>
+      <a href="/app/industries/saas/subscribers/" class="crm">→ Subscribers</a>
+      <a href="/app/industries/saas/plans/" class="crm">→ Plans</a>
+      <a href="/app/industries/saas/usage-metrics/" class="crm">→ Usage Metrics</a>
+    </div>
+  </div>
+
+  <!-- Hospitality -->
+  <div class="ind-card">
+    <span class="emoji">🍽️</span>
+    <h3>Restaurants &amp; Hospitality</h3>
+    <p class="tagline">Reservations, table management, menus, and guest loyalty.</p>
+    <div class="row">
+      <span class="chip">Reservations</span>
+      <span class="chip">Tables</span>
+      <span class="chip">Menus</span>
+    </div>
+    <div class="links">
+      <span class="label">CMS Templates</span>
+      <a href="/industries/hospitality/template-1.html">→ Restaurant</a>
+      <a href="/industries/hospitality/template-2.html">→ Boutique Hotel</a>
+      <a href="/industries/hospitality/template-3.html">→ Cafe / Bar</a>
+      <span class="label" style="margin-top:10px">CRM Vertical</span>
+      <a href="/app/industries/hospitality/reservations/" class="crm">→ Reservations</a>
+      <a href="/app/industries/hospitality/tables/" class="crm">→ Tables</a>
+      <a href="/app/industries/hospitality/menus/" class="crm">→ Menus</a>
+    </div>
+  </div>
+
+  <!-- Professional Services -->
+  <div class="ind-card">
+    <span class="emoji">⚖️</span>
+    <h3>Professional Services</h3>
+    <p class="tagline">Law cases, accounting engagements, consulting deliverables — matter-based billing.</p>
+    <div class="row">
+      <span class="chip">Matters</span>
+      <span class="chip">Time Tracking</span>
+      <span class="chip">Retainers</span>
+    </div>
+    <div class="links">
+      <span class="label">CMS Templates</span>
+      <a href="/industries/professional-services/template-1.html">→ Law Firm</a>
+      <a href="/industries/professional-services/template-2.html">→ Accounting Firm</a>
+      <a href="/industries/professional-services/template-3.html">→ Consulting Practice</a>
+      <span class="label" style="margin-top:10px">CRM Vertical</span>
+      <a href="/app/industries/professional-services/matters/" class="crm">→ Matters / Cases</a>
+      <a href="/app/industries/professional-services/time-tracking/" class="crm">→ Time Tracking</a>
+      <a href="/app/industries/professional-services/retainers/" class="crm">→ Retainers</a>
+    </div>
+  </div>
+
+  <!-- Local Services -->
+  <div class="ind-card">
+    <span class="emoji">🔧</span>
+    <h3>Local Services</h3>
+    <p class="tagline">Home services, auto, beauty — job dispatch, technician routing, and same-day booking.</p>
+    <div class="row">
+      <span class="chip">Jobs</span>
+      <span class="chip">Technicians</span>
+      <span class="chip">Dispatch</span>
+    </div>
+    <div class="links">
+      <span class="label">CMS Templates</span>
+      <a href="/industries/local-services/template-1.html">→ Home Services Pro</a>
+      <a href="/industries/local-services/template-2.html">→ Auto Repair Shop</a>
+      <a href="/industries/local-services/template-3.html">→ Beauty Salon</a>
+      <span class="label" style="margin-top:10px">CRM Vertical</span>
+      <a href="/app/industries/local-services/jobs/" class="crm">→ Jobs</a>
+      <a href="/app/industries/local-services/technicians/" class="crm">→ Technicians</a>
+      <a href="/app/industries/local-services/dispatch/" class="crm">→ Dispatch Board</a>
+    </div>
+  </div>
+
+  <!-- Finance -->
+  <div class="ind-card">
+    <span class="emoji">💰</span>
+    <h3>Finance / Insurance</h3>
+    <p class="tagline">Client portfolios, insurance policies, claims workflows, and compliance-aware comms.</p>
+    <div class="row">
+      <span class="chip">Portfolios</span>
+      <span class="chip">Policies</span>
+      <span class="chip">Claims</span>
+    </div>
+    <div class="links">
+      <span class="label">CMS Templates</span>
+      <a href="/industries/finance/template-1.html">→ Wealth Management</a>
+      <a href="/industries/finance/template-2.html">→ Insurance Agency</a>
+      <a href="/industries/finance/template-3.html">→ Fintech Startup</a>
+      <span class="label" style="margin-top:10px">CRM Vertical</span>
+      <a href="/app/industries/finance/portfolios/" class="crm">→ Portfolios</a>
+      <a href="/app/industries/finance/policies/" class="crm">→ Policies</a>
+      <a href="/app/industries/finance/claims/" class="crm">→ Claims</a>
+    </div>
+  </div>
+
+  <!-- Education -->
+  <div class="ind-card">
+    <span class="emoji">🎓</span>
+    <h3>Education / EdTech</h3>
+    <p class="tagline">Student progress, course catalogs, enrollments, and completion analytics.</p>
+    <div class="row">
+      <span class="chip">Students</span>
+      <span class="chip">Courses</span>
+      <span class="chip">Enrollments</span>
+    </div>
+    <div class="links">
+      <span class="label">CMS Templates</span>
+      <a href="/industries/education/template-1.html">→ Online Course Platform</a>
+      <a href="/industries/education/template-2.html">→ Private Tutoring</a>
+      <a href="/industries/education/template-3.html">→ Corporate Training</a>
+      <span class="label" style="margin-top:10px">CRM Vertical</span>
+      <a href="/app/industries/education/students/" class="crm">→ Students</a>
+      <a href="/app/industries/education/courses/" class="crm">→ Courses</a>
+      <a href="/app/industries/education/enrollments/" class="crm">→ Enrollments</a>
+    </div>
+  </div>
+
+  <!-- Construction -->
+  <div class="ind-card">
+    <span class="emoji">🏗️</span>
+    <h3>Construction</h3>
+    <p class="tagline">Projects, materials/inventory, subcontractor management, and budget tracking.</p>
+    <div class="row">
+      <span class="chip">Projects</span>
+      <span class="chip">Materials</span>
+      <span class="chip">Subcontractors</span>
+    </div>
+    <div class="links">
+      <span class="label">CMS Templates</span>
+      <a href="/industries/construction/template-1.html">→ Residential Builder</a>
+      <a href="/industries/construction/template-2.html">→ Commercial Contractor</a>
+      <a href="/industries/construction/template-3.html">→ Home Remodeling</a>
+      <span class="label" style="margin-top:10px">CRM Vertical</span>
+      <a href="/app/industries/construction/projects/" class="crm">→ Projects</a>
+      <a href="/app/industries/construction/materials/" class="crm">→ Materials</a>
+      <a href="/app/industries/construction/subcontractors/" class="crm">→ Subcontractors</a>
+    </div>
+  </div>
+
+  <!-- Agencies -->
+  <div class="ind-card">
+    <span class="emoji">🎯</span>
+    <h3>Marketing Agencies</h3>
+    <p class="tagline">White-label NWM SaaS — resell the full platform under your own brand, with sub-account isolation.</p>
+    <div class="row">
+      <span class="chip">Sub-Accounts</span>
+      <span class="chip">White-Label</span>
+      <span class="chip">Client Portals</span>
+    </div>
+    <div class="links">
+      <span class="label">CMS Templates</span>
+      <a href="/industries/agencies/template-1.html">→ Digital Marketing Agency</a>
+      <a href="/industries/agencies/template-2.html">→ Creative Studio</a>
+      <a href="/industries/agencies/template-3.html">→ White-Label SaaS Reseller</a>
+      <span class="label" style="margin-top:10px">CRM Vertical</span>
+      <a href="/app/industries/agencies/sub-accounts/" class="crm">→ Sub-Accounts</a>
+      <a href="/app/industries/agencies/white-label/" class="crm">→ White-Label Config</a>
+      <a href="/app/industries/agencies/client-portals/" class="crm">→ Client Portals</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- CTA band -->
+<div class="cta-band">
+  <h2>Don't see your industry?</h2>
+  <p>We build custom vertical templates and CRM modules on demand. Every industry is 1 week of scoping + 2–3 weeks of build away.</p>
+  <div class="ctas">
+    <a href="/contact.html" class="btn-teal">Request a Custom Vertical →</a>
+    <a href="/services.html" class="btn-ghost">See All Services</a>
+  </div>
+</div>
+
+<footer style="padding:40px 20px;border-top:1px solid rgba(255,255,255,.06);text-align:center;color:#9aa;font-size:13px;margin-top:40px">
+  <div>© 2026 NetWebMedia · Industry Solutions</div>
+  <div style="margin-top:8px">
+    <a href="/" style="color:#22d3ee;text-decoration:none;margin:0 10px">Home</a>
+    <a href="/pricing.html" style="color:#22d3ee;text-decoration:none;margin:0 10px">Pricing</a>
+    <a href="/services.html" style="color:#22d3ee;text-decoration:none;margin:0 10px">Services</a>
+    <a href="/contact.html" style="color:#22d3ee;text-decoration:none;margin:0 10px">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>

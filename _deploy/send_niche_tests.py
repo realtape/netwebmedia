@@ -3,14 +3,14 @@
 End-to-end test of the 8 niche templates:
   1. Seed 8 templates in DB (idempotent)
   2. Create 8 draft campaigns (one per niche)
-  3. Send a TEST of each to entrepoker@gmail.com with a randomly chosen sample company
+  3. Send a TEST of each to carlos@netwebmedia.com with a randomly chosen sample company
 
 Usage:  python send_niche_tests.py
 """
 import json, random, time, urllib.request, urllib.error
 
 BASE = "https://netwebmedia.com/companies/crm-vanilla/api/index.php"
-TO   = "entrepoker@gmail.com"
+TO   = "carlos@netwebmedia.com"
 UA   = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36"
 
 # 8 niches × random company/city fixtures for believable tests
@@ -113,7 +113,7 @@ for niche, tpl in tpl_by_niche.items():
         print(f"   + created [{cid}] {cname}")
     campaign_ids[niche] = cid
 
-# ─── Step 4: Fire 8 test sends to entrepoker@gmail.com ───────────────────
+# ─── Step 4: Fire 8 test sends to carlos@netwebmedia.com ───────────────────
 print(f"\n▶ Sending 8 TEST emails to {TO} …")
 results = []
 for niche, cid in campaign_ids.items():

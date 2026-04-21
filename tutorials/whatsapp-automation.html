@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WhatsApp Business Automation Mastery — NetWebMedia</title>
+  <meta name="description" content="The complete system for automating 100% of WhatsApp communication — templates, flows, broadcasts, CRM sync, and AI response logic. Zero manual replies." />
+  <link rel="canonical" href="https://netwebmedia.com/tutorials/whatsapp-automation.html" />
+  <meta property="og:title" content="WhatsApp Business Automation Mastery" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://netwebmedia.com/tutorials/whatsapp-automation.html" />
+  <meta property="og:image" content="https://netwebmedia.com/assets/og-cover.svg" />
+  <meta property="og:site_name" content="NetWebMedia" />
+  <meta property="article:published_time" content="2026-04-20" />
+  <meta property="article:author" content="Carlos Martinez" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="icon" type="image/svg+xml" href="../assets/nwm-logo.svg" />
+  <style>
+    .playbook-toc { background:rgba(255,255,255,.04); border:1px solid rgba(34,211,238,.25); border-radius:16px; padding:28px 32px; margin:40px 0; }
+    .playbook-toc h3 { font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#67e8f9; margin-bottom:16px; }
+    .playbook-toc ol { margin:0 0 0 18px; padding:0; }
+    .playbook-toc ol li { list-style:decimal; margin-bottom:6px; font-size:15px; }
+    .playbook-toc ol li a { color:var(--text-secondary); border-bottom:none; }
+    .playbook-toc ol li a:hover { color:#67e8f9; }
+    .module-header { background:linear-gradient(135deg,#0e4a5c,#0a2a36); border-left:4px solid #22d3ee; border-radius:12px; padding:24px 28px; margin:48px 0 24px; }
+    .module-header .module-number { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#67e8f9; margin-bottom:6px; }
+    .module-header h2 { font-size:22px; font-weight:800; color:#e0f7fa; margin:0 0 8px; }
+    .module-header p { font-size:14px; color:#90cad4; margin:0; }
+    .lesson-block { border-left:3px solid rgba(34,211,238,.3); padding:0 0 0 20px; margin:32px 0; }
+    .lesson-block h3 { font-size:18px; font-weight:700; color:#ccd6f6; margin-bottom:10px; }
+    .framework-box { background:rgba(34,211,238,.07); border:1px solid rgba(34,211,238,.2); border-radius:10px; padding:18px 22px; margin:16px 0; }
+    .framework-box .fw-label { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#22d3ee; margin-bottom:8px; }
+    .framework-box h4 { font-size:15px; font-weight:700; color:#e0f7fa; margin:0 0 8px; }
+    .wa-bubble { background:#1a2f22; border:1px solid #2d5a3d; border-radius:12px 12px 12px 2px; padding:14px 18px; margin:8px 0 8px 0; font-size:14px; line-height:1.6; color:#d4edda; font-family:'Courier New',monospace; white-space:pre-wrap; max-width:85%; }
+    .wa-bubble.outbound { background:#1a2940; border-color:#1e4080; border-radius:12px 12px 2px 12px; margin-left:auto; color:#d4e8f7; }
+    .wa-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px; }
+    .wa-label.user { color:#6dbf85; }
+    .wa-label.bot  { color:#67a8e8; }
+    .wa-thread { background:#0d1b12; border:1px solid #1a3322; border-radius:14px; padding:20px; margin:16px 0; }
+    .wa-thread-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#4ade80; margin-bottom:16px; border-bottom:1px solid #1a3322; padding-bottom:10px; }
+    .checklist-box { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:10px; padding:16px 20px; margin:16px 0; }
+    .checklist-box h4 { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#94a3b8; margin-bottom:12px; }
+    .checklist-box ul { margin:0; padding:0; list-style:none; }
+    .checklist-box ul li { padding:5px 0 5px 26px; position:relative; font-size:14px; color:#b0bec5; }
+    .checklist-box ul li::before { content:'☐'; position:absolute; left:0; color:#22d3ee; }
+    .stat-callout { background:linear-gradient(135deg,rgba(34,211,238,.1),rgba(162,155,254,.1)); border-radius:12px; padding:20px 24px; margin:20px 0; text-align:center; }
+    .stat-callout .stat-num { font-size:36px; font-weight:900; color:#22d3ee; }
+    .stat-callout .stat-lbl { font-size:13px; color:#8892b0; margin-top:4px; }
+    .template-box { background:#0d1625; border:1px solid #1e3a5f; border-radius:10px; padding:16px 20px; margin:12px 0; font-family:'Courier New',monospace; font-size:13px; line-height:1.7; color:#93c5fd; }
+    .template-box .tpl-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#3b82f6; margin-bottom:8px; font-family:inherit; }
+    .var { color:#fbbf24; font-weight:600; }
+    .emoji-note { color:#f59e0b; }
+    .bilingual { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0; }
+    @media(max-width:640px){ .bilingual { grid-template-columns:1fr; } }
+    .lang-tag { font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:6px; }
+    .lang-en { color:#60a5fa; }
+    .lang-es { color:#f87171; }
+    .cta-box { background:linear-gradient(135deg,#0a4a5c,#0d2a4a); border:1px solid #22d3ee; border-radius:16px; padding:32px; text-align:center; margin:48px 0; }
+    .cta-box h2 { font-size:24px; font-weight:800; color:#e0f7fa; margin-bottom:12px; }
+    .cta-box p { color:#90cad4; margin-bottom:20px; }
+    .cta-btn { display:inline-block; background:linear-gradient(135deg,#22d3ee,#6c5ce7); color:#fff; font-weight:700; padding:14px 32px; border-radius:10px; text-decoration:none; font-size:15px; }
+  </style>
+</head>
+<body>
+
+<nav class="nav-wrapper">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">NetWebMedia</a>
+    <div class="nav-links">
+      <a href="/tutorials.html">Tutorials</a>
+      <a href="/app/">CRM</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main class="article-wrapper">
+  <div class="article-hero">
+    <div class="article-hero-inner">
+      <div class="article-meta">
+        <span class="article-tag">Automation · WhatsApp · 8 Modules</span>
+        <span class="article-read">⏱ 4h 45m course · 180+ templates</span>
+      </div>
+      <h1 class="article-title">WhatsApp Business<br>Automation Mastery</h1>
+      <p class="article-subtitle">The complete system for automating 100% of WhatsApp communication. Templates, flows, broadcasts, CRM sync, and AI response logic. Zero manual replies — ever.</p>
+      <div class="article-author-row">
+        <div class="article-author-info">
+          <div class="author-name">Carlos Martinez — NetWebMedia</div>
+          <div class="author-date">Updated April 2026 · 8 modules · 38 lessons</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <article class="article-body">
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:32px 0">
+      <div class="stat-callout"><div class="stat-num">100%</div><div class="stat-lbl">Automated — no manual replies</div></div>
+      <div class="stat-callout"><div class="stat-num">180+</div><div class="stat-lbl">Copy-paste message templates</div></div>
+      <div class="stat-callout"><div class="stat-num">38</div><div class="stat-lbl">Lessons across 8 modules</div></div>
+      <div class="stat-callout"><div class="stat-num">2×</div><div class="stat-lbl">EN + ES bilingual templates</div></div>
+    </div>
+
+    <p>NetWebMedia does not answer the phone. Every client conversation — from first inquiry to invoice — runs through WhatsApp automation. This playbook is the exact system we use and deploy for clients across the US and Chile. By the end you will have a fully automated WhatsApp operation: welcome flows, sales sequences, service bots, broadcast campaigns, and a CRM that never misses a follow-up.</p>
+
+    <div class="playbook-toc">
+      <h3>8 Modules — Table of Contents</h3>
+      <ol>
+        <li><a href="#m1">WhatsApp Business API — Setup & Configuration</a></li>
+        <li><a href="#m2">Message Template Library — Building Your HSM Arsenal</a></li>
+        <li><a href="#m3">Welcome & Onboarding Automation</a></li>
+        <li><a href="#m4">Sales Funnel Automation</a></li>
+        <li><a href="#m5">Customer Service Automation</a></li>
+        <li><a href="#m6">Broadcast Campaigns & Re-engagement</a></li>
+        <li><a href="#m7">CRM Integration & Contact Intelligence</a></li>
+        <li><a href="#m8">Analytics, Optimization & Scaling to 10k+</a></li>
+      </ol>
+    </div>
+
+    <!-- ═══════════════════════════ MODULE 1 ══════════════════════════════ -->
+    <div class="module-header" id="m1">
+      <div class="module-number">Module 01 · Foundation</div>
+      <h2>WhatsApp Business API — Setup & Configuration</h2>
+      <p>The infrastructure layer. Get this right once and everything else stacks on top correctly.</p>
+    </div>
+
+    <div class="lesson-block">
+      <h3>1.1 — Business Account vs. Business API: Choosing the Right Tier</h3>
+      <p>WhatsApp offers three tiers: Consumer App (personal), WhatsApp Business App (small business, manual), and WhatsApp Business API (automation-grade). Only the API enables automated messaging, webhooks, chatbot integration, and broadcast at scale. Any business sending more than 50 conversations per day needs the API. Any business that never wants to manually reply needs the API.</p>
+      <p>The API is accessed through a Business Solution Provider (BSP). Top BSPs: Twilio, 360dialog, Meta directly (Cloud API), Vonage, and MessageBird. Meta's Cloud API is the cheapest option (hosting is free) but requires more technical setup. 360dialog is the fastest to go live — 24–48 hours from application to approval.</p>
+      <div class="framework-box">
+        <div class="fw-label">Framework — WABA Selection Matrix</div>
+        <h4>The WAVE Criteria</h4>
+        <p style="margin:0;font-size:14px;color:#b0bec5"><strong style="color:#22d3ee">W</strong>ebhook reliability &nbsp;|&nbsp; <strong style="color:#22d3ee">A</strong>PI cost per message &nbsp;|&nbsp; <strong style="color:#22d3ee">V</strong>elocity to live &nbsp;|&nbsp; <strong style="color:#22d3ee">E</strong>cosystem integrations. Score each BSP 1–5 on all four. Highest total wins.</p>
+      </div>
+      <div class="checklist-box">
+        <h4>Action Checklist — 1.1</h4>
+        <ul>
+          <li>Create a Meta Business Manager account at business.facebook.com</li>
+          <li>Verify your business (upload government docs)</li>
+          <li>Select BSP and create a WABA (WhatsApp Business Account)</li>
+          <li>Register a dedicated phone number (cannot be used on any WhatsApp app)</li>
+          <li>Complete phone number verification via SMS or voice call</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lesson-block">
+      <h3>1.2 — Webhook Configuration & Message Routing</h3>
+      <p>Webhooks are the nervous system of your WhatsApp automation. Every inbound message, delivery receipt, read receipt, and template status update fires a webhook POST to your server. Your webhook endpoint receives JSON payloads and routes them to the right handler: new lead → CRM, existing contact → context lookup, support keyword → ticket creation.</p>
+      <p>Your webhook must respond with HTTP 200 within 20 seconds or Meta marks the delivery as failed and retries. Use a queue system (Redis, SQS) to acknowledge the webhook instantly and process asynchronously. Never do database writes or AI calls inside the synchronous webhook handler.</p>
+      <div class="template-box">
+        <div class="tpl-label">Webhook Routing Logic — Pseudocode</div>
+ON_INBOUND_MESSAGE(payload):
+  contact = CRM.lookup(payload.phone)
+  IF contact.exists:
+    context = CRM.get_conversation_context(contact.id)
+    route_to_flow(context.current_flow, payload.message)
+  ELSE:
+    CRM.create_contact(payload.phone, payload.name)
+    trigger_flow("welcome_sequence")
+  RETURN 200_OK  // always respond first
+      </div>
+      <div class="checklist-box">
+        <h4>Action Checklist — 1.2</h4>
+        <ul>
+          <li>Deploy webhook endpoint on HTTPS (required by Meta)</li>
+          <li>Implement webhook verification token challenge</li>
+          <li>Set up message queue to decouple receive from process</li>
+          <li>Configure dead-letter queue for failed webhook deliveries</li>
+          <li>Test with Meta's webhook tester in Developer Console</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lesson-block">
+      <h3>1.3 — Session Windows, Conversation Types & Pricing</h3>
+      <p>Meta's pricing model is based on conversation windows, not individual messages. A conversation window opens for 24 hours when either party sends a message. Within that window, you can send unlimited messages at no extra charge. Outside the window, you must use a pre-approved message template to re-initiate. Understanding this drives your entire automation strategy.</p>
+      <p>There are four conversation categories: Marketing (promotional), Utility (transactional), Authentication (OTPs), and Service (customer-initiated support). Marketing conversations cost the most. Service conversations (when the user messages first) cost the least. Your system should detect service-initiated sessions and pivot to that lower-cost category automatically.</p>
+      <div class="framework-box">
+        <div class="fw-label">Framework — The 24-Hour Window Strategy</div>
+        <h4>OPEN → EXTEND → CLOSE</h4>
+        <p style="margin:0;font-size:14px;color:#b0bec5">OPEN the window with a template. EXTEND it by triggering a user reply within the first hour (question, CTA, or interactive button). CLOSE with a satisfaction message or next-step confirmation. Never let a window expire without capturing a reply — that's a wasted conversation slot.</p>
+      </div>
+    </div>
+
+    <div class="lesson-block">
+      <h3>1.4 — Phone Number Health & Quality Rating</h3>
+      <p>WhatsApp assigns each phone number a quality rating: Green (high), Yellow (medium), Red (low). Low quality triggers message sending limits — as low as 250 conversations/day. Quality is determined by user feedback: blocks, reports, and unanswered messages. A spammy broadcast campaign can destroy a number's health in 48 hours.</p>
+      <p>Protect your number: warm it up gradually (start at 250/day, increase 2× weekly), only send to opted-in contacts, maintain a 95%+ response rate on service conversations, and monitor the quality dashboard daily for the first 60 days.</p>
+      <div class="checklist-box">
+        <h4>Action Checklist — 1.4</h4>
+        <ul>
+          <li>Monitor Quality Rating in WhatsApp Manager dashboard daily</li>
+          <li>Set up alert when rating drops below Green</li>
+          <li>Implement warm-up schedule: 250 → 500 → 1k → 2k → 10k over 6 weeks</li>
+          <li>Never send to un-opted contacts regardless of list source</li>
+          <li>Review block/report rate weekly — above 0.3% means your messaging needs adjustment</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════ MODULE 2 ══════════════════════════════ -->
+    <div class="module-header" id="m2">
+      <div class="module-number">Module 02 · Templates</div>
+      <h2>Message Template Library — Building Your HSM Arsenal</h2>
+      <p>Pre-approved templates are the keys to the kingdom. Build your library before you need it — approval takes 24–72 hours.</p>
+    </div>
+
+    <div class="lesson-block">
+      <h3>2.1 — Template Categories, Components & Approval Rules</h3>
+      <p>HSM (Highly Structured Messages) have four components: Header (text, image, video, or document), Body (main message, max 1024 chars), Footer (short disclaimer or context), and Buttons (up to 3 — Quick Reply or Call-to-Action). Not all components are required. At minimum, every template needs a Body.</p>
+      <p>Meta rejects templates that are too promotional in Utility/Authentication categories, contain personal data collection without disclosure, use vague variables (e.g., {{1}} with no context), or mimic messages that could constitute phishing. Write templates with explicit variable descriptions in the submission form.</p>
+      <div class="framework-box">
+        <div class="fw-label">Framework — The CATS Template System</div>
+        <h4>Category → Action → Text → Submit</h4>
+        <p style="margin:0;font-size:14px;color:#b0bec5">Define the <strong style="color:#22d3ee">Category</strong> first (Marketing/Utility/Auth/Service). Define the <strong style="color:#22d3ee">Action</strong> the template triggers (book call, confirm order, reset password). Write the <strong style="color:#22d3ee">Text</strong>. <strong style="color:#22d3ee">Submit</strong> with explicit variable descriptions. Approval rate goes from ~70% to ~95% with this sequence.</p>
+      </div>
+    </div>
+
+    <div class="lesson-block">
+      <h3>2.2 — Core Template Library (30 Essential Templates)</h3>
+      <p>Every automated WhatsApp operation needs at minimum 30 pre-approved templates across five categories. Below are the most critical with exact copy.</p>
+
+      <div class="wa-thread">
+        <div class="wa-thread-title">🟢 Welcome Templates</div>
+        <div class="bilingual">
+          <div>
+            <div class="lang-tag lang-en">🇺🇸 English</div>
+            <div class="template-box">Hi <span class="var">{{first_name}}</span>! 👋
+
+Welcome to *NetWebMedia*. We automate marketing so you can focus on running your business.
+
+Here's what happens next:
+1️⃣ We'll analyze your current setup
+2️⃣ You get a free growth report
+3️⃣ We build your automation plan
+
+Reply *START* to begin your free audit.</div>
+          </div>
+          <div>
+            <div class="lang-tag lang-es">🇨🇱 Español</div>
+            <div class="template-box">Hola <span class="var">{{first_name}}</span>! 👋
+
+Bienvenid@ a *NetWebMedia*. Automatizamos tu marketing para que te enfoques en tu negocio.
+
+Esto es lo que sigue:
+1️⃣ Analizamos tu situación actual
+2️⃣ Recibes tu reporte de crecimiento gratis
+3️⃣ Construimos tu plan de automatización
+
+Responde *INICIO* para comenzar tu auditoría gratis.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wa-thread">
+        <div class="wa-thread-title">💼 Lead Follow-Up Templates</div>
+        <div class="template-box">Hi <span class="var">{{first_name}}</span>, this is Carlos at NetWebMedia.
+
+You requested info about <span class="var">{{service_name}}</span> — I have your free analysis ready.
+
+Takes 3 minutes to review together. Which works for you?
+
+👇 Pick a time:
+*A)* Today <span class="var">{{time_option_1}}</span>
+*B)* Tomorrow <span class="var">{{time_option_2}}</span>
+*C)* Send me the report now</div>
+      </div>
+
+      <div class="wa-thread">
+        <div class="wa-thread-title">📋 Appointment Confirmation Template</div>
+        <div class="bilingual">
+          <div>
+            <div class="lang-tag lang-en">🇺🇸 English</div>
+            <div class="template-box">✅ *Confirmed!*
+
+Your strategy session is set for:
+📅 <span class="var">{{date}}</span> at <span class="var">{{time}}</span> <span class="var">{{timezone}}</span>
+
+Join here: <span class="var">{{meeting_link}}</span>
+
+Need to reschedule? Reply *RESCHEDULE*
+Add to calendar: <span class="var">{{calendar_link}}</span></div>
+          </div>
+          <div>
+            <div class="lang-tag lang-es">🇨🇱 Español</div>
+            <div class="template-box">✅ *¡Confirmado!*
+
+Tu sesión estratégica está agendada para:
+📅 <span class="var">{{date}}</span> a las <span class="var">{{time}}</span> <span class="var">{{timezone}}</span>
+
+Únete aquí: <span class="var">{{meeting_link}}</span>
+
+¿Necesitas reagendar? Responde *REAGENDAR*
+Agregar al calendario: <span class="var">{{calendar_link}}</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wa-thread">
+        <div class="wa-thread-title">💰 Proposal / Quote Template</div>
+        <div class="template-box">Hi <span class="var">{{first_name}}</span> 👋
+
+Your custom proposal for *<span class="var">{{company_name}}</span>* is ready.
+
+💼 *Package:* <span class="var">{{package_name}}</span>
+💲 *Investment:* $<span class="var">{{price}}</span>/mo
+📈 *Expected ROI:* <span class="var">{{roi_projection}}</span> in 90 days
+
+View full proposal: <span class="var">{{proposal_link}}</span>
+
+This pricing is valid for 48 hours. Questions? Just reply here.</div>
+      </div>
+
+      <div class="wa-thread">
+        <div class="wa-thread-title">🔁 Re-engagement Template (after 7 days silence)</div>
+        <div class="bilingual">
+          <div>
+            <div class="lang-tag lang-en">🇺🇸 English</div>
+            <div class="template-box">Hey <span class="var">{{first_name}}</span> — checking in 👋
+
+Last time we spoke about growing <span class="var">{{company_name}}</span> with automation.
+
+Still on your radar? We just had a spot open up.
+
+Reply *YES* to pick it up or *STOP* to unsubscribe.</div>
+          </div>
+          <div>
+            <div class="lang-tag lang-es">🇨🇱 Español</div>
+            <div class="template-box">Hola <span class="var">{{first_name}}</span> — te escribo para saber cómo estás 👋
+
+La última vez hablamos de hacer crecer <span class="var">{{company_name}}</span> con automatización.
+
+¿Sigue en tus planes? Se nos acaba de abrir un cupo.
+
+Responde *SÍ* para tomarlo o *STOP* para darte de baja.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════ MODULE 3 ══════════════════════════════ -->
+    <div class="module-header" id="m3">
+      <div class="module-number">Module 03 · Automation Flows</div>
+      <h2>Welcome & Onboarding Automation</h2>
+      <p>The first 24 hours after contact determines 80% of conversion probability. Automate them perfectly.</p>
+    </div>
+
+    <div class="lesson-block">
+      <h3>3.1 — The 5-Message Welcome Sequence</h3>
+      <p>Every new contact gets an automated 5-message welcome sequence delivered over 30 minutes. The sequence is designed to: establish trust, deliver immediate value, qualify the lead, capture intent, and book a next step. All five messages are pre-approved templates sent automatically — no human involvement.</p>
+      <div class="framework-box">
+        <div class="fw-label">Framework — The SERVE Sequence</div>
+        <h4>Start · Educate · Reveal · Validate · Execute</h4>
+        <p style="margin:0;font-size:14px;color:#b0bec5">Message 1: <strong style="color:#22d3ee">Start</strong> — welcome + what happens next. Message 2: <strong style="color:#22d3ee">Educate</strong> — one insight relevant to their business. Message 3: <strong style="color:#22d3ee">Reveal</strong> — your main offer/differentiator. Message 4: <strong style="color:#22d3ee">Validate</strong> — proof (result, stat, or case study). Message 5: <strong style="color:#22d3ee">Execute</strong> — clear CTA with two options.</p>
+      </div>
+      <div class="wa-thread">
+        <div class="wa-thread-title">📱 5-Message Welcome Sequence — Timing & Content</div>
+        <div style="margin-bottom:10px"><strong style="color:#22d3ee">MSG 1 — Immediately (T+0)</strong></div>
+        <div class="wa-bubble">Hi <span class="var">{{first_name}}</span>! 👋 I'm Carlos from *NetWebMedia*.
+
+You reached out about <span class="var">{{source_topic}}</span> — great timing. I'll send you a few messages over the next 30 min with exactly what you need to know.
+
+First: *are you currently running any paid ads?*
+Reply *YES* or *NO*</div>
+        <div style="margin:12px 0 10px"><strong style="color:#22d3ee">MSG 2 — T+8 min (after any reply)</strong></div>
+        <div class="wa-bubble">Here's something most agencies won't tell you, <span class="var">{{first_name}}</span>:
+
+*The average business loses 67% of leads because nobody follows up within 5 minutes.*
+
+We automate that follow-up — across WhatsApp, email, and SMS — so you never lose another lead to slow response time.
+
+This alone has generated $2.3M+ for our clients last year. 📈</div>
+        <div style="margin:12px 0 10px"><strong style="color:#22d3ee">MSG 3 — T+15 min</strong></div>
+        <div class="wa-bubble">What makes us different, <span class="var">{{first_name}}</span>:
+
+We don't just run ads. We build the *full revenue machine*:
+
+✅ AI chatbot that qualifies leads 24/7
+✅ WhatsApp automation that closes deals
+✅ CRM that tracks every conversation
+✅ Weekly reports showing what's working
+
+All automated. You focus on delivery — we handle the pipeline.</div>
+        <div style="margin:12px 0 10px"><strong style="color:#22d3ee">MSG 4 — T+22 min</strong></div>
+        <div class="wa-bubble">Quick proof: <span class="var">{{case_study_business}}</span> (a <span class="var">{{industry}}</span> business in <span class="var">{{city}}</span>) went from *3 leads/week to 22 leads/week* in 90 days using our system.
+
+They had zero marketing team. Now their WhatsApp handles 200+ conversations/month — automatically.
+
+I can show you the exact setup in 20 minutes. 🎯</div>
+        <div style="margin:12px 0 10px"><strong style="color:#22d3ee">MSG 5 — T+30 min</strong></div>
+        <div class="wa-bubble">Two ways to move forward, <span class="var">{{first_name}}</span>:
+
+*A) Free 20-min Strategy Session* — I'll audit your current setup and show you the gaps. No pitch, just data.
+👉 <span class="var">{{booking_link}}</span>
+
+*B) Get the Free Report* — We'll send your business's digital audit report in 24 hours.
+Reply *REPORT* and I'll get it started.
+
+Which works better for you?</div>
+      </div>
+      <div class="checklist-box">
+        <h4>Action Checklist — Welcome Sequence</h4>
+        <ul>
+          <li>Pre-approve all 5 templates in WhatsApp Manager</li>
+          <li>Set up trigger: new contact in CRM → start sequence</li>
+          <li>Configure delay timers (0, 8, 15, 22, 30 minutes)</li>
+          <li>Add reply-detection: if contact replies before MSG 5, branch to qualification flow</li>
+          <li>Add opt-out handling: STOP/UNSUBSCRIBE → remove from sequence immediately</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lesson-block">
+      <h3>3.2 — Opt-In Capture & Double Consent Flow</h3>
+      <p>WhatsApp requires explicit opt-in before you can send template messages. Your opt-in must clearly state: what type of messages they'll receive, your brand name, and how to opt out. Capture opt-in at every touchpoint: website forms, QR codes, ad CTAs, link-in-bio, SMS keywords.</p>
+      <div class="wa-thread">
+        <div class="wa-thread-title">✅ Double Opt-In Confirmation Flow</div>
+        <div class="wa-label bot">BOT — Immediately after sign-up</div>
+        <div class="wa-bubble">Hi <span class="var">{{first_name}}</span>! You just signed up for updates from *NetWebMedia* via WhatsApp.
+
+To confirm you want to receive our marketing messages, reply *YES CONFIRM*.
+
+Reply *STOP* at any time to unsubscribe. Msg frequency varies. Msg&Data rates may apply.</div>
+        <div class="wa-label user">USER</div>
+        <div class="wa-bubble outbound">YES CONFIRM</div>
+        <div class="wa-label bot">BOT</div>
+        <div class="wa-bubble">✅ You're confirmed, <span class="var">{{first_name}}</span>!
+
+You'll receive:
+• Growth tips (2x/week)
+• Campaign ideas
+• Exclusive offers
+
+Reply *STOP* anytime to unsubscribe. Welcome! 🎉</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════ MODULE 4 ══════════════════════════════ -->
+    <div class="module-header" id="m4">
+      <div class="module-number">Module 04 · Revenue</div>
+      <h2>Sales Funnel Automation</h2>
+      <p>From first reply to signed contract — fully automated. The CLOSE system converts without a salesperson.</p>
+    </div>
+
+    <div class="lesson-block">
+      <h3>4.1 — Lead Qualification Flow (BANT via WhatsApp)</h3>
+      <p>Qualifying leads via WhatsApp feels natural when done conversationally. Instead of a form, the bot asks questions over 3–5 messages, scoring the lead in the background. By message 5, the CRM has a complete lead score and the bot routes accordingly: high score → immediate proposal, medium → nurture sequence, low → content newsletter.</p>
+      <div class="wa-thread">
+        <div class="wa-thread-title">🎯 BANT Qualification Conversation Flow</div>
+        <div class="wa-label bot">BOT</div>
+        <div class="wa-bubble">To send you the most relevant info, <span class="var">{{first_name}}</span> — quick question:
+
+What's the *#1 challenge* in your business right now?
+
+*A)* Getting more leads
+*B)* Converting leads to clients
+*C)* Retaining clients longer
+*D)* Managing operations</div>
+        <div class="wa-label user">USER</div>
+        <div class="wa-bubble outbound">A</div>
+        <div class="wa-label bot">BOT</div>
+        <div class="wa-bubble">Got it — lead generation. 🎯
+
+How many new clients are you looking to add per month?
+
+*A)* 1–5
+*B)* 5–20
+*C)* 20–50
+*D)* 50+</div>
+        <div class="wa-label user">USER</div>
+        <div class="wa-bubble outbound">B</div>
+        <div class="wa-label bot">BOT</div>
+        <div class="wa-bubble">Nice — 5–20 new clients/month is very achievable.
+
+What's your current monthly budget for marketing?
+
+*A)* Under $500
+*B)* $500–$2,000
+*C)* $2,000–$5,000
+*D)* $5,000+</div>
+        <div class="wa-label user">USER</div>
+        <div class="wa-bubble outbound">C</div>
+        <div class="wa-label bot">BOT (High Score → Route to Proposal)</div>
+        <div class="wa-bubble">Perfect — $2–5k is exactly the range where our system delivers the best ROI. 📈
+
+I'm going to prepare a custom plan for <span class="var">{{company_name}}</span>. Give me 24 hours.
+
+Meanwhile — *what's the best time for a 20-min walkthrough?*
+👉 <span class="var">{{booking_link}}</span></div>
+      </div>
+    </div>
+
+    <div class="lesson-block">
+      <h3>4.2 — Objection Handling Automation</h3>
+      <p>The four most common sales objections — price, timing, trust, and authority — can all be handled automatically via WhatsApp keyword detection. When the bot detects an objection keyword, it routes to the appropriate handling sequence. Each sequence is 2–3 messages max, ends with a new CTA, and logs the objection type in the CRM for future optimization.</p>
+      <div class="wa-thread">
+        <div class="wa-thread-title">💬 Objection Handling Scripts</div>
+        <div class="wa-label bot">PRICE OBJECTION — triggered by: "expensive", "too much", "can't afford", "price", "cost"</div>
+        <div class="wa-bubble">I hear you, <span class="var">{{first_name}}</span> — budget matters.
+
+Here's how our clients think about it: if we add *5 new clients/month* at your average deal size of $<span class="var">{{avg_deal}}</span>, that's $<span class="var">{{monthly_revenue}}</span>/month added.
+
+Our fee is $<span class="var">{{price}}</span>/month. The math tends to work out quickly. 📊
+
+Would it help to see exactly what's included first?
+Reply *YES* for the breakdown.</div>
+        <div class="wa-label bot">TIMING OBJECTION — triggered by: "not now", "later", "busy", "next month", "next quarter"</div>
+        <div class="wa-bubble">Totally understand, <span class="var">{{first_name}}</span> — timing is everything.
+
+Here's what our clients who waited 3 months told us: *"I wish I'd started sooner — that quarter cost me 90 leads."*
+
+No pressure at all. I'll check back in <span class="var">{{followup_date}}</span>.
+
+Is there a specific date that works better for you?</div>
+        <div class="wa-label bot">TRUST OBJECTION — triggered by: "not sure", "prove it", "show me", "results", "guarantee"</div>
+        <div class="wa-bubble">Fair ask, <span class="var">{{first_name}}</span>. Here's what I can show you:
+
+📊 *Case Study:* <span class="var">{{case_business}}</span> — <span class="var">{{result}}</span> in 90 days
+🎥 *Demo:* 10-min walkthrough of the live dashboard
+📞 *Reference:* I can connect you with an existing client
+
+Which would be most convincing for you?
+*A)* Case study *B)* Demo *C)* Client reference</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════ MODULE 5 ══════════════════════════════ -->
+    <div class="module-header" id="m5">
+      <div class="module-number">Module 05 · Service</div>
+      <h2>Customer Service Automation</h2>
+      <p>Handle 90% of support conversations without any human involvement. The 3-STRIKE system resolves most tickets in under 2 minutes.</p>
+    </div>
+
+    <div class="lesson-block">
+      <h3>5.1 — FAQ Auto-Resolution System</h3>
+      <p>Build a tiered FAQ library: Tier 1 (instant auto-reply, covers 70% of questions), Tier 2 (needs context lookup, covers 20%), Tier 3 (escalate to human, covers 10%). Your WhatsApp bot detects the question intent, checks the tier, and either answers immediately or routes to the correct handler. The 3-STRIKE rule: if the bot fails to resolve after 3 attempts, it creates a ticket automatically.</p>
+      <div class="wa-thread">
+        <div class="wa-thread-title">🛎 Customer Service Bot Flow</div>
+        <div class="wa-label user">USER</div>
+        <div class="wa-bubble outbound">How do I access my dashboard?</div>
+        <div class="wa-label bot">BOT (Tier 1 — instant)</div>
+        <div class="wa-bubble">Your dashboard is at 👇
+🔗 <span class="var">{{dashboard_link}}</span>
+
+Login with the email you signed up with. If you forgot your password, click "Forgot Password" on the login page.
+
+Did that help? Reply *YES* or *NO*</div>
+        <div class="wa-label user">USER</div>
+        <div class="wa-bubble outbound">I don't have access</div>
+        <div class="wa-label bot">BOT (Tier 2 — context lookup)</div>
+        <div class="wa-bubble">Let me check your account, <span class="var">{{first_name}}</span>... 🔍
+
+Your account status: <span class="var">{{account_status}}</span>
+Plan: <span class="var">{{plan_name}}</span>
+Last login: <span class="var">{{last_login}}</span>
+
+Your access link: <span class="var">{{access_link}}</span>
+
+Still not working? Reply *HELP* and I'll create a priority ticket.</div>
+        <div class="wa-label user">USER</div>
+        <div class="wa-bubble outbound">HELP</div>
+        <div class="wa-label bot">BOT (Tier 3 — ticket created)</div>
+        <div class="wa-bubble">Ticket created ✅ *#<span class="var">{{ticket_id}}</span>*
+
+Priority: High
+Issue: Dashboard access
+Your account: <span class="var">{{email}}</span>
+
+*Estimated resolution: 2 hours*
+
+You'll get a WhatsApp update when it's fixed. No need to follow up — we've got it.</div>
+      </div>
+    </div>
+
+    <div class="lesson-block">
+      <h3>5.2 — Status Updates & Proactive Notifications</h3>
+      <p>The best customer service is proactive — telling clients what's happening before they ask. Set up automated status messages triggered by CRM events: when a report is ready, when a campaign goes live, when a billing date approaches, when a milestone is hit. Proactive messaging reduces inbound support tickets by 40–60%.</p>
+      <div class="wa-thread">
+        <div class="wa-thread-title">📢 Proactive Status Update Templates</div>
+        <div class="template-box">🎉 *Campaign Live!*
+
+Hi <span class="var">{{first_name}}</span> — your <span class="var">{{campaign_name}}</span> just went live on <span class="var">{{platforms}}</span>.
+
+📊 First results in ~48 hours. You can track live at:
+<span class="var">{{dashboard_link}}</span>
+
+Questions? Just reply here. 🚀</div>
+        <div class="template-box">📊 *Your Weekly Report is Ready*
+
+Hi <span class="var">{{first_name}}</span> — here's your Week <span class="var">{{week_number}}</span> summary for <span class="var">{{company_name}}</span>:
+
+Leads this week: <span class="var">{{leads}}</span> (<span class="var">{{leads_change}}</span> vs last week)
+Revenue attributed: $<span class="var">{{revenue}}</span>
+Top performing: <span class="var">{{top_channel}}</span>
+
+Full report: <span class="var">{{report_link}}</span>
+
+Anything you'd like us to focus on next week?</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════ MODULE 6 ══════════════════════════════ -->
+    <div class="module-header" id="m6">
+      <div class="module-number">Module 06 · Campaigns</div>
+      <h2>Broadcast Campaigns & Re-engagement</h2>
+      <p>Mass messaging done right: segmented, timed, tested, and compliant.</p>
+    </div>
+
+    <div class="lesson-block">
+      <h3>6.1 — Segmentation Strategy Before Every Broadcast</h3>
+      <p>Never broadcast to your entire list. Segment by: industry, location, lead score, pipeline stage, last interaction date, language (EN/ES), and subscription tier. A correctly segmented broadcast to 200 people outperforms an unsegmented blast to 2,000 every time — lower block rate, higher response rate, better WhatsApp quality score.</p>
+      <div class="framework-box">
+        <div class="fw-label">Framework — The SLICE Segmentation Model</div>
+        <h4>Stage · Language · Industry · City · Engagement-date</h4>
+        <p style="margin:0;font-size:14px;color:#b0bec5">Run every broadcast list through all 5 SLICE filters. Minimum segment size: 50 contacts. Maximum broadcast frequency to any segment: 2× per week. Always A/B test message copy before full send (test on 10% of segment, wait 2 hours, send winner to remaining 90%).</p>
+      </div>
+    </div>
+
+    <div class="lesson-block">
+      <h3>6.2 — Optimal Send Times by Market</h3>
+      <p>WhatsApp open rates vary dramatically by time and day. For US markets, highest open rates are Tuesday–Thursday between 10am–12pm local time. For Chile/LATAM markets, peak engagement is Tuesday–Thursday between 7pm–9pm local time. Never send broadcasts on Sunday or Monday — lowest engagement, highest unsubscribe.</p>
+      <div class="wa-thread">
+        <div class="wa-thread-title">📅 Broadcast Calendar Template — Monthly</div>
+        <div class="template-box">WEEK 1: Value broadcast (tip, insight, or free resource)
+WEEK 2: Social proof (case study or client result)
+WEEK 3: Offer broadcast (limited-time discount or new service)
+WEEK 4: Re-engagement (check-in for non-responders from weeks 1–3)
+
+RULE: Max 1 broadcast/week per segment.
+RULE: Every broadcast must have a reply CTA (button or text prompt).
+RULE: Measure: Open Rate target >60%, Reply Rate target >15%.</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════ MODULE 7 ══════════════════════════════ -->
+    <div class="module-header" id="m7">
+      <div class="module-number">Module 07 · CRM</div>
+      <h2>CRM Integration & Contact Intelligence</h2>
+      <p>Every WhatsApp conversation creates data. Wire it to your CRM and nothing falls through the cracks.</p>
+    </div>
+
+    <div class="lesson-block">
+      <h3>7.1 — Tagging Logic & Pipeline Automation</h3>
+      <p>Design a tagging taxonomy before connecting WhatsApp to your CRM. Every inbound message should trigger at least one CRM tag. Tags drive pipeline stages, which drive automation triggers. A contact who replies "YES" to a proposal message should automatically move to "Proposal Accepted" stage, trigger a contract send, and schedule a 48-hour follow-up — all without human input.</p>
+      <div class="framework-box">
+        <div class="fw-label">Framework — The TAG → STAGE → ACTION Chain</div>
+        <h4>Every tag triggers a stage. Every stage triggers an action.</h4>
+        <div class="template-box" style="font-size:12px">
+TAG: "replied_yes_proposal"    → STAGE: Negotiation  → ACTION: Send contract + schedule call
+TAG: "requested_pricing"       → STAGE: Evaluation   → ACTION: Send pricing template
+TAG: "asked_for_demo"          → STAGE: Demo Set      → ACTION: Book calendar link
+TAG: "said_not_now"            → STAGE: Nurture       → ACTION: Add to 30-day drip
+TAG: "blocked_us"              → STAGE: Lost          → ACTION: Remove from all sequences
+TAG: "paid_invoice"            → STAGE: Active Client → ACTION: Start onboarding flow</div>
+      </div>
+    </div>
+
+    <div class="lesson-block">
+      <h3>7.2 — Conversation History & Context Passing</h3>
+      <p>When a contact sends a new message 48 hours after their last interaction, your bot must recall context — otherwise it re-asks questions the contact already answered. Store conversation state in your CRM: last intent, last qualification answers, current pipeline stage, and last message sent. Pass this context to your bot on every new session open.</p>
+      <div class="checklist-box">
+        <h4>Action Checklist — CRM Integration</h4>
+        <ul>
+          <li>Map every WhatsApp event to a CRM field (reply, read, button click, opt-out)</li>
+          <li>Store conversation state with TTL of 72 hours minimum</li>
+          <li>Configure pipeline stage webhooks: stage change → WhatsApp template fire</li>
+          <li>Set up contact deduplication: match by phone number first, email second</li>
+          <li>Build a "VIP contact" rule: clients on active plan → skip bot, route to priority queue</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════ MODULE 8 ══════════════════════════════ -->
+    <div class="module-header" id="m8">
+      <div class="module-number">Module 08 · Scale</div>
+      <h2>Analytics, Optimization & Scaling to 10k+</h2>
+      <p>Measure, improve, and grow — the operating rhythm for a WhatsApp system that compounds over time.</p>
+    </div>
+
+    <div class="lesson-block">
+      <h3>8.1 — The 6 KPIs Every WhatsApp Operation Must Track</h3>
+      <div class="wa-thread">
+        <div class="wa-thread-title">📊 WhatsApp Operations Dashboard — KPIs</div>
+        <div class="template-box">KPI 1: Template Delivery Rate     → Target: >97%
+KPI 2: Template Open Rate         → Target: >60% (industry avg 45%)
+KPI 3: Reply Rate                 → Target: >20% on broadcasts, >60% on sequences
+KPI 4: Conversation-to-Lead Rate  → Target: >30% of new conversations become leads
+KPI 5: Lead-to-Close Rate         → Target: >15% via WhatsApp-first funnel
+KPI 6: Quality Rating             → Target: Green always (never let it hit Yellow)</div>
+      </div>
+    </div>
+
+    <div class="lesson-block">
+      <h3>8.2 — Monthly Optimization Cadence</h3>
+      <p>Run this exact review every 30 days. It takes 2 hours and compounds — each month the system gets measurably better. Focus on the lowest-performing template first. Rewrite one variable, re-approve, test for 7 days. Never change more than one variable at a time.</p>
+      <div class="framework-box">
+        <div class="fw-label">Framework — The PRISM Monthly Review</div>
+        <h4>Performance → Root cause → Iteration → Split-test → Measure</h4>
+        <p style="margin:0;font-size:14px;color:#b0bec5">Step 1: Pull all 6 KPIs. Step 2: Identify lowest performer. Step 3: Hypothesize one change. Step 4: A/B test new vs. old (50/50 split, min 100 conversations). Step 5: Declare winner after 7 days, retire loser. Repeat each month — at month 6, most clients see 2–3× improvement in reply rate.</p>
+      </div>
+      <div class="checklist-box">
+        <h4>Monthly Optimization Checklist</h4>
+        <ul>
+          <li>Export KPI report from WhatsApp Manager + CRM</li>
+          <li>Identify the one template with lowest open or reply rate</li>
+          <li>Write variant B (change subject line, opening line, or CTA only)</li>
+          <li>Submit variant B for template approval</li>
+          <li>Run A/B split for 7 days (min 100 sends per variant)</li>
+          <li>Declare winner, archive loser, update master template library</li>
+          <li>Review quality rating — if Yellow, pause broadcasts for 48 hours</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lesson-block">
+      <h3>8.3 — Scaling from 500 to 10,000 Contacts</h3>
+      <p>Scaling WhatsApp is not just adding contacts — it's building systems that don't break. At 500 contacts, manual tagging is fine. At 5,000, you need automated tagging rules. At 10,000, you need a dedicated WhatsApp phone number per market segment (US vs. Chile), separate sending schedules, and a quality monitoring dashboard that alerts you before problems become crises.</p>
+      <div class="wa-thread">
+        <div class="wa-thread-title">📈 Scale Milestones & Requirements</div>
+        <div class="template-box">500 contacts  → 1 phone number, manual CRM tags OK, 1 broadcast/week
+2,000 contacts → 1 phone number, automated tagging required, 2 broadcasts/week
+5,000 contacts → Consider 2nd number (segment by language/market), daily monitoring
+10,000 contacts → Multi-number WABA setup, dedicated BSP account manager,
+                  quality monitoring automation, compliance audit quarterly</div>
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <h2>Ready to Automate Your WhatsApp?</h2>
+      <p>NetWebMedia sets up your full WhatsApp automation system — from API connection to your first 1,000 automated conversations — in 14 days.</p>
+      <a href="mailto:hello@netwebmedia.com?subject=WhatsApp%20Automation%20Inquiry" class="cta-btn">✉️ Email Us →</a>
+    </div>
+
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p style="text-align:center;color:#8892b0;font-size:13px">© 2026 NetWebMedia · <a href="/privacy.html" style="color:#8892b0">Privacy</a> · <a href="/terms.html" style="color:#8892b0">Terms</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

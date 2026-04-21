@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Knowledge Base - NetWeb CMS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../crm/css/app.css">
+  <link rel="stylesheet" href="css/cms.css">
+  <style>
+    .lbl{display:block;margin:0 0 14px;font-size:13px;color:#444}
+    .inp{display:block;width:100%;padding:10px 12px;border:1px solid #d5d9e2;border-radius:8px;font-size:14px;margin-top:4px;font-family:inherit}
+    .article{background:#fff;border:1px solid #eee;border-radius:10px;padding:14px;margin-bottom:10px}
+    .article h4{margin:0 0 6px}
+    .tags{font-size:11px;color:#888}
+    .snippet{font-size:13px;color:#555;margin:6px 0 0}
+    .grid{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;margin-top:14px}
+    .nwm-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
+    .nwm-modal{background:#fff;color:#111;border-radius:12px;width:min(760px,96vw);max-height:90vh;overflow:auto}
+    .nwm-modal-head{display:flex;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #eee}
+    .nwm-modal-close{background:none;border:none;font-size:28px;cursor:pointer}
+    .nwm-modal-body{padding:20px}
+    .nwm-modal-foot{margin-top:16px;display:flex;gap:8px;justify-content:flex-end}
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div class="grid">
+          <div>
+            <input class="inp" id="kb-search" placeholder="Search knowledge base…" style="max-width:400px;">
+            <div id="kb-list" style="margin-top:14px;">Loading…</div>
+          </div>
+          <div>
+            <h4>How AI Agents use this</h4>
+            <p style="font-size:13px;color:#555;line-height:1.55">Each article here is searchable by keyword. When an AI Agent receives a question, attach relevant knowledge to the system prompt so replies stay grounded in your real docs. For now this is SQL full-text search (no embeddings). Vector search can be added later with a Pinecone/PGVector key.</p>
+            <p style="font-size:12px;color:#888">Example integration in your agent system prompt:<br><code>When answering, first search: fetch('/api/knowledge?q=…') and cite the top result.</code></p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/api-client.js"></script>
+  <script src="js/cms.js"></script>
+  <script>
+  (function() {
+    var TOK = NWMApi.token();
+    var H = { 'Content-Type': 'application/json', 'X-Auth-Token': TOK };
+    if (window.CMS_APP) CMS_APP.buildHeader('Knowledge Base',
+      '<button class="btn btn-primary" id="kb-new">+ New Article</button>',
+      'Grounded answers for your AI Agents');
+
+    function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
+    function api(path, opts){opts=opts||{};opts.headers=Object.assign({},H,opts.headers||{});if(opts.body&&typeof opts.body!=='string')opts.body=JSON.stringify(opts.body);return fetch('/api'+path,opts).then(function(r){return r.json();});}
+
+    function render(items) {
+      document.getElementById('kb-list').innerHTML = items.map(function(a) {
+        return '<div class="article" data-id="' + a.id + '">' +
+          '<h4>' + esc(a.title) + '</h4>' +
+          (a.tags ? '<div class="tags">' + esc(a.tags) + '</div>' : '') +
+          '<div class="snippet">' + esc((a.snippet || '').replace(/<[^>]+>/g,'').slice(0, 180)) + '…</div>' +
+          '<div style="margin-top:8px;"><button class="btn btn-sm" data-act="edit" data-id="' + a.id + '">Edit</button> ' +
+          '<button class="btn btn-sm btn-danger" data-act="del" data-id="' + a.id + '">×</button></div>' +
+          '</div>';
+      }).join('') || '<div style="color:#888;padding:20px;text-align:center;">No articles yet.</div>';
+    }
+
+    function load(q) {
+      var url = q ? '/knowledge?q=' + encodeURIComponent(q) : '/knowledge';
+      api(url).then(function(r){ render(r.items||[]); });
+    }
+
+    function modal(title, html, onOpen) {
+      var m = document.createElement('div');
+      m.className = 'nwm-modal-backdrop';
+      m.innerHTML = '<div class="nwm-modal"><div class="nwm-modal-head"><h3>' + esc(title) + '</h3><button class="nwm-modal-close">×</button></div><div class="nwm-modal-body">' + html + '</div></div>';
+      document.body.appendChild(m);
+      m.querySelector('.nwm-modal-close').onclick = function() { m.remove(); };
+      m.addEventListener('click', function(e){ if(e.target===m)m.remove(); });
+      if (onOpen) onOpen(m);
+      return m;
+    }
+
+    function editor(a) {
+      a = a || { title:'', body:'', tags:'' };
+      var html = '<label class="lbl">Title<input class="inp" id="a-title" value="' + esc(a.title) + '"></label>' +
+        '<label class="lbl">Tags (comma-separated)<input class="inp" id="a-tags" value="' + esc(a.tags || '') + '"></label>' +
+        '<label class="lbl">Body (plain text or markdown)<textarea class="inp" id="a-body" rows="18" style="font-family:monospace;font-size:13px;">' + esc(a.body || '') + '</textarea></label>' +
+        '<div class="nwm-modal-foot"><button class="btn btn-primary" id="a-save">Save</button> <button class="btn" id="a-cancel">Cancel</button></div>';
+      modal(a.id ? 'Edit article' : 'New article', html, function(m) {
+        m.querySelector('#a-cancel').onclick = function(){ m.remove(); };
+        m.querySelector('#a-save').onclick = function() {
+          var payload = { title: m.querySelector('#a-title').value.trim(), body: m.querySelector('#a-body').value, tags: m.querySelector('#a-tags').value };
+          var p = a.id ? api('/knowledge/' + a.id, { method:'PUT', body: payload }) : api('/knowledge', { method:'POST', body: payload });
+          p.then(function(){ m.remove(); load(); });
+        };
+      });
+    }
+
+    var searchTimer;
+    document.getElementById('kb-search').addEventListener('input', function(e) {
+      clearTimeout(searchTimer); var q = e.target.value.trim();
+      searchTimer = setTimeout(function(){ load(q); }, 300);
+    });
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('#kb-new')) return editor(null);
+      var t = e.target.closest('[data-act]');
+      if (!t) return;
+      var id = +t.dataset.id;
+      if (t.dataset.act === 'edit') api('/knowledge/' + id).then(editor);
+      if (t.dataset.act === 'del' && confirm('Delete?')) api('/knowledge/' + id, { method:'DELETE' }).then(function(){ load(); });
+    });
+    load();
+  })();
+  </script>
+<script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

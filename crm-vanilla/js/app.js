@@ -619,7 +619,7 @@
     html += '<div class="user-card">';
     var loggedInUser = getLoggedInUser();
     var userName = loggedInUser ? loggedInUser.name : t("roles.guest");
-    var rawRole = loggedInUser ? (loggedInUser.type || 'user') : 'guest';
+    var rawRole = loggedInUser ? (loggedInUser.type || loggedInUser.role || 'user') : 'guest';
     var userRole = t("roles." + rawRole) !== ("roles." + rawRole) ? t("roles." + rawRole) : (rawRole.charAt(0).toUpperCase() + rawRole.slice(1));
     var userInitials = userName.split(' ').map(function(w){ return w.charAt(0).toUpperCase(); }).join('').substring(0, 2);
     html += '<div class="user-avatar">' + userInitials + '</div>';
@@ -627,10 +627,44 @@
     html += '<div class="user-name">' + userName + '</div>';
     html += '<div class="user-role">' + userRole + '</div>';
     html += '</div>';
+    // Logout button (only shown when a real user is signed in)
+    if (loggedInUser) {
+      var logoutLabel = (getLang() === 'es') ? 'Cerrar sesión' : 'Sign out';
+      html += '<button class="sidebar-logout-btn" id="sidebarLogoutBtn" title="' + logoutLabel + '" aria-label="' + logoutLabel + '">';
+      html += '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
+      html += '</button>';
+    } else {
+      var signInLabel = (getLang() === 'es') ? 'Iniciar sesión' : 'Sign in';
+      html += '<a class="sidebar-logout-btn" href="/login.html" title="' + signInLabel + '" aria-label="' + signInLabel + '">';
+      html += '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>';
+      html += '</a>';
+    }
     html += '</div>';
     html += '</div>';
 
     sidebar.innerHTML = html;
+
+    // Wire logout
+    var logoutBtn = document.getElementById("sidebarLogoutBtn");
+    if (logoutBtn && logoutBtn.tagName === 'BUTTON') {
+      logoutBtn.addEventListener("click", function () {
+        var token = '';
+        try { token = localStorage.getItem('nwm_token') || ''; } catch (_) {}
+        var finish = function () {
+          try { localStorage.removeItem('nwm_token'); localStorage.removeItem('nwm_user'); localStorage.removeItem('crm_demo_user'); } catch (_) {}
+          try { document.cookie = "nwm_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"; } catch (_) {}
+          location.href = "/login.html";
+        };
+        // Revoke server-side token; don't block the UX on network errors
+        try {
+          fetch('/api/auth/logout', {
+            method: 'POST',
+            credentials: 'include',
+            headers: token ? { 'X-Auth-Token': token } : {}
+          }).catch(function () {}).finally(finish);
+        } catch (_) { finish(); }
+      });
+    }
 
     if (collapsed) {
       sidebar.classList.add("collapsed");
@@ -712,12 +746,34 @@
   }
   function channelIcon(channel) { return ICONS[channel] || ICONS.email; }
 
-  /* ── Demo Gate ── */
+  /* ── Auth Gate ──
+     Reads unified session from localStorage.
+     Priority: real NWMApi user (nwm_user + nwm_token from /login.html)
+     Fallback: legacy crm_demo_user (kept for backwards compat).
+     If neither exists and the page isn't marked NWM_NO_GATE, we redirect to /login.html. */
   function getLoggedInUser() {
-    try { var raw = localStorage.getItem('crm_demo_user'); return raw ? JSON.parse(raw) : null; }
-    catch (e) { return null; }
+    try {
+      var t = localStorage.getItem('nwm_token');
+      var rawN = localStorage.getItem('nwm_user');
+      if (t && rawN) {
+        var u = JSON.parse(rawN);
+        // Normalize shape — some code paths expect .type
+        if (u && !u.type) u.type = u.role || 'user';
+        return u;
+      }
+    } catch (_) {}
+    try {
+      var raw = localStorage.getItem('crm_demo_user');
+      return raw ? JSON.parse(raw) : null;
+    } catch (_) { return null; }
   }
   function getDemoUser() { var u = getLoggedInUser(); return (u && u.type === 'demo') ? u : null; }
+  function enforceAuthGate() {
+    if (window.NWM_NO_GATE) return;
+    if (getLoggedInUser()) return;
+    var next = encodeURIComponent(location.pathname + location.search);
+    location.replace('/login.html?next=' + next);
+  }
   function isDemo() { return getDemoUser() !== null; }
 
   function showUpgradeModal(moduleName) {
@@ -836,6 +892,8 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    // Auth gate first — bounce unauthenticated users to /login.html
+    enforceAuthGate();
     buildSidebar();
     applyI18n();
     injectLangSwitcher();

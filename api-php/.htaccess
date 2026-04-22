@@ -1,6 +1,12 @@
 RewriteEngine On
 RewriteBase /api/
 
+# Block direct /api-php/ access — canonical URL is /api/
+# THE_REQUEST contains the raw request line (e.g. "GET /api-php/ HTTP/1.1")
+# so this fires before PHP runs, returning 403 instead of a redirect.
+RewriteCond %{THE_REQUEST} \s/api-php/
+RewriteRule ^ - [F,L]
+
 # CORS preflight
 <IfModule mod_headers.c>
   Header always set Access-Control-Allow-Origin "%{HTTP_ORIGIN}e" env=HTTP_ORIGIN

@@ -356,7 +356,7 @@ function wa_load_history(string $phone, int $limit = 20): array {
 
 function wa_handle_stats(): void {
   require_once __DIR__ . '/../lib/auth.php';
-  $user = auth_user();
+  $user = currentUser();
   if (!$user) err('Unauthorized', 401);
 
   wa_ensure_schema();
@@ -379,7 +379,7 @@ function wa_handle_stats(): void {
 
 function wa_handle_reset(): void {
   require_once __DIR__ . '/../lib/auth.php';
-  $user = auth_user();
+  $user = currentUser();
   if (!$user) err('Unauthorized', 401);
 
   wa_ensure_schema();

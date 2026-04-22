@@ -1,0 +1,29 @@
+{
+  "_comment": "APPLE UNIVERSAL LINKS — ACTIVATION STEPS",
+  "_step_1": "In Apple Developer → Identifiers → App IDs, enable Associated Domains capability for com.netwebmedia.app and copy the 10-char Team ID.",
+  "_step_2": "In Xcode → NetWebMedia target → Signing & Capabilities, add Associated Domains: applinks:netwebmedia.com",
+  "_step_3": "Rename this file from 'apple-app-site-association.example' to 'apple-app-site-association' (NO EXTENSION) and replace REPLACE_TEAM_ID below with your actual Team ID.",
+  "_step_4": "Served at: https://netwebmedia.com/.well-known/apple-app-site-association — must be 200, Content-Type: application/json, NO redirect.",
+  "_step_5": "Validate at https://branch.io/resources/aasa-validator/ after deploy.",
+
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "REPLACE_TEAM_ID.com.netwebmedia.app",
+        "paths": [
+          "/app",
+          "/app/*",
+          "/app.html",
+          "/crm/*",
+          "/dashboard*",
+          "/leads*",
+          "/chat*"
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["REPLACE_TEAM_ID.com.netwebmedia.app"]
+  }
+}

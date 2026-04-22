@@ -4,6 +4,23 @@
 </IfModule>
 # php -- END cPanel-generated handler, do not edit
 
+# ── Mobile deep-linking: /.well-known/ files MUST be served as JSON ────
+# Apple Universal Links (apple-app-site-association, NO extension) + Android
+# App Links (assetlinks.json) are fetched by iOS/Android to verify app↔domain
+# association. They must be 200 w/ application/json and NO redirect.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^\.well-known/apple-app-site-association$ - [L,E=AASA:1]
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "^apple-app-site-association$">
+    Header set Content-Type "application/json"
+  </FilesMatch>
+  <FilesMatch "^assetlinks\.json$">
+    Header set Content-Type "application/json"
+  </FilesMatch>
+</IfModule>
+
 # ── Block sensitive directories from public access ─────────────────────
 # robots.txt disallows these, but server-level denial is the hard guarantee.
 <IfModule mod_rewrite.c>

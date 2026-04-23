@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Marketing for Hotels &amp; Hospitality | NetWebMedia</title>
-  <meta name="description" content="Fill more rooms, cut OTA dependency, and dominate local search. AI-powered fractional CMO for hotels, boutique chains, and hospitality groups.">
+  <meta name="description" content="Fill more rooms, cut OTA dependency, and dominate local search. AI-powered fractional CMO for hotels, boutique chains, and hospitality groups — from $249/mo.">
   <link rel="canonical" href="https://hospitality.netwebmedia.com">
   <meta property="og:title" content="AI Marketing for Hotels &amp; Hospitality | NetWebMedia">
   <meta property="og:description" content="Fill more rooms, cut OTA dependency, and dominate local search. AI-powered fractional CMO for hotels, boutique chains, and hospitality groups.">
@@ -30,6 +30,12 @@
     .section{max-width:1100px;margin:0 auto;padding:80px 20px}
     .section-label{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--nwm-orange);margin-bottom:12px}
     .section-title{font-size:clamp(28px,4vw,42px);font-weight:800;font-family:var(--font-display);margin-bottom:48px;line-height:1.15}
+    .subcats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:64px}
+    .subcat-card{background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:20px 24px;text-decoration:none;display:flex;align-items:center;gap:12px;transition:var(--transition)}
+    .subcat-card:hover{border-color:var(--border-accent);transform:translateY(-2px)}
+    .subcat-card .icon{font-size:24px}
+    .subcat-card .info strong{display:block;color:#fff;font-size:15px;font-weight:700}
+    .subcat-card .info span{color:var(--text-muted);font-size:13px}
     .pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
     .pain-card{background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:28px;transition:var(--transition)}
     .pain-card:hover{border-color:var(--border-accent);transform:translateY(-3px)}
@@ -61,9 +67,6 @@
     footer a{color:var(--text-muted);text-decoration:none}
     footer a:hover{color:var(--nwm-orange)}
   </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -74,9 +77,9 @@
         <span class="logo-wordmark"><span class="logo-net">net</span><span class="logo-web">web</span><span class="logo-media">media</span></span>
       </a>
       <div class="nav-links">
-        <a href="https://netwebmedia.com/about.html">About</a>
+        <a href="https://netwebmedia.com/about.html" data-i18n="nav_about">About</a>
         <div class="nav-item">
-          <a href="https://netwebmedia.com/services.html">Services</a>
+          <a href="https://netwebmedia.com/services.html" data-i18n="nav_services">Services</a>
           <div class="nav-dropdown">
             <a href="https://netwebmedia.com/services.html#fractional-cmo">&#9733; Fractional CMO</a>
             <a href="https://netwebmedia.com/services.html#ai-automations">AI Automations</a>
@@ -88,27 +91,27 @@
           </div>
         </div>
         <div class="nav-item">
-          <a href="https://netwebmedia.com/industries/">Industries</a>
+          <a href="https://netwebmedia.com/industries/" data-en="Industries" data-es="Industrias">Industries</a>
           <div class="nav-dropdown">
-            <a href="https://hospitality.netwebmedia.com">&#127970; Hospitality</a>
-            <a href="https://healthcare.netwebmedia.com">&#129657; Healthcare</a>
-            <a href="https://beauty.netwebmedia.com">&#10024; Beauty &amp; Wellness</a>
-            <a href="https://pro.netwebmedia.com">&#128188; Professional Services</a>
-            <a href="https://realestate.netwebmedia.com">&#127968; Real Estate</a>
-            <a href="https://restaurants.netwebmedia.com">&#127829; Restaurants &amp; F&amp;B</a>
-            <a href="https://fitness.netwebmedia.com">&#127947; Fitness &amp; Gyms</a>
+            <a href="https://hospitality.netwebmedia.com">&#127970; <span data-en="Hospitality" data-es="Hospitalidad">Hospitality</span></a>
+            <a href="https://healthcare.netwebmedia.com">&#129657; <span data-en="Healthcare" data-es="Salud">Healthcare</span></a>
+            <a href="https://beauty.netwebmedia.com">&#10024; <span data-en="Beauty &amp; Wellness" data-es="Belleza y Bienestar">Beauty &amp; Wellness</span></a>
+            <a href="https://pro.netwebmedia.com">&#128188; <span data-en="Professional Services" data-es="Servicios Profesionales">Professional Services</span></a>
+            <a href="https://realestate.netwebmedia.com">&#127968; <span data-en="Real Estate" data-es="Bienes Ra&iacute;ces">Real Estate</span></a>
+            <a href="https://restaurants.netwebmedia.com">&#127829; <span data-en="Restaurants &amp; F&amp;B" data-es="Restaurantes">Restaurants &amp; F&amp;B</span></a>
+            <a href="https://fitness.netwebmedia.com">&#127947; <span data-en="Fitness &amp; Gyms" data-es="Fitness y Gimnasios">Fitness &amp; Gyms</span></a>
             <a href="https://ecommerce.netwebmedia.com">&#128722; E-commerce</a>
-            <a href="https://home.netwebmedia.com">&#128295; Home Services</a>
-            <a href="https://tech.netwebmedia.com">&#128187; Tech &amp; SaaS</a>
+            <a href="https://home.netwebmedia.com">&#128295; <span data-en="Home Services" data-es="Servicios del Hogar">Home Services</span></a>
+            <a href="https://tech.netwebmedia.com">&#128187; <span data-en="Tech &amp; SaaS" data-es="Tech y SaaS">Tech &amp; SaaS</span></a>
           </div>
         </div>
-        <a href="https://netwebmedia.com/partners.html">Partners</a>
-        <a href="https://netwebmedia.com/blog.html">Blog</a>
+        <a href="https://netwebmedia.com/partners.html" data-en="Partners" data-es="Socios">Partners</a>
+        <a href="https://netwebmedia.com/blog.html" data-i18n="nav_blog">Blog</a>
         <a href="https://netwebmedia.com/faq.html">Q&amp;A</a>
-        <a href="https://netwebmedia.com/contact.html">Contact</a>
+        <a href="https://netwebmedia.com/contact.html" data-i18n="nav_contact">Contact</a>
       </div>
       <div class="nav-ctas">
-        <a href="https://netwebmedia.com/contact.html" class="btn-nav-solid">Get a Free Audit</a>
+        <a href="https://netwebmedia.com/contact.html" class="btn-nav-solid" data-en="Get a Free Audit" data-es="Auditor&iacute;a Gratis">Get a Free Audit</a>
       </div>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
@@ -118,111 +121,171 @@
 </nav>
 
 <main>
+
+  <!-- HERO -->
   <div class="ind-hero">
-    <div class="eyebrow">🏨 Hotels &amp; Hospitality</div>
-    <h1>Fill More Rooms.<br><span class='hl'>Stop Paying Booking.com.</span></h1>
-    <p class="sub">Your guests are searching on Google, asking Claude &amp; ChatGPT, and scrolling Instagram — but your property isn't showing up. We fix that. Full AI marketing from $249/mo.</p>
+    <div class="eyebrow" data-en="&#127970; Hotels &amp; Hospitality" data-es="&#127970; Hoteles y Hospitalidad">&#127970; Hotels &amp; Hospitality</div>
+    <h1>
+      <span data-en="Fill More Rooms." data-es="Llena M&aacute;s Habitaciones.">Fill More Rooms.</span><br>
+      <span class="hl" data-en="Stop Paying Booking.com." data-es="Deja de Pagarle a Booking.com.">Stop Paying Booking.com.</span>
+    </h1>
+    <p class="sub" data-en="Your guests are searching on Google, asking Claude &amp; ChatGPT, and scrolling Instagram — but your property isn't showing up. We fix that. Full AI marketing from $249/mo." data-es="Tus hu&eacute;spedes buscan en Google, le preguntan a Claude y ChatGPT, y scrollean Instagram &mdash; pero tu propiedad no aparece. Nosotros lo arreglamos. Marketing AI completo desde $249/mes.">Your guests are searching on Google, asking Claude &amp; ChatGPT, and scrolling Instagram — but your property isn't showing up. We fix that. Full AI marketing from $249/mo.</p>
     <div class="hero-ctas">
-      <a href="https://netwebmedia.com/contact.html" class="btn-primary">Get a Free Audit &rarr;</a>
-      <a href="https://netwebmedia.com/services.html" class="btn-ghost-white">See All Services</a>
+      <a href="https://netwebmedia.com/contact.html" class="btn-primary" data-en="Get a Free Audit &rarr;" data-es="Auditor&iacute;a Gratis &rarr;">Get a Free Audit &rarr;</a>
+      <a href="https://netwebmedia.com/services.html" class="btn-ghost-white" data-en="See All Services" data-es="Ver Todos los Servicios">See All Services</a>
     </div>
   </div>
 
+  <!-- RESULTS BAR -->
   <div class="results-bar">
-    <div class="result-stat"><div class="n">+38% direct bookings</div><div class="l">Client avg result</div></div>
-    <div class="result-stat"><div class="n">-22% OTA dependency</div><div class="l">Client avg result</div></div>
-    <div class="result-stat"><div class="n">4.8&#9733; review average</div><div class="l">Client avg result</div></div>
+    <div class="result-stat">
+      <div class="n">+38%</div>
+      <div class="l" data-en="Direct booking revenue" data-es="Ingresos por reserva directa">Direct booking revenue</div>
+    </div>
+    <div class="result-stat">
+      <div class="n">-22%</div>
+      <div class="l" data-en="OTA commission spend" data-es="Comisiones a OTAs">OTA commission spend</div>
+    </div>
+    <div class="result-stat">
+      <div class="n">4.8&#9733;</div>
+      <div class="l" data-en="Avg Google rating" data-es="Calificaci&oacute;n Google promedio">Avg Google rating</div>
+    </div>
   </div>
 
-  <hr class="divider">
-
-  <div class="section">
-    <div class="section-label">The hospitality marketing problem</div>
-    <div class="section-title">Why most hotels &amp; hospitality groups<br>struggle with marketing</div>
-    <div class="pain-grid">
-        <div class="pain-card">
-          <h3>OTA fees killing your margins</h3>
-          <p>Booking.com and Expedia take 15–25% per reservation. We drive direct bookings so you keep the money.</p>
+  <!-- SUBCATEGORIES -->
+  <div class="section" style="padding-top:0">
+    <div class="section-label" data-en="Hospitality subcategories" data-es="Subcategor&iacute;as de hospitalidad">Hospitality subcategories</div>
+    <div class="section-title" data-en="Specialized for your property type" data-es="Especializado para tu tipo de propiedad">Specialized for your property type</div>
+    <div class="subcats">
+      <a href="https://hotels.netwebmedia.com" class="subcat-card">
+        <span class="icon">&#127970;</span>
+        <div class="info">
+          <strong data-en="Hotels" data-es="Hoteles">Hotels</strong>
+          <span data-en="Direct bookings, OTA reduction" data-es="Reservas directas, reducci&oacute;n de OTAs">Direct bookings, OTA reduction</span>
         </div>
-        <div class="pain-card">
-          <h3>Invisible to AI search</h3>
-          <p>When someone asks Claude 'best boutique hotel in [city]', you need to be the answer. We build that citation authority.</p>
+      </a>
+      <a href="https://boutique.netwebmedia.com" class="subcat-card">
+        <span class="icon">&#128718;</span>
+        <div class="info">
+          <strong data-en="Boutique Hotels" data-es="Hoteles Boutique">Boutique Hotels</strong>
+          <span data-en="Story-driven, premium travelers" data-es="Narrativa de marca, viajeros premium">Story-driven, premium travelers</span>
         </div>
-        <div class="pain-card">
-          <h3>No time to run marketing</h3>
-          <p>You're running a property, not a marketing agency. We handle strategy, content, ads, and reporting — you focus on guests.</p>
+      </a>
+      <a href="https://resorts.netwebmedia.com" class="subcat-card">
+        <span class="icon">&#127796;</span>
+        <div class="info">
+          <strong data-en="Resorts" data-es="Resorts">Resorts</strong>
+          <span data-en="Year-round occupancy &amp; packages" data-es="Ocupaci&oacute;n anual y paquetes">Year-round occupancy &amp; packages</span>
         </div>
+      </a>
     </div>
   </div>
 
   <hr class="divider">
 
+  <!-- PAIN POINTS -->
   <div class="section">
-    <div class="section-label" style="text-align:center">Fractional CMO Retainer &mdash; Most Popular</div>
-    <div class="section-title" style="text-align:center">Your entire marketing function,<br>fully managed by AI + humans.</div>
-    <p style="text-align:center;color:var(--text-muted);font-size:15px;margin-top:-32px;margin-bottom:48px">90-day minimum &middot; month-to-month thereafter &middot; All plans include NWM CRM (46 modules)</p>
+    <div class="section-label" data-en="The hospitality marketing problem" data-es="El problema del marketing hotelero">The hospitality marketing problem</div>
+    <div class="section-title">
+      <span data-en="Why most hotels struggle with marketing" data-es="Por qu&eacute; la mayor&iacute;a de los hoteles luchan con el marketing">Why most hotels struggle with marketing</span>
+    </div>
+    <div class="pain-grid">
+
+      <div class="pain-card">
+        <h3 data-en="OTA fees killing your margins" data-es="Las comisiones de OTAs destruyen tu margen">OTA fees killing your margins</h3>
+        <p data-en="Booking.com and Expedia take 15–25% per reservation. We drive direct bookings so you keep the money." data-es="Booking.com y Expedia se llevan el 15&ndash;25% por reserva. Construimos los canales de reserva directa para que te quedes con el dinero.">Booking.com and Expedia take 15–25% per reservation. We drive direct bookings so you keep the money.</p>
+      </div>
+
+      <div class="pain-card">
+        <h3 data-en="Invisible to AI search" data-es="Invisible en la b&uacute;squeda por IA">Invisible to AI search</h3>
+        <p data-en="When someone asks Claude 'best boutique hotel in [city]', you need to be the answer. We build that citation authority." data-es="Cuando alguien le pregunta a Claude '¿mejor hotel boutique en [ciudad]?', t&uacute; debes ser la respuesta. Construimos esa autoridad de citaci&oacute;n.">When someone asks Claude 'best boutique hotel in [city]', you need to be the answer. We build that citation authority.</p>
+      </div>
+
+      <div class="pain-card">
+        <h3 data-en="No time to run marketing" data-es="Sin tiempo para hacer marketing">No time to run marketing</h3>
+        <p data-en="You're running a property, not a marketing agency. We handle strategy, content, ads, and reporting — you focus on guests." data-es="Est&aacute;s administrando una propiedad, no una agencia de marketing. Nosotros manejamos estrategia, contenido, anuncios y reportes &mdash; t&uacute; te enf&oacute;cas en los hu&eacute;spedes.">You're running a property, not a marketing agency. We handle strategy, content, ads, and reporting — you focus on guests.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PRICING -->
+  <div class="section">
+    <div class="section-label" style="text-align:center" data-en="Fractional CMO Retainer &mdash; Most Popular" data-es="Retainer CMO Fraccionado &mdash; El m&aacute;s popular">Fractional CMO Retainer &mdash; Most Popular</div>
+    <div class="section-title" style="text-align:center">
+      <span data-en="Your entire marketing function," data-es="Tu funci&oacute;n de marketing completa,">Your entire marketing function,</span><br>
+      <span data-en="fully managed by AI + humans." data-es="gestionada por IA + humanos.">fully managed by AI + humans.</span>
+    </div>
+    <p style="text-align:center;color:var(--text-muted);font-size:15px;margin-top:-32px;margin-bottom:48px" data-en="90-day minimum &middot; month-to-month thereafter &middot; All plans include NWM CRM (46 modules)" data-es="M&iacute;nimo 90 d&iacute;as &middot; mes a mes despu&eacute;s &middot; Todos los planes incluyen NWM CRM (46 m&oacute;dulos)">90-day minimum &middot; month-to-month thereafter &middot; All plans include NWM CRM (46 modules)</p>
     <div class="pricing-grid">
 
       <div class="price-card">
         <div class="price-tier">CMO Lite</div>
         <div class="price-name">CMO Lite</div>
-        <div class="price-desc">AEO + SEO + content strategy</div>
+        <div class="price-desc" data-en="AEO + SEO + content strategy" data-es="AEO + SEO + estrategia de contenido">AEO + SEO + content strategy</div>
         <div class="price-amount">$249<span>/mo</span></div>
-        <div class="price-setup">No setup fee</div>
+        <div class="price-setup" data-en="No setup fee" data-es="Sin costo de instalaci&oacute;n">No setup fee</div>
         <ul class="price-features">
-            <li>Local SEO + Google My Business optimization</li>
-            <li>Monthly content calendar (blog + social)</li>
-            <li>AEO strategy — get cited by Claude &amp; ChatGPT</li>
-            <li>NWM CRM for guest follow-up</li>
-            <li>Monthly strategy call</li>
+          <li data-en="Local SEO + Google My Business optimization" data-es="SEO local + optimizaci&oacute;n de Google My Business">Local SEO + Google My Business optimization</li>
+          <li data-en="Monthly content calendar (blog + social)" data-es="Calendario de contenido mensual (blog + redes)">Monthly content calendar (blog + social)</li>
+          <li data-en="AEO strategy — get cited by Claude &amp; ChatGPT" data-es="Estrategia AEO &mdash; aparece en Claude y ChatGPT">AEO strategy — get cited by Claude &amp; ChatGPT</li>
+          <li data-en="NWM CRM for guest follow-up" data-es="NWM CRM para seguimiento de hu&eacute;spedes">NWM CRM for guest follow-up</li>
+          <li data-en="Monthly strategy call" data-es="Llamada mensual de estrategia">Monthly strategy call</li>
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta outline">Get started &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta outline" data-en="Get started &rarr;" data-es="Comenzar &rarr;">Get started &rarr;</a>
       </div>
 
       <div class="price-card featured">
-        <div class="price-badge">Most Popular</div>
+        <div class="price-badge" data-en="Most Popular" data-es="M&aacute;s Popular">Most Popular</div>
         <div class="price-tier">CMO Growth</div>
         <div class="price-name">CMO Growth</div>
-        <div class="price-desc">AEO + SEO + paid ads + social</div>
+        <div class="price-desc" data-en="AEO + SEO + paid ads + social" data-es="AEO + SEO + anuncios pagados + social">AEO + SEO + paid ads + social</div>
         <div class="price-amount">$999<span>/mo</span></div>
-        <div class="price-setup">Setup $499</div>
+        <div class="price-setup" data-en="Setup $499" data-es="Instalaci&oacute;n $499">Setup $499</div>
         <ul class="price-features">
-            <li>Everything in CMO Lite</li>
-            <li>Google + Meta paid ads (retargeting + lookalike)</li>
-            <li>Review generation automation</li>
-            <li>Email marketing to past guests</li>
-            <li>AI SDR for group &amp; event inquiries</li>
+          <li data-en="Everything in CMO Lite" data-es="Todo lo de CMO Lite">Everything in CMO Lite</li>
+          <li data-en="Google + Meta paid ads (retargeting + lookalike)" data-es="Anuncios en Google + Meta (retargeting + lookalike)">Google + Meta paid ads (retargeting + lookalike)</li>
+          <li data-en="Review generation automation" data-es="Automatizaci&oacute;n de generaci&oacute;n de rese&ntilde;as">Review generation automation</li>
+          <li data-en="Email marketing to past guests" data-es="Email marketing a hu&eacute;spedes anteriores">Email marketing to past guests</li>
+          <li data-en="AI SDR for group &amp; event inquiries" data-es="AI SDR para consultas de grupos y eventos">AI SDR for group &amp; event inquiries</li>
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta solid">Get started &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta solid" data-en="Get started &rarr;" data-es="Comenzar &rarr;">Get started &rarr;</a>
       </div>
 
       <div class="price-card">
         <div class="price-tier">CMO Scale</div>
         <div class="price-name">CMO Scale</div>
-        <div class="price-desc">Full-stack marketing department</div>
+        <div class="price-desc" data-en="Full-stack marketing department" data-es="Departamento de marketing completo">Full-stack marketing department</div>
         <div class="price-amount">$2,499<span>/mo</span></div>
-        <div class="price-setup">Setup $999</div>
+        <div class="price-setup" data-en="Setup $999" data-es="Instalaci&oacute;n $999">Setup $999</div>
         <ul class="price-features">
-            <li>Everything in CMO Growth</li>
-            <li>16 Reels/mo — property tours, chef features, events</li>
-            <li>Custom AI booking assistant (voice + chat)</li>
-            <li>White-glove onboarding + dedicated strategist</li>
-            <li>Priority support + daily Slack access</li>
+          <li data-en="Everything in CMO Growth" data-es="Todo lo de CMO Growth">Everything in CMO Growth</li>
+          <li data-en="16 Reels/mo — property tours, chef features, events" data-es="16 Reels/mes &mdash; tours de la propiedad, chefs, eventos">16 Reels/mo — property tours, chef features, events</li>
+          <li data-en="Custom AI booking assistant (voice + chat)" data-es="Asistente AI de reservas personalizado (voz + chat)">Custom AI booking assistant (voice + chat)</li>
+          <li data-en="White-glove onboarding + dedicated strategist" data-es="Onboarding premium + estratega dedicado">White-glove onboarding + dedicated strategist</li>
+          <li data-en="Priority support + daily Slack access" data-es="Soporte prioritario + acceso diario a Slack">Priority support + daily Slack access</li>
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta outline">Contact sales &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta outline" data-en="Contact sales &rarr;" data-es="Contactar ventas &rarr;">Contact sales &rarr;</a>
       </div>
 
     </div>
-    <p style="text-align:center;color:var(--text-muted);font-size:13px;margin-top:24px">+ ad spend at cost &middot; 12% mgmt fee on ad spend (min $300/mo) &middot; <a href="https://netwebmedia.com/contact.html" style="color:var(--nwm-orange)">Questions? hello@netwebmedia.com</a></p>
+    <p style="text-align:center;color:var(--text-muted);font-size:13px;margin-top:24px">
+      <span data-en="+ ad spend at cost &middot; 12% mgmt fee on ad spend (min $300/mo) &middot;" data-es="+ presupuesto publicitario al costo &middot; 12% de comisi&oacute;n sobre anuncios (m&iacute;n $300/mes) &middot;">+ ad spend at cost &middot; 12% mgmt fee on ad spend (min $300/mo) &middot;</span>
+      <a href="https://netwebmedia.com/contact.html" style="color:var(--nwm-orange)" data-en="Questions? hello@netwebmedia.com" data-es="&iquest;Preguntas? hello@netwebmedia.com">Questions? hello@netwebmedia.com</a>
+    </p>
   </div>
 
   <hr class="divider">
 
+  <!-- FINAL CTA -->
   <div class="final-cta-wrap">
-    <h2>Ready to grow your hotels &amp; hospitality groups?</h2>
-    <p>Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it.</p>
-    <a href="https://netwebmedia.com/contact.html" class="btn-primary" style="font-size:18px;padding:18px 40px">Book Your Free Audit &rarr;</a>
+    <h2 data-en="Ready to fill more rooms?" data-es="&iquest;Listo para llenar m&aacute;s habitaciones?">Ready to fill more rooms?</h2>
+    <p data-en="Get a free 30-minute audit. We'll show you exactly where you're losing visibility and revenue — and what to do about it." data-es="Obt&eacute;n una auditor&iacute;a gratuita de 30 minutos. Te mostraremos exactamente d&oacute;nde est&aacute;s perdiendo visibilidad e ingresos &mdash; y qu&eacute; hacer al respecto.">Get a free 30-minute audit. We'll show you exactly where you're losing visibility and revenue — and what to do about it.</p>
+    <a href="https://netwebmedia.com/contact.html" class="btn-primary" style="font-size:18px;padding:18px 40px" data-en="Book Your Free Audit &rarr;" data-es="Reserva tu Auditor&iacute;a Gratis &rarr;">Book Your Free Audit &rarr;</a>
   </div>
+
 </main>
 
 <footer>

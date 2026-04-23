@@ -30,6 +30,12 @@
     .section{max-width:1100px;margin:0 auto;padding:80px 20px}
     .section-label{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--nwm-orange);margin-bottom:12px}
     .section-title{font-size:clamp(28px,4vw,42px);font-weight:800;font-family:var(--font-display);margin-bottom:48px;line-height:1.15}
+    .subcats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:64px}
+    .subcat-card{background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:20px 24px;text-decoration:none;display:flex;align-items:center;gap:12px;transition:var(--transition)}
+    .subcat-card:hover{border-color:var(--border-accent);transform:translateY(-2px)}
+    .subcat-card .icon{font-size:24px}
+    .subcat-card .info strong{display:block;color:#fff;font-size:15px;font-weight:700}
+    .subcat-card .info span{color:var(--text-muted);font-size:13px}
     .pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
     .pain-card{background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:28px;transition:var(--transition)}
     .pain-card:hover{border-color:var(--border-accent);transform:translateY(-3px)}
@@ -60,10 +66,7 @@
     footer{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:13px;border-top:1px solid var(--border-glass)}
     footer a{color:var(--text-muted);text-decoration:none}
     footer a:hover{color:var(--nwm-orange)}
-  </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+</style>
 </head>
 <body>
 
@@ -74,9 +77,9 @@
         <span class="logo-wordmark"><span class="logo-net">net</span><span class="logo-web">web</span><span class="logo-media">media</span></span>
       </a>
       <div class="nav-links">
-        <a href="https://netwebmedia.com/about.html">About</a>
+        <a href="https://netwebmedia.com/about.html" data-en="About" data-es="Nosotros">About</a>
         <div class="nav-item">
-          <a href="https://netwebmedia.com/services.html">Services</a>
+          <a href="https://netwebmedia.com/services.html" data-en="Services" data-es="Servicios">Services</a>
           <div class="nav-dropdown">
             <a href="https://netwebmedia.com/services.html#fractional-cmo">&#9733; Fractional CMO</a>
             <a href="https://netwebmedia.com/services.html#ai-automations">AI Automations</a>
@@ -88,28 +91,27 @@
           </div>
         </div>
         <div class="nav-item">
-          <a href="https://netwebmedia.com/industries/">Industries</a>
+          <a href="https://netwebmedia.com/industries/" data-en="Industries" data-es="Industrias">Industries</a>
           <div class="nav-dropdown">
-            <a href="https://hospitality.netwebmedia.com">&#127970; Hospitality</a>
-            <a href="https://healthcare.netwebmedia.com">&#129657; Healthcare</a>
-            <a href="https://beauty.netwebmedia.com">&#10024; Beauty &amp; Wellness</a>
-            <a href="https://pro.netwebmedia.com">&#128188; Professional Services</a>
-            <a href="https://realestate.netwebmedia.com">&#127968; Real Estate</a>
-            <a href="https://restaurants.netwebmedia.com">&#127829; Restaurants &amp; F&amp;B</a>
-            <a href="https://fitness.netwebmedia.com">&#127947; Fitness &amp; Gyms</a>
-            <a href="https://ecommerce.netwebmedia.com">&#128722; E-commerce</a>
-            <a href="https://home.netwebmedia.com">&#128295; Home Services</a>
-            <a href="https://tech.netwebmedia.com">&#128187; Tech &amp; SaaS</a>
+            <a href="https://hospitality.netwebmedia.com">&#127970; <span data-en="Hospitality" data-es="Hospitalidad">Hospitality</span></a>
+            <a href="https://healthcare.netwebmedia.com">&#129657; <span data-en="Healthcare" data-es="Salud">Healthcare</span></a>
+            <a href="https://beauty.netwebmedia.com">&#10024; <span data-en="Beauty &amp; Wellness" data-es="Belleza y Bienestar">Beauty &amp; Wellness</span></a>
+            <a href="https://pro.netwebmedia.com">&#128188; <span data-en="Professional Services" data-es="Servicios Profesionales">Professional Services</span></a>
+            <a href="https://realestate.netwebmedia.com">&#127968; <span data-en="Real Estate" data-es="Bienes Ra&iacute;ces">Real Estate</span></a>
+            <a href="https://restaurants.netwebmedia.com">&#127829; <span data-en="Restaurants &amp; F&amp;B" data-es="Restaurantes y F&amp;B">Restaurants &amp; F&amp;B</span></a>
+            <a href="https://fitness.netwebmedia.com">&#127947; <span data-en="Fitness &amp; Gyms" data-es="Fitness y Gimnasios">Fitness &amp; Gyms</span></a>
+            <a href="https://ecommerce.netwebmedia.com">&#128722; <span data-en="E-commerce" data-es="E-commerce">E-commerce</span></a>
+            <a href="https://home.netwebmedia.com">&#128295; <span data-en="Home Services" data-es="Servicios del Hogar">Home Services</span></a>
+            <a href="https://tech.netwebmedia.com">&#128187; <span data-en="Tech &amp; SaaS" data-es="Tech y SaaS">Tech &amp; SaaS</span></a>
           </div>
         </div>
-        <a href="https://netwebmedia.com/partners.html">Partners</a>
-        <a href="https://netwebmedia.com/blog.html">Blog</a>
-        <a href="https://netwebmedia.com/faq.html">Q&amp;A</a>
-        <a href="https://netwebmedia.com/contact.html">Contact</a>
+        <a href="https://netwebmedia.com/partners.html" data-en="Partners" data-es="Socios">Partners</a>
+        <a href="https://netwebmedia.com/blog.html" data-en="Blog" data-es="Blog">Blog</a>
+        <a href="https://netwebmedia.com/faq.html" data-en="Q&amp;A" data-es="Preguntas">Q&amp;A</a>
+        <a href="https://netwebmedia.com/contact.html" data-en="Contact" data-es="Contacto">Contact</a>
       </div>
       <div class="nav-ctas">
-        <div class="nav-lang"></div>
-        <a href="https://netwebmedia.com/contact.html" class="btn-nav-solid">Get a Free Audit</a>
+        <a href="https://netwebmedia.com/contact.html" class="btn-nav-solid" data-en="Get a Free Audit" data-es="Auditor&iacute;a Gratis">Get a Free Audit</a>
       </div>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
@@ -120,38 +122,71 @@
 
 <main>
   <div class="ind-hero">
-    <div class="eyebrow">🛒 E-commerce</div>
-    <h1>Turn One-Time Buyers<br><span class='hl'>Into Loyal Customers.</span></h1>
-    <p class="sub">You're spending on ads to acquire customers who buy once and disappear. We build the retention engine — email, SMS, retargeting, and AI personalization — that makes every customer worth 3x more.</p>
+    <div class="eyebrow" data-en="E-commerce" data-es="E-commerce">&#128722; E-commerce</div>
+    <h1>
+      <span data-en="Turn One-Time Buyers" data-es="Convierte Compradores Únicos">Turn One-Time Buyers</span><br>
+      <span class="hl" data-en="Into Loyal Customers." data-es="En Clientes Leales.">Into Loyal Customers.</span>
+    </h1>
+    <p class="sub" data-en="You’re spending on ads to acquire customers who buy once and disappear. We build the retention engine — email, SMS, retargeting, and AI personalization — that makes every customer worth 3x more." data-es="Estás gastando en anuncios para adquirir clientes que compran una vez y desaparecen. Construimos el motor de retención — email, SMS, retargeting y personalización IA — que hace que cada cliente valga 3 veces más.">You’re spending on ads to acquire customers who buy once and disappear. We build the retention engine — email, SMS, retargeting, and AI personalization — that makes every customer worth 3x more.</p>
     <div class="hero-ctas">
-      <a href="https://netwebmedia.com/contact.html" class="btn-primary">Get a Free Audit &rarr;</a>
-      <a href="https://netwebmedia.com/services.html" class="btn-ghost-white">See All Services</a>
+      <a href="https://netwebmedia.com/contact.html" class="btn-primary" data-en="Get a Free Audit &rarr;" data-es="Obtener Auditor&iacute;a Gratis &rarr;">Get a Free Audit &rarr;</a>
+      <a href="https://netwebmedia.com/services.html" class="btn-ghost-white" data-en="See All Services" data-es="Ver Todos los Servicios">See All Services</a>
     </div>
   </div>
 
   <div class="results-bar">
-    <div class="result-stat"><div class="n">+34% repeat purchase rate</div><div class="l">Client avg result</div></div>
-    <div class="result-stat"><div class="n">22% cart recovery rate</div><div class="l">Client avg result</div></div>
-    <div class="result-stat"><div class="n">3.8x ROAS on paid campaigns</div><div class="l">Client avg result</div></div>
+    <div class="result-stat"><div class="n">+34% repeat purchase rate</div><div class="l" data-en="Client avg result" data-es="Resultado promedio del cliente">Client avg result</div></div>
+    <div class="result-stat"><div class="n">22% cart recovery rate</div><div class="l" data-en="Client avg result" data-es="Resultado promedio del cliente">Client avg result</div></div>
+    <div class="result-stat"><div class="n">3.8x ROAS on paid campaigns</div><div class="l" data-en="Client avg result" data-es="Resultado promedio del cliente">Client avg result</div></div>
   </div>
 
   <hr class="divider">
 
   <div class="section">
-    <div class="section-label">The e-commerce marketing problem</div>
-    <div class="section-title">Why most e-commerce brands &amp; online retailers<br>struggle with marketing</div>
+    <div class="section-label" data-en="Explore by specialty" data-es="Explorar por especialidad">Explore by specialty</div>
+    <div class="section-title" data-en="Find your specific niche" data-es="Encuentra tu nicho espec&iacute;fico">Find your specific niche</div>
+    <div class="subcats">
+        <a class="subcat-card" href="https://shopify.netwebmedia.com">
+          <div class="icon">&#128717;</div>
+          <div class="info">
+            <strong data-en="Shopify Stores" data-es="Tiendas Shopify">Shopify Stores</strong>
+            <span data-en="Scale from $X to $10X" data-es="Escala de $X a $10X">Scale from $X to $10X</span>
+          </div>
+        </a>
+        <a class="subcat-card" href="https://dtc.netwebmedia.com">
+          <div class="icon">&#128230;</div>
+          <div class="info">
+            <strong data-en="DTC Brands" data-es="Marcas DTC">DTC Brands</strong>
+            <span data-en="Own your customers, ditch Amazon" data-es="Dueño de tus clientes, adiós Amazon">Own your customers, ditch Amazon</span>
+          </div>
+        </a>
+        <a class="subcat-card" href="https://marketplace.netwebmedia.com">
+          <div class="icon">&#127978;</div>
+          <div class="info">
+            <strong data-en="Marketplace Sellers" data-es="Vendedores en Marketplace">Marketplace Sellers</strong>
+            <span data-en="Build your direct channel" data-es="Construye tu canal directo">Build your direct channel</span>
+          </div>
+        </a>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <div class="section-label" data-en="The e-commerce marketing problem" data-es="El problema de marketing en e-commerce">The e-commerce marketing problem</div>
+    <div class="section-title" data-en="Why most e-commerce brands &amp; online retailers<br>struggle with marketing" data-es="Por qué la mayoría de marcas de e-commerce<br>lucha con el marketing">Why most e-commerce brands &amp; online retailers<br>struggle with marketing</div>
     <div class="pain-grid">
         <div class="pain-card">
-          <h3>CAC keeps rising, LTV stays flat</h3>
-          <p>If you're only optimizing acquisition, you're on a treadmill. We build retention funnels that maximize the value of every customer you've already paid for.</p>
+          <h3 data-en="CAC keeps rising, LTV stays flat" data-es="El CAC sube, el LTV se mantiene plano">CAC keeps rising, LTV stays flat</h3>
+          <p data-en="If you’re only optimizing acquisition, you’re on a treadmill. We build retention funnels that maximize the value of every customer you’ve already paid for." data-es="Si solo optimizas la adquisición, estás en una cinta de correr. Construimos embudos de retención que maximizan el valor de cada cliente que ya pagaste.">If you’re only optimizing acquisition, you’re on a treadmill. We build retention funnels that maximize the value of every customer you’ve already paid for.</p>
         </div>
         <div class="pain-card">
-          <h3>Abandoned carts leaking revenue</h3>
-          <p>70% of carts are abandoned. Our automated sequences — email, SMS, retargeting — recover 15–25% of that lost revenue on autopilot.</p>
+          <h3 data-en="Abandoned carts leaking revenue" data-es="Carritos abandonados filtrando ingresos">Abandoned carts leaking revenue</h3>
+          <p data-en="70% of carts are abandoned. Our automated sequences — email, SMS, retargeting — recover 15–25% of that lost revenue on autopilot." data-es="El 70% de los carritos se abandonan. Nuestras secuencias automatizadas — email, SMS, retargeting — recuperan el 15–25% de ese ingreso perdido en piloto automático.">70% of carts are abandoned. Our automated sequences — email, SMS, retargeting — recover 15–25% of that lost revenue on autopilot.</p>
         </div>
         <div class="pain-card">
-          <h3>Invisible outside your ad spend</h3>
-          <p>When ad spend stops, traffic stops. We build organic SEO, AEO, and content authority so your brand generates traffic you don't pay for.</p>
+          <h3 data-en="Invisible outside your ad spend" data-es="Invisible fuera de tu gasto en anuncios">Invisible outside your ad spend</h3>
+          <p data-en="When ad spend stops, traffic stops. We build organic SEO, AEO, and content authority so your brand generates traffic you don’t pay for." data-es="Cuando el gasto en anuncios para, el tráfico para. Construimos autoridad orgánica de SEO, AEO y contenido para que tu marca genere tráfico que no pagas.">When ad spend stops, traffic stops. We build organic SEO, AEO, and content authority so your brand generates traffic you don’t pay for.</p>
         </div>
     </div>
   </div>
@@ -159,58 +194,58 @@
   <hr class="divider">
 
   <div class="section">
-    <div class="section-label" style="text-align:center">Fractional CMO Retainer &mdash; Most Popular</div>
-    <div class="section-title" style="text-align:center">Your entire marketing function,<br>fully managed by AI + humans.</div>
-    <p style="text-align:center;color:var(--text-muted);font-size:15px;margin-top:-32px;margin-bottom:48px">90-day minimum &middot; month-to-month thereafter &middot; All plans include NWM CRM (46 modules)</p>
+    <div class="section-label" style="text-align:center" data-en="Fractional CMO Retainer &mdash; Most Popular" data-es="Retainer CMO Fraccional &mdash; El M&aacute;s Popular">Fractional CMO Retainer &mdash; Most Popular</div>
+    <div class="section-title" style="text-align:center" data-en="Your entire marketing function, fully managed by AI + humans." data-es="Tu funci&oacute;n de marketing completa, gestionada por IA + humanos.">Your entire marketing function,<br>fully managed by AI + humans.</div>
+    <p style="text-align:center;color:var(--text-muted);font-size:15px;margin-top:-32px;margin-bottom:48px" data-en="90-day minimum &middot; month-to-month thereafter &middot; All plans include NWM CRM (46 modules)" data-es="M&iacute;nimo 90 d&iacute;as &middot; mensual despu&eacute;s &middot; Todos los planes incluyen NWM CRM (46 m&oacute;dulos)">90-day minimum &middot; month-to-month thereafter &middot; All plans include NWM CRM (46 modules)</p>
     <div class="pricing-grid">
 
       <div class="price-card">
         <div class="price-tier">CMO Lite</div>
         <div class="price-name">CMO Lite</div>
-        <div class="price-desc">AEO + SEO + content strategy</div>
+        <div class="price-desc" data-en="AEO + SEO + content strategy" data-es="AEO + SEO + estrategia de contenido">AEO + SEO + content strategy</div>
         <div class="price-amount">$249<span>/mo</span></div>
-        <div class="price-setup">No setup fee</div>
+        <div class="price-setup" data-en="No setup fee" data-es="Sin cargo de configuraci&oacute;n">No setup fee</div>
         <ul class="price-features">
-            <li>E-commerce SEO + product content strategy</li>
-            <li>Monthly blog &amp; buying guide content</li>
-            <li>AEO — appear in AI product recommendations</li>
-            <li>NWM CRM for email &amp; SMS retention flows</li>
-            <li>Monthly strategy note</li>
+            <li data-en="E-commerce SEO + product content strategy" data-es="SEO de e-commerce + estrategia de contenido de producto">E-commerce SEO + product content strategy</li>
+            <li data-en="Monthly blog &amp; buying guide content" data-es="Contenido mensual: blog y guías de compra">Monthly blog &amp; buying guide content</li>
+            <li data-en="AEO — appear in AI product recommendations" data-es="AEO — aparece en recomendaciones de productos por IA">AEO — appear in AI product recommendations</li>
+            <li data-en="NWM CRM for email &amp; SMS retention flows" data-es="NWM CRM para flujos de retención por email y SMS">NWM CRM for email &amp; SMS retention flows</li>
+            <li data-en="Monthly strategy note" data-es="Nota de estrategia mensual">Monthly strategy note</li>
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta outline">Get started &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta outline" data-en="Get started &rarr;" data-es="Comenzar &rarr;">Get started &rarr;</a>
       </div>
 
       <div class="price-card featured">
-        <div class="price-badge">Most Popular</div>
+        <div class="price-badge" data-en="Most Popular" data-es="M&aacute;s Popular">Most Popular</div>
         <div class="price-tier">CMO Growth</div>
         <div class="price-name">CMO Growth</div>
-        <div class="price-desc">AEO + SEO + paid ads + social</div>
+        <div class="price-desc" data-en="AEO + SEO + paid ads + social" data-es="AEO + SEO + publicidad pagada + social">AEO + SEO + paid ads + social</div>
         <div class="price-amount">$999<span>/mo</span></div>
-        <div class="price-setup">Setup $499</div>
+        <div class="price-setup" data-en="Setup $499" data-es="Configuraci&oacute;n $499">Setup $499</div>
         <ul class="price-features">
-            <li>Everything in CMO Lite</li>
-            <li>Google Shopping + Meta catalog ads</li>
-            <li>Abandoned cart &amp; browse abandonment sequences</li>
-            <li>Post-purchase upsell &amp; loyalty email flows</li>
-            <li>AI SDR for high-value customer outreach</li>
+            <li data-en="Everything in CMO Lite" data-es="Todo en CMO Lite">Everything in CMO Lite</li>
+            <li data-en="Google Shopping + Meta catalog ads" data-es="Google Shopping + anuncios de catálogo en Meta">Google Shopping + Meta catalog ads</li>
+            <li data-en="Abandoned cart &amp; browse abandonment sequences" data-es="Secuencias de carrito abandonado y abandono de navegación">Abandoned cart &amp; browse abandonment sequences</li>
+            <li data-en="Post-purchase upsell &amp; loyalty email flows" data-es="Flujos de email de upsell post-compra y fidelización">Post-purchase upsell &amp; loyalty email flows</li>
+            <li data-en="AI SDR for high-value customer outreach" data-es="SDR de IA para contacto de clientes de alto valor">AI SDR for high-value customer outreach</li>
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta solid">Get started &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta solid" data-en="Get started &rarr;" data-es="Comenzar &rarr;">Get started &rarr;</a>
       </div>
 
       <div class="price-card">
         <div class="price-tier">CMO Scale</div>
         <div class="price-name">CMO Scale</div>
-        <div class="price-desc">Full-stack marketing department</div>
+        <div class="price-desc" data-en="Full-stack marketing department" data-es="Departamento de marketing completo">Full-stack marketing department</div>
         <div class="price-amount">$2,499<span>/mo</span></div>
-        <div class="price-setup">Setup $999</div>
+        <div class="price-setup" data-en="Setup $999" data-es="Configuraci&oacute;n $999">Setup $999</div>
         <ul class="price-features">
-            <li>Everything in CMO Growth</li>
-            <li>16 Reels/mo — product showcases, UGC, unboxings</li>
-            <li>Custom AI shopping assistant for your store</li>
-            <li>White-glove onboarding + dedicated strategist</li>
-            <li>Priority support + daily Slack access</li>
+            <li data-en="Everything in CMO Growth" data-es="Todo en CMO Growth">Everything in CMO Growth</li>
+            <li data-en="16 Reels/mo — product showcases, UGC, unboxings" data-es="16 Reels/mes — showcases de productos, UGC, unboxings">16 Reels/mo — product showcases, UGC, unboxings</li>
+            <li data-en="Custom AI shopping assistant for your store" data-es="Asistente de compras IA personalizado para tu tienda">Custom AI shopping assistant for your store</li>
+            <li data-en="White-glove onboarding + dedicated strategist" data-es="Incorporación premium + estratega dedicado">White-glove onboarding + dedicated strategist</li>
+            <li data-en="Priority support + daily Slack access" data-es="Soporte prioritario + acceso diario a Slack">Priority support + daily Slack access</li>
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta outline">Contact sales &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta outline" data-en="Contact sales &rarr;" data-es="Contactar ventas &rarr;">Contact sales &rarr;</a>
       </div>
 
     </div>
@@ -220,9 +255,9 @@
   <hr class="divider">
 
   <div class="final-cta-wrap">
-    <h2>Ready to grow your e-commerce brands &amp; online retailers?</h2>
-    <p>Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it.</p>
-    <a href="https://netwebmedia.com/contact.html" class="btn-primary" style="font-size:18px;padding:18px 40px">Book Your Free Audit &rarr;</a>
+    <h2 data-en="Ready to grow your e-commerce brands &amp; online retailers?" data-es="&iquest;Listo para hacer crecer tu marcas de e-commerce y tiendas online?">Ready to grow your e-commerce brands &amp; online retailers?</h2>
+    <p data-en="Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it." data-es="Obt&eacute;n una auditor&iacute;a gratuita de 30 minutos. Te mostraremos exactamente d&oacute;nde est&aacute;s perdiendo visibilidad e ingresos &mdash; y qu&eacute; hacer al respecto.">Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it.</p>
+    <a href="https://netwebmedia.com/contact.html" class="btn-primary" style="font-size:18px;padding:18px 40px" data-en="Book Your Free Audit &rarr;" data-es="Reservar Tu Auditor&iacute;a Gratis &rarr;">Book Your Free Audit &rarr;</a>
   </div>
 </main>
 
@@ -231,6 +266,5 @@
 </footer>
 
 <script src="https://netwebmedia.com/js/main.js"></script>
-<script src="/assets/nwm-i18n.js" defer></script>
 </body>
 </html>

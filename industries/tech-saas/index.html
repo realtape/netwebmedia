@@ -30,6 +30,12 @@
     .section{max-width:1100px;margin:0 auto;padding:80px 20px}
     .section-label{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--nwm-orange);margin-bottom:12px}
     .section-title{font-size:clamp(28px,4vw,42px);font-weight:800;font-family:var(--font-display);margin-bottom:48px;line-height:1.15}
+    .subcats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:64px}
+    .subcat-card{background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:20px 24px;text-decoration:none;display:flex;align-items:center;gap:12px;transition:var(--transition)}
+    .subcat-card:hover{border-color:var(--border-accent);transform:translateY(-2px)}
+    .subcat-card .icon{font-size:24px}
+    .subcat-card .info strong{display:block;color:#fff;font-size:15px;font-weight:700}
+    .subcat-card .info span{color:var(--text-muted);font-size:13px}
     .pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
     .pain-card{background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:28px;transition:var(--transition)}
     .pain-card:hover{border-color:var(--border-accent);transform:translateY(-3px)}
@@ -60,10 +66,7 @@
     footer{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:13px;border-top:1px solid var(--border-glass)}
     footer a{color:var(--text-muted);text-decoration:none}
     footer a:hover{color:var(--nwm-orange)}
-  </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+</style>
 </head>
 <body>
 
@@ -74,9 +77,9 @@
         <span class="logo-wordmark"><span class="logo-net">net</span><span class="logo-web">web</span><span class="logo-media">media</span></span>
       </a>
       <div class="nav-links">
-        <a href="https://netwebmedia.com/about.html">About</a>
+        <a href="https://netwebmedia.com/about.html" data-en="About" data-es="Nosotros">About</a>
         <div class="nav-item">
-          <a href="https://netwebmedia.com/services.html">Services</a>
+          <a href="https://netwebmedia.com/services.html" data-en="Services" data-es="Servicios">Services</a>
           <div class="nav-dropdown">
             <a href="https://netwebmedia.com/services.html#fractional-cmo">&#9733; Fractional CMO</a>
             <a href="https://netwebmedia.com/services.html#ai-automations">AI Automations</a>
@@ -88,28 +91,27 @@
           </div>
         </div>
         <div class="nav-item">
-          <a href="https://netwebmedia.com/industries/">Industries</a>
+          <a href="https://netwebmedia.com/industries/" data-en="Industries" data-es="Industrias">Industries</a>
           <div class="nav-dropdown">
-            <a href="https://hospitality.netwebmedia.com">&#127970; Hospitality</a>
-            <a href="https://healthcare.netwebmedia.com">&#129657; Healthcare</a>
-            <a href="https://beauty.netwebmedia.com">&#10024; Beauty &amp; Wellness</a>
-            <a href="https://pro.netwebmedia.com">&#128188; Professional Services</a>
-            <a href="https://realestate.netwebmedia.com">&#127968; Real Estate</a>
-            <a href="https://restaurants.netwebmedia.com">&#127829; Restaurants &amp; F&amp;B</a>
-            <a href="https://fitness.netwebmedia.com">&#127947; Fitness &amp; Gyms</a>
-            <a href="https://ecommerce.netwebmedia.com">&#128722; E-commerce</a>
-            <a href="https://home.netwebmedia.com">&#128295; Home Services</a>
-            <a href="https://tech.netwebmedia.com">&#128187; Tech &amp; SaaS</a>
+            <a href="https://hospitality.netwebmedia.com">&#127970; <span data-en="Hospitality" data-es="Hospitalidad">Hospitality</span></a>
+            <a href="https://healthcare.netwebmedia.com">&#129657; <span data-en="Healthcare" data-es="Salud">Healthcare</span></a>
+            <a href="https://beauty.netwebmedia.com">&#10024; <span data-en="Beauty &amp; Wellness" data-es="Belleza y Bienestar">Beauty &amp; Wellness</span></a>
+            <a href="https://pro.netwebmedia.com">&#128188; <span data-en="Professional Services" data-es="Servicios Profesionales">Professional Services</span></a>
+            <a href="https://realestate.netwebmedia.com">&#127968; <span data-en="Real Estate" data-es="Bienes Ra&iacute;ces">Real Estate</span></a>
+            <a href="https://restaurants.netwebmedia.com">&#127829; <span data-en="Restaurants &amp; F&amp;B" data-es="Restaurantes y F&amp;B">Restaurants &amp; F&amp;B</span></a>
+            <a href="https://fitness.netwebmedia.com">&#127947; <span data-en="Fitness &amp; Gyms" data-es="Fitness y Gimnasios">Fitness &amp; Gyms</span></a>
+            <a href="https://ecommerce.netwebmedia.com">&#128722; <span data-en="E-commerce" data-es="E-commerce">E-commerce</span></a>
+            <a href="https://home.netwebmedia.com">&#128295; <span data-en="Home Services" data-es="Servicios del Hogar">Home Services</span></a>
+            <a href="https://tech.netwebmedia.com">&#128187; <span data-en="Tech &amp; SaaS" data-es="Tech y SaaS">Tech &amp; SaaS</span></a>
           </div>
         </div>
-        <a href="https://netwebmedia.com/partners.html">Partners</a>
-        <a href="https://netwebmedia.com/blog.html">Blog</a>
-        <a href="https://netwebmedia.com/faq.html">Q&amp;A</a>
-        <a href="https://netwebmedia.com/contact.html">Contact</a>
+        <a href="https://netwebmedia.com/partners.html" data-en="Partners" data-es="Socios">Partners</a>
+        <a href="https://netwebmedia.com/blog.html" data-en="Blog" data-es="Blog">Blog</a>
+        <a href="https://netwebmedia.com/faq.html" data-en="Q&amp;A" data-es="Preguntas">Q&amp;A</a>
+        <a href="https://netwebmedia.com/contact.html" data-en="Contact" data-es="Contacto">Contact</a>
       </div>
       <div class="nav-ctas">
-        <div class="nav-lang"></div>
-        <a href="https://netwebmedia.com/contact.html" class="btn-nav-solid">Get a Free Audit</a>
+        <a href="https://netwebmedia.com/contact.html" class="btn-nav-solid" data-en="Get a Free Audit" data-es="Auditor&iacute;a Gratis">Get a Free Audit</a>
       </div>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
@@ -120,38 +122,71 @@
 
 <main>
   <div class="ind-hero">
-    <div class="eyebrow">💻 Tech &amp; SaaS</div>
-    <h1>Shorten Your Sales Cycle<br><span class='hl'>With AI-Powered Marketing.</span></h1>
-    <p class="sub">Your product is great but your pipeline is lumpy. We build the demand gen engine — content, AEO, paid, and AI outbound — that fills the funnel and accelerates deals.</p>
+    <div class="eyebrow" data-en="Tech &amp; SaaS" data-es="Tech y SaaS">&#128187; Tech &amp; SaaS</div>
+    <h1>
+      <span data-en="Shorten Your Sales Cycle" data-es="Acorta Tu Ciclo de Ventas">Shorten Your Sales Cycle</span><br>
+      <span class="hl" data-en="With AI-Powered Marketing." data-es="Con Marketing Potenciado por IA.">With AI-Powered Marketing.</span>
+    </h1>
+    <p class="sub" data-en="Your product is great but your pipeline is lumpy. We build the demand gen engine — content, AEO, paid, and AI outbound — that fills the funnel and accelerates deals." data-es="Tu producto es excelente pero tu pipeline es irregular. Construimos el motor de generación de demanda — contenido, AEO, pagado y outbound con IA — que llena el embudo y acelera los deals.">Your product is great but your pipeline is lumpy. We build the demand gen engine — content, AEO, paid, and AI outbound — that fills the funnel and accelerates deals.</p>
     <div class="hero-ctas">
-      <a href="https://netwebmedia.com/contact.html" class="btn-primary">Get a Free Audit &rarr;</a>
-      <a href="https://netwebmedia.com/services.html" class="btn-ghost-white">See All Services</a>
+      <a href="https://netwebmedia.com/contact.html" class="btn-primary" data-en="Get a Free Audit &rarr;" data-es="Obtener Auditor&iacute;a Gratis &rarr;">Get a Free Audit &rarr;</a>
+      <a href="https://netwebmedia.com/services.html" class="btn-ghost-white" data-en="See All Services" data-es="Ver Todos los Servicios">See All Services</a>
     </div>
   </div>
 
   <div class="results-bar">
-    <div class="result-stat"><div class="n">-35% sales cycle length</div><div class="l">Client avg result</div></div>
-    <div class="result-stat"><div class="n">Top 3 AI citation for target use cases</div><div class="l">Client avg result</div></div>
-    <div class="result-stat"><div class="n">2.9x pipeline from content</div><div class="l">Client avg result</div></div>
+    <div class="result-stat"><div class="n">-35% sales cycle length</div><div class="l" data-en="Client avg result" data-es="Resultado promedio del cliente">Client avg result</div></div>
+    <div class="result-stat"><div class="n">Top 3 AI citation for use cases</div><div class="l" data-en="Client avg result" data-es="Resultado promedio del cliente">Client avg result</div></div>
+    <div class="result-stat"><div class="n">2.9x pipeline from content</div><div class="l" data-en="Client avg result" data-es="Resultado promedio del cliente">Client avg result</div></div>
   </div>
 
   <hr class="divider">
 
   <div class="section">
-    <div class="section-label">The tech &amp; SaaS marketing problem</div>
-    <div class="section-title">Why most tech startups &amp; SaaS companies<br>struggle with marketing</div>
+    <div class="section-label" data-en="Explore by specialty" data-es="Explorar por especialidad">Explore by specialty</div>
+    <div class="section-title" data-en="Find your specific niche" data-es="Encuentra tu nicho espec&iacute;fico">Find your specific niche</div>
+    <div class="subcats">
+        <a class="subcat-card" href="https://saas.netwebmedia.com">
+          <div class="icon">&#9729;</div>
+          <div class="info">
+            <strong data-en="SaaS Companies" data-es="Empresas SaaS">SaaS Companies</strong>
+            <span data-en="More trials, shorter sales cycles" data-es="Más trials, ciclos de venta más cortos">More trials, shorter sales cycles</span>
+          </div>
+        </a>
+        <a class="subcat-card" href="https://startups.netwebmedia.com">
+          <div class="icon">&#128640;</div>
+          <div class="info">
+            <strong data-en="Tech Startups" data-es="Startups Tech">Tech Startups</strong>
+            <span data-en="Go to market fast" data-es="Sal al mercado rápido">Go to market fast</span>
+          </div>
+        </a>
+        <a class="subcat-card" href="https://agencies.netwebmedia.com">
+          <div class="icon">&#128226;</div>
+          <div class="info">
+            <strong data-en="Marketing Agencies" data-es="Agencias de Marketing">Marketing Agencies</strong>
+            <span data-en="White-label AI, better margins" data-es="IA white-label, mejores márgenes">White-label AI, better margins</span>
+          </div>
+        </a>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <div class="section-label" data-en="The tech &amp; SaaS marketing problem" data-es="El problema de marketing en Tech y SaaS">The tech &amp; SaaS marketing problem</div>
+    <div class="section-title" data-en="Why most tech startups &amp; SaaS companies<br>struggle with marketing" data-es="Por qué la mayoría de startups tech y empresas SaaS<br>lucha con el marketing">Why most tech startups &amp; SaaS companies<br>struggle with marketing</div>
     <div class="pain-grid">
         <div class="pain-card">
-          <h3>CAC too high, pipeline too thin</h3>
-          <p>Random acts of content and one-off campaigns don't compound. We build a systematic demand gen engine that improves month over month.</p>
+          <h3 data-en="CAC too high, pipeline too thin" data-es="CAC demasiado alto, pipeline demasiado delgado">CAC too high, pipeline too thin</h3>
+          <p data-en="Random acts of content and one-off campaigns don’t compound. We build a systematic demand gen engine that improves month over month." data-es="Los actos aleatorios de contenido y campañas únicas no se acumulan. Construimos un motor de demanda sistemático que mejora mes a mes.">Random acts of content and one-off campaigns don’t compound. We build a systematic demand gen engine that improves month over month.</p>
         </div>
         <div class="pain-card">
-          <h3>Invisible in AI-generated vendor research</h3>
-          <p>B2B buyers use Claude and ChatGPT for vendor research before they ever visit your site. If AI doesn't know your product, you're not in the deal.</p>
+          <h3 data-en="Invisible in AI-generated vendor research" data-es="Invisible en la investigación de proveedores por IA">Invisible in AI-generated vendor research</h3>
+          <p data-en="B2B buyers use Claude and ChatGPT for vendor research before they ever visit your site. If AI doesn’t know your product, you’re not in the deal." data-es="Los compradores B2B usan Claude y ChatGPT para investigar proveedores antes de visitar tu sitio. Si la IA no conoce tu producto, no estás en el deal.">B2B buyers use Claude and ChatGPT for vendor research before they ever visit your site. If AI doesn’t know your product, you’re not in the deal.</p>
         </div>
         <div class="pain-card">
-          <h3>Long sales cycles draining resources</h3>
-          <p>We build content and automation that educate prospects and handle objections before your sales team touches them — compressing the cycle.</p>
+          <h3 data-en="Long sales cycles draining resources" data-es="Los largos ciclos de ventas drenan recursos">Long sales cycles draining resources</h3>
+          <p data-en="We build content and automation that educate prospects and handle objections before your sales team touches them — compressing the cycle." data-es="Construimos contenido y automatización que educa a los prospectos y maneja objeciones antes de que tu equipo de ventas los toque — comprimiendo el ciclo.">We build content and automation that educate prospects and handle objections before your sales team touches them — compressing the cycle.</p>
         </div>
     </div>
   </div>
@@ -159,58 +194,58 @@
   <hr class="divider">
 
   <div class="section">
-    <div class="section-label" style="text-align:center">Fractional CMO Retainer &mdash; Most Popular</div>
-    <div class="section-title" style="text-align:center">Your entire marketing function,<br>fully managed by AI + humans.</div>
-    <p style="text-align:center;color:var(--text-muted);font-size:15px;margin-top:-32px;margin-bottom:48px">90-day minimum &middot; month-to-month thereafter &middot; All plans include NWM CRM (46 modules)</p>
+    <div class="section-label" style="text-align:center" data-en="Fractional CMO Retainer &mdash; Most Popular" data-es="Retainer CMO Fraccional &mdash; El M&aacute;s Popular">Fractional CMO Retainer &mdash; Most Popular</div>
+    <div class="section-title" style="text-align:center" data-en="Your entire marketing function, fully managed by AI + humans." data-es="Tu funci&oacute;n de marketing completa, gestionada por IA + humanos.">Your entire marketing function,<br>fully managed by AI + humans.</div>
+    <p style="text-align:center;color:var(--text-muted);font-size:15px;margin-top:-32px;margin-bottom:48px" data-en="90-day minimum &middot; month-to-month thereafter &middot; All plans include NWM CRM (46 modules)" data-es="M&iacute;nimo 90 d&iacute;as &middot; mensual despu&eacute;s &middot; Todos los planes incluyen NWM CRM (46 m&oacute;dulos)">90-day minimum &middot; month-to-month thereafter &middot; All plans include NWM CRM (46 modules)</p>
     <div class="pricing-grid">
 
       <div class="price-card">
         <div class="price-tier">CMO Lite</div>
         <div class="price-name">CMO Lite</div>
-        <div class="price-desc">AEO + SEO + content strategy</div>
+        <div class="price-desc" data-en="AEO + SEO + content strategy" data-es="AEO + SEO + estrategia de contenido">AEO + SEO + content strategy</div>
         <div class="price-amount">$249<span>/mo</span></div>
-        <div class="price-setup">No setup fee</div>
+        <div class="price-setup" data-en="No setup fee" data-es="Sin cargo de configuraci&oacute;n">No setup fee</div>
         <ul class="price-features">
-            <li>SEO + thought leadership content strategy</li>
-            <li>Monthly technical blog posts &amp; comparison content</li>
-            <li>AEO — be cited by Claude &amp; ChatGPT for your category</li>
-            <li>NWM CRM for lead nurture sequences</li>
-            <li>Monthly strategy note</li>
+            <li data-en="SEO + thought leadership content strategy" data-es="SEO + estrategia de contenido de liderazgo intelectual">SEO + thought leadership content strategy</li>
+            <li data-en="Monthly technical blog posts &amp; comparison content" data-es="Posts técnicos mensuales y contenido de comparación">Monthly technical blog posts &amp; comparison content</li>
+            <li data-en="AEO — be cited by Claude &amp; ChatGPT for your category" data-es="AEO — sé citado por Claude y ChatGPT en tu categoría">AEO — be cited by Claude &amp; ChatGPT for your category</li>
+            <li data-en="NWM CRM for lead nurture sequences" data-es="NWM CRM para secuencias de nurture de leads">NWM CRM for lead nurture sequences</li>
+            <li data-en="Monthly strategy note" data-es="Nota de estrategia mensual">Monthly strategy note</li>
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta outline">Get started &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta outline" data-en="Get started &rarr;" data-es="Comenzar &rarr;">Get started &rarr;</a>
       </div>
 
       <div class="price-card featured">
-        <div class="price-badge">Most Popular</div>
+        <div class="price-badge" data-en="Most Popular" data-es="M&aacute;s Popular">Most Popular</div>
         <div class="price-tier">CMO Growth</div>
         <div class="price-name">CMO Growth</div>
-        <div class="price-desc">AEO + SEO + paid ads + social</div>
+        <div class="price-desc" data-en="AEO + SEO + paid ads + social" data-es="AEO + SEO + publicidad pagada + social">AEO + SEO + paid ads + social</div>
         <div class="price-amount">$999<span>/mo</span></div>
-        <div class="price-setup">Setup $499</div>
+        <div class="price-setup" data-en="Setup $499" data-es="Configuraci&oacute;n $499">Setup $499</div>
         <ul class="price-features">
-            <li>Everything in CMO Lite</li>
-            <li>Google Search + LinkedIn paid campaigns</li>
-            <li>Email nurture sequences for trial &amp; demo leads</li>
-            <li>Competitor comparison &amp; battle card content</li>
-            <li>AI SDR for demo scheduling &amp; qualification</li>
+            <li data-en="Everything in CMO Lite" data-es="Todo en CMO Lite">Everything in CMO Lite</li>
+            <li data-en="Google Search + LinkedIn paid campaigns" data-es="Campañas pagadas en Google Search + LinkedIn">Google Search + LinkedIn paid campaigns</li>
+            <li data-en="Email nurture sequences for trial &amp; demo leads" data-es="Secuencias de nurture por email para leads de prueba y demo">Email nurture sequences for trial &amp; demo leads</li>
+            <li data-en="Competitor comparison &amp; battle card content" data-es="Contenido de comparación y battle cards contra competidores">Competitor comparison &amp; battle card content</li>
+            <li data-en="AI SDR for demo scheduling &amp; qualification" data-es="SDR de IA para agendar demos y calificación">AI SDR for demo scheduling &amp; qualification</li>
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta solid">Get started &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta solid" data-en="Get started &rarr;" data-es="Comenzar &rarr;">Get started &rarr;</a>
       </div>
 
       <div class="price-card">
         <div class="price-tier">CMO Scale</div>
         <div class="price-name">CMO Scale</div>
-        <div class="price-desc">Full-stack marketing department</div>
+        <div class="price-desc" data-en="Full-stack marketing department" data-es="Departamento de marketing completo">Full-stack marketing department</div>
         <div class="price-amount">$2,499<span>/mo</span></div>
-        <div class="price-setup">Setup $999</div>
+        <div class="price-setup" data-en="Setup $999" data-es="Configuraci&oacute;n $999">Setup $999</div>
         <ul class="price-features">
-            <li>Everything in CMO Growth</li>
-            <li>16 Reels/mo — product demos, customer stories, explainers</li>
-            <li>Custom AI sales assistant for your site</li>
-            <li>White-glove onboarding + dedicated strategist</li>
-            <li>Priority support + daily Slack access</li>
+            <li data-en="Everything in CMO Growth" data-es="Todo en CMO Growth">Everything in CMO Growth</li>
+            <li data-en="16 Reels/mo — product demos, customer stories, explainers" data-es="16 Reels/mes — demos de producto, historias de clientes, explainers">16 Reels/mo — product demos, customer stories, explainers</li>
+            <li data-en="Custom AI sales assistant for your site" data-es="Asistente de ventas IA personalizado para tu sitio">Custom AI sales assistant for your site</li>
+            <li data-en="White-glove onboarding + dedicated strategist" data-es="Incorporación premium + estratega dedicado">White-glove onboarding + dedicated strategist</li>
+            <li data-en="Priority support + daily Slack access" data-es="Soporte prioritario + acceso diario a Slack">Priority support + daily Slack access</li>
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta outline">Contact sales &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta outline" data-en="Contact sales &rarr;" data-es="Contactar ventas &rarr;">Contact sales &rarr;</a>
       </div>
 
     </div>
@@ -220,9 +255,9 @@
   <hr class="divider">
 
   <div class="final-cta-wrap">
-    <h2>Ready to grow your tech startups &amp; SaaS companies?</h2>
-    <p>Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it.</p>
-    <a href="https://netwebmedia.com/contact.html" class="btn-primary" style="font-size:18px;padding:18px 40px">Book Your Free Audit &rarr;</a>
+    <h2 data-en="Ready to grow your tech startups &amp; SaaS companies?" data-es="&iquest;Listo para hacer crecer tu startups tecnológicas y empresas SaaS?">Ready to grow your tech startups &amp; SaaS companies?</h2>
+    <p data-en="Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it." data-es="Obt&eacute;n una auditor&iacute;a gratuita de 30 minutos. Te mostraremos exactamente d&oacute;nde est&aacute;s perdiendo visibilidad e ingresos &mdash; y qu&eacute; hacer al respecto.">Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it.</p>
+    <a href="https://netwebmedia.com/contact.html" class="btn-primary" style="font-size:18px;padding:18px 40px" data-en="Book Your Free Audit &rarr;" data-es="Reservar Tu Auditor&iacute;a Gratis &rarr;">Book Your Free Audit &rarr;</a>
   </div>
 </main>
 
@@ -231,6 +266,5 @@
 </footer>
 
 <script src="https://netwebmedia.com/js/main.js"></script>
-<script src="/assets/nwm-i18n.js" defer></script>
 </body>
 </html>

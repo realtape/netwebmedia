@@ -7,41 +7,41 @@ NAV = """<nav class="navbar has-lang-bar" id="navbar">
         <span class="logo-wordmark"><span class="logo-net">net</span><span class="logo-web">web</span><span class="logo-media">media</span></span>
       </a>
       <div class="nav-links">
-        <a href="https://netwebmedia.com/about.html">About</a>
+        <a href="https://netwebmedia.com/about.html" data-en="About" data-es="Nosotros">About</a>
         <div class="nav-item">
-          <a href="https://netwebmedia.com/services.html">Services</a>
+          <a href="https://netwebmedia.com/services.html" data-en="Services" data-es="Servicios">Services</a>
           <div class="nav-dropdown">
-            <a href="https://netwebmedia.com/services.html#fractional-cmo">&#9733; Fractional CMO</a>
-            <a href="https://netwebmedia.com/services.html#ai-automations">AI Automations</a>
-            <a href="https://netwebmedia.com/services.html#ai-agents">AI Agents</a>
-            <a href="https://netwebmedia.com/services.html#paid-ads">Paid Ads</a>
-            <a href="https://netwebmedia.com/services.html#ai-seo">AI SEO &amp; Content</a>
-            <a href="https://netwebmedia.com/services.html#social">Social Media</a>
-            <a href="https://netwebmedia.com/email-marketing.html">Email Marketing</a>
+            <a href="https://netwebmedia.com/services.html#fractional-cmo">&#9733; <span data-en="Fractional CMO" data-es="CMO Fraccional">Fractional CMO</span></a>
+            <a href="https://netwebmedia.com/services.html#ai-automations"><span data-en="AI Automations" data-es="Automatizaciones IA">AI Automations</span></a>
+            <a href="https://netwebmedia.com/services.html#ai-agents"><span data-en="AI Agents" data-es="Agentes IA">AI Agents</span></a>
+            <a href="https://netwebmedia.com/services.html#paid-ads"><span data-en="Paid Ads" data-es="Publicidad Paga">Paid Ads</span></a>
+            <a href="https://netwebmedia.com/services.html#ai-seo"><span data-en="AI SEO &amp; Content" data-es="SEO IA y Contenido">AI SEO &amp; Content</span></a>
+            <a href="https://netwebmedia.com/services.html#social"><span data-en="Social Media" data-es="Redes Sociales">Social Media</span></a>
+            <a href="https://netwebmedia.com/email-marketing.html"><span data-en="Email Marketing" data-es="Email Marketing">Email Marketing</span></a>
           </div>
         </div>
         <div class="nav-item">
-          <a href="https://netwebmedia.com/industries/">Industries</a>
+          <a href="https://netwebmedia.com/industries/" data-en="Industries" data-es="Industrias">Industries</a>
           <div class="nav-dropdown">
-            <a href="https://hospitality.netwebmedia.com">&#127970; Hospitality</a>
-            <a href="https://healthcare.netwebmedia.com">&#129657; Healthcare</a>
-            <a href="https://beauty.netwebmedia.com">&#10024; Beauty &amp; Wellness</a>
-            <a href="https://pro.netwebmedia.com">&#128188; Professional Services</a>
-            <a href="https://realestate.netwebmedia.com">&#127968; Real Estate</a>
-            <a href="https://restaurants.netwebmedia.com">&#127829; Restaurants &amp; F&amp;B</a>
-            <a href="https://fitness.netwebmedia.com">&#127947; Fitness &amp; Gyms</a>
-            <a href="https://ecommerce.netwebmedia.com">&#128722; E-commerce</a>
-            <a href="https://home.netwebmedia.com">&#128295; Home Services</a>
-            <a href="https://tech.netwebmedia.com">&#128187; Tech &amp; SaaS</a>
+            <a href="https://hospitality.netwebmedia.com">&#127970; <span data-en="Hospitality" data-es="Hospitalidad">Hospitality</span></a>
+            <a href="https://healthcare.netwebmedia.com">&#129657; <span data-en="Healthcare" data-es="Salud">Healthcare</span></a>
+            <a href="https://beauty.netwebmedia.com">&#10024; <span data-en="Beauty &amp; Wellness" data-es="Belleza y Bienestar">Beauty &amp; Wellness</span></a>
+            <a href="https://pro.netwebmedia.com">&#128188; <span data-en="Professional Services" data-es="Servicios Profesionales">Professional Services</span></a>
+            <a href="https://realestate.netwebmedia.com">&#127968; <span data-en="Real Estate" data-es="Bienes Raíces">Real Estate</span></a>
+            <a href="https://restaurants.netwebmedia.com">&#127829; <span data-en="Restaurants &amp; F&amp;B" data-es="Restaurantes y F&amp;B">Restaurants &amp; F&amp;B</span></a>
+            <a href="https://fitness.netwebmedia.com">&#127947; <span data-en="Fitness &amp; Gyms" data-es="Fitness y Gimnasios">Fitness &amp; Gyms</span></a>
+            <a href="https://ecommerce.netwebmedia.com">&#128722; <span data-en="E-commerce" data-es="E-commerce">E-commerce</span></a>
+            <a href="https://home.netwebmedia.com">&#128295; <span data-en="Home Services" data-es="Servicios del Hogar">Home Services</span></a>
+            <a href="https://tech.netwebmedia.com">&#128187; <span data-en="Tech &amp; SaaS" data-es="Tech y SaaS">Tech &amp; SaaS</span></a>
           </div>
         </div>
-        <a href="https://netwebmedia.com/partners.html">Partners</a>
-        <a href="https://netwebmedia.com/blog.html">Blog</a>
-        <a href="https://netwebmedia.com/faq.html">Q&amp;A</a>
-        <a href="https://netwebmedia.com/contact.html">Contact</a>
+        <a href="https://netwebmedia.com/partners.html" data-en="Partners" data-es="Aliados">Partners</a>
+        <a href="https://netwebmedia.com/blog.html" data-en="Blog" data-es="Blog">Blog</a>
+        <a href="https://netwebmedia.com/faq.html" data-en="Q&amp;A" data-es="P&amp;R">Q&amp;A</a>
+        <a href="https://netwebmedia.com/contact.html" data-en="Contact" data-es="Contacto">Contact</a>
       </div>
       <div class="nav-ctas">
-        <a href="https://netwebmedia.com/contact.html" class="btn-nav-solid">Get a Free Audit</a>
+        <a href="https://netwebmedia.com/contact.html" class="btn-nav-solid" data-en="Get a Free Audit" data-es="Auditoría Gratis">Get a Free Audit</a>
       </div>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
@@ -49,6 +49,20 @@ NAV = """<nav class="navbar has-lang-bar" id="navbar">
     </div>
   </div>
 </nav>"""
+
+# Parent label translations (EN → ES)
+PARENT_ES = {
+  "Hospitality": "Hospitalidad",
+  "Healthcare": "Salud",
+  "Beauty &amp; Wellness": "Belleza y Bienestar",
+  "Professional Services": "Servicios Profesionales",
+  "Real Estate": "Bienes Raíces",
+  "Restaurants &amp; F&amp;B": "Restaurantes y F&amp;B",
+  "Fitness &amp; Gyms": "Fitness y Gimnasios",
+  "E-commerce": "E-commerce",
+  "Home Services": "Servicios del Hogar",
+  "Tech &amp; SaaS": "Tech y SaaS",
+}
 
 SUBCATEGORIES = [
   # ── HOSPITALITY ──────────────────────────────────────────────────────────
@@ -696,17 +710,27 @@ CSS = """
     footer a:hover{color:var(--nwm-orange)}
 """
 
-def build_page(v):
-    pain_cards = "".join(f"""
-        <div class="pain-card">
-          <h3>{t}</h3>
-          <p>{d}</p>
-        </div>""" for t, d in v["pains"])
+def esc_attr(s):
+    """Escape text for use inside a data-* attribute value."""
+    return s.replace('"', '&quot;')
 
-    lite_lis  = "\n".join(f"            <li>{f}</li>" for f in v["lite"])
-    grow_lis  = "\n".join(f"            <li>{f}</li>" for f in v["growth"])
-    scale_lis = "\n".join(f"            <li>{f}</li>" for f in v["scale"])
+def build_page(v):
+    # Pains: render each card with data-en / data-es (fallback to English for ES)
+    pain_cards = ""
+    for t, d in v["pains"]:
+        pain_cards += f"""
+        <div class="pain-card">
+          <h3 data-en="{esc_attr(t)}" data-es="{esc_attr(t)}">{t}</h3>
+          <p data-en="{esc_attr(d)}" data-es="{esc_attr(d)}">{d}</p>
+        </div>"""
+
+    lite_lis  = "\n".join(f'            <li data-en="{esc_attr(f)}" data-es="{esc_attr(f)}">{f}</li>' for f in v["lite"])
+    grow_lis  = "\n".join(f'            <li data-en="{esc_attr(f)}" data-es="{esc_attr(f)}">{f}</li>' for f in v["growth"])
+    scale_lis = "\n".join(f'            <li data-en="{esc_attr(f)}" data-es="{esc_attr(f)}">{f}</li>' for f in v["scale"])
     r1, r2, r3 = v["results"]
+
+    parent_label_es = PARENT_ES.get(v["parent_label"], v["parent_label"])
+    label_es = v["label"]  # subcategory label stays (mostly proper nouns)
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -731,32 +755,32 @@ def build_page(v):
 <main>
   <div class="ind-hero">
     <div class="breadcrumb">
-      <a href="https://netwebmedia.com/industries/">Industries</a>
+      <a href="https://netwebmedia.com/industries/" data-en="Industries" data-es="Industrias">Industries</a>
       <span>/</span>
-      <a href="https://{v["parent_slug"]}.netwebmedia.com">{v["parent_label"]}</a>
+      <a href="https://{v["parent_slug"]}.netwebmedia.com" data-en="{esc_attr(v['parent_label'])}" data-es="{esc_attr(parent_label_es)}">{v["parent_label"]}</a>
       <span>/</span>
-      <span>{v["label"]}</span>
+      <span data-en="{esc_attr(v['label'])}" data-es="{esc_attr(label_es)}">{v["label"]}</span>
     </div>
-    <div class="eyebrow">{v["emoji"]} {v["label"]}</div>
-    <h1>{v["hero_headline"]}</h1>
-    <p class="sub">{v["hero_sub"]}</p>
+    <div class="eyebrow">{v["emoji"]} <span data-en="{esc_attr(v['label'])}" data-es="{esc_attr(label_es)}">{v["label"]}</span></div>
+    <h1 data-en="{esc_attr(v['hero_headline'])}" data-es="{esc_attr(v['hero_headline'])}">{v["hero_headline"]}</h1>
+    <p class="sub" data-en="{esc_attr(v['hero_sub'])}" data-es="{esc_attr(v['hero_sub'])}">{v["hero_sub"]}</p>
     <div class="hero-ctas">
-      <a href="https://netwebmedia.com/contact.html" class="btn-primary">Get a Free Audit &rarr;</a>
-      <a href="https://{v["parent_slug"]}.netwebmedia.com" class="btn-ghost-white">Back to {v["parent_label"]}</a>
+      <a href="https://netwebmedia.com/contact.html" class="btn-primary" data-en="Get a Free Audit &rarr;" data-es="Auditoría Gratis &rarr;">Get a Free Audit &rarr;</a>
+      <a href="https://{v["parent_slug"]}.netwebmedia.com" class="btn-ghost-white" data-en="Back to {esc_attr(v['parent_label'])}" data-es="Volver a {esc_attr(parent_label_es)}">Back to {v["parent_label"]}</a>
     </div>
   </div>
 
   <div class="results-bar">
-    <div class="result-stat"><div class="n">{r1}</div><div class="l">Client avg result</div></div>
-    <div class="result-stat"><div class="n">{r2}</div><div class="l">Client avg result</div></div>
-    <div class="result-stat"><div class="n">{r3}</div><div class="l">Client avg result</div></div>
+    <div class="result-stat"><div class="n">{r1}</div><div class="l" data-en="Client avg result" data-es="Resultado promedio">Client avg result</div></div>
+    <div class="result-stat"><div class="n">{r2}</div><div class="l" data-en="Client avg result" data-es="Resultado promedio">Client avg result</div></div>
+    <div class="result-stat"><div class="n">{r3}</div><div class="l" data-en="Client avg result" data-es="Resultado promedio">Client avg result</div></div>
   </div>
 
   <hr class="divider">
 
   <div class="section">
-    <div class="section-label">{v["pain_label"]}</div>
-    <div class="section-title">Why most {v["cta"]}<br>struggles with marketing</div>
+    <div class="section-label" data-en="{esc_attr(v['pain_label'])}" data-es="{esc_attr(v['pain_label'])}">{v["pain_label"]}</div>
+    <div class="section-title" data-en="Why most {esc_attr(v['cta'])} struggles with marketing" data-es="Por qué la mayoría de {esc_attr(v['cta'])} falla en marketing">Why most {v["cta"]}<br>struggles with marketing</div>
     <div class="pain-grid">{pain_cards}
     </div>
   </div>
@@ -764,63 +788,63 @@ def build_page(v):
   <hr class="divider">
 
   <div class="section">
-    <div class="section-label" style="text-align:center">Fractional CMO Retainer &mdash; Built for {v["label"]}</div>
-    <div class="section-title" style="text-align:center">Your entire marketing function,<br>fully managed by AI + humans.</div>
-    <p style="text-align:center;color:var(--text-muted);font-size:15px;margin-top:-32px;margin-bottom:48px">90-day minimum &middot; month-to-month thereafter &middot; All plans include NWM CRM (46 modules)</p>
+    <div class="section-label" style="text-align:center" data-en="Fractional CMO Retainer — Built for {esc_attr(v['label'])}" data-es="CMO Fraccional — Diseñado para {esc_attr(label_es)}">Fractional CMO Retainer &mdash; Built for {v["label"]}</div>
+    <div class="section-title" style="text-align:center" data-en="Your entire marketing function, fully managed by AI + humans." data-es="Toda tu función de marketing, gestionada por IA + humanos.">Your entire marketing function,<br>fully managed by AI + humans.</div>
+    <p style="text-align:center;color:var(--text-muted);font-size:15px;margin-top:-32px;margin-bottom:48px" data-en="90-day minimum · month-to-month thereafter · All plans include NWM CRM (46 modules)" data-es="Mínimo 90 días · mes a mes después · Todos los planes incluyen NWM CRM (46 módulos)">90-day minimum &middot; month-to-month thereafter &middot; All plans include NWM CRM (46 modules)</p>
     <div class="pricing-grid">
 
       <div class="price-card">
         <div class="price-tier">CMO Lite</div>
         <div class="price-name">CMO Lite</div>
-        <div class="price-desc">AEO + SEO + content strategy</div>
-        <div class="price-amount">$249<span>/mo</span></div>
-        <div class="price-setup">No setup fee</div>
+        <div class="price-desc" data-en="AEO + SEO + content strategy" data-es="AEO + SEO + estrategia de contenido">AEO + SEO + content strategy</div>
+        <div class="price-amount">$249<span data-en="/mo" data-es="/mes">/mo</span></div>
+        <div class="price-setup" data-en="No setup fee" data-es="Sin costo de setup">No setup fee</div>
         <ul class="price-features">
 {lite_lis}
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta outline">Get started &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta outline" data-en="Get started &rarr;" data-es="Comenzar &rarr;">Get started &rarr;</a>
       </div>
 
       <div class="price-card featured">
-        <div class="price-badge">Most Popular</div>
+        <div class="price-badge" data-en="Most Popular" data-es="Más Popular">Most Popular</div>
         <div class="price-tier">CMO Growth</div>
         <div class="price-name">CMO Growth</div>
-        <div class="price-desc">AEO + SEO + paid ads + social</div>
-        <div class="price-amount">$999<span>/mo</span></div>
-        <div class="price-setup">Setup $499</div>
+        <div class="price-desc" data-en="AEO + SEO + paid ads + social" data-es="AEO + SEO + publicidad paga + social">AEO + SEO + paid ads + social</div>
+        <div class="price-amount">$999<span data-en="/mo" data-es="/mes">/mo</span></div>
+        <div class="price-setup" data-en="Setup $499" data-es="Setup $499">Setup $499</div>
         <ul class="price-features">
 {grow_lis}
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta solid">Get started &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta solid" data-en="Get started &rarr;" data-es="Comenzar &rarr;">Get started &rarr;</a>
       </div>
 
       <div class="price-card">
         <div class="price-tier">CMO Scale</div>
         <div class="price-name">CMO Scale</div>
-        <div class="price-desc">Full-stack marketing department</div>
-        <div class="price-amount">$2,499<span>/mo</span></div>
-        <div class="price-setup">Setup $999</div>
+        <div class="price-desc" data-en="Full-stack marketing department" data-es="Departamento de marketing completo">Full-stack marketing department</div>
+        <div class="price-amount">$2,499<span data-en="/mo" data-es="/mes">/mo</span></div>
+        <div class="price-setup" data-en="Setup $999" data-es="Setup $999">Setup $999</div>
         <ul class="price-features">
 {scale_lis}
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta outline">Contact sales &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta outline" data-en="Contact sales &rarr;" data-es="Contactar ventas &rarr;">Contact sales &rarr;</a>
       </div>
 
     </div>
-    <p style="text-align:center;color:var(--text-muted);font-size:13px;margin-top:24px">+ ad spend at cost &middot; 12% mgmt fee on ad spend (min $300/mo) &middot; <a href="https://netwebmedia.com/contact.html" style="color:var(--nwm-orange)">Questions? hello@netwebmedia.com</a></p>
+    <p style="text-align:center;color:var(--text-muted);font-size:13px;margin-top:24px" data-en="+ ad spend at cost · 12% mgmt fee on ad spend (min $300/mo) · Questions? hello@netwebmedia.com" data-es="+ inversión publicitaria al costo · 12% fee de gestión (mín $300/mes) · ¿Preguntas? hello@netwebmedia.com">+ ad spend at cost &middot; 12% mgmt fee on ad spend (min $300/mo) &middot; <a href="https://netwebmedia.com/contact.html" style="color:var(--nwm-orange)">Questions? hello@netwebmedia.com</a></p>
   </div>
 
   <hr class="divider">
 
   <div class="final-cta-wrap">
-    <h2>Ready to grow {v["cta"]}?</h2>
-    <p>Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it.</p>
-    <a href="https://netwebmedia.com/contact.html" class="btn-primary" style="font-size:18px;padding:18px 40px">Book Your Free Audit &rarr;</a>
+    <h2 data-en="Ready to grow {esc_attr(v['cta'])}?" data-es="¿Listo para crecer {esc_attr(v['cta'])}?">Ready to grow {v["cta"]}?</h2>
+    <p data-en="Get a free 30-minute audit. We'll show you exactly where you're losing visibility and revenue — and what to do about it." data-es="Obtén una auditoría gratis de 30 minutos. Te mostraremos exactamente dónde estás perdiendo visibilidad e ingresos — y qué hacer al respecto.">Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it.</p>
+    <a href="https://netwebmedia.com/contact.html" class="btn-primary" style="font-size:18px;padding:18px 40px" data-en="Book Your Free Audit &rarr;" data-es="Reserva tu Auditoría Gratis &rarr;">Book Your Free Audit &rarr;</a>
   </div>
 </main>
 
 <footer>
-  <p>&copy; 2026 <a href="https://netwebmedia.com">NetWebMedia</a> &middot; <a href="https://netwebmedia.com/privacy.html">Privacy</a> &middot; <a href="https://netwebmedia.com/terms.html">Terms</a> &middot; hello@netwebmedia.com</p>
+  <p>&copy; 2026 <a href="https://netwebmedia.com">NetWebMedia</a> &middot; <a href="https://netwebmedia.com/privacy.html" data-en="Privacy" data-es="Privacidad">Privacy</a> &middot; <a href="https://netwebmedia.com/terms.html" data-en="Terms" data-es="Términos">Terms</a> &middot; hello@netwebmedia.com</p>
 </footer>
 
 <script src="https://netwebmedia.com/js/main.js"></script>

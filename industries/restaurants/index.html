@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Marketing for Restaurants &amp; F&amp;B | NetWebMedia</title>
-  <meta name="description" content="Full tables, not just on weekends. AI marketing for restaurants, bars, and food &amp; beverage businesses — from $249/mo.">
+  <meta name="description" content="Full tables, not just on weekends. AI marketing for restaurants, bars, and food & beverage businesses — from $249/mo.">
   <link rel="canonical" href="https://restaurants.netwebmedia.com">
   <meta property="og:title" content="AI Marketing for Restaurants &amp; F&amp;B | NetWebMedia">
-  <meta property="og:description" content="Full tables, not just on weekends. AI marketing for restaurants, bars, and food &amp; beverage businesses — from $249/mo.">
+  <meta property="og:description" content="Full tables, not just on weekends. AI marketing for restaurants, bars, and food & beverage businesses — from $249/mo.">
   <meta property="og:url" content="https://restaurants.netwebmedia.com">
   <meta property="og:type" content="website">
   <link rel="icon" type="image/svg+xml" href="https://netwebmedia.com/assets/nwm-logo.svg">
@@ -30,6 +30,12 @@
     .section{max-width:1100px;margin:0 auto;padding:80px 20px}
     .section-label{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--nwm-orange);margin-bottom:12px}
     .section-title{font-size:clamp(28px,4vw,42px);font-weight:800;font-family:var(--font-display);margin-bottom:48px;line-height:1.15}
+    .subcats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:64px}
+    .subcat-card{background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:20px 24px;text-decoration:none;display:flex;align-items:center;gap:12px;transition:var(--transition)}
+    .subcat-card:hover{border-color:var(--border-accent);transform:translateY(-2px)}
+    .subcat-card .icon{font-size:24px}
+    .subcat-card .info strong{display:block;color:#fff;font-size:15px;font-weight:700}
+    .subcat-card .info span{color:var(--text-muted);font-size:13px}
     .pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
     .pain-card{background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:28px;transition:var(--transition)}
     .pain-card:hover{border-color:var(--border-accent);transform:translateY(-3px)}
@@ -60,10 +66,7 @@
     footer{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:13px;border-top:1px solid var(--border-glass)}
     footer a{color:var(--text-muted);text-decoration:none}
     footer a:hover{color:var(--nwm-orange)}
-  </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+</style>
 </head>
 <body>
 
@@ -74,9 +77,9 @@
         <span class="logo-wordmark"><span class="logo-net">net</span><span class="logo-web">web</span><span class="logo-media">media</span></span>
       </a>
       <div class="nav-links">
-        <a href="https://netwebmedia.com/about.html">About</a>
+        <a href="https://netwebmedia.com/about.html" data-en="About" data-es="Nosotros">About</a>
         <div class="nav-item">
-          <a href="https://netwebmedia.com/services.html">Services</a>
+          <a href="https://netwebmedia.com/services.html" data-en="Services" data-es="Servicios">Services</a>
           <div class="nav-dropdown">
             <a href="https://netwebmedia.com/services.html#fractional-cmo">&#9733; Fractional CMO</a>
             <a href="https://netwebmedia.com/services.html#ai-automations">AI Automations</a>
@@ -88,28 +91,27 @@
           </div>
         </div>
         <div class="nav-item">
-          <a href="https://netwebmedia.com/industries/">Industries</a>
+          <a href="https://netwebmedia.com/industries/" data-en="Industries" data-es="Industrias">Industries</a>
           <div class="nav-dropdown">
-            <a href="https://hospitality.netwebmedia.com">&#127970; Hospitality</a>
-            <a href="https://healthcare.netwebmedia.com">&#129657; Healthcare</a>
-            <a href="https://beauty.netwebmedia.com">&#10024; Beauty &amp; Wellness</a>
-            <a href="https://pro.netwebmedia.com">&#128188; Professional Services</a>
-            <a href="https://realestate.netwebmedia.com">&#127968; Real Estate</a>
-            <a href="https://restaurants.netwebmedia.com">&#127829; Restaurants &amp; F&amp;B</a>
-            <a href="https://fitness.netwebmedia.com">&#127947; Fitness &amp; Gyms</a>
-            <a href="https://ecommerce.netwebmedia.com">&#128722; E-commerce</a>
-            <a href="https://home.netwebmedia.com">&#128295; Home Services</a>
-            <a href="https://tech.netwebmedia.com">&#128187; Tech &amp; SaaS</a>
+            <a href="https://hospitality.netwebmedia.com">&#127970; <span data-en="Hospitality" data-es="Hospitalidad">Hospitality</span></a>
+            <a href="https://healthcare.netwebmedia.com">&#129657; <span data-en="Healthcare" data-es="Salud">Healthcare</span></a>
+            <a href="https://beauty.netwebmedia.com">&#10024; <span data-en="Beauty &amp; Wellness" data-es="Belleza y Bienestar">Beauty &amp; Wellness</span></a>
+            <a href="https://pro.netwebmedia.com">&#128188; <span data-en="Professional Services" data-es="Servicios Profesionales">Professional Services</span></a>
+            <a href="https://realestate.netwebmedia.com">&#127968; <span data-en="Real Estate" data-es="Bienes Ra&iacute;ces">Real Estate</span></a>
+            <a href="https://restaurants.netwebmedia.com">&#127829; <span data-en="Restaurants &amp; F&amp;B" data-es="Restaurantes y F&amp;B">Restaurants &amp; F&amp;B</span></a>
+            <a href="https://fitness.netwebmedia.com">&#127947; <span data-en="Fitness &amp; Gyms" data-es="Fitness y Gimnasios">Fitness &amp; Gyms</span></a>
+            <a href="https://ecommerce.netwebmedia.com">&#128722; <span data-en="E-commerce" data-es="E-commerce">E-commerce</span></a>
+            <a href="https://home.netwebmedia.com">&#128295; <span data-en="Home Services" data-es="Servicios del Hogar">Home Services</span></a>
+            <a href="https://tech.netwebmedia.com">&#128187; <span data-en="Tech &amp; SaaS" data-es="Tech y SaaS">Tech &amp; SaaS</span></a>
           </div>
         </div>
-        <a href="https://netwebmedia.com/partners.html">Partners</a>
-        <a href="https://netwebmedia.com/blog.html">Blog</a>
-        <a href="https://netwebmedia.com/faq.html">Q&amp;A</a>
-        <a href="https://netwebmedia.com/contact.html">Contact</a>
+        <a href="https://netwebmedia.com/partners.html" data-en="Partners" data-es="Socios">Partners</a>
+        <a href="https://netwebmedia.com/blog.html" data-en="Blog" data-es="Blog">Blog</a>
+        <a href="https://netwebmedia.com/faq.html" data-en="Q&amp;A" data-es="Preguntas">Q&amp;A</a>
+        <a href="https://netwebmedia.com/contact.html" data-en="Contact" data-es="Contacto">Contact</a>
       </div>
       <div class="nav-ctas">
-        <div class="nav-lang"></div>
-        <a href="https://netwebmedia.com/contact.html" class="btn-nav-solid">Get a Free Audit</a>
+        <a href="https://netwebmedia.com/contact.html" class="btn-nav-solid" data-en="Get a Free Audit" data-es="Auditor&iacute;a Gratis">Get a Free Audit</a>
       </div>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
@@ -120,38 +122,64 @@
 
 <main>
   <div class="ind-hero">
-    <div class="eyebrow">🍽️ Restaurants &amp; F&amp;B</div>
-    <h1>Full Tables.<br><span class='hl'>Not Just on Weekends.</span></h1>
-    <p class="sub">Your food is great. But if locals aren't finding you on Google and AI isn't recommending you, you're leaving covers on the table every night.</p>
+    <div class="eyebrow" data-en="Restaurants &amp; F&amp;B" data-es="Restaurantes y F&amp;B">&#127829; Restaurants &amp; F&amp;B</div>
+    <h1>
+      <span data-en="Full Tables." data-es="Mesas Llenas.">Full Tables.</span><br>
+      <span class="hl" data-en="Not Just on Weekends." data-es="No Solo los Fines de Semana.">Not Just on Weekends.</span>
+    </h1>
+    <p class="sub" data-en="Your food is great. But if locals aren’t finding you on Google and AI isn’t recommending you, you’re leaving covers on the table every night." data-es="Tu comida es excelente. Pero si los locales no te encuentran en Google y la IA no te recomienda, estás dejando cubiertos en la mesa cada noche.">Your food is great. But if locals aren’t finding you on Google and AI isn’t recommending you, you’re leaving covers on the table every night.</p>
     <div class="hero-ctas">
-      <a href="https://netwebmedia.com/contact.html" class="btn-primary">Get a Free Audit &rarr;</a>
-      <a href="https://netwebmedia.com/services.html" class="btn-ghost-white">See All Services</a>
+      <a href="https://netwebmedia.com/contact.html" class="btn-primary" data-en="Get a Free Audit &rarr;" data-es="Obtener Auditor&iacute;a Gratis &rarr;">Get a Free Audit &rarr;</a>
+      <a href="https://netwebmedia.com/services.html" class="btn-ghost-white" data-en="See All Services" data-es="Ver Todos los Servicios">See All Services</a>
     </div>
   </div>
 
   <div class="results-bar">
-    <div class="result-stat"><div class="n">+48% midweek covers</div><div class="l">Client avg result</div></div>
-    <div class="result-stat"><div class="n">+180% Google review velocity</div><div class="l">Client avg result</div></div>
-    <div class="result-stat"><div class="n">4.8&#9733; average across platforms</div><div class="l">Client avg result</div></div>
+    <div class="result-stat"><div class="n">+48% midweek covers</div><div class="l" data-en="Client avg result" data-es="Resultado promedio del cliente">Client avg result</div></div>
+    <div class="result-stat"><div class="n">+180% Google review velocity</div><div class="l" data-en="Client avg result" data-es="Resultado promedio del cliente">Client avg result</div></div>
+    <div class="result-stat"><div class="n">4.8&#9733; average across platforms</div><div class="l" data-en="Client avg result" data-es="Resultado promedio del cliente">Client avg result</div></div>
   </div>
 
   <hr class="divider">
 
   <div class="section">
-    <div class="section-label">The restaurant marketing problem</div>
-    <div class="section-title">Why most restaurants, bars &amp; F&amp;B businesses<br>struggle with marketing</div>
+    <div class="section-label" data-en="Explore by specialty" data-es="Explorar por especialidad">Explore by specialty</div>
+    <div class="section-title" data-en="Find your specific niche" data-es="Encuentra tu nicho espec&iacute;fico">Find your specific niche</div>
+    <div class="subcats">
+        <a class="subcat-card" href="https://bars.netwebmedia.com">
+          <div class="icon">&#127864;</div>
+          <div class="info">
+            <strong data-en="Bars &amp; Nightlife" data-es="Bares y Vida Nocturna">Bars &amp; Nightlife</strong>
+            <span data-en="Packed every night of the week" data-es="Lleno cada noche de la semana">Packed every night of the week</span>
+          </div>
+        </a>
+        <a class="subcat-card" href="https://catering.netwebmedia.com">
+          <div class="icon">&#127857;</div>
+          <div class="info">
+            <strong data-en="Catering" data-es="Catering">Catering</strong>
+            <span data-en="High-value event bookings" data-es="Reservas de eventos de alto valor">High-value event bookings</span>
+          </div>
+        </a>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <div class="section-label" data-en="The restaurant marketing problem" data-es="El problema de marketing en restaurantes">The restaurant marketing problem</div>
+    <div class="section-title" data-en="Why most restaurants, bars &amp; F&amp;B businesses<br>struggle with marketing" data-es="Por qué la mayoría de restaurantes, bares y negocios F&amp;B<br>lucha con el marketing">Why most restaurants, bars &amp; F&amp;B businesses<br>struggle with marketing</div>
     <div class="pain-grid">
         <div class="pain-card">
-          <h3>Slow midweek nights costing you money</h3>
-          <p>Fixed costs don't stop on Tuesdays. We run targeted promotions and email campaigns that drive traffic on your slowest nights.</p>
+          <h3 data-en="Slow midweek nights costing you money" data-es="Las noches lentas entre semana te cuestan dinero">Slow midweek nights costing you money</h3>
+          <p data-en="Fixed costs don’t stop on Tuesdays. We run targeted promotions and email campaigns that drive traffic on your slowest nights." data-es="Los costos fijos no paran los martes. Ejecutamos promociones dirigidas y campañas de email que generan tráfico en tus noches más lentas.">Fixed costs don’t stop on Tuesdays. We run targeted promotions and email campaigns that drive traffic on your slowest nights.</p>
         </div>
         <div class="pain-card">
-          <h3>Losing to chains with bigger budgets</h3>
-          <p>Big chains have agencies. Now you do too — for a fraction of the cost. We out-smart them with better local targeting and AI search presence.</p>
+          <h3 data-en="Losing to chains with bigger budgets" data-es="Perdiendo ante cadenas con presupuestos mayores">Losing to chains with bigger budgets</h3>
+          <p data-en="Big chains have agencies. Now you do too — for a fraction of the cost. We out-smart them with better local targeting and AI search presence." data-es="Las grandes cadenas tienen agencias. Ahora tú también — por una fracción del costo. Los superamos con mejor segmentación local y presencia en búsqueda IA.">Big chains have agencies. Now you do too — for a fraction of the cost. We out-smart them with better local targeting and AI search presence.</p>
         </div>
         <div class="pain-card">
-          <h3>No system for reviews and loyalty</h3>
-          <p>Reviews drive reservations. We build automated systems that turn happy diners into 5-star reviews and loyal regulars.</p>
+          <h3 data-en="No system for reviews and loyalty" data-es="Sin sistema de reseñas y fidelización">No system for reviews and loyalty</h3>
+          <p data-en="Reviews drive reservations. We build automated systems that turn happy diners into 5-star reviews and loyal regulars." data-es="Las reseñas impulsan las reservas. Construimos sistemas automatizados que convierten a comensales felices en reseñas de 5 estrellas y habituales leales.">Reviews drive reservations. We build automated systems that turn happy diners into 5-star reviews and loyal regulars.</p>
         </div>
     </div>
   </div>
@@ -159,58 +187,58 @@
   <hr class="divider">
 
   <div class="section">
-    <div class="section-label" style="text-align:center">Fractional CMO Retainer &mdash; Most Popular</div>
-    <div class="section-title" style="text-align:center">Your entire marketing function,<br>fully managed by AI + humans.</div>
-    <p style="text-align:center;color:var(--text-muted);font-size:15px;margin-top:-32px;margin-bottom:48px">90-day minimum &middot; month-to-month thereafter &middot; All plans include NWM CRM (46 modules)</p>
+    <div class="section-label" style="text-align:center" data-en="Fractional CMO Retainer &mdash; Most Popular" data-es="Retainer CMO Fraccional &mdash; El M&aacute;s Popular">Fractional CMO Retainer &mdash; Most Popular</div>
+    <div class="section-title" style="text-align:center" data-en="Your entire marketing function, fully managed by AI + humans." data-es="Tu funci&oacute;n de marketing completa, gestionada por IA + humanos.">Your entire marketing function,<br>fully managed by AI + humans.</div>
+    <p style="text-align:center;color:var(--text-muted);font-size:15px;margin-top:-32px;margin-bottom:48px" data-en="90-day minimum &middot; month-to-month thereafter &middot; All plans include NWM CRM (46 modules)" data-es="M&iacute;nimo 90 d&iacute;as &middot; mensual despu&eacute;s &middot; Todos los planes incluyen NWM CRM (46 m&oacute;dulos)">90-day minimum &middot; month-to-month thereafter &middot; All plans include NWM CRM (46 modules)</p>
     <div class="pricing-grid">
 
       <div class="price-card">
         <div class="price-tier">CMO Lite</div>
         <div class="price-name">CMO Lite</div>
-        <div class="price-desc">AEO + SEO + content strategy</div>
+        <div class="price-desc" data-en="AEO + SEO + content strategy" data-es="AEO + SEO + estrategia de contenido">AEO + SEO + content strategy</div>
         <div class="price-amount">$249<span>/mo</span></div>
-        <div class="price-setup">No setup fee</div>
+        <div class="price-setup" data-en="No setup fee" data-es="Sin cargo de configuraci&oacute;n">No setup fee</div>
         <ul class="price-features">
-            <li>Google My Business optimization + local SEO</li>
-            <li>Monthly content: menu features, events, kitchen stories</li>
-            <li>AEO — be recommended when AI suggests restaurants</li>
-            <li>NWM CRM for loyalty &amp; email campaigns</li>
-            <li>Monthly strategy note</li>
+            <li data-en="Google My Business optimization + local SEO" data-es="Optimización de Google My Business + SEO local">Google My Business optimization + local SEO</li>
+            <li data-en="Monthly content: menu features, events, kitchen stories" data-es="Contenido mensual: platillos, eventos, historias de cocina">Monthly content: menu features, events, kitchen stories</li>
+            <li data-en="AEO — be recommended when AI suggests restaurants" data-es="AEO — sé recomendado cuando la IA sugiere restaurantes">AEO — be recommended when AI suggests restaurants</li>
+            <li data-en="NWM CRM for loyalty &amp; email campaigns" data-es="NWM CRM para fidelización y campañas de email">NWM CRM for loyalty &amp; email campaigns</li>
+            <li data-en="Monthly strategy note" data-es="Nota de estrategia mensual">Monthly strategy note</li>
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta outline">Get started &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta outline" data-en="Get started &rarr;" data-es="Comenzar &rarr;">Get started &rarr;</a>
       </div>
 
       <div class="price-card featured">
-        <div class="price-badge">Most Popular</div>
+        <div class="price-badge" data-en="Most Popular" data-es="M&aacute;s Popular">Most Popular</div>
         <div class="price-tier">CMO Growth</div>
         <div class="price-name">CMO Growth</div>
-        <div class="price-desc">AEO + SEO + paid ads + social</div>
+        <div class="price-desc" data-en="AEO + SEO + paid ads + social" data-es="AEO + SEO + publicidad pagada + social">AEO + SEO + paid ads + social</div>
         <div class="price-amount">$999<span>/mo</span></div>
-        <div class="price-setup">Setup $499</div>
+        <div class="price-setup" data-en="Setup $499" data-es="Configuraci&oacute;n $499">Setup $499</div>
         <ul class="price-features">
-            <li>Everything in CMO Lite</li>
-            <li>Meta + Google Ads (local awareness + retargeting)</li>
-            <li>Automated review request sequences</li>
-            <li>Event &amp; private dining promotion campaigns</li>
-            <li>AI SDR for reservation &amp; event inquiries</li>
+            <li data-en="Everything in CMO Lite" data-es="Todo en CMO Lite">Everything in CMO Lite</li>
+            <li data-en="Meta + Google Ads (local awareness + retargeting)" data-es="Anuncios en Meta + Google (awareness local + retargeting)">Meta + Google Ads (local awareness + retargeting)</li>
+            <li data-en="Automated review request sequences" data-es="Secuencias automatizadas de solicitud de reseñas">Automated review request sequences</li>
+            <li data-en="Event &amp; private dining promotion campaigns" data-es="Campañas de promoción de eventos y cenas privadas">Event &amp; private dining promotion campaigns</li>
+            <li data-en="AI SDR for reservation &amp; event inquiries" data-es="SDR de IA para consultas de reservas y eventos">AI SDR for reservation &amp; event inquiries</li>
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta solid">Get started &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta solid" data-en="Get started &rarr;" data-es="Comenzar &rarr;">Get started &rarr;</a>
       </div>
 
       <div class="price-card">
         <div class="price-tier">CMO Scale</div>
         <div class="price-name">CMO Scale</div>
-        <div class="price-desc">Full-stack marketing department</div>
+        <div class="price-desc" data-en="Full-stack marketing department" data-es="Departamento de marketing completo">Full-stack marketing department</div>
         <div class="price-amount">$2,499<span>/mo</span></div>
-        <div class="price-setup">Setup $999</div>
+        <div class="price-setup" data-en="Setup $999" data-es="Configuraci&oacute;n $999">Setup $999</div>
         <ul class="price-features">
-            <li>Everything in CMO Growth</li>
-            <li>16 Reels/mo — dishes, chef stories, ambiance tours</li>
-            <li>Custom AI reservation assistant for your site</li>
-            <li>White-glove onboarding + dedicated strategist</li>
-            <li>Priority support + daily Slack access</li>
+            <li data-en="Everything in CMO Growth" data-es="Todo en CMO Growth">Everything in CMO Growth</li>
+            <li data-en="16 Reels/mo — dishes, chef stories, ambiance tours" data-es="16 Reels/mes — platillos, historias del chef, tours de ambiente">16 Reels/mo — dishes, chef stories, ambiance tours</li>
+            <li data-en="Custom AI reservation assistant for your site" data-es="Asistente de reservas IA personalizado para tu sitio">Custom AI reservation assistant for your site</li>
+            <li data-en="White-glove onboarding + dedicated strategist" data-es="Incorporación premium + estratega dedicado">White-glove onboarding + dedicated strategist</li>
+            <li data-en="Priority support + daily Slack access" data-es="Soporte prioritario + acceso diario a Slack">Priority support + daily Slack access</li>
         </ul>
-        <a href="https://netwebmedia.com/contact.html" class="price-cta outline">Contact sales &rarr;</a>
+        <a href="https://netwebmedia.com/contact.html" class="price-cta outline" data-en="Contact sales &rarr;" data-es="Contactar ventas &rarr;">Contact sales &rarr;</a>
       </div>
 
     </div>
@@ -220,9 +248,9 @@
   <hr class="divider">
 
   <div class="final-cta-wrap">
-    <h2>Ready to grow your restaurants, bars &amp; F&amp;B businesses?</h2>
-    <p>Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it.</p>
-    <a href="https://netwebmedia.com/contact.html" class="btn-primary" style="font-size:18px;padding:18px 40px">Book Your Free Audit &rarr;</a>
+    <h2 data-en="Ready to grow your restaurants, bars &amp; F&amp;B businesses?" data-es="&iquest;Listo para hacer crecer tu restaurantes, bares y negocios F&amp;B?">Ready to grow your restaurants, bars &amp; F&amp;B businesses?</h2>
+    <p data-en="Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it." data-es="Obt&eacute;n una auditor&iacute;a gratuita de 30 minutos. Te mostraremos exactamente d&oacute;nde est&aacute;s perdiendo visibilidad e ingresos &mdash; y qu&eacute; hacer al respecto.">Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it.</p>
+    <a href="https://netwebmedia.com/contact.html" class="btn-primary" style="font-size:18px;padding:18px 40px" data-en="Book Your Free Audit &rarr;" data-es="Reservar Tu Auditor&iacute;a Gratis &rarr;">Book Your Free Audit &rarr;</a>
   </div>
 </main>
 
@@ -231,6 +259,5 @@
 </footer>
 
 <script src="https://netwebmedia.com/js/main.js"></script>
-<script src="/assets/nwm-i18n.js" defer></script>
 </body>
 </html>

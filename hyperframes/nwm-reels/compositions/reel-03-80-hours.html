@@ -24,12 +24,13 @@
         box-shadow: 0 4px 18px rgba(0,0,0,0.15); opacity: 0.98;
       }
       .nwm-logo img { display: block; width: 220px; height: auto; }
-      .nwm-logo-cta {
-        position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
-        z-index: 10; opacity: 0; background: #FFFFFF;
-        padding: 14px 24px; border-radius: 12px; box-shadow: 0 4px 18px rgba(0,0,0,0.15);
-      }
-      .nwm-logo-cta img { display: block; width: 300px; height: auto; }
+      .nwm-logo-cta { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
+        z-index: 10; opacity: 0; background: #FFFFFF; padding: 14px 24px;
+        border-radius: 12px; box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+        width: 328px; height: 72px;
+        background-image: url(../assets/nwm-logo.png);
+        background-size: 300px auto; background-repeat: no-repeat; background-position: center; }
+      .nwm-logo-cta img { display: none; }
 
       .ai-orb { position: absolute; width: 260px; height: 260px; bottom: 380px; left: 80px; }
       .orb-ring { position: absolute; border-radius: 50%; border-style: solid; border-color: rgba(255,103,31,0.25); top: 50%; left: 50%; transform: translate(-50%,-50%); }
@@ -109,8 +110,8 @@
       </div>
 
       <!-- Scene 1: Hook 0-4s -->
-      <video class="broll clip" muted autoplay loop
-             src="https://videos.pexels.com/video-files/3130284/3130284-uhd_2160_4096_25fps.mp4"
+      <video id="broll-03-s1" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-4640.mp4"
              data-start="0" data-duration="4" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="0" data-duration="4" data-track-index="1"></div>
       <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="4" data-track-index="2"></div>
@@ -127,8 +128,8 @@
       </div>
 
       <!-- Scene 2: Client 4-18s -->
-      <video class="broll clip" muted autoplay loop
-             src="https://videos.pexels.com/video-files/3191353/3191353-hd_1920_1080_25fps.mp4"
+      <video id="broll-03-s2" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-2.mp4"
              data-start="4" data-duration="14" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="4" data-duration="14" data-track-index="1"></div>
       <div id="s2-bg" class="clip scene-bg" data-start="4" data-duration="14" data-track-index="2"></div>
@@ -148,8 +149,8 @@
       </div>
 
       <!-- Scene 3: Build 18-44s -->
-      <video class="broll clip" muted autoplay loop
-             src="https://videos.pexels.com/video-files/6682890/6682890-uhd_2560_1440_25fps.mp4"
+      <video id="broll-03-s3" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-9799.mp4"
              data-start="18" data-duration="26" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="18" data-duration="26" data-track-index="1"></div>
       <div id="s3-bg" class="clip scene-bg" data-start="18" data-duration="26" data-track-index="2"></div>
@@ -189,8 +190,8 @@
       </div>
 
       <!-- Scene 4: Before/After 44-60s -->
-      <video class="broll clip" muted autoplay loop
-             src="https://videos.pexels.com/video-files/3130284/3130284-uhd_2160_4096_25fps.mp4"
+      <video id="broll-03-s4" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-4640.mp4"
              data-start="44" data-duration="16" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="44" data-duration="16" data-track-index="1"></div>
       <div id="s4-bg" class="clip scene-bg" data-start="44" data-duration="16" data-track-index="2"></div>
@@ -224,9 +225,7 @@
       <div id="s5-sub" class="clip" data-start="60" data-duration="11" data-track-index="5">Not campaigns. Compounding infrastructure. Link in bio.</div>
       <div id="s5-btn" class="clip" data-start="60" data-duration="11" data-track-index="6">Book a Discovery Call</div>
       <div id="s5-link" class="clip" data-start="60" data-duration="11" data-track-index="7">↑ Link in bio</div>
-      <div class="nwm-logo-cta clip" data-start="60" data-duration="11" data-track-index="8">
-        <img src="../assets/nwm-logo.png" alt="netwebmedia"/>
-      </div>
+      <div class="nwm-logo-cta clip" data-start="60" data-duration="11" data-track-index="8"></div>
 
     </div>
     <script>

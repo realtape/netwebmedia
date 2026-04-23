@@ -12,10 +12,25 @@
       .clip { position: absolute; top: 0; left: 0; }
       .scene-bg { position: absolute; width: 1080px; height: 1920px; top: 0; left: 0; }
 
-      .nwm-logo { position: absolute; top: 64px; right: 54px; z-index: 100; width: 260px; height: auto; opacity: 0.95; }
-      .nwm-logo-cta { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); width: 340px; height: auto; z-index: 10; opacity: 0; }
+      /* Fix 1: PNG logo card */
+      .nwm-logo { position: absolute; top: 40px; right: 40px; z-index: 200;
+        background: #FFFFFF; padding: 10px 18px; border-radius: 10px;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.15); opacity: 0.98; }
+      .nwm-logo img { display: block; width: 220px; height: auto; }
+      .nwm-logo-cta { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
+        z-index: 10; opacity: 0; background: #FFFFFF; padding: 14px 24px;
+        border-radius: 12px; box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+        width: 328px; height: 72px;
+        background-image: url(../assets/nwm-logo.png);
+        background-size: 300px auto; background-repeat: no-repeat; background-position: center; }
+      .nwm-logo-cta img { display: none; }
 
-      .ai-orb { position: absolute; width: 260px; height: 260px; bottom: 280px; left: 80px; }
+      /* Fix 3: B-roll layers */
+      .broll { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      .broll-tint { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px;
+        background: linear-gradient(180deg, rgba(1,15,59,0.82) 0%, rgba(1,15,59,0.92) 100%); }
+
+      .ai-orb { position: absolute; width: 260px; height: 260px; bottom: 380px; left: 80px; }
       .orb-ring { position: absolute; border-radius: 50%; border-style: solid; border-color: rgba(255,103,31,0.25); top: 50%; left: 50%; transform: translate(-50%,-50%); }
       .orb-ring-1 { width: 260px; height: 260px; border-width: 2px; }
       .orb-ring-2 { width: 200px; height: 200px; border-width: 2px; border-color: rgba(255,103,31,0.4); }
@@ -23,21 +38,20 @@
       .orb-core { position: absolute; width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle at 38% 38%, #FF8C4A, #FF671F 55%, #C43F00); top: 50%; left: 50%; transform: translate(-50%,-50%); box-shadow: 0 0 40px rgba(255,103,31,0.6), 0 0 80px rgba(255,103,31,0.25); }
       .orb-particle { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: rgba(255,103,31,0.7); }
 
-      /* Scene 1: Hook 0–5s */
+      /* Scene 1: Hook 0–5s — teardown lens rings, Fix 2: z-index:1, opacity target:0.35 */
       #s1-bg { background: radial-gradient(ellipse at 30% 40%, rgba(255,103,31,0.08) 0%, transparent 60%); }
-      #s1-lens  { position: absolute; width: 680px; height: 680px; border-radius: 50%; border: 8px solid rgba(255,103,31,0.2); top: 42%; left: 50%; transform: translate(-50%,-50%) scale(0.2); opacity: 0; }
-      #s1-lens2 { position: absolute; width: 510px; height: 510px; border-radius: 50%; border: 3px solid rgba(255,103,31,0.12); top: 42%; left: 50%; transform: translate(-50%,-50%) scale(0.2); opacity: 0; }
+      #s1-lens  { position: absolute; width: 680px; height: 680px; border-radius: 50%; border: 8px solid rgba(255,103,31,0.2); top: 42%; left: 50%; transform: translate(-50%,-50%) scale(0.2); opacity: 0; z-index: 1; }
+      #s1-lens2 { position: absolute; width: 510px; height: 510px; border-radius: 50%; border: 3px solid rgba(255,103,31,0.12); top: 42%; left: 50%; transform: translate(-50%,-50%) scale(0.2); opacity: 0; z-index: 1; }
       #s1-ch-h  { position: absolute; top: 42%; left: 50%; width: 680px; height: 2px; background: rgba(255,103,31,0.18); transform: translate(-50%,-50%); opacity: 0; }
       #s1-ch-v  { position: absolute; top: calc(42% - 340px); left: 50%; width: 2px; height: 680px; background: rgba(255,103,31,0.18); transform: translateX(-50%); opacity: 0; }
-      #s1-label { position: absolute; top: 130px; left: 50%; transform: translateX(-50%); color: #FF671F; font-size: 20px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; white-space: nowrap; opacity: 0; }
-      #s1-block { position: absolute; top: 42%; left: 50%; transform: translate(-50%,-50%); text-align: center; width: 920px; z-index: 4; }
+      #s1-label { position: absolute; top: 160px; left: 50%; transform: translateX(-50%); color: #FF671F; font-size: 20px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; white-space: nowrap; opacity: 0; }
+      #s1-block { position: absolute; top: 220px; left: 50%; transform: translateX(-50%); text-align: center; width: 920px; z-index: 4; }
       #s1-verb  { color: rgba(255,255,255,0.55); font-size: 30px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; opacity: 0; }
       #s1-headline { color: #fff; font-size: 96px; font-weight: 900; line-height: 1; text-transform: uppercase; opacity: 0; }
       #s1-headline .accent { color: #FF671F; }
       #s1-sub { color: rgba(255,255,255,0.5); font-size: 26px; margin-top: 16px; opacity: 0; }
 
       /* Scene 2: Above the fold 5–18s */
-      #s2-bg { background: #010F3B; }
       #s2-eyebrow { position: absolute; top: 180px; left: 90px; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; opacity: 0; }
       #s2-title { position: absolute; top: 248px; left: 90px; width: 900px; color: #fff; font-size: 64px; font-weight: 900; line-height: 1.05; text-transform: uppercase; opacity: 0; }
       #s2-title .accent { color: #FF671F; }
@@ -47,14 +61,12 @@
       .panel-desc { color: rgba(255,255,255,0.65); font-family: 'Inter', sans-serif; font-size: 26px; line-height: 1.5; }
       .panel-note { color: rgba(255,103,31,0.85); font-family: 'JetBrains Mono', monospace; font-size: 20px; margin-top: 14px; }
 
-      /* Scene 3: Funnel layers 18–48s */
-      #s3-bg { background: #010F3B; }
+      /* Scene 3: Layers 2–4 18–48s */
       #s3-panel2 { position: absolute; top: 170px; left: 80px; width: 920px; background: #0A1628; border: 2px solid rgba(255,103,31,0.35); border-radius: 14px; padding: 32px 36px; opacity: 0; }
       #s3-panel3 { position: absolute; top: 600px; left: 80px; width: 920px; background: #0A1628; border: 2px solid rgba(255,103,31,0.35); border-radius: 14px; padding: 32px 36px; opacity: 0; }
       #s3-panel4 { position: absolute; top: 1040px; left: 80px; width: 920px; background: #0A1628; border: 2px solid rgba(255,103,31,0.35); border-radius: 14px; padding: 32px 36px; opacity: 0; }
 
-      /* Scene 4: What's broken + opportunity 48–60s */
-      #s4-bg { background: #010F3B; }
+      /* Scene 4: Verdict 48–60s */
       #s4-eyebrow { position: absolute; top: 180px; left: 50%; transform: translateX(-50%); color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; white-space: nowrap; opacity: 0; }
       #s4-title { position: absolute; top: 260px; left: 90px; width: 900px; color: #fff; font-size: 62px; font-weight: 900; line-height: 1.05; text-transform: uppercase; opacity: 0; }
       #s4-title .accent { color: #FF671F; }
@@ -65,11 +77,10 @@
       .issue-text strong { color: #fff; }
       #s4-score { position: absolute; top: 1200px; left: 80px; width: 920px; display: flex; align-items: center; gap: 32px; opacity: 0; }
       .score-grade { color: #FF671F; font-size: 140px; font-weight: 900; line-height: 1; }
-      .score-detail { }
       .score-label { color: #fff; font-size: 40px; font-weight: 800; line-height: 1.2; }
       .score-sub { color: rgba(255,255,255,0.5); font-family: 'JetBrains Mono', monospace; font-size: 22px; margin-top: 8px; }
 
-      /* Scene 5: CTA 60–75s — Dual (Friday teardown) */
+      /* Scene 5: Dual CTA 60–75s — orange bg, no b-roll */
       #s5-bg { background: #FF671F; }
       #s5-badge { position: absolute; top: 420px; left: 50%; transform: translateX(-50%); background: #010F3B; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 10px 28px; border-radius: 50px; white-space: nowrap; opacity: 0; }
       #s5-headline { position: absolute; top: 530px; left: 50%; transform: translateX(-50%); width: 880px; text-align: center; color: #010F3B; font-size: 74px; font-weight: 900; line-height: 1.05; opacity: 0; }
@@ -86,95 +97,112 @@
          data-start="0" data-duration="75"
          data-width="1080" data-height="1920">
 
-      <img class="nwm-logo clip"
-           src="../assets/nwm-logo.svg"
-           data-start="0" data-duration="75" data-track-index="99"
-           alt="netwebmedia"/>
+      <!-- Fix 1: PNG logo in white card, persistent -->
+      <div class="nwm-logo clip" data-start="0" data-duration="75" data-track-index="99">
+        <img src="../assets/nwm-logo.png" alt="netwebmedia"/>
+      </div>
 
       <!-- Scene 1: Hook 0–5s -->
-      <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="5" data-track-index="0"></div>
-      <div id="s1-lens"  class="clip" data-start="0" data-duration="5" data-track-index="1"></div>
-      <div id="s1-lens2" class="clip" data-start="0" data-duration="5" data-track-index="2"></div>
-      <div id="s1-ch-h"  class="clip" data-start="0" data-duration="5" data-track-index="3"></div>
-      <div id="s1-ch-v"  class="clip" data-start="0" data-duration="5" data-track-index="4"></div>
-      <div id="s1-label" class="clip" data-start="0" data-duration="5" data-track-index="5">Funnel Teardown</div>
-      <div id="s1-block" class="clip" data-start="0" data-duration="5" data-track-index="6">
+      <video id="broll-10-s1" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-4555.mp4"
+             data-start="0" data-duration="5" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="0" data-duration="5" data-track-index="1"></div>
+      <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="5" data-track-index="2" style="background:transparent"></div>
+      <!-- Fix 2: lens rings atmospheric only — animated to opacity:0.35, z-index:1 in CSS -->
+      <div id="s1-lens"  class="clip" data-start="0" data-duration="5" data-track-index="3"></div>
+      <div id="s1-lens2" class="clip" data-start="0" data-duration="5" data-track-index="4"></div>
+      <div id="s1-ch-h"  class="clip" data-start="0" data-duration="5" data-track-index="5"></div>
+      <div id="s1-ch-v"  class="clip" data-start="0" data-duration="5" data-track-index="6"></div>
+      <div id="s1-label" class="clip" data-start="0" data-duration="5" data-track-index="7">Funnel Teardown</div>
+      <div id="s1-block" class="clip" data-start="0" data-duration="5" data-track-index="8">
         <div id="s1-verb">Let's tear down</div>
         <div id="s1-headline"><span class="accent">APOLLO'S</span><br>HOMEPAGE<br>FUNNEL.</div>
         <div id="s1-sub">4 layers. What they nail and what leaks pipeline.</div>
       </div>
-      <div class="ai-orb clip" id="orb-s1" data-start="0" data-duration="5" data-track-index="7" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s1" data-start="0" data-duration="5" data-track-index="9" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
       </div>
 
       <!-- Scene 2: Above the fold 5–18s -->
-      <div id="s2-bg" class="clip scene-bg" data-start="5" data-duration="13" data-track-index="0"></div>
-      <div id="s2-eyebrow" class="clip" data-start="5" data-duration="13" data-track-index="1">LAYER 01 / ABOVE THE FOLD</div>
-      <div id="s2-title" class="clip" data-start="5" data-duration="13" data-track-index="2">
+      <video id="broll-10-s2" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-4614.mp4"
+             data-start="5" data-duration="13" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="5" data-duration="13" data-track-index="1"></div>
+      <div id="s2-bg" class="clip scene-bg" data-start="5" data-duration="13" data-track-index="2" style="background:transparent"></div>
+      <div id="s2-eyebrow" class="clip" data-start="5" data-duration="13" data-track-index="3">LAYER 01 / ABOVE THE FOLD</div>
+      <div id="s2-title" class="clip" data-start="5" data-duration="13" data-track-index="4">
         HERO: <span class="accent">WHAT WORKS.</span>
       </div>
-      <div id="s2-panel" class="clip" data-start="5" data-duration="13" data-track-index="3">
+      <div id="s2-panel" class="clip" data-start="5" data-duration="13" data-track-index="5">
         <div class="panel-tag">THE HOOK</div>
         <div class="panel-title">"Find your perfect leads" — outcome-first headline</div>
         <div class="panel-desc">Apollo leads with the customer outcome, not the product feature. Reinforced by social proof (10,000+ companies) above the CTA. This is correct. The CTA is "Get started free" — low friction, high intent.</div>
         <div class="panel-note">// Assessment: Strong. Outcome headline + social proof + free tier = best practice.</div>
       </div>
-      <div class="ai-orb clip" id="orb-s2" data-start="5" data-duration="13" data-track-index="4" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s2" data-start="5" data-duration="13" data-track-index="6" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
       </div>
 
       <!-- Scene 3: Layers 2–4 18–48s -->
-      <div id="s3-bg" class="clip scene-bg" data-start="18" data-duration="30" data-track-index="0"></div>
-      <div id="s3-panel2" class="clip" data-start="18" data-duration="30" data-track-index="1">
+      <video id="broll-10-s3" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-4555.mp4"
+             data-start="18" data-duration="30" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="18" data-duration="30" data-track-index="1"></div>
+      <div id="s3-bg" class="clip scene-bg" data-start="18" data-duration="30" data-track-index="2" style="background:transparent"></div>
+      <div id="s3-panel2" class="clip" data-start="18" data-duration="30" data-track-index="3">
         <div class="panel-tag">LAYER 02 / SOCIAL PROOF</div>
         <div class="panel-title">10K logos — too much, too fast</div>
         <div class="panel-desc">Apollo shows a logo wall of 10,000 companies. The sheer volume dilutes trust. Specificity beats scale: "HubSpot grew outbound 40% with Apollo" beats 9,999 anonymous logos.</div>
         <div class="panel-note">// Fix: swap 3 logos for outcome-specific case study blurbs.</div>
       </div>
-      <div id="s3-panel3" class="clip" data-start="18" data-duration="30" data-track-index="2">
+      <div id="s3-panel3" class="clip" data-start="18" data-duration="30" data-track-index="4">
         <div class="panel-tag">LAYER 03 / FEATURE SECTION</div>
         <div class="panel-title">Feature-led, not problem-led</div>
         <div class="panel-desc">The mid-page section lists features (email sequencing, dialer, data enrichment) instead of mapping each feature to a pain. A B2B buyer thinks in pain, not capability.</div>
-        <div class="panel-note">// Fix: reframe each feature as: "Problem → Apollo solves it by..."</div>
+        <div class="panel-note">// Fix: reframe each feature as: "Problem &rarr; Apollo solves it by..."</div>
       </div>
-      <div id="s3-panel4" class="clip" data-start="18" data-duration="30" data-track-index="3">
+      <div id="s3-panel4" class="clip" data-start="18" data-duration="30" data-track-index="5">
         <div class="panel-tag">LAYER 04 / BOTTOM CTA</div>
         <div class="panel-title">Three CTAs at the bottom. One too many.</div>
         <div class="panel-desc">"Get started free" + "Book a demo" + "See pricing" at the fold break. Decision fatigue. The funnel leaks here. One CTA wins — the highest-intent one (demo).</div>
         <div class="panel-note">// Fix: kill "see pricing," push "book a demo" as the primary.</div>
       </div>
-      <div class="ai-orb clip" id="orb-s3" data-start="18" data-duration="30" data-track-index="4" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s3" data-start="18" data-duration="30" data-track-index="6" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
       </div>
 
       <!-- Scene 4: Verdict 48–60s -->
-      <div id="s4-bg" class="clip scene-bg" data-start="48" data-duration="12" data-track-index="0"></div>
-      <div id="s4-eyebrow" class="clip" data-start="48" data-duration="12" data-track-index="1">THE VERDICT</div>
-      <div id="s4-title" class="clip" data-start="48" data-duration="12" data-track-index="2">
+      <video id="broll-10-s4" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-4614.mp4"
+             data-start="48" data-duration="12" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="48" data-duration="12" data-track-index="1"></div>
+      <div id="s4-bg" class="clip scene-bg" data-start="48" data-duration="12" data-track-index="2" style="background:transparent"></div>
+      <div id="s4-eyebrow" class="clip" data-start="48" data-duration="12" data-track-index="3">THE VERDICT</div>
+      <div id="s4-title" class="clip" data-start="48" data-duration="12" data-track-index="4">
         WHAT <span class="accent">WORKS</span><br>VS. WHAT LEAKS.
       </div>
-      <div id="s4-issues" class="clip" data-start="48" data-duration="12" data-track-index="3">
-        <div class="issue-row"><div class="issue-icon">✓</div><div class="issue-text"><strong>Outcome-first hero headline</strong> — correct, on-brand, high clarity</div></div>
-        <div class="issue-row"><div class="issue-icon">✗</div><div class="issue-text"><strong>Logo wall dilutes trust</strong> — specificity beats volume</div></div>
-        <div class="issue-row"><div class="issue-icon">✗</div><div class="issue-text"><strong>Feature section = wrong frame</strong> — map to pain, not capability</div></div>
-        <div class="issue-row"><div class="issue-icon">✗</div><div class="issue-text"><strong>Three bottom CTAs = leak</strong> — one CTA converts, three confuse</div></div>
+      <div id="s4-issues" class="clip" data-start="48" data-duration="12" data-track-index="5">
+        <div class="issue-row"><div class="issue-icon">&#10003;</div><div class="issue-text"><strong>Outcome-first hero headline</strong> — correct, on-brand, high clarity</div></div>
+        <div class="issue-row"><div class="issue-icon">&#10007;</div><div class="issue-text"><strong>Logo wall dilutes trust</strong> — specificity beats volume</div></div>
+        <div class="issue-row"><div class="issue-icon">&#10007;</div><div class="issue-text"><strong>Feature section = wrong frame</strong> — map to pain, not capability</div></div>
+        <div class="issue-row"><div class="issue-icon">&#10007;</div><div class="issue-text"><strong>Three bottom CTAs = leak</strong> — one CTA converts, three confuse</div></div>
       </div>
-      <div id="s4-score" class="clip" data-start="48" data-duration="12" data-track-index="4">
+      <div id="s4-score" class="clip" data-start="48" data-duration="12" data-track-index="6">
         <div class="score-grade">B+</div>
         <div class="score-detail">
           <div class="score-label">Strong foundation.<br>3 fixable leaks costing ~20% CVR.</div>
-          <div class="score-sub">// Our teardown standard: Hook → Problem → Proof → One Ask</div>
+          <div class="score-sub">// Our teardown standard: Hook &rarr; Problem &rarr; Proof &rarr; One Ask</div>
         </div>
       </div>
-      <div class="ai-orb clip" id="orb-s4" data-start="48" data-duration="12" data-track-index="5" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s4" data-start="48" data-duration="12" data-track-index="7" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
       </div>
 
-      <!-- Scene 5: Dual CTA 60–75s (Friday teardown) -->
+      <!-- Scene 5: Dual CTA 60–75s — orange bg, no b-roll -->
       <div id="s5-bg" class="clip scene-bg" data-start="60" data-duration="15" data-track-index="0"></div>
       <div id="s5-badge" class="clip" data-start="60" data-duration="15" data-track-index="1">Funnel Teardown</div>
       <div id="s5-headline" class="clip" data-start="60" data-duration="15" data-track-index="2">
@@ -185,11 +213,8 @@
         <div id="s5-comment-sub">and I'll DM you the full Apollo funnel teardown PDF</div>
       </div>
       <div id="s5-btn" class="clip" data-start="60" data-duration="15" data-track-index="4">Book a Discovery Call</div>
-      <div id="s5-link" class="clip" data-start="60" data-duration="15" data-track-index="5">↑ Link in bio — Fractional CMO</div>
-      <img class="nwm-logo-cta clip"
-           src="../assets/nwm-logo-navy.svg"
-           data-start="60" data-duration="15" data-track-index="6"
-           alt="netwebmedia"/>
+      <div id="s5-link" class="clip" data-start="60" data-duration="15" data-track-index="5">&#8593; Link in bio — Fractional CMO</div>
+      <div class="nwm-logo-cta clip" data-start="60" data-duration="15" data-track-index="8"></div>
 
     </div>
     <script>
@@ -203,8 +228,8 @@
           .to(id + " .orb-core",   { scale: 1.15, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: Math.floor(dur / 1.2) - 1 }, startT);
       }
 
-      /* Scene 1 */
-      tl.to(["#s1-lens","#s1-lens2"], { scale: 1, opacity: 1, duration: 0.8, stagger: 0.12, ease: "back.out(1.4)" }, 0.2)
+      /* Scene 1 — lens rings animated to 0.35 opacity (atmospheric only) */
+      tl.to(["#s1-lens","#s1-lens2"], { scale: 1, opacity: 0.35, duration: 0.8, stagger: 0.12, ease: "back.out(1.4)" }, 0.2)
         .to(["#s1-ch-h","#s1-ch-v"],  { opacity: 1, duration: 0.4 }, 0.7)
         .to("#s1-label",   { opacity: 1, duration: 0.3 }, 0.9)
         .to("#s1-verb",    { opacity: 1, duration: 0.3 }, 1.1)

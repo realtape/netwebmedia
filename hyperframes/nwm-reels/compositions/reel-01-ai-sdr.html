@@ -38,8 +38,11 @@
         padding: 14px 24px;
         border-radius: 12px;
         box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+        width: 328px; height: 72px;
+        background-image: url(../assets/nwm-logo.png);
+        background-size: 300px auto; background-repeat: no-repeat; background-position: center;
       }
-      .nwm-logo-cta img { display: block; width: 300px; height: auto; }
+      .nwm-logo-cta img { display: none; }
 
       /* ── AI HOST ORB ── */
       .ai-orb {
@@ -306,8 +309,8 @@
          data-width="1080" data-height="1920">
 
       <!-- ══ SCENE 1: HOOK 0-5s ══ -->
-      <video class="broll clip" muted autoplay loop
-             src="https://videos.pexels.com/video-files/5473968/5473968-uhd_2560_1440_25fps.mp4"
+      <video id="broll-01-s1" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-4547.mp4"
              data-start="0" data-duration="5" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="0" data-duration="5" data-track-index="1"></div>
       <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="5" data-track-index="2" style="background:transparent"></div>
@@ -343,8 +346,8 @@
       </div>
 
       <!-- ══ SCENE 2: STAKES 5-17s ══ -->
-      <video class="broll clip" muted autoplay loop
-             src="https://videos.pexels.com/video-files/3045163/3045163-uhd_2560_1440_24fps.mp4"
+      <video id="broll-01-s2" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-8203.mp4"
              data-start="5" data-duration="12" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="5" data-duration="12" data-track-index="1"></div>
       <div id="s2-bg" class="clip scene-bg" data-start="5" data-duration="12" data-track-index="2" style="background:transparent"></div>
@@ -378,8 +381,8 @@
       </div>
 
       <!-- ══ SCENE 3: BUILD 17-47s ══ -->
-      <video class="broll clip" muted autoplay loop
-             src="https://videos.pexels.com/video-files/5473968/5473968-uhd_2560_1440_25fps.mp4"
+      <video id="broll-01-s3" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-4547.mp4"
              data-start="17" data-duration="30" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="17" data-duration="30" data-track-index="1"></div>
       <div id="s3-bg" class="clip scene-bg" data-start="17" data-duration="30" data-track-index="2" style="background:transparent"></div>
@@ -425,8 +428,8 @@
       </div>
 
       <!-- ══ SCENE 4: PROOF 47-63s ══ -->
-      <video class="broll clip" muted autoplay loop
-             src="https://videos.pexels.com/video-files/3209828/3209828-hd_1080_1920_25fps.mp4"
+      <video id="broll-01-s4" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-5253.mp4"
              data-start="47" data-duration="16" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="47" data-duration="16" data-track-index="1"></div>
       <div id="s4-bg" class="clip scene-bg" data-start="47" data-duration="16" data-track-index="2" style="background:transparent"></div>
@@ -489,9 +492,7 @@
       <div id="s5-link" class="clip" data-start="63" data-duration="19" data-track-index="7">
         ↑ Link in bio
       </div>
-      <div class="nwm-logo-cta clip" data-start="63" data-duration="19" data-track-index="8">
-        <img src="../assets/nwm-logo.png" alt="netwebmedia"/>
-      </div>
+      <div class="nwm-logo-cta clip" data-start="63" data-duration="19" data-track-index="8"></div>
 
     </div><!-- /root -->
 

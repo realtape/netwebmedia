@@ -24,12 +24,13 @@
         box-shadow: 0 4px 18px rgba(0,0,0,0.15); opacity: 0.98;
       }
       .nwm-logo img { display: block; width: 220px; height: auto; }
-      .nwm-logo-cta {
-        position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
-        z-index: 10; opacity: 0; background: #FFFFFF;
-        padding: 14px 24px; border-radius: 12px; box-shadow: 0 4px 18px rgba(0,0,0,0.15);
-      }
-      .nwm-logo-cta img { display: block; width: 300px; height: auto; }
+      .nwm-logo-cta { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
+        z-index: 10; opacity: 0; background: #FFFFFF; padding: 14px 24px;
+        border-radius: 12px; box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+        width: 328px; height: 72px;
+        background-image: url(../assets/nwm-logo.png);
+        background-size: 300px auto; background-repeat: no-repeat; background-position: center; }
+      .nwm-logo-cta img { display: none; }
 
       /* ── AI ORB ── */
       .ai-orb { position: absolute; width: 260px; height: 260px; bottom: 380px; left: 80px; }
@@ -110,8 +111,8 @@
       </div>
 
       <!-- SCENE 1: Hook 0-5s — stamp beat first, then text block -->
-      <video class="broll clip" muted autoplay loop
-             src="https://videos.pexels.com/video-files/3129977/3129977-uhd_3840_2160_25fps.mp4"
+      <video id="broll-02-s1" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-50198.mp4"
              data-start="0" data-duration="5" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="0" data-duration="5" data-track-index="1"></div>
       <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="5" data-track-index="2"></div>
@@ -130,8 +131,8 @@
       </div>
 
       <!-- SCENE 2: The Shift 5-18s -->
-      <video class="broll clip" muted autoplay loop
-             src="https://videos.pexels.com/video-files/6682890/6682890-uhd_2560_1440_25fps.mp4"
+      <video id="broll-02-s2" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-9799.mp4"
              data-start="5" data-duration="13" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="5" data-duration="13" data-track-index="1"></div>
       <div id="s2-bg" class="clip scene-bg" data-start="5" data-duration="13" data-track-index="2"></div>
@@ -159,8 +160,8 @@
       </div>
 
       <!-- SCENE 3: How to Win 18-42s -->
-      <video class="broll clip" muted autoplay loop
-             src="https://videos.pexels.com/video-files/3129977/3129977-uhd_3840_2160_25fps.mp4"
+      <video id="broll-02-s3" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-50198.mp4"
              data-start="18" data-duration="24" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="18" data-duration="24" data-track-index="1"></div>
       <div id="s3-bg" class="clip scene-bg" data-start="18" data-duration="24" data-track-index="2"></div>
@@ -197,8 +198,8 @@
       </div>
 
       <!-- SCENE 4: Result 42-58s -->
-      <video class="broll clip" muted autoplay loop
-             src="https://videos.pexels.com/video-files/6682890/6682890-uhd_2560_1440_25fps.mp4"
+      <video id="broll-02-s4" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-9799.mp4"
              data-start="42" data-duration="16" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="42" data-duration="16" data-track-index="1"></div>
       <div id="s4-bg" class="clip scene-bg" data-start="42" data-duration="16" data-track-index="2"></div>
@@ -227,9 +228,7 @@
       </div>
       <div id="s5-btn" class="clip" data-start="58" data-duration="10" data-track-index="6">Book a Discovery Call</div>
       <div id="s5-link" class="clip" data-start="58" data-duration="10" data-track-index="7">↑ Link in bio</div>
-      <div class="nwm-logo-cta clip" data-start="58" data-duration="10" data-track-index="8">
-        <img src="../assets/nwm-logo.png" alt="netwebmedia"/>
-      </div>
+      <div class="nwm-logo-cta clip" data-start="58" data-duration="10" data-track-index="8"></div>
 
     </div>
     <script>

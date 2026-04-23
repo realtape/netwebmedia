@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
@@ -9,8 +10,20 @@
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #010F3B; font-family: 'Poppins', sans-serif; }
       .clip { position: absolute; top: 0; left: 0; }
+      .scene-bg { position: absolute; width: 1080px; height: 1920px; top: 0; left: 0; }
 
-      /* Terminal window */
+      /* Fix 1: PNG logo card */
+      .nwm-logo { position: absolute; top: 40px; right: 40px; z-index: 200;
+        background: #FFFFFF; padding: 10px 18px; border-radius: 10px;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.15); opacity: 0.98; }
+      .nwm-logo img { display: block; width: 220px; height: auto; }
+
+      /* Fix 3: B-roll layers */
+      .broll { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      .broll-tint { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px;
+        background: linear-gradient(180deg, rgba(1,15,59,0.82) 0%, rgba(1,15,59,0.92) 100%); }
+
+      /* Fix 2: Terminal at top:280px — well below logo card at 40px+card height ~70px */
       #terminal {
         position: absolute;
         width: 900px; left: 90px; top: 280px;
@@ -21,25 +34,15 @@
         font-family: 'JetBrains Mono', monospace;
         opacity: 0;
       }
-      #terminal-bar {
-        display: flex; gap: 8px; margin-bottom: 20px;
-      }
+      #terminal-bar { display: flex; gap: 8px; margin-bottom: 20px; }
       .t-dot { width: 14px; height: 14px; border-radius: 50%; }
       .t-dot.r { background: #FF5F57; }
       .t-dot.y { background: #FEBC2E; }
       .t-dot.g { background: #28C840; }
-      #terminal-prompt {
-        color: #FF671F; font-size: 22px; line-height: 1.7;
-      }
-      #terminal-cursor {
-        display: inline-block;
-        width: 2px; height: 22px;
-        background: #FF671F;
-        vertical-align: middle;
-        opacity: 1;
-      }
+      #terminal-prompt { color: #FF671F; font-size: 22px; line-height: 1.7; }
+      #terminal-cursor { display: inline-block; width: 2px; height: 22px; background: #FF671F; vertical-align: middle; opacity: 1; }
 
-      /* Main hook text */
+      /* Fix 2: Headline at bottom:460px (~y=1460), no collision with terminal which ends ~620px */
       #bip-headline {
         position: absolute;
         bottom: 460px;
@@ -48,36 +51,10 @@
         width: 900px;
         opacity: 0;
       }
-      #bip-watch {
-        color: rgba(255,255,255,0.6);
-        font-size: 26px;
-        font-weight: 600;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-      }
-      #bip-main {
-        color: #FFFFFF;
-        font-size: 70px;
-        font-weight: 900;
-        line-height: 1.05;
-        text-transform: uppercase;
-        margin-top: 8px;
-      }
+      #bip-watch { color: rgba(255,255,255,0.6); font-size: 26px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; }
+      #bip-main { color: #FFFFFF; font-size: 70px; font-weight: 900; line-height: 1.05; text-transform: uppercase; margin-top: 8px; }
       #bip-main .accent { color: #FF671F; }
-      #bip-time {
-        color: rgba(255,103,31,0.8);
-        font-size: 28px;
-        font-weight: 600;
-        margin-top: 12px;
-        font-family: 'JetBrains Mono', monospace;
-      }
-
-      /* NWM Logo */
-      .nwm-logo {
-        position: absolute; top: 64px; right: 54px; z-index: 100;
-        width: 260px; height: auto;
-        opacity: 0.95;
-      }
+      #bip-time { color: rgba(255,103,31,0.8); font-size: 28px; font-weight: 600; margin-top: 12px; font-family: 'JetBrains Mono', monospace; }
     </style>
   </head>
   <body>
@@ -86,30 +63,38 @@
          data-start="0" data-duration="5"
          data-width="1080" data-height="1920">
 
-      <img class="nwm-logo clip"
-           src="../assets/nwm-logo.svg"
-           data-start="0" data-duration="5" data-track-index="10"
-           alt="netwebmedia"/>
+      <!-- Fix 3: B-roll video layer -->
+      <video id="broll-bip-s1" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-11552.mp4"
+             data-start="0" data-duration="5" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="0" data-duration="5" data-track-index="1"></div>
+      <div id="bg" class="clip scene-bg" data-start="0" data-duration="5" data-track-index="2" style="background:transparent"></div>
 
-      <div id="terminal" class="clip" data-start="0" data-duration="5" data-track-index="2">
+      <div id="terminal" class="clip" data-start="0" data-duration="5" data-track-index="3">
         <div id="terminal-bar">
           <div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div>
         </div>
         <div id="terminal-prompt">
           &gt; <span style="color:#28C840">claude</span> <span style="color:#FEBC2E">build-ai-sdr</span><br>
-          &gt; <span style="color:rgba(255,255,255,0.5)">loading ICP data...</span> <span style="color:#28C840">✓</span><br>
-          &gt; <span style="color:rgba(255,255,255,0.5)">enriching 500 leads...</span> <span style="color:#28C840">✓</span><br>
+          &gt; <span style="color:rgba(255,255,255,0.5)">loading ICP data...</span> <span style="color:#28C840">&#10003;</span><br>
+          &gt; <span style="color:rgba(255,255,255,0.5)">enriching 500 leads...</span> <span style="color:#28C840">&#10003;</span><br>
           &gt; <span style="color:rgba(255,255,255,0.5)">personalizing emails...</span> <span id="terminal-cursor"></span>
         </div>
       </div>
 
-      <div id="bip-headline" class="clip" data-start="0" data-duration="5" data-track-index="3">
+      <div id="bip-headline" class="clip" data-start="0" data-duration="5" data-track-index="4">
         <div id="bip-watch">Watch me build</div>
         <div id="bip-main">
           A <span class="accent">$70K/yr</span><br>SDR REPLACEMENT
         </div>
-        <div id="bip-time">⏱ 9 minutes · live</div>
+        <div id="bip-time">&#9201; 9 minutes &middot; live</div>
       </div>
+
+      <!-- Fix 1: PNG logo card, track-index 10 -->
+      <div class="nwm-logo clip" data-start="0" data-duration="5" data-track-index="10">
+        <img src="../assets/nwm-logo.png" alt="netwebmedia"/>
+      </div>
+
     </div>
     <script>
       window.__timelines = window.__timelines || {};

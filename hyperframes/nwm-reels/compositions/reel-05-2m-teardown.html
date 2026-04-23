@@ -12,10 +12,25 @@
       .clip { position: absolute; top: 0; left: 0; }
       .scene-bg { position: absolute; width: 1080px; height: 1920px; top: 0; left: 0; }
 
-      .nwm-logo { position: absolute; top: 64px; right: 54px; z-index: 100; width: 260px; height: auto; opacity: 0.95; }
-      .nwm-logo-cta { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); width: 340px; height: auto; z-index: 10; opacity: 0; }
+      .broll { position: absolute; top:0; left:0; width:1080px; height:1920px; object-fit: cover; }
+      .broll-tint { position: absolute; top:0; left:0; width:1080px; height:1920px;
+                    background: linear-gradient(180deg, rgba(1,15,59,0.82) 0%, rgba(1,15,59,0.92) 100%); }
 
-      .ai-orb { position: absolute; width: 260px; height: 260px; bottom: 280px; left: 80px; }
+      .nwm-logo {
+        position: absolute; top: 40px; right: 40px; z-index: 200;
+        background: #FFFFFF; padding: 10px 18px; border-radius: 10px;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.15); opacity: 0.98;
+      }
+      .nwm-logo img { display: block; width: 220px; height: auto; }
+      .nwm-logo-cta { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
+        z-index: 10; opacity: 0; background: #FFFFFF; padding: 14px 24px;
+        border-radius: 12px; box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+        width: 328px; height: 72px;
+        background-image: url(../assets/nwm-logo.png);
+        background-size: 300px auto; background-repeat: no-repeat; background-position: center; }
+      .nwm-logo-cta img { display: none; }
+
+      .ai-orb { position: absolute; width: 260px; height: 260px; bottom: 380px; left: 80px; }
       .orb-ring { position: absolute; border-radius: 50%; border-style: solid; border-color: rgba(255,103,31,0.25); top: 50%; left: 50%; transform: translate(-50%,-50%); }
       .orb-ring-1 { width: 260px; height: 260px; border-width: 2px; }
       .orb-ring-2 { width: 200px; height: 200px; border-width: 2px; border-color: rgba(255,103,31,0.4); }
@@ -23,50 +38,51 @@
       .orb-core { position: absolute; width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle at 38% 38%, #FF8C4A, #FF671F 55%, #C43F00); top: 50%; left: 50%; transform: translate(-50%,-50%); box-shadow: 0 0 40px rgba(255,103,31,0.6), 0 0 80px rgba(255,103,31,0.25); }
       .orb-particle { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: rgba(255,103,31,0.7); }
 
-      /* SCENE 1: Hook 0–5s */
-      #s1-bg { background: radial-gradient(ellipse at 30% 40%, rgba(255,103,31,0.08) 0%, transparent 60%); }
-      #s1-lens { position: absolute; width: 700px; height: 700px; border-radius: 50%; border: 8px solid rgba(255,103,31,0.2); top: 42%; left: 50%; transform: translate(-50%,-50%) scale(0.2); opacity: 0; }
-      #s1-lens2 { position: absolute; width: 520px; height: 520px; border-radius: 50%; border: 3px solid rgba(255,103,31,0.12); top: 42%; left: 50%; transform: translate(-50%,-50%) scale(0.2); opacity: 0; }
-      #s1-ch-h { position: absolute; top: 42%; left: 50%; width: 700px; height: 2px; background: rgba(255,103,31,0.18); transform: translate(-50%,-50%); opacity: 0; }
-      #s1-ch-v { position: absolute; top: calc(42% - 350px); left: 50%; width: 2px; height: 700px; background: rgba(255,103,31,0.18); transform: translateX(-50%); opacity: 0; }
-      #s1-label { position: absolute; top: 130px; left: 50%; transform: translateX(-50%); color: #FF671F; font-size: 20px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; white-space: nowrap; opacity: 0; }
-      #s1-block { position: absolute; top: 42%; left: 50%; transform: translate(-50%,-50%); text-align: center; width: 920px; z-index: 4; }
+      /* SCENE 1: Hook 0-5s */
+      #s1-bg { background: transparent; }
+      /* Teardown lens rings: z-index:1, opacity:0.35 — atmospheric only */
+      #s1-lens { position: absolute; width: 700px; height: 700px; border-radius: 50%; border: 8px solid rgba(255,103,31,0.2); top: 42%; left: 50%; transform: translate(-50%,-50%) scale(0.2); opacity: 0; z-index: 1; }
+      #s1-lens2 { position: absolute; width: 520px; height: 520px; border-radius: 50%; border: 3px solid rgba(255,103,31,0.12); top: 42%; left: 50%; transform: translate(-50%,-50%) scale(0.2); opacity: 0; z-index: 1; }
+      #s1-ch-h { position: absolute; top: 42%; left: 50%; width: 700px; height: 2px; background: rgba(255,103,31,0.18); transform: translate(-50%,-50%); opacity: 0; z-index: 1; }
+      #s1-ch-v { position: absolute; top: calc(42% - 350px); left: 50%; width: 2px; height: 700px; background: rgba(255,103,31,0.18); transform: translateX(-50%); opacity: 0; z-index: 1; }
+      #s1-label { position: absolute; top: 155px; left: 50%; transform: translateX(-50%); color: #FF671F; font-size: 20px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; white-space: nowrap; opacity: 0; z-index: 4; }
+      #s1-block { position: absolute; top: 220px; left: 50%; transform: translateX(-50%); text-align: center; width: 920px; z-index: 4; padding: 0 80px; }
       #s1-verb { color: rgba(255,255,255,0.55); font-size: 30px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; opacity: 0; }
       #s1-headline { color: #fff; font-size: 100px; font-weight: 900; line-height: 1; text-transform: uppercase; opacity: 0; }
       #s1-headline .accent { color: #FF671F; }
       #s1-amount { color: #FF671F; font-size: 52px; font-weight: 800; margin-top: 8px; opacity: 0; }
       #s1-sub { color: rgba(255,255,255,0.5); font-size: 26px; margin-top: 12px; opacity: 0; }
 
-      /* SCENE 2: Layer analysis 5–18s */
-      #s2-bg { background: #010F3B; }
-      #s2-eyebrow { position: absolute; top: 180px; left: 90px; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; opacity: 0; }
-      #s2-title { position: absolute; top: 248px; left: 90px; width: 900px; color: #fff; font-size: 64px; font-weight: 900; line-height: 1.05; text-transform: uppercase; opacity: 0; }
+      /* SCENE 2: Layer analysis 5-18s */
+      #s2-bg { background: transparent; }
+      #s2-eyebrow { position: absolute; top: 160px; left: 90px; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; opacity: 0; }
+      #s2-title { position: absolute; top: 220px; left: 90px; width: 900px; color: #fff; font-size: 64px; font-weight: 900; line-height: 1.05; text-transform: uppercase; opacity: 0; padding-right: 80px; }
       #s2-title .accent { color: #FF671F; }
-      #s2-layer { position: absolute; top: 480px; left: 80px; width: 920px; background: #0A1628; border: 2px solid rgba(255,103,31,0.35); border-radius: 16px; padding: 36px 40px; opacity: 0; }
+      #s2-layer { position: absolute; top: 460px; left: 80px; width: 920px; background: #0A1628; border: 2px solid rgba(255,103,31,0.35); border-radius: 16px; padding: 36px 40px; opacity: 0; }
       .layer-tag { color: #FF671F; font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; letter-spacing: 3px; margin-bottom: 12px; }
       .layer-title { color: #fff; font-size: 40px; font-weight: 800; margin-bottom: 12px; }
       .layer-desc { color: rgba(255,255,255,0.65); font-family: 'Inter', sans-serif; font-size: 26px; line-height: 1.5; }
       .layer-science { color: rgba(255,103,31,0.85); font-family: 'JetBrains Mono', monospace; font-size: 20px; margin-top: 14px; }
 
-      /* SCENE 3: More layers 18–50s */
-      #s3-bg { background: #010F3B; }
-      #s3-layer2 { position: absolute; top: 180px; left: 80px; width: 920px; background: #0A1628; border: 2px solid rgba(255,103,31,0.35); border-radius: 16px; padding: 36px 40px; opacity: 0; }
-      #s3-layer3 { position: absolute; top: 620px; left: 80px; width: 920px; background: #0A1628; border: 2px solid rgba(255,103,31,0.35); border-radius: 16px; padding: 36px 40px; opacity: 0; }
-      #s3-layer4 { position: absolute; top: 1060px; left: 80px; width: 920px; background: #0A1628; border: 2px solid rgba(255,103,31,0.35); border-radius: 16px; padding: 36px 40px; opacity: 0; }
+      /* SCENE 3: More layers 18-50s */
+      #s3-bg { background: transparent; }
+      #s3-layer2 { position: absolute; top: 160px; left: 80px; width: 920px; background: #0A1628; border: 2px solid rgba(255,103,31,0.35); border-radius: 16px; padding: 36px 40px; opacity: 0; }
+      #s3-layer3 { position: absolute; top: 600px; left: 80px; width: 920px; background: #0A1628; border: 2px solid rgba(255,103,31,0.35); border-radius: 16px; padding: 36px 40px; opacity: 0; }
+      #s3-layer4 { position: absolute; top: 1040px; left: 80px; width: 920px; background: #0A1628; border: 2px solid rgba(255,103,31,0.35); border-radius: 16px; padding: 36px 40px; opacity: 0; }
 
-      /* SCENE 4: Formula 50–62s */
-      #s4-bg { background: #010F3B; }
-      #s4-eyebrow { position: absolute; top: 200px; left: 50%; transform: translateX(-50%); color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; white-space: nowrap; opacity: 0; }
-      #s4-formula { position: absolute; top: 320px; left: 50%; transform: translateX(-50%); text-align: center; width: 920px; opacity: 0; }
+      /* SCENE 4: Formula 50-62s */
+      #s4-bg { background: transparent; }
+      #s4-eyebrow { position: absolute; top: 160px; left: 50%; transform: translateX(-50%); color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; white-space: nowrap; opacity: 0; }
+      #s4-formula { position: absolute; top: 260px; left: 50%; transform: translateX(-50%); text-align: center; width: 920px; opacity: 0; }
       .formula-row { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 16px; }
       .formula-box { background: rgba(255,103,31,0.1); border: 1px solid rgba(255,103,31,0.3); border-radius: 10px; padding: 18px 24px; color: #fff; font-size: 32px; font-weight: 800; text-align: center; }
       .formula-box.highlight { background: #FF671F; color: #010F3B; }
       .formula-plus { color: rgba(255,103,31,0.6); font-size: 36px; font-weight: 900; }
-      #s4-cvr { position: absolute; top: 800px; left: 90px; width: 900px; background: rgba(255,103,31,0.08); border: 1px solid rgba(255,103,31,0.2); border-radius: 16px; padding: 40px 44px; opacity: 0; }
+      #s4-cvr { position: absolute; top: 760px; left: 90px; width: 900px; background: rgba(255,103,31,0.08); border: 1px solid rgba(255,103,31,0.2); border-radius: 16px; padding: 40px 44px; opacity: 0; }
       #s4-cvr-val { color: #FF671F; font-size: 80px; font-weight: 900; line-height: 1; }
       #s4-cvr-label { color: rgba(255,255,255,0.7); font-family: 'Inter', sans-serif; font-size: 28px; margin-top: 10px; }
 
-      /* SCENE 5: CTA 62–79s — Friday teardown gets dual CTA */
+      /* SCENE 5: CTA 62-79s */
       #s5-bg { background: #FF671F; }
       #s5-badge { position: absolute; top: 420px; left: 50%; transform: translateX(-50%); background: #010F3B; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 10px 28px; border-radius: 50px; white-space: nowrap; opacity: 0; }
       #s5-headline { position: absolute; top: 535px; left: 50%; transform: translateX(-50%); width: 880px; text-align: center; color: #010F3B; font-size: 76px; font-weight: 900; line-height: 1.05; opacity: 0; }
@@ -83,75 +99,90 @@
          data-start="0" data-duration="79"
          data-width="1080" data-height="1920">
 
-      <img class="nwm-logo clip"
-           src="../assets/nwm-logo.svg"
-           data-start="0" data-duration="79" data-track-index="99"
-           alt="netwebmedia"/>
+      <div class="nwm-logo clip" data-start="0" data-duration="79" data-track-index="99">
+        <img src="../assets/nwm-logo.png" alt="netwebmedia"/>
+      </div>
 
-      <!-- Scene 1: Hook 0–5s -->
-      <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="5" data-track-index="0"></div>
-      <div id="s1-lens" class="clip" data-start="0" data-duration="5" data-track-index="1"></div>
-      <div id="s1-lens2" class="clip" data-start="0" data-duration="5" data-track-index="2"></div>
-      <div id="s1-ch-h" class="clip" data-start="0" data-duration="5" data-track-index="3"></div>
-      <div id="s1-ch-v" class="clip" data-start="0" data-duration="5" data-track-index="4"></div>
-      <div id="s1-label" class="clip" data-start="0" data-duration="5" data-track-index="5">Ad Teardown</div>
-      <div id="s1-block" class="clip" data-start="0" data-duration="5" data-track-index="6">
+      <!-- Scene 1: Hook 0-5s -->
+      <video id="broll-05-s1" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-4553.mp4"
+             data-start="0" data-duration="5" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="0" data-duration="5" data-track-index="1"></div>
+      <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="5" data-track-index="2"></div>
+      <div id="s1-lens" class="clip" data-start="0" data-duration="5" data-track-index="3"></div>
+      <div id="s1-lens2" class="clip" data-start="0" data-duration="5" data-track-index="4"></div>
+      <div id="s1-ch-h" class="clip" data-start="0" data-duration="5" data-track-index="5"></div>
+      <div id="s1-ch-v" class="clip" data-start="0" data-duration="5" data-track-index="6"></div>
+      <div id="s1-label" class="clip" data-start="0" data-duration="5" data-track-index="7">Ad Teardown</div>
+      <div id="s1-block" class="clip" data-start="0" data-duration="5" data-track-index="8">
         <div id="s1-verb">Let's tear down</div>
         <div id="s1-headline">THIS <span class="accent">META</span> AD.</div>
         <div id="s1-amount">$2M / month</div>
         <div id="s1-sub">4 layers. Hook → proof → CTA. Decoded.</div>
       </div>
-      <div class="ai-orb clip" id="orb-s1" data-start="0" data-duration="5" data-track-index="7" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s1" data-start="0" data-duration="5" data-track-index="9" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
       </div>
 
-      <!-- Scene 2: Hook layer 5–18s -->
-      <div id="s2-bg" class="clip scene-bg" data-start="5" data-duration="13" data-track-index="0"></div>
-      <div id="s2-eyebrow" class="clip" data-start="5" data-duration="13" data-track-index="1">LAYER 01 / HOOK</div>
-      <div id="s2-title" class="clip" data-start="5" data-duration="13" data-track-index="2">
+      <!-- Scene 2: Hook layer 5-18s -->
+      <video id="broll-05-s2" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-4557.mp4"
+             data-start="5" data-duration="13" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="5" data-duration="13" data-track-index="1"></div>
+      <div id="s2-bg" class="clip scene-bg" data-start="5" data-duration="13" data-track-index="2"></div>
+      <div id="s2-eyebrow" class="clip" data-start="5" data-duration="13" data-track-index="3">LAYER 01 / HOOK</div>
+      <div id="s2-title" class="clip" data-start="5" data-duration="13" data-track-index="4">
         FIRST <span class="accent">1.3 SECONDS</span><br>DO EVERYTHING.
       </div>
-      <div id="s2-layer" class="clip" data-start="5" data-duration="13" data-track-index="3">
+      <div id="s2-layer" class="clip" data-start="5" data-duration="13" data-track-index="5">
         <div class="layer-tag">PATTERN INTERRUPT</div>
         <div class="layer-title">Handwritten Post-it on a MacBook</div>
         <div class="layer-desc">"I fired my agency." No logo. No brand intro. You cannot scroll past a handwritten note in a feed of perfected creative.</div>
         <div class="layer-science">// The science: novelty gates attention. Static thumb = 0.3s. Pattern break = 1.3s.</div>
       </div>
-      <div class="ai-orb clip" id="orb-s2" data-start="5" data-duration="13" data-track-index="4" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s2" data-start="5" data-duration="13" data-track-index="6" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
       </div>
 
-      <!-- Scene 3: Layers 2–4 18–50s -->
-      <div id="s3-bg" class="clip scene-bg" data-start="18" data-duration="32" data-track-index="0"></div>
-      <div id="s3-layer2" class="clip" data-start="18" data-duration="32" data-track-index="1">
-        <div class="layer-tag">LAYER 02 / PROBLEM FRAME (2–8s)</div>
+      <!-- Scene 3: Layers 2-4 18-50s -->
+      <video id="broll-05-s3" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-4553.mp4"
+             data-start="18" data-duration="32" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="18" data-duration="32" data-track-index="1"></div>
+      <div id="s3-bg" class="clip scene-bg" data-start="18" data-duration="32" data-track-index="2"></div>
+      <div id="s3-layer2" class="clip" data-start="18" data-duration="32" data-track-index="3">
+        <div class="layer-tag">LAYER 02 / PROBLEM FRAME (2-8s)</div>
         <div class="layer-title">Founder venting. Not pitching.</div>
         <div class="layer-desc">"I was paying $18K/month and getting three leads." They're not selling — they're complaining. That's how you earn 8 seconds.</div>
         <div class="layer-science">// No script energy. Authenticity signal. Brain relaxes guard.</div>
       </div>
-      <div id="s3-layer3" class="clip" data-start="18" data-duration="32" data-track-index="2">
-        <div class="layer-tag">LAYER 03 / PROOF STACK (8–30s)</div>
+      <div id="s3-layer3" class="clip" data-start="18" data-duration="32" data-track-index="4">
+        <div class="layer-tag">LAYER 03 / PROOF STACK (8-30s)</div>
         <div class="layer-title">Three verifiable proof beats.</div>
         <div class="layer-desc">Stripe screenshot. Client DM. Loom thumbnail with a real face. No stock. No first-name-only testimonials. Every beat is auditable.</div>
         <div class="layer-science">// Verifiability = credibility. Unverifiable claims = ad blindness.</div>
       </div>
-      <div id="s3-layer4" class="clip" data-start="18" data-duration="32" data-track-index="3">
+      <div id="s3-layer4" class="clip" data-start="18" data-duration="32" data-track-index="5">
         <div class="layer-tag">LAYER 04 / THE ASK (last 10s)</div>
         <div class="layer-title">One CTA. "Book a call."</div>
         <div class="layer-desc">Not "learn more." Not "download the guide." One ask, optimized for one action. That's why it converts at 4.2%.</div>
         <div class="layer-science">// CVR: 4.2% · Industry avg: 1.1% · Delta: +281%</div>
       </div>
-      <div class="ai-orb clip" id="orb-s3" data-start="18" data-duration="32" data-track-index="4" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s3" data-start="18" data-duration="32" data-track-index="6" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
       </div>
 
-      <!-- Scene 4: Formula 50–62s -->
-      <div id="s4-bg" class="clip scene-bg" data-start="50" data-duration="12" data-track-index="0"></div>
-      <div id="s4-eyebrow" class="clip" data-start="50" data-duration="12" data-track-index="1">THE FORMULA</div>
-      <div id="s4-formula" class="clip" data-start="50" data-duration="12" data-track-index="2">
+      <!-- Scene 4: Formula 50-62s -->
+      <video id="broll-05-s4" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-4557.mp4"
+             data-start="50" data-duration="12" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="50" data-duration="12" data-track-index="1"></div>
+      <div id="s4-bg" class="clip scene-bg" data-start="50" data-duration="12" data-track-index="2"></div>
+      <div id="s4-eyebrow" class="clip" data-start="50" data-duration="12" data-track-index="3">THE FORMULA</div>
+      <div id="s4-formula" class="clip" data-start="50" data-duration="12" data-track-index="4">
         <div class="formula-row">
           <div class="formula-box">Hook</div>
           <div class="formula-plus">+</div>
@@ -165,31 +196,28 @@
           That's it. Every high-converting ad in history.
         </div>
       </div>
-      <div id="s4-cvr" class="clip" data-start="50" data-duration="12" data-track-index="3">
+      <div id="s4-cvr" class="clip" data-start="50" data-duration="12" data-track-index="5">
         <div id="s4-cvr-val">4.2%</div>
         <div id="s4-cvr-label">Conversion rate on this ad.<br>Industry average: 1.1%. This is 3.8× above benchmark.</div>
       </div>
-      <div class="ai-orb clip" id="orb-s4" data-start="50" data-duration="12" data-track-index="4" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s4" data-start="50" data-duration="12" data-track-index="6" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
       </div>
 
-      <!-- Scene 5: Dual CTA 62–79s (Friday teardown) -->
+      <!-- Scene 5: Dual CTA 62-79s -->
       <div id="s5-bg" class="clip scene-bg" data-start="62" data-duration="17" data-track-index="0"></div>
-      <div id="s5-badge" class="clip" data-start="62" data-duration="17" data-track-index="1">Ad Teardown</div>
-      <div id="s5-headline" class="clip" data-start="62" data-duration="17" data-track-index="2">
+      <div id="s5-badge" class="clip" data-start="62" data-duration="17" data-track-index="3">Ad Teardown</div>
+      <div id="s5-headline" class="clip" data-start="62" data-duration="17" data-track-index="4">
         Get the full teardown PDF.
       </div>
-      <div id="s5-comment" class="clip" data-start="62" data-duration="17" data-track-index="3">
+      <div id="s5-comment" class="clip" data-start="62" data-duration="17" data-track-index="5">
         <div id="s5-comment-text">Comment "AEO"</div>
         <div id="s5-comment-sub">and I'll DM you the full teardown PDF</div>
       </div>
-      <div id="s5-btn" class="clip" data-start="62" data-duration="17" data-track-index="4">Book a Discovery Call</div>
-      <div id="s5-link" class="clip" data-start="62" data-duration="17" data-track-index="5">↑ Link in bio — Fractional CMO</div>
-      <img class="nwm-logo-cta clip"
-           src="../assets/nwm-logo-navy.svg"
-           data-start="62" data-duration="17" data-track-index="6"
-           alt="netwebmedia"/>
+      <div id="s5-btn" class="clip" data-start="62" data-duration="17" data-track-index="6">Book a Discovery Call</div>
+      <div id="s5-link" class="clip" data-start="62" data-duration="17" data-track-index="7">↑ Link in bio — Fractional CMO</div>
+      <div class="nwm-logo-cta clip" data-start="62" data-duration="17" data-track-index="8"></div>
 
     </div>
     <script>
@@ -203,9 +231,9 @@
           .to(id + " .orb-core",   { scale: 1.15, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: Math.floor(dur / 1.2) - 1 }, startT);
       }
 
-      /* Scene 1 */
-      tl.to(["#s1-lens","#s1-lens2"], { scale: 1, opacity: 1, duration: 0.8, stagger: 0.12, ease: "back.out(1.4)" }, 0.2)
-        .to(["#s1-ch-h","#s1-ch-v"],  { opacity: 1, duration: 0.4 }, 0.7)
+      /* Scene 1: lens rings stay at z-index:1 / low opacity, don't fight headline */
+      tl.to(["#s1-lens","#s1-lens2"], { scale: 1, opacity: 0.35, duration: 0.8, stagger: 0.12, ease: "back.out(1.4)" }, 0.2)
+        .to(["#s1-ch-h","#s1-ch-v"],  { opacity: 0.35, duration: 0.4 }, 0.7)
         .to("#s1-label",   { opacity: 1, duration: 0.3 }, 0.9)
         .to("#s1-verb",    { opacity: 1, duration: 0.3 }, 1.1)
         .to("#s1-headline",{ opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.3)" }, 1.3)

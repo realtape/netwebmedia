@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -18,12 +19,16 @@
       /* ── NWM LOGO ── */
       .nwm-logo {
         position: absolute; top: 64px; right: 54px; z-index: 100;
-        display: flex; font-weight: 800; font-size: 30px;
-        line-height: 1; border-radius: 6px; overflow: hidden;
+        width: 260px; height: auto;
+        opacity: 0.95;
       }
-      .nwm-logo .n { color: #010F3B; background: #FF671F; padding: 6px 10px; }
-      .nwm-logo .w { color: #FF671F; background: #010F3B; padding: 6px 10px; }
-      .nwm-logo .m { color: #fff;    background: #010F3B; padding: 6px 10px; }
+      /* CTA scene variant — navy/white/navy on orange bg */
+      .nwm-logo-cta {
+        position: absolute; bottom: 80px; left: 50%;
+        transform: translateX(-50%);
+        width: 340px; height: auto; z-index: 10;
+        opacity: 0;
+      }
 
       /* ── AI HOST ORB ── */
       .ai-orb {
@@ -280,14 +285,6 @@
         position: absolute; top: 1430px; left: 50%; transform: translateX(-50%);
         color: rgba(1,15,59,0.6); font-size: 24px; font-weight: 500; opacity: 0;
       }
-      .nwm-logo-cta {
-        position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
-        display: flex; font-weight: 800; font-size: 34px;
-        line-height: 1; border-radius: 6px; overflow: hidden; opacity: 0;
-      }
-      .nwm-logo-cta .n { color: #FF671F; background: #010F3B; padding: 8px 12px; }
-      .nwm-logo-cta .w { color: #010F3B; background: #FF671F; border: 2px solid #010F3B; padding: 8px 12px; }
-      .nwm-logo-cta .m { color: #010F3B; background: #fff; padding: 8px 12px; }
     </style>
   </head>
   <body>
@@ -298,9 +295,10 @@
 
       <!-- ══ SCENE 1: HOOK 0–5s ══ -->
       <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="5" data-track-index="0"></div>
-      <div class="nwm-logo clip" data-start="0" data-duration="82" data-track-index="99">
-        <span class="n">net</span><span class="w">web</span><span class="m">media</span>
-      </div>
+      <img class="nwm-logo clip"
+           src="../assets/nwm-logo.svg"
+           data-start="0" data-duration="82" data-track-index="99"
+           alt="netwebmedia"/>
       <div id="s1-overline" class="clip" data-start="0" data-duration="5" data-track-index="1"></div>
       <div id="s1-headline" class="clip" data-start="0" data-duration="5" data-track-index="2">
         I'M REPLACING A<br><span class="accent">$70K</span><br>SDR.
@@ -465,9 +463,10 @@
       <div id="s5-link" class="clip" data-start="63" data-duration="19" data-track-index="5">
         ↑ Link in bio
       </div>
-      <div class="nwm-logo-cta clip" data-start="63" data-duration="19" data-track-index="6">
-        <span class="n">net</span><span class="w">web</span><span class="m">media</span>
-      </div>
+      <img class="nwm-logo-cta clip"
+           src="../assets/nwm-logo-navy.svg"
+           data-start="63" data-duration="19" data-track-index="6"
+           alt="netwebmedia"/>
 
     </div><!-- /root -->
 

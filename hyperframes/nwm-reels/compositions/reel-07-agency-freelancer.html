@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #010F3B; font-family: 'Poppins', sans-serif; }
+      .clip { position: absolute; top: 0; left: 0; }
+      .scene-bg { position: absolute; width: 1080px; height: 1920px; top: 0; left: 0; }
+
+      .nwm-logo { position: absolute; top: 64px; right: 54px; z-index: 100; display: flex; font-weight: 800; font-size: 30px; line-height: 1; border-radius: 6px; overflow: hidden; }
+      .nwm-logo .n { color: #010F3B; background: #FF671F; padding: 6px 10px; }
+      .nwm-logo .w { color: #FF671F; background: #010F3B; padding: 6px 10px; }
+      .nwm-logo .m { color: #fff; background: #010F3B; padding: 6px 10px; }
+
+      .ai-orb { position: absolute; width: 260px; height: 260px; bottom: 280px; left: 80px; }
+      .orb-ring { position: absolute; border-radius: 50%; border-style: solid; border-color: rgba(255,103,31,0.25); top: 50%; left: 50%; transform: translate(-50%,-50%); }
+      .orb-ring-1 { width: 260px; height: 260px; border-width: 2px; }
+      .orb-ring-2 { width: 200px; height: 200px; border-width: 2px; border-color: rgba(255,103,31,0.4); }
+      .orb-ring-3 { width: 140px; height: 140px; border-width: 2px; border-color: rgba(255,103,31,0.6); }
+      .orb-core { position: absolute; width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle at 38% 38%, #FF8C4A, #FF671F 55%, #C43F00); top: 50%; left: 50%; transform: translate(-50%,-50%); box-shadow: 0 0 40px rgba(255,103,31,0.6), 0 0 80px rgba(255,103,31,0.25); }
+      .orb-particle { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: rgba(255,103,31,0.7); }
+
+      /* Scene 1: Hook 0–5s */
+      #s1-bg { background: linear-gradient(145deg, #010F3B 52%, #FF671F 52%); opacity: 0; }
+      #s1-block { position: absolute; top: 42%; left: 50%; transform: translate(-50%,-50%); text-align: center; width: 920px; z-index: 4; }
+      #s1-dead { color: #FF671F; font-size: 68px; font-weight: 900; line-height: 1; opacity: 0; text-transform: uppercase; }
+      #s1-subject { color: #fff; font-size: 72px; font-weight: 900; line-height: 1.05; opacity: 0; text-transform: uppercase; }
+      #s1-bar { width: 0; height: 5px; background: #FF671F; border-radius: 3px; margin: 36px auto; opacity: 0; }
+      #s1-pivot { color: rgba(255,255,255,0.75); font-size: 30px; font-weight: 500; opacity: 0; line-height: 1.4; }
+      #s1-stamp { position: absolute; top: 42%; left: 50%; transform: translate(-50%,-50%) rotate(-9deg); border: 10px solid #FF671F; color: #FF671F; font-size: 100px; font-weight: 900; letter-spacing: 6px; padding: 8px 26px; opacity: 0; white-space: nowrap; z-index: 5; }
+
+      /* Scene 2: The indictment 5–18s */
+      #s2-bg { background: #010F3B; }
+      #s2-eyebrow { position: absolute; top: 180px; left: 90px; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; opacity: 0; }
+      #s2-headline { position: absolute; top: 248px; left: 90px; width: 900px; color: #fff; font-size: 62px; font-weight: 900; line-height: 1.05; text-transform: uppercase; opacity: 0; }
+      #s2-headline .accent { color: #FF671F; }
+      #s2-list { position: absolute; top: 580px; left: 80px; width: 920px; opacity: 0; }
+      .indict-row { display: flex; align-items: flex-start; gap: 24px; margin-bottom: 44px; }
+      .indict-x { color: #FF671F; font-size: 48px; font-weight: 900; line-height: 1; min-width: 48px; }
+      .indict-text { color: rgba(255,255,255,0.8); font-family: 'Inter', sans-serif; font-size: 30px; line-height: 1.4; }
+      .indict-text strong { color: #fff; }
+
+      /* Scene 3: The difference 18–40s */
+      #s3-bg { background: #010F3B; }
+      #s3-eyebrow { position: absolute; top: 160px; left: 90px; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; opacity: 0; }
+      #s3-title { position: absolute; top: 228px; left: 90px; width: 900px; color: #fff; font-size: 64px; font-weight: 900; line-height: 1.05; text-transform: uppercase; opacity: 0; }
+      #s3-title .accent { color: #FF671F; }
+      #s3-cols { position: absolute; top: 460px; left: 80px; width: 920px; display: flex; gap: 24px; opacity: 0; }
+      .diff-col { flex: 1; border-radius: 16px; padding: 36px 28px; }
+      .diff-col.bad { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); }
+      .diff-col.good { background: rgba(255,103,31,0.08); border: 1px solid rgba(255,103,31,0.3); }
+      .diff-head { font-size: 22px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 32px; }
+      .diff-col.bad .diff-head { color: rgba(255,255,255,0.35); }
+      .diff-col.good .diff-head { color: #FF671F; }
+      .diff-item { color: rgba(255,255,255,0.65); font-family: 'Inter', sans-serif; font-size: 24px; line-height: 1.5; margin-bottom: 20px; padding-left: 16px; border-left: 2px solid rgba(255,255,255,0.15); }
+      .diff-col.good .diff-item { border-left-color: rgba(255,103,31,0.4); color: rgba(255,255,255,0.85); }
+
+      /* Scene 4: Proof 40–55s */
+      #s4-bg { background: #010F3B; }
+      #s4-eyebrow { position: absolute; top: 200px; left: 50%; transform: translateX(-50%); color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; white-space: nowrap; opacity: 0; }
+      #s4-headline { position: absolute; top: 280px; left: 50%; transform: translateX(-50%); width: 920px; text-align: center; color: #fff; font-size: 68px; font-weight: 900; line-height: 1.05; text-transform: uppercase; opacity: 0; }
+      #s4-headline .accent { color: #FF671F; }
+      #s4-metrics { position: absolute; top: 660px; left: 80px; width: 920px; display: flex; gap: 24px; opacity: 0; }
+      .pm-card { flex: 1; background: rgba(255,103,31,0.07); border: 1px solid rgba(255,103,31,0.25); border-radius: 16px; padding: 40px 24px; text-align: center; }
+      .pm-val { color: #FF671F; font-size: 72px; font-weight: 900; line-height: 1; }
+      .pm-lbl { color: rgba(255,255,255,0.65); font-family: 'Inter', sans-serif; font-size: 22px; margin-top: 10px; line-height: 1.3; }
+      #s4-quote { position: absolute; top: 1100px; left: 90px; width: 900px; color: rgba(255,255,255,0.7); font-family: 'Inter', sans-serif; font-size: 30px; line-height: 1.6; font-style: italic; opacity: 0; }
+
+      /* Scene 5: CTA 55–70s */
+      #s5-bg { background: #FF671F; }
+      #s5-badge { position: absolute; top: 480px; left: 50%; transform: translateX(-50%); background: #010F3B; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 10px 28px; border-radius: 50px; white-space: nowrap; opacity: 0; }
+      #s5-headline { position: absolute; top: 595px; left: 50%; transform: translateX(-50%); width: 880px; text-align: center; color: #010F3B; font-size: 78px; font-weight: 900; line-height: 1.05; opacity: 0; }
+      #s5-sub { position: absolute; top: 1040px; left: 50%; transform: translateX(-50%); width: 820px; text-align: center; color: rgba(1,15,59,0.7); font-family: 'Inter', sans-serif; font-size: 28px; line-height: 1.5; opacity: 0; }
+      #s5-btn { position: absolute; top: 1260px; left: 50%; transform: translateX(-50%); background: #010F3B; color: #fff; font-family: 'Poppins', sans-serif; font-size: 30px; font-weight: 700; padding: 28px 64px; border-radius: 50px; white-space: nowrap; opacity: 0; }
+      #s5-link { position: absolute; top: 1410px; left: 50%; transform: translateX(-50%); color: rgba(1,15,59,0.6); font-size: 24px; opacity: 0; }
+      .nwm-logo-cta { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); display: flex; font-weight: 800; font-size: 34px; line-height: 1; border-radius: 6px; overflow: hidden; opacity: 0; }
+      .nwm-logo-cta .n { color: #FF671F; background: #010F3B; padding: 8px 12px; }
+      .nwm-logo-cta .w { color: #010F3B; background: #FF671F; border: 2px solid #010F3B; padding: 8px 12px; }
+      .nwm-logo-cta .m { color: #010F3B; background: #fff; padding: 8px 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="reel-07-agency-freelancer"
+         data-start="0" data-duration="70"
+         data-width="1080" data-height="1920">
+
+      <div class="nwm-logo clip" data-start="0" data-duration="70" data-track-index="99">
+        <span class="n">net</span><span class="w">web</span><span class="m">media</span>
+      </div>
+
+      <!-- Scene 1: Hook 0–5s -->
+      <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="5" data-track-index="0"></div>
+      <div id="s1-block" class="clip" data-start="0" data-duration="5" data-track-index="1">
+        <div id="s1-dead">YOUR AGENCY</div>
+        <div id="s1-subject">IS A GLORIFIED<br>FREELANCER.</div>
+        <div id="s1-bar"></div>
+        <div id="s1-pivot">Here's why — and what to do instead.</div>
+      </div>
+      <div id="s1-stamp" class="clip" data-start="0" data-duration="5" data-track-index="2">FIRE THEM.</div>
+      <div class="ai-orb clip" id="orb-s1" data-start="0" data-duration="5" data-track-index="3" style="opacity:0">
+        <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
+        <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
+      </div>
+
+      <!-- Scene 2: Indictment 5–18s -->
+      <div id="s2-bg" class="clip scene-bg" data-start="5" data-duration="13" data-track-index="0"></div>
+      <div id="s2-eyebrow" class="clip" data-start="5" data-duration="13" data-track-index="1">THE AGENCY TRAP</div>
+      <div id="s2-headline" class="clip" data-start="5" data-duration="13" data-track-index="2">
+        WHAT THEY SELL YOU<br>VS.<br><span class="accent">WHAT YOU PAY FOR.</span>
+      </div>
+      <div id="s2-list" class="clip" data-start="5" data-duration="13" data-track-index="3">
+        <div class="indict-row"><div class="indict-x">✗</div><div class="indict-text"><strong>Monthly retainer</strong> — pays a mid-level exec to forward briefs to juniors</div></div>
+        <div class="indict-row"><div class="indict-x">✗</div><div class="indict-text"><strong>Strategy decks</strong> — impressive slides, zero implementation accountability</div></div>
+        <div class="indict-row"><div class="indict-x">✗</div><div class="indict-text"><strong>Channel-siloed</strong> — SEO team, paid team, social team. Nobody owns revenue.</div></div>
+      </div>
+      <div class="ai-orb clip" id="orb-s2" data-start="5" data-duration="13" data-track-index="4" style="opacity:0">
+        <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
+        <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
+      </div>
+
+      <!-- Scene 3: Alternative 18–40s -->
+      <div id="s3-bg" class="clip scene-bg" data-start="18" data-duration="22" data-track-index="0"></div>
+      <div id="s3-eyebrow" class="clip" data-start="18" data-duration="22" data-track-index="1">THE DIFFERENCE</div>
+      <div id="s3-title" class="clip" data-start="18" data-duration="22" data-track-index="2">
+        <span class="accent">FRACTIONAL CMO</span><br>VS. AGENCY.
+      </div>
+      <div id="s3-cols" class="clip" data-start="18" data-duration="22" data-track-index="3">
+        <div class="diff-col bad">
+          <div class="diff-head">Agency</div>
+          <div class="diff-item">Account manager layers</div>
+          <div class="diff-item">Output-billed (hours/deliverables)</div>
+          <div class="diff-item">No skin in revenue outcomes</div>
+          <div class="diff-item">Locked into their tool stack</div>
+        </div>
+        <div class="diff-col good">
+          <div class="diff-head">Fractional CMO</div>
+          <div class="diff-item">Exec-level, direct access</div>
+          <div class="diff-item">Revenue-accountable</div>
+          <div class="diff-item">Owns pipeline, not campaigns</div>
+          <div class="diff-item">AI-native — builds vs. buys</div>
+        </div>
+      </div>
+      <div class="ai-orb clip" id="orb-s3" data-start="18" data-duration="22" data-track-index="4" style="opacity:0">
+        <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
+        <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
+      </div>
+
+      <!-- Scene 4: Proof 40–55s -->
+      <div id="s4-bg" class="clip scene-bg" data-start="40" data-duration="15" data-track-index="0"></div>
+      <div id="s4-eyebrow" class="clip" data-start="40" data-duration="15" data-track-index="1">CLIENT REALITY CHECK</div>
+      <div id="s4-headline" class="clip" data-start="40" data-duration="15" data-track-index="2">
+        SAME BUDGET.<br><span class="accent">DIFFERENT RESULTS.</span>
+      </div>
+      <div id="s4-metrics" class="clip" data-start="40" data-duration="15" data-track-index="3">
+        <div class="pm-card">
+          <div class="pm-val">3×</div>
+          <div class="pm-lbl">more pipeline from<br>same monthly budget</div>
+        </div>
+        <div class="pm-card">
+          <div class="pm-val">6wk</div>
+          <div class="pm-lbl">average time to<br>first measurable win</div>
+        </div>
+        <div class="pm-card">
+          <div class="pm-val">$0</div>
+          <div class="pm-lbl">in agency account<br>management overhead</div>
+        </div>
+      </div>
+      <div id="s4-quote" class="clip" data-start="40" data-duration="15" data-track-index="4">
+        "We fired our $14K/mo agency in month 2. Six weeks with NWM beat 18 months of retainer."
+      </div>
+      <div class="ai-orb clip" id="orb-s4" data-start="40" data-duration="15" data-track-index="5" style="opacity:0">
+        <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
+        <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
+      </div>
+
+      <!-- Scene 5: CTA 55–70s -->
+      <div id="s5-bg" class="clip scene-bg" data-start="55" data-duration="15" data-track-index="0"></div>
+      <div id="s5-badge" class="clip" data-start="55" data-duration="15" data-track-index="1">Fractional CMO</div>
+      <div id="s5-headline" class="clip" data-start="55" data-duration="15" data-track-index="2">
+        Book a Fractional CMO discovery call.
+      </div>
+      <div id="s5-sub" class="clip" data-start="55" data-duration="15" data-track-index="3">
+        AI-native. Revenue-accountable. No account manager tax. Link in bio.
+      </div>
+      <div id="s5-btn" class="clip" data-start="55" data-duration="15" data-track-index="4">Book a Discovery Call</div>
+      <div id="s5-link" class="clip" data-start="55" data-duration="15" data-track-index="5">↑ Link in bio</div>
+      <div class="nwm-logo-cta clip" data-start="55" data-duration="15" data-track-index="6">
+        <span class="n">net</span><span class="w">web</span><span class="m">media</span>
+      </div>
+
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      function orbPulse(id, startT, dur) {
+        tl.to(id, { opacity: 1, duration: 0.5, ease: "power2.out" }, startT)
+          .to(id + " .orb-ring-1", { rotation: 360, duration: 8, ease: "none", repeat: Math.floor(dur / 8) - 1 }, startT)
+          .to(id + " .orb-ring-2", { rotation: -360, duration: 5, ease: "none", repeat: Math.floor(dur / 5) - 1 }, startT)
+          .to(id + " .orb-core",   { scale: 1.15, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: Math.floor(dur / 1.2) - 1 }, startT);
+      }
+
+      tl.to("#s1-bg",      { opacity: 1, duration: 0.4 }, 0)
+        .to("#s1-dead",    { opacity: 1, duration: 0.4, ease: "power3.out" }, 0.3)
+        .to("#s1-subject", { opacity: 1, duration: 0.4 }, 0.6)
+        .to("#s1-stamp",   { opacity: 1, scale: 1.06, duration: 0.3, ease: "power2.out" }, 0.9)
+        .to("#s1-stamp",   { scale: 1, duration: 0.2 }, 1.2)
+        .to("#s1-bar",     { opacity: 1, width: 90, duration: 0.4 }, 1.4)
+        .to("#s1-pivot",   { opacity: 1, duration: 0.4 }, 1.7);
+      orbPulse("#orb-s1", 0.5, 5);
+
+      tl.to("#s2-eyebrow", { opacity: 1, duration: 0.4 }, 5.3)
+        .to("#s2-headline", { opacity: 1, duration: 0.5, ease: "power2.out" }, 5.6)
+        .to("#s2-list",    { opacity: 1, duration: 0.5 }, 7.5);
+      orbPulse("#orb-s2", 5.4, 13);
+
+      tl.to("#s3-eyebrow", { opacity: 1, duration: 0.4 }, 18.3)
+        .to("#s3-title",   { opacity: 1, duration: 0.5, ease: "power2.out" }, 18.6)
+        .to("#s3-cols",    { opacity: 1, duration: 0.6, ease: "power2.out" }, 20.0);
+      orbPulse("#orb-s3", 18.4, 22);
+
+      tl.to("#s4-eyebrow", { opacity: 1, duration: 0.4 }, 40.3)
+        .to("#s4-headline", { opacity: 1, duration: 0.5, ease: "power2.out" }, 40.6)
+        .to("#s4-metrics",  { opacity: 1, duration: 0.6 }, 42.0)
+        .to("#s4-quote",    { opacity: 1, duration: 0.5 }, 46.5);
+      orbPulse("#orb-s4", 40.4, 15);
+
+      tl.to("#s5-badge",    { opacity: 1, duration: 0.35 }, 55.4)
+        .to("#s5-headline", { opacity: 1, duration: 0.5, ease: "power2.out" }, 55.7)
+        .to("#s5-sub",      { opacity: 1, duration: 0.4 }, 56.6)
+        .to("#s5-btn",      { opacity: 1, duration: 0.5, ease: "back.out(1.5)" }, 57.4)
+        .to("#s5-link",     { opacity: 1, duration: 0.3 }, 58.2)
+        .to(".nwm-logo-cta",{ opacity: 1, duration: 0.3 }, 58.6);
+
+      window.__timelines["reel-07-agency-freelancer"] = tl;
+    </script>
+  </body>
+</html>

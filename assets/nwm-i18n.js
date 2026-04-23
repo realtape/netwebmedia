@@ -83,7 +83,14 @@
     }
   };
 
-  function current(){ try { return localStorage.getItem(KEY) || 'en'; } catch(_) { return 'en'; } }
+  // Detect preferred language: saved choice → browser locale → default en
+  function detect(){
+    var saved; try { saved = localStorage.getItem(KEY); } catch(_) {}
+    if (saved === 'en' || saved === 'es') return saved;
+    var nav = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+    return nav.startsWith('es') ? 'es' : 'en';
+  }
+  function current(){ try { return localStorage.getItem(KEY) || detect(); } catch(_) { return detect(); } }
   function t(k){ var l = current(); return (DICT[l] && DICT[l][k]) || (DICT.en && DICT.en[k]) || null; }
   function setLang(l){
     try { localStorage.setItem(KEY, l); } catch(_) {}
@@ -123,7 +130,29 @@
     container.appendChild(btn);
   }
 
-  w.NWMi18n = { t: t, current: current, setLang: setLang, toggle: toggle, apply: apply, injectToggle: injectToggle, DICT: DICT };
+  // Render a single flag button showing the ALTERNATE language
+  // Targets every .nav-lang container on the page
+  function renderNavLang() {
+    var containers = document.querySelectorAll('.nav-lang');
+    if (!containers.length) return;
+    var alt      = current() === 'en' ? 'es' : 'en';
+    var flag     = alt === 'es' ? 'https://flagcdn.com/w40/es.png' : 'https://flagcdn.com/w40/us.png';
+    var label    = alt === 'es' ? 'ES' : 'EN';
+    var title    = alt === 'es' ? 'Cambiar a Español' : 'Switch to English';
+    containers.forEach(function(c) {
+      c.innerHTML =
+        '<button class="lang-btn" data-lang="' + alt + '" title="' + title + '" style="cursor:pointer">' +
+        '<img class="flag" src="' + flag + '" alt="' + label + '" width="20" height="15" loading="lazy" />' +
+        ' ' + label +
+        '</button>';
+      c.querySelector('.lang-btn').addEventListener('click', function() {
+        setLang(alt);
+        renderNavLang(); // re-render to flip the flag
+      });
+    });
+  }
+
+  w.NWMi18n = { t: t, current: current, setLang: setLang, toggle: toggle, apply: apply, injectToggle: injectToggle, renderNavLang: renderNavLang, DICT: DICT };
   // Auto-apply on load
-  document.addEventListener('DOMContentLoaded', function(){ apply(); });
+  document.addEventListener('DOMContentLoaded', function(){ apply(); renderNavLang(); });
 })(window);

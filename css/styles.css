@@ -169,11 +169,20 @@ ul { list-style: none; }
 .nav-lang {
   display: flex;
   align-items: center;
-  gap: 2px;
 }
-.nav-lang .lang-btn {
-  font-size: 11px;
-  padding: 3px 7px;
+.lang-flag-only {
+  padding: 2px 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+  line-height: 0;
+}
+.lang-flag-only:hover {
+  border-color: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.07);
+  transform: scale(1.1);
 }
 .navbar-inner {
   display: flex;

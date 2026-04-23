@@ -141,9 +141,8 @@
     var title    = alt === 'es' ? 'Cambiar a Español' : 'Switch to English';
     containers.forEach(function(c) {
       c.innerHTML =
-        '<button class="lang-btn" data-lang="' + alt + '" title="' + title + '" style="cursor:pointer">' +
-        '<img class="flag" src="' + flag + '" alt="' + label + '" width="20" height="15" loading="lazy" />' +
-        ' ' + label +
+        '<button class="lang-btn lang-flag-only" data-lang="' + alt + '" title="' + title + '" style="cursor:pointer">' +
+        '<img class="flag" src="' + flag + '" alt="' + label + '" width="22" height="16" loading="lazy" />' +
         '</button>';
       c.querySelector('.lang-btn').addEventListener('click', function() {
         setLang(alt);

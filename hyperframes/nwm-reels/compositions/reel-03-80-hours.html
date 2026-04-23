@@ -12,10 +12,26 @@
       .clip { position: absolute; top: 0; left: 0; }
       .scene-bg { position: absolute; width: 1080px; height: 1920px; top: 0; left: 0; }
 
-      .nwm-logo { position: absolute; top: 64px; right: 54px; z-index: 100; width: 260px; height: auto; opacity: 0.95; }
-      .nwm-logo-cta { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); width: 340px; height: auto; z-index: 10; opacity: 0; }
+      /* ── B-ROLL ── */
+      .broll { position: absolute; top:0; left:0; width:1080px; height:1920px; object-fit: cover; }
+      .broll-tint { position: absolute; top:0; left:0; width:1080px; height:1920px;
+                    background: linear-gradient(180deg, rgba(1,15,59,0.82) 0%, rgba(1,15,59,0.92) 100%); }
 
-      .ai-orb { position: absolute; width: 260px; height: 260px; bottom: 280px; left: 80px; }
+      /* ── NWM LOGO ── */
+      .nwm-logo {
+        position: absolute; top: 40px; right: 40px; z-index: 200;
+        background: #FFFFFF; padding: 10px 18px; border-radius: 10px;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.15); opacity: 0.98;
+      }
+      .nwm-logo img { display: block; width: 220px; height: auto; }
+      .nwm-logo-cta {
+        position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
+        z-index: 10; opacity: 0; background: #FFFFFF;
+        padding: 14px 24px; border-radius: 12px; box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+      }
+      .nwm-logo-cta img { display: block; width: 300px; height: auto; }
+
+      .ai-orb { position: absolute; width: 260px; height: 260px; bottom: 380px; left: 80px; }
       .orb-ring { position: absolute; border-radius: 50%; border-style: solid; border-color: rgba(255,103,31,0.25); top: 50%; left: 50%; transform: translate(-50%,-50%); }
       .orb-ring-1 { width: 260px; height: 260px; border-width: 2px; }
       .orb-ring-2 { width: 200px; height: 200px; border-width: 2px; border-color: rgba(255,103,31,0.4); }
@@ -23,42 +39,42 @@
       .orb-core { position: absolute; width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle at 38% 38%, #FF8C4A, #FF671F 55%, #C43F00); top: 50%; left: 50%; transform: translate(-50%,-50%); box-shadow: 0 0 40px rgba(255,103,31,0.6), 0 0 80px rgba(255,103,31,0.25); }
       .orb-particle { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: rgba(255,103,31,0.7); }
 
-      /* SCENE 1: Hook 0–4s */
-      #s1-bg { background: #010F3B; }
-      #s1-hook { position: absolute; top: 40%; left: 50%; text-align: center; width: 920px; opacity: 0; }
+      /* SCENE 1: Hook 0-4s */
+      #s1-bg { background: transparent; }
+      #s1-hook { position: absolute; top: 300px; left: 50%; transform: translateX(-50%); text-align: center; width: 920px; opacity: 0; padding: 0 80px; }
       #s1-num { color: #FF671F; font-size: 260px; font-weight: 900; line-height: 0.9; }
       #s1-unit { color: rgba(255,255,255,0.6); font-family: 'JetBrains Mono', monospace; font-size: 28px; letter-spacing: 5px; text-transform: uppercase; margin-top: 12px; }
       #s1-label { color: #fff; font-size: 68px; font-weight: 900; line-height: 1.05; text-transform: uppercase; margin-top: 16px; }
-      #s1-bar { position: absolute; top: 73%; left: 50%; transform: translateX(-50%); width: 0; height: 6px; background: #FF671F; border-radius: 3px; opacity: 0; }
-      #s1-sub { position: absolute; top: 77%; left: 50%; transform: translateX(-50%); width: 840px; text-align: center; color: rgba(255,255,255,0.65); font-family: 'Inter', sans-serif; font-size: 32px; line-height: 1.5; opacity: 0; }
+      #s1-bar { position: absolute; top: 900px; left: 50%; transform: translateX(-50%); width: 0; height: 6px; background: #FF671F; border-radius: 3px; opacity: 0; }
+      #s1-sub { position: absolute; top: 960px; left: 50%; transform: translateX(-50%); width: 840px; text-align: center; color: rgba(255,255,255,0.65); font-family: 'Inter', sans-serif; font-size: 32px; line-height: 1.5; opacity: 0; }
 
-      /* SCENE 2: Client Story 4–18s */
-      #s2-bg { background: #010F3B; }
-      #s2-eyebrow { position: absolute; top: 180px; left: 90px; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; opacity: 0; }
-      #s2-client { position: absolute; top: 260px; left: 80px; width: 920px; background: rgba(255,103,31,0.07); border: 1px solid rgba(255,103,31,0.2); border-radius: 20px; padding: 48px 56px; opacity: 0; }
+      /* SCENE 2: Client Story 4-18s */
+      #s2-bg { background: transparent; }
+      #s2-eyebrow { position: absolute; top: 160px; left: 90px; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; opacity: 0; }
+      #s2-client { position: absolute; top: 220px; left: 80px; width: 920px; background: rgba(255,103,31,0.07); border: 1px solid rgba(255,103,31,0.2); border-radius: 20px; padding: 48px 56px; opacity: 0; }
       .client-row { display: flex; gap: 20px; align-items: baseline; margin-bottom: 32px; }
       .client-row:last-child { margin-bottom: 0; }
       .cr-label { color: rgba(255,255,255,0.5); font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; width: 220px; flex-shrink: 0; }
       .cr-val { color: #fff; font-size: 36px; font-weight: 800; }
       .cr-val .accent { color: #FF671F; }
-      #s2-pain { position: absolute; top: 900px; left: 90px; width: 900px; color: rgba(255,255,255,0.75); font-family: 'Inter', sans-serif; font-size: 32px; line-height: 1.6; opacity: 0; }
+      #s2-pain { position: absolute; top: 860px; left: 90px; width: 900px; color: rgba(255,255,255,0.75); font-family: 'Inter', sans-serif; font-size: 32px; line-height: 1.6; opacity: 0; }
 
-      /* SCENE 3: The Build 18–44s */
-      #s3-bg { background: #010F3B; }
-      #s3-eyebrow { position: absolute; top: 160px; left: 90px; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; opacity: 0; }
-      #s3-title { position: absolute; top: 230px; left: 90px; width: 900px; color: #fff; font-size: 64px; font-weight: 900; line-height: 1.05; text-transform: uppercase; opacity: 0; }
+      /* SCENE 3: The Build 18-44s */
+      #s3-bg { background: transparent; }
+      #s3-eyebrow { position: absolute; top: 150px; left: 90px; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; opacity: 0; }
+      #s3-title { position: absolute; top: 210px; left: 90px; width: 900px; color: #fff; font-size: 64px; font-weight: 900; line-height: 1.05; text-transform: uppercase; opacity: 0; padding-right: 80px; }
       #s3-title .accent { color: #FF671F; }
-      #s3-pipeline { position: absolute; top: 440px; left: 80px; width: 920px; opacity: 0; }
+      #s3-pipeline { position: absolute; top: 420px; left: 80px; width: 920px; opacity: 0; }
       .pipe-step { display: flex; align-items: center; gap: 0; margin-bottom: 8px; }
       .pipe-box { background: #0A1628; border: 1px solid rgba(255,103,31,0.3); border-radius: 10px; padding: 22px 28px; flex: 1; }
       .pipe-box-title { color: #FF671F; font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
       .pipe-box-desc { color: rgba(255,255,255,0.65); font-family: 'Inter', sans-serif; font-size: 22px; }
       .pipe-arrow { color: rgba(255,103,31,0.5); font-size: 28px; padding: 0 8px; }
 
-      /* SCENE 4: Before / After 44–60s */
-      #s4-bg { background: #010F3B; }
-      #s4-eyebrow { position: absolute; top: 180px; left: 50%; transform: translateX(-50%); color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; white-space: nowrap; opacity: 0; }
-      #s4-cols { position: absolute; top: 290px; left: 80px; width: 920px; display: flex; gap: 28px; opacity: 0; }
+      /* SCENE 4: Before / After 44-60s */
+      #s4-bg { background: transparent; }
+      #s4-eyebrow { position: absolute; top: 160px; left: 50%; transform: translateX(-50%); color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; white-space: nowrap; opacity: 0; }
+      #s4-cols { position: absolute; top: 240px; left: 80px; width: 920px; display: flex; gap: 28px; opacity: 0; }
       .ba-col { flex: 1; border-radius: 16px; padding: 44px 32px; }
       .ba-col.before { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); }
       .ba-col.after  { background: rgba(255,103,31,0.08); border: 1px solid rgba(255,103,31,0.3); }
@@ -70,10 +86,10 @@
       .ba-col.before .ba-val { color: rgba(255,255,255,0.35); }
       .ba-col.after  .ba-val { color: #FF671F; }
       .ba-lbl { color: rgba(255,255,255,0.55); font-family: 'Inter', sans-serif; font-size: 22px; margin-top: 6px; }
-      #s4-point { position: absolute; top: 1280px; left: 90px; width: 900px; color: #fff; font-size: 36px; font-weight: 800; line-height: 1.4; opacity: 0; }
+      #s4-point { position: absolute; top: 1240px; left: 90px; width: 900px; color: #fff; font-size: 36px; font-weight: 800; line-height: 1.4; opacity: 0; }
       #s4-point .accent { color: #FF671F; }
 
-      /* SCENE 5: CTA 60–71s */
+      /* SCENE 5: CTA 60-71s */
       #s5-bg { background: #FF671F; }
       #s5-badge { position: absolute; top: 480px; left: 50%; transform: translateX(-50%); background: #010F3B; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 10px 28px; border-radius: 50px; white-space: nowrap; opacity: 0; }
       #s5-headline { position: absolute; top: 590px; left: 50%; transform: translateX(-50%); width: 880px; text-align: center; color: #010F3B; font-size: 78px; font-weight: 900; line-height: 1.05; opacity: 0; }
@@ -88,49 +104,60 @@
          data-start="0" data-duration="71"
          data-width="1080" data-height="1920">
 
-      <img class="nwm-logo clip"
-           src="../assets/nwm-logo.svg"
-           data-start="0" data-duration="71" data-track-index="99"
-           alt="netwebmedia"/>
+      <div class="nwm-logo clip" data-start="0" data-duration="71" data-track-index="99">
+        <img src="../assets/nwm-logo.png" alt="netwebmedia"/>
+      </div>
 
-      <!-- Scene 1: Hook 0–4s -->
-      <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="4" data-track-index="0"></div>
-      <div id="s1-hook" class="clip" data-start="0" data-duration="4" data-track-index="1">
+      <!-- Scene 1: Hook 0-4s -->
+      <video class="broll clip" muted autoplay loop
+             src="https://videos.pexels.com/video-files/3130284/3130284-uhd_2160_4096_25fps.mp4"
+             data-start="0" data-duration="4" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="0" data-duration="4" data-track-index="1"></div>
+      <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="4" data-track-index="2"></div>
+      <div id="s1-hook" class="clip" data-start="0" data-duration="4" data-track-index="3">
         <div id="s1-num">80</div>
         <div id="s1-unit">hours / month</div>
         <div id="s1-label">ONE AGENT.<br>GONE.</div>
       </div>
-      <div id="s1-bar" class="clip" data-start="0" data-duration="4" data-track-index="2"></div>
-      <div id="s1-sub" class="clip" data-start="0" data-duration="4" data-track-index="3">Here's what we built for a $6M ARR SaaS.</div>
-      <div class="ai-orb clip" id="orb-s1" data-start="0" data-duration="4" data-track-index="4" style="opacity:0">
+      <div id="s1-bar" class="clip" data-start="0" data-duration="4" data-track-index="4"></div>
+      <div id="s1-sub" class="clip" data-start="0" data-duration="4" data-track-index="5">Here's what we built for a $6M ARR SaaS.</div>
+      <div class="ai-orb clip" id="orb-s1" data-start="0" data-duration="4" data-track-index="6" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
       </div>
 
-      <!-- Scene 2: Client 4–18s -->
-      <div id="s2-bg" class="clip scene-bg" data-start="4" data-duration="14" data-track-index="0"></div>
-      <div id="s2-eyebrow" class="clip" data-start="4" data-duration="14" data-track-index="1">THE CLIENT</div>
-      <div id="s2-client" class="clip" data-start="4" data-duration="14" data-track-index="2">
+      <!-- Scene 2: Client 4-18s -->
+      <video class="broll clip" muted autoplay loop
+             src="https://videos.pexels.com/video-files/3191353/3191353-hd_1920_1080_25fps.mp4"
+             data-start="4" data-duration="14" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="4" data-duration="14" data-track-index="1"></div>
+      <div id="s2-bg" class="clip scene-bg" data-start="4" data-duration="14" data-track-index="2"></div>
+      <div id="s2-eyebrow" class="clip" data-start="4" data-duration="14" data-track-index="3">THE CLIENT</div>
+      <div id="s2-client" class="clip" data-start="4" data-duration="14" data-track-index="4">
         <div class="client-row"><div class="cr-label">Company</div><div class="cr-val">Vertical SaaS, <span class="accent">$6M ARR</span></div></div>
         <div class="client-row"><div class="cr-label">Problem</div><div class="cr-val">80+ hrs/mo on ops tasks</div></div>
         <div class="client-row"><div class="cr-label">Tasks</div><div class="cr-val">Lead enrichment, MQL scoring, CRM hygiene</div></div>
         <div class="client-row"><div class="cr-label">Status</div><div class="cr-val"><span class="accent">Drowning.</span></div></div>
       </div>
-      <div id="s2-pain" class="clip" data-start="4" data-duration="14" data-track-index="3">
+      <div id="s2-pain" class="clip" data-start="4" data-duration="14" data-track-index="5">
         "Her entire week was reactive. She had zero time for strategy. Just data cleanup and routing."
       </div>
-      <div class="ai-orb clip" id="orb-s2" data-start="4" data-duration="14" data-track-index="4" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s2" data-start="4" data-duration="14" data-track-index="6" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
       </div>
 
-      <!-- Scene 3: Build 18–44s -->
-      <div id="s3-bg" class="clip scene-bg" data-start="18" data-duration="26" data-track-index="0"></div>
-      <div id="s3-eyebrow" class="clip" data-start="18" data-duration="26" data-track-index="1">THE AGENT PIPELINE</div>
-      <div id="s3-title" class="clip" data-start="18" data-duration="26" data-track-index="2">
+      <!-- Scene 3: Build 18-44s -->
+      <video class="broll clip" muted autoplay loop
+             src="https://videos.pexels.com/video-files/6682890/6682890-uhd_2560_1440_25fps.mp4"
+             data-start="18" data-duration="26" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="18" data-duration="26" data-track-index="1"></div>
+      <div id="s3-bg" class="clip scene-bg" data-start="18" data-duration="26" data-track-index="2"></div>
+      <div id="s3-eyebrow" class="clip" data-start="18" data-duration="26" data-track-index="3">THE AGENT PIPELINE</div>
+      <div id="s3-title" class="clip" data-start="18" data-duration="26" data-track-index="4">
         ONE <span class="accent">CLAUDE</span><br>AGENT. SIX TASKS.
       </div>
-      <div id="s3-pipeline" class="clip" data-start="18" data-duration="26" data-track-index="3">
+      <div id="s3-pipeline" class="clip" data-start="18" data-duration="26" data-track-index="5">
         <div class="pipe-step">
           <div class="pipe-box">
             <div class="pipe-box-title">01 → HubSpot Pull</div>
@@ -156,15 +183,19 @@
           </div>
         </div>
       </div>
-      <div class="ai-orb clip" id="orb-s3" data-start="18" data-duration="26" data-track-index="4" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s3" data-start="18" data-duration="26" data-track-index="6" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
       </div>
 
-      <!-- Scene 4: Before/After 44–60s -->
-      <div id="s4-bg" class="clip scene-bg" data-start="44" data-duration="16" data-track-index="0"></div>
-      <div id="s4-eyebrow" class="clip" data-start="44" data-duration="16" data-track-index="1">BEFORE vs AFTER</div>
-      <div id="s4-cols" class="clip" data-start="44" data-duration="16" data-track-index="2">
+      <!-- Scene 4: Before/After 44-60s -->
+      <video class="broll clip" muted autoplay loop
+             src="https://videos.pexels.com/video-files/3130284/3130284-uhd_2160_4096_25fps.mp4"
+             data-start="44" data-duration="16" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="44" data-duration="16" data-track-index="1"></div>
+      <div id="s4-bg" class="clip scene-bg" data-start="44" data-duration="16" data-track-index="2"></div>
+      <div id="s4-eyebrow" class="clip" data-start="44" data-duration="16" data-track-index="3">BEFORE vs AFTER</div>
+      <div id="s4-cols" class="clip" data-start="44" data-duration="16" data-track-index="4">
         <div class="ba-col before">
           <div class="ba-head">Before</div>
           <div class="ba-metric"><div class="ba-val">80h</div><div class="ba-lbl">human ops/mo</div></div>
@@ -178,25 +209,24 @@
           <div class="ba-metric"><div class="ba-val">68%</div><div class="ba-lbl">MQL→SQL rate</div></div>
         </div>
       </div>
-      <div id="s4-point" class="clip" data-start="44" data-duration="16" data-track-index="3">
+      <div id="s4-point" class="clip" data-start="44" data-duration="16" data-track-index="5">
         Same headcount. More pipeline.<br><span class="accent">This is AI-native marketing.</span>
       </div>
-      <div class="ai-orb clip" id="orb-s4" data-start="44" data-duration="16" data-track-index="4" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s4" data-start="44" data-duration="16" data-track-index="6" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:15%;left:65%"></div><div class="orb-particle" style="top:70%;left:25%"></div>
       </div>
 
-      <!-- Scene 5: CTA 60–71s -->
+      <!-- Scene 5: CTA 60-71s -->
       <div id="s5-bg" class="clip scene-bg" data-start="60" data-duration="11" data-track-index="0"></div>
-      <div id="s5-badge" class="clip" data-start="60" data-duration="11" data-track-index="1">Fractional CMO</div>
-      <div id="s5-headline" class="clip" data-start="60" data-duration="11" data-track-index="2">Book a Fractional CMO discovery call.</div>
-      <div id="s5-sub" class="clip" data-start="60" data-duration="11" data-track-index="3">Not campaigns. Compounding infrastructure. Link in bio.</div>
-      <div id="s5-btn" class="clip" data-start="60" data-duration="11" data-track-index="4">Book a Discovery Call</div>
-      <div id="s5-link" class="clip" data-start="60" data-duration="11" data-track-index="5">↑ Link in bio</div>
-      <img class="nwm-logo-cta clip"
-           src="../assets/nwm-logo-navy.svg"
-           data-start="60" data-duration="11" data-track-index="6"
-           alt="netwebmedia"/>
+      <div id="s5-badge" class="clip" data-start="60" data-duration="11" data-track-index="3">Fractional CMO</div>
+      <div id="s5-headline" class="clip" data-start="60" data-duration="11" data-track-index="4">Book a Fractional CMO discovery call.</div>
+      <div id="s5-sub" class="clip" data-start="60" data-duration="11" data-track-index="5">Not campaigns. Compounding infrastructure. Link in bio.</div>
+      <div id="s5-btn" class="clip" data-start="60" data-duration="11" data-track-index="6">Book a Discovery Call</div>
+      <div id="s5-link" class="clip" data-start="60" data-duration="11" data-track-index="7">↑ Link in bio</div>
+      <div class="nwm-logo-cta clip" data-start="60" data-duration="11" data-track-index="8">
+        <img src="../assets/nwm-logo.png" alt="netwebmedia"/>
+      </div>
 
     </div>
     <script>
@@ -210,7 +240,7 @@
           .to(id + " .orb-core",   { scale: 1.15, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: Math.floor(dur / 1.2) - 1 }, startT);
       }
 
-      tl.fromTo("#s1-hook", { xPercent: -50, yPercent: -50, opacity: 0 }, { xPercent: -50, yPercent: -50, opacity: 1, duration: 0.6, ease: "back.out(1.3)" }, 0.3)
+      tl.fromTo("#s1-hook", { xPercent: -50, opacity: 0 }, { xPercent: -50, opacity: 1, duration: 0.6, ease: "back.out(1.3)" }, 0.3)
         .to("#s1-bar",  { opacity: 1, width: 100, duration: 0.5, ease: "power2.out" }, 1.0)
         .to("#s1-sub",  { opacity: 1, duration: 0.4 }, 1.4);
       orbPulse("#orb-s1", 0.4, 4);

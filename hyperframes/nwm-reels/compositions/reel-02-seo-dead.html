@@ -12,21 +12,27 @@
       .clip { position: absolute; top: 0; left: 0; }
       .scene-bg { position: absolute; width: 1080px; height: 1920px; top: 0; left: 0; }
 
+      /* ── B-ROLL ── */
+      .broll { position: absolute; top:0; left:0; width:1080px; height:1920px; object-fit: cover; }
+      .broll-tint { position: absolute; top:0; left:0; width:1080px; height:1920px;
+                    background: linear-gradient(180deg, rgba(1,15,59,0.82) 0%, rgba(1,15,59,0.92) 100%); }
+
+      /* ── NWM LOGO ── */
       .nwm-logo {
-        position: absolute; top: 64px; right: 54px; z-index: 100;
-        width: 260px; height: auto;
-        opacity: 0.95;
+        position: absolute; top: 40px; right: 40px; z-index: 200;
+        background: #FFFFFF; padding: 10px 18px; border-radius: 10px;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.15); opacity: 0.98;
       }
-      /* CTA scene variant — navy/white/navy on orange bg */
+      .nwm-logo img { display: block; width: 220px; height: auto; }
       .nwm-logo-cta {
-        position: absolute; bottom: 80px; left: 50%;
-        transform: translateX(-50%);
-        width: 340px; height: auto; z-index: 10;
-        opacity: 0;
+        position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
+        z-index: 10; opacity: 0; background: #FFFFFF;
+        padding: 14px 24px; border-radius: 12px; box-shadow: 0 4px 18px rgba(0,0,0,0.15);
       }
+      .nwm-logo-cta img { display: block; width: 300px; height: auto; }
 
       /* ── AI ORB ── */
-      .ai-orb { position: absolute; width: 260px; height: 260px; bottom: 280px; left: 80px; }
+      .ai-orb { position: absolute; width: 260px; height: 260px; bottom: 380px; left: 80px; }
       .orb-ring { position: absolute; border-radius: 50%; border-style: solid; border-color: rgba(255,103,31,0.25); top: 50%; left: 50%; transform: translate(-50%,-50%); }
       .orb-ring-1 { width: 260px; height: 260px; border-width: 2px; }
       .orb-ring-2 { width: 200px; height: 200px; border-width: 2px; border-color: rgba(255,103,31,0.4); }
@@ -34,8 +40,9 @@
       .orb-core { position: absolute; width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle at 38% 38%, #FF8C4A, #FF671F 55%, #C43F00); top: 50%; left: 50%; transform: translate(-50%,-50%); box-shadow: 0 0 40px rgba(255,103,31,0.6), 0 0 80px rgba(255,103,31,0.25); }
       .orb-particle { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: rgba(255,103,31,0.7); }
 
-      /* ── SCENE 1: HOOK 0–5s ── */
-      #s1-bg { background: linear-gradient(145deg, #010F3B 52%, #FF671F 52%); opacity: 0; }
+      /* ── SCENE 1: HOOK 0-5s ── */
+      #s1-bg { background: transparent; }
+      /* Stamp and block: separate beats — stamp fades OUT before headline text is visible */
       #s1-stamp {
         position: absolute; top: 44%; left: 50%; transform: translate(-50%,-50%) rotate(-10deg);
         border: 12px solid #FF671F; color: #FF671F;
@@ -43,46 +50,46 @@
         padding: 10px 30px; opacity: 0; white-space: nowrap; z-index: 5;
       }
       #s1-block {
-        position: absolute; top: 42%; left: 50%; transform: translate(-50%,-50%);
-        text-align: center; width: 920px; z-index: 4;
+        position: absolute; top: 400px; left: 50%; transform: translateX(-50%);
+        text-align: center; width: 920px; z-index: 4; padding: 0 80px;
       }
       #s1-dead { color: #FF671F; font-size: 150px; font-weight: 900; line-height: 1; opacity: 0; text-transform: uppercase; }
       #s1-subject { color: #fff; font-size: 80px; font-weight: 900; line-height: 1.05; opacity: 0; text-transform: uppercase; }
       #s1-bar { width: 0; height: 6px; background: #FF671F; border-radius: 3px; margin: 36px auto; opacity: 0; }
       #s1-pivot { color: rgba(255,255,255,0.75); font-size: 32px; font-weight: 500; opacity: 0; line-height: 1.4; }
 
-      /* ── SCENE 2: THE SHIFT 5–18s ── */
-      #s2-bg { background: #010F3B; }
-      #s2-eyebrow { position: absolute; top: 180px; left: 90px; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; opacity: 0; }
-      #s2-headline { position: absolute; top: 250px; left: 90px; width: 900px; color: #fff; font-size: 68px; font-weight: 900; line-height: 1.05; text-transform: uppercase; opacity: 0; }
+      /* ── SCENE 2: THE SHIFT 5-18s ── */
+      #s2-bg { background: transparent; }
+      #s2-eyebrow { position: absolute; top: 160px; left: 90px; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; opacity: 0; }
+      #s2-headline { position: absolute; top: 220px; left: 90px; width: 900px; color: #fff; font-size: 68px; font-weight: 900; line-height: 1.05; text-transform: uppercase; opacity: 0; padding-right: 80px; }
       #s2-headline .accent { color: #FF671F; }
-      #s2-stats { position: absolute; top: 580px; left: 80px; width: 920px; display: flex; gap: 24px; opacity: 0; }
+      #s2-stats { position: absolute; top: 540px; left: 80px; width: 920px; display: flex; gap: 24px; opacity: 0; }
       .shift-stat { flex: 1; background: rgba(255,103,31,0.07); border: 1px solid rgba(255,103,31,0.2); border-radius: 16px; padding: 36px 24px; text-align: center; }
       .shift-val { color: #FF671F; font-size: 72px; font-weight: 900; line-height: 1; }
       .shift-desc { color: rgba(255,255,255,0.7); font-family: 'Inter', sans-serif; font-size: 22px; margin-top: 10px; line-height: 1.3; }
 
-      /* ── SCENE 3: HOW TO WIN 18–42s ── */
-      #s3-bg { background: #010F3B; }
-      #s3-eyebrow { position: absolute; top: 160px; left: 90px; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; opacity: 0; }
-      #s3-title { position: absolute; top: 230px; left: 90px; width: 900px; color: #fff; font-size: 72px; font-weight: 900; line-height: 1.05; text-transform: uppercase; opacity: 0; }
+      /* ── SCENE 3: HOW TO WIN 18-42s ── */
+      #s3-bg { background: transparent; }
+      #s3-eyebrow { position: absolute; top: 150px; left: 90px; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; opacity: 0; }
+      #s3-title { position: absolute; top: 210px; left: 90px; width: 900px; color: #fff; font-size: 72px; font-weight: 900; line-height: 1.05; text-transform: uppercase; opacity: 0; padding-right: 80px; }
       #s3-title .accent { color: #FF671F; }
-      #s3-list { position: absolute; top: 450px; left: 80px; width: 920px; opacity: 0; }
+      #s3-list { position: absolute; top: 430px; left: 80px; width: 920px; opacity: 0; }
       .aeo-item { display: flex; align-items: flex-start; gap: 28px; margin-bottom: 48px; }
       .aeo-num { color: #FF671F; font-family: 'JetBrains Mono', monospace; font-size: 48px; font-weight: 700; min-width: 64px; line-height: 1; }
       .aeo-text { }
       .aeo-title { color: #fff; font-size: 36px; font-weight: 800; line-height: 1.1; }
       .aeo-desc { color: rgba(255,255,255,0.6); font-family: 'Inter', sans-serif; font-size: 24px; margin-top: 8px; line-height: 1.4; }
 
-      /* ── SCENE 4: RESULT 42–58s ── */
-      #s4-bg { background: #010F3B; }
-      #s4-eyebrow { position: absolute; top: 220px; left: 50%; transform: translateX(-50%); color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; white-space: nowrap; opacity: 0; }
-      #s4-big { position: absolute; top: 310px; left: 50%; transform: translateX(-50%); text-align: center; width: 920px; opacity: 0; }
+      /* ── SCENE 4: RESULT 42-58s ── */
+      #s4-bg { background: transparent; }
+      #s4-eyebrow { position: absolute; top: 160px; left: 50%; transform: translateX(-50%); color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; white-space: nowrap; opacity: 0; }
+      #s4-big { position: absolute; top: 240px; left: 50%; transform: translateX(-50%); text-align: center; width: 920px; opacity: 0; }
       #s4-num { color: #FF671F; font-size: 220px; font-weight: 900; line-height: 1; }
       #s4-unit { color: rgba(255,255,255,0.6); font-family: 'JetBrains Mono', monospace; font-size: 28px; letter-spacing: 3px; text-transform: uppercase; margin-top: 8px; }
       #s4-desc { color: #fff; font-size: 44px; font-weight: 800; line-height: 1.2; margin-top: 16px; }
-      #s4-sub { position: absolute; top: 1000px; left: 90px; width: 900px; color: rgba(255,255,255,0.6); font-family: 'Inter', sans-serif; font-size: 28px; line-height: 1.6; opacity: 0; }
+      #s4-sub { position: absolute; top: 960px; left: 90px; width: 900px; color: rgba(255,255,255,0.6); font-family: 'Inter', sans-serif; font-size: 28px; line-height: 1.6; opacity: 0; }
 
-      /* ── SCENE 5: CTA 58–68s ── */
+      /* ── SCENE 5: CTA 58-68s ── */
       #s5-bg { background: #FF671F; }
       #s5-badge { position: absolute; top: 480px; left: 50%; transform: translateX(-50%); background: #010F3B; color: #FF671F; font-size: 18px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 10px 28px; border-radius: 50px; white-space: nowrap; opacity: 0; }
       #s5-headline { position: absolute; top: 600px; left: 50%; transform: translateX(-50%); width: 880px; text-align: center; color: #010F3B; font-size: 80px; font-weight: 900; line-height: 1.05; opacity: 0; }
@@ -98,34 +105,41 @@
          data-width="1080" data-height="1920">
 
       <!-- NWM logo persistent -->
-      <img class="nwm-logo clip"
-           src="../assets/nwm-logo.svg"
-           data-start="0" data-duration="68" data-track-index="99"
-           alt="netwebmedia"/>
+      <div class="nwm-logo clip" data-start="0" data-duration="68" data-track-index="99">
+        <img src="../assets/nwm-logo.png" alt="netwebmedia"/>
+      </div>
 
-      <!-- SCENE 1: Hook 0–5s -->
-      <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="5" data-track-index="0"></div>
-      <div id="s1-block" class="clip" data-start="0" data-duration="5" data-track-index="1">
+      <!-- SCENE 1: Hook 0-5s — stamp beat first, then text block -->
+      <video class="broll clip" muted autoplay loop
+             src="https://videos.pexels.com/video-files/3129977/3129977-uhd_3840_2160_25fps.mp4"
+             data-start="0" data-duration="5" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="0" data-duration="5" data-track-index="1"></div>
+      <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="5" data-track-index="2"></div>
+      <!-- Stamp appears first (0-1.5s beat), then fades out before headline text animates in -->
+      <div id="s1-stamp" class="clip" data-start="0" data-duration="5" data-track-index="3">DEAD.</div>
+      <div id="s1-block" class="clip" data-start="0" data-duration="5" data-track-index="4">
         <div id="s1-dead">SEO</div>
         <div id="s1-subject">IS DEAD.</div>
         <div id="s1-bar"></div>
         <div id="s1-pivot">Here's what replaced it.</div>
       </div>
-      <div id="s1-stamp" class="clip" data-start="0" data-duration="5" data-track-index="2">DEAD.</div>
-      <!-- AI Orb scene 1 -->
-      <div class="ai-orb clip" id="orb-s1" data-start="0" data-duration="5" data-track-index="3" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s1" data-start="0" data-duration="5" data-track-index="5" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div>
         <div class="orb-particle" style="top:10%;left:60%"></div><div class="orb-particle" style="top:75%;left:20%"></div>
       </div>
 
-      <!-- SCENE 2: The Shift 5–18s -->
-      <div id="s2-bg" class="clip scene-bg" data-start="5" data-duration="13" data-track-index="0"></div>
-      <div id="s2-eyebrow" class="clip" data-start="5" data-duration="13" data-track-index="1">THE SEARCH SHIFT</div>
-      <div id="s2-headline" class="clip" data-start="5" data-duration="13" data-track-index="2">
+      <!-- SCENE 2: The Shift 5-18s -->
+      <video class="broll clip" muted autoplay loop
+             src="https://videos.pexels.com/video-files/6682890/6682890-uhd_2560_1440_25fps.mp4"
+             data-start="5" data-duration="13" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="5" data-duration="13" data-track-index="1"></div>
+      <div id="s2-bg" class="clip scene-bg" data-start="5" data-duration="13" data-track-index="2"></div>
+      <div id="s2-eyebrow" class="clip" data-start="5" data-duration="13" data-track-index="3">THE SEARCH SHIFT</div>
+      <div id="s2-headline" class="clip" data-start="5" data-duration="13" data-track-index="4">
         PEOPLE ASK <span class="accent">AI</span>,<br>NOT GOOGLE.
       </div>
-      <div id="s2-stats" class="clip" data-start="5" data-duration="13" data-track-index="3">
+      <div id="s2-stats" class="clip" data-start="5" data-duration="13" data-track-index="5">
         <div class="shift-stat">
           <div class="shift-val">40%</div>
           <div class="shift-desc">Google searches end with<br>zero clicks</div>
@@ -139,18 +153,22 @@
           <div class="shift-desc">Year AEO beats<br>SEO for SaaS</div>
         </div>
       </div>
-      <div class="ai-orb clip" id="orb-s2" data-start="5" data-duration="13" data-track-index="4" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s2" data-start="5" data-duration="13" data-track-index="6" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:10%;left:60%"></div><div class="orb-particle" style="top:75%;left:20%"></div>
       </div>
 
-      <!-- SCENE 3: How to Win 18–42s -->
-      <div id="s3-bg" class="clip scene-bg" data-start="18" data-duration="24" data-track-index="0"></div>
-      <div id="s3-eyebrow" class="clip" data-start="18" data-duration="24" data-track-index="1">HOW TO WIN AEO</div>
-      <div id="s3-title" class="clip" data-start="18" data-duration="24" data-track-index="2">
+      <!-- SCENE 3: How to Win 18-42s -->
+      <video class="broll clip" muted autoplay loop
+             src="https://videos.pexels.com/video-files/3129977/3129977-uhd_3840_2160_25fps.mp4"
+             data-start="18" data-duration="24" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="18" data-duration="24" data-track-index="1"></div>
+      <div id="s3-bg" class="clip scene-bg" data-start="18" data-duration="24" data-track-index="2"></div>
+      <div id="s3-eyebrow" class="clip" data-start="18" data-duration="24" data-track-index="3">HOW TO WIN AEO</div>
+      <div id="s3-title" class="clip" data-start="18" data-duration="24" data-track-index="4">
         <span class="accent">3 THINGS</span><br>THAT MATTER NOW.
       </div>
-      <div id="s3-list" class="clip" data-start="18" data-duration="24" data-track-index="3">
+      <div id="s3-list" class="clip" data-start="18" data-duration="24" data-track-index="5">
         <div class="aeo-item">
           <div class="aeo-num">01</div>
           <div class="aeo-text">
@@ -173,42 +191,45 @@
           </div>
         </div>
       </div>
-      <div class="ai-orb clip" id="orb-s3" data-start="18" data-duration="24" data-track-index="4" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s3" data-start="18" data-duration="24" data-track-index="6" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:10%;left:60%"></div><div class="orb-particle" style="top:75%;left:20%"></div>
       </div>
 
-      <!-- SCENE 4: Result 42–58s -->
-      <div id="s4-bg" class="clip scene-bg" data-start="42" data-duration="16" data-track-index="0"></div>
-      <div id="s4-eyebrow" class="clip" data-start="42" data-duration="16" data-track-index="1">CLIENT RESULT — 60 DAYS</div>
-      <div id="s4-big" class="clip" data-start="42" data-duration="16" data-track-index="2">
+      <!-- SCENE 4: Result 42-58s -->
+      <video class="broll clip" muted autoplay loop
+             src="https://videos.pexels.com/video-files/6682890/6682890-uhd_2560_1440_25fps.mp4"
+             data-start="42" data-duration="16" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="42" data-duration="16" data-track-index="1"></div>
+      <div id="s4-bg" class="clip scene-bg" data-start="42" data-duration="16" data-track-index="2"></div>
+      <div id="s4-eyebrow" class="clip" data-start="42" data-duration="16" data-track-index="3">CLIENT RESULT — 60 DAYS</div>
+      <div id="s4-big" class="clip" data-start="42" data-duration="16" data-track-index="4">
         <div id="s4-num">14</div>
         <div id="s4-unit">buyer-intent citations</div>
         <div id="s4-desc">Named in ChatGPT<br>for 14 buyer queries.</div>
       </div>
-      <div id="s4-sub" class="clip" data-start="42" data-duration="16" data-track-index="3">
+      <div id="s4-sub" class="clip" data-start="42" data-duration="16" data-track-index="5">
         Started at zero AI citations. Rebuilt site for AEO. In 60 days: 14 buyer-intent queries answered by ChatGPT naming our client. Pipeline from AI referrals: <strong style="color:#FF671F">$340K.</strong>
       </div>
-      <div class="ai-orb clip" id="orb-s4" data-start="42" data-duration="16" data-track-index="4" style="opacity:0">
+      <div class="ai-orb clip" id="orb-s4" data-start="42" data-duration="16" data-track-index="6" style="opacity:0">
         <div class="orb-ring orb-ring-1"></div><div class="orb-ring orb-ring-2"></div><div class="orb-ring orb-ring-3"></div>
         <div class="orb-core"></div><div class="orb-particle" style="top:10%;left:60%"></div><div class="orb-particle" style="top:75%;left:20%"></div>
       </div>
 
-      <!-- SCENE 5: CTA 58–68s -->
+      <!-- SCENE 5: CTA 58-68s -->
       <div id="s5-bg" class="clip scene-bg" data-start="58" data-duration="10" data-track-index="0"></div>
-      <div id="s5-badge" class="clip" data-start="58" data-duration="10" data-track-index="1">Fractional CMO</div>
-      <div id="s5-headline" class="clip" data-start="58" data-duration="10" data-track-index="2">
+      <div id="s5-badge" class="clip" data-start="58" data-duration="10" data-track-index="3">Fractional CMO</div>
+      <div id="s5-headline" class="clip" data-start="58" data-duration="10" data-track-index="4">
         Want the AEO playbook?
       </div>
-      <div id="s5-sub" class="clip" data-start="58" data-duration="10" data-track-index="3">
+      <div id="s5-sub" class="clip" data-start="58" data-duration="10" data-track-index="5">
         We rebuild your content stack for LLM citation. Book a discovery call.
       </div>
-      <div id="s5-btn" class="clip" data-start="58" data-duration="10" data-track-index="4">Book a Discovery Call</div>
-      <div id="s5-link" class="clip" data-start="58" data-duration="10" data-track-index="5">↑ Link in bio</div>
-      <img class="nwm-logo-cta clip"
-           src="../assets/nwm-logo-navy.svg"
-           data-start="58" data-duration="10" data-track-index="6"
-           alt="netwebmedia"/>
+      <div id="s5-btn" class="clip" data-start="58" data-duration="10" data-track-index="6">Book a Discovery Call</div>
+      <div id="s5-link" class="clip" data-start="58" data-duration="10" data-track-index="7">↑ Link in bio</div>
+      <div class="nwm-logo-cta clip" data-start="58" data-duration="10" data-track-index="8">
+        <img src="../assets/nwm-logo.png" alt="netwebmedia"/>
+      </div>
 
     </div>
     <script>
@@ -222,14 +243,14 @@
           .to(id + " .orb-core",   { scale: 1.15, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: Math.floor(dur / 1.2) - 1 }, startT);
       }
 
-      /* Scene 1 */
-      tl.to("#s1-bg",      { opacity: 1, duration: 0.4 }, 0)
-        .to("#s1-dead",    { opacity: 1, duration: 0.4, ease: "power3.out" }, 0.3)
-        .to("#s1-subject", { opacity: 1, duration: 0.4 }, 0.6)
-        .to("#s1-stamp",   { opacity: 1, scale: 1.08, duration: 0.3, ease: "power2.out" }, 0.9)
-        .to("#s1-stamp",   { scale: 1, duration: 0.2 }, 1.2)
-        .to("#s1-bar",     { opacity: 1, width: 90, duration: 0.4 }, 1.4)
-        .to("#s1-pivot",   { opacity: 1, duration: 0.4 }, 1.7);
+      /* Scene 1: stamp comes first, then fades, then text block */
+      tl.to("#s1-stamp",   { opacity: 1, scale: 1.08, duration: 0.3, ease: "power2.out" }, 0.2)
+        .to("#s1-stamp",   { scale: 1, duration: 0.2 }, 0.5)
+        .to("#s1-stamp",   { opacity: 0, duration: 0.3 }, 1.2)
+        .to("#s1-dead",    { opacity: 1, duration: 0.4, ease: "power3.out" }, 1.5)
+        .to("#s1-subject", { opacity: 1, duration: 0.4 }, 1.8)
+        .to("#s1-bar",     { opacity: 1, width: 90, duration: 0.4 }, 2.2)
+        .to("#s1-pivot",   { opacity: 1, duration: 0.4 }, 2.5);
       orbPulse("#orb-s1", 0.5, 5);
 
       /* Scene 2 */

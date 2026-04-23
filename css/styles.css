@@ -171,13 +171,23 @@ ul { list-style: none; }
   align-items: center;
 }
 .lang-flag-only {
-  padding: 2px 4px;
+  padding: 3px 5px;
   background: transparent;
   border: 1px solid transparent;
   border-radius: 4px;
   cursor: pointer;
   transition: var(--transition);
   line-height: 0;
+  display: flex;
+  align-items: center;
+}
+.lang-flag-only .flag {
+  width: 24px;
+  height: auto;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 3px;
+  display: block;
 }
 .lang-flag-only:hover {
   border-color: rgba(255,255,255,0.25);

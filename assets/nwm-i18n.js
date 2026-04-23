@@ -142,7 +142,7 @@
     containers.forEach(function(c) {
       c.innerHTML =
         '<button class="lang-btn lang-flag-only" data-lang="' + alt + '" title="' + title + '" style="cursor:pointer">' +
-        '<img class="flag" src="' + flag + '" alt="' + label + '" width="22" height="16" loading="lazy" />' +
+        '<img class="flag" src="' + flag + '" alt="' + label + '" width="24" loading="lazy" />' +
         '</button>';
       c.querySelector('.lang-btn').addEventListener('click', function() {
         setLang(alt);

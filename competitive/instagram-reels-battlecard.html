@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Instagram Reels Battlecard — NetWebMedia Competitive Intel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #010F3B;
+    --navy-2: #0A1A4A;
+    --navy-3: #0F2460;
+    --orange: #FF671F;
+    --orange-2: #FF8A4C;
+    --text: #E8ECF5;
+    --muted: #9AA3BE;
+    --line: rgba(255,255,255,0.08);
+    --card: #0A1640;
+    --good: #26D07C;
+    --bad:  #FF4C4C;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--navy); color: var(--text); font-family: 'Inter', sans-serif; }
+  body { background: radial-gradient(1200px 600px at 10% -10%, rgba(255,103,31,0.12), transparent 60%), radial-gradient(900px 500px at 110% 10%, rgba(15,36,96,0.8), transparent 60%), var(--navy); min-height: 100vh; }
+  header.hero {
+    padding: 56px 48px 28px;
+    border-bottom: 1px solid var(--line);
+  }
+  .eyebrow { color: var(--orange); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; font-size: 12px; }
+  h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.05;
+    margin: 10px 0 14px;
+    letter-spacing: -0.02em;
+  }
+  h1 span { color: var(--orange); }
+  .sub { color: var(--muted); max-width: 920px; font-size: 16px; line-height: 1.6; }
+  .meta-row { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 20px; color: var(--muted); font-size: 13px; }
+  .meta-row b { color: var(--text); font-weight: 600; }
+
+  .container { padding: 28px 48px 80px; }
+
+  .tabs {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 28px; padding-bottom: 12px; position: sticky; top: 0;
+    background: linear-gradient(180deg, var(--navy) 80%, transparent);
+    z-index: 10; padding-top: 12px;
+  }
+  .tab {
+    background: transparent; color: var(--muted); border: 1px solid var(--line);
+    padding: 9px 14px; border-radius: 999px; cursor: pointer;
+    font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px;
+    transition: all 0.2s ease;
+  }
+  .tab:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
+  .tab.active { background: var(--orange); color: #1a0a00; border-color: var(--orange); }
+  .tab.playbook { background: transparent; color: var(--orange); border-color: var(--orange); }
+  .tab.playbook.active { background: var(--orange); color: #1a0a00; }
+
+  .panel { display: none; animation: fade 0.25s ease; }
+  .panel.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px);} to { opacity: 1; transform: none; } }
+
+  .grid-3 { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 20px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 900px){ .grid-3,.grid-2{ grid-template-columns: 1fr; } }
+
+  .card {
+    background: linear-gradient(180deg, var(--card), #081034);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px 22px 20px;
+  }
+  .card h3 {
+    font-family: 'Poppins', sans-serif; font-weight: 700;
+    margin: 0 0 6px; font-size: 20px; letter-spacing: -0.01em;
+  }
+  .handle { color: var(--orange); font-weight: 600; font-size: 13px; }
+  .kv { display: grid; grid-template-columns: 140px 1fr; gap: 8px 14px; font-size: 14px; margin-top: 14px; }
+  .kv dt { color: var(--muted); font-weight: 500; }
+  .kv dd { margin: 0; color: var(--text); }
+
+  .pill { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 600; border: 1px solid var(--line); color: var(--muted); margin: 2px 4px 2px 0; }
+  .pill.orange { border-color: rgba(255,103,31,0.5); color: var(--orange-2); background: rgba(255,103,31,0.08); }
+  .pill.good   { border-color: rgba(38,208,124,0.5); color: var(--good); background: rgba(38,208,124,0.08); }
+  .pill.bad    { border-color: rgba(255,76,76,0.5);  color: var(--bad);  background: rgba(255,76,76,0.08); }
+
+  .section-title { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 15px; margin: 18px 0 8px; color: var(--orange-2); text-transform: uppercase; letter-spacing: 0.08em; }
+  ul.clean { margin: 6px 0 0; padding-left: 18px; }
+  ul.clean li { margin: 5px 0; line-height: 1.55; font-size: 14px; color: #D2D8EC; }
+  ul.clean li b { color: var(--text); }
+
+  .verdict { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px; background: rgba(255,103,31,0.08); border: 1px solid rgba(255,103,31,0.3); margin-top: 18px; font-size: 14px; }
+  .verdict b { color: var(--orange); }
+
+  .playbook-hero {
+    background: linear-gradient(135deg, rgba(255,103,31,0.14), rgba(15,36,96,0.2));
+    border: 1px solid rgba(255,103,31,0.3);
+    border-radius: 18px; padding: 28px; margin-bottom: 24px;
+  }
+  .playbook-hero h2 { font-family: 'Poppins', sans-serif; margin: 0 0 10px; font-size: 26px; }
+  .big-num { font-family: 'Poppins', sans-serif; font-weight: 800; color: var(--orange); font-size: 28px; line-height: 1; }
+
+  .hook-card {
+    background: #07123A; border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 10px;
+  }
+  .hook-card .tag { color: var(--orange); font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .hook-card .line { font-size: 15px; line-height: 1.5; margin-top: 4px; }
+  .hook-card .ex { color: var(--muted); font-size: 12.5px; margin-top: 4px; font-style: italic; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); }
+  th { color: var(--orange-2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 11px; }
+  td.metric { color: var(--text); font-weight: 600; }
+
+  footer { padding: 28px 48px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer b { color: var(--orange); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="eyebrow">NetWebMedia · Competitive Intel · Q2 2026</div>
+  <h1>Instagram Reels <span>Battlecard</span></h1>
+  <p class="sub">Reverse-engineering the Reels playbooks of the top 10 agencies we compete with — hooks, formats, cadence, CTAs, and pricing — plus a synthesized playbook of what NetWebMedia should steal, adapt, and do better.</p>
+  <div class="meta-row">
+    <div><b>Scope:</b> 10 agencies</div>
+    <div><b>Focus:</b> Reels-first</div>
+    <div><b>ICP overlap:</b> Growth-stage SMB ($1M–$50M ARR)</div>
+    <div><b>Prepared by:</b> CMO, NetWebMedia</div>
+  </div>
+</header>
+
+<div class="container">
+
+<nav class="tabs" role="tablist">
+  <button class="tab active" data-tab="summary">Exec Summary</button>
+  <button class="tab" data-tab="viralnation">Viral Nation</button>
+  <button class="tab" data-tab="singlegrain">Single Grain</button>
+  <button class="tab" data-tab="nogood">NoGood</button>
+  <button class="tab" data-tab="hawke">Hawke Media</button>
+  <button class="tab" data-tab="smartsites">SmartSites</button>
+  <button class="tab" data-tab="disruptive">Disruptive</button>
+  <button class="tab" data-tab="sociallyin">Sociallyin</button>
+  <button class="tab" data-tab="lyfe">LYFE</button>
+  <button class="tab" data-tab="klientboost">KlientBoost</button>
+  <button class="tab" data-tab="power">Power Digital</button>
+  <button class="tab playbook" data-tab="playbook">NWM Reels Playbook</button>
+</nav>
+
+<!-- EXEC SUMMARY -->
+<section class="panel active" id="summary">
+  <div class="playbook-hero">
+    <h2>The 60-second read</h2>
+    <p style="margin:0;color:#D2D8EC;line-height:1.6;max-width:900px;">
+      Of the 10 agencies we benchmarked, <b style="color:var(--orange)">only 3 (Single Grain/Eric Siu, NoGood, Hawke/Erik Huberman)</b>
+      actually treat Reels as a pipeline channel. The other 7 post Reels, but use them as decoration around a PR/SEO engine.
+      That is the hole NWM drives through: <b style="color:var(--orange)">AI-native, founder-led, AEO-optimized Reels tied to a revenue funnel.</b>
+      None of them are producing daily, none are AEO-optimized, and none are packaging Reels as part of a fractional CMO retainer.
+    </p>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="section-title">What they're all doing (table stakes)</div>
+      <ul class="clean">
+        <li>3 Reels/week, founder or creative-lead talking head</li>
+        <li>Hook in first 1–2 seconds, captions burned in</li>
+        <li>Client-win case study Reels as social proof</li>
+        <li>Trend-jacking audio on entertainment content</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="section-title">Where they're weak (our opening)</div>
+      <ul class="clean">
+        <li><b>No AEO</b> — zero are optimizing Reels captions for LLM citation</li>
+        <li><b>No AI-native proof</b> — they talk about AI, they don't ship it on camera</li>
+        <li><b>No daily cadence</b> — even NoGood caps at 4/week</li>
+        <li><b>No productized offer</b> in the Reel itself — most end on "DM us"</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="section-title">NWM's wedge</div>
+      <ul class="clean">
+        <li>5 Reels/week, AI-assisted production (OpusClip + Claude)</li>
+        <li>Founder-led (Carlos) + agent-built-live demo format</li>
+        <li>Every caption AEO-tuned for "AI marketing agency", "fractional CMO", "AI SDR"</li>
+        <li>CTA pattern: hard offer → Fractional CMO discovery call</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- VIRAL NATION -->
+<section class="panel" id="viralnation">
+  <div class="card">
+    <h3>Viral Nation <span class="handle">@viralnation</span></h3>
+    <dl class="kv">
+      <dt>Followers (est.)</dt><dd>~200K+</dd>
+      <dt>HQ</dt><dd>Toronto, Canada</dd>
+      <dt>Positioning</dt><dd>Global leader in social-first transformation + influencer marketing at enterprise scale</dd>
+      <dt>Pricing tier</dt><dd><span class="pill bad">$$$$</span> Enterprise ($50K–$500K+ engagements)</dd>
+    </dl>
+
+    <div class="section-title">Reels strategy</div>
+    <ul class="clean">
+      <li><b>Topics:</b> Influencer case studies, celebrity/creator BTS, campaign reveals for e.l.f., Audible, A24, Microsoft</li>
+      <li><b>Format:</b> High-polish b-roll + motion graphics. Almost no talking head. Brand-film aesthetic.</li>
+      <li><b>Hook style:</b> "Here's how [big brand] did X" — result-led openers</li>
+      <li><b>Cadence:</b> 2–3 Reels/week, batched around campaign launches</li>
+      <li><b>Caption style:</b> Long-form, PR-flavored; credits every partner/creator</li>
+      <li><b>CTA:</b> Soft — "Learn more at viralnation.com". No urgency.</li>
+    </ul>
+    <div class="verdict"><b>Verdict:</b> Gorgeous but not replicable. Enterprise flex, not SMB-relevant. We don't compete on their field.</div>
+  </div>
+</section>
+
+<!-- SINGLE GRAIN -->
+<section class="panel" id="singlegrain">
+  <div class="card">
+    <h3>Single Grain <span class="handle">@single_grain · @ericosiu (founder)</span></h3>
+    <dl class="kv">
+      <dt>Founder</dt><dd>Eric Siu — heavy personal-brand Reels</dd>
+      <dt>Positioning</dt><dd>Revenue marketing agency — pipeline-focused SEO, paid media, AI growth</dd>
+      <dt>Pricing tier</dt><dd><span class="pill orange">$$$</span> $10K–$50K/mo retainers</dd>
+    </dl>
+
+    <div class="section-title">Reels strategy (Eric Siu — the real engine)</div>
+    <ul class="clean">
+      <li><b>Topics:</b> Marketing hot-takes, podcast clips (Leveling Up / Marketing School), founder commentary</li>
+      <li><b>Format:</b> <span class="pill orange">Podcast-clip Reels</span> — OpusClip-style, 30–60s extracts from long-form with burned captions</li>
+      <li><b>Hook style:</b> Bold declarative — "SEO is dead", "Here's what's working in 2026", "Most agencies lie about this"</li>
+      <li><b>Cadence:</b> 4–7 Reels/week (high volume thanks to podcast repurposing)</li>
+      <li><b>Caption style:</b> Short, punchy, ends with question → engagement bait</li>
+      <li><b>CTA:</b> "Listen to full episode" or "DM me GROWTH" for resource</li>
+    </ul>
+    <div class="verdict"><b>Verdict:</b> THE model to copy. Podcast-as-factory for Reels. Carlos needs a podcast or recurring founder-cam format. This is the single highest-leverage insight in the whole report.</div>
+  </div>
+</section>
+
+<!-- NOGOOD -->
+<section class="panel" id="nogood">
+  <div class="card">
+    <h3>NoGood <span class="handle">@nogood.io</span></h3>
+    <dl class="kv">
+      <dt>Followers</dt><dd>~50K</dd>
+      <dt>Positioning</dt><dd>"Personality hires at an award-winning growth marketing agency"</dd>
+      <dt>Pricing tier</dt><dd><span class="pill orange">$$$</span> $15K–$40K/mo</dd>
+    </dl>
+
+    <div class="section-title">Reels strategy</div>
+    <ul class="clean">
+      <li><b>Topics:</b> Marketing + pop culture mashups, meme-ified ad breakdowns, SaaS growth takes</li>
+      <li><b>Format:</b> <span class="pill orange">Employee-led skits</span> + trend-jacked audio + text overlay explainers. Playful, on-camera staff.</li>
+      <li><b>Hook style:</b> Meme-native — "POV: you're the CMO who just approved this ad"; "Things marketers say vs. what they mean"</li>
+      <li><b>Cadence:</b> 3–4 Reels/week, clustered around trend windows</li>
+      <li><b>Caption style:</b> Irreverent, emoji-heavy, 2–3 lines max</li>
+      <li><b>CTA:</b> Weak — brand-vibe play, rare direct CTA. Link in bio only.</li>
+    </ul>
+    <div class="verdict"><b>Verdict:</b> Best culture/brand Reels in the category. Their weakness: no clear pipeline tie. We mimic the personality, fix the CTA.</div>
+  </div>
+</section>
+
+<!-- HAWKE -->
+<section class="panel" id="hawke">
+  <div class="card">
+    <h3>Hawke Media <span class="handle">@hawkemedia · @erikhuberman</span></h3>
+    <dl class="kv">
+      <dt>Founder</dt><dd>Erik Huberman — ~19K IG, active Reels, 2,955+ posts</dd>
+      <dt>Positioning</dt><dd>Outsourced CMO for DTC + ecommerce — "Your outsourced CMO"</dd>
+      <dt>Pricing tier</dt><dd><span class="pill orange">$$</span> $5K–$15K/mo (SMB-friendly)</dd>
+    </dl>
+
+    <div class="section-title">Reels strategy</div>
+    <ul class="clean">
+      <li><b>Topics:</b> Founder commentary on marketing news, short "Erik answers" clips, conference/stage clips</li>
+      <li><b>Format:</b> <span class="pill orange">Talking-head founder cam</span> 80%, stage/podcast b-roll 20%</li>
+      <li><b>Hook style:</b> Direct advice — "If I were starting a DTC brand today…", "The #1 mistake ecom founders make"</li>
+      <li><b>Cadence:</b> 3–5 Reels/week, heavy repurposing from podcast + keynotes</li>
+      <li><b>Caption style:</b> Educational framing, 4–6 lines, often listicle format</li>
+      <li><b>CTA:</b> "Book a free consult" — they own the fractional-CMO-for-DTC niche</li>
+    </ul>
+    <div class="verdict"><b>Verdict:</b> Our closest pricing/positioning analog. Huberman wins by volume of founder-cam content. Carlos can replicate with half the output if he leans into AI-native demos Hawke can't show.</div>
+  </div>
+</section>
+
+<!-- SMARTSITES -->
+<section class="panel" id="smartsites">
+  <div class="card">
+    <h3>SmartSites <span class="handle">@smartsitesnj</span></h3>
+    <dl class="kv">
+      <dt>Positioning</dt><dd>#1-rated digital marketing agency (1,000+ 5-star reviews) — SEO/PPC/Web/Email</dd>
+      <dt>Pricing tier</dt><dd><span class="pill orange">$$</span> $2K–$10K/mo, SMB-heavy</dd>
+    </dl>
+    <div class="section-title">Reels strategy</div>
+    <ul class="clean">
+      <li><b>Topics:</b> Client wins ("+140% ROAS for Melroso"), tactical how-tos, platform updates</li>
+      <li><b>Format:</b> Motion-graphic explainers + screen recordings of Google/Meta dashboards. Very corporate.</li>
+      <li><b>Hook style:</b> Stat-led — "We grew this jewelry brand 140% ROAS in 90 days"</li>
+      <li><b>Cadence:</b> 2–3 Reels/week, consistent but unremarkable</li>
+      <li><b>Caption style:</b> SEO-dense, hashtag-heavy (15+ tags), corporate voice</li>
+      <li><b>CTA:</b> "Free consultation" — always the same, well-practiced</li>
+    </ul>
+    <div class="verdict"><b>Verdict:</b> Blueprint for volume + consistency. Missing personality, missing AEO. Easy to outrun on creativity; harder to outrun on review-count social proof. We need a reviews play in parallel.</div>
+  </div>
+</section>
+
+<!-- DISRUPTIVE -->
+<section class="panel" id="disruptive">
+  <div class="card">
+    <h3>Disruptive Advertising <span class="handle">@disruptiveads</span></h3>
+    <dl class="kv">
+      <dt>Positioning</dt><dd>Performance-first PPC + paid social agency</dd>
+      <dt>Pricing tier</dt><dd><span class="pill orange">$$$</span> $5K–$20K/mo + % of ad spend</dd>
+    </dl>
+    <div class="section-title">Reels strategy</div>
+    <ul class="clean">
+      <li><b>Topics:</b> Ad breakdowns, creative testing frameworks, B2B growth tips</li>
+      <li><b>Format:</b> Screen-record ads + voiceover critique. Classic "ad teardown" format.</li>
+      <li><b>Hook style:</b> "Why this ad flopped" / "This $2M ad works because…" — contrast hooks</li>
+      <li><b>Cadence:</b> 2 Reels/week, inconsistent — posts disappear for weeks</li>
+      <li><b>Caption style:</b> Tactical, bullet-heavy, ends with lesson</li>
+      <li><b>CTA:</b> "Link in bio for audit"</li>
+    </ul>
+    <div class="verdict"><b>Verdict:</b> Good format (ad teardowns) — we should steal this for Paid Ads service. Their inconsistency is an opportunity; daily teardowns would annihilate their share of voice.</div>
+  </div>
+</section>
+
+<!-- SOCIALLYIN -->
+<section class="panel" id="sociallyin">
+  <div class="card">
+    <h3>Sociallyin <span class="handle">@sociallyin</span></h3>
+    <dl class="kv">
+      <dt>Positioning</dt><dd>Social-first agency — content studio + strategy since 2011 (Atlanta)</dd>
+      <dt>Pricing tier</dt><dd><span class="pill orange">$$$</span> $8K–$25K/mo</dd>
+    </dl>
+    <div class="section-title">Reels strategy</div>
+    <ul class="clean">
+      <li><b>Topics:</b> Case-study flexes (PartsVu: 62M impressions), client BTS shoots, team culture</li>
+      <li><b>Format:</b> High-production b-roll of their own shoots (meta), creator-style product Reels</li>
+      <li><b>Hook style:</b> Number-led — "How we drove 62M organic impressions"</li>
+      <li><b>Cadence:</b> 3 Reels/week steady</li>
+      <li><b>Caption style:</b> Campaign-report style, client-name-dropping</li>
+      <li><b>CTA:</b> "See more in our work" — portfolio-driven</li>
+    </ul>
+    <div class="verdict"><b>Verdict:</b> They look like a production company, not a thought leader. We skip the studio cosplay, go founder-led.</div>
+  </div>
+</section>
+
+<!-- LYFE -->
+<section class="panel" id="lyfe">
+  <div class="card">
+    <h3>LYFE Marketing <span class="handle">@lyfemarketing</span></h3>
+    <dl class="kv">
+      <dt>Positioning</dt><dd>#1 social media marketing for small business — 3,000+ SMB clients served</dd>
+      <dt>Pricing tier</dt><dd><span class="pill good">$</span> $1K–$3K/mo (we price above them intentionally)</dd>
+    </dl>
+    <div class="section-title">Reels strategy</div>
+    <ul class="clean">
+      <li><b>Topics:</b> "Social media tip of the day", small business advice, platform news</li>
+      <li><b>Format:</b> <span class="pill">Text-on-screen tip cards</span> with stock b-roll, no on-camera talent</li>
+      <li><b>Hook style:</b> "3 things small businesses do wrong on Instagram…"</li>
+      <li><b>Cadence:</b> 4–5 Reels/week — volume play</li>
+      <li><b>Caption style:</b> Generic, SEO-stuffed, hashtag wall</li>
+      <li><b>CTA:</b> "DM us for a free audit"</li>
+    </ul>
+    <div class="verdict"><b>Verdict:</b> Race-to-the-bottom commodity play. Useful counter-positioning: LYFE = cheap generalist; NWM = AI-native premium. Never compete on their price; undercut them on output quality.</div>
+  </div>
+</section>
+
+<!-- KLIENTBOOST -->
+<section class="panel" id="klientboost">
+  <div class="card">
+    <h3>KlientBoost <span class="handle">@klientboost · @goldchaindane</span></h3>
+    <dl class="kv">
+      <dt>Founder</dt><dd>Johnathan Dane — personal brand Reels under @GoldChainDane</dd>
+      <dt>Positioning</dt><dd>Performance PPC + CRO for SaaS, e-com, lead gen — $20M+ ARR</dd>
+      <dt>Pricing tier</dt><dd><span class="pill orange">$$$</span> $5K–$25K/mo</dd>
+    </dl>
+    <div class="section-title">Reels strategy</div>
+    <ul class="clean">
+      <li><b>Topics:</b> PPC hot takes, Dane himself doing skits/dunks/behind-agency life, agency-owner advice</li>
+      <li><b>Format:</b> Founder-led personality Reels. Heavy humor. Low production, high personality.</li>
+      <li><b>Hook style:</b> Self-deprecating — "My agency almost died in 2024 because…"</li>
+      <li><b>Cadence:</b> Sporadic — Dane's a personality, not a publisher</li>
+      <li><b>Caption style:</b> Casual, conversational, story-driven</li>
+      <li><b>CTA:</b> Weak — brand awareness play</li>
+    </ul>
+    <div class="verdict"><b>Verdict:</b> Proof that founder personality out-converts corporate polish. Inconsistent cadence = gap. Carlos + consistency beats Dane.</div>
+  </div>
+</section>
+
+<!-- POWER DIGITAL -->
+<section class="panel" id="power">
+  <div class="card">
+    <h3>Power Digital Marketing <span class="handle">@powerdigital</span></h3>
+    <dl class="kv">
+      <dt>Positioning</dt><dd>Full-service growth marketing — proprietary "Nova" intelligence platform</dd>
+      <dt>Pricing tier</dt><dd><span class="pill bad">$$$$</span> $20K–$100K+/mo, enterprise SMB</dd>
+    </dl>
+    <div class="section-title">Reels strategy</div>
+    <ul class="clean">
+      <li><b>Topics:</b> Nova platform features, leadership at conferences, data-insight flexes</li>
+      <li><b>Format:</b> Corporate event b-roll + motion-graphic data viz. Very McKinsey-of-marketing.</li>
+      <li><b>Hook style:</b> Research-led — "Our data shows 73% of DTC brands are…"</li>
+      <li><b>Cadence:</b> 1–2 Reels/week, low priority channel for them</li>
+      <li><b>Caption style:</b> Corporate, citation-heavy, links to gated reports</li>
+      <li><b>CTA:</b> Gated content — "Download the 2026 State of Marketing"</li>
+    </ul>
+    <div class="verdict"><b>Verdict:</b> They're not playing the Reels game seriously. Opportunity to out-publish them for the mid-market segment they've priced themselves out of.</div>
+  </div>
+</section>
+
+<!-- PLAYBOOK -->
+<section class="panel" id="playbook">
+  <div class="playbook-hero">
+    <h2>NetWebMedia Instagram Reels Playbook</h2>
+    <p style="margin:0;color:#D2D8EC;line-height:1.6;max-width:900px;">
+      Synthesized from the 10 competitors. What we steal, what we skip, what we invent.
+      This is the fractional-CMO-as-agency product, applied to our own channel first.
+    </p>
+    <div style="display:flex;gap:28px;margin-top:20px;flex-wrap:wrap;">
+      <div><div class="big-num">5/wk</div><div style="color:var(--muted);font-size:12px;margin-top:4px;">Target cadence</div></div>
+      <div><div class="big-num">&lt;2s</div><div style="color:var(--muted);font-size:12px;margin-top:4px;">Hook latency</div></div>
+      <div><div class="big-num">60-90s</div><div style="color:var(--muted);font-size:12px;margin-top:4px;">Optimal length</div></div>
+      <div><div class="big-num">1 CTA</div><div style="color:var(--muted);font-size:12px;margin-top:4px;">Per Reel, same offer</div></div>
+      <div><div class="big-num">AEO</div><div style="color:var(--muted);font-size:12px;margin-top:4px;">Every caption</div></div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="section-title">The 6 hook archetypes that work</div>
+      <div class="hook-card">
+        <div class="tag">1 · Contrarian declaration</div>
+        <div class="line">"SEO is dead. Here's what replaced it."</div>
+        <div class="ex">Used by: Single Grain, NoGood — highest save rate</div>
+      </div>
+      <div class="hook-card">
+        <div class="tag">2 · Stat + specificity</div>
+        <div class="line">"We cut this SaaS's CAC by 61% in 47 days with one AI agent."</div>
+        <div class="ex">Used by: SmartSites, Sociallyin — pipeline driver</div>
+      </div>
+      <div class="hook-card">
+        <div class="tag">3 · POV / insider</div>
+        <div class="line">"POV: you're the CMO who just got asked 'why are we not using AI yet?'"</div>
+        <div class="ex">Used by: NoGood — highest shares</div>
+      </div>
+      <div class="hook-card">
+        <div class="tag">4 · Mistake / loss-aversion</div>
+        <div class="line">"The #1 mistake every SMB makes with paid ads in 2026."</div>
+        <div class="ex">Used by: Hawke, Disruptive — highest watch-through</div>
+      </div>
+      <div class="hook-card">
+        <div class="tag">5 · Teardown</div>
+        <div class="line">"Let's tear down this $2M Meta ad and see why it works."</div>
+        <div class="ex">Used by: Disruptive — highest comments/engagement</div>
+      </div>
+      <div class="hook-card">
+        <div class="tag">6 · Build-in-public AI demo</div>
+        <div class="line">"Watch me build an AI SDR in 4 minutes that replaces a $70K hire."</div>
+        <div class="ex"><b style="color:var(--orange)">NWM-exclusive. Nobody in the 10 is doing this. This is our wedge.</b></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">The 5 formats to rotate (weekly cycle)</div>
+      <table>
+        <tr><th>Day</th><th>Format</th><th>Example</th></tr>
+        <tr><td>Mon</td><td class="metric">Founder-cam hot take</td><td>Carlos reacts to a marketing news headline</td></tr>
+        <tr><td>Tue</td><td class="metric">AI demo / build</td><td>60s screen-record of building a Claude agent live</td></tr>
+        <tr><td>Wed</td><td class="metric">Ad / campaign teardown</td><td>Breakdown of a client or competitor ad — why it works/fails</td></tr>
+        <tr><td>Thu</td><td class="metric">Client-win case study</td><td>Stat-led result + 15s of the playbook that got it</td></tr>
+        <tr><td>Fri</td><td class="metric">Podcast/long-form clip</td><td>OpusClip from a weekly Carlos podcast or founder interview</td></tr>
+      </table>
+
+      <div class="section-title" style="margin-top:24px;">The CTA stack (consistent across all 5)</div>
+      <ul class="clean">
+        <li><b>Primary:</b> "Book a Fractional CMO discovery call — link in bio"</li>
+        <li><b>Secondary (every 5th Reel):</b> "Comment AEO and I'll DM you the playbook PDF"</li>
+        <li><b>Never:</b> "Follow for more" (weakest converting CTA on IG per 2025 data)</li>
+      </ul>
+
+      <div class="section-title" style="margin-top:24px;">AEO optimization (nobody else is doing this)</div>
+      <ul class="clean">
+        <li>First line of every caption = answer-engine-friendly sentence with keywords: <i>"AI marketing agency", "fractional CMO", "AI SDR", "AEO"</i></li>
+        <li>Use Q&amp;A structure in 1 of every 5 captions — feeds LLM citation training</li>
+        <li>Cross-link to blog/aeo-replaces-seo-2026.html on the 3 highest-view Reels/month</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <div class="section-title">Production stack (AI-native — how we output 5/wk with 1 operator)</div>
+    <table>
+      <tr><th>Stage</th><th>Tool</th><th>Time saved vs. 2020 agency</th></tr>
+      <tr><td>Hook + script</td><td class="metric">Claude (Opus) + hook-archetype library</td><td>~80%</td></tr>
+      <tr><td>Long-form → Reel clips</td><td class="metric">OpusClip or Descript</td><td>~90%</td></tr>
+      <tr><td>Captions / burned-in text</td><td class="metric">CapCut + auto-caption</td><td>~70%</td></tr>
+      <tr><td>B-roll / motion graphics</td><td class="metric">Runway / Veo3 where brand-safe</td><td>~75%</td></tr>
+      <tr><td>Scheduling + AEO caption QA</td><td class="metric">n8n workflow → Instagram Graph API</td><td>~60%</td></tr>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <div class="section-title">The 90-day target (KPIs — tied to pipeline)</div>
+    <table>
+      <tr><th>Metric</th><th>Day 30</th><th>Day 60</th><th>Day 90</th></tr>
+      <tr><td>Reels published</td><td class="metric">20</td><td class="metric">42</td><td class="metric">65</td></tr>
+      <tr><td>Avg views / Reel</td><td class="metric">2K</td><td class="metric">8K</td><td class="metric">20K</td></tr>
+      <tr><td>Discovery calls booked from IG</td><td class="metric">3</td><td class="metric">10</td><td class="metric">25</td></tr>
+      <tr><td>Pipeline $ attributed</td><td class="metric">$15K</td><td class="metric">$60K</td><td class="metric">$180K</td></tr>
+      <tr><td>AEO citations (Claude/ChatGPT/Perplexity mentions of NWM)</td><td class="metric">2</td><td class="metric">8</td><td class="metric">20</td></tr>
+    </table>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div>NetWebMedia · Competitive Intel · Prepared for Carlos Martinez (CEO)</div>
+  <div>Internal — do not distribute</div>
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(x => x.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }));
+</script>
+
+</body>
+</html>

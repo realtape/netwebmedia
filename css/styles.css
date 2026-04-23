@@ -1317,6 +1317,41 @@ textarea.form-control { resize: vertical; min-height: 140px; }
 }
 .nav-dropdown a:hover { background: var(--bg-card); color: var(--text-primary); }
 
+/* ── Industries mega-dropdown ── */
+.nav-dropdown-wide {
+  display: none;
+  min-width: 680px;
+  left: 50%;
+  transform: translateX(-60%);
+  padding: 16px;
+  display: none;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px 12px;
+}
+.nav-item:hover .nav-dropdown-wide,
+.nav-item:focus-within .nav-dropdown-wide,
+.nav-item.open .nav-dropdown-wide {
+  display: grid;
+  animation: fadeInUp 0.2s ease;
+}
+.nav-dropdown-group { display: flex; flex-direction: column; }
+.nav-dropdown-head {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  color: var(--gulf-orange) !important;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  padding: 6px 8px 4px !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 2px;
+}
+.nav-dropdown-head:hover { background: transparent !important; color: #fff !important; }
+.nav-dropdown-group a:not(.nav-dropdown-head) {
+  font-size: 12px !important;
+  padding: 5px 8px !important;
+  color: var(--text-secondary);
+}
+
 /* ── Mobile sub-items ── */
 .mobile-menu .mobile-sub {
   padding-left: 40px;

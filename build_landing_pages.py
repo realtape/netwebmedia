@@ -1,21 +1,10 @@
 """
-Build paid-ad conversion landing pages at /audit/ path for all 39 subdomains.
-URL pattern: https://{slug}.netwebmedia.com/audit/
-Minimal nav, single CTA, bilingual (data-en/data-es), designed for Google/Meta ad traffic.
+Build paid-ad conversion landing pages at subdomain root for all 39 subdomains.
+URL pattern: https://{slug}.netwebmedia.com/
+Minimal nav, single CTA, bilingual (data-en/data-es).
+Framing: free personalized growth plan, delivered via WhatsApp + AI — no phone/video calls.
 """
-import os
-
-# 39 entries: 10 parents + 29 subcategories
-# Fields per entry:
-#   slug              — subdomain slug
-#   folder            — where to write: {folder}/audit/index.html
-#   parent_url        — URL to return to (full subdomain or parent for subcats)
-#   label_en, label_es
-#   noun_en, noun_es  — the thing we grow (e.g., "your hotel", "tu hotel")
-#   promise_en, promise_es — short outcome headline (2 halves: h1 + .hl)
-#   promise_hl_en, promise_hl_es
-#   stat1, stat2, stat3 — hero proof points (EN; shown to both langs)
-#   bullet1_en, bullet1_es, bullet2_en, bullet2_es, bullet3_en, bullet3_es
+import os, shutil
 
 LP = [
   # ============ PARENTS (10) ============
@@ -26,7 +15,7 @@ LP = [
    "stats":["+42% direct bookings","-24% OTA spend","2-min AI response"],
    "b1_en":"Cut 15–25% OTA commissions with direct booking funnels","b1_es":"Elimina 15–25% de comisiones OTA con embudos directos",
    "b2_en":"Appear in Claude/ChatGPT when travelers ask for recommendations","b2_es":"Aparece en Claude/ChatGPT cuando los viajeros piden recomendaciones",
-   "b3_en":"AI SDR qualifies bookings and events 24/7","b3_es":"SDR IA califica reservas y eventos 24/7"},
+   "b3_en":"AI SDR qualifies bookings and events 24/7 on WhatsApp","b3_es":"SDR IA califica reservas y eventos 24/7 en WhatsApp"},
 
   {"slug":"healthcare","folder":"industries/healthcare","label_en":"Healthcare","label_es":"Salud",
    "noun_en":"your practice","noun_es":"tu práctica",
@@ -35,7 +24,7 @@ LP = [
    "stats":["+58% new patients","-34% no-shows","Top 3 AI search"],
    "b1_en":"HIPAA-aware marketing with automated recall sequences","b1_es":"Marketing con normas HIPAA y secuencias de recordatorio automatizadas",
    "b2_en":"Dominate local Google + AI assistant recommendations","b2_es":"Domina Google local + recomendaciones de asistentes IA",
-   "b3_en":"AI SDR handles intake, qualification, and booking","b3_es":"SDR IA maneja intake, calificación y reservas"},
+   "b3_en":"AI SDR handles intake, qualification, booking on WhatsApp","b3_es":"SDR IA maneja intake, calificación y reservas en WhatsApp"},
 
   {"slug":"beauty","folder":"industries/beauty","label_en":"Beauty &amp; Wellness","label_es":"Belleza y Bienestar",
    "noun_en":"your salon or spa","noun_es":"tu salón o spa",
@@ -43,7 +32,7 @@ LP = [
    "promise_es":"Llena Tu Agenda.","promise_hl_es":"Mantenla Llena.",
    "stats":["+47% retention","+38% new clients","4.9★ avg rating"],
    "b1_en":"Fill slow days with targeted local ads and win-back flows","b1_es":"Llena días lentos con publicidad local y campañas win-back",
-   "b2_en":"Automated rebooking via SMS + email — no staff lift","b2_es":"Rebooking automatizado por SMS + email — sin carga al personal",
+   "b2_en":"Automated rebooking via SMS + WhatsApp — no staff lift","b2_es":"Rebooking automatizado por SMS + WhatsApp — sin carga al personal",
    "b3_en":"Instagram Reels + AI search presence that convert","b3_es":"Reels + presencia IA que convierten"},
 
   {"slug":"pro","folder":"industries/professional-services","label_en":"Professional Services","label_es":"Servicios Profesionales",
@@ -52,15 +41,15 @@ LP = [
    "promise_es":"Más Clientes Calificados.","promise_hl_es":"Menos Esperar Referidos.",
    "stats":["+71% inbound","Top 3 AI citations","2-min AI intake"],
    "b1_en":"AEO authority — cited when AI recommends firms in your niche","b1_es":"Autoridad AEO — citado cuando la IA recomienda firmas en tu nicho",
-   "b2_en":"AI SDR qualifies leads and books consultations 24/7","b2_es":"SDR IA califica leads y agenda consultas 24/7",
-   "b3_en":"Content engine that builds trust before the first call","b3_es":"Motor de contenido que genera confianza antes de la primera llamada"},
+   "b2_en":"AI SDR qualifies leads and intakes clients 24/7 on WhatsApp","b2_es":"SDR IA califica leads e ingresa clientes 24/7 por WhatsApp",
+   "b3_en":"Content engine that builds trust before first contact","b3_es":"Motor de contenido que genera confianza antes del primer contacto"},
 
   {"slug":"realestate","folder":"industries/real-estate","label_en":"Real Estate","label_es":"Bienes Raíces",
    "noun_en":"your real estate business","noun_es":"tu negocio inmobiliario",
    "promise_en":"More Listings.","promise_hl_en":"Zero Cold Calling.",
    "promise_es":"Más Listados.","promise_hl_es":"Cero Llamadas en Frío.",
    "stats":["+76% lead response","-45% time to contact","+39% referrals"],
-   "b1_en":"AI SDR contacts every lead in under 2 minutes","b1_es":"SDR IA contacta cada lead en menos de 2 minutos",
+   "b1_en":"AI SDR contacts every lead in under 2 minutes on WhatsApp","b1_es":"SDR IA contacta cada lead en menos de 2 minutos por WhatsApp",
    "b2_en":"Past-client anniversary + market update automation","b2_es":"Automatización de aniversarios + market updates a ex-clientes",
    "b3_en":"Hyperlocal SEO + AI search dominance","b3_es":"SEO hiperlocal + dominio en búsqueda IA"},
 
@@ -71,7 +60,7 @@ LP = [
    "stats":["+61% weeknight covers","+88% event pre-sales","4.7★ avg rating"],
    "b1_en":"Targeted weeknight + event promotion campaigns","b1_es":"Campañas dirigidas a noches entre semana + eventos",
    "b2_en":"Automated review generation on Google + Yelp","b2_es":"Generación automatizada de reseñas en Google + Yelp",
-   "b3_en":"AI SDR for private events and buyout inquiries","b3_es":"SDR IA para eventos privados y reservas completas"},
+   "b3_en":"AI SDR on WhatsApp for private events and buyouts","b3_es":"SDR IA en WhatsApp para eventos privados y reservas completas"},
 
   {"slug":"fitness","folder":"industries/fitness","label_en":"Fitness &amp; Gyms","label_es":"Fitness y Gimnasios",
    "noun_en":"your gym or studio","noun_es":"tu gimnasio o estudio",
@@ -80,14 +69,14 @@ LP = [
    "stats":["-31% churn","+62% trial conversion","Top local in AI"],
    "b1_en":"Trial-to-member conversion sequences that actually work","b1_es":"Secuencias de conversión de prueba a miembro que funcionan",
    "b2_en":"AI detects churn risk and triggers win-back automatically","b2_es":"La IA detecta riesgo de churn y activa win-back automáticamente",
-   "b3_en":"AI SDR books free trials 24/7","b3_es":"SDR IA agenda pruebas gratis 24/7"},
+   "b3_en":"AI SDR books free trials 24/7 on WhatsApp","b3_es":"SDR IA agenda pruebas gratis 24/7 por WhatsApp"},
 
   {"slug":"ecommerce","folder":"industries/ecommerce","label_en":"E-commerce","label_es":"E-commerce",
    "noun_en":"your store","noun_es":"tu tienda",
    "promise_en":"Scale Your Store.","promise_hl_en":"Don't Rent It from Amazon.",
    "promise_es":"Escala Tu Tienda.","promise_hl_es":"No la Rentes de Amazon.",
    "stats":["+39% repeat rate","3.9x ROAS","+180% organic traffic"],
-   "b1_en":"Diversify past paid social — SEO, AEO, email, SMS","b1_es":"Diversifica más allá del social pago — SEO, AEO, email, SMS",
+   "b1_en":"Diversify past paid social — SEO, AEO, email, SMS, WhatsApp","b1_es":"Diversifica más allá del social pago — SEO, AEO, email, SMS, WhatsApp",
    "b2_en":"Post-purchase flows that lift LTV 2–3x","b2_es":"Flujos post-compra que elevan el LTV 2–3x",
    "b3_en":"Appear in AI product-recommendation queries","b3_es":"Aparece en consultas de recomendación de productos IA"},
 
@@ -97,7 +86,7 @@ LP = [
    "promise_es":"Más Trabajos.","promise_hl_es":"Menos Semanas Lentas.",
    "stats":["+64% lead volume","2-min AI response","Top 3 AI search"],
    "b1_en":"Google Local Service Ads + Google Guaranteed setup","b1_es":"Google Local Service Ads + setup de Google Guaranteed",
-   "b2_en":"AI SDR answers leads in under 2 min — before competitors","b2_es":"SDR IA responde leads en menos de 2 min — antes que la competencia",
+   "b2_en":"AI SDR answers leads on WhatsApp in under 2 min","b2_es":"SDR IA responde leads por WhatsApp en menos de 2 min",
    "b3_en":"Review + portfolio automation builds local trust","b3_es":"Automatización de reseñas + portfolio genera confianza local"},
 
   {"slug":"tech","folder":"industries/tech-saas","label_en":"Tech &amp; SaaS","label_es":"Tech y SaaS",
@@ -106,7 +95,7 @@ LP = [
    "promise_es":"Más Trials.","promise_hl_es":"Ciclos de Venta Más Cortos.",
    "stats":["-33% CAC","Top 3 AEO","+29% trial-to-paid"],
    "b1_en":"Content authority + AEO that compounds over time","b1_es":"Autoridad de contenido + AEO que se compone con el tiempo",
-   "b2_en":"AI SDR for demo booking and enterprise qualification","b2_es":"SDR IA para booking de demos y calificación enterprise",
+   "b2_en":"AI SDR on WhatsApp qualifies trials and enterprise fits","b2_es":"SDR IA en WhatsApp califica trials y fit enterprise",
    "b3_en":"Trial-to-paid flows that move the needle","b3_es":"Flujos trial-to-paid que mueven la aguja"},
 
   # ============ SUBCATEGORIES (29) ============
@@ -136,7 +125,7 @@ LP = [
    "stats":["+51% shoulder occupancy","+33% upsell revenue","Top 5 AI travel"],
    "b1_en":"Package + event promotion campaigns","b1_es":"Campañas de promoción de paquetes + eventos",
    "b2_en":"Pre-arrival upsell automation for amenities","b2_es":"Automatización de upsell pre-llegada para amenidades",
-   "b3_en":"AI SDR for weddings, groups, and corporate","b3_es":"SDR IA para bodas, grupos y corporativos"},
+   "b3_en":"AI SDR on WhatsApp for weddings, groups, corporate","b3_es":"SDR IA en WhatsApp para bodas, grupos y corporativos"},
 
   # Healthcare
   {"slug":"dental","folder":"industries/healthcare/dental","label_en":"Dental Practices","label_es":"Clínicas Dentales",
@@ -145,7 +134,7 @@ LP = [
    "promise_es":"Llena Tu Sillón.","promise_hl_es":"Pacientes de Alto Valor.",
    "stats":["+58% new patients","-34% no-shows","Top 3 local AI"],
    "b1_en":"Google Ads for implants, Invisalign, cosmetic cases","b1_es":"Google Ads para implantes, Invisalign y estética",
-   "b2_en":"Automated recall + reminder sequences","b2_es":"Secuencias automatizadas de recall + recordatorio",
+   "b2_en":"Automated recall + reminder sequences via WhatsApp","b2_es":"Secuencias de recall + recordatorio por WhatsApp",
    "b3_en":"Review generation on Google + Healthgrades","b3_es":"Generación de reseñas en Google + Healthgrades"},
 
   {"slug":"vet","folder":"industries/healthcare/vet","label_en":"Veterinary Clinics","label_es":"Clínicas Veterinarias",
@@ -164,7 +153,7 @@ LP = [
    "stats":["+63% consults","+44% avg ticket","4.9★ Google"],
    "b1_en":"Instagram content engine for your best cases","b1_es":"Motor de contenido Instagram para tus mejores casos",
    "b2_en":"Treatment upsell + loyalty sequences","b2_es":"Secuencias de upsell de tratamientos + lealtad",
-   "b3_en":"No-show reduction with deposit + reminder flows","b3_es":"Reducción de ausencias con flujos de depósito + recordatorios"},
+   "b3_en":"No-show reduction with deposit + WhatsApp reminders","b3_es":"Reducción de ausencias con depósitos + recordatorios WhatsApp"},
 
   # Beauty
   {"slug":"salons","folder":"industries/beauty/salons","label_en":"Hair Salons","label_es":"Salones de Belleza",
@@ -173,7 +162,7 @@ LP = [
    "promise_es":"Llena Tu Agenda.","promise_hl_es":"Mantenla Llena.",
    "stats":["+47% retention","+38% new clients","Top 3 local AI"],
    "b1_en":"Fill Monday–Tuesday with targeted promo campaigns","b1_es":"Llena lunes–martes con campañas promocionales",
-   "b2_en":"Automated rebooking via SMS + email","b2_es":"Rebooking automatizado por SMS + email",
+   "b2_en":"Automated rebooking via SMS + WhatsApp","b2_es":"Rebooking automatizado por SMS + WhatsApp",
    "b3_en":"Referral program setup + promotion","b3_es":"Setup y promoción de programa de referidos"},
 
   {"slug":"spas","folder":"industries/beauty/spas","label_en":"Spas","label_es":"Spas",
@@ -201,7 +190,7 @@ LP = [
    "promise_es":"Más Clientes Calificados.","promise_hl_es":"Menos Esperar Referidos.",
    "stats":["+71% consults","Top 3 AI citations","2-min intake"],
    "b1_en":"AEO authority in your practice area","b1_es":"Autoridad AEO en tu área de práctica",
-   "b2_en":"AI SDR — 24/7 intake, qualification, scheduling","b2_es":"SDR IA — intake, calificación y agenda 24/7",
+   "b2_en":"AI SDR — 24/7 intake and qualification on WhatsApp","b2_es":"SDR IA — intake y calificación 24/7 por WhatsApp",
    "b3_en":"LinkedIn authority content for partners","b3_es":"Contenido de autoridad LinkedIn para socios"},
 
   {"slug":"accounting","folder":"industries/professional-services/accounting","label_en":"Accounting Firms","label_es":"Firmas Contables",
@@ -228,7 +217,7 @@ LP = [
    "promise_en":"More Listings.","promise_hl_en":"Zero Cold Calling.",
    "promise_es":"Más Listados.","promise_hl_es":"Cero Llamadas en Frío.",
    "stats":["+76% lead response","-45% contact time","+39% referrals"],
-   "b1_en":"AI SDR contacts every lead in under 2 minutes","b1_es":"SDR IA contacta cada lead en menos de 2 minutos",
+   "b1_en":"AI SDR contacts every lead in under 2 min on WhatsApp","b1_es":"SDR IA contacta cada lead en menos de 2 min por WhatsApp",
    "b2_en":"Past-client anniversary + market updates automated","b2_es":"Aniversarios + market updates automatizados",
    "b3_en":"Neighborhood SEO + AI search dominance","b3_es":"SEO de barrio + dominio en búsqueda IA"},
 
@@ -267,7 +256,7 @@ LP = [
    "stats":["+57% corporate inquiries","+33% off-season","2-min response"],
    "b1_en":"Corporate procurement + shortlist positioning","b1_es":"Procurement corporativo + posicionamiento shortlist",
    "b2_en":"Seasonal diversification (weddings/corp/holidays)","b2_es":"Diversificación estacional (bodas/corp/feriados)",
-   "b3_en":"AI SDR responds to every inquiry in minutes","b3_es":"SDR IA responde cada consulta en minutos"},
+   "b3_en":"AI SDR on WhatsApp responds to every inquiry in minutes","b3_es":"SDR IA en WhatsApp responde cada consulta en minutos"},
 
   # Fitness
   {"slug":"gyms","folder":"industries/fitness/gyms","label_en":"Gyms","label_es":"Gimnasios",
@@ -332,17 +321,17 @@ LP = [
    "promise_es":"Más Trabajos.","promise_hl_es":"Menos Semanas Lentas.",
    "stats":["+64% lead volume","2-min AI response","Top 3 AI"],
    "b1_en":"Google Local Service Ads + Meta retargeting","b1_es":"Google Local Service Ads + retargeting Meta",
-   "b2_en":"AI SDR — responds in 2 min, before competitors","b2_es":"SDR IA — responde en 2 min, antes que competencia",
+   "b2_en":"AI SDR on WhatsApp — responds in 2 min, before competitors","b2_es":"SDR IA en WhatsApp — responde en 2 min, antes que competencia",
    "b3_en":"Review + project portfolio automation","b3_es":"Automatización de reseñas + portfolio de proyectos"},
 
   {"slug":"plumbers","folder":"industries/home-services/plumbers","label_en":"Plumbers","label_es":"Plomeros",
    "noun_en":"your plumbing business","noun_es":"tu negocio de plomería",
-   "promise_en":"Be the First Plumber","promise_hl_en":"They Call Every Time.",
-   "promise_es":"Sé el Primer Plomero","promise_hl_es":"Al Que Siempre Llaman.",
+   "promise_en":"Be the First Plumber","promise_hl_en":"They Message Every Time.",
+   "promise_es":"Sé el Primer Plomero","promise_hl_es":"Al Que Siempre Escriben.",
    "stats":["+69% map pack","+45% repeat calls","2-min response"],
    "b1_en":"Dominate Google map pack for emergency searches","b1_es":"Domina el map pack de Google para búsquedas de emergencia",
    "b2_en":"Google Guaranteed (LSA) setup and management","b2_es":"Setup y gestión de Google Guaranteed (LSA)",
-   "b3_en":"Maintenance reminder automation → recurring revenue","b3_es":"Automatización de recordatorios → ingresos recurrentes"},
+   "b3_en":"Maintenance reminders via WhatsApp → recurring revenue","b3_es":"Recordatorios por WhatsApp → ingresos recurrentes"},
 
   {"slug":"landscaping","folder":"industries/home-services/landscaping","label_en":"Landscaping","label_es":"Paisajismo",
    "noun_en":"your landscaping business","noun_es":"tu negocio de paisajismo",
@@ -391,10 +380,10 @@ def build_lp(v):
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Audit | {v["label_en"]} Marketing — NetWebMedia</title>
-  <meta name="description" content="Free 30-minute marketing audit for {v['noun_en']}. We'll show you exactly where you're losing visibility and revenue — and what to do about it.">
+  <title>Free AI Growth Plan | {v["label_en"]} — NetWebMedia</title>
+  <meta name="description" content="Free personalized growth plan for {v['noun_en']}. Delivered by AI + a real strategist straight to your WhatsApp — no calls, no pitch, just actionable next steps.">
   <meta name="robots" content="noindex,follow">
-  <link rel="canonical" href="https://{v["slug"]}.netwebmedia.com/audit/">
+  <link rel="canonical" href="https://{v["slug"]}.netwebmedia.com/">
   <link rel="icon" type="image/svg+xml" href="https://netwebmedia.com/assets/nwm-logo.svg">
   <link rel="stylesheet" href="https://netwebmedia.com/css/styles.css">
   <style>
@@ -466,19 +455,19 @@ def build_lp(v):
       <button id="lp-en" class="active" onclick="setLang('en')">EN</button>
       <button id="lp-es" onclick="setLang('es')">ES</button>
     </div>
-    <a href="#audit-form" class="lp-nav-cta" data-en="Get Free Audit" data-es="Auditoría Gratis">Get Free Audit</a>
+    <a href="#plan-form" class="lp-nav-cta" data-en="Get Free Plan" data-es="Plan Gratis">Get Free Plan</a>
   </div>
 </header>
 
 <main>
   <section class="lp-hero">
     <div>
-      <div class="eyebrow" data-en="Free 30-min audit — for {esc(v['label_en'])}" data-es="Auditoría gratis de 30 min — para {esc(v['label_es'])}">Free 30-min audit — for {v["label_en"]}</div>
+      <div class="eyebrow" data-en="Free growth plan — for {esc(v['label_en'])}" data-es="Plan de crecimiento gratis — para {esc(v['label_es'])}">Free growth plan — for {v["label_en"]}</div>
       <h1>
         <span data-en="{esc(v['promise_en'])}" data-es="{esc(v['promise_es'])}">{v["promise_en"]}</span><br>
         <span class="hl" data-en="{esc(v['promise_hl_en'])}" data-es="{esc(v['promise_hl_es'])}">{v["promise_hl_en"]}</span>
       </h1>
-      <p class="sub" data-en="In 30 minutes, we'll show you exactly where {esc(v['noun_en'])} is losing visibility, leads, and revenue — and the 3 highest-leverage things you can do this quarter to fix it." data-es="En 30 minutos te mostramos exactamente dónde {esc(v['noun_es'])} está perdiendo visibilidad, leads e ingresos — y las 3 acciones de mayor impacto para este trimestre.">In 30 minutes, we'll show you exactly where {v["noun_en"]} is losing visibility, leads, and revenue — and the 3 highest-leverage things you can do this quarter to fix it.</p>
+      <p class="sub" data-en="Fill the form in 2 minutes. Our AI + a real strategist build a personalized plan for {esc(v['noun_en'])} and send it to your WhatsApp within an hour — no calls, no pitch, just actionable next steps." data-es="Llena el formulario en 2 minutos. Nuestra IA + un estratega real construyen un plan personalizado para {esc(v['noun_es'])} y lo envían a tu WhatsApp en menos de una hora — sin llamadas, sin pitch, solo siguientes pasos accionables.">Fill the form in 2 minutes. Our AI + a real strategist build a personalized plan for {v["noun_en"]} and send it to your WhatsApp within an hour — no calls, no pitch, just actionable next steps.</p>
 
       <ul class="lp-bullets">
         <li data-en="{esc(v['b1_en'])}" data-es="{esc(v['b1_es'])}">{v["b1_en"]}</li>
@@ -493,48 +482,48 @@ def build_lp(v):
       </div>
     </div>
 
-    <aside class="lp-form-card" id="audit-form">
-      <h2 data-en="Book your free audit" data-es="Reserva tu auditoría gratis">Book your free audit</h2>
-      <p data-en="No commitment. No pitch. Just a clear action plan." data-es="Sin compromiso. Sin pitch. Solo un plan de acción claro.">No commitment. No pitch. Just a clear action plan.</p>
-      <form class="lp-form" action="https://netwebmedia.com/audit-submit.php" method="POST">
-        <input type="hidden" name="source" value="{v['slug']}-audit-lp">
+    <aside class="lp-form-card" id="plan-form">
+      <h2 data-en="Get your free growth plan" data-es="Obtén tu plan de crecimiento gratis">Get your free growth plan</h2>
+      <p data-en="Delivered to your WhatsApp. Usually within an hour." data-es="Entregado a tu WhatsApp. Normalmente en menos de una hora.">Delivered to your WhatsApp. Usually within an hour.</p>
+      <form class="lp-form" action="https://netwebmedia.com/submit.php" method="POST">
+        <input type="hidden" name="source" value="{v['slug']}-lp">
         <!-- honeypot: real users never fill this; bots usually do -->
         <input type="text" name="website_url" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;height:0;width:0;opacity:0" aria-hidden="true">
         <input type="text" name="name" required data-en-placeholder="Full name" data-es-placeholder="Nombre completo" placeholder="Full name">
         <input type="email" name="email" required data-en-placeholder="Work email" data-es-placeholder="Email de trabajo" placeholder="Work email">
-        <input type="tel" name="phone" data-en-placeholder="Phone (optional)" data-es-placeholder="Teléfono (opcional)" placeholder="Phone (optional)">
+        <input type="tel" name="phone" required data-en-placeholder="WhatsApp number (with country code)" data-es-placeholder="WhatsApp (con código de país)" placeholder="WhatsApp number (with country code)">
         <input type="text" name="company" required data-en-placeholder="{esc(v['label_en'])} business name" data-es-placeholder="Nombre de tu negocio de {esc(v['label_es'])}" placeholder="{v['label_en']} business name">
         <input type="url" name="website" data-en-placeholder="Website (optional)" data-es-placeholder="Sitio web (opcional)" placeholder="Website (optional)">
         <textarea name="message" data-en-placeholder="Biggest marketing challenge right now?" data-es-placeholder="¿Tu mayor reto de marketing ahora?" placeholder="Biggest marketing challenge right now?"></textarea>
-        <button type="submit" data-en="Request Free Audit →" data-es="Solicitar Auditoría Gratis →">Request Free Audit →</button>
+        <button type="submit" data-en="Send My Free Plan →" data-es="Envíame Mi Plan Gratis →">Send My Free Plan →</button>
       </form>
-      <p class="lp-fine" data-en="We'll reply within 1 business day. Your info stays private." data-es="Respondemos en 1 día hábil. Tu información se mantiene privada.">We'll reply within 1 business day. Your info stays private.</p>
+      <p class="lp-fine" data-en="We reply on WhatsApp — no calls, no meetings. Your info stays private." data-es="Respondemos por WhatsApp — sin llamadas, sin reuniones. Tu información se mantiene privada.">We reply on WhatsApp — no calls, no meetings. Your info stays private.</p>
     </aside>
   </section>
 
   <section class="lp-strip">
     <div class="strip-text" data-en="Built on Claude (Anthropic) + NWM CRM" data-es="Construido con Claude (Anthropic) + NWM CRM">Built on Claude (Anthropic) + NWM CRM</div>
-    <div class="strip-quote" data-en="&ldquo;The only fractional CMO that ships AI agents, paid ads, and content — all from a single team, all in a month-to-month retainer.&rdquo;" data-es="&ldquo;El único CMO fraccional que lanza agentes IA, publicidad paga y contenido — todo con un solo equipo, todo mes a mes.&rdquo;">&ldquo;The only fractional CMO that ships AI agents, paid ads, and content — all from a single team, all in a month-to-month retainer.&rdquo;</div>
+    <div class="strip-quote" data-en="&ldquo;The only fractional CMO that ships AI agents, paid ads, and content — all from a single team, all in a month-to-month retainer. Everything runs through WhatsApp. No meetings.&rdquo;" data-es="&ldquo;El único CMO fraccional que lanza agentes IA, publicidad paga y contenido — todo con un solo equipo, todo mes a mes. Todo corre por WhatsApp. Sin reuniones.&rdquo;">&ldquo;The only fractional CMO that ships AI agents, paid ads, and content — all from a single team, all in a month-to-month retainer. Everything runs through WhatsApp. No meetings.&rdquo;</div>
   </section>
 
   <section class="lp-steps">
-    <h2 data-en="How the free audit works" data-es="Cómo funciona la auditoría gratis">How the free audit works</h2>
-    <p class="lead" data-en="No generic templates. No fake &lsquo;report&rsquo; a bot spits out. Real analysis by humans + AI." data-es="Sin plantillas genéricas. Sin &lsquo;reportes&rsquo; automáticos. Análisis real de humanos + IA.">No generic templates. No fake &lsquo;report&rsquo; a bot spits out. Real analysis by humans + AI.</p>
+    <h2 data-en="How the free plan works" data-es="Cómo funciona el plan gratis">How the free plan works</h2>
+    <p class="lead" data-en="No generic templates. No calendar links. Just AI + humans building a plan, then messaging you on WhatsApp when it's ready." data-es="Sin plantillas genéricas. Sin links de calendario. Solo IA + humanos construyendo un plan, y luego mensajeándote por WhatsApp cuando esté listo.">No generic templates. No calendar links. Just AI + humans building a plan, then messaging you on WhatsApp when it's ready.</p>
     <div class="lp-steps-grid">
       <div class="lp-step">
         <div class="num">1</div>
-        <h3 data-en="You share 5 minutes of context" data-es="Compartes 5 minutos de contexto">You share 5 minutes of context</h3>
-        <p data-en="Your site, your goals, your biggest bottleneck. That's all we need to start." data-es="Tu sitio, tus objetivos, tu mayor cuello de botella. Eso es todo.">Your site, your goals, your biggest bottleneck. That's all we need to start.</p>
+        <h3 data-en="Share 2 minutes of context" data-es="Comparte 2 minutos de contexto">Share 2 minutes of context</h3>
+        <p data-en="Your site, your goals, your biggest bottleneck. Fill the form — that's all we need." data-es="Tu sitio, tus objetivos, tu mayor cuello de botella. Llena el formulario — eso es todo.">Your site, your goals, your biggest bottleneck. Fill the form — that's all we need.</p>
       </div>
       <div class="lp-step">
         <div class="num">2</div>
-        <h3 data-en="We audit with Claude + human expertise" data-es="Auditamos con Claude + experiencia humana">We audit with Claude + human expertise</h3>
-        <p data-en="SEO, AEO, paid, CRM, AI SDR gaps — we map what's broken and what's leverageable." data-es="SEO, AEO, paid, CRM, brechas de SDR IA — mapeamos qué está roto y qué es palanca.">SEO, AEO, paid, CRM, AI SDR gaps — we map what's broken and what's leverageable.</p>
+        <h3 data-en="AI + a real strategist build your plan" data-es="IA + un estratega real construyen tu plan">AI + a real strategist build your plan</h3>
+        <p data-en="Claude analyzes your site, SEO, AEO, paid, and AI SDR gaps. A NetWebMedia strategist reviews and sharpens it." data-es="Claude analiza tu sitio, SEO, AEO, paid y brechas de SDR IA. Un estratega NetWebMedia lo revisa y afina.">Claude analyzes your site, SEO, AEO, paid, and AI SDR gaps. A NetWebMedia strategist reviews and sharpens it.</p>
       </div>
       <div class="lp-step">
         <div class="num">3</div>
-        <h3 data-en="30-min call with a real strategist" data-es="Llamada de 30 min con un estratega real">30-min call with a real strategist</h3>
-        <p data-en="We walk through the findings and the 3 highest-leverage fixes. You decide what to do next." data-es="Revisamos los hallazgos y las 3 acciones de mayor palanca. Tú decides qué hacer.">We walk through the findings and the 3 highest-leverage fixes. You decide what to do next.</p>
+        <h3 data-en="We WhatsApp you the plan" data-es="Te enviamos el plan por WhatsApp">We WhatsApp you the plan</h3>
+        <p data-en="Usually within an hour. The 3 highest-leverage fixes, written for you. Message back anytime with questions." data-es="Normalmente en menos de una hora. Las 3 acciones de mayor palanca, escritas para ti. Responde por WhatsApp con dudas cuando quieras.">Usually within an hour. The 3 highest-leverage fixes, written for you. Message back anytime with questions.</p>
       </div>
     </div>
   </section>
@@ -543,31 +532,35 @@ def build_lp(v):
     <h2 data-en="Frequently asked" data-es="Preguntas frecuentes">Frequently asked</h2>
     <details>
       <summary data-en="Is this really free? What's the catch?" data-es="¿De verdad es gratis? ¿Cuál es la trampa?">Is this really free? What's the catch?</summary>
-      <p data-en="No catch. 30-minute audits are how we earn the right to pitch our retainer. If we're not a fit, you still walk away with a real plan you can execute yourself." data-es="Sin trampa. Las auditorías de 30 min son cómo nos ganamos el derecho a ofrecerte nuestro retainer. Si no somos fit, te llevas un plan real que puedes ejecutar tú mismo.">No catch. 30-minute audits are how we earn the right to pitch our retainer. If we're not a fit, you still walk away with a real plan you can execute yourself.</p>
+      <p data-en="No catch. Free plans are how we earn the right to pitch our retainer via WhatsApp. If we're not a fit, you still walk away with a real plan you can execute yourself." data-es="Sin trampa. Los planes gratis son cómo nos ganamos el derecho a ofrecerte nuestro retainer por WhatsApp. Si no somos fit, te llevas un plan real que puedes ejecutar tú mismo.">No catch. Free plans are how we earn the right to pitch our retainer via WhatsApp. If we're not a fit, you still walk away with a real plan you can execute yourself.</p>
     </details>
     <details>
-      <summary data-en="Who will I be talking to?" data-es="¿Con quién voy a hablar?">Who will I be talking to?</summary>
-      <p data-en="A real strategist on the NetWebMedia team — not an SDR and not a bot. Your audit is prepared by Claude + a human lead before the call." data-es="Un estratega real del equipo NetWebMedia — ni un SDR ni un bot. Tu auditoría se prepara con Claude + un líder humano antes de la llamada.">A real strategist on the NetWebMedia team — not an SDR and not a bot. Your audit is prepared by Claude + a human lead before the call.</p>
+      <summary data-en="Do I have to jump on a call?" data-es="¿Tengo que agendar una llamada?">Do I have to jump on a call?</summary>
+      <p data-en="Never. Everything happens on WhatsApp. No phone calls, no Zoom, no calendar links. Our whole delivery model is async, AI-first messaging." data-es="Nunca. Todo pasa por WhatsApp. Sin llamadas telefónicas, sin Zoom, sin links de calendario. Nuestro modelo completo de entrega es mensajería async AI-first.">Never. Everything happens on WhatsApp. No phone calls, no Zoom, no calendar links. Our whole delivery model is async, AI-first messaging.</p>
+    </details>
+    <details>
+      <summary data-en="Who actually writes the plan?" data-es="¿Quién escribe el plan?">Who actually writes the plan?</summary>
+      <p data-en="Claude (Anthropic) drafts it against our audit framework, then a NetWebMedia strategist reviews, sharpens, and approves before we message it to you. You get AI speed + human judgment." data-es="Claude (Anthropic) lo redacta con nuestro framework, y luego un estratega NetWebMedia lo revisa, afina y aprueba antes de enviártelo. Obtienes velocidad IA + criterio humano.">Claude (Anthropic) drafts it against our audit framework, then a NetWebMedia strategist reviews, sharpens, and approves before we message it to you. You get AI speed + human judgment.</p>
     </details>
     <details>
       <summary data-en="Do I need to commit to anything?" data-es="¿Tengo que comprometerme a algo?">Do I need to commit to anything?</summary>
-      <p data-en="No. Our retainer itself is 90-day minimum, then month-to-month. No annual contracts. No penalty to leave. But this first audit is completely unconditional." data-es="No. Nuestro retainer es mínimo 90 días y luego mes a mes. Sin contratos anuales. Sin penalización por salir. Pero esta primera auditoría es incondicional.">No. Our retainer itself is 90-day minimum, then month-to-month. No annual contracts. No penalty to leave. But this first audit is completely unconditional.</p>
+      <p data-en="No. Our retainer itself is 90-day minimum, then month-to-month. No annual contracts. No penalty to leave. But this first plan is completely unconditional." data-es="No. Nuestro retainer es mínimo 90 días y luego mes a mes. Sin contratos anuales. Sin penalización por salir. Pero este primer plan es incondicional.">No. Our retainer itself is 90-day minimum, then month-to-month. No annual contracts. No penalty to leave. But this first plan is completely unconditional.</p>
     </details>
     <details>
       <summary data-en="How is this different from HubSpot / a traditional agency?" data-es="¿En qué se diferencia de HubSpot o una agencia tradicional?">How is this different from HubSpot / a traditional agency?</summary>
-      <p data-en="We run the full stack (SEO, AEO, paid, CRM, AI SDR, content) on our own AI-native platform. You get a fractional CMO function at a fraction of what a senior hire + tool stack would cost." data-es="Operamos el stack completo (SEO, AEO, paid, CRM, SDR IA, contenido) en nuestra plataforma AI-native propia. Obtienes una función de CMO fraccional por una fracción del costo de un hire senior + stack de herramientas.">We run the full stack (SEO, AEO, paid, CRM, AI SDR, content) on our own AI-native platform. You get a fractional CMO function at a fraction of what a senior hire + tool stack would cost.</p>
+      <p data-en="We run the full stack (SEO, AEO, paid, CRM, AI SDR, content) on our own AI-native platform. Delivery happens on WhatsApp — no weekly check-in meetings. You get a fractional CMO function at a fraction of what a senior hire + tool stack would cost." data-es="Operamos el stack completo (SEO, AEO, paid, CRM, SDR IA, contenido) en nuestra plataforma AI-native propia. La entrega pasa por WhatsApp — sin reuniones semanales. Obtienes una función de CMO fraccional por una fracción del costo de un hire senior + stack de herramientas.">We run the full stack (SEO, AEO, paid, CRM, AI SDR, content) on our own AI-native platform. Delivery happens on WhatsApp — no weekly check-in meetings. You get a fractional CMO function at a fraction of what a senior hire + tool stack would cost.</p>
     </details>
   </section>
 
   <section class="lp-final">
     <h2 data-en="Ready to grow {esc(v['noun_en'])}?" data-es="¿Listo para crecer {esc(v['noun_es'])}?">Ready to grow {v["noun_en"]}?</h2>
-    <p data-en="30 minutes. A real plan. No obligation." data-es="30 minutos. Un plan real. Sin obligación.">30 minutes. A real plan. No obligation.</p>
-    <a href="#audit-form" class="btn-primary" data-en="Book Your Free Audit →" data-es="Reserva Tu Auditoría Gratis →">Book Your Free Audit →</a>
+    <p data-en="2 minutes to fill the form. A real plan on WhatsApp. No calls. No obligation." data-es="2 minutos para llenar el formulario. Un plan real por WhatsApp. Sin llamadas. Sin obligación.">2 minutes to fill the form. A real plan on WhatsApp. No calls. No obligation.</p>
+    <a href="#plan-form" class="btn-primary" data-en="Get Your Free Plan →" data-es="Obtén Tu Plan Gratis →">Get Your Free Plan →</a>
   </section>
 </main>
 
 <footer class="lp-foot">
-  <p>&copy; 2026 <a href="https://netwebmedia.com">NetWebMedia</a> &middot; <a href="https://netwebmedia.com/privacy.html" data-en="Privacy" data-es="Privacidad">Privacy</a> &middot; <a href="https://netwebmedia.com/terms.html" data-en="Terms" data-es="Términos">Terms</a> &middot; hello@netwebmedia.com &middot; <a href="https://{v["slug"]}.netwebmedia.com" data-en="Learn more about {esc(v['label_en'])} marketing" data-es="Más sobre marketing de {esc(v['label_es'])}">Learn more about {v["label_en"]} marketing</a></p>
+  <p>&copy; 2026 <a href="https://netwebmedia.com">NetWebMedia</a> &middot; <a href="https://netwebmedia.com/privacy.html" data-en="Privacy" data-es="Privacidad">Privacy</a> &middot; <a href="https://netwebmedia.com/terms.html" data-en="Terms" data-es="Términos">Terms</a> &middot; hello@netwebmedia.com</p>
 </footer>
 
 <script>
@@ -591,25 +584,127 @@ def build_lp(v):
 </body>
 </html>"""
 
+
+def build_thanks(v):
+    """Per-subdomain thanks page with WhatsApp-first framing."""
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanks — We're building your plan | NetWebMedia</title>
+  <meta name="robots" content="noindex,follow">
+  <link rel="icon" type="image/svg+xml" href="https://netwebmedia.com/assets/nwm-logo.svg">
+  <link rel="stylesheet" href="https://netwebmedia.com/css/styles.css">
+  <style>
+    body{{background:var(--bg-primary);color:var(--text-primary);margin:0;min-height:100vh;display:flex;flex-direction:column}}
+    .tx-nav{{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--border-glass)}}
+    .tx-wrap{{flex:1;display:flex;align-items:center;justify-content:center;padding:60px 24px;text-align:center}}
+    .tx-card{{max-width:640px}}
+    .tx-icon{{width:72px;height:72px;margin:0 auto 28px;background:var(--gradient-btn);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;color:#fff;box-shadow:var(--shadow-glow)}}
+    .tx-card h1{{font-size:clamp(32px,5vw,48px);font-weight:800;margin-bottom:20px;font-family:var(--font-display);line-height:1.1}}
+    .tx-card h1 .hl{{background:var(--gradient-text);-webkit-background-clip:text;background-clip:text;color:transparent}}
+    .tx-card p.lead{{font-size:18px;color:var(--text-secondary);margin-bottom:32px;line-height:1.6}}
+    .tx-next{{background:var(--bg-card);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:28px;text-align:left;margin-bottom:32px}}
+    .tx-next h3{{font-size:14px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--nwm-orange);margin-bottom:16px}}
+    .tx-next ol{{margin:0;padding-left:20px;color:var(--text-secondary);font-size:15px;line-height:1.7}}
+    .tx-next ol li{{margin-bottom:8px}}
+    .tx-ctas{{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}}
+    .btn-primary{{background:var(--gradient-btn);color:#fff;padding:14px 28px;border-radius:var(--radius-pill);font-weight:700;font-size:15px;text-decoration:none;display:inline-block}}
+    .btn-ghost-white{{background:transparent;border:2px solid rgba(255,255,255,.3);color:#fff;padding:12px 26px;border-radius:var(--radius-pill);font-weight:600;font-size:15px;text-decoration:none;display:inline-block}}
+    .btn-ghost-white:hover{{border-color:var(--nwm-orange);color:var(--nwm-orange)}}
+    .tx-foot{{text-align:center;padding:28px 20px;color:var(--text-muted);font-size:12px;border-top:1px solid var(--border-glass)}}
+    .tx-foot a{{color:var(--text-muted);text-decoration:none}}
+    .tx-lang{{display:flex;gap:6px}}
+    .tx-lang button{{background:transparent;border:1px solid var(--border-glass);color:var(--text-muted);padding:6px 12px;border-radius:4px;font-size:12px;cursor:pointer;font-weight:600}}
+    .tx-lang button.active{{background:var(--nwm-orange);color:#fff;border-color:var(--nwm-orange)}}
+  </style>
+</head>
+<body>
+
+<header class="tx-nav">
+  <a href="https://netwebmedia.com" class="nav-logo">
+    <span class="logo-wordmark"><span class="logo-net">net</span><span class="logo-web">web</span><span class="logo-media">media</span></span>
+  </a>
+  <div class="tx-lang">
+    <button id="tx-en" class="active" onclick="setLang('en')">EN</button>
+    <button id="tx-es" onclick="setLang('es')">ES</button>
+  </div>
+</header>
+
+<main class="tx-wrap">
+  <div class="tx-card">
+    <div class="tx-icon">✓</div>
+    <h1>
+      <span data-en="Got it." data-es="Recibido.">Got it.</span>
+      <span class="hl" data-en="Your plan is being built." data-es="Tu plan está en camino.">Your plan is being built.</span>
+    </h1>
+    <p class="lead" data-en="Claude + a NetWebMedia strategist are building your personalized growth plan right now. We'll message it to your WhatsApp — usually within an hour. No calls, no meetings." data-es="Claude + un estratega NetWebMedia están construyendo tu plan personalizado ahora mismo. Te lo enviamos por WhatsApp — normalmente en menos de una hora. Sin llamadas, sin reuniones.">Claude + a NetWebMedia strategist are building your personalized growth plan right now. We'll message it to your WhatsApp — usually within an hour. No calls, no meetings.</p>
+
+    <div class="tx-next">
+      <h3 data-en="What happens next" data-es="Qué pasa ahora">What happens next</h3>
+      <ol>
+        <li data-en="Confirmation email sent to the address you provided (check spam just in case)." data-es="Enviamos un email de confirmación a la dirección que proporcionaste (revisa spam por si acaso).">Confirmation email sent to the address you provided (check spam just in case).</li>
+        <li data-en="Within 1 hour: Claude + a human strategist build your personalized plan — SEO, AEO, paid, and AI-SDR gaps." data-es="En 1 hora: Claude + un estratega humano construyen tu plan personalizado — SEO, AEO, paid y brechas de SDR IA.">Within 1 hour: Claude + a human strategist build your personalized plan — SEO, AEO, paid, and AI-SDR gaps.</li>
+        <li data-en="We ping you on WhatsApp with the plan. Message back anytime with questions — we reply async." data-es="Te escribimos por WhatsApp con el plan. Responde cuando quieras con dudas — contestamos async.">We ping you on WhatsApp with the plan. Message back anytime with questions — we reply async.</li>
+        <li data-en="No calls. No calendar links. No pitch meetings. Everything stays on WhatsApp, on your schedule." data-es="Sin llamadas. Sin links de calendario. Sin reuniones de pitch. Todo se mantiene en WhatsApp, en tu horario.">No calls. No calendar links. No pitch meetings. Everything stays on WhatsApp, on your schedule.</li>
+      </ol>
+    </div>
+
+    <div class="tx-ctas">
+      <a href="https://netwebmedia.com" class="btn-primary" data-en="← Back to NetWebMedia" data-es="← Volver a NetWebMedia">← Back to NetWebMedia</a>
+      <a href="https://netwebmedia.com/blog.html" class="btn-ghost-white" data-en="Read our playbook blog" data-es="Lee nuestro blog de playbooks">Read our playbook blog</a>
+    </div>
+  </div>
+</main>
+
+<footer class="tx-foot">
+  <p>&copy; 2026 <a href="https://netwebmedia.com">NetWebMedia</a> &middot; <a href="https://netwebmedia.com/privacy.html" data-en="Privacy" data-es="Privacidad">Privacy</a> &middot; hello@netwebmedia.com</p>
+</footer>
+
+<script>
+  (function() {{
+    var stored = localStorage.getItem('nwm-lang') || 'en';
+    if (stored === 'es') setLang('es');
+  }})();
+  function setLang(lang) {{
+    localStorage.setItem('nwm-lang', lang);
+    document.documentElement.lang = lang;
+    document.getElementById('tx-en').classList.toggle('active', lang === 'en');
+    document.getElementById('tx-es').classList.toggle('active', lang === 'es');
+    document.querySelectorAll('[data-' + lang + ']').forEach(function(el) {{
+      el.textContent = el.getAttribute('data-' + lang);
+    }});
+  }}
+</script>
+</body>
+</html>"""
+
+
 base = r'C:\Users\Usuario\Desktop\NetWebMedia'
 
-# Read the shared thanks-page template once
-thanks_template_path = os.path.join(base, "audit-thanks.html")
-with open(thanks_template_path, 'r', encoding='utf-8') as f:
-    THANKS_HTML = f.read()
-
+built = 0
+cleaned = 0
 for v in LP:
-    # Landing page
-    path = os.path.join(base, v["folder"], "audit", "index.html")
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, 'w', encoding='utf-8') as f:
+    folder_abs = os.path.join(base, v["folder"])
+    os.makedirs(folder_abs, exist_ok=True)
+
+    # Landing page at folder root (was /audit/index.html)
+    with open(os.path.join(folder_abs, "index.html"), 'w', encoding='utf-8') as f:
         f.write(build_lp(v))
 
-    # Per-subdomain thank-you page (identical content — shared fallback if PHP redirect lands here)
-    thanks_path = os.path.join(base, v["folder"], "audit", "thanks.html")
-    with open(thanks_path, 'w', encoding='utf-8') as f:
-        f.write(THANKS_HTML)
+    # Thanks page at folder root (was /audit/thanks.html)
+    with open(os.path.join(folder_abs, "thanks.html"), 'w', encoding='utf-8') as f:
+        f.write(build_thanks(v))
 
-    print(f"built: {v['folder']}/audit/  ->  https://{v['slug']}.netwebmedia.com/audit/")
+    # Clean up old /audit/ subfolder if it exists
+    old_audit = os.path.join(folder_abs, "audit")
+    if os.path.isdir(old_audit):
+        shutil.rmtree(old_audit)
+        cleaned += 1
 
-print(f"\nDone — {len(LP)} landing pages + {len(LP)} thank-you pages built.")
+    built += 1
+    print(f"built: {v['folder']}/  ->  https://{v['slug']}.netwebmedia.com/")
+
+print(f"\nDone — {built} landing pages + {built} thank-you pages built at subdomain root.")
+print(f"Cleaned up {cleaned} old /audit/ folders.")

@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -73,13 +74,10 @@
 
       /* NWM Logo */
       .nwm-logo {
-        position: absolute; top: 64px; right: 54px; z-index: 10;
-        display: flex; font-weight: 800; font-size: 30px;
-        line-height: 1; border-radius: 6px; overflow: hidden;
+        position: absolute; top: 64px; right: 54px; z-index: 100;
+        width: 260px; height: auto;
+        opacity: 0.95;
       }
-      .nwm-logo .n { color: #010F3B; background: #FF671F; padding: 6px 10px; }
-      .nwm-logo .w { color: #FF671F; background: #010F3B; padding: 6px 10px; }
-      .nwm-logo .m { color: #fff;    background: #010F3B; padding: 6px 10px; }
     </style>
   </head>
   <body>
@@ -88,9 +86,10 @@
          data-start="0" data-duration="5"
          data-width="1080" data-height="1920">
 
-      <div class="nwm-logo clip" data-start="0" data-duration="5" data-track-index="10">
-        <span class="n">net</span><span class="w">web</span><span class="m">media</span>
-      </div>
+      <img class="nwm-logo clip"
+           src="../assets/nwm-logo.svg"
+           data-start="0" data-duration="5" data-track-index="10"
+           alt="netwebmedia"/>
 
       <div id="terminal" class="clip" data-start="0" data-duration="5" data-track-index="2">
         <div id="terminal-bar">

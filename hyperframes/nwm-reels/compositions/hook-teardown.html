@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
@@ -9,91 +10,69 @@
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #010F3B; font-family: 'Poppins', sans-serif; }
       .clip { position: absolute; top: 0; left: 0; }
+      .scene-bg { position: absolute; width: 1080px; height: 1920px; top: 0; left: 0; }
 
-      /* Torn-page texture */
+      /* Fix 1: PNG logo card */
+      .nwm-logo { position: absolute; top: 40px; right: 40px; z-index: 200;
+        background: #FFFFFF; padding: 10px 18px; border-radius: 10px;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.15); opacity: 0.98; }
+      .nwm-logo img { display: block; width: 220px; height: auto; }
+
+      /* Fix 3: B-roll layers */
+      .broll { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      .broll-tint { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px;
+        background: linear-gradient(180deg, rgba(1,15,59,0.82) 0%, rgba(1,15,59,0.92) 100%); }
+
+      /* Torn-page texture overlay */
       #tear-bg {
         width: 1080px; height: 1920px;
         background: radial-gradient(ellipse at 30% 40%, rgba(255,103,31,0.08) 0%, transparent 60%);
         opacity: 0;
       }
-      /* Microscope/lens ring */
+
+      /* Fix 2: Lens rings — z-index:1 ensures they stay atmospheric behind content */
       #lens-ring {
-        position: absolute;
-        width: 680px; height: 680px;
-        border-radius: 50%;
+        position: absolute; width: 680px; height: 680px; border-radius: 50%;
         border: 8px solid rgba(255,103,31,0.25);
         top: 50%; left: 50%;
         transform: translate(-50%, -52%) scale(0.2);
-        opacity: 0;
+        opacity: 0; z-index: 1;
       }
       #lens-ring-inner {
-        position: absolute;
-        width: 500px; height: 500px;
-        border-radius: 50%;
+        position: absolute; width: 500px; height: 500px; border-radius: 50%;
         border: 3px solid rgba(255,103,31,0.15);
         top: 50%; left: 50%;
         transform: translate(-50%, -52%) scale(0.2);
-        opacity: 0;
+        opacity: 0; z-index: 1;
       }
-      /* Crosshair lines */
       .crosshair-h {
-        position: absolute;
-        top: 44%; left: 50%; width: 680px;
+        position: absolute; top: 44%; left: 50%; width: 680px;
         height: 2px; background: rgba(255,103,31,0.2);
-        transform: translate(-50%, -50%);
-        opacity: 0;
+        transform: translate(-50%, -50%); opacity: 0;
       }
       .crosshair-v {
-        position: absolute;
-        top: 0; left: 50%; height: 680px; top: calc(50% - 340px);
+        position: absolute; left: 50%; height: 680px; top: calc(50% - 340px);
         width: 2px; background: rgba(255,103,31,0.2);
-        transform: translateX(-50%);
-        opacity: 0;
+        transform: translateX(-50%); opacity: 0;
       }
-      /* Text */
+
+      /* Text — label safely at top:160px, below logo card */
       #td-label {
-        position: absolute;
-        top: 130px; left: 50%; transform: translateX(-50%);
-        color: #FF671F;
-        font-size: 20px; font-weight: 700; letter-spacing: 5px;
-        text-transform: uppercase; opacity: 0;
-        white-space: nowrap;
+        position: absolute; top: 160px; left: 50%; transform: translateX(-50%);
+        color: #FF671F; font-size: 20px; font-weight: 700; letter-spacing: 5px;
+        text-transform: uppercase; opacity: 0; white-space: nowrap;
       }
+      /* Fix 2: main block centered — no collision with label or lens rings (z-index:1 keeps rings behind) */
       #td-main {
-        position: absolute;
-        top: 50%; left: 50%;
+        position: absolute; top: 50%; left: 50%;
         transform: translate(-50%, -50%);
         text-align: center; width: 900px;
       }
-      #td-verb {
-        color: rgba(255,255,255,0.55);
-        font-size: 32px; font-weight: 600;
-        letter-spacing: 3px; text-transform: uppercase;
-        opacity: 0;
-      }
-      #td-headline {
-        color: #FFFFFF;
-        font-size: 96px; font-weight: 900;
-        line-height: 1; text-transform: uppercase;
-        opacity: 0; transform: scale(0.85);
-      }
+      #td-verb { color: rgba(255,255,255,0.55); font-size: 32px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; opacity: 0; }
+      #td-headline { color: #FFFFFF; font-size: 96px; font-weight: 900; line-height: 1; text-transform: uppercase; opacity: 0; transform: scale(0.85); }
       #td-headline .accent { color: #FF671F; }
-      #td-amount {
-        color: #FF671F;
-        font-size: 52px; font-weight: 800;
-        margin-top: 8px; opacity: 0;
-      }
-      #td-sub {
-        color: rgba(255,255,255,0.55);
-        font-size: 26px; font-weight: 400;
-        margin-top: 16px; opacity: 0;
-      }
-      /* NWM Logo */
-      .nwm-logo {
-        position: absolute; top: 64px; right: 54px; z-index: 100;
-        width: 260px; height: auto;
-        opacity: 0.95;
-      }
+      #td-amount { color: #FF671F; font-size: 52px; font-weight: 800; margin-top: 8px; opacity: 0; }
+      #td-sub { color: rgba(255,255,255,0.55); font-size: 26px; font-weight: 400; margin-top: 16px; opacity: 0; }
     </style>
   </head>
   <body>
@@ -102,40 +81,51 @@
          data-start="0" data-duration="5"
          data-width="1080" data-height="1920">
 
-      <div id="tear-bg" class="clip" data-start="0" data-duration="5" data-track-index="0"></div>
+      <!-- Fix 3: B-roll video layer -->
+      <video id="broll-td-s1" class="broll clip" muted autoplay loop
+             src="../assets/broll/mk-4555.mp4"
+             data-start="0" data-duration="5" data-track-index="0"></video>
+      <div class="broll-tint clip" data-start="0" data-duration="5" data-track-index="1"></div>
 
-      <img class="nwm-logo clip"
-           src="../assets/nwm-logo.svg"
-           data-start="0" data-duration="5" data-track-index="10"
-           alt="netwebmedia"/>
+      <div id="tear-bg" class="clip scene-bg" data-start="0" data-duration="5" data-track-index="2"></div>
 
-      <div id="lens-ring"       class="clip" data-start="0" data-duration="5" data-track-index="1"></div>
-      <div id="lens-ring-inner" class="clip" data-start="0" data-duration="5" data-track-index="2"></div>
-      <div class="crosshair-h clip"          data-start="0" data-duration="5" data-track-index="3"></div>
-      <div class="crosshair-v clip"          data-start="0" data-duration="5" data-track-index="4"></div>
+      <!-- Fix 2: lens rings at z-index:1 in CSS, animated to 0.35 opacity max -->
+      <div id="lens-ring"       class="clip" data-start="0" data-duration="5" data-track-index="3"></div>
+      <div id="lens-ring-inner" class="clip" data-start="0" data-duration="5" data-track-index="4"></div>
+      <div class="crosshair-h clip"          data-start="0" data-duration="5" data-track-index="5"></div>
+      <div class="crosshair-v clip"          data-start="0" data-duration="5" data-track-index="6"></div>
 
-      <div id="td-label" class="clip" data-start="0" data-duration="5" data-track-index="5">
+      <div id="td-label" class="clip" data-start="0" data-duration="5" data-track-index="7">
         Ad Teardown
       </div>
 
-      <div id="td-main" class="clip" data-start="0" data-duration="5" data-track-index="6">
+      <div id="td-main" class="clip" data-start="0" data-duration="5" data-track-index="8">
         <div id="td-verb">Let's tear down</div>
         <div id="td-headline">THIS<br><span class="accent">META</span><br>AD.</div>
         <div id="td-amount">$2M / month</div>
-        <div id="td-sub">4 layers. Hook → proof → CTA. Decoded.</div>
+        <div id="td-sub">4 layers. Hook &rarr; proof &rarr; CTA. Decoded.</div>
       </div>
+
+      <!-- Fix 1: PNG logo card, track-index 10 -->
+      <div class="nwm-logo clip" data-start="0" data-duration="5" data-track-index="10">
+        <img src="../assets/nwm-logo.png" alt="netwebmedia"/>
+      </div>
+
     </div>
     <script>
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
+
       tl.to("#tear-bg",          { opacity: 1, duration: 0.4 }, 0)
-        .to(["#lens-ring","#lens-ring-inner"], { scale: 1, opacity: 1, duration: 0.8, stagger: 0.12, ease: "back.out(1.4)" }, 0.2)
+        /* Fix 2: lens rings animated to 0.35 opacity — atmospheric only */
+        .to(["#lens-ring","#lens-ring-inner"], { scale: 1, opacity: 0.35, duration: 0.8, stagger: 0.12, ease: "back.out(1.4)" }, 0.2)
         .to([".crosshair-h",".crosshair-v"],   { opacity: 1, duration: 0.4 }, 0.7)
         .to("#td-label",    { opacity: 1, duration: 0.3 }, 0.9)
         .to("#td-verb",     { opacity: 1, duration: 0.3 }, 1.1)
         .to("#td-headline", { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.3)" }, 1.3)
         .to("#td-amount",   { opacity: 1, duration: 0.4 }, 2.0)
         .to("#td-sub",      { opacity: 1, duration: 0.4 }, 2.4);
+
       window.__timelines["hook-teardown"] = tl;
     </script>
   </body>

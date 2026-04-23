@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #010F3B; font-family: 'Poppins', sans-serif; }
+      .clip { position: absolute; top: 0; left: 0; }
+
+      /* Terminal window */
+      #terminal {
+        position: absolute;
+        width: 900px; left: 90px; top: 280px;
+        background: #0A1628;
+        border: 2px solid rgba(255,103,31,0.4);
+        border-radius: 12px;
+        padding: 28px 32px;
+        font-family: 'JetBrains Mono', monospace;
+        opacity: 0;
+      }
+      #terminal-bar {
+        display: flex; gap: 8px; margin-bottom: 20px;
+      }
+      .t-dot { width: 14px; height: 14px; border-radius: 50%; }
+      .t-dot.r { background: #FF5F57; }
+      .t-dot.y { background: #FEBC2E; }
+      .t-dot.g { background: #28C840; }
+      #terminal-prompt {
+        color: #FF671F; font-size: 22px; line-height: 1.7;
+      }
+      #terminal-cursor {
+        display: inline-block;
+        width: 2px; height: 22px;
+        background: #FF671F;
+        vertical-align: middle;
+        opacity: 1;
+      }
+
+      /* Main hook text */
+      #bip-headline {
+        position: absolute;
+        bottom: 460px;
+        left: 50%; transform: translateX(-50%);
+        text-align: center;
+        width: 900px;
+        opacity: 0;
+      }
+      #bip-watch {
+        color: rgba(255,255,255,0.6);
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+      }
+      #bip-main {
+        color: #FFFFFF;
+        font-size: 70px;
+        font-weight: 900;
+        line-height: 1.05;
+        text-transform: uppercase;
+        margin-top: 8px;
+      }
+      #bip-main .accent { color: #FF671F; }
+      #bip-time {
+        color: rgba(255,103,31,0.8);
+        font-size: 28px;
+        font-weight: 600;
+        margin-top: 12px;
+        font-family: 'JetBrains Mono', monospace;
+      }
+
+      /* NWM Logo */
+      .nwm-logo {
+        position: absolute; top: 64px; right: 54px; z-index: 10;
+        display: flex; font-weight: 800; font-size: 30px;
+        line-height: 1; border-radius: 6px; overflow: hidden;
+      }
+      .nwm-logo .n { color: #010F3B; background: #FF671F; padding: 6px 10px; }
+      .nwm-logo .w { color: #FF671F; background: #010F3B; padding: 6px 10px; }
+      .nwm-logo .m { color: #fff;    background: #010F3B; padding: 6px 10px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="hook-build-in-public"
+         data-start="0" data-duration="5"
+         data-width="1080" data-height="1920">
+
+      <div class="nwm-logo clip" data-start="0" data-duration="5" data-track-index="10">
+        <span class="n">net</span><span class="w">web</span><span class="m">media</span>
+      </div>
+
+      <div id="terminal" class="clip" data-start="0" data-duration="5" data-track-index="2">
+        <div id="terminal-bar">
+          <div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div>
+        </div>
+        <div id="terminal-prompt">
+          &gt; <span style="color:#28C840">claude</span> <span style="color:#FEBC2E">build-ai-sdr</span><br>
+          &gt; <span style="color:rgba(255,255,255,0.5)">loading ICP data...</span> <span style="color:#28C840">✓</span><br>
+          &gt; <span style="color:rgba(255,255,255,0.5)">enriching 500 leads...</span> <span style="color:#28C840">✓</span><br>
+          &gt; <span style="color:rgba(255,255,255,0.5)">personalizing emails...</span> <span id="terminal-cursor"></span>
+        </div>
+      </div>
+
+      <div id="bip-headline" class="clip" data-start="0" data-duration="5" data-track-index="3">
+        <div id="bip-watch">Watch me build</div>
+        <div id="bip-main">
+          A <span class="accent">$70K/yr</span><br>SDR REPLACEMENT
+        </div>
+        <div id="bip-time">⏱ 9 minutes · live</div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.to("#terminal",      { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 0.2)
+        .to("#bip-headline",  { opacity: 1, duration: 0.6, ease: "power2.out" }, 0.9)
+        .to("#terminal-cursor", { opacity: 0, duration: 0.5, repeat: 6, yoyo: true, ease: "none" }, 1.5);
+      window.__timelines["hook-build-in-public"] = tl;
+    </script>
+  </body>
+</html>

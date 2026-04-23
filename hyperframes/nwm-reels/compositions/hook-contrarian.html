@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #010F3B; font-family: 'Poppins', sans-serif; }
+      .clip { position: absolute; top: 0; left: 0; }
+
+      /* Diagonal split background */
+      #bg-split {
+        width: 1080px; height: 1920px;
+        background: linear-gradient(145deg, #010F3B 55%, #FF671F 55%);
+        opacity: 0;
+      }
+      /* DEAD stamp */
+      #stamp {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%) rotate(-12deg);
+        border: 12px solid #FF671F;
+        color: #FF671F;
+        font-size: 120px;
+        font-weight: 900;
+        letter-spacing: 8px;
+        padding: 10px 30px;
+        opacity: 0;
+        white-space: nowrap;
+        z-index: 5;
+      }
+      /* Main text block */
+      #ct-block {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 900px;
+        z-index: 3;
+      }
+      #ct-dead {
+        color: #FF671F;
+        font-size: 130px;
+        font-weight: 900;
+        line-height: 1;
+        opacity: 0;
+        text-transform: uppercase;
+      }
+      #ct-subject {
+        color: #FFFFFF;
+        font-size: 64px;
+        font-weight: 900;
+        line-height: 1.1;
+        opacity: 0;
+        text-transform: uppercase;
+        margin-top: 10px;
+      }
+      #ct-bar {
+        width: 0; height: 5px;
+        background: #FF671F;
+        border-radius: 3px;
+        margin: 36px auto;
+        opacity: 0;
+      }
+      #ct-pivot {
+        color: rgba(255,255,255,0.7);
+        font-size: 28px;
+        font-weight: 500;
+        opacity: 0;
+        line-height: 1.4;
+      }
+      /* NWM Logo */
+      .nwm-logo {
+        position: absolute; top: 64px; right: 54px; z-index: 10;
+        display: flex; font-weight: 800; font-size: 30px;
+        line-height: 1; border-radius: 6px; overflow: hidden;
+      }
+      .nwm-logo .n { color: #010F3B; background: #FF671F; padding: 6px 10px; }
+      .nwm-logo .w { color: #FF671F; background: #010F3B; padding: 6px 10px; }
+      .nwm-logo .m { color: #fff;    background: #010F3B; padding: 6px 10px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="hook-contrarian"
+         data-start="0" data-duration="5"
+         data-width="1080" data-height="1920">
+
+      <div id="bg-split" class="clip" data-start="0" data-duration="5" data-track-index="0"></div>
+
+      <div class="nwm-logo clip" data-start="0" data-duration="5" data-track-index="10">
+        <span class="n">net</span><span class="w">web</span><span class="m">media</span>
+      </div>
+
+      <div id="stamp" class="clip" data-start="0" data-duration="5" data-track-index="5">DEAD.</div>
+
+      <div id="ct-block" class="clip" data-start="0" data-duration="5" data-track-index="4">
+        <div id="ct-dead">SEO</div>
+        <div id="ct-subject">IS DEAD.</div>
+        <div id="ct-bar"></div>
+        <div id="ct-pivot">Here's what replaced it.</div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.to("#bg-split",   { opacity: 1, duration: 0.4 }, 0)
+        .to("#ct-dead",    { opacity: 1, duration: 0.4, ease: "power3.out" }, 0.3)
+        .to("#ct-subject", { opacity: 1, duration: 0.4 }, 0.6)
+        .to("#stamp",      { opacity: 1, duration: 0.3, scale: 1.08, ease: "power2.out" }, 0.9)
+        .to("#stamp",      { scale: 1, duration: 0.2 }, 1.2)
+        .to("#ct-bar",     { opacity: 1, width: 90, duration: 0.4 }, 1.4)
+        .to("#ct-pivot",   { opacity: 1, duration: 0.5 }, 1.7);
+      window.__timelines["hook-contrarian"] = tl;
+    </script>
+  </body>
+</html>

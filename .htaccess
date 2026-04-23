@@ -41,6 +41,125 @@
   # but bot + paid ads link to them directly — must be reachable).
 </IfModule>
 
+# ── Industry subdomain routing ─────────────────────────────────────────
+# Maps 39 industry subdomains to their folders under /industries/.
+# Requires ONE cPanel action: create a wildcard subdomain *.netwebmedia.com
+# pointing at public_html (the same doc root as netwebmedia.com). All 39
+# subdomains below then resolve via these internal rewrites — no per-
+# subdomain cPanel entry needed.
+#
+# NOTE: these are INTERNAL rewrites (no [R] flag), so the browser URL
+# stays pretty (e.g. hotels.netwebmedia.com/audit/) while Apache serves
+# /industries/hospitality/hotels/audit/index.html under the hood.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Skip rewrite if already inside /industries/ to prevent loops
+  RewriteCond %{REQUEST_URI} ^/industries/ [OR]
+  RewriteCond %{REQUEST_URI} ^/audit-submit\.php$
+  RewriteRule .* - [L]
+
+  # ── Parent industry subdomains (10) ──
+  RewriteCond %{HTTP_HOST} ^hospitality\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/hospitality/$1 [L]
+  RewriteCond %{HTTP_HOST} ^healthcare\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/healthcare/$1 [L]
+  RewriteCond %{HTTP_HOST} ^beauty\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/beauty/$1 [L]
+  RewriteCond %{HTTP_HOST} ^pro\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/professional-services/$1 [L]
+  RewriteCond %{HTTP_HOST} ^realestate\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/real-estate/$1 [L]
+  RewriteCond %{HTTP_HOST} ^restaurants\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/restaurants/$1 [L]
+  RewriteCond %{HTTP_HOST} ^fitness\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/fitness/$1 [L]
+  RewriteCond %{HTTP_HOST} ^ecommerce\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/ecommerce/$1 [L]
+  RewriteCond %{HTTP_HOST} ^home\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/home-services/$1 [L]
+  RewriteCond %{HTTP_HOST} ^tech\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/tech-saas/$1 [L]
+
+  # ── Hospitality subcategories (3) ──
+  RewriteCond %{HTTP_HOST} ^hotels\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/hospitality/hotels/$1 [L]
+  RewriteCond %{HTTP_HOST} ^boutique\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/hospitality/boutique/$1 [L]
+  RewriteCond %{HTTP_HOST} ^resorts\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/hospitality/resorts/$1 [L]
+
+  # ── Healthcare subcategories (3) ──
+  RewriteCond %{HTTP_HOST} ^dental\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/healthcare/dental/$1 [L]
+  RewriteCond %{HTTP_HOST} ^vet\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/healthcare/vet/$1 [L]
+  RewriteCond %{HTTP_HOST} ^aesthetics\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/healthcare/aesthetics/$1 [L]
+
+  # ── Beauty & Wellness subcategories (3) ──
+  RewriteCond %{HTTP_HOST} ^salons\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/beauty/salons/$1 [L]
+  RewriteCond %{HTTP_HOST} ^spas\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/beauty/spas/$1 [L]
+  RewriteCond %{HTTP_HOST} ^barbershops\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/beauty/barbershops/$1 [L]
+
+  # ── Professional Services subcategories (3) ──
+  RewriteCond %{HTTP_HOST} ^legal\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/professional-services/legal/$1 [L]
+  RewriteCond %{HTTP_HOST} ^accounting\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/professional-services/accounting/$1 [L]
+  RewriteCond %{HTTP_HOST} ^consulting\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/professional-services/consulting/$1 [L]
+
+  # ── Real Estate subcategories (3) ──
+  RewriteCond %{HTTP_HOST} ^agents\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/real-estate/agents/$1 [L]
+  RewriteCond %{HTTP_HOST} ^brokerages\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/real-estate/brokerages/$1 [L]
+  RewriteCond %{HTTP_HOST} ^propertymanagement\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/real-estate/property-management/$1 [L]
+
+  # ── Restaurants & F&B subcategories (2) ──
+  RewriteCond %{HTTP_HOST} ^bars\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/restaurants/bars/$1 [L]
+  RewriteCond %{HTTP_HOST} ^catering\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/restaurants/catering/$1 [L]
+
+  # ── Fitness & Gyms subcategories (3) ──
+  RewriteCond %{HTTP_HOST} ^gyms\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/fitness/gyms/$1 [L]
+  RewriteCond %{HTTP_HOST} ^studios\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/fitness/studios/$1 [L]
+  RewriteCond %{HTTP_HOST} ^personaltraining\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/fitness/personal-training/$1 [L]
+
+  # ── E-commerce subcategories (3) ──
+  RewriteCond %{HTTP_HOST} ^shopify\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/ecommerce/shopify/$1 [L]
+  RewriteCond %{HTTP_HOST} ^dtc\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/ecommerce/dtc/$1 [L]
+  RewriteCond %{HTTP_HOST} ^marketplace\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/ecommerce/marketplace/$1 [L]
+
+  # ── Home Services subcategories (3) ──
+  RewriteCond %{HTTP_HOST} ^contractors\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/home-services/contractors/$1 [L]
+  RewriteCond %{HTTP_HOST} ^plumbers\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/home-services/plumbers/$1 [L]
+  RewriteCond %{HTTP_HOST} ^landscaping\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/home-services/landscaping/$1 [L]
+
+  # ── Tech & SaaS subcategories (3) ──
+  RewriteCond %{HTTP_HOST} ^saas\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/tech-saas/saas/$1 [L]
+  RewriteCond %{HTTP_HOST} ^startups\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/tech-saas/startups/$1 [L]
+  RewriteCond %{HTTP_HOST} ^agencies\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/tech-saas/agencies/$1 [L]
+</IfModule>
+
 # ── URL redirects (301) ────────────────────────────────────────────────
 # Clean URLs → canonical .html destinations.
 # /qna.html was an old nav link; Q&A now lives at /faq.html.

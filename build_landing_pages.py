@@ -496,9 +496,10 @@ def build_lp(v):
     <aside class="lp-form-card" id="audit-form">
       <h2 data-en="Book your free audit" data-es="Reserva tu auditoría gratis">Book your free audit</h2>
       <p data-en="No commitment. No pitch. Just a clear action plan." data-es="Sin compromiso. Sin pitch. Solo un plan de acción claro.">No commitment. No pitch. Just a clear action plan.</p>
-      <form class="lp-form" action="https://formspree.io/f/contact" method="POST">
-        <input type="hidden" name="_subject" value="Free audit request — {v['slug']}.netwebmedia.com">
+      <form class="lp-form" action="https://netwebmedia.com/audit-submit.php" method="POST">
         <input type="hidden" name="source" value="{v['slug']}-audit-lp">
+        <!-- honeypot: real users never fill this; bots usually do -->
+        <input type="text" name="website_url" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;height:0;width:0;opacity:0" aria-hidden="true">
         <input type="text" name="name" required data-en-placeholder="Full name" data-es-placeholder="Nombre completo" placeholder="Full name">
         <input type="email" name="email" required data-en-placeholder="Work email" data-es-placeholder="Email de trabajo" placeholder="Work email">
         <input type="tel" name="phone" data-en-placeholder="Phone (optional)" data-es-placeholder="Teléfono (opcional)" placeholder="Phone (optional)">
@@ -591,11 +592,24 @@ def build_lp(v):
 </html>"""
 
 base = r'C:\Users\Usuario\Desktop\NetWebMedia'
+
+# Read the shared thanks-page template once
+thanks_template_path = os.path.join(base, "audit-thanks.html")
+with open(thanks_template_path, 'r', encoding='utf-8') as f:
+    THANKS_HTML = f.read()
+
 for v in LP:
+    # Landing page
     path = os.path.join(base, v["folder"], "audit", "index.html")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'w', encoding='utf-8') as f:
         f.write(build_lp(v))
-    print(f"built: {v['folder']}/audit/index.html  ->  https://{v['slug']}.netwebmedia.com/audit/")
 
-print(f"\nDone — {len(LP)} landing pages built.")
+    # Per-subdomain thank-you page (identical content — shared fallback if PHP redirect lands here)
+    thanks_path = os.path.join(base, v["folder"], "audit", "thanks.html")
+    with open(thanks_path, 'w', encoding='utf-8') as f:
+        f.write(THANKS_HTML)
+
+    print(f"built: {v['folder']}/audit/  ->  https://{v['slug']}.netwebmedia.com/audit/")
+
+print(f"\nDone — {len(LP)} landing pages + {len(LP)} thank-you pages built.")

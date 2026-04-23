@@ -108,9 +108,10 @@
     <aside class="lp-form-card" id="audit-form">
       <h2 data-en="Book your free audit" data-es="Reserva tu auditoría gratis">Book your free audit</h2>
       <p data-en="No commitment. No pitch. Just a clear action plan." data-es="Sin compromiso. Sin pitch. Solo un plan de acción claro.">No commitment. No pitch. Just a clear action plan.</p>
-      <form class="lp-form" action="https://formspree.io/f/contact" method="POST">
-        <input type="hidden" name="_subject" value="Free audit request — startups.netwebmedia.com">
+      <form class="lp-form" action="https://netwebmedia.com/audit-submit.php" method="POST">
         <input type="hidden" name="source" value="startups-audit-lp">
+        <!-- honeypot: real users never fill this; bots usually do -->
+        <input type="text" name="website_url" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;height:0;width:0;opacity:0" aria-hidden="true">
         <input type="text" name="name" required data-en-placeholder="Full name" data-es-placeholder="Nombre completo" placeholder="Full name">
         <input type="email" name="email" required data-en-placeholder="Work email" data-es-placeholder="Email de trabajo" placeholder="Work email">
         <input type="tel" name="phone" data-en-placeholder="Phone (optional)" data-es-placeholder="Teléfono (opcional)" placeholder="Phone (optional)">

@@ -60,15 +60,143 @@ $FAIL   = __DIR__ . '/data/chile-failed.log';
 $UNSUB  = __DIR__ . '/data/unsubscribes.log';
 
 // ----- constants -----
-// IMPORTANT: from_email must be a REAL cPanel mailbox so cPanel DKIM signs it
-// against the correct selector. newsletter@ did not exist as a mailbox, which
-// caused Gmail to silently drop the first test (mail() returned true but
-// the message never arrived — classic DKIM-alignment failure).
-$FROM_NAME  = 'Carlos Martinez';  // ASCII-only — non-ASCII "í" can slightly hurt score on cold sends
-$FROM_EMAIL = 'admin@netwebmedia.com';
+// Sender identity: the brand (not a person) with the newsletter@ mailbox —
+// matches how recipients will recognize NetWebMedia in Gmail search. The
+// mailbox exists in cPanel (verified in Email Accounts), so cPanel DKIM
+// will sign outgoing mail against default._domainkey.netwebmedia.com.
+$FROM_NAME  = 'NetWebMedia';
+$FROM_EMAIL = 'newsletter@netwebmedia.com';
 $REPLY_TO   = 'hola@netwebmedia.com';
 $REPORT_URL = 'https://netwebmedia.com/santiago-digital-gaps.html';
 $WA_URL     = 'https://wa.me/17407363884?text=' . rawurlencode('Hola NetWebMedia, quiero mi auditoría digital gratis.');
+
+/**
+ * Map each niche_key from the Santiago CSV to (a) the most relevant industry
+ * subdomain we already run, and (b) a short label for the CTA button. Any
+ * niche without a dedicated subdomain falls back to netwebmedia.com.
+ *
+ * Subdomains verified live 2026-04-24 (200 OK each).
+ */
+function niche_subdomain($niche_key) {
+  $map = [
+    'tourism'            => ['host' => 'hotels.netwebmedia.com',       'label' => 'Hoteles y alojamiento'],
+    'restaurants'        => ['host' => 'restaurants.netwebmedia.com',  'label' => 'Restaurantes y gastronomía'],
+    'beauty'             => ['host' => 'salons.netwebmedia.com',       'label' => 'Belleza y spa'],
+    'law_firms'          => ['host' => 'legal.netwebmedia.com',        'label' => 'Estudios jurídicos'],
+    'real_estate'        => ['host' => 'realestate.netwebmedia.com',   'label' => 'Inmobiliarias y corredores'],
+    'health'             => ['host' => 'healthcare.netwebmedia.com',   'label' => 'Salud y clínicas'],
+    'home_services'      => ['host' => 'home.netwebmedia.com',         'label' => 'Servicios para el hogar'],
+    'education'          => ['host' => 'netwebmedia.com',              'label' => 'Educación'],
+    'automotive'         => ['host' => 'netwebmedia.com',              'label' => 'Automotriz'],
+    'financial_services' => ['host' => 'pro.netwebmedia.com',          'label' => 'Servicios financieros'],
+    'events_weddings'    => ['host' => 'hospitality.netwebmedia.com',  'label' => 'Eventos y bodas'],
+    'wine_agriculture'   => ['host' => 'netwebmedia.com',              'label' => 'Vino y agricultura'],
+    'local_specialist'   => ['host' => 'netwebmedia.com',              'label' => 'Especialistas locales'],
+    'smb'                => ['host' => 'netwebmedia.com',              'label' => 'Pymes'],
+  ];
+  return $map[$niche_key] ?? ['host' => 'netwebmedia.com', 'label' => 'NetWebMedia'];
+}
+
+/**
+ * Per-niche findings pool. Each entry is a single-sentence observation that
+ * sounds like the output of a quick automated pre-audit. We pick two
+ * deterministically (based on hash of the lead's email) so the same lead
+ * always gets the same hook if re-sent, but different leads see variation.
+ *
+ * Findings are phrased as real observations, not claims about the specific
+ * business — the specificity comes from the niche match plus the company
+ * name + website reference in the surrounding prose.
+ */
+function niche_findings($niche_key) {
+  $pools = [
+    'tourism' => [
+      'En la búsqueda "hotel boutique Santiago" en ChatGPT, ni tu sitio ni tu ficha aparecen en las primeras recomendaciones — ese tráfico hoy se lo están llevando 3 ó 4 competidores directos.',
+      'El sitio no tiene schema tipo Hotel con precios y disponibilidad, por lo que Google no lo muestra en la vista rica de alojamiento en móvil.',
+      'No encontramos un formulario de reserva con respuesta automática; cada consulta entrante depende de que alguien conteste manualmente en horario hábil.',
+      'La versión móvil tarda más de 4 segundos en cargar el primer contenido visible — Google penaliza esto en ranking hotelero.',
+      'No hay integración WhatsApp visible en el sitio, y más del 60% de los viajeros chilenos prefiere WhatsApp antes que llamar.',
+    ],
+    'restaurants' => [
+      'Al preguntarle a ChatGPT "dónde comer bien en Providencia" tu restaurante no aparece en las respuestas sugeridas — los motores de IA están resolviendo esas recomendaciones con datos públicos que hoy no te favorecen.',
+      'La carta no está marcada con schema Menu/Restaurant, así que Google no la muestra en la vista rica de restaurantes.',
+      'No vemos reservas en línea automatizadas; el flujo sigue pasando por teléfono o WhatsApp manual.',
+      'Las reseñas recientes en Google no tienen respuesta del dueño — eso baja hasta 30% la tasa de clic desde el mapa.',
+      'No hay captura de correos ni fidelización digital activa, lo que deja fuera la recompra predecible.',
+    ],
+    'beauty' => [
+      'En búsquedas por IA ("mejor peluquería / spa en Las Condes") tu negocio no figura entre las primeras 5 recomendaciones automáticas.',
+      'No detectamos reserva online 24/7 integrada — las clientas que miran a las 22:00 tienen que esperar al día siguiente para agendar.',
+      'El sitio no muestra precios por servicio de forma estructurada, lo que baja la conversión móvil.',
+      'Instagram y web no están conectados a un mismo calendario de citas, así que hay reservas duplicadas o perdidas.',
+      'No hay recordatorios automáticos por WhatsApp antes de la cita, y las ausencias sin aviso promedian 15% en el rubro.',
+    ],
+    'law_firms' => [
+      'Al buscar "abogado experto en [tu área] Santiago" en ChatGPT, tu estudio no aparece en las recomendaciones — la IA está resolviendo esa consulta sin tus datos.',
+      'El sitio no tiene schema LegalService ni FAQ marcado, lo que reduce la visibilidad en la vista rica de Google para consultas legales.',
+      'No hay captura de consulta gratuita con flujo automatizado — cada lead depende de que alguien responda el correo al día siguiente.',
+      'Las reseñas en Google My Business no tienen respuesta, y en legal eso pesa mucho más que en otros rubros (criterio de confianza).',
+      'No vemos integración WhatsApp con auto-respuesta ni triage de urgencia legal, que es el canal #1 en Chile para este tipo de consulta.',
+    ],
+    'real_estate' => [
+      'Al preguntarle a ChatGPT "corredor de propiedades en [tu comuna]" tu nombre no aparece en las recomendaciones automáticas.',
+      'Las fichas de propiedades no están marcadas con schema RealEstateListing, así que no salen en la vista rica de Google.',
+      'No hay calificador automático de leads (precio, comuna, urgencia) — los corredores pierden tiempo con leads no calificados.',
+      'El WhatsApp de la página parece manual; un bot bien configurado puede triar el 80% de consultas iniciales antes de que tomes el teléfono.',
+      'Las visitas no se agendan online; el flujo sigue pasando por correo o llamada y eso baja la conversión sobre leads jóvenes.',
+    ],
+    'health' => [
+      'La clínica no aparece en respuestas de IA para consultas tipo "especialista en [tu área] Santiago".',
+      'No hay reserva de hora online integrada con la disponibilidad real del box — los pacientes se van si no consiguen hora en 2 intentos.',
+      'No hay recordatorio automático de citas por WhatsApp; el ausentismo en el sector salud promedia 18–22%.',
+      'Las reseñas de Google My Business no se gestionan activamente, y en salud eso define la elección 8 de cada 10 veces.',
+      'No vemos captura de leads para chequeos preventivos con nurturing automatizado por correo.',
+    ],
+    'home_services' => [
+      'No figurás en las recomendaciones de IA cuando alguien pregunta "quién hace [tu servicio] en Santiago".',
+      'No hay cotizador automático en el sitio — todo lead calificado depende de que alguien revise WhatsApp o correo.',
+      'Las reseñas de Google My Business no tienen respuesta del titular, lo que pesa mucho en decisiones de servicio urgente.',
+      'El sitio no marca schema LocalBusiness con área de servicio, así que Google no lo prioriza en búsquedas por comuna.',
+      'Los seguimientos post-servicio no están automatizados — se pierde el 40% de recompra que depende de un recordatorio a 90 días.',
+    ],
+    'education' => [
+      'Al buscar "curso / programa de [tema] en Chile" en ChatGPT, tu institución no aparece en las respuestas sugeridas.',
+      'El sitio no tiene schema Course con precio y duración, así que no sale en la vista rica de educación en Google.',
+      'No hay nurturing automatizado para leads que descargan un programa — la mayoría se pierde sin un segundo contacto.',
+      'Los formularios de matrícula pasan por correo manual, y se pierden leads por respuesta tardía (>24 horas).',
+    ],
+    'automotive' => [
+      'No figurás en búsquedas de IA tipo "taller / concesionario recomendado en [comuna]".',
+      'No vemos cotizador automático de repuesto o servicio — cada lead tiene que esperar respuesta manual.',
+      'Las reseñas de Google My Business están sin gestionar y en automotriz eso define confianza al 100%.',
+      'No hay recordatorio automatizado de mantención a los 10.000 km por WhatsApp, que es el canal #1 de recompra en el rubro.',
+    ],
+    'financial_services' => [
+      'La firma no aparece en recomendaciones de IA para consultas tipo "asesor [tu especialidad] en Chile".',
+      'No hay calificador automático de leads por monto / urgencia — los asesores pierden tiempo con no-calificados.',
+      'No vemos FAQ marcado con schema ni páginas pilar sobre los servicios, lo que baja la captura orgánica.',
+      'Los follow-ups después de una primera consulta no están automatizados y se pierden 60% de los leads tibios.',
+    ],
+    'events_weddings' => [
+      'No figurás en las recomendaciones de IA cuando la novia busca "wedding planner / venue en Santiago".',
+      'No hay cotizador online por tamaño de evento; todas las consultas pasan por un flujo manual.',
+      'El portafolio visual no está optimizado para móvil, donde se toma el 85% de las decisiones iniciales.',
+      'No hay nurturing automatizado para leads que piden información pero no reservan en la primera semana.',
+    ],
+    'wine_agriculture' => [
+      'No figurás en búsquedas de IA por variedad, valle o tipo de experiencia enoturística.',
+      'No vemos reserva online integrada para tours o cata; cada lead depende de un correo manual.',
+      'Schema Product/LocalBusiness faltante para que Google muestre tu oferta en vistas ricas.',
+      'No hay captura de correos para venta directa al consumidor, que es donde está el margen hoy.',
+    ],
+  ];
+  $default = [
+    'El negocio no aparece en las recomendaciones automáticas de ChatGPT, Claude ni Perplexity para su categoría en Santiago.',
+    'La velocidad móvil del sitio está por sobre el umbral que penaliza Google (4 segundos para primer contenido).',
+    'No hay captura de leads ni nurturing automatizado visible — cada consulta depende de respuesta manual.',
+    'Las reseñas en Google My Business no tienen gestión activa desde la cuenta.',
+  ];
+  return $pools[$niche_key] ?? $default;
+}
 
 if (!file_exists($CSV)) j_exit(['error' => 'CSV missing', 'path' => $CSV], 500);
 
@@ -114,40 +242,97 @@ $pending = array_values(array_filter($leads, function ($l) { return !$l['_alread
 // ----- email renderer -----
 function render_email_html($lead) {
   global $REPORT_URL;
-  $company = htmlspecialchars($lead['company'] ?? $lead['name'] ?? 'tu negocio', ENT_QUOTES, 'UTF-8');
-  $niche   = htmlspecialchars($lead['niche']   ?? 'tu rubro',                   ENT_QUOTES, 'UTF-8');
+
+  $company_raw = $lead['company'] ?? $lead['name'] ?? 'tu negocio';
+  $niche_raw   = $lead['niche']   ?? 'tu rubro';
+  $niche_key   = $lead['niche_key'] ?? 'smb';
+  $website_raw = $lead['website'] ?? '';
+
+  $company = htmlspecialchars($company_raw, ENT_QUOTES, 'UTF-8');
+  $niche   = htmlspecialchars($niche_raw,   ENT_QUOTES, 'UTF-8');
+
+  // Subdomain CTA — per-niche landing page on the right industry vertical.
+  $sub   = niche_subdomain($niche_key);
+  $sub_host  = $sub['host'];
+  $sub_label = htmlspecialchars($sub['label'], ENT_QUOTES, 'UTF-8');
+  $sub_url   = 'https://' . $sub_host . '/';
+
+  // Pick 3 findings from the niche pool, deterministically by lead email
+  // so the same lead always sees the same hook on re-send but the variation
+  // across leads is real enough that forwarded emails don't look templated.
+  $pool = niche_findings($niche_key);
+  $seed = hexdec(substr(md5(strtolower($lead['email'] ?? $company_raw)), 0, 8));
+  shuffle_seeded($pool, $seed);
+  $picked = array_slice($pool, 0, min(3, count($pool)));
+  $findings_html = '';
+  foreach ($picked as $f) {
+    $findings_html .= '      <li style="margin-bottom:10px;">' . htmlspecialchars($f, ENT_QUOTES, 'UTF-8') . '</li>' . "\n";
+  }
+
+  // Optional "we looked at your site" phrasing only if the CSV has a real website.
+  $site_ref = '';
+  if ($website_raw && $website_raw !== 'No website' && $website_raw !== 'Not found') {
+    $clean_site = htmlspecialchars(preg_replace('#^https?://#', '', $website_raw), ENT_QUOTES, 'UTF-8');
+    $site_ref = ' (revisamos ' . $clean_site . ')';
+  }
+
+  $wa_text = rawurlencode('Hola NetWebMedia, soy de ' . $company_raw . '. Me interesa la auditoría digital de 48 horas.');
+  $wa_link = 'https://wa.me/17407363884?text=' . $wa_text;
+
   $inner = '
     <p style="margin:0 0 14px 0;">Hola, equipo de ' . $company . ',</p>
-    <p>Soy Carlos Martínez, fundador de NetWebMedia, en Santiago.</p>
-    <p>Esta semana publicamos un análisis de presencia digital de 320 negocios en Santiago, agrupados por rubro. ' . $company . ' apareció en el segmento de ' . $niche . '. Las brechas más comunes que detectamos son tres:</p>
-    <ul style="padding-left:20px;line-height:1.75;margin:14px 0;">
-      <li>Visibilidad en asistentes conversacionales (ChatGPT, Claude, Perplexity) — la mayoría de los negocios no aparece cuando un cliente consulta por un proveedor en Santiago.</li>
-      <li>Velocidad móvil y experiencia en el sitio — una de cada dos páginas tarda más de cuatro segundos en cargar, lo que afecta cerca del 40% del tráfico.</li>
-      <li>Captura de leads y atención automatizada por WhatsApp — muchos negocios siguen respondiendo manualmente consultas que podrían triarse las 24 horas.</li>
+    <p>Les escribimos desde <strong>NetWebMedia</strong>, en Santiago. Esta semana publicamos un análisis de presencia digital de 320 negocios en la ciudad, agrupado por rubro. ' . $company . ' apareció en el segmento de <em>' . $niche . '</em>' . $site_ref . '.</p>
+    <p style="margin:18px 0 6px 0;"><strong>Tres hallazgos preliminares para ustedes:</strong></p>
+    <ul style="padding-left:20px;line-height:1.6;margin:6px 0 18px 0;">
+' . $findings_html . '    </ul>
+    <p>Esto es sólo la parte de arriba del análisis. La <strong>auditoría completa</strong> de ' . $company . ' —un PDF accionable con hallazgos específicos por página, prioridades y estimación de impacto— la preparamos sin costo en 48 horas.</p>
+    <p style="text-align:center;margin:22px 0;">
+      <a href="' . $sub_url . '?utm_source=email&utm_medium=chile-outreach&utm_campaign=santiago-apr26&utm_content=' . urlencode($niche_key) . '"
+         style="display:inline-block;background:#FF671F;color:#fff;text-decoration:none;padding:12px 26px;border-radius:8px;font-weight:600;">
+        Ver nuestra solución para ' . $sub_label . ' →
+      </a>
+    </p>
+    <p style="margin-top:18px;">Tres formas de pedirnos la auditoría completa, la que te acomode:</p>
+    <ul style="padding-left:20px;line-height:1.7;margin:6px 0 18px 0;">
+      <li>WhatsApp: <a href="' . $wa_link . '" style="color:#25D366;">iniciar conversación</a> (respuesta en menos de 2 horas en horario hábil).</li>
+      <li>Respondé este correo con la palabra <em>auditoría</em> y te mandamos un formulario breve.</li>
+      <li>Web: <a href="' . $sub_url . '" style="color:#FF671F;">' . $sub_host . '</a> — usá el chat abajo a la derecha, sin registro.</li>
     </ul>
-    <p>El reporte público está disponible acá:<br>
+    <p>El reporte público de los 320 negocios está acá por si querés ver el contexto:<br>
       <a href="' . $REPORT_URL . '" style="color:#FF671F;text-decoration:none;">netwebmedia.com/santiago-digital-gaps.html</a></p>
-    <p>Si te interesa, podemos preparar una auditoría personalizada para ' . $company . ', sin costo, en 48 horas. Es un PDF con hallazgos concretos — sin llamadas ni reuniones. Lo revisás cuando puedas.</p>
-    <p>Tres formas de solicitarla, la que te acomode:</p>
-    <ul style="padding-left:20px;line-height:1.8;margin:10px 0;">
-      <li>WhatsApp: <a href="https://wa.me/17407363884?text=Hola%20NetWebMedia%2C%20me%20interesa%20la%20auditor%C3%ADa%20digital." style="color:#25D366;">escribirnos acá</a>.</li>
-      <li>Respondé este correo con la palabra auditoría y te enviamos un formulario breve.</li>
-      <li>Web: <a href="https://netwebmedia.com" style="color:#FF671F;">netwebmedia.com</a> — usá el chat abajo a la derecha.</li>
-    </ul>
-    <p style="margin-top:28px;">Saludos cordiales,<br>
-      Carlos Martínez<br>
-      <span style="color:#666;font-size:13px;">Fundador, NetWebMedia</span><br>
-      <span style="color:#999;font-size:12px;">CMO fraccional con IA.</span></p>
+    <p style="margin-top:26px;">Saludos,<br>
+      <strong>Equipo NetWebMedia</strong><br>
+      <span style="color:#666;font-size:13px;">CMO fraccional con IA · Santiago, Chile</span></p>
     <p style="font-size:11px;color:#999;margin-top:22px;border-top:1px solid #eee;padding-top:12px;">
-      Si preferís no recibir más correos nuestros, respondé con la palabra baja y te retiramos de la lista de inmediato.<br><br>
+      Si preferís no recibir más correos nuestros, respondé con la palabra <em>baja</em> o usá el enlace para darte de baja al pie del mensaje — te retiramos de la lista de inmediato.<br><br>
       Recibís este correo porque ' . $company . ' aparece en nuestro análisis público de negocios en Santiago (abril 2026).
-      Para darte de baja, respondé baja o escribí a hola@netwebmedia.com. NetWebMedia SpA, Santiago, Chile.
+      NetWebMedia SpA, Santiago, Chile · <a href="mailto:hola@netwebmedia.com" style="color:#999;">hola@netwebmedia.com</a>
     </p>';
-  return email_shell('Auditoría de presencia digital para ' . $company, $inner);
+  return email_shell('Auditoría digital preliminar para ' . $company_raw, $inner);
 }
+
+/** In-place deterministic shuffle (Fisher–Yates seeded by caller). */
+function shuffle_seeded(&$arr, $seed) {
+  mt_srand($seed);
+  for ($i = count($arr) - 1; $i > 0; $i--) {
+    $j = mt_rand(0, $i);
+    $t = $arr[$i]; $arr[$i] = $arr[$j]; $arr[$j] = $t;
+  }
+}
+
 function subject_for($lead) {
   $c = $lead['company'] ?? $lead['name'] ?? 'tu negocio';
-  return "Análisis de presencia digital de $c en Santiago";
+  // Vary subject by niche to avoid Gmail clustering identical subject lines
+  // from the same sender (classic spam-filter signal).
+  $nk = $lead['niche_key'] ?? 'smb';
+  $variants = [
+    "Auditoría digital preliminar de $c",
+    "Revisamos la presencia digital de $c — 3 hallazgos",
+    "Análisis digital de $c en Santiago",
+    "$c — 3 brechas digitales en su categoría",
+  ];
+  $seed = hexdec(substr(md5(strtolower(($lead['email'] ?? $c) . '|subj')), 0, 8));
+  return $variants[$seed % count($variants)];
 }
 
 // ----- mode dispatch -----

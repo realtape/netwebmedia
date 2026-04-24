@@ -20,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Parse route from query string (mod_security safe)
 $resource = $_GET['r'] ?? '';
-$id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+$id  = isset($_GET['id']) ? (int)$_GET['id'] : null;
+$sub = $_GET['sub'] ?? '';
 $method = $_SERVER['REQUEST_METHOD'];
 
 // Route to handler
@@ -47,6 +48,7 @@ $handlers = [
     'dedupe'        => __DIR__ . '/handlers/dedupe.php',
     'seed_templates'=> __DIR__ . '/handlers/seed_templates.php',
     'email_status'  => __DIR__ . '/handlers/email_status.php',
+    'social'        => __DIR__ . '/handlers/social.php',
 ];
 
 if (!isset($handlers[$resource])) {

@@ -31,6 +31,11 @@
        with the numeric app-id once App Store Connect issues it. -->
   <!-- <meta name="apple-itunes-app" content="app-id=REPLACE_AFTER_APP_STORE_SUBMIT, app-argument=https://netwebmedia.com/app.html"> -->
 
+  <!-- Sentry (browser). Paste DSN into window.NWM_SENTRY_DSN once signed up.
+       No-ops while the DSN is empty. See docs/STACK_ADDITIONS_SETUP.md. -->
+  <script>window.NWM_SENTRY_DSN = ''; window.NWM_RELEASE = 'nwm@1.0.0';</script>
+  <script src="/js/nwm-sentry.js" defer></script>
+
   <!-- Google Analytics 4 (replace G-XXXXXXXXXX with your real GA4 Measurement ID) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
   <script>
@@ -392,7 +397,7 @@
           </div>
           <div style="display:flex;align-items:center;gap:8px;">
             <span style="color:var(--accent-orange);font-weight:700;">★</span>
-            <span>Cited by <strong style="color:var(--text-primary);">Claude, ChatGPT &amp; Perplexity</strong></span>
+            <span>Cited by <strong style="color:var(--text-primary);">Claude, ChatGPT, Gemini &amp; Perplexity</strong></span>
           </div>
           <div style="display:flex;align-items:center;gap:8px;">
             <span style="color:var(--accent-orange);font-weight:700;">✓</span>

@@ -596,7 +596,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('nwm-chat-script')) return;
     const s = document.createElement('script');
     s.id = 'nwm-chat-script';
-    s.src = '/js/nwm-chat.js?v=2';
+    s.src = '/js/nwm-chat.js?v=3';
     s.async = true;
     s.defer = true;
     document.head.appendChild(s);

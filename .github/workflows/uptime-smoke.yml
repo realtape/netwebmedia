@@ -24,10 +24,10 @@ jobs:
             "https://netwebmedia.com/"
             "https://netwebmedia.com/pricing.html"
             "https://netwebmedia.com/contact.html"
-            "https://netwebmedia.com/api-php/routes/health.php"
+            "https://netwebmedia.com/api/health"
           )
           for u in "${URLS[@]}"; do
-            code=$(curl -s -o /dev/null -w "%{http_code}" -L --max-time 20 "$u" || echo "000")
+            code=$(curl -s -o /dev/null -w "%{http_code}" -L --max-time 20 -A "Mozilla/5.0 (compatible; NWM-uptime-smoke/1.0)" "$u" || echo "000")
             echo "$u -> $code"
             if [ "$code" != "200" ]; then
               FAILED="$FAILED\n- $u ($code)"

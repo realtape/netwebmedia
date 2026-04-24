@@ -26,6 +26,15 @@ $uri = trim($uri, '/');
 $parts = $uri === '' ? [] : explode('/', $uri);
 $method = $_SERVER['REQUEST_METHOD'];
 
+// Health check
+if ($parts[0] === 'health') {
+  header('Content-Type: application/json; charset=utf-8');
+  header('Cache-Control: no-store, max-age=0');
+  http_response_code(200);
+  echo json_encode(['ok' => true, 'time' => time(), 'service' => 'netwebmedia']);
+  exit;
+}
+
 // Root: API info
 if (empty($parts)) {
   json_out([

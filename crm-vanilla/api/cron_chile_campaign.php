@@ -139,7 +139,7 @@ foreach ($contacts as $c) {
             'to'         => $c['email'],
             'subject'    => $mergedSub,
             'html'       => $mergedHtml,
-            'from_name'  => $camp['from_name']  ?: 'Carlos Martinez | NetWebMedia',
+            'from_name'  => $camp['from_name']  ?: 'Netwebmedia',
             'from_email' => $camp['from_email'] ?: 'newsletter@netwebmedia.com',
             'reply_to'   => 'hola@netwebmedia.com',
         ]);

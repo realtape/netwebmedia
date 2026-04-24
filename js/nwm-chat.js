@@ -54,24 +54,24 @@
       tooltip: '👋 Need help? Chat with us',
       botName: 'NWM Assistant',
       botTagline: 'AI-powered · Replies instantly',
-      greeting: "👋 Hi there! I'm NWM — your AI marketing guide. I can help you explore services, get a quote, or request a free audit in 30 seconds.",
-      greeting2: 'What brings you here today?',
+      greeting: "👋 Hi! I'm NWM — your AI marketing guide. Our star products are the **Fractional CMO packages**: strategy + software + full execution starting at $249/mo. I can help you find the right tier, get a quote, or run a free audit.",
+      greeting2: 'What would you like to do?',
       thinking: 'typing…',
       youLabel: 'You',
       inputPlaceholder: 'Type a message…',
       inputSend: 'Send',
       footerPoweredBy: 'Powered by NetWebMedia AI',
       menuIntents: [
-        { id: 'services', label: '🚀 What do you offer?' },
-        { id: 'pricing',  label: '💰 How much does it cost?' },
+        { id: 'pricing',  label: '⭐ CMO packages & pricing' },
         { id: 'audit',    label: '🎯 Get a free audit' },
-        { id: 'partner',  label: '💼 I\'m an agency (white-label)' },
+        { id: 'services', label: '🚀 What do you offer?' },
         { id: 'industry', label: '🏢 Help for my industry' },
+        { id: 'partner',  label: '💼 I\'m an agency (white-label)' },
         { id: 'human',    label: '💬 Talk to a human' }
       ],
       intents: {
         services: {
-          reply: "We're a full-stack AI marketing agency — built for the AEO era.\n\n• **Answer Engine Optimization (AEO)** — Get cited by ChatGPT, Perplexity & Google AI Overviews where buyers already search\n• **NWM CRM** — AI CRM with pipelines, email, SMS, AI SDR on WhatsApp\n• **NWM CMS** — Bilingual websites in under 60s\n• **Email Marketing** — AI-written campaigns, full automation\n• **Video Factory** — AI-produced Reels/TikToks (12 assets/mo on Scale)\n• **AI Fractional CMO** — 24/7 strategy agent + human accountability\n\nOne retainer replaces 4–6 vendors. Which one interests you most?",
+          reply: "We're a full-stack AI marketing agency — built for the AEO era.\n\n• **Answer Engine Optimization (AEO)** — Get cited by ChatGPT, Perplexity & Google AI Overviews where buyers already search\n• **NWM CRM** — AI CRM with pipelines, email, SMS, AI SDR on WhatsApp\n• **NWM CMS** — Bilingual websites in under 60s\n• **Email Marketing** — AI-written campaigns, full automation\n• **Video Factory** — AI-produced Reels/TikToks (16 Reels/mo on Scale)\n• **AI Fractional CMO** — 24/7 strategy agent + human accountability\n\nOne retainer replaces 4–6 vendors. Which one interests you most?",
           replies: [
             { id: 'services-aeo',    label: '🔍 AEO',     href: '/aeo-agency.html' },
             { id: 'services-crm',    label: '📊 CRM',     href: '/nwm-crm.html' },
@@ -83,7 +83,7 @@
           ]
         },
         pricing: {
-          reply: "**Fractional CMO Retainers** (strategy + software + execution):\n\n🚀 **CMO Lite** — $249/mo · no setup · NWM CRM included\n📈 **CMO Growth** — $999/mo + $499 setup · ads at cost + 12% (most popular)\n⭐ **CMO Scale** — $2,499/mo + $999 setup · AI SDR, Video Factory, weekly calls\n\n**Platform only (DIY):**\n• CRM Starter — $49/mo · 1k contacts, core CRM\n• CRM Pro — $249/mo · 10k contacts, automation + SMS/WhatsApp\n• Agency White-label — $449/mo · unlimited sub-accounts\n\n90-day minimum, month-to-month after. Pay annually and save **15%**. Upgrade from Lite within 90 days and we credit $249 toward your new tier.\n\nSee full details or get a custom quote?",
+          reply: "**Fractional CMO Packages** ⭐ (our star products):\n\n🚀 **CMO Lite — $249/mo** · no setup\n AEO + SEO + content calendar, NWM CRM included, monthly strategy note\n\n📈 **CMO Growth — $999/mo** + $499 setup *(most popular)*\n Everything in Lite + Google/Meta ads, social content, email automation, AI SDR + lead qualification\n Ad spend billed at cost + 12% (min $300/mo)\n\n⭐ **CMO Scale — $2,499/mo** + $999 setup\n Everything in Growth + Video Factory (16 Reels/mo), custom AI agents + voice AI, dedicated strategist, daily Slack access\n\nPay annually and save **15%** · Lite $2,540/yr · Growth $10,190/yr · Scale $25,490/yr\n90-day minimum, then month-to-month.\n\n**Platform only (DIY):** CRM Starter $49 · Pro $249 · Agency $449/mo\n\nWhich tier fits your budget?",
           replies: [
             { id: 'pricing-page',   label: '💳 See full pricing',   href: '/pricing.html' },
             { id: 'pricing-quote',  label: '📝 Get custom quote',   action: 'audit' },
@@ -298,24 +298,24 @@
       tooltip: '👋 ¿Necesitas ayuda? Habla con nosotros',
       botName: 'Asistente NWM',
       botTagline: 'Con IA · Responde al instante',
-      greeting: "👋 ¡Hola! Soy NWM, tu guía de marketing con IA. Puedo ayudarte a explorar servicios, cotizar o solicitar una auditoría gratis en 30 segundos.",
-      greeting2: '¿Qué te trae por aquí hoy?',
+      greeting: "👋 ¡Hola! Soy NWM, tu guía de marketing con IA. Nuestros productos estrella son los **paquetes Fractional CMO**: estrategia + software + ejecución completa desde $249/mes. Puedo ayudarte a elegir el plan correcto, cotizar o solicitar una auditoría gratis.",
+      greeting2: '¿Qué te gustaría hacer?',
       thinking: 'escribiendo…',
       youLabel: 'Tú',
       inputPlaceholder: 'Escribe un mensaje…',
       inputSend: 'Enviar',
       footerPoweredBy: 'Con tecnología de NetWebMedia AI',
       menuIntents: [
-        { id: 'services', label: '🚀 ¿Qué ofrecen?' },
-        { id: 'pricing',  label: '💰 ¿Cuánto cuesta?' },
+        { id: 'pricing',  label: '⭐ Paquetes CMO y precios' },
         { id: 'audit',    label: '🎯 Auditoría gratis' },
-        { id: 'partner',  label: '💼 Soy agencia (white-label)' },
+        { id: 'services', label: '🚀 ¿Qué ofrecen?' },
         { id: 'industry', label: '🏢 Ayuda para mi industria' },
+        { id: 'partner',  label: '💼 Soy agencia (white-label)' },
         { id: 'human',    label: '💬 Hablar con una persona' }
       ],
       intents: {
         services: {
-          reply: "Somos una agencia de marketing con IA — construida para la era AEO.\n\n• **Optimización para IA (AEO)** — Aparece en ChatGPT, Perplexity y Google AI cuando los compradores buscan\n• **NWM CRM** — CRM con IA: pipelines, email, SMS, AI SDR en WhatsApp\n• **NWM CMS** — Webs bilingües en menos de 60s\n• **Email Marketing** — Campañas escritas por IA, automatizaciones\n• **Video Factory** — Reels/TikToks producidos por IA (12 piezas/mes en Scale)\n• **AI Fractional CMO** — Agente estratégico 24/7 con responsabilidad humana\n\nUn retainer reemplaza 4–6 proveedores. ¿Cuál te interesa más?",
+          reply: "Somos una agencia de marketing con IA — construida para la era AEO.\n\n• **Optimización para IA (AEO)** — Aparece en ChatGPT, Perplexity y Google AI cuando los compradores buscan\n• **NWM CRM** — CRM con IA: pipelines, email, SMS, AI SDR en WhatsApp\n• **NWM CMS** — Webs bilingües en menos de 60s\n• **Email Marketing** — Campañas escritas por IA, automatizaciones\n• **Video Factory** — Reels/TikToks producidos por IA (16 Reels/mes en Scale)\n• **AI Fractional CMO** — Agente estratégico 24/7 con responsabilidad humana\n\nUn retainer reemplaza 4–6 proveedores. ¿Cuál te interesa más?",
           replies: [
             { id: 'services-aeo',    label: '🔍 AEO',     href: '/aeo-agency.html' },
             { id: 'services-crm',    label: '📊 CRM',     href: '/nwm-crm.html' },
@@ -327,7 +327,7 @@
           ]
         },
         pricing: {
-          reply: "**Retainers Fractional CMO** (estrategia + software + ejecución):\n\n🚀 **CMO Lite** — $249/mes · sin setup · incluye NWM CRM\n📈 **CMO Growth** — $999/mes + $499 setup · ads al costo + 12% (más popular)\n⭐ **CMO Scale** — $2,499/mes + $999 setup · AI SDR, Video Factory, llamadas semanales\n\n**Solo Plataforma (DIY):**\n• CRM Starter — $49/mes · 1k contactos, CRM básico\n• CRM Pro — $249/mes · 10k contactos, automatización + SMS/WhatsApp\n• Agency White-label — $449/mes · sub-cuentas ilimitadas\n\nMínimo 90 días, después mes a mes. Pago anual ahorra **15%**. Mejora de Lite en los primeros 90 días y acreditamos $249.\n\n¿Alguna pregunta o ver cotización personalizada?",
+          reply: "**Paquetes Fractional CMO** ⭐ (nuestros productos estrella):\n\n🚀 **CMO Lite — $249/mes** · sin setup\n AEO + SEO + calendario de contenido, NWM CRM incluido, nota estratégica mensual\n\n📈 **CMO Growth — $999/mes** + $499 setup *(más popular)*\n Todo en Lite + anuncios Google/Meta, contenido social, email automation, AI SDR + calificación de leads\n Pauta al costo + 12% (mín $300/mes)\n\n⭐ **CMO Scale — $2,499/mes** + $999 setup\n Todo en Growth + Video Factory (16 Reels/mes), agentes IA personalizados + voz IA, estratega dedicado, acceso diario por Slack\n\nPago anual ahorra **15%** · Lite $2,540 · Growth $10,190 · Scale $25,490/año\nMínimo 90 días, después mes a mes.\n\n**Solo Plataforma (DIY):** CRM Starter $49 · Pro $249 · Agency $449/mes\n\n¿Cuál se ajusta a tu presupuesto?",
           replies: [
             { id: 'pricing-page',   label: '💳 Ver precios completos', href: '/pricing.html' },
             { id: 'pricing-quote',  label: '📝 Cotización personal',   action: 'audit' },

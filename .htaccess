@@ -165,6 +165,24 @@
   RewriteRule ^(.*)$ /industries/tech-saas/agencies/$1 [L]
 </IfModule>
 
+# ── /app/* and /crm/* soft-fallback for unshipped feature pages ────────
+# Homepage and product pages link to roughly 45 /app/<slug> targets that
+# do not exist as files yet. Instead of 404-ing every prospect that clicks
+# a product tour card, route every NON-EXISTENT /app/*  or  /crm/*  path to
+# the coming-soon waitlist page. Shipped modules (conversations, marketing-
+# pipeline, sales-pipeline under /app/, and the real /crm-vanilla/ app
+# surface) keep working because the RewriteCond checks for file/dir
+# existence first.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^app/.+$ /app/coming-soon.html [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^crm/[^/]+\.html$ /app/coming-soon.html [L]
+</IfModule>
+
 # ── URL redirects (301) ────────────────────────────────────────────────
 # Clean URLs → canonical .html destinations.
 # /qna.html was an old nav link; Q&A now lives at /faq.html.

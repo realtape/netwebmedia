@@ -187,7 +187,7 @@ FLAGSHIP: FRACTIONAL CMO RETAINER (3 tiers)
   (minimum $300/month), billed separately from the retainer.
 
 **CMO Scale — $2,499/mo + $999 setup + ad management fee**
-  Includes: everything in Growth + AI SDR outbound, Video Factory (12 Reels/
+  Includes: everything in Growth + AI SDR outbound, Video Factory (16 Reels/
   month), demand-gen campaigns, WEEKLY ASYNC STRATEGY LOOM + dashboard +
   written report, QUARTERLY OKR PLANNING delivered as a written playbook
   (not a meeting), Voice AI add-on eligibility.
@@ -896,8 +896,8 @@ Key facts:
   • 7 hubs, 46 tools total. Replaces 8–15 separate tools (HubSpot, Mailchimp,
     Intercom, WordPress, Kajabi, Calendly, AgencyAnalytics).
   • Pricing: Starter $49/mo (1 user, 2,500 contacts, 1 pipeline);
-    Professional $99/mo (5 users, 10,000 contacts, 5 pipelines, HubSpot connection);
-    Enterprise $249/mo (unlimited users + contacts, WhatsApp, SSO, white-label).
+    Pro $249/mo (5 users, 10,000 contacts, 5 pipelines, WhatsApp + AI SDR);
+    Agency $449/mo (unlimited users + contacts, WhatsApp, SSO, white-label).
     Month-to-month, cancel anytime. Comparable HubSpot + Circle + Kajabi + Zendesk
     stack costs $1,500+/month for equivalent features.
   • Demo: live at netwebmedia.com/crm-demo/ — 42 sample contacts, 18 deals, 60+
@@ -1223,7 +1223,7 @@ FLAGSHIP: RETAINER FRACTIONAL CMO (3 niveles)
   (mínimo $300/mes), facturado aparte del retainer.
 
 **CMO Scale — $2,499/mes + $999 setup + fee de manejo de ads**
-  Incluye: todo lo de Growth + AI SDR outbound, Video Factory (12 Reels/mes),
+  Incluye: todo lo de Growth + AI SDR outbound, Video Factory (16 Reels/mes),
   campañas de demand-gen, LOOM ESTRATÉGICO SEMANAL ASÍNCRONO + dashboard +
   informe escrito, PLANIFICACIÓN OKR TRIMESTRAL entregada como playbook
   escrito (no una reunión), elegibilidad para Voice AI.
@@ -1852,8 +1852,8 @@ Hechos clave:
   • 7 secciones (hubs), 46 herramientas en total. Reemplaza 8 a 15 herramientas separadas
     (HubSpot, Mailchimp, Intercom, WordPress, Kajabi, Calendly, AgencyAnalytics).
   • Precios: Starter $49/mes (1 usuario, 2.500 contactos, 1 pipeline);
-    Professional $99/mes (5 usuarios, 10.000 contactos, 5 pipelines, conexión a HubSpot);
-    Enterprise $249/mes (usuarios y contactos ilimitados, WhatsApp, SSO, marca blanca).
+    Pro $249/mes (5 usuarios, 10.000 contactos, 5 pipelines, WhatsApp + AI SDR);
+    Agency $449/mes (usuarios y contactos ilimitados, WhatsApp, SSO, marca blanca).
     Facturación mes a mes, cancelación en cualquier momento. Un stack equivalente de
     HubSpot + Circle + Kajabi + Zendesk cuesta más de $1.500/mes.
   • Demo: disponible en netwebmedia.com/crm-demo/ — 42 contactos de muestra, 18 deals,

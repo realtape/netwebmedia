@@ -44,6 +44,8 @@ on:
       - 'tutorials/**'
       - 'crm-demo/**'
       - 'cms-demo/**'
+      # /app/* shell for coming-soon waitlist + shipped feature stubs
+      - 'app/**'
       # Industry pages + subdomain landing pages (39 subdomains served from here)
       - 'industries/**'
       # Landing-page form handlers + shared thank-you pages
@@ -122,7 +124,7 @@ jobs:
           # Apache config — ships as a dotfile so the FTP step doesn't filter it out
           [ -f .htaccess ] && cp .htaccess _stage/.htaccess || true
           # Directories
-          for d in css js assets images fonts crm api api-php tutorials crm-demo cms-demo blog lp guides plans industries; do
+          for d in css js assets images fonts crm api api-php tutorials crm-demo cms-demo blog lp guides plans industries app; do
             [ -d "$d" ] && cp -r "$d" "_stage/$d" || true
           done
           # Drop dev/test artifacts that shouldn't ship

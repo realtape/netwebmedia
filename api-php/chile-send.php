@@ -60,8 +60,12 @@ $FAIL   = __DIR__ . '/data/chile-failed.log';
 $UNSUB  = __DIR__ . '/data/unsubscribes.log';
 
 // ----- constants -----
-$FROM_NAME  = 'Carlos Martínez';
-$FROM_EMAIL = 'newsletter@netwebmedia.com';
+// IMPORTANT: from_email must be a REAL cPanel mailbox so cPanel DKIM signs it
+// against the correct selector. newsletter@ did not exist as a mailbox, which
+// caused Gmail to silently drop the first test (mail() returned true but
+// the message never arrived — classic DKIM-alignment failure).
+$FROM_NAME  = 'Carlos Martinez';  // ASCII-only — non-ASCII "í" can slightly hurt score on cold sends
+$FROM_EMAIL = 'admin@netwebmedia.com';
 $REPLY_TO   = 'hola@netwebmedia.com';
 $REPORT_URL = 'https://netwebmedia.com/santiago-digital-gaps.html';
 $WA_URL     = 'https://wa.me/17407363884?text=' . rawurlencode('Hola NetWebMedia, quiero mi auditoría digital gratis.');

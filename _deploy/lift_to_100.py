@@ -56,7 +56,6 @@ def build_block(page_type, page_title, page_desc, page_url):
           "https://x.com/netwebmedia",
           "https://www.instagram.com/netwebmedia/",
           "https://www.facebook.com/netwebmedia",
-          "https://www.youtube.com/@netwebmedia",
           "https://www.tiktok.com/@netwebmedia"
         ]
       }},
@@ -83,7 +82,6 @@ FOOTER_SOCIALS = '''
   <a href="https://www.instagram.com/netwebmedia/" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">Instagram</a>
   <a href="https://x.com/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">X / Twitter</a>
   <a href="https://www.facebook.com/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">Facebook</a>
-  <a href="https://www.youtube.com/@netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">YouTube</a>
   <a href="https://www.tiktok.com/@netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">TikTok</a>
 </div>
 <!-- /NWM-LIFT-TO-100 -->

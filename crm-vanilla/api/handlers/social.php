@@ -35,9 +35,14 @@ switch ($sub) {
         break;
 
     case 'posts':
-        // Planner: scheduled posts stored in CRM (future feature — return empty for now)
-        if ($method !== 'GET') jsonError('Method not allowed', 405);
-        jsonResponse(['items' => []]);
+        if ($method === 'GET')       handleListScheduled($uid, $db);
+        elseif ($method === 'POST')  handleCreateScheduled($uid, $db);
+        else jsonError('Method not allowed', 405);
+        break;
+
+    case 'publish':
+        if ($method !== 'POST') jsonError('Method not allowed', 405);
+        handlePublishDue($uid, $db);
         break;
 
     default:
@@ -181,6 +186,171 @@ function handleSync(int $uid, PDO $db): void {
         $results[$p] = runSync($uid, $p, $db);
     }
     jsonResponse(['results' => $results]);
+}
+
+/* ── Scheduled Posts ─────────────────────────────────────────────────────── */
+
+function handleListScheduled(int $uid, PDO $db): void {
+    $ensureSql = 'CREATE TABLE IF NOT EXISTS `social_scheduled` (
+      `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      `user_id` INT UNSIGNED NOT NULL DEFAULT 0,
+      `providers` VARCHAR(255) NOT NULL,
+      `caption` TEXT NOT NULL,
+      `media_url` VARCHAR(2048) DEFAULT NULL,
+      `status` ENUM("scheduled","publishing","published","failed") DEFAULT "scheduled",
+      `scheduled_at` DATETIME NOT NULL,
+      `published_at` DATETIME NULL DEFAULT NULL,
+      `error` TEXT NULL DEFAULT NULL,
+      `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      INDEX `idx_user` (`user_id`),
+      INDEX `idx_status_scheduled` (`status`, `scheduled_at`)
+    ) ENGINE=InnoDB';
+    $db->exec($ensureSql);
+
+    $stmt = $db->prepare(
+        'SELECT id, providers, caption, media_url, status, scheduled_at, published_at, created_at
+         FROM social_scheduled WHERE user_id = ? ORDER BY scheduled_at ASC'
+    );
+    $stmt->execute([$uid]);
+    jsonResponse(['items' => $stmt->fetchAll()]);
+}
+
+function handleCreateScheduled(int $uid, PDO $db): void {
+    $data = getInput();
+    $caption      = trim($data['caption'] ?? '');
+    $providers    = $data['providers'] ?? [];
+    $scheduled_at = trim($data['scheduled_at'] ?? date('Y-m-d H:i:s'));
+    $media_url    = trim($data['media_url'] ?? '');
+
+    if (!$caption) jsonError('caption required');
+    if (empty($providers) || !is_array($providers)) jsonError('providers required');
+
+    $allowed = ['facebook', 'instagram', 'linkedin', 'youtube', 'tiktok'];
+    $clean   = array_values(array_intersect($providers, $allowed));
+    if (!$clean) jsonError('No valid providers');
+
+    $db->exec('CREATE TABLE IF NOT EXISTS `social_scheduled` (
+      `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      `user_id` INT UNSIGNED NOT NULL DEFAULT 0,
+      `providers` VARCHAR(255) NOT NULL,
+      `caption` TEXT NOT NULL,
+      `media_url` VARCHAR(2048) DEFAULT NULL,
+      `status` ENUM("scheduled","publishing","published","failed") DEFAULT "scheduled",
+      `scheduled_at` DATETIME NOT NULL,
+      `published_at` DATETIME NULL DEFAULT NULL,
+      `error` TEXT NULL DEFAULT NULL,
+      `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      INDEX `idx_user` (`user_id`),
+      INDEX `idx_status_scheduled` (`status`, `scheduled_at`)
+    ) ENGINE=InnoDB');
+
+    $stmt = $db->prepare(
+        'INSERT INTO social_scheduled (user_id, providers, caption, media_url, scheduled_at)
+         VALUES (?, ?, ?, ?, ?)'
+    );
+    $stmt->execute([$uid, implode(',', $clean), $caption, $media_url ?: null, $scheduled_at]);
+    $id = (int)$db->lastInsertId();
+
+    jsonResponse(['ok' => true, 'id' => $id], 201);
+}
+
+function handlePublishDue(int $uid, PDO $db): void {
+    $db->exec('CREATE TABLE IF NOT EXISTS `social_scheduled` (
+      `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+      `user_id` INT UNSIGNED NOT NULL DEFAULT 0,
+      `providers` VARCHAR(255) NOT NULL,
+      `caption` TEXT NOT NULL,
+      `media_url` VARCHAR(2048) DEFAULT NULL,
+      `status` ENUM("scheduled","publishing","published","failed") DEFAULT "scheduled",
+      `scheduled_at` DATETIME NOT NULL,
+      `published_at` DATETIME NULL DEFAULT NULL,
+      `error` TEXT NULL DEFAULT NULL,
+      `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      INDEX `idx_user` (`user_id`),
+      INDEX `idx_status_scheduled` (`status`, `scheduled_at`)
+    ) ENGINE=InnoDB');
+
+    $stmt = $db->prepare(
+        'SELECT id, providers, caption, media_url FROM social_scheduled
+         WHERE user_id = ? AND status = "scheduled" AND scheduled_at <= NOW()'
+    );
+    $stmt->execute([$uid]);
+    $due = $stmt->fetchAll();
+
+    if (!$due) jsonResponse(['published' => 0, 'message' => 'No posts due']);
+
+    $results = [];
+    foreach ($due as $post) {
+        $providerList = explode(',', $post['providers']);
+        $db->prepare('UPDATE social_scheduled SET status = "publishing" WHERE id = ?')
+           ->execute([$post['id']]);
+
+        $errors = [];
+        foreach ($providerList as $provider) {
+            $credRow = $db->prepare(
+                'SELECT credentials_enc FROM social_credentials WHERE user_id = ? AND provider = ?'
+            );
+            $credRow->execute([$uid, $provider]);
+            $row = $credRow->fetch();
+            if (!$row) { $errors[] = $provider . ':not_connected'; continue; }
+
+            $creds = SocialEncryptor::decrypt($row['credentials_enc']);
+            if (!$creds) { $errors[] = $provider . ':decrypt_failed'; continue; }
+
+            $ok = publishToProvider($provider, $post['caption'], $post['media_url'] ?? '', $creds);
+            if (!$ok) $errors[] = $provider . ':publish_failed';
+        }
+
+        $status = empty($errors) ? 'published' : 'failed';
+        $db->prepare(
+            'UPDATE social_scheduled SET status = ?, published_at = NOW(), error = ? WHERE id = ?'
+        )->execute([$status, $errors ? implode('; ', $errors) : null, $post['id']]);
+
+        $results[] = ['id' => $post['id'], 'status' => $status, 'errors' => $errors];
+    }
+
+    jsonResponse(['published' => count($results), 'results' => $results]);
+}
+
+function publishToProvider(string $provider, string $caption, string $media_url, array $creds): bool {
+    switch ($provider) {
+        case 'instagram':
+            if (empty($creds['ig_user_id']) || empty($creds['ig_access_token'])) return false;
+            $container = socialPost(
+                'https://graph.facebook.com/v18.0/' . $creds['ig_user_id'] . '/media',
+                ['image_url' => $media_url ?: null, 'caption' => $caption, 'media_type' => $media_url ? 'IMAGE' : 'TEXT', 'access_token' => $creds['ig_access_token']]
+            );
+            if (empty($container['id'])) return false;
+            $pub = socialPost(
+                'https://graph.facebook.com/v18.0/' . $creds['ig_user_id'] . '/media_publish',
+                ['creation_id' => $container['id'], 'access_token' => $creds['ig_access_token']]
+            );
+            return !empty($pub['id']);
+
+        case 'facebook':
+            if (empty($creds['fb_page_id']) || empty($creds['fb_page_token'])) return false;
+            $r = socialPost(
+                'https://graph.facebook.com/v18.0/' . $creds['fb_page_id'] . '/feed',
+                ['message' => $caption, 'access_token' => $creds['fb_page_token']]
+            );
+            return !empty($r['id']);
+
+        default:
+            return false;
+    }
+}
+
+function socialPost(string $url, array $fields): array {
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => http_build_query($fields),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 15,
+    ]);
+    $body = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($body ?: '{}', true) ?? [];
 }
 
 /* ── Sync Runner ──────────────────────────────────────────────────────────── */

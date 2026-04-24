@@ -1,5 +1,6 @@
 -- Social Media Integration Schema
 -- Run after schema.sql
+-- v2: added social_scheduled for outbound post queue
 
 CREATE TABLE IF NOT EXISTS `social_credentials` (
   `id`              INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -33,4 +34,19 @@ CREATE TABLE IF NOT EXISTS `social_posts` (
   UNIQUE KEY `uk_user_provider_post` (`user_id`, `provider`, `platform_id`),
   INDEX `idx_user_provider` (`user_id`, `provider`),
   INDEX `idx_published` (`published_at`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `social_scheduled` (
+  `id`           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `user_id`      INT UNSIGNED NOT NULL DEFAULT 0,
+  `providers`    VARCHAR(255) NOT NULL,
+  `caption`      TEXT NOT NULL,
+  `media_url`    VARCHAR(2048) DEFAULT NULL,
+  `status`       ENUM('scheduled','publishing','published','failed') DEFAULT 'scheduled',
+  `scheduled_at` DATETIME NOT NULL,
+  `published_at` DATETIME NULL DEFAULT NULL,
+  `error`        TEXT NULL DEFAULT NULL,
+  `created_at`   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX `idx_user` (`user_id`),
+  INDEX `idx_status_scheduled` (`status`, `scheduled_at`)
 ) ENGINE=InnoDB;

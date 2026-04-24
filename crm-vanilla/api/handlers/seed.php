@@ -126,4 +126,50 @@ foreach ($events as $e) {
     $stmtEvent->execute($e);
 }
 
-jsonResponse(['seeded' => true, 'contacts' => count($contacts), 'deals' => count($deals), 'conversations' => count($convos), 'events' => count($events)]);
+// Seed social scheduled posts (blog-sourced, Twitter + Instagram)
+$db->exec('CREATE TABLE IF NOT EXISTS `social_scheduled` (
+  `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT UNSIGNED NOT NULL DEFAULT 0,
+  `providers` VARCHAR(255) NOT NULL,
+  `caption` TEXT NOT NULL,
+  `media_url` VARCHAR(2048) DEFAULT NULL,
+  `status` ENUM("scheduled","publishing","published","failed") DEFAULT "scheduled",
+  `scheduled_at` DATETIME NOT NULL,
+  `published_at` DATETIME NULL DEFAULT NULL,
+  `error` TEXT NULL DEFAULT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX `idx_user` (`user_id`),
+  INDEX `idx_status_scheduled` (`status`, `scheduled_at`)
+) ENGINE=InnoDB');
+
+$socialPosts = [
+    [
+        'caption'      => "The SEO teams that adapt to AEO in 2026 will still have jobs in 2030. The ones that don't will be writing thinkpieces.\n\nAnswer Engine Optimization isn't a side project — it's the new main game.\n\n→ https://netwebmedia.com/blog/aeo-replaces-seo-2026.html",
+        'providers'    => 'twitter,instagram',
+        'scheduled_at' => '2026-04-25 09:00:00',
+    ],
+    [
+        'caption'      => "Last-click attribution is misdirecting 30–50% of your B2B budget.\n\nIt rewards what captured intent. Not what created it.\n\nIf the channels getting most credit aren't showing up in your win/loss data — you have a model problem, not a data problem.\n\n→ https://netwebmedia.com/blog/ai-attribution-modeling.html",
+        'providers'    => 'twitter,instagram',
+        'scheduled_at' => '2026-04-26 09:00:00',
+    ],
+    [
+        'caption'      => "If your AI-generated content sounds like everyone else on your model — that's a configuration problem, not an AI problem.\n\n60–70% of what makes brands distinctive never makes it into style guides.\n\nFix that first. Then run the AI.\n\n→ https://netwebmedia.com/blog/ai-brand-voice-enforcement.html",
+        'providers'    => 'twitter,instagram',
+        'scheduled_at' => '2026-04-27 09:00:00',
+    ],
+    [
+        'caption'      => "Your competitive brief is already outdated the moment your competitor ships their next sprint.\n\nHiring patterns reveal strategy 6–12 months in advance. 5 new enterprise AEs = upmarket move. ML engineers = product bet.\n\nYou can monitor all of this for ~\$100/month.\n\n→ https://netwebmedia.com/blog/ai-competitive-intelligence-tools.html",
+        'providers'    => 'twitter,instagram',
+        'scheduled_at' => '2026-04-28 09:00:00',
+    ],
+];
+
+$stmtSocial = $db->prepare(
+    'INSERT IGNORE INTO social_scheduled (user_id, providers, caption, scheduled_at) VALUES (0, ?, ?, ?)'
+);
+foreach ($socialPosts as $sp) {
+    $stmtSocial->execute([$sp['providers'], $sp['caption'], $sp['scheduled_at']]);
+}
+
+jsonResponse(['seeded' => true, 'contacts' => count($contacts), 'deals' => count($deals), 'conversations' => count($convos), 'events' => count($events), 'social_posts' => count($socialPosts)]);

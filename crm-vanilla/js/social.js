@@ -278,7 +278,7 @@
     html += '<div class="social-sync-bar">';
     html += '<div class="social-sync-meta">';
     if (connectedProviders.length === 0) {
-      html += '<span style="color:var(--text-dim)">Connect accounts above to see your live social feed.</span>';
+      html += '<span style="color:var(--text-dim)">' + L.noFeedPosts + '</span>';
     } else {
       connectedProviders.forEach(function (prov) {
         var key  = API_TO_KEY[prov.id] || prov.id;

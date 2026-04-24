@@ -156,7 +156,29 @@ function wa_twiml_reply(string $message): void {
 // ── Meta Cloud API path ───────────────────────────────────────────────────────
 
 function wa_handle_meta(): void {
-  $raw  = file_get_contents('php://input');
+  $raw = file_get_contents('php://input');
+
+  // Verify Meta X-Hub-Signature-256 when whatsapp_meta_app_secret is configured.
+  // Meta signs every webhook POST with HMAC-SHA256 of the raw body using the
+  // App Secret from developers.facebook.com. Mirrors the Twilio pattern above:
+  // required when the secret is set, logged-but-allowed when absent so first-
+  // time setup doesn't deadlock the dashboard subscribe flow.
+  $cfg = config();
+  $secret = $cfg['whatsapp_meta_app_secret'] ?? '';
+  if (!empty($secret)) {
+    $sig = $_SERVER['HTTP_X_HUB_SIGNATURE_256'] ?? '';
+    $expected = 'sha256=' . hash_hmac('sha256', $raw, $secret);
+    if (!$sig || !hash_equals($expected, $sig)) {
+      error_log('whatsapp meta: signature mismatch (sig=' . substr($sig, 0, 20) . '..., expected=' . substr($expected, 0, 20) . '...)');
+      http_response_code(403);
+      header('Content-Type: application/json');
+      echo json_encode(['error' => 'Invalid signature']);
+      exit;
+    }
+  } else {
+    error_log('whatsapp meta: whatsapp_meta_app_secret not configured — skipping signature verification (INSECURE; set secret in production)');
+  }
+
   $data = json_decode($raw, true);
 
   // Always ack immediately

@@ -191,13 +191,16 @@
   </script>
 
   <script>
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-    window.NWM_META_PIXEL_ID = 'PASTE_PIXEL_ID_HERE'; // ← replace with real Pixel ID from business.facebook.com/events_manager
-    if (window.NWM_META_PIXEL_ID && window.NWM_META_PIXEL_ID !== 'PASTE_PIXEL_ID_HERE') { fbq('init', window.NWM_META_PIXEL_ID); fbq('track', 'PageView'); }
+    window.NWM_META_PIXEL_ID = window.NWM_META_PIXEL_ID || '';
+    if (window.NWM_META_PIXEL_ID) {
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', window.NWM_META_PIXEL_ID);
+      fbq('track', 'PageView');
+    }
   </script>
 
   <script type="application/ld+json">
@@ -236,7 +239,6 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>

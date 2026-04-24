@@ -58,11 +58,30 @@
   # Must come BEFORE the skip-rules block so it's reachable across all hosts.
   RewriteRule ^unsubscribe/?$ /unsubscribe.php [L,QSA]
 
-  # Skip rewrite if already inside /industries/ or on specific PHP endpoints to prevent loops
+  # Skip rewrite if already inside /industries/, /crm-vanilla/, /companies/ or
+  # on specific PHP endpoints to prevent loops from the host-based rewrites
+  # below (each internal rewrite re-enters the rewrite engine; without this
+  # guard, app.* → /crm-vanilla/ → /crm-vanilla/crm-vanilla/ → loop).
   RewriteCond %{REQUEST_URI} ^/industries/ [OR]
+  RewriteCond %{REQUEST_URI} ^/crm-vanilla/ [OR]
+  RewriteCond %{REQUEST_URI} ^/companies/ [OR]
   RewriteCond %{REQUEST_URI} ^/audit-submit\.php$ [OR]
   RewriteCond %{REQUEST_URI} ^/unsubscribe\.php$
   RewriteRule .* - [L]
+
+  # ── Infrastructure subdomains ──
+  # app.netwebmedia.com → the CRM app (/crm-vanilla/)
+  RewriteCond %{HTTP_HOST} ^app\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /crm-vanilla/$1 [L]
+  # companies.netwebmedia.com → prospect directory (/companies/)
+  RewriteCond %{HTTP_HOST} ^companies\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /companies/$1 [L]
+  # staging.netwebmedia.com → fail-closed (503). Staging env is not yet
+  # provisioned; serving production content silently would trick mobile devs
+  # following mobile/README.md into testing against prod. When a real staging
+  # vhost exists, remove this block.
+  RewriteCond %{HTTP_HOST} ^staging\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ - [R=503,L]
 
   # ── Parent industry subdomains (10) ──
   RewriteCond %{HTTP_HOST} ^hospitality\.netwebmedia\.com$ [NC]

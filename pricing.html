@@ -23,8 +23,8 @@
     @media(max-width:768px){.pricing-wrap{padding:60px 16px 40px;}.plan-card{padding:24px 20px;}}
     .plans-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); gap:24px; margin-top:44px; }
     .plan-card { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.1); border-radius:20px; padding:32px 28px; display:flex; flex-direction:column; position:relative; }
-    .plan-card.highlight { border-color:#8b5cf6; box-shadow:0 0 0 1px #8b5cf6, 0 20px 60px rgba(139,92,246,.2); transform:scale(1.02); }
-    .plan-card.highlight::before { content:"MOST COMMON"; position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; padding:4px 14px; border-radius:9999px; font-size:11px; font-weight:800; letter-spacing:.12em; }
+    .plan-card.highlight { border-color:#FF671F; box-shadow:0 0 0 1px #FF671F, 0 20px 60px rgba(255,103,31,.2); transform:scale(1.02); }
+    .plan-card.highlight::before { content:"MOST COMMON"; position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:#FF671F; color:#fff; padding:4px 14px; border-radius:9999px; font-size:11px; font-weight:800; letter-spacing:.12em; }
     .plan-name { font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--text-secondary,#9aa); }
     .plan-tag { font-size:13px; color:#b0bbce; margin:4px 0 18px; }
     .plan-price { font-size:44px; font-weight:800; margin:8px 0 2px; line-height:1; }
@@ -34,17 +34,17 @@
     .plan-save { display:inline-block; padding:2px 8px; border-radius:6px; background:#0a7a69; color:#fff; font-size:11px; font-weight:800; margin-left:4px; }
     .plan-features { list-style:none; padding:0; margin:0 0 28px; flex:1; }
     .plan-features li { padding:10px 0; border-bottom:1px solid rgba(255,255,255,.06); font-size:14px; color:#dde3ee; }
-    .plan-features li:before { content:"✓ "; color:#8b5cf6; font-weight:700; margin-right:6px; }
-    .plan-btn { display:block; text-align:center; padding:14px 20px; border-radius:10px; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:#fff; text-decoration:none; font-weight:600; border:0; cursor:pointer; font-size:15px; }
-    .plan-btn:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(139,92,246,.3); }
+    .plan-features li:before { content:"✓ "; color:#FF671F; font-weight:700; margin-right:6px; }
+    .plan-btn { display:block; text-align:center; padding:14px 20px; border-radius:10px; background:#FF671F; color:#fff; text-decoration:none; font-weight:600; border:0; cursor:pointer; font-size:15px; }
+    .plan-btn:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(255,103,31,.3); background:#E55A12; }
     .fx-note { text-align:center; margin-top:32px; color:var(--text-secondary,#9aa); font-size:13px; max-width:780px; margin-left:auto; margin-right:auto; line-height:1.5; }
     .discount-rules { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin:48px 0 0; }
     .rule-card { padding:14px 18px; border:1px solid rgba(255,255,255,.1); border-radius:10px; background:rgba(255,255,255,.02); font-size:13px; color:#b8c4d9; }
     .rule-card strong { color:#fff; }
-    .extra-cta { margin-top:56px; padding:32px; background:linear-gradient(135deg,rgba(108,92,231,.15),rgba(0,184,148,.1)); border:1px solid rgba(108,92,231,.25); border-radius:16px; text-align:center; }
+    .extra-cta { margin-top:56px; padding:32px; background:linear-gradient(135deg,rgba(255,103,31,.12),rgba(1,15,59,.35)); border:1px solid rgba(255,103,31,.25); border-radius:16px; text-align:center; }
     .extra-cta h3 { margin:0 0 10px; font-size:22px; }
     .extra-cta p  { margin:0 0 16px; color:#b8c4d9; }
-    .extra-cta a { color:#b8a9f5; font-weight:600; text-decoration:none; margin:0 8px; }
+    .extra-cta a { color:#FFB082; font-weight:600; text-decoration:none; margin:0 8px; }
     .extra-cta a:hover { text-decoration:underline; }
   </style>
 
@@ -63,13 +63,16 @@
   </script>
 
   <script>
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-    window.NWM_META_PIXEL_ID = 'PASTE_PIXEL_ID_HERE'; // ← replace with real Pixel ID from business.facebook.com/events_manager
-    if (window.NWM_META_PIXEL_ID && window.NWM_META_PIXEL_ID !== 'PASTE_PIXEL_ID_HERE') { fbq('init', window.NWM_META_PIXEL_ID); fbq('track', 'PageView'); }
+    window.NWM_META_PIXEL_ID = window.NWM_META_PIXEL_ID || '';
+    if (window.NWM_META_PIXEL_ID) {
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', window.NWM_META_PIXEL_ID);
+      fbq('track', 'PageView');
+    }
   </script>
 
   <script type="application/ld+json">
@@ -192,7 +195,6 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
 
   <!-- FAQPage structured data for pricing -->
   <script type="application/ld+json">
@@ -203,7 +205,7 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What's included in the $1,997/mo plan?",
+        "name": "What's included in the CMO Growth $999/mo plan?",
         "acceptedAnswer": { "@type": "Answer", "text": "Full fractional CMO coverage: strategy, AI automations, AI agents, content, paid-ads management, SEO/AEO, email, and social — all under one retainer, delivered async." }
       },
       {

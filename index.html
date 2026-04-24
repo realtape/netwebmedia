@@ -45,21 +45,15 @@
     gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
   </script>
 
-  <!-- ─────────────────────────────────────────────────────────────────
-       META PIXEL — ACTION REQUIRED
-       Go to business.facebook.com → Events Manager → your Pixel → Details
-       Copy the 15-16 digit Pixel ID and paste it below replacing PASTE_PIXEL_ID_HERE.
-       Without this, retargeting audiences are NOT being built and paid campaigns
-       cannot track conversions. This is costing you money every day it's missing.
-       ───────────────────────────────────────────────────────────────── -->
+  <!-- Meta Pixel — set window.NWM_META_PIXEL_ID from env (see docs/STACK_ADDITIONS_SETUP.md). Fires only when set. -->
   <script>
-    window.NWM_META_PIXEL_ID = 'PASTE_PIXEL_ID_HERE'; // ← replace this with your real Pixel ID
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-    if (window.NWM_META_PIXEL_ID && window.NWM_META_PIXEL_ID !== 'PASTE_PIXEL_ID_HERE') {
+    window.NWM_META_PIXEL_ID = window.NWM_META_PIXEL_ID || '';
+    if (window.NWM_META_PIXEL_ID) {
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
       fbq('init', window.NWM_META_PIXEL_ID);
       fbq('track', 'PageView');
     }
@@ -151,7 +145,6 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
 
   <!-- FAQPage + BreadcrumbList structured data for AEO citations -->
   <script type="application/ld+json">
@@ -165,7 +158,7 @@
           {
             "@type": "Question",
             "name": "What is NetWebMedia?",
-            "acceptedAnswer": { "@type": "Answer", "text": "We're an AI-native fractional CMO for US SMBs. One retainer covers strategy, software, and execution, starting at $1,997/mo." }
+            "acceptedAnswer": { "@type": "Answer", "text": "We're an AI-native fractional CMO for US SMBs. One retainer covers strategy, software, and execution, starting at $249/mo (CMO Lite), $999/mo (CMO Growth), or $2,499/mo (CMO Scale)." }
           },
           {
             "@type": "Question",
@@ -817,7 +810,7 @@
 
       <!-- Agency / Partner Hub (highlighted) -->
       <div class="glass-card scroll-reveal" style="padding:26px;border:2px solid rgba(99,102,241,0.45);background:linear-gradient(180deg,rgba(99,102,241,0.08),rgba(139,92,246,0.04));grid-column:1 / -1;position:relative;">
-        <div style="position:absolute;top:-11px;right:24px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;padding:4px 14px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;">White-label · Resell-ready</div>
+        <div style="position:absolute;top:-11px;right:24px;background:linear-gradient(135deg,#010F3B,#FF671F);color:#fff;padding:4px 14px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;">White-label · Resell-ready</div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
           <span style="font-size:30px;">💼</span>
           <h3 style="font-weight:800;font-size:20px;margin:0;">Agency / Partner Hub <span style="color:#9aa;font-weight:500;font-size:13px;">· 5 modules</span></h3>
@@ -848,7 +841,7 @@
           </a>
         </div>
         <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
-          <a href="/partners.html" style="padding:12px 22px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;text-decoration:none;font-weight:700;font-size:14px;">See the partner program →</a>
+          <a href="/partners.html" style="padding:12px 22px;border-radius:10px;background:linear-gradient(135deg,#010F3B,#FF671F);color:#fff;text-decoration:none;font-weight:700;font-size:14px;">See the partner program →</a>
           <a href="/compare.html" style="padding:12px 22px;border-radius:10px;border:1px solid rgba(255,255,255,0.2);color:#fff;text-decoration:none;font-weight:600;font-size:14px;">Compare platforms</a>
         </div>
       </div>
@@ -893,7 +886,84 @@
   </div>
 </section>
 
-<!-- Results & Testimonials saved in deliverables/results-testimonials-sections.html -->
+<!-- ── RESULTS ──────────────────────────────────────────── -->
+<section class="results-section" id="results">
+  <div class="container">
+    <div class="section-label">Resultados Comprobados</div>
+    <h2 class="section-title">Números que <span class="gradient-text">Importan</span></h2>
+    <p class="section-subtitle">Lo que entregamos a PyMEs chilenas que usan NetWebMedia como su equipo de marketing con IA.</p>
+
+    <div class="results-grid scroll-reveal">
+      <div class="result-card">
+        <div class="result-number" data-counter="340" data-suffix="%">340%</div>
+        <div class="result-label">ROI promedio</div>
+        <div class="result-sublabel">en campañas activas con nuestro stack de IA</div>
+      </div>
+      <div class="result-card">
+        <div class="result-number" data-counter="60" data-suffix=" días">60 días</div>
+        <div class="result-label">Primera cita en ChatGPT</div>
+        <div class="result-sublabel">metodología AEO documentada, no prometida</div>
+      </div>
+      <div class="result-card">
+        <div class="result-number" data-counter="4" data-suffix=".4x">4.4x</div>
+        <div class="result-label">Conversión vs. agencia tradicional</div>
+        <div class="result-sublabel">en funnels optimizados con nuestro equipo</div>
+      </div>
+      <div class="result-card">
+        <div class="result-number" data-counter="30" data-suffix="%">30%</div>
+        <div class="result-label">CAC más bajo</div>
+        <div class="result-sublabel">con visibilidad activa en motores de respuesta</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRUST BAR: clients + credibility ──────────────────── -->
+<section style="padding:80px 0;background:var(--bg-secondary);">
+  <div class="container">
+    <div class="section-label" style="text-align:center;">Confianza</div>
+    <h2 class="section-title">PyMEs que <span class="gradient-text">Crecen con Nosotros</span></h2>
+    <p class="section-subtitle" style="margin-bottom:40px;">Hoteles, clínicas, restoranes y centros de belleza en 16 ciudades de Chile con reportes de prospección y brecha digital publicados.</p>
+
+    <div class="cities-strip" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin:0 auto 48px;max-width:960px;">
+      <a href="/santiago-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Santiago</a>
+      <a href="/valparaiso-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Valparaíso</a>
+      <a href="/la-serena-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">La Serena</a>
+      <a href="/antofagasta-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Antofagasta</a>
+      <a href="/concepcion-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Concepción</a>
+      <a href="/temuco-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Temuco</a>
+      <a href="/puerto-montt-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Puerto Montt</a>
+      <a href="/valdivia-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Valdivia</a>
+      <a href="/iquique-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Iquique</a>
+      <a href="/arica-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Arica</a>
+      <a href="/rancagua-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Rancagua</a>
+      <a href="/talca-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Talca</a>
+      <a href="/chillan-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Chillán</a>
+      <a href="/osorno-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Osorno</a>
+      <a href="/copiapo-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Copiapó</a>
+      <a href="/punta-arenas-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Punta Arenas</a>
+      <a href="/coyhaique-prospects-report.html" style="padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:999px;color:#dde3ee;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,0.03);">Coyhaique</a>
+    </div>
+
+    <!-- Featured case study — the proof asset -->
+    <div class="glass-card" style="max-width:820px;margin:0 auto;padding:36px 40px;border-left:4px solid var(--nwm-orange,#FF671F);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+        <span style="background:var(--nwm-orange,#FF671F);color:#fff;padding:4px 10px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">CASO DESTACADO</span>
+        <span style="color:var(--text-muted);font-size:13px;">Hotel boutique · Chile</span>
+      </div>
+      <h3 style="font-size:24px;font-weight:700;margin-bottom:12px;">De invisible en ChatGPT a citas consistentes en 60 días</h3>
+      <p style="color:var(--text-secondary);font-size:15px;line-height:1.7;margin-bottom:20px;">Metodología AEO de NetWebMedia aplicada paso a paso: auditoría de entidad, schema.org, corpus NAP, contenido pregunta-respuesta en español y monitoreo de citas en ChatGPT, Perplexity y Google AI Overviews.</p>
+      <a href="/blog/caso-aeo-hotel-chile-citas-chatgpt.html" style="color:var(--nwm-orange,#FF671F);font-weight:700;text-decoration:none;font-size:15px;">Leer el caso completo →</a>
+    </div>
+
+    <!-- Third-party credibility strip -->
+    <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:48px;">
+      <a href="/about.html" style="padding:12px 22px;border-radius:10px;border:1px solid rgba(255,255,255,0.2);color:#fff;text-decoration:none;font-weight:600;font-size:14px;">Sobre el equipo</a>
+      <a href="/blog.html" style="padding:12px 22px;border-radius:10px;border:1px solid rgba(255,255,255,0.2);color:#fff;text-decoration:none;font-weight:600;font-size:14px;">Ver más casos</a>
+      <a href="/contact.html" style="padding:12px 22px;border-radius:10px;background:var(--nwm-orange,#FF671F);color:#fff;text-decoration:none;font-weight:700;font-size:14px;">Solicita tu auditoría gratuita</a>
+    </div>
+  </div>
+</section>
 
 <!-- ── AI TOOLS SHOWCASE ──────────────────────────────────── -->
 <section style="padding:100px 0;background:var(--bg-secondary);">

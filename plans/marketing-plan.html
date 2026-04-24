@@ -254,7 +254,7 @@
 
   <div class="callout warn">
     <h4>Pre-flight blocker</h4>
-    <p style="margin:0;">The <code>PASTE_PIXEL_ID_HERE</code> placeholder in <code>pricing.html</code> + <code>services.html</code> MUST be replaced with the real Meta Pixel before any paid spend launches. Without this, we have no conversion attribution.</p>
+    <p style="margin:0;">Meta Pixel loader is now gated across all customer-facing pages (<code>window.NWM_META_PIXEL_ID</code> defaults to empty; loader no-ops until set). Inject the real Pixel ID before any paid spend launches &mdash; otherwise there is no conversion attribution.</p>
   </div>
 
   <h2 id="s7"><span class="num">07</span>Email / Nurture Sequences</h2>

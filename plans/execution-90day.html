@@ -166,7 +166,7 @@
 
   <h2><span class="num">03</span>Dependencies &amp; Pre-Flight (DO BEFORE KICKOFF)</h2>
   <ol>
-    <li><strong>Fix <code>PASTE_PIXEL_ID_HERE</code></strong> in <code>pricing.html</code> + <code>services.html</code> &mdash; blocker for Task 16 (Jun 1) and Task 36 (Jul 13). Without this, we have no conversion attribution.</li>
+    <li><strong>Inject real Meta Pixel ID</strong> &mdash; the loader is now gated (<code>window.NWM_META_PIXEL_ID</code> defaults to empty across all customer-facing pages). Set the real ID before Task 16 (Jun 1) and Task 36 (Jul 13); without it, no conversion attribution on paid spend.</li>
     <li><strong>Decide on the root <code>styles.css</code></strong> &mdash; conflicts with canonical <code>css/styles.css</code> (Gulf palette). Delete the stray one or confirm it&rsquo;s template leftover.</li>
     <li><strong>Carlos26 50% off promo retired on 2026-04-21</strong> per CEO directive. Disable coupon in Stripe/CRM backend.</li>
     <li><strong>Commit all four plan documents to git</strong> before May 4 so all agents reference the same source of truth.</li>

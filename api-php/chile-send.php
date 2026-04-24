@@ -54,9 +54,10 @@ $confirmed  = ($_GET['confirm'] ?? '') === 'yes';
 $dryrun     = !empty($_GET['dryrun']);
 
 // ----- paths -----
-$CSV  = __DIR__ . '/data/santiago_leads.csv';
-$LOG  = __DIR__ . '/data/chile-sent.log';
-$FAIL = __DIR__ . '/data/chile-failed.log';
+$CSV    = __DIR__ . '/data/santiago_leads.csv';
+$LOG    = __DIR__ . '/data/chile-sent.log';
+$FAIL   = __DIR__ . '/data/chile-failed.log';
+$UNSUB  = __DIR__ . '/data/unsubscribes.log';
 
 // ----- constants -----
 $FROM_NAME  = 'Carlos Martínez';
@@ -67,12 +68,22 @@ $WA_URL     = 'https://wa.me/17407363884?text=' . rawurlencode('Hola NetWebMedia
 
 if (!file_exists($CSV)) j_exit(['error' => 'CSV missing', 'path' => $CSV], 500);
 
-// ----- load sent log -----
+// ----- load sent log + unsubscribe log -----
+// Both counted as "already" so we never double-send AND never mail anyone
+// who hit the List-Unsubscribe URL (one-click or manual).
 $already = [];
 if (file_exists($LOG)) {
   foreach (file($LOG, FILE_IGNORE_NEW_LINES) as $line) {
     $e = trim($line);
     if ($e !== '') $already[strtolower($e)] = true;
+  }
+}
+if (file_exists($UNSUB)) {
+  foreach (file($UNSUB, FILE_IGNORE_NEW_LINES) as $line) {
+    // Format: email<TAB>timestamp<TAB>token<TAB>ip
+    $parts = explode("\t", $line);
+    $e = strtolower(trim($parts[0] ?? ''));
+    if ($e !== '' && strpos($e, '@') !== false) $already[$e] = true;
   }
 }
 
@@ -200,8 +211,10 @@ if ($mode === 'batch' || $mode === 'all') {
       'niche'   => $lead['niche']   ?? null,
       'ok'      => (bool)$ok,
     ];
-    // Small gap between sends within a single HTTP call.
-    if ($results['sent'] < $cap) usleep(2_000_000); // 2s
+    // Gap between sends within a single HTTP call. 8s per message keeps
+    // roughly one send per 8s — under Gmail's abuse thresholds for a new
+    // sending IP reputation. Caller controls inter-call pacing.
+    if ($results['sent'] < $cap) usleep(8_000_000); // 8s
   }
   j_exit([
     'mode'    => $mode,

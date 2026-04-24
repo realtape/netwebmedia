@@ -54,9 +54,14 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Skip rewrite if already inside /industries/ to prevent loops
+  # Map clean /unsubscribe (GET + POST for Gmail one-click) to /unsubscribe.php.
+  # Must come BEFORE the skip-rules block so it's reachable across all hosts.
+  RewriteRule ^unsubscribe/?$ /unsubscribe.php [L,QSA]
+
+  # Skip rewrite if already inside /industries/ or on specific PHP endpoints to prevent loops
   RewriteCond %{REQUEST_URI} ^/industries/ [OR]
-  RewriteCond %{REQUEST_URI} ^/audit-submit\.php$
+  RewriteCond %{REQUEST_URI} ^/audit-submit\.php$ [OR]
+  RewriteCond %{REQUEST_URI} ^/unsubscribe\.php$
   RewriteRule .* - [L]
 
   # ── Parent industry subdomains (10) ──

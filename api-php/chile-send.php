@@ -80,12 +80,16 @@ if (file_exists($LOG)) {
 $fp = fopen($CSV, 'r');
 $headers = fgetcsv($fp);
 $leads = [];
+$seen_in_csv = [];
 while ($row = fgetcsv($fp)) {
   if (count($row) !== count($headers)) continue;
   $lead = array_combine($headers, $row);
   if (empty($lead['email']) || strpos($lead['email'], '@') === false) continue;
+  $email_lc = strtolower(trim($lead['email']));
+  if (isset($seen_in_csv[$email_lc])) continue; // de-dup CSV-internal duplicates
+  $seen_in_csv[$email_lc] = true;
   if ($niche_f && stripos($lead['niche_key'] ?? '', $niche_f) === false) continue;
-  $lead['_already'] = isset($already[strtolower($lead['email'])]);
+  $lead['_already'] = isset($already[$email_lc]);
   $leads[] = $lead;
 }
 fclose($fp);

@@ -17,25 +17,35 @@
                     background: linear-gradient(180deg, rgba(1,15,59,0.82) 0%, rgba(1,15,59,0.92) 100%); }
 
       .nwm-logo {
-        position: absolute; top: 40px; right: 40px; z-index: 200;
-        background: #FFFFFF; padding: 10px 18px; border-radius: 10px;
-        box-shadow: 0 4px 18px rgba(0,0,0,0.15); opacity: 0.98;
+        position: absolute; top: 48px; right: 48px; left: auto; bottom: auto; z-index: 200;
+        background: #FFFFFF;
+        padding: 14px 22px;
+        border-radius: 12px;
+        box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+        opacity: 1;
       }
-      .nwm-logo img { display: block; width: 220px; height: auto; }
-      .nwm-logo-cta { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
-        z-index: 10; opacity: 0; background: #FFFFFF; padding: 14px 24px;
-        border-radius: 12px; box-shadow: 0 4px 18px rgba(0,0,0,0.15);
-        width: 328px; height: 72px;
-        background-image: url(../assets/nwm-logo.png);
-        background-size: 300px auto; background-repeat: no-repeat; background-position: center; }
-      .nwm-logo-cta img { display: none; }
+      .nwm-logo img { display: block; width: 280px; height: auto; }
+      .nwm-logo-cta {
+        position: absolute; bottom: 100px; top: auto; left: 50%; right: auto; transform: translateX(-50%);
+        z-index: 10; opacity: 0;
+        background: #010F3B;
+        padding: 18px 32px;
+        border-radius: 14px;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+      }
+      .nwm-logo-cta img { display: block; width: 360px; height: auto; filter: invert(1) hue-rotate(180deg); }
 
-      .ai-orb { position: absolute; width: 260px; height: 260px; bottom: 380px; left: 80px; }
+      .ai-orb {
+        position: absolute;
+        width: 180px; height: 180px;
+        top: auto; bottom: 360px; left: 70px; right: auto;
+        opacity: 0.55;
+      }
       .orb-ring { position: absolute; border-radius: 50%; border-style: solid; border-color: rgba(255,103,31,0.25); top: 50%; left: 50%; transform: translate(-50%,-50%); }
-      .orb-ring-1 { width: 260px; height: 260px; border-width: 2px; }
-      .orb-ring-2 { width: 200px; height: 200px; border-width: 2px; border-color: rgba(255,103,31,0.4); }
-      .orb-ring-3 { width: 140px; height: 140px; border-width: 2px; border-color: rgba(255,103,31,0.6); }
-      .orb-core { position: absolute; width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle at 38% 38%, #FF8C4A, #FF671F 55%, #C43F00); top: 50%; left: 50%; transform: translate(-50%,-50%); box-shadow: 0 0 40px rgba(255,103,31,0.6), 0 0 80px rgba(255,103,31,0.25); }
+      .orb-ring-1 { width: 180px; height: 180px; border-width: 2px; }
+      .orb-ring-2 { width: 140px; height: 140px; border-width: 2px; border-color: rgba(255,103,31,0.4); }
+      .orb-ring-3 { width: 96px;  height: 96px;  border-width: 2px; border-color: rgba(255,103,31,0.6); }
+      .orb-core { position: absolute; width: 54px; height: 54px; border-radius: 50%; background: radial-gradient(circle at 38% 38%, #FF8C4A, #FF671F 55%, #C43F00); top: 50%; left: 50%; transform: translate(-50%,-50%); box-shadow: 0 0 40px rgba(255,103,31,0.6), 0 0 80px rgba(255,103,31,0.25); }
       .orb-particle { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: rgba(255,103,31,0.7); }
 
       /* SCENE 1: Hook 0-5s */
@@ -100,7 +110,7 @@
          data-start="0" data-duration="86"
          data-width="1080" data-height="1920">
 
-      <div class="nwm-logo clip" data-start="0" data-duration="86" data-track-index="99">
+      <div class="nwm-logo clip" data-start="0" data-duration="76" data-track-index="99">
         <img src="../assets/nwm-logo.png" alt="netwebmedia"/>
       </div>
 
@@ -213,7 +223,9 @@
       <div id="s5-sub" class="clip" data-start="76" data-duration="10" data-track-index="5">AI-native creative + audience + funnel. Link in bio.</div>
       <div id="s5-btn" class="clip" data-start="76" data-duration="10" data-track-index="6">Book a Discovery Call</div>
       <div id="s5-link" class="clip" data-start="76" data-duration="10" data-track-index="7">↑ Link in bio</div>
-      <div class="nwm-logo-cta clip" data-start="76" data-duration="10" data-track-index="8"></div>
+      <div class="nwm-logo-cta clip" data-start="76" data-duration="10" data-track-index="8">
+        <img src="../assets/nwm-logo.png" alt="netwebmedia"/>
+      </div>
 
     </div>
     <script>

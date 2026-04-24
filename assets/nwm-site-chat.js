@@ -6,6 +6,10 @@
 (function () {
   'use strict';
 
+  // Skip if main.js already mounted its WhatsApp button
+  if (window.__nwmWaLoaded) return;
+  window.__nwmWaLoaded = true;
+
   // Skip on CRM, CMS app, login, and admin pages
   var path = location.pathname.toLowerCase();
   var SKIP = ['/crm/', '/cms/', '/app/', '/login', '/dashboard', '/admin', '/desktop-login'];

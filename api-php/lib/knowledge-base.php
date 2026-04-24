@@ -208,6 +208,20 @@ PROJECT SERVICES (ONE-TIME)
 - AEO Migration Audit — $997
 - Custom AI Agent — $3,000–$12,000
 
+COURSES & SELF-STUDY PRODUCTS (self-serve checkout — instant digital delivery)
+
+* Automation OS Bundle — $697 — one-time — All 3 courses + both PDF playbooks (WhatsApp, AI Chatbot, SMS). Everything to automate messaging from setup to 10,000 contacts. Saves $348 vs. buying separately (33% off). Lifetime access, EN + ES. — checkout: /checkout.html?product=automation-os
+* WhatsApp Business Automation Mastery (course) — $297 — one-time — 38 lessons, 8 modules, 4h 45m. API setup, 180+ templates, BANT qualification, broadcasts, CRM integration. 100% automated, zero manual replies. EN + ES. — checkout: /checkout.html?product=whatsapp-course
+* AI Chatbot Automation — Full Deployment (course) — $347 — one-time — 42 lessons, 9 modules, 5h 10m. DIAL framework, 50-intent library, BANT flows, multi-platform (WhatsApp/Web/IG/FB/SMS), AI/NLP integration, QA scorecard. EN + ES. — checkout: /checkout.html?product=chatbot-course
+* SMS & Multi-Platform Messaging Automation (course) — $197 — one-time — 31 lessons, 7 modules, 3h 50m. TCPA compliance, keyword triggers, drip sequences, two-way automation, Instagram DM, FB Messenger, Google Business. EN + ES. — checkout: /checkout.html?product=sms-course
+* Course Trilogy (all 3 courses) — $597 — one-time — WhatsApp + AI Chatbot + SMS courses. Complete messaging automation stack. Saves $244 vs. buying individually (29% off). — checkout: /checkout.html?product=course-trilogy
+* WhatsApp Automation Playbook (PDF) — $47 — one-time — 30 copy-paste templates, SERVE welcome sequence, BANT sales flow, broadcast calendar, CRM tag map, KPI dashboard. A4 print-ready. EN + ES. — checkout: /checkout.html?product=whatsapp-pdf
+* AI Chatbot Automation Playbook (PDF) — $57 — one-time — DIAL framework, 50-intent library, full BANT dialog tree, PACE sales scripts, 3-STRIKE service system, AI system prompt template, 20-case QA scorecard. EN + ES. — checkout: /checkout.html?product=chatbot-pdf
+* PDF Bundle (both playbooks) — $77 — one-time — WhatsApp + Chatbot playbooks together. Re-brandable (add your agency logo). Saves $27 vs. individual (includes white-label rights). EN + ES. — checkout: /checkout.html?product=pdf-bundle
+
+Guarantee: 7-day money-back on all courses and playbooks. Message via WhatsApp within 7 days for a full refund.
+Self-serve catalogue: /catalogue.html
+
 ━━ 5. COMMERCIAL TERMS (canonical, as of 2026-04-21) ━━
 
 - 90-day minimum, month-to-month thereafter. No long-term contract.
@@ -1243,6 +1257,20 @@ PROYECTOS (ONE-TIME)
 - Construcción de Automatización con IA — $1,500–$8,000
 - Auditoría AEO Migration — $997
 - Agente IA Custom — $3,000–$12,000
+
+CURSOS Y PRODUCTOS SELF-STUDY (pago único — entrega digital inmediata)
+
+* Automation OS Bundle — $697 — pago único — Los 3 cursos + ambos playbooks PDF (WhatsApp, Chatbot IA, SMS). Todo para automatizar mensajería desde la configuración hasta 10.000 contactos. Ahorra $348 vs. compra individual (33% descuento). Acceso de por vida, EN + ES. — checkout: /checkout.html?product=automation-os
+* Maestría en Automatización de WhatsApp Business (curso) — $297 — pago único — 38 lecciones, 8 módulos, 4h 45m. Configuración API, 180+ templates, calificación BANT, broadcasts, integración CRM. 100% automatizado, cero respuestas manuales. EN + ES. — checkout: /checkout.html?product=whatsapp-course
+* Automatización con Chatbot IA — Despliegue Completo (curso) — $347 — pago único — 42 lecciones, 9 módulos, 5h 10m. Framework DIAL, biblioteca de 50 intents, flujos BANT, despliegue multiplataforma (WhatsApp/Web/IG/FB/SMS), integración IA/NLP, scorecard QA. EN + ES. — checkout: /checkout.html?product=chatbot-course
+* Automatización SMS y Mensajería Multiplataforma (curso) — $197 — pago único — 31 lecciones, 7 módulos, 3h 50m. Cumplimiento TCPA, triggers por palabras clave, secuencias drip, automatización bidireccional, Instagram DM, FB Messenger, Google Business. EN + ES. — checkout: /checkout.html?product=sms-course
+* Trilogía de Cursos (los 3 cursos) — $597 — pago único — WhatsApp + Chatbot IA + SMS. Stack completo de automatización de mensajería. Ahorra $244 vs. compra individual (29% descuento). — checkout: /checkout.html?product=course-trilogy
+* Playbook de Automatización WhatsApp (PDF) — $47 — pago único — 30 templates listos para copiar, secuencia SERVE, flujo de ventas BANT, calendario de broadcasts, mapa de tags CRM, dashboard de KPIs. Formato A4 imprimible. EN + ES. — checkout: /checkout.html?product=whatsapp-pdf
+* Playbook de Automatización Chatbot IA (PDF) — $57 — pago único — Framework DIAL, biblioteca de 50 intents, árbol de diálogo BANT, scripts de ventas PACE, sistema 3-STRIKE, template de system prompt IA, scorecard QA de 20 casos. EN + ES. — checkout: /checkout.html?product=chatbot-pdf
+* Bundle PDF (ambos playbooks) — $77 — pago único — Playbooks WhatsApp + Chatbot juntos. Re-brandeable (agrega el logo de tu agencia). Ahorra $27 vs. individual (incluye derechos de marca propia). EN + ES. — checkout: /checkout.html?product=pdf-bundle
+
+Garantía: 7 días de devolución en cursos y playbooks. Escribe por WhatsApp dentro de los 7 días para reembolso completo.
+Catálogo self-serve: /catalogue.html
 
 ━━ 5. CONDICIONES COMERCIALES (canónico, al 2026-04-21) ━━
 

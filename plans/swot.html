@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SWOT Analysis — NetWebMedia</title>
+<meta name="description" content="NetWebMedia strategic SWOT: strengths, weaknesses, opportunities, and threats for the AI-native fractional CMO operating model." />
+<meta name="robots" content="noindex,nofollow" />
+<link rel="stylesheet" href="plans.css" />
+<style>
+  .swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 24px 0 32px; }
+  .swot-card { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 24px; }
+  .swot-card h3 { margin-top: 0; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+  .swot-card .tag { font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 700; letter-spacing: 0.06em; }
+  .swot-card h2 { font-family: var(--font-display); font-size: 22px; font-weight: 800; margin: 0 0 14px; color: var(--text-primary); }
+  .swot-card ul { margin: 0; padding: 0 0 0 18px; }
+  .swot-card li { font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 10px; }
+  .swot-card li strong { color: var(--text-primary); font-weight: 600; }
+
+  .s-card { border-left: 3px solid #22C55E; }
+  .s-card h3 { color: #22C55E; }
+  .s-card .tag { background: rgba(34,197,94,0.15); color: #22C55E; }
+
+  .w-card { border-left: 3px solid #F59E0B; }
+  .w-card h3 { color: #F59E0B; }
+  .w-card .tag { background: rgba(245,158,11,0.15); color: #F59E0B; }
+
+  .o-card { border-left: 3px solid var(--nwm-orange); }
+  .o-card h3 { color: var(--nwm-orange); }
+  .o-card .tag { background: rgba(255,103,31,0.15); color: var(--nwm-orange); }
+
+  .t-card { border-left: 3px solid #EF4444; }
+  .t-card h3 { color: #EF4444; }
+  .t-card .tag { background: rgba(239,68,68,0.15); color: #EF4444; }
+
+  .matrix-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .matrix-card { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 20px; }
+  .matrix-card h4 { margin: 0 0 12px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--nwm-orange); }
+  .matrix-card p { margin: 0; font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+  .matrix-card p strong { color: var(--text-primary); }
+
+  .score-table { width: 100%; border-collapse: collapse; margin: 16px 0 32px; font-size: 14px; }
+  .score-table th, .score-table td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border-glass); }
+  .score-table th { background: rgba(255,255,255,0.03); font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+  .score-table td.num { text-align: center; font-family: var(--font-mono); font-weight: 700; }
+  .score-5 { color: #22C55E; }
+  .score-4 { color: #86EFAC; }
+  .score-3 { color: #F59E0B; }
+  .score-2 { color: #FB923C; }
+  .score-1 { color: #EF4444; }
+
+  @media (max-width: 820px) {
+    .swot-grid, .matrix-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="plans-nav">
+  <div class="plans-nav-inner">
+    <div class="plans-brand">NetWebMedia<span class="dot">.</span> <span style="font-weight:500;color:var(--text-muted);font-size:14px;margin-left:8px;">Plans</span></div>
+    <div class="plans-menu">
+      <a href="index.html">Overview</a>
+      <a href="business-plan.html">Business Plan</a>
+      <a href="marketing-plan.html">Marketing Plan</a>
+      <a href="execution-90day.html">90-Day Execution</a>
+      <a href="brand-book.html">Brand Book</a>
+      <a href="swot.html" class="active">SWOT</a>
+    </div>
+  </div>
+</nav>
+
+<main class="doc">
+
+  <div class="doc-label">Strategic SWOT · April 2026</div>
+  <h1 class="doc-title">Where we win, where we bleed, and what the market is about to hand us.</h1>
+  <p class="doc-subtitle">
+    An honest internal audit of NetWebMedia as of Q2 2026. Written for the operator, not the investor —
+    so every line translates to a decision on next week's calendar.
+  </p>
+
+  <div class="doc-meta">
+    <div><strong>Author:</strong> Carlos Martinez, CEO</div>
+    <div><strong>Dated:</strong> April 23, 2026</div>
+    <div><strong>Horizon:</strong> Next 90 days</div>
+    <div><span class="pill">Review cycle: monthly</span></div>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- SECTION 1: EXECUTIVE LENS -->
+  <section class="doc-section">
+    <div class="section-kicker">01 · Executive Lens</div>
+    <h2 class="section-title">The one-paragraph verdict</h2>
+    <p class="lead">
+      NetWebMedia is a <strong>leveraged one-operator agency</strong> competing in a category that rewards speed and
+      documentation over headcount. Our strength is an <strong>async, AI-native delivery model</strong> that matches
+      how buyers now prefer to work: WhatsApp, chat, email — no calendar dance. Our biggest risk is the same
+      thing as our biggest advantage: <strong>concentration in a single operator</strong>. The next 90 days are about
+      turning the operator's judgment into reusable systems so growth stops being bottlenecked by Carlos's inbox.
+    </p>
+  </section>
+
+  <!-- SECTION 2: SWOT QUADRANTS -->
+  <section class="doc-section">
+    <div class="section-kicker">02 · The Four Quadrants</div>
+    <h2 class="section-title">SWOT at a glance</h2>
+
+    <div class="swot-grid">
+      <!-- STRENGTHS -->
+      <div class="swot-card s-card">
+        <h3>Strengths <span class="tag">Internal · Positive</span></h3>
+        <h2>What we already own</h2>
+        <ul>
+          <li><strong>AI-native delivery stack.</strong> 12 specialist agents do the work of a 20-person agency at ~15% of the cost. Gross margin projected at 72% → 82% by Y5.</li>
+          <li><strong>Bootstrapped &amp; cash-positive by Month 4.</strong> No investor pressure. We can pick clients and reject bad fits.</li>
+          <li><strong>Async-only communication.</strong> WhatsApp, chat, email — zero phone or video calls. Matches how modern SMB owners actually want to work.</li>
+          <li><strong>Owned IP: crm-vanilla + CMS + 7 productized packages.</strong> Not reselling HubSpot — we ship our own software on every retainer.</li>
+          <li><strong>AEO-first positioning.</strong> Written to be cited by Claude, ChatGPT, Perplexity, Google — not just ranked. First-mover advantage in Chile &amp; US SMB.</li>
+          <li><strong>Bilingual by default.</strong> One team, two markets (US + LATAM) with native-quality content in both.</li>
+          <li><strong>Published plans + brand book.</strong> Clients see the operating system, not a sales deck.</li>
+        </ul>
+      </div>
+
+      <!-- WEAKNESSES -->
+      <div class="swot-card w-card">
+        <h3>Weaknesses <span class="tag">Internal · Negative</span></h3>
+        <h2>Where we bleed time or credibility</h2>
+        <ul>
+          <li><strong>Single-operator concentration risk.</strong> Carlos is the CEO, sales team, QA, and delivery lead. Illness = revenue stops.</li>
+          <li><strong>Thin social proof at top of funnel.</strong> Case studies are in-progress; testimonials lean on early cohort. Enterprise prospects ask for proof we can't yet show.</li>
+          <li><strong>No live phone/Zoom option will filter out some buyers.</strong> Async-first is our edge — but it rules out enterprise buyers who expect a human call.</li>
+          <li><strong>Founding-cohort pricing ($1,997/mo) is below sustainable long-term value.</strong> Needs a documented migration path to $3,500–$5,000/mo by Y2.</li>
+          <li><strong>AEO attribution is still fuzzy.</strong> We know citations happen; we can't yet cleanly prove incremental revenue from them to skeptical CFOs.</li>
+          <li><strong>Brand recognition in US SMB is near zero.</strong> Outside Chile and our referral network, we're unknown.</li>
+          <li><strong>Tooling sprawl internally.</strong> 30+ MCPs, Linear, Notion, Gmail — great for agents, but onboarding a second human operator will require documentation we don't yet have.</li>
+        </ul>
+      </div>
+
+      <!-- OPPORTUNITIES -->
+      <div class="swot-card o-card">
+        <h3>Opportunities <span class="tag">External · Positive</span></h3>
+        <h2>Tailwinds the market is handing us</h2>
+        <ul>
+          <li><strong>AEO is the new SEO — and the window is open now.</strong> Most SMB agencies still sell "blog posts for Google." Being cited by Claude/ChatGPT is a differentiator worth hundreds in MRR per client.</li>
+          <li><strong>WhatsApp-first B2B is exploding in LATAM and SMB US.</strong> We're already native there while competitors still gate everything behind Calendly.</li>
+          <li><strong>Fractional CMO market is growing 30%+ YoY.</strong> SMB owners want senior strategy without a $250k salary. Our package is priced for exactly that buyer.</li>
+          <li><strong>AI cost-per-task is falling ~40% per year.</strong> Our margin structurally improves even if we don't raise prices.</li>
+          <li><strong>Expansion revenue on retainer clients.</strong> Cross-sell: ads, content, CRM implementation, landing pages. LTV can 3x net-new ACV within 12 months.</li>
+          <li><strong>Chile SMB digitization wave.</strong> Regional cities (Temuco, Valdivia, Arica, etc.) have 80%+ digital gaps vs. Santiago — first mover wins the territory.</li>
+          <li><strong>Claude Pro Max + Anthropic API pricing.</strong> We can run the business at ~$300/mo in tooling today. Competitors running on enterprise stacks can't match our unit economics.</li>
+        </ul>
+      </div>
+
+      <!-- THREATS -->
+      <div class="swot-card t-card">
+        <h3>Threats <span class="tag">External · Negative</span></h3>
+        <h2>What could kill or slow us</h2>
+        <ul>
+          <li><strong>Big-agency AI copycats.</strong> When Publicis / WPP / HubSpot bundle AI into existing retainers, price pressure lands on us first.</li>
+          <li><strong>LLM platform risk.</strong> If Anthropic / OpenAI change pricing, API limits, or citation behavior, our delivery model takes a direct hit.</li>
+          <li><strong>AEO gets gamed.</strong> As more players optimize for LLM citations, the bar rises and the early-mover advantage compresses. ~18-month window.</li>
+          <li><strong>SMB recession sensitivity.</strong> Marketing is still the first line item SMBs cut when cash tightens. $1,997/mo retainer is discretionary to a bootstrapped restaurant.</li>
+          <li><strong>Privacy &amp; AI regulation.</strong> GDPR / Chilean Ley 21.719 / US state AI laws could force workflow changes faster than we can absorb.</li>
+          <li><strong>Reputation risk on a single bad client story.</strong> A one-operator brand amplifies every complaint. One viral negative post can stall inbound for a quarter.</li>
+          <li><strong>Talent-ladder constraint.</strong> Hiring the second operator is the hardest hire — they need to be senior enough to be trusted with async delivery but paid from bootstrapped cash.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: SCORING -->
+  <section class="doc-section">
+    <div class="section-kicker">03 · Impact × Likelihood Score</div>
+    <h2 class="section-title">Where to spend the next 90 days</h2>
+    <p class="lead">
+      Every item scored 1 (low) to 5 (critical). Score = Impact × Likelihood. Anything ≥ 16 is on this quarter's roadmap.
+    </p>
+
+    <table class="score-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Type</th>
+          <th class="num">Impact</th>
+          <th class="num">Likelihood</th>
+          <th class="num">Score</th>
+          <th>Action owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Single-operator concentration</td>
+          <td>W</td>
+          <td class="num score-5">5</td>
+          <td class="num score-4">4</td>
+          <td class="num score-5">20</td>
+          <td>Hire Ops #2 by Q3</td>
+        </tr>
+        <tr>
+          <td>AEO window (first-mover)</td>
+          <td>O</td>
+          <td class="num score-5">5</td>
+          <td class="num score-4">4</td>
+          <td class="num score-5">20</td>
+          <td>CMO — publish 40 AEO posts by June</td>
+        </tr>
+        <tr>
+          <td>WhatsApp-first LATAM SMB</td>
+          <td>O</td>
+          <td class="num score-5">5</td>
+          <td class="num score-4">4</td>
+          <td class="num score-5">20</td>
+          <td>Product — WA bot + regional playbooks</td>
+        </tr>
+        <tr>
+          <td>Thin social proof</td>
+          <td>W</td>
+          <td class="num score-4">4</td>
+          <td class="num score-4">4</td>
+          <td class="num score-4">16</td>
+          <td>CS — 5 filmed case studies by Aug</td>
+        </tr>
+        <tr>
+          <td>Big-agency AI copycats</td>
+          <td>T</td>
+          <td class="num score-4">4</td>
+          <td class="num score-4">4</td>
+          <td class="num score-4">16</td>
+          <td>CMO — defensible "plan hub" positioning</td>
+        </tr>
+        <tr>
+          <td>LLM platform pricing risk</td>
+          <td>T</td>
+          <td class="num score-4">4</td>
+          <td class="num score-3">3</td>
+          <td class="num score-3">12</td>
+          <td>Eng — multi-provider fallback (Claude/GPT/Gemini)</td>
+        </tr>
+        <tr>
+          <td>Founding-cohort price migration</td>
+          <td>W</td>
+          <td class="num score-3">3</td>
+          <td class="num score-4">4</td>
+          <td class="num score-3">12</td>
+          <td>Finance — documented 12-mo ramp</td>
+        </tr>
+        <tr>
+          <td>AEO attribution proof</td>
+          <td>W</td>
+          <td class="num score-3">3</td>
+          <td class="num score-4">4</td>
+          <td class="num score-3">12</td>
+          <td>Data — citation → pipeline dashboard</td>
+        </tr>
+        <tr>
+          <td>SMB recession sensitivity</td>
+          <td>T</td>
+          <td class="num score-3">3</td>
+          <td class="num score-3">3</td>
+          <td class="num score-3">9</td>
+          <td>Monitor — trigger "lite" tier if macro flips</td>
+        </tr>
+        <tr>
+          <td>Chile regional wave</td>
+          <td>O</td>
+          <td class="num score-3">3</td>
+          <td class="num score-5">5</td>
+          <td class="num score-4">15</td>
+          <td>Sales — 13 regional digital-gap reports</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION 4: STRATEGIC MATRIX -->
+  <section class="doc-section">
+    <div class="section-kicker">04 · Strategic Matrix</div>
+    <h2 class="section-title">Cross-multiply SW × OT</h2>
+    <p class="lead">
+      Four quadrants of strategic moves — the real value of a SWOT is in the combinations, not the boxes.
+    </p>
+
+    <div class="matrix-grid">
+      <div class="matrix-card">
+        <h4>SO · Strengths → Opportunities</h4>
+        <p><strong>Press the advantage.</strong> Leverage our async AI-stack to capture the AEO window before big agencies retool. Push WhatsApp-first delivery as the signature in every LATAM pitch. Ship the Chile regional digital-gap reports as inbound bait — one per city, all published, all AEO-optimized.</p>
+      </div>
+
+      <div class="matrix-card">
+        <h4>WO · Weaknesses vs. Opportunities</h4>
+        <p><strong>Fix to unlock.</strong> The operator-concentration risk is the one thing blocking us from riding the fractional-CMO growth wave. Document everything in <code>.claude/agents/</code>, hire Ops #2 in Q3, and turn case studies into evidence that validates the opportunity for skeptical buyers.</p>
+      </div>
+
+      <div class="matrix-card">
+        <h4>ST · Strengths vs. Threats</h4>
+        <p><strong>Defend with moats.</strong> Against big-agency copycats: our published plan hub + owned software + bootstrapped margin structure. Against LLM platform risk: multi-provider abstraction so we can swap Claude / GPT / Gemini without changing the client experience.</p>
+      </div>
+
+      <div class="matrix-card">
+        <h4>WT · Weaknesses × Threats</h4>
+        <p><strong>Neutralize the kill shots.</strong> A bad review on a single-operator brand, plus a recession, plus AEO commoditization could stack. Mitigate: reputation monitoring + written SLAs + a documented "lite" retainer ($997/mo) ready to launch if macro flips, so we keep clients instead of losing them to budget cuts.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: DECISIONS -->
+  <section class="doc-section">
+    <div class="section-kicker">05 · Decisions this week</div>
+    <h2 class="section-title">What I'm actually doing with this SWOT</h2>
+    <ol>
+      <li><strong>No live calls policy is now brand-level.</strong> Contact, services, pricing, and CTAs all route to WhatsApp / chat / email. Phone-dependent buyers are not our ICP.</li>
+      <li><strong>Hire Ops #2 by end of Q3.</strong> Start documenting delivery SOPs in Notion now so the role description writes itself in July.</li>
+      <li><strong>Publish 40 AEO posts by June 30.</strong> Content Strategist owns the calendar; CMO approves topic selection weekly.</li>
+      <li><strong>Ship 5 filmed case studies by August.</strong> Customer Success leads; clients contacted this week.</li>
+      <li><strong>Launch the $997 "lite" retainer spec internally</strong> — don't publish unless macro signals trigger it, but have it ready.</li>
+      <li><strong>Multi-provider LLM abstraction</strong> — Engineering spikes a Claude ↔ GPT ↔ Gemini swap layer so platform pricing risk can't zero us.</li>
+      <li><strong>Regional digital-gap reports</strong> — publish remaining 3 Chilean cities by May 15; each becomes an inbound magnet.</li>
+    </ol>
+  </section>
+
+  <hr class="rule" />
+
+  <section class="doc-section">
+    <p class="type-small" style="color:var(--text-muted);font-style:italic;">
+      Next review: May 23, 2026. Scores refresh monthly or whenever a major external signal (LLM pricing change, competitor launch, macro shift) lands.
+    </p>
+  </section>
+
+</main>
+
+</body>
+</html>

@@ -300,7 +300,7 @@ function route_public_audit($parts, $method) {
       CURLOPT_POST => 1, CURLOPT_RETURNTRANSFER => 1, CURLOPT_TIMEOUT => 40,
       CURLOPT_HTTPHEADER => ['Content-Type: application/json','x-api-key: ' . $cfg['anthropic_api_key'],'anthropic-version: 2023-06-01'],
       CURLOPT_POSTFIELDS => json_encode([
-        'model' => 'claude-sonnet-4-5',
+        'model' => 'claude-sonnet-4-6',
         'max_tokens' => 800,
         'system' => 'You are a senior digital marketing strategist at NetWebMedia. Produce a punchy, specific 3-paragraph audit summary in Spanish (Chile) for a prospect. First paragraph: where they shine. Second: the 2 biggest problems costing them customers. Third: concrete next 30-day plan (3 bullets). No fluff, no generic statements.',
         'messages' => [['role' => 'user', 'content' => $summary]],

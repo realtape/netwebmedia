@@ -177,7 +177,7 @@ function route_public_chat() {
   pchat_log_turn($sessionId, $ip, $lang, 'user', $message, $page, $ref, $ua);
 
   $sys = pchat_public_system_prompt($lang);
-  $r = ai_call_claude($sys, $message, $history, 'claude-sonnet-4-5');
+  $r = ai_call_claude($sys, $message, $history, 'claude-sonnet-4-6');
 
   if (!empty($r['error'])) {
     // Log the raw Claude error server-side for diagnosis (error_log → PHP log).

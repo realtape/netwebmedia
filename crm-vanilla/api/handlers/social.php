@@ -270,10 +270,14 @@ function handlePublishDue(int $uid, PDO $db): void {
       INDEX `idx_status_scheduled` (`status`, `scheduled_at`)
     ) ENGINE=InnoDB');
 
-    $stmt = $db->prepare(
-        'SELECT id, providers, caption, media_url FROM social_scheduled
-         WHERE user_id = ? AND status = "scheduled" AND scheduled_at <= NOW()'
-    );
+    $data  = getInput();
+    $force = !empty($data['force']);
+
+    $sql = $force
+        ? 'SELECT id, providers, caption, media_url FROM social_scheduled WHERE user_id = ? AND status = "scheduled"'
+        : 'SELECT id, providers, caption, media_url FROM social_scheduled WHERE user_id = ? AND status = "scheduled" AND scheduled_at <= NOW()';
+
+    $stmt = $db->prepare($sql);
     $stmt->execute([$uid]);
     $due = $stmt->fetchAll();
 

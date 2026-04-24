@@ -289,8 +289,96 @@
   <div class="container">
     <div class="glass-card scroll-reveal" style="padding:0;overflow:hidden;">
       <div style="display:grid;grid-template-columns:1fr 1fr;min-height:400px;">
-        <div style="background:linear-gradient(135deg,#2563EB,#7C3AED,#06B6D4);display:flex;align-items:center;justify-content:center;font-size:80px;padding:60px;">
-          🤖
+        <div style="background:linear-gradient(135deg,#0f1a3e,#1a1060,#0a2a4a);display:flex;align-items:center;justify-content:center;padding:40px;overflow:hidden;position:relative;">
+          <style>
+            .dash-wrap{width:100%;max-width:320px;position:relative}
+            /* Grid */
+            .dash-grid{width:100%;height:220px;position:relative}
+            /* Bars */
+            .dash-bar{position:absolute;bottom:40px;border-radius:4px 4px 0 0;transform-origin:bottom center;animation:barRise 1.6s cubic-bezier(.22,1,.36,1) both}
+            @keyframes barRise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+            .db1{left:12%;width:13%;height:55%;background:linear-gradient(to top,#2563EB,#60A5FA);animation-delay:.1s;box-shadow:0 0 18px rgba(96,165,250,.5)}
+            .db2{left:28%;width:13%;height:80%;background:linear-gradient(to top,#7C3AED,#A78BFA);animation-delay:.2s;box-shadow:0 0 18px rgba(167,139,250,.5)}
+            .db3{left:44%;width:13%;height:65%;background:linear-gradient(to top,#0891B2,#67E8F9);animation-delay:.3s;box-shadow:0 0 18px rgba(103,232,249,.4)}
+            .db4{left:60%;width:13%;height:90%;background:linear-gradient(to top,#2563EB,#818CF8);animation-delay:.4s;box-shadow:0 0 22px rgba(129,140,248,.6)}
+            .db5{left:76%;width:13%;height:50%;background:linear-gradient(to top,#7C3AED,#C4B5FD);animation-delay:.5s;box-shadow:0 0 14px rgba(196,181,253,.4)}
+            /* Floor line */
+            .dash-floor{position:absolute;bottom:40px;left:5%;right:5%;height:1px;background:rgba(255,255,255,.12)}
+            /* Line chart overlay */
+            .dash-line-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+            .dash-path{fill:none;stroke:url(#lgrd);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:400;stroke-dashoffset:400;animation:drawLine 1.8s ease forwards .6s}
+            @keyframes drawLine{to{stroke-dashoffset:0}}
+            /* Dots on line */
+            .dash-dot{fill:#fff;filter:drop-shadow(0 0 4px #60A5FA);animation:dotPop .3s ease both}
+            @keyframes dotPop{from{r:0}to{r:4}}
+            /* KPI chips */
+            .kpi-row{display:flex;gap:8px;margin-top:12px}
+            .kpi{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 10px;backdrop-filter:blur(4px);animation:fadeUp .5s ease both}
+            @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+            .kpi-val{font-size:15px;font-weight:700;color:#fff;line-height:1}
+            .kpi-lbl{font-size:10px;color:rgba(255,255,255,.5);margin-top:3px}
+            .kpi-up{font-size:10px;color:#34D399;font-weight:600}
+            /* Pulse ring on tallest bar */
+            .dash-pulse{position:absolute;top:8%;left:60%;width:13%;aspect-ratio:1;animation:pulse 2s ease-in-out infinite 1.2s}
+            @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(129,140,248,.6)}50%{box-shadow:0 0 0 12px rgba(129,140,248,0)}}
+            /* Floating sparkles */
+            .sp{position:absolute;width:4px;height:4px;border-radius:50%;background:#A78BFA;opacity:0;animation:sparkle 3s ease-in-out infinite}
+            @keyframes sparkle{0%,100%{opacity:0;transform:translateY(0)}50%{opacity:.8;transform:translateY(-18px)}}
+            .sp1{top:20%;left:15%;animation-delay:0s}
+            .sp2{top:30%;left:70%;animation-delay:.8s}
+            .sp3{top:10%;left:45%;animation-delay:1.5s}
+            /* Grid lines horizontal */
+            .hline{position:absolute;left:5%;right:5%;height:1px;background:rgba(255,255,255,.05)}
+          </style>
+          <div class="dash-wrap">
+            <div class="dash-grid">
+              <div class="hline" style="bottom:70px"></div>
+              <div class="hline" style="bottom:100px"></div>
+              <div class="hline" style="bottom:130px"></div>
+              <div class="hline" style="bottom:160px"></div>
+              <div class="hline" style="bottom:190px"></div>
+              <div class="dash-bar db1"></div>
+              <div class="dash-bar db2"></div>
+              <div class="dash-bar db3"></div>
+              <div class="dash-bar db4"></div>
+              <div class="dash-bar db5"></div>
+              <div class="dash-pulse"></div>
+              <div class="dash-floor"></div>
+              <svg class="dash-line-svg" viewBox="0 0 320 220" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="lgrd" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#67E8F9"/>
+                    <stop offset="100%" stop-color="#A78BFA"/>
+                  </linearGradient>
+                </defs>
+                <path class="dash-path" d="M25,165 C60,130 90,90 115,110 S170,60 195,50 S250,80 295,45"/>
+                <circle class="dash-dot" cx="25" cy="165" style="animation-delay:.8s"/>
+                <circle class="dash-dot" cx="115" cy="110" style="animation-delay:1s"/>
+                <circle class="dash-dot" cx="195" cy="50" style="animation-delay:1.2s"/>
+                <circle class="dash-dot" cx="295" cy="45" style="animation-delay:1.4s"/>
+              </svg>
+              <div class="sp sp1"></div>
+              <div class="sp sp2"></div>
+              <div class="sp sp3"></div>
+            </div>
+            <div class="kpi-row">
+              <div class="kpi" style="animation-delay:.8s">
+                <div class="kpi-val">+214%</div>
+                <div class="kpi-lbl">Organic reach</div>
+                <div class="kpi-up">↑ 12.4%</div>
+              </div>
+              <div class="kpi" style="animation-delay:1s">
+                <div class="kpi-val">$4.2M</div>
+                <div class="kpi-lbl">Pipeline gen</div>
+                <div class="kpi-up">↑ 34.1%</div>
+              </div>
+              <div class="kpi" style="animation-delay:1.2s">
+                <div class="kpi-val">98.7</div>
+                <div class="kpi-lbl">AI score</div>
+                <div class="kpi-up">↑ 5.3%</div>
+              </div>
+            </div>
+          </div>
         </div>
         <div style="padding:48px;display:flex;flex-direction:column;justify-content:center;">
           <div style="display:flex;gap:8px;margin-bottom:16px;">

@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Free Website Marketing Deep Dive — NetWebMedia</title>
 
-<!-- HubSpot Tracking Code — Replace XXXXXXX with your Hub ID -->
-<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/51307244.js"></script>
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -677,7 +675,7 @@
 <!-- Lead Captured Toast -->
 <div class="toast" id="leadToast">
   <span class="toast-icon">✅</span>
-  <span id="toastMsg">Lead captured in HubSpot</span>
+  <span id="toastMsg">Lead captured</span>
 </div>
 
 </main>
@@ -933,102 +931,23 @@ function mulberry32(a) {
   }
 }
 
-// ═══════════════════════════════════════════════
-//  HubSpot Integration Config
-// ═══════════════════════════════════════════════
-const HUBSPOT_CONFIG = {
-  portalId: '51307244',
-  // HubSpot Forms API — this is the primary lead capture method
-  formGuid: '34e52abc-84e7-464b-ab2e-92b272cf857c',
-  // HubSpot Tracking API (secondary — works when hosted on tracked domain)
-  useTrackingApi: true,
-};
-
-// Send lead data to HubSpot
-function sendToHubSpot(leadData) {
-  // ── Method 1: HubSpot Forms API (if formGuid is configured) ──
-  if (HUBSPOT_CONFIG.formGuid) {
-    const payload = {
-      submittedAt: Date.now(),
-      fields: [
-        { objectTypeId: '0-1', name: 'email', value: leadData.email },
-        { objectTypeId: '0-1', name: 'firstname', value: leadData.firstName },
-        { objectTypeId: '0-1', name: 'lastname', value: leadData.lastName },
-        { objectTypeId: '0-1', name: 'website', value: leadData.website },
-        { objectTypeId: '0-1', name: 'industry', value: leadData.industry },
-        { objectTypeId: '0-1', name: 'company', value: leadData.companyFromUrl },
-      ],
-      context: {
-        hutk: getCookie('hubspotutk'),
-        pageUri: window.location.href,
-        pageName: 'NetWebMedia Website Diagnostic Tool'
-      },
-      legalConsentOptions: {
-        consent: {
-          consentToProcess: true,
-          text: 'By submitting this form, you agree to receive marketing communications from NetWebMedia.',
-        }
-      }
-    };
-
-    fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${HUBSPOT_CONFIG.portalId}/${HUBSPOT_CONFIG.formGuid}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-    .then(r => r.json())
-    .then(data => console.log('[HubSpot Forms] Lead captured:', data))
-    .catch(err => console.warn('[HubSpot Forms] Submission failed (will retry via tracking):', err));
-  }
-
-  // ── Method 2: HubSpot Tracking API (always runs if tracking script is loaded) ──
-  if (HUBSPOT_CONFIG.useTrackingApi && typeof _hsq !== 'undefined') {
-    // Identify the contact
-    _hsq.push(['identify', {
-      email: leadData.email,
-      firstname: leadData.firstName,
-      lastname: leadData.lastName,
-      website: leadData.website,
-      industry: leadData.industry,
-      company: leadData.companyFromUrl,
-      hs_lead_status: 'NEW'
-    }]);
-
-    // Track the diagnostic event
-    _hsq.push(['trackCustomBehavioralEvent', {
-      name: 'pe51307244_website_diagnostic_completed',
-      properties: {
-        website_analyzed: leadData.website,
-        overall_score: leadData.overallScore,
-        industry: leadData.industry,
-        weakest_category: leadData.weakestCategory,
-        diagnostic_date: new Date().toISOString()
-      }
-    }]);
-
-    // Track page view with identified contact
-    _hsq.push(['trackPageView']);
-
-    console.log('[HubSpot Tracking] Contact identified & event tracked:', leadData.email);
-  }
-
-  // ── Method 3: Data Layer for GTM / Webhook fallback ──
+// ── Lead capture ──
+function captureLeadData(leadData) {
+  // Push to GTM data layer
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     event: 'nwm_diagnostic_lead',
     lead: leadData,
     timestamp: new Date().toISOString()
   });
-  console.log('[DataLayer] Lead pushed:', leadData);
 
-  // ── Store locally for session reference ──
+  // Store locally for session reference
   try {
     const leads = JSON.parse(sessionStorage.getItem('nwm_leads') || '[]');
     leads.push({ ...leadData, timestamp: new Date().toISOString() });
     sessionStorage.setItem('nwm_leads', JSON.stringify(leads));
-  } catch(e) { /* sessionStorage not available */ }
+  } catch(e) {}
 
-  // Show toast confirmation
   showToast(`Lead captured: ${leadData.email}`);
 }
 
@@ -1130,11 +1049,11 @@ function showResults(url, industry) {
   const scores = generateScores(url, industry);
   const overall = Math.round(Object.values(scores).reduce((a,b) => a+b, 0) / 8);
 
-  // ── Send lead to HubSpot ──
+  // ── Capture lead ──
   const weakestKey = Object.entries(scores).sort((a,b) => a[1] - b[1])[0];
   const weakestCat = CATEGORIES.find(c => c.key === weakestKey[0]);
   if (window._nwmLeadData) {
-    sendToHubSpot({
+    captureLeadData({
       ...window._nwmLeadData,
       overallScore: String(overall),
       weakestCategory: weakestCat ? weakestCat.name : '',

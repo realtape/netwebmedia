@@ -171,20 +171,26 @@ if ($mode === 'preview') {
 }
 
 if ($mode === 'test') {
-  // Send one email to Carlos, using first pending lead's personalization
+  // Test recipient defaults to an EXTERNAL Gmail (not @netwebmedia.com) so we
+  // bypass cPanel's local-delivery bug — mail sent FROM the same server TO an
+  // @netwebmedia.com address gets dropped in the local cPanel mailbox instead
+  // of relayed to the Google Workspace MX where the Gmail UI reads from.
+  // Override with &to=<email> if needed.
+  $test_to = $_GET['to'] ?? 'entrepoker@gmail.com';
   $lead = count($pending) ? $pending[0] : ['company' => 'NetWebMedia Test', 'name' => 'Test', 'niche' => 'Tourism & Hospitality', 'niche_key' => 'tourism'];
   $html = render_email_html($lead);
   $subj = '[TEST] ' . subject_for($lead);
-  $ok = $dryrun ? true : send_mail('carlos@netwebmedia.com', $subj, $html, [
+  $ok = $dryrun ? true : send_mail($test_to, $subj, $html, [
     'from_name' => $FROM_NAME, 'from_email' => $FROM_EMAIL, 'reply_to' => $REPLY_TO,
   ]);
   j_exit([
     'mode'     => 'test',
-    'sent_to'  => 'carlos@netwebmedia.com',
+    'sent_to'  => $test_to,
     'subject'  => $subj,
     'using_lead' => ['company' => $lead['company'] ?? null, 'niche' => $lead['niche'] ?? null],
     'dryrun'   => $dryrun,
     'ok'       => (bool)$ok,
+    'note'     => 'sent to external Gmail to bypass cPanel local-delivery bug',
   ]);
 }
 

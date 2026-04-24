@@ -413,154 +413,185 @@
             <div class="hero-orbit hero-orbit-1"><span class="hero-orbit-dot"></span></div>
             <div class="hero-orbit hero-orbit-2"><span class="hero-orbit-dot"></span></div>
             <div class="hero-orbit hero-orbit-3"><span class="hero-orbit-dot"></span></div>
-            <!-- 3D Robot SVG -->
-            <svg class="hero-robot-svg" viewBox="0 0 320 360" xmlns="http://www.w3.org/2000/svg" aria-label="NetWebMedia AI Marketing Robot">
+            <!-- Animated 3D Data Dashboard -->
+            <svg class="hero-robot-svg" viewBox="0 0 320 360" xmlns="http://www.w3.org/2000/svg" aria-label="NetWebMedia AI Marketing Dashboard">
               <defs>
-                <linearGradient id="robotBody" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#E8EDF5"/>
-                  <stop offset="35%" stop-color="#B4BFD4"/>
-                  <stop offset="65%" stop-color="#6C7A96"/>
-                  <stop offset="100%" stop-color="#2B3653"/>
+                <linearGradient id="dashBg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#020c24"/>
+                  <stop offset="100%" stop-color="#010F3B"/>
                 </linearGradient>
-                <linearGradient id="robotHead" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#FFFFFF"/>
-                  <stop offset="25%" stop-color="#D8E0EE"/>
-                  <stop offset="60%" stop-color="#8B97B3"/>
-                  <stop offset="100%" stop-color="#1F2940"/>
+                <linearGradient id="barOrange" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#FF8A4C"/>
+                  <stop offset="100%" stop-color="#FF671F"/>
                 </linearGradient>
-                <linearGradient id="robotVisor" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#0B1228"/>
-                  <stop offset="50%" stop-color="#082158"/>
-                  <stop offset="100%" stop-color="#020616"/>
+                <linearGradient id="barNavy" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2254C8"/>
+                  <stop offset="100%" stop-color="#010F3B"/>
                 </linearGradient>
-                <linearGradient id="accentOrange" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#FFB47A"/>
-                  <stop offset="50%" stop-color="#FF671F"/>
-                  <stop offset="100%" stop-color="#B83A00"/>
+                <linearGradient id="barMid" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#FF9A5C"/>
+                  <stop offset="100%" stop-color="#CC4A00"/>
                 </linearGradient>
-                <linearGradient id="accentCyan" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#A8F3FF"/>
-                  <stop offset="50%" stop-color="#22D3EE"/>
-                  <stop offset="100%" stop-color="#0E7490"/>
+                <linearGradient id="lineGrd" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#FF671F"/>
+                  <stop offset="100%" stop-color="#FF9A5C"/>
                 </linearGradient>
-                <radialGradient id="eyeGlow" cx="0.5" cy="0.5" r="0.5">
-                  <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1"/>
-                  <stop offset="40%" stop-color="#67E8F9" stop-opacity="1"/>
-                  <stop offset="100%" stop-color="#22D3EE" stop-opacity="0"/>
+                <linearGradient id="screenGlow" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#FF671F" stop-opacity="0.15"/>
+                  <stop offset="100%" stop-color="#010F3B" stop-opacity="0"/>
+                </linearGradient>
+                <radialGradient id="orangeGlow" cx="0.5" cy="0.5" r="0.5">
+                  <stop offset="0%" stop-color="#FF671F" stop-opacity="0.5"/>
+                  <stop offset="100%" stop-color="#FF671F" stop-opacity="0"/>
                 </radialGradient>
-                <radialGradient id="coreGlow" cx="0.5" cy="0.5" r="0.5">
-                  <stop offset="0%" stop-color="#FFE4B5" stop-opacity="1"/>
-                  <stop offset="40%" stop-color="#FF671F" stop-opacity="0.9"/>
-                  <stop offset="100%" stop-color="#B83A00" stop-opacity="0"/>
-                </radialGradient>
-                <filter id="robotGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <filter id="dashGlow" x="-30%" y="-30%" width="160%" height="160%">
                   <feGaussianBlur stdDeviation="3" result="blur"/>
                   <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
                 </filter>
-                <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur in="SourceAlpha" stdDeviation="6"/>
-                  <feOffset dy="8" result="offsetblur"/>
-                  <feComponentTransfer><feFuncA type="linear" slope="0.4"/></feComponentTransfer>
-                  <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
+                <clipPath id="screenClip">
+                  <rect x="30" y="18" width="260" height="290" rx="16"/>
+                </clipPath>
               </defs>
 
-              <!-- Floor reflection ellipse -->
-              <ellipse cx="160" cy="340" rx="90" ry="10" fill="#000" opacity="0.4"/>
-              <ellipse cx="160" cy="340" rx="60" ry="6" fill="url(#accentOrange)" opacity="0.3">
-                <animate attributeName="opacity" values="0.2;0.5;0.2" dur="3s" repeatCount="indefinite"/>
+              <!-- Floor glow -->
+              <ellipse cx="160" cy="345" rx="100" ry="8" fill="#FF671F" opacity="0.12">
+                <animate attributeName="opacity" values="0.08;0.18;0.08" dur="3s" repeatCount="indefinite"/>
               </ellipse>
 
-              <g class="hero-robot-body" filter="url(#softShadow)">
-                <!-- Neck -->
-                <rect x="148" y="130" width="24" height="18" rx="4" fill="url(#robotBody)"/>
-                <rect x="148" y="130" width="24" height="4" rx="2" fill="#0B1228" opacity="0.6"/>
+              <!-- Main screen body -->
+              <rect x="30" y="18" width="260" height="290" rx="16" fill="url(#dashBg)" stroke="#FF671F" stroke-width="1.2" stroke-opacity="0.4"/>
+              <!-- Screen glow overlay -->
+              <rect x="30" y="18" width="260" height="290" rx="16" fill="url(#screenGlow)"/>
+              <!-- Top bar -->
+              <rect x="30" y="18" width="260" height="32" rx="16" fill="#010F3B"/>
+              <rect x="30" y="34" width="260" height="16" fill="#010F3B"/>
+              <!-- Top bar dots -->
+              <circle cx="52" cy="34" r="5" fill="#FF671F" opacity="0.9"/>
+              <circle cx="68" cy="34" r="5" fill="#FF671F" opacity="0.5"/>
+              <circle cx="84" cy="34" r="5" fill="#FF671F" opacity="0.25"/>
+              <!-- Title text simulation -->
+              <rect x="110" y="29" width="60" height="5" rx="2.5" fill="rgba(255,255,255,0.2)"/>
+              <!-- Live indicator -->
+              <circle cx="268" cy="34" r="4" fill="#22C55E">
+                <animate attributeName="opacity" values="1;0.3;1" dur="1.4s" repeatCount="indefinite"/>
+              </circle>
+              <rect x="246" y="31" width="16" height="5" rx="2" fill="rgba(34,197,94,0.3)"/>
 
-                <!-- Torso / chest plate -->
-                <path d="M95 148 Q95 140 110 138 L210 138 Q225 140 225 148 L235 255 Q235 270 220 275 L100 275 Q85 270 85 255 Z" fill="url(#robotBody)"/>
-                <!-- Chest highlight -->
-                <path d="M110 145 Q110 143 115 142 L205 142 Q210 143 210 145 L215 175 Q215 178 212 178 L108 178 Q105 178 105 175 Z" fill="#FFFFFF" opacity="0.18"/>
-                <!-- Chest panel -->
-                <rect x="125" y="185" width="70" height="60" rx="8" fill="#0B1228" opacity="0.85"/>
-                <rect x="125" y="185" width="70" height="60" rx="8" fill="none" stroke="url(#accentCyan)" stroke-width="1.2" opacity="0.8"/>
-                <!-- Core energy orb -->
-                <circle cx="160" cy="215" r="28" fill="url(#coreGlow)">
-                  <animate attributeName="r" values="24;30;24" dur="2.2s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="160" cy="215" r="10" fill="#FFF3D6">
-                  <animate attributeName="opacity" values="1;0.6;1" dur="1.5s" repeatCount="indefinite"/>
-                </circle>
-                <!-- Chest readouts -->
-                <rect x="132" y="250" width="14" height="3" rx="1.5" fill="#22D3EE"/>
-                <rect x="150" y="250" width="24" height="3" rx="1.5" fill="#FF671F"/>
-                <rect x="178" y="250" width="10" height="3" rx="1.5" fill="#22D3EE" opacity="0.6"/>
-                <rect x="132" y="258" width="20" height="3" rx="1.5" fill="#22D3EE" opacity="0.5"/>
-                <rect x="156" y="258" width="32" height="3" rx="1.5" fill="#FF671F" opacity="0.7"/>
-
-                <!-- Shoulders -->
-                <circle cx="90" cy="150" r="16" fill="url(#robotHead)"/>
-                <circle cx="230" cy="150" r="16" fill="url(#robotHead)"/>
-                <circle cx="90" cy="150" r="6" fill="url(#accentOrange)"/>
-                <circle cx="230" cy="150" r="6" fill="url(#accentCyan)"/>
-
-                <!-- Arms (upper) -->
-                <rect x="70" y="160" width="22" height="70" rx="10" fill="url(#robotBody)"/>
-                <rect x="228" y="160" width="22" height="70" rx="10" fill="url(#robotBody)"/>
-
-                <!-- Elbows -->
-                <circle cx="81" cy="232" r="10" fill="url(#robotHead)"/>
-                <circle cx="239" cy="232" r="10" fill="url(#robotHead)"/>
-
-                <!-- Head assembly -->
-                <g class="hero-robot-head">
-                  <!-- Head back shadow -->
-                  <ellipse cx="160" cy="90" rx="68" ry="55" fill="#1F2940" opacity="0.5"/>
-                  <!-- Head main shell -->
-                  <path d="M100 65 Q100 35 135 32 L185 32 Q220 35 220 65 L220 115 Q220 135 195 138 L125 138 Q100 135 100 115 Z" fill="url(#robotHead)"/>
-                  <!-- Top highlight -->
-                  <path d="M112 50 Q112 42 125 40 L195 40 Q208 42 208 50 L208 68 Q208 72 200 72 L120 72 Q112 72 112 68 Z" fill="#FFFFFF" opacity="0.35"/>
-                  <!-- Antenna -->
-                  <rect x="156" y="16" width="8" height="18" rx="3" fill="url(#robotHead)"/>
-                  <circle cx="160" cy="12" r="6" fill="url(#accentOrange)">
-                    <animate attributeName="opacity" values="0.6;1;0.6" dur="1.2s" repeatCount="indefinite"/>
-                  </circle>
-                  <circle cx="160" cy="12" r="10" fill="url(#accentOrange)" opacity="0.3">
-                    <animate attributeName="r" values="8;14;8" dur="1.2s" repeatCount="indefinite"/>
-                  </circle>
-
-                  <!-- Visor -->
-                  <rect x="115" y="78" width="90" height="42" rx="12" fill="url(#robotVisor)"/>
-                  <rect x="115" y="78" width="90" height="42" rx="12" fill="none" stroke="url(#accentCyan)" stroke-width="1.5" opacity="0.9"/>
-                  <!-- Visor highlights -->
-                  <rect x="119" y="82" width="82" height="6" rx="3" fill="#FFFFFF" opacity="0.12"/>
-                  <!-- Eyes -->
-                  <circle cx="140" cy="99" r="10" fill="url(#eyeGlow)" filter="url(#robotGlow)">
-                    <animate attributeName="opacity" values="1;0.75;1" dur="2.4s" repeatCount="indefinite"/>
-                  </circle>
-                  <circle cx="180" cy="99" r="10" fill="url(#eyeGlow)" filter="url(#robotGlow)">
-                    <animate attributeName="opacity" values="1;0.75;1" dur="2.4s" repeatCount="indefinite"/>
-                  </circle>
-                  <circle cx="140" cy="99" r="3" fill="#FFFFFF"/>
-                  <circle cx="180" cy="99" r="3" fill="#FFFFFF"/>
-                  <!-- Scan line -->
-                  <rect class="hero-robot-scan" x="117" y="88" width="86" height="2" fill="#67E8F9" opacity="0.75"/>
-
-                  <!-- Jaw / mouth grill -->
-                  <rect x="140" y="122" width="40" height="8" rx="2" fill="#0B1228"/>
-                  <rect x="144" y="124" width="3" height="4" fill="#22D3EE"/>
-                  <rect x="150" y="124" width="3" height="4" fill="#22D3EE" opacity="0.7"/>
-                  <rect x="156" y="124" width="3" height="4" fill="#FF671F"/>
-                  <rect x="162" y="124" width="3" height="4" fill="#22D3EE" opacity="0.5"/>
-                  <rect x="168" y="124" width="3" height="4" fill="#FF671F" opacity="0.8"/>
-                  <rect x="174" y="124" width="3" height="4" fill="#22D3EE"/>
-
-                  <!-- Side ear units -->
-                  <rect x="96" y="85" width="8" height="24" rx="3" fill="url(#robotBody)"/>
-                  <rect x="216" y="85" width="8" height="24" rx="3" fill="url(#robotBody)"/>
-                  <circle cx="100" cy="97" r="2" fill="#FF671F"/>
-                  <circle cx="220" cy="97" r="2" fill="#22D3EE"/>
-                </g>
+              <!-- Grid lines (clipped) -->
+              <g clip-path="url(#screenClip)" opacity="0.07">
+                <line x1="30" y1="100" x2="290" y2="100" stroke="#fff" stroke-width="1"/>
+                <line x1="30" y1="140" x2="290" y2="140" stroke="#fff" stroke-width="1"/>
+                <line x1="30" y1="180" x2="290" y2="180" stroke="#fff" stroke-width="1"/>
+                <line x1="30" y1="220" x2="290" y2="220" stroke="#fff" stroke-width="1"/>
+                <line x1="30" y1="260" x2="290" y2="260" stroke="#fff" stroke-width="1"/>
               </g>
+
+              <!-- KPI row -->
+              <!-- KPI 1 -->
+              <rect x="42" y="60" width="68" height="40" rx="8" fill="rgba(255,103,31,0.1)" stroke="#FF671F" stroke-width="0.8" stroke-opacity="0.4"/>
+              <rect x="48" y="66" width="28" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <rect x="48" y="76" width="40" height="7" rx="3" fill="#FF671F" opacity="0.9"/>
+              <rect x="48" y="88" width="22" height="4" rx="2" fill="rgba(34,197,94,0.6)"/>
+              <!-- KPI 2 -->
+              <rect x="116" y="60" width="88" height="40" rx="8" fill="rgba(255,103,31,0.08)" stroke="#FF671F" stroke-width="0.8" stroke-opacity="0.3"/>
+              <rect x="122" y="66" width="36" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <rect x="122" y="76" width="52" height="7" rx="3" fill="#FF671F" opacity="0.8"/>
+              <rect x="122" y="88" width="28" height="4" rx="2" fill="rgba(34,197,94,0.6)"/>
+              <!-- KPI 3 -->
+              <rect x="210" y="60" width="68" height="40" rx="8" fill="rgba(255,103,31,0.1)" stroke="#FF671F" stroke-width="0.8" stroke-opacity="0.4"/>
+              <rect x="216" y="66" width="24" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <rect x="216" y="76" width="44" height="7" rx="3" fill="#FF671F" opacity="0.9"/>
+              <rect x="216" y="88" width="18" height="4" rx="2" fill="rgba(34,197,94,0.6)"/>
+
+              <!-- Bar chart area -->
+              <!-- Floor line -->
+              <line x1="42" y1="270" x2="278" y2="270" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+
+              <!-- Bars (animated rise) -->
+              <!-- Bar 1 -->
+              <rect x="54" y="270" width="22" height="0" rx="3 3 0 0" fill="url(#barNavy)">
+                <animate attributeName="height" values="0;60;60" dur="1.2s" begin="0.1s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+                <animate attributeName="y" values="270;210;210" dur="1.2s" begin="0.1s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+              </rect>
+              <!-- Bar 2 -->
+              <rect x="88" y="270" width="22" height="0" rx="3 3 0 0" fill="url(#barOrange)" filter="url(#dashGlow)">
+                <animate attributeName="height" values="0;95;95" dur="1.2s" begin="0.2s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+                <animate attributeName="y" values="270;175;175" dur="1.2s" begin="0.2s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+              </rect>
+              <!-- Bar 3 -->
+              <rect x="122" y="270" width="22" height="0" rx="3 3 0 0" fill="url(#barNavy)">
+                <animate attributeName="height" values="0;72;72" dur="1.2s" begin="0.3s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+                <animate attributeName="y" values="270;198;198" dur="1.2s" begin="0.3s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+              </rect>
+              <!-- Bar 4 (tallest - orange) -->
+              <rect x="156" y="270" width="22" height="0" rx="3 3 0 0" fill="url(#barOrange)" filter="url(#dashGlow)">
+                <animate attributeName="height" values="0;115;115" dur="1.2s" begin="0.4s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+                <animate attributeName="y" values="270;155;155" dur="1.2s" begin="0.4s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+              </rect>
+              <!-- Bar 5 -->
+              <rect x="190" y="270" width="22" height="0" rx="3 3 0 0" fill="url(#barMid)">
+                <animate attributeName="height" values="0;82;82" dur="1.2s" begin="0.5s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+                <animate attributeName="y" values="270;188;188" dur="1.2s" begin="0.5s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+              </rect>
+              <!-- Bar 6 -->
+              <rect x="224" y="270" width="22" height="0" rx="3 3 0 0" fill="url(#barNavy)">
+                <animate attributeName="height" values="0;50;50" dur="1.2s" begin="0.6s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+                <animate attributeName="y" values="270;220;220" dur="1.2s" begin="0.6s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+              </rect>
+
+              <!-- Line chart overlay -->
+              <path d="M65,215 C88,195 99,185 99,185 S122,175 133,195 S145,170 167,158 S190,172 201,188 S224,230 235,222" fill="none" stroke="url(#lineGrd)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="340" stroke-dashoffset="340" opacity="0.85">
+                <animate attributeName="stroke-dashoffset" values="340;0" dur="1.8s" begin="0.8s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1"/>
+              </path>
+              <!-- Line dots -->
+              <circle cx="65" cy="215" r="0" fill="#FF671F" filter="url(#dashGlow)">
+                <animate attributeName="r" values="0;4;4" dur="0.3s" begin="1s" fill="freeze"/>
+              </circle>
+              <circle cx="133" cy="195" r="0" fill="#FF671F" filter="url(#dashGlow)">
+                <animate attributeName="r" values="0;4;4" dur="0.3s" begin="1.3s" fill="freeze"/>
+              </circle>
+              <circle cx="167" cy="158" r="0" fill="#FF8A4C" filter="url(#dashGlow)">
+                <animate attributeName="r" values="0;5;5" dur="0.3s" begin="1.5s" fill="freeze"/>
+              </circle>
+              <!-- Pulse on peak -->
+              <circle cx="167" cy="158" r="5" fill="none" stroke="#FF671F" stroke-width="1.5" opacity="0">
+                <animate attributeName="r" values="5;14;5" dur="2s" begin="2s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.8;0;0.8" dur="2s" begin="2s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="201" cy="188" r="0" fill="#FF671F" filter="url(#dashGlow)">
+                <animate attributeName="r" values="0;4;4" dur="0.3s" begin="1.7s" fill="freeze"/>
+              </circle>
+              <circle cx="235" cy="222" r="0" fill="#FF671F" filter="url(#dashGlow)">
+                <animate attributeName="r" values="0;4;4" dur="0.3s" begin="1.9s" fill="freeze"/>
+              </circle>
+
+              <!-- Floating sparkles -->
+              <circle cx="72" cy="130" r="2.5" fill="#FF671F" opacity="0">
+                <animate attributeName="opacity" values="0;0.7;0" dur="2.8s" begin="1s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="130;115;130" dur="2.8s" begin="1s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="248" cy="115" r="2" fill="#FF8A4C" opacity="0">
+                <animate attributeName="opacity" values="0;0.6;0" dur="3.2s" begin="0.5s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="115;100;115" dur="3.2s" begin="0.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="160" cy="108" r="2" fill="#FF671F" opacity="0">
+                <animate attributeName="opacity" values="0;0.5;0" dur="2.4s" begin="1.8s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="108;95;108" dur="2.4s" begin="1.8s" repeatCount="indefinite"/>
+              </circle>
+
+              <!-- Bottom bar -->
+              <rect x="30" y="290" width="260" height="18" rx="0" fill="#010F3B" opacity="0.8"/>
+              <rect x="30" y="290" width="260" height="18" rx="0 0 16 16" fill="#010F3B" opacity="0.8"/>
+              <rect x="42" y="296" width="30" height="4" rx="2" fill="rgba(255,103,31,0.4)"/>
+              <rect x="78" y="296" width="20" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+              <rect x="104" y="296" width="24" height="4" rx="2" fill="rgba(255,255,255,0.1)"/>
+              <!-- Animated ticker -->
+              <rect x="200" y="296" width="70" height="4" rx="2" fill="rgba(255,103,31,0.2)">
+                <animate attributeName="width" values="10;70;10" dur="4s" repeatCount="indefinite"/>
+              </rect>
+
+              <!-- Screen edge highlight -->
+              <rect x="30" y="18" width="260" height="290" rx="16" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
             </svg>
             <div class="hero-robot-label">AI Marketing Engine</div>
             <div style="display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap;position:relative;z-index:2;">

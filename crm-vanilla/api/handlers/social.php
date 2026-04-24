@@ -271,7 +271,7 @@ function handlePublishDue(int $uid, PDO $db): void {
     ) ENGINE=InnoDB');
 
     $data  = getInput();
-    $force = !empty($data['force']);
+    $force = !empty($data['force']) || !empty($_GET['force']) || !empty($_POST['force']);
 
     $sql = $force
         ? 'SELECT id, providers, caption, media_url FROM social_scheduled WHERE user_id = ? AND status = "scheduled"'

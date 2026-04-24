@@ -1,0 +1,50 @@
+name: uptime-smoke
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # every 15 min
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Probe endpoints
+        id: probe
+        shell: bash
+        run: |
+          set -u
+          FAILED=""
+          URLS=(
+            "https://netwebmedia.com/"
+            "https://netwebmedia.com/pricing.html"
+            "https://netwebmedia.com/contact.html"
+            "https://netwebmedia.com/api-php/routes/health.php"
+          )
+          for u in "${URLS[@]}"; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" -L --max-time 20 "$u" || echo "000")
+            echo "$u -> $code"
+            if [ "$code" != "200" ]; then
+              FAILED="$FAILED\n- $u ($code)"
+            fi
+          done
+          if [ -n "$FAILED" ]; then
+            printf "FAILED=%b\n" "$FAILED" >> "$GITHUB_OUTPUT"
+            echo "::error::One or more endpoints returned non-200:$FAILED"
+            exit 1
+          fi
+
+      - name: Notify Slack on failure
+        if: failure() && env.SLACK_WEBHOOK_URL != ''
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        shell: bash
+        run: |
+          payload=$(printf '{"text":"[NWM uptime] smoke test FAILED — run: %s"}' \
+            "https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}")
+          curl -s -X POST -H 'Content-Type: application/json' -d "$payload" "$SLACK_WEBHOOK_URL" || true

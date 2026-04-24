@@ -90,6 +90,10 @@ try {
   } elseif ($group === 'campaigns') {
     require __DIR__ . '/routes/campaigns.php';
     route_campaigns($parts, $method);
+  } elseif ($group === 'chile-send') {
+    // One-off Chile cold-outreach trigger (token-protected, see chile-send.php).
+    require __DIR__ . '/chile-send.php';
+    exit;
   } elseif ($group === 'ab-tests' || $group === 'abtests') {
     require __DIR__ . '/routes/abtests.php';
     route_abtests($parts, $method);

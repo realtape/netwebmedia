@@ -39,7 +39,7 @@ El reporte público está acá: **[santiago-digital-gaps.html](https://netwebmed
 
 Tres formas de pedirla (elegí la que te acomode):
 
-- 💬 **WhatsApp:** [wa.me/56999999999](https://wa.me/56999999999)
+- 💬 **WhatsApp:** [wa.me/17407363884](https://wa.me/17407363884)
 - ✉️ **Email:** responder a este correo con "AUDITORÍA"
 - 🌐 **Web:** [netwebmedia.com](https://netwebmedia.com) → el chat naranja abajo a la derecha
 
@@ -80,7 +80,7 @@ Te escribí dos veces este mes sobre la auditoría digital de {{company}}. Entie
 
 Voy a cerrar tu archivo del lado nuestro. Si alguna vez te sirve:
 
-- 💬 WhatsApp: [wa.me/56999999999](https://wa.me/56999999999)
+- 💬 WhatsApp: [wa.me/17407363884](https://wa.me/17407363884)
 - 🌐 Web: [netwebmedia.com](https://netwebmedia.com)
 - 📄 Reporte Santiago (público): [santiago-digital-gaps.html](https://netwebmedia.com/santiago-digital-gaps.html)
 
@@ -99,7 +99,7 @@ NetWebMedia
 
 ## Launch gate checklist (Carlos must approve before full send)
 
-- [ ] Verify real WhatsApp number replaces `56999999999` placeholder
+- [ ] Verify real WhatsApp number replaces `17407363884` placeholder
 - [ ] Test send to carlos@netwebmedia.com — spam-score < 3
 - [ ] Test send to 5 friendly inboxes (not in prospect list)
 - [ ] Confirm From address `newsletter@netwebmedia.com` has SPF + DKIM set

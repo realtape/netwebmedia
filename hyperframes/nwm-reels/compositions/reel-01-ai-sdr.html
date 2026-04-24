@@ -22,8 +22,11 @@
                     background: linear-gradient(180deg, rgba(1,15,59,0.82) 0%, rgba(1,15,59,0.92) 100%); }
 
       /* ── NWM LOGO ── */
+      .nwm-wordmark { display: inline-block; font-family: 'Orbitron','Arial',sans-serif; font-weight: 700; font-size: 38px; letter-spacing: 1px; line-height: 1; text-shadow: 0 2px 6px rgba(0,0,0,0.55); white-space: nowrap; }
+      .nwm-wordmark .wm-a { color: #FFFFFF; }
+      .nwm-wordmark .wm-b { color: #FF671F; }
       .nwm-logo { position: absolute; top: 36px; right: 40px; z-index: 200; opacity: 0.98; }
-      .nwm-logo img { display: block; width: 200px; height: auto; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); }
+      
       .nwm-logo-cta {
         position: absolute; bottom: 100px; top: auto; left: 50%; right: auto; transform: translateX(-50%);
         z-index: 10; opacity: 0;
@@ -32,7 +35,7 @@
         border-radius: 14px;
         box-shadow: 0 8px 28px rgba(0,0,0,0.3);
       }
-      .nwm-logo-cta img { display: block; width: 340px; height: auto; }
+      .nwm-logo-cta .nwm-wordmark { font-size: 64px; text-shadow: none; }
 
       /* ── AI HOST ORB ── */
       .ai-orb {
@@ -306,7 +309,7 @@
       <div class="broll-tint clip" data-start="0" data-duration="5" data-track-index="1"></div>
       <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="5" data-track-index="2" style="background:transparent"></div>
       <div class="nwm-logo clip" data-start="0" data-duration="63" data-track-index="99">
-        <img src="../assets/nwm-logo.svg" alt="netwebmedia"/>
+        <span class="nwm-wordmark"><span class="wm-a">net</span><span class="wm-b">web</span><span class="wm-a">media</span></span>
       </div>
       <div id="s1-overline" class="clip" data-start="0" data-duration="5" data-track-index="3"></div>
       <div id="s1-headline" class="clip" data-start="0" data-duration="5" data-track-index="4">
@@ -478,13 +481,13 @@
         This is the Fractional CMO engagement.
       </div>
       <div id="s5-btn" class="clip" data-start="63" data-duration="19" data-track-index="6">
-        Book a Discovery Call
+        Chat with us &rarr; netwebmedia.com
       </div>
       <div id="s5-link" class="clip" data-start="63" data-duration="19" data-track-index="7">
         ↑ Link in bio
       </div>
       <div class="nwm-logo-cta clip" data-start="63" data-duration="19" data-track-index="8">
-        <img src="../assets/nwm-logo.svg" alt="netwebmedia"/>
+        <span class="nwm-wordmark"><span class="wm-a">net</span><span class="wm-b">web</span><span class="wm-a">media</span></span>
       </div>
 
     </div><!-- /root -->

@@ -13,8 +13,11 @@
       .scene-bg { position: absolute; width: 1080px; height: 1920px; top: 0; left: 0; }
 
       /* Fix 1: PNG logo card */
+      .nwm-wordmark { display: inline-block; font-family: 'Orbitron','Arial',sans-serif; font-weight: 700; font-size: 38px; letter-spacing: 1px; line-height: 1; text-shadow: 0 2px 6px rgba(0,0,0,0.55); white-space: nowrap; }
+      .nwm-wordmark .wm-a { color: #FFFFFF; }
+      .nwm-wordmark .wm-b { color: #FF671F; }
       .nwm-logo { position: absolute; top: 36px; right: 40px; z-index: 200; opacity: 0.98; }
-      .nwm-logo img { display: block; width: 200px; height: auto; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); }
+      
 
       /* Fix 3: B-roll layers */
       .broll { position: absolute; top: 0; left: 0; width: 1080px; height: 1920px; object-fit: cover; }
@@ -86,7 +89,7 @@
 
       <!-- Fix 1: PNG logo card, track-index 10 -->
       <div class="nwm-logo clip" data-start="0" data-duration="5" data-track-index="10">
-        <img src="../assets/nwm-logo.svg" alt="netwebmedia"/>
+        <span class="nwm-wordmark"><span class="wm-a">net</span><span class="wm-b">web</span><span class="wm-a">media</span></span>
       </div>
 
     </div>

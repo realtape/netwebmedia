@@ -274,7 +274,7 @@ function handlePublishDue(int $uid, PDO $db): void {
     $force = !empty($data['force']) || !empty($_GET['force']) || !empty($_POST['force']);
 
     $sql = $force
-        ? 'SELECT id, providers, caption, media_url FROM social_scheduled WHERE user_id = ? AND status = "scheduled"'
+        ? 'SELECT id, providers, caption, media_url FROM social_scheduled WHERE user_id = ? AND status IN ("scheduled","publishing")'
         : 'SELECT id, providers, caption, media_url FROM social_scheduled WHERE user_id = ? AND status = "scheduled" AND scheduled_at <= NOW()';
 
     $stmt = $db->prepare($sql);

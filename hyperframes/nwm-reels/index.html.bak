@@ -18,8 +18,15 @@
                     background: linear-gradient(180deg, rgba(1,15,59,0.82) 0%, rgba(1,15,59,0.92) 100%); }
 
       /* ── NWM LOGO ── */
-      .nwm-logo { position: absolute; top: 36px; right: 40px; z-index: 200; opacity: 0.98; }
-      .nwm-logo img { display: block; width: 200px; height: auto; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); }
+      .nwm-logo {
+        position: absolute; top: 48px; right: 48px; left: auto; bottom: auto; z-index: 200;
+        background: #FFFFFF;
+        padding: 14px 22px;
+        border-radius: 12px;
+        box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+        opacity: 1;
+      }
+      .nwm-logo img { display: block; width: 280px; height: auto; }
       .nwm-logo-cta {
         position: absolute; bottom: 100px; top: auto; left: 50%; right: auto; transform: translateX(-50%);
         z-index: 10; opacity: 0;
@@ -104,18 +111,18 @@
   </head>
   <body>
     <div id="root"
-         data-composition-id="reel-02-seo-dead"
+         data-composition-id="main"
          data-start="0" data-duration="68"
          data-width="1080" data-height="1920">
 
       <!-- NWM logo persistent -->
       <div class="nwm-logo clip" data-start="0" data-duration="58" data-track-index="99">
-        <img src="../assets/nwm-logo.svg" alt="netwebmedia"/>
+        <img src="assets/nwm-logo.png" alt="netwebmedia"/>
       </div>
 
       <!-- SCENE 1: Hook 0-5s — stamp beat first, then text block -->
       <video id="broll-02-s1" class="broll clip" muted autoplay loop
-             src="../assets/broll/mk-50198.mp4"
+             src="assets/broll/mk-50198.mp4"
              data-start="0" data-duration="5" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="0" data-duration="5" data-track-index="1"></div>
       <div id="s1-bg" class="clip scene-bg" data-start="0" data-duration="5" data-track-index="2"></div>
@@ -135,7 +142,7 @@
 
       <!-- SCENE 2: The Shift 5-18s -->
       <video id="broll-02-s2" class="broll clip" muted autoplay loop
-             src="../assets/broll/mk-9799.mp4"
+             src="assets/broll/mk-9799.mp4"
              data-start="5" data-duration="13" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="5" data-duration="13" data-track-index="1"></div>
       <div id="s2-bg" class="clip scene-bg" data-start="5" data-duration="13" data-track-index="2"></div>
@@ -164,7 +171,7 @@
 
       <!-- SCENE 3: How to Win 18-42s -->
       <video id="broll-02-s3" class="broll clip" muted autoplay loop
-             src="../assets/broll/mk-50198.mp4"
+             src="assets/broll/mk-50198.mp4"
              data-start="18" data-duration="24" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="18" data-duration="24" data-track-index="1"></div>
       <div id="s3-bg" class="clip scene-bg" data-start="18" data-duration="24" data-track-index="2"></div>
@@ -202,7 +209,7 @@
 
       <!-- SCENE 4: Result 42-58s -->
       <video id="broll-02-s4" class="broll clip" muted autoplay loop
-             src="../assets/broll/mk-9799.mp4"
+             src="assets/broll/mk-9799.mp4"
              data-start="42" data-duration="16" data-track-index="0"></video>
       <div class="broll-tint clip" data-start="42" data-duration="16" data-track-index="1"></div>
       <div id="s4-bg" class="clip scene-bg" data-start="42" data-duration="16" data-track-index="2"></div>
@@ -232,7 +239,7 @@
       <div id="s5-btn" class="clip" data-start="58" data-duration="10" data-track-index="6">Book a Discovery Call</div>
       <div id="s5-link" class="clip" data-start="58" data-duration="10" data-track-index="7">↑ Link in bio</div>
       <div class="nwm-logo-cta clip" data-start="58" data-duration="10" data-track-index="8">
-        <img src="../assets/nwm-logo.svg" alt="netwebmedia"/>
+        <img src="assets/nwm-logo.png" alt="netwebmedia"/>
       </div>
 
     </div>
@@ -283,7 +290,7 @@
         .to("#s5-link",     { opacity: 1, duration: 0.3 }, 61.2)
         .to(".nwm-logo-cta",{ opacity: 1, duration: 0.3 }, 61.6);
 
-      window.__timelines["reel-02-seo-dead"] = tl;
+      window.__timelines["main"] = tl;
     </script>
   </body>
 </html>

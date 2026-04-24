@@ -303,10 +303,10 @@ function render_email_html($lead) {
     <p style="margin-top:26px;">Saludos,<br>
       <strong>Equipo NetWebMedia</strong><br>
       <span style="color:#666;font-size:13px;">CMO fraccional con IA · Santiago, Chile</span></p>
-    <p style="font-size:11px;color:#999;margin-top:22px;border-top:1px solid #eee;padding-top:12px;">
-      Si preferís no recibir más correos nuestros, respondé con la palabra <em>baja</em> o usá el enlace para darte de baja al pie del mensaje — te retiramos de la lista de inmediato.<br><br>
-      Recibís este correo porque ' . $company . ' aparece en nuestro análisis público de negocios en Santiago (abril 2026).
-      NetWebMedia SpA, Santiago, Chile · <a href="mailto:hola@netwebmedia.com" style="color:#999;">hola@netwebmedia.com</a>
+    <p style="font-size:11px;color:#999;margin-top:22px;border-top:1px solid #eee;padding-top:12px;line-height:1.6;">
+      Recibís este correo porque <strong>' . $company . '</strong> aparece en nuestro análisis público de presencia digital de negocios en Santiago (abril 2026), disponible en <a href="' . $REPORT_URL . '" style="color:#999;">netwebmedia.com/santiago-digital-gaps.html</a>. Este es el primer y único contacto de esta campaña salvo que ustedes respondan.<br><br>
+      <strong>¿No querés recibir más correos nuestros?</strong> <a href="{{UNSUB_URL}}" style="color:#FF671F;text-decoration:underline;">Darse de baja con un clic</a> — también podés responder con la palabra <em>baja</em> y te retiramos de la lista de inmediato.<br><br>
+      <strong>NetWebMedia SpA</strong> · Santiago, Chile · <a href="mailto:hola@netwebmedia.com" style="color:#999;">hola@netwebmedia.com</a> · <a href="https://netwebmedia.com/privacy" style="color:#999;">Política de privacidad</a>
     </p>';
   return email_shell('Auditoría digital preliminar para ' . $company_raw, $inner);
 }

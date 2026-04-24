@@ -24,6 +24,7 @@
   window.__nwmChatLoaded = true;
 
   // ── Configuration ────────────────────────────────────────────────────────
+  const NWM_BASE = window.NWM_API_BASE || '';
   const CONFIG = {
 
     seenCookie:      'nwm_chat_seen',
@@ -31,9 +32,9 @@
     sessionKey:      'nwm_chat_session_v1',
     tooltipDelayMs:  4000,
     openAutoDelayMs: 0,               // 0 = never auto-open; set >0 to auto-open
-    emailEndpoint:   '/api/public/newsletter/subscribe',
-    leadEndpoint:    '/api/public/forms/submit',
-    chatEndpoint:    '/api/public/chat'   // unified-KB fallback for open-ended Qs
+    emailEndpoint:   NWM_BASE + '/api/public/newsletter/subscribe',
+    leadEndpoint:    NWM_BASE + '/api/public/forms/submit',
+    chatEndpoint:    NWM_BASE + '/api/public/chat'
   };
 
   // ── Language detection ───────────────────────────────────────────────────
@@ -70,8 +71,9 @@
       ],
       intents: {
         services: {
-          reply: "We're a full-stack AI marketing agency. Core products:\n\n• **NWM CRM** — AI CRM with pipelines, email, SMS, AI SDR\n• **NWM CMS** — Bilingual websites in under 60s\n• **Email Marketing** — AI-written campaigns, automations\n• **Video Factory** — AI-produced Reels/TikToks\n• **AI Fractional CMO** — 24/7 strategy agent\n\nWhich one interests you most?",
+          reply: "We're a full-stack AI marketing agency — built for the AEO era.\n\n• **Answer Engine Optimization (AEO)** — Get cited by ChatGPT, Perplexity & Google AI Overviews where buyers already search\n• **NWM CRM** — AI CRM with pipelines, email, SMS, AI SDR on WhatsApp\n• **NWM CMS** — Bilingual websites in under 60s\n• **Email Marketing** — AI-written campaigns, full automation\n• **Video Factory** — AI-produced Reels/TikToks (12 assets/mo on Scale)\n• **AI Fractional CMO** — 24/7 strategy agent + human accountability\n\nOne retainer replaces 4–6 vendors. Which one interests you most?",
           replies: [
+            { id: 'services-aeo',    label: '🔍 AEO',     href: '/aeo-agency.html' },
             { id: 'services-crm',    label: '📊 CRM',     href: '/nwm-crm.html' },
             { id: 'services-cms',    label: '🌐 CMS',     href: '/nwm-cms.html' },
             { id: 'services-email',  label: '✉️ Email',   href: '/email-marketing.html' },
@@ -81,7 +83,7 @@
           ]
         },
         pricing: {
-          reply: "Three Fractional CMO tiers (strategy + software + execution):\n\n🚀 **CMO Lite** — $249/mo · no setup · NWM CRM included\n📈 **CMO Growth** — $999/mo + $499 setup · ads mgmt at cost + 12% (most popular)\n⭐ **CMO Scale** — $2,499/mo + $999 setup · AI SDR, Video Factory, weekly calls\n\n90-day minimum, then month-to-month. Pay annually and save **15%**. If you start on Lite and upgrade within 90 days, we credit $249 toward your new tier.\n\nAsk a question or see the full pricing page?",
+          reply: "**Fractional CMO Retainers** (strategy + software + execution):\n\n🚀 **CMO Lite** — $249/mo · no setup · NWM CRM included\n📈 **CMO Growth** — $999/mo + $499 setup · ads at cost + 12% (most popular)\n⭐ **CMO Scale** — $2,499/mo + $999 setup · AI SDR, Video Factory, weekly calls\n\n**Platform only (DIY):**\n• CRM Starter — $49/mo · 1k contacts, core CRM\n• CRM Pro — $249/mo · 10k contacts, automation + SMS/WhatsApp\n• Agency White-label — $449/mo · unlimited sub-accounts\n\n90-day minimum, month-to-month after. Pay annually and save **15%**. Upgrade from Lite within 90 days and we credit $249 toward your new tier.\n\nSee full details or get a custom quote?",
           replies: [
             { id: 'pricing-page',   label: '💳 See full pricing',   href: '/pricing.html' },
             { id: 'pricing-quote',  label: '📝 Get custom quote',   action: 'audit' },
@@ -92,15 +94,24 @@
         bundle: {
           reply: "Tell me about your business in one line and I'll recommend the best bundle:",
           replies: [
-            { id: 'bundle-real-estate', label: '🏠 Real Estate',     action: 'rec-real-estate' },
-            { id: 'bundle-health',      label: '🏥 Healthcare',      action: 'rec-health' },
-            { id: 'bundle-ecom',        label: '🛒 E-commerce store',action: 'rec-ecom' },
-            { id: 'bundle-local',       label: '📍 Local service biz',action: 'rec-local' },
-            { id: 'bundle-hospitality', label: '🍽️ Hospitality',     action: 'rec-hospitality' },
-            { id: 'bundle-b2b',         label: '💼 B2B / SaaS',      action: 'rec-b2b' },
-            { id: 'bundle-finance',     label: '💰 Finance',         action: 'rec-finance' },
-            { id: 'bundle-agency',      label: '🏢 Marketing agency',action: 'partner' },
-            { id: 'back',               label: '← Back',             action: 'menu' }
+            { id: 'bundle-real-estate',    label: '🏠 Real Estate',        action: 'rec-real-estate' },
+            { id: 'bundle-health',         label: '🏥 Healthcare',         action: 'rec-health' },
+            { id: 'bundle-home-services',  label: '🔨 Home Services',      action: 'rec-home-services' },
+            { id: 'bundle-ecom',           label: '🛒 E-commerce',         action: 'rec-ecom' },
+            { id: 'bundle-local',          label: '📍 Local service biz',  action: 'rec-local' },
+            { id: 'bundle-hospitality',    label: '🍽️ Hospitality',        action: 'rec-hospitality' },
+            { id: 'bundle-b2b',            label: '💼 B2B / SaaS',         action: 'rec-b2b' },
+            { id: 'bundle-finance',        label: '💰 Finance',            action: 'rec-finance' },
+            { id: 'bundle-agency',         label: '🏢 Marketing agency',   action: 'partner' },
+            { id: 'back',                  label: '← Back',                action: 'menu' }
+          ]
+        },
+        'rec-home-services': {
+          reply: "For contractors, plumbers, electricians, HVAC & landscaping we recommend **Growth Stack**: CRM job pipeline + Website + Google/Meta Ads + AI SDR on WhatsApp 24/7. Starts at $997/mo.\n\nExpected: 50-90% more booked jobs in 90 days. The AI handles all initial inquiries on WhatsApp so you close jobs, not messages. 40% fewer no-shows with automated reminders.",
+          replies: [
+            { id: 'audit-start', label: '🎯 Free audit',         action: 'audit' },
+            { id: 'book-call',   label: '📞 Book strategy call', href: '/contact.html' },
+            { id: 'back',        label: '← Back',                action: 'menu' }
           ]
         },
         'rec-real-estate': {
@@ -192,13 +203,22 @@
         industry: {
           reply: "Which industry are you in?",
           replies: [
-            { id: 'ind-real-estate', label: '🏠 Real Estate',      action: 'ind-gen-real-estate' },
-            { id: 'ind-health',      label: '🏥 Healthcare',       action: 'ind-gen-health' },
-            { id: 'ind-ecom',        label: '🛍️ E-commerce',       action: 'ind-gen-ecom' },
-            { id: 'ind-services',    label: '💼 Professional services', action: 'ind-gen-services' },
-            { id: 'ind-saas',        label: '⚙️ SaaS',             action: 'ind-gen-saas' },
-            { id: 'ind-food',        label: '🍽️ Restaurants',      action: 'ind-gen-food' },
-            { id: 'ind-other',       label: '🏢 Other',            action: 'ind-gen-other' }
+            { id: 'ind-real-estate',    label: '🏠 Real Estate',        action: 'ind-gen-real-estate' },
+            { id: 'ind-health',         label: '🏥 Healthcare',         action: 'ind-gen-health' },
+            { id: 'ind-home-services',  label: '🔨 Home Services',      action: 'ind-gen-home-services' },
+            { id: 'ind-ecom',           label: '🛍️ E-commerce',         action: 'ind-gen-ecom' },
+            { id: 'ind-services',       label: '💼 Professional services', action: 'ind-gen-services' },
+            { id: 'ind-saas',           label: '⚙️ SaaS',               action: 'ind-gen-saas' },
+            { id: 'ind-food',           label: '🍽️ Restaurants',        action: 'ind-gen-food' },
+            { id: 'ind-other',          label: '🏢 Other',              action: 'ind-gen-other' }
+          ]
+        },
+        'ind-gen-home-services': {
+          reply: "For contractors, plumbers, electricians, HVAC & landscaping: CRM for job pipelines + Google/Meta ads + Local SEO + AI SDR on WhatsApp to handle initial inquiries 24/7.\n\nAvg: 50-90% more booked jobs in 90 days. The AI qualifies every lead and sends automated reminders — 40% fewer no-shows.",
+          replies: [
+            { id: 'audit-start', label: '🎯 Free audit',         action: 'audit' },
+            { id: 'book-call',   label: '📞 Book strategy call', href: '/contact.html' },
+            { id: 'back',        label: '← Back',               action: 'industry' }
           ]
         },
         'ind-gen-real-estate': {
@@ -260,9 +280,10 @@
         human: {
           reply: "Sure! How would you like to connect?",
           replies: [
-            { id: 'human-call',  label: '📞 Book 30-min call', href: '/contact.html' },
-            { id: 'human-email', label: '✉️ Email us',         href: 'mailto:hello@netwebmedia.com?subject=Chat%20handoff%20from%20website' },
-            { id: 'back',        label: '← Back',              action: 'menu' }
+            { id: 'human-wa',    label: '💬 WhatsApp',          href: 'https://wa.me/17407363884?text=Hi%20NetWebMedia%2C%20I%20came%20from%20your%20website.' },
+            { id: 'human-call',  label: '📞 Book 30-min call',  href: '/contact.html' },
+            { id: 'human-email', label: '✉️ Email us',          href: 'mailto:hello@netwebmedia.com?subject=Chat%20handoff%20from%20website' },
+            { id: 'back',        label: '← Back',               action: 'menu' }
           ]
         },
         menu: {
@@ -294,8 +315,9 @@
       ],
       intents: {
         services: {
-          reply: "Somos una agencia de marketing con IA full-stack. Productos principales:\n\n• **NWM CRM** — CRM con IA: pipelines, email, SMS, SDR con IA\n• **NWM CMS** — Webs bilingües en menos de 60s\n• **Email Marketing** — Campañas escritas por IA, automatizaciones\n• **Video Factory** — Reels/TikToks producidos por IA\n• **AI Fractional CMO** — Agente estratégico 24/7\n\n¿Cuál te interesa más?",
+          reply: "Somos una agencia de marketing con IA — construida para la era AEO.\n\n• **Optimización para IA (AEO)** — Aparece en ChatGPT, Perplexity y Google AI cuando los compradores buscan\n• **NWM CRM** — CRM con IA: pipelines, email, SMS, AI SDR en WhatsApp\n• **NWM CMS** — Webs bilingües en menos de 60s\n• **Email Marketing** — Campañas escritas por IA, automatizaciones\n• **Video Factory** — Reels/TikToks producidos por IA (12 piezas/mes en Scale)\n• **AI Fractional CMO** — Agente estratégico 24/7 con responsabilidad humana\n\nUn retainer reemplaza 4–6 proveedores. ¿Cuál te interesa más?",
           replies: [
+            { id: 'services-aeo',    label: '🔍 AEO',     href: '/aeo-agency.html' },
             { id: 'services-crm',    label: '📊 CRM',     href: '/nwm-crm.html' },
             { id: 'services-cms',    label: '🌐 CMS',     href: '/nwm-cms.html' },
             { id: 'services-email',  label: '✉️ Email',   href: '/email-marketing.html' },
@@ -305,7 +327,7 @@
           ]
         },
         pricing: {
-          reply: "Tres niveles de Fractional CMO (estrategia + software + ejecución):\n\n🚀 **CMO Lite** — $249/mes · sin setup · incluye NWM CRM\n📈 **CMO Growth** — $999/mes + $499 setup · manejo de ads al costo + 12% (más popular)\n⭐ **CMO Scale** — $2,499/mes + $999 setup · AI SDR, Video Factory, llamadas semanales\n\nMínimo 90 días, después mes-a-mes. Pago anual ahorra **15%**. Si empiezas en Lite y subes de plan en los primeros 90 días, acreditamos $249 al nuevo tier.\n\n¿Alguna pregunta específica o ver la página completa?",
+          reply: "**Retainers Fractional CMO** (estrategia + software + ejecución):\n\n🚀 **CMO Lite** — $249/mes · sin setup · incluye NWM CRM\n📈 **CMO Growth** — $999/mes + $499 setup · ads al costo + 12% (más popular)\n⭐ **CMO Scale** — $2,499/mes + $999 setup · AI SDR, Video Factory, llamadas semanales\n\n**Solo Plataforma (DIY):**\n• CRM Starter — $49/mes · 1k contactos, CRM básico\n• CRM Pro — $249/mes · 10k contactos, automatización + SMS/WhatsApp\n• Agency White-label — $449/mes · sub-cuentas ilimitadas\n\nMínimo 90 días, después mes a mes. Pago anual ahorra **15%**. Mejora de Lite en los primeros 90 días y acreditamos $249.\n\n¿Alguna pregunta o ver cotización personalizada?",
           replies: [
             { id: 'pricing-page',   label: '💳 Ver precios completos', href: '/pricing.html' },
             { id: 'pricing-quote',  label: '📝 Cotización personal',   action: 'audit' },
@@ -316,11 +338,12 @@
         bundle: {
           reply: "Cuéntame sobre tu negocio en una línea y te recomiendo el mejor paquete:",
           replies: [
-            { id: 'bundle-ecom',    label: '🛒 E-commerce',          action: 'rec-ecom' },
-            { id: 'bundle-local',   label: '📍 Negocio local',       action: 'rec-local' },
-            { id: 'bundle-b2b',     label: '💼 B2B / SaaS',          action: 'rec-b2b' },
-            { id: 'bundle-agency',  label: '🏢 Agencia de marketing', action: 'partner' },
-            { id: 'back',           label: '← Volver',               action: 'menu' }
+            { id: 'bundle-home-services', label: '🔨 Hogar / Contratistas', action: 'rec-home-services' },
+            { id: 'bundle-ecom',          label: '🛒 E-commerce',           action: 'rec-ecom' },
+            { id: 'bundle-local',         label: '📍 Negocio local',        action: 'rec-local' },
+            { id: 'bundle-b2b',           label: '💼 B2B / SaaS',           action: 'rec-b2b' },
+            { id: 'bundle-agency',        label: '🏢 Agencia de marketing',  action: 'partner' },
+            { id: 'back',                 label: '← Volver',                action: 'menu' }
           ]
         },
         'rec-ecom': {
@@ -376,13 +399,30 @@
         industry: {
           reply: "¿En qué industria estás?",
           replies: [
-            { id: 'ind-real-estate', label: '🏠 Real Estate',      action: 'ind-gen-real-estate' },
-            { id: 'ind-health',      label: '🏥 Salud',            action: 'ind-gen-health' },
-            { id: 'ind-ecom',        label: '🛍️ E-commerce',       action: 'ind-gen-ecom' },
-            { id: 'ind-services',    label: '💼 Servicios profesionales', action: 'ind-gen-services' },
-            { id: 'ind-saas',        label: '⚙️ SaaS',             action: 'ind-gen-saas' },
-            { id: 'ind-food',        label: '🍽️ Restaurantes',     action: 'ind-gen-food' },
-            { id: 'ind-other',       label: '🏢 Otra',             action: 'ind-gen-other' }
+            { id: 'ind-real-estate',   label: '🏠 Real Estate',            action: 'ind-gen-real-estate' },
+            { id: 'ind-health',        label: '🏥 Salud',                  action: 'ind-gen-health' },
+            { id: 'ind-home-services', label: '🔨 Hogar / Contratistas',   action: 'ind-gen-home-services' },
+            { id: 'ind-ecom',          label: '🛍️ E-commerce',             action: 'ind-gen-ecom' },
+            { id: 'ind-services',      label: '💼 Servicios profesionales', action: 'ind-gen-services' },
+            { id: 'ind-saas',          label: '⚙️ SaaS',                   action: 'ind-gen-saas' },
+            { id: 'ind-food',          label: '🍽️ Restaurantes',           action: 'ind-gen-food' },
+            { id: 'ind-other',         label: '🏢 Otra',                   action: 'ind-gen-other' }
+          ]
+        },
+        'ind-gen-home-services': {
+          reply: "Para contratistas, plomeros, electricistas, HVAC y paisajismo: CRM para pipeline de trabajos + anuncios Google/Meta + SEO local + AI SDR en WhatsApp para atender consultas 24/7.\n\nResultado: 50-90% más trabajos agendados en 90 días. La IA califica cada lead y envía recordatorios automáticos — 40% menos cancelaciones.",
+          replies: [
+            { id: 'audit-start', label: '🎯 Auditoría gratis', action: 'audit' },
+            { id: 'book-call',   label: '📞 Agendar llamada',  href: '/contact.html' },
+            { id: 'back',        label: '← Volver',            action: 'industry' }
+          ]
+        },
+        'rec-home-services': {
+          reply: "Para contratistas y servicios del hogar recomendamos **Growth Stack**: CRM para pipeline de trabajos + Web + Anuncios Google/Meta + AI SDR en WhatsApp 24/7. Desde $997/mes.\n\nResultado: 50-90% más trabajos agendados en 90 días. La IA atiende cada consulta para que tú cierres contratos, no mensajes. 40% menos cancelaciones con recordatorios automáticos.",
+          replies: [
+            { id: 'audit-start', label: '🎯 Auditoría gratis',  action: 'audit' },
+            { id: 'book-call',   label: '📞 Agendar llamada',    href: '/contact.html' },
+            { id: 'back',        label: '← Volver',              action: 'menu' }
           ]
         },
         'ind-gen-real-estate': {
@@ -444,9 +484,10 @@
         human: {
           reply: "¡Claro! ¿Cómo prefieres conectar?",
           replies: [
-            { id: 'human-call',  label: '📞 Agendar 30 min', href: '/contact.html' },
-            { id: 'human-email', label: '✉️ Escríbenos',     href: 'mailto:hello@netwebmedia.com?subject=Handoff%20desde%20chat' },
-            { id: 'back',        label: '← Volver',           action: 'menu' }
+            { id: 'human-wa',    label: '💬 WhatsApp',         href: 'https://wa.me/17407363884?text=Hola%20NetWebMedia%2C%20vine%20desde%20su%20sitio%20web.' },
+            { id: 'human-call',  label: '📞 Agendar 30 min',  href: '/contact.html' },
+            { id: 'human-email', label: '✉️ Escríbenos',      href: 'mailto:hello@netwebmedia.com?subject=Handoff%20desde%20chat' },
+            { id: 'back',        label: '← Volver',            action: 'menu' }
           ]
         },
         menu: {
@@ -976,7 +1017,7 @@
           let btn;
           if (r.href) {
             btn = document.createElement('a');
-            btn.href = r.href;
+            btn.href = (r.href.charAt(0) === '/' ? NWM_BASE : '') + r.href;
             if (r.href.indexOf('mailto:') !== 0) btn.target = '_self';
           } else {
             btn = document.createElement('button');

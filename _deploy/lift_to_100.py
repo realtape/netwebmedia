@@ -52,7 +52,7 @@ def build_block(page_type, page_title, page_desc, page_url):
         "description": "AI marketing agency for US brands. Autonomous agents, AI SEO, paid ads, and CRM automation.",
         "email": "hello@netwebmedia.com",
         "sameAs": [
-          "https://www.linkedin.com/company/netwebmedia",
+          "https://www.linkedin.com/in/netwebmedia",
           "https://x.com/netwebmedia",
           "https://www.instagram.com/netwebmedia/",
           "https://www.facebook.com/netwebmedia",
@@ -78,7 +78,7 @@ FOOTER_SOCIALS = '''
 <!-- NWM-LIFT-TO-100 :: External social links for auditor + SEO -->
 <div class="nwm-social-footer" style="text-align:center;padding:24px 20px;border-top:1px solid rgba(255,255,255,.06);color:#6b7280;font-size:13px;">
   <span style="margin-right:10px">Connect with NetWebMedia:</span>
-  <a href="https://www.linkedin.com/company/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">LinkedIn</a>
+  <a href="https://www.linkedin.com/in/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">LinkedIn</a>
   <a href="https://www.instagram.com/netwebmedia/" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">Instagram</a>
   <a href="https://x.com/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">X / Twitter</a>
   <a href="https://www.facebook.com/netwebmedia" rel="noopener" target="_blank" style="color:#93c5fd;margin:0 6px;text-decoration:none">Facebook</a>

@@ -23,27 +23,66 @@ function send_mail($to, $subject, $html_body, $opts = []) {
 
   $msg_id = '<' . bin2hex(random_bytes(12)) . '@' . $host . '>';
 
+  // Encode From-name per RFC 2047 if it contains non-ASCII (e.g. "Carlos Martínez").
+  $from_name_encoded = preg_match('/[^\x20-\x7e]/', $from_name)
+    ? '=?UTF-8?B?' . base64_encode($from_name) . '?='
+    : $from_name;
+
+  // Per-recipient unsubscribe token. mailto + https variants both present —
+  // Gmail/Yahoo use one-click POST, enterprise MTAs use mailto.
+  $unsub_token = substr(hash('sha256', $to . '|' . $msg_id), 0, 24);
+  $unsub_mailto = 'unsubscribe@' . $host . '?subject=unsubscribe+' . rawurlencode($to);
+  $unsub_url    = 'https://' . $host . '/unsubscribe?e=' . rawurlencode($to) . '&t=' . $unsub_token;
+
+  // Build plain-text alternative from HTML. Preserves links as "text (url)".
+  $plain_body = $opts['plain_body'] ?? html_to_plain($html_body);
+
+  // Multipart/alternative boundary
+  $boundary = '=_nwm_' . bin2hex(random_bytes(8)) . '_=';
+
+  // Precedence: bulk tells many spam filters this is intentional list mail,
+  // not a 1:1 personal send being disguised — counterintuitively IMPROVES
+  // placement by matching the sender's actual pattern.
   $headers = [
-    'From: ' . $from_name . ' <' . $from_email . '>',
+    'From: ' . $from_name_encoded . ' <' . $from_email . '>',
     'Reply-To: ' . $reply_to,
     'Return-Path: ' . $from_email,
     'MIME-Version: 1.0',
-    'Content-Type: text/html; charset=UTF-8',
-    'Content-Transfer-Encoding: 8bit',
+    'Content-Type: multipart/alternative; boundary="' . $boundary . '"',
     'Message-ID: ' . $msg_id,
     'Date: ' . date('r'),
-    'X-Mailer: NetWebMedia/1.1',
-    // Gmail rewards List-Unsubscribe presence in spam scoring.
-    'List-Unsubscribe: <mailto:' . $from_email . '?subject=unsubscribe>',
+    'X-Mailer: NetWebMedia-Mailer/1.2',
+    'Precedence: bulk',
+    'List-Unsubscribe: <' . $unsub_url . '>, <mailto:' . $unsub_mailto . '>',
     'List-Unsubscribe-Post: List-Unsubscribe=One-Click',
+    'List-Id: NetWebMedia Outreach <outreach.' . $host . '>',
+    'Feedback-ID: outreach:nwm:' . date('Ymd') . ':mailer',
     'X-Auto-Response-Suppress: OOF, AutoReply',
+    'Auto-Submitted: auto-generated',
   ];
+
+  // Build multipart body
+  $body  = "This is a multipart message in MIME format.\r\n\r\n";
+  $body .= "--" . $boundary . "\r\n";
+  $body .= "Content-Type: text/plain; charset=UTF-8\r\n";
+  $body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
+  $body .= $plain_body . "\r\n\r\n";
+  $body .= "--" . $boundary . "\r\n";
+  $body .= "Content-Type: text/html; charset=UTF-8\r\n";
+  $body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
+  $body .= $html_body . "\r\n\r\n";
+  $body .= "--" . $boundary . "--\r\n";
+
+  // Encode non-ASCII in subject per RFC 2047.
+  $subject_encoded = preg_match('/[^\x20-\x7e]/', $subject)
+    ? '=?UTF-8?B?' . base64_encode($subject) . '?='
+    : $subject;
 
   // Use static "-f<email>" sender arg — no shellarg escaping (which produces
   // quoted strings that some sendmail versions reject and cause mail() => false).
   $sender_arg = '-f' . $from_email;
 
-  $ok = @mail($to, $subject, $html_body, implode("\r\n", $headers), $sender_arg);
+  $ok = @mail($to, $subject_encoded, $body, implode("\r\n", $headers), $sender_arg);
 
   try {
     qExec(

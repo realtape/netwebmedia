@@ -40,7 +40,7 @@ jobs:
           echo "Generated config.local.php ($size bytes, RESEND_API_KEY length=$resend_len)"
 
       - name: Deploy crm-vanilla via FTPS
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.CPANEL_FTP_HOST }}
           username: ${{ secrets.CPANEL_FTP_USER }}

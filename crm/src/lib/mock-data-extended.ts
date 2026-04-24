@@ -37,6 +37,7 @@ export interface Product {
   sku: string;
   category: string;
   price: number;
+  annualPrice?: number;
   recurring: "monthly" | "yearly" | "one-time";
   description: string;
   inStock: boolean;
@@ -44,14 +45,28 @@ export interface Product {
 }
 
 export const products: Product[] = [
-  { id: "p1", name: "NWM Starter", sku: "NWM-START", category: "Plans", price: 49, recurring: "monthly", description: "Entry-level CRM + Marketing automation", inStock: true, unitsSold: 432 },
-  { id: "p2", name: "NWM Growth", sku: "NWM-GROW", category: "Plans", price: 199, recurring: "monthly", description: "Full CRM, Marketing, Service + AI", inStock: true, unitsSold: 284 },
-  { id: "p3", name: "NWM Agency", sku: "NWM-AGENCY", category: "Plans", price: 499, recurring: "monthly", description: "Unlimited sub-accounts, white-label, SaaS mode", inStock: true, unitsSold: 112 },
-  { id: "p4", name: "NWM Enterprise", sku: "NWM-ENT", category: "Plans", price: 1299, recurring: "monthly", description: "Custom SLAs, dedicated CSM, SSO, audit logs", inStock: true, unitsSold: 41 },
-  { id: "p5", name: "Voice AI Add-on", sku: "NWM-VOICE", category: "Add-ons", price: 99, recurring: "monthly", description: "Conversational voice agents with call routing", inStock: true, unitsSold: 167 },
-  { id: "p6", name: "Video Factory", sku: "NWM-VIDEO", category: "Add-ons", price: 79, recurring: "monthly", description: "AI avatar video personalization at scale", inStock: true, unitsSold: 93 },
-  { id: "p7", name: "Migration (DFY)", sku: "NWM-MIG", category: "Services", price: 2500, recurring: "one-time", description: "Done-for-you migration from HubSpot/GHL/Salesforce", inStock: true, unitsSold: 58 },
-  { id: "p8", name: "Fractional CMO", sku: "NWM-CMO", category: "Services", price: 4500, recurring: "monthly", description: "Dedicated fractional CMO for 3+ months", inStock: true, unitsSold: 24 },
+  // Fractional CMO Retainers
+  { id: "p1",  name: "CMO Lite",                       sku: "CMO-LITE-MO",      category: "Retainer",    price: 249,  annualPrice: 2540,  recurring: "monthly",  description: "AEO/SEO strategy, monthly content calendar, NWM CRM included. 90-day minimum.",                                                            inStock: true, unitsSold: 0 },
+  { id: "p2",  name: "CMO Growth",                     sku: "CMO-GROWTH-MO",    category: "Retainer",    price: 999,  annualPrice: 10190, recurring: "monthly",  description: "Everything in Lite + paid ads (12% ad mgmt fee), monthly calls, email nurture, attribution dashboard.",                                  inStock: true, unitsSold: 0 },
+  { id: "p3",  name: "CMO Scale",                      sku: "CMO-SCALE-MO",     category: "Retainer",    price: 2499, annualPrice: 25490, recurring: "monthly",  description: "Everything in Growth + AI SDR outbound, 12 short-form videos/mo, demand-gen, weekly calls, quarterly OKR planning.",                    inStock: true, unitsSold: 0 },
+  // Setup Fees
+  { id: "p4",  name: "CMO Lite — Setup Fee",           sku: "CMO-LITE-SETUP",   category: "Setup Fee",   price: 249,                     recurring: "one-time", description: "One-time setup fee for CMO Lite retainer.",                                                                                               inStock: true, unitsSold: 0 },
+  { id: "p5",  name: "CMO Growth — Setup Fee",         sku: "CMO-GROWTH-SETUP", category: "Setup Fee",   price: 499,                     recurring: "one-time", description: "One-time setup fee for CMO Growth retainer.",                                                                                             inStock: true, unitsSold: 0 },
+  { id: "p6",  name: "CMO Scale — Setup Fee",          sku: "CMO-SCALE-SETUP",  category: "Setup Fee",   price: 999,                     recurring: "one-time", description: "One-time setup fee for CMO Scale retainer.",                                                                                              inStock: true, unitsSold: 0 },
+  // NWM CRM Plans
+  { id: "p7",  name: "NWM CRM Starter",                sku: "CRM-STARTER-MO",   category: "CRM Plan",    price: 49,                      recurring: "monthly",  description: "1 seat, 1,000 contacts, core CRM / pipeline / email.",                                                                                   inStock: true, unitsSold: 0 },
+  { id: "p8",  name: "NWM CRM Pro",                    sku: "CRM-PRO-MO",       category: "CRM Plan",    price: 249,                     recurring: "monthly",  description: "5 seats, 10,000 contacts, automation builder, SMS / WhatsApp.",                                                                          inStock: true, unitsSold: 0 },
+  { id: "p9",  name: "NWM CRM Agency / White-Label",   sku: "CRM-AGENCY-MO",    category: "CRM Plan",    price: 449,                     recurring: "monthly",  description: "Unlimited sub-accounts, resell at own pricing, full CMS + CRM + Video Factory.",                                                        inStock: true, unitsSold: 0 },
+  // Website
+  { id: "p10", name: "Website Template",               sku: "TMPL-SINGLE",      category: "Template",    price: 99,                      recurring: "one-time", description: "One-time flat purchase of a NetWebMedia website template.",                                                                               inStock: true, unitsSold: 0 },
+  { id: "p11", name: "Website Maintenance — Starter",  sku: "MAINT-STARTER-MO", category: "Maintenance", price: 99,  annualPrice: 948,   recurring: "monthly",  description: "Website maintenance plan — Starter tier. $79/mo billed annually.",                                                                       inStock: true, unitsSold: 0 },
+  { id: "p12", name: "Website Maintenance — Growth",   sku: "MAINT-GROWTH-MO",  category: "Maintenance", price: 249, annualPrice: 2388,  recurring: "monthly",  description: "Website maintenance plan — Growth tier. $199/mo billed annually.",                                                                        inStock: true, unitsSold: 0 },
+  { id: "p13", name: "Website Maintenance — Enterprise",sku: "MAINT-ENT-MO",    category: "Maintenance", price: 499, annualPrice: 4788,  recurring: "monthly",  description: "Website maintenance plan — Enterprise tier. $399/mo billed annually.",                                                                    inStock: true, unitsSold: 0 },
+  // Project Services
+  { id: "p14", name: "AI Website Build",               sku: "PROJ-WEB-BUILD",   category: "Project",     price: 2500,                    recurring: "one-time", description: "AI website build. Base $2,500 — up to $9,000 depending on scope.",                                                                       inStock: true, unitsSold: 0 },
+  { id: "p15", name: "AI Automation Build",            sku: "PROJ-AUTO-BUILD",  category: "Project",     price: 1500,                    recurring: "one-time", description: "AI automation build. Base $1,500 — up to $8,000 depending on scope.",                                                                    inStock: true, unitsSold: 0 },
+  { id: "p16", name: "AEO Migration Audit",            sku: "PROJ-AEO-AUDIT",   category: "Project",     price: 997,                     recurring: "one-time", description: "Answer Engine Optimization (AEO) migration audit.",                                                                                      inStock: true, unitsSold: 0 },
+  { id: "p17", name: "Custom AI Agent",                sku: "PROJ-AI-AGENT",    category: "Project",     price: 3000,                    recurring: "one-time", description: "Custom AI agent build. Base $3,000 — up to $12,000 depending on scope.",                                                                 inStock: true, unitsSold: 0 },
 ];
 
 export interface Quote {

@@ -5,8 +5,8 @@ import { ModuleShell, ModuleCards, ModuleCard } from "@/components/module-shell"
 import { products } from "@/lib/mock-data-extended";
 
 export default function ProductsPage() {
-  const plans = products.filter((p) => p.category === "Plans").length;
-  const addons = products.filter((p) => p.category === "Add-ons").length;
+  const retainers = products.filter((p) => p.category === "Retainer").length;
+  const projects = products.filter((p) => p.category === "Project").length;
   const avgPrice = Math.round(products.reduce((a, p) => a + p.price, 0) / products.length);
 
   return (
@@ -19,8 +19,8 @@ export default function ProductsPage() {
       searchPlaceholder="Search products..."
       stats={[
         { label: "Total Products", value: products.length },
-        { label: "Active Plans", value: plans },
-        { label: "Add-ons", value: addons },
+        { label: "Retainers", value: retainers },
+        { label: "Projects", value: projects },
         { label: "Avg Price", value: `$${avgPrice}` },
       ]}
     >
@@ -29,9 +29,9 @@ export default function ProductsPage() {
           <ModuleCard
             key={p.id}
             title={p.name}
-            subtitle={`$${p.price}${p.recurring === "one-time" ? "" : `/${p.recurring === "monthly" ? "mo" : "yr"}`}`}
+            subtitle={`$${p.price.toLocaleString()}${p.recurring === "one-time" ? "" : `/${p.recurring === "monthly" ? "mo" : "yr"}`}${p.annualPrice ? ` · $${p.annualPrice.toLocaleString()}/yr` : ""}`}
             badge={p.category}
-            badgeColor={p.category === "Plans" ? "accent" : p.category === "Add-ons" ? "purple" : "cyan"}
+            badgeColor={p.category === "Retainer" ? "accent" : (p.category === "CRM Plan" || p.category === "Maintenance") ? "purple" : "cyan"}
           >
             <div className="text-xs text-text-dim mb-3">{p.description}</div>
             <div className="flex items-center justify-between text-[11px] border-t border-border pt-3">

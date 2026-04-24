@@ -2,6 +2,7 @@
 
 import { ReactNode } from "react";
 import { LucideIcon, Plus, Search, Sparkles } from "lucide-react";
+import { showToast } from "@/lib/toast";
 
 interface ModuleShellProps {
   icon: LucideIcon;
@@ -49,7 +50,7 @@ export function ModuleShell({
         </div>
         {primaryAction && (
           <button
-            onClick={primaryAction.onClick}
+            onClick={primaryAction.onClick ?? (() => showToast(`${primaryAction.label} — coming soon`, "info"))}
             className="flex items-center gap-2 px-4 py-2 text-xs font-semibold bg-accent text-white rounded-lg hover:bg-accent-light transition-colors shrink-0"
           >
             <Plus size={14} /> {primaryAction.label}

@@ -110,7 +110,7 @@
           reply: "For contractors, plumbers, electricians, HVAC & landscaping we recommend **Growth Stack**: CRM job pipeline + Website + Google/Meta Ads + AI SDR on WhatsApp 24/7. Starts at $997/mo.\n\nExpected: 50-90% more booked jobs in 90 days. The AI handles all initial inquiries on WhatsApp so you close jobs, not messages. 40% fewer no-shows with automated reminders.",
           replies: [
             { id: 'audit-start', label: '🎯 Free audit',         action: 'audit' },
-            { id: 'book-call',   label: '📞 Book strategy call', href: '/contact.html' },
+            { id: 'async-audit', label: '💬 WhatsApp us', href: 'https://wa.me/17407363884?text=Hi%20NetWebMedia%2C%20I%20need%20help%20with%20home%20services.' },
             { id: 'back',        label: '← Back',                action: 'menu' }
           ]
         },
@@ -118,7 +118,7 @@
           reply: "For real estate we recommend the **Grow bundle**: NWM CRM + IDX-connected CMS + Email + WhatsApp automation + AI lead qualification. Starts at $2,997/mo.\n\nExpected: 60-120% more qualified inquiries by month 3, 18-day avg DOM, full agent pipeline visibility.",
           replies: [
             { id: 'audit-start', label: '🎯 Run free audit',  action: 'audit' },
-            { id: 'book-call',   label: '📞 Book strategy call', href: '/contact.html' },
+            { id: 'async-audit', label: '📝 Free async audit',   href: '/contact.html' },
             { id: 'see-template', label: '🏠 See real estate templates', href: '/industries/real-estate/template-1.html' },
             { id: 'back',        label: '← Back',             action: 'menu' }
           ]
@@ -127,7 +127,7 @@
           reply: "For healthcare/wellness we recommend **Grow bundle** with HIPAA-aware setup: NWM CRM (patient pipeline) + Wellness CMS + Email + Appointment automation. Starts at $2,997/mo.\n\nExpected: 40-70% more booked appointments, 30%+ no-show reduction with WhatsApp reminders.",
           replies: [
             { id: 'audit-start', label: '🎯 Run free audit',  action: 'audit' },
-            { id: 'book-call',   label: '📞 Book strategy call', href: '/contact.html' },
+            { id: 'async-audit', label: '📝 Free async audit',   href: '/contact.html' },
             { id: 'see-template', label: '🏥 See healthcare templates', href: '/industries/healthcare/template-1.html' },
             { id: 'back',        label: '← Back',             action: 'menu' }
           ]
@@ -136,7 +136,7 @@
           reply: "For restaurants/hotels/cafes we recommend **Launch bundle**: CMS site + Reservations + Email/SMS + Reviews automation. Starts at $1,295/mo.\n\nExpected: 25-50% more direct bookings (skip the OTA fees), automated review requests, table management.",
           replies: [
             { id: 'audit-start', label: '🎯 Run free audit',  action: 'audit' },
-            { id: 'book-call',   label: '📞 Book strategy call', href: '/contact.html' },
+            { id: 'async-audit', label: '📝 Free async audit',   href: '/contact.html' },
             { id: 'see-template', label: '🍽️ See hospitality templates', href: '/industries/hospitality/template-1.html' },
             { id: 'back',        label: '← Back',             action: 'menu' }
           ]
@@ -145,7 +145,7 @@
           reply: "For finance/insurance we recommend **Scale bundle**: AI CMO + CRM (compliance-aware) + Content + Lead nurture. Starts at $4,497/mo.\n\nExpected: 50-100% AUM pipeline growth, automated client comms, full audit trail for FINRA/insurance regs.",
           replies: [
             { id: 'audit-start', label: '🎯 Run free audit',  action: 'audit' },
-            { id: 'book-call',   label: '📞 Book strategy call', href: '/contact.html' },
+            { id: 'async-audit', label: '📝 Free async audit',   href: '/contact.html' },
             { id: 'see-template', label: '💰 See finance templates', href: '/industries/finance/template-1.html' },
             { id: 'back',        label: '← Back',             action: 'menu' }
           ]
@@ -154,7 +154,7 @@
           reply: "For e-commerce we recommend the **Lead Machine bundle**: NWM CRM + Email Marketing + Paid Ads. Starts around $497/mo with bundle discount.\n\nExpected: 3-5x ROAS on ads + 25-35% email revenue share by month 3.",
           replies: [
             { id: 'audit-start', label: '🎯 Run free audit',  action: 'audit' },
-            { id: 'book-call',   label: '📞 Book strategy call', href: '/contact.html' },
+            { id: 'async-audit', label: '📝 Free async audit',   href: '/contact.html' },
             { id: 'back',        label: '← Back',             action: 'menu' }
           ]
         },
@@ -162,7 +162,7 @@
           reply: "For local service businesses we recommend **Growth Stack**: CRM + Website + SEO + Google Business. Starts at $997/mo with bundle discount.\n\nExpected: 40-80% more inbound leads by month 3, local top-3 rankings by month 6.",
           replies: [
             { id: 'audit-start', label: '🎯 Run free audit',  action: 'audit' },
-            { id: 'book-call',   label: '📞 Book strategy call', href: '/contact.html' },
+            { id: 'async-audit', label: '📝 Free async audit',   href: '/contact.html' },
             { id: 'back',        label: '← Back',             action: 'menu' }
           ]
         },
@@ -170,7 +170,7 @@
           reply: "For B2B / SaaS we recommend **Full CMO**: AI Fractional CMO + Content + LinkedIn Ads + CRM. Starts at $1,999/mo.\n\nExpected: 50-120% pipeline growth by month 3, senior strategy 24/7 via Claude-powered AI CMO.",
           replies: [
             { id: 'audit-start', label: '🎯 Run free audit',  action: 'audit' },
-            { id: 'book-call',   label: '📞 Book strategy call', href: '/contact.html' },
+            { id: 'async-audit', label: '📝 Free async audit',   href: '/contact.html' },
             { id: 'back',        label: '← Back',             action: 'menu' }
           ]
         },
@@ -217,7 +217,7 @@
           reply: "For contractors, plumbers, electricians, HVAC & landscaping: CRM for job pipelines + Google/Meta ads + Local SEO + AI SDR on WhatsApp to handle initial inquiries 24/7.\n\nAvg: 50-90% more booked jobs in 90 days. The AI qualifies every lead and sends automated reminders — 40% fewer no-shows.",
           replies: [
             { id: 'audit-start', label: '🎯 Free audit',         action: 'audit' },
-            { id: 'book-call',   label: '📞 Book strategy call', href: '/contact.html' },
+            { id: 'async-audit', label: '📝 Free async audit',   href: '/contact.html' },
             { id: 'back',        label: '← Back',               action: 'industry' }
           ]
         },
@@ -281,7 +281,7 @@
           reply: "Sure! How would you like to connect?",
           replies: [
             { id: 'human-wa',    label: '💬 WhatsApp',          href: 'https://wa.me/17407363884?text=Hi%20NetWebMedia%2C%20I%20came%20from%20your%20website.' },
-            { id: 'human-call',  label: '📞 Book 30-min call',  href: '/contact.html' },
+            { id: 'human-email', label: '✉️ Email the team',    href: 'mailto:hello@netwebmedia.com?subject=Chat%20handoff%20from%20website' },
             { id: 'human-email', label: '✉️ Email us',          href: 'mailto:hello@netwebmedia.com?subject=Chat%20handoff%20from%20website' },
             { id: 'back',        label: '← Back',               action: 'menu' }
           ]
@@ -350,7 +350,7 @@
           reply: "Para e-commerce recomendamos el **paquete Lead Machine**: NWM CRM + Email Marketing + Ads. Desde ~$497/mes con descuento de paquete.\n\nResultado esperado: 3-5x ROAS en ads + 25-35% de ingresos por email al mes 3.",
           replies: [
             { id: 'audit-start', label: '🎯 Auditoría gratis',  action: 'audit' },
-            { id: 'book-call',   label: '📞 Agendar llamada',   href: '/contact.html' },
+            { id: 'async-audit', label: '📝 Auditoría async',    href: '/contact.html' },
             { id: 'back',        label: '← Volver',             action: 'menu' }
           ]
         },
@@ -358,7 +358,7 @@
           reply: "Para negocios locales recomendamos **Growth Stack**: CRM + Web + SEO + Google Business. Desde $997/mes con descuento.\n\nResultado: 40-80% más leads en 90 días, top-3 local al mes 6.",
           replies: [
             { id: 'audit-start', label: '🎯 Auditoría gratis',  action: 'audit' },
-            { id: 'book-call',   label: '📞 Agendar llamada',   href: '/contact.html' },
+            { id: 'async-audit', label: '📝 Auditoría async',    href: '/contact.html' },
             { id: 'back',        label: '← Volver',             action: 'menu' }
           ]
         },
@@ -366,7 +366,7 @@
           reply: "Para B2B / SaaS recomendamos **Full CMO**: AI Fractional CMO + Contenido + LinkedIn Ads + CRM. Desde $1,999/mes.\n\nResultado: 50-120% crecimiento de pipeline al mes 3, estrategia senior 24/7 con AI CMO.",
           replies: [
             { id: 'audit-start', label: '🎯 Auditoría gratis',  action: 'audit' },
-            { id: 'book-call',   label: '📞 Agendar llamada',   href: '/contact.html' },
+            { id: 'async-audit', label: '📝 Auditoría async',    href: '/contact.html' },
             { id: 'back',        label: '← Volver',             action: 'menu' }
           ]
         },
@@ -413,7 +413,7 @@
           reply: "Para contratistas, plomeros, electricistas, HVAC y paisajismo: CRM para pipeline de trabajos + anuncios Google/Meta + SEO local + AI SDR en WhatsApp para atender consultas 24/7.\n\nResultado: 50-90% más trabajos agendados en 90 días. La IA califica cada lead y envía recordatorios automáticos — 40% menos cancelaciones.",
           replies: [
             { id: 'audit-start', label: '🎯 Auditoría gratis', action: 'audit' },
-            { id: 'book-call',   label: '📞 Agendar llamada',  href: '/contact.html' },
+            { id: 'async-audit', label: '📝 Auditoría async',   href: '/contact.html' },
             { id: 'back',        label: '← Volver',            action: 'industry' }
           ]
         },
@@ -421,7 +421,7 @@
           reply: "Para contratistas y servicios del hogar recomendamos **Growth Stack**: CRM para pipeline de trabajos + Web + Anuncios Google/Meta + AI SDR en WhatsApp 24/7. Desde $997/mes.\n\nResultado: 50-90% más trabajos agendados en 90 días. La IA atiende cada consulta para que tú cierres contratos, no mensajes. 40% menos cancelaciones con recordatorios automáticos.",
           replies: [
             { id: 'audit-start', label: '🎯 Auditoría gratis',  action: 'audit' },
-            { id: 'book-call',   label: '📞 Agendar llamada',    href: '/contact.html' },
+            { id: 'async-audit', label: '📝 Auditoría async',     href: '/contact.html' },
             { id: 'back',        label: '← Volver',              action: 'menu' }
           ]
         },
@@ -485,7 +485,7 @@
           reply: "¡Claro! ¿Cómo prefieres conectar?",
           replies: [
             { id: 'human-wa',    label: '💬 WhatsApp',         href: 'https://wa.me/17407363884?text=Hola%20NetWebMedia%2C%20vine%20desde%20su%20sitio%20web.' },
-            { id: 'human-call',  label: '📞 Agendar 30 min',  href: '/contact.html' },
+            { id: 'human-email', label: '✉️ Email al equipo',  href: 'mailto:hello@netwebmedia.com?subject=Consulta%20desde%20el%20chat' },
             { id: 'human-email', label: '✉️ Escríbenos',      href: 'mailto:hello@netwebmedia.com?subject=Handoff%20desde%20chat' },
             { id: 'back',        label: '← Volver',            action: 'menu' }
           ]
@@ -815,7 +815,7 @@
           ? "Buena pregunta — me cuesta conectarme en este momento. Escríbenos a *hello@netwebmedia.com* o agenda 30 min en /contact.html y te respondemos en pocas horas."
           : "Good question — I'm having trouble connecting right now. Email *hello@netwebmedia.com* or book 30 min at /contact.html and we'll reply within a few business hours.";
         addBotMessage(fallback, [
-          { id: 'human-call', label: LANG === 'es' ? '📞 Agendar llamada' : '📞 Book a call', href: '/contact.html' },
+          { id: 'async-audit', label: LANG === 'es' ? '📝 Auditoría async' : '📝 Free async audit', href: '/contact.html' },
           { id: 'human-email', label: '✉️ Email', href: 'mailto:hello@netwebmedia.com?subject=Chat%20handoff' },
           { id: 'back', label: LANG === 'es' ? '← Menú' : '← Menu', action: 'menu' }
         ]);
@@ -943,7 +943,7 @@
         '/contact.html':          { greeting: "Want a faster way than the form? I can route you instantly:", replies: [{id:'co-wa',label:'💬 WhatsApp now',action:'wa-handoff'},{id:'co-audit',label:'🎯 Free audit',action:'audit'},{id:'co-back',label:'← Other topics',action:'menu'}] },
         '/services.html':         { greeting: "Browsing our **services** — which area interests you most?", replies: [{id:'s-services',label:'🚀 Pick a service',action:'services'},{id:'s-bundle',label:'📦 Best bundle for me',action:'bundle'},{id:'s-back',label:'← Other topics',action:'menu'}] },
         '/analytics.html':        { greeting: "After your free site audit? Drop your URL in the form above — or I can fast-track it:", replies: [{id:'a-audit',label:'🎯 Submit via chat',action:'audit'},{id:'a-back',label:'← Other topics',action:'menu'}] },
-        '/results.html':          { greeting: "Looking at **client results** — want a similar outcome for your business?", replies: [{id:'r-audit',label:'🎯 Free audit',action:'audit'},{id:'r-call',label:'📞 Strategy call',action:'human'},{id:'r-back',label:'← Other topics',action:'menu'}] },
+        '/results.html':          { greeting: "Looking at **client results** — want a similar outcome for your business?", replies: [{id:'r-audit',label:'🎯 Free audit',action:'audit'},{id:'r-chat',label:'💬 Talk to the team',action:'human'},{id:'r-back',label:'← Other topics',action:'menu'}] },
         '/about.html':            { greeting: "Glad you're learning about us. How can I help today?", replies: [{id:'ab-services',label:'🚀 Services',action:'services'},{id:'ab-audit',label:'🎯 Free audit',action:'audit'},{id:'ab-human',label:'💬 Talk to founder',action:'human'}] },
         '/blog.html':             { greeting: "Reading our blog? I can suggest the next read or help you implement:", replies: [{id:'bl-services',label:'🚀 Implementation help',action:'services'},{id:'bl-audit',label:'🎯 Free audit',action:'audit'},{id:'bl-back',label:'← Other topics',action:'menu'}] }
       },
@@ -957,7 +957,7 @@
         '/contact.html':          { greeting: "¿Más rápido que el formulario? Te puedo rutear al instante:", replies: [{id:'co-wa',label:'💬 WhatsApp ya',action:'wa-handoff'},{id:'co-audit',label:'🎯 Auditoría gratis',action:'audit'},{id:'co-back',label:'← Otros temas',action:'menu'}] },
         '/services.html':         { greeting: "Explorando nuestros **servicios** — ¿qué área te interesa?", replies: [{id:'s-services',label:'🚀 Elegir servicio',action:'services'},{id:'s-bundle',label:'📦 Mejor paquete',action:'bundle'},{id:'s-back',label:'← Otros temas',action:'menu'}] },
         '/analytics.html':        { greeting: "¿Buscas tu auditoría gratis? Comparte tu URL — o te llevo directo:", replies: [{id:'a-audit',label:'🎯 Enviar por chat',action:'audit'},{id:'a-back',label:'← Otros temas',action:'menu'}] },
-        '/results.html':          { greeting: "Mirando **resultados de clientes** — ¿quieres similar resultado?", replies: [{id:'r-audit',label:'🎯 Auditoría gratis',action:'audit'},{id:'r-call',label:'📞 Llamada estratégica',action:'human'},{id:'r-back',label:'← Otros temas',action:'menu'}] },
+        '/results.html':          { greeting: "Mirando **resultados de clientes** — ¿quieres similar resultado?", replies: [{id:'r-audit',label:'🎯 Auditoría gratis',action:'audit'},{id:'r-chat',label:'💬 Hablar con el equipo',action:'human'},{id:'r-back',label:'← Otros temas',action:'menu'}] },
         '/about.html':            { greeting: "Qué bien que conoces más de nosotros. ¿Cómo te ayudo hoy?", replies: [{id:'ab-services',label:'🚀 Servicios',action:'services'},{id:'ab-audit',label:'🎯 Auditoría gratis',action:'audit'},{id:'ab-human',label:'💬 Hablar con fundador',action:'human'}] },
         '/blog.html':             { greeting: "¿Leyendo nuestro blog? Puedo sugerir la próxima lectura o ayudarte a implementar:", replies: [{id:'bl-services',label:'🚀 Ayuda con implementación',action:'services'},{id:'bl-audit',label:'🎯 Auditoría gratis',action:'audit'},{id:'bl-back',label:'← Otros temas',action:'menu'}] }
       }

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Coming Soon · NetWebMedia</title>
+<link rel="icon" href="/assets/favicon.svg" />
+<link rel="stylesheet" href="/css/styles.css" />
+<style>
+  body{margin:0;background:#010F3B;color:#fff;font-family:Inter,system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+  .wrap{max-width:620px;text-align:center}
+  h1{font-family:Poppins,Inter,sans-serif;font-weight:700;font-size:clamp(32px,5vw,48px);margin:0 0 16px}
+  .accent{color:#FF671F}
+  p{color:#C8D4E6;font-size:18px;line-height:1.55;margin:0 0 28px}
+  .cta{display:inline-flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  .btn{display:inline-block;padding:14px 22px;border-radius:10px;font-weight:600;text-decoration:none;font-size:15px}
+  .btn-primary{background:#FF671F;color:#010F3B}
+  .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35)}
+  form{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:24px 0 16px}
+  input[type=email]{padding:12px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#fff;min-width:260px;font-size:15px}
+  .back{display:block;margin-top:28px;color:#9FB0CB;font-size:14px;text-decoration:none}
+  .back:hover{color:#fff}
+  .feature{display:inline-block;padding:4px 12px;background:rgba(255,103,31,.15);border:1px solid rgba(255,103,31,.4);border-radius:999px;color:#FF671F;font-size:13px;font-weight:600;margin-bottom:18px;text-transform:uppercase;letter-spacing:.06em}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <span class="feature" id="featureName">Feature preview</span>
+  <h1>This module is <span class="accent">shipping soon</span>.</h1>
+  <p>Every NetWebMedia module ships to paying customers first. Join the waitlist and we'll email you the moment your tier unlocks this feature — usually within the next release window.</p>
+  <form id="waitForm" method="POST" action="/api/public/newsletter/subscribe" novalidate>
+    <input type="hidden" name="source" value="app-waitlist" id="src" />
+    <input type="email" name="email" placeholder="you@company.com" required aria-label="Email" />
+    <button class="btn btn-primary" type="submit">Join waitlist</button>
+  </form>
+  <div class="cta">
+    <a class="btn btn-ghost" href="/pricing.html">See pricing</a>
+    <a class="btn btn-ghost" href="https://wa.me/17407363884?text=Hi%20NetWebMedia%2C%20when%20will%20this%20feature%20ship%3F">WhatsApp us</a>
+  </div>
+  <a class="back" href="/">← Back to netwebmedia.com</a>
+</main>
+<script>
+(function(){
+  var slug=(location.pathname||'').replace(/^\/(app|crm)\//,'').replace(/\.html?$/,'').replace(/\/$/,'')||'feature';
+  var pretty=slug.replace(/[-_]/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase()});
+  document.getElementById('featureName').textContent=pretty;
+  document.title=pretty+' · Coming Soon · NetWebMedia';
+  document.getElementById('src').value='waitlist:'+slug;
+  var f=document.getElementById('waitForm');
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var fd=new FormData(f);
+    fetch(f.action,{method:'POST',body:fd}).then(function(){
+      f.innerHTML='<p style="color:#7fffa0;margin:0;font-weight:600">✓ You\'re on the list. We\'ll email you when '+pretty+' ships.</p>';
+    }).catch(function(){
+      f.innerHTML='<p style="color:#ffb3b3;margin:0">Something went wrong. Email <a style="color:#FF671F" href="mailto:hello@netwebmedia.com">hello@netwebmedia.com</a> instead.</p>';
+    });
+  });
+})();
+</script>
+</body>
+</html>

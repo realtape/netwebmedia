@@ -8,6 +8,29 @@
    Logs every send to email_log table.
 */
 
+/** Convert HTML body to a readable plain-text alternative.
+ *  Preserves anchor URLs as "text (url)". Called by send_mail() when no
+ *  explicit plain_body is supplied. Keeps Gmail's spam score down — an
+ *  HTML-only mail without a text/plain alternative is a major spam signal.
+ */
+function html_to_plain($html) {
+  if ($html === null || $html === '') return '';
+  // Preserve links as "text (url)"
+  $html = preg_replace('#<a[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>#si', '$2 ($1)', $html);
+  // Block-level tags → newlines
+  $html = preg_replace('#<(br|/p|/div|/tr|/li|/h[1-6])[^>]*>#i', "\n", $html);
+  $html = preg_replace('#<(p|div|tr|li|h[1-6])[^>]*>#i', "\n", $html);
+  // Strip remaining tags
+  $text = strip_tags($html);
+  // Decode entities
+  $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+  // Collapse whitespace
+  $text = preg_replace("/[ \t]+/", ' ', $text);
+  $text = preg_replace("/\n[ \t]+/", "\n", $text);
+  $text = preg_replace("/\n{3,}/", "\n\n", $text);
+  return trim($text);
+}
+
 function send_mail($to, $subject, $html_body, $opts = []) {
   $cfg  = config();
   $host = parse_url($cfg['base_url'] ?? 'https://netwebmedia.com', PHP_URL_HOST);

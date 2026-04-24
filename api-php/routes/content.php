@@ -52,7 +52,7 @@ function route_ai_content($parts, $method) {
          . "- No inline styles, no scripts.\n"
          . "- Return ONLY the HTML, no preamble.";
     $prompt = "Topic: {$b['topic']}\nTarget keywords: " . implode(', ', $kw);
-    $r = ai_call_claude($sys, $prompt, [], 'claude-sonnet-4-5');
+    $r = ai_call_claude($sys, $prompt, [], 'claude-sonnet-4-6');
     json_out(['html' => $r['text'] ?? null, 'mock' => !empty($r['mock']), 'error' => $r['error'] ?? null]);
   }
 
@@ -62,7 +62,7 @@ function route_ai_content($parts, $method) {
     $questions = is_array($b['questions'] ?? null) ? $b['questions'] : [];
     $sys = "You are an AEO (Answer Engine Optimization) specialist. Produce a JSON object with two keys: 'faq_html' (HTML with <h3>Question</h3><p>Answer</p> pairs, each answer 2-3 sentences) and 'json_ld' (valid schema.org FAQPage JSON-LD as a string). Return ONLY JSON, no preamble.";
     $prompt = "Topic: {$b['topic']}\nSeed questions (expand to 6-8): " . implode(' | ', $questions);
-    $r = ai_call_claude($sys, $prompt, [], 'claude-sonnet-4-5');
+    $r = ai_call_claude($sys, $prompt, [], 'claude-sonnet-4-6');
     json_out(['result' => $r['text'] ?? null, 'mock' => !empty($r['mock']), 'error' => $r['error'] ?? null]);
   }
 

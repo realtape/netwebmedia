@@ -15,7 +15,7 @@ function ai_anthropic_key() {
   return $c['anthropic_api_key'] ?? '';
 }
 
-function ai_call_claude($systemPrompt, $userMessage, $history = [], $model = 'claude-sonnet-4-5') {
+function ai_call_claude($systemPrompt, $userMessage, $history = [], $model = 'claude-sonnet-4-6') {
   $key = ai_anthropic_key();
   if (!$key) {
     return ['mock' => true, 'text' => "(Mock reply — ANTHROPIC_API_KEY not configured)\n\nThanks for your message: \"$userMessage\". A real Claude response would appear here once the API key is set in /home/webmed6/.netwebmedia-config.php."];
@@ -98,7 +98,7 @@ function route_ai($parts, $method) {
     $history = ai_history($session);
     qExec("INSERT INTO agent_conversations (org_id, agent_id, session_id, role, content) VALUES (?, ?, ?, 'user', ?)",
       [$u['org_id'], $agent['id'], $session, $b['message']]);
-    $r = ai_call_claude($data['system_prompt'] ?? '', $b['message'], $history, $data['model'] ?? 'claude-sonnet-4-5');
+    $r = ai_call_claude($data['system_prompt'] ?? '', $b['message'], $history, $data['model'] ?? 'claude-sonnet-4-6');
     $reply = $r['text'] ?? ('Error: ' . ($r['error'] ?? 'unknown'));
     qExec("INSERT INTO agent_conversations (org_id, agent_id, session_id, role, content) VALUES (?, ?, ?, 'assistant', ?)",
       [$u['org_id'], $agent['id'], $session, $reply]);
@@ -137,7 +137,7 @@ function route_public_agent_chat($parts, $method) {
   $history = ai_history($session);
   qExec("INSERT INTO agent_conversations (org_id, agent_id, session_id, role, content) VALUES (?, ?, ?, 'user', ?)",
     [$agent['org_id'], $agent['id'], $session, $b['message']]);
-  $r = ai_call_claude($data['system_prompt'] ?? '', $b['message'], $history, $data['model'] ?? 'claude-sonnet-4-5');
+  $r = ai_call_claude($data['system_prompt'] ?? '', $b['message'], $history, $data['model'] ?? 'claude-sonnet-4-6');
   $reply = $r['text'] ?? ('Error: ' . ($r['error'] ?? 'unknown'));
   qExec("INSERT INTO agent_conversations (org_id, agent_id, session_id, role, content) VALUES (?, ?, ?, 'assistant', ?)",
     [$agent['org_id'], $agent['id'], $session, $reply]);

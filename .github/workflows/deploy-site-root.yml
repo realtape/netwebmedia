@@ -187,6 +187,7 @@ jobs:
             "WA_VERIFY_PLACEHOLDER":         os.environ.get("SECRET_WA_VERIFY_TOKEN", "nwm-whatsapp-verify"),
             "WA_META_TOKEN_PLACEHOLDER":     os.environ.get("SECRET_WA_META_TOKEN", ""),
             "WA_PHONE_ID_PLACEHOLDER":       os.environ.get("SECRET_WA_PHONE_ID", ""),
+            "WA_META_APP_SECRET_PLACEHOLDER": os.environ.get("SECRET_WA_META_APP_SECRET", ""),
           }
           for k, v in mapping.items():
             s = s.replace(f'getenv(\'{k}\')', repr(v))
@@ -212,6 +213,7 @@ jobs:
           SECRET_WA_VERIFY_TOKEN:   ${{ secrets.WA_VERIFY_TOKEN }}
           SECRET_WA_META_TOKEN:     ${{ secrets.WA_META_TOKEN }}
           SECRET_WA_PHONE_ID:       ${{ secrets.WA_PHONE_ID }}
+          SECRET_WA_META_APP_SECRET: ${{ secrets.WA_META_APP_SECRET }}
 
       - name: Deploy via FTPS
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}

@@ -307,7 +307,7 @@ function cmo_call_claude($system, $messages, $max_tokens = 2500) {
   if (!$key) return ['ok' => false, 'error' => 'no_anthropic_key'];
 
   $payload = [
-    'model' => $c['anthropic_model'] ?? 'claude-sonnet-4-5',
+    'model' => $c['anthropic_model'] ?? 'claude-sonnet-4-6',
     'max_tokens' => $max_tokens,
     'system' => $system,
     'messages' => $messages,

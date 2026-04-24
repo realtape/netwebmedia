@@ -57,6 +57,17 @@ function send_mail($to, $subject, $html_body, $opts = []) {
   $unsub_mailto = 'unsubscribe@' . $host . '?subject=unsubscribe+' . rawurlencode($to);
   $unsub_url    = 'https://' . $host . '/unsubscribe?e=' . rawurlencode($to) . '&t=' . $unsub_token;
 
+  // Substitute {{UNSUB_URL}} and {{UNSUB_MAILTO}} in both HTML and plain bodies
+  // so the rendered email contains a visible, per-recipient unsubscribe link
+  // (CAN-SPAM / GDPR / Gmail bulk-sender compliance requirement). The List-
+  // Unsubscribe header handles one-click; the visible link handles everything
+  // else (mail clients without one-click, forwarded mail, etc.).
+  $html_body = str_replace(
+    ['{{UNSUB_URL}}', '{{UNSUB_MAILTO}}', '{{TO_EMAIL}}'],
+    [$unsub_url, 'mailto:' . $unsub_mailto, htmlspecialchars($to, ENT_QUOTES, 'UTF-8')],
+    $html_body
+  );
+
   // Build plain-text alternative from HTML. Preserves links as "text (url)".
   $plain_body = $opts['plain_body'] ?? html_to_plain($html_body);
 

@@ -1,30 +1,25 @@
 <?php
-/* Mailer wrapper v1.2 (2026-04-20). Uses PHP mail() backed by cPanel sendmail.
-   Configured for Gmail-friendly deliverability:
-     - From address matches a real mailbox at the domain (admin@netwebmedia.com)
-     - Adds Message-ID, Date, List-Unsubscribe headers (Gmail spam-score requirements)
-     - The shellarg escape on the -f arg was breaking on some PHP versions; we
-       now pass the sender as a contiguous "-f<email>" arg with no escaping.
-   Logs every send to email_log table.
+/* Mailer wrapper v2.0 (2026-04-24). Uses Resend HTTPS API via cURL.
+   - No Composer dependency (cURL is bundled on every cPanel PHP).
+   - Reads RESEND_API_KEY + RESEND_FROM from env (loaded by lib/env.php).
+   - Fail-closed when key unset: logs + returns false, does NOT fall back to mail().
+   - Preserves existing signatures: send_mail(), send_to_admin(), html_to_plain(),
+     render_template(), email_shell(). Same {{UNSUB_URL}} / {{UNSUB_MAILTO}} substitution.
+   - Writes to email_log table (same schema as v1.x) — status: sent|failed, error: provider msg.
 */
 
 /** Convert HTML body to a readable plain-text alternative.
  *  Preserves anchor URLs as "text (url)". Called by send_mail() when no
- *  explicit plain_body is supplied. Keeps Gmail's spam score down — an
- *  HTML-only mail without a text/plain alternative is a major spam signal.
+ *  explicit plain_body is supplied. Keeps spam score down — an HTML-only
+ *  mail without a text/plain alternative is a major spam signal.
  */
 function html_to_plain($html) {
   if ($html === null || $html === '') return '';
-  // Preserve links as "text (url)"
   $html = preg_replace('#<a[^>]*href=["\']([^"\']+)["\'][^>]*>(.*?)</a>#si', '$2 ($1)', $html);
-  // Block-level tags → newlines
   $html = preg_replace('#<(br|/p|/div|/tr|/li|/h[1-6])[^>]*>#i', "\n", $html);
   $html = preg_replace('#<(p|div|tr|li|h[1-6])[^>]*>#i', "\n", $html);
-  // Strip remaining tags
   $text = strip_tags($html);
-  // Decode entities
   $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-  // Collapse whitespace
   $text = preg_replace("/[ \t]+/", ' ', $text);
   $text = preg_replace("/\n[ \t]+/", "\n", $text);
   $text = preg_replace("/\n{3,}/", "\n\n", $text);
@@ -32,97 +27,101 @@ function html_to_plain($html) {
 }
 
 function send_mail($to, $subject, $html_body, $opts = []) {
-  $cfg  = config();
+  $cfg  = function_exists('config') ? config() : [];
   $host = parse_url($cfg['base_url'] ?? 'https://netwebmedia.com', PHP_URL_HOST);
 
-  // Prefer config-set from address; fall back to admin@<host> (matches MX domain).
+  $api_key = getenv('RESEND_API_KEY') ?: '';
+  $env_from = getenv('RESEND_FROM') ?: '';
+
+  // Prefer opts → config → env → sensible fallback.
   $from_name  = $opts['from_name']  ?? ($cfg['from_name']  ?? 'NetWebMedia');
-  $from_email = $opts['from_email'] ?? ($cfg['from_email'] ?? ('admin@' . $host));
+  $from_email = $opts['from_email'] ?? ($cfg['from_email'] ?? ($env_from ?: ('admin@' . $host)));
   $reply_to   = $opts['reply_to']   ?? $from_email;
 
   // Sanitise — strip CRLF (header-injection guard).
   $from_email = preg_replace('/[\r\n\t]/', '', $from_email);
   $from_name  = preg_replace('/[\r\n\t]/', '', $from_name);
 
-  $msg_id = '<' . bin2hex(random_bytes(12)) . '@' . $host . '>';
+  // Fail-closed if API key missing. Do NOT fall back to mail() — the whole
+  // point of this migration is deliverability, and mail() blows that up.
+  if ($api_key === '') {
+    error_log('[nwm mailer] RESEND_API_KEY unset — refusing to send to ' . $to);
+    try {
+      if (function_exists('qExec')) {
+        qExec(
+          'INSERT INTO email_log (to_addr, subject, status, error, created_at) VALUES (?, ?, ?, ?, NOW())',
+          [$to, $subject, 'failed', 'RESEND_API_KEY unset']
+        );
+      }
+    } catch (Throwable $_) {}
+    return false;
+  }
 
-  // Encode From-name per RFC 2047 if it contains non-ASCII (e.g. "Carlos Martínez").
-  $from_name_encoded = preg_match('/[^\x20-\x7e]/', $from_name)
-    ? '=?UTF-8?B?' . base64_encode($from_name) . '?='
-    : $from_name;
-
-  // Per-recipient unsubscribe token. mailto + https variants both present —
-  // Gmail/Yahoo use one-click POST, enterprise MTAs use mailto.
-  $unsub_token = substr(hash('sha256', $to . '|' . $msg_id), 0, 24);
+  // Per-recipient unsubscribe links (CAN-SPAM / GDPR / Gmail bulk-sender).
+  $msg_id = bin2hex(random_bytes(12)) . '@' . $host;
+  $unsub_token  = substr(hash('sha256', $to . '|' . $msg_id), 0, 24);
   $unsub_mailto = 'unsubscribe@' . $host . '?subject=unsubscribe+' . rawurlencode($to);
   $unsub_url    = 'https://' . $host . '/unsubscribe?e=' . rawurlencode($to) . '&t=' . $unsub_token;
 
-  // Substitute {{UNSUB_URL}} and {{UNSUB_MAILTO}} in both HTML and plain bodies
-  // so the rendered email contains a visible, per-recipient unsubscribe link
-  // (CAN-SPAM / GDPR / Gmail bulk-sender compliance requirement). The List-
-  // Unsubscribe header handles one-click; the visible link handles everything
-  // else (mail clients without one-click, forwarded mail, etc.).
   $html_body = str_replace(
     ['{{UNSUB_URL}}', '{{UNSUB_MAILTO}}', '{{TO_EMAIL}}'],
     [$unsub_url, 'mailto:' . $unsub_mailto, htmlspecialchars($to, ENT_QUOTES, 'UTF-8')],
     $html_body
   );
-
-  // Build plain-text alternative from HTML. Preserves links as "text (url)".
   $plain_body = $opts['plain_body'] ?? html_to_plain($html_body);
 
-  // Multipart/alternative boundary
-  $boundary = '=_nwm_' . bin2hex(random_bytes(8)) . '_=';
-
-  // Precedence: bulk tells many spam filters this is intentional list mail,
-  // not a 1:1 personal send being disguised — counterintuitively IMPROVES
-  // placement by matching the sender's actual pattern.
-  $headers = [
-    'From: ' . $from_name_encoded . ' <' . $from_email . '>',
-    'Reply-To: ' . $reply_to,
-    'Return-Path: ' . $from_email,
-    'MIME-Version: 1.0',
-    'Content-Type: multipart/alternative; boundary="' . $boundary . '"',
-    'Message-ID: ' . $msg_id,
-    'Date: ' . date('r'),
-    'X-Mailer: NetWebMedia-Mailer/1.2',
-    'Precedence: bulk',
-    'List-Unsubscribe: <' . $unsub_url . '>, <mailto:' . $unsub_mailto . '>',
-    'List-Unsubscribe-Post: List-Unsubscribe=One-Click',
-    'List-Id: NetWebMedia Outreach <outreach.' . $host . '>',
-    'Feedback-ID: outreach:nwm:' . date('Ymd') . ':mailer',
-    'X-Auto-Response-Suppress: OOF, AutoReply',
-    'Auto-Submitted: auto-generated',
+  // Resend payload. Resend handles MIME + DKIM signing internally.
+  $payload = [
+    'from'     => $from_name . ' <' . $from_email . '>',
+    'to'       => [$to],
+    'subject'  => $subject,
+    'html'     => $html_body,
+    'text'     => $plain_body,
+    'reply_to' => $reply_to,
+    'headers'  => [
+      'List-Unsubscribe'        => '<' . $unsub_url . '>, <mailto:' . $unsub_mailto . '>',
+      'List-Unsubscribe-Post'   => 'List-Unsubscribe=One-Click',
+      'List-Id'                 => 'NetWebMedia Outreach <outreach.' . $host . '>',
+      'Feedback-ID'             => 'outreach:nwm:' . date('Ymd') . ':mailer',
+      'X-Auto-Response-Suppress'=> 'OOF, AutoReply',
+      'Auto-Submitted'          => 'auto-generated',
+      'Precedence'              => 'bulk',
+      'X-Mailer'                => 'NetWebMedia-Mailer/2.0-Resend',
+    ],
   ];
 
-  // Build multipart body
-  $body  = "This is a multipart message in MIME format.\r\n\r\n";
-  $body .= "--" . $boundary . "\r\n";
-  $body .= "Content-Type: text/plain; charset=UTF-8\r\n";
-  $body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
-  $body .= $plain_body . "\r\n\r\n";
-  $body .= "--" . $boundary . "\r\n";
-  $body .= "Content-Type: text/html; charset=UTF-8\r\n";
-  $body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
-  $body .= $html_body . "\r\n\r\n";
-  $body .= "--" . $boundary . "--\r\n";
+  $ch = curl_init('https://api.resend.com/emails');
+  curl_setopt_array($ch, [
+    CURLOPT_POST           => true,
+    CURLOPT_POSTFIELDS     => json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
+    CURLOPT_HTTPHEADER     => [
+      'Authorization: Bearer ' . $api_key,
+      'Content-Type: application/json',
+    ],
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_TIMEOUT        => 15,
+    CURLOPT_CONNECTTIMEOUT => 5,
+    CURLOPT_SSL_VERIFYPEER => true,
+  ]);
+  $resp = curl_exec($ch);
+  $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  $err  = curl_error($ch);
+  curl_close($ch);
 
-  // Encode non-ASCII in subject per RFC 2047.
-  $subject_encoded = preg_match('/[^\x20-\x7e]/', $subject)
-    ? '=?UTF-8?B?' . base64_encode($subject) . '?='
-    : $subject;
-
-  // Use static "-f<email>" sender arg — no shellarg escaping (which produces
-  // quoted strings that some sendmail versions reject and cause mail() => false).
-  $sender_arg = '-f' . $from_email;
-
-  $ok = @mail($to, $subject_encoded, $body, implode("\r\n", $headers), $sender_arg);
+  $ok = ($code >= 200 && $code < 300);
+  $error_msg = null;
+  if (!$ok) {
+    $error_msg = $err ?: ('HTTP ' . $code . ' — ' . substr((string)$resp, 0, 240));
+    error_log('[nwm mailer] resend send failed: ' . $error_msg);
+  }
 
   try {
-    qExec(
-      'INSERT INTO email_log (to_addr, subject, status, error, created_at) VALUES (?, ?, ?, ?, NOW())',
-      [$to, $subject, $ok ? 'sent' : 'failed', $ok ? null : 'mail() returned false']
-    );
+    if (function_exists('qExec')) {
+      qExec(
+        'INSERT INTO email_log (to_addr, subject, status, error, created_at) VALUES (?, ?, ?, ?, NOW())',
+        [$to, $subject, $ok ? 'sent' : 'failed', $error_msg]
+      );
+    }
   } catch (Throwable $_) { /* email_log may not exist yet during first boot */ }
 
   return $ok;
@@ -130,7 +129,7 @@ function send_mail($to, $subject, $html_body, $opts = []) {
 
 /** Convenience helper — send to the configured admin notification address. */
 function send_to_admin($subject, $html_body, $opts = []) {
-  $cfg = config();
+  $cfg = function_exists('config') ? config() : [];
   $admin = $cfg['admin_email'] ?? ('admin@' . parse_url($cfg['base_url'] ?? 'https://netwebmedia.com', PHP_URL_HOST));
   return send_mail($admin, $subject, $html_body, $opts);
 }

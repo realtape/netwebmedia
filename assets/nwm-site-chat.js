@@ -16,10 +16,12 @@
 
   // Config — window.NWM_WA_NUMBER lets us override per-page / via CMS.
   // When WA_NUMBER is the placeholder, the WhatsApp FAB is replaced by a mailto FAB.
+  // NetWebMedia WhatsApp Business number (US, Twilio-hosted).
+  // Per-page override: set window.NWM_WA_NUMBER before this script loads.
   var WA_NUMBER = (window.NWM_WA_NUMBER && /^[0-9]{8,15}$/.test(window.NWM_WA_NUMBER))
     ? window.NWM_WA_NUMBER
-    : '56999999999'; // placeholder sentinel
-  var WA_IS_PLACEHOLDER = (WA_NUMBER === '56999999999');
+    : '17407363884';
+  var WA_IS_PLACEHOLDER = false; // real number configured
   var EMAIL = 'hola@netwebmedia.com';
 
   // i18n helper (falls back to EN if NWMi18n not loaded)

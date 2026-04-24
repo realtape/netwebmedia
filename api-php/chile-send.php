@@ -63,6 +63,7 @@ $FROM_NAME  = 'Carlos Martínez';
 $FROM_EMAIL = 'newsletter@netwebmedia.com';
 $REPLY_TO   = 'hola@netwebmedia.com';
 $REPORT_URL = 'https://netwebmedia.com/santiago-digital-gaps.html';
+$WA_URL     = 'https://wa.me/17407363884?text=' . rawurlencode('Hola NetWebMedia, quiero mi auditoría digital gratis.');
 
 if (!file_exists($CSV)) j_exit(['error' => 'CSV missing', 'path' => $CSV], 500);
 
@@ -108,10 +109,11 @@ function render_email_html($lead) {
     <p>El reporte público está acá:<br>
       <a href="' . $REPORT_URL . '" style="color:#FF671F;font-weight:600;text-decoration:none;">netwebmedia.com/santiago-digital-gaps.html</a></p>
     <p><strong>¿Querés la auditoría personalizada de ' . $company . '?</strong> Gratis. En 48 horas. Un PDF accionable — <u>sin llamadas, sin Zoom, sin pitch</u>. Lo lees cuando puedas.</p>
-    <p>Dos formas de pedirla (elegí la que te acomode):</p>
+    <p>Tres formas de pedirla (elegí la que te acomode):</p>
     <ul style="padding-left:20px;line-height:1.8;margin:10px 0;">
-      <li>✉️ <strong>Respondé este correo</strong> con la palabra <em>AUDITORÍA</em> y te mando un formulario de 30 segundos.</li>
-      <li>🌐 <strong>Web:</strong> <a href="https://netwebmedia.com" style="color:#FF671F;">netwebmedia.com</a> → el chat azul abajo a la derecha.</li>
+      <li>💬 <strong>WhatsApp:</strong> <a href="https://wa.me/17407363884?text=Hola%20NetWebMedia%2C%20quiero%20mi%20auditor%C3%ADa%20digital%20gratis." style="color:#25D366;font-weight:600;">escribirnos acá</a></li>
+      <li>✉️ <strong>Respondé este correo</strong> con la palabra <em>AUDITORÍA</em> y te mandamos un formulario de 30 segundos.</li>
+      <li>🌐 <strong>Web:</strong> <a href="https://netwebmedia.com" style="color:#FF671F;">netwebmedia.com</a> → el chat naranja abajo a la derecha.</li>
     </ul>
     <p style="margin-top:28px;">Un abrazo,<br>
       <strong>Carlos Martínez</strong><br>

@@ -158,7 +158,7 @@
         <h3 style="font-family:'Poppins',sans-serif;font-size:22px;font-weight:800;color:#010F3B;margin:0 0 10px;line-height:1.25;">Get the full playbook — free</h3>
         <p style="font-size:15px;color:#4b5563;line-height:1.55;margin:0 0 18px;">This article covers the fundamentals. The complete PDF guide includes frameworks, implementation checklists, week-by-week rollout plans, and tactical examples you can apply immediately.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
-          <a href="../assets/guides/ai-brand-voice-enforcement.pdf" download class="btn-primary" style="display:inline-flex;align-items:center;gap:6px;">↓ Download Free PDF</a>
+          <button onclick="nwmOpenPdfGate()" class="btn-primary" style="display:inline-flex;align-items:center;gap:6px;border:none;cursor:pointer;">↓ Download Free PDF</button>
           <a href="../lp/ai-brand-voice-enforcement.html" style="color:#010F3B;font-weight:600;font-size:14px;text-decoration:none;">See what's inside →</a>
         </div>
       </div>
@@ -371,5 +371,87 @@
 <script src="../js/cart.js" defer></script>
 <script src="/assets/nwm-i18n.js" defer></script>
   <script src="/assets/nwm-site-chat.js" defer></script>
+
+<!-- PDF Lead Gate Modal -->
+<div id="nwm-pdf-gate" role="dialog" aria-modal="true" aria-labelledby="nwm-gate-title" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(1,15,59,0.7);backdrop-filter:blur(3px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;border-radius:16px;max-width:480px;width:100%;box-shadow:0 32px 80px rgba(1,15,59,.35);overflow:hidden;position:relative;">
+    <div style="background:#010F3B;padding:28px 32px 24px;">
+      <div style="font-family:'Poppins',sans-serif;font-size:13px;font-weight:800;color:#FF671F;margin-bottom:10px;">NetWebMedia</div>
+      <h2 id="nwm-gate-title" style="font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;color:#fff;margin:0 0 6px;line-height:1.25;">Get the full playbook — free</h2>
+      <p style="font-size:13px;color:rgba(255,255,255,0.65);margin:0;">Enter your details and the PDF downloads instantly.</p>
+    </div>
+    <button onclick="nwmClosePdfGate()" aria-label="Close" style="position:absolute;top:14px;right:16px;background:rgba(255,255,255,0.12);border:none;color:#fff;font-size:18px;line-height:1;width:30px;height:30px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;">×</button>
+    <form id="nwm-gate-form" onsubmit="nwmGateSubmit(event)" style="padding:28px 32px 32px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+        <div>
+          <label for="nwm-gate-fname" style="display:block;font-size:12px;font-weight:700;color:#374151;margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px;">First Name <span style="color:#ef4444">*</span></label>
+          <input id="nwm-gate-fname" type="text" required placeholder="Jane" maxlength="80"
+            style="width:100%;padding:10px 14px;border:1.5px solid #d1d5db;border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;box-sizing:border-box;outline:none;transition:border-color .2s;"
+            onfocus="this.style.borderColor='#FF671F'" onblur="this.style.borderColor='#d1d5db'" />
+        </div>
+        <div>
+          <label for="nwm-gate-lname" style="display:block;font-size:12px;font-weight:700;color:#374151;margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px;">Last Name <span style="color:#ef4444">*</span></label>
+          <input id="nwm-gate-lname" type="text" required placeholder="Smith" maxlength="80"
+            style="width:100%;padding:10px 14px;border:1.5px solid #d1d5db;border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;box-sizing:border-box;outline:none;transition:border-color .2s;"
+            onfocus="this.style.borderColor='#FF671F'" onblur="this.style.borderColor='#d1d5db'" />
+        </div>
+      </div>
+      <div style="margin-bottom:22px;">
+        <label for="nwm-gate-email" style="display:block;font-size:12px;font-weight:700;color:#374151;margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px;">Work Email <span style="color:#ef4444">*</span></label>
+        <input id="nwm-gate-email" type="email" required placeholder="jane@company.com" maxlength="200"
+          style="width:100%;padding:10px 14px;border:1.5px solid #d1d5db;border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;box-sizing:border-box;outline:none;transition:border-color .2s;"
+          onfocus="this.style.borderColor='#FF671F'" onblur="this.style.borderColor='#d1d5db'" />
+      </div>
+      <button type="submit" id="nwm-gate-btn" style="width:100%;padding:13px;background:#FF671F;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;transition:opacity .2s;">↓ Download Free PDF</button>
+      <p style="font-size:11px;color:#9ca3af;text-align:center;margin:12px 0 0;">No spam. Unsubscribe any time.</p>
+    </form>
+  </div>
+</div>
+<script>
+(function(){
+  var PDF_URL = '../assets/guides/ai-brand-voice-enforcement.pdf';
+  var gate = document.getElementById('nwm-pdf-gate');
+
+  window.nwmOpenPdfGate = function() {
+    gate.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    document.getElementById('nwm-gate-fname').focus();
+  };
+
+  window.nwmClosePdfGate = function() {
+    gate.style.display = 'none';
+    document.body.style.overflow = '';
+  };
+
+  gate.addEventListener('click', function(e) {
+    if (e.target === gate) nwmClosePdfGate();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && gate.style.display === 'flex') nwmClosePdfGate();
+  });
+
+  window.nwmGateSubmit = function(e) {
+    e.preventDefault();
+    var btn = document.getElementById('nwm-gate-btn');
+    btn.textContent = 'Downloading…';
+    btn.disabled = true;
+
+    var a = document.createElement('a');
+    a.href = PDF_URL;
+    a.download = 'ai-brand-voice-enforcement.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    setTimeout(function() {
+      nwmClosePdfGate();
+      btn.textContent = '↓ Download Free PDF';
+      btn.disabled = false;
+      document.getElementById('nwm-gate-form').reset();
+    }, 800);
+  };
+})();
+</script>
 </body>
 </html>

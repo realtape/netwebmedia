@@ -357,19 +357,19 @@ function shuffle_seeded(&$arr, $seed) {
 }
 
 function subject_for($lead) {
-  // Subjects designed to read like a 1:1 personal note, not a campaign.
-  // Lowercase first word, no marketing-y verbs, no numbers in the lead position,
-  // no "→" or punctuation that screams template. Variation across 5 templates
-  // keeps Gmail from clustering identical subjects from the same sender.
+  // Subject leads with the deliverable ("auditoría digital de [company]") to
+  // match the new email frame, but rotates through 5 phrasings to avoid
+  // Gmail clustering identical subjects from same sender. All read 1:1, not
+  // marketing-template.
   $c = $lead['company'] ?? $lead['name'] ?? 'tu negocio';
   $variants = [
-    "Sobre $c — 3 cosas que vimos",
-    "Revisé $c esta mañana",
-    "Para $c · presencia digital",
-    "$c · 3 hallazgos",
-    "$c en ChatGPT",
+    "Auditoría digital de $c",
+    "Auditamos $c — el PDF está adentro",
+    "Para $c — análisis de presencia digital",
+    "$c · auditoría digital lista",
+    "Auditoría 0-100 de $c en Santiago",
   ];
-  $seed = hexdec(substr(md5(strtolower(($lead['email'] ?? $c) . '|subj')), 0, 8));
+  $seed = hexdec(substr(md5(strtolower(($lead['email'] ?? $c) . '|subj-v3')), 0, 8));
   return $variants[$seed % count($variants)];
 }
 

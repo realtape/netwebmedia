@@ -70,6 +70,10 @@ on:
       # Server-side API
       - 'api/**'
       - 'api-php/**'
+      # CRM SPA (the FTP user in deploy-crm.yml is chrooted to /companies/
+      # and can't write to /public_html/crm-vanilla/ where app.netwebmedia.com
+      # serves from — main FTP user owns this path)
+      - 'crm-vanilla/**'
       # Workflow itself
       - '.github/workflows/deploy-site-root.yml'
   workflow_dispatch:
@@ -126,7 +130,7 @@ jobs:
           # Apache config — ships as a dotfile so the FTP step doesn't filter it out
           [ -f .htaccess ] && cp .htaccess _stage/.htaccess || true
           # Directories
-          for d in css js assets images fonts crm api api-php tutorials crm-demo cms-demo blog lp guides plans industries app; do
+          for d in css js assets images fonts crm api api-php tutorials crm-demo cms-demo crm-vanilla blog lp guides plans industries app; do
             [ -d "$d" ] && cp -r "$d" "_stage/$d" || true
           done
           # Drop dev/test artifacts that shouldn't ship

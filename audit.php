@@ -13,11 +13,21 @@
 */
 
 // ── Inputs ──────────────────────────────────────────────────────────
-$email = strtolower(trim((string)($_GET['e'] ?? $_GET['lead'] ?? '')));
-// Allow base64-url encoded email in the lead param for cleaner URLs.
-if ($email && strpos($email, '@') === false) {
-  $decoded = base64_decode(strtr($email, '-_', '+/'), true);
-  if ($decoded && strpos($decoded, '@') !== false) $email = strtolower($decoded);
+// IMPORTANT: don't lowercase before checking for base64 — base64 is case-
+// sensitive and lowercasing corrupts the encoding. Only lowercase after we
+// know we have a plain email.
+$raw = trim((string)($_GET['e'] ?? $_GET['lead'] ?? ''));
+$email = '';
+if ($raw !== '') {
+  if (strpos($raw, '@') !== false) {
+    $email = strtolower($raw);
+  } else {
+    // Try base64-url decode for cleaner URLs (lead=<base64email>).
+    $decoded = base64_decode(strtr($raw, '-_', '+/'), true);
+    if ($decoded && strpos($decoded, '@') !== false) {
+      $email = strtolower($decoded);
+    }
+  }
 }
 $token = trim((string)($_GET['t'] ?? ''));
 

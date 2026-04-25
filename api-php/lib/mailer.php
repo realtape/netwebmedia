@@ -30,8 +30,12 @@ function send_mail($to, $subject, $html_body, $opts = []) {
   $cfg  = function_exists('config') ? config() : [];
   $host = parse_url($cfg['base_url'] ?? 'https://netwebmedia.com', PHP_URL_HOST);
 
-  $api_key = getenv('RESEND_API_KEY') ?: '';
-  $env_from = getenv('RESEND_FROM') ?: '';
+  // Source priority: env var (Apache/PHP-FPM env) → config.local.php (deploy
+  // artifact, written by GitHub Actions from SECRET_RESEND_API_KEY) → empty.
+  // The deploy path is what's wired up in production today; the env path
+  // exists for local dev where you'd put RESEND_API_KEY in a real .env.
+  $api_key  = getenv('RESEND_API_KEY') ?: ($cfg['resend_api_key'] ?? '');
+  $env_from = getenv('RESEND_FROM')    ?: ($cfg['resend_from']    ?? '');
 
   // Prefer opts → config → env → sensible fallback.
   $from_name  = $opts['from_name']  ?? ($cfg['from_name']  ?? 'NetWebMedia');

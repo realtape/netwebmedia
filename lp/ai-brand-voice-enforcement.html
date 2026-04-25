@@ -274,8 +274,25 @@
   window.nwmGateSubmit = function(e) {
     e.preventDefault();
     var btn = document.getElementById('nwm-gate-btn');
+    var fname = document.getElementById('nwm-gate-fname').value.trim();
+    var lname = document.getElementById('nwm-gate-lname').value.trim();
+    var email = document.getElementById('nwm-gate-email').value.trim();
+
     btn.textContent = 'Downloading…';
     btn.disabled = true;
+
+    // Save to CRM via intake endpoint (fire-and-forget — download starts regardless)
+    fetch('/app/api/?r=intake', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        first_name: fname,
+        last_name: lname,
+        email: email,
+        source: 'pdf_download_ai-brand-voice-enforcement',
+        message: 'Downloaded AI Brand Voice Enforcement guide'
+      })
+    }).catch(function(){});
 
     var a = document.createElement('a');
     a.href = PDF_URL;

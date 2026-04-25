@@ -243,80 +243,108 @@ $pending = array_values(array_filter($leads, function ($l) { return !$l['_alread
 
 // ----- email renderer -----
 //
-// Design philosophy for cold outreach (different from newsletters):
-//   - Looks 1:1, not branded — Gmail's Promotions-tab classifier weighs visual
-//     richness, gradient headers, multiple buttons, big logos. We strip all
-//     that and use a plain inline body that mirrors how a human writes from
-//     Gmail compose.
-//   - One primary CTA. Multiple CTAs dilute and read as marketing.
-//   - Body kept under ~120 words. Cold-outreach win rates collapse past that.
-//   - Single hook = the partial audit. The 320-business study is moved to a
-//     P.S. as context, not the lead.
+// Design (per Carlos's reference — see also audit.php for the deliverable):
+//   - Compact orange brand header strip ("NetWebMedia · Chile · Digital
+//     Growth Partners") — single visual element, not a full marketing shell.
+//   - Personalized "Hola [Carlos/equipo de X]," opening, then a niche-specific
+//     observation as the hook (1 sentence).
+//   - Specific deliverable spelled out: "puntaje 0-100, análisis de
+//     credibilidad online vs. competidores, proyección de captación de
+//     clientes a 90 días". This was the line Carlos liked.
+//   - Primary CTA: a real orange button that opens the per-prospect audit
+//     PDF page directly — no form, no reply needed.
+//   - Soft secondary offer: "Si tienen 20 minutos esta semana, conversamos."
+//   - Footer with unsub.
 //
 function render_email_html($lead) {
-  global $REPORT_URL;
-
   $company_raw = $lead['company'] ?? $lead['name'] ?? 'tu negocio';
   $niche_key   = $lead['niche_key'] ?? 'smb';
-  $website_raw = $lead['website'] ?? '';
+  $niche_raw   = $lead['niche']     ?? 'tu rubro';
+  $website_raw = $lead['website']   ?? '';
   $email_lc    = strtolower($lead['email'] ?? $company_raw);
 
   $company = htmlspecialchars($company_raw, ENT_QUOTES, 'UTF-8');
+  $niche   = htmlspecialchars($niche_raw,   ENT_QUOTES, 'UTF-8');
 
-  // Subdomain CTA — per-niche landing page.
-  $sub   = niche_subdomain($niche_key);
+  // Subdomain label (used in the header strip for "Digital Growth Partners
+  // for [niche]" framing).
+  $sub = niche_subdomain($niche_key);
   $sub_label = htmlspecialchars($sub['label'], ENT_QUOTES, 'UTF-8');
-  $cta_url   = 'https://' . $sub['host'] . '/?utm_source=email&utm_medium=chile-outreach&utm_campaign=santiago-apr26&utm_content=' . urlencode($niche_key);
 
-  // 3 findings, picked deterministically per-lead.
+  // Per-prospect audit URL — token = first 24 hex of sha256(email|nwm-audit-2026).
+  // Gives prospect direct access to a branded audit PDF page on click.
+  $audit_token = substr(hash('sha256', $email_lc . '|nwm-audit-2026'), 0, 24);
+  $audit_url   = 'https://netwebmedia.com/audit?lead='
+               . rawurlencode(base64_encode($email_lc))
+               . '&t=' . $audit_token;
+
+  // Pick the niche-specific 1-line hook (highest-impact finding for this lead).
   $pool = niche_findings($niche_key);
   $seed = hexdec(substr(md5($email_lc), 0, 8));
   shuffle_seeded($pool, $seed);
-  $picked = array_slice($pool, 0, min(3, count($pool)));
-  $findings_html = '';
-  foreach ($picked as $f) {
-    $findings_html .= '<li style="margin:0 0 10px 0;">' . htmlspecialchars($f, ENT_QUOTES, 'UTF-8') . '</li>';
-  }
+  $hook_line = htmlspecialchars($pool[0] ?? '', ENT_QUOTES, 'UTF-8');
 
-  // "Revisamos <site>" phrasing only when CSV has a real domain.
+  // Optional site reference.
   $site_phrase = '';
   if ($website_raw && $website_raw !== 'No website' && $website_raw !== 'Not found') {
     $clean_site = htmlspecialchars(preg_replace('#^https?://#', '', rtrim($website_raw, '/')), ENT_QUOTES, 'UTF-8');
-    $site_phrase = ' Revisamos ' . $clean_site . ' esta mañana.';
+    $site_phrase = ' (revisamos ' . $clean_site . ')';
   }
 
-  // WhatsApp deep link — pre-fills lead's company so hola@ knows who is writing.
-  $wa_text = rawurlencode('Hola NetWebMedia, soy de ' . $company_raw . '. Quiero la auditoría completa.');
+  // WhatsApp deep link — pre-fills company name.
+  $wa_text = rawurlencode('Hola NetWebMedia, soy de ' . $company_raw . '. Vi la auditoría y quiero conversar.');
   $wa_link = 'https://wa.me/17407363884?text=' . $wa_text;
 
-  // Use the {{UNSUB_URL}} placeholder — mailer.php substitutes the canonical
-  // per-message URL that matches the List-Unsubscribe header exactly. This
-  // way the in-body link, the Gmail one-click button, and the email_log all
-  // share the same token, which makes audits trivial.
+  // Mailer substitutes {{UNSUB_URL}} with the canonical per-message URL.
   $unsub_url = '{{UNSUB_URL}}';
 
-  // Plain inline wrapper (no branded shell). Width 600px is what Gmail compose
-  // produces; rounded box with a single border keeps it human-looking. No
-  // gradient, no logo strip, no shadow — those scream "marketing email".
-  $body_inline = '
-    <p style="margin:0 0 14px 0;">Hola,</p>
-    <p style="margin:0 0 14px 0;">Soy del equipo de <strong>NetWebMedia</strong>, en Santiago. Estamos haciendo una pasada rápida por la presencia digital de varios negocios del rubro de ' . $sub_label . '.' . $site_phrase . '</p>
-    <p style="margin:0 0 8px 0;">Tres cosas que vimos en <strong>' . $company . '</strong>:</p>
-    <ul style="padding-left:20px;margin:0 0 16px 0;line-height:1.55;">' . $findings_html . '</ul>
-    <p style="margin:0 0 14px 0;">La auditoría completa, con hallazgos página por página y prioridades, la preparamos sin costo en 48 horas — un PDF, sin reuniones.</p>
-    <p style="margin:0 0 18px 0;">¿Te interesa? Respondé este correo con la palabra <em>auditoría</em> y te mando el formulario breve. O escribime por <a href="' . $wa_link . '" style="color:#25D366;text-decoration:none;">WhatsApp</a>.</p>
-    <p style="margin:0 0 4px 0;">Saludos,<br><strong>NetWebMedia</strong><br><span style="color:#666;font-size:13px;">Santiago, Chile</span></p>
-    <p style="margin:18px 0 0 0;color:#555;font-size:13px;">P.D. Esto sale de un análisis público de 320 negocios en Santiago que publicamos esta semana — el resumen para ' . $sub_label . ' está en <a href="' . $cta_url . '" style="color:#FF671F;">' . $sub['host'] . '</a>.</p>
-    <p style="font-size:11px;color:#999;margin-top:24px;border-top:1px solid #eee;padding-top:10px;line-height:1.55;">
-      Recibís este correo porque ' . $company . ' aparece en nuestro análisis público de Santiago (abril 2026). Único contacto de la campaña salvo que respondas.<br>
-      <a href="' . $unsub_url . '" style="color:#999;">Darse de baja</a> · NetWebMedia SpA · Santiago, Chile · <a href="mailto:hola@netwebmedia.com" style="color:#999;">hola@netwebmedia.com</a>
-    </p>';
+  // ── Email body ────────────────────────────────────────────────────
+  // Single brand strip on top; rest is plain inline. The strip is one
+  // image-free div with text — Gmail doesn't penalize text-only headers.
+  return '<!doctype html><html><body style="margin:0;padding:0;background:#fff;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#222;">
 
-  // Plain shell — single border, no logo, no gradient, 600px max width.
-  return '<!doctype html><html><body style="margin:0;padding:0;background:#fff;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#222;">'
-       . '<div style="max-width:600px;margin:0 auto;padding:24px;font-size:15px;line-height:1.55;">'
-       . $body_inline
-       . '</div></body></html>';
+    <div style="max-width:600px;margin:0 auto;background:#fff;">
+
+      <!-- Brand header strip (text-only, no images) -->
+      <div style="background:#FF671F;color:#fff;padding:16px 24px;border-radius:8px 8px 0 0;">
+        <div style="font-family:Poppins,-apple-system,Segoe UI,Roboto,sans-serif;font-weight:800;font-size:18px;letter-spacing:0.3px;">NetWebMedia</div>
+        <div style="font-size:12px;opacity:0.92;margin-top:2px;letter-spacing:0.4px;">Chile · Digital Growth Partners</div>
+      </div>
+
+      <!-- Body -->
+      <div style="padding:28px 24px;font-size:15px;line-height:1.6;color:#1a1a2e;">
+        <p style="margin:0 0 14px 0;">Hola, equipo de <strong>' . $company . '</strong>,</p>
+
+        <p style="margin:0 0 14px 0;">Estamos auditando la presencia digital de los principales negocios de ' . $sub_label . ' en Santiago. <strong>' . $company . '</strong> apareció en el segmento de <em>' . $niche . '</em>' . $site_phrase . '.</p>
+
+        <p style="margin:0 0 18px 0;color:#374151;font-style:italic;">Lo que vimos: ' . $hook_line . '</p>
+
+        <p style="margin:0 0 18px 0;">Preparamos una <strong>auditoría digital gratuita de ' . $company . '</strong> — incluye:</p>
+
+        <ul style="padding-left:20px;margin:0 0 22px 0;line-height:1.7;">
+          <li><strong>Puntaje 0-100</strong> de presencia digital sobre 12 dimensiones (AEO, móvil, schema, captura de leads, reseñas, automatización).</li>
+          <li><strong>Análisis de credibilidad online</strong> de ' . $company . ' frente a competidores directos en Santiago.</li>
+          <li><strong>Proyección de captación de clientes a 90 días</strong> si actúan sobre las brechas detectadas.</li>
+        </ul>
+
+        <p style="text-align:center;margin:0 0 22px 0;">
+          <a href="' . $audit_url . '" style="display:inline-block;background:#FF671F;color:#fff;text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:700;font-size:15px;">Ver auditoría de ' . $company . ' →</a>
+        </p>
+
+        <p style="margin:0 0 14px 0;color:#374151;font-size:14px;text-align:center;">El PDF se abre directo, sin formularios.</p>
+
+        <p style="margin:22px 0 14px 0;">Si tienen 20 minutos esta semana, conversamos cómo NetWebMedia implementaría las prioridades del informe — sin pitch, sin compromiso. Respondé este correo o <a href="' . $wa_link . '" style="color:#25D366;text-decoration:none;">escribinos por WhatsApp</a>.</p>
+
+        <p style="margin:18px 0 4px 0;">Un abrazo,<br><strong>Equipo NetWebMedia</strong><br><a href="mailto:hola@netwebmedia.com" style="color:#FF671F;text-decoration:none;font-size:13px;">hola@netwebmedia.com</a> · <a href="https://netwebmedia.com" style="color:#FF671F;text-decoration:none;font-size:13px;">netwebmedia.com</a></p>
+
+        <p style="font-size:11px;color:#999;margin:26px 0 0 0;border-top:1px solid #eee;padding-top:12px;line-height:1.55;">
+          Recibís este correo porque ' . $company . ' aparece en nuestro análisis público de presencia digital de negocios en Santiago (abril 2026). Único contacto de la campaña salvo que respondan.<br>
+          <a href="' . $unsub_url . '" style="color:#999;">Darse de baja</a> · NetWebMedia SpA · Santiago, Chile
+        </p>
+      </div>
+    </div>
+
+  </body></html>';
 }
 
 /** In-place deterministic shuffle (Fisher–Yates seeded by caller). */

@@ -182,6 +182,75 @@
   RewriteRule ^(.*)$ /industries/tech-saas/startups/$1 [L]
   RewriteCond %{HTTP_HOST} ^agencies\.netwebmedia\.com$ [NC]
   RewriteRule ^(.*)$ /industries/tech-saas/agencies/$1 [L]
+
+  # ── Automotive (parent + 3 subcategories) ──
+  RewriteCond %{HTTP_HOST} ^auto\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/automotive/$1 [L]
+  RewriteCond %{HTTP_HOST} ^dealerships\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/automotive/dealerships/$1 [L]
+  RewriteCond %{HTTP_HOST} ^autorepair\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/automotive/autorepair/$1 [L]
+  RewriteCond %{HTTP_HOST} ^detailing\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/automotive/detailing/$1 [L]
+
+  # ── Events & Weddings (parent + 3 subcategories) ──
+  RewriteCond %{HTTP_HOST} ^events\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/events-weddings/$1 [L]
+  RewriteCond %{HTTP_HOST} ^weddingvenues\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/events-weddings/weddingvenues/$1 [L]
+  RewriteCond %{HTTP_HOST} ^eventplanners\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/events-weddings/eventplanners/$1 [L]
+  RewriteCond %{HTTP_HOST} ^corporateevents\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/events-weddings/corporateevents/$1 [L]
+
+  # ── Wine & Agriculture (parent + 3 subcategories) ──
+  RewriteCond %{HTTP_HOST} ^wine\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/wine-agriculture/$1 [L]
+  RewriteCond %{HTTP_HOST} ^wineries\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/wine-agriculture/wineries/$1 [L]
+  RewriteCond %{HTTP_HOST} ^vineyards\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/wine-agriculture/vineyards/$1 [L]
+  RewriteCond %{HTTP_HOST} ^agribusiness\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/wine-agriculture/agribusiness/$1 [L]
+
+  # ── Local Services (parent + 3 subcategories) ──
+  RewriteCond %{HTTP_HOST} ^local\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/local-services/$1 [L]
+  RewriteCond %{HTTP_HOST} ^photography\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/local-services/photography/$1 [L]
+  RewriteCond %{HTTP_HOST} ^coaching\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/local-services/coaching/$1 [L]
+  RewriteCond %{HTTP_HOST} ^trades\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/local-services/trades/$1 [L]
+
+  # ── Financial Services (parent + 3 subcategories) ──
+  # Note: accounting.netwebmedia.com already routes to professional-services/accounting above.
+  RewriteCond %{HTTP_HOST} ^finance\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/finance/$1 [L]
+  RewriteCond %{HTTP_HOST} ^advisors\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/finance/advisors/$1 [L]
+  RewriteCond %{HTTP_HOST} ^insurance\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/finance/insurance/$1 [L]
+
+  # ── Education (parent + 3 subcategories) ──
+  RewriteCond %{HTTP_HOST} ^education\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/education/$1 [L]
+  RewriteCond %{HTTP_HOST} ^tutoring\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/education/tutoring/$1 [L]
+  RewriteCond %{HTTP_HOST} ^vocational\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/education/vocational/$1 [L]
+  RewriteCond %{HTTP_HOST} ^onlinecourses\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/education/onlinecourses/$1 [L]
+
+  # ── SMB (parent + 3 subcategories) ──
+  RewriteCond %{HTTP_HOST} ^smb\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/smb/$1 [L]
+  RewriteCond %{HTTP_HOST} ^retail\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/smb/retail/$1 [L]
+  RewriteCond %{HTTP_HOST} ^services\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/smb/services/$1 [L]
+  RewriteCond %{HTTP_HOST} ^localbrands\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/smb/localbrands/$1 [L]
 </IfModule>
 
 # ── /app/* and /crm/* soft-fallback for unshipped feature pages ────────

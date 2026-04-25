@@ -779,6 +779,11 @@
   function getDemoUser() { var u = getLoggedInUser(); return (u && u.type === 'demo') ? u : null; }
   function enforceAuthGate() {
     if (window.NWM_NO_GATE) return;
+    // Never redirect FROM the login page TO the login page — that's the
+    // recursive ?next=%2Flogin.html%3Fnext%3D... bug. The login page itself
+    // should be reachable when unauthenticated.
+    var path = (location.pathname || '').toLowerCase();
+    if (path === '/login.html' || path.endsWith('/login.html') || path === '/login') return;
     if (getLoggedInUser()) return;
     var next = encodeURIComponent(location.pathname + location.search);
     location.replace('/login.html?next=' + next);

@@ -55,26 +55,6 @@
   /* ── Container ── */
   .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
-  /* ── NAV ── */
-  nav {
-    padding: 20px 0;
-    border-bottom: 1px solid var(--nwm-border);
-    backdrop-filter: blur(20px);
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(1,15,59,.8);
-  }
-  .nav-inner { display: flex; align-items: center; justify-content: space-between; }
-  .logo {
-    font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em;
-    background: var(--nwm-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .logo span { font-weight: 400; opacity: .7; }
-  .nav-badge {
-    font-size: .7rem; font-weight: 600; padding: 4px 10px; border-radius: 20px;
-    background: rgba(255,103,31,.1); color: var(--nwm-accent); border: 1px solid rgba(255,103,31,.2);
-    text-transform: uppercase; letter-spacing: .08em;
-  }
-
   /* ── HERO ── */
   .hero { text-align: center; padding: 80px 0 60px; }
   .hero-badge {
@@ -395,6 +375,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 <!-- ── Navbar ───────────────────────────────────────────── -->
@@ -527,13 +508,6 @@
 <div class="bg-orb bg-orb-2"></div>
 <div class="bg-orb bg-orb-3"></div>
 
-<!-- NAV -->
-<nav>
-  <div class="container nav-inner">
-    <a href="https://netwebmedia.com" style="text-decoration:none;"><span class="logo-wordmark"><span class="logo-net">net</span><span class="logo-web">web</span><span class="logo-media">media</span></span></a>
-    <div class="nav-badge">AI-Powered Marketing</div>
-  </div>
-</nav>
 <main id="main">
 
 <!-- HERO -->

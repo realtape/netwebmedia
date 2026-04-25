@@ -5,8 +5,15 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Exempt a tiny allowlist (none today, but leaves room for /api/robots.txt etc.)
-  # RewriteCond %{REQUEST_URI} !^/api/(robots\.txt|favicon\.ico)$
+  # Exempt the CRM SPA: app.netwebmedia.com/api/* is a *separate* CRM API
+  # served from /crm-vanilla/api/. The root host-based rewrite in
+  # /public_html/.htaccess remaps app.* → /crm-vanilla/$1, but Apache's
+  # directory-descent processes /api/.htaccess BEFORE the host rewrite
+  # gets a chance to fire on the second internal pass — so we'd otherwise
+  # bridge straight to api-php/ and the CRM auth endpoint breaks. This
+  # rule restores the CRM's own /api/ tree for that one host.
+  RewriteCond %{HTTP_HOST} ^app\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /crm-vanilla/api/$1 [L]
 
   # Everything else → index.php (bridge to /api-php/)
   RewriteRule ^.*$ index.php [QSA,L]

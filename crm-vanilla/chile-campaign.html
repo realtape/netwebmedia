@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chile Campaign — NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css?v=8">
+  <style>
+    .chile-body { padding: 24px 32px 80px; }
+    .chile-hero {
+      background: linear-gradient(135deg, #010F3B 0%, #0a1f5c 100%);
+      color: white; border-radius: 14px; padding: 28px 32px; margin-bottom: 24px;
+      position: relative; overflow: hidden;
+    }
+    .chile-hero::before {
+      content:''; position:absolute; top:-80px; right:-80px;
+      width:280px; height:280px; border-radius:50%; background:rgba(255,103,31,0.15);
+    }
+    .chile-hero h1 {
+      font-family:'Poppins',sans-serif; font-weight:800; font-size:24px;
+      margin:0 0 6px 0; position:relative; z-index:2;
+    }
+    .chile-hero .sub { font-size:14px; opacity:0.85; position:relative; z-index:2; }
+    .chile-hero .pill {
+      display:inline-block; background:#FF671F; color:white; padding:4px 12px;
+      border-radius:50px; font-size:11px; font-weight:700; letter-spacing:0.5px;
+      text-transform:uppercase; margin-bottom:12px; position:relative; z-index:2;
+    }
+
+    .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:14px; margin-bottom:28px; }
+    .kpi {
+      background:white; border:1px solid #e5e7eb; border-radius:10px;
+      padding:18px 20px;
+    }
+    .kpi-label { font-size:11px; color:#6b7280; letter-spacing:0.6px; text-transform:uppercase; font-weight:600; margin-bottom:6px; }
+    .kpi-value { font-family:'Poppins',sans-serif; font-weight:800; font-size:32px; color:#010F3B; line-height:1.1; }
+    .kpi-suffix { font-size:13px; color:#6b7280; margin-left:4px; }
+    .kpi.ok    .kpi-value { color:#10b981; }
+    .kpi.warn  .kpi-value { color:#FF671F; }
+    .kpi.bad   .kpi-value { color:#ef4444; }
+    .kpi-meta  { font-size:12px; color:#6b7280; margin-top:4px; }
+
+    .panel { background:white; border:1px solid #e5e7eb; border-radius:10px; padding:20px; margin-bottom:24px; }
+    .panel h2 {
+      font-family:'Poppins',sans-serif; font-weight:800; font-size:16px;
+      color:#010F3B; margin:0 0 14px 0; display:flex; align-items:center; justify-content:space-between;
+    }
+    .panel h2 .panel-meta { font-family:'Inter',sans-serif; font-weight:500; font-size:12px; color:#6b7280; letter-spacing:0; text-transform:none; }
+
+    table.tbl { width:100%; border-collapse:collapse; font-size:13px; }
+    table.tbl th { text-align:left; padding:8px 10px; color:#6b7280; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; border-bottom:1px solid #e5e7eb; }
+    table.tbl td { padding:10px; border-bottom:1px solid #f3f4f6; vertical-align:top; }
+    table.tbl tr:last-child td { border-bottom:0; }
+    table.tbl td.num { text-align:right; font-variant-numeric:tabular-nums; }
+    table.tbl td.email { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12px; color:#374151; }
+    .progress { background:#f3f4f6; height:6px; border-radius:3px; overflow:hidden; margin-top:6px; }
+    .progress-bar { background:#FF671F; height:100%; transition:width 0.3s; }
+
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    @media (max-width:900px) { .grid-2 { grid-template-columns:1fr; } }
+
+    .empty { color:#9ca3af; padding:24px; text-align:center; font-size:13px; }
+    .stale { color:#9ca3af; font-size:11px; margin-top:6px; }
+    .actions { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
+    .btn-orange { background:#FF671F; color:white; border:0; padding:10px 18px; border-radius:6px; font-weight:600; font-size:13px; cursor:pointer; text-decoration:none; display:inline-block; font-family:inherit; }
+    .btn-ghost  { background:transparent; color:#FF671F; border:1px solid #FF671F; padding:10px 18px; border-radius:6px; font-weight:600; font-size:13px; cursor:pointer; text-decoration:none; display:inline-block; font-family:inherit; }
+    .niche-name { font-weight:600; color:#374151; }
+    .niche-key { color:#9ca3af; font-size:11px; font-family:ui-monospace,Menlo,Consolas,monospace; margin-left:6px; }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+
+      <div class="chile-body">
+
+        <div class="chile-hero">
+          <span class="pill">Campaign live</span>
+          <h1>Chile Cold Outreach — Santiago, Abril 2026</h1>
+          <div class="sub" id="campaignMeta">Cargando…</div>
+          <div class="actions">
+            <a class="btn-orange" href="https://netwebmedia.com/santiago-digital-gaps.html" target="_blank">Reporte público</a>
+            <a class="btn-ghost"  href="https://netwebmedia.com/api/chile-send?token=ADBUx9pVMR3hl3ChDLCegudz2xp_5y_0pSxG_jYVjjI&mode=preview" target="_blank">Vista previa email</a>
+          </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="kpi-grid" id="kpiGrid"></div>
+
+        <!-- Per-niche table -->
+        <div class="panel">
+          <h2>Por nicho <span class="panel-meta" id="lastRefresh"></span></h2>
+          <div id="nicheTable"><div class="empty">Cargando…</div></div>
+        </div>
+
+        <!-- Activity feeds side by side -->
+        <div class="grid-2">
+          <div class="panel">
+            <h2>Últimos envíos</h2>
+            <div id="recentSends"><div class="empty">Cargando…</div></div>
+          </div>
+          <div class="panel">
+            <h2>Últimos clicks (auditoría abierta)</h2>
+            <div id="recentClicks"><div class="empty">Cargando…</div></div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js?v=8"></script>
+  <script>
+    /* Chile Campaign tracking dashboard.
+     * Polls /crm-vanilla/api/chile_stats.php every 30s. The page is read-only
+     * — all sends are triggered separately via the api-php chile-send endpoint
+     * (token-protected). This dashboard is for visibility only.
+     */
+    (function () {
+      const STATS_URL = '/crm-vanilla/api/chile_stats.php';
+      const POLL_MS   = 30000;
+
+      function fmtTime(iso) {
+        if (!iso) return '';
+        try {
+          const d = new Date(iso);
+          if (isNaN(d.getTime())) return iso;
+          return d.toLocaleString('es-CL', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+        } catch (e) { return iso; }
+      }
+
+      function el(html) {
+        const t = document.createElement('template');
+        t.innerHTML = html.trim();
+        return t.content.firstChild;
+      }
+
+      function renderKpis(t) {
+        const cards = [
+          { label: 'Total CSV',        val: t.total,        cls: '',     meta: 'Leads únicos en santiago_leads.csv' },
+          { label: 'Enviados',         val: t.sent,         cls: 'ok',   meta: t.pending + ' pendientes' },
+          { label: 'Click auditoría',  val: t.clicks_unique, cls: 'ok', meta: t.clicks_total + ' clicks totales' },
+          { label: 'CTR',              val: t.ctr_pct + '%', cls: t.ctr_pct >= 5 ? 'ok' : (t.ctr_pct >= 2 ? 'warn' : ''), meta: 'Únicos / enviados' },
+          { label: 'Bajas',            val: t.unsubscribed, cls: t.unsubscribed > 0 ? 'warn' : '',  meta: 'List-Unsubscribe + reply baja' },
+          { label: 'Fallidos',         val: t.failed,       cls: t.failed > 0 ? 'bad' : '', meta: 'Resend rechazó' },
+        ];
+        const html = cards.map(c => `
+          <div class="kpi ${c.cls}">
+            <div class="kpi-label">${c.label}</div>
+            <div class="kpi-value">${c.val}</div>
+            <div class="kpi-meta">${c.meta}</div>
+          </div>
+        `).join('');
+        document.getElementById('kpiGrid').innerHTML = html;
+      }
+
+      function renderNiches(rows, totalSent) {
+        if (!rows || !rows.length) {
+          document.getElementById('nicheTable').innerHTML = '<div class="empty">Sin datos por nicho.</div>';
+          return;
+        }
+        const tbody = rows.map(r => {
+          const pctSent = r.total > 0 ? Math.round(r.sent * 100 / r.total) : 0;
+          return `
+            <tr>
+              <td>
+                <span class="niche-name">${r.niche || r.niche_key}</span>
+                <span class="niche-key">${r.niche_key}</span>
+              </td>
+              <td class="num">${r.total}</td>
+              <td class="num">${r.sent}<div class="progress"><div class="progress-bar" style="width:${pctSent}%"></div></div></td>
+              <td class="num">${r.pending}</td>
+              <td class="num">${r.clicks}</td>
+              <td class="num">${r.ctr_pct}%</td>
+              <td class="num">${r.unsub}</td>
+            </tr>
+          `;
+        }).join('');
+        document.getElementById('nicheTable').innerHTML = `
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Nicho</th>
+                <th class="num">Total</th>
+                <th class="num">Enviados</th>
+                <th class="num">Pendientes</th>
+                <th class="num">Clicks únicos</th>
+                <th class="num">CTR</th>
+                <th class="num">Bajas</th>
+              </tr>
+            </thead>
+            <tbody>${tbody}</tbody>
+          </table>
+        `;
+      }
+
+      function renderRecentSends(items) {
+        if (!items || !items.length) {
+          document.getElementById('recentSends').innerHTML = '<div class="empty">Aún no hay envíos.</div>';
+          return;
+        }
+        const rows = items.map(s => `
+          <tr>
+            <td>${s.company || '<span style="color:#9ca3af">sin nombre</span>'}<div class="niche-key">${s.niche || ''}</div></td>
+            <td class="email">${s.email}</td>
+          </tr>
+        `).join('');
+        document.getElementById('recentSends').innerHTML = `
+          <table class="tbl"><tbody>${rows}</tbody></table>
+        `;
+      }
+
+      function renderRecentClicks(items) {
+        if (!items || !items.length) {
+          document.getElementById('recentClicks').innerHTML = '<div class="empty">Aún no hay clicks.</div>';
+          return;
+        }
+        const rows = items.map(c => `
+          <tr>
+            <td>${c.company || '<span style="color:#9ca3af">' + c.email + '</span>'}<div class="niche-key">${c.niche || ''}</div></td>
+            <td class="num" style="color:#6b7280;font-size:12px;white-space:nowrap;">${fmtTime(c.timestamp)}</td>
+          </tr>
+        `).join('');
+        document.getElementById('recentClicks').innerHTML = `
+          <table class="tbl"><tbody>${rows}</tbody></table>
+        `;
+      }
+
+      let timer = null;
+      async function refresh() {
+        try {
+          const res = await fetch(STATS_URL, { credentials: 'same-origin', cache: 'no-store' });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          const t = data.totals || {};
+          document.getElementById('campaignMeta').textContent =
+            (data.campaign || 'Chile Cold Outreach') + ' · ' + (t.total || 0) + ' leads · ' + (t.sent || 0) + ' enviados · ' + (t.clicks_unique || 0) + ' clicks únicos';
+          document.getElementById('lastRefresh').textContent = 'Actualizado ' + fmtTime(data.server_time);
+          renderKpis(t);
+          renderNiches(data.by_niche || [], t.sent || 0);
+          renderRecentSends(data.recent_sends || []);
+          renderRecentClicks(data.recent_clicks || []);
+        } catch (e) {
+          document.getElementById('campaignMeta').textContent = 'Error cargando datos: ' + e.message;
+        }
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+        refresh();
+        timer = setInterval(refresh, POLL_MS);
+      });
+    })();
+  </script>
+  <script src="assets/nwm-i18n.js" defer></script>
+  <script src="/assets/nwm-site-chat.js" defer></script>
+</body>
+</html>

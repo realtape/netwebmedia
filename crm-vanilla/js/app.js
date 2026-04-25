@@ -9,7 +9,7 @@
       nav: {
         dashboard: "Dashboard", conversations: "Conversations", calendars: "Calendars",
         contacts: "Contacts", pipeline: "Opportunities", payments: "Payments",
-        marketing: "Marketing", automation: "Automation", sites: "Sites",
+        marketing: "Marketing", chileCampaign: "Chile Campaign", automation: "Automation", sites: "Sites",
         reputation: "Reputation", reporting: "Reporting", documents: "Documents",
         courses: "Courses", social: "Social Planner", settings: "Settings"
       },
@@ -246,7 +246,7 @@
       nav: {
         dashboard: "Panel", conversations: "Conversaciones", calendars: "Calendarios",
         contacts: "Contactos", pipeline: "Oportunidades", payments: "Pagos",
-        marketing: "Marketing", automation: "Automatización", sites: "Sitios",
+        marketing: "Marketing", chileCampaign: "Campaña Chile", automation: "Automatización", sites: "Sitios",
         reputation: "Reputación", reporting: "Reportes", documents: "Documentos",
         courses: "Cursos", social: "Planificador Social", settings: "Ajustes"
       },
@@ -511,6 +511,7 @@
     settings: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>',
     payments: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>',
     marketing: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6"/><path d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/><path d="M12 12H3"/><path d="M16 6H3"/><path d="M12 18H3"/></svg>',
+    rocket: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>',
     automation: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
     sites: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
     reputation: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
@@ -543,6 +544,7 @@
     { id: "pipeline", key: "pipeline", icon: "pipeline", href: "pipeline.html" },
     { id: "payments", key: "payments", icon: "payments", href: "payments.html" },
     { id: "marketing", key: "marketing", icon: "marketing", href: "marketing.html" },
+    { id: "chileCampaign", key: "chileCampaign", icon: "rocket", href: "chile-campaign.html" },
     { id: "automation", key: "automation", icon: "automation", href: "automation.html" },
     { id: "sites", key: "sites", icon: "sites", href: "sites.html" },
     { id: "reputation", key: "reputation", icon: "reputation", href: "reputation.html" },

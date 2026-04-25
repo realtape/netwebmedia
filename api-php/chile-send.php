@@ -385,6 +385,96 @@ if ($mode === 'status') {
   ]);
 }
 
+// Rich stats endpoint for the CRM tracking dashboard. Returns totals,
+// per-niche breakdown, audit-view counts (CTR), unsubscribes, and a
+// recent-activity feed. Lightweight: reads flat-file logs only, no DB
+// queries, fast enough to poll from the CRM every 30s.
+if ($mode === 'stats') {
+  // Re-aggregate from $leads (already loaded above) — counts BEFORE the
+  // niche_filter so the dashboard can show every niche in one shot.
+  $by_niche = [];
+  foreach ($leads as $l) {
+    $nk = $l['niche_key'] ?? 'unknown';
+    if (!isset($by_niche[$nk])) {
+      $by_niche[$nk] = ['niche_key' => $nk, 'niche' => $l['niche'] ?? $nk, 'total' => 0, 'sent' => 0, 'pending' => 0];
+    }
+    $by_niche[$nk]['total']++;
+    if ($l['_already']) $by_niche[$nk]['sent']++;
+    else                $by_niche[$nk]['pending']++;
+  }
+  ksort($by_niche);
+
+  // Audit views (one line per CTA click). Distinct emails = unique clickers.
+  $audit_log = __DIR__ . '/data/audit-views.log';
+  $audit_views_total = 0;
+  $audit_unique = [];
+  $recent_views = [];
+  if (file_exists($audit_log)) {
+    $lines = @file($audit_log, FILE_IGNORE_NEW_LINES) ?: [];
+    $audit_views_total = count($lines);
+    foreach ($lines as $line) {
+      $parts = explode("\t", $line);
+      $e = strtolower(trim($parts[0] ?? ''));
+      if ($e !== '') $audit_unique[$e] = true;
+    }
+    // Last 25 events for the activity feed.
+    $tail = array_slice($lines, -25);
+    foreach (array_reverse($tail) as $line) {
+      $p = explode("\t", $line);
+      $recent_views[] = [
+        'email'     => $p[0] ?? '',
+        'timestamp' => $p[1] ?? '',
+        'ip'        => $p[2] ?? '',
+      ];
+    }
+  }
+
+  // Failed sends — read the failure log.
+  $failed_count = 0;
+  if (file_exists($FAIL)) {
+    $failed_count = count(@file($FAIL, FILE_IGNORE_NEW_LINES) ?: []);
+  }
+
+  // Unsubscribes attributable to this campaign.
+  $unsub_count = 0;
+  if (file_exists($UNSUB)) {
+    $unsub_count = count(@file($UNSUB, FILE_IGNORE_NEW_LINES) ?: []);
+  }
+
+  // Recent sends — last 25 from the sent log (one email per line, in send order).
+  $recent_sends = [];
+  if (file_exists($LOG)) {
+    $sent_lines = @file($LOG, FILE_IGNORE_NEW_LINES) ?: [];
+    $tail = array_slice($sent_lines, -25);
+    foreach (array_reverse($tail) as $e) {
+      if (trim($e) !== '') $recent_sends[] = ['email' => trim($e)];
+    }
+  }
+
+  $sent_count    = $total - count($pending);
+  $clicks_unique = count($audit_unique);
+  $ctr_pct       = $sent_count > 0 ? round($clicks_unique * 100 / $sent_count, 1) : 0;
+
+  j_exit([
+    'campaign'      => 'Chile Cold Outreach — Santiago Apr 2026',
+    'csv_path'      => basename($CSV),
+    'totals' => [
+      'total'           => $total,
+      'sent'            => $sent_count,
+      'pending'         => count($pending),
+      'failed'          => $failed_count,
+      'unsubscribed'    => $unsub_count,
+      'clicks_total'    => $audit_views_total,
+      'clicks_unique'   => $clicks_unique,
+      'ctr_pct'         => $ctr_pct,
+    ],
+    'by_niche'      => array_values($by_niche),
+    'recent_sends'  => $recent_sends,
+    'recent_clicks' => $recent_views,
+    'server_time'   => date('c'),
+  ]);
+}
+
 if ($mode === 'preview') {
   if (!count($pending)) j_exit(['error' => 'no pending leads']);
   $lead = $pending[0];

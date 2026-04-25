@@ -47,6 +47,20 @@ if (!hash_equals($expected, $token)) {
   exit;
 }
 
+// ── View logging ────────────────────────────────────────────────────
+// Append one line per view (TSV: email, timestamp, ip, ua). The CRM
+// chile-campaign dashboard reads this to compute click-through metrics.
+// Apache's data/.htaccess blocks direct HTTP access — only PHP can read it.
+$viewLogDir  = __DIR__ . '/api-php/data';
+$viewLogFile = $viewLogDir . '/audit-views.log';
+if (is_dir($viewLogDir) || @mkdir($viewLogDir, 0755, true)) {
+  $line = $email . "\t"
+        . date('c') . "\t"
+        . ($_SERVER['REMOTE_ADDR']     ?? '-') . "\t"
+        . substr((string)($_SERVER['HTTP_USER_AGENT'] ?? '-'), 0, 200) . "\n";
+  @file_put_contents($viewLogFile, $line, FILE_APPEND | LOCK_EX);
+}
+
 // ── Lead lookup ─────────────────────────────────────────────────────
 $CSV = __DIR__ . '/api-php/data/santiago_leads.csv';
 $lead = null;

@@ -27,8 +27,16 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Check queue
+        id: queue
+        run: |
+          COUNT=$(find _deploy/posts-queue -maxdepth 1 -name '*.json' | wc -l)
+          echo "pending=$COUNT" >> "$GITHUB_OUTPUT"
+          echo "Pending posts: $COUNT"
+
       - name: Generate posts from queue
         id: generate
+        if: steps.queue.outputs.pending != '0'
         run: |
           LIMIT="${{ github.event.inputs.limit || '2' }}"
           node _deploy/generate-blogs.js --limit "$LIMIT"
@@ -46,5 +54,5 @@ jobs:
           git push
 
       - name: No posts in queue
-        if: steps.generate.outputs.changed == '0'
+        if: steps.queue.outputs.pending == '0'
         run: echo "Queue is empty — add JSON files to _deploy/posts-queue/ to schedule posts."

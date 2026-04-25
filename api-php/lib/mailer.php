@@ -126,9 +126,13 @@ function send_mail($to, $subject, $html_body, $opts = []) {
   $ok = ($code >= 200 && $code < 300);
   $error_msg = null;
   if (!$ok) {
-    $error_msg = $err ?: ('HTTP ' . $code . ' — ' . substr((string)$resp, 0, 240));
+    $error_msg = $err ?: ('HTTP ' . $code . ' — ' . substr((string)$resp, 0, 480));
     error_log('[nwm mailer] resend send failed: ' . $error_msg);
   }
+  // Stash last error globally for the caller to introspect during tests.
+  $GLOBALS['NWM_LAST_MAIL_ERROR']  = $error_msg;
+  $GLOBALS['NWM_LAST_MAIL_HTTP']   = $code;
+  $GLOBALS['NWM_LAST_MAIL_RESP']   = is_string($resp) ? substr($resp, 0, 600) : null;
 
   try {
     if (function_exists('qExec')) {

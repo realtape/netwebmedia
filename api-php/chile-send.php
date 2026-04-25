@@ -386,6 +386,11 @@ if ($mode === 'test') {
     'dryrun'   => $dryrun,
     'ok'       => (bool)$ok,
     'note'     => 'sent to external Gmail to bypass cPanel local-delivery bug',
+    'debug'    => $ok ? null : [
+      'http'  => $GLOBALS['NWM_LAST_MAIL_HTTP']  ?? null,
+      'error' => $GLOBALS['NWM_LAST_MAIL_ERROR'] ?? null,
+      'resp'  => $GLOBALS['NWM_LAST_MAIL_RESP']  ?? null,
+    ],
   ]);
 }
 

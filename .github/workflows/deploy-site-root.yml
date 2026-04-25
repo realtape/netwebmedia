@@ -204,6 +204,29 @@ jobs:
           else
             echo "api-php not in stage — skipping config.local.php generation"
           fi
+
+          # Also generate crm-vanilla/api/config.local.php — the CRM uses
+          # define() constants (DB_PASS, RESEND_API_KEY, …), not a config()
+          # array. The deploy-crm.yml workflow generates this same file but
+          # uploads via a chrooted FTP user that lands in /companies/, NOT
+          # /crm-vanilla/. Re-generating here puts it on the correct path
+          # via the root FTP user. Without this every CRM API handler
+          # returns 500 (DB connection fails because DB_PASS is undefined).
+          if [ -d "_stage/crm-vanilla/api" ]; then
+            python3 - <<'PYEOF' > "_stage/crm-vanilla/api/config.local.php"
+          import os
+          def e(v: str) -> str: return (v or '').replace("\\", "\\\\").replace("'", "\\'")
+          print("<?php")
+          print("// Auto-generated during deploy. DO NOT EDIT.")
+          print(f"define('DB_PASS', '{e(os.environ.get('SECRET_DB_PASS',''))}');")
+          print(f"define('HUBSPOT_TOKEN', '{e(os.environ.get('SECRET_HUBSPOT_TOKEN',''))}');")
+          print(f"define('ANTHROPIC_API_KEY', '{e(os.environ.get('SECRET_ANTHROPIC_API_KEY',''))}');")
+          print(f"define('RESEND_API_KEY', '{e(os.environ.get('SECRET_RESEND_API_KEY',''))}');")
+          PYEOF
+            echo "crm-vanilla/api/config.local.php generated"
+          else
+            echo "crm-vanilla not in stage — skipping CRM config.local.php"
+          fi
         env:
           SECRET_DB_PASS:           ${{ secrets.CRM_DB_PASSWORD }}
           SECRET_JWT_SECRET:        ${{ secrets.JWT_SECRET }}

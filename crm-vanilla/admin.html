@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css?v=8">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
+  </script>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div class="stats-grid" id="adminStatsGrid"></div>
+        <div class="dashboard-grid">
+          <div class="dashboard-col">
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Users by Plan</h2>
+              </div>
+              <div id="planBreakdown"></div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Recent Signups</h2>
+                <span id="userCount" class="stat-change positive"></span>
+              </div>
+              <div id="recentUsers"></div>
+            </div>
+          </div>
+          <div class="dashboard-col">
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Account Status</h2>
+              </div>
+              <div id="statusBreakdown"></div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Recent Demo Leads</h2>
+              </div>
+              <div id="recentLeads"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/app.js?v=8"></script>
+  <script src="js/admin.js?v=1"></script>
+  <script src="assets/nwm-i18n.js" defer></script>
+  <script src="/assets/nwm-site-chat.js" defer></script>
+</body>
+</html>

@@ -123,7 +123,11 @@
      * (token-protected). This dashboard is for visibility only.
      */
     (function () {
-      const STATS_URL = '/crm-vanilla/api/chile_stats.php';
+      // Use the absolute /crm-vanilla/ path to bypass the /api/ → api-php
+      // bridge .htaccess that intercepts the bare /api/* path.
+      const STATS_URL = (location.hostname === 'app.netwebmedia.com')
+        ? '/crm-vanilla/api/chile_stats.php'
+        : 'https://netwebmedia.com/crm-vanilla/api/chile_stats.php';
       const POLL_MS   = 30000;
 
       function fmtTime(iso) {

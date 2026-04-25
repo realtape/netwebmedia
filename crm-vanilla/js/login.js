@@ -126,7 +126,7 @@
     signinBtn.textContent = L.signingIn;
     signinError.textContent = '';
 
-    fetch('api/auth', {
+    fetch('/api/auth/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email, password: password })

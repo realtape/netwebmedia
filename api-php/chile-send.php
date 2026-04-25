@@ -366,31 +366,43 @@ if ($mode === 'preview') {
 }
 
 if ($mode === 'test') {
-  // Test recipient defaults to an EXTERNAL Gmail (not @netwebmedia.com) so we
-  // bypass cPanel's local-delivery bug — mail sent FROM the same server TO an
-  // @netwebmedia.com address gets dropped in the local cPanel mailbox instead
-  // of relayed to the Google Workspace MX where the Gmail UI reads from.
-  // Override with &to=<email> if needed.
-  $test_to = $_GET['to'] ?? 'entrepoker@gmail.com';
+  // Default fan-out: entrepoker@gmail.com (external Gmail, our own-eyes
+  // baseline) AND carlos@netwebmedia.com (Google Workspace via MX — works
+  // now that Resend handles outbound, since Resend's IPs route MX-correctly
+  // and don't trigger cPanel local-delivery the way mail() did).
+  // Override with &to=A,B,C if needed.
+  $to_param = $_GET['to'] ?? 'entrepoker@gmail.com,carlos@netwebmedia.com';
+  $recipients = array_values(array_filter(array_map('trim', explode(',', $to_param)),
+    function ($e) { return $e !== '' && filter_var($e, FILTER_VALIDATE_EMAIL); }));
+  if (!$recipients) j_exit(['error' => 'no valid test recipients'], 400);
+
   $lead = count($pending) ? $pending[0] : ['company' => 'NetWebMedia Test', 'name' => 'Test', 'niche' => 'Tourism & Hospitality', 'niche_key' => 'tourism'];
   $html = render_email_html($lead);
   $subj = '[TEST] ' . subject_for($lead);
-  $ok = $dryrun ? true : send_mail($test_to, $subj, $html, [
-    'from_name' => $FROM_NAME, 'from_email' => $FROM_EMAIL, 'reply_to' => $REPLY_TO,
-  ]);
+
+  $results = [];
+  foreach ($recipients as $rcpt) {
+    $send_ok = $dryrun ? true : send_mail($rcpt, $subj, $html, [
+      'from_name' => $FROM_NAME, 'from_email' => $FROM_EMAIL, 'reply_to' => $REPLY_TO,
+    ]);
+    $results[] = [
+      'to'    => $rcpt,
+      'ok'    => (bool)$send_ok,
+      'debug' => $send_ok ? null : [
+        'http'  => $GLOBALS['NWM_LAST_MAIL_HTTP']  ?? null,
+        'error' => $GLOBALS['NWM_LAST_MAIL_ERROR'] ?? null,
+        'resp'  => $GLOBALS['NWM_LAST_MAIL_RESP']  ?? null,
+      ],
+    ];
+  }
+
   j_exit([
     'mode'     => 'test',
-    'sent_to'  => $test_to,
     'subject'  => $subj,
     'using_lead' => ['company' => $lead['company'] ?? null, 'niche' => $lead['niche'] ?? null],
     'dryrun'   => $dryrun,
-    'ok'       => (bool)$ok,
-    'note'     => 'sent to external Gmail to bypass cPanel local-delivery bug',
-    'debug'    => $ok ? null : [
-      'http'  => $GLOBALS['NWM_LAST_MAIL_HTTP']  ?? null,
-      'error' => $GLOBALS['NWM_LAST_MAIL_ERROR'] ?? null,
-      'resp'  => $GLOBALS['NWM_LAST_MAIL_RESP']  ?? null,
-    ],
+    'results'  => $results,
+    'all_ok'   => !in_array(false, array_column($results, 'ok'), true),
   ]);
 }
 

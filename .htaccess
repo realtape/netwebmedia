@@ -58,6 +58,13 @@
   # Must come BEFORE the skip-rules block so it's reachable across all hosts.
   RewriteRule ^unsubscribe/?$ /unsubscribe.php [L,QSA]
 
+  # Map clean /audit and /audit/<token> to /audit.php (per-prospect PDF audit
+  # served from the Chile cold-outreach emails). The trailing-token form
+  # carries the token in the URL path so it copy-pastes cleanly without
+  # query-string artifacts; audit.php reads it from PATH_INFO if present.
+  RewriteRule ^audit/?$ /audit.php [L,QSA]
+  RewriteRule ^audit/([a-f0-9]{12,32})/?$ /audit.php?t=$1 [L,QSA]
+
   # Skip rewrite if already inside /industries/, /crm-vanilla/, /companies/ or
   # on specific PHP endpoints to prevent loops from the host-based rewrites
   # below (each internal rewrite re-enters the rewrite engine; without this
@@ -66,7 +73,8 @@
   RewriteCond %{REQUEST_URI} ^/crm-vanilla/ [OR]
   RewriteCond %{REQUEST_URI} ^/companies/ [OR]
   RewriteCond %{REQUEST_URI} ^/audit-submit\.php$ [OR]
-  RewriteCond %{REQUEST_URI} ^/unsubscribe\.php$
+  RewriteCond %{REQUEST_URI} ^/unsubscribe\.php$ [OR]
+  RewriteCond %{REQUEST_URI} ^/audit\.php$
   RewriteRule .* - [L]
 
   # ── Infrastructure subdomains ──

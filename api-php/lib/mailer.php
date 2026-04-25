@@ -70,6 +70,30 @@ function send_mail($to, $subject, $html_body, $opts = []) {
   );
   $plain_body = $opts['plain_body'] ?? html_to_plain($html_body);
 
+  // Header strategy depends on whether this is a 1:1 personalized send or
+  // a bulk newsletter. Cold-outreach emails are technically a list send but
+  // each message is uniquely personalized to one recipient, so flagging them
+  // with Precedence: bulk + List-Id + Auto-Submitted is what tells Gmail
+  // "route this to Promotions". For 1:1 personalized, we keep ONLY the
+  // List-Unsubscribe headers (still required by Gmail bulk-sender policy
+  // when you cross 5K/day, and harmless below that — they just give the
+  // recipient a clean unsubscribe button next to your name).
+  //
+  // Default is 1:1 personalized. Set $opts['bulk'] = true for newsletters.
+  $is_bulk = !empty($opts['bulk']);
+  $headers = [
+    'List-Unsubscribe'        => '<' . $unsub_url . '>, <mailto:' . $unsub_mailto . '>',
+    'List-Unsubscribe-Post'   => 'List-Unsubscribe=One-Click',
+    'X-Auto-Response-Suppress'=> 'OOF, AutoReply',
+    'X-Mailer'                => 'NetWebMedia-Mailer/2.0-Resend',
+  ];
+  if ($is_bulk) {
+    $headers['List-Id']        = 'NetWebMedia Newsletter <news.' . $host . '>';
+    $headers['Feedback-ID']    = 'newsletter:nwm:' . date('Ymd') . ':mailer';
+    $headers['Auto-Submitted'] = 'auto-generated';
+    $headers['Precedence']     = 'bulk';
+  }
+
   // Resend payload. Resend handles MIME + DKIM signing internally.
   $payload = [
     'from'     => $from_name . ' <' . $from_email . '>',
@@ -78,16 +102,7 @@ function send_mail($to, $subject, $html_body, $opts = []) {
     'html'     => $html_body,
     'text'     => $plain_body,
     'reply_to' => $reply_to,
-    'headers'  => [
-      'List-Unsubscribe'        => '<' . $unsub_url . '>, <mailto:' . $unsub_mailto . '>',
-      'List-Unsubscribe-Post'   => 'List-Unsubscribe=One-Click',
-      'List-Id'                 => 'NetWebMedia Outreach <outreach.' . $host . '>',
-      'Feedback-ID'             => 'outreach:nwm:' . date('Ymd') . ':mailer',
-      'X-Auto-Response-Suppress'=> 'OOF, AutoReply',
-      'Auto-Submitted'          => 'auto-generated',
-      'Precedence'              => 'bulk',
-      'X-Mailer'                => 'NetWebMedia-Mailer/2.0-Resend',
-    ],
+    'headers'  => $headers,
   ];
 
   $ch = curl_init('https://api.resend.com/emails');

@@ -49,6 +49,7 @@ $handlers = [
     'seed_templates'=> __DIR__ . '/handlers/seed_templates.php',
     'email_status'  => __DIR__ . '/handlers/email_status.php',
     'social'        => __DIR__ . '/handlers/social.php',
+    'admin'         => __DIR__ . '/handlers/admin.php',
 ];
 
 if (!isset($handlers[$resource])) {

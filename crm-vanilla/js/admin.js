@@ -33,6 +33,7 @@
     CRM_APP.buildHeader('Admin Dashboard', '');
 
     loadAdminData();
+    loadBackupStatus();
   });
 
   function loadAdminData() {
@@ -201,6 +202,55 @@
       html += '<span class="stat-change ' + (logins >= 3 ? 'positive' : 'negative') + '" style="font-size:11px;white-space:nowrap;">' + logins + ' login' + (logins !== 1 ? 's' : '') + '</span>';
       html += '</div>';
     }
+    container.innerHTML = html;
+  }
+
+  function loadBackupStatus() {
+    fetch('backup-status.json?_=' + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { renderBackupStatus(d); })
+      .catch(function () { renderBackupStatus(null); });
+  }
+
+  function renderBackupStatus(d) {
+    var badge = document.getElementById('backupStatusBadge');
+    var container = document.getElementById('backupStatus');
+    if (!container) return;
+
+    if (!d) {
+      if (badge) badge.innerHTML = '<span class="stat-change negative">unavailable</span>';
+      container.innerHTML = '<p style="color:var(--text-secondary);padding:16px 0;">Backup status file not found.</p>';
+      return;
+    }
+
+    var ok = d.status === 'success';
+    var statusColor = ok ? '#10b981' : '#ef4444';
+    var statusLabel = ok ? 'OK' : (d.status === 'push_failed' ? 'Push Failed' : 'Error');
+    var typeLabel   = d.type === 'daily' ? 'Scheduled (Daily)' : 'Session End';
+
+    if (badge) {
+      badge.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:' + statusColor + ';">'
+        + '<span style="width:8px;height:8px;border-radius:50%;background:' + statusColor + ';display:inline-block;"></span>'
+        + statusLabel + '</span>';
+    }
+
+    var rows = [
+      { label: 'Last Backup',  value: d.last_backup || '—' },
+      { label: 'Trigger',      value: typeLabel },
+      { label: 'Committed',    value: d.committed ? 'Yes' : 'No',  ok: d.committed },
+      { label: 'Pushed',       value: d.pushed    ? 'Yes' : 'No',  ok: d.pushed    },
+    ];
+
+    var html = '<div style="display:flex;flex-wrap:wrap;gap:24px;padding:12px 0;">';
+    for (var i = 0; i < rows.length; i++) {
+      var row = rows[i];
+      var valColor = (row.ok === undefined) ? 'var(--text-primary)' : (row.ok ? '#10b981' : '#ef4444');
+      html += '<div style="min-width:140px;">';
+      html += '<div style="font-size:11px;color:var(--text-secondary);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;">' + row.label + '</div>';
+      html += '<div style="font-size:14px;font-weight:600;color:' + valColor + ';">' + esc(row.value) + '</div>';
+      html += '</div>';
+    }
+    html += '</div>';
     container.innerHTML = html;
   }
 

@@ -152,7 +152,7 @@ $cta_url = 'https://' . $sub['host'] . '/?utm_source=audit&utm_campaign=santiago
 
 // WhatsApp deep link
 $wa_text = rawurlencode('Hola NetWebMedia, soy de ' . $company . '. Vi la auditoría y quiero conversar.');
-$wa_link = 'https://wa.me/17407363884?text=' . $wa_text;
+$wa_link = 'https://wa.me/14155238886?text=' . $wa_text;
 
 // HTML escape helpers
 function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8'); }

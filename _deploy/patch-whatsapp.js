@@ -90,7 +90,7 @@ async function main() {
   console.log('  curl -s -X POST "https://netwebmedia.com/api/whatsapp/webhook" \\');
   console.log('    -H "Content-Type: application/x-www-form-urlencoded" \\');
   console.log('    -H "User-Agent: TwilioProxy/1.1" \\');
-  console.log('    -d "From=whatsapp%3A%2B15550000000&To=whatsapp%3A%2B17407363884&Body=Hi&MessageSid=SMtest001"');
+  console.log('    -d "From=whatsapp%3A%2B15550000000&To=whatsapp%3A%2B14155238886&Body=Hi&MessageSid=SMtest001"');
 }
 
 main().catch((e) => { console.error('[FATAL]', e.message); process.exit(1); });

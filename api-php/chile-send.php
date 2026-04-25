@@ -68,7 +68,7 @@ $FROM_NAME  = 'NetWebMedia';
 $FROM_EMAIL = 'newsletter@netwebmedia.com';
 $REPLY_TO   = 'hola@netwebmedia.com';
 $REPORT_URL = 'https://netwebmedia.com/santiago-digital-gaps.html';
-$WA_URL     = 'https://wa.me/17407363884?text=' . rawurlencode('Hola NetWebMedia, quiero mi auditoría digital gratis.');
+$WA_URL     = 'https://wa.me/14155238886?text=' . rawurlencode('Hola NetWebMedia, quiero mi auditoría digital gratis.');
 
 /**
  * Map each niche_key from the Santiago CSV to (a) the most relevant industry
@@ -293,7 +293,7 @@ function render_email_html($lead) {
 
   // WhatsApp deep link — pre-fills company name.
   $wa_text = rawurlencode('Hola NetWebMedia, soy de ' . $company_raw . '. Vi la auditoría y quiero conversar.');
-  $wa_link = 'https://wa.me/17407363884?text=' . $wa_text;
+  $wa_link = 'https://wa.me/14155238886?text=' . $wa_text;
 
   // Mailer substitutes {{UNSUB_URL}} with the canonical per-message URL.
   $unsub_url = '{{UNSUB_URL}}';

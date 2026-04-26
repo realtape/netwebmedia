@@ -345,20 +345,34 @@ aside::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; 
 #canvas-scroll {
   flex: 1;
   overflow: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
 }
 #canvas-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
 #canvas-scroll::-webkit-scrollbar-track { background: var(--bg-deep); }
 #canvas-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
+/* centering wrapper — grows when canvas is smaller than viewport,
+   scrolls when canvas is larger */
+#canvas-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100%;
+  min-height: 100%;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+/* clips the CSS-transform overflow so scroll is sized correctly */
+#canvas-outer {
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.7);
+  /* width/height set by JS to match scaled canvas */
+}
+
 #canvas-wrapper {
   position: relative;
-  transform-origin: top left;
-  /* size set by JS */
-  box-shadow: 0 8px 48px rgba(0,0,0,0.7);
+  /* no transform here — Fabric zoom handles it natively */
 }
 
 #editor-canvas {
@@ -371,6 +385,7 @@ aside::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; 
   top: 0; left: 0;
   pointer-events: none;
   z-index: 5;
+  /* buffer stays at full 2048×1024; CSS scales it to match Fabric canvas */
 }
 
 /* ─── STATUS BAR ─── */

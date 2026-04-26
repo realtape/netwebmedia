@@ -1,12 +1,12 @@
 const CANVAS_W = 2048;
 const CANVAS_H = 1024;
-const MAX_UNDO = 40;
+const MAX_UNDO  = 40;
 
 class LiveryApp {
   constructor() {
     this._undoStack = [];
     this._redoStack = [];
-    this._zoom = 0.5;
+    this._zoom      = 0.5;
     this._currentTemplate = 'stock';
 
     this._initCanvas();
@@ -18,33 +18,29 @@ class LiveryApp {
     this._initImageUpload();
     this._initTopbarControls();
     this._initMouseTracking();
+    this._initBgColor();
     this._applyZoom();
     this.saveState();
-
-    // Initial render
     this.canvas.renderAll();
   }
 
+  // ─── CANVAS SETUP ───────────────────────────────────────────────────────────
+
   _initCanvas() {
     this.canvas = new fabric.Canvas('editor-canvas', {
-      width: CANVAS_W,
+      width:  CANVAS_W,
       height: CANVAS_H,
       backgroundColor: '#ffffff',
       preserveObjectStacking: true,
-      selection: true,
-      stopContextMenu: true,
-      fireRightClick: false,
+      selection:        true,
+      stopContextMenu:  true,
+      fireRightClick:   false,
     });
 
-    // Size the wrapper
-    const wrapper = document.getElementById('canvas-wrapper');
-    wrapper.style.width = CANVAS_W + 'px';
-    wrapper.style.height = CANVAS_H + 'px';
-
-    // Size template overlay canvas
-    const overlay = document.getElementById('template-overlay');
-    overlay.width = CANVAS_W;
-    overlay.height = CANVAS_H;
+    // Template overlay: keep buffer at full logical res for sharp rendering
+    const overlay    = document.getElementById('template-overlay');
+    overlay.width    = CANVAS_W;
+    overlay.height   = CANVAS_H;
 
     document.getElementById('sb-size').textContent = `${CANVAS_W} × ${CANVAS_H}`;
   }
@@ -58,68 +54,102 @@ class LiveryApp {
     this.tools = new ToolManager(this);
   }
 
+  // ─── ZOOM ────────────────────────────────────────────────────────────────────
+
   _initZoom() {
-    const sel = document.getElementById('zoom-select');
-    sel.value = '0.5';
+    const sel   = document.getElementById('zoom-select');
+    sel.value   = '0.5';
+
     sel.addEventListener('change', () => {
       this._zoom = parseFloat(sel.value);
       this._applyZoom();
     });
 
-    // Mouse wheel zoom on canvas area
+    // Ctrl + wheel zooms
     document.getElementById('canvas-scroll').addEventListener('wheel', (e) => {
       if (!e.ctrlKey) return;
       e.preventDefault();
-      const zoomLevels = [0.25, 0.5, 0.75, 1, 1.5, 2];
-      const idx = zoomLevels.indexOf(this._zoom);
-      if (e.deltaY < 0 && idx < zoomLevels.length - 1) {
-        this._zoom = zoomLevels[idx + 1];
-      } else if (e.deltaY > 0 && idx > 0) {
-        this._zoom = zoomLevels[idx - 1];
-      }
+      const levels  = [0.25, 0.5, 0.75, 1, 1.5, 2];
+      const idx     = levels.indexOf(this._zoom);
+      if (e.deltaY < 0 && idx < levels.length - 1) this._zoom = levels[idx + 1];
+      else if (e.deltaY > 0 && idx > 0)             this._zoom = levels[idx - 1];
       sel.value = this._zoom;
       this._applyZoom();
     }, { passive: false });
   }
 
   _applyZoom() {
-    const wrapper = document.getElementById('canvas-wrapper');
-    wrapper.style.transform = `scale(${this._zoom})`;
-    wrapper.style.width = CANVAS_W + 'px';
-    wrapper.style.height = CANVAS_H + 'px';
-    const scroll = document.getElementById('canvas-scroll');
-    scroll.style.minWidth = (CANVAS_W * this._zoom + 80) + 'px';
-    scroll.style.minHeight = (CANVAS_H * this._zoom + 80) + 'px';
+    const scaledW = Math.round(CANVAS_W * this._zoom);
+    const scaledH = Math.round(CANVAS_H * this._zoom);
+
+    // ── Fabric native zoom ───────────────────────────────────────────────────
+    // Logical coordinates always stay in 0..CANVAS_W / 0..CANVAS_H space.
+    // canvas.getPointer() automatically un-applies the viewport transform.
+    this.canvas.setViewportTransform([this._zoom, 0, 0, this._zoom, 0, 0]);
+    this.canvas.setWidth(scaledW);
+    this.canvas.setHeight(scaledH);
+
+    // ── Size the outer clip container ────────────────────────────────────────
+    // canvas-outer clips the layout overflow so the scroll area is correctly
+    // sized to the visual (zoomed) canvas dimensions.
+    const outer        = document.getElementById('canvas-outer');
+    outer.style.width  = scaledW + 'px';
+    outer.style.height = scaledH + 'px';
+
+    // canvas-wrapper matches outer so position:absolute children align
+    const wrapper        = document.getElementById('canvas-wrapper');
+    wrapper.style.width  = scaledW + 'px';
+    wrapper.style.height = scaledH + 'px';
+
+    // ── Scale the template overlay (buffer stays at full res for crispness) ──
+    const overlay         = document.getElementById('template-overlay');
+    overlay.style.width   = scaledW + 'px';
+    overlay.style.height  = scaledH + 'px';
+
+    this._renderTemplate();
   }
 
-  _initMouseTracking() {
-    const sbPos = document.getElementById('sb-pos');
-    this.canvas.on('mouse:move', (e) => {
-      const ptr = this.canvas.getPointer(e.e);
-      sbPos.textContent = `${Math.round(ptr.x)}, ${Math.round(ptr.y)}`;
+  // ─── BACKGROUND COLOR ────────────────────────────────────────────────────────
+
+  _initBgColor() {
+    const picker = document.getElementById('canvas-bg-color');
+    if (!picker) return;
+    picker.addEventListener('input', () => {
+      this.canvas.setBackgroundColor(picker.value, () => this.canvas.renderAll());
     });
   }
 
-  // ─── TEMPLATE ────────────────────────────────────────────────────────────────
+  // ─── CAR TEMPLATE OVERLAY ────────────────────────────────────────────────────
 
   _initTemplate() {
-    const sel = document.getElementById('car-select');
-    sel.addEventListener('change', () => {
-      this._currentTemplate = sel.value;
+    const carSel      = document.getElementById('car-select');
+    const tplCheck    = document.getElementById('show-template');
+    const labelsCheck = document.getElementById('show-labels');
+    const opSlider    = document.getElementById('template-opacity');
+    const opVal       = document.getElementById('template-opacity-val');
+    const overlay     = document.getElementById('template-overlay');
+
+    carSel.addEventListener('change', () => {
+      this._currentTemplate = carSel.value;
       this._renderTemplate();
     });
 
-    document.getElementById('show-template').addEventListener('change', (e) => {
-      document.getElementById('template-overlay').style.opacity = e.target.checked ? '' : '0';
+    // FIX: toggle reads the slider's current value instead of fighting it
+    tplCheck.addEventListener('change', () => {
+      overlay.style.opacity = tplCheck.checked ? (parseInt(opSlider.value) / 100) : 0;
     });
 
-    document.getElementById('show-labels').addEventListener('change', () => this._renderTemplate());
+    labelsCheck.addEventListener('change', () => this._renderTemplate());
 
-    document.getElementById('template-opacity').addEventListener('input', (e) => {
-      const val = parseInt(e.target.value);
-      document.getElementById('template-opacity-val').textContent = val + '%';
-      document.getElementById('template-overlay').style.opacity = val / 100;
+    opSlider.addEventListener('input', () => {
+      const val = parseInt(opSlider.value);
+      opVal.textContent = val + '%';
+      // Only apply if the visibility toggle is on
+      if (tplCheck.checked) overlay.style.opacity = val / 100;
     });
+
+    // Set initial state from slider default
+    overlay.style.opacity = parseInt(opSlider.value) / 100;
 
     this._renderTemplate();
   }
@@ -129,122 +159,109 @@ class LiveryApp {
     if (!tpl) return;
 
     const canvas = document.getElementById('template-overlay');
-    const ctx = canvas.getContext('2d');
+    const ctx    = canvas.getContext('2d');
     ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
 
     const showLabels = document.getElementById('show-labels').checked;
 
-    // Scale the template to fit CANVAS_W × CANVAS_H with padding
-    const padX = 80, padY = 80;
+    // Scale template paths to fit the canvas with padding
+    const padX   = 80, padY = 80;
     const availW = CANVAS_W - padX * 2;
     const availH = CANVAS_H - padY * 2;
-    const scaleX = availW / tpl.w;
-    const scaleY = availH / tpl.h;
-    const scale = Math.min(scaleX, scaleY);
-    const offX = padX + (availW - tpl.w * scale) / 2;
-    const offY = padY + (availH - tpl.h * scale) / 2;
+    const scale  = Math.min(availW / tpl.w, availH / tpl.h);
+    const offX   = padX + (availW - tpl.w * scale) / 2;
+    const offY   = padY + (availH - tpl.h * scale) / 2;
 
     ctx.save();
     ctx.translate(offX, offY);
     ctx.scale(scale, scale);
 
-    const parsePath = (d) => {
-      const path = new Path2D(d);
-      return path;
-    };
-
-    // Draw section fills first
+    // Section fills (orientation colors)
     tpl.sections.forEach(section => {
-      ctx.beginPath();
-      const p = new Path2D(section.path);
       ctx.fillStyle = section.fill;
-      ctx.fill(p);
+      ctx.fill(new Path2D(section.path));
     });
 
-    // Draw body
-    ctx.beginPath();
+    // Body fill + outline
     const bodyPath = new Path2D(tpl.body);
-    ctx.fillStyle = 'rgba(220,220,228,0.6)';
+    ctx.fillStyle   = 'rgba(220,220,228,0.6)';
     ctx.fill(bodyPath);
-    ctx.strokeStyle = 'rgba(40,40,60,0.85)';
-    ctx.lineWidth = 2.5 / scale;
-    ctx.lineJoin = 'round';
-    ctx.lineCap = 'round';
+    ctx.strokeStyle = 'rgba(40,40,60,0.88)';
+    ctx.lineWidth   = 2.5 / scale;
+    ctx.lineJoin    = 'round';
+    ctx.lineCap     = 'round';
     ctx.stroke(bodyPath);
 
-    // Draw glass
+    // Glass / cockpit opening
     if (tpl.glass) {
       const glassPath = new Path2D(tpl.glass);
-      ctx.fillStyle = 'rgba(160,200,240,0.45)';
+      ctx.fillStyle   = 'rgba(160,200,240,0.45)';
       ctx.fill(glassPath);
       ctx.strokeStyle = 'rgba(80,120,160,0.7)';
-      ctx.lineWidth = 1.5 / scale;
+      ctx.lineWidth   = 1.5 / scale;
       ctx.stroke(glassPath);
     }
 
-    // Draw wheels
+    // Wheels — tyre + rim + hub + spokes
     tpl.wheels.forEach(w => {
-      // Outer tire
       ctx.beginPath();
       ctx.arc(w.cx, w.cy, w.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(40,40,40,0.85)';
+      ctx.fillStyle   = 'rgba(35,35,35,0.88)';
       ctx.fill();
-      ctx.strokeStyle = 'rgba(80,80,80,0.9)';
-      ctx.lineWidth = 1.5 / scale;
+      ctx.strokeStyle = 'rgba(70,70,70,0.9)';
+      ctx.lineWidth   = 1.5 / scale;
       ctx.stroke();
-      // Rim
+
       ctx.beginPath();
       ctx.arc(w.cx, w.cy, w.r * 0.55, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(160,160,175,0.9)';
+      ctx.fillStyle = 'rgba(155,155,168,0.92)';
       ctx.fill();
-      // Hub
-      ctx.beginPath();
-      ctx.arc(w.cx, w.cy, w.r * 0.18, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(80,80,90,0.95)';
-      ctx.fill();
-      // Spokes
+
       for (let i = 0; i < 5; i++) {
-        const angle = (i / 5) * Math.PI * 2;
+        const ang = (i / 5) * Math.PI * 2;
         ctx.beginPath();
-        ctx.moveTo(w.cx + Math.cos(angle) * w.r * 0.18, w.cy + Math.sin(angle) * w.r * 0.18);
-        ctx.lineTo(w.cx + Math.cos(angle) * w.r * 0.52, w.cy + Math.sin(angle) * w.r * 0.52);
-        ctx.strokeStyle = 'rgba(60,60,70,0.8)';
-        ctx.lineWidth = 3 / scale;
+        ctx.moveTo(w.cx + Math.cos(ang) * w.r * 0.18, w.cy + Math.sin(ang) * w.r * 0.18);
+        ctx.lineTo(w.cx + Math.cos(ang) * w.r * 0.52, w.cy + Math.sin(ang) * w.r * 0.52);
+        ctx.strokeStyle = 'rgba(55,55,65,0.8)';
+        ctx.lineWidth   = 3 / scale;
         ctx.stroke();
       }
+
+      ctx.beginPath();
+      ctx.arc(w.cx, w.cy, w.r * 0.18, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(70,70,80,0.95)';
+      ctx.fill();
     });
 
-    // Draw detail lines
+    // Detail / panel lines (dashed)
     if (tpl.details) {
       ctx.strokeStyle = 'rgba(60,60,80,0.5)';
-      ctx.lineWidth = 1.5 / scale;
+      ctx.lineWidth   = 1.5 / scale;
       ctx.setLineDash([4 / scale, 3 / scale]);
-      const detailPath = new Path2D(tpl.details);
-      ctx.stroke(detailPath);
+      ctx.stroke(new Path2D(tpl.details));
       ctx.setLineDash([]);
     }
 
     // Section labels
     if (showLabels) {
-      ctx.font = `bold ${14 / scale}px Inter, sans-serif`;
-      ctx.textAlign = 'center';
+      const fs = 14 / scale;
+      ctx.font         = `bold ${fs}px Inter, sans-serif`;
+      ctx.textAlign    = 'center';
       ctx.textBaseline = 'middle';
-      tpl.sections.forEach(section => {
-        // Label background
-        const tw = ctx.measureText(section.label).width;
-        const th = 14 / scale;
-        ctx.fillStyle = 'rgba(0,0,0,0.55)';
-        ctx.beginPath();
-        ctx.roundRect(section.x - tw / 2 - 4 / scale, section.y - th / 2 - 3 / scale, tw + 8 / scale, th + 6 / scale, 3 / scale);
+
+      tpl.sections.forEach(s => {
+        const tw = ctx.measureText(s.label).width;
+        const th = fs;
+        const pad = 4 / scale;
+        ctx.fillStyle = 'rgba(0,0,0,0.58)';
+        ctx.roundRect(s.x - tw / 2 - pad, s.y - th / 2 - pad * 0.75, tw + pad * 2, th + pad * 1.5, 3 / scale);
         ctx.fill();
-        ctx.fillStyle = 'rgba(255,255,255,0.95)';
-        ctx.fillText(section.label, section.x, section.y);
+        ctx.fillStyle = 'rgba(255,255,255,0.96)';
+        ctx.fillText(s.label, s.x, s.y);
       });
     }
 
     ctx.restore();
-
-    // Store transform for hit testing
     this._tplTransform = { offX, offY, scale };
   }
 
@@ -252,20 +269,37 @@ class LiveryApp {
 
   saveState() {
     const state = {
-      canvas: JSON.stringify(this.canvas.toJSON(['layerId', '_baseOpacity', '_templateMarker', '_isFillResult', '_layerBlend'])),
+      canvas: JSON.stringify(this.canvas.toJSON(
+        ['layerId', '_baseOpacity', '_templateMarker', '_isFillResult', '_layerBlend']
+      )),
       layers: this.layers.serialize()
     };
     this._undoStack.push(state);
     if (this._undoStack.length > MAX_UNDO) this._undoStack.shift();
     this._redoStack = [];
+
+    // Refresh layer thumbnails after a short delay (canvas may still be rendering)
+    clearTimeout(this._thumbTimer);
+    this._thumbTimer = setTimeout(() => this._updateThumbnails(), 80);
+  }
+
+  _updateThumbnails() {
+    // Render at ~40×20 px — cheap and gives enough visual context
+    try {
+      const dataURL = this.canvas.toDataURL({
+        format: 'jpeg',
+        quality: 0.6,
+        multiplier: 40 / CANVAS_W,
+      });
+      this.layers.updateThumbnails(dataURL);
+    } catch (_) { /* tainted canvas (cross-origin image) — skip silently */ }
   }
 
   undo() {
     if (this._undoStack.length <= 1) return;
     const current = this._undoStack.pop();
     this._redoStack.push(current);
-    const prev = this._undoStack[this._undoStack.length - 1];
-    this._restoreState(prev);
+    this._restoreState(this._undoStack[this._undoStack.length - 1]);
   }
 
   redo() {
@@ -279,6 +313,7 @@ class LiveryApp {
     this.canvas.loadFromJSON(state.canvas, () => {
       this.layers.restore(state.layers);
       this.canvas.renderAll();
+      this._updateThumbnails();
     });
   }
 
@@ -289,25 +324,21 @@ class LiveryApp {
   }
 
   _exportPNG() {
-    const sizeEl = document.getElementById('export-size');
-    const exportH = parseInt(sizeEl.value); // 512, 1024, or 2048
-    const exportW = exportH * 2;
+    const exportH   = parseInt(document.getElementById('export-size').value);
+    const exportW   = exportH * 2;
     const multiplier = exportW / CANVAS_W;
 
-    const dataURL = this.canvas.toDataURL({
-      format: 'png',
-      multiplier: multiplier,
-      quality: 1,
-    });
+    const dataURL = this.canvas.toDataURL({ format: 'png', multiplier, quality: 1 });
 
-    const a = document.createElement('a');
-    a.href = dataURL;
-    const templateName = TEMPLATES[this._currentTemplate]?.name.replace(/\s+/g, '_') || 'livery';
-    a.download = `livery_${templateName}_${exportW}x${exportH}.png`;
+    const a     = document.createElement('a');
+    a.href      = dataURL;
+    const name  = (TEMPLATES[this._currentTemplate]?.name || 'livery')
+                    .replace(/\s+/g, '_').toLowerCase();
+    a.download  = `livery_${name}_${exportW}x${exportH}.png`;
     a.click();
   }
 
-  // ─── IMAGE UPLOAD ─────────────────────────────────────────────────────────────
+  // ─── IMAGE UPLOAD ────────────────────────────────────────────────────────────
 
   _initImageUpload() {
     const input = document.getElementById('image-upload');
@@ -315,17 +346,16 @@ class LiveryApp {
       const file = e.target.files[0];
       if (!file) return;
       const url = URL.createObjectURL(file);
+
       fabric.Image.fromURL(url, (img) => {
-        // Scale large images down to fit
-        const maxDim = 600;
+        const maxDim = 800;
         if (img.width > maxDim || img.height > maxDim) {
-          const ratio = Math.min(maxDim / img.width, maxDim / img.height);
-          img.scale(ratio);
+          img.scale(Math.min(maxDim / img.width, maxDim / img.height));
         }
         img.set({
-          left: CANVAS_W / 2 - (img.width * (img.scaleX || 1)) / 2,
-          top: CANVAS_H / 2 - (img.height * (img.scaleY || 1)) / 2,
-          selectable: true
+          left: CANVAS_W / 2 - (img.width  * (img.scaleX || 1)) / 2,
+          top:  CANVAS_H / 2 - (img.height * (img.scaleY || 1)) / 2,
+          selectable: true,
         });
         this.layers.assignToActive(img);
         this.canvas.add(img);
@@ -334,8 +364,8 @@ class LiveryApp {
         this.saveState();
         URL.revokeObjectURL(url);
       });
+
       input.value = '';
-      // Switch to select after adding image
       this.tools.setTool('select');
     });
   }
@@ -350,17 +380,30 @@ class LiveryApp {
       if (!confirm('Start a new livery? All unsaved work will be lost.')) return;
       this.canvas.clear();
       this.canvas.backgroundColor = '#ffffff';
+      document.getElementById('canvas-bg-color').value = '#ffffff';
       this._undoStack = [];
       this._redoStack = [];
       this.layers.layers = [];
+      this.layers._thumbDataURL = null;
       this.layers.add('Layer 1');
       this.canvas.renderAll();
       this.saveState();
     });
   }
+
+  // ─── MOUSE TRACKING ──────────────────────────────────────────────────────────
+
+  _initMouseTracking() {
+    this.canvas.on('mouse:move', (e) => {
+      const ptr = this.canvas.getPointer(e.e);
+      document.getElementById('sb-pos').textContent =
+        `${Math.round(ptr.x)}, ${Math.round(ptr.y)}`;
+    });
+  }
 }
 
-// Boot
+// ─── BOOT ────────────────────────────────────────────────────────────────────
+
 window.addEventListener('DOMContentLoaded', () => {
   window.app = new LiveryApp();
 });

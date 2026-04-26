@@ -249,6 +249,13 @@ class LayerManager {
         this.toggleLock(layer.id);
       });
 
+      // Restore thumbnail if available
+      if (this._thumbDataURL) {
+        thumb.style.backgroundImage = `url(${this._thumbDataURL})`;
+        thumb.style.backgroundSize = 'cover';
+        thumb.style.backgroundPosition = 'center';
+      }
+
       item.appendChild(vis);
       item.appendChild(thumb);
       item.appendChild(nameEl);
@@ -257,6 +264,16 @@ class LayerManager {
 
       item.addEventListener('click', () => this.setActive(layer.id));
       this._el.appendChild(item);
+    });
+  }
+
+  // Update all layer thumbnails with a fresh composite snapshot
+  updateThumbnails(dataURL) {
+    this._thumbDataURL = dataURL;
+    document.querySelectorAll('.layer-thumb').forEach(el => {
+      el.style.backgroundImage = `url(${dataURL})`;
+      el.style.backgroundSize = 'cover';
+      el.style.backgroundPosition = 'center';
     });
   }
 

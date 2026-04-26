@@ -156,6 +156,10 @@
           </div>
           <input type="color" id="color-picker-fg" value="#FF671F">
           <input type="color" id="color-picker-bg" value="#010F3B">
+          <div class="prop-row" style="margin-top:8px">
+            <label>Canvas BG</label>
+            <input type="color" id="canvas-bg-color" value="#ffffff" title="Canvas background color">
+          </div>
           <div id="swatches-grid"></div>
         </div>
       </aside>
@@ -163,9 +167,13 @@
       <!-- Canvas Area -->
       <main id="canvas-area">
         <div id="canvas-scroll">
-          <div id="canvas-wrapper">
-            <canvas id="editor-canvas"></canvas>
-            <canvas id="template-overlay"></canvas>
+          <div id="canvas-center">
+            <div id="canvas-outer">
+              <div id="canvas-wrapper">
+                <canvas id="editor-canvas"></canvas>
+                <canvas id="template-overlay"></canvas>
+              </div>
+            </div>
           </div>
         </div>
         <div id="statusbar">

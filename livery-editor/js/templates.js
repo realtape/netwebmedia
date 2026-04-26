@@ -1,3 +1,22 @@
+// roundRect polyfill — ctx.roundRect is Chrome 99+ / Firefox 112+
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+    const rr = Math.min(r, Math.min(w, h) / 2);
+    this.beginPath();
+    this.moveTo(x + rr, y);
+    this.lineTo(x + w - rr, y);
+    this.quadraticCurveTo(x + w, y, x + w, y + rr);
+    this.lineTo(x + w, y + h - rr);
+    this.quadraticCurveTo(x + w, y + h, x + w - rr, y + h);
+    this.lineTo(x + rr, y + h);
+    this.quadraticCurveTo(x, y + h, x, y + h - rr);
+    this.lineTo(x, y + rr);
+    this.quadraticCurveTo(x, y, x + rr, y);
+    this.closePath();
+    return this;
+  };
+}
+
 // Car template definitions — SVG paths on a 1000×420 coordinate grid
 // Body paths are clockwise. Wheel wells cut inward from the bottom.
 

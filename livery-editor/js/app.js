@@ -7,7 +7,7 @@ class LiveryApp {
     this._undoStack = [];
     this._redoStack = [];
     this._zoom      = 0.5;
-    this._currentTemplate = 'stock';
+    this._currentTemplate = 'gt3';
 
     this._initCanvas();
     this._initLayers();
@@ -20,6 +20,7 @@ class LiveryApp {
     this._initMouseTracking();
     this._initBgColor();
     this._applyZoom();
+    this._applyNWMStarterLivery();
     this.saveState();
     this.canvas.renderAll();
   }
@@ -117,6 +118,120 @@ class LiveryApp {
     picker.addEventListener('input', () => {
       this.canvas.setBackgroundColor(picker.value, () => this.canvas.renderAll());
     });
+  }
+
+  // ─── NWM STARTER LIVERY ──────────────────────────────────────────────────────
+  // Paints a NetWebMedia-branded GT3 livery on the blank canvas at startup.
+  // All objects land on Layer 1 so the user can immediately edit or delete them.
+
+  _applyNWMStarterLivery() {
+    const c  = this.canvas;
+    const CW = CANVAS_W;   // 2048
+    const CH = CANVAS_H;   // 1024
+
+    const NWM_NAVY   = '#010F3B';
+    const NWM_ORANGE = '#FF671F';
+    const NWM_WHITE  = '#FFFFFF';
+
+    // ── 1. Navy base ──────────────────────────────────────────────────────────
+    const base = new fabric.Rect({
+      left: 0, top: 0, width: CW, height: CH,
+      fill: NWM_NAVY, selectable: true, evented: true,
+    });
+    this.layers.assignToActive(base);
+    c.add(base);
+    c.sendToBack(base);
+
+    // ── 2. Orange diagonal band ───────────────────────────────────────────────
+    // A wide swept stripe running across the lower-middle of the car
+    const stripe = new fabric.Rect({
+      left: -300, top: 480,
+      width: CW + 600, height: 280,
+      fill: NWM_ORANGE,
+      angle: -11,
+      selectable: true, evented: true,
+    });
+    this.layers.assignToActive(stripe);
+    c.add(stripe);
+
+    // ── 3. Thin white pinstripe just below the orange band ────────────────────
+    const pin = new fabric.Rect({
+      left: -300, top: 735,
+      width: CW + 600, height: 28,
+      fill: NWM_WHITE,
+      angle: -11,
+      selectable: true, evented: true,
+    });
+    this.layers.assignToActive(pin);
+    c.add(pin);
+
+    // ── 4. "NWM" wordmark on the door panel ──────────────────────────────────
+    const wordmark = new fabric.IText('NWM', {
+      left: 520, top: 260,
+      fontSize: 260,
+      fontFamily: 'Inter, Arial Black, sans-serif',
+      fontWeight: '900',
+      fill: NWM_ORANGE,
+      charSpacing: 80,
+      selectable: true, evented: true,
+    });
+    this.layers.assignToActive(wordmark);
+    c.add(wordmark);
+
+    // ── 5. "netwebmedia.com" sub-text ─────────────────────────────────────────
+    const sub = new fabric.IText('netwebmedia.com', {
+      left: 528, top: 560,
+      fontSize: 72,
+      fontFamily: 'Inter, Arial, sans-serif',
+      fontWeight: '600',
+      fill: NWM_WHITE,
+      charSpacing: 30,
+      selectable: true, evented: true,
+    });
+    this.layers.assignToActive(sub);
+    c.add(sub);
+
+    // ── 6. Car number board (right rear quarter) ──────────────────────────────
+    const numBg = new fabric.Rect({
+      left: 1540, top: 200, width: 300, height: 300,
+      fill: NWM_WHITE, rx: 12, ry: 12,
+      selectable: true, evented: true,
+    });
+    this.layers.assignToActive(numBg);
+    c.add(numBg);
+
+    const numText = new fabric.IText('1', {
+      left: 1630, top: 215,
+      fontSize: 240,
+      fontFamily: 'Inter, Arial Black, sans-serif',
+      fontWeight: '900',
+      fill: NWM_NAVY,
+      selectable: true, evented: true,
+    });
+    this.layers.assignToActive(numText);
+    c.add(numText);
+
+    // ── 7. Orange accent flash on the front bumper area ───────────────────────
+    const frontFlash = new fabric.Triangle({
+      left: 0, top: 180,
+      width: 340, height: 520,
+      fill: NWM_ORANGE,
+      angle: 12,
+      selectable: true, evented: true,
+    });
+    this.layers.assignToActive(frontFlash);
+    c.add(frontFlash);
+
+    // Background stays at back; bring wordmark / text above stripes
+    c.bringToFront(wordmark);
+    c.bringToFront(sub);
+    c.bringToFront(numBg);
+    c.bringToFront(numText);
+
+    // Also update the bg-color picker to match
+    const bgPicker = document.getElementById('canvas-bg-color');
+    if (bgPicker) bgPicker.value = NWM_NAVY;
+    c.setBackgroundColor(NWM_NAVY, () => {});
   }
 
   // ─── CAR TEMPLATE OVERLAY ────────────────────────────────────────────────────
@@ -386,6 +501,7 @@ class LiveryApp {
       this.layers.layers = [];
       this.layers._thumbDataURL = null;
       this.layers.add('Layer 1');
+      this._applyNWMStarterLivery();
       this.canvas.renderAll();
       this.saveState();
     });

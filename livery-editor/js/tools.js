@@ -510,79 +510,97 @@ class ToolManager {
     });
   }
 
-  _floodFill(x, y) {
+  _floodFill(startX, startY) {
     const canvas = this.app.canvas;
-    const cw = canvas.width, ch = canvas.height;
+    const zoom  = this.app._zoom;
+    // Work in full logical resolution (CANVAS_W × CANVAS_H)
+    const CW = Math.round(canvas.width  / zoom);
+    const CH = Math.round(canvas.height / zoom);
+    const sx = Math.round(startX);
+    const sy = Math.round(startY);
+    if (sx < 0 || sx >= CW || sy < 0 || sy >= CH) return;
+
     this.app.saveState();
 
-    // Render canvas to offscreen
-    const offscreen = document.createElement('canvas');
-    offscreen.width = cw;
-    offscreen.height = ch;
-    const ctx = offscreen.getContext('2d');
-    const dataURL = canvas.toDataURL({ format: 'png', multiplier: 1 });
+    // Export at full logical resolution
+    const dataURL = canvas.toDataURL({ format: 'png', multiplier: 1 / zoom });
 
     const img = new Image();
     img.onload = () => {
-      ctx.drawImage(img, 0, 0);
-      const imageData = ctx.getImageData(0, 0, cw, ch);
+      const offscreen = document.createElement('canvas');
+      offscreen.width = CW; offscreen.height = CH;
+      const ctx = offscreen.getContext('2d', { willReadFrequently: true });
+      ctx.drawImage(img, 0, 0, CW, CH);
+
+      const imageData = ctx.getImageData(0, 0, CW, CH);
       const data = imageData.data;
 
-      const idx = (py, px) => (py * cw + px) * 4;
-      const tIdx = idx(y, x);
-      const targetR = data[tIdx], targetG = data[tIdx + 1], targetB = data[tIdx + 2], targetA = data[tIdx + 3];
+      const tIdx = (sy * CW + sx) * 4;
+      const tR = data[tIdx], tG = data[tIdx+1], tB = data[tIdx+2], tA = data[tIdx+3];
 
       const fillHex = this.fgColor;
-      const fillR = parseInt(fillHex.slice(1, 3), 16);
-      const fillG = parseInt(fillHex.slice(3, 5), 16);
-      const fillB = parseInt(fillHex.slice(5, 7), 16);
+      const fR = parseInt(fillHex.slice(1, 3), 16);
+      const fG = parseInt(fillHex.slice(3, 5), 16);
+      const fB = parseInt(fillHex.slice(5, 7), 16);
 
-      if (targetR === fillR && targetG === fillG && targetB === fillB && targetA === 255) return;
+      // Already this color — nothing to do
+      if (tR === fR && tG === fG && tB === fB && tA === 255) return;
 
-      const tolerance = 30;
-      const matchesTarget = (i) => {
-        return Math.abs(data[i] - targetR) <= tolerance &&
-               Math.abs(data[i+1] - targetG) <= tolerance &&
-               Math.abs(data[i+2] - targetB) <= tolerance &&
-               Math.abs(data[i+3] - targetA) <= tolerance;
-      };
+      const tol = 32;
+      const match = (i) =>
+        Math.abs(data[i]   - tR) <= tol &&
+        Math.abs(data[i+1] - tG) <= tol &&
+        Math.abs(data[i+2] - tB) <= tol &&
+        Math.abs(data[i+3] - tA) <= tol;
 
-      // BFS flood fill
-      const visited = new Uint8Array(cw * ch);
-      const queue = [[x, y]];
-      visited[y * cw + x] = 1;
-      const filled = [];
+      // ── Scanline fill (4–8× faster than BFS on large areas) ──
+      const visited = new Uint8Array(CW * CH);
+      const stack   = [[sx, sy]];
 
-      while (queue.length > 0) {
-        const [px, py] = queue.shift();
-        const i = idx(py, px);
-        data[i] = fillR; data[i+1] = fillG; data[i+2] = fillB; data[i+3] = 255;
-        filled.push([px, py]);
+      while (stack.length) {
+        let [x, y] = stack.pop();
+        if (y < 0 || y >= CH || visited[y * CW + x]) continue;
 
-        const neighbors = [[px-1,py],[px+1,py],[px,py-1],[px,py+1]];
-        for (const [nx, ny] of neighbors) {
-          if (nx < 0 || nx >= cw || ny < 0 || ny >= ch) continue;
-          if (visited[ny * cw + nx]) continue;
-          visited[ny * cw + nx] = 1;
-          const ni = idx(ny, nx);
-          if (matchesTarget(ni)) queue.push([nx, ny]);
+        // Walk left to find the span start
+        while (x > 0 && !visited[y * CW + (x - 1)] && match((y * CW + (x - 1)) * 4)) x--;
+
+        // Fill the span rightward, queuing rows above/below
+        let spanAbove = false, spanBelow = false;
+        let xx = x;
+
+        while (xx < CW && !visited[y * CW + xx] && match((y * CW + xx) * 4)) {
+          const i = (y * CW + xx) * 4;
+          data[i] = fR; data[i+1] = fG; data[i+2] = fB; data[i+3] = 255;
+          visited[y * CW + xx] = 1;
+
+          if (y > 0) {
+            const above = !visited[(y-1) * CW + xx] && match(((y-1) * CW + xx) * 4);
+            if (!spanAbove && above)  { stack.push([xx, y - 1]); spanAbove = true; }
+            else if (spanAbove && !above) spanAbove = false;
+          }
+          if (y < CH - 1) {
+            const below = !visited[(y+1) * CW + xx] && match(((y+1) * CW + xx) * 4);
+            if (!spanBelow && below)  { stack.push([xx, y + 1]); spanBelow = true; }
+            else if (spanBelow && !below) spanBelow = false;
+          }
+          xx++;
         }
       }
 
-      // Put filled imagedata back to offscreen, then add as image
       ctx.putImageData(imageData, 0, 0);
       const resultDataURL = offscreen.toDataURL();
 
       fabric.Image.fromURL(resultDataURL, (fabricImg) => {
+        // Image is at full logical size — no scaling needed
         fabricImg.set({ left: 0, top: 0, selectable: true, evented: true });
         this.app.layers.assignToActive(fabricImg);
-        // Remove old background if it's a fill image
+        fabricImg._isFillResult = true;
+        // Remove any previous fill results (avoid stacking)
+        canvas.getObjects()
+          .filter(o => o._isFillResult && o !== fabricImg)
+          .forEach(o => canvas.remove(o));
         canvas.add(fabricImg);
         canvas.sendToBack(fabricImg);
-        // Remove previous fill layer if exists
-        const existing = canvas.getObjects().filter(o => o._isFillResult && o !== fabricImg);
-        existing.forEach(o => canvas.remove(o));
-        fabricImg._isFillResult = true;
         canvas.renderAll();
       });
     };

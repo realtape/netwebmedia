@@ -1,4 +1,16 @@
-name: Deploy CRM to production
+name: Deploy CRM to production (DEPRECATED — see deploy-site-root.yml)
+
+# DEPRECATED 2026-04-25.
+# This workflow uploads via CPANEL_FTP_USER which is chrooted to
+# /public_html/companies/, so files land at /companies/crm-vanilla/api/...
+# instead of /crm-vanilla/api/... where app.netwebmedia.com actually
+# serves from. That meant config.local.php (DB_PASS) never reached the
+# live CRM and every API handler returned 500.
+#
+# As of commit 6f37f2258, deploy-site-root.yml deploys crm-vanilla/** via
+# CPANEL_FTP_ROOT_USER which can write the canonical path, AND generates
+# config.local.php for the CRM. This workflow is kept ONLY for manual
+# workflow_dispatch as a fallback if the root FTP user is unavailable.
 
 on:
   workflow_dispatch:
@@ -7,10 +19,7 @@ on:
         description: "Dry run (log only, no upload)"
         required: false
         default: "false"
-  push:
-    branches: [main]
-    paths:
-      - 'crm-vanilla/**'
+  # Push trigger removed — deploy-site-root.yml handles crm-vanilla/** now.
 
 jobs:
   deploy:

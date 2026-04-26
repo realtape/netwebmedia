@@ -303,4 +303,48 @@ return [
     ],
   ],
 
+  'local_specialist' => [
+    'gaps' => [
+      'No apareces en respuestas de IA cuando un cliente pregunta por especialistas en tu área en Santiago.',
+      'El sitio no marca schema LocalBusiness con horario, comuna y servicios — Google no muestra tu ficha en vista rica.',
+      'No vemos captura de leads automatizada — cada consulta depende de respuesta manual en horario hábil.',
+      'Las reseñas de Google My Business no tienen respuesta del titular, lo que pesa fuerte en decisiones de servicio especializado.',
+      'No hay integración WhatsApp para atender consultas iniciales 24/7 con bot de triage.',
+      'Falta página por servicio con FAQ marcado, que es lo que la IA cita en respuestas.',
+    ],
+    'priorities' => [
+      'Implementar schema LocalBusiness completo con horario, comuna y catálogo de servicios.',
+      'Activar bot de WhatsApp para triage inicial de consultas las 24 horas.',
+      'Estructurar AEO con páginas pilar por especialidad para captar consultas en ChatGPT.',
+    ],
+    'projections' => [
+      'Aparecer en respuestas de IA para 3-5 consultas mensuales en tu área de especialidad.',
+      'Reducir el tiempo de primera respuesta de horas a menos de 5 minutos vía WhatsApp con bot.',
+      'Subir el ranking en Google Maps con gestión activa de reseñas a 90 días.',
+      'Aumentar la conversión de visita a contacto entre 25 y 40% con captura automatizada.',
+    ],
+  ],
+
+  'smb' => [
+    'gaps' => [
+      'No apareces en las recomendaciones de IA cuando un cliente busca un proveedor de tu rubro en Santiago.',
+      'El sitio supera los 4 segundos de carga móvil, lo que penaliza tu ranking en búsqueda local.',
+      'No vemos captura de leads en el sitio — cada consulta entrante depende de respuesta manual.',
+      'Las reseñas de Google My Business no se gestionan, y eso baja entre 20 y 30% el clic desde el mapa.',
+      'No hay integración WhatsApp visible — el canal #1 de consulta inicial en Chile para pymes.',
+      'Falta marcado schema LocalBusiness con horario, dirección y servicios para vista rica de Google.',
+    ],
+    'priorities' => [
+      'Optimizar velocidad móvil para bajar de 4 segundos en el primer contenido visible.',
+      'Activar captura de leads automatizada con respuesta inmediata por WhatsApp + correo.',
+      'Estructurar AEO para aparecer en consultas de IA por categoría y comuna.',
+    ],
+    'projections' => [
+      'Recuperar entre 20 y 35% del tráfico que hoy se pierde por velocidad móvil baja.',
+      'Aparecer en respuestas de IA para 3-5 consultas mensuales en tu categoría local.',
+      'Reducir el tiempo de respuesta a primera consulta de horas a menos de 5 minutos.',
+      'Subir la conversión de visita a contacto entre 20 y 35% con captura automatizada.',
+    ],
+  ],
+
 ];

@@ -23,16 +23,20 @@ NAV = """<nav class="navbar has-lang-bar" id="navbar">
         <div class="nav-item">
           <a href="https://netwebmedia.com/industries/" data-en="Industries" data-es="Industrias">Industries</a>
           <div class="nav-dropdown">
-            <a href="https://hospitality.netwebmedia.com">&#127970; <span data-en="Hospitality" data-es="Hospitalidad">Hospitality</span></a>
-            <a href="https://healthcare.netwebmedia.com">&#129657; <span data-en="Healthcare" data-es="Salud">Healthcare</span></a>
-            <a href="https://beauty.netwebmedia.com">&#10024; <span data-en="Beauty &amp; Wellness" data-es="Belleza y Bienestar">Beauty &amp; Wellness</span></a>
-            <a href="https://pro.netwebmedia.com">&#128188; <span data-en="Professional Services" data-es="Servicios Profesionales">Professional Services</span></a>
-            <a href="https://realestate.netwebmedia.com">&#127968; <span data-en="Real Estate" data-es="Bienes Raíces">Real Estate</span></a>
+            <a href="https://hospitality.netwebmedia.com">&#127970; <span data-en="Tourism &amp; Hospitality" data-es="Turismo y Hospitalidad">Tourism &amp; Hospitality</span></a>
             <a href="https://restaurants.netwebmedia.com">&#127829; <span data-en="Restaurants &amp; F&amp;B" data-es="Restaurantes y F&amp;B">Restaurants &amp; F&amp;B</span></a>
-            <a href="https://fitness.netwebmedia.com">&#127947; <span data-en="Fitness &amp; Gyms" data-es="Fitness y Gimnasios">Fitness &amp; Gyms</span></a>
-            <a href="https://ecommerce.netwebmedia.com">&#128722; <span data-en="E-commerce" data-es="E-commerce">E-commerce</span></a>
+            <a href="https://healthcare.netwebmedia.com">&#129657; <span data-en="Health &amp; Medical" data-es="Salud y Medicina">Health &amp; Medical</span></a>
+            <a href="https://beauty.netwebmedia.com">&#10024; <span data-en="Beauty &amp; Wellness" data-es="Belleza y Bienestar">Beauty &amp; Wellness</span></a>
+            <a href="https://smb.netwebmedia.com">&#128200; <span data-en="Small &amp; Medium Business" data-es="Pequeña y Mediana Empresa">Small &amp; Medium Business</span></a>
+            <a href="https://legal.netwebmedia.com">&#9878; <span data-en="Law Firms &amp; Legal" data-es="Firmas Legales">Law Firms &amp; Legal</span></a>
+            <a href="https://realestate.netwebmedia.com">&#127968; <span data-en="Real Estate" data-es="Bienes Ra&iacute;ces">Real Estate</span></a>
+            <a href="https://local.netwebmedia.com">&#127979; <span data-en="Local Specialist Services" data-es="Servicios Especialistas Locales">Local Specialist Services</span></a>
+            <a href="https://auto.netwebmedia.com">&#128664; <span data-en="Automotive" data-es="Automotriz">Automotive</span></a>
+            <a href="https://education.netwebmedia.com">&#127979; <span data-en="Education &amp; Training" data-es="Educaci&oacute;n y Formaci&oacute;n">Education &amp; Training</span></a>
+            <a href="https://events.netwebmedia.com">&#127881; <span data-en="Events &amp; Weddings" data-es="Eventos y Bodas">Events &amp; Weddings</span></a>
+            <a href="https://finance.netwebmedia.com">&#128200; <span data-en="Financial Services" data-es="Servicios Financieros">Financial Services</span></a>
             <a href="https://home.netwebmedia.com">&#128295; <span data-en="Home Services" data-es="Servicios del Hogar">Home Services</span></a>
-            <a href="https://tech.netwebmedia.com">&#128187; <span data-en="Tech &amp; SaaS" data-es="Tech y SaaS">Tech &amp; SaaS</span></a>
+            <a href="https://wine.netwebmedia.com">&#127863; <span data-en="Wine &amp; Agriculture" data-es="Vino y Agricultura">Wine &amp; Agriculture</span></a>
           </div>
         </div>
         <a href="https://netwebmedia.com/partners.html" data-en="Partners" data-es="Aliados">Partners</a>

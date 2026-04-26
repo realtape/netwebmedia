@@ -485,11 +485,11 @@ if ($mode === 'preview') {
 
 if ($mode === 'test') {
   // Default fan-out: entrepoker@gmail.com (external Gmail, our own-eyes
-  // baseline) AND carlos@netwebmedia.com (Google Workspace via MX — works
-  // now that Resend handles outbound, since Resend's IPs route MX-correctly
-  // and don't trigger cPanel local-delivery the way mail() did).
+  // baseline) AND newsletter@netwebmedia.com (the actual sender mailbox —
+  // useful for catching bounces and seeing the full RFC 822 headers without
+  // the Workspace MX layer rewriting anything).
   // Override with &to=A,B,C if needed.
-  $to_param = $_GET['to'] ?? 'entrepoker@gmail.com,carlos@netwebmedia.com';
+  $to_param = $_GET['to'] ?? 'entrepoker@gmail.com,newsletter@netwebmedia.com';
   $recipients = array_values(array_filter(array_map('trim', explode(',', $to_param)),
     function ($e) { return $e !== '' && filter_var($e, FILTER_VALIDATE_EMAIL); }));
   if (!$recipients) j_exit(['error' => 'no valid test recipients'], 400);

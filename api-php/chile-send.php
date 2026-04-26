@@ -494,7 +494,7 @@ if ($mode === 'test') {
     function ($e) { return $e !== '' && filter_var($e, FILTER_VALIDATE_EMAIL); }));
   if (!$recipients) j_exit(['error' => 'no valid test recipients'], 400);
 
-  $lead = count($pending) ? $pending[0] : ['company' => 'NetWebMedia Test', 'name' => 'Test', 'niche' => 'Tourism & Hospitality', 'niche_key' => 'tourism'];
+  $lead = count($pending) ? $pending[0] : ['company' => 'NetWebMedia Test', 'name' => 'Test', 'email' => 'demo@netwebmedia.com', 'niche' => 'Tourism & Hospitality', 'niche_key' => 'tourism'];
   $html = render_email_html($lead);
   $subj = '[TEST] ' . subject_for($lead);
 

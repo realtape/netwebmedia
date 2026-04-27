@@ -140,8 +140,8 @@ if ($has_site) {
       'dimensions' => [],
       'gaps'       => ['No pudimos completar el análisis automático en este momento. Te contactamos en menos de 24 horas con la auditoría manual.'],
       'priorities' => ['Verificar acceso al sitio y reintentar la auditoría automatizada.'],
-      'projections'=> ['Una vez resuelto, completamos la medición de las 13 dimensiones.'],
-      'http'       => ['status' => 0, 'https' => false, 'time_s' => 0, 'size_kb' => 0, 'redirects' => 0],
+      'projections'=> ['Una vez resuelto, completamos la medición de las 14 dimensiones.'],
+      'http'       => ['status' => 0, 'https' => false, 'time_s' => 0, 'ttfb_s' => 0, 'size_kb' => 0, 'redirects' => 0],
     ];
   }
 } else {
@@ -154,8 +154,8 @@ if ($has_site) {
     'dimensions' => [],
     'gaps'       => ['No tenemos sitio web registrado para ' . $company . '. El primer paso es publicar un sitio que podamos medir.'],
     'priorities' => ['Levantar un sitio mínimo (1 página) con HTTPS, schema LocalBusiness y captura WhatsApp.'],
-    'projections'=> ['Con un sitio publicado podemos auditar las 13 dimensiones y proyectar mejoras concretas.'],
-    'http'       => ['status' => 0, 'https' => false, 'time_s' => 0, 'size_kb' => 0, 'redirects' => 0],
+    'projections'=> ['Con un sitio publicado podemos auditar las 14 dimensiones y proyectar mejoras concretas.'],
+    'http'       => ['status' => 0, 'https' => false, 'time_s' => 0, 'ttfb_s' => 0, 'size_kb' => 0, 'redirects' => 0],
   ];
 }
 
@@ -381,7 +381,7 @@ header('Cache-Control: no-store');
   <section class="page">
     <div class="section-eyebrow">Resumen ejecutivo</div>
     <h2 class="section">Puntaje de presencia digital</h2>
-    <p class="section-lead">Calculado a partir de <?= count($dimensions) ?: 13 ?> dimensiones medidas en vivo sobre <?= h($site_clean ?: 'tu sitio') ?>: AEO, velocidad móvil, schema, captura de leads, reseñas, WhatsApp, conversión móvil, automatización, social, contenido, branding, reputación y rastreabilidad.</p>
+    <p class="section-lead">Calculado a partir de <?= count($dimensions) ?: 14 ?> dimensiones medidas en vivo sobre <?= h($site_clean ?: 'tu sitio') ?>: AEO, velocidad móvil, schema, captura de leads, reseñas, WhatsApp, conversión móvil, automatización, analítica, social, contenido, branding, reputación y rastreabilidad.</p>
     <div class="score-row">
       <div class="score-card">
         <div class="score-num"><?= $score ?><span style="font-size:32px;color:rgba(255,255,255,0.5);">/100</span></div>
@@ -393,8 +393,14 @@ header('Cache-Control: no-store');
         <div class="score-meta-row"><span class="score-meta-label">Rubro</span><span class="score-meta-val"><?= h($niche) ?></span></div>
         <?php if ($has_site): ?><div class="score-meta-row"><span class="score-meta-label">Sitio analizado</span><span class="score-meta-val"><?= h($site_clean) ?></span></div><?php endif; ?>
         <?php if ($reachable && !empty($http_meta)): ?>
-        <div class="score-meta-row"><span class="score-meta-label">HTTPS</span><span class="score-meta-val"><?= !empty($http_meta['https']) ? 'Sí' : 'No' ?></span></div>
+        <div class="score-meta-row"><span class="score-meta-label">HTTPS</span><span class="score-meta-val"><?= !empty($http_meta['https']) ? '✓ Sí' : '✗ No' ?></span></div>
         <div class="score-meta-row"><span class="score-meta-label">Carga total</span><span class="score-meta-val"><?= h(number_format((float)($http_meta['time_s'] ?? 0), 2)) ?>s · <?= (int)($http_meta['size_kb'] ?? 0) ?> KB</span></div>
+        <?php if (!empty($http_meta['ttfb_s'])): ?>
+        <div class="score-meta-row"><span class="score-meta-label">TTFB</span><span class="score-meta-val"><?= h(number_format((float)$http_meta['ttfb_s'], 2)) ?>s</span></div>
+        <?php endif; ?>
+        <?php if (!empty($http_meta['redirects'])): ?>
+        <div class="score-meta-row"><span class="score-meta-label">Redirecciones</span><span class="score-meta-val"><?= (int)$http_meta['redirects'] ?></span></div>
+        <?php endif; ?>
         <?php endif; ?>
         <div class="score-meta-row"><span class="score-meta-label">Ciudad</span><span class="score-meta-val"><?= h(ucfirst($city_raw)) ?></span></div>
         <div class="score-meta-row"><span class="score-meta-label">Fecha</span><span class="score-meta-val"><?= h($audit_date) ?></span></div>

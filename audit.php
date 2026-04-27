@@ -140,7 +140,7 @@ if ($has_site) {
       'dimensions' => [],
       'gaps'       => ['No pudimos completar el análisis automático en este momento. Te contactamos en menos de 24 horas con la auditoría manual.'],
       'priorities' => ['Verificar acceso al sitio y reintentar la auditoría automatizada.'],
-      'projections'=> ['Una vez resuelto, completamos la medición de las 12 dimensiones.'],
+      'projections'=> ['Una vez resuelto, completamos la medición de las 13 dimensiones.'],
       'http'       => ['status' => 0, 'https' => false, 'time_s' => 0, 'size_kb' => 0, 'redirects' => 0],
     ];
   }
@@ -154,7 +154,7 @@ if ($has_site) {
     'dimensions' => [],
     'gaps'       => ['No tenemos sitio web registrado para ' . $company . '. El primer paso es publicar un sitio que podamos medir.'],
     'priorities' => ['Levantar un sitio mínimo (1 página) con HTTPS, schema LocalBusiness y captura WhatsApp.'],
-    'projections'=> ['Con un sitio publicado podemos auditar las 12 dimensiones y proyectar mejoras concretas.'],
+    'projections'=> ['Con un sitio publicado podemos auditar las 13 dimensiones y proyectar mejoras concretas.'],
     'http'       => ['status' => 0, 'https' => false, 'time_s' => 0, 'size_kb' => 0, 'redirects' => 0],
   ];
 }
@@ -381,7 +381,7 @@ header('Cache-Control: no-store');
   <section class="page">
     <div class="section-eyebrow">Resumen ejecutivo</div>
     <h2 class="section">Puntaje de presencia digital</h2>
-    <p class="section-lead">Calculado a partir de 12 dimensiones medidas en vivo sobre <?= h($site_clean ?: 'tu sitio') ?>: AEO, velocidad móvil, schema, captura de leads, reseñas, WhatsApp, conversión móvil, automatización, social, contenido, branding y reputación.</p>
+    <p class="section-lead">Calculado a partir de <?= count($dimensions) ?: 13 ?> dimensiones medidas en vivo sobre <?= h($site_clean ?: 'tu sitio') ?>: AEO, velocidad móvil, schema, captura de leads, reseñas, WhatsApp, conversión móvil, automatización, social, contenido, branding, reputación y rastreabilidad.</p>
     <div class="score-row">
       <div class="score-card">
         <div class="score-num"><?= $score ?><span style="font-size:32px;color:rgba(255,255,255,0.5);">/100</span></div>

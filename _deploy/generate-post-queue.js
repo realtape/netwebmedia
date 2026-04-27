@@ -18,7 +18,7 @@ const QUEUE_DIR     = path.join('_deploy', 'posts-queue');
 const PUBLISHED_DIR = path.join(QUEUE_DIR, '_published');
 const API_URL       = 'https://api.anthropic.com/v1/messages';
 const MODEL         = 'claude-haiku-4-5-20251001';
-const BATCH_SIZE    = 5; // posts per API call
+const BATCH_SIZE    = 3; // posts per API call (3 keeps JSON within 8192-token Haiku limit)
 
 // ─── CLI args ────────────────────────────────────────────────────────────────
 

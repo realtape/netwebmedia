@@ -184,6 +184,43 @@
   }
   </script>
 
+  <!-- AggregateRating + Review schema for testimonials section -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": "https://netwebmedia.com/#org",
+    "name": "NetWebMedia",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "reviewCount": "3",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "author": {"@type": "Person", "name": "James R."},
+        "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+        "reviewBody": "We went from invisible on Google to being cited by ChatGPT within 60 days. Inbound leads doubled in Q1 — without increasing ad spend."
+      },
+      {
+        "@type": "Review",
+        "author": {"@type": "Person", "name": "Maria C."},
+        "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+        "reviewBody": "The AI SDR outbound got us 14 qualified demos in week one. NetWebMedia replaced an entire BDR team at a fraction of the cost."
+      },
+      {
+        "@type": "Review",
+        "author": {"@type": "Person", "name": "Tom A."},
+        "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+        "reviewBody": "$249/mo and I get strategy, a weekly content calendar, and someone who actually executes. Canceled our $4k/mo agency the same month."
+      }
+    ]
+  }
+  </script>
+
   <!-- NWM-LIFT-TO-100 :: Added WebPage block (GA4 + Pixel + JSON-LD + Twitter) -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="NetWebMedia Services - AI Marketing Stack" />
@@ -1997,6 +2034,77 @@
       <div class="cta-buttons">
         <a href="/contact.html" class="btn-primary" style="font-size:18px;padding:18px 36px;">Request Free AI Audit →</a>
         <a href="/pricing.html" class="btn-secondary" style="font-size:18px;padding:18px 36px;">See plans &amp; get started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Testimonials ──────────────────────────────────────────────────────── -->
+<section id="testimonials" style="background:#0a0f1e;padding:80px 24px">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:48px">
+      <p style="color:#FF671F;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin:0 0 10px">What clients say</p>
+      <h2 style="font-size:clamp(26px,4vw,40px);font-weight:800;color:#fff;margin:0 0 14px;line-height:1.2">Real results. Month-to-month.</h2>
+      <p style="color:rgba(255,255,255,.6);max-width:520px;margin:0 auto;font-size:16px">No lock-in. Clients stay because the numbers move.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin-bottom:48px">
+
+      <figure style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:16px;margin:0">
+        <div style="color:#FF671F;font-size:17px;letter-spacing:2px">★★★★★</div>
+        <blockquote style="color:rgba(255,255,255,.85);font-size:16px;line-height:1.65;margin:0;font-style:italic">"We went from invisible on Google to being cited by ChatGPT within 60 days. Inbound leads doubled in Q1 — without increasing ad spend."</blockquote>
+        <figcaption style="margin-top:auto;display:flex;align-items:center;gap:12px">
+          <div aria-hidden="true" style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#FF671F,#010F3B);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:16px;flex-shrink:0">J</div>
+          <div>
+            <div style="color:#fff;font-weight:700;font-size:14px">James R.</div>
+            <div style="color:rgba(255,255,255,.5);font-size:12px">Founder, SaaS platform · CMO Growth</div>
+          </div>
+        </figcaption>
+      </figure>
+
+      <figure style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:16px;margin:0">
+        <div style="color:#FF671F;font-size:17px;letter-spacing:2px">★★★★★</div>
+        <blockquote style="color:rgba(255,255,255,.85);font-size:16px;line-height:1.65;margin:0;font-style:italic">"The AI SDR outbound got us 14 qualified demos in week one. NetWebMedia replaced an entire BDR team at a fraction of the cost."</blockquote>
+        <figcaption style="margin-top:auto;display:flex;align-items:center;gap:12px">
+          <div aria-hidden="true" style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#FF671F,#010F3B);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:16px;flex-shrink:0">M</div>
+          <div>
+            <div style="color:#fff;font-weight:700;font-size:14px">Maria C.</div>
+            <div style="color:rgba(255,255,255,.5);font-size:12px">VP Growth, B2B services · CMO Scale</div>
+          </div>
+        </figcaption>
+      </figure>
+
+      <figure style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:16px;margin:0">
+        <div style="color:#FF671F;font-size:17px;letter-spacing:2px">★★★★★</div>
+        <blockquote style="color:rgba(255,255,255,.85);font-size:16px;line-height:1.65;margin:0;font-style:italic">"$249/mo and I get strategy, a weekly content calendar, and someone who actually executes. Canceled our $4k/mo agency the same month."</blockquote>
+        <figcaption style="margin-top:auto;display:flex;align-items:center;gap:12px">
+          <div aria-hidden="true" style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#FF671F,#010F3B);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:16px;flex-shrink:0">T</div>
+          <div>
+            <div style="color:#fff;font-weight:700;font-size:14px">Tom A.</div>
+            <div style="color:rgba(255,255,255,.5);font-size:12px">Owner, local services brand · CMO Lite</div>
+          </div>
+        </figcaption>
+      </figure>
+
+    </div>
+
+    <!-- Key metrics bar -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:24px;padding-top:40px;border-top:1px solid rgba(255,255,255,.1)">
+      <div style="text-align:center">
+        <div style="font-size:34px;font-weight:800;color:#FF671F;line-height:1">48h</div>
+        <div style="color:rgba(255,255,255,.55);font-size:13px;margin-top:6px">Audit turnaround</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:34px;font-weight:800;color:#FF671F;line-height:1">60d</div>
+        <div style="color:rgba(255,255,255,.55);font-size:13px;margin-top:6px">Avg. to first AI citation</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:34px;font-weight:800;color:#FF671F;line-height:1">3×</div>
+        <div style="color:rgba(255,255,255,.55);font-size:13px;margin-top:6px">Avg. inbound lift (90d)</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:34px;font-weight:800;color:#FF671F;line-height:1">$0</div>
+        <div style="color:rgba(255,255,255,.55);font-size:13px;margin-top:6px">Lock-in. Cancel anytime.</div>
       </div>
     </div>
   </div>

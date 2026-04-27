@@ -119,6 +119,14 @@ if (!$has_site && $email_domain && !in_array($email_domain, $free_email_provider
 // ── REAL AUDIT — call the engine ────────────────────────────────────
 require_once __DIR__ . '/api-php/lib/audit-engine.php';
 
+// Allow token-holders to force-refresh the cache (same token already proves they
+// have the signed URL — no additional secret needed).
+if (!empty($_GET['refresh'])) {
+  $cache_key  = md5(strtolower((string)$website) . '|' . $niche_key . '|' . strtolower((string)$city_raw));
+  $cache_file = __DIR__ . '/api-php/data/audit-cache/' . $cache_key . '.json';
+  if (is_file($cache_file)) @unlink($cache_file);
+}
+
 if ($has_site) {
   try {
     $audit_result = nwm_audit_cached($website, $niche_key, $city_raw);

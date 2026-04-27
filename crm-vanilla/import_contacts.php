@@ -44,6 +44,14 @@ if (empty($chunk_files)) {
 }
 sort($chunk_files);
 
+// Optional: skip already-imported chunks (pass ?skip=3 to skip first 3)
+$skip = max(0, (int)($_GET['skip'] ?? 0));
+if ($skip > 0) {
+    $chunk_files = array_slice($chunk_files, $skip);
+    echo "Skipping first $skip chunk(s) — starting from chunk " . ($skip + 1) . "\n";
+    flush();
+}
+
 $db = getDB();
 $stmt = $db->prepare(
     'INSERT INTO contacts (name, email, phone, company, role, status, value, notes)

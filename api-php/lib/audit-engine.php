@@ -393,7 +393,8 @@ function nwm_check_schema(string $html, string $niche_key): array {
     'AutoRepair','AutoDealer','Plumber','Electrician','AccountingService',
     'Attorney','EventVenue','MedicalClinic',
   ];
-  $has_org    = count(array_intersect($types, ['Organization','Corporation'] + $local_subtypes)) > 0;
+  $org_types  = array_merge(['Organization','Corporation'], $local_subtypes);
+  $has_org    = count(array_intersect($types, $org_types)) > 0;
   $has_local  = count(array_intersect($types, $local_subtypes)) > 0 || count(array_intersect($types, $expected)) > 0;
   $has_niche  = count(array_intersect($types, $expected)) > 0;
 

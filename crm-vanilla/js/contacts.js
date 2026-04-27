@@ -71,7 +71,9 @@
   function loadContacts() {
     var tbody = document.getElementById('contactsTableBody');
     if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#888">Loading…</td></tr>';
-    fetch(API + 'contacts').then(function (r) { return r.json(); }).then(function (data) {
+    var url = API + 'contacts';
+    if (currentSegment && currentSegment !== 'all') url += '&segment=' + encodeURIComponent(currentSegment);
+    fetch(url).then(function (r) { return r.json(); }).then(function (data) {
       contacts = Array.isArray(data) ? data : [];
       // Pre-compute region on each contact for sort speed
       for (var i = 0; i < contacts.length; i++) contacts[i].__region = regionOf(contacts[i]);
@@ -94,6 +96,19 @@
         currentFilter = this.getAttribute('data-filter');
         page = 0;
         render();
+      });
+    }
+
+    // Segment filter buttons (🌎 All / 🇺🇸 USA / 🇨🇱 Chile)
+    var segBtns = document.querySelectorAll('.filter-btn[data-segment]');
+    for (var s = 0; s < segBtns.length; s++) {
+      segBtns[s].addEventListener('click', function () {
+        var activeSeg = document.querySelector('.filter-btn[data-segment].active');
+        if (activeSeg) activeSeg.classList.remove('active');
+        this.classList.add('active');
+        currentSegment = this.getAttribute('data-segment');
+        page = 0;
+        loadContacts(); // re-fetch from API with segment param
       });
     }
 
@@ -255,8 +270,10 @@
 
     var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
     var L = isEs
-      ? { contact: 'Contacto', email: 'Email', phone: 'Teléfono', company: 'Empresa', region: 'Región', niche: 'Rubro', city: 'Ciudad', website: 'Sitio Web', audit: 'Auditoría', viewAudit: 'Ver auditoría', emailBtn: 'Email', callBtn: 'Llamar', deleteBtn: 'Eliminar' }
-      : { contact: 'Contact', email: 'Email', phone: 'Phone', company: 'Company', region: 'Region', niche: 'Niche', city: 'City', website: 'Website', audit: 'Audit', viewAudit: 'View audit', emailBtn: 'Email', callBtn: 'Call', deleteBtn: 'Delete' };
+      ? { contact: 'Contacto', email: 'Email', phone: 'Teléfono', company: 'Empresa', region: 'Región', niche: 'Rubro', city: 'Ciudad', website: 'Sitio Web', audit: 'Auditoría', viewAudit: 'Ver auditoría', emailBtn: 'Email', callBtn: 'Llamar', deleteBtn: 'Eliminar', country: 'País' }
+      : { contact: 'Contact', email: 'Email', phone: 'Phone', company: 'Company', region: 'Region', niche: 'Niche', city: 'City', website: 'Website', audit: 'Audit', viewAudit: 'View audit', emailBtn: 'Email', callBtn: 'Call', deleteBtn: 'Delete', country: 'Country' };
+    var seg = c.segment || meta.segment;
+    var countryDisplay = seg === 'usa' ? '🇺🇸 United States' : seg === 'chile' ? '🇨🇱 Chile' : seg || null;
     var html = '<div class="detail-header">'
       + '<button class="detail-close" id="detailClose">&times;</button>'
       + '<div class="detail-avatar">' + esc(initials) + '</div>'
@@ -268,6 +285,7 @@
       +   field(L.email,    c.email)
       +   field(L.phone,    c.phone)
       +   field(L.company,  c.company)
+      +   field(L.country,  countryDisplay)
       +   field(L.region,   c.__region)
       +   field(L.niche,    meta.niche || meta.vertical)
       +   field(L.city,     meta.city)

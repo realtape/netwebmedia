@@ -22,8 +22,8 @@
 
       /* ── NWM LOGO ── */
       .nwm-wordmark { display: inline-block; font-family: 'Poppins','Arial',sans-serif; font-weight: 700; font-size: 38px; letter-spacing: 1px; line-height: 1; text-shadow: 0 2px 6px rgba(0,0,0,0.55); white-space: nowrap; }
-      .nwm-wordmark .wm-a { color: #00AEEF; }
-      .nwm-wordmark .wm-b { color: #FF6600; }
+      .nwm-wordmark .wm-a { color: #7EB2C8; }
+      .nwm-wordmark .wm-b { color: #FF671F; }
       .nwm-logo { position: absolute; top: 36px; right: 40px; z-index: 200; opacity: 0.98; }
       
       .nwm-logo-cta {
@@ -293,6 +293,33 @@
         position: absolute; top: 1430px; left: 50%; transform: translateX(-50%);
         color: rgba(1,15,59,0.6); font-size: 24px; font-weight: 500; opacity: 0;
       }
+
+      /* ── CAPTIONS ── */
+      .cap-wrap {
+        position: absolute;
+        bottom: 160px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 960px;
+        text-align: center;
+        z-index: 500;
+        opacity: 0;
+      }
+      .cap-text {
+        display: inline-block;
+        background: rgba(0,0,0,0.75);
+        color: #fff;
+        font-family: 'Poppins', sans-serif;
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 1.35;
+        padding: 12px 28px;
+        border-radius: 10px;
+        white-space: pre-line;
+        max-width: 920px;
+        text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+      }
+      .cap-text .cap-hi { color: #FF671F; font-weight: 800; }
     </style>
   </head>
   <body>
@@ -492,6 +519,39 @@
     </div><!-- /root -->
 
     <script>
+
+      /* Caption animations */
+      tl.to("#cap-reel-01-ai-sdr-00", {opacity:1, duration:0.25}, 0.30)
+        .to("#cap-reel-01-ai-sdr-00", {opacity:0, duration:0.25}, 2.55);
+      tl.to("#cap-reel-01-ai-sdr-01", {opacity:1, duration:0.25}, 2.80)
+        .to("#cap-reel-01-ai-sdr-01", {opacity:0, duration:0.25}, 4.75);
+      tl.to("#cap-reel-01-ai-sdr-02", {opacity:1, duration:0.25}, 5.30)
+        .to("#cap-reel-01-ai-sdr-02", {opacity:0, duration:0.25}, 9.05);
+      tl.to("#cap-reel-01-ai-sdr-03", {opacity:1, duration:0.25}, 9.50)
+        .to("#cap-reel-01-ai-sdr-03", {opacity:0, duration:0.25}, 13.25);
+      tl.to("#cap-reel-01-ai-sdr-04", {opacity:1, duration:0.25}, 14.00)
+        .to("#cap-reel-01-ai-sdr-04", {opacity:0, duration:0.25}, 17.25);
+      tl.to("#cap-reel-01-ai-sdr-05", {opacity:1, duration:0.25}, 18.30)
+        .to("#cap-reel-01-ai-sdr-05", {opacity:0, duration:0.25}, 23.05);
+      tl.to("#cap-reel-01-ai-sdr-06", {opacity:1, duration:0.25}, 23.50)
+        .to("#cap-reel-01-ai-sdr-06", {opacity:0, duration:0.25}, 28.25);
+      tl.to("#cap-reel-01-ai-sdr-07", {opacity:1, duration:0.25}, 29.00)
+        .to("#cap-reel-01-ai-sdr-07", {opacity:0, duration:0.25}, 33.75);
+      tl.to("#cap-reel-01-ai-sdr-08", {opacity:1, duration:0.25}, 35.00)
+        .to("#cap-reel-01-ai-sdr-08", {opacity:0, duration:0.25}, 39.75);
+      tl.to("#cap-reel-01-ai-sdr-09", {opacity:1, duration:0.25}, 41.00)
+        .to("#cap-reel-01-ai-sdr-09", {opacity:0, duration:0.25}, 44.75);
+      tl.to("#cap-reel-01-ai-sdr-10", {opacity:1, duration:0.25}, 45.50)
+        .to("#cap-reel-01-ai-sdr-10", {opacity:0, duration:0.25}, 50.25);
+      tl.to("#cap-reel-01-ai-sdr-11", {opacity:1, duration:0.25}, 51.00)
+        .to("#cap-reel-01-ai-sdr-11", {opacity:0, duration:0.25}, 55.75);
+      tl.to("#cap-reel-01-ai-sdr-12", {opacity:1, duration:0.25}, 57.00)
+        .to("#cap-reel-01-ai-sdr-12", {opacity:0, duration:0.25}, 61.75);
+      tl.to("#cap-reel-01-ai-sdr-13", {opacity:1, duration:0.25}, 63.30)
+        .to("#cap-reel-01-ai-sdr-13", {opacity:0, duration:0.25}, 67.05);
+      tl.to("#cap-reel-01-ai-sdr-14", {opacity:1, duration:0.25}, 67.50)
+        .to("#cap-reel-01-ai-sdr-14", {opacity:0, duration:0.25}, 72.25);
+
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
 

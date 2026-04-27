@@ -1,18 +1,4 @@
 {
-  "enableAllProjectMcpServers": true,
-  "hooks": {
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash /c/Users/Usuario/Desktop/NetWebMedia/_backup/backup.sh"
-          }
-        ]
-      }
-    ]
-  },
   "permissions": {
     "allow": [
       "mcp__Claude_Preview__preview_start",
@@ -29,7 +15,6 @@
       "mcp__Claude_Preview__preview_resize",
       "mcp__Claude_Preview__preview_list",
       "Bash(ls C:/Users/Usuario/Desktop/icelocator/public/icon-*.svg)",
-
       "Bash(git status:*)",
       "Bash(git log:*)",
       "Bash(git diff:*)",
@@ -51,7 +36,6 @@
       "Bash(git push)",
       "Bash(git push origin:*)",
       "Bash(git push -u origin:*)",
-
       "Bash(gh auth status:*)",
       "Bash(gh repo view:*)",
       "Bash(gh repo list:*)",
@@ -79,7 +63,6 @@
       "Bash(gh workflow run:*)",
       "Bash(gh api:*)",
       "Bash(gh browse:*)",
-
       "Bash(vercel:*)",
       "Bash(vercel deploy:*)",
       "Bash(vercel build:*)",
@@ -105,7 +88,6 @@
       "Bash(vercel git ls:*)",
       "Bash(vercel git connect:*)",
       "Bash(npx vercel:*)",
-
       "Bash(ssh *@inmotionhosting.com:*)",
       "Bash(ssh *@biz*.inmotionhosting.com:*)",
       "Bash(ssh -p * *)",
@@ -120,7 +102,6 @@
       "Bash(rsync -avz *)",
       "Bash(rsync --delete-after *)",
       "Bash(rsync -e ssh *)",
-
       "Bash(curl:*)",
       "Bash(curl -I:*)",
       "Bash(curl -s:*)",
@@ -132,7 +113,6 @@
       "Bash(curl -d:*)",
       "Bash(curl -H:*)",
       "Bash(wget:*)",
-
       "Bash(php _deploy/*)",
       "Bash(php -v)",
       "Bash(php -l:*)",
@@ -152,7 +132,6 @@
       "Bash(yarn:*)",
       "Bash(pnpm:*)",
       "Bash(bun *)",
-
       "Bash(ls:*)",
       "Bash(pwd)",
       "Bash(cat:*)",
@@ -178,7 +157,6 @@
       "Bash(python:*)",
       "Bash(python3:*)",
       "Bash(py:*)",
-
       "Read",
       "Glob",
       "Grep",
@@ -191,31 +169,8 @@
       "WebFetch(domain:www.netwebmedia.com)",
       "WebFetch(domain:inmotionhosting.com)",
       "WebFetch(domain:my.inmotionhosting.com)",
-      "WebFetch(domain:secure.inmotionhosting.com)"
-    ],
-    "ask": [
-      "Bash(git push --force-with-lease:*)",
-      "Bash(git push origin --force-with-lease:*)",
-      "Bash(git reset --hard:*)",
-      "Bash(git clean -fd:*)",
-      "Bash(git branch -D:*)",
-      "Bash(git tag -d:*)",
-      "Bash(git push --delete:*)",
-      "Bash(gh repo delete:*)",
-      "Bash(gh pr close:*)",
-      "Bash(gh pr merge:*)",
-      "Bash(gh release delete:*)",
-      "Bash(gh release create:*)",
-      "Bash(vercel rollback:*)",
-      "Bash(vercel domains rm:*)",
-      "Bash(vercel domains remove:*)",
-      "Bash(vercel env rm:*)",
-      "Bash(vercel env remove:*)",
-      "Bash(vercel alias rm:*)",
-      "Bash(vercel alias remove:*)",
-      "Bash(vercel projects rm:*)",
-      "Bash(vercel projects remove:*)",
-      "Bash(vercel teams invite:*)"
+      "WebFetch(domain:secure.inmotionhosting.com)",
+      "Bash(rm -f \"assets/guides/zero-click-search-strategy-2026.pdf\")"
     ],
     "deny": [
       "Bash(git push --force)",
@@ -240,6 +195,44 @@
       "Bash(gh auth logout:*)",
       "Bash(npm publish:*)",
       "Bash(npm unpublish:*)"
+    ],
+    "ask": [
+      "Bash(git push --force-with-lease:*)",
+      "Bash(git push origin --force-with-lease:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git clean -fd:*)",
+      "Bash(git branch -D:*)",
+      "Bash(git tag -d:*)",
+      "Bash(git push --delete:*)",
+      "Bash(gh repo delete:*)",
+      "Bash(gh pr close:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(gh release delete:*)",
+      "Bash(gh release create:*)",
+      "Bash(vercel rollback:*)",
+      "Bash(vercel domains rm:*)",
+      "Bash(vercel domains remove:*)",
+      "Bash(vercel env rm:*)",
+      "Bash(vercel env remove:*)",
+      "Bash(vercel alias rm:*)",
+      "Bash(vercel alias remove:*)",
+      "Bash(vercel projects rm:*)",
+      "Bash(vercel projects remove:*)",
+      "Bash(vercel teams invite:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /c/Users/Usuario/Desktop/NetWebMedia/_backup/backup.sh"
+          }
+        ]
+      }
     ]
   }
 }

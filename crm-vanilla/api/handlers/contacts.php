@@ -17,6 +17,10 @@ switch ($method) {
             $where[] = 'status = ?';
             $params[] = $_GET['status'];
         }
+        if (!empty($_GET['segment'])) {
+            $where[] = 'segment = ?';
+            $params[] = $_GET['segment'];
+        }
         if (!empty($_GET['search'])) {
             $where[] = '(name LIKE ? OR company LIKE ? OR email LIKE ?)';
             $s = '%' . $_GET['search'] . '%';
@@ -34,7 +38,7 @@ switch ($method) {
     case 'POST':
         $data = getInput();
         if (empty($data['name'])) jsonError('Name is required');
-        $stmt = $db->prepare('INSERT INTO contacts (name, email, phone, company, role, status, value, last_contact, avatar, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        $stmt = $db->prepare('INSERT INTO contacts (name, email, phone, company, role, status, value, last_contact, avatar, notes, segment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
         $stmt->execute([
             $data['name'],
             $data['email'] ?? null,
@@ -46,6 +50,7 @@ switch ($method) {
             $data['last_contact'] ?? null,
             $data['avatar'] ?? null,
             $data['notes'] ?? null,
+            $data['segment'] ?? null,
         ]);
         $newId = $db->lastInsertId();
         $stmt = $db->prepare('SELECT * FROM contacts WHERE id = ?');
@@ -58,7 +63,7 @@ switch ($method) {
         $data = getInput();
         $fields = [];
         $params = [];
-        $allowed = ['name','email','phone','company','role','status','value','last_contact','avatar','notes'];
+        $allowed = ['name','email','phone','company','role','status','value','last_contact','avatar','notes','segment'];
         foreach ($allowed as $f) {
             if (array_key_exists($f, $data)) {
                 $fields[] = "$f = ?";

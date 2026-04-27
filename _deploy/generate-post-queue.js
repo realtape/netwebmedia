@@ -59,7 +59,7 @@ const TOPIC_POOL = [
   'topical authority building for niche websites',
   'internal linking strategy for AI-era content',
   'local keyword research in the AI era',
-  'zero-click SEO: how to win when users don't click',
+  'zero-click SEO: how to win when users skip the results',
   'content velocity vs content quality in 2026 SEO',
   'featured snippet optimization for local queries',
   'Google Business Profile advanced optimization',

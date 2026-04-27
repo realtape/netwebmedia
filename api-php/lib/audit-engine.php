@@ -436,7 +436,7 @@ function nwm_check_lead_capture(string $html): array {
     'Gravity'   => '/gravityforms/i',
     'WPForms'   => '/wpforms/i',
     'Mailchimp' => '/(mailchimp|mc\.us\d+\.list-manage)/i',
-    'crm-vanilla' => '/(\/api\/leads|\/crm-vanilla)/i',
+    'crm-vanilla' => '/(\/api\/leads|\/crm-vanilla|\/api\/public\/)/i',
   ];
   $found = [];
   foreach ($providers as $name => $rx) {

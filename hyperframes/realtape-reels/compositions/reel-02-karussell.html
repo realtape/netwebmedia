@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800;900&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; font-family: 'Poppins', sans-serif; }
+      .clip { position: absolute; top: 0; left: 0; }
+      .broll { position: absolute; top:0; left:0; width: 1080px; height: 1920px; object-fit: cover; }
+      .broll-tint-bottom { position: absolute; top:0; left:0; width: 1080px; height: 1920px; background: linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.0) 30%, rgba(0,0,0,0.65) 65%, rgba(0,0,0,0.92) 100%); }
+      .broll-tint-top { position: absolute; top:0; left:0; width: 1080px; height: 1920px; background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 22%, rgba(0,0,0,0.0) 38%); }
+      .handle { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); color: #fff; font-weight: 800; font-size: 32px; letter-spacing: 4px; text-shadow: 0 2px 8px rgba(0,0,0,0.7); opacity: 0.95; }
+      .handle .at { color: #FF1A1A; }
+      #question { position: absolute; top: 200px; left: 60px; width: 960px; opacity: 0; }
+      #q-eyebrow { color: #FF1A1A; font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; letter-spacing: 6px; text-transform: uppercase; margin-bottom: 22px; text-shadow: 0 2px 8px rgba(0,0,0,0.85); }
+      #q-headline { color: #fff; font-size: 92px; font-weight: 900; line-height: 1.0; text-transform: uppercase; text-shadow: 0 4px 20px rgba(0,0,0,0.9); letter-spacing: -1px; }
+      #q-headline .accent { color: #FF1A1A; }
+      #answer { position: absolute; top: 280px; left: 60px; width: 960px; opacity: 0; }
+      #answer-label { color: rgba(255,255,255,0.6); font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 16px; text-shadow: 0 2px 8px rgba(0,0,0,0.85); }
+      #answer-name { color: #FF1A1A; font-size: 160px; font-weight: 900; line-height: 0.92; text-transform: uppercase; text-shadow: 0 6px 30px rgba(0,0,0,0.95); letter-spacing: -2px; margin-bottom: 18px; }
+      #answer-sub { color: #fff; font-family: 'Inter', sans-serif; font-size: 36px; font-weight: 700; line-height: 1.2; text-shadow: 0 2px 12px rgba(0,0,0,0.9); }
+      #facts { position: absolute; top: 1020px; left: 60px; width: 960px; opacity: 0; }
+      .fact { display: flex; align-items: baseline; gap: 22px; margin-bottom: 22px; background: rgba(0,0,0,0.55); border-left: 5px solid #FF1A1A; padding: 18px 24px; backdrop-filter: blur(6px); }
+      .fact-icon { color: #FF1A1A; font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; }
+      .fact-text { color: #fff; font-family: 'Inter', sans-serif; font-size: 30px; font-weight: 700; line-height: 1.15; }
+      .fact-text strong { color: #FF1A1A; }
+      #cta { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); width: 960px; text-align: center; opacity: 0; }
+      #cta-line1 { color: #fff; font-size: 38px; font-weight: 800; line-height: 1.1; text-transform: uppercase; text-shadow: 0 2px 12px rgba(0,0,0,0.9); margin-bottom: 14px; }
+      #cta-handle { display: inline-block; background: #FF1A1A; color: #fff; font-size: 38px; font-weight: 800; padding: 18px 38px; border-radius: 60px; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 8px 28px rgba(255,26,26,0.45); }
+      #progress { position: absolute; bottom: 0; left: 0; width: 0; height: 8px; background: #FF1A1A; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="reel-02-karussell" data-start="0" data-duration="30" data-width="1080" data-height="1920">
+      <video id="broll" class="broll clip" muted autoplay loop src="../assets/broll/clip-02-mid.mp4" data-start="0" data-duration="30" data-track-index="0"></video>
+      <div class="broll-tint-top clip" data-start="0" data-duration="30" data-track-index="1"></div>
+      <div class="broll-tint-bottom clip" data-start="0" data-duration="30" data-track-index="2"></div>
+      <div class="handle clip" data-start="0" data-duration="30" data-track-index="3"><span class="at">@</span>REALTAPE</div>
+      <div id="question" class="clip" data-start="0" data-duration="5" data-track-index="4">
+        <div id="q-eyebrow">// THE NORDSCHLEIFE</div>
+        <div id="q-headline">WHAT'S THE<br>HARDEST <span class="accent">CORNER</span><br>ON THE 'RING?</div>
+      </div>
+      <div id="answer" class="clip" data-start="5" data-duration="10" data-track-index="5">
+        <div id="answer-label">// THE ANSWER</div>
+        <div id="answer-name">DAS<br>KARUSSELL.</div>
+        <div id="answer-sub">A banked concrete bowl.<br>Commit, or you don't finish.</div>
+      </div>
+      <div id="facts" class="clip" data-start="15" data-duration="10" data-track-index="6">
+        <div class="fact"><div class="fact-icon">01</div><div class="fact-text"><strong>180&deg;</strong> banked turn</div></div>
+        <div class="fact"><div class="fact-icon">02</div><div class="fact-text">Concrete <strong>steeper than the apex</strong> looks</div></div>
+        <div class="fact"><div class="fact-icon">03</div><div class="fact-text">Most <strong>career-ending</strong> corner in iRacing</div></div>
+      </div>
+      <div id="cta" class="clip" data-start="25" data-duration="5" data-track-index="7">
+        <div id="cta-line1">FULL LAP ON THE CHANNEL</div>
+        <div id="cta-handle">@REALTAPE</div>
+      </div>
+      <div id="progress" class="clip" data-start="0" data-duration="30" data-track-index="98"></div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#question", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.2)
+        .to("#question", { opacity: 0, y: -30, duration: 0.4, ease: "power2.in" }, 4.4);
+      tl.fromTo("#answer-label", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 5.1)
+        .fromTo("#answer-name", { opacity: 0, scale: 0.7, y: 60 }, { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: "back.out(1.4)" }, 5.4)
+        .fromTo("#answer-sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 6.4);
+      tl.set("#answer-label", { opacity: 1 }, 5.5);
+      tl.to("#answer", { opacity: 0, y: -20, duration: 0.4, ease: "power2.in" }, 14.4);
+      tl.fromTo("#facts", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 15.1)
+        .fromTo("#facts .fact:nth-child(1)", { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 15.2)
+        .fromTo("#facts .fact:nth-child(2)", { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 16.2)
+        .fromTo("#facts .fact:nth-child(3)", { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.45, ease: "power3.out" }, 17.2);
+      tl.to("#facts", { opacity: 0, duration: 0.4 }, 24.4);
+      tl.fromTo("#cta", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, 25.1);
+      tl.fromTo("#progress", { width: 0 }, { width: 1080, duration: 30, ease: "none" }, 0);
+      window.__timelines["reel-02-karussell"] = tl;
+    </script>
+  </body>
+</html>

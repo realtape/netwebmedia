@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800;900&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; font-family: 'Poppins', sans-serif; }
+      .clip { position: absolute; top: 0; left: 0; }
+      .broll { position: absolute; top:0; left:0; width: 1080px; height: 1920px; object-fit: cover; }
+      .broll-tint-bottom { position: absolute; top:0; left:0; width: 1080px; height: 1920px; background: linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.0) 35%, rgba(0,0,0,0.6) 65%, rgba(0,0,0,0.9) 100%); }
+      .broll-tint-top { position: absolute; top:0; left:0; width: 1080px; height: 1920px; background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 22%, rgba(0,0,0,0.0) 38%); }
+      .handle { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); color: #fff; font-weight: 800; font-size: 32px; letter-spacing: 4px; text-shadow: 0 2px 8px rgba(0,0,0,0.7); opacity: 0.95; }
+      .handle .at { color: #FF1A1A; }
+      .chapter { position: absolute; top: 200px; left: 60px; background: #FF1A1A; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; padding: 10px 20px; opacity: 0; }
+      #hook { position: absolute; top: 270px; left: 60px; width: 960px; opacity: 0; }
+      #hook-headline { color: #fff; font-size: 110px; font-weight: 900; line-height: 0.96; text-transform: uppercase; text-shadow: 0 4px 20px rgba(0,0,0,0.9); letter-spacing: -1px; }
+      #hook-headline .accent { color: #FF1A1A; }
+      #countdown { position: absolute; top: 700px; left: 60px; width: 960px; opacity: 0; }
+      .cd-row { display: flex; align-items: baseline; gap: 28px; background: rgba(0,0,0,0.65); border-left: 6px solid #FF1A1A; padding: 20px 28px; margin-bottom: 16px; backdrop-filter: blur(6px); }
+      .cd-num { color: #FF1A1A; font-size: 70px; font-weight: 900; line-height: 1; min-width: 110px; }
+      .cd-text { color: #fff; font-family: 'Inter', sans-serif; font-size: 30px; font-weight: 700; line-height: 1.2; }
+      .cd-text strong { color: #FF1A1A; }
+      #stat { position: absolute; top: 1180px; left: 60px; width: 960px; opacity: 0; }
+      #stat-line { color: #fff; font-family: 'Inter', sans-serif; font-size: 40px; font-weight: 800; line-height: 1.2; text-shadow: 0 2px 12px rgba(0,0,0,0.95); }
+      #stat-line .accent { color: #FF1A1A; }
+      #cta { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); width: 960px; text-align: center; opacity: 0; }
+      #cta-line1 { color: #fff; font-size: 38px; font-weight: 800; line-height: 1.1; text-transform: uppercase; text-shadow: 0 2px 12px rgba(0,0,0,0.9); margin-bottom: 14px; }
+      #cta-handle { display: inline-block; background: #FF1A1A; color: #fff; font-size: 38px; font-weight: 800; padding: 18px 38px; border-radius: 60px; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 8px 28px rgba(255,26,26,0.45); }
+      #progress { position: absolute; bottom: 0; left: 0; width: 0; height: 8px; background: #FF1A1A; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="reel-03-final-stretch" data-start="0" data-duration="40" data-width="1080" data-height="1920">
+      <video id="broll" class="broll clip" muted autoplay loop src="../assets/broll/clip-03-final.mp4" data-start="0" data-duration="40" data-track-index="0"></video>
+      <div class="broll-tint-top clip" data-start="0" data-duration="40" data-track-index="1"></div>
+      <div class="broll-tint-bottom clip" data-start="0" data-duration="40" data-track-index="2"></div>
+      <div class="handle clip" data-start="0" data-duration="40" data-track-index="3"><span class="at">@</span>REALTAPE</div>
+      <div class="chapter clip" id="chapter" data-start="0" data-duration="6" data-track-index="4">// FINAL STRETCH</div>
+      <div id="hook" class="clip" data-start="0" data-duration="7" data-track-index="5">
+        <div id="hook-headline">3 LAPS<br>TO <span class="accent">GO.</span></div>
+      </div>
+      <div id="countdown" class="clip" data-start="7" data-duration="15" data-track-index="6">
+        <div class="cd-row" id="cd1"><div class="cd-num">73</div><div class="cd-text"><strong>corners</strong> per lap</div></div>
+        <div class="cd-row" id="cd2"><div class="cd-num">240</div><div class="cd-text"><strong>km/h</strong> down D&ouml;ttinger H&ouml;he</div></div>
+        <div class="cd-row" id="cd3"><div class="cd-num">0</div><div class="cd-text"><strong>run-off</strong> at the limit</div></div>
+      </div>
+      <div id="stat" class="clip" data-start="22" data-duration="10" data-track-index="7">
+        <div id="stat-line">ONE LAP =<br>~8 MINUTES OF<br><span class="accent">CONSTANT FOCUS.</span></div>
+      </div>
+      <div id="cta" class="clip" data-start="32" data-duration="8" data-track-index="8">
+        <div id="cta-line1">SEE HOW IT FINISHED</div>
+        <div id="cta-handle">@REALTAPE</div>
+      </div>
+      <div id="progress" class="clip" data-start="0" data-duration="40" data-track-index="98"></div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#chapter", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, 0.1)
+        .to("#chapter", { opacity: 0, x: -20, duration: 0.3, ease: "power2.in" }, 5.7);
+      tl.fromTo("#hook", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0.3)
+        .to("#hook", { opacity: 0, y: -30, duration: 0.4, ease: "power2.in" }, 6.5);
+      tl.fromTo("#countdown", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 7.0)
+        .fromTo("#cd1", { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 7.1)
+        .fromTo("#cd2", { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 8.6)
+        .fromTo("#cd3", { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 10.1);
+      tl.to("#countdown", { opacity: 0, duration: 0.4 }, 21.4);
+      tl.fromTo("#stat", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 22.1)
+        .to("#stat", { opacity: 0, y: -20, duration: 0.4, ease: "power2.in" }, 31.4);
+      tl.fromTo("#cta", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }, 32.1);
+      tl.fromTo("#progress", { width: 0 }, { width: 1080, duration: 40, ease: "none" }, 0);
+      window.__timelines["reel-03-final-stretch"] = tl;
+    </script>
+  </body>
+</html>

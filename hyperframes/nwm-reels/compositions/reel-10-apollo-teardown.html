@@ -313,10 +313,15 @@ But logo wall, features, and CTAs leak pipeline.</div>
 <span class='cap-hi'>netwebmedia.com</span></div>
       </div>
 
+    
+      <audio id="narration-reel-10-apollo-teardown" src="../assets/tts/reel-10-apollo-teardown.wav" data-start="0" data-duration="75" data-track-index="1000" data-volume="1"></audio>
     </div>
     <script>
 
       /* Caption animations */
+      window.__timelines = window.__timelines || {};
+            const tl = gsap.timeline({ paused: true });
+
       tl.to("#cap-reel-10-apollo-teardown-00", {opacity:1, duration:0.25}, 0.30)
         .to("#cap-reel-10-apollo-teardown-00", {opacity:0, duration:0.25}, 2.55);
       tl.to("#cap-reel-10-apollo-teardown-01", {opacity:1, duration:0.25}, 2.80)
@@ -347,9 +352,6 @@ But logo wall, features, and CTAs leak pipeline.</div>
         .to("#cap-reel-10-apollo-teardown-13", {opacity:0, duration:0.25}, 66.05);
       tl.to("#cap-reel-10-apollo-teardown-14", {opacity:1, duration:0.25}, 67.00)
         .to("#cap-reel-10-apollo-teardown-14", {opacity:0, duration:0.25}, 71.25);
-
-      window.__timelines = window.__timelines || {};
-      const tl = gsap.timeline({ paused: true });
 
       function orbPulse(id, startT, dur) {
         tl.to(id, { opacity: 1, duration: 0.5, ease: "power2.out" }, startT)

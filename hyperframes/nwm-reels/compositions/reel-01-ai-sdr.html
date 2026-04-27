@@ -516,11 +516,16 @@
         <span class="nwm-wordmark"><span class="wm-a">net</span><span class="wm-b">web</span><span class="wm-a">media</span></span>
       </div>
 
+    
+      <audio id="narration-reel-01-ai-sdr" src="../assets/tts/reel-01-ai-sdr.wav" data-start="0" data-duration="82" data-track-index="1000" data-volume="1"></audio>
     </div><!-- /root -->
 
     <script>
 
       /* Caption animations */
+      window.__timelines = window.__timelines || {};
+            const tl = gsap.timeline({ paused: true });
+
       tl.to("#cap-reel-01-ai-sdr-00", {opacity:1, duration:0.25}, 0.30)
         .to("#cap-reel-01-ai-sdr-00", {opacity:0, duration:0.25}, 2.55);
       tl.to("#cap-reel-01-ai-sdr-01", {opacity:1, duration:0.25}, 2.80)
@@ -551,9 +556,6 @@
         .to("#cap-reel-01-ai-sdr-13", {opacity:0, duration:0.25}, 67.05);
       tl.to("#cap-reel-01-ai-sdr-14", {opacity:1, duration:0.25}, 67.50)
         .to("#cap-reel-01-ai-sdr-14", {opacity:0, duration:0.25}, 72.25);
-
-      window.__timelines = window.__timelines || {};
-      const tl = gsap.timeline({ paused: true });
 
       function orbPulse(id, startT, sceneDur) {
         tl.to(id, { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" }, startT)

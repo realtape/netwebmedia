@@ -310,10 +310,15 @@ Every lever explained.</div>
 <span class='cap-hi'>netwebmedia.com</span></div>
       </div>
 
+    
+      <audio id="narration-reel-04-roas-playbook" src="../assets/tts/reel-04-roas-playbook.wav" data-start="0" data-duration="86" data-track-index="1000" data-volume="1"></audio>
     </div>
     <script>
 
       /* Caption animations */
+      window.__timelines = window.__timelines || {};
+            const tl = gsap.timeline({ paused: true });
+
       tl.to("#cap-reel-04-roas-playbook-00", {opacity:1, duration:0.25}, 0.30)
         .to("#cap-reel-04-roas-playbook-00", {opacity:0, duration:0.25}, 2.55);
       tl.to("#cap-reel-04-roas-playbook-01", {opacity:1, duration:0.25}, 2.80)
@@ -346,9 +351,6 @@ Every lever explained.</div>
         .to("#cap-reel-04-roas-playbook-14", {opacity:0, duration:0.25}, 73.75);
       tl.to("#cap-reel-04-roas-playbook-15", {opacity:1, duration:0.25}, 76.30)
         .to("#cap-reel-04-roas-playbook-15", {opacity:0, duration:0.25}, 80.05);
-
-      window.__timelines = window.__timelines || {};
-      const tl = gsap.timeline({ paused: true });
 
       function orbPulse(id, startT, dur) {
         tl.to(id, { opacity: 1, duration: 0.5, ease: "power2.out" }, startT)

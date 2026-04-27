@@ -308,10 +308,15 @@ to Fractional CMO?</div>
 <span class='cap-hi'>netwebmedia.com</span></div>
       </div>
 
+    
+      <audio id="narration-reel-07-agency-freelancer" src="../assets/tts/reel-07-agency-freelancer.wav" data-start="0" data-duration="70" data-track-index="1000" data-volume="1"></audio>
     </div>
     <script>
 
       /* Caption animations */
+      window.__timelines = window.__timelines || {};
+            const tl = gsap.timeline({ paused: true });
+
       tl.to("#cap-reel-07-agency-freelancer-00", {opacity:1, duration:0.25}, 0.30)
         .to("#cap-reel-07-agency-freelancer-00", {opacity:0, duration:0.25}, 2.55);
       tl.to("#cap-reel-07-agency-freelancer-01", {opacity:1, duration:0.25}, 2.80)
@@ -340,9 +345,6 @@ to Fractional CMO?</div>
         .to("#cap-reel-07-agency-freelancer-12", {opacity:0, duration:0.25}, 59.05);
       tl.to("#cap-reel-07-agency-freelancer-13", {opacity:1, duration:0.25}, 60.00)
         .to("#cap-reel-07-agency-freelancer-13", {opacity:0, duration:0.25}, 64.75);
-
-      window.__timelines = window.__timelines || {};
-      const tl = gsap.timeline({ paused: true });
 
       function orbPulse(id, startT, dur) {
         tl.to(id, { opacity: 1, duration: 0.5, ease: "power2.out" }, startT)

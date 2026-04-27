@@ -294,10 +294,15 @@ for 14 buyer-intent queries.</div>
 <span class='cap-hi'>netwebmedia.com</span></div>
       </div>
 
+    
+      <audio id="narration-reel-08-340k-pipeline" src="../assets/tts/reel-08-340k-pipeline.wav" data-start="0" data-duration="70" data-track-index="1000" data-volume="1"></audio>
     </div>
     <script>
 
       /* Caption animations */
+      window.__timelines = window.__timelines || {};
+            const tl = gsap.timeline({ paused: true });
+
       tl.to("#cap-reel-08-340k-pipeline-00", {opacity:1, duration:0.25}, 0.30)
         .to("#cap-reel-08-340k-pipeline-00", {opacity:0, duration:0.25}, 3.55);
       tl.to("#cap-reel-08-340k-pipeline-01", {opacity:1, duration:0.25}, 4.30)
@@ -326,9 +331,6 @@ for 14 buyer-intent queries.</div>
         .to("#cap-reel-08-340k-pipeline-12", {opacity:0, duration:0.25}, 60.55);
       tl.to("#cap-reel-08-340k-pipeline-13", {opacity:1, duration:0.25}, 61.00)
         .to("#cap-reel-08-340k-pipeline-13", {opacity:0, duration:0.25}, 65.75);
-
-      window.__timelines = window.__timelines || {};
-      const tl = gsap.timeline({ paused: true });
 
       function orbPulse(id, startT, dur) {
         tl.to(id, { opacity: 1, duration: 0.5, ease: "power2.out" }, startT)

@@ -321,10 +321,15 @@ for LLM citation.</div>
         <div class="cap-text">Chat with us at <span class='cap-hi'>netwebmedia.com</span></div>
       </div>
 
+    
+      <audio id="narration-reel-02-seo-dead" src="../assets/tts/reel-02-seo-dead.wav" data-start="0" data-duration="68" data-track-index="1000" data-volume="1"></audio>
     </div>
     <script>
 
       /* Caption animations */
+      window.__timelines = window.__timelines || {};
+            const tl = gsap.timeline({ paused: true });
+
       tl.to("#cap-reel-02-seo-dead-00", {opacity:1, duration:0.25}, 0.30)
         .to("#cap-reel-02-seo-dead-00", {opacity:0, duration:0.25}, 2.05);
       tl.to("#cap-reel-02-seo-dead-01", {opacity:1, duration:0.25}, 2.30)
@@ -355,9 +360,6 @@ for LLM citation.</div>
         .to("#cap-reel-02-seo-dead-13", {opacity:0, duration:0.25}, 65.55);
       tl.to("#cap-reel-02-seo-dead-14", {opacity:1, duration:0.25}, 65.90)
         .to("#cap-reel-02-seo-dead-14", {opacity:0, duration:0.25}, 67.25);
-
-      window.__timelines = window.__timelines || {};
-      const tl = gsap.timeline({ paused: true });
 
       function orbPulse(id, startT, dur) {
         tl.to(id, { opacity: 1, duration: 0.5, ease: "power2.out" }, startT)

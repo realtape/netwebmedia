@@ -320,10 +320,15 @@ from AI referrals.</div>
 <span class='cap-hi'>netwebmedia.com</span></div>
       </div>
 
+    
+      <audio id="narration-reel-06-aeo-audit" src="../assets/tts/reel-06-aeo-audit.wav" data-start="0" data-duration="75" data-track-index="1000" data-volume="1"></audio>
     </div>
     <script>
 
       /* Caption animations */
+      window.__timelines = window.__timelines || {};
+            const tl = gsap.timeline({ paused: true });
+
       tl.to("#cap-reel-06-aeo-audit-00", {opacity:1, duration:0.25}, 0.30)
         .to("#cap-reel-06-aeo-audit-00", {opacity:0, duration:0.25}, 3.55);
       tl.to("#cap-reel-06-aeo-audit-01", {opacity:1, duration:0.25}, 4.30)
@@ -352,9 +357,6 @@ from AI referrals.</div>
         .to("#cap-reel-06-aeo-audit-12", {opacity:0, duration:0.25}, 66.05);
       tl.to("#cap-reel-06-aeo-audit-13", {opacity:1, duration:0.25}, 67.00)
         .to("#cap-reel-06-aeo-audit-13", {opacity:0, duration:0.25}, 71.25);
-
-      window.__timelines = window.__timelines || {};
-      const tl = gsap.timeline({ paused: true });
 
       function orbPulse(id, startT, dur) {
         tl.to(id, { opacity: 1, duration: 0.5, ease: "power2.out" }, startT)

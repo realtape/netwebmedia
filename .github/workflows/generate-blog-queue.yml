@@ -1,0 +1,43 @@
+name: Generate Blog Queue (Weekly)
+
+# Runs every Monday at 10:00 UTC (6 AM Santiago)
+# Generates 70 posts = 10/day for the next 7 days
+# Requires ANTHROPIC_API_KEY secret in repo settings
+
+on:
+  schedule:
+    - cron: '0 10 * * 1'
+  workflow_dispatch:
+    inputs:
+      count:
+        description: 'Number of posts to generate'
+        default: '70'
+        required: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate posts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          COUNT="${{ github.event.inputs.count || '70' }}"
+          node _deploy/generate-post-queue.js --count "$COUNT"
+
+      - name: Commit new posts
+        run: |
+          git config user.name "NWM Blog Bot"
+          git config user.email "bot@netwebmedia.com"
+          git add _deploy/posts-queue/
+          git diff --cached --quiet && echo "Nothing new to commit" && exit 0
+          git commit -m "chore: auto-generate $(git diff --cached --name-only | wc -l | tr -d ' ') blog posts for queue"
+          git push

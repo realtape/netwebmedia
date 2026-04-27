@@ -116,6 +116,46 @@ function nwm_audit_run(string $url, string $niche_key, string $city = 'Santiago'
   $score = $wsum > 0 ? (int)round($sum / $wsum) : 0;
   $score = max(0, min(100, $score));
 
+  // ── Inject English labels + fix texts (bilingual support) ───────────
+  // Keeps each check function monolingual; translations live here once.
+  $labels_en = [
+    'aeo'               => 'AI Search Visibility (AEO)',
+    'mobile_speed'      => 'Mobile Speed',
+    'schema'            => 'Schema Markup',
+    'lead_capture'      => 'Lead Capture',
+    'reviews'           => 'Review Management',
+    'whatsapp'          => 'WhatsApp Integration',
+    'mobile_conversion' => 'Mobile Conversion',
+    'automation'        => 'Automation',
+    'analytics'         => 'Analytics & Tracking',
+    'social'            => 'Social Media Presence',
+    'content'           => 'Content Depth',
+    'branding'          => 'Branding',
+    'reputation'        => 'Reputation',
+    'crawlability'      => 'Crawlability',
+  ];
+  $fixes_en = [
+    'aeo'               => 'Publish a FAQ page with FAQPage schema, HowTo for key processes, and articles targeting common niche queries in ' . $city . '.',
+    'mobile_speed'      => 'Compress images to WebP/AVIF, defer non-critical JS, eliminate render-blocking resources, and inline critical CSS.',
+    'schema'            => 'Complete Organization + LocalBusiness with name, address, telephone, openingHours, sameAs, logo and niche-specific type.',
+    'lead_capture'      => 'Activate a capture form with auto-response and email + WhatsApp nurturing sequence.',
+    'reviews'           => 'Display reviews with AggregateRating schema, link to Google Business Profile and show a visible star rating.',
+    'whatsapp'          => 'Floating WhatsApp button with wa.me?text= (pre-filled message) tailored per service page.',
+    'mobile_conversion' => 'Visible tel: button, floating mobile CTA, above-the-fold CTA and a fully responsive viewport.',
+    'automation'        => 'Activate a 24/7 first-response chat bot + automated email sequence for lead nurturing.',
+    'analytics'         => 'Install GA4 + Google Tag Manager at minimum; add Meta Pixel for paid social; Hotjar or Clarity for UX insights.',
+    'social'            => 'Link 3+ active networks (Instagram + Facebook + LinkedIn as a baseline).',
+    'content'           => 'Publish 1-2 articles/month with BlogPosting schema, explainer videos and updated publication dates.',
+    'branding'          => 'Complete Open Graph (title/description/image), meta description 100-160 chars, favicon and title 25-65 characters.',
+    'reputation'        => '"About us" page with team bios, client logos, case portfolio and social proof numbers (e.g. "200+ clients").',
+    'crawlability'      => 'Publish robots.txt with Sitemap: declared, no Disallow:/ and ensure HTTPS on every page.',
+  ];
+  foreach ($dims as $k => &$d) {
+    $d['label_en'] = $labels_en[$k] ?? $d['label'];
+    $d['fix_en']   = $fixes_en[$k]  ?? $d['fix'];
+  }
+  unset($d);
+
   [$band, $color] = nwm_audit_band($score);
 
   $gaps        = nwm_audit_gaps_from_dims($dims);

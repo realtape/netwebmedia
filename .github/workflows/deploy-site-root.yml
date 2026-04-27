@@ -95,7 +95,7 @@ jobs:
     timeout-minutes: 25
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6.0.2
 
       - name: Preflight — verify required secrets
         id: preflight
@@ -248,7 +248,7 @@ jobs:
 
       - name: Deploy via FTPS
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.CPANEL_FTP_HOST }}
           username: ${{ secrets.CPANEL_FTP_ROOT_USER }}

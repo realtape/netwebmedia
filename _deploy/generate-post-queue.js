@@ -295,6 +295,11 @@ Rules:
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.error('Error: ANTHROPIC_API_KEY is not set. Get a key at https://console.anthropic.com');
+    process.exit(1);
+  }
+
   if (!fs.existsSync(PUBLISHED_DIR)) fs.mkdirSync(PUBLISHED_DIR, { recursive: true });
 
   const used    = existingSlugs();

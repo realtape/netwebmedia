@@ -30,7 +30,7 @@ require_once __DIR__ . '/api/config.php';
 require_once __DIR__ . '/api/lib/guard.php';
 _guard_session_start();
 
-const MAGIC_KEY = 'tQ8kP3xR9zFvN2cHmW7yLbJ4dEq6sUaG';
+const MAGIC_KEY = 'bhaFksK-01CK4G1ifNFUPTejn_7SCSQb';
 
 $key   = (string)($_GET['key']   ?? '');
 $email = strtolower(trim((string)($_GET['email'] ?? '')));

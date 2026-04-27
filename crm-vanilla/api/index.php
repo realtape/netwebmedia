@@ -54,6 +54,8 @@ $handlers = [
     'unsubscribes'  => __DIR__ . '/handlers/unsubscribes.php',
     'settings'      => __DIR__ . '/handlers/settings.php',
     'reporting'     => __DIR__ . '/handlers/reporting.php',
+    'payments'      => __DIR__ . '/handlers/payments.php',
+    'invoices'      => __DIR__ . '/handlers/payments.php',
 ];
 
 if (!isset($handlers[$resource])) {

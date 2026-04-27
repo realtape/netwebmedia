@@ -2,35 +2,10 @@
 (function () {
   "use strict";
 
-  function injectComingSoonBanner(label) {
-    var existing = document.getElementById('coming-soon-banner');
-    if (existing) return;
-    var banner = document.createElement('div');
-    banner.id = 'coming-soon-banner';
-    banner.style.cssText = 'background:linear-gradient(135deg,#010F3B,#0d1f5c);border:1px solid rgba(255,103,31,0.4);border-radius:12px;padding:16px 20px;margin:0 0 20px;display:flex;align-items:center;gap:12px;';
-    banner.innerHTML = '<span style="font-size:22px">🚧</span><div><strong style="color:#FF671F">' + label + ' — Coming Soon</strong><div style="color:#9aa;font-size:13px;margin-top:2px">This module is under active development. Data shown below is illustrative.</div></div>';
-    var content = document.querySelector('.page-content') || document.querySelector('main') || document.body;
-    content.insertBefore(banner, content.firstChild);
-  }
-
-  var INVOICES = [
-    { id: "INV-001", client: "Sarah Chen", company: "TechCorp", amount: 24500, status: "paid", date: "Apr 10, 2026" },
-    { id: "INV-002", client: "Marcus Johnson", company: "Innovate Co", amount: 18000, status: "pending", date: "Apr 8, 2026" },
-    { id: "INV-003", client: "Elena Rodriguez", company: "StartupXYZ", amount: 12000, status: "overdue", date: "Mar 15, 2026" },
-    { id: "INV-004", client: "David Kim", company: "GlobalFin", amount: 45000, status: "paid", date: "Apr 5, 2026" },
-    { id: "INV-005", client: "Rachel Foster", company: "DesignHub", amount: 8500, status: "pending", date: "Apr 12, 2026" },
-    { id: "INV-006", client: "Aisha Patel", company: "Nexus Group", amount: 31200, status: "paid", date: "Apr 1, 2026" },
-    { id: "INV-007", client: "Nina Volkov", company: "EuroTech GmbH", amount: 52000, status: "overdue", date: "Mar 20, 2026" },
-    { id: "INV-008", client: "Carlos Mendez", company: "LATAM Retail", amount: 28750, status: "paid", date: "Apr 3, 2026" }
-  ];
-
-  var SUBSCRIPTIONS = [
-    { client: "TechCorp", plan: "Enterprise", amount: 2450, interval: "Monthly", status: "active", nextBill: "May 1, 2026" },
-    { client: "GlobalFin", plan: "Enterprise", amount: 3750, interval: "Monthly", status: "active", nextBill: "May 5, 2026" },
-    { client: "Nexus Group", plan: "Pro", amount: 1200, interval: "Monthly", status: "active", nextBill: "May 1, 2026" },
-    { client: "LATAM Retail", plan: "Pro", amount: 1200, interval: "Monthly", status: "active", nextBill: "May 3, 2026" },
-    { client: "DesignHub", plan: "Starter", amount: 490, interval: "Monthly", status: "past_due", nextBill: "Apr 12, 2026" }
-  ];
+  // API-backed data (populated on load)
+  var INVOICES      = [];
+  var SUBSCRIPTIONS = [];
+  var SUMMARY       = { total_revenue: 0, outstanding: 0, overdue: 0, this_month: 0 };
 
   var activeTab = 0;
   var L, TABS;
@@ -47,7 +22,7 @@
       txnId: "ID Transacción", type: "Tipo", method: "Método",
       name: "Nombre",
       view: "Ver", send: "Enviar", copy: "Copiar", edit: "Editar",
-      monthly: "Mensual"
+      monthly: "Mensual", loading: "Cargando...", noData: "Sin datos"
     } : {
       createInvoice: "Create Invoice",
       totalRevenue: "Total Revenue", outstanding: "Outstanding", overdue: "Overdue", thisMonth: "This Month",
@@ -58,13 +33,33 @@
       txnId: "Transaction ID", type: "Type", method: "Method",
       name: "Name",
       view: "View", send: "Send", copy: "Copy", edit: "Edit",
-      monthly: "Monthly"
+      monthly: "Monthly", loading: "Loading...", noData: "No data yet"
     };
     TABS = isEs ? ["Facturas", "Suscripciones", "Enlaces de Pago", "Transacciones"] : ["Invoices", "Subscriptions", "Payment Links", "Transactions"];
-    CRM_APP.buildHeader(CRM_APP.t('nav.payments'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.createInvoice + '</button>');
+    CRM_APP.buildHeader(CRM_APP.t('nav.payments'), '<button class="btn btn-primary" onclick="window.openNewInvoice && window.openNewInvoice()">' + CRM_APP.ICONS.plus + ' ' + L.createInvoice + '</button>');
     renderTabs();
-    renderContent();
+    loadData();
   });
+
+  function loadData() {
+    var body = document.getElementById("paymentsBody");
+    if (body) body.innerHTML = '<div style="padding:32px;text-align:center;color:var(--text-dim)">' + (L ? L.loading : 'Loading...') + '</div>';
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/api/?r=payments");
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          var d = JSON.parse(xhr.responseText);
+          if (d.summary)       SUMMARY       = d.summary;
+          if (d.invoices)      INVOICES      = d.invoices;
+          if (d.subscriptions) SUBSCRIPTIONS = d.subscriptions;
+        } catch (e) { /* keep defaults */ }
+      }
+      renderContent();
+    };
+    xhr.onerror = function () { renderContent(); };
+    xhr.send();
+  }
 
   function renderTabs() {
     var bar = document.getElementById("tabBar");
@@ -83,23 +78,20 @@
     });
   }
 
+  function fmt(val) {
+    var n = parseFloat(val) || 0;
+    return n >= 1000 ? "$" + (n / 1000).toFixed(1) + "k" : "$" + n.toFixed(0);
+  }
+
   function renderContent() {
     var body = document.getElementById("paymentsBody");
     if (!body) return;
 
-    var totalRevenue = 0, outstanding = 0, overdue = 0, thisMonth = 0;
-    for (var i = 0; i < INVOICES.length; i++) {
-      var inv = INVOICES[i];
-      if (inv.status === "paid") { totalRevenue += inv.amount; thisMonth += inv.amount; }
-      if (inv.status === "pending") outstanding += inv.amount;
-      if (inv.status === "overdue") overdue += inv.amount;
-    }
-
     var html = '<div class="summary-cards">';
-    html += summaryCard(L.totalRevenue, "$" + (totalRevenue / 1000).toFixed(1) + "k", "");
-    html += summaryCard(L.outstanding, "$" + (outstanding / 1000).toFixed(1) + "k", "orange");
-    html += summaryCard(L.overdue, "$" + (overdue / 1000).toFixed(1) + "k", "red");
-    html += summaryCard(L.thisMonth, "$" + (thisMonth / 1000).toFixed(1) + "k", "green");
+    html += summaryCard(L.totalRevenue, fmt(SUMMARY.total_revenue), "");
+    html += summaryCard(L.outstanding,  fmt(SUMMARY.outstanding),   "orange");
+    html += summaryCard(L.overdue,      fmt(SUMMARY.overdue),       "red");
+    html += summaryCard(L.thisMonth,    fmt(SUMMARY.this_month),    "green");
     html += '</div>';
 
     if (activeTab === 0) html += renderInvoicesTable();
@@ -115,17 +107,26 @@
   }
 
   function renderInvoicesTable() {
+    if (INVOICES.length === 0) {
+      return '<div style="padding:32px;text-align:center;color:var(--text-dim)">' + L.noData + '</div>';
+    }
     var html = '<table class="data-table"><thead><tr>';
     html += '<th>' + L.invoiceNum + '</th><th>' + L.client + '</th><th>' + L.amount + '</th><th>' + L.status + '</th><th>' + L.date + '</th><th>' + L.actions + '</th>';
     html += '</tr></thead><tbody>';
     for (var i = 0; i < INVOICES.length; i++) {
       var inv = INVOICES[i];
+      /* Support both API (snake_case) and legacy (camelCase) field names */
+      var num     = inv.invoice_num || inv.id || '';
+      var client  = inv.client_name || inv.client || inv.contact_name || '';
+      var company = inv.company || '';
+      var amount  = parseFloat(inv.amount) || 0;
+      var date    = (inv.invoice_date || inv.date || '').replace(/T.*/, '');
       html += '<tr>';
-      html += '<td><strong>' + inv.id + '</strong></td>';
-      html += '<td>' + inv.client + '<br><span style="font-size:11px;color:var(--text-dim)">' + inv.company + '</span></td>';
-      html += '<td>$' + inv.amount.toLocaleString() + '</td>';
+      html += '<td><strong>' + num + '</strong></td>';
+      html += '<td>' + client + (company ? '<br><span style="font-size:11px;color:var(--text-dim)">' + company + '</span>' : '') + '</td>';
+      html += '<td>$' + amount.toLocaleString() + '</td>';
       html += '<td>' + CRM_APP.statusBadge(inv.status) + '</td>';
-      html += '<td>' + inv.date + '</td>';
+      html += '<td>' + date + '</td>';
       html += '<td><button class="action-link">' + L.view + '</button> <button class="action-link">' + L.send + '</button></td>';
       html += '</tr>';
     }
@@ -134,19 +135,26 @@
   }
 
   function renderSubscriptionsTable() {
+    if (SUBSCRIPTIONS.length === 0) {
+      return '<div style="padding:32px;text-align:center;color:var(--text-dim)">' + L.noData + '</div>';
+    }
     var html = '<table class="data-table"><thead><tr>';
     html += '<th>' + L.client + '</th><th>' + L.plan + '</th><th>' + L.amount + '</th><th>' + L.interval + '</th><th>' + L.status + '</th><th>' + L.nextBill + '</th>';
     html += '</tr></thead><tbody>';
     for (var i = 0; i < SUBSCRIPTIONS.length; i++) {
       var sub = SUBSCRIPTIONS[i];
-      var intervalTx = sub.interval === "Monthly" ? L.monthly : sub.interval;
+      var clientName  = sub.client_name || sub.contact_name || sub.client || '';
+      var interval    = sub.interval_type || sub.interval || 'monthly';
+      var intervalTx  = (interval === 'monthly' || interval === 'Monthly') ? L.monthly : interval;
+      var nextBill    = (sub.next_bill_date || sub.nextBill || '').replace(/T.*/, '');
+      var subStatus   = sub.status === "past_due" ? "overdue" : sub.status;
       html += '<tr>';
-      html += '<td>' + sub.client + '</td>';
+      html += '<td>' + clientName + '</td>';
       html += '<td>' + sub.plan + '</td>';
-      html += '<td>$' + sub.amount.toLocaleString() + '</td>';
+      html += '<td>$' + (parseFloat(sub.amount) || 0).toLocaleString() + '</td>';
       html += '<td>' + intervalTx + '</td>';
-      html += '<td>' + CRM_APP.statusBadge(sub.status === "past_due" ? "overdue" : sub.status) + '</td>';
-      html += '<td>' + sub.nextBill + '</td>';
+      html += '<td>' + CRM_APP.statusBadge(subStatus) + '</td>';
+      html += '<td>' + nextBill + '</td>';
       html += '</tr>';
     }
     html += '</tbody></table>';

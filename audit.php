@@ -96,14 +96,34 @@ $website   = trim((string)($lead['website'] ?? ''));
 $has_site  = $website && $website !== 'No website' && $website !== 'Not found';
 $site_clean = $has_site ? preg_replace('#^https?://#', '', rtrim($website, '/')) : '';
 
-// Deterministic per-lead score (so the same lead always shows the same score
-// on revisit). Range: 38–62, which is the realistic band for unaudited SMBs.
-// We bias slightly by website presence (no-site → lower).
-$seed_int = hexdec(substr(md5($email), 0, 8));
-$score    = 38 + ($seed_int % 25);
-if (!$has_site) $score = max(28, $score - 12);
-$score_band = $score >= 70 ? 'Sólido' : ($score >= 55 ? 'Medio' : ($score >= 40 ? 'Bajo' : 'Crítico'));
-$score_color = $score >= 70 ? '#10b981' : ($score >= 55 ? '#FF671F' : ($score >= 40 ? '#f59e0b' : '#ef4444'));
+// Self-audit detection: when the lead email is @netwebmedia.com we render a
+// perfect-score showcase of our own digital presence (the demo URL we share
+// publicly must not show NWM scoring 50/100 against itself).
+$email_domain = strtolower(substr(strrchr($email, '@') ?: '', 1));
+$is_self = ($email_domain === 'netwebmedia.com');
+
+if ($is_self) {
+  $score       = 100;
+  $score_band  = 'Excelente';
+  $score_color = '#10b981';
+  // Self-audit context overrides — the demo URL has no CSV row, so $lead falls
+  // back to "Tu Empresa". Replace with our own brand details.
+  $company    = 'NetWebMedia';
+  $niche      = 'Agencia digital · AEO · Automatización pyme';
+  $niche_key  = 'smb';
+  $website    = 'https://netwebmedia.com';
+  $has_site   = true;
+  $site_clean = 'netwebmedia.com';
+} else {
+  // Deterministic per-lead score (so the same lead always shows the same score
+  // on revisit). Range: 38–62, which is the realistic band for unaudited SMBs.
+  // We bias slightly by website presence (no-site → lower).
+  $seed_int = hexdec(substr(md5($email), 0, 8));
+  $score    = 38 + ($seed_int % 25);
+  if (!$has_site) $score = max(28, $score - 12);
+  $score_band = $score >= 70 ? 'Sólido' : ($score >= 55 ? 'Medio' : ($score >= 40 ? 'Bajo' : 'Crítico'));
+  $score_color = $score >= 70 ? '#10b981' : ($score >= 55 ? '#FF671F' : ($score >= 40 ? '#f59e0b' : '#ef4444'));
+}
 
 // ── Niche-specific findings (mirrors chile-send.php pool) ──────────
 function audit_findings($nk) {
@@ -113,7 +133,7 @@ function audit_findings($nk) {
 
 // Build the findings dynamically per niche. We render 6 findings here (more
 // depth than the email's 3-finding hook) plus 3 priorities.
-$findings = audit_findings($niche_key);
+$findings = audit_findings($is_self ? 'netwebmedia' : $niche_key);
 $pick = function($pool, $email, $bucket, $count) {
   $list = $pool[$bucket] ?? [];
   if (!$list) return [];
@@ -340,9 +360,11 @@ header('Cache-Control: no-store');
 
   <!-- GAPS -->
   <section class="page">
-    <div class="section-eyebrow">Brechas detectadas</div>
-    <h2 class="section">Qué encontramos en <?= h($company) ?></h2>
-    <p class="section-lead">Estas son las brechas que encontramos en la presencia digital de <?= h($company) ?>, ordenadas de mayor a menor impacto en captación de clientes.</p>
+    <div class="section-eyebrow"><?= $is_self ? 'Fortalezas detectadas' : 'Brechas detectadas' ?></div>
+    <h2 class="section"><?= $is_self ? 'Lo que hace excepcional a ' . h($company) : 'Qué encontramos en ' . h($company) ?></h2>
+    <p class="section-lead"><?= $is_self
+        ? 'Estas son las fortalezas que sostienen la presencia digital de ' . h($company) . ', ordenadas por su impacto en captación de clientes.'
+        : 'Estas son las brechas que encontramos en la presencia digital de ' . h($company) . ', ordenadas de mayor a menor impacto en captación de clientes.' ?></p>
     <ol class="gap-list">
       <?php foreach ($gaps as $i => $g): ?>
         <li class="gap-item">
@@ -356,8 +378,10 @@ header('Cache-Control: no-store');
   <!-- PRIORITIES -->
   <section class="page">
     <div class="section-eyebrow">Plan de acción</div>
-    <h2 class="section">3 prioridades para los próximos 30 días</h2>
-    <p class="section-lead">Si tuviéramos que mover sólo tres palancas en <?= h($company) ?> antes de fin de mes, serían estas.</p>
+    <h2 class="section"><?= $is_self ? '3 palancas para sostener el liderazgo' : '3 prioridades para los próximos 30 días' ?></h2>
+    <p class="section-lead"><?= $is_self
+        ? 'Las tres palancas en las que ' . h($company) . ' sigue invirtiendo para mantener el puntaje en 100/100.'
+        : 'Si tuviéramos que mover sólo tres palancas en ' . h($company) . ' antes de fin de mes, serían estas.' ?></p>
     <div class="priorities">
       <?php foreach ($priorities as $i => $p): ?>
         <div class="priority-card">

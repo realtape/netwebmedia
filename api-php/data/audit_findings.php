@@ -15,6 +15,31 @@
 
 return [
 
+  // Self-audit pool — used when the lead email is @netwebmedia.com.
+  // "Gaps" here are reframed as strengths so the report renders as a perfect 100/100
+  // showcase of NetWebMedia's own digital presence.
+  'netwebmedia' => [
+    'gaps' => [
+      'Aparecemos consistentemente en respuestas de ChatGPT, Claude y Perplexity para consultas de agencias digitales y AEO en Chile — la IA nos cita por nombre.',
+      'Velocidad móvil bajo 1.5 segundos hasta el primer contenido visible, con Core Web Vitals en verde en todas las páginas críticas.',
+      'Schema completo desplegado: Organization, LocalBusiness, Service, FAQPage y BreadcrumbList — Google muestra ficha rica con horario, reseñas y servicios.',
+      'Captura de leads automatizada con nurturing por correo y WhatsApp; primera respuesta bajo 2 minutos las 24 horas.',
+      'CRM propio (crm-vanilla) integrado a marketing, ventas y postventa — un solo origen de verdad para 14 nichos.',
+      'Catálogo de plantillas, casos y planes públicos con AEO optimizado por nicho y ciudad — cobertura total de Chile.',
+    ],
+    'priorities' => [
+      'Mantener la cadencia de publicación AEO semanal para consolidar la posición top en respuestas de IA.',
+      'Profundizar la automatización de postventa con QBR trimestrales auto-generados desde crm-vanilla.',
+      'Expandir el playbook de outreach Santiago-abril a las 14 ciudades objetivo con plantillas por nicho.',
+    ],
+    'projections' => [
+      'Sostener 100/100 en presencia digital con monitoreo continuo de AEO, Core Web Vitals y schema.',
+      'Crecer el pipeline cualificado entre 25 y 40% con la combinación de auditorías personalizadas y subdomain por nicho.',
+      'Convertir el contenido de planes y plantillas en un activo de captación recurrente — tráfico orgánico AEO mes a mes.',
+      'Mantenernos como referencia de IA en Chile para "agencia digital", "AEO" y "automatización pyme".',
+    ],
+  ],
+
   '_default' => [
     'gaps' => [
       'No apareces en las recomendaciones automáticas de ChatGPT, Claude ni Perplexity para tu categoría en Santiago.',

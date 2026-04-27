@@ -3,6 +3,7 @@
 
 :root {
   --navy: #010F3B;
+  --gulf-blue: #00AEEF;
   --orange: #FF671F;
   --white: #ffffff;
   --off-white: #f8f9fc;
@@ -34,7 +35,27 @@ body.guide-body {
   position: relative;
 }
 
+/* ── Page breaks (PDF) ───────────────────────────────── */
+.guide-cover,
+.guide-toc,
+.guide-exec-summary,
+.guide-section,
+.guide-checklist {
+  page-break-after: always;
+  break-after: page;
+}
+
+.guide-callout,
+.guide-stat-box,
+.guide-step,
+.guide-takeaways-box,
+.checklist-group {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
 @media print {
+  .lang-toggle { display: none !important; }
   .guide-page { page-break-after: always; }
   a { color: inherit !important; text-decoration: none !important; }
 }
@@ -176,7 +197,7 @@ body.guide-body {
   font-family: 'Poppins', var(--font-main);
   font-size: 22pt;
   font-weight: 800;
-  color: var(--navy);
+  color: var(--gulf-blue);
 }
 
 .toc-item {
@@ -191,7 +212,7 @@ body.guide-body {
 .toc-item-title {
   font-size: 11pt;
   font-weight: 600;
-  color: var(--navy);
+  color: var(--gulf-blue);
   flex: 1;
 }
 
@@ -235,7 +256,7 @@ body.guide-body {
   font-family: 'Poppins', var(--font-main);
   font-size: 20pt;
   font-weight: 800;
-  color: var(--navy);
+  color: var(--gulf-blue);
   line-height: 1.2;
 }
 
@@ -250,7 +271,7 @@ body.guide-body {
   font-family: 'Poppins', var(--font-main);
   font-size: 13pt;
   font-weight: 700;
-  color: var(--navy);
+  color: var(--gulf-blue);
   margin: 28px 0 12px;
 }
 
@@ -277,7 +298,7 @@ body.guide-body {
 .guide-callout p {
   font-size: 11pt;
   font-weight: 600;
-  color: var(--navy);
+  color: var(--gulf-blue);
   font-style: italic;
   margin: 0;
   line-height: 1.55;
@@ -332,7 +353,7 @@ body.guide-body {
 .guide-step-body h4 {
   font-size: 11pt;
   font-weight: 700;
-  color: var(--navy);
+  color: var(--gulf-blue);
   margin-bottom: 5px;
 }
 
@@ -367,7 +388,7 @@ body.guide-body {
   font-family: 'Poppins', var(--font-main);
   font-size: 22pt;
   font-weight: 800;
-  color: var(--navy);
+  color: var(--gulf-blue);
   margin-bottom: 20px;
   line-height: 1.2;
 }
@@ -399,7 +420,7 @@ body.guide-body {
   padding: 8px 0 8px 26px;
   position: relative;
   font-size: 10.5pt;
-  color: var(--navy);
+  color: var(--gulf-blue);
   font-weight: 500;
   border-bottom: 1px solid var(--gray-300);
 }
@@ -424,7 +445,7 @@ body.guide-body {
   font-family: 'Poppins', var(--font-main);
   font-size: 22pt;
   font-weight: 800;
-  color: var(--navy);
+  color: var(--gulf-blue);
   margin-bottom: 28px;
 }
 
@@ -432,7 +453,7 @@ body.guide-body {
 .checklist-group h3 {
   font-size: 12pt;
   font-weight: 700;
-  color: var(--navy);
+  color: var(--gulf-blue);
   border-bottom: 2px solid var(--orange);
   padding-bottom: 8px;
   margin-bottom: 14px;
@@ -558,7 +579,7 @@ body.guide-body {
 .guide-footer-brand {
   font-size: 8pt;
   font-weight: 700;
-  color: var(--navy);
+  color: var(--gulf-blue);
 }
 
 .guide-footer-page {

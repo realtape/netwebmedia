@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campañas — NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css?v=8">
+  <style>
+    /* Shared brand surface — mirrors chile-campaign.html so the two
+       dashboards feel like one product, not two. */
+    .camp-body { padding: 24px 32px 80px; }
+    .camp-hero {
+      background: linear-gradient(135deg, #010F3B 0%, #0a1f5c 100%);
+      color: white; border-radius: 14px; padding: 28px 32px; margin-bottom: 24px;
+      position: relative; overflow: hidden;
+    }
+    .camp-hero::before {
+      content:''; position:absolute; top:-80px; right:-80px;
+      width:280px; height:280px; border-radius:50%; background:rgba(255,103,31,0.15);
+    }
+    .camp-hero h1 {
+      font-family:'Poppins',sans-serif; font-weight:800; font-size:24px;
+      margin:0 0 6px 0; position:relative; z-index:2;
+    }
+    .camp-hero .sub { font-size:14px; opacity:0.85; position:relative; z-index:2; }
+    .camp-hero .pill {
+      display:inline-block; background:#FF671F; color:white; padding:4px 12px;
+      border-radius:50px; font-size:11px; font-weight:700; letter-spacing:0.5px;
+      text-transform:uppercase; margin-bottom:12px; position:relative; z-index:2;
+    }
+    .camp-hero .actions { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; position:relative; z-index:2; }
+
+    .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:14px; margin-bottom:28px; }
+    .kpi {
+      background:white; border:1px solid #e5e7eb; border-radius:10px;
+      padding:18px 20px;
+    }
+    .kpi-label { font-size:11px; color:#6b7280; letter-spacing:0.6px; text-transform:uppercase; font-weight:600; margin-bottom:6px; }
+    .kpi-value { font-family:'Poppins',sans-serif; font-weight:800; font-size:32px; color:#010F3B; line-height:1.1; }
+    .kpi.ok    .kpi-value { color:#10b981; }
+    .kpi.warn  .kpi-value { color:#FF671F; }
+    .kpi.bad   .kpi-value { color:#ef4444; }
+    .kpi-meta  { font-size:12px; color:#6b7280; margin-top:4px; }
+
+    .panel { background:white; border:1px solid #e5e7eb; border-radius:10px; padding:20px; margin-bottom:24px; }
+    .panel h2 {
+      font-family:'Poppins',sans-serif; font-weight:800; font-size:16px;
+      color:#010F3B; margin:0 0 14px 0; display:flex; align-items:center; justify-content:space-between;
+    }
+    .panel h2 .panel-meta { font-family:'Inter',sans-serif; font-weight:500; font-size:12px; color:#6b7280; letter-spacing:0; text-transform:none; }
+
+    table.tbl { width:100%; border-collapse:collapse; font-size:13px; }
+    table.tbl th { text-align:left; padding:8px 10px; color:#6b7280; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; border-bottom:1px solid #e5e7eb; }
+    table.tbl td { padding:10px; border-bottom:1px solid #f3f4f6; vertical-align:top; }
+    table.tbl tr:last-child td { border-bottom:0; }
+    table.tbl td.num { text-align:right; font-variant-numeric:tabular-nums; }
+    table.tbl td.email { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12px; color:#374151; }
+
+    /* Campaign table row click affordance */
+    tr.camp-row { cursor:pointer; transition:background 0.12s; }
+    tr.camp-row:hover { background:#f9fafb; }
+    tr.camp-row.expanded { background:#fff7f2; }
+    tr.detail-row td { background:#fafbfc; padding:18px 20px; border-bottom:1px solid #e5e7eb; }
+    tr.detail-row .detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    @media (max-width:900px) { tr.detail-row .detail-grid { grid-template-columns:1fr; } }
+
+    /* Status pills */
+    .pill-status {
+      display:inline-block; padding:3px 10px; border-radius:50px;
+      font-size:11px; font-weight:700; letter-spacing:0.4px; text-transform:uppercase;
+    }
+    .pill-status.sent     { background:#d1fae5; color:#065f46; }
+    .pill-status.sending  { background:#ffedd5; color:#9a3412; }
+    .pill-status.scheduled{ background:#dbeafe; color:#1e40af; }
+    .pill-status.draft    { background:#f3f4f6; color:#4b5563; }
+    .pill-status.paused   { background:#fef3c7; color:#92400e; }
+    .pill-status.failed   { background:#fee2e2; color:#991b1b; }
+    .pill-status.queued   { background:#e0e7ff; color:#3730a3; }
+    .pill-status.opened   { background:#d1fae5; color:#065f46; }
+    .pill-status.clicked  { background:#dbeafe; color:#1e40af; }
+    .pill-status.bounced  { background:#fee2e2; color:#991b1b; }
+    .pill-status.unsubscribed { background:#fce7f3; color:#9d174d; }
+    .pill-status.complained { background:#fee2e2; color:#991b1b; }
+
+    /* Pure-CSS bar chart — one bar per day, height ∝ sent_count */
+    .timeline {
+      display:flex; align-items:flex-end; gap:6px;
+      height:120px; padding:8px 4px; border-bottom:1px solid #e5e7eb;
+    }
+    .timeline-bar {
+      flex:1; min-width:8px; background:#FF671F; border-radius:3px 3px 0 0;
+      position:relative; transition:opacity 0.15s;
+    }
+    .timeline-bar:hover { opacity:0.8; }
+    .timeline-bar .tt {
+      position:absolute; bottom:100%; left:50%; transform:translateX(-50%);
+      background:#010F3B; color:white; font-size:11px; padding:4px 8px;
+      border-radius:4px; white-space:nowrap; opacity:0; pointer-events:none;
+      transition:opacity 0.15s; margin-bottom:4px;
+    }
+    .timeline-bar:hover .tt { opacity:1; }
+    .timeline-axis {
+      display:flex; gap:6px; font-size:10px; color:#9ca3af;
+      margin-top:6px; padding:0 4px;
+    }
+    .timeline-axis span { flex:1; min-width:8px; text-align:center; }
+
+    .empty { color:#9ca3af; padding:24px; text-align:center; font-size:13px; }
+    .empty strong { color:#374151; display:block; margin-bottom:4px; font-weight:600; }
+
+    .btn-orange { background:#FF671F; color:white; border:0; padding:10px 18px; border-radius:6px; font-weight:600; font-size:13px; cursor:pointer; text-decoration:none; display:inline-block; font-family:inherit; }
+    .btn-ghost  { background:transparent; color:#FF671F; border:1px solid #FF671F; padding:10px 18px; border-radius:6px; font-weight:600; font-size:13px; cursor:pointer; text-decoration:none; display:inline-block; font-family:inherit; }
+    .btn-ghost:hover { background:rgba(255,103,31,0.06); }
+
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    @media (max-width:900px) { .grid-2 { grid-template-columns:1fr; } }
+
+    .activity-item {
+      display:flex; align-items:center; gap:12px;
+      padding:10px 0; border-bottom:1px solid #f3f4f6; font-size:13px;
+    }
+    .activity-item:last-child { border-bottom:0; }
+    .activity-email { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12px; color:#374151; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .activity-meta { font-size:11px; color:#9ca3af; white-space:nowrap; }
+    .activity-camp { font-size:11px; color:#6b7280; }
+
+    .unsub-list { font-size:13px; }
+    .unsub-list .activity-item { padding:8px 0; }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+
+      <div class="camp-body">
+
+        <div class="camp-hero">
+          <span class="pill">Stats en vivo</span>
+          <h1>Campañas de Email</h1>
+          <div class="sub" id="heroSub">Cargando…</div>
+          <div class="actions">
+            <button class="btn-orange" id="refreshBtn" type="button">Actualizar</button>
+            <a class="btn-ghost" href="marketing.html">Ir a Marketing</a>
+            <a class="btn-ghost" href="chile-campaign.html">Campaña Chile</a>
+          </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="kpi-grid" id="kpiGrid"></div>
+
+        <!-- Campaigns table -->
+        <div class="panel">
+          <h2>Campañas <span class="panel-meta" id="lastRefresh"></span></h2>
+          <div id="campTableWrap"><div class="empty">Cargando…</div></div>
+        </div>
+
+        <!-- Activity + Unsubscribes side by side -->
+        <div class="grid-2">
+          <div class="panel">
+            <h2>Actividad reciente <span class="panel-meta">últimos 25 eventos</span></h2>
+            <div id="recentActivity"><div class="empty">Cargando…</div></div>
+          </div>
+          <div class="panel">
+            <h2>Bajas (unsubscribes) <span class="panel-meta" id="unsubMeta"></span></h2>
+            <div id="unsubList"><div class="empty">Cargando…</div></div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js?v=8"></script>
+  <script>
+    /* Unified campaign stats dashboard.
+     *
+     * Pulls live numbers from /api/?r=campaigns&action=stats — the same
+     * endpoint covers both the rollup (no id) and the per-campaign drilldown
+     * (id=N). Auto-refreshes every 60s. Pure vanilla, no chart libs.
+     */
+    (function () {
+      // Mirror chile-campaign.html: hit the absolute /crm-vanilla/api/ URL so
+      // we bypass the /api/* → api-php bridge .htaccess.
+      var API_BASE = (location.hostname === 'app.netwebmedia.com')
+        ? '/crm-vanilla/api/'
+        : 'https://netwebmedia.com/crm-vanilla/api/';
+      var POLL_MS = 60000;
+
+      // Header — matches the marketing page pattern.
+      document.addEventListener('DOMContentLoaded', function () {
+        if (window.CRM_APP && window.CRM_APP.buildHeader) {
+          window.CRM_APP.buildHeader('Campañas');
+        }
+        wireRefresh();
+        loadAll();
+        setInterval(loadAll, POLL_MS);
+      });
+
+      function wireRefresh() {
+        var btn = document.getElementById('refreshBtn');
+        if (btn) btn.addEventListener('click', loadAll);
+      }
+
+      function fmtTime(iso) {
+        if (!iso) return '';
+        try {
+          var d = new Date(iso.indexOf('T') === -1 ? iso.replace(' ', 'T') : iso);
+          if (isNaN(d.getTime())) return iso;
+          return d.toLocaleString('es-CL', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+        } catch (e) { return iso; }
+      }
+      function fmtRelative(iso) {
+        if (!iso) return '';
+        try {
+          var d = new Date(iso.indexOf('T') === -1 ? iso.replace(' ', 'T') : iso);
+          var diff = (Date.now() - d.getTime()) / 1000;
+          if (isNaN(diff)) return iso;
+          if (diff < 60) return 'hace ' + Math.max(1, Math.round(diff)) + 's';
+          if (diff < 3600) return 'hace ' + Math.round(diff/60) + 'm';
+          if (diff < 86400) return 'hace ' + Math.round(diff/3600) + 'h';
+          if (diff < 86400*30) return 'hace ' + Math.round(diff/86400) + 'd';
+          return fmtTime(iso);
+        } catch (e) { return iso; }
+      }
+      function escHtml(s) {
+        if (s == null) return '';
+        return String(s).replace(/[&<>"']/g, function (c) {
+          return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
+        });
+      }
+      function authHeaders() {
+        try {
+          var t = localStorage.getItem('nwm_token');
+          return t ? { 'X-Auth-Token': t } : {};
+        } catch (_) { return {}; }
+      }
+
+      // ---- Render: KPIs ----
+      function renderKpis(overall, count) {
+        var ctr = overall.sent ? Math.round((overall.clicked / overall.sent) * 1000) / 10 : 0;
+        var openRate = overall.sent ? Math.round((overall.opened / overall.sent) * 1000) / 10 : 0;
+        var cards = [
+          { label: 'Total Enviados',  val: overall.sent, cls: '',  meta: count + ' campañas' },
+          { label: 'Total Aperturas', val: overall.opened, cls: 'ok', meta: openRate + '% open rate' },
+          { label: 'Total Clics',     val: overall.clicked, cls: 'ok', meta: ctr + '% CTR' },
+          { label: 'CTR Promedio',    val: ctr + '%', cls: ctr >= 5 ? 'ok' : (ctr >= 2 ? 'warn' : ''), meta: 'clics / enviados' },
+          { label: 'Bajas',           val: overall.unsubscribed, cls: overall.unsubscribed > 0 ? 'warn' : '', meta: 'cross-campaign' },
+          { label: 'Fallidos',        val: overall.failed, cls: overall.failed > 0 ? 'bad' : '', meta: 'rechazados' }
+        ];
+        document.getElementById('kpiGrid').innerHTML = cards.map(function (c) {
+          return '<div class="kpi ' + c.cls + '">' +
+            '<div class="kpi-label">' + escHtml(c.label) + '</div>' +
+            '<div class="kpi-value">' + escHtml(String(c.val)) + '</div>' +
+            '<div class="kpi-meta">' + escHtml(c.meta) + '</div>' +
+            '</div>';
+        }).join('');
+      }
+
+      // ---- Render: campaigns table ----
+      function renderTable(campaigns) {
+        var wrap = document.getElementById('campTableWrap');
+        if (!campaigns || !campaigns.length) {
+          wrap.innerHTML = '<div class="empty"><strong>Aún no hay campañas en la base de datos.</strong>' +
+            'Crea una desde Marketing o ejecuta el envío Chile para poblar las stats. ' +
+            'Los datos de la campaña Chile actual están en archivos planos — están en migración a la BD.</div>';
+          return;
+        }
+        var head = '<thead><tr>' +
+          '<th>Nombre</th><th>Estado</th>' +
+          '<th class="num">Enviados</th><th class="num">Aperturas</th>' +
+          '<th class="num">Clics</th><th class="num">CTR</th>' +
+          '<th class="num">Bajas</th><th>Fecha</th>' +
+          '</tr></thead>';
+        var rows = campaigns.map(function (c) {
+          var t = c.totals || {};
+          var r = c.rates || {};
+          var statusClass = (c.status || 'draft').toLowerCase();
+          return '<tr class="camp-row" data-id="' + c.id + '">' +
+            '<td><strong>' + escHtml(c.name) + '</strong></td>' +
+            '<td><span class="pill-status ' + statusClass + '">' + escHtml(c.status || '—') + '</span></td>' +
+            '<td class="num">' + (t.sent || 0) + '</td>' +
+            '<td class="num">' + (t.opened || 0) + '</td>' +
+            '<td class="num">' + (t.clicked || 0) + '</td>' +
+            '<td class="num">' + (r.click_pct || 0) + '%</td>' +
+            '<td class="num">' + (t.unsubscribed || 0) + '</td>' +
+            '<td>' + escHtml(fmtTime(c.sent_at || c.created_at)) + '</td>' +
+            '</tr>';
+        }).join('');
+        wrap.innerHTML = '<table class="tbl">' + head + '<tbody>' + rows + '</tbody></table>';
+
+        // Wire row clicks → expand detail
+        var trs = wrap.querySelectorAll('tr.camp-row');
+        for (var i = 0; i < trs.length; i++) {
+          trs[i].addEventListener('click', onRowClick);
+        }
+      }
+
+      function onRowClick(e) {
+        var tr = e.currentTarget;
+        var id = parseInt(tr.getAttribute('data-id'), 10);
+        var existing = tr.nextElementSibling;
+        if (existing && existing.classList.contains('detail-row')) {
+          existing.remove();
+          tr.classList.remove('expanded');
+          return;
+        }
+        // Close any other open detail rows (only one at a time)
+        var others = document.querySelectorAll('tr.detail-row');
+        for (var i = 0; i < others.length; i++) {
+          var prev = others[i].previousElementSibling;
+          if (prev) prev.classList.remove('expanded');
+          others[i].remove();
+        }
+        var detail = document.createElement('tr');
+        detail.className = 'detail-row';
+        var td = document.createElement('td');
+        td.colSpan = 8;
+        td.innerHTML = '<div class="empty">Cargando detalle…</div>';
+        detail.appendChild(td);
+        tr.parentNode.insertBefore(detail, tr.nextSibling);
+        tr.classList.add('expanded');
+        loadCampaignDetail(id, td);
+      }
+
+      function loadCampaignDetail(id, container) {
+        fetch(API_BASE + '?r=campaigns&action=stats&id=' + id, {
+          credentials: 'include',
+          cache: 'no-store',
+          headers: authHeaders()
+        })
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(function (d) { renderDetail(d, container); })
+        .catch(function (e) {
+          container.innerHTML = '<div class="empty">Error: ' + escHtml(e.message) + '</div>';
+        });
+      }
+
+      function renderDetail(d, container) {
+        var timeline = d.timeline || [];
+        var activity = d.recent_activity || [];
+
+        // Timeline bars — height proportional to sent_count
+        var timelineHtml;
+        if (!timeline.length) {
+          timelineHtml = '<div class="empty">Sin envíos registrados todavía.</div>';
+        } else {
+          var max = 0;
+          for (var i = 0; i < timeline.length; i++) if (timeline[i].sent_count > max) max = timeline[i].sent_count;
+          var bars = timeline.map(function (t) {
+            var pct = max > 0 ? Math.max(4, Math.round((t.sent_count / max) * 100)) : 0;
+            return '<div class="timeline-bar" style="height:' + pct + '%">' +
+              '<span class="tt">' + escHtml(t.date) + ': ' + t.sent_count + ' env. · ' + (t.opened_count||0) + ' open · ' + (t.clicked_count||0) + ' click</span>' +
+              '</div>';
+          }).join('');
+          var labels = timeline.map(function (t) {
+            var parts = (t.date || '').split('-');
+            return '<span>' + (parts[2] || '') + '/' + (parts[1] || '') + '</span>';
+          }).join('');
+          timelineHtml = '<div class="timeline">' + bars + '</div><div class="timeline-axis">' + labels + '</div>';
+        }
+
+        // Recent activity for this campaign
+        var actHtml;
+        if (!activity.length) {
+          actHtml = '<div class="empty">Sin actividad registrada.</div>';
+        } else {
+          actHtml = activity.map(function (a) {
+            var ts = a.clicked_at || a.opened_at || a.sent_at;
+            return '<div class="activity-item">' +
+              '<span class="activity-email">' + escHtml(a.email) + '</span>' +
+              '<span class="pill-status ' + (a.status || 'queued').toLowerCase() + '">' + escHtml(a.status || '—') + '</span>' +
+              '<span class="activity-meta">' + escHtml(fmtRelative(ts)) + '</span>' +
+              '</div>';
+          }).join('');
+        }
+
+        container.innerHTML =
+          '<div class="detail-grid">' +
+            '<div>' +
+              '<h3 style="font-family:Poppins,sans-serif;font-size:13px;margin:0 0 10px;color:#010F3B;">Envíos por día</h3>' +
+              timelineHtml +
+            '</div>' +
+            '<div>' +
+              '<h3 style="font-family:Poppins,sans-serif;font-size:13px;margin:0 0 10px;color:#010F3B;">Actividad reciente</h3>' +
+              actHtml +
+            '</div>' +
+          '</div>';
+      }
+
+      // ---- Render: cross-campaign recent activity feed ----
+      function renderRecentActivity(campaigns) {
+        // Synthetic feed: pull each campaign's most recent timestamp from the
+        // rollup; for a true per-event feed we'd need a separate endpoint, but
+        // this gives a useful at-a-glance view without extra round-trips.
+        var items = campaigns
+          .filter(function (c) { return c.totals && c.totals.sent > 0; })
+          .slice(0, 25)
+          .map(function (c) {
+            var ts = c.sent_at || c.created_at;
+            return '<div class="activity-item">' +
+              '<span class="activity-email">' + escHtml(c.name) + '</span>' +
+              '<span class="pill-status ' + (c.status || 'draft').toLowerCase() + '">' + escHtml(c.status || '—') + '</span>' +
+              '<span class="activity-camp">' + (c.totals.sent || 0) + ' env. · ' + (c.totals.clicked || 0) + ' clic</span>' +
+              '<span class="activity-meta">' + escHtml(fmtRelative(ts)) + '</span>' +
+              '</div>';
+          });
+        var wrap = document.getElementById('recentActivity');
+        if (!items.length) {
+          wrap.innerHTML = '<div class="empty"><strong>Sin actividad registrada.</strong>Cuando una campaña envíe correos, los eventos aparecerán aquí en tiempo real.</div>';
+        } else {
+          wrap.innerHTML = items.join('');
+        }
+      }
+
+      // ---- Render: unsubscribes ----
+      function renderUnsubs(data) {
+        var wrap = document.getElementById('unsubList');
+        var meta = document.getElementById('unsubMeta');
+        var items = (data && data.items) || [];
+        if (meta) meta.textContent = 'Total: ' + ((data && data.total) || 0);
+        if (!items.length) {
+          wrap.innerHTML = '<div class="empty"><strong>Sin bajas registradas.</strong>Las bajas one-click se registran automáticamente.</div>';
+          return;
+        }
+        wrap.innerHTML = '<div class="unsub-list">' + items.map(function (u) {
+          return '<div class="activity-item">' +
+            '<span class="activity-email">' + escHtml(u.email) + '</span>' +
+            '<span class="activity-camp">' + escHtml(u.reason || '—') + '</span>' +
+            '<span class="activity-meta">' + escHtml(fmtRelative(u.created_at)) + '</span>' +
+            '</div>';
+        }).join('') + '</div>';
+      }
+
+      // ---- Loaders ----
+      function loadStats() {
+        return fetch(API_BASE + '?r=campaigns&action=stats', {
+          credentials: 'include',
+          cache: 'no-store',
+          headers: authHeaders()
+        })
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(function (d) {
+          var campaigns = d.campaigns || [];
+          var overall = d.overall || { sent:0, opened:0, clicked:0, bounced:0, unsubscribed:0, failed:0 };
+          var ctr = overall.sent ? Math.round((overall.clicked / overall.sent) * 1000) / 10 : 0;
+          document.getElementById('heroSub').textContent =
+            campaigns.length + ' campañas · ' + (overall.sent || 0) + ' enviados · ' +
+            (overall.clicked || 0) + ' clics (' + ctr + '%)';
+          document.getElementById('lastRefresh').textContent = 'Actualizado ' + fmtTime(new Date().toISOString());
+          renderKpis(overall, campaigns.length);
+          renderTable(campaigns);
+          renderRecentActivity(campaigns);
+        })
+        .catch(function (e) {
+          document.getElementById('heroSub').textContent = 'Error: ' + e.message;
+          document.getElementById('campTableWrap').innerHTML =
+            '<div class="empty"><strong>No se pudieron cargar las campañas.</strong>' + escHtml(e.message) + '</div>';
+        });
+      }
+
+      function loadUnsubs() {
+        return fetch(API_BASE + '?r=unsubscribes', {
+          credentials: 'include',
+          cache: 'no-store',
+          headers: authHeaders()
+        })
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(renderUnsubs)
+        .catch(function (e) {
+          document.getElementById('unsubList').innerHTML =
+            '<div class="empty">Error cargando bajas: ' + escHtml(e.message) + '</div>';
+        });
+      }
+
+      function loadAll() {
+        loadStats();
+        loadUnsubs();
+      }
+    })();
+  </script>
+  <script src="assets/nwm-i18n.js" defer></script>
+  <script src="/assets/nwm-site-chat.js" defer></script>
+</body>
+</html>

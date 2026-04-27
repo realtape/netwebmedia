@@ -544,6 +544,7 @@
     { id: "pipeline", key: "pipeline", icon: "pipeline", href: "pipeline.html" },
     { id: "payments", key: "payments", icon: "payments", href: "payments.html" },
     { id: "marketing", key: "marketing", icon: "marketing", href: "marketing.html" },
+    { id: "campaigns", key: "campaigns", icon: "email", href: "campaigns.html" },
     { id: "chileCampaign", key: "chileCampaign", icon: "rocket", href: "chile-campaign.html" },
     { id: "automation", key: "automation", icon: "automation", href: "automation.html" },
     { id: "sites", key: "sites", icon: "sites", href: "sites.html" },

@@ -17,6 +17,139 @@ $db = getDB();
 $action = $_GET['action'] ?? '';
 $siteBase = 'https://netwebmedia.com';
 
+/**
+ * Aggregate stats across all campaigns OR a single campaign (when $id given).
+ * Pulls live numbers from `campaign_sends` so we don't drift from the
+ * counters cached on `email_campaigns` (those are best-effort).
+ */
+if (!function_exists('pct')) {
+    function pct($num, $den) {
+        if (!$den) return 0.0;
+        return round(($num / $den) * 100, 1);
+    }
+}
+
+if ($action === 'stats' && $_SERVER['REQUEST_METHOD'] === 'GET') {
+    // ---- Per-campaign rollups from campaign_sends ----
+    $rollupSql = "
+        SELECT
+            c.id, c.name, c.status, c.sent_at, c.from_name, c.from_email,
+            c.created_at,
+            COALESCE(SUM(CASE WHEN s.status IN ('sent','opened','clicked') THEN 1 ELSE 0 END), 0) AS sent_count,
+            COALESCE(SUM(CASE WHEN s.status = 'opened' OR s.opened_at IS NOT NULL THEN 1 ELSE 0 END), 0) AS opened_count,
+            COALESCE(SUM(CASE WHEN s.status = 'clicked' OR s.clicked_at IS NOT NULL THEN 1 ELSE 0 END), 0) AS clicked_count,
+            COALESCE(SUM(CASE WHEN s.status = 'bounced' THEN 1 ELSE 0 END), 0) AS bounced_count,
+            COALESCE(SUM(CASE WHEN s.status = 'unsubscribed' THEN 1 ELSE 0 END), 0) AS unsub_count,
+            COALESCE(SUM(CASE WHEN s.status = 'failed' THEN 1 ELSE 0 END), 0) AS failed_count,
+            COUNT(s.id) AS total_rows
+        FROM email_campaigns c
+        LEFT JOIN campaign_sends s ON s.campaign_id = c.id
+        GROUP BY c.id
+        ORDER BY c.created_at DESC
+    ";
+    $rows = $db->query($rollupSql)->fetchAll();
+
+    $campaigns = [];
+    $overall = ['sent' => 0, 'opened' => 0, 'clicked' => 0, 'bounced' => 0, 'unsubscribed' => 0, 'failed' => 0];
+    foreach ($rows as $r) {
+        $sent = (int)$r['sent_count'];
+        $opened = (int)$r['opened_count'];
+        $clicked = (int)$r['clicked_count'];
+        $bounced = (int)$r['bounced_count'];
+        $unsub = (int)$r['unsub_count'];
+        $failed = (int)$r['failed_count'];
+        $overall['sent']         += $sent;
+        $overall['opened']       += $opened;
+        $overall['clicked']      += $clicked;
+        $overall['bounced']      += $bounced;
+        $overall['unsubscribed'] += $unsub;
+        $overall['failed']       += $failed;
+        $campaigns[] = [
+            'id'      => (int)$r['id'],
+            'name'    => $r['name'],
+            'status'  => $r['status'],
+            'sent_at' => $r['sent_at'],
+            'created_at' => $r['created_at'],
+            'from_name'  => $r['from_name'],
+            'from_email' => $r['from_email'],
+            'totals'  => [
+                'sent'         => $sent,
+                'opened'       => $opened,
+                'clicked'      => $clicked,
+                'bounced'      => $bounced,
+                'unsubscribed' => $unsub,
+                'failed'       => $failed,
+            ],
+            'rates'   => [
+                'open_pct'  => pct($opened, $sent),
+                'click_pct' => pct($clicked, $sent),
+                'unsub_pct' => pct($unsub, $sent),
+            ],
+        ];
+    }
+
+    // ---- Single-campaign drilldown ----
+    if ($id) {
+        $detail = null;
+        foreach ($campaigns as $c) { if ($c['id'] === (int)$id) { $detail = $c; break; } }
+        if (!$detail) jsonError('Campaign not found', 404);
+
+        // by_status: counts per status enum value
+        $bs = $db->prepare("SELECT status, COUNT(*) AS n FROM campaign_sends WHERE campaign_id = ? GROUP BY status");
+        $bs->execute([(int)$id]);
+        $byStatus = [];
+        foreach ($bs->fetchAll() as $row) { $byStatus[$row['status']] = (int)$row['n']; }
+
+        // recent_activity: last 25 ordered by most recent activity timestamp
+        $ra = $db->prepare("
+            SELECT email, status, sent_at, opened_at, clicked_at
+            FROM campaign_sends
+            WHERE campaign_id = ?
+            ORDER BY GREATEST(
+                COALESCE(sent_at, '1970-01-01'),
+                COALESCE(opened_at, '1970-01-01'),
+                COALESCE(clicked_at, '1970-01-01')
+            ) DESC
+            LIMIT 25
+        ");
+        $ra->execute([(int)$id]);
+        $recentActivity = $ra->fetchAll();
+
+        // timeline: per-day rollup
+        $tl = $db->prepare("
+            SELECT
+                DATE(sent_at) AS day,
+                COUNT(*) AS sent_count,
+                SUM(CASE WHEN opened_at IS NOT NULL THEN 1 ELSE 0 END) AS opened_count,
+                SUM(CASE WHEN clicked_at IS NOT NULL THEN 1 ELSE 0 END) AS clicked_count
+            FROM campaign_sends
+            WHERE campaign_id = ? AND sent_at IS NOT NULL
+            GROUP BY DATE(sent_at)
+            ORDER BY day ASC
+        ");
+        $tl->execute([(int)$id]);
+        $timeline = array_map(function ($r) {
+            return [
+                'date'          => $r['day'],
+                'sent_count'    => (int)$r['sent_count'],
+                'opened_count'  => (int)$r['opened_count'],
+                'clicked_count' => (int)$r['clicked_count'],
+            ];
+        }, $tl->fetchAll());
+
+        $detail['by_status']       = $byStatus;
+        $detail['recent_activity'] = $recentActivity;
+        $detail['timeline']        = $timeline;
+        jsonResponse($detail);
+    }
+
+    jsonResponse([
+        'campaigns' => $campaigns,
+        'overall'   => $overall,
+        'count'     => count($campaigns),
+    ]);
+}
+
 function buildAudienceSQL(?string $filterJson): array {
     $filter = $filterJson ? json_decode($filterJson, true) : [];
     if (!is_array($filter)) $filter = [];

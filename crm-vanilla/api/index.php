@@ -50,6 +50,7 @@ $handlers = [
     'email_status'  => __DIR__ . '/handlers/email_status.php',
     'social'        => __DIR__ . '/handlers/social.php',
     'admin'         => __DIR__ . '/handlers/admin.php',
+    'unsubscribes'  => __DIR__ . '/handlers/unsubscribes.php',
 ];
 
 if (!isset($handlers[$resource])) {

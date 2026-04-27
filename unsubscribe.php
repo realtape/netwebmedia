@@ -27,6 +27,21 @@ if (!is_dir($logDir)) { @mkdir($logDir, 0755, true); }
 $line = strtolower($email) . "\t" . date('c') . "\t" . substr($token, 0, 24) . "\t" . ($_SERVER['REMOTE_ADDR'] ?? '-') . "\n";
 @file_put_contents($logFile, $line, FILE_APPEND | LOCK_EX);
 
+// Also persist to CRM DB for cross-campaign suppression.
+try {
+  $cfg = __DIR__ . '/crm-vanilla/api/config.php';
+  if (file_exists($cfg)) {
+    require_once $cfg;
+    if (function_exists('getDB')) {
+      $pdo = getDB();
+      $stmt = $pdo->prepare('INSERT IGNORE INTO unsubscribes (email, reason) VALUES (?, ?)');
+      $stmt->execute([strtolower($email), 'one-click']);
+    }
+  }
+} catch (Throwable $e) {
+  error_log('unsubscribe DB write failed: ' . $e->getMessage());
+}
+
 // Gmail/Yahoo one-click POST — reply fast, no page body required.
 if ($method === 'POST') {
   http_response_code(200);

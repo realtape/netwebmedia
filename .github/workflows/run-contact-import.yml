@@ -2,6 +2,11 @@ name: Run one-time contact import
 
 on:
   workflow_dispatch:
+    inputs:
+      skip:
+        description: "Number of chunks to skip (already imported)"
+        required: false
+        default: "0"
 
 jobs:
   import:
@@ -10,7 +15,8 @@ jobs:
     steps:
       - name: Trigger server-side import
         run: |
-          echo "Hitting import endpoint from GitHub runner (unblocked IP)..."
-          RESP=$(curl -s --max-time 300             -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"             "https://app.netwebmedia.com/import_contacts.php?token=nwm-import-7f3k2026")
+          SKIP="${{ github.event.inputs.skip }}"
+          echo "Triggering import with skip=$SKIP ..."
+          RESP=$(curl -s --max-time 300             -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"             "https://app.netwebmedia.com/import_contacts.php?token=nwm-import-7f3k2026&skip=$SKIP")
           echo "$RESP"
           echo "$RESP" | grep -q "Import complete" && echo "SUCCESS" || { echo "FAILED"; exit 1; }

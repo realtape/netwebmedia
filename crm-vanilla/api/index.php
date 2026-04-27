@@ -51,6 +51,8 @@ $handlers = [
     'social'        => __DIR__ . '/handlers/social.php',
     'admin'         => __DIR__ . '/handlers/admin.php',
     'unsubscribes'  => __DIR__ . '/handlers/unsubscribes.php',
+    'settings'      => __DIR__ . '/handlers/settings.php',
+    'reporting'     => __DIR__ . '/handlers/reporting.php',
 ];
 
 if (!isset($handlers[$resource])) {

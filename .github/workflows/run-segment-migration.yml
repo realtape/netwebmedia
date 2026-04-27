@@ -9,6 +9,6 @@ jobs:
     steps:
       - name: Add segment column + backfill
         run: |
-          RESP=$(curl -s -X POST --max-time 60             -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"             -H "Content-Type: application/json"             "https://app.netwebmedia.com/api/index.php?r=migrate&token=NWM_MIGRATE_2026&schema=segment")
+          RESP=$(curl -s --max-time 90             -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"             "https://app.netwebmedia.com/add_segment.php?token=nwm-seg-2026")
           echo "$RESP"
-          echo "$RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); print('ran:', d.get('ran'), 'errors:', d.get('errors')); exit(0 if not d.get('errors') else 1)"
+          echo "$RESP" | grep -q "Done." && echo "SUCCESS" || { echo "FAILED"; exit 1; }

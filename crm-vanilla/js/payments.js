@@ -62,7 +62,6 @@
     };
     TABS = isEs ? ["Facturas", "Suscripciones", "Enlaces de Pago", "Transacciones"] : ["Invoices", "Subscriptions", "Payment Links", "Transactions"];
     CRM_APP.buildHeader(CRM_APP.t('nav.payments'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.createInvoice + '</button>');
-    injectComingSoonBanner('Payments & Billing');
     renderTabs();
     renderContent();
   });

@@ -42,7 +42,6 @@
     };
     TABS = isEs ? ["Todos", "Propuestas", "Contratos", "Facturas"] : ["All", "Proposals", "Contracts", "Invoices"];
     CRM_APP.buildHeader(CRM_APP.t('nav.documents'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.newDoc + '</button>');
-    injectComingSoonBanner('Documents & E-Sign');
     renderTabs();
     renderContent();
   });

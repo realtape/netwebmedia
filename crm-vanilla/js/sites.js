@@ -60,7 +60,6 @@
     };
     TABS = isEs ? ["Embudos", "Sitios Web", "Formularios", "Encuestas"] : ["Funnels", "Websites", "Forms", "Surveys"];
     CRM_APP.buildHeader(CRM_APP.t('nav.sites'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.newSite + '</button>');
-    injectComingSoonBanner('Sites, Funnels & CMS');
     renderTabs();
     renderContent();
   });

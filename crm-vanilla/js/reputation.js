@@ -38,7 +38,6 @@
       responded: "Responded", awaiting: "Awaiting Response", reply: "Reply"
     };
     CRM_APP.buildHeader(CRM_APP.t('nav.reputation'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.requestReview + '</button>');
-    injectComingSoonBanner('Reputation Management');
     render(L);
   });
 

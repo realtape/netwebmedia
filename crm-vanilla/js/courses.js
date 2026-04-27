@@ -141,7 +141,6 @@
     if (window.CRM_APP && CRM_APP.buildHeader) {
       CRM_APP.buildHeader(CRM_APP.t('nav.courses'), '<button class="btn btn-primary">' + (CRM_APP.ICONS && CRM_APP.ICONS.plus || '+') + ' ' + L.newCourse + '</button>');
     }
-    injectComingSoonBanner('Courses & Memberships');
     renderStatsStrip(L);
     render(L);
     wireSearch(L);

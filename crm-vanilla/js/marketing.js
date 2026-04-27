@@ -2,20 +2,11 @@
 (function () {
   "use strict";
 
-  var EMAIL_CAMPAIGNS = [
-    { name: "Spring Promo Launch", status: "active", sent: 4250, opens: 1870, clicks: 425, date: "Apr 8, 2026" },
-    { name: "Newsletter - April", status: "completed", sent: 3800, opens: 1520, clicks: 342, date: "Apr 1, 2026" },
-    { name: "Product Update Announce", status: "active", sent: 2100, opens: 987, clicks: 198, date: "Apr 10, 2026" },
-    { name: "Customer Win-Back", status: "draft", sent: 0, opens: 0, clicks: 0, date: "Apr 12, 2026" },
-    { name: "Webinar Invitation", status: "completed", sent: 5600, opens: 2688, clicks: 784, date: "Mar 25, 2026" },
-    { name: "Case Study Blast", status: "draft", sent: 0, opens: 0, clicks: 0, date: "Apr 14, 2026" }
-  ];
+  var EMAIL_CAMPAIGNS = [];   // loaded via API
+  var emailCampaignsLoaded = false;
 
-  var SMS_CAMPAIGNS = [
-    { name: "Flash Sale Alert", status: "completed", sent: 1200, replies: 89, optOuts: 3, date: "Apr 5, 2026" },
-    { name: "Appointment Reminders", status: "active", sent: 340, replies: 156, optOuts: 0, date: "Apr 12, 2026" },
-    { name: "Review Request", status: "active", sent: 780, replies: 234, optOuts: 2, date: "Apr 9, 2026" }
-  ];
+  var TEMPLATES = [];          // loaded via API
+  var templatesLoaded = false;
 
   var TABS = ["Email Campaigns", "SMS Campaigns", "Templates", "Social Media"];
   var activeTab = 0;
@@ -78,6 +69,43 @@
     { day: 6, platform: "li", time: "7:00 PM",   title: "Monday motivation prep" }
   ];
 
+  /* ── API loaders ───────────────────────────────────────────────────── */
+  function loadEmailCampaigns() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'api/?r=campaigns', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          var d = JSON.parse(xhr.responseText);
+          EMAIL_CAMPAIGNS = Array.isArray(d.campaigns) ? d.campaigns : (Array.isArray(d) ? d : []);
+        } catch (e) { EMAIL_CAMPAIGNS = []; }
+      } else { EMAIL_CAMPAIGNS = []; }
+      emailCampaignsLoaded = true;
+      if (activeTab === 0) renderContent();
+    };
+    xhr.send();
+  }
+
+  function loadTemplates() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'api/?r=templates', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          var d = JSON.parse(xhr.responseText);
+          TEMPLATES = Array.isArray(d.templates) ? d.templates : (Array.isArray(d) ? d : []);
+        } catch (e) { TEMPLATES = []; }
+      } else { TEMPLATES = []; }
+      templatesLoaded = true;
+      if (activeTab === 2) renderContent();
+    };
+    xhr.send();
+  }
+
   /* ── Boot ───────────────────────────────────────────────────────────── */
   document.addEventListener("DOMContentLoaded", function () {
     CRM_APP.buildHeader("Marketing",
@@ -85,6 +113,9 @@
     renderTabs();
     renderContent();
     buildSocialModal();
+    loadEmailCampaigns();
+    loadSocialProviders();
+    loadTemplates();
 
     document.addEventListener("click", function (e) {
       if (e.target && (e.target.id === "mktNewBtn" || e.target.closest("#mktNewBtn"))) {
@@ -182,47 +213,40 @@
     return html;
   }
 
-  /* ── SMS campaigns table ────────────────────────────────────────────── */
+  /* ── SMS campaigns — Coming Soon ────────────────────────────────────── */
   function renderSmsTable() {
-    var html = '<table class="data-table"><thead><tr>';
-    html += '<th>Campaign</th><th>Status</th><th>Sent</th><th>Replies</th><th>Opt-Outs</th><th>Date</th><th>Actions</th>';
-    html += '</tr></thead><tbody>';
-    for (var i = 0; i < SMS_CAMPAIGNS.length; i++) {
-      var c = SMS_CAMPAIGNS[i];
-      html += '<tr>';
-      html += '<td><strong>' + c.name + '</strong></td>';
-      html += '<td>' + CRM_APP.statusBadge(c.status) + '</td>';
-      html += '<td>' + c.sent.toLocaleString() + '</td>';
-      html += '<td>' + c.replies + '</td>';
-      html += '<td>' + c.optOuts + '</td>';
-      html += '<td>' + c.date + '</td>';
-      html += '<td><button class="action-link">Edit</button> <button class="action-link">Clone</button></td>';
-      html += '</tr>';
-    }
-    html += '</tbody></table>';
-    return html;
+    return '<div style="margin-top:24px;background:linear-gradient(135deg,var(--navy,#010F3B),#0a1e5e);border-radius:12px;padding:36px;text-align:center">' +
+      '<div style="font-size:32px;margin-bottom:12px">&#128241;</div>' +
+      '<h3 style="color:#fff;font-size:20px;font-weight:700;margin:0 0 8px">SMS Campaigns — Coming Soon</h3>' +
+      '<p style="color:rgba(255,255,255,.65);font-size:14px;margin:0 0 20px;max-width:420px;margin-inline:auto">' +
+        'Two-way SMS marketing is under active development. Email campaigns are fully live now.' +
+      '</p>' +
+      '<button class="btn btn-outline" onclick="(function(){var tabs=document.querySelectorAll('tab-btn');if(tabs[0])tabs[0].click();})()">Go to Email Campaigns</button>' +
+      '</div>';
   }
 
-  /* ── Templates table ────────────────────────────────────────────────── */
+    /* ── Templates table — API-backed ───────────────────────────────────── */
   function renderTemplates() {
-    var templates = [
-      { name: "Welcome Email",         type: "Email", category: "Onboarding",  lastModified: "Apr 10, 2026" },
-      { name: "Monthly Newsletter",    type: "Email", category: "Newsletter",  lastModified: "Apr 1, 2026"  },
-      { name: "Promo Blast",           type: "Email", category: "Promotion",   lastModified: "Mar 28, 2026" },
-      { name: "Appointment Reminder",  type: "SMS",   category: "Reminder",    lastModified: "Mar 20, 2026" },
-      { name: "Review Request",        type: "SMS",   category: "Follow-up",   lastModified: "Mar 15, 2026" },
-      { name: "Abandoned Cart",        type: "Email", category: "Recovery",    lastModified: "Mar 10, 2026" }
-    ];
+    if (!templatesLoaded) {
+      return '<div style="padding:40px;text-align:center;color:var(--text-dim)">Loading templates…</div>';
+    }
+    if (!TEMPLATES.length) {
+      return '<div style="padding:40px;text-align:center">' +
+        '<p style="color:var(--text-dim);margin:0 0 12px">No templates yet.</p>' +
+        '<button class="btn btn-primary" onclick="alert('Template builder coming soon.')">+ New Template</button>' +
+        '</div>';
+    }
     var html = '<table class="data-table"><thead><tr>';
     html += '<th>Template Name</th><th>Type</th><th>Category</th><th>Last Modified</th><th>Actions</th>';
     html += '</tr></thead><tbody>';
-    for (var i = 0; i < templates.length; i++) {
-      var t = templates[i];
+    for (var i = 0; i < TEMPLATES.length; i++) {
+      var t = TEMPLATES[i];
+      var modified = t.updated_at ? t.updated_at.slice(0, 10) : (t.lastModified || '-');
       html += '<tr>';
-      html += '<td><strong>' + t.name + '</strong></td>';
-      html += '<td>' + t.type + '</td>';
-      html += '<td>' + t.category + '</td>';
-      html += '<td>' + t.lastModified + '</td>';
+      html += '<td><strong>' + escHtml(t.name || t.subject || '-') + '</strong></td>';
+      html += '<td>' + escHtml(t.type || t.channel || 'Email') + '</td>';
+      html += '<td>' + escHtml(t.category || '-') + '</td>';
+      html += '<td>' + modified + '</td>';
       html += '<td><button class="action-link">Edit</button> <button class="action-link">Use</button></td>';
       html += '</tr>';
     }
@@ -230,7 +254,7 @@
     return html;
   }
 
-  /* ── Social Media tab ───────────────────────────────────────────────── */
+    /* ── Social Media tab ───────────────────────────────────────────────── */
   function renderSocialTab(body) {
     var connCount = socialProviders.filter(function (p) { return p.connected; }).length;
     var total     = socialProviders.length || 5;

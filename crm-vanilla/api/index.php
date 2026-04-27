@@ -34,6 +34,7 @@ $handlers = [
     'events'        => __DIR__ . '/handlers/events.php',
     'stats'         => __DIR__ . '/handlers/stats.php',
     'seed'          => __DIR__ . '/handlers/seed.php',
+    'seed_contacts' => __DIR__ . '/handlers/seed_contacts.php',
     'leads'         => __DIR__ . '/handlers/leads.php',
     'auth'          => __DIR__ . '/handlers/auth.php',
     'setup'         => __DIR__ . '/handlers/setup.php',

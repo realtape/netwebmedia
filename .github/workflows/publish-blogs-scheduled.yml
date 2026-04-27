@@ -1,7 +1,7 @@
 name: Publish Blog Posts (Scheduled)
 
 # Runs every hour from 11:00–20:00 UTC = 7 AM–4 PM Santiago (UTC-4)
-# 2 posts per run × 10 runs = 20 posts/day
+# 1 post per run × 10 runs = 10 posts/day
 # Posts are read from _deploy/posts-queue/*.json (pre-written queue)
 # After publishing, blog/*.html + blog.html are committed, which triggers deploy-site-root.yml
 
@@ -11,8 +11,8 @@ on:
   workflow_dispatch:
     inputs:
       limit:
-        description: 'Number of posts to publish (default: 2)'
-        default: '2'
+        description: 'Number of posts to publish (default: 1)'
+        default: '1'
         required: false
 
 jobs:
@@ -38,7 +38,7 @@ jobs:
         id: generate
         if: steps.queue.outputs.pending != '0'
         run: |
-          LIMIT="${{ github.event.inputs.limit || '2' }}"
+          LIMIT="${{ github.event.inputs.limit || '1' }}"
           node _deploy/generate-blogs.js --limit "$LIMIT"
           COUNT=$(git status --porcelain | wc -l)
           echo "changed=$COUNT" >> "$GITHUB_OUTPUT"

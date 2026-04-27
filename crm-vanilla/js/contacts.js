@@ -5,6 +5,7 @@
   var API = 'api/index.php?r=';
   var contacts = [];
   var currentFilter = 'all';
+  var currentSegment = 'all';
   var searchTerm = '';
   var selected = null;
   var page = 0;
@@ -37,6 +38,8 @@
     var meta = {};
     if (c && c.notes) { try { meta = JSON.parse(c.notes); } catch (e) {} }
     if (meta.region) return meta.region;
+    // USA contacts: use state name
+    if ((meta.segment || c.segment) === 'usa' && meta.state) return meta.state;
     var city = (meta.city || '').toLowerCase().trim();
     return CITY_TO_REGION[city] || '—';
   }

@@ -383,8 +383,18 @@ function nwm_check_schema(string $html, string $niche_key): array {
     'education'       => ['EducationalOrganization'],
   ];
   $expected = $niche_type_map[$niche_key] ?? [];
-  $has_org    = count(array_intersect($types, ['Organization','Corporation','LocalBusiness'])) > 0;
-  $has_local  = in_array('LocalBusiness', $types, true) || count(array_intersect($types, $expected)) > 0;
+  // LocalBusiness subtypes — schema.org hierarchy (partial; covers common niches).
+  $local_subtypes = [
+    'LocalBusiness','ProfessionalService','HomeAndConstructionBusiness',
+    'FoodEstablishment','LodgingBusiness','MedicalBusiness','HealthAndBeautyBusiness',
+    'SportsActivityLocation','EntertainmentBusiness','Store','FinancialService',
+    'LegalService','AutomotiveBusiness','EducationalOrganization',
+    'RealEstateAgent','Restaurant','Hotel','Dentist','Physician','BeautySalon',
+    'AutoRepair','AutoDealer','Plumber','Electrician','AccountingService',
+    'Attorney','EventVenue','MedicalClinic',
+  ];
+  $has_org    = count(array_intersect($types, ['Organization','Corporation'] + $local_subtypes)) > 0;
+  $has_local  = count(array_intersect($types, $local_subtypes)) > 0 || count(array_intersect($types, $expected)) > 0;
   $has_niche  = count(array_intersect($types, $expected)) > 0;
 
   $score = 0;
@@ -494,7 +504,7 @@ function nwm_check_whatsapp(string $html): array {
   $api    = preg_match_all('#api\.whatsapp\.com/send#i', $html);
   $proto  = (bool)preg_match('#whatsapp://send#i', $html);
   $cta    = (bool)preg_match('/whatsapp/i', $html);
-  $widget = (bool)preg_match('/(elfsight-whatsapp|wa-chat|whatsapp-widget|chaty)/i', $html);
+  $widget = (bool)preg_match('/(elfsight-whatsapp|wa-chat|whatsapp-widget|chaty|nwm-site-chat\.js)/i', $html);
 
   $score = 0;
   if ($wame || $api) $score += 60;
@@ -522,7 +532,7 @@ function nwm_check_whatsapp(string $html): array {
 function nwm_check_mobile_conversion(string $html): array {
   $has_viewport = (bool)preg_match('/<meta[^>]+name=["\']viewport["\'][^>]+content=[^>]*width=device-width/i', $html);
   $has_tel      = (bool)preg_match('/<a[^>]+href=["\']tel:/i', $html);
-  $has_sticky   = (bool)preg_match('/(position\s*:\s*fixed|sticky-cta|floating-cta|btn-floating|fab)/i', $html);
+  $has_sticky   = (bool)preg_match('/(position\s*:\s*fixed|sticky-cta|floating-cta|btn-floating|fab|nwm-site-chat\.js)/i', $html);
   $has_amp      = (bool)preg_match('/<html[^>]*\s(amp|⚡)/i', $html);
   $touch_size   = (bool)preg_match('/min-(height|width)\s*:\s*4[4-9]px|min-(height|width)\s*:\s*[5-9]\d+px/', $html);
 
@@ -562,6 +572,8 @@ function nwm_check_automation(string $html): array {
     'Zendesk'   => '/static\.zdassets\.com/i',
     'Freshchat' => '/wchat\.freshchat\.com/i',
     'LiveChat'  => '/cdn\.livechatinc\.com/i',
+    // NetWebMedia's own site-chat widget (WhatsApp FAB + AI chatbot)
+    'NWM Chat'  => '/nwm-site-chat\.js|nwm-chat\.js/i',
   ];
   $found = [];
   foreach ($providers as $name => $rx) {

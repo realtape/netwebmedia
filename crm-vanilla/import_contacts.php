@@ -1,98 +1,118 @@
 <?php
 /**
- * ONE-TIME BULK CONTACT IMPORTER
- * --------------------------------
- * Accepts a JSON array of contacts via POST and bulk-inserts them into
- * the CRM contacts table.
+ * ONE-TIME BULK CONTACT IMPORTER (server-side reader)
+ * -------------------------------------------------------
+ * Reads pre-deployed JSON chunks from ./import_data/ and
+ * bulk-inserts them into the CRM contacts table.
  *
- * SECURITY: Protected by a one-time token in the X-Import-Token header.
- * DELETE THIS FILE FROM THE REPO after the import is complete.
+ * NO POST body — triggered by a single GET request.
+ * SECURITY: Protected by a one-time token in the URL.
  *
- * Usage:
- *   POST https://app.netwebmedia.com/import_contacts.php
- *   Header: X-Import-Token: nwm-import-7f3k2026
- *   Body:   [ { "name":..., "email":..., ... }, ... ]
+ * Trigger:
+ *   GET https://app.netwebmedia.com/import_contacts.php?token=nwm-import-7f3k2026
+ *
+ * DELETE THIS FILE AND import_data/ FROM THE REPO after the import.
  */
 
 require_once __DIR__ . '/api/config.php';
 
 define('IMPORT_TOKEN', 'nwm-import-7f3k2026');
 
-// CORS + method gate
-header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, X-Import-Token');
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(204);
-    exit;
-}
+header('Content-Type: text/plain; charset=utf-8');
 
 // Auth check
-$token = $_SERVER['HTTP_X_IMPORT_TOKEN'] ?? '';
+$token = $_GET['token'] ?? '';
 if (!hash_equals(IMPORT_TOKEN, $token)) {
     http_response_code(403);
-    die(json_encode(['error' => 'Forbidden — invalid import token']));
+    die("Forbidden — invalid import token\n");
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    die(json_encode(['error' => 'POST required']));
+// Increase limits for large import
+set_time_limit(300);
+ini_set('memory_limit', '512M');
+
+$data_dir = __DIR__ . '/import_data';
+if (!is_dir($data_dir)) {
+    http_response_code(500);
+    die("ERROR: import_data/ directory not found\n");
 }
 
-// Parse input
-$raw = file_get_contents('php://input');
-$batch = json_decode($raw, true);
-
-if (!is_array($batch) || empty($batch)) {
-    http_response_code(400);
-    die(json_encode(['error' => 'Expected JSON array of contacts']));
+$chunk_files = glob($data_dir . '/chunk_*.json');
+if (empty($chunk_files)) {
+    http_response_code(500);
+    die("ERROR: No chunk files found in import_data/\n");
 }
-
-// Increase limits for large batches
-set_time_limit(120);
-ini_set('memory_limit', '256M');
+sort($chunk_files);
 
 $db = getDB();
-
-// Prepare single insert statement
 $stmt = $db->prepare(
     'INSERT INTO contacts (name, email, phone, company, role, status, value, notes)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
 );
 
-$inserted = 0;
-$errors   = 0;
+$total_inserted = 0;
+$total_errors   = 0;
 
-$db->beginTransaction();
-try {
-    foreach ($batch as $c) {
-        $name = trim($c['name'] ?? '');
-        if ($name === '') { $errors++; continue; }
+foreach ($chunk_files as $file) {
+    $basename = basename($file);
+    echo "Processing $basename ... ";
+    flush();
 
-        $stmt->execute([
-            $name,
-            $c['email']   ?? null,
-            $c['phone']   ?? null,
-            $c['company'] ?? null,
-            $c['role']    ?? null,
-            $c['status']  ?? 'lead',
-            (float)($c['value']  ?? 0),
-            $c['notes']   ?? null,
-        ]);
-        $inserted++;
+    $raw = file_get_contents($file);
+    if ($raw === false) {
+        echo "ERROR: could not read file\n";
+        flush();
+        $total_errors++;
+        continue;
     }
-    $db->commit();
-} catch (Exception $e) {
-    $db->rollBack();
-    http_response_code(500);
-    die(json_encode(['error' => $e->getMessage()]));
+
+    $batch = json_decode($raw, true);
+    if (!is_array($batch)) {
+        echo "ERROR: invalid JSON\n";
+        flush();
+        $total_errors++;
+        continue;
+    }
+
+    $chunk_inserted = 0;
+    $chunk_errors   = 0;
+
+    $db->beginTransaction();
+    try {
+        foreach ($batch as $c) {
+            $name = trim($c['name'] ?? '');
+            if ($name === '') { $chunk_errors++; continue; }
+
+            $stmt->execute([
+                $name,
+                $c['email']   ?? null,
+                $c['phone']   ?? null,
+                $c['company'] ?? null,
+                $c['role']    ?? null,
+                $c['status']  ?? 'lead',
+                (float)($c['value']  ?? 0),
+                $c['notes']   ?? null,
+            ]);
+            $chunk_inserted++;
+        }
+        $db->commit();
+    } catch (Exception $e) {
+        $db->rollBack();
+        echo "DB ERROR: " . $e->getMessage() . "\n";
+        flush();
+        $total_errors += count($batch);
+        continue;
+    }
+
+    $total_inserted += $chunk_inserted;
+    $total_errors   += $chunk_errors;
+    echo "inserted=$chunk_inserted errors=$chunk_errors\n";
+    flush();
 }
 
-echo json_encode([
-    'ok'         => true,
-    'inserted'   => $inserted,
-    'errors'     => $errors,
-    'batch_size' => count($batch),
-]);
+echo "\n---\n";
+echo "TOTAL INSERTED : $total_inserted\n";
+echo "TOTAL ERRORS   : $total_errors\n";
+echo "GRAND TOTAL    : " . ($total_inserted + $total_errors) . "\n";
+echo "---\n";
+echo "Import complete. Remember to delete import_contacts.php and import_data/ from the repo.\n";

@@ -2,6 +2,17 @@
 (function () {
   "use strict";
 
+  function injectComingSoonBanner(label) {
+    var existing = document.getElementById('coming-soon-banner');
+    if (existing) return;
+    var banner = document.createElement('div');
+    banner.id = 'coming-soon-banner';
+    banner.style.cssText = 'background:linear-gradient(135deg,#010F3B,#0d1f5c);border:1px solid rgba(255,103,31,0.4);border-radius:12px;padding:16px 20px;margin:0 0 20px;display:flex;align-items:center;gap:12px;';
+    banner.innerHTML = '<span style="font-size:22px">🚧</span><div><strong style="color:#FF671F">' + label + ' — Coming Soon</strong><div style="color:#9aa;font-size:13px;margin-top:2px">This module is under active development. Data shown below is illustrative.</div></div>';
+    var content = document.querySelector('.page-content') || document.querySelector('main') || document.body;
+    content.insertBefore(banner, content.firstChild);
+  }
+
   var REVIEWS = [
     { name: "John Martinez", platform: "Google", stars: 5, text: "Absolutely fantastic service! The team went above and beyond to deliver our website on time. Highly recommend NetWeb Media for any business looking to grow online.", date: "Apr 12, 2026", responded: true },
     { name: "Lisa Thompson", platform: "Google", stars: 5, text: "Professional, responsive, and creative. They transformed our online presence completely. Our leads have increased by 300% since working with them.", date: "Apr 10, 2026", responded: true },
@@ -27,6 +38,7 @@
       responded: "Responded", awaiting: "Awaiting Response", reply: "Reply"
     };
     CRM_APP.buildHeader(CRM_APP.t('nav.reputation'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.requestReview + '</button>');
+    injectComingSoonBanner('Reputation Management');
     render(L);
   });
 

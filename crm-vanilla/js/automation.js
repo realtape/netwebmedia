@@ -2,6 +2,17 @@
 (function () {
   "use strict";
 
+  function injectComingSoonBanner(label) {
+    var existing = document.getElementById('coming-soon-banner');
+    if (existing) return;
+    var banner = document.createElement('div');
+    banner.id = 'coming-soon-banner';
+    banner.style.cssText = 'background:linear-gradient(135deg,#010F3B,#0d1f5c);border:1px solid rgba(255,103,31,0.4);border-radius:12px;padding:16px 20px;margin:0 0 20px;display:flex;align-items:center;gap:12px;';
+    banner.innerHTML = '<span style="font-size:22px">🚧</span><div><strong style="color:#FF671F">' + label + ' — Coming Soon</strong><div style="color:#9aa;font-size:13px;margin-top:2px">This module is under active development. Data shown below is illustrative.</div></div>';
+    var content = document.querySelector('.page-content') || document.querySelector('main') || document.body;
+    content.insertBefore(banner, content.firstChild);
+  }
+
   var WORKFLOWS = [
     { id: 1, name: "New Lead Welcome", trigger: "Trigger: New contact created with status 'Lead'", active: true, lastRun: "2 hours ago", runs: 1247 },
     { id: 2, name: "Missed Call Text-Back", trigger: "Trigger: Missed inbound call detected", active: true, lastRun: "35 min ago", runs: 856 },

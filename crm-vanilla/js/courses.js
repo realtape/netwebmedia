@@ -2,6 +2,17 @@
 (function () {
   "use strict";
 
+  function injectComingSoonBanner(label) {
+    var existing = document.getElementById('coming-soon-banner');
+    if (existing) return;
+    var banner = document.createElement('div');
+    banner.id = 'coming-soon-banner';
+    banner.style.cssText = 'background:linear-gradient(135deg,#010F3B,#0d1f5c);border:1px solid rgba(255,103,31,0.4);border-radius:12px;padding:16px 20px;margin:0 0 20px;display:flex;align-items:center;gap:12px;';
+    banner.innerHTML = '<span style="font-size:22px">🚧</span><div><strong style="color:#FF671F">' + label + ' — Coming Soon</strong><div style="color:#9aa;font-size:13px;margin-top:2px">This module is under active development. Data shown below is illustrative.</div></div>';
+    var content = document.querySelector('.page-content') || document.querySelector('main') || document.body;
+    content.insertBefore(banner, content.firstChild);
+  }
+
   // Each course points to its tutorial page in /tutorials/{slug}.html
   var COURSES = [
     {
@@ -130,6 +141,7 @@
     if (window.CRM_APP && CRM_APP.buildHeader) {
       CRM_APP.buildHeader(CRM_APP.t('nav.courses'), '<button class="btn btn-primary">' + (CRM_APP.ICONS && CRM_APP.ICONS.plus || '+') + ' ' + L.newCourse + '</button>');
     }
+    injectComingSoonBanner('Courses & Memberships');
     renderStatsStrip(L);
     render(L);
     wireSearch(L);

@@ -2,6 +2,17 @@
 (function () {
   "use strict";
 
+  function injectComingSoonBanner(label) {
+    var existing = document.getElementById('coming-soon-banner');
+    if (existing) return;
+    var banner = document.createElement('div');
+    banner.id = 'coming-soon-banner';
+    banner.style.cssText = 'background:linear-gradient(135deg,#010F3B,#0d1f5c);border:1px solid rgba(255,103,31,0.4);border-radius:12px;padding:16px 20px;margin:0 0 20px;display:flex;align-items:center;gap:12px;';
+    banner.innerHTML = '<span style="font-size:22px">🚧</span><div><strong style="color:#FF671F">' + label + ' — Coming Soon</strong><div style="color:#9aa;font-size:13px;margin-top:2px">This module is under active development. Data shown below is illustrative.</div></div>';
+    var content = document.querySelector('.page-content') || document.querySelector('main') || document.body;
+    content.insertBefore(banner, content.firstChild);
+  }
+
   var DOCUMENTS = [
     { name: "TechCorp Enterprise Proposal", type: "Proposal", recipient: "Sarah Chen", status: "signed", created: "Apr 10, 2026" },
     { name: "Innovate Co Service Agreement", type: "Contract", recipient: "Marcus Johnson", status: "sent", created: "Apr 8, 2026" },
@@ -31,6 +42,7 @@
     };
     TABS = isEs ? ["Todos", "Propuestas", "Contratos", "Facturas"] : ["All", "Proposals", "Contracts", "Invoices"];
     CRM_APP.buildHeader(CRM_APP.t('nav.documents'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.newDoc + '</button>');
+    injectComingSoonBanner('Documents & E-Sign');
     renderTabs();
     renderContent();
   });

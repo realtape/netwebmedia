@@ -1,115 +1,300 @@
-/* Reporting Page Logic */
+/* Reporting Page Logic — live data from /api/?r=reporting */
 (function () {
   "use strict";
-
-  var TOP_CAMPAIGNS = [
-    { name: "Spring Promo Launch", leads: 142, conversions: 38, revenue: "$45,600", roi: "312%" },
-    { name: "Google Ads - Brand", leads: 98, conversions: 27, revenue: "$32,400", roi: "245%" },
-    { name: "Facebook Lead Gen", leads: 87, conversions: 19, revenue: "$22,800", roi: "189%" },
-    { name: "Webinar Invitation", leads: 76, conversions: 22, revenue: "$26,400", roi: "210%" },
-    { name: "SEO Organic", leads: 234, conversions: 45, revenue: "$54,000", roi: "890%" },
-    { name: "Referral Program", leads: 56, conversions: 31, revenue: "$37,200", roi: "425%" }
-  ];
 
   document.addEventListener("DOMContentLoaded", function () {
     var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
     var L = isEs ? {
-      leadsThisMonth: "Leads Este Mes", conversionRate: "Tasa de Conversión",
-      revenueMTD: "Ingresos del Mes", appointmentsBooked: "Citas Agendadas",
-      leadSources: "Fuentes de Leads", pieChart: "Gráfico Circular",
-      revenueTrend: "Tendencia de Ingresos", lineChart: "Gráfico de Líneas",
-      topCampaigns: "Campañas con Mejor Desempeño",
-      campaign: "Campaña", leads: "Leads", conversions: "Conversiones",
-      revenue: "Ingresos", roi: "ROI",
-      googleAds: "Google Ads", organic: "Orgánico", socialMedia: "Redes Sociales",
-      referral: "Referido", direct: "Directo",
-      proj: "(proy)"
+      title: "Reportes",
+      totalContacts: "Contactos Totales",
+      totalDeals: "Negocios Totales",
+      totalValue: "Valor Total",
+      wonThisMonth: "Ganados Este Mes",
+      totalCampaigns: "Campañas",
+      avgOpen: "Apertura Promedio",
+      avgClick: "Clics Promedio",
+      byStatus: "Contactos por Estado",
+      monthlyGrowth: "Crecimiento Mensual",
+      dealFunnel: "Embudo de Negocios",
+      recentCampaigns: "Campañas Recientes",
+      campaign: "Campaña",
+      sent: "Enviados",
+      opened: "Abiertos",
+      clicked: "Clics",
+      openRate: "Apertura",
+      clickRate: "Clics %",
+      loading: "Cargando reportes…",
+      noData: "Sin datos aún — agrega contactos y negocios para ver reportes.",
+      lead: "Lead", customer: "Cliente", prospect: "Prospecto"
     } : {
-      leadsThisMonth: "Leads This Month", conversionRate: "Conversion Rate",
-      revenueMTD: "Revenue MTD", appointmentsBooked: "Appointments Booked",
-      leadSources: "Lead Sources", pieChart: "Pie Chart Visualization",
-      revenueTrend: "Revenue Trend", lineChart: "Line Chart Visualization",
-      topCampaigns: "Top Performing Campaigns",
-      campaign: "Campaign", leads: "Leads", conversions: "Conversions",
-      revenue: "Revenue", roi: "ROI",
-      googleAds: "Google Ads", organic: "Organic", socialMedia: "Social Media",
-      referral: "Referral", direct: "Direct",
-      proj: "(proj)"
+      title: "Reporting",
+      totalContacts: "Total Contacts",
+      totalDeals: "Total Deals",
+      totalValue: "Total Value",
+      wonThisMonth: "Won This Month",
+      totalCampaigns: "Campaigns",
+      avgOpen: "Avg Open Rate",
+      avgClick: "Avg Click Rate",
+      byStatus: "Contacts by Status",
+      monthlyGrowth: "Monthly Growth",
+      dealFunnel: "Deal Funnel by Stage",
+      recentCampaigns: "Recent Campaigns",
+      campaign: "Campaign",
+      sent: "Sent",
+      opened: "Opened",
+      clicked: "Clicked",
+      openRate: "Open %",
+      clickRate: "Click %",
+      loading: "Loading reporting data…",
+      noData: "No data yet — add contacts and deals to see reporting.",
+      lead: "Lead", customer: "Customer", prospect: "Prospect"
     };
+
     CRM_APP.buildHeader(CRM_APP.t('nav.reporting'));
-    render(L);
+    renderLoading(L);
+    fetchData(L);
   });
 
-  function render(L) {
+  /* ── loading state ──────────────────────────────────────────────── */
+  function renderLoading(L) {
+    var body = document.getElementById("reportingBody");
+    if (!body) return;
+    body.innerHTML =
+      '<div style="padding:48px;text-align:center;color:var(--text-dim)">' +
+      '<div style="font-size:32px;margin-bottom:12px">⏳</div>' +
+      '<div>' + L.loading + '</div>' +
+      '</div>';
+  }
+
+  /* ── fetch ──────────────────────────────────────────────────────── */
+  function fetchData(L) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'api/?r=reporting', true);
+    xhr.setRequestHeader('Accept', 'application/json');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+      if (xhr.status === 200) {
+        var data;
+        try { data = JSON.parse(xhr.responseText); } catch (e) { data = null; }
+        if (data) {
+          render(data, L);
+        } else {
+          renderError(L);
+        }
+      } else {
+        renderError(L);
+      }
+    };
+    xhr.send();
+  }
+
+  function renderError(L) {
+    var body = document.getElementById("reportingBody");
+    if (!body) return;
+    body.innerHTML =
+      '<div style="padding:48px;text-align:center;color:var(--text-dim)">' +
+      '<div style="font-size:32px;margin-bottom:12px">⚠️</div>' +
+      '<div>Could not load reporting data. Check API connection.</div>' +
+      '</div>';
+  }
+
+  /* ── main render ────────────────────────────────────────────────── */
+  function render(data, L) {
     var body = document.getElementById("reportingBody");
     if (!body) return;
 
-    var html = '<div class="summary-cards">';
-    html += summaryCard(L.leadsThisMonth, "347", "");
-    html += summaryCard(L.conversionRate, "28.4%", "green");
-    html += summaryCard(L.revenueMTD, "$142.5k", "");
-    html += summaryCard(L.appointmentsBooked, "89", "");
+    var contacts  = data.contacts  || {};
+    var deals     = data.deals     || {};
+    var campaigns = data.campaigns || {};
+
+    var html = '';
+
+    /* ── summary cards ── */
+    html += '<div class="summary-cards">';
+    html += summaryCard(L.totalContacts, contacts.total || 0, '');
+    html += summaryCard(L.totalDeals,    deals.total    || 0, '');
+    html += summaryCard(L.totalValue,    formatCurrency(deals.total_value || 0), '');
+    html += summaryCard(L.wonThisMonth,  deals.won_this_month || 0, 'green');
     html += '</div>';
 
+    /* ── two-column charts row ── */
     html += '<div class="charts-row">';
-    html += '<div class="chart-placeholder">';
-    html += '<div class="chart-placeholder-title">' + L.leadSources + '</div>';
-    html += '<div class="chart-placeholder-area">';
-    html += '<div style="text-align:center">';
-    html += '<div style="margin-bottom:12px">' + CRM_APP.ICONS.reporting + '</div>';
-    html += '<div style="margin-bottom:16px">' + L.pieChart + '</div>';
-    html += '<div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">';
-    html += legendItem("#6c5ce7", L.googleAds, "34%");
-    html += legendItem("#00b894", L.organic, "28%");
-    html += legendItem("#fdcb6e", L.socialMedia, "18%");
-    html += legendItem("#e17055", L.referral, "12%");
-    html += legendItem("#00cec9", L.direct, "8%");
-    html += '</div>';
-    html += '</div>';
-    html += '</div>';
-    html += '</div>';
 
+    /* left: contacts by status */
     html += '<div class="chart-placeholder">';
-    html += '<div class="chart-placeholder-title">' + L.revenueTrend + '</div>';
+    html += '<div class="chart-placeholder-title">' + L.byStatus + '</div>';
     html += '<div class="chart-placeholder-area">';
-    html += '<div style="text-align:center">';
-    html += '<div style="margin-bottom:12px">' + CRM_APP.ICONS.reporting + '</div>';
-    html += '<div style="margin-bottom:16px">' + L.lineChart + '</div>';
-    html += '<div style="display:flex;gap:24px;justify-content:center;font-size:12px">';
-    html += '<div>Jan: $105k</div><div>Feb: $118k</div><div>Mar: $142k</div><div>Apr: $156k ' + L.proj + '</div>';
-    html += '</div>';
-    html += '</div>';
-    html += '</div>';
-    html += '</div>';
-    html += '</div>';
-
-    html += '<div class="card" style="margin-top:24px">';
-    html += '<div class="card-header"><h2 class="card-title">' + L.topCampaigns + '</h2></div>';
-    html += '<table class="data-table"><thead><tr>';
-    html += '<th>' + L.campaign + '</th><th>' + L.leads + '</th><th>' + L.conversions + '</th><th>' + L.revenue + '</th><th>' + L.roi + '</th>';
-    html += '</tr></thead><tbody>';
-    for (var i = 0; i < TOP_CAMPAIGNS.length; i++) {
-      var c = TOP_CAMPAIGNS[i];
-      html += '<tr>';
-      html += '<td><strong>' + c.name + '</strong></td>';
-      html += '<td>' + c.leads + '</td>';
-      html += '<td>' + c.conversions + '</td>';
-      html += '<td>' + c.revenue + '</td>';
-      html += '<td style="color:var(--green);font-weight:600">' + c.roi + '</td>';
-      html += '</tr>';
+    var byStatus = contacts.by_status || {};
+    var statusKeys = ['lead', 'customer', 'prospect'];
+    var maxStatus = 1;
+    for (var si = 0; si < statusKeys.length; si++) {
+      var sv = byStatus[statusKeys[si]] || 0;
+      if (sv > maxStatus) maxStatus = sv;
     }
-    html += '</tbody></table>';
+    var statusLabels = { lead: L.lead, customer: L.customer, prospect: L.prospect };
+    var statusColors = { lead: '#FF671F', customer: '#00b894', prospect: '#a29bfe' };
+    var hasStatusData = false;
+    for (var sk = 0; sk < statusKeys.length; sk++) {
+      if ((byStatus[statusKeys[sk]] || 0) > 0) { hasStatusData = true; break; }
+    }
+    if (!hasStatusData) {
+      html += '<div class="empty-state">' + L.noData + '</div>';
+    } else {
+      html += '<div style="padding:8px 0">';
+      for (var si2 = 0; si2 < statusKeys.length; si2++) {
+        var key   = statusKeys[si2];
+        var count = byStatus[key] || 0;
+        var pct   = Math.round((count / maxStatus) * 100);
+        html += '<div style="margin-bottom:14px">';
+        html += '<div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px">';
+        html += '<span style="color:var(--text-dim)">' + (statusLabels[key] || key) + '</span>';
+        html += '<span style="font-weight:600">' + count + '</span>';
+        html += '</div>';
+        html += '<div style="height:8px;background:var(--bg-card);border-radius:4px;overflow:hidden">';
+        html += '<div style="height:8px;width:' + pct + '%;background:' + (statusColors[key] || '#6c5ce7') + ';border-radius:4px;transition:width .4s"></div>';
+        html += '</div>';
+        html += '</div>';
+      }
+      /* extra statuses not in the default three */
+      for (var xk in byStatus) {
+        if (!byStatus.hasOwnProperty(xk)) continue;
+        if (statusKeys.indexOf(xk) !== -1) continue;
+        var xcount = byStatus[xk] || 0;
+        var xpct   = Math.round((xcount / maxStatus) * 100);
+        html += '<div style="margin-bottom:14px">';
+        html += '<div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px">';
+        html += '<span style="color:var(--text-dim)">' + xk + '</span>';
+        html += '<span style="font-weight:600">' + xcount + '</span>';
+        html += '</div>';
+        html += '<div style="height:8px;background:var(--bg-card);border-radius:4px;overflow:hidden">';
+        html += '<div style="height:8px;width:' + xpct + '%;background:#fdcb6e;border-radius:4px;transition:width .4s"></div>';
+        html += '</div>';
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+    html += '</div>';
+
+    /* right: monthly contact growth */
+    html += '<div class="chart-placeholder">';
+    html += '<div class="chart-placeholder-title">' + L.monthlyGrowth + '</div>';
+    html += '<div class="chart-placeholder-area">';
+    var byMonth = contacts.by_month || [];
+    if (!byMonth.length) {
+      html += '<div class="empty-state">' + L.noData + '</div>';
+    } else {
+      var maxMonth = 1;
+      for (var mi = 0; mi < byMonth.length; mi++) {
+        if (byMonth[mi].count > maxMonth) maxMonth = byMonth[mi].count;
+      }
+      html += '<div style="display:flex;align-items:flex-end;gap:8px;height:100px;padding-top:8px">';
+      for (var mi2 = 0; mi2 < byMonth.length; mi2++) {
+        var m    = byMonth[mi2];
+        var mPct = Math.round((m.count / maxMonth) * 100);
+        html += '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">';
+        html += '<div style="font-size:11px;color:var(--text-dim);font-weight:600">' + m.count + '</div>';
+        html += '<div style="width:100%;height:' + mPct + 'px;min-height:4px;background:#FF671F;border-radius:3px 3px 0 0;transition:height .4s"></div>';
+        html += '<div style="font-size:10px;color:var(--text-dim);white-space:nowrap">' + m.month.slice(5) + '</div>';
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+    html += '</div>';
+
+    html += '</div>'; /* end charts-row */
+
+    /* ── campaign summary cards ── */
+    html += '<div class="summary-cards" style="margin-top:24px">';
+    html += summaryCard(L.totalCampaigns, campaigns.total || 0, '');
+    html += summaryCard(L.avgOpen,  (campaigns.avg_open_rate  || 0) + '%', '');
+    html += summaryCard(L.avgClick, (campaigns.avg_click_rate || 0) + '%', '');
+    html += '</div>';
+
+    /* ── deal funnel ── */
+    var stageData = deals.by_stage || [];
+    html += '<div class="card" style="margin-top:24px">';
+    html += '<div class="card-header"><h2 class="card-title">' + L.dealFunnel + '</h2></div>';
+    if (!stageData.length) {
+      html += '<div class="empty-state" style="padding:24px">' + L.noData + '</div>';
+    } else {
+      var maxStage = 1;
+      for (var di = 0; di < stageData.length; di++) {
+        if (stageData[di].count > maxStage) maxStage = stageData[di].count;
+      }
+      html += '<div style="padding:16px 20px">';
+      for (var di2 = 0; di2 < stageData.length; di2++) {
+        var stage  = stageData[di2];
+        var sPct   = Math.round((stage.count / maxStage) * 100);
+        html += '<div style="margin-bottom:14px">';
+        html += '<div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:13px">';
+        html += '<span style="color:var(--text-dim)">' + escHtml(stage.stage) + '</span>';
+        html += '<span><strong>' + stage.count + '</strong> <span style="color:var(--text-dim);font-size:11px">(' + formatCurrency(stage.value) + ')</span></span>';
+        html += '</div>';
+        html += '<div style="height:8px;background:var(--bg-card);border-radius:4px;overflow:hidden">';
+        html += '<div style="height:8px;width:' + sPct + '%;background:linear-gradient(90deg,#010F3B,#FF671F);border-radius:4px;transition:width .4s"></div>';
+        html += '</div>';
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+
+    /* ── recent campaigns table ── */
+    var recent = campaigns.recent || [];
+    html += '<div class="card" style="margin-top:24px">';
+    html += '<div class="card-header"><h2 class="card-title">' + L.recentCampaigns + '</h2></div>';
+    if (!recent.length) {
+      html += '<div class="empty-state" style="padding:24px">' + L.noData + '</div>';
+    } else {
+      html += '<table class="data-table"><thead><tr>';
+      html += '<th>' + L.campaign + '</th>';
+      html += '<th>' + L.sent + '</th>';
+      html += '<th>' + L.opened + '</th>';
+      html += '<th>' + L.clicked + '</th>';
+      html += '<th>' + L.openRate + '</th>';
+      html += '<th>' + L.clickRate + '</th>';
+      html += '</tr></thead><tbody>';
+      for (var ci = 0; ci < recent.length; ci++) {
+        var camp      = recent[ci];
+        var openPct   = camp.sent > 0 ? ((camp.opened  / camp.sent) * 100).toFixed(1) : '0.0';
+        var clickPct  = camp.sent > 0 ? ((camp.clicked / camp.sent) * 100).toFixed(1) : '0.0';
+        html += '<tr>';
+        html += '<td><strong>' + escHtml(camp.name) + '</strong></td>';
+        html += '<td>' + camp.sent.toLocaleString() + '</td>';
+        html += '<td>' + camp.opened.toLocaleString() + '</td>';
+        html += '<td>' + camp.clicked.toLocaleString() + '</td>';
+        html += '<td style="color:var(--green)">' + openPct  + '%</td>';
+        html += '<td style="color:var(--accent)">' + clickPct + '%</td>';
+        html += '</tr>';
+      }
+      html += '</tbody></table>';
+    }
     html += '</div>';
 
     body.innerHTML = html;
   }
 
+  /* ── helpers ────────────────────────────────────────────────────── */
   function summaryCard(label, value, colorClass) {
-    return '<div class="summary-card"><div class="card-label">' + label + '</div><div class="card-value ' + colorClass + '">' + value + '</div></div>';
+    return '<div class="summary-card">' +
+      '<div class="card-label">' + label + '</div>' +
+      '<div class="card-value ' + colorClass + '">' + value + '</div>' +
+      '</div>';
   }
 
-  function legendItem(color, label, pct) {
-    return '<div style="display:flex;align-items:center;gap:6px;font-size:12px"><span style="width:10px;height:10px;border-radius:50%;background:' + color + ';display:inline-block"></span>' + label + ' (' + pct + ')</div>';
+  function formatCurrency(n) {
+    var num = parseFloat(n) || 0;
+    if (num >= 1000000) return '$' + (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000)    return '$' + (num / 1000).toFixed(1) + 'k';
+    return '$' + Math.round(num).toLocaleString();
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]);
+    });
   }
 
 })();

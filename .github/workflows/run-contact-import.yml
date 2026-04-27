@@ -1,0 +1,16 @@
+name: Run one-time contact import
+
+on:
+  workflow_dispatch:
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Trigger server-side import
+        run: |
+          echo "Hitting import endpoint from GitHub runner (unblocked IP)..."
+          RESP=$(curl -s --max-time 300             -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"             "https://app.netwebmedia.com/import_contacts.php?token=nwm-import-7f3k2026")
+          echo "$RESP"
+          echo "$RESP" | grep -q "Import complete" && echo "SUCCESS" || { echo "FAILED"; exit 1; }

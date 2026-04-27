@@ -93,62 +93,73 @@ $company   = $lead['company']   ?? 'tu negocio';
 $niche_key = $lead['niche_key'] ?? 'smb';
 $niche     = $lead['niche']     ?? 'tu rubro';
 $website   = trim((string)($lead['website'] ?? ''));
+$city_raw  = $lead['city'] ?? 'Santiago';
 $has_site  = $website && $website !== 'No website' && $website !== 'Not found';
 $site_clean = $has_site ? preg_replace('#^https?://#', '', rtrim($website, '/')) : '';
 
-// Self-audit detection: when the lead email is @netwebmedia.com we render a
-// perfect-score showcase of our own digital presence (the demo URL we share
-// publicly must not show NWM scoring 50/100 against itself).
+// Demo / self-audit fallback: when the lead has no website but the email
+// domain is a real corporate domain, infer the URL from the email so the
+// engine can audit something real.
 $email_domain = strtolower(substr(strrchr($email, '@') ?: '', 1));
-$is_self = ($email_domain === 'netwebmedia.com');
-
-if ($is_self) {
-  $score       = 100;
-  $score_band  = 'Excelente';
-  $score_color = '#10b981';
-  // Self-audit context overrides — the demo URL has no CSV row, so $lead falls
-  // back to "Tu Empresa". Replace with our own brand details.
-  $company    = 'NetWebMedia';
-  $niche      = 'Agencia digital · AEO · Automatización pyme';
-  $niche_key  = 'smb';
-  $website    = 'https://netwebmedia.com';
+$free_email_providers = [
+  'gmail.com','hotmail.com','outlook.com','yahoo.com','live.com','icloud.com',
+  'protonmail.com','proton.me','pm.me','aol.com','msn.com',
+];
+if (!$has_site && $email_domain && !in_array($email_domain, $free_email_providers, true)) {
+  $website    = 'https://' . $email_domain;
   $has_site   = true;
-  $site_clean = 'netwebmedia.com';
-} else {
-  // Deterministic per-lead score (so the same lead always shows the same score
-  // on revisit). Range: 38–62, which is the realistic band for unaudited SMBs.
-  // We bias slightly by website presence (no-site → lower).
-  $seed_int = hexdec(substr(md5($email), 0, 8));
-  $score    = 38 + ($seed_int % 25);
-  if (!$has_site) $score = max(28, $score - 12);
-  $score_band = $score >= 70 ? 'Sólido' : ($score >= 55 ? 'Medio' : ($score >= 40 ? 'Bajo' : 'Crítico'));
-  $score_color = $score >= 70 ? '#10b981' : ($score >= 55 ? '#FF671F' : ($score >= 40 ? '#f59e0b' : '#ef4444'));
-}
-
-// ── Niche-specific findings (mirrors chile-send.php pool) ──────────
-function audit_findings($nk) {
-  $pools = require __DIR__ . '/api-php/data/audit_findings.php';
-  return $pools[$nk] ?? $pools['_default'];
-}
-
-// Build the findings dynamically per niche. We render 6 findings here (more
-// depth than the email's 3-finding hook) plus 3 priorities.
-$findings = audit_findings($is_self ? 'netwebmedia' : $niche_key);
-$pick = function($pool, $email, $bucket, $count) {
-  $list = $pool[$bucket] ?? [];
-  if (!$list) return [];
-  // Deterministic shuffle by hash of (email + bucket).
-  $seed = hexdec(substr(md5($email . '|' . $bucket), 0, 8));
-  mt_srand($seed);
-  for ($i = count($list) - 1; $i > 0; $i--) {
-    $j = mt_rand(0, $i);
-    $t = $list[$i]; $list[$i] = $list[$j]; $list[$j] = $t;
+  $site_clean = $email_domain;
+  // For NetWebMedia self-audits, fix up the company display.
+  if ($email_domain === 'netwebmedia.com') {
+    $company = 'NetWebMedia';
+    $niche   = 'Agencia digital · AEO · Automatización pyme';
   }
-  return array_slice($list, 0, min($count, count($list)));
-};
-$gaps        = $pick($findings, $email, 'gaps',        6);
-$priorities  = $pick($findings, $email, 'priorities',  3);
-$projections = $pick($findings, $email, 'projections', 3);
+}
+
+// ── REAL AUDIT — call the engine ────────────────────────────────────
+require_once __DIR__ . '/api-php/lib/audit-engine.php';
+
+if ($has_site) {
+  try {
+    $audit_result = nwm_audit_cached($website, $niche_key, $city_raw);
+  } catch (\Throwable $e) {
+    error_log('[audit.php] engine error: ' . $e->getMessage());
+    $audit_result = [
+      'reachable'  => false,
+      'score'      => 0,
+      'band'       => 'Error',
+      'color'      => '#6b7280',
+      'dimensions' => [],
+      'gaps'       => ['No pudimos completar el análisis automático en este momento. Te contactamos en menos de 24 horas con la auditoría manual.'],
+      'priorities' => ['Verificar acceso al sitio y reintentar la auditoría automatizada.'],
+      'projections'=> ['Una vez resuelto, completamos la medición de las 12 dimensiones.'],
+      'http'       => ['status' => 0, 'https' => false, 'time_s' => 0, 'size_kb' => 0, 'redirects' => 0],
+    ];
+  }
+} else {
+  // No website on file — return a structurally-compatible "skipped" result.
+  $audit_result = [
+    'reachable'  => false,
+    'score'      => 0,
+    'band'       => 'Sin sitio',
+    'color'      => '#6b7280',
+    'dimensions' => [],
+    'gaps'       => ['No tenemos sitio web registrado para ' . $company . '. El primer paso es publicar un sitio que podamos medir.'],
+    'priorities' => ['Levantar un sitio mínimo (1 página) con HTTPS, schema LocalBusiness y captura WhatsApp.'],
+    'projections'=> ['Con un sitio publicado podemos auditar las 12 dimensiones y proyectar mejoras concretas.'],
+    'http'       => ['status' => 0, 'https' => false, 'time_s' => 0, 'size_kb' => 0, 'redirects' => 0],
+  ];
+}
+
+$score       = (int)$audit_result['score'];
+$score_band  = (string)$audit_result['band'];
+$score_color = (string)$audit_result['color'];
+$dimensions  = $audit_result['dimensions'] ?? [];
+$gaps        = $audit_result['gaps']        ?? [];
+$priorities  = $audit_result['priorities']  ?? [];
+$projections = $audit_result['projections'] ?? [];
+$reachable   = !empty($audit_result['reachable']);
+$http_meta   = $audit_result['http'] ?? [];
 
 // Subdomain CTA for "talk to us" footer.
 $subdomain_map = [
@@ -243,6 +254,27 @@ header('Cache-Control: no-store');
   .score-meta-row:last-child { border-bottom:0; }
   .score-meta-label { color:var(--gray-500); }
   .score-meta-val { color:var(--text); font-weight:600; }
+
+  /* DIMENSIONS GRID */
+  .dim-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:24px; }
+  .dim-card { display:flex; align-items:center; gap:14px; padding:14px 16px; border:1px solid var(--gray-200); border-radius:10px; background:white; }
+  .dim-bar { flex:0 0 56px; height:56px; border-radius:50%; background:conic-gradient(var(--bar-color, var(--orange)) calc(var(--bar-pct,0) * 1%), var(--gray-100) 0); display:flex; align-items:center; justify-content:center; position:relative; }
+  .dim-bar::before { content:''; position:absolute; inset:6px; background:white; border-radius:50%; }
+  .dim-bar-num { position:relative; z-index:2; font-family:'Poppins',sans-serif; font-weight:800; font-size:14px; color:var(--text); }
+  .dim-body { flex:1; min-width:0; }
+  .dim-title { font-size:13px; font-weight:700; color:var(--text); line-height:1.3; margin-bottom:3px; }
+  .dim-detail { font-size:11px; color:var(--gray-500); line-height:1.4; }
+  .dim-status { display:inline-block; font-size:10px; font-weight:700; padding:2px 8px; border-radius:50px; letter-spacing:0.4px; text-transform:uppercase; margin-left:6px; vertical-align:1px; }
+  .dim-status.pass { background:#d1fae5; color:#065f46; }
+  .dim-status.warn { background:#fef3c7; color:#92400e; }
+  .dim-status.fail { background:#fee2e2; color:#991b1b; }
+  .dim-status.skipped { background:#e5e7eb; color:#4b5563; }
+  @media (max-width:720px) { .dim-grid { grid-template-columns:1fr; } }
+
+  /* VERIFICATION STAMP */
+  .verify-stamp { display:flex; gap:14px; align-items:center; padding:14px 18px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; margin-top:24px; font-size:13px; color:#065f46; }
+  .verify-stamp strong { color:#064e3b; }
+  .verify-icon { flex:0 0 28px; height:28px; background:#10b981; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; }
 
   /* GAPS */
   .gap-list { list-style:none; padding:0; margin:0; }
@@ -341,7 +373,7 @@ header('Cache-Control: no-store');
   <section class="page">
     <div class="section-eyebrow">Resumen ejecutivo</div>
     <h2 class="section">Puntaje de presencia digital</h2>
-    <p class="section-lead">Calculado a partir de 12 dimensiones: AEO (visibilidad en respuestas de IA), velocidad móvil, schema, captura de leads, gestión de reseñas, integración WhatsApp, conversión móvil, automatización, social, contenido, branding y reputación.</p>
+    <p class="section-lead">Calculado a partir de 12 dimensiones medidas en vivo sobre <?= h($site_clean ?: 'tu sitio') ?>: AEO, velocidad móvil, schema, captura de leads, reseñas, WhatsApp, conversión móvil, automatización, social, contenido, branding y reputación.</p>
     <div class="score-row">
       <div class="score-card">
         <div class="score-num"><?= $score ?><span style="font-size:32px;color:rgba(255,255,255,0.5);">/100</span></div>
@@ -352,17 +384,58 @@ header('Cache-Control: no-store');
         <div class="score-meta-row"><span class="score-meta-label">Empresa</span><span class="score-meta-val"><?= h($company) ?></span></div>
         <div class="score-meta-row"><span class="score-meta-label">Rubro</span><span class="score-meta-val"><?= h($niche) ?></span></div>
         <?php if ($has_site): ?><div class="score-meta-row"><span class="score-meta-label">Sitio analizado</span><span class="score-meta-val"><?= h($site_clean) ?></span></div><?php endif; ?>
-        <div class="score-meta-row"><span class="score-meta-label">Ciudad</span><span class="score-meta-val"><?= h(ucfirst($lead['city'] ?? 'Santiago')) ?></span></div>
+        <?php if ($reachable && !empty($http_meta)): ?>
+        <div class="score-meta-row"><span class="score-meta-label">HTTPS</span><span class="score-meta-val"><?= !empty($http_meta['https']) ? 'Sí' : 'No' ?></span></div>
+        <div class="score-meta-row"><span class="score-meta-label">Carga total</span><span class="score-meta-val"><?= h(number_format((float)($http_meta['time_s'] ?? 0), 2)) ?>s · <?= (int)($http_meta['size_kb'] ?? 0) ?> KB</span></div>
+        <?php endif; ?>
+        <div class="score-meta-row"><span class="score-meta-label">Ciudad</span><span class="score-meta-val"><?= h(ucfirst($city_raw)) ?></span></div>
         <div class="score-meta-row"><span class="score-meta-label">Fecha</span><span class="score-meta-val"><?= h($audit_date) ?></span></div>
       </div>
     </div>
+
+    <?php if (!empty($dimensions)): ?>
+    <div class="dim-grid">
+      <?php foreach ($dimensions as $key => $d):
+        $ds = (int)($d['score'] ?? 0);
+        $st = (string)($d['status'] ?? '');
+        $bar_color = $ds >= 70 ? '#10b981' : ($ds >= 40 ? '#f59e0b' : '#ef4444');
+      ?>
+        <div class="dim-card">
+          <div class="dim-bar" style="--bar-pct:<?= $ds ?>;--bar-color:<?= h($bar_color) ?>;">
+            <span class="dim-bar-num"><?= $ds ?></span>
+          </div>
+          <div class="dim-body">
+            <div class="dim-title"><?= h($d['label'] ?? $key) ?>
+              <?php if ($st): ?><span class="dim-status <?= h($st) ?>"><?= $st === 'pass' ? 'OK' : ($st === 'warn' ? 'Mejorar' : ($st === 'fail' ? 'Crítico' : 'N/D')) ?></span><?php endif; ?>
+            </div>
+            <div class="dim-detail"><?= h($d['detail'] ?? '') ?></div>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+
+    <div class="verify-stamp">
+      <div class="verify-icon">✓</div>
+      <div>
+        <strong>Auditoría verificada en vivo.</strong>
+        Mediciones reales sobre <?= h($site_clean) ?> el <?= h(date('j \d\e F, Y H:i', strtotime((string)($audit_result['fetched_at'] ?? 'now')))) ?>.
+        Motor: <?= h($audit_result['engine'] ?? 'nwm-audit/1.0') ?>.
+      </div>
+    </div>
+    <?php elseif (!$reachable && $has_site): ?>
+    <div class="verify-stamp" style="background:#fef2f2;border-color:#fecaca;color:#991b1b;">
+      <div class="verify-icon" style="background:#ef4444;">!</div>
+      <div><strong>No pudimos acceder a <?= h($site_clean) ?>.</strong> El primer paso es asegurar que el dominio resuelva con HTTPS y responda en menos de 5 segundos.</div>
+    </div>
+    <?php endif; ?>
   </section>
 
   <!-- GAPS -->
   <section class="page">
-    <div class="section-eyebrow"><?= $is_self ? 'Fortalezas detectadas' : 'Brechas detectadas' ?></div>
-    <h2 class="section"><?= $is_self ? 'Lo que hace excepcional a ' . h($company) : 'Qué encontramos en ' . h($company) ?></h2>
-    <p class="section-lead"><?= $is_self
+    <?php $strong = ($score >= 90); ?>
+    <div class="section-eyebrow"><?= $strong ? 'Fortalezas detectadas' : 'Brechas detectadas' ?></div>
+    <h2 class="section"><?= $strong ? 'Lo que hace excepcional a ' . h($company) : 'Qué encontramos en ' . h($company) ?></h2>
+    <p class="section-lead"><?= $strong
         ? 'Estas son las fortalezas que sostienen la presencia digital de ' . h($company) . ', ordenadas por su impacto en captación de clientes.'
         : 'Estas son las brechas que encontramos en la presencia digital de ' . h($company) . ', ordenadas de mayor a menor impacto en captación de clientes.' ?></p>
     <ol class="gap-list">
@@ -378,9 +451,9 @@ header('Cache-Control: no-store');
   <!-- PRIORITIES -->
   <section class="page">
     <div class="section-eyebrow">Plan de acción</div>
-    <h2 class="section"><?= $is_self ? '3 palancas para sostener el liderazgo' : '3 prioridades para los próximos 30 días' ?></h2>
-    <p class="section-lead"><?= $is_self
-        ? 'Las tres palancas en las que ' . h($company) . ' sigue invirtiendo para mantener el puntaje en 100/100.'
+    <h2 class="section"><?= $strong ? '3 palancas para sostener el liderazgo' : '3 prioridades para los próximos 30 días' ?></h2>
+    <p class="section-lead"><?= $strong
+        ? 'Las tres palancas en las que ' . h($company) . ' sigue invirtiendo para mantener el puntaje sobre 90/100.'
         : 'Si tuviéramos que mover sólo tres palancas en ' . h($company) . ' antes de fin de mes, serían estas.' ?></p>
     <div class="priorities">
       <?php foreach ($priorities as $i => $p): ?>

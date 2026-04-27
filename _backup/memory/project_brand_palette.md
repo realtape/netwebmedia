@@ -1,21 +1,26 @@
 ---
-name: NetWebMedia brand palette — Gulf Oil inspired
-description: The NetWebMedia brand palette is directly inspired by the Gulf Oil racing livery — navy blue + orange are intentional, not placeholder
+name: NetWebMedia brand palette — final logo colors
+description: Exact colors from the real final NWM logo (netwebmedia-logo-lockup.png) — navy + orange wordmark, Gulf Oil light blue for backgrounds
 type: project
-originSessionId: 9b242de7-e69d-4e7e-bbae-bdae0426db6a
+originSessionId: a00cc6b2-77c0-46d9-8a15-e45dd927b098
 ---
-The NetWebMedia brand colors are **Gulf Oil racing livery inspired** — this is intentional and load-bearing.
+The real final NetWebMedia logo (`assets/images/netwebmedia-logo-lockup.png`) uses:
 
-**Canonical palette (lives in `css/styles.css`):**
-- Gulf Navy: `#010F3B` (primary background / dark)
-- Gulf Orange: `#FF671F` (primary accent / CTAs)
-- Gulf Blue: `#4A90D9` (secondary accent)
-- Typography: Inter (body) + Poppins (display)
+- **Navy**: `#1B2A4A` — "net" and "media" wordmark text
+- **Orange**: `#F47920` — "web" wordmark text, accents
+- **Gulf Blue**: `#00AEEF` — used for section heading fonts AND as primary background color (cover, stat boxes, CTA page) in guides/PDFs
 
-**Why:** Carlos chose Gulf Oil's iconic racing palette — it signals speed, heritage, performance, and bold contrast. Comments in the CSS referencing "Gulf Oil circle logo style" are intentional brand notes, not cruft to strip.
+**Why:** Gulf Oil racing livery — light blue is the dominant background color, orange is the stripe/accent. This is the correct Gulf Oil look (like the Porsche 917 livery: powder blue + orange).
+
+**Guide CSS** (`css/guide.css`) tokens:
+- `--navy: #1B2A4A` → dark text, structural accents
+- `--gulf-blue: #00AEEF` → ALL colored backgrounds + heading font color on white pages
+- `--orange: #F47920` → CTAs, section numbers, stat figures, decorative accents
 
 **How to apply:**
-- BRAND.md (committed 2026-04-21) codifies this palette — use it as the source of truth.
-- `styles.css` (root, with terracotta `#d86a33` + teal + Sora/Manrope) appears to be a legacy or alternate file — confirm with Carlos before touching; it is NOT the canonical brand.
-- When generating design assets (ads, social, decks, ad creative), use the Gulf palette. Orange CTAs on navy backgrounds are the signature look.
-- Do NOT rename `--gulf-orange` token aliases away from that name — they reinforce the brand reference.
+- Dark backgrounds (covers, callout boxes, CTA pages) → `--gulf-blue`, not `--navy`
+- Text ON gulf-blue backgrounds → `--navy` (dark navy for contrast)
+- Text ON white backgrounds → `--gulf-blue` for headings, `--text` (#111827) for body
+- Orange is always the accent/CTA color — never use it as a background
+
+**Previous wrong values** (do not use): `#010F3B` (navy), `#FF671F` (orange).

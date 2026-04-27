@@ -517,18 +517,13 @@
   <p>Get an instant, comprehensive 8-category audit of your website's marketing performance. Uncover hidden issues killing your leads, rankings, and revenue.</p>
 
   <div class="input-section">
-    <div class="required-hint"><span>*</span> All fields required to generate your report</div>
     <div class="input-row">
       <label for="urlInput" style="position:absolute;left:-9999px;">Website URL</label>
-      <input type="url" id="urlInput" placeholder="https://yourwebsite.com *" required aria-label="Website URL" />
+      <input type="url" id="urlInput" placeholder="https://yourwebsite.com" required aria-label="Website URL" />
     </div>
-    <div class="input-row">
-      <label for="nameInput" style="position:absolute;left:-9999px;">Your name</label>
-      <input type="text" id="nameInput" placeholder="Your Name *" required aria-label="Your name" />
-      <label for="emailInput" style="position:absolute;left:-9999px;">Your email</label>
-      <input type="email" id="emailInput" placeholder="your@email.com *" required aria-label="Your email" />
-    </div>
-    <select class="industry-select" id="industrySelect">
+    <input type="text" id="nameInput" style="display:none;" aria-hidden="true" />
+    <input type="email" id="emailInput" style="display:none;" aria-hidden="true" />
+    <select class="industry-select" id="industrySelect" style="display:none;" aria-hidden="true">
       <option value="">Select your industry...</option>
       <option value="ecommerce">E-Commerce / Retail</option>
       <option value="saas">SaaS / Technology</option>
@@ -944,14 +939,10 @@ function startAnalysis() {
   const industry = document.getElementById('industrySelect').value;
 
   // Validate required fields
-  let valid = true;
-  if (!url) { shakeInput('urlInput'); valid = false; }
-  else if (!url.match(/^https?:\/\/.+\..+/) && !url.match(/^[a-zA-Z0-9].*\..+/)) {
-    shakeInput('urlInput'); valid = false;
+  if (!url) { shakeInput('urlInput'); return; }
+  if (!url.match(/^https?:\/\/.+\..+/) && !url.match(/^[a-zA-Z0-9].*\..+/)) {
+    shakeInput('urlInput'); return;
   }
-  if (!name) { shakeInput('nameInput'); valid = false; }
-  if (!email || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) { shakeInput('emailInput'); valid = false; }
-  if (!valid) return;
 
   const fullUrl = url.startsWith('http') ? url : 'https://' + url;
 

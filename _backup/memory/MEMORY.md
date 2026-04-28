@@ -11,3 +11,4 @@
 - [Use own CRM, not HubSpot](feedback_use_own_crm.md) — NWM uses crm-vanilla for email marketing; never reference HubSpot for NWM internal ops
 - [14 CRM Niches](reference_14_niches.md) — exactly 14 niches: tourism, restaurants, health, beauty, smb, law_firms, real_estate, local_specialist, automotive, education, events_weddings, financial_services, home_services, wine_agriculture
 - [URL routing rules](reference_url_routing.md) — netwebmedia.com is flat HTML on Apache: top-level extensionless (no slash), nested needs `.html`, canonical is non-www
+- [Token optimization — April 2026](project_token_optimization_2026.md) — 8 agents downgraded Sonnet→Haiku for 60-70% token savings; keep 3 on Sonnet for strategy only

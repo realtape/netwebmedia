@@ -153,7 +153,7 @@ if ($action === 'stats' && $_SERVER['REQUEST_METHOD'] === 'GET') {
 function buildAudienceSQL(?string $filterJson): array {
     $filter = $filterJson ? json_decode($filterJson, true) : [];
     if (!is_array($filter)) $filter = [];
-    $where = ["c.email IS NOT NULL", "c.email <> ''", "NOT EXISTS (SELECT 1 FROM unsubscribes u WHERE u.email = c.email)"];
+    $where = ["c.email IS NOT NULL", "c.email <> ''", "c.email LIKE '%@%.%'", "c.email NOT LIKE '% %'", "NOT EXISTS (SELECT 1 FROM unsubscribes u WHERE u.email = c.email)"];
     $params = [];
     if (!empty($filter['status'])) {
         $where[] = 'c.status = ?';

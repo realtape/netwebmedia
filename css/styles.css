@@ -1,8 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-
 /* ============================================================
    NetWebMedia — Global Styles (Gracker.ai inspired)
    Dark premium design: black bg, blue/purple gradients
+
+   Note: Google Fonts are NOT @imported here — they were a render-
+   blocking single point of failure. Each HTML page now ships its
+   own <link rel="preload"> + <link rel="stylesheet"> for Inter +
+   Poppins + Space Grotesk in <head>. See index.html lines ~145–148.
    ============================================================ */
 
 /* Skip-to-content accessibility link */

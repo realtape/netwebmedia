@@ -769,3 +769,64 @@ document.addEventListener('DOMContentLoaded', () => {
     mount();
   }
 })();
+
+// ── Scroll Depth Tracking (GA4) ───────────────────────────────────────────
+// Fires `scroll_depth` exactly once per page load per threshold (25/50/75/100).
+// rAF-throttled so we don't churn on every scroll tick.
+(function nwmScrollDepth(){
+  if (window.__nwmScrollDepthLoaded) return;
+  window.__nwmScrollDepthLoaded = true;
+  if (typeof window.gtag === 'undefined' && typeof gtag === 'undefined') {
+    // Still attach — gtag may load later (consent flow). We re-check at fire-time.
+  }
+
+  var THRESHOLDS = [25, 50, 75, 100];
+  var fired = {};
+  var ticking = false;
+
+  function compute() {
+    ticking = false;
+    var doc = document.documentElement;
+    var body = document.body;
+    var scrollTop = window.pageYOffset || doc.scrollTop || body.scrollTop || 0;
+    var winH = window.innerHeight || doc.clientHeight;
+    var docH = Math.max(
+      body.scrollHeight, doc.scrollHeight,
+      body.offsetHeight, doc.offsetHeight,
+      body.clientHeight, doc.clientHeight
+    );
+    var scrollable = docH - winH;
+    if (scrollable <= 0) return;
+    var pct = Math.round((scrollTop / scrollable) * 100);
+
+    for (var i = 0; i < THRESHOLDS.length; i++) {
+      var t = THRESHOLDS[i];
+      if (pct >= t && !fired[t]) {
+        fired[t] = true;
+        try {
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'scroll_depth', { value: t });
+          }
+        } catch (e) {}
+      }
+    }
+    // All thresholds hit? Detach listener — nothing more to track this page.
+    if (fired[25] && fired[50] && fired[75] && fired[100]) {
+      window.removeEventListener('scroll', onScroll);
+    }
+  }
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(compute);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  // Also check on load — short pages may already be 100% visible.
+  if (document.readyState === 'complete') {
+    onScroll();
+  } else {
+    window.addEventListener('load', onScroll);
+  }
+})();

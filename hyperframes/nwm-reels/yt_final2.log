@@ -1,0 +1,59 @@
+=== yt_final2.py started ===
+Screen 1920x1080
+Step 0: Pre-setting clipboard with Studio URL...
+  Clipboard: https://studio.youtube.com/channel/UCZCCUGE38wgJfVrPtjejVnQ
+Step 1: Enumerating Chrome windows...
+  hwnd=133332 vis=True 'Calendly - Google Chrome'
+  hwnd=2820290 vis=True 'cPanel - Tools - Google Chrome'
+  Target: hwnd=133332 'Calendly - Google Chrome'
+Step 2: Forcing focus to Chrome...
+  force_focus hwnd=133332: fg=592206 tid_fg=2804 tid_tgt=13104
+  force_focus result: fg=133332 (wanted 133332) ok=True
+  Rect: -8,-8 1936x1048
+  Tab bar y = 17
+Step 3: Clicking YouTube Studio tab...
+  Clicking tab at (610,17)
+  click(610,17) r=3
+  Title: 'Calendly - Google Chrome'
+  Not Studio yet, scanning tab positions...
+  click(540,17) r=3
+    x=540 -> 'Calendly - Google Chrome'
+  click(580,17) r=3
+    x=580 -> 'Calendly - Google Chrome'
+  click(620,17) r=3
+    x=620 -> 'Calendly - Google Chrome'
+  click(660,17) r=3
+    x=660 -> 'Calendly - Google Chrome'
+  click(700,17) r=3
+    x=700 -> 'Calendly - Google Chrome'
+  click(740,17) r=3
+    x=740 -> 'Calendly - Google Chrome'
+  click(780,17) r=3
+    x=780 -> 'Calendly - Google Chrome'
+  Title after tab scan: 'Calendly - Google Chrome'
+Step 4: Navigating via address bar (URL already in clipboard)...
+  force_focus hwnd=133332: fg=132606 tid_fg=19780 tid_tgt=13104
+  force_focus result: fg=133332 (wanted 133332) ok=True
+  Clicking address bar at (960,52)
+  click(960,52) r=3
+  Navigation sent. Waiting 8s...
+  Title after nav: 'Calendly - Google Chrome'
+Step 5: Re-focusing Chrome for upload flow...
+  force_focus hwnd=133332: fg=132606 tid_fg=19780 tid_tgt=13104
+  force_focus result: fg=133332 (wanted 133332) ok=True
+  Rect: -8,-8 1936x1048
+Step 6: Clicking Create at (1798,89)
+  click(1798,89) r=3
+  Clicking Upload videos at (1798,129)
+  click(1798,129) r=3
+Step 7: Clicking Select files at (960,666)
+  click(960,666) r=3
+Step 8: Watching for file dialog...
+  File dialog: hwnd=854274
+  Clipboard: C:\Users\Usuario\Desktop\NetWebMedia\hyperframes\nwm-reels\renders\ree
+  Edit hwnd: 0
+  No Edit control - using clipboard paste
+  force_focus hwnd=854274: fg=854274 tid_fg=37344 tid_tgt=37344
+  force_focus result: fg=854274 (wanted 854274) ok=True
+  Path pasted via clipboard + Enter
+=== Done - upload should be in progress ===

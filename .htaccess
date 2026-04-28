@@ -21,6 +21,12 @@
   </FilesMatch>
 </IfModule>
 
+# ── Block log files from public access ────────────────────────────────
+<FilesMatch "\.log$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
 # ── Block sensitive directories from public access ─────────────────────
 # robots.txt disallows these, but server-level denial is the hard guarantee.
 <IfModule mod_rewrite.c>

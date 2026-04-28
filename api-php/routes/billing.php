@@ -504,8 +504,8 @@ function bl_ensure_schema() {
   )");
   // Seed launch coupons (idempotent — ON DUPLICATE KEY so re-running is safe)
   db()->exec("INSERT INTO coupons (code, discount_pct, discount_cycles, applies_to, max_uses, valid_until, notes)
-    VALUES ('Carlos26', 50, 3, 'cmo_starter,cmo_growth,cmo_scale,crm_starter,crm_pro,crm_agency', 500, DATE_ADD(NOW(), INTERVAL 7 DAY), 'NWM CRM launch week')
-    ON DUPLICATE KEY UPDATE discount_pct=VALUES(discount_pct), discount_cycles=VALUES(discount_cycles), applies_to=VALUES(applies_to), active=1, valid_until=VALUES(valid_until)");
+    VALUES ('Carlos26', 50, 3, 'cmo_starter,cmo_growth,cmo_scale,crm_starter,crm_pro,crm_agency', 500, '2026-04-21 23:59:59', 'NWM CRM launch week — RETIRED 2026-04-21')
+    ON DUPLICATE KEY UPDATE active=0, valid_until='2026-04-21 23:59:59', notes='RETIRED 2026-04-21 per CEO directive'");
 
   // Access-control lockdown: ensure users.status column exists so the webhook
   // can flip pending_payment → active. Swallow duplicate-column errors so this

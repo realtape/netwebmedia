@@ -19,7 +19,7 @@ declare(strict_types=1);
 // ── CONFIG ─────────────────────────────────────────────────────────────────
 $NOTIFY_TO       = 'hello@netwebmedia.com';
 $NOTIFY_FROM     = 'noreply@netwebmedia.com';
-$LOG_FILE        = __DIR__ . '/submit-leads.log';
+$LOG_FILE        = dirname(__DIR__) . '/submit-leads.log'; // above webroot — not publicly accessible
 
 // ── HELPERS ────────────────────────────────────────────────────────────────
 function clean(?string $v): string {
@@ -168,9 +168,9 @@ $autoHeaders .= "X-Mailer: NWM-Submit-Handler/1.0\r\n";
 
 // ── APPEND LOG (capture the lead no matter what) ───────────────────────────
 $log_line = sprintf(
-    "[%s] %s | %s | %s | %s | %s | %s | utm_content=%s | utm_campaign=%s | %s\n",
+    "[%s] %s | %s | %s | %s | %s | %s | utm_source=%s | utm_medium=form | utm_campaign=%s | utm_content=%s | %s\n",
     $ts, $source_slug, $name, $email, $phone ?: '-', $company, $web,
-    $utm_content ?: '-', $utm_campaign ?: '-',
+    $utm_source ?: 'direct', $utm_campaign ?: '-', $utm_content ?: '-',
     str_replace(["\r","\n"], ' ', $msg)
 );
 @file_put_contents($LOG_FILE, $log_line, FILE_APPEND | LOCK_EX);

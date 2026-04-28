@@ -140,7 +140,7 @@
         return;
       }
       if (data.requires_payment) {
-        window.location.href = '/pricing.html?promo=Carlos26&reason=signup';
+        window.location.href = '/pricing.html?reason=signup';
         return;
       }
       setSession(data.name, data.email, data.company || '', data.type || 'user');

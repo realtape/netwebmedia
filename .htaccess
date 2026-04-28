@@ -27,6 +27,9 @@
   Deny from all
 </FilesMatch>
 
+# ── Disable directory listings sitewide ───────────────────────────────
+Options -Indexes
+
 # ── Block sensitive directories from public access ─────────────────────
 # robots.txt disallows these, but server-level denial is the hard guarantee.
 <IfModule mod_rewrite.c>

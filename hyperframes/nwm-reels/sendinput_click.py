@@ -49,12 +49,12 @@ def send_click(x, y, delay=0.1):
     ny = int(y * 65535 / SCREEN_H)
     print(f"  SendInput click ({x},{y}) -> normalized ({nx},{ny})")
     move = INPUT(); move.type = 0
-    move.mi.dx = nx; move.mi.dy = ny
-    move.mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_NOCOALESCE
+    move._input.mi.dx = nx; move._input.mi.dy = ny
+    move._input.mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_NOCOALESCE
     dn = INPUT(); dn.type = 0
-    dn.mi.dx = nx; dn.mi.dy = ny; dn.mi.dwFlags = MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_ABSOLUTE
+    dn._input.mi.dx = nx; dn._input.mi.dy = ny; dn._input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_ABSOLUTE
     up = INPUT(); up.type = 0
-    up.mi.dx = nx; up.mi.dy = ny; up.mi.dwFlags = MOUSEEVENTF_LEFTUP | MOUSEEVENTF_ABSOLUTE
+    up._input.mi.dx = nx; up._input.mi.dy = ny; up._input.mi.dwFlags = MOUSEEVENTF_LEFTUP | MOUSEEVENTF_ABSOLUTE
     arr = (INPUT * 3)(move, dn, up)
     user32.SendInput(3, arr, ctypes.sizeof(INPUT))
     time.sleep(delay)

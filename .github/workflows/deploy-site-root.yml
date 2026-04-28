@@ -234,7 +234,7 @@ jobs:
           print(f"define('SMTP_PORT', 465);")
           print(f"define('SMTP_ENCRYPTION', 'ssl');")
           print(f"define('SMTP_USER', 'newsletter@netwebmedia.com');")
-          print(f"define('SMTP_PASS', '{e(os.environ.get('SECRET_SMTP_PASS',''))}');")
+          print(f"define('SMTP_PASS', '{e(os.environ.get('SECRET_SMTP_PASS','').strip())}');")
           PYEOF
             echo "crm-vanilla/api/config.local.php generated"
           else

@@ -1,7 +1,6 @@
 <?php
-// NWM minimal POST diagnostic — remove after debugging
-// If this returns 500, problem is server-level (ModSecurity, .htaccess, PHP handler)
-// If it returns 200, problem is specific to submit.php logic
+declare(strict_types=1);
+// Does strict_types break POST? Remove after debugging.
 http_response_code(200);
 header('Content-Type: text/plain');
-echo 'method=' . $_SERVER['REQUEST_METHOD'] . ' php=' . PHP_VERSION;
+echo 'strict_types=ok method=' . $_SERVER['REQUEST_METHOD'] . ' php=' . PHP_VERSION;

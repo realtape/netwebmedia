@@ -19,7 +19,7 @@ declare(strict_types=1);
 // ── CONFIG ─────────────────────────────────────────────────────────────────
 $NOTIFY_TO       = 'hello@netwebmedia.com';
 $NOTIFY_FROM     = 'noreply@netwebmedia.com';
-$LOG_FILE        = dirname(__DIR__) . '/submit-leads.log'; // above webroot — not publicly accessible
+$LOG_FILE        = __DIR__ . '/submit-leads.log'; // webroot — protected by .htaccess FilesMatch deny
 
 // ── HELPERS ────────────────────────────────────────────────────────────────
 function clean(?string $v): string {

@@ -7,7 +7,8 @@
  *   Returns the Twilio MessageSid on success, false on failure.
  */
 
-function twilio_send(string $to, string $body, string $channel = 'sms'): string|false {
+/** @return string|false */
+function twilio_send(string $to, string $body, string $channel = 'sms') {
     if (!defined('TWILIO_ACCOUNT_SID') || TWILIO_ACCOUNT_SID === '') return false;
     if (!defined('TWILIO_AUTH_TOKEN')  || TWILIO_AUTH_TOKEN  === '') return false;
 

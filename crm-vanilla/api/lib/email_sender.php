@@ -190,7 +190,7 @@ function smtpSend(array $opts): array {
     $read();
     $send(base64_encode($pass));
     $authResp = $read();
-    if (!str_starts_with($authResp, '235')) {
+    if (strpos($authResp, '235') !== 0) {
         fwrite($sock, "QUIT\r\n");
         fclose($sock);
         throw new RuntimeException("SMTP AUTH failed: " . trim($authResp));

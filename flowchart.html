@@ -3,731 +3,460 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NWM Messaging Flow</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>NetWebMedia Attribution Pipeline – Swimlane</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
+  * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-family: 'Inter', sans-serif;
-    background: #0a0f1e;
-    min-height: 100vh;
-    padding: 48px 24px 80px;
-    color: #fff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f0f2f5;
+    padding: 40px 20px;
+    min-width: 1200px;
   }
-
   h1 {
     text-align: center;
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: .04em;
-    color: #fff;
-    margin-bottom: 6px;
+    color: #010F3B;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
   }
   .subtitle {
     text-align: center;
-    font-size: 13px;
-    color: #6b7a9e;
-    margin-bottom: 52px;
-    letter-spacing: .06em;
-    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 40px;
+    font-size: 0.95rem;
   }
 
-  /* ── FLOW CONTAINER ── */
-  .flow {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-    max-width: 680px;
+  .swimlane-diagram {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    overflow: hidden;
+    width: 100%;
+    max-width: 1300px;
     margin: 0 auto;
   }
 
-  /* ── LANE LABELS ── */
-  .lane-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+  .stage-header {
+    display: grid;
+    grid-template-columns: 160px repeat(9, 1fr);
+    background: #010F3B;
+    color: white;
+    border-bottom: 3px solid #FF671F;
   }
-
-  .lane-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(255,255,255,.04);
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 6px;
-    padding: 6px 18px;
-    font-size: 10px;
+  .stage-header .corner {
+    padding: 14px 16px;
     font-weight: 700;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: #6b7a9e;
-    margin-bottom: 16px;
-    width: fit-content;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
   }
-  .lane-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-  }
-
-  /* ── NODES ── */
-  .node {
-    position: relative;
+  .stage-header .col-label {
+    padding: 12px 6px;
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    border-left: 1px solid rgba(255,255,255,0.1);
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    max-width: 500px;
-    border-radius: 14px;
-    padding: 18px 22px 18px 56px;
-    border: 1.5px solid transparent;
-    transition: transform .15s;
-    cursor: default;
+    align-items: center;
+    gap: 4px;
   }
-  .node:hover { transform: translateY(-2px); }
-
-  /* icon badge */
-  .node-icon {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 32px; height: 32px;
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
+  .stage-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #FF671F;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
     flex-shrink: 0;
   }
 
-  .node-title {
-    font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 3px;
-    line-height: 1.2;
-  }
-  .node-body {
-    font-size: 12px;
-    color: #9aa3bf;
-    line-height: 1.5;
-  }
-  .node-tag {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    padding: 2px 8px;
-    border-radius: 20px;
-    margin-top: 6px;
-  }
-
-  /* colour themes */
-  .theme-navy {
-    background: linear-gradient(135deg, rgba(1,15,59,.95) 0%, rgba(10,30,80,.95) 100%);
-    border-color: rgba(99,120,210,.3);
-  }
-  .theme-navy .node-icon { background: rgba(99,120,210,.25); }
-  .theme-navy .node-title { color: #c5d0f5; }
-
-  .theme-orange {
-    background: linear-gradient(135deg, rgba(80,30,0,.95) 0%, rgba(120,50,0,.95) 100%);
-    border-color: rgba(255,103,31,.4);
-  }
-  .theme-orange .node-icon { background: rgba(255,103,31,.25); }
-  .theme-orange .node-title { color: #ffb080; }
-
-  .theme-teal {
-    background: linear-gradient(135deg, rgba(0,60,60,.95) 0%, rgba(0,80,80,.95) 100%);
-    border-color: rgba(0,200,180,.3);
-  }
-  .theme-teal .node-icon { background: rgba(0,200,180,.2); }
-  .theme-teal .node-title { color: #80ffe8; }
-
-  .theme-purple {
-    background: linear-gradient(135deg, rgba(40,10,80,.95) 0%, rgba(60,20,110,.95) 100%);
-    border-color: rgba(160,100,255,.35);
-  }
-  .theme-purple .node-icon { background: rgba(160,100,255,.2); }
-  .theme-purple .node-title { color: #d0aaff; }
-
-  .theme-green {
-    background: linear-gradient(135deg, rgba(5,50,25,.95) 0%, rgba(10,70,35,.95) 100%);
-    border-color: rgba(50,200,100,.35);
-  }
-  .theme-green .node-icon { background: rgba(50,200,100,.2); }
-  .theme-green .node-title { color: #80ffb0; }
-
-  .theme-db {
-    background: linear-gradient(135deg, rgba(20,20,40,.95) 0%, rgba(30,30,60,.95) 100%);
-    border-color: rgba(150,150,220,.25);
-  }
-  .theme-db .node-icon { background: rgba(150,150,220,.15); }
-  .theme-db .node-title { color: #b0b8e0; }
-
-  /* ── ARROWS ── */
-  .arrow {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
+  .swim-row {
+    display: grid;
+    grid-template-columns: 160px repeat(9, 1fr);
+    border-bottom: 1px solid #e8ecf1;
+    min-height: 110px;
     position: relative;
   }
-  .arrow-line {
-    width: 2px;
-    background: linear-gradient(to bottom, rgba(255,103,31,.6), rgba(99,120,210,.4));
-    flex: 1;
+  .swim-row:last-child { border-bottom: none; }
+  .swim-row:nth-child(even) { background: #fafbfc; }
+  .swim-row:nth-child(odd)  { background: #ffffff; }
+
+  .lane-label {
+    padding: 16px 14px;
+    background: #010F3B;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 3px solid #FF671F;
+    position: sticky;
+    left: 0;
+    z-index: 2;
   }
-  .arrow-label {
-    font-size: 10px;
+  .lane-label .agent-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .lane-label .agent-sub {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .cell {
+    padding: 10px 8px;
+    border-left: 1px solid #e8ecf1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* Arrow connector between active cells */
+  .cell.has-arrow::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 10px solid #00b8b8;
+    z-index: 10;
+  }
+  .cell.has-arrow-orange::after { border-left-color: #FF671F; }
+  .cell.has-arrow-navy::after   { border-left-color: #010F3B; }
+
+  /* Horizontal pass-through dashes */
+  .pass-h {
+    border-left: 1px dashed #d4d9e5 !important;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent, transparent 6px,
+      rgba(0,184,184,0.06) 6px, rgba(0,184,184,0.06) 12px
+    ) !important;
+  }
+
+  /* Process boxes */
+  .box {
+    width: 100%;
+    border-radius: 6px;
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 0.73rem;
     font-weight: 600;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    color: #FF671F;
-    background: rgba(255,103,31,.12);
-    border: 1px solid rgba(255,103,31,.25);
-    border-radius: 20px;
-    padding: 3px 10px;
-    margin: 4px 0;
+    line-height: 1.4;
+    position: relative;
+    transition: box-shadow 0.15s;
+  }
+  .box:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
+
+  .box-teal   { background: #e0f5f5; border: 2px solid #00b8b8; color: #005f5f; }
+  .box-orange { background: #fff0e8; border: 2px solid #FF671F; color: #b34000; }
+  .box-navy   { background: #e8ecf5; border: 2px solid #010F3B; color: #010F3B; }
+  .box-green  { background: #e8f5e8; border: 2px solid #28a745; color: #155724; }
+  .box-purple { background: #f3edff; border: 2px solid #7c3aed; color: #4c1d95; }
+
+  /* Corner icon badges */
+  .box-icon {
+    position: absolute;
+    top: -9px;
+    right: -9px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 800;
+    border: 2px solid white;
+    color: white;
+  }
+  .ico-check  { background: #00b8b8; }
+  .ico-warn   { background: #f59e0b; }
+  .ico-ai     { background: #7c3aed; font-size: 7px; }
+  .ico-arrow  { background: #FF671F; }
+  .ico-star   { background: #28a745; }
+
+  .code-hint {
+    display: block;
+    margin-top: 5px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.58rem;
+    color: #999;
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .connector {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 40px;
-    position: relative;
-  }
-  .connector::before {
-    content: '';
-    position: absolute;
-    top: 0; bottom: 0;
-    left: 50%;
-    width: 2px;
-    background: linear-gradient(to bottom, rgba(255,103,31,.5), rgba(99,120,210,.35));
-  }
-  .connector-arrow {
-    position: absolute;
-    bottom: -1px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0; height: 0;
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-top: 9px solid rgba(255,103,31,.6);
-  }
-
-  .connector-labeled {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-  }
-  .connector-labeled .seg { width: 2px; background: linear-gradient(to bottom, rgba(255,103,31,.5), rgba(99,120,210,.35)); }
-  .seg-top { height: 16px; }
-  .seg-bot { height: 16px; }
-
-  /* ── FORK (1 → 3 parallel) ── */
-  .fork {
-    width: 100%;
-    max-width: 560px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .fork-top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 32px;
-    position: relative;
-    width: 100%;
-  }
-  .fork-top::before {
-    content: '';
-    position: absolute;
-    top: 0; bottom: 0;
-    left: 50%; width: 2px;
-    background: linear-gradient(to bottom, rgba(255,103,31,.5), rgba(99,120,210,.35));
-  }
-  .fork-branches {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-    width: 100%;
-    position: relative;
-  }
-  .fork-branches::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 16.66%; right: 16.66%;
-    height: 2px;
-    background: linear-gradient(to right, rgba(99,120,210,.35), rgba(255,103,31,.5), rgba(99,120,210,.35));
-  }
-  .fork-branch {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-  }
-  .fork-branch-line {
-    width: 2px;
-    height: 20px;
-    background: linear-gradient(to bottom, rgba(99,120,210,.35), rgba(255,103,31,.4));
-  }
-  .fork-arrow-tip {
-    width: 0; height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 8px solid rgba(255,103,31,.55);
-    margin-bottom: 6px;
-  }
-
-  /* re-join after fork */
-  .rejoin {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-    width: 100%;
-    max-width: 560px;
-    position: relative;
-    margin-top: 0;
-  }
-  .rejoin::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 16.66%; right: 16.66%;
-    height: 2px;
-    background: linear-gradient(to right, rgba(99,120,210,.35), rgba(255,103,31,.5), rgba(99,120,210,.35));
-  }
-  .rejoin-branch-line {
-    width: 2px;
-    height: 20px;
-    background: linear-gradient(to bottom, rgba(255,103,31,.4), rgba(99,120,210,.35));
-    margin: 0 auto;
-  }
-
-  /* ── DATABASE CHIP ── */
-  .db-chip {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(20,20,50,.9);
-    border: 1px solid rgba(150,150,220,.25);
-    border-radius: 10px;
-    padding: 10px 16px;
-    width: 100%;
-    max-width: 500px;
-  }
-  .db-icon {
-    font-size: 22px;
-    flex-shrink: 0;
-  }
-  .db-label {
-    font-size: 11px;
-    font-weight: 700;
-    color: #b0b8e0;
-    letter-spacing: .04em;
-  }
-  .db-sub {
-    font-size: 10px;
-    color: #5a6280;
-    margin-top: 1px;
-  }
-  .db-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    margin-top: 6px;
-  }
-  .db-badge {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    padding: 2px 7px;
-    border-radius: 20px;
-    background: rgba(99,120,210,.15);
-    color: #8898d0;
-    border: 1px solid rgba(99,120,210,.2);
-  }
-
-  /* ── DECISION DIAMOND ── */
-  .diamond-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 500px;
-  }
-  .diamond {
-    width: 160px;
-    height: 80px;
-    background: linear-gradient(135deg, rgba(255,103,31,.18) 0%, rgba(200,60,0,.22) 100%);
-    border: 1.5px solid rgba(255,103,31,.5);
-    transform: perspective(400px) rotateX(10deg);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-    padding: 0 16px;
-  }
-  .diamond-text {
-    font-size: 12px;
-    font-weight: 700;
-    color: #ffb080;
-    line-height: 1.3;
-  }
-  .diamond-sub {
-    font-size: 10px;
-    color: rgba(255,176,128,.6);
-    margin-top: 3px;
-  }
-  .branch-labels {
-    display: flex;
-    justify-content: space-between;
-    width: 220px;
-    margin-top: 4px;
-  }
-  .branch-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-  }
-  .branch-yes { color: #50c878; }
-  .branch-no  { color: #ff6060; }
-
-  /* ── END NODE ── */
-  .end-node {
-    background: linear-gradient(135deg, #0d4a1f 0%, #1a7a35 100%);
-    border: 2px solid rgba(50,200,100,.6);
-    border-radius: 40px;
-    padding: 16px 40px;
-    text-align: center;
-    box-shadow: 0 0 32px rgba(50,200,100,.2);
-  }
-  .end-node .title { font-size: 16px; font-weight: 800; color: #80ffb0; }
-  .end-node .sub   { font-size: 12px; color: #40b870; margin-top: 4px; }
-
-  /* ── LEGEND ── */
+  /* Legend strip */
   .legend {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 56px;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255,255,255,.06);
+    margin-top: 28px;
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+    gap: 10px;
   }
   .legend-item {
+    background: white;
+    border-radius: 6px;
+    padding: 12px 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
     display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 11px;
-    color: #6b7a9e;
+    align-items: flex-start;
+    gap: 10px;
   }
   .legend-dot {
-    width: 10px; height: 10px;
-    border-radius: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: 3px;
     flex-shrink: 0;
   }
+  .legend-item h4 { font-size: 0.78rem; color: #010F3B; font-weight: 700; margin-bottom: 2px; }
+  .legend-item p  { font-size: 0.67rem; color: #888; line-height: 1.4; }
 </style>
 </head>
 <body>
 
-<h1>NWM — Lead Messaging Flow</h1>
-<div class="subtitle">Cold Email → WhatsApp Plan → Signed Client</div>
+<h1>NetWebMedia — Attribution Pipeline</h1>
+<p class="subtitle">Campaign Send → Click → UTM Capture → Form → Log → Auto-Reply → AI Plan → Pitch → Client</p>
 
-<div class="flow">
+<div class="swimlane-diagram">
 
-  <!-- ════ LANE: CRM / CAMPAIGN ════ -->
-  <div class="lane-header">
-    <div class="lane-dot" style="background:#6378d2"></div>
-    CRM — Campaign Engine
+  <!-- Header -->
+  <div class="stage-header">
+    <div class="corner">AGENT / ROLE</div>
+    <div class="col-label"><span class="stage-num">1</span>Campaign<br>Send</div>
+    <div class="col-label"><span class="stage-num">2</span>Lead<br>Clicks</div>
+    <div class="col-label"><span class="stage-num">3</span>UTM<br>Capture</div>
+    <div class="col-label"><span class="stage-num">4</span>Form<br>Submit</div>
+    <div class="col-label"><span class="stage-num">5</span>Lead<br>Logging</div>
+    <div class="col-label"><span class="stage-num">6</span>Auto-<br>Reply</div>
+    <div class="col-label"><span class="stage-num">7</span>Plan<br>Build</div>
+    <div class="col-label"><span class="stage-num">8</span>Retainer<br>Pitch</div>
+    <div class="col-label"><span class="stage-num">9</span>Client<br>Exec</div>
   </div>
 
-  <div class="node theme-navy">
-    <div class="node-icon">📧</div>
-    <div class="node-title">Cold Email Sent</div>
-    <div class="node-body">Campaign #38 · 350 emails/day via Exim (phpmail)<br>Personalized to industry niche · tracking pixel embedded</div>
-    <div class="node-tag" style="background:rgba(99,120,210,.18);color:#8898d0;border:1px solid rgba(99,120,210,.25)">crm-vanilla → cron_us_campaign.php</div>
-  </div>
-
-  <div class="connector"><div class="connector-arrow"></div></div>
-
-  <!-- ════ LANE: TRACKING ════ -->
-  <div class="lane-header" style="margin-top:16px">
-    <div class="lane-dot" style="background:#9966ff"></div>
-    Tracking Handler — track.php
-  </div>
-
-  <!-- FORK: open + click -->
-  <div class="fork" style="max-width:500px">
-    <div class="fork-branches" style="grid-template-columns:1fr 1fr">
-      <div class="fork-branch">
-        <div class="fork-branch-line"></div>
-        <div class="fork-arrow-tip"></div>
-        <div class="node theme-purple" style="max-width:100%;padding:14px 14px 14px 48px">
-          <div class="node-icon" style="left:10px;width:28px;height:28px;font-size:14px">👁</div>
-          <div class="node-title" style="font-size:13px">Open Pixel Fires</div>
-          <div class="node-body">a=open · status → 'opened'<br>opened_at recorded</div>
-        </div>
+  <!-- ── Row 1: CMO Agent ── -->
+  <div class="swim-row">
+    <div class="lane-label">
+      <div class="agent-title">CMO Agent<br>(Carlos)</div>
+      <div class="agent-sub">Marketing Strategy</div>
+    </div>
+    <div class="cell has-arrow">
+      <div class="box box-orange">
+        <span class="box-icon ico-warn">!</span>
+        Define Campaign<br>+ UTM Tokens
+        <span class="code-hint">utm_campaign=slug</span>
       </div>
-      <div class="fork-branch">
-        <div class="fork-branch-line"></div>
-        <div class="fork-arrow-tip"></div>
-        <div class="node theme-orange" style="max-width:100%;padding:14px 14px 14px 48px">
-          <div class="node-icon" style="left:10px;width:28px;height:28px;font-size:14px">🖱</div>
-          <div class="node-title" style="font-size:13px">Lead Clicks CTA</div>
-          <div class="node-body">a=click · status → 'clicked'<br>clicked_at recorded</div>
-        </div>
+    </div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+  </div>
+
+  <!-- ── Row 2: Engineering Lead ── -->
+  <div class="swim-row">
+    <div class="lane-label">
+      <div class="agent-title">Engineering<br>Lead</div>
+      <div class="agent-sub">Backend + Frontend</div>
+    </div>
+    <div class="cell pass-h"></div>
+    <div class="cell has-arrow">
+      <div class="box box-teal">
+        <span class="box-icon ico-check">✓</span>
+        track.php<br>Click Handler
+        <span class="code-hint">302 + utm_content</span>
+      </div>
+    </div>
+    <div class="cell has-arrow">
+      <div class="box box-teal">
+        <span class="box-icon ico-check">✓</span>
+        utm-capture.js<br>SessionStorage
+        <span class="code-hint">nwm_utm_content</span>
+      </div>
+    </div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell">
+      <div class="box box-teal">
+        <span class="box-icon ico-check">✓</span>
+        Auto-Reply<br>PHP mail()
+        <span class="code-hint">Exim MTA</span>
+      </div>
+    </div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+  </div>
+
+  <!-- ── Row 3: Product Manager ── -->
+  <div class="swim-row">
+    <div class="lane-label">
+      <div class="agent-title">Product<br>Manager</div>
+      <div class="agent-sub">Form UX / Design</div>
+    </div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell has-arrow has-arrow-navy">
+      <div class="box box-navy">
+        <span class="box-icon ico-check" style="background:#010F3B;">✓</span>
+        Contact Form<br>+ Hidden UTMs
+        <span class="code-hint">input[type=hidden]</span>
+      </div>
+    </div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+  </div>
+
+  <!-- ── Row 4: Data Analyst ── -->
+  <div class="swim-row">
+    <div class="lane-label">
+      <div class="agent-title">Data<br>Analyst</div>
+      <div class="agent-sub">Logging + Attribution</div>
+    </div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell has-arrow has-arrow-navy">
+      <div class="box box-navy">
+        <span class="box-icon ico-check" style="background:#3b82f6;">✓</span>
+        submit.php<br>Lead Log
+        <span class="code-hint">submit-leads.log</span>
+      </div>
+    </div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+  </div>
+
+  <!-- ── Row 5: Strategy Agent ── -->
+  <div class="swim-row">
+    <div class="lane-label">
+      <div class="agent-title">Strategy<br>Agent</div>
+      <div class="agent-sub">Claude AI + Human</div>
+    </div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell has-arrow has-arrow-orange">
+      <div class="box box-purple">
+        <span class="box-icon ico-ai">AI</span>
+        Claude API<br>Plan Builder
+        <span class="code-hint">claude-sonnet-4</span>
+      </div>
+    </div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+  </div>
+
+  <!-- ── Row 6: Sales Director ── -->
+  <div class="swim-row">
+    <div class="lane-label">
+      <div class="agent-title">Sales<br>Director</div>
+      <div class="agent-sub">Outreach + Pitch</div>
+    </div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell has-arrow has-arrow-orange">
+      <div class="box box-orange">
+        <span class="box-icon ico-arrow">↗</span>
+        WhatsApp +<br>Email Pitch
+        <span class="code-hint">Retainer PDF</span>
+      </div>
+    </div>
+    <div class="cell pass-h"></div>
+  </div>
+
+  <!-- ── Row 7: Customer Success ── -->
+  <div class="swim-row">
+    <div class="lane-label">
+      <div class="agent-title">Customer<br>Success</div>
+      <div class="agent-sub">Onboarding + Retention</div>
+    </div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell pass-h"></div>
+    <div class="cell">
+      <div class="box box-green">
+        <span class="box-icon ico-star">★</span>
+        Kickoff Call<br>→ Retainer
+        <span class="code-hint">CRM entry</span>
       </div>
     </div>
   </div>
 
-  <div class="connector"><div class="connector-arrow"></div></div>
+</div><!-- /swimlane-diagram -->
 
-  <div class="node theme-orange">
-    <div class="node-icon">🔗</div>
-    <div class="node-title">UTM Parameters Appended</div>
-    <div class="node-body">
-      utm_source=email &nbsp;·&nbsp; utm_medium=cold-outreach<br>
-      utm_campaign={slug}-{campaign_id} &nbsp;·&nbsp; utm_content=<strong style="color:#FF671F">TOKEN</strong>
-    </div>
-    <div class="node-tag" style="background:rgba(255,103,31,.15);color:#FF671F;border:1px solid rgba(255,103,31,.3)">TOKEN = campaign_sends.token — unique per contact</div>
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#FF671F;"></div>
+    <div><h4>CMO Agent (Carlos)</h4><p>Campaign strategy, UTM planning, channel mix</p></div>
   </div>
-
-  <div class="connector"><div class="connector-arrow"></div></div>
-
-  <!-- ════ LANE: LANDING PAGE ════ -->
-  <div class="lane-header" style="margin-top:16px">
-    <div class="lane-dot" style="background:#00c8b4"></div>
-    Landing Page — {slug}.netwebmedia.com
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#00b8b8;"></div>
+    <div><h4>Engineering Lead</h4><p>track.php, utm-capture.js, auto-reply email</p></div>
   </div>
-
-  <div class="node theme-teal">
-    <div class="node-icon">🏠</div>
-    <div class="node-title">Industry Landing Page</div>
-    <div class="node-body">utm-capture.js reads URL params on load<br>Populates 3 hidden form fields: utm_source · utm_campaign · utm_content</div>
-    <div class="node-tag" style="background:rgba(0,200,180,.12);color:#40ffe8;border:1px solid rgba(0,200,180,.2)">39 pages — hospitality · healthcare · legal · dental · SaaS…</div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#010F3B;"></div>
+    <div><h4>Product Manager</h4><p>Form UX, hidden UTM fields, landing page design</p></div>
   </div>
-
-  <div class="connector"><div class="connector-arrow"></div></div>
-
-  <div class="node theme-teal">
-    <div class="node-icon">📋</div>
-    <div class="node-title">Lead Fills Form</div>
-    <div class="node-body">Name · Work Email · Company · WhatsApp number · Challenge<br>Hidden: source · utm_source · utm_campaign · utm_content (TOKEN)</div>
-    <div class="node-tag" style="background:rgba(0,200,180,.12);color:#40ffe8;border:1px solid rgba(0,200,180,.2)">POST → netwebmedia.com/submit.php</div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#3b82f6;"></div>
+    <div><h4>Data Analyst</h4><p>submit.php logging, UTM attribution reporting</p></div>
   </div>
-
-  <div class="connector"><div class="connector-arrow"></div></div>
-
-  <!-- ════ LANE: SUBMIT.PHP ════ -->
-  <div class="lane-header" style="margin-top:16px">
-    <div class="lane-dot" style="background:#FF671F"></div>
-    Form Handler — submit.php
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#7c3aed;"></div>
+    <div><h4>Strategy Agent (AI)</h4><p>Claude API plan generation, pricing strategy</p></div>
   </div>
-
-  <div class="node theme-navy">
-    <div class="node-icon">✅</div>
-    <div class="node-title">Validate &amp; Sanitize</div>
-    <div class="node-body">Required: name · email · company &nbsp;|&nbsp; Honeypot check &nbsp;|&nbsp; Origin check<br>Email format validation &nbsp;|&nbsp; Cross-origin block</div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#f59e0b;"></div>
+    <div><h4>Sales Director</h4><p>WhatsApp + email pitch, retainer close</p></div>
   </div>
-
-  <div class="connector"><div class="connector-arrow"></div></div>
-
-  <!-- FORK: 3 parallel outputs -->
-  <div class="fork">
-    <div class="fork-top"></div>
-    <div class="fork-branches">
-
-      <div class="fork-branch">
-        <div class="fork-branch-line"></div>
-        <div class="fork-arrow-tip"></div>
-        <div class="node theme-navy" style="max-width:100%;padding:14px 14px 14px 48px">
-          <div class="node-icon" style="left:10px;width:28px;height:28px;font-size:14px">📬</div>
-          <div class="node-title" style="font-size:12px">Team Notification</div>
-          <div class="node-body" style="font-size:11px">hello@netwebmedia.com<br>Full UTM attribution<br>+ lead details</div>
-        </div>
-      </div>
-
-      <div class="fork-branch">
-        <div class="fork-branch-line"></div>
-        <div class="fork-arrow-tip"></div>
-        <div class="node theme-orange" style="max-width:100%;padding:14px 14px 14px 48px">
-          <div class="node-icon" style="left:10px;width:28px;height:28px;font-size:14px">📩</div>
-          <div class="node-title" style="font-size:12px">Auto-Reply to Lead</div>
-          <div class="node-body" style="font-size:11px">"Got it — plan being<br>built within 1 hr"<br>Sets expectations</div>
-        </div>
-      </div>
-
-      <div class="fork-branch">
-        <div class="fork-branch-line"></div>
-        <div class="fork-arrow-tip"></div>
-        <div class="node theme-db" style="max-width:100%;padding:14px 14px 14px 48px">
-          <div class="node-icon" style="left:10px;width:28px;height:28px;font-size:14px">📝</div>
-          <div class="node-title" style="font-size:12px">Attribution Log</div>
-          <div class="node-body" style="font-size:11px">submit-leads.log<br>utm_content=<strong style="color:#FF671F">TOKEN</strong><br>closes loop to CRM</div>
-        </div>
-      </div>
-
-    </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#28a745;"></div>
+    <div><h4>Customer Success</h4><p>Onboarding, kickoff call, monthly delivery</p></div>
   </div>
-
-  <!-- re-join lines -->
-  <div class="rejoin" style="max-width:560px">
-    <div class="rejoin-branch-line"></div>
-    <div class="rejoin-branch-line"></div>
-    <div class="rejoin-branch-line"></div>
-  </div>
-
-  <div class="connector"><div class="connector-arrow"></div></div>
-
-  <div class="node theme-teal">
-    <div class="node-icon">↩</div>
-    <div class="node-title">Redirect → Thanks Page</div>
-    <div class="node-body">{slug}.netwebmedia.com/thanks.html<br>"Expect WhatsApp within an hour — no calls, no meetings"</div>
-  </div>
-
-  <div class="connector"><div class="connector-arrow"></div></div>
-
-  <!-- ════ LANE: NWM TEAM ════ -->
-  <div class="lane-header" style="margin-top:16px">
-    <div class="lane-dot" style="background:#50c878"></div>
-    NWM Team — Delivery
-  </div>
-
-  <div class="node theme-navy">
-    <div class="node-icon">👤</div>
-    <div class="node-title">Strategist Reviews Lead Notification</div>
-    <div class="node-body">Checks company, website, challenge, UTM source<br>Decides if lead is qualified for growth plan</div>
-  </div>
-
-  <div class="connector"><div class="connector-arrow"></div></div>
-
-  <div class="node theme-purple">
-    <div class="node-icon">🤖</div>
-    <div class="node-title">Claude Generates Growth Plan</div>
-    <div class="node-body">Audits website, SEO gaps, AEO presence, paid opportunities, AI SDR fit<br>Outputs 3 highest-leverage actions tailored to the business</div>
-    <div class="node-tag" style="background:rgba(160,100,255,.15);color:#d0aaff;border:1px solid rgba(160,100,255,.25)">Claude (Anthropic) · NWM audit framework</div>
-  </div>
-
-  <div class="connector"><div class="connector-arrow"></div></div>
-
-  <div class="node theme-navy">
-    <div class="node-icon">✏️</div>
-    <div class="node-title">Strategist Reviews &amp; Sharpens</div>
-    <div class="node-body">Human judgment layer — approves, adjusts, adds context<br>AI speed + human quality check before delivery</div>
-  </div>
-
-  <div class="connector"><div class="connector-arrow"></div></div>
-
-  <div class="node theme-orange">
-    <div class="node-icon">💬</div>
-    <div class="node-title">WhatsApp Message Sent to Lead</div>
-    <div class="node-body">3 highest-leverage fixes written for their specific business<br>Usually within 1 hour of form submission · No calls, no Zoom</div>
-    <div class="node-tag" style="background:rgba(255,103,31,.15);color:#FF671F;border:1px solid rgba(255,103,31,.3)">Async · AI-first · on the lead's schedule</div>
-  </div>
-
-  <div class="connector"><div class="connector-arrow"></div></div>
-
-  <!-- DECISION -->
-  <div class="diamond-wrap">
-    <div class="diamond">
-      <div class="diamond-text">Lead Replies?</div>
-      <div class="diamond-sub">within 48h</div>
-    </div>
-    <div class="branch-labels">
-      <span class="branch-label branch-no">✗ No reply</span>
-      <span class="branch-label branch-yes">✓ Replies</span>
-    </div>
-  </div>
-
-  <div class="connector" style="height:28px"><div class="connector-arrow"></div></div>
-
-  <!-- FORK: no vs yes -->
-  <div class="fork" style="max-width:440px">
-    <div class="fork-branches" style="grid-template-columns:1fr 1fr">
-
-      <div class="fork-branch">
-        <div class="fork-branch-line"></div>
-        <div class="fork-arrow-tip"></div>
-        <div class="node theme-navy" style="max-width:100%;padding:14px 14px 14px 48px">
-          <div class="node-icon" style="left:10px;width:28px;height:28px;font-size:14px">🔄</div>
-          <div class="node-title" style="font-size:12px">Follow-up Sequence</div>
-          <div class="node-body" style="font-size:11px">2-day nudge via email<br>Re-enters campaign<br>for next niche batch</div>
-        </div>
-      </div>
-
-      <div class="fork-branch">
-        <div class="fork-branch-line"></div>
-        <div class="fork-arrow-tip"></div>
-        <div class="node theme-orange" style="max-width:100%;padding:14px 14px 14px 48px">
-          <div class="node-icon" style="left:10px;width:28px;height:28px;font-size:14px">💬</div>
-          <div class="node-title" style="font-size:12px">WhatsApp Thread</div>
-          <div class="node-body" style="font-size:11px">Async back-and-forth<br>Qualify fit, answer Q's<br>Build trust</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="rejoin" style="max-width:440px;grid-template-columns:1fr 1fr">
-    <div style="opacity:0"></div>
-    <div class="rejoin-branch-line"></div>
-  </div>
-
-  <div class="connector" style="height:28px"><div class="connector-arrow"></div></div>
-
-  <div class="node theme-orange" style="max-width:440px">
-    <div class="node-icon">📄</div>
-    <div class="node-title">Retainer Pitch via WhatsApp</div>
-    <div class="node-body">90-day minimum · then month-to-month · No annual contracts<br>Full-stack: SEO · AEO · Paid · CRM · AI SDR · Content</div>
-  </div>
-
-  <div class="connector"><div class="connector-arrow"></div></div>
-
-  <!-- END -->
-  <div class="end-node">
-    <div class="title">✅ New Client Signed</div>
-    <div class="sub">Onboarded to NWM · Target: 4–5 US clients simultaneously</div>
-  </div>
-
-  <!-- ════ DB CHIP ════ -->
-  <div style="margin-top:40px;width:100%;max-width:500px">
-    <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4a5270;margin-bottom:10px;text-align:center">Attribution Data Store</div>
-    <div class="db-chip">
-      <div class="db-icon">🗄️</div>
-      <div>
-        <div class="db-label">MySQL — campaign_sends</div>
-        <div class="db-sub">TOKEN ties every touchpoint together</div>
-        <div class="db-badges">
-          <span class="db-badge">status</span>
-          <span class="db-badge">opened_at</span>
-          <span class="db-badge">clicked_at</span>
-          <span class="db-badge">token → utm_content</span>
-          <span class="db-badge">submit-leads.log</span>
-          <span class="db-badge">GA4 session</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- LEGEND -->
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#6378d2"></div>CRM / Campaign</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#9966ff"></div>Tracking</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#00c8b4"></div>Landing Page</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#FF671F"></div>Form / Delivery</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#50c878"></div>NWM Team</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#9966ff"></div>Claude AI</div>
-  </div>
-
 </div>
+
 </body>
 </html>

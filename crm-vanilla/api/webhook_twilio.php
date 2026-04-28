@@ -88,7 +88,7 @@ twiml_reply($reply);
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
-function twiml_reply(string $msg): never {
+function twiml_reply(string $msg): void {
     header('Content-Type: text/xml');
     echo '<?xml version="1.0" encoding="UTF-8"?><Response>';
     if ($msg !== '') echo '<Message>' . htmlspecialchars($msg, ENT_XML1) . '</Message>';

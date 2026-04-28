@@ -1,8 +1,18 @@
 # NetWebMedia — Social Presence + Local SEO Action Plan
 **Owner:** Carlos Martinez
 **Drafted by:** CMO, NetWebMedia
-**Date:** 2026-04-28
-**Status:** Decision-ready. Execute by Fri 2026-05-29.
+**Date:** 2026-04-28 (updated post-reality-check 2026-04-28 PM)
+**Status:** Superseded by `plans/social-starter-content.md` for execution. This file kept for strategic reasoning + decision history.
+
+> **UPDATE 2026-04-28 PM** — Carlos shared screenshots confirming actual state:
+> - **Facebook page IS live** (NetWebmedia, 33 followers, NWM logo, "Internet company" category) → flipping decision from KILL to **KEEP + POST**.
+> - **Instagram @netwebmedia IS reserved** (Carlos Martinez account, 0 posts) → CLAIM+POST as planned.
+> - **YouTube + TikTok status unverified** → defer Phase 2; do **not** include in `sameAs` until content ships.
+> - **Search Console verified on netwebmedia.com** → GMB instant-verify path is open.
+>
+> The site's Organization `sameAs` array has been re-shipped with **only the two real URLs** (IG + FB). Schema no longer points at ghost handles.
+>
+> **Ready-to-paste content lives in `plans/social-starter-content.md`.** Use that for execution; this file remains the strategic rationale.
 
 ---
 

@@ -101,7 +101,7 @@ switch ($sub) {
 
 function handleProviders(int $uid, PDO $db): void {
     $stmt = $db->prepare(
-        'SELECT provider, connected_at, last_sync_at, post_count
+        'SELECT provider, connected_at, last_sync_at, post_count, credentials_enc
          FROM social_credentials WHERE user_id = ?'
     );
     $stmt->execute([$uid]);
@@ -115,13 +115,28 @@ function handleProviders(int $uid, PDO $db): void {
     $providers = [];
     foreach (['facebook', 'instagram', 'linkedin', 'youtube', 'tiktok'] as $p) {
         $row = $connectedMap[$p] ?? null;
+        $tokenWarning = '';
+
+        // FIX #2: Check token expiry for Facebook/Instagram (expire 60 days after connection)
+        if ($row && in_array($p, ['facebook', 'instagram'], true)) {
+            $connectedTime = strtotime($row['connected_at']);
+            $expiryTime = $connectedTime + (60 * 86400); // 60 days
+            $now = time();
+            if ($now > $expiryTime) {
+                $tokenWarning = 'expired';
+            } elseif ($now > ($expiryTime - (7 * 86400))) { // Within 7 days of expiry
+                $tokenWarning = 'expiring_soon';
+            }
+        }
+
         $providers[] = [
-            'id'          => $p,
-            'connected'   => $row !== null,
-            'connected_at'=> $row['connected_at'] ?? null,
-            'last_sync_at'=> $row['last_sync_at'] ?? null,
-            'post_count'  => (int)($row['post_count'] ?? 0),
-            'note'        => $row ? '' : '',
+            'id'           => $p,
+            'connected'    => $row !== null,
+            'connected_at' => $row['connected_at'] ?? null,
+            'last_sync_at' => $row['last_sync_at'] ?? null,
+            'post_count'   => (int)($row['post_count'] ?? 0),
+            'token_status' => $tokenWarning,
+            'note'         => $row ? '' : '',
         ];
     }
     jsonResponse(['items' => $providers]);

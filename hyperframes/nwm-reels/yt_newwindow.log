@@ -1,0 +1,30 @@
+=== yt_newwindow.py started ===
+Screen 1920x1080
+Step 0: Killing AHK dialog (hwnd=592206) and setting clipboard...
+  Closed AHK dialog
+  Clipboard: https://studio.youtube.com/channel/UCZCCUGE38wgJfVrPtjejVnQ
+Step 1: Opening new Chrome window: https://studio.youtube.com/channel/UCZCCUGE38wgJfVrPtjejVnQ
+  Existing Chrome windows: [2820290, 133332]
+  Chrome launched, waiting 9s for Studio to load...
+  All Chrome windows now: [(3475568, 'Channel dashboard - YouTube Studio - Goo'), (133332, 'Calendly - Google Chrome'), (2820290, 'cPanel - Tools - Google Chrome')]
+  New Studio window: hwnd=3475568 'Channel dashboard - YouTube Studio - Google Chrome'
+Step 2: Forcing focus to Studio window...
+  force_focus hwnd=3475568: fg=3475568 ok?
+  force_focus result: fg=3475568 ok=True
+  Window rect: -8,-8 1936x1048
+  Title: 'Channel dashboard - YouTube Studio - Google Chrome'
+Step 4: Re-focusing for upload click sequence...
+  force_focus hwnd=3475568: fg=3475568 ok?
+  force_focus result: fg=3475568 ok=True
+  Rect: -8,-8 1936x1048
+Step 5: Clicking Create at (1798,89)
+  click(1798,89) r=3
+  Clicking Upload videos at (1798,134)
+  click(1798,134) r=3
+Step 6: Clicking Select files at (960,646)
+  click(960,646) r=3
+Step 7: Watching for REAL Chrome file dialog (not ghost/AHK ones)...
+  Chrome pid: 9640
+  No dialog yet — retry Select files at (960,612)
+  click(960,612) r=3
+TIMEOUT: no Chrome file dialog appeared

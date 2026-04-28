@@ -18,11 +18,15 @@ $log = [];
 $nwm = db(); // already connected to webmed6_nwm
 
 // ── webmed6_crm (target) ──────────────────────────────────────────────────────
-$cfg = config();
+// webmed6_crm MySQL user owns the CRM database; api-php runs as webmed6_nwm
+// which has no GRANT on webmed6_crm. Load the CRM config for its credentials.
+$crmConfigFile = __DIR__ . '/../crm-vanilla/api/config.local.php';
+if (file_exists($crmConfigFile)) { require_once $crmConfigFile; }
+$crmPass = defined('DB_PASS') ? DB_PASS : (config()['db_pass'] ?? '');
 $crm = new PDO(
-    'mysql:host=' . ($cfg['db_host'] ?? 'localhost') . ';dbname=webmed6_crm;charset=utf8mb4',
-    $cfg['db_user'],
-    $cfg['db_pass'],
+    'mysql:host=localhost;dbname=webmed6_crm;charset=utf8mb4',
+    'webmed6_crm',
+    $crmPass,
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
 );
 

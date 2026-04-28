@@ -25,10 +25,29 @@ function route_public($parts, $method) {
     // form_id may be numeric id or slug
     if (is_numeric($b['form_id'])) {
       $form = qOne("SELECT * FROM resources WHERE type='form' AND id = ?", [(int)$b['form_id']]);
+      if (!$form) err('Form not found', 404);
     } else {
       $form = qOne("SELECT * FROM resources WHERE type='form' AND slug = ?", [$b['form_id']]);
+      // Self-heal: if a slug-based submission arrives for a form that hasn't been seeded yet
+      // (e.g. contact-main on a fresh DB), auto-create the resource so the lead is captured
+      // instead of silently 404-ing. This makes the public form endpoint robust against
+      // seed/migration drift between the static site and the CRM DB.
+      if (!$form) {
+        $autoTitle = ucwords(str_replace(['-', '_'], ' ', preg_replace('/[^a-z0-9_\-]/i', '', $b['form_id'])));
+        if ($autoTitle === '') $autoTitle = 'Auto-created form';
+        try {
+          qExec(
+            "INSERT INTO resources (org_id, type, slug, title, status, data) VALUES (1, 'form', ?, ?, 'active', ?)",
+            [$b['form_id'], $autoTitle, json_encode(['auto_created' => true, 'created_via' => 'public_submit', 'first_seen' => date('c')])]
+          );
+          $form = qOne("SELECT * FROM resources WHERE type='form' AND slug = ?", [$b['form_id']]);
+        } catch (Throwable $e) {
+          // If the insert races or fails, fall through to the 404 — log and move on.
+          error_log('Auto-create form resource failed for slug ' . $b['form_id'] . ': ' . $e->getMessage());
+        }
+      }
+      if (!$form) err('Form not found', 404);
     }
-    if (!$form) err('Form not found', 404);
     $formId = (int) $form['id'];
     $orgId  = (int) $form['org_id'];
 

@@ -177,11 +177,28 @@ if (!file_exists($seedFile)) {
   echo "   seed-data.json not found — skipping resource seed\n";
 } else {
   $existingResources = qOne("SELECT COUNT(*) AS c FROM resources")['c'];
+  $seed = json_decode(file_get_contents($seedFile), true);
+  $adminId = qOne("SELECT id FROM users WHERE email = 'admin@netwebmedia.com'")['id'];
   if ($existingResources > 0) {
-    echo "   resources already exist ($existingResources) — skipping\n";
+    // Idempotent ensure: critical form-type resources must exist by slug,
+    // even on a previously-seeded DB. Prevents contact-main / audit-form
+    // type slugs from silently 404-ing if seed-data.json was updated after
+    // the initial migration.
+    $ensured = 0;
+    foreach ($seed as $row) {
+      if (($row['type'] ?? '') !== 'form' || empty($row['slug'])) continue;
+      $existing = qOne("SELECT id FROM resources WHERE type='form' AND slug = ?", [$row['slug']]);
+      if (!$existing) {
+        qExec(
+          "INSERT INTO resources (org_id, type, slug, title, status, data, owner_id) VALUES (1, 'form', ?, ?, ?, ?, ?)",
+          [$row['slug'], $row['title'] ?? $row['slug'], $row['status'] ?? 'active', json_encode($row['data'] ?? []), $adminId]
+        );
+        $ensured++;
+        echo "   + ensured form resource: {$row['slug']}\n";
+      }
+    }
+    echo "   resources already exist ($existingResources) — skipped non-form seed; ensured $ensured form resources\n";
   } else {
-    $seed = json_decode(file_get_contents($seedFile), true);
-    $adminId = qOne("SELECT id FROM users WHERE email = 'admin@netwebmedia.com'")['id'];
     $total = 0;
     foreach ($seed as $row) {
       qExec(

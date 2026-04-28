@@ -228,6 +228,13 @@ jobs:
           print(f"define('TWILIO_AUTH_TOKEN', '{e(os.environ.get('SECRET_TWILIO_TOKEN',''))}');")
           print(f"define('TWILIO_FROM_SMS', '{e(os.environ.get('SECRET_TWILIO_FROM',''))}');")
           print(f"define('TWILIO_FROM_WHATSAPP', '{e(os.environ.get('SECRET_TWILIO_FROM',''))}');")
+          # SMTP — InMotion cPanel relay for US blast campaign (350/day cron)
+          print(f"define('MAIL_PROVIDER', 'smtp');")
+          print(f"define('SMTP_HOST', 'mail.netwebmedia.com');")
+          print(f"define('SMTP_PORT', 465);")
+          print(f"define('SMTP_ENCRYPTION', 'ssl');")
+          print(f"define('SMTP_USER', 'newsletter@netwebmedia.com');")
+          print(f"define('SMTP_PASS', '{e(os.environ.get('SECRET_SMTP_PASS',''))}');")
           PYEOF
             echo "crm-vanilla/api/config.local.php generated"
           else
@@ -249,6 +256,7 @@ jobs:
           SECRET_WA_META_TOKEN:     ${{ secrets.WA_META_TOKEN }}
           SECRET_WA_PHONE_ID:       ${{ secrets.WA_PHONE_ID }}
           SECRET_WA_META_APP_SECRET: ${{ secrets.WA_META_APP_SECRET }}
+          SECRET_SMTP_PASS:         ${{ secrets.SMTP_PASS }}
 
       - name: Deploy via FTPS
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}

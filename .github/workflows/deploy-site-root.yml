@@ -224,6 +224,10 @@ jobs:
           print(f"define('HUBSPOT_TOKEN', '{e(os.environ.get('SECRET_HUBSPOT_TOKEN',''))}');")
           print(f"define('ANTHROPIC_API_KEY', '{e(os.environ.get('SECRET_ANTHROPIC_API_KEY',''))}');")
           print(f"define('RESEND_API_KEY', '{e(os.environ.get('SECRET_RESEND_API_KEY',''))}');")
+          print(f"define('TWILIO_ACCOUNT_SID', '{e(os.environ.get('SECRET_TWILIO_SID',''))}');")
+          print(f"define('TWILIO_AUTH_TOKEN', '{e(os.environ.get('SECRET_TWILIO_TOKEN',''))}');")
+          print(f"define('TWILIO_FROM_SMS', '{e(os.environ.get('SECRET_TWILIO_FROM',''))}');")
+          print(f"define('TWILIO_FROM_WHATSAPP', '{e(os.environ.get('SECRET_TWILIO_FROM',''))}');")
           PYEOF
             echo "crm-vanilla/api/config.local.php generated"
           else

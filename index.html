@@ -144,6 +144,11 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Inter 400/600/700 + Poppins 600/700/800 + Space Grotesk 500/600 -->
+  <!-- Was @import in css/styles.css (render-blocking SPOF). Inline preload + async swap is faster. -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700;800&family=Space+Grotesk:wght@500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700;800&family=Space+Grotesk:wght@500;600&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700;800&family=Space+Grotesk:wght@500;600&display=swap"></noscript>
 
   <!-- FAQPage + BreadcrumbList structured data for AEO citations -->
   <script type="application/ld+json">
@@ -1184,7 +1189,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="index.html" class="nav-logo">
-          <img src="assets/nwm-logo-lockup.png" alt="NetWebMedia" class="nav-logo-img" height="48" style="display:block;vertical-align:middle;">
+          <img src="assets/nwm-logo-lockup.png" alt="NetWebMedia" class="nav-logo-img" height="48" loading="lazy" decoding="async" style="display:block;vertical-align:middle;">
         </a>
         <p data-i18n="footer_tagline">AI-powered marketing for growing brands. We combine human creativity with machine intelligence to deliver unprecedented growth.</p>
         <p style="font-size:13px;opacity:0.7;margin-top:8px;">Founded by <a href="about.html#carlos" style="color:inherit;text-decoration:underline;">Carlos Martinez, Founder &amp; CEO</a> — building the AI-native marketing layer for ambitious SMBs.</p>

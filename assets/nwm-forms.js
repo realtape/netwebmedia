@@ -76,6 +76,17 @@
     }
 
     setBusy(form, true);
+    // Analytics: form_submit_attempt + Meta Pixel Lead (fires before fetch so we
+    // capture intent even if the network call fails). Guarded for pages without GA4/Pixel.
+    try {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'form_submit_attempt', { form_id: formId });
+      }
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'Lead');
+      }
+    } catch (e) { /* never block submission on analytics errors */ }
+
     try {
       var res = await fetch(API_BASE + '/public/forms/submit', {
         method: 'POST',
@@ -87,10 +98,20 @@
       var successMsg = form.getAttribute('data-nwm-success') ||
         'Thanks! Your message has been received — we\'ll be in touch shortly.';
       showMessage(form, successMsg, 'success');
+      try {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'form_submit_success', { form_id: formId, form_value: 1 });
+        }
+      } catch (e) {}
       form.reset();
       var redirect = form.getAttribute('data-nwm-redirect');
       if (redirect) setTimeout(function () { window.location.href = redirect; }, 1200);
     } catch (err) {
+      try {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'form_submit_error', { form_id: formId, error: String(err).slice(0, 100) });
+        }
+      } catch (e) {}
       showMessage(form, 'Sorry, something went wrong: ' + err.message, 'error');
     } finally {
       setBusy(form, false);

@@ -320,6 +320,28 @@ jobs:
           done
           echo "All smoke-test URLs 200 OK"
 
+      - name: Smoke test submit.php (honeypot path)
+        if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
+        run: |
+          # Posts a tripped honeypot to /submit.php — submit.php's first guard
+          # is `if (!empty($_POST['website_url']))` which immediately returns 200.
+          # This catches PHP parse-error regressions BEFORE any real lead submits
+          # one (the heredoc bug 2026-04-22 would have been caught here — submit.php
+          # would have 500'd because the file failed to parse, never reaching the
+          # honeypot guard). Also exercises audit-submit.php for the same reason.
+          for endpoint in submit.php audit-submit.php; do
+            code=$(curl -sS -o /dev/null -w "%{http_code}" \
+              -A "Mozilla/5.0 (gh-actions smoke test)" \
+              --max-time 15 \
+              -X POST \
+              -H "Referer: https://netwebmedia.com/" \
+              -d "website_url=spam" \
+              "https://netwebmedia.com/$endpoint")
+            echo "  $code  POST /$endpoint (honeypot)"
+            [ "$code" = "200" ] || { echo "$endpoint did not return 200 — likely parse error"; exit 1; }
+          done
+          echo "submit.php + audit-submit.php parse-clean"
+
       - name: Verify coupon endpoint
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
         run: |

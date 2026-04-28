@@ -184,29 +184,33 @@ function smtpSend(array $opts): array {
         stream_set_timeout($sock, 10);
     }
 
-    $send("AUTH LOGIN");
-    $read();
-    $send(base64_encode($user));
-    $read();
-    $send(base64_encode($pass));
-    $authResp = $read();
+    // AUTH LOGIN — use raw fwrite so we control exactly one read per step
+    fwrite($sock, "AUTH LOGIN\r\n");
+    $read();                                          // 334 Username:
+    fwrite($sock, base64_encode($user) . "\r\n");
+    $read();                                          // 334 Password:
+    fwrite($sock, base64_encode($pass) . "\r\n");
+    $authResp = $read();                              // 235 or error
     if (strpos($authResp, '235') !== 0) {
         fwrite($sock, "QUIT\r\n");
         fclose($sock);
         throw new RuntimeException("SMTP AUTH failed: " . trim($authResp));
     }
 
-    $send("MAIL FROM:<{$fromEmail}>");   $read();
-    $send("RCPT TO:<{$to}>");            $rcptResp = $read();
+    fwrite($sock, "MAIL FROM:<{$fromEmail}>\r\n");
+    $read();                                          // 250 OK
+    fwrite($sock, "RCPT TO:<{$to}>\r\n");
+    $rcptResp = $read();                              // 250 OK or error
     if (strpos($rcptResp, '250') !== 0) {
         fwrite($sock, "QUIT\r\n"); fclose($sock);
         throw new RuntimeException("SMTP RCPT failed: " . trim($rcptResp));
     }
 
-    $send("DATA"); $read();
+    fwrite($sock, "DATA\r\n");
+    $read();                                          // 354 Start input
     fwrite($sock, $headers . "\r\n" . $body . "\r\n.\r\n");
-    $dataResp = $read();
-    $send("QUIT"); fclose($sock);
+    $dataResp = $read();                              // 250 OK queued
+    fwrite($sock, "QUIT\r\n"); fclose($sock);
 
     if (strpos($dataResp, '250') !== 0) {
         throw new RuntimeException("SMTP DATA failed: " . trim($dataResp));

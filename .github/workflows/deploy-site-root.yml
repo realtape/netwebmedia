@@ -123,8 +123,17 @@ jobs:
         run: |
           mkdir -p _stage
           # Top-level HTML — copy all .html files at repo root
-          for f in *.html robots.txt sitemap.xml; do
+          for f in *.html robots.txt sitemap.xml humans.txt; do
             [ -f "$f" ] && cp "$f" "_stage/$f" || true
+          done
+          # IndexNow ownership-verification key file (32-hex-char filename).
+          # If present at repo root, ship it. Bing/Yandex/Seznam/Naver/Yep
+          # fetch this URL to verify we control the domain before accepting pings.
+          for f in *.txt; do
+            if [[ "$f" =~ ^[a-f0-9]{32}\.txt$ ]] && [ -f "$f" ]; then
+              cp "$f" "_stage/$f"
+              echo "  + IndexNow key: $f"
+            fi
           done
           # One-shot PHP maintenance scripts placed at repo root (self-deleting server-side).
           # Explicit allowlist — do NOT glob *.php at root unless you want to ship every PHP file.
@@ -133,6 +142,8 @@ jobs:
           done
           # Apache config — ships as a dotfile so the FTP step doesn't filter it out
           [ -f .htaccess ] && cp .htaccess _stage/.htaccess || true
+          # .well-known/ (security.txt, etc.) — RFC 8615 conventions
+          [ -d .well-known ] && cp -r .well-known _stage/.well-known || true
           # Directories
           for d in css js assets images fonts crm api api-php tutorials crm-demo cms-demo crm-vanilla blog lp guides plans industries app livery-editor; do
             [ -d "$d" ] && cp -r "$d" "_stage/$d" || true

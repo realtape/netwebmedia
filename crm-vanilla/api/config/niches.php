@@ -1,0 +1,332 @@
+<?php
+/**
+ * Central niche configuration — 14 verticals.
+ * Each entry defines: label, pipeline_stages, custom_fields.
+ * Consumed by niche_config handler and seed_templates.
+ */
+return [
+
+  'tourism' => [
+    'label' => 'Tourism & Hospitality',
+    'pipeline_stages' => [
+      ['name' => 'New Inquiry',        'sort_order' => 1, 'color' => '#64748b', 'probability' => 5],
+      ['name' => 'Site Visit Sched.',  'sort_order' => 2, 'color' => '#3b82f6', 'probability' => 20],
+      ['name' => 'Proposal Sent',      'sort_order' => 3, 'color' => '#f59e0b', 'probability' => 40],
+      ['name' => 'Contract Review',    'sort_order' => 4, 'color' => '#8b5cf6', 'probability' => 60],
+      ['name' => 'Onboarding',         'sort_order' => 5, 'color' => '#10b981', 'probability' => 80],
+      ['name' => 'Active Client',      'sort_order' => 6, 'color' => '#22c55e', 'probability' => 100],
+      ['name' => 'Lost',               'sort_order' => 7, 'color' => '#ef4444', 'probability' => 0],
+    ],
+    'custom_fields' => [
+      ['field_key' => 'property_type',        'field_label' => 'Property Type',           'field_type' => 'select',  'required' => 1, 'options' => ['Hotel','Hostel','Resort','Boutique','B&B','Eco-Lodge','Airbnb','Other'], 'sort_order' => 1],
+      ['field_key' => 'star_rating',          'field_label' => 'Star Rating',             'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 2],
+      ['field_key' => 'room_count',           'field_label' => 'Number of Rooms',         'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 3],
+      ['field_key' => 'ota_platforms',        'field_label' => 'OTA Platforms Used',      'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 4],
+      ['field_key' => 'direct_booking_pct',   'field_label' => 'Direct Bookings %',       'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 5],
+      ['field_key' => 'annual_occupancy_pct', 'field_label' => 'Annual Occupancy %',      'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 6],
+      ['field_key' => 'peak_season',          'field_label' => 'Peak Season Months',      'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 7],
+    ],
+  ],
+
+  'restaurants' => [
+    'label' => 'Restaurants & Gastronomy',
+    'pipeline_stages' => [
+      ['name' => 'Cold Contact',    'sort_order' => 1, 'color' => '#64748b', 'probability' => 5],
+      ['name' => 'Demo Scheduled',  'sort_order' => 2, 'color' => '#3b82f6', 'probability' => 20],
+      ['name' => 'Demo Done',       'sort_order' => 3, 'color' => '#f59e0b', 'probability' => 40],
+      ['name' => 'Proposal Sent',   'sort_order' => 4, 'color' => '#8b5cf6', 'probability' => 60],
+      ['name' => 'Contract Signed', 'sort_order' => 5, 'color' => '#10b981', 'probability' => 80],
+      ['name' => 'Live',            'sort_order' => 6, 'color' => '#22c55e', 'probability' => 100],
+      ['name' => 'Lost',            'sort_order' => 7, 'color' => '#ef4444', 'probability' => 0],
+    ],
+    'custom_fields' => [
+      ['field_key' => 'restaurant_type',      'field_label' => 'Restaurant Type',         'field_type' => 'select',  'required' => 1, 'options' => ['Fine Dining','Casual','Fast Food','Café','Bar','Food Truck','Catering','Other'], 'sort_order' => 1],
+      ['field_key' => 'seating_capacity',     'field_label' => 'Seating Capacity',        'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 2],
+      ['field_key' => 'delivery_platforms',   'field_label' => 'Delivery Platforms',      'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 3],
+      ['field_key' => 'delivery_revenue_pct', 'field_label' => 'Delivery Revenue %',      'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 4],
+      ['field_key' => 'pos_system',           'field_label' => 'POS System',              'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 5],
+      ['field_key' => 'avg_ticket',           'field_label' => 'Avg Ticket (CLP)',        'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 6],
+      ['field_key' => 'has_reservations',     'field_label' => 'Online Reservations',     'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 7],
+    ],
+  ],
+
+  'health' => [
+    'label' => 'Health & Medical',
+    'pipeline_stages' => [
+      ['name' => 'Lead Captured',    'sort_order' => 1, 'color' => '#64748b', 'probability' => 5],
+      ['name' => 'Discovery Call',   'sort_order' => 2, 'color' => '#3b82f6', 'probability' => 15],
+      ['name' => 'Needs Assessment', 'sort_order' => 3, 'color' => '#f59e0b', 'probability' => 30],
+      ['name' => 'Proposal Sent',    'sort_order' => 4, 'color' => '#8b5cf6', 'probability' => 50],
+      ['name' => 'Legal Review',     'sort_order' => 5, 'color' => '#a855f7', 'probability' => 70],
+      ['name' => 'Signed',           'sort_order' => 6, 'color' => '#10b981', 'probability' => 85],
+      ['name' => 'Go Live',          'sort_order' => 7, 'color' => '#22c55e', 'probability' => 100],
+      ['name' => 'Lost',             'sort_order' => 8, 'color' => '#ef4444', 'probability' => 0],
+    ],
+    'custom_fields' => [
+      ['field_key' => 'specialty',              'field_label' => 'Medical Specialty',        'field_type' => 'select',  'required' => 1, 'options' => ['General Practice','Dental','Dermatology','Ophthalmology','Orthopedics','Pediatrics','Psychology','Nutrition','Aesthetics','Other'], 'sort_order' => 1],
+      ['field_key' => 'practitioner_count',     'field_label' => 'Practitioners / Doctors',  'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 2],
+      ['field_key' => 'patient_volume_monthly', 'field_label' => 'Patients / Month',         'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 3],
+      ['field_key' => 'ehr_system',             'field_label' => 'EHR / EMR System',         'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 4],
+      ['field_key' => 'telemedicine',           'field_label' => 'Offers Telemedicine',      'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 5],
+      ['field_key' => 'insurance_accepted',     'field_label' => 'Insurance Accepted',       'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 6],
+      ['field_key' => 'google_rating',          'field_label' => 'Google Rating',            'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 7],
+    ],
+  ],
+
+  'beauty' => [
+    'label' => 'Beauty & Wellness',
+    'pipeline_stages' => [
+      ['name' => 'Inquiry',     'sort_order' => 1, 'color' => '#64748b', 'probability' => 5],
+      ['name' => 'Consultation','sort_order' => 2, 'color' => '#3b82f6', 'probability' => 20],
+      ['name' => 'Proposal',    'sort_order' => 3, 'color' => '#f59e0b', 'probability' => 40],
+      ['name' => 'Signed',      'sort_order' => 4, 'color' => '#10b981', 'probability' => 70],
+      ['name' => 'Setup',       'sort_order' => 5, 'color' => '#8b5cf6', 'probability' => 85],
+      ['name' => 'Active',      'sort_order' => 6, 'color' => '#22c55e', 'probability' => 100],
+      ['name' => 'Lost',        'sort_order' => 7, 'color' => '#ef4444', 'probability' => 0],
+    ],
+    'custom_fields' => [
+      ['field_key' => 'business_type',      'field_label' => 'Business Type',           'field_type' => 'select',  'required' => 1, 'options' => ['Salon','Barbershop','Spa','Nail Studio','Makeup Studio','Aesthetic Clinic','Other'], 'sort_order' => 1],
+      ['field_key' => 'station_count',      'field_label' => 'Chairs / Stations',       'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 2],
+      ['field_key' => 'booking_system',     'field_label' => 'Booking System Used',     'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 3],
+      ['field_key' => 'avg_service_ticket', 'field_label' => 'Avg Service Ticket (CLP)','field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 4],
+      ['field_key' => 'has_loyalty_program','field_label' => 'Loyalty Program',         'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 5],
+      ['field_key' => 'social_following',   'field_label' => 'Social Media Followers',  'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 6],
+      ['field_key' => 'instagram_handle',   'field_label' => 'Instagram Handle',        'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 7],
+    ],
+  ],
+
+  'smb' => [
+    'label' => 'Small/Medium Business Services',
+    'pipeline_stages' => [
+      ['name' => 'Lead',          'sort_order' => 1, 'color' => '#64748b', 'probability' => 5],
+      ['name' => 'Qualified',     'sort_order' => 2, 'color' => '#3b82f6', 'probability' => 15],
+      ['name' => 'Discovery',     'sort_order' => 3, 'color' => '#f59e0b', 'probability' => 30],
+      ['name' => 'Proposal',      'sort_order' => 4, 'color' => '#8b5cf6', 'probability' => 50],
+      ['name' => 'Negotiation',   'sort_order' => 5, 'color' => '#a855f7', 'probability' => 70],
+      ['name' => 'Closed Won',    'sort_order' => 6, 'color' => '#22c55e', 'probability' => 100],
+      ['name' => 'Lost',          'sort_order' => 7, 'color' => '#ef4444', 'probability' => 0],
+    ],
+    'custom_fields' => [
+      ['field_key' => 'business_type',         'field_label' => 'Business Type',              'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 1],
+      ['field_key' => 'employee_count',        'field_label' => 'Employee Count',             'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 2],
+      ['field_key' => 'annual_revenue_range',  'field_label' => 'Annual Revenue Range',       'field_type' => 'select',  'required' => 0, 'options' => ['Under $100K','$100K-$500K','$500K-$1M','$1M-$5M','$5M+'], 'sort_order' => 3],
+      ['field_key' => 'monthly_mktg_spend',    'field_label' => 'Monthly Marketing Spend',    'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 4],
+      ['field_key' => 'website_age_years',     'field_label' => 'Website Age (years)',        'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 5],
+      ['field_key' => 'has_google_ads',        'field_label' => 'Running Google Ads',         'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 6],
+      ['field_key' => 'has_social_media',      'field_label' => 'Active Social Media',        'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 7],
+    ],
+  ],
+
+  'law_firms' => [
+    'label' => 'Law Firms & Legal Services',
+    'pipeline_stages' => [
+      ['name' => 'Initial Contact',      'sort_order' => 1, 'color' => '#64748b', 'probability' => 5],
+      ['name' => 'Consultation Sched.',  'sort_order' => 2, 'color' => '#3b82f6', 'probability' => 15],
+      ['name' => 'Consultation Done',    'sort_order' => 3, 'color' => '#f59e0b', 'probability' => 35],
+      ['name' => 'Proposal Sent',        'sort_order' => 4, 'color' => '#8b5cf6', 'probability' => 55],
+      ['name' => 'Decision Pending',     'sort_order' => 5, 'color' => '#a855f7', 'probability' => 70],
+      ['name' => 'Contract Signed',      'sort_order' => 6, 'color' => '#10b981', 'probability' => 85],
+      ['name' => 'Active Retainer',      'sort_order' => 7, 'color' => '#22c55e', 'probability' => 100],
+      ['name' => 'Lost',                 'sort_order' => 8, 'color' => '#ef4444', 'probability' => 0],
+    ],
+    'custom_fields' => [
+      ['field_key' => 'practice_area',          'field_label' => 'Practice Area',              'field_type' => 'select',  'required' => 1, 'options' => ['Civil','Criminal','Family','Corporate','Real Estate','Labor','Immigration','Tax','IP','Other'], 'sort_order' => 1],
+      ['field_key' => 'firm_size',              'field_label' => 'Firm Size',                  'field_type' => 'select',  'required' => 0, 'options' => ['Solo','Small (2-10)','Medium (11-50)','Large (50+)'], 'sort_order' => 2],
+      ['field_key' => 'attorneys_count',        'field_label' => 'Number of Attorneys',        'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 3],
+      ['field_key' => 'case_management_sw',     'field_label' => 'Case Management Software',   'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 4],
+      ['field_key' => 'cases_per_month',        'field_label' => 'Cases per Month',            'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 5],
+      ['field_key' => 'referral_pct',           'field_label' => 'Referral Revenue %',         'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 6],
+      ['field_key' => 'bar_association',        'field_label' => 'Bar Association',            'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 7],
+    ],
+  ],
+
+  'real_estate' => [
+    'label' => 'Real Estate & Property',
+    'pipeline_stages' => [
+      ['name' => 'Prospecting',      'sort_order' => 1, 'color' => '#64748b', 'probability' => 5],
+      ['name' => 'Intro Meeting',    'sort_order' => 2, 'color' => '#3b82f6', 'probability' => 15],
+      ['name' => 'Presentation',     'sort_order' => 3, 'color' => '#f59e0b', 'probability' => 35],
+      ['name' => 'Contract Sent',    'sort_order' => 4, 'color' => '#8b5cf6', 'probability' => 55],
+      ['name' => 'Negotiation',      'sort_order' => 5, 'color' => '#a855f7', 'probability' => 70],
+      ['name' => 'Contract Signed',  'sort_order' => 6, 'color' => '#10b981', 'probability' => 85],
+      ['name' => 'Onboarded',        'sort_order' => 7, 'color' => '#22c55e', 'probability' => 100],
+      ['name' => 'Lost',             'sort_order' => 8, 'color' => '#ef4444', 'probability' => 0],
+    ],
+    'custom_fields' => [
+      ['field_key' => 'property_focus',       'field_label' => 'Property Focus',             'field_type' => 'select',  'required' => 1, 'options' => ['Residential','Commercial','Industrial','Land','Rentals','Mixed'], 'sort_order' => 1],
+      ['field_key' => 'agent_count',          'field_label' => 'Number of Agents',           'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 2],
+      ['field_key' => 'transactions_monthly', 'field_label' => 'Transactions / Month',       'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 3],
+      ['field_key' => 'avg_sale_price',       'field_label' => 'Avg Sale Price',             'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 4],
+      ['field_key' => 'listing_platforms',    'field_label' => 'Listing Platforms',          'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 5],
+      ['field_key' => 'crm_currently_used',   'field_label' => 'CRM Currently Used',         'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 6],
+      ['field_key' => 'has_virtual_tours',    'field_label' => 'Offers Virtual Tours',       'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 7],
+    ],
+  ],
+
+  'local_specialist' => [
+    'label' => 'Local Specialist Services',
+    'pipeline_stages' => [
+      ['name' => 'Contact',    'sort_order' => 1, 'color' => '#64748b', 'probability' => 5],
+      ['name' => 'Quote Sent', 'sort_order' => 2, 'color' => '#3b82f6', 'probability' => 25],
+      ['name' => 'Follow Up',  'sort_order' => 3, 'color' => '#f59e0b', 'probability' => 40],
+      ['name' => 'Proposal',   'sort_order' => 4, 'color' => '#8b5cf6', 'probability' => 60],
+      ['name' => 'Signed',     'sort_order' => 5, 'color' => '#10b981', 'probability' => 80],
+      ['name' => 'Active',     'sort_order' => 6, 'color' => '#22c55e', 'probability' => 100],
+      ['name' => 'Lost',       'sort_order' => 7, 'color' => '#ef4444', 'probability' => 0],
+    ],
+    'custom_fields' => [
+      ['field_key' => 'specialty',        'field_label' => 'Specialty',                  'field_type' => 'select',  'required' => 1, 'options' => ['Plumber','Electrician','Locksmith','Cleaner','Pest Control','Security','IT Support','Other'], 'sort_order' => 1],
+      ['field_key' => 'service_area',     'field_label' => 'Service Area',               'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 2],
+      ['field_key' => 'is_licensed',      'field_label' => 'Licensed',                   'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 3],
+      ['field_key' => 'is_insured',       'field_label' => 'Insured',                    'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 4],
+      ['field_key' => 'offers_emergency', 'field_label' => 'Emergency Services',         'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 5],
+      ['field_key' => 'monthly_jobs',     'field_label' => 'Jobs / Month',               'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 6],
+      ['field_key' => 'avg_job_value',    'field_label' => 'Avg Job Value (CLP)',        'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 7],
+    ],
+  ],
+
+  'automotive' => [
+    'label' => 'Automotive',
+    'pipeline_stages' => [
+      ['name' => 'Lead',           'sort_order' => 1, 'color' => '#64748b', 'probability' => 5],
+      ['name' => 'Needs Discovery','sort_order' => 2, 'color' => '#3b82f6', 'probability' => 20],
+      ['name' => 'Demo / Proposal','sort_order' => 3, 'color' => '#f59e0b', 'probability' => 40],
+      ['name' => 'Decision',       'sort_order' => 4, 'color' => '#8b5cf6', 'probability' => 60],
+      ['name' => 'Contract',       'sort_order' => 5, 'color' => '#a855f7', 'probability' => 75],
+      ['name' => 'Setup',          'sort_order' => 6, 'color' => '#10b981', 'probability' => 85],
+      ['name' => 'Active',         'sort_order' => 7, 'color' => '#22c55e', 'probability' => 100],
+      ['name' => 'Lost',           'sort_order' => 8, 'color' => '#ef4444', 'probability' => 0],
+    ],
+    'custom_fields' => [
+      ['field_key' => 'business_type',        'field_label' => 'Business Type',              'field_type' => 'select',  'required' => 1, 'options' => ['Dealership','Repair Shop','Detailing','Parts Store','Tire Shop','Auto Glass','Other'], 'sort_order' => 1],
+      ['field_key' => 'brands_serviced',      'field_label' => 'Brands Serviced',            'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 2],
+      ['field_key' => 'vehicles_per_month',   'field_label' => 'Vehicles / Month',           'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 3],
+      ['field_key' => 'has_service_dept',     'field_label' => 'Has Service Department',     'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 4],
+      ['field_key' => 'has_parts_dept',       'field_label' => 'Has Parts Department',       'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 5],
+      ['field_key' => 'loyalty_program',      'field_label' => 'Loyalty Program',            'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 6],
+      ['field_key' => 'lift_count',           'field_label' => 'Number of Lifts / Bays',    'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 7],
+      ['field_key' => 'google_rating',        'field_label' => 'Google Rating',              'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 8],
+    ],
+  ],
+
+  'education' => [
+    'label' => 'Education',
+    'pipeline_stages' => [
+      ['name' => 'Inquiry',          'sort_order' => 1, 'color' => '#64748b', 'probability' => 5],
+      ['name' => 'Initial Contact',  'sort_order' => 2, 'color' => '#3b82f6', 'probability' => 15],
+      ['name' => 'Demo Scheduled',   'sort_order' => 3, 'color' => '#f59e0b', 'probability' => 30],
+      ['name' => 'Demo Done',        'sort_order' => 4, 'color' => '#8b5cf6', 'probability' => 50],
+      ['name' => 'Proposal Sent',    'sort_order' => 5, 'color' => '#a855f7', 'probability' => 65],
+      ['name' => 'Approval Process', 'sort_order' => 6, 'color' => '#c084fc', 'probability' => 75],
+      ['name' => 'Contract Signed',  'sort_order' => 7, 'color' => '#10b981', 'probability' => 85],
+      ['name' => 'Onboarding',       'sort_order' => 8, 'color' => '#22c55e', 'probability' => 100],
+      ['name' => 'Lost',             'sort_order' => 9, 'color' => '#ef4444', 'probability' => 0],
+    ],
+    'custom_fields' => [
+      ['field_key' => 'institution_type',  'field_label' => 'Institution Type',           'field_type' => 'select',  'required' => 1, 'options' => ['K-12 School','University','Online Course','Tutoring Center','Vocational','Language School','Other'], 'sort_order' => 1],
+      ['field_key' => 'enrollment_count',  'field_label' => 'Student Enrollment',         'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 2],
+      ['field_key' => 'delivery_mode',     'field_label' => 'Delivery Mode',              'field_type' => 'select',  'required' => 0, 'options' => ['In-Person','Online','Hybrid'], 'sort_order' => 3],
+      ['field_key' => 'lms_platform',      'field_label' => 'LMS Platform',               'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 4],
+      ['field_key' => 'tuition_range',     'field_label' => 'Tuition Range',              'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 5],
+      ['field_key' => 'accredited',        'field_label' => 'Accredited',                 'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 6],
+      ['field_key' => 'languages_taught',  'field_label' => 'Languages Taught',           'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 7],
+    ],
+  ],
+
+  'events_weddings' => [
+    'label' => 'Events & Weddings',
+    'pipeline_stages' => [
+      ['name' => 'Inquiry',          'sort_order' => 1, 'color' => '#64748b', 'probability' => 5],
+      ['name' => 'Consultation',     'sort_order' => 2, 'color' => '#3b82f6', 'probability' => 20],
+      ['name' => 'Venue Tour',       'sort_order' => 3, 'color' => '#f59e0b', 'probability' => 35],
+      ['name' => 'Proposal Sent',    'sort_order' => 4, 'color' => '#8b5cf6', 'probability' => 55],
+      ['name' => 'Contract Review',  'sort_order' => 5, 'color' => '#a855f7', 'probability' => 70],
+      ['name' => 'Contract Signed',  'sort_order' => 6, 'color' => '#10b981', 'probability' => 85],
+      ['name' => 'Planning Phase',   'sort_order' => 7, 'color' => '#06b6d4', 'probability' => 90],
+      ['name' => 'Event Completed',  'sort_order' => 8, 'color' => '#22c55e', 'probability' => 100],
+      ['name' => 'Lost',             'sort_order' => 9, 'color' => '#ef4444', 'probability' => 0],
+    ],
+    'custom_fields' => [
+      ['field_key' => 'event_focus',       'field_label' => 'Event Focus',                'field_type' => 'select',  'required' => 1, 'options' => ['Weddings','Corporate Events','Social Events','Conferences','Birthdays','Mixed'], 'sort_order' => 1],
+      ['field_key' => 'venue_capacity',    'field_label' => 'Venue Capacity (guests)',    'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 2],
+      ['field_key' => 'includes_catering', 'field_label' => 'Includes Catering',          'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 3],
+      ['field_key' => 'includes_av',       'field_label' => 'Includes AV / Tech',         'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 4],
+      ['field_key' => 'includes_decor',    'field_label' => 'Includes Decor',             'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 5],
+      ['field_key' => 'avg_event_value',   'field_label' => 'Avg Event Value (CLP)',      'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 6],
+      ['field_key' => 'lead_time_months',  'field_label' => 'Avg Lead Time (months)',     'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 7],
+      ['field_key' => 'events_per_month',  'field_label' => 'Events / Month',             'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 8],
+    ],
+  ],
+
+  'financial_services' => [
+    'label' => 'Financial Services',
+    'pipeline_stages' => [
+      ['name' => 'Lead',                  'sort_order' => 1, 'color' => '#64748b', 'probability' => 5],
+      ['name' => 'Discovery Call',        'sort_order' => 2, 'color' => '#3b82f6', 'probability' => 15],
+      ['name' => 'Suitability Assess.',   'sort_order' => 3, 'color' => '#f59e0b', 'probability' => 35],
+      ['name' => 'Proposal Sent',         'sort_order' => 4, 'color' => '#8b5cf6', 'probability' => 55],
+      ['name' => 'Compliance Review',     'sort_order' => 5, 'color' => '#a855f7', 'probability' => 70],
+      ['name' => 'Contract Signed',       'sort_order' => 6, 'color' => '#10b981', 'probability' => 85],
+      ['name' => 'Onboarded',             'sort_order' => 7, 'color' => '#22c55e', 'probability' => 100],
+      ['name' => 'Lost',                  'sort_order' => 8, 'color' => '#ef4444', 'probability' => 0],
+    ],
+    'custom_fields' => [
+      ['field_key' => 'service_type',      'field_label' => 'Service Type',               'field_type' => 'select',  'required' => 1, 'options' => ['Accounting','Financial Advisory','Insurance','Tax Consulting','Mortgage','Investment','Other'], 'sort_order' => 1],
+      ['field_key' => 'client_count',      'field_label' => 'Active Clients',             'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 2],
+      ['field_key' => 'aum_range',         'field_label' => 'AUM / Portfolio Range',      'field_type' => 'select',  'required' => 0, 'options' => ['Under $1M','$1M-$10M','$10M-$100M','$100M+'], 'sort_order' => 3],
+      ['field_key' => 'licenses',          'field_label' => 'Licenses / Certifications',  'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 4],
+      ['field_key' => 'compliance_reqs',   'field_label' => 'Compliance Requirements',    'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 5],
+      ['field_key' => 'referral_pct',      'field_label' => 'Referral Revenue %',         'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 6],
+      ['field_key' => 'avg_client_value',  'field_label' => 'Avg Annual Client Value',    'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 7],
+    ],
+  ],
+
+  'home_services' => [
+    'label' => 'Home Services',
+    'pipeline_stages' => [
+      ['name' => 'Inquiry',          'sort_order' => 1, 'color' => '#64748b', 'probability' => 5],
+      ['name' => 'Site Visit Sched.','sort_order' => 2, 'color' => '#3b82f6', 'probability' => 20],
+      ['name' => 'Quote Sent',       'sort_order' => 3, 'color' => '#f59e0b', 'probability' => 35],
+      ['name' => 'Follow Up',        'sort_order' => 4, 'color' => '#8b5cf6', 'probability' => 55],
+      ['name' => 'Contract Signed',  'sort_order' => 5, 'color' => '#10b981', 'probability' => 75],
+      ['name' => 'Job Scheduled',    'sort_order' => 6, 'color' => '#a855f7', 'probability' => 85],
+      ['name' => 'Job Completed',    'sort_order' => 7, 'color' => '#22c55e', 'probability' => 100],
+      ['name' => 'Lost',             'sort_order' => 8, 'color' => '#ef4444', 'probability' => 0],
+    ],
+    'custom_fields' => [
+      ['field_key' => 'service_type',          'field_label' => 'Service Type',               'field_type' => 'select',  'required' => 1, 'options' => ['General Contractor','Plumber','Electrician','HVAC','Landscaping','Roofing','Painting','Cleaning','Other'], 'sort_order' => 1],
+      ['field_key' => 'service_area_km',       'field_label' => 'Service Radius (km)',        'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 2],
+      ['field_key' => 'team_size',             'field_label' => 'Team Size',                  'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 3],
+      ['field_key' => 'is_licensed',           'field_label' => 'Licensed',                   'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 4],
+      ['field_key' => 'is_insured',            'field_label' => 'Insured',                    'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 5],
+      ['field_key' => 'offers_emergency',      'field_label' => 'Emergency Service',          'field_type' => 'boolean', 'required' => 0, 'options' => null, 'sort_order' => 6],
+      ['field_key' => 'monthly_jobs',          'field_label' => 'Jobs / Month',               'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 7],
+      ['field_key' => 'avg_job_value',         'field_label' => 'Avg Job Value (CLP)',        'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 8],
+    ],
+  ],
+
+  'wine_agriculture' => [
+    'label' => 'Wine & Agriculture',
+    'pipeline_stages' => [
+      ['name' => 'Initial Contact',  'sort_order' => 1, 'color' => '#64748b', 'probability' => 5],
+      ['name' => 'Farm/Winery Visit','sort_order' => 2, 'color' => '#3b82f6', 'probability' => 20],
+      ['name' => 'Needs Analysis',   'sort_order' => 3, 'color' => '#f59e0b', 'probability' => 40],
+      ['name' => 'Proposal Sent',    'sort_order' => 4, 'color' => '#8b5cf6', 'probability' => 60],
+      ['name' => 'Decision',         'sort_order' => 5, 'color' => '#a855f7', 'probability' => 75],
+      ['name' => 'Contract Signed',  'sort_order' => 6, 'color' => '#10b981', 'probability' => 85],
+      ['name' => 'Onboarded',        'sort_order' => 7, 'color' => '#22c55e', 'probability' => 100],
+      ['name' => 'Lost',             'sort_order' => 8, 'color' => '#ef4444', 'probability' => 0],
+    ],
+    'custom_fields' => [
+      ['field_key' => 'operation_type',    'field_label' => 'Operation Type',             'field_type' => 'select',  'required' => 1, 'options' => ['Winery','Vineyard','Orchard','Farm','Agribusiness','Cooperative','Other'], 'sort_order' => 1],
+      ['field_key' => 'hectares',          'field_label' => 'Hectares',                   'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 2],
+      ['field_key' => 'annual_production', 'field_label' => 'Annual Production (liters)', 'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 3],
+      ['field_key' => 'certifications',    'field_label' => 'Certifications',             'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 4],
+      ['field_key' => 'export_pct',        'field_label' => 'Export %',                   'field_type' => 'number',  'required' => 0, 'options' => null, 'sort_order' => 5],
+      ['field_key' => 'distribution_ch',   'field_label' => 'Distribution Channels',      'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 6],
+      ['field_key' => 'harvest_months',    'field_label' => 'Harvest Months',             'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 7],
+      ['field_key' => 'wine_varieties',    'field_label' => 'Wine / Crop Varieties',      'field_type' => 'text',    'required' => 0, 'options' => null, 'sort_order' => 8],
+    ],
+  ],
+
+];

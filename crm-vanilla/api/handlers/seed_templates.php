@@ -85,6 +85,42 @@ $templates = [
      'Estamos auditando 50 especialistas locales (electricistas, gasfíteres, climatización) en su región.',
      'el 67% de las búsquedas "cerca de mí" convierte en 24h — sin Google Maps optimizado, esos clientes se van a la competencia',
      'Con 20 minutos armamos la optimización de Maps + booking + automación SMS que típicamente duplica las citas en 30 días.')],
+
+  ['name' => 'Automotive — Intro (Day 0)', 'niche' => 'Automotive',
+   'email' => niche_email('automotriz',
+     'Estamos auditando las 50 empresas automotrices más relevantes de su región.',
+     'talleres sin sistema de turnos online pierden el 25% de los clientes que llaman fuera de horario — y sin recordatorio SMS, la tasa de no-shows supera el 30%',
+     'En 20 minutos le muestro cómo un sitio con agendamiento de turnos + recordatorio automático + CRM de clientes reduce los no-shows y aumenta la recurrencia.')],
+
+  ['name' => 'Education — Intro (Day 0)', 'niche' => 'Education',
+   'email' => niche_email('educación',
+     'Estamos auditando los 50 centros educativos y academias más relevantes de su región.',
+     'instituciones sin proceso de matrícula digital pierden el 40% de los interesados en el primer contacto — la mayoría elige al competidor que responde en menos de 5 minutos',
+     'En 20 minutos le muestro cómo digitalizar la captación de alumnos con un funnel automatizado que responde al instante y convierte interesados en matrículas.')],
+
+  ['name' => 'Events & Weddings — Intro (Day 0)', 'niche' => 'Events & Weddings',
+   'email' => niche_email('eventos y bodas',
+     'Estamos auditando los 50 organizadores de eventos y venues más destacados de su región.',
+     'organizadores sin portafolio online ni formulario de cotización pierden el 60% de las consultas antes de responder — los clientes contratan al primero que impresiona',
+     'En 20 minutos le muestro el sitio con portafolio visual + cotizador automático + CRM de seguimiento que convierte consultas en contratos firmados.')],
+
+  ['name' => 'Financial Services — Intro (Day 0)', 'niche' => 'Financial Services',
+   'email' => niche_email('servicios financieros',
+     'Estamos auditando los 50 asesores financieros y contadores más activos de su región.',
+     'el 78% de las búsquedas de servicios financieros termina en una llamada — sin presencia digital profesional, la mayoría de esos prospectos calificados nunca lo encuentran',
+     'En 20 minutos le muestro cómo un sitio profesional + Google Business optimizado + CRM de clientes convierte búsquedas en consultas calificadas y retainers.')],
+
+  ['name' => 'Home Services — Intro (Day 0)', 'niche' => 'Home Services',
+   'email' => niche_email('servicios para el hogar',
+     'Estamos auditando las 50 empresas de servicios para el hogar más activas de su región.',
+     'contratistas sin presencia en Google Maps pierden el 70% de las búsquedas de emergencia — y sin cotizador online, el 45% de los presupuestos solicitados nunca se cierra',
+     'En 20 minutos le muestro cómo Maps + cotizador digital + CRM de seguimiento llena la agenda de trabajos sin necesidad de publicidad costosa.')],
+
+  ['name' => 'Wine & Agriculture — Intro (Day 0)', 'niche' => 'Wine & Agriculture',
+   'email' => niche_email('vitivinicultura y agricultura',
+     'Estamos auditando las 50 viñas y productores agrícolas más destacados de su región.',
+     'productores que venden solo a distribuidores pierden el 40-60% del margen — la venta directa online es el canal que más crece en el sector vitivinícola regional',
+     'En 20 minutos le muestro cómo un sitio con e-commerce + reservas de visita a la viña + email marketing convierte visitantes en compradores recurrentes y fidelizados.')],
 ];
 
 $inserted = 0; $skipped = 0; $errs = [];

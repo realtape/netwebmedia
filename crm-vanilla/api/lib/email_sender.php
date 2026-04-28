@@ -3,7 +3,7 @@
  * Multi-provider email sender + merge-tag engine.
  *
  * Provider selection (in priority order):
- *   1. MAIL_PROVIDER constant  — 'resend' | 'smtp' | 'ses'
+ *   1. MAIL_PROVIDER constant  — 'resend' | 'smtp' | 'ses' | 'phpmail'
  *   2. Falls back to 'resend' if unset
  *
  * Config constants (set in config.local.php, never commit):
@@ -16,7 +16,10 @@
  *   AWS_SES_KEY             — AWS Access Key ID
  *   AWS_SES_SECRET          — AWS Secret Access Key
  *   AWS_SES_REGION          — e.g. us-east-1
- *   MAIL_PROVIDER           — 'resend' | 'smtp' | 'ses'
+ *   MAIL_PROVIDER           — 'resend' | 'smtp' | 'ses' | 'phpmail'
+ *
+ * 'phpmail' uses PHP's built-in mail() → server's Exim MTA. No AUTH,
+ * no lockout risk. Good for bulk blasts on cPanel/InMotion.
  */
 
 // ── Merge tags ────────────────────────────────────────────────────────────────
@@ -61,9 +64,10 @@ function buildContactVars(array $contact, string $siteBase, string $token): arra
 function mailSend(array $opts): array {
     $provider = defined('MAIL_PROVIDER') ? MAIL_PROVIDER : 'resend';
     switch ($provider) {
-        case 'smtp': return smtpSend($opts);
-        case 'ses':  return sesSend($opts);
-        default:     return resendSend($opts);
+        case 'smtp':    return smtpSend($opts);
+        case 'ses':     return sesSend($opts);
+        case 'phpmail': return phpMailSend($opts);
+        default:        return resendSend($opts);
     }
 }
 
@@ -101,6 +105,53 @@ function resendSend(array $opts): array {
     $data = json_decode($resp, true);
     if ($code >= 400) throw new RuntimeException("Resend API ($code): " . ($data['message'] ?? $resp));
     return $data ?: ['id' => null];
+}
+
+// ── PHP mail() via server Exim — no AUTH, no lockout risk ────────────────────
+
+/**
+ * Uses PHP's built-in mail() which routes through the server's local Exim MTA.
+ * No SMTP credentials or brute-force exposure. Ideal for bulk blasts on cPanel.
+ * Sends multipart/alternative (text + html) with proper MIME headers.
+ */
+function phpMailSend(array $opts): array {
+    $fromEmail = $opts['from_email'] ?? 'newsletter@netwebmedia.com';
+    $fromName  = $opts['from_name']  ?? 'NetWebMedia';
+    $to        = $opts['to'];
+    $subject   = $opts['subject'];
+    $html      = $opts['html'];
+    $text      = $opts['text'] ?? strip_tags($html);
+    $replyTo   = $opts['reply_to'] ?? '';
+    $msgId     = '<' . bin2hex(random_bytes(12)) . '@netwebmedia.com>';
+    $boundary  = '=_Part_' . md5(uniqid('', true));
+
+    $headers  = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: multipart/alternative; boundary=\"{$boundary}\"\r\n";
+    $headers .= "From: =?UTF-8?B?" . base64_encode($fromName) . "?= <{$fromEmail}>\r\n";
+    $headers .= "Message-ID: {$msgId}\r\n";
+    $headers .= "Date: " . date('r') . "\r\n";
+    if ($replyTo) $headers .= "Reply-To: {$replyTo}\r\n";
+    $headers .= "X-Mailer: NetWebMedia-CRM/1.0\r\n";
+
+    $body  = "--{$boundary}\r\n";
+    $body .= "Content-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n";
+    $body .= chunk_split(base64_encode($text)) . "\r\n";
+    $body .= "--{$boundary}\r\n";
+    $body .= "Content-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n";
+    $body .= chunk_split(base64_encode($html)) . "\r\n";
+    $body .= "--{$boundary}--";
+
+    // ini_set sendmail_from so Exim uses a valid envelope sender
+    $prevFrom = ini_get('sendmail_from');
+    ini_set('sendmail_from', $fromEmail);
+
+    $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+    $ok = mail($to, $encodedSubject, $body, $headers, '-f' . $fromEmail);
+
+    ini_set('sendmail_from', $prevFrom);
+
+    if (!$ok) throw new RuntimeException("PHP mail() failed for {$to}");
+    return ['id' => $msgId, 'provider' => 'phpmail'];
 }
 
 // ── SMTP (InMotion cPanel or any SMTP relay) ──────────────────────────────────

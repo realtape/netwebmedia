@@ -228,8 +228,9 @@ jobs:
           print(f"define('TWILIO_AUTH_TOKEN', '{e(os.environ.get('SECRET_TWILIO_TOKEN',''))}');")
           print(f"define('TWILIO_FROM_SMS', '{e(os.environ.get('SECRET_TWILIO_FROM',''))}');")
           print(f"define('TWILIO_FROM_WHATSAPP', '{e(os.environ.get('SECRET_TWILIO_FROM',''))}');")
-          # SMTP — InMotion cPanel relay for US blast campaign (350/day cron)
-          print(f"define('MAIL_PROVIDER', 'smtp');")
+          # phpmail — PHP mail() via server Exim, no AUTH lockout risk
+          # Keep SMTP constants for fallback / future use
+          print(f"define('MAIL_PROVIDER', 'phpmail');")
           print(f"define('SMTP_HOST', 'mail.netwebmedia.com');")
           print(f"define('SMTP_PORT', 465);")
           print(f"define('SMTP_ENCRYPTION', 'ssl');")

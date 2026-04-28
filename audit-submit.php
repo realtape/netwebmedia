@@ -14,7 +14,6 @@ declare(strict_types=1);
 // ── CONFIG ─────────────────────────────────────────────────────────────────
 $NOTIFY_TO       = 'hello@netwebmedia.com';
 $NOTIFY_FROM     = 'noreply@netwebmedia.com';
-$THANKS_URL_BASE = '/audit/thanks.html'; // relative, appended to the source subdomain
 $LOG_FILE        = __DIR__ . '/audit-leads.log'; // simple append-only log
 
 // ── HELPERS ────────────────────────────────────────────────────────────────
@@ -67,38 +66,34 @@ $source_slug = preg_replace('/[^a-z0-9\-]/i', '', str_replace('-audit-lp', '', $
 $ip          = $_SERVER['REMOTE_ADDR'] ?? '-';
 $ua          = clean($_SERVER['HTTP_USER_AGENT'] ?? '-');
 $ts          = gmdate('Y-m-d H:i:s') . ' UTC';
+$sep         = str_repeat('-', 42);
 
-$subject = "[NWM Audit] {$source_slug} — {$name} / {$company}";
+$subject = "[NWM Audit] {$source_slug} - {$name} / {$company}";
 
-$body = <<<BODY
-New free-audit request from a subdomain landing page.
-
-──────────────────────────────────────────
-Source subdomain : {$source_slug}.netwebmedia.com
-Submitted (UTC)  : {$ts}
-Referer          : {$origin}
-IP / UA          : {$ip} | {$ua}
-──────────────────────────────────────────
-Name     : {$name}
-Email    : {$email}
-Phone    : {$phone}
-Company  : {$company}
-Website  : {$web}
-──────────────────────────────────────────
-Biggest marketing challenge:
-{$msg}
-──────────────────────────────────────────
-Reply-to: {$email}
-
-— NWM audit form handler
-BODY;
+$body  = "New free-audit request from a subdomain landing page.\n\n";
+$body .= $sep . "\n";
+$body .= "Source subdomain : {$source_slug}.netwebmedia.com\n";
+$body .= "Submitted (UTC)  : {$ts}\n";
+$body .= "Referer          : {$origin}\n";
+$body .= "IP / UA          : {$ip} | {$ua}\n";
+$body .= $sep . "\n";
+$body .= "Name     : {$name}\n";
+$body .= "Email    : {$email}\n";
+$body .= "Phone    : {$phone}\n";
+$body .= "Company  : {$company}\n";
+$body .= "Website  : {$web}\n";
+$body .= $sep . "\n";
+$body .= "Biggest marketing challenge:\n{$msg}\n";
+$body .= $sep . "\n";
+$body .= "Reply-to: {$email}\n";
+$body .= "-- NWM audit form handler";
 
 $headers  = "From: NetWebMedia Audits <{$NOTIFY_FROM}>\r\n";
 $headers .= "Reply-To: {$name} <{$email}>\r\n";
 $headers .= "X-Mailer: NWM-Audit-Handler/1.0\r\n";
 $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
 
-$sent = @mail($NOTIFY_TO, $subject, $body, $headers);
+@mail($NOTIFY_TO, $subject, $body, $headers);
 
 // ── APPEND LOG (even if mail fails — capture the lead no matter what) ──────
 $log_line = sprintf(

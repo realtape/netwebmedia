@@ -44,6 +44,18 @@
           '<label>Value ($)<input name="value" type="number" min="0" placeholder="5000"></label>' +
           '<label>Stage<select name="stage_id" id="dealStageSelect"></select></label>' +
           '<label>Probability (%)<input name="probability" type="number" min="0" max="100" value="25"></label>' +
+          '<label>Source<select name="source">' +
+            '<option value="">— select source —</option>' +
+            '<option value="cold_email_chile">Cold Email — Chile Campaign</option>' +
+            '<option value="cold_email_usa">Cold Email — USA Campaign</option>' +
+            '<option value="whatsapp">WhatsApp</option>' +
+            '<option value="referral">Referral</option>' +
+            '<option value="inbound_website">Inbound — Website</option>' +
+            '<option value="inbound_call">Inbound — Call</option>' +
+            '<option value="social_media">Social Media</option>' +
+            '<option value="event">Event / Trade Show</option>' +
+            '<option value="manual">Manual / Other</option>' +
+          '</select></label>' +
           '<div class="modal-actions">' +
             '<button type="button" id="dealModalCancel" class="btn btn-secondary">Cancel</button>' +
             '<button type="submit" class="btn btn-primary">Save Deal</button>' +
@@ -90,7 +102,8 @@
       company: form.company.value.trim(),
       value: parseInt(form.value.value, 10) || 0,
       stage_id: parseInt(form.stage_id.value, 10),
-      probability: parseInt(form.probability.value, 10) || 25
+      probability: parseInt(form.probability.value, 10) || 25,
+      source: form.source.value || null
     });
 
     var xhr = new XMLHttpRequest();
@@ -153,6 +166,22 @@
           '<div style="margin-bottom:14px">' +
             '<label style="display:block;font-size:11px;color:#8b8fa3;margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px;font-weight:600">Company</label>' +
             '<input name="company" style="width:100%;background:#141620;border:1px solid #2a2d3a;color:#e4e7ec;padding:9px 12px;border-radius:6px;font-size:14px;box-sizing:border-box">' +
+          '</div>' +
+
+          '<div style="margin-bottom:14px">' +
+            '<label style="display:block;font-size:11px;color:#8b8fa3;margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px;font-weight:600">Source</label>' +
+            '<select name="source" id="drawerSourceSelect" style="width:100%;background:#141620;border:1px solid #2a2d3a;color:#e4e7ec;padding:9px 12px;border-radius:6px;font-size:14px;box-sizing:border-box">' +
+              '<option value="">— unknown —</option>' +
+              '<option value="cold_email_chile">Cold Email — Chile Campaign</option>' +
+              '<option value="cold_email_usa">Cold Email — USA Campaign</option>' +
+              '<option value="whatsapp">WhatsApp</option>' +
+              '<option value="referral">Referral</option>' +
+              '<option value="inbound_website">Inbound — Website</option>' +
+              '<option value="inbound_call">Inbound — Call</option>' +
+              '<option value="social_media">Social Media</option>' +
+              '<option value="event">Event / Trade Show</option>' +
+              '<option value="manual">Manual / Other</option>' +
+            '</select>' +
           '</div>' +
 
           '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">' +
@@ -249,6 +278,7 @@
     form.company.value = deal.company || '';
     form.value.value = deal.value || 0;
     form.probability.value = deal.probability || 0;
+    form.source.value = deal.source || '';
     form.next_action.value = deal.next_action || '';
     form.next_followup_date.value = deal.next_followup_date || '';
     form.notes.value = deal.notes || '';
@@ -288,6 +318,7 @@
       value: parseInt(form.value.value, 10) || 0,
       probability: parseInt(form.probability.value, 10) || 0,
       stage_id: parseInt(form.stage_id.value, 10),
+      source: form.source.value || null,
       notes: form.notes.value,
       next_action: form.next_action.value.trim(),
       next_followup_date: form.next_followup_date.value || null
@@ -465,7 +496,18 @@
     var contactName = deal.contact_name || deal.contact || '';
     var days = deal.days_in_stage !== undefined ? deal.days_in_stage : (deal.daysInStage || 0);
 
+    var sourceLabel = {
+      cold_email_chile: 'Chile Email', cold_email_usa: 'USA Email',
+      whatsapp: 'WhatsApp', referral: 'Referral',
+      inbound_website: 'Website', inbound_call: 'Call',
+      social_media: 'Social', event: 'Event', manual: 'Manual'
+    };
+    var src = deal.source ? (sourceLabel[deal.source] || deal.source) : '';
+
     var html = '<div class="deal-card" draggable="true" data-deal-id="' + deal.id + '" style="cursor:pointer">';
+    if (src) {
+      html += '<div class="deal-card-source">' + src + '</div>';
+    }
     html += '<div class="deal-card-title">' + deal.title + '</div>';
     html += '<div class="deal-card-company">' + (deal.company || '') + '</div>';
     html += '<div class="deal-card-footer">';

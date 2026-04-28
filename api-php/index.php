@@ -99,6 +99,10 @@ try {
   } elseif ($group === 'campaigns') {
     require __DIR__ . '/routes/campaigns.php';
     route_campaigns($parts, $method);
+  } elseif ($group === 'migrate-wa') {
+    // One-shot WhatsApp history migration (token-protected).
+    require __DIR__ . '/migrate_wa_to_crm.php';
+    exit;
   } elseif ($group === 'chile-send') {
     // One-off Chile cold-outreach trigger (token-protected, see chile-send.php).
     require __DIR__ . '/chile-send.php';

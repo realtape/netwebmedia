@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realtime — NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css?v=8">
+  <link rel="stylesheet" href="css/realtime.css?v=1">
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
+  </script>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="rt-body" id="realtimeBody">
+
+        <!-- Status bar -->
+        <div class="rt-status-bar">
+          <div class="rt-live-badge">
+            <span class="rt-pulse"></span>
+            <span class="rt-live-text">LIVE</span>
+          </div>
+          <span class="rt-updated" id="rtUpdated">—</span>
+          <div class="rt-status-right">
+            <span class="rt-countdown" id="rtCountdown">Refreshing in 30s</span>
+            <button class="rt-refresh-btn" id="rtRefreshBtn" title="Refresh now">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Refresh
+            </button>
+            <label class="rt-auto-toggle">
+              <input type="checkbox" id="rtAutoRefresh" checked>
+              <span>Auto</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="rt-kpi-grid" id="rtKpiGrid">
+          <div class="rt-kpi-card">
+            <div class="rt-kpi-icon rt-kpi-contacts">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="rt-kpi-body">
+              <div class="rt-kpi-label">Total Contacts</div>
+              <div class="rt-kpi-value" id="kpiTotalContacts">—</div>
+              <div class="rt-kpi-sub" id="kpiContactsSub">— new today</div>
+            </div>
+          </div>
+          <div class="rt-kpi-card">
+            <div class="rt-kpi-icon rt-kpi-deals">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="4" height="14" rx="1"/><rect x="7" y="3" width="4" height="18" rx="1"/><rect x="12" y="10" width="4" height="11" rx="1"/><rect x="17" y="5" width="4" height="16" rx="1"/></svg>
+            </div>
+            <div class="rt-kpi-body">
+              <div class="rt-kpi-label">Active Deals</div>
+              <div class="rt-kpi-value" id="kpiActiveDeals">—</div>
+              <div class="rt-kpi-sub" id="kpiPipelineSub">— in pipeline</div>
+            </div>
+          </div>
+          <div class="rt-kpi-card">
+            <div class="rt-kpi-icon rt-kpi-email">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </div>
+            <div class="rt-kpi-body">
+              <div class="rt-kpi-label">Emails Sent Today</div>
+              <div class="rt-kpi-value" id="kpiEmailsSent">—</div>
+              <div class="rt-kpi-sub" id="kpiEmailsSub">— opened</div>
+            </div>
+          </div>
+          <div class="rt-kpi-card">
+            <div class="rt-kpi-icon rt-kpi-growth">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            </div>
+            <div class="rt-kpi-body">
+              <div class="rt-kpi-label">This Month</div>
+              <div class="rt-kpi-value" id="kpiThisMonth">—</div>
+              <div class="rt-kpi-sub" id="kpiGrowthSub">vs last month</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main grid -->
+        <div class="rt-main-grid">
+
+          <!-- Left: Activity feed -->
+          <div class="rt-panel rt-panel-feed">
+            <div class="rt-panel-header">
+              <span class="rt-panel-title">Live Activity</span>
+              <span class="rt-badge-count" id="rtFeedCount">0</span>
+            </div>
+            <div class="rt-feed" id="rtFeed">
+              <div class="rt-feed-empty">Loading activity...</div>
+            </div>
+          </div>
+
+          <!-- Center: Sparkline + distributions -->
+          <div class="rt-panel-center">
+
+            <!-- Sparkline chart -->
+            <div class="rt-panel rt-panel-spark">
+              <div class="rt-panel-header">
+                <span class="rt-panel-title">Contacts Created — Last 24 Hours</span>
+              </div>
+              <div class="rt-spark-wrap">
+                <svg id="rtSparkline" class="rt-sparkline" viewBox="0 0 400 80" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#6c5ce7" stop-opacity="0.4"/>
+                      <stop offset="100%" stop-color="#6c5ce7" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path id="rtSparkFill" fill="url(#sparkGrad)" d=""/>
+                  <polyline id="rtSparkLine" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points=""/>
+                </svg>
+                <div class="rt-spark-labels" id="rtSparkLabels"></div>
+              </div>
+            </div>
+
+            <!-- Status distribution -->
+            <div class="rt-panel rt-panel-dist">
+              <div class="rt-panel-header">
+                <span class="rt-panel-title">Contacts by Status</span>
+              </div>
+              <div class="rt-dist-list" id="rtByStatus"></div>
+            </div>
+
+            <!-- Segment distribution -->
+            <div class="rt-panel rt-panel-dist">
+              <div class="rt-panel-header">
+                <span class="rt-panel-title">Contacts by Region</span>
+              </div>
+              <div class="rt-dist-list" id="rtBySegment"></div>
+            </div>
+
+          </div>
+
+          <!-- Right: Pipeline + Campaigns -->
+          <div class="rt-panel-right">
+
+            <!-- Pipeline snapshot -->
+            <div class="rt-panel rt-panel-pipeline">
+              <div class="rt-panel-header">
+                <span class="rt-panel-title">Pipeline Snapshot</span>
+              </div>
+              <div class="rt-pipeline-list" id="rtByStage"></div>
+            </div>
+
+            <!-- Recent campaigns -->
+            <div class="rt-panel rt-panel-campaigns">
+              <div class="rt-panel-header">
+                <span class="rt-panel-title">Recent Campaigns</span>
+              </div>
+              <div class="rt-campaigns-list" id="rtCampaigns"></div>
+            </div>
+
+          </div>
+
+        </div><!-- /rt-main-grid -->
+
+      </div><!-- /rt-body -->
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js?v=8"></script>
+  <script src="js/realtime.js?v=1"></script>
+  <script src="/assets/nwm-i18n.js" defer></script>
+  <script src="/assets/nwm-site-chat.js" defer></script>
+</body>
+</html>

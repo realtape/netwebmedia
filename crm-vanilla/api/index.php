@@ -57,6 +57,7 @@ $handlers = [
     'payments'      => __DIR__ . '/handlers/payments.php',
     'invoices'      => __DIR__ . '/handlers/payments.php',
     'import_csv'    => __DIR__ . '/handlers/import_csv.php',
+    'realtime'      => __DIR__ . '/handlers/realtime.php',
 ];
 
 if (!isset($handlers[$resource])) {

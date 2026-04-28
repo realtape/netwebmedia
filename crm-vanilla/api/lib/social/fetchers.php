@@ -181,16 +181,18 @@ class InstagramFetcher extends SocialFetcherBase {
 /* ── LinkedIn ────────────────────────────────────────────────────────────── */
 
 class LinkedInFetcher extends SocialFetcherBase {
+    private $token;
+
     public function sync(array $creds, int $uid, PDO $db): array {
-        $token = trim($creds['li_access_token'] ?? '');
+        $this->token = trim($creds['li_access_token'] ?? '');
         $urn   = trim($creds['li_urn'] ?? '');
-        if (!$token || !$urn) return ['synced' => 0, 'error' => 'Missing token or URN'];
+        if (!$this->token || !$urn) return ['synced' => 0, 'error' => 'Missing token or URN'];
 
         // URL-encode the URN for the List() wrapper
         $encodedUrn = rawurlencode($urn);
         $url = "https://api.linkedin.com/v2/ugcPosts?q=authors&authors=List({$encodedUrn})&count=20&sortBy=LAST_MODIFIED";
         $data = $this->httpGet($url, [
-            "Authorization: Bearer {$token}",
+            "Authorization: Bearer {$this->token}",
             "X-Restli-Protocol-Version: 2.0.0",
             "LinkedIn-Version: 202401",
         ]);
@@ -217,18 +219,82 @@ class LinkedInFetcher extends SocialFetcherBase {
                 $thumb = $mediaArr[0]['thumbnails'][0]['url'];
             }
 
+            // FIX #4: Fetch engagement metrics (likes, comments, shares) from LinkedIn socialActions API
+            $engagement = $this->fetchEngagement($postId);
+
             $this->upsertPost($db, [
-                'user_id'      => $uid,
-                'provider'     => 'linkedin',
-                'platform_id'  => $postId,
-                'caption'      => $caption,
-                'thumbnail_url'=> $thumb,
-                'post_type'    => 'post',
-                'published_at' => $pubAt,
+                'user_id'        => $uid,
+                'provider'       => 'linkedin',
+                'platform_id'    => $postId,
+                'caption'        => $caption,
+                'thumbnail_url'  => $thumb,
+                'post_type'      => 'post',
+                'likes_count'    => $engagement['likeCount'] ?? 0,
+                'comments_count' => $engagement['commentCount'] ?? 0,
+                'shares_count'   => $engagement['shareCount'] ?? 0,
+                'published_at'   => $pubAt,
             ]);
             $count++;
         }
         return ['synced' => $count, 'error' => null];
+    }
+
+    private function fetchEngagement(string $postId): array {
+        // FIX #4: Query LinkedIn socialActions endpoint to get engagement metrics
+        // The postId from /v2/ugcPosts is already a URN (e.g., "urn:li:ugcPost:123456")
+        $encodedTarget = rawurlencode($postId);
+        $url = "https://api.linkedin.com/v2/socialMetrics?ids={$encodedTarget}&fields=likeCount,commentCount";
+
+        $data = $this->httpGet($url, [
+            "Authorization: Bearer {$this->token}",
+            "X-Restli-Protocol-Version: 2.0.0",
+            "LinkedIn-Version: 202401",
+        ]);
+
+        if (!is_array($data)) return [];
+
+        // Extract metrics from the response
+        // socialMetrics returns a map with URN as key
+        $metrics = $data['results'][$postId] ?? [];
+
+        // If socialMetrics doesn't work, try falling back to socialActions endpoint
+        if (empty($metrics)) {
+            $metrics = $this->fetchEngagementFallback($postId);
+        }
+
+        return [
+            'likeCount'     => $metrics['likeCount'] ?? 0,
+            'commentCount'  => $metrics['commentCount'] ?? 0,
+            'shareCount'    => $metrics['shareCount'] ?? 0,
+        ];
+    }
+
+    private function fetchEngagementFallback(string $postId): array {
+        // Fallback to socialActions endpoint if socialMetrics doesn't return data
+        $encodedTarget = rawurlencode($postId);
+        $url = "https://api.linkedin.com/v2/socialActions?q=target&targets=List({$encodedTarget})";
+
+        $data = $this->httpGet($url, [
+            "Authorization: Bearer {$this->token}",
+            "X-Restli-Protocol-Version: 2.0.0",
+            "LinkedIn-Version: 202401",
+        ]);
+
+        if (!is_array($data)) return [];
+
+        $metrics = [];
+        foreach ($data['elements'] ?? [] as $action) {
+            $actionType = $action['action'] ?? '';
+            if ($actionType === 'LIKE') {
+                $metrics['likeCount'] = ($metrics['likeCount'] ?? 0) + 1;
+            } elseif ($actionType === 'COMMENT') {
+                $metrics['commentCount'] = ($metrics['commentCount'] ?? 0) + 1;
+            } elseif ($actionType === 'SHARE') {
+                $metrics['shareCount'] = ($metrics['shareCount'] ?? 0) + 1;
+            }
+        }
+
+        return $metrics;
     }
 }
 
@@ -355,7 +421,26 @@ class TikTokFetcher extends SocialFetcherBase {
         if (!$resp) return ['synced' => 0, 'error' => 'Could not reach TikTok API'];
         $errCode = $resp['error']['code'] ?? 'ok';
         if ($errCode !== 'ok') {
-            return ['synced' => 0, 'error' => $resp['error']['message'] ?? 'TikTok API error'];
+            // FIX #5: Detect sandbox approval issues and provide helpful guidance
+            $errMsg = $resp['error']['message'] ?? 'TikTok API error';
+            $isSandboxIssue = false;
+
+            // Check for common sandbox/authorization errors
+            if (in_array($errCode, [40001, 10001, 10002, 10003], true)) {
+                // Authorization/scope issues typically indicate sandbox not approved
+                $isSandboxIssue = true;
+            }
+            if (stripos($errMsg, 'not authorized') !== false ||
+                stripos($errMsg, 'unauthorized') !== false ||
+                stripos($errMsg, 'permission') !== false) {
+                $isSandboxIssue = true;
+            }
+
+            if ($isSandboxIssue) {
+                return ['synced' => 0, 'error' => 'TikTok sandbox not approved. Visit your TikTok Developer Portal to request sandbox access for the Video List API.', 'sandbox_blocked' => true];
+            }
+
+            return ['synced' => 0, 'error' => $errMsg];
         }
 
         $count = 0;

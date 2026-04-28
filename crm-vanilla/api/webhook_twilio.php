@@ -1,16 +1,20 @@
 <?php
 /**
- * Twilio Inbound Webhook — SMS & WhatsApp
+ * Twilio Inbound Webhook — SMS & WhatsApp (tee to ManyChat + CRM)
  *
- * Register this URL in Twilio console:
- *   SMS:       https://netwebmedia.com/crm-vanilla/api/webhook_twilio.php
- *   WhatsApp:  same URL (Twilio sends To as "whatsapp:+1...")
+ * Acts as a transparent proxy:
+ *   1. Saves the inbound message to the CRM conversations table
+ *   2. Forwards the full POST to MANYCHAT_WEBHOOK_URL
+ *   3. Returns ManyChat's TwiML response back to Twilio
  *
- * Twilio POSTs: From, To, Body, MessageSid, NumMedia, etc.
+ * Twilio webhook URL: https://netwebmedia.com/crm-vanilla/api/webhook_twilio.php
  */
 
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/lib/twilio_client.php';
+
+// ManyChat SMS webhook — original destination before the tee
+define('MANYCHAT_WEBHOOK_URL', 'https://hooks.manychat.com/smswebhook/twilioSMSReply');
 
 // Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -75,68 +79,61 @@ if (!$conv) {
        ->execute([$convId]);
 }
 
-// Store inbound message
+// Store inbound message in CRM
 $db->prepare('INSERT INTO messages (conversation_id, sender, body) VALUES (?, ?, ?)')
    ->execute([$convId, 'them', $body]);
 
-// AI bot auto-reply
-$botReply = ai_bot_reply($body, $contactName, $channel);
+// Forward to ManyChat and relay its TwiML back to Twilio
+$twiml = proxy_to_manychat();
 
-if ($botReply) {
-    // Save outbound message
+// Parse any <Message> from ManyChat's TwiML and save as outbound in CRM
+$outbound = extract_twiml_message($twiml);
+if ($outbound) {
     $db->prepare('INSERT INTO messages (conversation_id, sender, body) VALUES (?, ?, ?)')
-       ->execute([$convId, 'me', $botReply]);
+       ->execute([$convId, 'me', $outbound]);
     $db->prepare('UPDATE conversations SET updated_at = NOW() WHERE id = ?')->execute([$convId]);
 }
 
-twiml_reply($botReply ?: '');
+header('Content-Type: text/xml');
+echo $twiml;
+exit;
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
 
-function twiml_reply(string $msg): never {
-    header('Content-Type: text/xml');
-    echo '<?xml version="1.0" encoding="UTF-8"?><Response>';
-    if ($msg !== '') {
-        echo '<Message>' . htmlspecialchars($msg, ENT_XML1) . '</Message>';
-    }
-    echo '</Response>';
-    exit;
-}
-
-function ai_bot_reply(string $message, string $name, string $channel): string {
-    if (!defined('ANTHROPIC_API_KEY') || ANTHROPIC_API_KEY === '') {
-        return "Hi $name! Thanks for reaching out to NetWebMedia. A team member will reply shortly. Questions? Visit netwebmedia.com";
-    }
-
-    $system = "You are NetWebMedia's AI assistant handling inbound $channel messages. NetWebMedia is a US AI marketing agency offering: ai-automations, ai-agents, crm, ai-websites, paid-ads, ai-seo, social media. Reply in the SAME language as the incoming message. Be warm, concise (max 2 sentences), and end with a clear next step. Sign as 'NetWebMedia Team'.";
-
-    $payload = [
-        'model'      => 'claude-haiku-4-5-20251001',
-        'max_tokens' => 200,
-        'system'     => $system,
-        'messages'   => [['role' => 'user', 'content' => $message]],
-    ];
-
-    $ch = curl_init('https://api.anthropic.com/v1/messages');
+/**
+ * Forward the raw Twilio POST to ManyChat and return its TwiML response.
+ * Falls back to an empty <Response> if ManyChat is unreachable.
+ */
+function proxy_to_manychat(): string {
+    $ch = curl_init(MANYCHAT_WEBHOOK_URL);
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => json_encode($payload),
+        CURLOPT_POSTFIELDS     => $_POST,          // forward identical form fields
         CURLOPT_HTTPHEADER     => [
-            'x-api-key: '          . ANTHROPIC_API_KEY,
-            'anthropic-version: 2023-06-01',
-            'content-type: application/json',
+            // Pass through Twilio's signature header so ManyChat can validate
+            'X-Twilio-Signature: ' . ($_SERVER['HTTP_X_TWILIO_SIGNATURE'] ?? ''),
         ],
-        CURLOPT_TIMEOUT => 20,
+        CURLOPT_TIMEOUT        => 25,
+        CURLOPT_FOLLOWLOCATION => true,
     ]);
-    $raw  = curl_exec($ch);
-    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $response = curl_exec($ch);
+    $code     = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    if ($code !== 200) {
-        return "Hi $name! Thanks for reaching out to NetWebMedia. A team member will be in touch shortly.";
+    if ($code >= 200 && $code < 300 && $response) {
+        return $response;
     }
+    // ManyChat unavailable — return empty TwiML so Twilio doesn't error
+    return '<?xml version="1.0" encoding="UTF-8"?><Response></Response>';
+}
 
-    $resp = json_decode($raw, true);
-    return trim($resp['content'][0]['text'] ?? '');
+/**
+ * Extract the text content of the first <Message> element from a TwiML string.
+ */
+function extract_twiml_message(string $twiml): string {
+    if (preg_match('/<Message[^>]*>(.*?)<\/Message>/si', $twiml, $m)) {
+        return html_entity_decode(strip_tags($m[1]), ENT_QUOTES | ENT_XML1, 'UTF-8');
+    }
+    return '';
 }

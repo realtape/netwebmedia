@@ -33,25 +33,24 @@ jobs:
           "
 
           echo ""
-          echo "=== 2. Set SMS webhook on ALL numbers ==="
-          curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
+          echo "=== 2. Point SMS webhook at NWM CRM tee (proxies to ManyChat + saves to CRM) ==="
+          # We know the SID from the previous run: PN19113bd5a3d254281c0650421e953eea
+          # Re-fetch to be safe in case it ever changes
+          PHONE_SID=$(curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
             "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/IncomingPhoneNumbers.json" \
-            | python3 - <<'PYEOF'
-          import sys, json, subprocess, os
-          d = json.load(sys.stdin)
-          webhook = os.environ['WEBHOOK'] if 'WEBHOOK' in os.environ else 'https://netwebmedia.com/crm-vanilla/api/webhook_twilio.php'
-          sid = os.environ['TWILIO_SID']
-          tok = os.environ['TWILIO_TOKEN']
-          for n in d.get('incoming_phone_numbers', []):
-              r = subprocess.run([
-                  'curl','-s','-u',f'{sid}:{tok}','-X','POST',
-                  f'https://api.twilio.com/2010-04-01/Accounts/{sid}/IncomingPhoneNumbers/{n["sid"]}.json',
-                  '--data-urlencode', f'SmsUrl={webhook}',
-                  '--data-urlencode', 'SmsMethod=POST',
-              ], capture_output=True, text=True)
-              result = json.loads(r.stdout)
-              print(f'  {n["phone_number"]} -> sms_url={result.get("sms_url","?")}')
-          PYEOF
+            | python3 -c "import sys,json; nums=json.load(sys.stdin).get('incoming_phone_numbers',[]); print(nums[0]['sid'] if nums else '')")
+
+          if [ -z "$PHONE_SID" ]; then
+            echo "::error::No phone number found — aborting"
+            exit 1
+          fi
+
+          echo "Updating $PHONE_SID ..."
+          curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
+            -X POST "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/IncomingPhoneNumbers/$PHONE_SID.json" \
+            --data-urlencode "SmsUrl=$WEBHOOK" \
+            --data-urlencode "SmsMethod=POST" \
+            | python3 -c "import sys,json; d=json.load(sys.stdin); print('  sms_url now:', d.get('sms_url','?'))"
 
           echo ""
           echo "=== 3. WhatsApp Sandbox webhook ==="

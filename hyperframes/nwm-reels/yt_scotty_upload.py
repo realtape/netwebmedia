@@ -18,14 +18,36 @@ UPLOAD_URL  = (
     "cm9kLWdsb2JhbC15b3V0dWJlLWRlZmF1bHQtdmlkZW8tdXBsb2Fkcw"
 )
 
+def query_offset():
+    """Ask the server how many bytes it has received so far."""
+    r = requests.post(
+        UPLOAD_URL,
+        headers={
+            "X-Goog-Upload-Command": "query",
+            "Content-Length": "0",
+        },
+        data=b"",
+        timeout=30,
+    )
+    received = int(r.headers.get("X-Goog-Upload-Size-Received", "0"))
+    status   = r.headers.get("X-Goog-Upload-Status", "unknown")
+    print(f"  Server reports: offset={received:,}  status={status}  HTTP={r.status_code}")
+    return received
+
 def upload():
     file_size = os.path.getsize(FILE_PATH)
     total_chunks = math.ceil(file_size / CHUNK_SIZE)
     print(f"File: {os.path.basename(FILE_PATH)}  size={file_size:,} bytes  chunks={total_chunks}")
     print(f"Upload URL: {UPLOAD_URL[:80]}...")
 
-    offset = 0
+    # Resume from wherever the server left off
+    print("Querying current server offset...")
+    offset = query_offset()
+    if offset >= file_size:
+        print("Server already has the full file — checking response...")
+
     with open(FILE_PATH, "rb") as f:
+        f.seek(offset)
         chunk_num = 0
         while True:
             chunk = f.read(CHUNK_SIZE)

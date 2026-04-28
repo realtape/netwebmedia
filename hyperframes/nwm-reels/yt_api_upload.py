@@ -54,10 +54,46 @@ def decrypt_cookie(enc_value, key):
 # ── STEP 3: Extract YouTube cookies ──────────────────────────────────────────
 def get_yt_cookies():
     key = get_chrome_key()
-    # Copy DB to temp (Chrome locks the file)
-    tmp = tempfile.mktemp(suffix=".db")
-    shutil.copy2(COOKIES_DB, tmp)
+    # Open with immutable URI (bypasses Chrome's exclusive lock)
+    uri = "file:" + COOKIES_DB.replace("\\", "/").replace(" ", "%20") + "?mode=ro&immutable=1"
     try:
+        con = sqlite3.connect(uri, uri=True)
+        cur = con.cursor()
+        cur.execute("""
+            SELECT name, encrypted_value
+            FROM cookies
+            WHERE host_key LIKE '%youtube.com' OR host_key LIKE '%google.com'
+        """)
+        rows = cur.fetchall()
+        con.close()
+    except Exception as e:
+        # Fallback: copy with ctypes FILE_SHARE flags
+        import ctypes, ctypes.wintypes
+        GENERIC_READ      = 0x80000000
+        FILE_SHARE_ALL    = 0x7
+        OPEN_EXISTING     = 3
+        FILE_ATTRIBUTE_NORMAL = 0x80
+        src_h = ctypes.windll.kernel32.CreateFileW(
+            COOKIES_DB, GENERIC_READ, FILE_SHARE_ALL, None,
+            OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, None)
+        if src_h == -1:
+            raise RuntimeError(f"Cannot open Cookies DB: {e}")
+        tmp = tempfile.mktemp(suffix=".db")
+        GENERIC_WRITE = 0x40000000
+        CREATE_ALWAYS = 2
+        dst_h = ctypes.windll.kernel32.CreateFileW(
+            tmp, GENERIC_WRITE, 0, None,
+            CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, None)
+        buf = ctypes.create_string_buffer(65536)
+        written = ctypes.wintypes.DWORD(0)
+        read = ctypes.wintypes.DWORD(0)
+        while True:
+            ok = ctypes.windll.kernel32.ReadFile(src_h, buf, len(buf), ctypes.byref(read), None)
+            if not ok or read.value == 0:
+                break
+            ctypes.windll.kernel32.WriteFile(dst_h, buf, read.value, ctypes.byref(written), None)
+        ctypes.windll.kernel32.CloseHandle(src_h)
+        ctypes.windll.kernel32.CloseHandle(dst_h)
         con = sqlite3.connect(tmp)
         cur = con.cursor()
         cur.execute("""
@@ -67,7 +103,6 @@ def get_yt_cookies():
         """)
         rows = cur.fetchall()
         con.close()
-    finally:
         os.remove(tmp)
 
     cookies = {}

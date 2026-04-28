@@ -18,6 +18,20 @@ switch ($method) {
     case 'POST':
         $data = getInput();
         if (empty($data['title'])) jsonError('Title is required');
+
+        if (empty($data['source'])) {
+            $t = strtolower($data['title']);
+            if (strpos($t, 'outreach') !== false || strpos($t, 'nurture') !== false || strpos($t, 'tier') !== false) {
+                $data['source'] = strpos($t, 'usa') !== false ? 'cold_email_usa' : 'cold_email_chile';
+            } elseif (strpos($t, 'whatsapp') !== false || strpos($t, 'wa ') !== false) {
+                $data['source'] = 'whatsapp';
+            } elseif (strpos($t, 'referral') !== false || strpos($t, 'referred') !== false) {
+                $data['source'] = 'referral';
+            } elseif (strpos($t, 'inbound') !== false || strpos($t, 'website') !== false || strpos($t, 'form') !== false) {
+                $data['source'] = 'inbound_website';
+            }
+        }
+
         $stmt = $db->prepare('INSERT INTO deals (title, company, value, contact_id, stage_id, probability, days_in_stage, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
         $stmt->execute([
             $data['title'],

@@ -8,8 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/app.css?v=8">
-  <link rel="stylesheet" href="css/realtime.css?v=1">
-  <!-- Google Analytics 4 -->
+  <link rel="stylesheet" href="css/realtime.css?v=2">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -45,8 +44,9 @@
           </div>
         </div>
 
-        <!-- KPI Cards -->
-        <div class="rt-kpi-grid" id="rtKpiGrid">
+        <!-- ════ KPI ROW 1 — CRM Core ════ -->
+        <div class="rt-section-label">CRM</div>
+        <div class="rt-kpi-grid">
           <div class="rt-kpi-card">
             <div class="rt-kpi-icon rt-kpi-contacts">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -57,6 +57,7 @@
               <div class="rt-kpi-sub" id="kpiContactsSub">— new today</div>
             </div>
           </div>
+
           <div class="rt-kpi-card">
             <div class="rt-kpi-icon rt-kpi-deals">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="4" height="14" rx="1"/><rect x="7" y="3" width="4" height="18" rx="1"/><rect x="12" y="10" width="4" height="11" rx="1"/><rect x="17" y="5" width="4" height="16" rx="1"/></svg>
@@ -67,6 +68,29 @@
               <div class="rt-kpi-sub" id="kpiPipelineSub">— in pipeline</div>
             </div>
           </div>
+
+          <div class="rt-kpi-card">
+            <div class="rt-kpi-icon rt-kpi-revenue">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="rt-kpi-body">
+              <div class="rt-kpi-label">Won This Month</div>
+              <div class="rt-kpi-value" id="kpiRevenue">—</div>
+              <div class="rt-kpi-sub" id="kpiRevenueSub">— deals today</div>
+            </div>
+          </div>
+
+          <div class="rt-kpi-card">
+            <div class="rt-kpi-icon rt-kpi-convos">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div class="rt-kpi-body">
+              <div class="rt-kpi-label">Conversations</div>
+              <div class="rt-kpi-value" id="kpiConvos">—</div>
+              <div class="rt-kpi-sub" id="kpiConvosSub">— unread</div>
+            </div>
+          </div>
+
           <div class="rt-kpi-card">
             <div class="rt-kpi-icon rt-kpi-email">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
@@ -74,22 +98,45 @@
             <div class="rt-kpi-body">
               <div class="rt-kpi-label">Emails Sent Today</div>
               <div class="rt-kpi-value" id="kpiEmailsSent">—</div>
-              <div class="rt-kpi-sub" id="kpiEmailsSub">— opened</div>
+              <div class="rt-kpi-sub" id="kpiEmailsSub">— opened · — clicked</div>
             </div>
           </div>
+
           <div class="rt-kpi-card">
             <div class="rt-kpi-icon rt-kpi-growth">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
             </div>
             <div class="rt-kpi-body">
-              <div class="rt-kpi-label">This Month</div>
+              <div class="rt-kpi-label">New This Month</div>
               <div class="rt-kpi-value" id="kpiThisMonth">—</div>
               <div class="rt-kpi-sub" id="kpiGrowthSub">vs last month</div>
             </div>
           </div>
+
+          <div class="rt-kpi-card">
+            <div class="rt-kpi-icon rt-kpi-calendar">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="rt-kpi-body">
+              <div class="rt-kpi-label">Events Today</div>
+              <div class="rt-kpi-value" id="kpiEvents">—</div>
+              <div class="rt-kpi-sub rt-events-list" id="kpiEventsList">—</div>
+            </div>
+          </div>
+
+          <div class="rt-kpi-card">
+            <div class="rt-kpi-icon rt-kpi-emailtotal">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="rt-kpi-body">
+              <div class="rt-kpi-label">All-Time Email Rate</div>
+              <div class="rt-kpi-value" id="kpiOpenRate">—</div>
+              <div class="rt-kpi-sub" id="kpiOpenRateSub">open rate · — CTR</div>
+            </div>
+          </div>
         </div>
 
-        <!-- Main grid -->
+        <!-- ════ CRM Main Grid ════ -->
         <div class="rt-main-grid">
 
           <!-- Left: Activity feed -->
@@ -103,10 +150,8 @@
             </div>
           </div>
 
-          <!-- Center: Sparkline + distributions -->
+          <!-- Center: charts + distributions -->
           <div class="rt-panel-center">
-
-            <!-- Sparkline chart -->
             <div class="rt-panel rt-panel-spark">
               <div class="rt-panel-header">
                 <span class="rt-panel-title">Contacts Created — Last 24 Hours</span>
@@ -126,46 +171,138 @@
               </div>
             </div>
 
-            <!-- Status distribution -->
             <div class="rt-panel rt-panel-dist">
-              <div class="rt-panel-header">
-                <span class="rt-panel-title">Contacts by Status</span>
-              </div>
+              <div class="rt-panel-header"><span class="rt-panel-title">Contacts by Status</span></div>
               <div class="rt-dist-list" id="rtByStatus"></div>
             </div>
 
-            <!-- Segment distribution -->
             <div class="rt-panel rt-panel-dist">
-              <div class="rt-panel-header">
-                <span class="rt-panel-title">Contacts by Region</span>
-              </div>
+              <div class="rt-panel-header"><span class="rt-panel-title">Contacts by Region</span></div>
               <div class="rt-dist-list" id="rtBySegment"></div>
             </div>
-
           </div>
 
           <!-- Right: Pipeline + Campaigns -->
           <div class="rt-panel-right">
-
-            <!-- Pipeline snapshot -->
             <div class="rt-panel rt-panel-pipeline">
-              <div class="rt-panel-header">
-                <span class="rt-panel-title">Pipeline Snapshot</span>
-              </div>
+              <div class="rt-panel-header"><span class="rt-panel-title">Pipeline Snapshot</span></div>
               <div class="rt-pipeline-list" id="rtByStage"></div>
             </div>
 
-            <!-- Recent campaigns -->
             <div class="rt-panel rt-panel-campaigns">
-              <div class="rt-panel-header">
-                <span class="rt-panel-title">Recent Campaigns</span>
-              </div>
+              <div class="rt-panel-header"><span class="rt-panel-title">Recent Email Campaigns</span></div>
               <div class="rt-campaigns-list" id="rtCampaigns"></div>
             </div>
-
           </div>
 
         </div><!-- /rt-main-grid -->
+
+        <!-- ════ SOCIAL MEDIA SECTION ════ -->
+        <div class="rt-section-label">Social Media</div>
+
+        <!-- Social KPI row -->
+        <div class="rt-kpi-grid rt-social-kpi-grid">
+          <div class="rt-kpi-card">
+            <div class="rt-kpi-icon rt-kpi-social-posts">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2H3v16h5v4l4-4h5l4-4V2zm-10 9V7m5 4V7"/></svg>
+            </div>
+            <div class="rt-kpi-body">
+              <div class="rt-kpi-label">Total Posts</div>
+              <div class="rt-kpi-value" id="kpiSocialPosts">—</div>
+              <div class="rt-kpi-sub" id="kpiSocialPostsSub">across platforms</div>
+            </div>
+          </div>
+
+          <div class="rt-kpi-card">
+            <div class="rt-kpi-icon rt-kpi-social-likes">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <div class="rt-kpi-body">
+              <div class="rt-kpi-label">Total Likes</div>
+              <div class="rt-kpi-value" id="kpiSocialLikes">—</div>
+              <div class="rt-kpi-sub" id="kpiSocialLikesSub">— comments</div>
+            </div>
+          </div>
+
+          <div class="rt-kpi-card">
+            <div class="rt-kpi-icon rt-kpi-social-engage">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <div class="rt-kpi-body">
+              <div class="rt-kpi-label">Total Engagement</div>
+              <div class="rt-kpi-value" id="kpiSocialEngage">—</div>
+              <div class="rt-kpi-sub" id="kpiSocialEngageSub">likes + comments + shares</div>
+            </div>
+          </div>
+
+          <div class="rt-kpi-card">
+            <div class="rt-kpi-icon rt-kpi-social-views">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="rt-kpi-body">
+              <div class="rt-kpi-label">Total Views</div>
+              <div class="rt-kpi-value" id="kpiSocialViews">—</div>
+              <div class="rt-kpi-sub" id="kpiSocialViewsSub">— shares</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social main grid -->
+        <div class="rt-main-grid rt-social-grid">
+
+          <!-- Platform breakdown cards -->
+          <div class="rt-panel rt-panel-platforms">
+            <div class="rt-panel-header">
+              <span class="rt-panel-title">By Platform</span>
+            </div>
+            <div class="rt-platforms-list" id="rtPlatforms">
+              <div class="rt-feed-empty">Loading platforms...</div>
+            </div>
+          </div>
+
+          <!-- Center: 7-day sparkline + top posts -->
+          <div class="rt-panel-center">
+            <div class="rt-panel rt-panel-spark">
+              <div class="rt-panel-header">
+                <span class="rt-panel-title">Posts Published — Last 7 Days</span>
+              </div>
+              <div class="rt-spark-wrap">
+                <svg id="rtSocialSparkline" class="rt-sparkline" viewBox="0 0 400 80" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="socialSparkGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#fd79a8" stop-opacity="0.4"/>
+                      <stop offset="100%" stop-color="#fd79a8" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path id="rtSocialSparkFill" fill="url(#socialSparkGrad)" d=""/>
+                  <polyline id="rtSocialSparkLine" fill="none" stroke="#fd79a8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points=""/>
+                </svg>
+                <div class="rt-spark-labels" id="rtSocialSparkLabels"></div>
+              </div>
+            </div>
+
+            <div class="rt-panel">
+              <div class="rt-panel-header"><span class="rt-panel-title">Top Posts by Engagement</span></div>
+              <div class="rt-top-posts" id="rtTopPosts">
+                <div class="rt-feed-empty">No posts synced yet</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Scheduled queue -->
+          <div class="rt-panel-right">
+            <div class="rt-panel">
+              <div class="rt-panel-header">
+                <span class="rt-panel-title">Scheduled Queue</span>
+                <span class="rt-badge-count" id="rtScheduledCount">0</span>
+              </div>
+              <div class="rt-scheduled-list" id="rtScheduledList">
+                <div class="rt-feed-empty">No scheduled posts</div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /social grid -->
 
       </div><!-- /rt-body -->
     </main>
@@ -173,7 +310,7 @@
 
   <script src="js/data.js"></script>
   <script src="js/app.js?v=8"></script>
-  <script src="js/realtime.js?v=1"></script>
+  <script src="js/realtime.js?v=2"></script>
   <script src="/assets/nwm-i18n.js" defer></script>
   <script src="/assets/nwm-site-chat.js" defer></script>
 </body>

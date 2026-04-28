@@ -22,6 +22,16 @@ api-php/config.local.php
 .env.local
 **/*.secrets.php
 
+# Hyperframes render outputs (large binary artifacts — never commit)
+# work-* dirs contain thousands of JPG frames + intermediate audio/video
+hyperframes/*/renders/work-*/
+# realtape-reels renders are fully generated, no need to track
+hyperframes/realtape-reels/renders/
+# batch logs and dialog artifacts
+hyperframes/*/renders/batch.log
+hyperframes/*/dialog_*.txt
+hyperframes/*/wait_dialog_out.txt
+
 # Mobile app (Capacitor / Vite)
 mobile/node_modules/
 mobile/dist/

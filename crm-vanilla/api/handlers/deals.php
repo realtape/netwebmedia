@@ -18,7 +18,7 @@ switch ($method) {
     case 'POST':
         $data = getInput();
         if (empty($data['title'])) jsonError('Title is required');
-        $stmt = $db->prepare('INSERT INTO deals (title, company, value, contact_id, stage_id, probability, days_in_stage) VALUES (?, ?, ?, ?, ?, ?, ?)');
+        $stmt = $db->prepare('INSERT INTO deals (title, company, value, contact_id, stage_id, probability, days_in_stage, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
         $stmt->execute([
             $data['title'],
             $data['company'] ?? null,
@@ -27,6 +27,7 @@ switch ($method) {
             $data['stage_id'] ?? 1,
             $data['probability'] ?? 0,
             $data['days_in_stage'] ?? 0,
+            $data['source'] ?? null,
         ]);
         $newId = $db->lastInsertId();
         $stmt = $db->prepare('SELECT d.*, ps.name as stage FROM deals d LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id WHERE d.id = ?');

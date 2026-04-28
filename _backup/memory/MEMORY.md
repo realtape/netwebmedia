@@ -10,3 +10,4 @@
 - [Always deploy with InMotion](reference_deploy_inmotion.md) — netwebmedia.com + all subdomains ship via GitHub Actions FTPS → cPanel at InMotion; do NOT suggest Vercel/Netlify/other hosts for NWM properties
 - [Use own CRM, not HubSpot](feedback_use_own_crm.md) — NWM uses crm-vanilla for email marketing; never reference HubSpot for NWM internal ops
 - [14 CRM Niches](reference_14_niches.md) — exactly 14 niches: tourism, restaurants, health, beauty, smb, law_firms, real_estate, local_specialist, automotive, education, events_weddings, financial_services, home_services, wine_agriculture
+- [URL routing rules](reference_url_routing.md) — netwebmedia.com is flat HTML on Apache: top-level extensionless (no slash), nested needs `.html`, canonical is non-www

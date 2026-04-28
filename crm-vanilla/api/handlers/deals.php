@@ -39,7 +39,7 @@ switch ($method) {
         $data = getInput();
         $fields = [];
         $params = [];
-        $allowed = ['title','company','value','contact_id','stage_id','probability','days_in_stage','notes','next_action','next_followup_date'];
+        $allowed = ['title','company','value','contact_id','stage_id','probability','days_in_stage','source','notes','next_action','next_followup_date'];
         foreach ($allowed as $f) {
             if (array_key_exists($f, $data)) {
                 $fields[] = "$f = ?";

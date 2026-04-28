@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `deals` (
   `stage_id` INT UNSIGNED DEFAULT NULL,
   `probability` INT UNSIGNED DEFAULT 0,
   `days_in_stage` INT UNSIGNED DEFAULT 0,
+  `source` VARCHAR(100) DEFAULT NULL,
   `notes` TEXT DEFAULT NULL,
   `next_action` VARCHAR(500) DEFAULT NULL,
   `next_followup_date` DATE DEFAULT NULL,

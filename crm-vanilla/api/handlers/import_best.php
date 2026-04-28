@@ -16,14 +16,17 @@ if (($_GET['token'] ?? '') !== 'NWM_IMPORT_BEST_2026') jsonError('Invalid token'
 $dry     = !empty($_GET['dry']);
 $country = strtolower(trim($_GET['country'] ?? ''));
 
-if (!in_array($country, ['chile', 'usa'], true)) {
-    jsonError('Param country must be chile or usa', 400);
+$csvMap = [
+    'chile'    => '/api-php/data/chile_best_prospects.csv',
+    'usa'      => '/api-php/data/usa_best_prospects.csv',
+    'usa_full' => '/api-php/data/usa_best_200.csv',
+];
+if (!isset($csvMap[$country])) {
+    jsonError('Param country must be: chile | usa | usa_full', 400);
 }
 
 $ROOT    = realpath(__DIR__ . '/../../..');
-$csvFile = $country === 'chile'
-    ? $ROOT . '/api-php/data/chile_best_prospects.csv'
-    : $ROOT . '/api-php/data/usa_best_prospects.csv';
+$csvFile = $ROOT . $csvMap[$country];
 
 if (!file_exists($csvFile)) {
     jsonError(basename($csvFile) . ' not found — run gen_best_prospects.py first', 500);

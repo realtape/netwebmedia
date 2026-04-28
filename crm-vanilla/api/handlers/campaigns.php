@@ -238,7 +238,7 @@ if ($id && $action) {
         try {
             $fromName  = !empty($d['from_name'])  ? $d['from_name']  : $camp['from_name'];
             $fromEmail = !empty($d['from_email']) ? $d['from_email'] : $camp['from_email'];
-            $res = resendSend([
+            $res = mailSend([
                 'to' => $to, 'subject' => $mergedSub, 'html' => $mergedHtml,
                 'from_name' => $fromName, 'from_email' => $fromEmail,
                 'reply_to' => 'hola@netwebmedia.com',
@@ -276,7 +276,7 @@ if ($id && $action) {
                 ->execute([$id, $c['id'], $c['email'], $token, 'queued']);
             $sendId = (int)$db->lastInsertId();
             try {
-                $res = resendSend([
+                $res = mailSend([
                     'to' => $c['email'], 'subject' => $mergedSub, 'html' => $mergedHtml,
                     'from_name' => $camp['from_name'], 'from_email' => $camp['from_email'],
                 ]);

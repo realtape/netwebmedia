@@ -1,13 +1,17 @@
 <?php
 /**
- * NWM Landing Page Form Handler (WhatsApp-first)
- * Receives POST from all 39 /industries/{slug}/ subdomain landing pages.
+ * NWM Landing Page Form Handler
+ * Receives POST from all /industries/{slug}/ and root landing pages.
  * Deployed to: https://netwebmedia.com/submit.php
- * All LP forms post to this endpoint.
  *
- * No phone/video calls — the flow is:
- *   form submit → email to hello@netwebmedia.com → NWM replies on WhatsApp
- *   with the free AI growth plan.
+ * Flow:
+ *   form submit → (1) notify hello@netwebmedia.com
+ *              → (2) auto-reply to lead within seconds (async SLA)
+ *              → (3) log with full UTM attribution for CRM handoff
+ *
+ * Phone/WhatsApp is optional for US email-sourced leads.
+ * UTM params (utm_source, utm_campaign, utm_content=token) are captured
+ * from form hidden fields to close the email→lead attribution loop.
  */
 
 declare(strict_types=1);
@@ -49,14 +53,19 @@ if ($origin && !preg_match('#^https?://[a-z0-9\-]+\.netwebmedia\.com#i', $origin
 // ── COLLECT ────────────────────────────────────────────────────────────────
 $name    = clean($_POST['name']    ?? '');
 $email   = clean($_POST['email']   ?? '');
-$phone   = clean($_POST['phone']   ?? '');   // WhatsApp number — required
+$phone   = clean($_POST['phone']   ?? '');   // Optional for email-sourced (US) leads
 $company = clean($_POST['company'] ?? '');
 $web     = clean($_POST['website'] ?? '');
 $msg     = clean($_POST['message'] ?? '');
 $source  = clean($_POST['source']  ?? 'unknown');
 
-if ($name === '' || $email === '' || $phone === '' || $company === '') {
-    fail(422, 'Required fields missing (name, email, WhatsApp, company).');
+// UTM attribution — captured from hidden form fields populated via JS
+$utm_source   = clean($_POST['utm_source']   ?? '');
+$utm_campaign = clean($_POST['utm_campaign'] ?? '');
+$utm_content  = clean($_POST['utm_content']  ?? '');  // = campaign_sends.token
+
+if ($name === '' || $email === '' || $company === '') {
+    fail(422, 'Required fields missing (name, email, company).');
 }
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     fail(422, 'Invalid email.');

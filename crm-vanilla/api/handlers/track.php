@@ -30,11 +30,35 @@ if ($a === 'click' && $t) {
     if (!$u || !filter_var($u, FILTER_VALIDATE_URL)) {
         http_response_code(400); echo 'Invalid URL'; exit;
     }
-    $db->prepare("UPDATE campaign_sends SET status=CASE WHEN status='clicked' THEN 'clicked' ELSE 'clicked' END, clicked_at=COALESCE(clicked_at, NOW()), opened_at=COALESCE(opened_at, NOW()) WHERE token=?")
+
+    // ── Record click ──────────────────────────────────────────────────────
+    $db->prepare("UPDATE campaign_sends SET status='clicked', clicked_at=COALESCE(clicked_at, NOW()), opened_at=COALESCE(opened_at, NOW()) WHERE token=?")
         ->execute([$t]);
     $db->prepare("UPDATE email_campaigns c JOIN campaign_sends s ON s.campaign_id=c.id SET c.clicked_count=c.clicked_count+1 WHERE s.token=? AND s.clicked_at > NOW() - INTERVAL 5 SECOND")
         ->execute([$t]);
-    header('Location: ' . $u, true, 302);
+
+    // ── Append UTMs for GA4 attribution ──────────────────────────────────
+    // Look up campaign name + id so GA4 reports show meaningful labels
+    $row = null;
+    if ($t) {
+        $s = $db->prepare('SELECT cs.campaign_id, ec.name FROM campaign_sends cs LEFT JOIN email_campaigns ec ON ec.id = cs.campaign_id WHERE cs.token = ? LIMIT 1');
+        $s->execute([$t]);
+        $row = $s->fetch();
+    }
+    $campaignSlug = $row
+        ? strtolower(preg_replace('/[^a-z0-9]+/i', '-', trim($row['name'] ?? ''))) . '-' . $row['campaign_id']
+        : 'email';
+
+    $utms = http_build_query([
+        'utm_source'   => 'email',
+        'utm_medium'   => 'cold-outreach',
+        'utm_campaign' => $campaignSlug,
+        'utm_content'  => $t,   // token = unique per send → per-contact attribution
+    ]);
+    $sep = (strpos($u, '?') !== false) ? '&' : '?';
+    $dest = $u . $sep . $utms;
+
+    header('Location: ' . $dest, true, 302);
     exit;
 }
 

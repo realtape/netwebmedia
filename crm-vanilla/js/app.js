@@ -895,12 +895,14 @@
   function initDemoGate() {
     if (!isDemo()) return;
     var page = getActivePage();
-    if (page !== 'dashboard') { window.location.href = 'index.html'; return; }
+    // Dashboard and Realtime are open to trial users — everything else shows upgrade modal
+    var trialPages = ['dashboard', 'realtime'];
+    if (trialPages.indexOf(page) === -1) { window.location.href = 'index.html'; return; }
     var navLinks = document.querySelectorAll('.sidebar-nav .nav-item');
     for (var i = 0; i < navLinks.length; i++) {
       (function(link) {
         var href = link.getAttribute('href') || '';
-        if (href === 'index.html') return;
+        if (href === 'index.html' || href === 'realtime.html') return;
         link.addEventListener('click', function(e) {
           e.preventDefault();
           var label = link.querySelector('.nav-label');

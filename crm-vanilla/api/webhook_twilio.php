@@ -21,6 +21,8 @@ if (!twilio_validate_signature()) {
     exit('Forbidden');
 }
 
+try {
+
 $from   = trim($_POST['From'] ?? '');
 $to     = trim($_POST['To']   ?? '');
 $body   = trim($_POST['Body'] ?? '');
@@ -74,6 +76,15 @@ $db->prepare('INSERT INTO messages (conversation_id, sender, body) VALUES (?, ?,
 $db->prepare('UPDATE conversations SET updated_at = NOW() WHERE id = ?')->execute([$convId]);
 
 twiml_reply($reply);
+
+} catch (Throwable $e) {
+    // Return error as TwiML comment so Twilio doesn't retry, and log for debugging
+    error_log('webhook_twilio.php error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+    header('Content-Type: text/xml');
+    http_response_code(200); // 200 so Twilio won't retry
+    echo '<?xml version="1.0" encoding="UTF-8"?><Response><!-- ERROR: ' . htmlspecialchars($e->getMessage(), ENT_XML1) . ' --></Response>';
+    exit;
+}
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 

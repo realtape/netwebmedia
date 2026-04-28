@@ -1,4 +1,15 @@
 <?php
+// DEBUG BLOCK — remove after diagnosing 500
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+register_shutdown_function(function() {
+    $e = error_get_last();
+    if ($e && in_array($e['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+        if (!headers_sent()) { http_response_code(500); header('Content-Type: application/json'); }
+        echo json_encode(['FATAL' => $e]);
+    }
+});
+// END DEBUG BLOCK
 /**
  * NWM Landing Page Form Handler
  * Receives POST from all /industries/{slug}/ and root landing pages.

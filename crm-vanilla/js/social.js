@@ -230,7 +230,23 @@
     var connCount = providers.filter(function (p) { return p.connected; }).length;
     var total     = 5;
 
-    var html = '<div class="social-accounts-wrap">';
+    var html = '';
+
+    // FIX #2: Show token expiry warnings
+    var expiredProviders = providers.filter(function (p) { return p.connected && p.token_status === 'expired'; });
+    var expiringSoon = providers.filter(function (p) { return p.connected && p.token_status === 'expiring_soon'; });
+
+    if (expiredProviders.length > 0) {
+      html += '<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:6px;padding:12px 14px;margin-bottom:12px;font-size:12px;color:#856404">';
+      html += '\u26a0\ufe0f Token expired for: <strong>' + expiredProviders.map(function(p) { return PLATFORM_NAMES[API_TO_KEY[p.id]] || p.id; }).join(', ') + '</strong>. Please reconnect.';
+      html += '</div>';
+    } else if (expiringSoon.length > 0) {
+      html += '<div style="background:#e7f3ff;border:1px solid #2196F3;border-radius:6px;padding:12px 14px;margin-bottom:12px;font-size:12px;color:#1565c0">';
+      html += '\u2139\ufe0f Token expiring soon for: <strong>' + expiringSoon.map(function(p) { return PLATFORM_NAMES[API_TO_KEY[p.id]] || p.id; }).join(', ') + '</strong>. Reconnect to refresh.';
+      html += '</div>';
+    }
+
+    html += '<div class="social-accounts-wrap">';
     html += '<div class="social-accounts-header">';
     html += '<span class="social-accounts-title">' + L.connectedAccounts + '</span>';
     html += '<span class="social-accounts-badge">' + connCount + '\u202f/\u202f' + total + ' connected</span>';
@@ -593,8 +609,145 @@
     connectingKey = null;
   };
 
+  // FIX #1: Full New Post Composer Modal
   window._socialNewPost = function () {
-    alert("New Post composer \u2014 coming soon!");
+    // Check if any platforms are connected
+    var connected = providers.filter(function (p) { return p.connected; });
+    if (!connected.length) {
+      alert("No connected accounts. Please connect at least one platform first.");
+      return;
+    }
+
+    var modal = document.getElementById("socialNewPostOverlay");
+    if (!modal) {
+      var wrap = document.createElement("div");
+      wrap.id = "socialNewPostOverlay";
+      wrap.className = "upgrade-overlay";
+      wrap.style.display = "none";
+      wrap.innerHTML =
+        '<div class="upgrade-modal" style="max-width:580px;max-height:90vh;overflow-y:auto" onclick="event.stopPropagation()">' +
+        '<button class="upgrade-close" onclick="window._socialCloseNewPostModal()">&#215;</button>' +
+        '<div id="socialNewPostBody"></div>' +
+        '</div>';
+      wrap.addEventListener("click", function (e) {
+        if (e.target === wrap) window._socialCloseNewPostModal();
+      });
+      document.body.appendChild(wrap);
+      modal = wrap;
+    }
+
+    // Build form HTML
+    var html = '<h2 style="margin:0 0 20px;font-size:18px;font-weight:700">New Post</h2>';
+    html += '<form id="socialNewPostForm" onsubmit="window._socialSavePost(event)">';
+
+    // Platform selection
+    html += '<div style="margin-bottom:20px">';
+    html += '<label style="display:block;font-size:12px;font-weight:600;margin-bottom:10px;color:var(--text-dim)">Platforms</label>';
+    html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">';
+    connected.forEach(function (p) {
+      var key = API_TO_KEY[p.id] || p.id;
+      var abbr = PLATFORM_NAMES[key].slice(0, 2).toUpperCase();
+      var checked = key === 'fb' || key === 'ig' ? 'checked' : ''; // Default to FB + IG
+      html += '<label style="display:flex;align-items:center;gap:6px;font-size:12px;padding:8px;border:1px solid var(--border);border-radius:6px;cursor:pointer">';
+      html += '<input type="checkbox" name="platforms" value="' + p.id + '" ' + checked + ' style="cursor:pointer">';
+      html += '<div class="social-post-platform ' + PLATFORM_CLASSES[key] + '" style="width:24px;height:24px;font-size:8px;flex-shrink:0">' + abbr + '</div>';
+      html += '<span>' + PLATFORM_NAMES[key] + '</span>';
+      html += '</label>';
+    });
+    html += '</div>';
+    html += '</div>';
+
+    // Caption
+    html += '<div style="margin-bottom:20px">';
+    html += '<label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--text-dim)">Caption</label>';
+    html += '<textarea id="socialPostCaption" class="form-input" placeholder="Write your post..." style="width:100%;min-height:100px;font-family:inherit;resize:vertical"></textarea>';
+    html += '<div style="font-size:11px;color:var(--text-muted);margin-top:4px">Markdown is supported</div>';
+    html += '</div>';
+
+    // Media upload (optional)
+    html += '<div style="margin-bottom:20px">';
+    html += '<label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--text-dim)">Media (optional)</label>';
+    html += '<input type="file" id="socialPostMedia" accept="image/*,video/*" style="display:block;width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px">';
+    html += '<div style="font-size:11px;color:var(--text-muted);margin-top:4px">Images and videos supported. Max 50MB</div>';
+    html += '</div>';
+
+    // Schedule datetime
+    html += '<div style="margin-bottom:20px">';
+    html += '<label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:var(--text-dim)">Schedule</label>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
+    var now = new Date();
+    var isoDate = now.toISOString().split('T')[0];
+    var isoTime = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+    html += '<input type="date" id="socialPostDate" value="' + isoDate + '" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px">';
+    html += '<input type="time" id="socialPostTime" value="' + isoTime + '" style="padding:8px;border:1px solid var(--border);border-radius:6px;font-size:12px">';
+    html += '</div>';
+    html += '<div style="font-size:11px;color:var(--text-muted);margin-top:4px">Leave blank to post immediately</div>';
+    html += '</div>';
+
+    // Actions
+    html += '<div style="display:flex;gap:10px;margin-top:24px">';
+    html += '<button type="submit" class="btn btn-primary" id="socialPostSaveBtn">Schedule Post</button>';
+    html += '<button type="button" class="btn btn-outline" onclick="window._socialCloseNewPostModal()">Cancel</button>';
+    html += '</div>';
+    html += '</form>';
+
+    document.getElementById("socialNewPostBody").innerHTML = html;
+    document.getElementById("socialNewPostOverlay").style.display = "flex";
+  };
+
+  window._socialSavePost = function (e) {
+    e.preventDefault();
+    var platforms = Array.from(document.querySelectorAll('input[name="platforms"]:checked')).map(function (el) { return el.value; });
+    var caption = document.getElementById("socialPostCaption").value.trim();
+    var dateVal = document.getElementById("socialPostDate").value;
+    var timeVal = document.getElementById("socialPostTime").value;
+    var mediaFile = document.getElementById("socialPostMedia").files[0];
+
+    if (!caption) { alert("Caption required"); return; }
+    if (!platforms.length) { alert("Select at least one platform"); return; }
+
+    var scheduled_at = null;
+    if (dateVal && timeVal) {
+      scheduled_at = dateVal + " " + timeVal + ":00";
+    }
+
+    // For MVP, skip media upload to Cloudinary; just store the caption and platforms
+    // TODO: Integrate file upload to Cloudinary if media selected
+    var payload = {
+      providers:    platforms,
+      caption:      caption,
+      scheduled_at: scheduled_at || null,
+      media_url:    null
+    };
+
+    var btn = document.getElementById("socialPostSaveBtn");
+    btn.disabled = true;
+    btn.textContent = "Scheduling...";
+
+    fetch("/api/social/posts", {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify(payload)
+    })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function () {
+        btn.textContent = "Scheduled!";
+        setTimeout(function () {
+          window._socialCloseNewPostModal();
+          apiPosts = null;
+          loadPosts();
+        }, 800);
+      })
+      .catch(function (err) {
+        btn.disabled    = false;
+        btn.textContent = "Schedule Post";
+        alert("Error scheduling post (" + err + "). Make sure you are logged in.");
+      });
+  };
+
+  window._socialCloseNewPostModal = function () {
+    var ov = document.getElementById("socialNewPostOverlay");
+    if (ov) ov.style.display = "none";
   };
 
   /* ── Planner utils ──────────────────────────────────────────────────── */
@@ -606,8 +759,15 @@
       var d    = new Date(p.scheduled_at.replace(" ", "T"));
       var diff = Math.floor((d - monday) / 86400000);
       if (diff < 0 || diff > 6) return;
+      // FIX #3: Parse providers as comma-separated string, not JSON
       var provs = [];
-      try { provs = JSON.parse(p.providers) || []; } catch (ex) { provs = []; }
+      try {
+        if (typeof p.providers === 'string') {
+          provs = p.providers.split(',').map(function(s) { return s.trim(); }).filter(function(s) { return s; });
+        } else if (Array.isArray(p.providers)) {
+          provs = p.providers;
+        }
+      } catch (ex) { provs = []; }
       result.push({
         day:      diff,
         platform: apiProvToKey(provs[0] || "facebook"),

@@ -1,15 +1,4 @@
 <?php
-// DEBUG BLOCK — remove after diagnosing 500
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-register_shutdown_function(function() {
-    $e = error_get_last();
-    if ($e && in_array($e['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
-        if (!headers_sent()) { http_response_code(500); header('Content-Type: application/json'); }
-        echo json_encode(['FATAL' => $e]);
-    }
-});
-// END DEBUG BLOCK
 /**
  * NWM Landing Page Form Handler
  * Receives POST from all /industries/{slug}/ and root landing pages.
@@ -26,6 +15,10 @@ register_shutdown_function(function() {
  */
 
 declare(strict_types=1);
+
+// Expose errors temporarily for debugging — remove after confirming fix
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 // ── CONFIG ─────────────────────────────────────────────────────────────────
 $NOTIFY_TO       = 'hello@netwebmedia.com';
@@ -94,33 +87,35 @@ $ua = clean($_SERVER['HTTP_USER_AGENT'] ?? '-');
 $ts = gmdate('Y-m-d H:i:s') . ' UTC';
 
 // ── COMPOSE EMAIL ──────────────────────────────────────────────────────────
-$subject = "[NWM Lead] {$source_slug} — {$name} / {$company}";
+$subject = "[NWM Lead] {$source_slug} - {$name} / {$company}";
 
-$attribution = $utm_content
-    ? "Campaign token : {$utm_content}\nUTM campaign   : {$utm_campaign}\nUTM source     : {$utm_source}"
-    : "UTM source     : {$utm_source ?: 'direct'}\nUTM campaign   : {$utm_campaign ?: '-'}";
+$sep = str_repeat('-', 42);
 
-$body = <<<BODY
-New lead from landing page.
-{$attribution}
+if ($utm_content) {
+    $attribution = "Campaign token : {$utm_content}\nUTM campaign   : {$utm_campaign}\nUTM source     : {$utm_source}";
+} else {
+    $attribution = "UTM source     : " . ($utm_source ?: 'direct') . "\nUTM campaign   : " . ($utm_campaign ?: '-');
+}
 
-──────────────────────────────────────────
-Source  : {$source_slug}
-Time    : {$ts}
-Referer : {$origin}
-IP / UA : {$ip} | {$ua}
-──────────────────────────────────────────
-Name     : {$name}
-Email    : {$email}
-WhatsApp : {$phone ?: '—'}
-Company  : {$company}
-Website  : {$web}
-──────────────────────────────────────────
-Message:
-{$msg}
-──────────────────────────────────────────
-Reply-to: {$email}
-BODY;
+$phone_display = $phone ?: '-';
+
+$body  = "New lead from landing page.\n";
+$body .= $attribution . "\n\n";
+$body .= $sep . "\n";
+$body .= "Source  : {$source_slug}\n";
+$body .= "Time    : {$ts}\n";
+$body .= "Referer : {$origin}\n";
+$body .= "IP / UA : {$ip} | {$ua}\n";
+$body .= $sep . "\n";
+$body .= "Name     : {$name}\n";
+$body .= "Email    : {$email}\n";
+$body .= "WhatsApp : {$phone_display}\n";
+$body .= "Company  : {$company}\n";
+$body .= "Website  : {$web}\n";
+$body .= $sep . "\n";
+$body .= "Message:\n{$msg}\n";
+$body .= $sep . "\n";
+$body .= "Reply-to: {$email}";
 
 $headers  = "From: NetWebMedia <{$NOTIFY_FROM}>\r\n";
 $headers .= "Reply-To: {$name} <{$email}>\r\n";
@@ -131,43 +126,26 @@ $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
 
 // ── AUTO-REPLY to lead — instant async SLA ────────────────────────────────
 $first = strtok($name, ' ');
-$autoSubject = "Got it, {$first} — here's what happens next";
-$autoBody = <<<HTML
-<!doctype html>
-<html>
-<head><meta charset="utf-8">
-<style>
-  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; background: #f6f7fb; margin: 0; padding: 0; }
-  .wrap { max-width: 560px; margin: 40px auto; background: #fff; border-radius: 12px; padding: 40px; }
-  h2 { color: #010F3B; margin-top: 0; }
-  p { color: #444; line-height: 1.7; }
-  .cta { display: inline-block; margin-top: 20px; background: #FF671F; color: #fff;
-         text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: 600; }
-  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;
-            font-size: 12px; color: #aaa; text-align: center; }
-</style>
-</head>
-<body>
-<div class="wrap">
-  <h2>Hi {$first}, we received your request.</h2>
-  <p>
-    Thanks for reaching out to <strong>NetWebMedia</strong>. We're reviewing your info for
-    <strong>{$company}</strong> and will send you a personalized growth plan within
-    <strong>24 hours</strong>.
-  </p>
-  <p>In the meantime, explore what we build for businesses like yours:</p>
-  <a class="cta" href="https://netwebmedia.com/services.html">See our services →</a>
-  <p style="margin-top:28px; color:#666; font-size:14px;">
-    Questions? Just reply to this email — it goes straight to our team.
-  </p>
-  <div class="footer">
-    NetWebMedia · Santiago, Chile ·
-    <a href="https://netwebmedia.com" style="color:#aaa">netwebmedia.com</a>
-  </div>
-</div>
-</body>
-</html>
-HTML;
+$autoSubject = "Got it, {$first} - here's what happens next";
+
+$autoBody  = '<!doctype html><html><head><meta charset="utf-8"><style>';
+$autoBody .= 'body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f6f7fb;margin:0;padding:0;}';
+$autoBody .= '.wrap{max-width:560px;margin:40px auto;background:#fff;border-radius:12px;padding:40px;}';
+$autoBody .= 'h2{color:#010F3B;margin-top:0;}p{color:#444;line-height:1.7;}';
+$autoBody .= '.cta{display:inline-block;margin-top:20px;background:#FF671F;color:#fff;';
+$autoBody .= 'text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:600;}';
+$autoBody .= '.footer{margin-top:40px;padding-top:20px;border-top:1px solid #eee;';
+$autoBody .= 'font-size:12px;color:#aaa;text-align:center;}';
+$autoBody .= '</style></head><body><div class="wrap">';
+$autoBody .= "<h2>Hi {$first}, we received your request.</h2>";
+$autoBody .= '<p>Thanks for reaching out to <strong>NetWebMedia</strong>. We\'re reviewing your info for ';
+$autoBody .= "<strong>{$company}</strong> and will send you a personalized growth plan within <strong>24 hours</strong>.</p>";
+$autoBody .= '<p>In the meantime, explore what we build for businesses like yours:</p>';
+$autoBody .= '<a class="cta" href="https://netwebmedia.com/services.html">See our services</a>';
+$autoBody .= '<p style="margin-top:28px;color:#666;font-size:14px;">Questions? Just reply to this email.</p>';
+$autoBody .= '<div class="footer">NetWebMedia &middot; Santiago, Chile &middot; ';
+$autoBody .= '<a href="https://netwebmedia.com" style="color:#aaa">netwebmedia.com</a></div>';
+$autoBody .= '</div></body></html>';
 
 $autoHeaders  = "From: NetWebMedia <hello@netwebmedia.com>\r\n";
 $autoHeaders .= "Reply-To: hello@netwebmedia.com\r\n";

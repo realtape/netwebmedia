@@ -10,9 +10,9 @@ CHUNK_SIZE  = 4 * 1024 * 1024   # 4 MB (must be multiple of 256 KB)
 
 # Reconstructed from char-code extraction
 UPLOAD_URL  = (
-    "https://upload.youtube.com/?authuser=0&upload_type=scotty&v=1"
-    "&upload_id=AAVLpEhKeB8Vnp-ihLqDgZneCfWhEh9_mDBnSx75bnxu9XHMeR7IZc9o8HRgMyJSza2q6epqt3j"
-    "-deXGyGtDzqmSEqkeeTO5um32BaQrvCmoow"
+    "https://upload.youtube.com/?authuser=1&upload_type=scotty&v=1"
+    "&upload_id=AAVLpEjOBrGo2-5i-muu_Y4v_8goEWOHUbhPOqvILnP7d9oRMS04-4Pe9NJz6vdVfMOec2PqH6V1"
+    "xuhRJAWrp8hh5_f8cQQfHPxZngH0dJDC_Vg"
     "&upload_protocol=resumable"
     "&origin=CihodHRwczovL3VwbG9hZC55b3V0dWJlLmNvbS91cGxvYWQvc3R1ZGlvEjhibG9ic3RvcmUtaHR0cC1w"
     "cm9kLWdsb2JhbC15b3V0dWJlLWRlZmF1bHQtdmlkZW8tdXBsb2Fkcw"

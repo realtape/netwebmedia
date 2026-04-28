@@ -16,10 +16,6 @@
 
 declare(strict_types=1);
 
-// Expose errors temporarily for debugging — remove after confirming fix
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
 // ── CONFIG ─────────────────────────────────────────────────────────────────
 $NOTIFY_TO       = 'hello@netwebmedia.com';
 $NOTIFY_FROM     = 'noreply@netwebmedia.com';

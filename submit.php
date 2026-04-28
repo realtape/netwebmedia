@@ -83,30 +83,32 @@ $ua = clean($_SERVER['HTTP_USER_AGENT'] ?? '-');
 $ts = gmdate('Y-m-d H:i:s') . ' UTC';
 
 // ── COMPOSE EMAIL ──────────────────────────────────────────────────────────
-$subject = "[NWM Plan] {$source_slug} — {$name} / {$company}";
+$subject = "[NWM Lead] {$source_slug} — {$name} / {$company}";
+
+$attribution = $utm_content
+    ? "Campaign token : {$utm_content}\nUTM campaign   : {$utm_campaign}\nUTM source     : {$utm_source}"
+    : "UTM source     : {$utm_source ?: 'direct'}\nUTM campaign   : {$utm_campaign ?: '-'}";
 
 $body = <<<BODY
-New free growth-plan request from a subdomain landing page.
-→ Reply on WhatsApp: {$phone}
+New lead from landing page.
+{$attribution}
 
 ──────────────────────────────────────────
-Source subdomain : {$source_slug}.netwebmedia.com
-Submitted (UTC)  : {$ts}
-Referer          : {$origin}
-IP / UA          : {$ip} | {$ua}
+Source  : {$source_slug}
+Time    : {$ts}
+Referer : {$origin}
+IP / UA : {$ip} | {$ua}
 ──────────────────────────────────────────
 Name     : {$name}
 Email    : {$email}
-WhatsApp : {$phone}
+WhatsApp : {$phone ?: '—'}
 Company  : {$company}
 Website  : {$web}
 ──────────────────────────────────────────
-Biggest marketing challenge:
+Message:
 {$msg}
 ──────────────────────────────────────────
 Reply-to: {$email}
-
-— NWM submit handler
 BODY;
 
 $headers  = "From: NetWebMedia <{$NOTIFY_FROM}>\r\n";
@@ -116,10 +118,59 @@ $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
 
 @mail($NOTIFY_TO, $subject, $body, $headers);
 
+// ── AUTO-REPLY to lead — instant async SLA ────────────────────────────────
+$first = strtok($name, ' ');
+$autoSubject = "Got it, {$first} — here's what happens next";
+$autoBody = <<<HTML
+<!doctype html>
+<html>
+<head><meta charset="utf-8">
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; background: #f6f7fb; margin: 0; padding: 0; }
+  .wrap { max-width: 560px; margin: 40px auto; background: #fff; border-radius: 12px; padding: 40px; }
+  h2 { color: #010F3B; margin-top: 0; }
+  p { color: #444; line-height: 1.7; }
+  .cta { display: inline-block; margin-top: 20px; background: #FF671F; color: #fff;
+         text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: 600; }
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;
+            font-size: 12px; color: #aaa; text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h2>Hi {$first}, we received your request.</h2>
+  <p>
+    Thanks for reaching out to <strong>NetWebMedia</strong>. We're reviewing your info for
+    <strong>{$company}</strong> and will send you a personalized growth plan within
+    <strong>24 hours</strong>.
+  </p>
+  <p>In the meantime, explore what we build for businesses like yours:</p>
+  <a class="cta" href="https://netwebmedia.com/services.html">See our services →</a>
+  <p style="margin-top:28px; color:#666; font-size:14px;">
+    Questions? Just reply to this email — it goes straight to our team.
+  </p>
+  <div class="footer">
+    NetWebMedia · Santiago, Chile ·
+    <a href="https://netwebmedia.com" style="color:#aaa">netwebmedia.com</a>
+  </div>
+</div>
+</body>
+</html>
+HTML;
+
+$autoHeaders  = "From: NetWebMedia <hello@netwebmedia.com>\r\n";
+$autoHeaders .= "Reply-To: hello@netwebmedia.com\r\n";
+$autoHeaders .= "MIME-Version: 1.0\r\n";
+$autoHeaders .= "Content-Type: text/html; charset=utf-8\r\n";
+$autoHeaders .= "X-Mailer: NWM-Submit-Handler/1.0\r\n";
+
+@mail($email, $autoSubject, $autoBody, $autoHeaders);
+
 // ── APPEND LOG (capture the lead no matter what) ───────────────────────────
 $log_line = sprintf(
-    "[%s] %s | %s | %s | %s | %s | %s | %s\n",
-    $ts, $source_slug, $name, $email, $phone, $company, $web,
+    "[%s] %s | %s | %s | %s | %s | %s | utm_content=%s | utm_campaign=%s | %s\n",
+    $ts, $source_slug, $name, $email, $phone ?: '-', $company, $web,
+    $utm_content ?: '-', $utm_campaign ?: '-',
     str_replace(["\r","\n"], ' ', $msg)
 );
 @file_put_contents($LOG_FILE, $log_line, FILE_APPEND | LOCK_EX);

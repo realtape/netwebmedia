@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Register SMS webhook
+      - name: Register webhooks (SMS + WhatsApp)
         env:
           TWILIO_SID:   ${{ secrets.TWILIO_SID }}
           TWILIO_TOKEN: ${{ secrets.TWILIO_TOKEN }}
@@ -20,53 +20,63 @@ jobs:
         run: |
           WEBHOOK="https://netwebmedia.com/crm-vanilla/api/webhook_twilio.php"
 
-          echo "Looking up phone number SID for $TWILIO_FROM ..."
-          # List phone numbers, filter by phone number
-          PHONE_SID=$(curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
-            "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/IncomingPhoneNumbers.json?PhoneNumber=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$TWILIO_FROM'))")" \
-            | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['incoming_phone_numbers'][0]['sid'] if d.get('incoming_phone_numbers') else '')")
-
-          if [ -z "$PHONE_SID" ]; then
-            echo "::warning::Phone number $TWILIO_FROM not found — trying WhatsApp sender path instead"
-          else
-            echo "Phone SID: $PHONE_SID"
-            echo "Setting SMS inbound webhook..."
-            curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
-              -X POST "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/IncomingPhoneNumbers/$PHONE_SID.json" \
-              --data-urlencode "SmsUrl=$WEBHOOK" \
-              --data-urlencode "SmsMethod=POST" \
-              | python3 -c "import sys,json; d=json.load(sys.stdin); print('SMS webhook set:', d.get('sms_url','?'))"
-          fi
-
-      - name: Register WhatsApp sender webhook
-        env:
-          TWILIO_SID:   ${{ secrets.TWILIO_SID }}
-          TWILIO_TOKEN: ${{ secrets.TWILIO_TOKEN }}
-          TWILIO_FROM:  ${{ secrets.TWILIO_FROM }}
-        run: |
-          WEBHOOK="https://netwebmedia.com/crm-vanilla/api/webhook_twilio.php"
-
-          echo "Listing WhatsApp senders..."
-          # Try sandbox first (most common for dev/small accounts)
-          RESULT=$(curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
-            "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/Messages/Sandbox.json" 2>/dev/null || echo "{}")
-
-          # List messaging services to find WhatsApp-enabled one
-          SERVICES=$(curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
-            "https://messaging.twilio.com/v1/Services" \
-            | python3 -c "import sys,json; d=json.load(sys.stdin); [print(s['sid'], s['friendly_name']) for s in d.get('services',[])]" 2>/dev/null || true)
-
-          if [ -n "$SERVICES" ]; then
-            echo "Messaging services found:"
-            echo "$SERVICES"
-          fi
-
-          # Update WhatsApp sandbox webhook if accessible
+          echo "=== 1. List all IncomingPhoneNumbers ==="
           curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
-            -X POST "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/SandboxParticipants.json" \
-            --data-urlencode "StatusCallbackUrl=$WEBHOOK" 2>/dev/null || true
+            "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/IncomingPhoneNumbers.json" \
+            | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          nums = d.get('incoming_phone_numbers', [])
+          print(f'Found {len(nums)} number(s)')
+          for n in nums:
+              print(f'  SID={n[\"sid\"]} phone={n[\"phone_number\"]} sms_url={n.get(\"sms_url\",\"\")}')
+          "
 
-          echo "Done. Verify at: https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn"
+          echo ""
+          echo "=== 2. Set SMS webhook on ALL numbers ==="
+          curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
+            "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/IncomingPhoneNumbers.json" \
+            | python3 - <<'PYEOF'
+          import sys, json, subprocess, os
+          d = json.load(sys.stdin)
+          webhook = os.environ['WEBHOOK'] if 'WEBHOOK' in os.environ else 'https://netwebmedia.com/crm-vanilla/api/webhook_twilio.php'
+          sid = os.environ['TWILIO_SID']
+          tok = os.environ['TWILIO_TOKEN']
+          for n in d.get('incoming_phone_numbers', []):
+              r = subprocess.run([
+                  'curl','-s','-u',f'{sid}:{tok}','-X','POST',
+                  f'https://api.twilio.com/2010-04-01/Accounts/{sid}/IncomingPhoneNumbers/{n["sid"]}.json',
+                  '--data-urlencode', f'SmsUrl={webhook}',
+                  '--data-urlencode', 'SmsMethod=POST',
+              ], capture_output=True, text=True)
+              result = json.loads(r.stdout)
+              print(f'  {n["phone_number"]} -> sms_url={result.get("sms_url","?")}')
+          PYEOF
+
+          echo ""
+          echo "=== 3. WhatsApp Sandbox webhook ==="
+          # GET sandbox config
+          SB=$(curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
+            "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/Messages/Sandbox.json")
+          echo "Sandbox response: $SB"
+
+          # Try to SET sandbox inbound URL
+          curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
+            -X POST "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/Messages/Sandbox.json" \
+            --data-urlencode "InboundRequestUrl=$WEBHOOK" \
+            --data-urlencode "InboundMethod=POST" \
+            | python3 -c "import sys,json; d=json.load(sys.stdin); print('Sandbox webhook:', d.get('inbound_request_url', d.get('message','?')))"
+
+          echo ""
+          echo "=== 4. Messaging Services ==="
+          curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
+            "https://messaging.twilio.com/v1/Services" \
+            | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          for s in d.get('services', []):
+              print(f'  Service: {s[\"sid\"]} {s[\"friendly_name\"]}')
+          " 2>/dev/null || echo "No messaging services or API error"
 
       - name: Verify webhook is reachable
         run: |

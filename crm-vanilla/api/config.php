@@ -30,6 +30,15 @@ define('HUBSPOT_TOKEN', '');  // Set your HubSpot private app token here
 // Create at: https://console.anthropic.com/settings/keys
 define('ANTHROPIC_API_KEY', '');  // Set on server only - never commit
 
+// Twilio — SMS & WhatsApp messaging
+// Account SID + Auth Token: https://console.twilio.com
+// TWILIO_FROM_SMS: your Twilio phone number, e.g. +12015551234
+// TWILIO_FROM_WHATSAPP: your WhatsApp-enabled number, e.g. +14155238886
+define('TWILIO_ACCOUNT_SID',    '');
+define('TWILIO_AUTH_TOKEN',     '');
+define('TWILIO_FROM_SMS',       '');
+define('TWILIO_FROM_WHATSAPP',  '');
+
 function getDB(): PDO {
     static $pdo = null;
     if ($pdo === null) {

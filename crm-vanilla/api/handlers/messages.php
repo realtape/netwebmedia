@@ -15,21 +15,35 @@ switch ($method) {
         if (empty($data['conversation_id']) || empty($data['body'])) {
             jsonError('conversation_id and body required');
         }
+        $convId = (int)$data['conversation_id'];
+        $sender = $data['sender'] ?? 'me';
+        $body   = $data['body'];
+
         $stmt = $db->prepare('INSERT INTO messages (conversation_id, sender, body) VALUES (?, ?, ?)');
-        $stmt->execute([
-            (int)$data['conversation_id'],
-            $data['sender'] ?? 'me',
-            $data['body'],
-        ]);
-        // Update conversation timestamp
-        $db->prepare('UPDATE conversations SET updated_at = NOW() WHERE id = ?')->execute([(int)$data['conversation_id']]);
+        $stmt->execute([$convId, $sender, $body]);
+        $msgId = (int)$db->lastInsertId();
+
+        $db->prepare('UPDATE conversations SET updated_at = NOW() WHERE id = ?')->execute([$convId]);
+
+        // Deliver outbound message via Twilio when replying to SMS/WhatsApp
+        $twilioSid = null;
+        if ($sender === 'me') {
+            $convRow = $db->prepare('SELECT channel, phone FROM conversations WHERE id = ?');
+            $convRow->execute([$convId]);
+            $conv = $convRow->fetch();
+            if ($conv && in_array($conv['channel'], ['sms', 'whatsapp'], true) && !empty($conv['phone'])) {
+                require_once __DIR__ . '/../lib/twilio_client.php';
+                $twilioSid = twilio_send($conv['phone'], $body, $conv['channel']);
+            }
+        }
 
         jsonResponse([
-            'id' => (int)$db->lastInsertId(),
-            'conversation_id' => (int)$data['conversation_id'],
-            'sender' => $data['sender'] ?? 'me',
-            'body' => $data['body'],
-            'sent_at' => date('Y-m-d H:i:s'),
+            'id'              => $msgId,
+            'conversation_id' => $convId,
+            'sender'          => $sender,
+            'body'            => $body,
+            'sent_at'         => date('Y-m-d H:i:s'),
+            'twilio_sid'      => $twilioSid,
         ], 201);
         break;
 

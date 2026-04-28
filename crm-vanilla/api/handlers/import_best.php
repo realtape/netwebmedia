@@ -13,8 +13,10 @@
 if ($method !== 'GET') jsonError('Use GET', 405);
 if (($_GET['token'] ?? '') !== 'NWM_IMPORT_BEST_2026') jsonError('Invalid token', 403);
 
-$dry     = !empty($_GET['dry']);
-$country = strtolower(trim($_GET['country'] ?? ''));
+$dry        = !empty($_GET['dry']);
+$country    = strtolower(trim($_GET['country'] ?? ''));
+$chunkStart = max(0, (int)($_GET['offset'] ?? 0));
+$chunkSize  = min(10000, max(100, (int)($_GET['chunk'] ?? 5000)));
 
 $csvMap = [
     'chile'    => '/api-php/data/chile_best_prospects.csv',
@@ -38,8 +40,9 @@ try {
     $db->exec('ALTER TABLE contacts ADD UNIQUE KEY idx_email_unique (email)');
 } catch (Throwable $e) { /* already exists */ }
 
-// Parse CSV -------------------------------------------------------------------
+// Parse CSV (with optional chunking for large files) --------------------------
 $rows    = [];
+$lineNum = 0;
 $fp      = fopen($csvFile, 'r');
 $headers = fgetcsv($fp);
 $headers[0] = ltrim($headers[0], "\xEF\xBB\xBF");   // strip BOM
@@ -50,7 +53,11 @@ $get = function (array $row, string $col) use ($hMap): string {
 };
 
 while ($raw = fgetcsv($fp)) {
-    if (count($raw) !== count($headers)) continue;
+    if (count($raw) !== count($headers)) { $lineNum++; continue; }
+    // Chunked windowing: skip rows outside [chunkStart, chunkStart+chunkSize)
+    if ($lineNum < $chunkStart)                        { $lineNum++; continue; }
+    if ($lineNum >= $chunkStart + $chunkSize)          { break; }
+    $lineNum++;
 
     $email = strtolower(trim($raw[$hMap['email'] ?? 0] ?? ''));
     if ($email === '' || strpos($email, '@') === false) continue;
@@ -154,6 +161,9 @@ jsonResponse([
     'dry_run'         => $dry,
     'country'         => $country,
     'csv'             => basename($csvFile),
+    'chunk_start'     => $chunkStart,
+    'chunk_size'      => $chunkSize,
+    'next_offset'     => $chunkStart + $lineNum - ($chunkStart > 0 ? $chunkStart : 0),
     'parsed'          => $parsed,
     'inserted'        => $dry ? 0 : $inserted,
     'skipped_dupe'    => $dry ? 0 : $skipped,

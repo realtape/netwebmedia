@@ -27,6 +27,25 @@
   Deny from all
 </FilesMatch>
 
+# ── Block internal-only HTML pages from public access ─────────────────
+# These are working docs Carlos uses directly via URL while logged in
+# locally / on his own machines. They MUST NOT be reachable by the
+# public internet (some leak prospect lists, internal architecture,
+# logins, AI scratchpads, or the business plan).
+# Patterns covered:
+#   diagnostic.html, flowchart.html, orgchart.html, dashboard.html,
+#   desktop-login.html, nwmai.html, audit-report.html,
+#   *-prospects-report.html, *-digital-gaps.html,
+#   NetWebMedia_Business_Marketing_Plan_2026.html
+<FilesMatch "^(diagnostic|flowchart|orgchart|dashboard|desktop-login|nwmai|audit-report|NetWebMedia_Business_Marketing_Plan_2026)\.html$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+<FilesMatch "^.+-(prospects-report|digital-gaps)\.html$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
 # ── Disable directory listings sitewide ───────────────────────────────
 Options -Indexes
 

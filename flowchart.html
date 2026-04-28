@@ -3,458 +3,632 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NetWebMedia Attribution Pipeline – Swimlane</title>
+<title>NetWebMedia Attribution Pipeline – All 12 Agents</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background: #f0f2f5;
     padding: 40px 20px;
-    min-width: 1200px;
   }
-  h1 {
-    text-align: center;
-    color: #010F3B;
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .subtitle {
-    text-align: center;
-    color: #666;
-    margin-bottom: 40px;
-    font-size: 0.95rem;
-  }
+  h1 { text-align:center; color:#010F3B; font-size:1.8rem; font-weight:700; margin-bottom:6px; }
+  .subtitle { text-align:center; color:#666; margin-bottom:36px; font-size:0.9rem; }
 
-  .swimlane-diagram {
-    background: white;
+  /* ─── Scrollable table wrapper ─── */
+  .diagram-wrap {
+    overflow-x: auto;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.12);
-    overflow: hidden;
-    width: 100%;
-    max-width: 1300px;
-    margin: 0 auto;
+    background: white;
+    max-width: 100%;
   }
 
-  .stage-header {
-    display: grid;
-    grid-template-columns: 160px repeat(9, 1fr);
+  table {
+    border-collapse: collapse;
+    min-width: 1400px;
+    width: 100%;
+  }
+
+  /* Header row */
+  thead th {
     background: #010F3B;
     color: white;
-    border-bottom: 3px solid #FF671F;
-  }
-  .stage-header .corner {
-    padding: 14px 16px;
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-  }
-  .stage-header .col-label {
-    padding: 12px 6px;
+    padding: 10px 6px;
     text-align: center;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 600;
-    letter-spacing: 0.3px;
-    border-left: 1px solid rgba(255,255,255,0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  thead th:first-child {
+    text-align: left;
+    padding-left: 14px;
+    min-width: 155px;
+    border-right: 3px solid #FF671F;
   }
   .stage-num {
-    width: 26px;
-    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px; height: 24px;
     border-radius: 50%;
     background: #FF671F;
     color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-weight: 700;
-    font-size: 0.85rem;
-    flex-shrink: 0;
-  }
-
-  .swim-row {
-    display: grid;
-    grid-template-columns: 160px repeat(9, 1fr);
-    border-bottom: 1px solid #e8ecf1;
-    min-height: 110px;
-    position: relative;
-  }
-  .swim-row:last-child { border-bottom: none; }
-  .swim-row:nth-child(even) { background: #fafbfc; }
-  .swim-row:nth-child(odd)  { background: #ffffff; }
-
-  .lane-label {
-    padding: 16px 14px;
-    background: #010F3B;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-right: 3px solid #FF671F;
-    position: sticky;
-    left: 0;
-    z-index: 2;
-  }
-  .lane-label .agent-title {
-    font-size: 0.82rem;
-    font-weight: 700;
-    letter-spacing: 0.3px;
+    font-size: 0.8rem;
     margin-bottom: 4px;
-    line-height: 1.3;
-  }
-  .lane-label .agent-sub {
-    font-size: 0.65rem;
-    color: rgba(255,255,255,0.6);
   }
 
-  .cell {
-    padding: 10px 8px;
-    border-left: 1px solid #e8ecf1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
+  /* Body rows */
+  tbody tr { border-bottom: 1px solid #e8ecf1; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:nth-child(odd)  td { background: #fff; }
+  tbody tr:nth-child(even) td { background: #fafbfc; }
 
-  /* Arrow connector between active cells */
-  .cell.has-arrow::after {
-    content: '';
-    position: absolute;
-    right: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-top: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-    border-left: 10px solid #00b8b8;
-    z-index: 10;
+  /* Lane label cell */
+  td.lane {
+    background: #010F3B !important;
+    color: white;
+    padding: 14px 12px;
+    border-right: 3px solid #FF671F;
+    vertical-align: middle;
+    min-width: 155px;
   }
-  .cell.has-arrow-orange::after { border-left-color: #FF671F; }
-  .cell.has-arrow-navy::after   { border-left-color: #010F3B; }
+  td.lane .title  { font-size:0.8rem; font-weight:700; line-height:1.3; }
+  td.lane .sub    { font-size:0.62rem; color:rgba(255,255,255,0.55); margin-top:3px; }
 
-  /* Horizontal pass-through dashes */
-  .pass-h {
-    border-left: 1px dashed #d4d9e5 !important;
+  /* Stage cells */
+  td.cell {
+    padding: 10px 7px;
+    vertical-align: middle;
+    text-align: center;
+    border-right: 1px solid #e8ecf1;
+    min-width: 130px;
+  }
+  /* Inactive / pass-through */
+  td.empty {
     background: repeating-linear-gradient(
-      90deg,
-      transparent, transparent 6px,
-      rgba(0,184,184,0.06) 6px, rgba(0,184,184,0.06) 12px
+      90deg, transparent, transparent 5px,
+      rgba(0,184,184,0.05) 5px, rgba(0,184,184,0.05) 10px
     ) !important;
+    border-right: 1px dashed #d4d9e5 !important;
   }
 
-  /* Process boxes */
+  /* Process box */
   .box {
+    display: inline-block;
     width: 100%;
     border-radius: 6px;
-    padding: 10px 8px;
-    text-align: center;
-    font-size: 0.73rem;
+    padding: 9px 7px;
+    font-size: 0.72rem;
     font-weight: 600;
-    line-height: 1.4;
+    line-height: 1.35;
     position: relative;
-    transition: box-shadow 0.15s;
+    text-align: center;
+    transition: box-shadow .15s;
+    cursor: default;
   }
   .box:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
 
-  .box-teal   { background: #e0f5f5; border: 2px solid #00b8b8; color: #005f5f; }
-  .box-orange { background: #fff0e8; border: 2px solid #FF671F; color: #b34000; }
-  .box-navy   { background: #e8ecf5; border: 2px solid #010F3B; color: #010F3B; }
-  .box-green  { background: #e8f5e8; border: 2px solid #28a745; color: #155724; }
-  .box-purple { background: #f3edff; border: 2px solid #7c3aed; color: #4c1d95; }
+  .box-orange { background:#fff0e8; border:2px solid #FF671F; color:#b34000; }
+  .box-teal   { background:#e0f5f5; border:2px solid #00b8b8; color:#005f5f; }
+  .box-navy   { background:#e8ecf5; border:2px solid #010F3B; color:#010F3B; }
+  .box-green  { background:#e8f5e8; border:2px solid #28a745; color:#155724; }
+  .box-purple { background:#f3edff; border:2px solid #7c3aed; color:#4c1d95; }
+  .box-blue   { background:#e8f0ff; border:2px solid #3b82f6; color:#1e3a8a; }
+  .box-red    { background:#fff0f0; border:2px solid #dc3545; color:#7f1d1d; }
+  .box-gold   { background:#fffbe8; border:2px solid #d97706; color:#78350f; }
 
-  /* Corner icon badges */
-  .box-icon {
-    position: absolute;
-    top: -9px;
-    right: -9px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 9px;
-    font-weight: 800;
-    border: 2px solid white;
-    color: white;
+  /* Corner badge */
+  .ico {
+    position:absolute; top:-8px; right:-8px;
+    width:18px; height:18px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:8px; font-weight:800; border:2px solid white; color:white;
   }
-  .ico-check  { background: #00b8b8; }
-  .ico-warn   { background: #f59e0b; }
-  .ico-ai     { background: #7c3aed; font-size: 7px; }
-  .ico-arrow  { background: #FF671F; }
-  .ico-star   { background: #28a745; }
+  .ico-check  { background:#00b8b8; }
+  .ico-warn   { background:#f59e0b; }
+  .ico-ai     { background:#7c3aed; font-size:7px; }
+  .ico-arrow  { background:#FF671F; }
+  .ico-star   { background:#28a745; }
+  .ico-dollar { background:#3b82f6; }
+  .ico-pen    { background:#8b5cf6; }
+  .ico-brush  { background:#ec4899; }
+  .ico-cog    { background:#6b7280; }
 
-  .code-hint {
-    display: block;
-    margin-top: 5px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.58rem;
-    color: #999;
-    font-weight: 400;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .code {
+    display:block; margin-top:4px;
+    font-family:'Courier New',monospace; font-size:0.57rem;
+    color:#999; font-weight:400; white-space:nowrap;
+    overflow:hidden; text-overflow:ellipsis;
   }
 
-  /* Legend strip */
+  /* Arrow between cells */
+  .arrow-cell {
+    padding: 0 2px;
+    vertical-align: middle;
+    color: #aaa;
+    font-size: 1.1rem;
+    border-right: none !important;
+    background: transparent !important;
+    min-width: 18px;
+    width: 18px;
+  }
+
+  /* ─── Legend ─── */
   .legend {
     margin-top: 28px;
-    max-width: 1300px;
-    margin-left: auto;
-    margin-right: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     gap: 10px;
   }
   .legend-item {
     background: white;
     border-radius: 6px;
-    padding: 12px 14px;
+    padding: 11px 13px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
+    display: flex; gap: 10px; align-items: flex-start;
   }
-  .legend-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin-top: 3px;
-    flex-shrink: 0;
-  }
-  .legend-item h4 { font-size: 0.78rem; color: #010F3B; font-weight: 700; margin-bottom: 2px; }
-  .legend-item p  { font-size: 0.67rem; color: #888; line-height: 1.4; }
+  .ldot { width:11px; height:11px; border-radius:50%; flex-shrink:0; margin-top:3px; }
+  .legend-item h4 { font-size:0.75rem; color:#010F3B; font-weight:700; margin-bottom:2px; }
+  .legend-item p  { font-size:0.65rem; color:#888; line-height:1.4; }
+
+  /* model badge */
+  .model { display:inline-block; font-size:0.55rem; padding:1px 5px;
+    border-radius:3px; margin-top:3px; font-weight:600; }
+  .model-opus   { background:#7c3aed; color:white; }
+  .model-sonnet { background:#00b8b8; color:white; }
 </style>
 </head>
 <body>
 
 <h1>NetWebMedia — Attribution Pipeline</h1>
-<p class="subtitle">Campaign Send → Click → UTM Capture → Form → Log → Auto-Reply → AI Plan → Pitch → Client</p>
+<p class="subtitle">All 12 agents · Campaign Send → Click → UTM Capture → Form → Log → Auto-Reply → AI Plan → Pitch → Client</p>
 
-<div class="swimlane-diagram">
+<div class="diagram-wrap">
+<table>
+<thead>
+  <tr>
+    <th>AGENT / ROLE</th>
+    <th><div class="stage-num">1</div><br>Campaign<br>Send</th>
+    <th><div class="stage-num">2</div><br>Lead<br>Clicks</th>
+    <th><div class="stage-num">3</div><br>UTM<br>Capture</th>
+    <th><div class="stage-num">4</div><br>Form<br>Submit</th>
+    <th><div class="stage-num">5</div><br>Lead<br>Logging</th>
+    <th><div class="stage-num">6</div><br>Auto-<br>Reply</th>
+    <th><div class="stage-num">7</div><br>AI Plan<br>Build</th>
+    <th><div class="stage-num">8</div><br>Retainer<br>Pitch</th>
+    <th><div class="stage-num">9</div><br>Client<br>Exec</th>
+  </tr>
+</thead>
+<tbody>
 
-  <!-- Header -->
-  <div class="stage-header">
-    <div class="corner">AGENT / ROLE</div>
-    <div class="col-label"><span class="stage-num">1</span>Campaign<br>Send</div>
-    <div class="col-label"><span class="stage-num">2</span>Lead<br>Clicks</div>
-    <div class="col-label"><span class="stage-num">3</span>UTM<br>Capture</div>
-    <div class="col-label"><span class="stage-num">4</span>Form<br>Submit</div>
-    <div class="col-label"><span class="stage-num">5</span>Lead<br>Logging</div>
-    <div class="col-label"><span class="stage-num">6</span>Auto-<br>Reply</div>
-    <div class="col-label"><span class="stage-num">7</span>Plan<br>Build</div>
-    <div class="col-label"><span class="stage-num">8</span>Retainer<br>Pitch</div>
-    <div class="col-label"><span class="stage-num">9</span>Client<br>Exec</div>
-  </div>
-
-  <!-- ── Row 1: CMO Agent ── -->
-  <div class="swim-row">
-    <div class="lane-label">
-      <div class="agent-title">CMO Agent<br>(Carlos)</div>
-      <div class="agent-sub">Marketing Strategy</div>
-    </div>
-    <div class="cell has-arrow">
+  <!-- ── 1. Carlos CEO Assistant ── -->
+  <tr>
+    <td class="lane">
+      <div class="title">Carlos (CEO)<br>+ EA Agent</div>
+      <div class="sub">Chief of Staff · Opus</div>
+    </td>
+    <td class="cell">
       <div class="box box-orange">
-        <span class="box-icon ico-warn">!</span>
+        <span class="ico ico-warn">!</span>
+        Approve<br>Campaign Brief
+        <span class="code">Strategy sign-off</span>
+      </div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-orange">
+        <span class="ico ico-warn">!</span>
+        Review<br>AI Plan
+        <span class="code">Human approval</span>
+      </div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-orange">
+        <span class="ico ico-star">★</span>
+        Close Deal<br>Decision
+        <span class="code">CEO sign-off</span>
+      </div>
+    </td>
+  </tr>
+
+  <!-- ── 2. CMO ── -->
+  <tr>
+    <td class="lane">
+      <div class="title">CMO Agent</div>
+      <div class="sub">Marketing Strategy · Opus</div>
+    </td>
+    <td class="cell">
+      <div class="box box-orange">
+        <span class="ico ico-warn">!</span>
         Define Campaign<br>+ UTM Tokens
-        <span class="code-hint">utm_campaign=slug</span>
+        <span class="code">utm_campaign=slug</span>
       </div>
-    </div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-  </div>
-
-  <!-- ── Row 2: Engineering Lead ── -->
-  <div class="swim-row">
-    <div class="lane-label">
-      <div class="agent-title">Engineering<br>Lead</div>
-      <div class="agent-sub">Backend + Frontend</div>
-    </div>
-    <div class="cell pass-h"></div>
-    <div class="cell has-arrow">
-      <div class="box box-teal">
-        <span class="box-icon ico-check">✓</span>
-        track.php<br>Click Handler
-        <span class="code-hint">302 + utm_content</span>
-      </div>
-    </div>
-    <div class="cell has-arrow">
-      <div class="box box-teal">
-        <span class="box-icon ico-check">✓</span>
-        utm-capture.js<br>SessionStorage
-        <span class="code-hint">nwm_utm_content</span>
-      </div>
-    </div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell">
-      <div class="box box-teal">
-        <span class="box-icon ico-check">✓</span>
-        Auto-Reply<br>PHP mail()
-        <span class="code-hint">Exim MTA</span>
-      </div>
-    </div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-  </div>
-
-  <!-- ── Row 3: Product Manager ── -->
-  <div class="swim-row">
-    <div class="lane-label">
-      <div class="agent-title">Product<br>Manager</div>
-      <div class="agent-sub">Form UX / Design</div>
-    </div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell has-arrow has-arrow-navy">
-      <div class="box box-navy">
-        <span class="box-icon ico-check" style="background:#010F3B;">✓</span>
-        Contact Form<br>+ Hidden UTMs
-        <span class="code-hint">input[type=hidden]</span>
-      </div>
-    </div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-  </div>
-
-  <!-- ── Row 4: Data Analyst ── -->
-  <div class="swim-row">
-    <div class="lane-label">
-      <div class="agent-title">Data<br>Analyst</div>
-      <div class="agent-sub">Logging + Attribution</div>
-    </div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell has-arrow has-arrow-navy">
-      <div class="box box-navy">
-        <span class="box-icon ico-check" style="background:#3b82f6;">✓</span>
-        submit.php<br>Lead Log
-        <span class="code-hint">submit-leads.log</span>
-      </div>
-    </div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-  </div>
-
-  <!-- ── Row 5: Strategy Agent ── -->
-  <div class="swim-row">
-    <div class="lane-label">
-      <div class="agent-title">Strategy<br>Agent</div>
-      <div class="agent-sub">Claude AI + Human</div>
-    </div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell has-arrow has-arrow-orange">
-      <div class="box box-purple">
-        <span class="box-icon ico-ai">AI</span>
-        Claude API<br>Plan Builder
-        <span class="code-hint">claude-sonnet-4</span>
-      </div>
-    </div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-  </div>
-
-  <!-- ── Row 6: Sales Director ── -->
-  <div class="swim-row">
-    <div class="lane-label">
-      <div class="agent-title">Sales<br>Director</div>
-      <div class="agent-sub">Outreach + Pitch</div>
-    </div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell has-arrow has-arrow-orange">
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell">
       <div class="box box-orange">
-        <span class="box-icon ico-arrow">↗</span>
+        <span class="ico ico-arrow">↗</span>
+        Pitch<br>Messaging
+        <span class="code">Offer framing</span>
+      </div>
+    </td>
+    <td class="cell empty"></td>
+  </tr>
+
+  <!-- ── 3. Engineering Lead ── -->
+  <tr>
+    <td class="lane">
+      <div class="title">Engineering Lead</div>
+      <div class="sub">Backend + Frontend · Opus</div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-teal">
+        <span class="ico ico-check">✓</span>
+        track.php<br>Click Handler
+        <span class="code">302 + utm_content</span>
+      </div>
+    </td>
+    <td class="cell">
+      <div class="box box-teal">
+        <span class="ico ico-check">✓</span>
+        utm-capture.js<br>SessionStorage
+        <span class="code">nwm_utm_content</span>
+      </div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-teal">
+        <span class="ico ico-check">✓</span>
+        Auto-Reply<br>PHP mail()
+        <span class="code">Exim MTA</span>
+      </div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+  </tr>
+
+  <!-- ── 4. Product Manager ── -->
+  <tr>
+    <td class="lane">
+      <div class="title">Product Manager</div>
+      <div class="sub">CRM · LPs · Packages · Opus</div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-navy">
+        <span class="ico ico-check" style="background:#010F3B;">✓</span>
+        Contact Form<br>+ Hidden UTMs
+        <span class="code">input[type=hidden]</span>
+      </div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-navy">
+        <span class="ico ico-pen">✎</span>
+        Package<br>Positioning
+        <span class="code">CMO pkg tiers</span>
+      </div>
+    </td>
+    <td class="cell empty"></td>
+  </tr>
+
+  <!-- ── 5. Sales Director ── -->
+  <tr>
+    <td class="lane">
+      <div class="title">Sales Director</div>
+      <div class="sub">Pipeline · Proposals · Sonnet</div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-blue">
+        <span class="ico ico-arrow">↗</span>
         WhatsApp +<br>Email Pitch
-        <span class="code-hint">Retainer PDF</span>
+        <span class="code">Retainer PDF</span>
       </div>
-    </div>
-    <div class="cell pass-h"></div>
-  </div>
+    </td>
+    <td class="cell empty"></td>
+  </tr>
 
-  <!-- ── Row 7: Customer Success ── -->
-  <div class="swim-row">
-    <div class="lane-label">
-      <div class="agent-title">Customer<br>Success</div>
-      <div class="agent-sub">Onboarding + Retention</div>
-    </div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell pass-h"></div>
-    <div class="cell">
+  <!-- ── 6. Content Strategist ── -->
+  <tr>
+    <td class="lane">
+      <div class="title">Content Strategist</div>
+      <div class="sub">Blog · AEO · SEO · Sonnet</div>
+    </td>
+    <td class="cell">
+      <div class="box box-gold">
+        <span class="ico ico-pen">✎</span>
+        LP Copy<br>AEO Schema
+        <span class="code">39 industry LPs</span>
+      </div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-gold">
+        <span class="ico ico-pen">✎</span>
+        Auto-Reply<br>Email Copy
+        <span class="code">HTML template</span>
+      </div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+  </tr>
+
+  <!-- ── 7. Creative Director ── -->
+  <tr>
+    <td class="lane">
+      <div class="title">Creative Director</div>
+      <div class="sub">Brand · UX · Ad Creative · Sonnet</div>
+    </td>
+    <td class="cell">
+      <div class="box box-red">
+        <span class="ico ico-brush">✦</span>
+        Ad Creative<br>+ Brand Assets
+        <span class="code">Navy #010F3B</span>
+      </div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-red">
+        <span class="ico ico-brush">✦</span>
+        Form UI<br>Design
+        <span class="code">Mobile-first</span>
+      </div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+  </tr>
+
+  <!-- ── 8. Operations Manager ── -->
+  <tr>
+    <td class="lane">
+      <div class="title">Operations Manager</div>
+      <div class="sub">SOPs · Vendors · Tools · Sonnet</div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-navy">
+        <span class="ico ico-cog">⚙</span>
+        Onboarding<br>SOP + Tools
+        <span class="code">Process docs</span>
+      </div>
+    </td>
+  </tr>
+
+  <!-- ── 9. Data Analyst ── -->
+  <tr>
+    <td class="lane">
+      <div class="title">Data Analyst</div>
+      <div class="sub">Analytics · Attribution · Sonnet</div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-navy">
+        <span class="ico ico-check" style="background:#3b82f6;">✓</span>
+        submit.php<br>Lead Log
+        <span class="code">submit-leads.log</span>
+      </div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-navy">
+        <span class="ico ico-check" style="background:#3b82f6;">✓</span>
+        Attribution<br>Report
+        <span class="code">UTM → Revenue</span>
+      </div>
+    </td>
+  </tr>
+
+  <!-- ── 10. Project Manager ── -->
+  <tr>
+    <td class="lane">
+      <div class="title">Project Manager</div>
+      <div class="sub">Delivery · Timelines · Sonnet</div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-teal">
+        <span class="ico ico-cog">⚙</span>
+        Sprint Plan<br>+ Timeline
+        <span class="code">Monthly delivery</span>
+      </div>
+    </td>
+  </tr>
+
+  <!-- ── 11. Customer Success ── -->
+  <tr>
+    <td class="lane">
+      <div class="title">Customer Success</div>
+      <div class="sub">Retention · QBRs · Sonnet</div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell">
       <div class="box box-green">
-        <span class="box-icon ico-star">★</span>
+        <span class="ico ico-star">★</span>
         Kickoff Call<br>→ Retainer
-        <span class="code-hint">CRM entry</span>
+        <span class="code">CRM entry + QBR</span>
       </div>
-    </div>
-  </div>
+    </td>
+  </tr>
 
-</div><!-- /swimlane-diagram -->
+  <!-- ── 12. Finance Controller ── -->
+  <tr>
+    <td class="lane">
+      <div class="title">Finance Controller</div>
+      <div class="sub">Billing · P&amp;L · Sonnet</div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-blue">
+        <span class="ico ico-dollar">$</span>
+        Pricing<br>Validation
+        <span class="code">Retainer tiers</span>
+      </div>
+    </td>
+    <td class="cell empty"></td>
+    <td class="cell">
+      <div class="box box-blue">
+        <span class="ico ico-dollar">$</span>
+        Invoice<br>+ Collections
+        <span class="code">Billing cycle</span>
+      </div>
+    </td>
+  </tr>
 
-<!-- Legend -->
+</tbody>
+</table>
+</div>
+
+<!-- ─── Legend ─── -->
 <div class="legend">
   <div class="legend-item">
-    <div class="legend-dot" style="background:#FF671F;"></div>
-    <div><h4>CMO Agent (Carlos)</h4><p>Campaign strategy, UTM planning, channel mix</p></div>
+    <div class="ldot" style="background:#FF671F;"></div>
+    <div>
+      <h4>Carlos CEO + EA Agent <span class="model model-opus">Opus</span></h4>
+      <p>Strategy approval, plan review, deal decisions</p>
+    </div>
   </div>
   <div class="legend-item">
-    <div class="legend-dot" style="background:#00b8b8;"></div>
-    <div><h4>Engineering Lead</h4><p>track.php, utm-capture.js, auto-reply email</p></div>
+    <div class="ldot" style="background:#FF671F;"></div>
+    <div>
+      <h4>CMO Agent <span class="model model-opus">Opus</span></h4>
+      <p>Campaign planning, UTM tokens, pitch messaging</p>
+    </div>
   </div>
   <div class="legend-item">
-    <div class="legend-dot" style="background:#010F3B;"></div>
-    <div><h4>Product Manager</h4><p>Form UX, hidden UTM fields, landing page design</p></div>
+    <div class="ldot" style="background:#00b8b8;"></div>
+    <div>
+      <h4>Engineering Lead <span class="model model-opus">Opus</span></h4>
+      <p>track.php, utm-capture.js, auto-reply email</p>
+    </div>
   </div>
   <div class="legend-item">
-    <div class="legend-dot" style="background:#3b82f6;"></div>
-    <div><h4>Data Analyst</h4><p>submit.php logging, UTM attribution reporting</p></div>
+    <div class="ldot" style="background:#010F3B;"></div>
+    <div>
+      <h4>Product Manager <span class="model model-opus">Opus</span></h4>
+      <p>Contact form UX, CMO package tiers</p>
+    </div>
   </div>
   <div class="legend-item">
-    <div class="legend-dot" style="background:#7c3aed;"></div>
-    <div><h4>Strategy Agent (AI)</h4><p>Claude API plan generation, pricing strategy</p></div>
+    <div class="ldot" style="background:#3b82f6;"></div>
+    <div>
+      <h4>Sales Director <span class="model model-sonnet">Sonnet</span></h4>
+      <p>WhatsApp + email pitch, retainer close</p>
+    </div>
   </div>
   <div class="legend-item">
-    <div class="legend-dot" style="background:#f59e0b;"></div>
-    <div><h4>Sales Director</h4><p>WhatsApp + email pitch, retainer close</p></div>
+    <div class="ldot" style="background:#d97706;"></div>
+    <div>
+      <h4>Content Strategist <span class="model model-sonnet">Sonnet</span></h4>
+      <p>LP copy, AEO schema, auto-reply email copy</p>
+    </div>
   </div>
   <div class="legend-item">
-    <div class="legend-dot" style="background:#28a745;"></div>
-    <div><h4>Customer Success</h4><p>Onboarding, kickoff call, monthly delivery</p></div>
+    <div class="ldot" style="background:#ec4899;"></div>
+    <div>
+      <h4>Creative Director <span class="model model-sonnet">Sonnet</span></h4>
+      <p>Ad creative, brand assets, form UI design</p>
+    </div>
+  </div>
+  <div class="legend-item">
+    <div class="ldot" style="background:#6b7280;"></div>
+    <div>
+      <h4>Operations Manager <span class="model model-sonnet">Sonnet</span></h4>
+      <p>Onboarding SOPs, tooling, process docs</p>
+    </div>
+  </div>
+  <div class="legend-item">
+    <div class="ldot" style="background:#3b82f6;"></div>
+    <div>
+      <h4>Data Analyst <span class="model model-sonnet">Sonnet</span></h4>
+      <p>submit.php logging, UTM→revenue attribution</p>
+    </div>
+  </div>
+  <div class="legend-item">
+    <div class="ldot" style="background:#00b8b8;"></div>
+    <div>
+      <h4>Project Manager <span class="model model-sonnet">Sonnet</span></h4>
+      <p>Sprint plans, delivery timelines, client milestones</p>
+    </div>
+  </div>
+  <div class="legend-item">
+    <div class="ldot" style="background:#28a745;"></div>
+    <div>
+      <h4>Customer Success <span class="model model-sonnet">Sonnet</span></h4>
+      <p>Kickoff call, QBRs, retention, expansion</p>
+    </div>
+  </div>
+  <div class="legend-item">
+    <div class="ldot" style="background:#3b82f6;"></div>
+    <div>
+      <h4>Finance Controller <span class="model model-sonnet">Sonnet</span></h4>
+      <p>Pricing validation, invoicing, collections</p>
+    </div>
   </div>
 </div>
 

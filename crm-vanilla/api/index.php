@@ -57,6 +57,7 @@ $handlers = [
     'payments'      => __DIR__ . '/handlers/payments.php',
     'invoices'      => __DIR__ . '/handlers/payments.php',
     'import_csv'    => __DIR__ . '/handlers/import_csv.php',
+    'import_best'   => __DIR__ . '/handlers/import_best.php',
     'realtime'      => __DIR__ . '/handlers/realtime.php',
 ];
 

@@ -29,7 +29,7 @@
     return null;
   }
 
-  /* ── Modal helpers ─────────────────────────────────────────────── */
+  /* ── New Deal Modal ─────────────────────────────────────────────── */
 
   function injectModal() {
     if (document.getElementById('dealModal')) return;
@@ -116,19 +116,236 @@
 
   function appendCardToColumn(deal) {
     var stageName = deal.stage || '';
-    /* Find column by stage name */
     var columns = document.querySelectorAll('.column-cards');
     for (var i = 0; i < columns.length; i++) {
       if (columns[i].getAttribute('data-stage') === stageName) {
         var tmp = document.createElement('div');
         tmp.innerHTML = renderDealCard(deal);
         var card = tmp.firstChild;
-        card.addEventListener('dragstart', handleDragStart);
-        card.addEventListener('dragend', handleDragEnd);
+        wireCard(card);
         columns[i].appendChild(card);
         return;
       }
     }
+  }
+
+  /* ── Deal Detail Drawer ─────────────────────────────────────────── */
+
+  function injectDrawer() {
+    if (document.getElementById('dealDrawer')) return;
+    var el = document.createElement('div');
+    el.id = 'dealDrawer';
+    el.style.cssText = 'position:fixed;top:0;right:-440px;width:420px;height:100vh;background:#1a1d27;border-left:1px solid #2a2d3a;z-index:9999;display:flex;flex-direction:column;transition:right 0.28s ease;box-shadow:-6px 0 32px rgba(0,0,0,0.5);overflow:hidden';
+    el.innerHTML =
+      '<div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #2a2d3a;flex-shrink:0;gap:12px">' +
+        '<h3 id="drawerDealTitle" style="margin:0;font-size:15px;font-weight:600;color:#e4e7ec;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1"></h3>' +
+        '<button id="drawerClose" style="background:none;border:none;color:#5a5e70;font-size:18px;cursor:pointer;padding:4px;line-height:1;flex-shrink:0" title="Close">&#10005;</button>' +
+      '</div>' +
+      '<div style="flex:1;overflow-y:auto;padding:20px 22px">' +
+        '<form id="drawerForm">' +
+          '<input type="hidden" name="deal_id">' +
+
+          '<div style="margin-bottom:14px">' +
+            '<label style="display:block;font-size:11px;color:#8b8fa3;margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px;font-weight:600">Title</label>' +
+            '<input name="title" style="width:100%;background:#141620;border:1px solid #2a2d3a;color:#e4e7ec;padding:9px 12px;border-radius:6px;font-size:14px;box-sizing:border-box" required>' +
+          '</div>' +
+
+          '<div style="margin-bottom:14px">' +
+            '<label style="display:block;font-size:11px;color:#8b8fa3;margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px;font-weight:600">Company</label>' +
+            '<input name="company" style="width:100%;background:#141620;border:1px solid #2a2d3a;color:#e4e7ec;padding:9px 12px;border-radius:6px;font-size:14px;box-sizing:border-box">' +
+          '</div>' +
+
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">' +
+            '<div>' +
+              '<label style="display:block;font-size:11px;color:#8b8fa3;margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px;font-weight:600">Value ($)</label>' +
+              '<input name="value" type="number" min="0" style="width:100%;background:#141620;border:1px solid #2a2d3a;color:#e4e7ec;padding:9px 12px;border-radius:6px;font-size:14px;box-sizing:border-box">' +
+            '</div>' +
+            '<div>' +
+              '<label style="display:block;font-size:11px;color:#8b8fa3;margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px;font-weight:600">Probability (%)</label>' +
+              '<input name="probability" type="number" min="0" max="100" style="width:100%;background:#141620;border:1px solid #2a2d3a;color:#e4e7ec;padding:9px 12px;border-radius:6px;font-size:14px;box-sizing:border-box">' +
+            '</div>' +
+          '</div>' +
+
+          '<div style="margin-bottom:14px">' +
+            '<label style="display:block;font-size:11px;color:#8b8fa3;margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px;font-weight:600">Stage</label>' +
+            '<select name="stage_id" id="drawerStageSelect" style="width:100%;background:#141620;border:1px solid #2a2d3a;color:#e4e7ec;padding:9px 12px;border-radius:6px;font-size:14px;box-sizing:border-box"></select>' +
+          '</div>' +
+
+          '<div style="margin-bottom:14px;padding:14px;background:#0f1117;border:1px solid #2a2d3a;border-radius:8px">' +
+            '<div style="font-size:11px;color:#FF671F;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px">&#128204; Next Follow-up</div>' +
+            '<label style="display:block;font-size:11px;color:#8b8fa3;margin-bottom:5px;font-weight:600">Action</label>' +
+            '<input name="next_action" placeholder="e.g. Send proposal, Schedule demo..." style="width:100%;background:#141620;border:1px solid #2a2d3a;color:#e4e7ec;padding:9px 12px;border-radius:6px;font-size:13px;box-sizing:border-box;margin-bottom:10px">' +
+            '<label style="display:block;font-size:11px;color:#8b8fa3;margin-bottom:5px;font-weight:600">Date</label>' +
+            '<input name="next_followup_date" type="date" style="width:100%;background:#141620;border:1px solid #2a2d3a;color:#e4e7ec;padding:9px 12px;border-radius:6px;font-size:14px;box-sizing:border-box">' +
+          '</div>' +
+
+          '<div style="margin-bottom:18px">' +
+            '<label style="display:block;font-size:11px;color:#8b8fa3;margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px;font-weight:600">Notes</label>' +
+            '<textarea name="notes" rows="5" placeholder="Why is this deal here? Context, objections, history..." style="width:100%;background:#141620;border:1px solid #2a2d3a;color:#e4e7ec;padding:9px 12px;border-radius:6px;font-size:13px;box-sizing:border-box;resize:vertical;font-family:inherit;line-height:1.5"></textarea>' +
+          '</div>' +
+
+          '<div id="drawerMeta" style="font-size:12px;color:#5a5e70;margin-bottom:16px;line-height:1.6"></div>' +
+
+          '<div style="display:flex;gap:8px">' +
+            '<button type="submit" style="flex:1;background:#FF671F;color:#fff;border:none;padding:11px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;transition:.2s">Save</button>' +
+            '<button type="button" id="drawerDelete" style="background:#1a1d27;color:#e17055;border:1px solid #2a2d3a;padding:11px 14px;border-radius:6px;font-size:14px;cursor:pointer;transition:.2s" title="Delete deal">&#128465;</button>' +
+          '</div>' +
+          '<div id="drawerSaveMsg" style="margin-top:10px;font-size:13px;text-align:center;min-height:18px"></div>' +
+        '</form>' +
+      '</div>';
+    document.body.appendChild(el);
+
+    document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+    document.getElementById('drawerForm').addEventListener('submit', handleDrawerSave);
+    document.getElementById('drawerDelete').addEventListener('click', handleDrawerDelete);
+
+    /* close drawer when clicking outside (on the board) */
+    document.addEventListener('click', function (e) {
+      var drawer = document.getElementById('dealDrawer');
+      if (!drawer || drawer.style.right === '-440px') return;
+      if (!drawer.contains(e.target) && !e.target.closest('.deal-card')) {
+        closeDrawer();
+      }
+    });
+  }
+
+  function openDrawer(dealId) {
+    var drawer = document.getElementById('dealDrawer');
+    if (!drawer) return;
+
+    /* populate stage select */
+    var sel = document.getElementById('drawerStageSelect');
+    sel.innerHTML = '';
+    for (var i = 0; i < stagesData.length; i++) {
+      var opt = document.createElement('option');
+      opt.value = stagesData[i].id;
+      opt.textContent = stagesData[i].name;
+      sel.appendChild(opt);
+    }
+
+    document.getElementById('drawerDealTitle').textContent = 'Loading…';
+    document.getElementById('drawerSaveMsg').textContent = '';
+    document.getElementById('drawerMeta').textContent = '';
+    drawer.style.right = '0';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/?r=deals&id=' + dealId, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+      if (xhr.status >= 200 && xhr.status < 300) {
+        var deal;
+        try { deal = JSON.parse(xhr.responseText); } catch (er) { deal = null; }
+        if (deal) fillDrawer(deal);
+      }
+    };
+    xhr.send();
+  }
+
+  function fillDrawer(deal) {
+    var form = document.getElementById('drawerForm');
+    document.getElementById('drawerDealTitle').textContent = deal.title;
+    form.deal_id.value = deal.id;
+    form.title.value = deal.title || '';
+    form.company.value = deal.company || '';
+    form.value.value = deal.value || 0;
+    form.probability.value = deal.probability || 0;
+    form.next_action.value = deal.next_action || '';
+    form.next_followup_date.value = deal.next_followup_date || '';
+    form.notes.value = deal.notes || '';
+
+    var sel = document.getElementById('drawerStageSelect');
+    if (deal.stage_id) sel.value = deal.stage_id;
+
+    var meta = [];
+    if (deal.contact_name) meta.push('Contact: ' + deal.contact_name);
+    if (deal.contact_email) meta.push(deal.contact_email);
+    if (deal.contact_phone) meta.push(deal.contact_phone);
+    if (deal.created_at) {
+      var d = (deal.created_at || '').split('T')[0].split(' ')[0];
+      if (d) meta.push('Created: ' + d);
+    }
+    if (deal.days_in_stage !== undefined) meta.push(deal.days_in_stage + ' days in stage');
+    document.getElementById('drawerMeta').innerHTML = meta.join(' &nbsp;·&nbsp; ');
+    document.getElementById('drawerSaveMsg').textContent = '';
+  }
+
+  function closeDrawer() {
+    var drawer = document.getElementById('dealDrawer');
+    if (drawer) drawer.style.right = '-440px';
+  }
+
+  function handleDrawerSave(e) {
+    e.preventDefault();
+    var form = document.getElementById('drawerForm');
+    var dealId = form.deal_id.value;
+    var msg = document.getElementById('drawerSaveMsg');
+    msg.style.color = '#8b8fa3';
+    msg.textContent = 'Saving…';
+
+    var body = JSON.stringify({
+      title: form.title.value.trim(),
+      company: form.company.value.trim(),
+      value: parseInt(form.value.value, 10) || 0,
+      probability: parseInt(form.probability.value, 10) || 0,
+      stage_id: parseInt(form.stage_id.value, 10),
+      notes: form.notes.value,
+      next_action: form.next_action.value.trim(),
+      next_followup_date: form.next_followup_date.value || null
+    });
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('PUT', '/api/?r=deals&id=' + dealId, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+      if (xhr.status >= 200 && xhr.status < 300) {
+        var updated;
+        try { updated = JSON.parse(xhr.responseText); } catch (er) { updated = null; }
+        if (updated) {
+          for (var i = 0; i < dealsData.length; i++) {
+            if (String(dealsData[i].id) === String(dealId)) { dealsData[i] = updated; break; }
+          }
+          var card = document.querySelector('.deal-card[data-deal-id="' + dealId + '"]');
+          if (card) {
+            var tmp = document.createElement('div');
+            tmp.innerHTML = renderDealCard(updated);
+            var newCard = tmp.firstChild;
+            wireCard(newCard);
+            card.parentNode.replaceChild(newCard, card);
+          }
+          document.getElementById('drawerDealTitle').textContent = updated.title;
+          updateColumnCounts();
+        }
+        msg.style.color = '#00b894';
+        msg.textContent = 'Saved';
+        setTimeout(function () { msg.textContent = ''; }, 2000);
+      } else {
+        msg.style.color = '#e17055';
+        msg.textContent = 'Error saving. Try again.';
+      }
+    };
+    xhr.send(body);
+  }
+
+  function handleDrawerDelete() {
+    var form = document.getElementById('drawerForm');
+    var dealId = form.deal_id.value;
+    var title = form.title.value || 'this deal';
+    if (!confirm('Delete "' + title + '"? This cannot be undone.')) return;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('DELETE', '/api/?r=deals&id=' + dealId, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+      if (xhr.status >= 200 && xhr.status < 300) {
+        var card = document.querySelector('.deal-card[data-deal-id="' + dealId + '"]');
+        if (card) card.parentNode.removeChild(card);
+        dealsData = dealsData.filter(function (d) { return String(d.id) !== String(dealId); });
+        updateColumnCounts();
+        closeDrawer();
+      }
+    };
+    xhr.send();
   }
 
   /* ── Data loading ───────────────────────────────────────────────── */
@@ -144,7 +361,6 @@
       '<button class="btn btn-primary" id="newDealBtn">' + CRM_APP.ICONS.plus + ' ' + L.newDeal + '</button>'
     );
 
-    /* Attach New Deal button after header is injected */
     document.addEventListener('click', function (e) {
       if (e.target && (e.target.id === 'newDealBtn' || e.target.closest && e.target.closest('#newDealBtn'))) {
         openModal();
@@ -152,6 +368,7 @@
     });
 
     injectModal();
+    injectDrawer();
     loadPipelineData();
   });
 
@@ -173,7 +390,6 @@
       if (xhrStages.readyState !== 4) return;
       if (xhrStages.status >= 200 && xhrStages.status < 300) {
         try { stagesData = JSON.parse(xhrStages.responseText); } catch (err) { stagesData = []; }
-        /* Sort by sort_order */
         stagesData.sort(function (a, b) { return a.sort_order - b.sort_order; });
         loadDeals();
       } else {
@@ -249,7 +465,7 @@
     var contactName = deal.contact_name || deal.contact || '';
     var days = deal.days_in_stage !== undefined ? deal.days_in_stage : (deal.daysInStage || 0);
 
-    var html = '<div class="deal-card" draggable="true" data-deal-id="' + deal.id + '">';
+    var html = '<div class="deal-card" draggable="true" data-deal-id="' + deal.id + '" style="cursor:pointer">';
     html += '<div class="deal-card-title">' + deal.title + '</div>';
     html += '<div class="deal-card-company">' + (deal.company || '') + '</div>';
     html += '<div class="deal-card-footer">';
@@ -257,6 +473,10 @@
     html += '<span class="deal-card-prob" style="color:' + probColor + '">' + prob + '%</span>';
     html += '</div>';
     html += '<div class="deal-card-contact">' + contactName + '</div>';
+    if (deal.next_followup_date) {
+      var actionText = deal.next_action ? ' — ' + deal.next_action : '';
+      html += '<div class="deal-card-followup">📅 ' + deal.next_followup_date + actionText + '</div>';
+    }
     html += '<div class="deal-card-days">' + days + L.daysInStage + '</div>';
     html += '</div>';
     return html;
@@ -264,13 +484,18 @@
 
   /* ── Drag & Drop ────────────────────────────────────────────────── */
 
+  function wireCard(card) {
+    card.addEventListener("dragstart", handleDragStart);
+    card.addEventListener("dragend", handleDragEnd);
+    card.addEventListener("click", handleCardClick);
+  }
+
   function initDragDrop() {
     var cards = document.querySelectorAll(".deal-card");
     var columns = document.querySelectorAll(".column-cards");
 
     for (var i = 0; i < cards.length; i++) {
-      cards[i].addEventListener("dragstart", handleDragStart);
-      cards[i].addEventListener("dragend", handleDragEnd);
+      wireCard(cards[i]);
     }
 
     for (var j = 0; j < columns.length; j++) {
@@ -279,6 +504,12 @@
       columns[j].addEventListener("dragleave", handleDragLeave);
       columns[j].addEventListener("drop", handleDrop);
     }
+  }
+
+  function handleCardClick(e) {
+    if (draggedCard) return;
+    var dealId = this.getAttribute("data-deal-id");
+    if (dealId) openDrawer(dealId);
   }
 
   function handleDragStart(e) {
@@ -321,10 +552,8 @@
     var dealId = parseInt(draggedCard.getAttribute("data-deal-id"), 10);
     var newStageId = stageIdByName(newStageName);
 
-    /* Move the card in DOM */
     this.appendChild(draggedCard);
 
-    /* Update local dealsData */
     for (var i = 0; i < dealsData.length; i++) {
       if (dealsData[i].id === dealId) {
         dealsData[i].stage = newStageName;
@@ -336,13 +565,11 @@
 
     updateColumnCounts();
 
-    /* Show "Saving…" on the column header */
     var col = this.closest('.pipeline-column');
     var nameEl = col ? col.querySelector('.column-name') : null;
     var originalText = nameEl ? nameEl.textContent : '';
     if (nameEl) nameEl.textContent = 'Saving…';
 
-    /* Persist to API */
     var xhr = new XMLHttpRequest();
     xhr.open('PUT', '/api/?r=deals&id=' + dealId, true);
     xhr.setRequestHeader('Content-Type', 'application/json');

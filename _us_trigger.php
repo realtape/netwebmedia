@@ -2,7 +2,7 @@
 /**
  * One-shot: clears failed campaign_sends for campaign #38, then fires
  * cron_us_campaign.php in the background using the correct PHP CLI binary.
- * Self-deletes after running. v3 — includes inline reset + forced redeploy.
+ * Self-deletes after running. v4 — phpmail provider, force-redeploy bump.
  */
 require_once __DIR__ . '/crm-vanilla/api/config.php';
 

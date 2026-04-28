@@ -13,6 +13,34 @@ function route_public($parts, $method) {
     $b = required(['form_id', 'data']);
     if (!is_array($b['data'])) err('data must be an object');
 
+    // Rate limit: 10 submissions per IP per hour, file-backed sliding window.
+    // Cheap, no Redis dependency, survives PHP-FPM worker restarts.
+    // Real attacker traffic gets throttled; legit users almost never trip it.
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+    $rlDir = __DIR__ . '/../data/ratelimit';
+    if (!is_dir($rlDir)) { @mkdir($rlDir, 0700, true); }
+    $rlFile = $rlDir . '/' . hash('sha256', $ip) . '.json';
+    $now = time();
+    $window = 3600; // 1 hour
+    $maxReqs = 10;
+    $hits = [];
+    if (file_exists($rlFile)) {
+      $raw = @file_get_contents($rlFile);
+      $decoded = $raw ? json_decode($raw, true) : null;
+      if (is_array($decoded)) $hits = $decoded;
+    }
+    // Drop entries outside the window
+    $hits = array_values(array_filter($hits, fn($t) => is_int($t) && $t >= $now - $window));
+    if (count($hits) >= $maxReqs) {
+      // 429 with Retry-After hint based on the oldest hit in the window
+      $oldest = min($hits);
+      $retryAfter = max(1, $window - ($now - $oldest));
+      header('Retry-After: ' . $retryAfter);
+      err('Too many submissions from this IP. Try again in ' . ceil($retryAfter / 60) . ' minutes.', 429);
+    }
+    $hits[] = $now;
+    @file_put_contents($rlFile, json_encode($hits), LOCK_EX);
+
     // Honeypot: any non-empty value in these hidden fields = bot. Respond 200 so
     // the bot doesn't adapt, but skip all downstream work (DB, contact, automations).
     foreach (['nwm_website', 'hp_website', 'honeypot'] as $hp) {

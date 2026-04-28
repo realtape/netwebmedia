@@ -30,6 +30,18 @@ $crm = new PDO(
     [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]
 );
 
+// ── Fix collation on CRM tables (latin1 default → utf8mb4) ───────────────────
+// Tables created without explicit charset default to latin1_swedish_ci on this
+// host; PDO connects as utf8mb4, causing "Illegal mix of collations" on WHERE.
+foreach (['contacts', 'conversations', 'messages'] as $_t) {
+    try {
+        $crm->exec("ALTER TABLE `$_t` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        $log[] = "  converted $_t to utf8mb4";
+    } catch (Throwable $_e) {
+        $log[] = "  $_t charset already ok or no-op: " . $_e->getMessage();
+    }
+}
+
 // ── Ensure whatsapp_sessions table exists ─────────────────────────────────────
 try {
     $nwm->query("SELECT 1 FROM whatsapp_sessions LIMIT 1");

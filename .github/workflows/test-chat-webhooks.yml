@@ -86,22 +86,31 @@ jobs:
           ).decode()
 
           body = urllib.parse.urlencode(params)
+          # Use a browser UA — InMotion ModSecurity blocks TwilioProxy/1.1
           result = subprocess.run([
-              'curl', '-s', '-X', 'POST',
+              'curl', '-s', '-w', '\nHTTP_CODE:%{http_code}', '-X', 'POST',
               '-H', f'X-Twilio-Signature: {sig}',
               '-H', 'Content-Type: application/x-www-form-urlencoded',
-              '-A', 'TwilioProxy/1.1',
+              '-A', 'Mozilla/5.0 (NWM-test)',
               '--max-time', '30',
               '--data', body,
               url
           ], capture_output=True, text=True)
 
-          resp_text = result.stdout.strip()
-          print(f'HTTP status (stderr): {result.stderr[:200]}')
+          print(f'curl exit code: {result.returncode}')
+          print(f'curl stderr: {result.stderr[:200]}')
+          out = result.stdout
+          http_code = ''
+          if '\nHTTP_CODE:' in out:
+              parts = out.rsplit('\nHTTP_CODE:', 1)
+              resp_text = parts[0].strip()
+              http_code = parts[1].strip()
+          else:
+              resp_text = out.strip()
+          print(f'HTTP status: {http_code}')
           print(f'Response body: {resp_text[:400]}')
 
           if '<Response>' in resp_text:
-              # TwiML — success
               msg = resp_text.split('<Message>')[1].split('</Message>')[0] if '<Message>' in resp_text else '(empty TwiML)'
               print(f'  ✅ SMS webhook OK — AI reply: {repr(msg[:80])}...')
           else:
@@ -110,7 +119,7 @@ jobs:
                   print(f'  ❌ JSON error response: {d}')
                   exit(1)
               except Exception:
-                  print(f'  ❌ Unexpected response: {resp_text[:200]}')
+                  print(f'  ❌ Unexpected response (http {http_code}): {resp_text[:200]}')
                   exit(1)
           PYEOF
 
@@ -147,16 +156,25 @@ jobs:
 
           body = urllib.parse.urlencode(params)
           result = subprocess.run([
-              'curl', '-s', '-X', 'POST',
+              'curl', '-s', '-w', '\nHTTP_CODE:%{http_code}', '-X', 'POST',
               '-H', f'X-Twilio-Signature: {sig}',
               '-H', 'Content-Type: application/x-www-form-urlencoded',
-              '-A', 'TwilioProxy/1.1',
+              '-A', 'Mozilla/5.0 (NWM-test)',
               '--max-time', '30',
               '--data', body,
               url
           ], capture_output=True, text=True)
 
-          resp_text = result.stdout.strip()
+          print(f'curl exit code: {result.returncode}')
+          out = result.stdout
+          http_code = ''
+          if '\nHTTP_CODE:' in out:
+              parts = out.rsplit('\nHTTP_CODE:', 1)
+              resp_text = parts[0].strip()
+              http_code = parts[1].strip()
+          else:
+              resp_text = out.strip()
+          print(f'HTTP status: {http_code}')
           print(f'Response: {resp_text[:400]}')
 
           if '<Response>' in resp_text:
@@ -165,10 +183,10 @@ jobs:
           else:
               try:
                   d = json.loads(resp_text)
-                  print(f'  ❌ JSON error: {d}')
+                  print(f'  ❌ JSON error (http {http_code}): {d}')
                   exit(1)
               except Exception:
-                  print(f'  ❌ Unexpected: {resp_text[:200]}')
+                  print(f'  ❌ Unexpected (http {http_code}): {resp_text[:200]}')
                   exit(1)
           PYEOF
 

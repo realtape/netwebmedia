@@ -11,6 +11,40 @@
   height: calc(100vh - var(--header-height));
 }
 
+/* ── Trial banner ── */
+.rt-trial-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(90deg, rgba(108,92,231,0.18) 0%, rgba(253,203,110,0.12) 100%);
+  border: 1px solid rgba(108,92,231,0.35);
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  font-size: 13px;
+}
+.rt-trial-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-dim);
+}
+.rt-trial-left svg { color: #fdcb6e; flex-shrink: 0; }
+.rt-trial-left strong { color: var(--text); }
+.rt-trial-cta {
+  flex-shrink: 0;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--transition);
+}
+.rt-trial-cta:hover { background: var(--accent-hover); color: #fff; }
+
 /* ── Status bar ── */
 .rt-status-bar {
   display: flex;

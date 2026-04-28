@@ -19,9 +19,32 @@
     if (typeof CRM_APP !== 'undefined') {
       CRM_APP.init({ page: 'realtime', title: 'Realtime' });
     }
+    // Run once now, once after app.js finishes any async sidebar/header work
+    injectTrialBanner();
+    setTimeout(injectTrialBanner, 300);
     bindControls();
     fetchData();
   });
+
+  function injectTrialBanner() {
+    if (document.querySelector('.rt-trial-banner')) return; // already injected
+    var user = null;
+    try { user = JSON.parse(localStorage.getItem('crm_demo_user') || localStorage.getItem('nwm_user') || 'null'); } catch(_) {}
+    var isDemo = user && (user.type === 'demo' || user.role === 'demo');
+    if (!isDemo) return;
+
+    var banner = document.createElement('div');
+    banner.className = 'rt-trial-banner';
+    banner.innerHTML =
+      '<div class="rt-trial-left">' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>' +
+        '<span>You\'re on a <strong>Free Trial</strong> — this is your live data. Upgrade to unlock all 15 modules.</span>' +
+      '</div>' +
+      '<a href="/pricing.html" class="rt-trial-cta">Upgrade Now →</a>';
+
+    var body = document.getElementById('realtimeBody');
+    if (body) body.insertBefore(banner, body.firstChild);
+  }
 
   function bindControls() {
     document.getElementById('rtRefreshBtn').addEventListener('click', fetchData);

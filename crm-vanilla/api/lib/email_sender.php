@@ -198,7 +198,7 @@ function smtpSend(array $opts): array {
 
     $send("MAIL FROM:<{$fromEmail}>");   $read();
     $send("RCPT TO:<{$to}>");            $rcptResp = $read();
-    if (!str_starts_with($rcptResp, '250')) {
+    if (strpos($rcptResp, '250') !== 0) {
         fwrite($sock, "QUIT\r\n"); fclose($sock);
         throw new RuntimeException("SMTP RCPT failed: " . trim($rcptResp));
     }
@@ -208,7 +208,7 @@ function smtpSend(array $opts): array {
     $dataResp = $read();
     $send("QUIT"); fclose($sock);
 
-    if (!str_starts_with($dataResp, '250')) {
+    if (strpos($dataResp, '250') !== 0) {
         throw new RuntimeException("SMTP DATA failed: " . trim($dataResp));
     }
     return ['id' => $msgId, 'provider' => 'smtp'];

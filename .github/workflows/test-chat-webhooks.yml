@@ -1,0 +1,184 @@
+name: Test Chat & SMS Webhooks (one-shot)
+
+# Fires manually. Sends two test messages to the live CRM:
+#   1. Chat widget  → POST /crm-vanilla/api/webhook_chat.php   (no auth needed)
+#   2. Inbound SMS  → POST /crm-vanilla/api/webhook_twilio.php (Twilio HMAC-SHA1 signature)
+#
+# Both messages will appear in CRM → Conversations.
+
+on:
+  workflow_dispatch:
+    inputs:
+      email:
+        description: 'Contact email for the test'
+        default: 'entrepoker@gmail.com'
+      message_chat:
+        description: 'Chat widget message'
+        default: 'Hi! I just discovered NetWebMedia and I am interested in AI marketing services. Can you tell me more?'
+      message_sms:
+        description: 'SMS message'
+        default: 'Hi NetWebMedia! I found you online and want to learn about your AI marketing packages. What do you offer?'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+
+      # ── 1. Chat Widget ──────────────────────────────────────────────────────────
+      - name: Test chat widget
+        run: |
+          echo "=== Chat Widget Test ==="
+          RESP=$(curl -s -X POST \
+            -H "Content-Type: application/json" \
+            -A "Mozilla/5.0 (NWM-webhook-test)" \
+            --max-time 30 \
+            -d '{
+              "session_id": "test-entrepoker-chat-001",
+              "name":       "Carlos (test)",
+              "email":      "${{ inputs.email }}",
+              "message":    "${{ inputs.message_chat }}"
+            }' \
+            "https://netwebmedia.com/crm-vanilla/api/webhook_chat.php")
+          echo "Response: $RESP"
+          echo "$RESP" | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          if 'reply' in d:
+              print(f'  ✅ Chat OK — conv_id={d.get(\"conversation_id\",\"?\")} reply={repr(d[\"reply\"][:80])}...')
+          else:
+              print(f'  ❌ Error: {d}')
+              sys.exit(1)
+          "
+
+      # ── 2. Inbound SMS (with computed Twilio signature) ─────────────────────────
+      - name: Test inbound SMS (Twilio webhook)
+        env:
+          TWILIO_SID:   ${{ secrets.TWILIO_SID }}
+          TWILIO_TOKEN: ${{ secrets.TWILIO_TOKEN }}
+          TWILIO_FROM:  ${{ secrets.TWILIO_FROM }}
+        run: |
+          echo ""
+          echo "=== Inbound SMS Simulation ==="
+          python3 - <<'PYEOF'
+          import os, hmac, hashlib, base64, urllib.parse, subprocess, json
+
+          sid   = os.environ['TWILIO_SID']
+          token = os.environ['TWILIO_TOKEN']
+          to    = os.environ['TWILIO_FROM']   # +17407363884
+
+          url    = 'https://netwebmedia.com/crm-vanilla/api/webhook_twilio.php'
+          params = {
+              'AccountSid':  sid,
+              'Body':        '${{ inputs.message_sms }}',
+              'From':        '+19997770001',   # simulated sender
+              'MessageSid':  'SMtest_entrepoker_001',
+              'NumMedia':    '0',
+              'NumSegments': '1',
+              'SmsStatus':   'received',
+              'To':          to,
+          }
+
+          # Twilio signature: url + sorted(key+value) pairs, HMAC-SHA1, base64
+          sorted_str = url + ''.join(k + params[k] for k in sorted(params))
+          sig = base64.b64encode(
+              hmac.new(token.encode(), sorted_str.encode(), hashlib.sha1).digest()
+          ).decode()
+
+          body = urllib.parse.urlencode(params)
+          result = subprocess.run([
+              'curl', '-s', '-X', 'POST',
+              '-H', f'X-Twilio-Signature: {sig}',
+              '-H', 'Content-Type: application/x-www-form-urlencoded',
+              '-A', 'TwilioProxy/1.1',
+              '--max-time', '30',
+              '--data', body,
+              url
+          ], capture_output=True, text=True)
+
+          resp_text = result.stdout.strip()
+          print(f'HTTP status (stderr): {result.stderr[:200]}')
+          print(f'Response body: {resp_text[:400]}')
+
+          if '<Response>' in resp_text:
+              # TwiML — success
+              msg = resp_text.split('<Message>')[1].split('</Message>')[0] if '<Message>' in resp_text else '(empty TwiML)'
+              print(f'  ✅ SMS webhook OK — AI reply: {repr(msg[:80])}...')
+          else:
+              try:
+                  d = json.loads(resp_text)
+                  print(f'  ❌ JSON error response: {d}')
+                  exit(1)
+              except Exception:
+                  print(f'  ❌ Unexpected response: {resp_text[:200]}')
+                  exit(1)
+          PYEOF
+
+      # ── 3. Inbound WhatsApp (same webhook, whatsapp: prefix) ───────────────────
+      - name: Test inbound WhatsApp (Twilio webhook)
+        env:
+          TWILIO_SID:   ${{ secrets.TWILIO_SID }}
+          TWILIO_TOKEN: ${{ secrets.TWILIO_TOKEN }}
+          TWILIO_FROM:  ${{ secrets.TWILIO_FROM }}
+        run: |
+          echo ""
+          echo "=== Inbound WhatsApp Simulation ==="
+          python3 - <<'PYEOF'
+          import os, hmac, hashlib, base64, urllib.parse, subprocess, json
+
+          sid   = os.environ['TWILIO_SID']
+          token = os.environ['TWILIO_TOKEN']
+          to    = os.environ['TWILIO_FROM']   # +17407363884
+
+          url    = 'https://netwebmedia.com/crm-vanilla/api/webhook_twilio.php'
+          params = {
+              'AccountSid':  sid,
+              'Body':        'Hola! Vi su sitio y me interesa sus servicios de marketing con IA. Quiero agendar una llamada.',
+              'From':        'whatsapp:+19997770002',   # simulated WA sender
+              'MessageSid':  'WA_test_entrepoker_001',
+              'NumMedia':    '0',
+              'To':          'whatsapp:' + to,
+          }
+
+          sorted_str = url + ''.join(k + params[k] for k in sorted(params))
+          sig = base64.b64encode(
+              hmac.new(token.encode(), sorted_str.encode(), hashlib.sha1).digest()
+          ).decode()
+
+          body = urllib.parse.urlencode(params)
+          result = subprocess.run([
+              'curl', '-s', '-X', 'POST',
+              '-H', f'X-Twilio-Signature: {sig}',
+              '-H', 'Content-Type: application/x-www-form-urlencoded',
+              '-A', 'TwilioProxy/1.1',
+              '--max-time', '30',
+              '--data', body,
+              url
+          ], capture_output=True, text=True)
+
+          resp_text = result.stdout.strip()
+          print(f'Response: {resp_text[:400]}')
+
+          if '<Response>' in resp_text:
+              msg = resp_text.split('<Message>')[1].split('</Message>')[0] if '<Message>' in resp_text else '(empty TwiML)'
+              print(f'  ✅ WhatsApp webhook OK — AI reply: {repr(msg[:80])}...')
+          else:
+              try:
+                  d = json.loads(resp_text)
+                  print(f'  ❌ JSON error: {d}')
+                  exit(1)
+              except Exception:
+                  print(f'  ❌ Unexpected: {resp_text[:200]}')
+                  exit(1)
+          PYEOF
+
+      - name: Summary
+        run: |
+          echo ""
+          echo "=========================================="
+          echo "Test complete. Check CRM → Conversations:"
+          echo "  • Chat tab    → session test-entrepoker-chat-001"
+          echo "  • SMS tab     → +19997770001"
+          echo "  • WhatsApp tab → +19997770002"
+          echo "All 3 should have AI replies from Claude."
+          echo "=========================================="

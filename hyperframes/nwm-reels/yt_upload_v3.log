@@ -1,0 +1,39 @@
+=== yt_upload_v3.py started ===
+Screen 1920x1080
+Step 1: Finding existing Chrome windows...
+  hwnd=2820290 vis=True title='(1) Roundcube Webmail :: Inbox - Google Chrome'
+  hwnd=3475568 vis=True title='Channel content - YouTube Studio - Google Chrome'
+  hwnd=133332 vis=True title='Calendly - Google Chrome'
+  Real Chrome window: hwnd=2820290 '(1) Roundcube Webmail :: Inbox - Google Chrome'
+Target hwnd=2820290 title='(1) Roundcube Webmail :: Inbox - Google Chrome'
+Step 3: Opening Studio URL in existing Chrome...
+  clip: https://studio.youtube.com/channel/UCZCCUGE38wgJfVrPtjejVnQ
+  force_focus: result ok=True
+  Ctrl+T to open new tab...
+  Pasting Studio URL into address bar...
+  Waiting 8s for Studio to load...
+  Title: 'cPanel - - Google Chrome'
+  WARNING: Not on Studio yet, waiting 5 more seconds...
+  Title after extra wait: 'Roundcube Webmail :: Inbox - Google Chrome'
+Step 4: Re-focusing Chrome...
+  force_focus: result ok=True
+  Rect: -8,-8 1936x1048
+Step 5: Clicking Create at (1798,89)
+  click(1798,89) r=3
+  Title: '(1) Roundcube Webmail :: Inbox - Google Chrome'
+Step 6: Clicking Upload videos at (1798,134)
+  click(1798,134) r=3
+Step 7: Clicking Select files at (960,646)
+  force_focus: result ok=True
+  click(960,646) r=3
+Step 8: Watching for file dialog (#32770)...
+  Retry Select files at (960,597)
+  force_focus: result ok=True
+  click(960,597) r=3
+  Retry Select files at (960,695)
+  force_focus: result ok=True
+  click(960,695) r=3
+  Retry Select files at (960,548)
+  force_focus: result ok=True
+  click(960,548) r=3
+TIMEOUT: no real file dialog appeared

@@ -467,7 +467,7 @@ def build_lp(v):
         <span data-en="{esc(v['promise_en'])}" data-es="{esc(v['promise_es'])}">{v["promise_en"]}</span><br>
         <span class="hl" data-en="{esc(v['promise_hl_en'])}" data-es="{esc(v['promise_hl_es'])}">{v["promise_hl_en"]}</span>
       </h1>
-      <p class="sub" data-en="Fill the form in 2 minutes. Our AI + a real strategist build a personalized plan for {esc(v['noun_en'])} and send it to your WhatsApp within an hour — no calls, no pitch, just actionable next steps." data-es="Llena el formulario en 2 minutos. Nuestra IA + un estratega real construyen un plan personalizado para {esc(v['noun_es'])} y lo envían a tu WhatsApp en menos de una hora — sin llamadas, sin pitch, solo siguientes pasos accionables.">Fill the form in 2 minutes. Our AI + a real strategist build a personalized plan for {v["noun_en"]} and send it to your WhatsApp within an hour — no calls, no pitch, just actionable next steps.</p>
+      <p class="sub" data-en="Fill the form in 2 minutes. Our AI + a real strategist build a personalized plan for {esc(v['noun_en'])} and email it to you within 24 hours — no calls, no pitch, just actionable next steps." data-es="Llena el formulario en 2 minutos. Nuestra IA + un estratega real construyen un plan personalizado para {esc(v['noun_es'])} y lo envían a tu WhatsApp en menos de una hora — sin llamadas, sin pitch, solo siguientes pasos accionables.">Fill the form in 2 minutes. Our AI + a real strategist build a personalized plan for {v["noun_en"]} and email it to you within 24 hours — no calls, no pitch, just actionable next steps.</p>
 
       <ul class="lp-bullets">
         <li data-en="{esc(v['b1_en'])}" data-es="{esc(v['b1_es'])}">{v["b1_en"]}</li>
@@ -484,31 +484,35 @@ def build_lp(v):
 
     <aside class="lp-form-card" id="plan-form">
       <h2 data-en="Get your free growth plan" data-es="Obtén tu plan de crecimiento gratis">Get your free growth plan</h2>
-      <p data-en="Delivered to your WhatsApp. Usually within an hour." data-es="Entregado a tu WhatsApp. Normalmente en menos de una hora.">Delivered to your WhatsApp. Usually within an hour.</p>
+      <p data-en="Delivered to your inbox. Usually within 24 hours." data-es="Entregado a tu WhatsApp. Normalmente en menos de una hora.">Delivered to your inbox. Usually within 24 hours.</p>
       <form class="lp-form" action="https://netwebmedia.com/submit.php" method="POST">
         <input type="hidden" name="source" value="{v['slug']}-lp">
+        <!-- UTM attribution — populated by utm-capture.js from URL params -->
+        <input type="hidden" name="utm_source" value="">
+        <input type="hidden" name="utm_campaign" value="">
+        <input type="hidden" name="utm_content" value="">
         <!-- honeypot: real users never fill this; bots usually do -->
         <input type="text" name="website_url" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;height:0;width:0;opacity:0" aria-hidden="true">
         <input type="text" name="name" required data-en-placeholder="Full name" data-es-placeholder="Nombre completo" placeholder="Full name">
         <input type="email" name="email" required data-en-placeholder="Work email" data-es-placeholder="Email de trabajo" placeholder="Work email">
-        <input type="tel" name="phone" required data-en-placeholder="WhatsApp number (with country code)" data-es-placeholder="WhatsApp (con código de país)" placeholder="WhatsApp number (with country code)">
+        <input type="tel" name="phone" data-en-placeholder="Phone (optional)" data-es-placeholder="WhatsApp (con código de país)" placeholder="Phone (optional)">
         <input type="text" name="company" required data-en-placeholder="{esc(v['label_en'])} business name" data-es-placeholder="Nombre de tu negocio de {esc(v['label_es'])}" placeholder="{v['label_en']} business name">
         <input type="url" name="website" data-en-placeholder="Website (optional)" data-es-placeholder="Sitio web (opcional)" placeholder="Website (optional)">
         <textarea name="message" data-en-placeholder="Biggest marketing challenge right now?" data-es-placeholder="¿Tu mayor reto de marketing ahora?" placeholder="Biggest marketing challenge right now?"></textarea>
         <button type="submit" data-en="Send My Free Plan →" data-es="Envíame Mi Plan Gratis →">Send My Free Plan →</button>
       </form>
-      <p class="lp-fine" data-en="We reply on WhatsApp — no calls, no meetings. Your info stays private." data-es="Respondemos por WhatsApp — sin llamadas, sin reuniones. Tu información se mantiene privada.">We reply on WhatsApp — no calls, no meetings. Your info stays private.</p>
+      <p class="lp-fine" data-en="We reply by email — no calls, no meetings. Your info stays private." data-es="Respondemos por WhatsApp — sin llamadas, sin reuniones. Tu información se mantiene privada.">We reply by email — no calls, no meetings. Your info stays private.</p>
     </aside>
   </section>
 
   <section class="lp-strip">
     <div class="strip-text" data-en="Built on Claude (Anthropic) + NWM CRM" data-es="Construido con Claude (Anthropic) + NWM CRM">Built on Claude (Anthropic) + NWM CRM</div>
-    <div class="strip-quote" data-en="&ldquo;The only fractional CMO that ships AI agents, paid ads, and content — all from a single team, all in a month-to-month retainer. Everything runs through WhatsApp. No meetings.&rdquo;" data-es="&ldquo;El único CMO fraccional que lanza agentes IA, publicidad paga y contenido — todo con un solo equipo, todo mes a mes. Todo corre por WhatsApp. Sin reuniones.&rdquo;">&ldquo;The only fractional CMO that ships AI agents, paid ads, and content — all from a single team, all in a month-to-month retainer. Everything runs through WhatsApp. No meetings.&rdquo;</div>
+    <div class="strip-quote" data-en="&ldquo;The only fractional CMO that ships AI agents, paid ads, and content — all from a single team, all in a month-to-month retainer. Everything is async — email, chat, and AI. No meetings.&rdquo;" data-es="&ldquo;El único CMO fraccional que lanza agentes IA, publicidad paga y contenido — todo con un solo equipo, todo mes a mes. Todo corre por WhatsApp. Sin reuniones.&rdquo;">&ldquo;The only fractional CMO that ships AI agents, paid ads, and content — all from a single team, all in a month-to-month retainer. Everything is async — email, chat, and AI. No meetings.&rdquo;</div>
   </section>
 
   <section class="lp-steps">
     <h2 data-en="How the free plan works" data-es="Cómo funciona el plan gratis">How the free plan works</h2>
-    <p class="lead" data-en="No generic templates. No calendar links. Just AI + humans building a plan, then messaging you on WhatsApp when it's ready." data-es="Sin plantillas genéricas. Sin links de calendario. Solo IA + humanos construyendo un plan, y luego mensajeándote por WhatsApp cuando esté listo.">No generic templates. No calendar links. Just AI + humans building a plan, then messaging you on WhatsApp when it's ready.</p>
+    <p class="lead" data-en="No generic templates. No calendar links. Just AI + humans building a plan, then emailing it to you within 24 hours." data-es="Sin plantillas genéricas. Sin links de calendario. Solo IA + humanos construyendo un plan, y luego mensajeándote por WhatsApp cuando esté listo.">No generic templates. No calendar links. Just AI + humans building a plan, then emailing it to you within 24 hours.</p>
     <div class="lp-steps-grid">
       <div class="lp-step">
         <div class="num">1</div>
@@ -522,8 +526,8 @@ def build_lp(v):
       </div>
       <div class="lp-step">
         <div class="num">3</div>
-        <h3 data-en="We WhatsApp you the plan" data-es="Te enviamos el plan por WhatsApp">We WhatsApp you the plan</h3>
-        <p data-en="Usually within an hour. The 3 highest-leverage fixes, written for you. Message back anytime with questions." data-es="Normalmente en menos de una hora. Las 3 acciones de mayor palanca, escritas para ti. Responde por WhatsApp con dudas cuando quieras.">Usually within an hour. The 3 highest-leverage fixes, written for you. Message back anytime with questions.</p>
+        <h3 data-en="We email you the plan" data-es="Te enviamos el plan por WhatsApp">We email you the plan</h3>
+        <p data-en="Usually within 24 hours. The 3 highest-leverage fixes, written for you. Reply by email anytime with questions." data-es="Normalmente en menos de una hora. Las 3 acciones de mayor palanca, escritas para ti. Responde por WhatsApp con dudas cuando quieras.">Usually within 24 hours. The 3 highest-leverage fixes, written for you. Reply by email anytime with questions.</p>
       </div>
     </div>
   </section>
@@ -532,11 +536,11 @@ def build_lp(v):
     <h2 data-en="Frequently asked" data-es="Preguntas frecuentes">Frequently asked</h2>
     <details>
       <summary data-en="Is this really free? What's the catch?" data-es="¿De verdad es gratis? ¿Cuál es la trampa?">Is this really free? What's the catch?</summary>
-      <p data-en="No catch. Free plans are how we earn the right to pitch our retainer via WhatsApp. If we're not a fit, you still walk away with a real plan you can execute yourself." data-es="Sin trampa. Los planes gratis son cómo nos ganamos el derecho a ofrecerte nuestro retainer por WhatsApp. Si no somos fit, te llevas un plan real que puedes ejecutar tú mismo.">No catch. Free plans are how we earn the right to pitch our retainer via WhatsApp. If we're not a fit, you still walk away with a real plan you can execute yourself.</p>
+      <p data-en="No catch. Free plans are how we earn the right to follow up by email. If we're not a fit, you still walk away with a real plan you can execute yourself." data-es="Sin trampa. Los planes gratis son cómo nos ganamos el derecho a ofrecerte nuestro retainer por WhatsApp. Si no somos fit, te llevas un plan real que puedes ejecutar tú mismo.">No catch. Free plans are how we earn the right to follow up by email. If we're not a fit, you still walk away with a real plan you can execute yourself.</p>
     </details>
     <details>
       <summary data-en="Do I have to jump on a call?" data-es="¿Tengo que agendar una llamada?">Do I have to jump on a call?</summary>
-      <p data-en="Never. Everything happens on WhatsApp. No phone calls, no Zoom, no calendar links. Our whole delivery model is async, AI-first messaging." data-es="Nunca. Todo pasa por WhatsApp. Sin llamadas telefónicas, sin Zoom, sin links de calendario. Nuestro modelo completo de entrega es mensajería async AI-first.">Never. Everything happens on WhatsApp. No phone calls, no Zoom, no calendar links. Our whole delivery model is async, AI-first messaging.</p>
+      <p data-en="Never. Everything happens by email and chat. No phone calls, no Zoom, no calendar links. Our whole delivery model is async, AI-first." data-es="Nunca. Todo pasa por WhatsApp. Sin llamadas telefónicas, sin Zoom, sin links de calendario. Nuestro modelo completo de entrega es mensajería async AI-first.">Never. Everything happens by email and chat. No phone calls, no Zoom, no calendar links. Our whole delivery model is async, AI-first.</p>
     </details>
     <details>
       <summary data-en="Who actually writes the plan?" data-es="¿Quién escribe el plan?">Who actually writes the plan?</summary>
@@ -548,13 +552,13 @@ def build_lp(v):
     </details>
     <details>
       <summary data-en="How is this different from HubSpot / a traditional agency?" data-es="¿En qué se diferencia de HubSpot o una agencia tradicional?">How is this different from HubSpot / a traditional agency?</summary>
-      <p data-en="We run the full stack (SEO, AEO, paid, CRM, AI SDR, content) on our own AI-native platform. Delivery happens on WhatsApp — no weekly check-in meetings. You get a fractional CMO function at a fraction of what a senior hire + tool stack would cost." data-es="Operamos el stack completo (SEO, AEO, paid, CRM, SDR IA, contenido) en nuestra plataforma AI-native propia. La entrega pasa por WhatsApp — sin reuniones semanales. Obtienes una función de CMO fraccional por una fracción del costo de un hire senior + stack de herramientas.">We run the full stack (SEO, AEO, paid, CRM, AI SDR, content) on our own AI-native platform. Delivery happens on WhatsApp — no weekly check-in meetings. You get a fractional CMO function at a fraction of what a senior hire + tool stack would cost.</p>
+      <p data-en="We run the full stack (SEO, AEO, paid, CRM, AI SDR, content) on our own AI-native platform. Delivery happens by email and chat — no weekly check-in meetings. You get a fractional CMO function at a fraction of what a senior hire + tool stack would cost." data-es="Operamos el stack completo (SEO, AEO, paid, CRM, SDR IA, contenido) en nuestra plataforma AI-native propia. La entrega pasa por WhatsApp — sin reuniones semanales. Obtienes una función de CMO fraccional por una fracción del costo de un hire senior + stack de herramientas.">We run the full stack (SEO, AEO, paid, CRM, AI SDR, content) on our own AI-native platform. Delivery happens by email and chat — no weekly check-in meetings. You get a fractional CMO function at a fraction of what a senior hire + tool stack would cost.</p>
     </details>
   </section>
 
   <section class="lp-final">
     <h2 data-en="Ready to grow {esc(v['noun_en'])}?" data-es="¿Listo para crecer {esc(v['noun_es'])}?">Ready to grow {v["noun_en"]}?</h2>
-    <p data-en="2 minutes to fill the form. A real plan on WhatsApp. No calls. No obligation." data-es="2 minutos para llenar el formulario. Un plan real por WhatsApp. Sin llamadas. Sin obligación.">2 minutes to fill the form. A real plan on WhatsApp. No calls. No obligation.</p>
+    <p data-en="2 minutes to fill the form. A real plan in your inbox. No calls. No obligation." data-es="2 minutos para llenar el formulario. Un plan real por WhatsApp. Sin llamadas. Sin obligación.">2 minutes to fill the form. A real plan in your inbox. No calls. No obligation.</p>
     <a href="#plan-form" class="btn-primary" data-en="Get Your Free Plan →" data-es="Obtén Tu Plan Gratis →">Get Your Free Plan →</a>
   </section>
 </main>
@@ -563,6 +567,7 @@ def build_lp(v):
   <p>&copy; 2026 <a href="https://netwebmedia.com">NetWebMedia</a> &middot; <a href="https://netwebmedia.com/privacy.html" data-en="Privacy" data-es="Privacidad">Privacy</a> &middot; <a href="https://netwebmedia.com/terms.html" data-en="Terms" data-es="Términos">Terms</a> &middot; hello@netwebmedia.com</p>
 </footer>
 
+<script src="https://netwebmedia.com/js/utm-capture.js" defer></script>
 <script>
   (function() {{
     var stored = localStorage.getItem('nwm-lang') || 'en';
@@ -639,15 +644,15 @@ def build_thanks(v):
       <span data-en="Got it." data-es="Recibido.">Got it.</span>
       <span class="hl" data-en="Your plan is being built." data-es="Tu plan está en camino.">Your plan is being built.</span>
     </h1>
-    <p class="lead" data-en="Claude + a NetWebMedia strategist are building your personalized growth plan right now. We'll message it to your WhatsApp — usually within an hour. No calls, no meetings." data-es="Claude + un estratega NetWebMedia están construyendo tu plan personalizado ahora mismo. Te lo enviamos por WhatsApp — normalmente en menos de una hora. Sin llamadas, sin reuniones.">Claude + a NetWebMedia strategist are building your personalized growth plan right now. We'll message it to your WhatsApp — usually within an hour. No calls, no meetings.</p>
+    <p class="lead" data-en="Claude + a NetWebMedia strategist are building your personalized growth plan right now. We'll email it to you — usually within 24 hours. No calls, no meetings." data-es="Claude + un estratega NetWebMedia están construyendo tu plan personalizado ahora mismo. Te lo enviamos por WhatsApp — normalmente en menos de una hora. Sin llamadas, sin reuniones.">Claude + a NetWebMedia strategist are building your personalized growth plan right now. We'll email it to you — usually within 24 hours. No calls, no meetings.</p>
 
     <div class="tx-next">
       <h3 data-en="What happens next" data-es="Qué pasa ahora">What happens next</h3>
       <ol>
         <li data-en="Confirmation email sent to the address you provided (check spam just in case)." data-es="Enviamos un email de confirmación a la dirección que proporcionaste (revisa spam por si acaso).">Confirmation email sent to the address you provided (check spam just in case).</li>
-        <li data-en="Within 1 hour: Claude + a human strategist build your personalized plan — SEO, AEO, paid, and AI-SDR gaps." data-es="En 1 hora: Claude + un estratega humano construyen tu plan personalizado — SEO, AEO, paid y brechas de SDR IA.">Within 1 hour: Claude + a human strategist build your personalized plan — SEO, AEO, paid, and AI-SDR gaps.</li>
-        <li data-en="We ping you on WhatsApp with the plan. Message back anytime with questions — we reply async." data-es="Te escribimos por WhatsApp con el plan. Responde cuando quieras con dudas — contestamos async.">We ping you on WhatsApp with the plan. Message back anytime with questions — we reply async.</li>
-        <li data-en="No calls. No calendar links. No pitch meetings. Everything stays on WhatsApp, on your schedule." data-es="Sin llamadas. Sin links de calendario. Sin reuniones de pitch. Todo se mantiene en WhatsApp, en tu horario.">No calls. No calendar links. No pitch meetings. Everything stays on WhatsApp, on your schedule.</li>
+        <li data-en="Within 24 hours: Claude + a human strategist build your personalized plan — SEO, AEO, paid, and AI-SDR gaps." data-es="En 1 hora: Claude + un estratega humano construyen tu plan personalizado — SEO, AEO, paid y brechas de SDR IA.">Within 24 hours: Claude + a human strategist build your personalized plan — SEO, AEO, paid, and AI-SDR gaps.</li>
+        <li data-en="We email you the plan. Reply anytime with questions — we respond async." data-es="Te escribimos por WhatsApp con el plan. Responde cuando quieras con dudas — contestamos async.">We email you the plan. Reply anytime with questions — we respond async.</li>
+        <li data-en="No calls. No calendar links. No pitch meetings. Everything stays in email, on your schedule." data-es="Sin llamadas. Sin links de calendario. Sin reuniones de pitch. Todo se mantiene en WhatsApp, en tu horario.">No calls. No calendar links. No pitch meetings. Everything stays in email, on your schedule.</li>
       </ol>
     </div>
 

@@ -1,0 +1,51 @@
+name: IndexNow ping
+
+on:
+  workflow_run:
+    workflows: ["Deploy site root to netwebmedia.com"]
+    types:
+      - completed
+
+jobs:
+  ping:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build URL list from sitemap
+        id: urls
+        shell: bash
+        run: |
+          # Pull every <loc> from sitemap.xml (the canonical URL inventory).
+          # IndexNow accepts up to 10,000 URLs per submission.
+          urls=$(grep -oP '(?<=<loc>)[^<]+' sitemap.xml | head -10000)
+          if [ -z "$urls" ]; then
+            echo "No URLs found in sitemap.xml — nothing to ping."
+            exit 0
+          fi
+
+          # Build JSON payload
+          jq_input=$(printf '%s\n' "$urls" | jq -R . | jq -s .)
+          payload=$(jq -n \
+            --arg host "netwebmedia.com" \
+            --arg key "97d9ba08245bd14f97cdfe7379896998" \
+            --arg keyLocation "https://netwebmedia.com/97d9ba08245bd14f97cdfe7379896998.txt" \
+            --argjson urlList "$jq_input" \
+            '{host:$host, key:$key, keyLocation:$keyLocation, urlList:$urlList}')
+
+          echo "Pinging IndexNow with $(echo "$urls" | wc -l) URLs..."
+          # Submit to IndexNow (Microsoft Bing + Yandex + Seznam + Naver + Yep all read this)
+          response=$(curl -sS -o /tmp/indexnow_response.txt -w "%{http_code}" \
+            -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            --data "$payload")
+
+          echo "IndexNow response: HTTP $response"
+          cat /tmp/indexnow_response.txt || true
+          # 200 or 202 = accepted. Other codes are warnings, not failures —
+          # don't block the pipeline on a 3rd-party endpoint.
+          if [ "$response" != "200" ] && [ "$response" != "202" ]; then
+            echo "::warning::IndexNow returned HTTP $response (non-blocking)"
+          fi

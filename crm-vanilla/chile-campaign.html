@@ -81,7 +81,7 @@
 
         <div class="chile-hero">
           <span class="pill">Campaign live</span>
-          <h1>Chile Cold Outreach — Santiago, Abril 2026</h1>
+          <h1>Chile Cold Outreach — Nacional, 2026</h1>
           <div class="sub" id="campaignMeta">Cargando…</div>
           <div class="actions">
             <a class="btn-orange" href="https://netwebmedia.com/santiago-digital-gaps.html" target="_blank">Reporte público</a>
@@ -96,6 +96,12 @@
         <div class="panel">
           <h2>Por nicho <span class="panel-meta" id="lastRefresh"></span></h2>
           <div id="nicheTable"><div class="empty">Cargando…</div></div>
+        </div>
+
+        <!-- Per-city table -->
+        <div class="panel">
+          <h2>Por ciudad</h2>
+          <div id="cityTable"><div class="empty">Cargando…</div></div>
         </div>
 
         <!-- Activity feeds side by side -->
@@ -204,6 +210,39 @@
         `;
       }
 
+      function renderCities(rows) {
+        if (!rows || !rows.length) {
+          document.getElementById('cityTable').innerHTML = '<div class="empty">Sin datos por ciudad.</div>';
+          return;
+        }
+        const tbody = rows.map(r => {
+          const pct = r.total > 0 ? Math.round(r.sent * 100 / r.total) : 0;
+          return `
+            <tr>
+              <td class="niche-name" style="text-transform:capitalize">${r.city}</td>
+              <td class="num">${r.total}</td>
+              <td class="num">${r.sent}<div class="progress"><div class="progress-bar" style="width:${pct}%"></div></div></td>
+              <td class="num">${r.pending}</td>
+              <td class="num">${r.clicks}</td>
+              <td class="num">${r.ctr_pct}%</td>
+              <td class="num">${r.unsub}</td>
+            </tr>`;
+        }).join('');
+        document.getElementById('cityTable').innerHTML = `
+          <table class="tbl">
+            <thead><tr>
+              <th>Ciudad</th>
+              <th class="num">Total</th>
+              <th class="num">Enviados</th>
+              <th class="num">Pendientes</th>
+              <th class="num">Clicks únicos</th>
+              <th class="num">CTR</th>
+              <th class="num">Bajas</th>
+            </tr></thead>
+            <tbody>${tbody}</tbody>
+          </table>`;
+      }
+
       function renderRecentSends(items) {
         if (!items || !items.length) {
           document.getElementById('recentSends').innerHTML = '<div class="empty">Aún no hay envíos.</div>';
@@ -248,6 +287,7 @@
           document.getElementById('lastRefresh').textContent = 'Actualizado ' + fmtTime(data.server_time);
           renderKpis(t);
           renderNiches(data.by_niche || [], t.sent || 0);
+          renderCities(data.by_city || []);
           renderRecentSends(data.recent_sends || []);
           renderRecentClicks(data.recent_clicks || []);
         } catch (e) {

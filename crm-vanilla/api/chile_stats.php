@@ -27,7 +27,9 @@ $ROOT     = realpath(__DIR__ . '/../..');
 $DATA_DIR = $ROOT . '/api-php/data';
 
 $paths = [
-  'csv'        => $DATA_DIR . '/santiago_leads.csv',
+  'csv'        => file_exists($DATA_DIR . '/all_leads_5x.csv')
+                  ? $DATA_DIR . '/all_leads_5x.csv'
+                  : $DATA_DIR . '/santiago_leads.csv',
   'sent_log'   => $DATA_DIR . '/chile-sent.log',
   'failed_log' => $DATA_DIR . '/chile-failed.log',
   'audit_log'  => $DATA_DIR . '/audit-views.log',
@@ -97,18 +99,18 @@ if (file_exists($paths['audit_log'])) {
   }
 }
 
-// ── 3. Aggregate by niche ──────────────────────────────────────────
+// ── 3. Aggregate by niche + city ──────────────────────────────────
+$by_city = [];
 foreach ($leads as $email => $L) {
   $nk = $L['niche_key'] ?: 'unknown';
+  $ct = $L['city']      ?: 'unknown';
+
+  // By niche
   if (!isset($by_niche[$nk])) {
     $by_niche[$nk] = [
       'niche_key' => $nk,
       'niche'     => $L['niche'] ?: $nk,
-      'total'     => 0,
-      'sent'      => 0,
-      'pending'   => 0,
-      'clicks'    => 0,
-      'unsub'     => 0,
+      'total'     => 0, 'sent' => 0, 'pending' => 0, 'clicks' => 0, 'unsub' => 0,
     ];
   }
   $by_niche[$nk]['total']++;
@@ -116,11 +118,28 @@ foreach ($leads as $email => $L) {
   else                            $by_niche[$nk]['pending']++;
   if (isset($click_set[$email])) $by_niche[$nk]['clicks']++;
   if (isset($unsub_set[$email])) $by_niche[$nk]['unsub']++;
+
+  // By city
+  if (!isset($by_city[$ct])) {
+    $by_city[$ct] = [
+      'city' => $ct, 'total' => 0, 'sent' => 0, 'pending' => 0, 'clicks' => 0, 'unsub' => 0,
+    ];
+  }
+  $by_city[$ct]['total']++;
+  if (isset($sent_set[$email]))  $by_city[$ct]['sent']++;
+  else                            $by_city[$ct]['pending']++;
+  if (isset($click_set[$email])) $by_city[$ct]['clicks']++;
+  if (isset($unsub_set[$email])) $by_city[$ct]['unsub']++;
 }
 ksort($by_niche);
+ksort($by_city);
 
-// Per-niche CTR.
+// CTR per niche + city
 foreach ($by_niche as &$row) {
+  $row['ctr_pct'] = $row['sent'] > 0 ? round($row['clicks'] * 100 / $row['sent'], 1) : 0;
+}
+unset($row);
+foreach ($by_city as &$row) {
   $row['ctr_pct'] = $row['sent'] > 0 ? round($row['clicks'] * 100 / $row['sent'], 1) : 0;
 }
 unset($row);
@@ -164,7 +183,7 @@ $clicks_unique = count($click_set);
 $ctr_pct       = $sent > 0 ? round($clicks_unique * 100 / $sent, 1) : 0;
 
 echo json_encode([
-  'campaign'      => 'Chile Cold Outreach — Santiago Apr 2026',
+  'campaign'      => 'Chile Cold Outreach — Nacional 2026',
   'totals' => [
     'total'         => $total,
     'sent'          => $sent,
@@ -176,6 +195,7 @@ echo json_encode([
     'ctr_pct'       => $ctr_pct,
   ],
   'by_niche'      => array_values($by_niche),
+  'by_city'       => array_values($by_city),
   'recent_sends'  => $recent_sends,
   'recent_clicks' => $recent_clicks_view,
   'server_time'   => date('c'),

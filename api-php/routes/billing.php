@@ -13,6 +13,20 @@ require_once __DIR__ . '/../lib/db.php';
 require_once __DIR__ . '/../lib/response.php';
 require_once __DIR__ . '/../lib/auth.php';
 
+/* ---------- Stripe price-ID mapping ----------
+   Carlos creates one recurring monthly Price per plan in his Stripe dashboard
+   (Products → Add product → Recurring → monthly → USD), then sets the price
+   IDs in config.local.php as:
+     'stripe_price_cmo_starter' => 'price_xxx',
+     'stripe_price_cmo_growth'  => 'price_xxx',
+     'stripe_price_cmo_scale'   => 'price_xxx',
+     ... (one per plan_code we want to sell via Stripe)
+   The constants below are placeholder defaults — they are NOT valid Stripe
+   IDs and the handler returns 503 if a real ID hasn't been overridden. */
+if (!defined('STRIPE_PRICE_CMO_STARTER')) define('STRIPE_PRICE_CMO_STARTER', 'price_TODO_carlos_create_in_dashboard');
+if (!defined('STRIPE_PRICE_CMO_GROWTH'))  define('STRIPE_PRICE_CMO_GROWTH',  'price_TODO_carlos_create_in_dashboard');
+if (!defined('STRIPE_PRICE_CMO_SCALE'))   define('STRIPE_PRICE_CMO_SCALE',   'price_TODO_carlos_create_in_dashboard');
+
 /* ---------- FX + rounding helpers ---------- */
 function bl_fx_rate() {
   $c = config();
@@ -330,8 +344,8 @@ function bl_plans_seed() {
       'code'          => 'cmo_scale',
       'name'          => 'CMO Scale',
       'category'      => 'cmo',
-      'usd'           => 1999,
-      'setup'         => 1999,
+      'usd'           => 2499,
+      'setup'         => 2499,
       'needs_contact' => true,
       'tagline'       => 'Embedded CMO — weekly calls + board-ready reports',
       'features'      => ['Everything in Growth','Weekly 60-min calls with senior CMO','Board-ready monthly reports','Attends your leadership meetings (remote)','Custom KPI dashboard + anomaly alerts','Unlimited deliverables','Hiring guidance for marketing team'],

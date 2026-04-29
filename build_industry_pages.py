@@ -45,7 +45,7 @@ NAV = """<nav class="navbar has-lang-bar" id="navbar">
         <a href="https://netwebmedia.com/contact.html" data-en="Contact" data-es="Contacto">Contact</a>
       </div>
       <div class="nav-ctas">
-        <a href="https://netwebmedia.com/contact.html" class="btn-nav-solid" data-en="Get a Free Audit" data-es="Auditor&iacute;a Gratis">Get a Free Audit</a>
+        <a href="https://netwebmedia.com/contact.html" class="btn-nav-solid" data-en="Free 48-Hour Written Audit" data-es="Auditor&iacute;a Gratis de 48 Horas">Free 48-Hour Written Audit</a>
       </div>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
@@ -778,7 +778,7 @@ def build_page(v):
     </h1>
     <p class="sub" data-en="{v['sub_en']}" data-es="{v['sub_es']}">{v['sub_en']}</p>
     <div class="hero-ctas">
-      <a href="https://netwebmedia.com/contact.html" class="btn-primary" data-en="Get a Free Audit &rarr;" data-es="Obtener Auditor&iacute;a Gratis &rarr;">Get a Free Audit &rarr;</a>
+      <a href="https://netwebmedia.com/contact.html" class="btn-primary" data-en="Free 48-Hour Written Audit &rarr;" data-es="Auditor&iacute;a Gratis de 48 Horas &rarr;">Free 48-Hour Written Audit &rarr;</a>
       <a href="https://netwebmedia.com/services.html" class="btn-ghost-white" data-en="See All Services" data-es="Ver Todos los Servicios">See All Services</a>
     </div>
   </div>
@@ -861,7 +861,7 @@ def build_page(v):
   <div class="final-cta-wrap">
     <h2 data-en="Ready to grow your {v['cta_en']}?" data-es="&iquest;Listo para hacer crecer tu {v['cta_es']}?">Ready to grow your {v['cta_en']}?</h2>
     <p data-en="Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it." data-es="Obt&eacute;n una auditor&iacute;a gratuita de 30 minutos. Te mostraremos exactamente d&oacute;nde est&aacute;s perdiendo visibilidad e ingresos &mdash; y qu&eacute; hacer al respecto.">Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it.</p>
-    <a href="https://netwebmedia.com/contact.html" class="btn-primary" style="font-size:18px;padding:18px 40px" data-en="Book Your Free Audit &rarr;" data-es="Reservar Tu Auditor&iacute;a Gratis &rarr;">Book Your Free Audit &rarr;</a>
+    <a href="https://netwebmedia.com/contact.html" class="btn-primary" style="font-size:18px;padding:18px 40px" data-en="Book Your Free 48-Hour Written Audit &rarr;" data-es="Reservar Tu Auditor&iacute;a Gratis de 48 Horas &rarr;">Book Your Free 48-Hour Written Audit &rarr;</a>
   </div>
 </main>
 

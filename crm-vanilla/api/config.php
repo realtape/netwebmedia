@@ -30,6 +30,11 @@ if (!defined('DEDUPE_TOKEN'))      define('DEDUPE_TOKEN',      'NWM_DEDUPE_2026_
 if (!defined('IMPORT_BEST_TOKEN')) define('IMPORT_BEST_TOKEN', 'NWM_IMPORT_BEST_2026_ROTATED_54d352ecf7cdd544');
 if (!defined('IMPORT_CSV_TOKEN'))  define('IMPORT_CSV_TOKEN',  'NWM_IMPORT_CHILE_2026_ROTATED_65b7d4eb01eaf403');
 
+// Sentry DSN — same project as the JS-side capture in /js/nwm-sentry.js (loaded
+// from index.html via window.NWM_SENTRY_DSN). Public DSN; safe to commit.
+// Override in config.local.php only if you ever switch projects.
+if (!defined('SENTRY_DSN')) define('SENTRY_DSN', 'https://69fce09a20f1958bd2f1b9e601ba9a46@o4511302572441600.ingest.us.sentry.io/4511302588235776');
+
 // CORS and security
 define('ALLOWED_ORIGIN', 'https://netwebmedia.com');
 

@@ -26,6 +26,11 @@ name: Deploy site root to netwebmedia.com
 #   CRM_DB_PASSWORD, HUBSPOT_TOKEN, ANTHROPIC_API_KEY, RESEND_API_KEY,
 #   MP_ACCESS_TOKEN, MP_PUBLIC_KEY, MP_WEBHOOK_SECRET, JWT_SECRET
 #
+# Optional — CRM maintenance-endpoint tokens (used by migrate, seed, dedupe,
+# import_best, import_csv handlers in crm-vanilla/api/). If absent, the
+# historic defaults from crm-vanilla/api/config.php are preserved:
+#   MIGRATE_TOKEN, SEED_TOKEN, DEDUPE_TOKEN, IMPORT_BEST_TOKEN, IMPORT_CSV_TOKEN
+#
 # Server-side target: /public_html/  (public URL is site root)
 
 on:
@@ -349,10 +354,15 @@ jobs:
 
       - name: Run CRM DB migrations
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
+        env:
+          # Must match what gets written to crm-vanilla/api/config.local.php above.
+          MIGRATE_TOKEN: ${{ secrets.MIGRATE_TOKEN }}
         run: |
           # Auto-discovers every crm-vanilla/api/schema_*.sql file.
           # Drop a new schema_xxx.sql → it runs automatically on next deploy.
           # All migrations must be idempotent (migrate.php tolerates "duplicate column" errors).
+          # Fallback to the historic default keeps CI working when the secret is unset.
+          token="${MIGRATE_TOKEN:-NWM_MIGRATE_2026}"
           shopt -s nullglob
           schemas=( _stage/crm-vanilla/api/schema_*.sql )
           if [ ${#schemas[@]} -eq 0 ]; then
@@ -370,7 +380,7 @@ jobs:
                 -H "Referer: https://netwebmedia.com/crm-vanilla/" \
                 -H "Content-Type: application/json" \
                 -X POST -d '{}' \
-                "https://netwebmedia.com/crm-vanilla/api/?r=migrate&token=NWM_MIGRATE_2026&schema=$schema")
+                "https://netwebmedia.com/crm-vanilla/api/?r=migrate&token=${token}&schema=$schema")
               echo "  $schema → $resp"
               echo "$resp" | grep -q '"ran"' || { echo "Migration $schema did not return expected JSON"; exit 1; }
             done

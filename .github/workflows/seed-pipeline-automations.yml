@@ -1,0 +1,91 @@
+name: Seed Pipeline Automations (one-shot)
+
+# Loads api-php/data/pipeline-automations.json into resources(type=workflow).
+# Idempotent — workflows upsert by slug. Re-run anytime after editing the JSON.
+#
+# Two manual inputs:
+#   dry_run = true  → preview only (no DB writes)
+#   dry_run = false → apply
+#
+# The JWT_SECRET secret is used to derive the seeder's protection token
+# (first 16 chars of jwt_secret), so the token never leaves GitHub.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry-run only? (true = preview, false = apply)'
+        type: boolean
+        default: true
+      org_id:
+        description: 'Organization ID to seed into'
+        default: '1'
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout (for jq sanity check on JSON)
+        uses: actions/checkout@v4
+
+      - name: Derive token + hit seeder
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${JWT_SECRET:-}" ]; then
+            echo "::error::JWT_SECRET secret is empty — cannot derive token"
+            exit 1
+          fi
+          TOKEN="${JWT_SECRET:0:16}"
+          ORG_ID="${{ inputs.org_id }}"
+          DRY="${{ inputs.dry_run }}"
+
+          URL="https://netwebmedia.com/api/seed-automations.php?token=${TOKEN}&org_id=${ORG_ID}"
+          if [ "$DRY" = "true" ]; then
+            URL="${URL}&dry=1"
+            echo "::notice::Mode: DRY RUN (no DB writes)"
+          else
+            echo "::notice::Mode: APPLY (writes to DB)"
+          fi
+
+          BODY_FILE=$(mktemp)
+          HTTP_CODE=$(curl -sS -o "$BODY_FILE" -w "%{http_code}" \
+            -A "Mozilla/5.0 (NWM-seed-automations-action)" \
+            --max-time 60 "$URL")
+
+          echo ""
+          echo "=== HTTP $HTTP_CODE ==="
+          echo ""
+          cat "$BODY_FILE"
+          echo ""
+          echo "=== End response ==="
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "::error::Seeder returned HTTP $HTTP_CODE"
+            exit 1
+          fi
+
+          INSERTED=$(grep -E '^Inserted:' "$BODY_FILE" | grep -oE '[0-9]+' || echo "0")
+          UPDATED=$(grep -E '^Updated:'  "$BODY_FILE" | grep -oE '[0-9]+' || echo "0")
+          SKIPPED=$(grep -E '^Skipped:'  "$BODY_FILE" | grep -oE '[0-9]+' || echo "0")
+
+          echo ""
+          echo "── Summary ──"
+          echo "Inserted: $INSERTED"
+          echo "Updated:  $UPDATED"
+          echo "Skipped:  $SKIPPED"
+
+          EXPECTED=$(jq '.workflows | length' api-php/data/pipeline-automations.json)
+          ACCOUNTED=$((INSERTED + UPDATED))
+          echo "Expected workflows in JSON: $EXPECTED"
+          echo "Accounted for by seeder:    $ACCOUNTED"
+
+          if [ "$ACCOUNTED" != "$EXPECTED" ]; then
+            echo "::warning::Mismatch — JSON has $EXPECTED but seeder accounted for $ACCOUNTED"
+          fi
+
+          if [ "$SKIPPED" != "0" ]; then
+            echo "::warning::Seeder skipped $SKIPPED workflows — see body above"
+          fi

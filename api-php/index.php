@@ -231,6 +231,18 @@ try {
   } elseif ($group === 'snapshots') {
     require __DIR__ . '/routes/snapshots.php';
     route_snapshots($parts, $method);
+  } elseif ($group === 'predictions') {
+    require __DIR__ . '/routes/predictions.php';
+    route_predictions($parts, $method);
+  } elseif ($group === 'notifications') {
+    require __DIR__ . '/routes/notifications.php';
+    route_notifications($parts, $method);
+  } elseif ($group === 'calls') {
+    require __DIR__ . '/routes/calls.php';
+    route_calls($parts, $method);
+  } elseif ($group === 'email-builder') {
+    require __DIR__ . '/routes/email_builder.php';
+    route_email_builder($parts, $method);
   } else {
     err('Route not found', 404);
   }

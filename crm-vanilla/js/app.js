@@ -691,6 +691,7 @@
     var page = file.replace(".html", "");
     if (page === "calendar") return "calendars";
     if (page === "admin") return "admin";
+    if (page === "social-connect") return "social";
     return page;
   }
 

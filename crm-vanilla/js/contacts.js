@@ -342,11 +342,18 @@
       + '<div class="detail-actions" style="display:flex;gap:8px;margin-top:16px">'
       + '<a href="mailto:' + esc(c.email || '') + '" class="btn btn-primary btn-sm">' + L.emailBtn + '</a>'
       + (c.phone ? '<a href="tel:' + esc(c.phone) + '" class="btn btn-secondary btn-sm">' + L.callBtn + '</a>' : '')
+      + '<a href="tasks.html?contact_id=' + c.id + '" class="btn btn-secondary btn-sm">' + (isEs ? 'Tareas' : 'Tasks') + '</a>'
       + '<button class="btn btn-secondary btn-sm" id="delBtn" style="margin-left:auto;color:#c0392b">' + L.deleteBtn + '</button>'
+      + '</div>'
+      + '<div class="detail-section" id="contactTimelineSection" style="margin-top:18px">'
+      +   '<div id="contactTimeline"></div>'
       + '</div>';
 
     panel.innerHTML = html;
     document.getElementById('detailClose').onclick = function () { panel.classList.remove('open'); };
+    if (window.NWMTimeline) {
+      NWMTimeline.mount('#contactTimeline', { contactId: c.id, title: isEs ? 'Actividad' : 'Activity', limit: 30 });
+    }
     var db = document.getElementById('delBtn');
     if (db) db.onclick = function () {
       if (!confirm('Delete ' + (c.name || 'this contact') + '?')) return;

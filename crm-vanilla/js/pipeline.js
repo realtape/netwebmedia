@@ -304,6 +304,7 @@
       if (d) meta.push('Created: ' + d);
     }
     if (deal.days_in_stage !== undefined) meta.push(deal.days_in_stage + ' days in stage');
+    meta.push('<a href="tasks.html?deal_id=' + deal.id + '" style="color:#FF671F;text-decoration:none">Tasks →</a>');
     document.getElementById('drawerMeta').innerHTML = meta.join(' &nbsp;·&nbsp; ');
     document.getElementById('drawerSaveMsg').textContent = '';
   }

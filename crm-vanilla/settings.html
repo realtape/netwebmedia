@@ -31,6 +31,10 @@
           <button class="settings-tab" data-tab="billing" data-i18n="modules.settings.billing">Billing</button>
           <button class="settings-tab" data-tab="security" data-i18n="modules.settings.security">Security</button>
           <button class="settings-tab" data-tab="scoring">Lead Scoring</button>
+          <button class="settings-tab" data-tab="lifecycle">Lifecycle</button>
+          <button class="settings-tab" data-tab="segments">Segments</button>
+          <button class="settings-tab" data-tab="forecast">Forecast</button>
+          <button class="settings-tab" data-tab="snapshots">Snapshots</button>
         </div>
         <div class="settings-content">
 
@@ -318,9 +322,127 @@
             <div id="scoringPreviewResult" style="margin-top:14px"></div>
           </div>
 
+          <!-- Lifecycle Stages -->
+          <div class="settings-panel" id="tab-lifecycle">
+            <h2>Lifecycle Stages</h2>
+            <p class="section-desc">Track contacts through the full funnel from subscriber to customer. Stages are auto-derived from lead score, but can be manually overridden per contact.</p>
+            <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
+              <button class="btn btn-secondary" id="lifecycleReload">Reload Funnel</button>
+              <button class="btn btn-primary" id="lifecycleRecompute" title="Recompute lifecycle stage from current score for all non-manually-staged contacts">Recompute From Score</button>
+            </div>
+            <div id="lifecycleFunnel"></div>
+          </div>
+
+          <!-- Segments -->
+          <div class="settings-panel" id="tab-segments">
+            <h2>Dynamic Segments</h2>
+            <p class="section-desc">Save reusable named filters. Use them across SMS, tasks, contacts, and reporting. Filters are evaluated live against current data.</p>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+              <span style="color:#64748b;font:500 13px Inter">Combine criteria with AND logic</span>
+              <button class="btn btn-primary" id="segmentNew">+ New Segment</button>
+            </div>
+            <div id="segmentsList"></div>
+          </div>
+
+          <!-- Forecast -->
+          <div class="settings-panel" id="tab-forecast">
+            <h2>Pipeline Forecast</h2>
+            <p class="section-desc">Weighted pipeline value (deal value × probability). Forecast splits by stage, owner, and expected close month.</p>
+            <div style="display:flex;gap:12px;margin-bottom:14px">
+              <button class="btn btn-secondary" id="forecastReload">Reload</button>
+            </div>
+            <div id="forecastSummary"></div>
+            <h3 class="subsection-title" style="margin-top:24px">By Owner</h3>
+            <div id="forecastByOwner"></div>
+            <h3 class="subsection-title" style="margin-top:24px">Next 6 Months (Close Date)</h3>
+            <div id="forecastByMonth"></div>
+          </div>
+
+          <!-- Snapshots -->
+          <div class="settings-panel" id="tab-snapshots">
+            <h2>Snapshots</h2>
+            <p class="section-desc">Clone your full org configuration — scoring rules, pipeline stages, booking links, SMS drafts, segments, and email templates — to apply to a new client account or as a backup.</p>
+            <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+              <button class="btn btn-primary"   id="snapNew">+ New Snapshot</button>
+              <button class="btn btn-secondary" id="snapImport">Import from File</button>
+              <input type="file" id="snapImportFile" accept="application/json" style="display:none">
+            </div>
+            <div id="snapshotsList"></div>
+          </div>
+
         </div>
       </div>
     </main>
+  </div>
+
+  <!-- Segment Modal -->
+  <div id="segmentModal" style="display:none;position:fixed;inset:0;background:rgba(2,8,23,.55);z-index:1000;align-items:center;justify-content:center">
+    <div style="background:#fff;border-radius:14px;padding:22px;width:540px;max-width:92vw;max-height:88vh;overflow:auto;box-shadow:0 20px 50px rgba(0,0,0,.25)">
+      <h3 id="segmentModalTitle" style="margin:0 0 14px;color:#010F3B">New Segment</h3>
+      <input type="hidden" id="segmentId">
+      <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="segName" placeholder="e.g. Chile Restaurants Without Phone"></div>
+      <div class="form-group"><label class="form-label">Description</label><input class="form-input" id="segDesc" placeholder="Optional"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Segment</label><select class="form-select" id="segSegment"><option value="">Any</option><option>usa</option><option>chile</option></select></div>
+        <div class="form-group"><label class="form-label">Niche</label><select class="form-select" id="segNiche">
+          <option value="">Any</option><option value="tourism">Tourism</option><option value="restaurants">Restaurants</option><option value="health">Health</option><option value="beauty">Beauty</option><option value="smb">SMB</option><option value="law_firms">Law Firms</option><option value="real_estate">Real Estate</option><option value="local_specialist">Local Specialist</option><option value="automotive">Automotive</option><option value="education">Education</option><option value="events_weddings">Events & Weddings</option><option value="financial_services">Financial Services</option><option value="home_services">Home Services</option><option value="wine_agriculture">Wine & Agriculture</option>
+        </select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Status</label><select class="form-select" id="segStatus"><option value="">Any</option><option value="lead">Lead</option><option value="qualified">Qualified</option><option value="customer">Customer</option><option value="prospect">Prospect</option></select></div>
+        <div class="form-group"><label class="form-label">Lifecycle</label><select class="form-select" id="segLifecycle">
+          <option value="">Any</option><option value="subscriber">Subscriber</option><option value="lead">Lead</option><option value="mql">MQL</option><option value="sql">SQL</option><option value="opportunity">Opportunity</option><option value="customer">Customer</option><option value="churned">Churned</option>
+        </select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Score ≥</label><input class="form-input" type="number" id="segScoreGte" placeholder="0"></div>
+        <div class="form-group"><label class="form-label">Score ≤</label><input class="form-input" type="number" id="segScoreLte" placeholder="9999"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label style="display:flex;gap:6px;align-items:center;font:500 13px Inter;color:#1a1a2e"><input type="checkbox" id="segHasPhone"> Has phone</label></div>
+        <div class="form-group"><label style="display:flex;gap:6px;align-items:center;font:500 13px Inter;color:#1a1a2e"><input type="checkbox" id="segHasEmail"> Has email</label></div>
+        <div class="form-group"><label style="display:flex;gap:6px;align-items:center;font:500 13px Inter;color:#1a1a2e"><input type="checkbox" id="segHasWebsite"> Has website</label></div>
+      </div>
+      <div id="segPreviewResult" style="margin-top:10px"></div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+        <button class="btn btn-secondary" id="segCancel">Cancel</button>
+        <button class="btn btn-danger"   id="segDelete" style="display:none">Delete</button>
+        <button class="btn btn-secondary" id="segPreview">Preview</button>
+        <button class="btn btn-primary"   id="segSave">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Snapshot Modal -->
+  <div id="snapModal" style="display:none;position:fixed;inset:0;background:rgba(2,8,23,.55);z-index:1000;align-items:center;justify-content:center">
+    <div style="background:#fff;border-radius:14px;padding:22px;width:480px;max-width:92vw;max-height:88vh;overflow:auto;box-shadow:0 20px 50px rgba(0,0,0,.25)">
+      <h3 style="margin:0 0 14px;color:#010F3B">New Snapshot</h3>
+      <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="snapName" placeholder="e.g. Chile Restaurant Onboarding v1"></div>
+      <div class="form-group"><label class="form-label">Description</label><input class="form-input" id="snapDesc" placeholder="Optional"></div>
+      <div class="form-group">
+        <label class="form-label">Include sections</label>
+        <div id="snapSections" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font:500 13px Inter;color:#1a1a2e"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+        <button class="btn btn-secondary" id="snapCancel">Cancel</button>
+        <button class="btn btn-primary"   id="snapSave">Create Snapshot</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Apply Snapshot Modal -->
+  <div id="snapApplyModal" style="display:none;position:fixed;inset:0;background:rgba(2,8,23,.55);z-index:1000;align-items:center;justify-content:center">
+    <div style="background:#fff;border-radius:14px;padding:22px;width:480px;max-width:92vw;max-height:88vh;overflow:auto;box-shadow:0 20px 50px rgba(0,0,0,.25)">
+      <h3 style="margin:0 0 14px;color:#010F3B">Apply Snapshot</h3>
+      <input type="hidden" id="snapApplyId">
+      <p style="color:#64748b;font:500 13px Inter;margin:0 0 12px">Choose which sections to clone into your current org. Use overwrite to replace existing rows; otherwise sections are appended.</p>
+      <div id="snapApplySections" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font:500 13px Inter;color:#1a1a2e"></div>
+      <label style="display:flex;gap:8px;align-items:center;margin-top:14px;color:#b91c1c;font:600 13px Inter"><input type="checkbox" id="snapOverwrite"> Overwrite existing rules + stages (destructive)</label>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+        <button class="btn btn-secondary" id="snapApplyCancel">Cancel</button>
+        <button class="btn btn-primary"   id="snapApplyConfirm">Apply</button>
+      </div>
+    </div>
   </div>
 
   <!-- Lead Scoring Rule Modal -->
@@ -366,6 +488,7 @@
   <script src="js/app.js?v=8"></script>
   <script src="js/settings.js?v=2"></script>
   <script src="js/scoring-admin.js?v=1"></script>
+  <script src="js/settings-pro.js?v=1"></script>
 <script src="assets/nwm-i18n.js" defer></script>
   <script src="/assets/nwm-site-chat.js" defer></script>
 </body>

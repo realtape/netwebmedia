@@ -249,6 +249,14 @@ jobs:
           print(f"define('SMTP_ENCRYPTION', 'ssl');")
           print(f"define('SMTP_USER', 'newsletter@netwebmedia.com');")
           print(f"define('SMTP_PASS', '{e(os.environ.get('SECRET_SMTP_PASS','').strip())}');")
+          # Maintenance-endpoint tokens. Fallbacks match the historic defaults in
+          # crm-vanilla/api/config.php so a missing secret = no behavior change.
+          # Rotate by setting the matching GitHub Actions secret + re-deploying.
+          print(f"define('MIGRATE_TOKEN', '{e(os.environ.get('SECRET_MIGRATE_TOKEN') or 'NWM_MIGRATE_2026')}');")
+          print(f"define('SEED_TOKEN', '{e(os.environ.get('SECRET_SEED_TOKEN') or 'NWM_SEED_2026')}');")
+          print(f"define('DEDUPE_TOKEN', '{e(os.environ.get('SECRET_DEDUPE_TOKEN') or 'NWM_DEDUPE_2026')}');")
+          print(f"define('IMPORT_BEST_TOKEN', '{e(os.environ.get('SECRET_IMPORT_BEST_TOKEN') or 'NWM_IMPORT_BEST_2026')}');")
+          print(f"define('IMPORT_CSV_TOKEN', '{e(os.environ.get('SECRET_IMPORT_CSV_TOKEN') or 'NWM_IMPORT_CHILE_2026')}');")
           PYEOF
             echo "crm-vanilla/api/config.local.php generated"
           else
@@ -271,6 +279,12 @@ jobs:
           SECRET_WA_PHONE_ID:       ${{ secrets.WA_PHONE_ID }}
           SECRET_WA_META_APP_SECRET: ${{ secrets.WA_META_APP_SECRET }}
           SECRET_SMTP_PASS:         ${{ secrets.SMTP_PASS }}
+          # Maintenance-endpoint tokens (optional secrets — missing = production defaults preserved)
+          SECRET_MIGRATE_TOKEN:     ${{ secrets.MIGRATE_TOKEN }}
+          SECRET_SEED_TOKEN:        ${{ secrets.SEED_TOKEN }}
+          SECRET_DEDUPE_TOKEN:      ${{ secrets.DEDUPE_TOKEN }}
+          SECRET_IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
+          SECRET_IMPORT_CSV_TOKEN:  ${{ secrets.IMPORT_CSV_TOKEN }}
 
       - name: Server-side cleanup of decommissioned files
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}

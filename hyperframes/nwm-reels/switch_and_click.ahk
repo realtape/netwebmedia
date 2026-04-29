@@ -1,72 +1,73 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
-LOG := FileOpen(A_ScriptDir "\switch_click.log", "w", "UTF-8")
-LOG.WriteLine("[AHK] Script started at " FormatTime(, "HH:mm:ss"))
+FILE_PATH := "C:\Users\Usuario\Desktop\NetWebMedia\hyperframes\nwm-reels\renders\reel-08-340k-pipeline.mp4"
+HWND_INT  := 0x00010628          ; Chrome window integer HWND
+HWND_STR  := "ahk_id " . HWND_INT  ; proper v2 concat
+LOG       := A_ScriptDir . "\switch_click.log"
 
-; Target: Chrome window with the YouTube Studio tab
-HWND := 0x00010628
+FileDelete(LOG)
+FileAppend("[AHK " . FormatTime(, "HH:mm:ss") . "] Script started`n", LOG)
 
-; Verify window exists
-if !WinExist("ahk_id " HWND) {
-    LOG.WriteLine("[AHK] ERROR: Target Chrome window not found")
+; ── 1. Activate Chrome window ─────────────────────────────────────────────────
+if !WinExist(HWND_STR) {
+    FileAppend("[AHK] ERROR: Chrome HWND not found`n", LOG)
     ExitApp
 }
-
-; Activate the Chrome window
-WinActivate("ahk_id " HWND)
-WinWaitActive("ahk_id " HWND, , 3)
-LOG.WriteLine("[AHK] Chrome window activated")
+WinActivate(HWND_STR)
+FileAppend("[AHK] WinActivate sent`n", LOG)
+if !WinWaitActive(HWND_STR, , 5)
+    FileAppend("[AHK] WARNING: WinWaitActive timed out`n", LOG)
+FileAppend("[AHK] Chrome active`n", LOG)
 Sleep(400)
 
-; Open Chrome tab search: Ctrl+Shift+A
+; ── 2. Open Chrome tab search and switch to YT Studio ────────────────────────
 Send("^+a")
-LOG.WriteLine("[AHK] Sent Ctrl+Shift+A")
-Sleep(700)
-
-; Type to search for the YouTube Studio tab
+FileAppend("[AHK] Sent Ctrl+Shift+A`n", LOG)
+Sleep(800)
 SendText("Channel dashboard")
-LOG.WriteLine("[AHK] Typed search query")
+FileAppend("[AHK] Typed search`n", LOG)
+Sleep(600)
+Send("{Enter}")
+FileAppend("[AHK] Pressed Enter`n", LOG)
+Sleep(1800)
+
+; ── 3. Click "Select files" button ───────────────────────────────────────────
+; screen coords: client_x=36, toolbar=95, btn CSS(938,399) → (974,494)
+FileAppend("[AHK] Clicking (974,494)`n", LOG)
+Click(974, 494)
+Sleep(1800)
+
+; ── 4. Wait for Windows file-open dialog ─────────────────────────────────────
+if !WinWait("ahk_class #32770", , 8) {
+    FileAppend("[AHK] No dialog — trying (974,609)`n", LOG)
+    Click(974, 609)
+    if !WinWait("ahk_class #32770", , 8) {
+        FileAppend("[AHK] No dialog after 2 tries — abort`n", LOG)
+        ExitApp
+    }
+}
+FileAppend("[AHK] File dialog appeared!`n", LOG)
+
+; ── 5. Activate dialog and type path ─────────────────────────────────────────
+WinActivate("ahk_class #32770")
+if !WinWaitActive("ahk_class #32770", , 5)
+    FileAppend("[AHK] WARNING: dialog activate timed out`n", LOG)
+Sleep(400)
+Send("^a")
+Sleep(100)
+SendText(FILE_PATH)
+FileAppend("[AHK] Typed path`n", LOG)
+Sleep(400)
+Send("{Enter}")
+FileAppend("[AHK] Pressed Enter — done!`n", LOG)
 Sleep(600)
 
-; Press Enter to switch to the tab
-Send("{Enter}")
-LOG.WriteLine("[AHK] Pressed Enter to switch tab")
-Sleep(1500)   ; wait for tab to become active and render
-
-; Now click the "Select files" button
-; Chrome window: 1936x1048, client origin at (0,0)
-; Toolbar height: 111px, button CSS y ~399, so screen y = 111+399 = 510
-; Button center x: 938 (half of 1876 viewport)
-
-LOG.WriteLine("[AHK] Clicking at (938, 510)...")
-Click(938, 510)
-Sleep(1200)
-
-; Check if file dialog appeared
 if WinExist("ahk_class #32770") {
-    LOG.WriteLine("[AHK] ✓ File dialog found! Watcher should fill path.")
-    LOG.Close()
-    ExitApp
-}
-LOG.WriteLine("[AHK] No dialog at y=510, trying y=609...")
-Click(938, 609)
-Sleep(1200)
-
-if WinExist("ahk_class #32770") {
-    LOG.WriteLine("[AHK] ✓ File dialog found at y=609!")
-    LOG.Close()
-    ExitApp
-}
-LOG.WriteLine("[AHK] No dialog at y=609, trying y=720...")
-Click(938, 720)
-Sleep(1200)
-
-if WinExist("ahk_class #32770") {
-    LOG.WriteLine("[AHK] ✓ File dialog found at y=720!")
-} else {
-    LOG.WriteLine("[AHK] No file dialog appeared after 3 attempts.")
+    FileAppend("[AHK] Dialog still open, pressing Enter again`n", LOG)
+    Send("{Enter}")
+    Sleep(400)
 }
 
-LOG.Close()
+FileAppend("[AHK] Script complete`n", LOG)
 ExitApp

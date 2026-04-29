@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forms - NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css?v=8">
+  <style>
+    .forms-tabs { display:flex; gap:4px; border-bottom:1px solid #e3e5ee; margin-bottom:18px; }
+    .forms-tab { padding:10px 18px; border:none; background:transparent; color:#64748b; font:600 13px Inter; cursor:pointer; border-bottom:2px solid transparent; }
+    .forms-tab.active { color:#010F3B; border-bottom-color:#FF671F; }
+    .forms-panel { display:none; }
+    .forms-panel.active { display:block; }
+
+    .form-row { background:#fff; border:1px solid #e3e5ee; border-radius:10px; padding:14px; margin-bottom:8px; display:flex; gap:14px; align-items:flex-start; }
+    .form-row .info { flex:1; min-width:0; }
+    .form-row h4 { margin:0 0 4px; color:#010F3B; font:700 14px Inter; }
+    .form-row .desc { color:#64748b; font:500 12px Inter; }
+    .form-row .meta { color:#94a3b8; font:600 11px Inter; text-transform:uppercase; letter-spacing:.4px; margin-top:6px; display:flex; gap:14px; flex-wrap:wrap; }
+    .form-row.disabled { opacity:.55; }
+    .form-row .actions { display:flex; gap:6px; flex-shrink:0; flex-wrap:wrap; }
+
+    /* Editor layout */
+    .builder-layout { display:grid; grid-template-columns: 220px 1fr 280px; gap:14px; min-height:calc(100vh - 250px); }
+    @media (max-width: 1100px) { .builder-layout { grid-template-columns: 200px 1fr; } .builder-inspector { display:none; } }
+    .builder-panel { background:#fff; border:1px solid #e3e5ee; border-radius:10px; padding:14px; overflow:auto; }
+    .builder-panel h3 { margin:0 0 10px; font:700 13px Inter; color:#010F3B; text-transform:uppercase; letter-spacing:.4px; }
+    .ftype-source { background:#f8fafc; border:1px solid #e3e5ee; border-radius:8px; padding:8px 12px; cursor:grab; user-select:none; font:600 13px Inter; color:#1a1a2e; margin-bottom:6px; }
+    .ftype-source:hover { border-color:#FF671F; color:#FF671F; }
+
+    .ff-stage { padding:14px; min-height:300px; }
+    .ff-row { background:#fff; border:1px solid #e3e5ee; border-radius:8px; padding:10px 14px; margin-bottom:6px; cursor:pointer; display:flex; gap:10px; align-items:flex-start; }
+    .ff-row:hover { border-color:#FF671F; }
+    .ff-row.selected { border-color:#FF671F; box-shadow:0 0 0 2px rgba(255,103,31,.15); }
+    .ff-row .grip { color:#94a3b8; font-size:14px; cursor:grab; }
+    .ff-row .label { font:600 13px Inter; color:#010F3B; }
+    .ff-row .meta { color:#64748b; font:500 11px Inter; text-transform:uppercase; letter-spacing:.4px; margin-top:2px; }
+    .ff-row .req { color:#FF671F; }
+    .ff-row .actions { margin-left:auto; display:flex; gap:4px; }
+    .ff-row .actions button { background:transparent; border:none; color:#94a3b8; cursor:pointer; font-size:12px; }
+    .ff-row .actions button:hover { color:#FF671F; }
+    .ff-empty { color:#94a3b8; text-align:center; padding:40px; font:500 13px Inter; border:2px dashed #c8cad6; border-radius:8px; }
+    .ff-drop-target { height:6px; transition:.15s; }
+    .ff-drop-target.over { height:32px; background:rgba(255,103,31,.18); border-radius:4px; }
+
+    .builder-inspector label { display:block; color:#1a1a2e; font:600 11px Inter; margin:10px 0 4px; text-transform:uppercase; letter-spacing:.4px; }
+    .builder-inspector input, .builder-inspector textarea, .builder-inspector select { width:100%; padding:7px 10px; border:1px solid #e3e5ee; border-radius:6px; font:500 13px Inter; box-sizing:border-box; }
+    .builder-inspector .check { display:flex; gap:6px; align-items:center; margin-top:8px; font:500 12px Inter; cursor:pointer; }
+
+    .modal-backdrop { position:fixed; inset:0; background:rgba(2,8,23,.55); z-index:1000; display:none; align-items:center; justify-content:center; }
+    .modal-backdrop.open { display:flex; }
+    .modal { background:#fff; border-radius:14px; padding:22px; width:560px; max-width:92vw; max-height:88vh; overflow:auto; box-shadow:0 20px 50px rgba(0,0,0,.25); }
+    .modal h3 { margin:0 0 14px; color:#010F3B; }
+    .modal label { display:block; color:#1a1a2e; font:600 12px Inter; margin:10px 0 4px; text-transform:uppercase; letter-spacing:.4px; }
+    .modal input, .modal textarea { width:100%; padding:9px 10px; border:1px solid #e3e5ee; border-radius:8px; font:400 14px Inter; box-sizing:border-box; }
+    .modal-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:18px; }
+
+    .empty-state { text-align:center; padding:50px 20px; color:#64748b; }
+    .toast { position:fixed; bottom:24px; right:24px; background:#10b981; color:#fff; padding:10px 16px; border-radius:8px; font:600 13px Inter; z-index:1100; box-shadow:0 4px 14px rgba(0,0,0,.15); }
+    .toast.error { background:#b91c1c; }
+    pre.code-snippet { background:#0f172a; color:#e2e8f0; padding:14px; border-radius:8px; font:500 12px monospace; white-space:pre-wrap; word-break:break-all; }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div class="forms-tabs">
+          <button class="forms-tab active" data-tab="list">My Forms</button>
+          <button class="forms-tab" data-tab="builder">Builder</button>
+          <button class="forms-tab" data-tab="submissions">Submissions</button>
+        </div>
+
+        <div class="forms-panel active" id="forms-list">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+            <p style="margin:0;color:#64748b;font:500 13px Inter">Build embeddable forms with progressive profiling — fields the contact has already answered are auto-skipped on return visits.</p>
+            <button class="btn btn-primary" id="newFormBtn">+ New Form</button>
+          </div>
+          <div id="formsList"></div>
+        </div>
+
+        <div class="forms-panel" id="forms-builder">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
+            <input id="bName" placeholder="Form name" style="flex:1;min-width:220px;padding:8px 12px;border:1px solid #e3e5ee;border-radius:6px;font:500 13px Inter">
+            <input id="bSlug" placeholder="slug" style="width:160px;padding:8px 12px;border:1px solid #e3e5ee;border-radius:6px;font:500 13px Inter">
+            <button class="btn btn-secondary" id="bSettings">Settings</button>
+            <button class="btn btn-secondary" id="bEmbed">Get Embed</button>
+            <button class="btn btn-primary" id="bSave">Save Form</button>
+          </div>
+
+          <div class="builder-layout">
+            <div class="builder-panel">
+              <h3>Field Types</h3>
+              <div id="ftypeBox"></div>
+            </div>
+            <div class="builder-panel">
+              <h3>Fields</h3>
+              <div class="ff-stage" id="ffStage"></div>
+            </div>
+            <div class="builder-panel builder-inspector" id="builderInspector">
+              <h3>Field Inspector</h3>
+              <div id="builderInspectorBody" style="color:#94a3b8;font-size:12px">Select a field to edit.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="forms-panel" id="forms-submissions">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px">
+            <select id="subFormSelect" style="padding:7px 12px;border:1px solid #e3e5ee;border-radius:8px;font:500 13px Inter"></select>
+            <button class="btn btn-secondary" id="subReload">Reload</button>
+          </div>
+          <div id="submissionsList"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Form settings modal -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="modal">
+      <h3>Form Settings</h3>
+      <label>Description</label>
+      <textarea id="bDescription" rows="2"></textarea>
+      <label>Success message</label>
+      <input id="bSuccess">
+      <label>Redirect URL on success (optional)</label>
+      <input id="bRedirect" placeholder="https://…">
+      <label>Notify email on submit (optional)</label>
+      <input id="bNotify" type="email" placeholder="alerts@example.com">
+      <label class="check" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="bActive" checked> Form is active (publicly submittable)</label>
+      <div class="modal-actions"><button class="btn btn-primary" id="settingsClose">Done</button></div>
+    </div>
+  </div>
+
+  <!-- Embed modal -->
+  <div class="modal-backdrop" id="embedModal">
+    <div class="modal">
+      <h3>Embed this form</h3>
+      <p style="color:#64748b;font:500 13px Inter">Drop this iframe on any page. The form will inherit visitor state via cookies for progressive profiling.</p>
+      <label>iframe HTML</label>
+      <pre class="code-snippet" id="embedIframe"></pre>
+      <label>Direct link</label>
+      <pre class="code-snippet" id="embedDirect"></pre>
+      <div class="modal-actions"><button class="btn btn-secondary" id="embedClose">Close</button></div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js?v=8"></script>
+  <script src="js/forms.js?v=1"></script>
+  <script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

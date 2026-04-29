@@ -1,8 +1,31 @@
 <?php
 require_once __DIR__ . '/../lib/tenancy.php';
+require_once __DIR__ . '/../lib/wf_bridge.php';
 $db = getDB();
 [$tWhere, $tParams] = tenant_where('d');
 $uid = tenant_id();
+
+/* Helper: build workflow context from a deal id (joins contact for email/phone/lang) */
+function deal_wf_ctx(PDO $db, int $dealId): array {
+    $sql = 'SELECT d.id AS deal_id, d.title, d.value, d.probability, d.source, d.notes, d.next_action,
+                   d.next_followup_date, d.days_in_stage, ps.name AS stage,
+                   c.id AS contact_id, c.name AS contact_name, c.email, c.phone AS contact_phone,
+                   c.company AS contact_company, c.status AS contact_status
+            FROM deals d
+            LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id
+            LEFT JOIN contacts c        ON d.contact_id = c.id
+            WHERE d.id = ?';
+    $st = $db->prepare($sql);
+    $st->execute([$dealId]);
+    $row = $st->fetch();
+    if (!$row) return ['deal_id' => $dealId];
+    $first = preg_split('/\s+/', (string)($row['contact_name'] ?? ''), 2)[0] ?? '';
+    return array_merge($row, [
+        'first_name' => $first,
+        'name'       => $row['contact_name'] ?? '',
+        'company'    => $row['contact_company'] ?? '',
+    ]);
+}
 
 switch ($method) {
     case 'GET':
@@ -97,7 +120,15 @@ switch ($method) {
         $newId = $db->lastInsertId();
         $stmt = $db->prepare('SELECT d.*, ps.name as stage, c.name as contact_name, c.email as contact_email, c.phone as contact_phone FROM deals d LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id LEFT JOIN contacts c ON d.contact_id = c.id WHERE d.id = ?');
         $stmt->execute([$newId]);
-        jsonResponse($stmt->fetch(), 201);
+        $newRow = $stmt->fetch();
+
+        /* Fire deal_stage trigger for the initial stage (most commonly "New Lead") */
+        if (!empty($newRow['stage'])) {
+            $ctx = deal_wf_ctx($db, (int)$newId);
+            wf_fire('deal_stage', ['stage' => $newRow['stage']], $ctx);
+        }
+
+        jsonResponse($newRow, 201);
         break;
 
     case 'PUT':
@@ -112,6 +143,12 @@ switch ($method) {
         }
 
         $data = getInput();
+
+        /* Capture prior stage so we can detect a real stage change after UPDATE */
+        $prev = $db->prepare('SELECT ps.name AS stage FROM deals d LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id WHERE d.id = ?');
+        $prev->execute([$id]);
+        $prevStage = ($prev->fetch()['stage'] ?? null);
+
         $fields = [];
         $params = [];
         $allowed = ['title','company','value','contact_id','stage_id','probability','days_in_stage','source','notes','next_action','next_followup_date'];
@@ -122,11 +159,25 @@ switch ($method) {
             }
         }
         if (empty($fields)) jsonError('No fields to update');
+        /* Reset days_in_stage automatically when stage_id is changing */
+        if (array_key_exists('stage_id', $data) && !array_key_exists('days_in_stage', $data)) {
+            $fields[] = 'days_in_stage = ?';
+            $params[] = 0;
+        }
         $params[] = $id;
         $db->prepare('UPDATE deals SET ' . implode(', ', $fields) . ' WHERE id = ?')->execute($params);
         $stmt = $db->prepare('SELECT d.*, ps.name as stage FROM deals d LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id WHERE d.id = ?');
         $stmt->execute([$id]);
-        jsonResponse($stmt->fetch());
+        $updated = $stmt->fetch();
+
+        /* Fire deal_stage workflow trigger when the stage actually transitioned */
+        if (!empty($updated['stage']) && $updated['stage'] !== $prevStage) {
+            $ctx = deal_wf_ctx($db, (int)$id);
+            $ctx['previous_stage'] = $prevStage;
+            wf_fire('deal_stage', ['stage' => $updated['stage']], $ctx);
+        }
+
+        jsonResponse($updated);
         break;
 
     case 'DELETE':

@@ -47,6 +47,15 @@ if (empty($parts)) {
       'GET  /api/auth/me',
       'GET/POST /api/resources/{type}',
       'GET/PUT/DELETE /api/resources/{type}/{id}',
+      'POST /api/leads/import/csv       (import prospects from CSV)',
+      'POST /api/leads/qualify          (score & qualify raw leads)',
+      'POST /api/leads/assign           (assign qualified leads to team)',
+      'POST /api/leads/enroll-sequences (enroll in nurture sequences)',
+      'GET  /api/leads/status           (pipeline metrics)',
+      'GET  /api/hubspot/sync           (full sync: contacts + deals)',
+      'GET  /api/hubspot/contacts/sync  (contacts only)',
+      'GET  /api/hubspot/deals/sync     (deals only)',
+      'POST /api/hubspot/webhook        (receive HubSpot webhook)',
       'POST /api/public/forms/submit',
       'GET  /api/public/blog',
       'GET  /api/public/blog/{slug}',
@@ -140,6 +149,12 @@ try {
   } elseif ($group === 'comments') {
     require __DIR__ . '/routes/comments.php';
     route_comments($parts, $method);
+  } elseif ($group === 'leads') {
+    require __DIR__ . '/routes/leads.php';
+    route_leads($parts, $method);
+  } elseif ($group === 'hubspot') {
+    require __DIR__ . '/routes/hubspot.php';
+    route_hubspot($parts, $method);
   } else {
     err('Route not found', 404);
   }

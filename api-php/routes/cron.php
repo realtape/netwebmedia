@@ -13,12 +13,13 @@ function route_cron($parts, $method) {
 
   $sub = $parts[0] ?? null;
 
-  // /cron/automation — advance pending workflow runs
+  // /cron/automation — advance pending workflow runs + fire due cron-triggered workflows
   if ($sub === 'automation') {
-    $n = wf_run_pending();
+    $advanced = wf_run_pending();
+    $fired    = wf_run_cron_due();
     // Also clean old sessions as a bonus
     try { qExec('DELETE FROM sessions WHERE expires_at < NOW()'); } catch (Throwable $_) {}
-    json_out(['ok' => true, 'advanced' => $n, 'ran_at' => date('c')]);
+    json_out(['ok' => true, 'advanced' => $advanced, 'cron_fired' => $fired, 'ran_at' => date('c')]);
   }
 
   // /cron/health — quick ping

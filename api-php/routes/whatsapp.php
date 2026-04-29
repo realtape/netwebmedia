@@ -267,6 +267,37 @@ function wa_rate_limited(string $phone, int $limit = 50, int $windowHours = 24):
 }
 
 function wa_generate_reply(string $phone, string $userMessage, string $provider): string {
+  /* Workflow trigger: fire once per inbound WA message so workflows that
+     listen for "whatsapp_inbound" can react (lead capture, AI follow-up,
+     SDR notify, etc.). Wrapped in try/catch so chat replies never fail
+     because of a workflow error. */
+  try {
+    require_once __DIR__ . '/../lib/workflows.php';
+    $waCtx = [
+      'channel'   => 'whatsapp',
+      'provider'  => $provider,
+      'from'      => $phone,
+      'phone'     => $phone,
+      'message'   => $userMessage,
+      'reply_body'=> $userMessage,
+    ];
+    /* Try to enrich with contact lookup if a record exists */
+    try {
+      $c = qOne("SELECT id, data FROM resources WHERE type='contact' AND JSON_EXTRACT(data,'$.phone')=? LIMIT 1", [$phone]);
+      if ($c) {
+        $d = json_decode($c['data'], true) ?: [];
+        $waCtx['contact_id'] = $c['id'];
+        $waCtx['email']      = $d['email'] ?? null;
+        $waCtx['name']       = $d['name'] ?? null;
+        $waCtx['lang']       = $d['lang'] ?? null;
+        $waCtx['company']    = $d['company'] ?? null;
+      }
+    } catch (Throwable $_) {}
+    wf_trigger('whatsapp_inbound', [], $waCtx, 1);
+  } catch (Throwable $e) {
+    error_log('[whatsapp_inbound trigger] ' . $e->getMessage());
+  }
+
   // Rate-limit per phone BEFORE saving or calling Claude — protects credits from a single bad actor.
   if (wa_rate_limited($phone)) {
     $limited = "You've hit today's message limit for this chat. For a quick answer, see plans at https://netwebmedia.com/pricing.html, request a free async AI audit at https://netwebmedia.com/contact.html, or email hello@netwebmedia.com.";

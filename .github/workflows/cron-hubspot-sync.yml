@@ -1,0 +1,29 @@
+name: Cron — HubSpot Sync (every 6 hours)
+on:
+  schedule:
+    # Every 6 hours at staggered times
+    - cron: '17 0 * * *'
+    - cron: '17 6 * * *'
+    - cron: '17 12 * * *'
+    - cron: '17 18 * * *'
+
+jobs:
+  hubspot-sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Full HubSpot sync (contacts + deals)
+        run: |
+          curl -s -X GET \
+            "https://netwebmedia.com/api/hubspot/sync?token=${{ secrets.HUBSPOT_TOKEN }}" \
+            -H "User-Agent: NetWebMedia-Cron" \
+            -w "\nHTTP Status: %{http_code}\n" | head -30
+
+      - name: Health check
+        run: |
+          TOKEN="${{ secrets.JWT_SECRET }}"
+          TOKEN="${TOKEN:0:16}"
+          curl -s -X GET \
+            "https://netwebmedia.com/api/cron/health?token=${TOKEN}" \
+            -H "User-Agent: NetWebMedia-Cron" \
+            | jq '.'

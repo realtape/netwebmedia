@@ -209,6 +209,27 @@ function route_public_chat() {
 
   pchat_log_turn($sessionId, $ip, $lang, 'assistant', $reply, $page, $ref, $ua);
 
+  /* Workflow trigger — fire chatbot_message every turn, plus chatbot_lead
+     once when the user reveals an email address. Best-effort, never blocks. */
+  try {
+    require_once __DIR__ . '/../lib/workflows.php';
+    $chatCtx = [
+      'channel'    => 'chatbot',
+      'session_id' => $sessionId,
+      'message'    => $message,
+      'lang'       => $lang,
+      'page'       => $page,
+      'ip'         => $ip,
+    ];
+    if (preg_match('/[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}/i', $message, $em)) {
+      $chatCtx['email'] = strtolower($em[0]);
+      wf_trigger('chatbot_lead', [], $chatCtx, 1);
+    }
+    wf_trigger('chatbot_message', [], $chatCtx, 1);
+  } catch (Throwable $e) {
+    error_log('[chatbot wf trigger] ' . $e->getMessage());
+  }
+
   json_out([
     'session_id' => $sessionId,
     'reply' => $reply,

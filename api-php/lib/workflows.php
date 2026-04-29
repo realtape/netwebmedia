@@ -37,6 +37,42 @@ require_once __DIR__ . '/mailer.php';
 require_once __DIR__ . '/heygen.php';
 require_once __DIR__ . '/vapi.php';
 
+/* ─── Bilingual + template helpers ─────────────────────────────────────── */
+
+/**
+ * Pick a value from a potentially bilingual field.
+ * Accepts: "string"  OR  {"en":"...", "es":"..."}.
+ * Falls back to en when target lang missing.
+ */
+function wf_pick($val, $lang) {
+  if (is_array($val)) {
+    if (isset($val[$lang])) return $val[$lang];
+    if (isset($val['en'])) return $val['en'];
+    return reset($val) ?: '';
+  }
+  return (string)$val;
+}
+
+/**
+ * Resolve recipient language from ctx, then by email lookup, default 'en'.
+ */
+function wf_resolve_lang($ctx, $org_id = null) {
+  if (!empty($ctx['lang']) && in_array(strtolower($ctx['lang']), ['en','es'])) {
+    return strtolower($ctx['lang']);
+  }
+  $email = $ctx['email'] ?? ($ctx['contact']['email'] ?? null);
+  if ($email && $org_id) {
+    try {
+      $c = qOne("SELECT data FROM resources WHERE type='contact' AND org_id=? AND JSON_EXTRACT(data,'$.email')=? LIMIT 1", [$org_id, $email]);
+      if ($c) {
+        $d = json_decode($c['data'], true) ?: [];
+        if (!empty($d['lang']) && in_array(strtolower($d['lang']), ['en','es'])) return strtolower($d['lang']);
+      }
+    } catch (Throwable $_) {}
+  }
+  return 'en';
+}
+
 /* ─── Trigger matching ─────────────────────────────────────────────────── */
 
 function wf_active_for_trigger($type, $match = []) {
@@ -75,27 +111,28 @@ function wf_trigger_registry() {
 
 function wf_action_registry() {
   return [
-    'send_email'     => 'Send email',
-    'send_sms'       => 'Send SMS (Twilio)',
-    'send_whatsapp'  => 'Send WhatsApp (Twilio)',
-    'wait'           => 'Wait N minutes / hours / days',
-    'wait_until'     => 'Wait until next business hour',
-    'tag'            => 'Add tag',
-    'untag'          => 'Remove tag',
-    'update_field'   => 'Update contact field',
-    'move_stage'     => 'Move deal to stage',
-    'create_deal'    => 'Create deal',
-    'create_task'    => 'Create task',
-    'assign_user'    => 'Assign owner (round-robin)',
-    'notify_team'    => 'Notify team (email / Slack)',
-    'webhook'        => 'POST to webhook',
-    'http_get'       => 'Fetch URL, save response',
-    'ai_reply'       => 'Claude-generated message',
-    'if'             => 'If/else branch',
-    'goto_step'      => 'Jump to named step',
-    'log'            => 'Log message',
-    'heygen_video'   => 'Generate HeyGen avatar video',
-    'vapi_call'      => 'Make outbound AI voice call (Vapi)',
+    'send_email'      => 'Send email (bilingual + template_id support)',
+    'send_sms'        => 'Send SMS (Twilio)',
+    'send_whatsapp'   => 'Send WhatsApp (Twilio)',
+    'enroll_sequence' => 'Enroll into email-templates/ sequence (uses bilingual templates)',
+    'wait'            => 'Wait N minutes / hours / days',
+    'wait_until'      => 'Wait until next business hour',
+    'tag'             => 'Add tag (fires tag_added cascade)',
+    'untag'           => 'Remove tag (fires tag_removed cascade)',
+    'update_field'    => 'Update contact field',
+    'move_stage'      => 'Move deal to stage',
+    'create_deal'     => 'Create deal',
+    'create_task'     => 'Create task',
+    'assign_user'     => 'Assign owner (round-robin)',
+    'notify_team'     => 'Notify team (email / Slack)',
+    'webhook'         => 'POST to webhook',
+    'http_get'        => 'Fetch URL, save response',
+    'ai_reply'        => 'Claude-generated message',
+    'if'              => 'If/else branch',
+    'goto_step'       => 'Jump to named step',
+    'log'             => 'Log message',
+    'heygen_video'    => 'Generate HeyGen avatar video',
+    'vapi_call'       => 'Make outbound AI voice call (Vapi)',
   ];
 }
 
@@ -120,26 +157,86 @@ function wf_resolve_to($to, $ctx) {
   return render_template($to, $ctx);
 }
 
-function wf_step_send_email($step, $ctx) {
-  $subject = render_template($step['subject'] ?? '(no subject)', $ctx);
-  $body_inner = render_template($step['body'] ?? '<p>(empty)</p>', $ctx);
+function wf_step_send_email($step, $ctx, $org_id = null) {
+  $lang = wf_resolve_lang($ctx, $org_id);
+  $ctx['lang'] = $lang;
+
+  /* Mode A: template_id → look up the email-templates sequence message and reuse its bilingual rendering */
+  if (!empty($step['template_id'])) {
+    require_once __DIR__ . '/email-sequences.php';
+    $cfg = seq_load_config();
+    $msg = null;
+    if ($cfg) {
+      foreach ($cfg['sequences'] as $seq) {
+        foreach ($seq['messages'] as $m) {
+          if ($m['id'] === $step['template_id']) { $msg = $m; break 2; }
+        }
+      }
+    }
+    if (!$msg) return ['ok' => false, 'reason' => 'template_not_found', 'template_id' => $step['template_id']];
+    $tplRaw = seq_load_template($msg['template']);
+    if ($tplRaw === false) return ['ok' => false, 'reason' => 'template_file_missing'];
+    $contentBlock = seq_extract_lang_block($tplRaw, $lang);
+    $primary_url = $msg['primary_url'] ?? 'https://netwebmedia.com/';
+    $primary_label = $msg['primary_cta'][$lang] ?? ($msg['primary_cta']['en'] ?? 'Learn more');
+    $vars = array_merge($ctx, [
+      'primary_url' => $primary_url,
+      'primary_cta_label' => $primary_label,
+      'first_name' => $ctx['first_name'] ?? (preg_split('/\s+/', $ctx['name'] ?? '', 2)[0] ?? '')
+    ]);
+    $contentRendered = seq_replace_tokens($contentBlock, $vars);
+    $html = str_replace('{{CONTENT}}', $contentRendered, seq_load_base());
+    $html = seq_replace_tokens($html, $vars);
+    $subject = seq_replace_tokens($msg['subject'][$lang] ?? ($msg['subject']['en'] ?? 'NetWebMedia'), $vars);
+    $resolved = wf_resolve_to($step['to'] ?? 'submitter', $ctx);
+    if (!filter_var($resolved, FILTER_VALIDATE_EMAIL)) return ['ok' => false, 'reason' => 'bad_recipient'];
+    $ok = send_mail($resolved, $subject, $html);
+    return ['ok' => $ok, 'to' => $resolved, 'subject' => $subject, 'lang' => $lang, 'template_id' => $step['template_id']];
+  }
+
+  /* Mode B: inline subject/body, optionally bilingual {en,es} */
+  $subject = render_template(wf_pick($step['subject'] ?? '(no subject)', $lang), $ctx);
+  $body_inner = render_template(wf_pick($step['body'] ?? '<p>(empty)</p>', $lang), $ctx);
   $html = email_shell($subject, $body_inner);
   $resolved = wf_resolve_to($step['to'] ?? 'admin', $ctx);
   if (!filter_var($resolved, FILTER_VALIDATE_EMAIL)) return ['ok' => false, 'reason' => 'bad_recipient', 'to' => $resolved];
   $ok = send_mail($resolved, $subject, $html);
-  return ['ok' => $ok, 'to' => $resolved, 'subject' => $subject];
+  return ['ok' => $ok, 'to' => $resolved, 'subject' => $subject, 'lang' => $lang];
 }
 
-function wf_step_send_sms($step, $ctx) {
+function wf_step_enroll_sequence($step, $ctx, $org_id) {
+  require_once __DIR__ . '/email-sequences.php';
+  $sequence_id = $step['sequence_id'] ?? '';
+  if (!$sequence_id) return ['ok' => false, 'reason' => 'no_sequence_id'];
+  $email = $ctx['email'] ?? ($ctx['contact']['email'] ?? null);
+  if (!$email) return ['ok' => false, 'reason' => 'no_email_in_ctx'];
+
+  /* Resolve contact_id (resources table) by email */
+  $row = qOne("SELECT id FROM resources WHERE type='contact' AND org_id=? AND JSON_EXTRACT(data,'$.email')=? LIMIT 1", [$org_id, $email]);
+  $contact_id = $row['id'] ?? 0;
+
+  $context = array_merge($ctx, [
+    'lang' => wf_resolve_lang($ctx, $org_id),
+    'email' => $email,
+    'name' => $ctx['name'] ?? '',
+    'first_name' => $ctx['first_name'] ?? (preg_split('/\s+/', $ctx['name'] ?? '', 2)[0] ?? '')
+  ]);
+  $res = seq_enroll($contact_id, $sequence_id, $context);
+  return ['ok' => ($res['enrolled'] ?? 0) > 0, 'sequence' => $sequence_id, 'enrolled' => $res['enrolled'] ?? 0];
+}
+
+function wf_step_send_sms($step, $ctx, $org_id = null) {
+  $lang = wf_resolve_lang($ctx, $org_id);
   // Twilio not wired yet — stub that logs the intent.
   $cfg = config();
   if (empty($cfg['twilio_sid'])) {
     return ['ok' => true, 'stubbed' => true, 'reason' => 'twilio_not_configured',
             'to' => render_template($step['to'] ?? '', $ctx),
-            'body' => render_template($step['body'] ?? '', $ctx)];
+            'body' => render_template(wf_pick($step['body'] ?? '', $lang), $ctx),
+            'lang' => $lang];
   }
   $to   = html_entity_decode(render_template($step['to'] ?? '', $ctx), ENT_QUOTES, 'UTF-8');
-  $body = html_entity_decode(render_template($step['body'] ?? '', $ctx), ENT_QUOTES, 'UTF-8');
+  $body = html_entity_decode(render_template(wf_pick($step['body'] ?? '', $lang), $ctx), ENT_QUOTES, 'UTF-8');
   $ch = curl_init('https://api.twilio.com/2010-04-01/Accounts/' . $cfg['twilio_sid'] . '/Messages.json');
   curl_setopt_array($ch, [
     CURLOPT_USERPWD => $cfg['twilio_sid'] . ':' . $cfg['twilio_token'],
@@ -150,10 +247,10 @@ function wf_step_send_sms($step, $ctx) {
   return ['ok' => $code >= 200 && $code < 300, 'http' => $code, 'to' => $to];
 }
 
-function wf_step_send_whatsapp($step, $ctx) {
+function wf_step_send_whatsapp($step, $ctx, $org_id = null) {
   // Same as SMS but with whatsapp: prefix. Stubbed if no Twilio.
   $step['to']   = 'whatsapp:' . render_template($step['to'] ?? '', $ctx);
-  return wf_step_send_sms($step, $ctx);
+  return wf_step_send_sms($step, $ctx, $org_id);
 }
 
 function wf_step_webhook($step, $ctx) {
@@ -214,11 +311,28 @@ function wf_step_tag($step, $ctx, $org_id, $remove = false) {
   if (!$c) return ['ok' => false, 'reason' => 'contact_not_found'];
   $d = json_decode($c['data'], true) ?: [];
   $tags = $d['tags'] ?? [];
-  if ($remove) { $tags = array_values(array_filter($tags, fn($t) => $t !== $tag)); }
-  else { if (!in_array($tag, $tags)) $tags[] = $tag; }
+  $changed = false;
+  if ($remove) {
+    $before = count($tags);
+    $tags = array_values(array_filter($tags, fn($t) => $t !== $tag));
+    $changed = count($tags) !== $before;
+  } else {
+    if (!in_array($tag, $tags)) { $tags[] = $tag; $changed = true; }
+  }
   $d['tags'] = $tags;
   qExec('UPDATE resources SET data=?, updated_at=NOW() WHERE id=?', [json_encode($d), $c['id']]);
-  return ['ok' => true, 'contact_id' => $c['id'], 'tags' => $tags];
+
+  /* Cascade: fire tag_added / tag_removed trigger so other workflows can subscribe */
+  if ($changed) {
+    $cascadeCtx = array_merge($ctx, ['tag' => $tag, 'contact_id' => $c['id'], 'tags' => $tags]);
+    $event = $remove ? 'tag_removed' : 'tag_added';
+    /* Suppress recursion: if the source workflow already cascaded, skip */
+    if (empty($ctx['_cascade_source']) || $ctx['_cascade_source'] !== $event . ':' . $tag) {
+      $cascadeCtx['_cascade_source'] = $event . ':' . $tag;
+      try { wf_trigger($event, ['tag' => $tag], $cascadeCtx, $org_id); } catch (Throwable $_) {}
+    }
+  }
+  return ['ok' => true, 'contact_id' => $c['id'], 'tags' => $tags, 'cascaded' => $changed];
 }
 
 function wf_step_update_field($step, $ctx, $org_id) {
@@ -383,10 +497,11 @@ function wf_step_vapi_call($step, $ctx) {
 function wf_run_step($step, &$ctx, $org_id) {
   $action = $step['action'] ?? '';
   switch ($action) {
-    case 'send_email':    return wf_step_send_email($step, $ctx);
-    case 'send_sms':      return wf_step_send_sms($step, $ctx);
-    case 'send_whatsapp': return wf_step_send_whatsapp($step, $ctx);
-    case 'webhook':       return wf_step_webhook($step, $ctx);
+    case 'send_email':      return wf_step_send_email($step, $ctx, $org_id);
+    case 'send_sms':        return wf_step_send_sms($step, $ctx, $org_id);
+    case 'send_whatsapp':   return wf_step_send_whatsapp($step, $ctx, $org_id);
+    case 'enroll_sequence': return wf_step_enroll_sequence($step, $ctx, $org_id);
+    case 'webhook':         return wf_step_webhook($step, $ctx);
     case 'http_get':      return wf_step_http_get($step, $ctx, $ctx);
     case 'create_deal':   return wf_step_create_deal($step, $ctx, $org_id);
     case 'create_task':   return wf_step_create_task($step, $ctx, $org_id);
@@ -484,4 +599,61 @@ function wf_run_pending() {
   $rows = qAll('SELECT * FROM workflow_runs WHERE status="pending" AND (next_run_at IS NULL OR next_run_at <= NOW()) ORDER BY id LIMIT 50');
   foreach ($rows as $r) wf_advance($r);
   return count($rows);
+}
+
+/**
+ * Scan active workflows whose trigger.type=="cron" and fire the ones whose
+ * cadence is due since their last run. Idempotent — uses workflow_runs
+ * "last fired" timestamp per workflow_id to gate.
+ *
+ * Cadence shapes supported:
+ *   { type: "cron", cadence: "daily",  time: "09:00" }
+ *   { type: "cron", cadence: "weekly", day_of_week: 1, time: "08:00" }   // 0=Sun..6=Sat
+ *   { type: "cron", cadence: "hourly" }
+ */
+function wf_run_cron_due() {
+  $fired = 0;
+  $rows = qAll("SELECT * FROM resources WHERE type='workflow' AND status='active'");
+  $nowTs = time();
+  foreach ($rows as $r) {
+    $d = json_decode($r['data'], true) ?: [];
+    $trig = $d['trigger'] ?? [];
+    if (($trig['type'] ?? '') !== 'cron') continue;
+
+    $cadence = strtolower($trig['cadence'] ?? 'daily');
+    $time    = $trig['time'] ?? '09:00';
+    $dow     = isset($trig['day_of_week']) ? (int)$trig['day_of_week'] : null;
+
+    /* Last fired timestamp from workflow_runs */
+    $last = qOne('SELECT MAX(created_at) AS lf FROM workflow_runs WHERE workflow_id = ?', [$r['id']]);
+    $lastTs = !empty($last['lf']) ? strtotime($last['lf']) : 0;
+
+    list($hh, $mm) = array_pad(explode(':', $time, 2), 2, '00');
+    $todayAt = mktime((int)$hh, (int)$mm, 0);
+    $now = new DateTime('now');
+
+    $shouldFire = false;
+
+    if ($cadence === 'hourly') {
+      /* fire if last run > 60 minutes ago */
+      if ($lastTs < $nowTs - 3600) $shouldFire = true;
+    } elseif ($cadence === 'daily') {
+      /* fire if it's past today's target time and we haven't fired since that time */
+      if ($nowTs >= $todayAt && $lastTs < $todayAt) $shouldFire = true;
+    } elseif ($cadence === 'weekly') {
+      $todayDow = (int)$now->format('w');
+      if ($dow === null || $todayDow === $dow) {
+        if ($nowTs >= $todayAt && $lastTs < $nowTs - 6*86400) $shouldFire = true;
+      }
+    }
+
+    if ($shouldFire) {
+      $ctx = ['cron_fired_at' => date('c'), 'cadence' => $cadence];
+      $run_id = wf_enqueue($r['id'], $r['org_id'], $ctx);
+      $run = qOne('SELECT * FROM workflow_runs WHERE id = ?', [$run_id]);
+      wf_advance($run);
+      $fired++;
+    }
+  }
+  return $fired;
 }

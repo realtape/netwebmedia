@@ -1,0 +1,53 @@
+name: Cron — Lead Pipeline (every 30 min)
+on:
+  schedule:
+    # Every 30 minutes, staggered to avoid :00 / :30 hotspot
+    - cron: '13 */1 * * *'
+    - cron: '43 */1 * * *'
+
+jobs:
+  lead-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Qualify pending leads
+        run: |
+          TOKEN="${{ secrets.JWT_SECRET }}"
+          TOKEN="${TOKEN:0:16}"
+          curl -s -X POST \
+            "https://netwebmedia.com/api/leads/qualify?token=${TOKEN}" \
+            -H "User-Agent: NetWebMedia-Cron" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "batch=50" \
+            -w "\nHTTP Status: %{http_code}\n" | head -20
+
+      - name: Assign qualified leads to team
+        run: |
+          TOKEN="${{ secrets.JWT_SECRET }}"
+          TOKEN="${TOKEN:0:16}"
+          curl -s -X POST \
+            "https://netwebmedia.com/api/leads/assign?token=${TOKEN}" \
+            -H "User-Agent: NetWebMedia-Cron" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "strategy=least_loaded&batch=50" \
+            -w "\nHTTP Status: %{http_code}\n" | head -20
+
+      - name: Enroll assigned leads in sequences
+        run: |
+          TOKEN="${{ secrets.JWT_SECRET }}"
+          TOKEN="${TOKEN:0:16}"
+          curl -s -X POST \
+            "https://netwebmedia.com/api/leads/enroll-sequences?token=${TOKEN}" \
+            -H "User-Agent: NetWebMedia-Cron" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "sequence=welcome&batch=50" \
+            -w "\nHTTP Status: %{http_code}\n" | head -20
+
+      - name: Check lead pipeline status
+        run: |
+          TOKEN="${{ secrets.JWT_SECRET }}"
+          TOKEN="${TOKEN:0:16}"
+          curl -s -X GET \
+            "https://netwebmedia.com/api/leads/status?token=${TOKEN}" \
+            -H "User-Agent: NetWebMedia-Cron" \
+            | jq '.'

@@ -50,6 +50,8 @@ switch ($method) {
         break;
 
     case 'POST':
+        // SECURITY (H2): block X-Org-Slug-based cross-org INSERT.
+        require_org_access_for_write('member');
         $data = getInput();
         if (empty($data['title'])) jsonError('Title is required');
 

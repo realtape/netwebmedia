@@ -352,6 +352,8 @@ switch ($method) {
         break;
 
     case 'POST':
+        // SECURITY (H2): block X-Org-Slug-based cross-org INSERT.
+        require_org_access_for_write('member');
         $d = getInput();
         if (empty($d['name'])) jsonError('name required');
         $audience = isset($d['audience_filter']) ? (is_array($d['audience_filter']) ? json_encode($d['audience_filter']) : $d['audience_filter']) : null;

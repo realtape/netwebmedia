@@ -145,7 +145,8 @@
 
     var current = state.current;
     var label = current ? (current.display_name || current.slug || "Org") : "Switch org";
-    var swatch = current && current.branding_primary_color ? current.branding_primary_color : null;
+    // Validated swatch — never interpolate raw tenant strings into a style attr.
+    var swatch = current ? safeColor(current.branding_primary_color, null) : null;
 
     var html = '<div class="nwm-org-switcher" id="nwmOrgSwitcherRoot">';
     html += '<button type="button" class="nwm-org-trigger" id="nwmOrgTrigger" aria-haspopup="listbox" aria-expanded="' + (state.open ? "true" : "false") + '">';
@@ -162,10 +163,12 @@
       for (var i = 0; i < state.orgs.length; i++) {
         var o = state.orgs[i];
         var isActive = current && current.id === o.id;
-        var color = o.branding_primary_color || "var(--accent)";
+        // Validate before interpolating into the style attribute. Falling
+        // back to a CSS var keeps the swatch usable for orgs with no color.
+        var color = safeColor(o.branding_primary_color, "var(--accent)");
         var planLabel = (o.plan || "").charAt(0).toUpperCase() + (o.plan || "").slice(1);
         html += '<div class="nwm-org-item' + (isActive ? " active" : "") + '" data-id="' + esc(o.id) + '" data-slug="' + esc(o.slug) + '" role="option">';
-        html += '<span class="swatch" style="background:' + esc(color) + ';">' + esc(initials(o.display_name || o.slug)) + '</span>';
+        html += '<span class="swatch" style="background:' + color + ';">' + esc(initials(o.display_name || o.slug)) + '</span>';
         html += '<span class="meta"><span class="name">' + esc(o.display_name || o.slug) + '</span>';
         html += '<span class="slug">' + esc(o.slug) + '</span></span>';
         html += '<span class="badge">' + esc(planLabel) + '</span>';

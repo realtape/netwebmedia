@@ -37,6 +37,8 @@ if ($method === 'POST') {
     $action = $_GET['action'] ?? 'seed';
     if (!hash_equals(SEED_TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
     if ($action !== 'seed') jsonError("Unknown action: $action", 400);
+    // SECURITY (C2): pin to master — token-gated platform seed.
+    pin_org_to_master();
 
     $db = getDB();
     $seedOrgId = is_org_schema_applied() ? (current_org_id() ?? ORG_MASTER_ID) : null;

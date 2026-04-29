@@ -1,5 +1,7 @@
 # CRM Migrations — Multi-Tenancy / Organizations
 
+**Security note:** the migrate token defaults are in `crm-vanilla/api/config.php` but should ALWAYS be overridden in `crm-vanilla/api/config.local.php` (server-only, not committed). Treat the default values as compromised the moment they touch production. Whenever you see `<MIGRATE_TOKEN from config.local.php>` below, substitute the live server token, never the committed default.
+
 Two SQL files were added to lay the white-label foundation. **They MUST run in this order:**
 
 1. `crm-vanilla/api/schema_organizations.sql` — creates `organizations` and `org_members`, seeds the master org (id=1, slug=`netwebmedia`) and adds Carlos as owner.
@@ -34,7 +36,7 @@ Both should return SQL, not 404.
 
 ```bash
 curl -X POST \
-  "https://netwebmedia.com/crm-vanilla/api/?r=migrate&token=NWM_MIGRATE_2026&schema=organizations" \
+  "https://netwebmedia.com/crm-vanilla/api/?r=migrate&token=<MIGRATE_TOKEN from config.local.php>&schema=organizations" \
   -H "Origin: https://netwebmedia.com"
 ```
 
@@ -48,7 +50,7 @@ Expected response: `{"schema":"organizations","ran":N,"skipped":0,"errors":[]}`
 
 ```bash
 curl -X POST \
-  "https://netwebmedia.com/crm-vanilla/api/?r=migrate&token=NWM_MIGRATE_2026&schema=organizations_migrate" \
+  "https://netwebmedia.com/crm-vanilla/api/?r=migrate&token=<MIGRATE_TOKEN from config.local.php>&schema=organizations_migrate" \
   -H "Origin: https://netwebmedia.com"
 ```
 

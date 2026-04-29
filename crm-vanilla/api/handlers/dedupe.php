@@ -9,13 +9,16 @@
 if ($method !== 'POST') jsonError('Use POST', 405);
 require_once __DIR__ . '/../lib/tenancy.php';
 if (!hash_equals(DEDUPE_TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
+// SECURITY (C2): token-gated routes are master-org admin operations. Ignore
+// X-Org-Slug / session / host resolution so a token leak cannot be combined
+// with a target slug to dedupe a specific paying org's data.
+pin_org_to_master();
 
 $dryRun = !empty($_GET['dry_run']);
 $db = getDB();
 
-// Scope to current org post-migration. Master org's org_where() returns '1=1'
-// so this stays a true global dedupe when called without X-Org-Slug, matching
-// the legacy behaviour. Sub-accounts get a per-org dedupe.
+// Scope to master post-pin. org_where() returns '1=1' for master, preserving
+// the legacy global-dedupe behaviour for this token-protected cron route.
 $ow = ''; $owp = [];
 if (is_org_schema_applied()) { [$ow, $owp] = org_where(); }
 $andOw = $ow ? ' AND ' . $ow : '';

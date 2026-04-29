@@ -37,9 +37,30 @@ switch ($method) {
         $sender = $data['sender'] ?? 'me';
         $body   = $data['body'];
 
-        if ($orgId !== null) {
+        // SECURITY (H1/H3): derive organization_id from the conversation row
+        // itself, not from current_org_id() / X-Org-Slug. A message belongs to
+        // a conversation belongs to an org; the request's org context is just
+        // a hint and must not become the source of truth on the write.
+        // Then assert the requester has access to that org for writes.
+        $convOrgId = null;
+        if (is_org_schema_applied()) {
+            $cstmt = $db->prepare('SELECT organization_id FROM conversations WHERE id = ?');
+            $cstmt->execute([$convId]);
+            $cOrg = $cstmt->fetchColumn();
+            if ($cOrg !== false && $cOrg !== null) {
+                $convOrgId = (int)$cOrg;
+                // Verify the writer is a member of the conv's org. Master-org
+                // owners/admins are virtual admins everywhere via org_role().
+                $u = guard_user();
+                if ($u && !empty($u['id'])) {
+                    require_org_access($convOrgId, 'member');
+                }
+            }
+        }
+
+        if ($convOrgId !== null) {
             $stmt = $db->prepare('INSERT INTO messages (organization_id, conversation_id, sender, body) VALUES (?, ?, ?, ?)');
-            $stmt->execute([$orgId, $convId, $sender, $body]);
+            $stmt->execute([$convOrgId, $convId, $sender, $body]);
         } else {
             $stmt = $db->prepare('INSERT INTO messages (conversation_id, sender, body) VALUES (?, ?, ?)');
             $stmt->execute([$convId, $sender, $body]);

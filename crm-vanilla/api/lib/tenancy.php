@@ -84,6 +84,15 @@ const ORG_MASTER_ID = 1;
  */
 function org_from_request(): ?array {
     static $cached = null;
+    // Master-pin override (set by pin_org_to_master() in token-gated routes).
+    // Honoured every call; overrides any prior cached resolution.
+    if (!empty($GLOBALS['__nwm_org_pinned_master'])) {
+        $db = getDB();
+        $stmt = $db->prepare('SELECT * FROM organizations WHERE id = ? AND status = "active" LIMIT 1');
+        $stmt->execute([ORG_MASTER_ID]);
+        $row = $stmt->fetch();
+        return $cached = ($row ?: null);
+    }
     if ($cached !== null) return $cached;
 
     $db = getDB();
@@ -267,6 +276,33 @@ function set_session_org(int $organizationId): void {
     }
     if (session_status() === PHP_SESSION_NONE) _guard_session_start();
     $_SESSION['nwm_org_id'] = $organizationId;
+}
+
+/**
+ * SECURITY (token-gated routes): pin the active org context to master and
+ * ignore X-Org-Slug, session, and host-based resolution.
+ *
+ * Token-protected admin routes (seed, dedupe, domain_audit, import_*, …) are
+ * platform-level cron operations. They must NEVER honour the requester's
+ * chosen org context, because a token leak combined with an attacker-supplied
+ * X-Org-Slug header would scope a destructive op to a specific paying org.
+ *
+ * Call this ONCE, immediately after the token check, before any call to
+ * org_where() / current_org_id() / is_org_schema_applied()-conditional logic.
+ *
+ * Implementation: we set the session var AND override the static cache inside
+ * org_from_request() so the resolver can't fall back to the header. Because
+ * org_from_request() short-circuits on its `$cached` static, we set that via
+ * a controlled call after stuffing the session.
+ */
+function pin_org_to_master(): void {
+    // Set a request-scoped global flag that org_from_request() checks first.
+    // Also strip the X-Org-Slug header so any other code path that re-reads
+    // $_SERVER directly cannot pick it up.
+    $GLOBALS['__nwm_org_pinned_master'] = true;
+    unset($_SERVER['HTTP_X_ORG_SLUG']);
+    if (session_status() === PHP_SESSION_NONE) _guard_session_start();
+    $_SESSION['nwm_org_id'] = ORG_MASTER_ID;
 }
 
 // =============================================================================

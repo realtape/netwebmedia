@@ -809,6 +809,12 @@
         try { token = localStorage.getItem('nwm_token') || ''; } catch (_) {}
         var finish = function () {
           try { localStorage.removeItem('nwm_token'); localStorage.removeItem('nwm_user'); localStorage.removeItem('crm_demo_user'); } catch (_) {}
+          // Per-tenant branding + org list are cached in sessionStorage. If we
+          // don't purge them, the next user on a shared device sees the prior
+          // tenant's logo/colors flash before the fresh fetch completes, and
+          // the org switcher briefly shows the old user's orgs.
+          try { sessionStorage.removeItem('nwm_branding'); } catch (_) {}
+          try { sessionStorage.removeItem('nwm_orgs'); } catch (_) {}
           try { document.cookie = "nwm_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"; } catch (_) {}
           location.href = "/login.html";
         };

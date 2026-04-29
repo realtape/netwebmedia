@@ -3,6 +3,22 @@
 # in app.js now handles authentication and redirects unauthenticated users
 # to /login.html.
 
+# ---------------------------------------------------------------------------
+# Public-secret lockdown (added 2026-04-29 after multi-tenant deploy leaked
+# schema.sql / migrations/README.md / branding.md to the open web).
+# ---------------------------------------------------------------------------
+
+# Block schema files, migration runbooks, and developer docs from public access.
+<FilesMatch "\.(sql|md)$">
+  Require all denied
+</FilesMatch>
+
+# Block the migrations directory entirely (defence in depth).
+RedirectMatch 403 ^/crm-vanilla/api/migrations/.*$
+
+# Block the api/lib/ directory (PHP includes, never directly served).
+RedirectMatch 403 ^/crm-vanilla/api/lib/.*$
+
 <IfModule mod_headers.c>
   # Force fresh HTML every time — no browser cache, no proxy cache.
   <FilesMatch "\.html$">

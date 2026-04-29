@@ -1,6 +1,10 @@
 <?php
 require_once __DIR__ . '/../lib/tenancy.php';
 if ($method !== 'POST') jsonError('Use POST to seed data', 405);
+// SECURITY (C2): seed is a master-org admin operation. Pin context regardless
+// of caller-supplied X-Org-Slug. (No token check here historically — see
+// followup note in audit report.)
+pin_org_to_master();
 
 $db = getDB();
 // Seed targets master org by default. Token-protected, so this is fine.

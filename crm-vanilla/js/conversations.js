@@ -48,7 +48,7 @@
   }
 
   function loadConversations() {
-    var url = "/api/?r=conversations";
+    var url = "api/index.php?r=conversations";
     if (channelFilter !== "all") {
       url += "&channel=" + encodeURIComponent(channelFilter);
     }
@@ -128,7 +128,7 @@
 
   function selectConversation(id) {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/api/?r=conversations&id=" + encodeURIComponent(id));
+    xhr.open("GET", "api/index.php?r=conversations&id=" + encodeURIComponent(id));
     xhr.onload = function () {
       if (xhr.status >= 200 && xhr.status < 300) {
         var conv = null;
@@ -233,7 +233,7 @@
     };
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "/api/?r=messages");
+    xhr.open("POST", "api/index.php?r=messages");
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onload = function () {
       if (sendBtn) sendBtn.disabled = false;

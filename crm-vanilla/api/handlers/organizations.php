@@ -59,6 +59,47 @@ $require_master_owner = function () use ($db, $user) {
     }
 };
 
+/**
+ * Validate a tenant-supplied CSS color. Mirrors crm-vanilla/js/branding.js
+ * (safeColor) — server is the source of truth so a malicious admin can't
+ * smuggle CSS payloads via a hand-crafted PATCH that bypasses the UI.
+ * Accepts #rgb / #rrggbb / #rrggbbaa, rgb(), rgba(). Returns the trimmed
+ * value on success or null on failure.
+ */
+function nwm_validate_color($v): ?string {
+    if (!is_string($v)) return null;
+    $v = trim($v);
+    if ($v === '') return null;
+    if (preg_match('/^(#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8}|rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(?:,\s*[\d.]+\s*)?\))$/', $v)) {
+        return $v;
+    }
+    return null;
+}
+
+/**
+ * Validate a tenant-supplied logo URL. Mirrors crm-vanilla/js/branding.js
+ * (safeLogoUrl). Allows https://, data:image/(png|jpeg|webp|gif), and
+ * http://localhost for dev. Rejects javascript:, data:image/svg+xml
+ * (SVG can carry script when rendered as <object>), and malformed URLs.
+ */
+function nwm_validate_logo_url($v): ?string {
+    if (!is_string($v)) return null;
+    $v = trim($v);
+    if ($v === '') return null;
+    // data: image — restrict to raster MIME types only.
+    if (stripos($v, 'data:') === 0) {
+        if (preg_match('/^data:image\/(png|jpe?g|webp|gif);/i', $v)) return $v;
+        return null;
+    }
+    $parts = parse_url($v);
+    if (!$parts || empty($parts['scheme']) || empty($parts['host'])) return null;
+    $scheme = strtolower($parts['scheme']);
+    $host   = strtolower($parts['host']);
+    if ($scheme === 'https') return $v;
+    if ($scheme === 'http' && ($host === 'localhost' || $host === '127.0.0.1')) return $v;
+    return null;
+}
+
 // =============================================================================
 // CURRENT ACTIVE ORG  (GET /api/?r=organizations&sub=current)
 // =============================================================================
@@ -160,13 +201,22 @@ if ($method === 'POST' && $slug === '' && $subRoute === '') {
         jsonError('sender_email is not a valid email', 400);
     }
 
-    $logo      = $data['branding_logo_url']        ?? null;
-    $primary   = $data['branding_primary_color']   ?? '#010F3B';
-    $secondary = $data['branding_secondary_color'] ?? '#FF671F';
+    $rawLogo   = $data['branding_logo_url']        ?? null;
+    $rawPrim   = $data['branding_primary_color']   ?? '#010F3B';
+    $rawSec    = $data['branding_secondary_color'] ?? '#FF671F';
 
-    // Validate hex colors
-    foreach ([$primary, $secondary] as $c) {
-        if (!preg_match('/^#[0-9a-fA-F]{6}$/', $c)) jsonError('Invalid hex color', 400);
+    // Defense-in-depth: full color/URL validation, not just legacy hex check.
+    $primary   = nwm_validate_color($rawPrim);
+    $secondary = nwm_validate_color($rawSec);
+    if ($primary === null || $secondary === null) {
+        jsonError('Invalid color — accepted formats: #rgb, #rrggbb, #rrggbbaa, rgb(), rgba()', 400);
+    }
+    $logo = null;
+    if ($rawLogo !== null && $rawLogo !== '') {
+        $logo = nwm_validate_logo_url($rawLogo);
+        if ($logo === null) {
+            jsonError('Invalid logo URL — must be https:// or a data:image/(png|jpeg|webp|gif) URI', 400);
+        }
     }
 
     try {
@@ -334,9 +384,22 @@ if ($method === 'PATCH' || $method === 'PUT') {
         $val = $data[$f];
 
         if (in_array($f, ['branding_primary_color', 'branding_secondary_color'], true)) {
-            if ($val !== null && !preg_match('/^#[0-9a-fA-F]{6}$/', $val)) {
-                jsonError("Invalid hex for $f", 400);
+            // null/empty clears the override (falls back to defaults on the
+            // client). Anything non-empty must pass the strict validator.
+            if ($val !== null && $val !== '') {
+                $clean = nwm_validate_color($val);
+                if ($clean === null) {
+                    jsonError("Invalid color for $f — use #rgb, #rrggbb, #rrggbbaa, rgb(), or rgba()", 400);
+                }
+                $val = $clean;
             }
+        }
+        if ($f === 'branding_logo_url' && $val !== null && $val !== '') {
+            $clean = nwm_validate_logo_url($val);
+            if ($clean === null) {
+                jsonError('Invalid logo URL — must be https:// or a data:image/(png|jpeg|webp|gif) URI', 400);
+            }
+            $val = $clean;
         }
         if ($f === 'sender_email' && $val !== null && $val !== ''
             && !filter_var($val, FILTER_VALIDATE_EMAIL)) {

@@ -22,6 +22,9 @@
 require_once __DIR__ . '/../lib/tenancy.php';
 $TOKEN = defined('FILTER_ID_TOKEN') ? FILTER_ID_TOKEN : 'NWM_FILTER_ID_2026';
 if (!hash_equals($TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
+// SECURITY (C2): pin to master so a token leak cannot be combined with
+// X-Org-Slug to purge a specific paying org's domains.
+pin_org_to_master();
 
 $action = (string)($_GET['action'] ?? '');
 $db     = getDB();

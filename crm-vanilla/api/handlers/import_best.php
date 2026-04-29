@@ -12,6 +12,9 @@
  */
 if ($method !== 'GET') jsonError('Use GET', 405);
 if (!hash_equals(IMPORT_BEST_TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
+// SECURITY (C2): pin to master — token-gated bulk import, never per-org.
+require_once __DIR__ . '/../lib/tenancy.php';
+pin_org_to_master();
 
 $dry        = !empty($_GET['dry']);
 $country    = strtolower(trim($_GET['country'] ?? ''));

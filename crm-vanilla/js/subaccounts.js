@@ -63,8 +63,10 @@
     if (window.CRM_APP) {
       try { CRM_APP.buildSidebar && CRM_APP.buildSidebar(); } catch (_) {}
       try {
-        CRM_APP.buildHeader && CRM_APP.buildHeader("Sub-accounts",
-          '<button class="btn btn-primary" id="newSubBtn" style="margin-right:6px;">+ New sub-account</button>');
+        // The "+ New sub-account" button is master-owner-only. Render the
+        // header WITHOUT it on first paint; we'll add it back inside
+        // maybeShowCreateButton() once loadOrgs() confirms permissions.
+        CRM_APP.buildHeader && CRM_APP.buildHeader("Sub-accounts", '');
       } catch (_) {}
     }
 
@@ -77,11 +79,27 @@
       window.nwmOrgSwitcher.mount(slot);
     }
 
-    var newBtn = document.getElementById("newSubBtn");
-    if (newBtn) newBtn.addEventListener("click", function () { openModal(null); });
-
     loadOrgs();
   });
+
+  // Render the "+ New sub-account" button only after we've confirmed the
+  // current user is a master-org owner. Idempotent.
+  function maybeShowCreateButton() {
+    if (!state.isMasterOwner) return;
+    var headerRight = document.querySelector(".page-header .header-right");
+    if (!headerRight) return;
+    if (document.getElementById("newSubBtn")) return; // already there
+    var btn = document.createElement("button");
+    btn.id = "newSubBtn";
+    btn.className = "btn btn-primary";
+    btn.style.marginRight = "6px";
+    btn.textContent = "+ New sub-account";
+    btn.addEventListener("click", function () { openModal(null); });
+    // Insert before the org switcher slot if present, else append.
+    var orgSlot = document.getElementById("orgSwitcherSlot");
+    if (orgSlot) headerRight.insertBefore(btn, orgSlot);
+    else headerRight.appendChild(btn);
+  }
 
   // ── Data ─────────────────────────────────────────────────────────────────
   function loadOrgs() {
@@ -111,6 +129,7 @@
           renderForbidden();
           return;
         }
+        maybeShowCreateButton();
         renderTable();
       })
       .catch(function (err) {
@@ -129,8 +148,11 @@
         '<p style="color:var(--text-dim);margin:0 0 24px;">Sub-account management is restricted to NetWebMedia owners.</p>' +
         '<a href="/crm-vanilla/index.html" class="btn btn-primary">← Back to dashboard</a>' +
       '</div>';
+    // Defensive: button shouldn't exist for non-masters anymore (it's only
+    // created via maybeShowCreateButton after a master-owner check), but
+    // remove it if some race ever lands it here.
     var newBtn = document.getElementById("newSubBtn");
-    if (newBtn) newBtn.style.display = "none";
+    if (newBtn && newBtn.parentNode) newBtn.parentNode.removeChild(newBtn);
   }
 
   function renderTable() {
@@ -209,7 +231,14 @@
 
   function suspendOrg(org, suspend) {
     var verb = suspend ? "suspend" : "unsuspend";
-    if (!confirm((suspend ? "Suspend" : "Unsuspend") + ' "' + org.display_name + '"?')) return;
+    // Sanitize before piping into confirm(): a tenant-controlled
+    // display_name with embedded newlines could craft a deceptive prompt
+    // (e.g. inject a fake "Cancel" line). confirm() is plain text so this
+    // is not XSS, but it's still a UX/social-engineering hole.
+    var safeName = String(org.display_name || org.slug || "")
+      .replace(/[\r\n\t]+/g, " ")
+      .slice(0, 80);
+    if (!confirm((suspend ? "Suspend" : "Unsuspend") + ' "' + safeName + '"?')) return;
     fetch("/api/?r=organizations&slug=" + encodeURIComponent(org.slug) + "&sub=" + verb, {
       method: "POST", credentials: "include"
     }).then(function (r) {

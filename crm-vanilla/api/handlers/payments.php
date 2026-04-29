@@ -87,13 +87,28 @@ if ($method === 'GET') {
 
 // ── POST — create invoice ─────────────────────────────────────────────────────
 if ($method === 'POST') {
+    // SECURITY (H2): block X-Org-Slug-based cross-org INSERT.
+    require_org_access_for_write('member');
     $data = getInput();
     if (empty($data['client_name']) || empty($data['amount'])) {
         jsonError('client_name and amount are required');
     }
-    // Auto-generate invoice number
-    $count = (int)$db->query("SELECT COUNT(*) FROM invoices")->fetchColumn();
-    $num   = 'INV-' . str_pad($count + 1, 3, '0', STR_PAD_LEFT);
+    // SECURITY (H4): scope invoice number generation per-org. Two orgs creating
+    // invoices simultaneously must not see each other's counter or collide.
+    // We use MAX(numeric suffix) + 1 within the org, derived from invoice_num.
+    // Pre-migration (no org column) we fall back to global counting (legacy).
+    if ($orgId !== null) {
+        $maxStmt = $db->prepare(
+            "SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(invoice_num, '-', -1) AS UNSIGNED)), 0)
+             FROM invoices WHERE organization_id = ?"
+        );
+        $maxStmt->execute([$orgId]);
+        $next = ((int)$maxStmt->fetchColumn()) + 1;
+    } else {
+        $count = (int)$db->query("SELECT COUNT(*) FROM invoices")->fetchColumn();
+        $next  = $count + 1;
+    }
+    $num = 'INV-' . str_pad((string)$next, 3, '0', STR_PAD_LEFT);
 
     if ($orgId !== null) {
         $stmt = $db->prepare("

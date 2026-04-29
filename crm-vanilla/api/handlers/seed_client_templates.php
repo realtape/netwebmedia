@@ -9,6 +9,8 @@
 require_once __DIR__ . '/../lib/tenancy.php';
 if ($method !== 'POST') jsonError('Use POST', 405);
 if (!hash_equals(SEED_TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
+// SECURITY (C2): pin to master — token-gated, never per-org.
+pin_org_to_master();
 
 $db = getDB();
 $seedOrgId = is_org_schema_applied() ? (current_org_id() ?? ORG_MASTER_ID) : null;

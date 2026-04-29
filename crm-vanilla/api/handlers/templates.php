@@ -138,8 +138,15 @@ switch ($method) {
         $row = $own->fetch();
         if (!$row) jsonError('Template not found', 404);
         $owner = $row['user_id'] !== null ? (int)$row['user_id'] : null;
+        $rowOrg = $row['organization_id'] !== null ? (int)$row['organization_id'] : null;
         if (!$isSuper && ($owner === null || $owner !== $uid)) {
             jsonError('Template not found', 404);
+        }
+        // SECURITY (C1): NULL-org system templates are read-only to non-superadmin.
+        // Without this, any sub-account user with ownership of an unrelated row
+        // could pass the owner check above against a NULL-org template.
+        if (!$isSuper && $rowOrg === null) {
+            jsonError('System templates are read-only', 403);
         }
 
         $d = getInput();
@@ -151,7 +158,17 @@ switch ($method) {
         }
         if (!$fields) jsonError('No fields to update');
         $params[] = $id;
-        $db->prepare('UPDATE email_templates SET ' . implode(', ', $fields) . ' WHERE id = ?')->execute($params);
+        // SECURITY (C1): re-apply tenancy clause on the WRITE itself, not just
+        // the ownership check. A non-superadmin sub-account user must only be
+        // able to UPDATE rows their org owns. Master org's tWhere is '1=1' so
+        // master can write any non-NULL-org row (NULL-org blocked above unless
+        // $isSuper, which is master-by-definition for our flow).
+        $updSql = 'UPDATE email_templates SET ' . implode(', ', $fields) . ' WHERE id = ?';
+        if ($tWhere && $orgId !== null && !$isSuper) {
+            $updSql .= ' AND ' . $tWhere;
+            $params = array_merge($params, $tParams);
+        }
+        $db->prepare($updSql)->execute($params);
         jsonResponse(['updated' => true]);
         break;
 
@@ -169,10 +186,22 @@ switch ($method) {
         $row = $own->fetch();
         if (!$row) jsonError('Template not found', 404);
         $owner = $row['user_id'] !== null ? (int)$row['user_id'] : null;
+        $rowOrg = $row['organization_id'] !== null ? (int)$row['organization_id'] : null;
         if (!$isSuper && ($owner === null || $owner !== $uid)) {
             jsonError('Template not found', 404);
         }
-        $db->prepare('DELETE FROM email_templates WHERE id = ?')->execute([$id]);
+        // SECURITY (C1): NULL-org system templates are not deletable by non-superadmin.
+        if (!$isSuper && $rowOrg === null) {
+            jsonError('System templates cannot be deleted', 403);
+        }
+        // SECURITY (C1): re-apply tenancy clause on the DELETE itself.
+        $delSql = 'DELETE FROM email_templates WHERE id = ?';
+        $delParams = [$id];
+        if ($tWhere && $orgId !== null && !$isSuper) {
+            $delSql .= ' AND ' . $tWhere;
+            $delParams = array_merge($delParams, $tParams);
+        }
+        $db->prepare($delSql)->execute($delParams);
         jsonResponse(['deleted' => true]);
         break;
 

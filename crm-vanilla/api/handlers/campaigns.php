@@ -208,9 +208,14 @@ if ($id && $action) {
     }
     if (!$subject || !$html) jsonError('Campaign has no subject or body', 400);
 
+    [$tWhereContacts, $tParamsContacts] = tenancy_where('c');
+
     if ($action === 'preview') {
         [$whereSql, $params] = buildAudienceSQL($camp['audience_filter']);
-        $stmt = $db->prepare("SELECT c.* FROM contacts c WHERE $whereSql LIMIT 1");
+        $audienceSql = "SELECT c.* FROM contacts c WHERE $whereSql";
+        if ($tWhereContacts) { $audienceSql .= ' AND ' . $tWhereContacts; $params = array_merge($params, $tParamsContacts); }
+        $audienceSql .= ' LIMIT 1';
+        $stmt = $db->prepare($audienceSql);
         $stmt->execute($params);
         $contact = $stmt->fetch();
         if (!$contact) jsonError('No contacts match the audience', 400);
@@ -266,6 +271,7 @@ if ($id && $action) {
 
         [$whereSql, $params] = buildAudienceSQL($camp['audience_filter']);
         $sql = "SELECT c.* FROM contacts c WHERE $whereSql";
+        if ($tWhereContacts) { $sql .= ' AND ' . $tWhereContacts; $params = array_merge($params, $tParamsContacts); }
         if ($limit > 0) {
             $sql .= " LIMIT :__rl";
         }
@@ -290,8 +296,13 @@ if ($id && $action) {
             $mergedSub  = mergeTags($subject, $vars);
             $mergedHtml = instrumentTracking(mergeTags($html, $vars), $siteBase, $token);
 
-            $db->prepare('INSERT INTO campaign_sends (campaign_id, contact_id, email, token, status) VALUES (?, ?, ?, ?, ?)')
-                ->execute([$id, $c['id'], $c['email'], $token, 'queued']);
+            if ($orgId !== null) {
+                $db->prepare('INSERT INTO campaign_sends (organization_id, campaign_id, contact_id, email, token, status) VALUES (?, ?, ?, ?, ?, ?)')
+                    ->execute([$orgId, $id, $c['id'], $c['email'], $token, 'queued']);
+            } else {
+                $db->prepare('INSERT INTO campaign_sends (campaign_id, contact_id, email, token, status) VALUES (?, ?, ?, ?, ?)')
+                    ->execute([$id, $c['id'], $c['email'], $token, 'queued']);
+            }
             $sendId = (int)$db->lastInsertId();
             try {
                 $res = mailSend([

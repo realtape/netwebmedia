@@ -538,6 +538,124 @@
 
   window.CRM_ICONS = ICONS;
 
+  /* ── Niche definitions (14 verticals) ── */
+  var NICHES = [
+    { key: 'tourism',            icon: '🏨', es: 'Turismo & Hospitalidad',    en: 'Tourism & Hospitality' },
+    { key: 'restaurants',        icon: '🍽️', es: 'Restaurantes',              en: 'Restaurants' },
+    { key: 'health',             icon: '🏥', es: 'Salud & Médico',            en: 'Health & Medical' },
+    { key: 'beauty',             icon: '💅', es: 'Belleza & Bienestar',       en: 'Beauty & Wellness' },
+    { key: 'smb',                icon: '🏢', es: 'Pymes & Servicios',         en: 'SMB Services' },
+    { key: 'law_firms',          icon: '⚖️', es: 'Estudios Jurídicos',        en: 'Law Firms' },
+    { key: 'real_estate',        icon: '🏠', es: 'Bienes Raíces',             en: 'Real Estate' },
+    { key: 'local_specialist',   icon: '🔧', es: 'Servicios Locales',         en: 'Local Services' },
+    { key: 'automotive',         icon: '🚗', es: 'Automotriz',                en: 'Automotive' },
+    { key: 'education',          icon: '🎓', es: 'Educación',                 en: 'Education' },
+    { key: 'events_weddings',    icon: '🎉', es: 'Eventos & Bodas',           en: 'Events & Weddings' },
+    { key: 'financial_services', icon: '💰', es: 'Servicios Financieros',     en: 'Financial Services' },
+    { key: 'home_services',      icon: '🔨', es: 'Servicios del Hogar',       en: 'Home Services' },
+    { key: 'wine_agriculture',   icon: '🍷', es: 'Vino & Agricultura',        en: 'Wine & Agriculture' }
+  ];
+
+  function getUserNiche() {
+    var u = getLoggedInUser();
+    return u ? (u.niche || null) : null;
+  }
+
+  function saveNiche(nicheKey, overlay) {
+    fetch('api/?r=settings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ niche: nicheKey })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function() {
+      try {
+        var raw = localStorage.getItem('crm_demo_user');
+        if (raw) {
+          var u = JSON.parse(raw);
+          u.niche = nicheKey;
+          localStorage.setItem('crm_demo_user', JSON.stringify(u));
+        }
+      } catch (_) {}
+      if (overlay) overlay.remove();
+    })
+    .catch(function() { if (overlay) overlay.remove(); });
+  }
+
+  function showNichePicker() {
+    if (document.getElementById('nichePickerOverlay')) return;
+    var isEs = getLang() === 'es';
+
+    var overlay = document.createElement('div');
+    overlay.id = 'nichePickerOverlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(1,15,59,0.88);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;';
+
+    var modal = document.createElement('div');
+    modal.style.cssText = 'background:#fff;border-radius:16px;padding:36px 40px;max-width:740px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.35);';
+
+    var h2 = document.createElement('h2');
+    h2.textContent = isEs ? '¿En qué industria trabaja su empresa?' : 'What industry does your business serve?';
+    h2.style.cssText = 'margin:0 0 6px;color:#010F3B;font-size:1.35rem;font-weight:700;';
+    modal.appendChild(h2);
+
+    var sub = document.createElement('p');
+    sub.textContent = isEs
+      ? 'Personalizaremos el CRM con etapas, métricas y plantillas para su sector.'
+      : 'We\'ll configure pipeline stages, KPI metrics, and email templates for your industry.';
+    sub.style.cssText = 'margin:0 0 28px;color:#64748b;font-size:.95rem;';
+    modal.appendChild(sub);
+
+    var grid = document.createElement('div');
+    grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:24px;';
+
+    for (var i = 0; i < NICHES.length; i++) {
+      (function(n) {
+        var card = document.createElement('button');
+        card.type = 'button';
+        card.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 10px;border:2px solid #e2e8f0;border-radius:12px;background:#fff;cursor:pointer;transition:border-color .12s,background .12s;font-family:inherit;width:100%;';
+        card.innerHTML = '<span style="font-size:1.9rem;line-height:1">' + n.icon + '</span>'
+          + '<span style="font-size:.78rem;font-weight:600;color:#1e293b;text-align:center;line-height:1.3">' + (isEs ? n.es : n.en) + '</span>';
+
+        card.addEventListener('mouseenter', function() {
+          if (!card.classList.contains('niche-selected')) {
+            card.style.borderColor = '#FF671F'; card.style.background = '#fff7f3';
+          }
+        });
+        card.addEventListener('mouseleave', function() {
+          if (!card.classList.contains('niche-selected')) {
+            card.style.borderColor = '#e2e8f0'; card.style.background = '#fff';
+          }
+        });
+        card.addEventListener('click', function() {
+          var all = grid.querySelectorAll('button');
+          for (var j = 0; j < all.length; j++) {
+            all[j].classList.remove('niche-selected');
+            all[j].style.borderColor = '#e2e8f0'; all[j].style.background = '#fff';
+          }
+          card.classList.add('niche-selected');
+          card.style.borderColor = '#FF671F'; card.style.background = '#fff7f3';
+          card.disabled = true;
+          saveNiche(n.key, overlay);
+        });
+        grid.appendChild(card);
+      })(NICHES[i]);
+    }
+    modal.appendChild(grid);
+
+    var skip = document.createElement('p');
+    skip.style.cssText = 'text-align:center;margin:0;';
+    var skipLink = document.createElement('a');
+    skipLink.href = '#';
+    skipLink.textContent = isEs ? 'Configurar más tarde' : 'Set up later';
+    skipLink.style.cssText = 'color:#94a3b8;font-size:.85rem;text-decoration:none;';
+    skipLink.addEventListener('click', function(e) { e.preventDefault(); overlay.remove(); });
+    skip.appendChild(skipLink);
+    modal.appendChild(skip);
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+  }
+
   /* ── Navigation items ── */
   var NAV_ITEMS = [
     { id: "dashboard", key: "dashboard", icon: "dashboard", href: "index.html" },
@@ -920,6 +1038,12 @@
     applyI18n();
     injectLangSwitcher();
     initDemoGate();
+
+    // Show niche picker for real (non-demo) users who haven't selected an industry yet
+    if (!isDemo()) {
+      var _u = getLoggedInUser();
+      if (_u && !_u.niche) showNichePicker();
+    }
   });
 
   window.CRM_APP = {
@@ -930,8 +1054,12 @@
     channelIcon: channelIcon,
     getActivePage: getActivePage,
     getUser: getLoggedInUser,
+    getUserNiche: getUserNiche,
     isDemo: isDemo,
     showUpgradeModal: showUpgradeModal,
+    showNichePicker: showNichePicker,
+    saveNiche: saveNiche,
+    NICHES: NICHES,
     initDemoGate: initDemoGate,
     ICONS: ICONS,
     t: t,

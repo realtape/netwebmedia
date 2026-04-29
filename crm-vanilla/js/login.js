@@ -143,7 +143,9 @@
         window.location.href = '/pricing.html?reason=signup';
         return;
       }
-      setSession(data.name, data.email, data.company || '', data.type || 'user');
+      setSession(data.name, data.email, data.company || '', data.type || 'user', {
+        id: data.id, plan: data.plan, niche: data.niche
+      });
       window.location.href = 'index.html';
     })
     .catch(function() {
@@ -154,14 +156,20 @@
   });
 
   /* ── Session helper ── */
-  function setSession(name, email, company, type) {
-    localStorage.setItem('crm_demo_user', JSON.stringify({
+  function setSession(name, email, company, type, extra) {
+    var u = {
       name: name,
       email: email,
       company: company,
       type: type,
       loginAt: new Date().toISOString()
-    }));
+    };
+    if (extra) {
+      if (extra.id    !== undefined) u.id    = extra.id;
+      if (extra.plan  !== undefined) u.plan  = extra.plan;
+      if (extra.niche !== undefined) u.niche = extra.niche;
+    }
+    localStorage.setItem('crm_demo_user', JSON.stringify(u));
     document.cookie = 'crm_demo=1; path=/app/; max-age=604800; SameSite=Lax';
   }
 })();

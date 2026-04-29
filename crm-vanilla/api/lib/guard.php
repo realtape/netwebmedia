@@ -35,7 +35,7 @@ function guard_user(): ?array {
 
     $db  = getDB();
     $stmt = $db->prepare(
-        'SELECT id, name, email, company, role, plan, status FROM users WHERE id = ? LIMIT 1'
+        'SELECT id, name, email, company, role, plan, niche, status FROM users WHERE id = ? LIMIT 1'
     );
     $stmt->execute([(int)$uid]);
     $u = $stmt->fetch() ?: null;

@@ -19,6 +19,35 @@ switch ($method) {
         $data = getInput();
         if (empty($data['title'])) jsonError('Title is required');
 
+        $email = trim($data['email'] ?? '');
+        if (empty($email)) jsonError('Email is required for all pipeline leads', 422);
+
+        // Resolve or create a contact from the email
+        $contact_id = isset($data['contact_id']) ? (int)$data['contact_id'] : null;
+        if (!$contact_id) {
+            $cs = $db->prepare('SELECT id, phone FROM contacts WHERE email = ? LIMIT 1');
+            $cs->execute([$email]);
+            $existing = $cs->fetch();
+            if ($existing) {
+                $contact_id = (int)$existing['id'];
+                // Backfill phone if the contact has none and we received one
+                if (!empty($data['phone']) && empty($existing['phone'])) {
+                    $db->prepare('UPDATE contacts SET phone = ? WHERE id = ?')
+                       ->execute([$data['phone'], $contact_id]);
+                }
+            } else {
+                $db->prepare('INSERT INTO contacts (name, email, phone, company, status) VALUES (?, ?, ?, ?, ?)')
+                   ->execute([
+                       $data['company'] ?: $email,
+                       $email,
+                       $data['phone'] ?? null,
+                       $data['company'] ?? null,
+                       'lead',
+                   ]);
+                $contact_id = (int)$db->lastInsertId();
+            }
+        }
+
         if (empty($data['source'])) {
             $t = strtolower($data['title']);
             if (strpos($t, 'outreach') !== false || strpos($t, 'nurture') !== false || strpos($t, 'tier') !== false) {
@@ -37,14 +66,14 @@ switch ($method) {
             $data['title'],
             $data['company'] ?? null,
             $data['value'] ?? 0,
-            $data['contact_id'] ?? null,
+            $contact_id,
             $data['stage_id'] ?? 1,
             $data['probability'] ?? 0,
             $data['days_in_stage'] ?? 0,
             $data['source'] ?? null,
         ]);
         $newId = $db->lastInsertId();
-        $stmt = $db->prepare('SELECT d.*, ps.name as stage FROM deals d LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id WHERE d.id = ?');
+        $stmt = $db->prepare('SELECT d.*, ps.name as stage, c.name as contact_name, c.email as contact_email, c.phone as contact_phone FROM deals d LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id LEFT JOIN contacts c ON d.contact_id = c.id WHERE d.id = ?');
         $stmt->execute([$newId]);
         jsonResponse($stmt->fetch(), 201);
         break;

@@ -40,6 +40,8 @@
         '<h3 id="dealModalTitle">New Deal</h3>' +
         '<form id="dealForm">' +
           '<label>Title *<input name="title" required placeholder="Website Redesign"></label>' +
+          '<label>Email * <small style="color:#94a3b8;font-weight:400">(required)</small><input name="email" type="email" required placeholder="contact@company.com"></label>' +
+          '<label>Phone <small style="color:#94a3b8;font-weight:400">(recommended for WhatsApp)</small><input name="phone" type="tel" placeholder="+56 9 1234 5678"></label>' +
           '<label>Company<input name="company" placeholder="Acme Corp"></label>' +
           '<label>Value ($)<input name="value" type="number" min="0" placeholder="5000"></label>' +
           '<label>Stage<select name="stage_id" id="dealStageSelect"></select></label>' +
@@ -99,6 +101,8 @@
 
     var body = JSON.stringify({
       title: title,
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim() || null,
       company: form.company.value.trim(),
       value: parseInt(form.value.value, 10) || 0,
       stage_id: parseInt(form.stage_id.value, 10),

@@ -89,6 +89,21 @@ switch ($method) {
         }
 
         try {
+            // Niche is stored on the users table, not org_settings
+            if (array_key_exists('niche', $data)) {
+                $user = guard_user();
+                if ($user && $user['id']) {
+                    $niches_cfg = require __DIR__ . '/../config/niches.php';
+                    $newNiche = ($data['niche'] === '' || $data['niche'] === null) ? null : $data['niche'];
+                    if ($newNiche !== null && !isset($niches_cfg[$newNiche])) {
+                        jsonError('Unknown niche: ' . $newNiche, 400);
+                    }
+                    $db->prepare('UPDATE users SET niche = ? WHERE id = ?')
+                       ->execute([$newNiche, (int)$user['id']]);
+                }
+                unset($data['niche']);
+            }
+
             $stmt = $db->prepare(
                 'INSERT INTO org_settings (`key`, value)
                  VALUES (?, ?)

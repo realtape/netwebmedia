@@ -82,6 +82,13 @@
       }
     }
 
+    // Niche — read from the logged-in user object (stored on users table, not org_settings)
+    var nicheSelect = document.getElementById('nicheSelect');
+    if (nicheSelect && window.CRM_APP && CRM_APP.getUser) {
+      var u = CRM_APP.getUser();
+      if (u && u.niche) nicheSelect.value = u.niche;
+    }
+
     // Notification toggles — ordered as they appear in #tab-notifications
     var toggleOrder = [
       'email_notifications',
@@ -190,6 +197,9 @@
       var el = document.querySelector('#tab-general [name="' + fields[i] + '"]');
       if (el) payload[fields[i]] = el.value;
     }
+
+    var nicheEl = document.getElementById('nicheSelect');
+    if (nicheEl) payload.niche = nicheEl.value;
 
     return payload;
   }

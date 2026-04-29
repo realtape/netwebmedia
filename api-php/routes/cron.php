@@ -90,5 +90,52 @@ function route_cron($parts, $method) {
     json_out(['ok' => true] + $result);
   }
 
+  // /cron/seed-pipeline-automations — load api-php/data/pipeline-automations.json
+  // into resources(type=workflow). Idempotent — upserts by slug.
+  // Accepts: &dry=1 for preview, &org_id=N (default 1).
+  if ($sub === 'seed-pipeline-automations') {
+    $jsonPath = __DIR__ . '/../data/pipeline-automations.json';
+    if (!is_file($jsonPath)) {
+      json_out(['ok' => false, 'reason' => 'json_missing', 'path' => $jsonPath], 500);
+    }
+    $src = json_decode(file_get_contents($jsonPath), true);
+    if (!$src || empty($src['workflows'])) {
+      json_out(['ok' => false, 'reason' => 'invalid_json'], 500);
+    }
+    $orgId = max(1, (int)($_GET['org_id'] ?? 1));
+    $dry   = !empty($_GET['dry']);
+    $inserted = $updated = $skipped = 0;
+    $log = [];
+    foreach ($src['workflows'] as $wf) {
+      $slug   = $wf['slug']   ?? null;
+      $title  = $wf['title']  ?? null;
+      $status = $wf['status'] ?? 'active';
+      $data   = $wf['data']   ?? null;
+      if (!$slug || !$title || !$data) { $skipped++; $log[] = ['skip' => $slug]; continue; }
+      $existing = qOne("SELECT id FROM resources WHERE type='workflow' AND org_id=? AND slug=? LIMIT 1", [$orgId, $slug]);
+      $dataJson = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+      if ($existing) {
+        if (!$dry) qExec("UPDATE resources SET title=?, status=?, data=?, updated_at=NOW() WHERE id=?", [$title, $status, $dataJson, $existing['id']]);
+        $updated++;
+        $log[] = ['update' => $slug, 'id' => (int)$existing['id']];
+      } else {
+        if (!$dry) qExec("INSERT INTO resources (org_id, type, slug, title, status, data, owner_id, created_at, updated_at) VALUES (?, 'workflow', ?, ?, ?, ?, NULL, NOW(), NOW())", [$orgId, $slug, $title, $status, $dataJson]);
+        $inserted++;
+        $log[] = ['insert' => $slug];
+      }
+    }
+    json_out([
+      'ok'       => true,
+      'mode'     => $dry ? 'dry_run' : 'apply',
+      'org_id'   => $orgId,
+      'version'  => $src['version'] ?? null,
+      'expected' => count($src['workflows']),
+      'inserted' => $inserted,
+      'updated'  => $updated,
+      'skipped'  => $skipped,
+      'details'  => $log,
+    ]);
+  }
+
   err('Cron route not found', 404);
 }

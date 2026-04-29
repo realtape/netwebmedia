@@ -46,23 +46,32 @@ try {
 $importOrgId = is_org_schema_applied() ? (current_org_id() ?? ORG_MASTER_ID) : null;
 
 // Parse CSV (with optional chunking for large files) --------------------------
-$rows    = [];
-$lineNum = 0;
-$fp      = fopen($csvFile, 'r');
-$headers = fgetcsv($fp);
-$headers[0] = ltrim($headers[0], "\xEF\xBB\xBF");   // strip BOM
+// Use SplFileObject::seek() so later offsets don't re-read all prior rows in
+// PHP userspace — seeking happens at the C level, avoiding O(N²) slowdown.
+set_time_limit(300);
+$rows = [];
+
+$sfo = new SplFileObject($csvFile);
+$sfo->setFlags(SplFileObject::READ_CSV | SplFileObject::READ_AHEAD | SplFileObject::SKIP_EMPTY);
+
+// Row 0 = header
+$sfo->seek(0);
+$headers = $sfo->current() ?: [];
+$headers[0] = ltrim((string)($headers[0] ?? ''), "\xEF\xBB\xBF");  // strip BOM
 $hMap    = array_flip($headers);
 
 $get = function (array $row, string $col) use ($hMap): string {
     return isset($hMap[$col]) ? trim($row[$hMap[$col]] ?? '') : '';
 };
 
-while ($raw = fgetcsv($fp)) {
-    if (count($raw) !== count($headers)) { $lineNum++; continue; }
-    // Chunked windowing: skip rows outside [chunkStart, chunkStart+chunkSize)
-    if ($lineNum < $chunkStart)                        { $lineNum++; continue; }
-    if ($lineNum >= $chunkStart + $chunkSize)          { break; }
-    $lineNum++;
+// Jump directly to data start (header=row 0, data starts at row 1+chunkStart)
+$sfo->seek($chunkStart + 1);
+$count = 0;
+while (!$sfo->eof() && $count < $chunkSize) {
+    $raw = $sfo->current();
+    $sfo->next();
+    if (!is_array($raw) || count($raw) !== count($headers)) continue;
+    $count++;
 
     $email = strtolower(trim($raw[$hMap['email'] ?? 0] ?? ''));
     if ($email === '' || strpos($email, '@') === false) continue;
@@ -110,7 +119,7 @@ while ($raw = fgetcsv($fp)) {
         'segment'      => $segment,
     ];
 }
-fclose($fp);
+unset($sfo);
 
 $parsed   = count($rows);
 $inserted = 0;

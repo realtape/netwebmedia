@@ -56,7 +56,7 @@ jobs:
         run: |
           token="${IMPORT_BEST_TOKEN:-NWM_IMPORT_BEST_2026}"
           dry="${{ inputs.dry_run == true && '&dry=1' || '' }}"
-          resp=$(curl -sS --max-time 120 \
+          resp=$(curl -sS --max-time 300 \
             -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
             -H "Accept: application/json,text/plain,*/*" \
             -H "Origin: https://netwebmedia.com" \
@@ -71,7 +71,7 @@ jobs:
         run: |
           token="${IMPORT_BEST_TOKEN:-NWM_IMPORT_BEST_2026}"
           dry="${{ inputs.dry_run == true && '&dry=1' || '' }}"
-          resp=$(curl -sS --max-time 120 \
+          resp=$(curl -sS --max-time 300 \
             -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
             -H "Accept: application/json,text/plain,*/*" \
             -H "Origin: https://netwebmedia.com" \
@@ -86,7 +86,7 @@ jobs:
         run: |
           token="${IMPORT_BEST_TOKEN:-NWM_IMPORT_BEST_2026}"
           dry="${{ inputs.dry_run == true && '&dry=1' || '' }}"
-          resp=$(curl -sS --max-time 120 \
+          resp=$(curl -sS --max-time 300 \
             -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
             -H "Accept: application/json,text/plain,*/*" \
             -H "Origin: https://netwebmedia.com" \
@@ -101,7 +101,7 @@ jobs:
         run: |
           token="${IMPORT_BEST_TOKEN:-NWM_IMPORT_BEST_2026}"
           dry="${{ inputs.dry_run == true && '&dry=1' || '' }}"
-          resp=$(curl -sS --max-time 120 \
+          resp=$(curl -sS --max-time 300 \
             -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
             -H "Accept: application/json,text/plain,*/*" \
             -H "Origin: https://netwebmedia.com" \

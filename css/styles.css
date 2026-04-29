@@ -381,7 +381,18 @@ ul { list-style: none; }
   padding: 0 24px;
 }
 
-/* ── Buttons ── */
+/* ── Buttons ──
+   CANONICAL CLASSES (no regressions allowed):
+   - .btn-primary     → orange gradient, strongest CTA (hero, forms)
+   - .btn-secondary   → transparent with border, secondary CTA
+   - .btn-white       → solid white, highest contrast
+   - .btn-nav-solid   → nav pill orange, inline nav CTAs
+   - .btn-nav-outline → nav outline pill, secondary nav links
+
+   Mapping: All ad-hoc inline gradients + scattered styles consolidated to
+   .btn-primary for consistency. These classes are the design system.
+   ──────────────────────────────────────────────────────────────────── */
+
 .btn-primary {
   display: inline-flex;
   align-items: center;

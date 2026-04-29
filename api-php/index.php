@@ -12,6 +12,7 @@ if (!defined('NWM_BRIDGE') && isset($_SERVER['REQUEST_URI']) && strpos($_SERVER[
   exit;
 }
 
+require __DIR__ . '/lib/sentry-vanilla.php';  // Capture exceptions + errors
 require __DIR__ . '/lib/db.php';
 require __DIR__ . '/lib/response.php';
 require __DIR__ . '/lib/auth.php';

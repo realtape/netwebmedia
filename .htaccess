@@ -358,6 +358,13 @@ Options -Indexes
   AddOutputFilterByType DEFLATE font/ttf font/otf font/woff font/woff2 application/vnd.ms-fontobject
 </IfModule>
 
+# ── Vary header optimization ──────────────────────────────────────────
+# Remove User-Agent from Vary to avoid CDN cache fragmentation.
+# Only Accept-Encoding is content-affecting at this layer.
+<IfModule mod_headers.c>
+  Header set Vary "Accept-Encoding"
+</IfModule>
+
 # ── Browser caching ────────────────────────────────────────────────────
 # HTML: edge-cacheable for 5 min with stale-while-revalidate fallback
 # CSS/JS: long immutable cache (filenames already cache-busted via ?v=N query string)

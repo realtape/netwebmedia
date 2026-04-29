@@ -8,15 +8,8 @@ import requests
 FILE_PATH   = r"C:\Users\Usuario\Desktop\NetWebMedia\hyperframes\nwm-reels\renders\reel-08-340k-pipeline.mp4"
 CHUNK_SIZE  = 4 * 1024 * 1024   # 4 MB (must be multiple of 256 KB)
 
-# Reconstructed from char-code extraction
-UPLOAD_URL  = (
-    "https://upload.youtube.com/?authuser=1&upload_type=scotty&v=1"
-    "&upload_id=AAVLpEjOBrGo2-5i-muu_Y4v_8goEWOHUbhPOqvILnP7d9oRMS04-4Pe9NJz6vdVfMOec2PqH6V1"
-    "xuhRJAWrp8hh5_f8cQQfHPxZngH0dJDC_Vg"
-    "&upload_protocol=resumable"
-    "&origin=CihodHRwczovL3VwbG9hZC55b3V0dWJlLmNvbS91cGxvYWQvc3R1ZGlvEjhibG9ic3RvcmUtaHR0cC1w"
-    "cm9kLWdsb2JhbC15b3V0dWJlLWRlZmF1bHQtdmlkZW8tdXBsb2Fkcw"
-)
+# Fresh session — created just now from browser
+UPLOAD_URL  = "https://upload.youtube.com/?authuser=1&upload_type=scotty&v=1&upload_id=AAVLpEjbd7vYXaPLTb8eXL_Nm2SrRp_hN9ohYla_i7pPPe7gQWNMpZ-TuW2sM8Z1jBJLBlOpPMuPobuLWmCcic_ivfqb5hRWPCoELLzzCpD8jv4&upload_protocol=resumable&origin=CihodHRwczovL3VwbG9hZC55b3V0dWJlLmNvbS91cGxvYWQvc3R1ZGlvEjhibG9ic3RvcmUtaHR0cC1wcm9kLWdsb2JhbC15b3V0dWJlLWRlZmF1bHQtdmlkZW8tdXBsb2Fkcw"
 
 def query_offset():
     """Ask the server how many bytes it has received so far."""

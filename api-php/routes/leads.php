@@ -3,16 +3,47 @@
  * Lead import, qualification, routing, and sequence enrollment.
  *
  * Routes:
- * POST /api/leads/import/csv          — import prospects from CSV file
- * POST /api/leads/qualify             — score & qualify pending leads
- * POST /api/leads/assign              — assign qualified leads to team
- * POST /api/leads/enroll-sequences    — enroll in nurture sequences
- * GET  /api/leads/status              — pipeline stats
+ * POST   /api/leads/import/csv          — import prospects from CSV file
+ * POST   /api/leads/qualify             — score & qualify pending leads (uses scoring rules)
+ * POST   /api/leads/assign              — assign qualified leads to team
+ * POST   /api/leads/enroll-sequences    — enroll in nurture sequences
+ * GET    /api/leads/status              — pipeline stats
+ * GET    /api/leads/scoring-rules       — list scoring rules (configurable engine)
+ * POST   /api/leads/scoring-rules       — create rule
+ * PUT    /api/leads/scoring-rules/:id   — update rule
+ * DELETE /api/leads/scoring-rules/:id   — delete rule
+ * POST   /api/leads/score-preview       — preview score for sample contact data
  */
 
 require_once __DIR__ . '/../lib/db.php';
 require_once __DIR__ . '/../lib/response.php';
 require_once __DIR__ . '/../lib/email-sequences.php';
+
+function leads_ensure_scoring_schema() {
+  static $done = false;
+  if ($done) return;
+  db()->exec("CREATE TABLE IF NOT EXISTS lead_scoring_rules (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    org_id      INT NOT NULL DEFAULT 1,
+    name        VARCHAR(150) NOT NULL,
+    field       VARCHAR(80) NOT NULL,
+    operator    VARCHAR(20) NOT NULL DEFAULT 'present',
+    value       VARCHAR(500) DEFAULT NULL,
+    points      INT NOT NULL DEFAULT 0,
+    enabled     TINYINT(1) NOT NULL DEFAULT 1,
+    sort_order  INT NOT NULL DEFAULT 0,
+    created_at  DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at  DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    KEY ix_org_enabled (org_id, enabled)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+  db()->exec("CREATE TABLE IF NOT EXISTS lead_scoring_config (
+    org_id      INT PRIMARY KEY,
+    threshold   INT NOT NULL DEFAULT 30,
+    updated_at  DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  $done = true;
+}
 
 function route_leads($parts, $method) {
   $sub = $parts[0] ?? null;
@@ -35,6 +66,24 @@ function route_leads($parts, $method) {
 
   if ($sub === 'status' && $method === 'GET') {
     return leads_status();
+  }
+
+  if ($sub === 'scoring-rules') {
+    leads_ensure_scoring_schema();
+    $id = isset($parts[1]) && ctype_digit((string)$parts[1]) ? (int)$parts[1] : null;
+    if ($id) {
+      if ($method === 'PUT')    return leads_scoring_rule_update($id);
+      if ($method === 'DELETE') return leads_scoring_rule_delete($id);
+      err('Method not allowed', 405);
+    }
+    if ($method === 'GET')  return leads_scoring_rules_list();
+    if ($method === 'POST') return leads_scoring_rule_create();
+    err('Method not allowed', 405);
+  }
+
+  if ($sub === 'score-preview' && $method === 'POST') {
+    leads_ensure_scoring_schema();
+    return leads_score_preview();
   }
 
   err('Leads route not found', 404);

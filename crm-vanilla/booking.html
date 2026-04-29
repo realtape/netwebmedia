@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking - NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css?v=8">
+  <style>
+    .booking-tabs { display:flex; gap:4px; border-bottom:1px solid #e3e5ee; margin-bottom:18px; }
+    .booking-tab { padding:10px 18px; border:none; background:transparent; color:#64748b; font:600 13px Inter; cursor:pointer; border-bottom:2px solid transparent; }
+    .booking-tab.active { color:#010F3B; border-bottom-color:#FF671F; }
+    .booking-panel { display:none; }
+    .booking-panel.active { display:block; }
+
+    /* Links list */
+    .link-card { background:#fff; border:1px solid #e3e5ee; border-radius:10px; padding:16px; margin-bottom:10px; display:flex; gap:12px; align-items:flex-start; }
+    .link-card .info { flex:1; min-width:0; }
+    .link-card h4 { margin:0 0 4px; color:#010F3B; font:700 15px Inter; }
+    .link-card .desc { color:#64748b; font:500 12px Inter; }
+    .link-card .url { display:block; color:#FF671F; font:500 12px Inter; margin-top:6px; word-break:break-all; }
+    .link-card .meta { color:#94a3b8; font:600 11px Inter; text-transform:uppercase; letter-spacing:.4px; margin-top:8px; }
+    .link-card .meta span { margin-right:10px; }
+    .link-card.disabled { opacity:.55; }
+    .link-card .actions { display:flex; gap:6px; flex-shrink:0; flex-wrap:wrap; }
+
+    /* Availability grid */
+    .avail-grid { display:grid; gap:10px; }
+    .avail-day { background:#fff; border:1px solid #e3e5ee; border-radius:10px; padding:12px 14px; }
+    .avail-day-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .avail-day-name { font:700 13px Inter; color:#010F3B; }
+    .avail-windows { display:flex; flex-wrap:wrap; gap:8px; }
+    .avail-window { display:flex; align-items:center; gap:6px; background:#f8fafc; border:1px solid #e3e5ee; padding:5px 10px; border-radius:6px; font:500 13px Inter; }
+    .avail-window input { width:78px; padding:4px 6px; border:1px solid #e3e5ee; border-radius:4px; font:500 13px Inter; }
+    .avail-window button { background:transparent; border:none; color:#b91c1c; cursor:pointer; font-size:14px; padding:0 4px; }
+    .avail-add { background:none; border:1px dashed #c8cad6; color:#64748b; padding:5px 10px; border-radius:6px; font:600 12px Inter; cursor:pointer; }
+    .avail-add:hover { color:#FF671F; border-color:#FF671F; }
+
+    /* Bookings table */
+    .booking-row { background:#fff; border:1px solid #e3e5ee; border-radius:10px; padding:14px; margin-bottom:8px; display:flex; gap:14px; align-items:flex-start; flex-wrap:wrap; }
+    .booking-row.cancelled { opacity:.55; }
+    .booking-row .when { font:700 14px Inter; color:#010F3B; min-width:200px; }
+    .booking-row .guest { color:#1a1a2e; font:500 13px Inter; flex:1; min-width:200px; }
+    .booking-row .guest .small { color:#64748b; font-size:12px; }
+    .booking-row .badge { display:inline-block; padding:2px 8px; border-radius:6px; font:700 11px Inter; text-transform:uppercase; letter-spacing:.3px; }
+    .booking-row .badge.confirmed { background:#dcfce7; color:#166534; }
+    .booking-row .badge.cancelled { background:#fee2e2; color:#b91c1c; }
+
+    /* Modal */
+    .modal-backdrop { position:fixed; inset:0; background:rgba(2,8,23,.55); z-index:1000; display:none; align-items:center; justify-content:center; }
+    .modal-backdrop.open { display:flex; }
+    .modal { background:#fff; border-radius:14px; padding:22px; width:540px; max-width:92vw; max-height:88vh; overflow:auto; box-shadow:0 20px 50px rgba(0,0,0,.25); }
+    .modal h3 { margin:0 0 14px; color:#010F3B; }
+    .modal label { display:block; color:#1a1a2e; font:600 12px Inter; margin:10px 0 4px; text-transform:uppercase; letter-spacing:.4px; }
+    .modal input, .modal textarea, .modal select { width:100%; padding:9px 10px; border:1px solid #e3e5ee; border-radius:8px; font:400 14px Inter; }
+    .modal textarea { min-height:60px; resize:vertical; }
+    .modal .row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .modal-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:18px; }
+
+    .empty-state { text-align:center; padding:50px 20px; color:#64748b; }
+
+    /* Toast */
+    .toast { position:fixed; bottom:24px; right:24px; background:#10b981; color:#fff; padding:10px 16px; border-radius:8px; font:600 13px Inter; z-index:1100; box-shadow:0 4px 14px rgba(0,0,0,.15); }
+    .toast.error { background:#b91c1c; }
+  </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-V71R6PD7C0',{anonymize_ip:true});</script>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div class="booking-tabs">
+          <button class="booking-tab active" data-bktab="links">Booking Links</button>
+          <button class="booking-tab" data-bktab="availability">Availability</button>
+          <button class="booking-tab" data-bktab="bookings">Upcoming Bookings</button>
+        </div>
+
+        <!-- Links -->
+        <div class="booking-panel active" id="bk-links">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+            <p style="margin:0;color:#64748b;font:500 13px Inter">Share these public links with prospects so they can book a meeting on your calendar.</p>
+            <button class="btn btn-primary" id="newLinkBtn">+ New Link</button>
+          </div>
+          <div id="linksList"></div>
+        </div>
+
+        <!-- Availability -->
+        <div class="booking-panel" id="bk-availability">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+            <p style="margin:0;color:#64748b;font:500 13px Inter">Define when you're available each week. Bookings will only allow these times.</p>
+            <button class="btn btn-primary" id="saveAvailBtn">Save Schedule</button>
+          </div>
+          <div class="avail-grid" id="availGrid"></div>
+        </div>
+
+        <!-- Bookings -->
+        <div class="booking-panel" id="bk-bookings">
+          <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px;">
+            <select id="bookingStatusFilter" style="padding:7px 12px;border:1px solid #e3e5ee;border-radius:8px;font:500 13px Inter">
+              <option value="">All bookings</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <button class="btn btn-secondary" id="reloadBookings">Refresh</button>
+          </div>
+          <div id="bookingsList"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Link modal -->
+  <div class="modal-backdrop" id="linkModal">
+    <div class="modal">
+      <h3 id="linkModalTitle">New Booking Link</h3>
+      <input type="hidden" id="linkId">
+      <label>Title</label>
+      <input id="linkTitle" placeholder="30-minute consultation">
+      <label>Public slug (URL)</label>
+      <input id="linkSlug" placeholder="auto-generated from title if blank">
+      <label>Description</label>
+      <textarea id="linkDescription" placeholder="What will guests get from this meeting?"></textarea>
+      <div class="row">
+        <div>
+          <label>Duration (min)</label>
+          <input id="linkDuration" type="number" value="30" min="5">
+        </div>
+        <div>
+          <label>Buffer (min)</label>
+          <input id="linkBuffer" type="number" value="0" min="0">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Min. notice (hours)</label>
+          <input id="linkAdvanceMin" type="number" value="4" min="0">
+        </div>
+        <div>
+          <label>Max. days ahead</label>
+          <input id="linkAdvanceMax" type="number" value="30" min="1">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Meeting type</label>
+          <select id="linkMeetingType">
+            <option value="video">Video call</option>
+            <option value="phone">Phone call</option>
+            <option value="in_person">In person</option>
+          </select>
+        </div>
+        <div>
+          <label>Active</label>
+          <select id="linkIsActive">
+            <option value="1">Yes</option>
+            <option value="0">No (paused)</option>
+          </select>
+        </div>
+      </div>
+      <label>Meeting location / link</label>
+      <input id="linkLocation" placeholder="Zoom URL, address, or instructions">
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="linkCancel">Cancel</button>
+        <button class="btn btn-danger"   id="linkDelete" style="display:none;">Delete</button>
+        <button class="btn btn-primary"  id="linkSave">Save Link</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js?v=8"></script>
+  <script src="js/booking-admin.js?v=1"></script>
+  <script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

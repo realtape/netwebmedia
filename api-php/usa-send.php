@@ -229,8 +229,15 @@ function load_pending_usa_audience(array $free_domains, int $cap_total, ?string 
   // Build the IN(...) clause for free domains.
   $placeholders = implode(',', array_fill(0, count($free_domains), '?'));
 
+  // niche/niche_key/city/state/website live in the notes JSON column
+  // (per crm-vanilla/api/handlers/import_best.php), not as discrete columns.
   $sql = "
-    SELECT id, email, name, company, segment, niche, niche_key, city, state, website
+    SELECT id, email, name, company, segment,
+           JSON_UNQUOTE(JSON_EXTRACT(notes, '$.niche_key')) AS niche_key,
+           JSON_UNQUOTE(JSON_EXTRACT(notes, '$.niche'))     AS niche,
+           JSON_UNQUOTE(JSON_EXTRACT(notes, '$.city'))      AS city,
+           JSON_UNQUOTE(JSON_EXTRACT(notes, '$.state'))     AS state,
+           JSON_UNQUOTE(JSON_EXTRACT(notes, '$.website'))   AS website
     FROM contacts
     WHERE segment LIKE 'usa%'
       AND email IS NOT NULL AND TRIM(email) <> '' AND email LIKE '%@%.%'

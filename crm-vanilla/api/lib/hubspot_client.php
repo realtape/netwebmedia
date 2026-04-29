@@ -8,6 +8,8 @@ define('HS_CLIENT_LOADED', true);
 
 if (!defined('HS_BASE')) define('HS_BASE', 'https://api.hubapi.com');
 
+require_once __DIR__ . '/tenancy.php';
+
 function hs_request(string $method, string $path, array $payload = null): array {
     if (!defined('HUBSPOT_TOKEN') || HUBSPOT_TOKEN === '') {
         return ['code' => 0, 'body' => ['error' => 'no_token']];
@@ -69,6 +71,8 @@ function hs_upsert_contact(array $c): ?string {
 
 function hs_pull_into_local(PDO $db): array {
     $after = null; $inserted = 0; $updated = 0; $skipped = 0;
+    // Resolve target org once; HubSpot pulls go into the active org (default master).
+    $orgId = is_org_schema_applied() ? (current_org_id() ?? ORG_MASTER_ID) : null;
     do {
         $path = '/crm/v3/objects/contacts?limit=100&properties=email,firstname,lastname,phone,company,lifecyclestage';
         if ($after) $path .= '&after=' . urlencode($after);
@@ -79,16 +83,27 @@ function hs_pull_into_local(PDO $db): array {
             if (empty($p['email'])) { $skipped++; continue; }
             $name = trim(($p['firstname'] ?? '') . ' ' . ($p['lastname'] ?? '')) ?: $p['email'];
             $status = ($p['lifecyclestage'] ?? '') === 'customer' ? 'customer' : 'lead';
-            $find = $db->prepare('SELECT id FROM contacts WHERE email = ? LIMIT 1');
-            $find->execute([$p['email']]);
+            // Find within the same org so two orgs syncing the same email don't collide.
+            if ($orgId !== null) {
+                $find = $db->prepare('SELECT id FROM contacts WHERE email = ? AND organization_id = ? LIMIT 1');
+                $find->execute([$p['email'], $orgId]);
+            } else {
+                $find = $db->prepare('SELECT id FROM contacts WHERE email = ? LIMIT 1');
+                $find->execute([$p['email']]);
+            }
             $existing = $find->fetchColumn();
             if ($existing) {
                 $db->prepare('UPDATE contacts SET name=?, phone=?, company=?, status=? WHERE id=?')
                    ->execute([$name, $p['phone'] ?? null, $p['company'] ?? null, $status, $existing]);
                 $updated++;
             } else {
-                $db->prepare('INSERT INTO contacts (name,email,phone,company,status) VALUES (?,?,?,?,?)')
-                   ->execute([$name, $p['email'], $p['phone'] ?? null, $p['company'] ?? null, $status]);
+                if ($orgId !== null) {
+                    $db->prepare('INSERT INTO contacts (organization_id,name,email,phone,company,status) VALUES (?,?,?,?,?,?)')
+                       ->execute([$orgId, $name, $p['email'], $p['phone'] ?? null, $p['company'] ?? null, $status]);
+                } else {
+                    $db->prepare('INSERT INTO contacts (name,email,phone,company,status) VALUES (?,?,?,?,?)')
+                       ->execute([$name, $p['email'], $p['phone'] ?? null, $p['company'] ?? null, $status]);
+                }
                 $inserted++;
             }
         }
@@ -98,7 +113,16 @@ function hs_pull_into_local(PDO $db): array {
 }
 
 function hs_push_all(PDO $db): array {
-    $stmt = $db->query("SELECT * FROM contacts WHERE email IS NOT NULL AND email <> ''");
+    // Only push contacts the current org owns. Master org pushes everything.
+    if (is_org_schema_applied()) {
+        [$where, $params] = org_where();
+        $sql = "SELECT * FROM contacts WHERE email IS NOT NULL AND email <> ''";
+        if ($where) $sql .= ' AND ' . $where;
+        $stmt = $db->prepare($sql);
+        $stmt->execute($params);
+    } else {
+        $stmt = $db->query("SELECT * FROM contacts WHERE email IS NOT NULL AND email <> ''");
+    }
     $pushed = 0; $failed = 0;
     while ($c = $stmt->fetch()) {
         $hsId = hs_upsert_contact($c);

@@ -7,23 +7,36 @@
  *   Optional: &dry_run=1  -> report only, no deletes
  */
 if ($method !== 'POST') jsonError('Use POST', 405);
+require_once __DIR__ . '/../lib/tenancy.php';
 if (!hash_equals(DEDUPE_TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 
 $dryRun = !empty($_GET['dry_run']);
 $db = getDB();
 
+// Scope to current org post-migration. Master org's org_where() returns '1=1'
+// so this stays a true global dedupe when called without X-Org-Slug, matching
+// the legacy behaviour. Sub-accounts get a per-org dedupe.
+$ow = ''; $owp = [];
+if (is_org_schema_applied()) { [$ow, $owp] = org_where(); }
+$andOw = $ow ? ' AND ' . $ow : '';
+$whrOw = $ow ? ' WHERE ' . $ow : '';
+
 // Count before
-$total = (int)$db->query("SELECT COUNT(*) FROM contacts")->fetchColumn();
+$ts = $db->prepare("SELECT COUNT(*) FROM contacts" . $whrOw);
+$ts->execute($owp);
+$total = (int)$ts->fetchColumn();
 
 // Find duplicate email groups (case-insensitive, ignore blanks/NULLs)
-$dups = $db->query("
+$ds = $db->prepare("
     SELECT LOWER(TRIM(email)) AS em, COUNT(*) AS n, MIN(id) AS keep_id,
            GROUP_CONCAT(id ORDER BY id) AS ids
     FROM contacts
-    WHERE email IS NOT NULL AND TRIM(email) <> ''
+    WHERE email IS NOT NULL AND TRIM(email) <> ''" . $andOw . "
     GROUP BY LOWER(TRIM(email))
     HAVING n > 1
-")->fetchAll(PDO::FETCH_ASSOC);
+");
+$ds->execute($owp);
+$dups = $ds->fetchAll(PDO::FETCH_ASSOC);
 
 $toDelete = [];
 $groups = 0;
@@ -38,16 +51,20 @@ foreach ($dups as $d) {
 
 $deleted = 0;
 if (!$dryRun && $toDelete) {
-    // Delete in chunks to avoid oversized IN() clauses
+    // Delete in chunks to avoid oversized IN() clauses. Repeat the org clause
+    // on the DELETE so the candidate ids must also belong to the current org.
     foreach (array_chunk($toDelete, 500) as $chunk) {
         $ph = implode(',', array_fill(0, count($chunk), '?'));
-        $stmt = $db->prepare("DELETE FROM contacts WHERE id IN ($ph)");
-        $stmt->execute($chunk);
+        $sql = "DELETE FROM contacts WHERE id IN ($ph)" . $andOw;
+        $stmt = $db->prepare($sql);
+        $stmt->execute(array_merge($chunk, $owp));
         $deleted += $stmt->rowCount();
     }
 }
 
-$after = (int)$db->query("SELECT COUNT(*) FROM contacts")->fetchColumn();
+$as = $db->prepare("SELECT COUNT(*) FROM contacts" . $whrOw);
+$as->execute($owp);
+$after = (int)$as->fetchColumn();
 
 jsonResponse([
     'dry_run'        => $dryRun,

@@ -118,7 +118,7 @@ function handleProviders(int $uid, PDO $db, ?int $orgId): void {
     jsonResponse(['items' => $providers]);
 }
 
-function handleSaveCredentials(int $uid, PDO $db): void {
+function handleSaveCredentials(int $uid, PDO $db, ?int $orgId): void {
     $data     = getInput();
     $provider = trim($data['provider'] ?? '');
     $fields   = $data['fields'] ?? [];
@@ -135,40 +135,50 @@ function handleSaveCredentials(int $uid, PDO $db): void {
     if (!$clean) jsonError('No valid credential fields');
 
     $enc = SocialEncryptor::encrypt($clean);
-    $db->prepare(
-        'INSERT INTO social_credentials (user_id, provider, credentials_enc)
-         VALUES (?, ?, ?)
-         ON DUPLICATE KEY UPDATE credentials_enc = VALUES(credentials_enc), connected_at = NOW()'
-    )->execute([$uid, $provider, $enc]);
+    if ($orgId !== null) {
+        $db->prepare(
+            'INSERT INTO social_credentials (user_id, organization_id, provider, credentials_enc)
+             VALUES (?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE credentials_enc = VALUES(credentials_enc), connected_at = NOW()'
+        )->execute([$uid, $orgId, $provider, $enc]);
+    } else {
+        $db->prepare(
+            'INSERT INTO social_credentials (user_id, provider, credentials_enc)
+             VALUES (?, ?, ?)
+             ON DUPLICATE KEY UPDATE credentials_enc = VALUES(credentials_enc), connected_at = NOW()'
+        )->execute([$uid, $provider, $enc]);
+    }
 
     // Trigger an immediate sync
-    $result = runSync($uid, $provider, $db);
+    $result = runSync($uid, $provider, $db, $orgId);
     jsonResponse(['ok' => true, 'synced' => $result['synced'], 'error' => $result['error']]);
 }
 
-function handleDeleteCredentials(int $uid, PDO $db): void {
+function handleDeleteCredentials(int $uid, PDO $db, ?int $orgId): void {
     $data     = getInput();
     $provider = trim($_GET['provider'] ?? $data['provider'] ?? '');
     if (!$provider) jsonError('provider required');
 
-    $db->prepare('DELETE FROM social_credentials WHERE user_id = ? AND provider = ?')
-       ->execute([$uid, $provider]);
-    $db->prepare('DELETE FROM social_posts WHERE user_id = ? AND provider = ?')
-       ->execute([$uid, $provider]);
+    [$orgClause, $orgParams] = _social_org_clause($orgId);
+    $db->prepare('DELETE FROM social_credentials WHERE user_id = ? AND provider = ?' . $orgClause)
+       ->execute(array_merge([$uid, $provider], $orgParams));
+    $db->prepare('DELETE FROM social_posts WHERE user_id = ? AND provider = ?' . $orgClause)
+       ->execute(array_merge([$uid, $provider], $orgParams));
 
     jsonResponse(['ok' => true]);
 }
 
-function handleFeed(int $uid, PDO $db): void {
+function handleFeed(int $uid, PDO $db, ?int $orgId): void {
     $provider = trim($_GET['provider'] ?? '');
     $limit    = min((int)($_GET['limit'] ?? 60), 200);
     $offset   = max((int)($_GET['offset'] ?? 0), 0);
 
+    [$orgClause, $orgParams] = _social_org_clause($orgId);
     $sql    = 'SELECT id, provider, platform_id, caption, media_url, thumbnail_url,
                       post_type, likes_count, comments_count, shares_count,
                       views_count, reach_count, permalink, published_at, cached_at
-               FROM social_posts WHERE user_id = ?';
-    $params = [$uid];
+               FROM social_posts WHERE user_id = ?' . $orgClause;
+    $params = array_merge([$uid], $orgParams);
 
     if ($provider) {
         $sql    .= ' AND provider = ?';
@@ -194,9 +204,9 @@ function handleFeed(int $uid, PDO $db): void {
 
     // Also return per-provider sync metadata
     $metaStmt = $db->prepare(
-        'SELECT provider, last_sync_at, post_count FROM social_credentials WHERE user_id = ?'
+        'SELECT provider, last_sync_at, post_count FROM social_credentials WHERE user_id = ?' . $orgClause
     );
-    $metaStmt->execute([$uid]);
+    $metaStmt->execute(array_merge([$uid], $orgParams));
     $meta = [];
     foreach ($metaStmt->fetchAll() as $r) {
         $meta[$r['provider']] = [
@@ -208,7 +218,7 @@ function handleFeed(int $uid, PDO $db): void {
     jsonResponse(['items' => $posts, 'meta' => $meta, 'total' => count($posts)]);
 }
 
-function handleSync(int $uid, PDO $db): void {
+function handleSync(int $uid, PDO $db, ?int $orgId): void {
     $data     = getInput();
     $provider = trim($data['provider'] ?? '');
 
@@ -216,25 +226,26 @@ function handleSync(int $uid, PDO $db): void {
     if ($provider && !in_array($provider, $allowed, true)) jsonError('Invalid provider');
 
     if ($provider) {
-        $result = runSync($uid, $provider, $db);
+        $result = runSync($uid, $provider, $db, $orgId);
         jsonResponse(['results' => [$provider => $result]]);
     }
 
     // Sync all connected providers
-    $stmt = $db->prepare('SELECT provider FROM social_credentials WHERE user_id = ?');
-    $stmt->execute([$uid]);
+    [$orgClause, $orgParams] = _social_org_clause($orgId);
+    $stmt = $db->prepare('SELECT provider FROM social_credentials WHERE user_id = ?' . $orgClause);
+    $stmt->execute(array_merge([$uid], $orgParams));
     $providers = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
     $results = [];
     foreach ($providers as $p) {
-        $results[$p] = runSync($uid, $p, $db);
+        $results[$p] = runSync($uid, $p, $db, $orgId);
     }
     jsonResponse(['results' => $results]);
 }
 
 /* ── Scheduled Posts ─────────────────────────────────────────────────────── */
 
-function handleListScheduled(int $uid, PDO $db): void {
+function handleListScheduled(int $uid, PDO $db, ?int $orgId): void {
     $ensureSql = 'CREATE TABLE IF NOT EXISTS `social_scheduled` (
       `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       `user_id` INT UNSIGNED NOT NULL DEFAULT 0,
@@ -251,15 +262,16 @@ function handleListScheduled(int $uid, PDO $db): void {
     ) ENGINE=InnoDB';
     $db->exec($ensureSql);
 
+    [$orgClause, $orgParams] = _social_org_clause($orgId);
     $stmt = $db->prepare(
         'SELECT id, providers, caption, media_url, status, scheduled_at, published_at, created_at
-         FROM social_scheduled WHERE user_id = ? ORDER BY scheduled_at ASC'
+         FROM social_scheduled WHERE user_id = ?' . $orgClause . ' ORDER BY scheduled_at ASC'
     );
-    $stmt->execute([$uid]);
+    $stmt->execute(array_merge([$uid], $orgParams));
     jsonResponse(['items' => $stmt->fetchAll()]);
 }
 
-function handleCreateScheduled(int $uid, PDO $db): void {
+function handleCreateScheduled(int $uid, PDO $db, ?int $orgId): void {
     $data = getInput();
     $caption      = trim($data['caption'] ?? '');
     $providers    = $data['providers'] ?? [];
@@ -288,17 +300,25 @@ function handleCreateScheduled(int $uid, PDO $db): void {
       INDEX `idx_status_scheduled` (`status`, `scheduled_at`)
     ) ENGINE=InnoDB');
 
-    $stmt = $db->prepare(
-        'INSERT INTO social_scheduled (user_id, providers, caption, media_url, scheduled_at)
-         VALUES (?, ?, ?, ?, ?)'
-    );
-    $stmt->execute([$uid, implode(',', $clean), $caption, $media_url ?: null, $scheduled_at]);
+    if ($orgId !== null) {
+        $stmt = $db->prepare(
+            'INSERT INTO social_scheduled (user_id, organization_id, providers, caption, media_url, scheduled_at)
+             VALUES (?, ?, ?, ?, ?, ?)'
+        );
+        $stmt->execute([$uid, $orgId, implode(',', $clean), $caption, $media_url ?: null, $scheduled_at]);
+    } else {
+        $stmt = $db->prepare(
+            'INSERT INTO social_scheduled (user_id, providers, caption, media_url, scheduled_at)
+             VALUES (?, ?, ?, ?, ?)'
+        );
+        $stmt->execute([$uid, implode(',', $clean), $caption, $media_url ?: null, $scheduled_at]);
+    }
     $id = (int)$db->lastInsertId();
 
     jsonResponse(['ok' => true, 'id' => $id], 201);
 }
 
-function handlePublishDue(int $uid, PDO $db): void {
+function handlePublishDue(int $uid, PDO $db, ?int $orgId): void {
     $db->exec('CREATE TABLE IF NOT EXISTS `social_scheduled` (
       `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       `user_id` INT UNSIGNED NOT NULL DEFAULT 0,
@@ -317,12 +337,13 @@ function handlePublishDue(int $uid, PDO $db): void {
     $data  = getInput();
     $force = !empty($data['force']) || !empty($_GET['force']) || !empty($_POST['force']);
 
+    [$orgClause, $orgParams] = _social_org_clause($orgId);
     $sql = $force
-        ? "SELECT id, providers, caption, media_url FROM social_scheduled WHERE user_id = ? AND status IN ('scheduled','publishing','failed')"
-        : 'SELECT id, providers, caption, media_url FROM social_scheduled WHERE user_id = ? AND status = "scheduled" AND scheduled_at <= NOW()';
+        ? "SELECT id, providers, caption, media_url FROM social_scheduled WHERE user_id = ?" . $orgClause . " AND status IN ('scheduled','publishing','failed')"
+        : 'SELECT id, providers, caption, media_url FROM social_scheduled WHERE user_id = ?' . $orgClause . ' AND status = "scheduled" AND scheduled_at <= NOW()';
 
     $stmt = $db->prepare($sql);
-    $stmt->execute([$uid]);
+    $stmt->execute(array_merge([$uid], $orgParams));
     $due = $stmt->fetchAll();
 
     if (!$due) jsonResponse(['published' => 0, 'message' => 'No posts due']);
@@ -336,9 +357,9 @@ function handlePublishDue(int $uid, PDO $db): void {
         $errors = [];
         foreach ($providerList as $provider) {
             $credRow = $db->prepare(
-                'SELECT credentials_enc FROM social_credentials WHERE user_id = ? AND provider = ?'
+                'SELECT credentials_enc FROM social_credentials WHERE user_id = ? AND provider = ?' . $orgClause
             );
-            $credRow->execute([$uid, $provider]);
+            $credRow->execute(array_merge([$uid, $provider], $orgParams));
             $row = $credRow->fetch();
             if (!$row) { $errors[] = $provider . ':not_connected'; continue; }
 
@@ -403,11 +424,12 @@ function socialPost(string $url, array $fields): array {
 
 /* ── Sync Runner ──────────────────────────────────────────────────────────── */
 
-function runSync(int $uid, string $provider, PDO $db): array {
+function runSync(int $uid, string $provider, PDO $db, ?int $orgId = null): array {
+    [$orgClause, $orgParams] = _social_org_clause($orgId);
     $stmt = $db->prepare(
-        'SELECT credentials_enc FROM social_credentials WHERE user_id = ? AND provider = ?'
+        'SELECT credentials_enc FROM social_credentials WHERE user_id = ? AND provider = ?' . $orgClause
     );
-    $stmt->execute([$uid, $provider]);
+    $stmt->execute(array_merge([$uid, $provider], $orgParams));
     $row = $stmt->fetch();
     if (!$row) return ['synced' => 0, 'error' => 'Not connected'];
 
@@ -431,18 +453,19 @@ function runSync(int $uid, string $provider, PDO $db): array {
     if (!empty($result['_creds'])) {
         $newEnc = SocialEncryptor::encrypt($result['_creds']);
         $db->prepare(
-            'UPDATE social_credentials SET credentials_enc = ? WHERE user_id = ? AND provider = ?'
-        )->execute([$newEnc, $uid, $provider]);
+            'UPDATE social_credentials SET credentials_enc = ? WHERE user_id = ? AND provider = ?' . $orgClause
+        )->execute(array_merge([$newEnc, $uid, $provider], $orgParams));
         unset($result['_creds']);
     }
 
-    // Update sync metadata
+    // Update sync metadata. The inner subquery counts posts in the same org so
+    // post_count stays correct after migration.
     $db->prepare(
         'UPDATE social_credentials
          SET last_sync_at = NOW(),
-             post_count   = (SELECT COUNT(*) FROM social_posts WHERE user_id = ? AND provider = ?)
-         WHERE user_id = ? AND provider = ?'
-    )->execute([$uid, $provider, $uid, $provider]);
+             post_count   = (SELECT COUNT(*) FROM social_posts WHERE user_id = ? AND provider = ?' . $orgClause . ')
+         WHERE user_id = ? AND provider = ?' . $orgClause
+    )->execute(array_merge([$uid, $provider], $orgParams, [$uid, $provider], $orgParams));
 
     return $result;
 }

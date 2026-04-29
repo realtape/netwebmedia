@@ -3,13 +3,29 @@
  * Diagnostic: reports email subsystem readiness WITHOUT exposing secrets.
  * GET /api/?r=email_status
  */
+require_once __DIR__ . '/../lib/tenancy.php';
+
 $resendConfigured = defined('RESEND_API_KEY') && RESEND_API_KEY !== '' && strpos(RESEND_API_KEY, 're_') === 0;
 $db = getDB();
 
-$tplCount = (int)$db->query("SELECT COUNT(*) FROM email_templates")->fetchColumn();
-$campCount = (int)$db->query("SELECT COUNT(*) FROM email_campaigns")->fetchColumn();
-$sendCount = (int)$db->query("SELECT COUNT(*) FROM campaign_sends")->fetchColumn();
-$unsubCount = (int)$db->query("SELECT COUNT(*) FROM unsubscribes")->fetchColumn();
+// Org-scope each count post-migration; pre-migration it remains a global view.
+// email_templates / email_campaigns gained user_id earlier so tenancy_where()
+// would compose; we use org_where() directly here because campaign_sends and
+// unsubscribes have no user_id and we want the same scope across all four.
+$ow = ''; $owp = [];
+if (is_org_schema_applied()) { [$ow, $owp] = org_where(); }
+$whr = $ow ? ' WHERE ' . $ow : '';
+
+$run = function (string $sql) use ($db, $owp) {
+    $st = $db->prepare($sql);
+    $st->execute($owp);
+    return $st;
+};
+
+$tplCount   = (int)$run("SELECT COUNT(*) FROM email_templates" . $whr)->fetchColumn();
+$campCount  = (int)$run("SELECT COUNT(*) FROM email_campaigns" . $whr)->fetchColumn();
+$sendCount  = (int)$run("SELECT COUNT(*) FROM campaign_sends" . $whr)->fetchColumn();
+$unsubCount = (int)$run("SELECT COUNT(*) FROM unsubscribes"  . $whr)->fetchColumn();
 
 // Lightweight Resend ping: GET /domains (fails fast if key invalid) — only if configured
 $resendDomainStatus = null;

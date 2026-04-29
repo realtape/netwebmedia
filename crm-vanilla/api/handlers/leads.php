@@ -1,5 +1,13 @@
 <?php
+require_once __DIR__ . '/../lib/tenancy.php';
 $db = getDB();
+// Public endpoint: resolve org from host (subdomain / custom domain).
+// Falls back to master org (id 1) when nothing matches — the legacy default.
+$leadOrgId = null;
+if (is_org_schema_applied()) {
+    $resolvedOrg = org_from_request();
+    $leadOrgId = $resolvedOrg ? (int)$resolvedOrg['id'] : ORG_MASTER_ID;
+}
 
 switch ($method) {
     case 'POST':
@@ -26,9 +34,15 @@ switch ($method) {
         $firstName = $nameParts[0];
         $lastName = isset($nameParts[1]) ? $nameParts[1] : '';
 
-        // Check if lead already exists
-        $stmt = $db->prepare('SELECT id FROM leads WHERE email = ?');
-        $stmt->execute([$email]);
+        // Check if lead already exists — scope by org when applied so the same
+        // email landing on two different white-label sites creates two distinct leads.
+        if ($leadOrgId !== null) {
+            $stmt = $db->prepare('SELECT id FROM leads WHERE email = ? AND organization_id = ?');
+            $stmt->execute([$email, $leadOrgId]);
+        } else {
+            $stmt = $db->prepare('SELECT id FROM leads WHERE email = ?');
+            $stmt->execute([$email]);
+        }
         $existing = $stmt->fetch();
 
         if ($existing) {
@@ -39,8 +53,13 @@ switch ($method) {
             $isReturning = true;
         } else {
             // Insert new lead
-            $stmt = $db->prepare('INSERT INTO leads (name, email, company, phone, source, created_at, last_login, login_count) VALUES (?, ?, ?, ?, ?, NOW(), NOW(), 1)');
-            $stmt->execute([$name, $email, $company, $phone, $source]);
+            if ($leadOrgId !== null) {
+                $stmt = $db->prepare('INSERT INTO leads (organization_id, name, email, company, phone, source, created_at, last_login, login_count) VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), 1)');
+                $stmt->execute([$leadOrgId, $name, $email, $company, $phone, $source]);
+            } else {
+                $stmt = $db->prepare('INSERT INTO leads (name, email, company, phone, source, created_at, last_login, login_count) VALUES (?, ?, ?, ?, ?, NOW(), NOW(), 1)');
+                $stmt->execute([$name, $email, $company, $phone, $source]);
+            }
             $leadId = (int)$db->lastInsertId();
             $isReturning = false;
         }
@@ -55,6 +74,21 @@ switch ($method) {
         break;
 
     case 'GET':
+        // Public route, but if a session-resolved org is present we still
+        // filter by it (a logged-in sub-account user calling this can never
+        // see another org's leads). Note: leads.php is in $public_routes so
+        // tenancy_where() returns '1=0' for unauthenticated callers — preserve
+        // the legacy "list everything" behaviour for guest GETs.
+        if (function_exists('current_org_id') && is_org_schema_applied() && current_org_id() !== null) {
+            [$tWhere, $tParams] = org_where();
+            $sql = 'SELECT * FROM leads';
+            $params = [];
+            if ($tWhere) { $sql .= ' WHERE ' . $tWhere; $params = $tParams; }
+            $sql .= ' ORDER BY created_at DESC';
+            $st = $db->prepare($sql);
+            $st->execute($params);
+            jsonResponse($st->fetchAll());
+        }
         $stmt = $db->query('SELECT * FROM leads ORDER BY created_at DESC');
         jsonResponse($stmt->fetchAll());
         break;

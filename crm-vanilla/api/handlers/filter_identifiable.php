@@ -13,10 +13,17 @@
 if (!in_array($method, ['GET','POST'])) jsonError('Use GET (dry-run) or POST (execute)', 405);
 
 $TOKEN = defined('FILTER_ID_TOKEN') ? FILTER_ID_TOKEN : 'NWM_FILTER_ID_2026';
+require_once __DIR__ . '/../lib/tenancy.php';
 if (!hash_equals($TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 
 $dryRun = ($method === 'GET');
 $db = getDB();
+
+// Org-scope post-migration; master org sees all (org_where → '1=1').
+$ow = ''; $owp = [];
+if (is_org_schema_applied()) { [$ow, $owp] = org_where(); }
+$andOw = $ow ? ' AND ' . $ow : '';
+$whrOw = $ow ? ' WHERE ' . $ow : '';
 
 // Free consumer email domains to reject
 $freeDomains = [
@@ -32,18 +39,20 @@ $freeDomains = [
 // Build LOWER(SUBSTRING_INDEX(email,'@',-1)) IN (...) clause
 $placeholders = implode(',', array_fill(0, count($freeDomains), '?'));
 
-$total = (int)$db->query("SELECT COUNT(*) FROM contacts")->fetchColumn();
+$ts = $db->prepare("SELECT COUNT(*) FROM contacts" . $whrOw);
+$ts->execute($owp);
+$total = (int)$ts->fetchColumn();
 
-// Count targets: no email, no company, or free domain
+// Count targets: no email, no company, or free domain — scoped to org.
 $countSql = "
     SELECT COUNT(*) FROM contacts
-    WHERE
+    WHERE (
         email IS NULL OR TRIM(email) = '' OR email NOT LIKE '%@%'
         OR LOWER(TRIM(company)) = '' OR company IS NULL
         OR LOWER(SUBSTRING_INDEX(TRIM(email),'@',-1)) IN ($placeholders)
-";
+    )" . $andOw;
 $stmt = $db->prepare($countSql);
-$stmt->execute($freeDomains);
+$stmt->execute(array_merge($freeDomains, $owp));
 $targets = (int)$stmt->fetchColumn();
 
 $deleted = 0;
@@ -51,17 +60,19 @@ $deleted = 0;
 if (!$dryRun) {
     $deleteSql = "
         DELETE FROM contacts
-        WHERE
+        WHERE (
             email IS NULL OR TRIM(email) = '' OR email NOT LIKE '%@%'
             OR LOWER(TRIM(company)) = '' OR company IS NULL
             OR LOWER(SUBSTRING_INDEX(TRIM(email),'@',-1)) IN ($placeholders)
-    ";
+        )" . $andOw;
     $stmt = $db->prepare($deleteSql);
-    $stmt->execute($freeDomains);
+    $stmt->execute(array_merge($freeDomains, $owp));
     $deleted = $stmt->rowCount();
 }
 
-$after = (int)$db->query("SELECT COUNT(*) FROM contacts")->fetchColumn();
+$as = $db->prepare("SELECT COUNT(*) FROM contacts" . $whrOw);
+$as->execute($owp);
+$after = (int)$as->fetchColumn();
 
 jsonResponse([
     'dry_run'             => $dryRun,

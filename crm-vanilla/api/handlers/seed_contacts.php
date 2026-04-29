@@ -1,7 +1,9 @@
 <?php
+require_once __DIR__ . '/../lib/tenancy.php';
 if ($method !== 'GET') jsonError('Use GET to seed contacts', 405);
 
 $db = getDB();
+$seedOrgId = is_org_schema_applied() ? (current_org_id() ?? ORG_MASTER_ID) : null;
 
 // Ensure UNIQUE index on email exists (idempotent — safe to run repeatedly)
 try {
@@ -194,14 +196,21 @@ $contacts = [
     ],
 ];
 
-$stmt = $db->prepare(
-    'INSERT IGNORE INTO contacts (name, email, phone, company, role, status, value, last_contact, notes)
-     VALUES (:name, :email, :phone, :company, :role, :status, :value, :last_contact, :notes)'
-);
+if ($seedOrgId !== null) {
+    $stmt = $db->prepare(
+        'INSERT IGNORE INTO contacts (organization_id, name, email, phone, company, role, status, value, last_contact, notes)
+         VALUES (:organization_id, :name, :email, :phone, :company, :role, :status, :value, :last_contact, :notes)'
+    );
+} else {
+    $stmt = $db->prepare(
+        'INSERT IGNORE INTO contacts (name, email, phone, company, role, status, value, last_contact, notes)
+         VALUES (:name, :email, :phone, :company, :role, :status, :value, :last_contact, :notes)'
+    );
+}
 
 $inserted = 0;
 foreach ($contacts as $c) {
-    $stmt->execute([
+    $bind = [
         ':name'         => $c['name'],
         ':email'        => $c['email'],
         ':phone'        => $c['phone'],
@@ -211,7 +220,9 @@ foreach ($contacts as $c) {
         ':value'        => $c['value'],
         ':last_contact' => $c['last_contact'],
         ':notes'        => $c['notes'],
-    ]);
+    ];
+    if ($seedOrgId !== null) $bind[':organization_id'] = $seedOrgId;
+    $stmt->execute($bind);
     $inserted += $stmt->rowCount();
 }
 

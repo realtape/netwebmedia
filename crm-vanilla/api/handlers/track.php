@@ -8,9 +8,28 @@
  * POST /api/?r=track&a=unsub               → honor list-unsubscribe header (body.email)
  */
 
+require_once __DIR__ . '/../lib/tenancy.php';
 $db = getDB();
 $a = $_GET['a'] ?? '';
 $t = $_GET['t'] ?? '';
+$orgSchemaApplied = is_org_schema_applied();
+
+/**
+ * Look up the organization_id for a tracking token via campaign_sends.
+ * Returns null if the schema isn't applied, the token isn't found, or the
+ * row pre-dates the migration backfill (the legacy NULL case).
+ */
+function track_org_id_for_token(PDO $db, string $token, bool $applied): ?int {
+    if (!$applied || $token === '') return null;
+    try {
+        $st = $db->prepare('SELECT organization_id FROM campaign_sends WHERE token = ? LIMIT 1');
+        $st->execute([$token]);
+        $val = $st->fetchColumn();
+        return $val !== false && $val !== null ? (int)$val : null;
+    } catch (Throwable $e) {
+        return null;
+    }
+}
 
 /* Advance the most recent open deal for a contact to a target stage,
    but only if the deal is currently at a lower sort_order (never go back). */
@@ -111,8 +130,17 @@ if ($a === 'unsub') {
         $email = strtolower(trim($row['email']));
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) jsonError('Invalid email on send record', 422);
 
-        $db->prepare('INSERT IGNORE INTO unsubscribes (email, reason) VALUES (?, ?)')->execute([$email, 'list-unsub']);
-        $db->prepare("UPDATE campaign_sends SET status='unsubscribed' WHERE email = ?")->execute([$email]);
+        $unsubOrgId = track_org_id_for_token($db, $token, $orgSchemaApplied);
+        if ($unsubOrgId !== null) {
+            $db->prepare('INSERT IGNORE INTO unsubscribes (organization_id, email, reason) VALUES (?, ?, ?)')
+               ->execute([$unsubOrgId, $email, 'list-unsub']);
+            // Scope the campaign_sends update too — never flip another org's send rows.
+            $db->prepare("UPDATE campaign_sends SET status='unsubscribed' WHERE email = ? AND organization_id = ?")
+               ->execute([$email, $unsubOrgId]);
+        } else {
+            $db->prepare('INSERT IGNORE INTO unsubscribes (email, reason) VALUES (?, ?)')->execute([$email, 'list-unsub']);
+            $db->prepare("UPDATE campaign_sends SET status='unsubscribed' WHERE email = ?")->execute([$email]);
+        }
         jsonResponse(['unsubscribed' => true]);
     }
     // GET: find email from token, show confirmation page
@@ -124,8 +152,16 @@ if ($a === 'unsub') {
         $email = $row['email'] ?? '';
     }
     if ($email) {
-        $db->prepare('INSERT IGNORE INTO unsubscribes (email, reason) VALUES (?, ?)')->execute([$email, 'one-click']);
-        $db->prepare("UPDATE campaign_sends SET status='unsubscribed' WHERE email=?")->execute([$email]);
+        $oneClickOrg = track_org_id_for_token($db, $t, $orgSchemaApplied);
+        if ($oneClickOrg !== null) {
+            $db->prepare('INSERT IGNORE INTO unsubscribes (organization_id, email, reason) VALUES (?, ?, ?)')
+               ->execute([$oneClickOrg, $email, 'one-click']);
+            $db->prepare("UPDATE campaign_sends SET status='unsubscribed' WHERE email = ? AND organization_id = ?")
+               ->execute([$email, $oneClickOrg]);
+        } else {
+            $db->prepare('INSERT IGNORE INTO unsubscribes (email, reason) VALUES (?, ?)')->execute([$email, 'one-click']);
+            $db->prepare("UPDATE campaign_sends SET status='unsubscribed' WHERE email=?")->execute([$email]);
+        }
     }
     header('Content-Type: text/html; charset=utf-8');
     $safe = htmlspecialchars($email, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');

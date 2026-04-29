@@ -6,10 +6,12 @@
  *
  * POST /api/?r=seed_client_templates&token=NWM_SEED_2026
  */
+require_once __DIR__ . '/../lib/tenancy.php';
 if ($method !== 'POST') jsonError('Use POST', 405);
 if (!hash_equals(SEED_TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 
 $db = getDB();
+$seedOrgId = is_org_schema_applied() ? (current_org_id() ?? ORG_MASTER_ID) : null;
 
 // Shared wrapper — white-label, no NWM branding
 function client_wrap(string $content): string {
@@ -354,17 +356,33 @@ try {
 } catch (Throwable $e) { /* columns may already exist */ }
 
 $inserted = 0; $skipped = 0; $errs = [];
-$stmt = $db->prepare(
-    "INSERT INTO email_templates (name, subject, body_html, from_name, from_email, niche, template_type, requires_plan)
-     VALUES (?, ?, ?, 'Su Empresa', 'info@suempresa.com', ?, ?, 'starter')"
-);
+if ($seedOrgId !== null) {
+    $stmt = $db->prepare(
+        "INSERT INTO email_templates (organization_id, name, subject, body_html, from_name, from_email, niche, template_type, requires_plan)
+         VALUES (?, ?, ?, ?, 'Su Empresa', 'info@suempresa.com', ?, ?, 'starter')"
+    );
+} else {
+    $stmt = $db->prepare(
+        "INSERT INTO email_templates (name, subject, body_html, from_name, from_email, niche, template_type, requires_plan)
+         VALUES (?, ?, ?, 'Su Empresa', 'info@suempresa.com', ?, ?, 'starter')"
+    );
+}
 
 foreach ($templates as $t) {
-    $exists = $db->prepare("SELECT id FROM email_templates WHERE name = ? LIMIT 1");
-    $exists->execute([$t['name']]);
+    if ($seedOrgId !== null) {
+        $exists = $db->prepare("SELECT id FROM email_templates WHERE name = ? AND organization_id = ? LIMIT 1");
+        $exists->execute([$t['name'], $seedOrgId]);
+    } else {
+        $exists = $db->prepare("SELECT id FROM email_templates WHERE name = ? LIMIT 1");
+        $exists->execute([$t['name']]);
+    }
     if ($exists->fetchColumn()) { $skipped++; continue; }
     try {
-        $stmt->execute([$t['name'], $t['subject'], $t['html'], $t['niche'], $t['type']]);
+        if ($seedOrgId !== null) {
+            $stmt->execute([$seedOrgId, $t['name'], $t['subject'], $t['html'], $t['niche'], $t['type']]);
+        } else {
+            $stmt->execute([$t['name'], $t['subject'], $t['html'], $t['niche'], $t['type']]);
+        }
         $inserted++;
     } catch (Throwable $e) {
         $errs[] = $t['name'] . ': ' . $e->getMessage();

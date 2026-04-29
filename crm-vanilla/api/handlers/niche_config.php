@@ -8,6 +8,7 @@
  *        → inserts niche_pipeline_stages + niche_custom_fields from niches.php config
  */
 
+require_once __DIR__ . '/../lib/tenancy.php';
 $niches = require __DIR__ . '/../config/niches.php';
 
 /* ── GET: return config ─────────────────────────────────────────────── */
@@ -38,6 +39,7 @@ if ($method === 'POST') {
     if ($action !== 'seed') jsonError("Unknown action: $action", 400);
 
     $db = getDB();
+    $seedOrgId = is_org_schema_applied() ? (current_org_id() ?? ORG_MASTER_ID) : null;
 
     // Ensure tables exist
     $db->exec("CREATE TABLE IF NOT EXISTS niche_pipeline_stages (
@@ -65,20 +67,37 @@ if ($method === 'POST') {
         INDEX idx_niche (niche)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
-    $stmtStage = $db->prepare(
-        "INSERT IGNORE INTO niche_pipeline_stages (niche, name, sort_order, color, probability)
-         VALUES (?, ?, ?, ?, ?)"
-    );
-    $stmtField = $db->prepare(
-        "INSERT INTO niche_custom_fields (niche, field_key, field_label, field_type, required, options, sort_order)
-         VALUES (?, ?, ?, ?, ?, ?, ?)
-         ON DUPLICATE KEY UPDATE
-           field_label = VALUES(field_label),
-           field_type  = VALUES(field_type),
-           required    = VALUES(required),
-           options     = VALUES(options),
-           sort_order  = VALUES(sort_order)"
-    );
+    if ($seedOrgId !== null) {
+        $stmtStage = $db->prepare(
+            "INSERT IGNORE INTO niche_pipeline_stages (organization_id, niche, name, sort_order, color, probability)
+             VALUES (?, ?, ?, ?, ?, ?)"
+        );
+        $stmtField = $db->prepare(
+            "INSERT INTO niche_custom_fields (organization_id, niche, field_key, field_label, field_type, required, options, sort_order)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE
+               field_label = VALUES(field_label),
+               field_type  = VALUES(field_type),
+               required    = VALUES(required),
+               options     = VALUES(options),
+               sort_order  = VALUES(sort_order)"
+        );
+    } else {
+        $stmtStage = $db->prepare(
+            "INSERT IGNORE INTO niche_pipeline_stages (niche, name, sort_order, color, probability)
+             VALUES (?, ?, ?, ?, ?)"
+        );
+        $stmtField = $db->prepare(
+            "INSERT INTO niche_custom_fields (niche, field_key, field_label, field_type, required, options, sort_order)
+             VALUES (?, ?, ?, ?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE
+               field_label = VALUES(field_label),
+               field_type  = VALUES(field_type),
+               required    = VALUES(required),
+               options     = VALUES(options),
+               sort_order  = VALUES(sort_order)"
+        );
+    }
 
     $results = [];
     foreach ($niches as $key => $cfg) {
@@ -88,7 +107,11 @@ if ($method === 'POST') {
 
         foreach ($cfg['pipeline_stages'] as $s) {
             try {
-                $stmtStage->execute([$key, $s['name'], $s['sort_order'], $s['color'], $s['probability']]);
+                if ($seedOrgId !== null) {
+                    $stmtStage->execute([$seedOrgId, $key, $s['name'], $s['sort_order'], $s['color'], $s['probability']]);
+                } else {
+                    $stmtStage->execute([$key, $s['name'], $s['sort_order'], $s['color'], $s['probability']]);
+                }
                 $stages++;
             } catch (Throwable $e) {
                 $errors[] = "stage:{$s['name']} → " . $e->getMessage();
@@ -100,11 +123,19 @@ if ($method === 'POST') {
                 $opts = isset($f['options']) && is_array($f['options'])
                     ? json_encode($f['options'])
                     : null;
-                $stmtField->execute([
-                    $key, $f['field_key'], $f['field_label'],
-                    $f['field_type'], $f['required'] ? 1 : 0,
-                    $opts, $f['sort_order'],
-                ]);
+                if ($seedOrgId !== null) {
+                    $stmtField->execute([
+                        $seedOrgId, $key, $f['field_key'], $f['field_label'],
+                        $f['field_type'], $f['required'] ? 1 : 0,
+                        $opts, $f['sort_order'],
+                    ]);
+                } else {
+                    $stmtField->execute([
+                        $key, $f['field_key'], $f['field_label'],
+                        $f['field_type'], $f['required'] ? 1 : 0,
+                        $opts, $f['sort_order'],
+                    ]);
+                }
                 $fields++;
             } catch (Throwable $e) {
                 $errors[] = "field:{$f['field_key']} → " . $e->getMessage();

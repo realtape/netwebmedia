@@ -23,12 +23,14 @@ if (!file_exists($csvPath)) {
 }
 
 // Ensure UNIQUE index on email (idempotent)
+require_once __DIR__ . '/../lib/tenancy.php';
 $db = getDB();
 try {
     $db->exec('ALTER TABLE contacts ADD UNIQUE KEY idx_email_unique (email)');
 } catch (Throwable $e) {
     // Already exists — fine
 }
+$importOrgId = is_org_schema_applied() ? (current_org_id() ?? ORG_MASTER_ID) : null;
 
 // Parse CSV
 $rows = [];
@@ -81,12 +83,19 @@ $inserted  = 0;
 $skipped   = 0;
 
 if (!$dry) {
-    $stmt = $db->prepare(
-        'INSERT IGNORE INTO contacts (name, email, phone, company, role, status, value, last_contact, notes, segment)
-         VALUES (:name, :email, :phone, :company, :role, :status, :value, :last_contact, :notes, :segment)'
-    );
+    if ($importOrgId !== null) {
+        $stmt = $db->prepare(
+            'INSERT IGNORE INTO contacts (organization_id, name, email, phone, company, role, status, value, last_contact, notes, segment)
+             VALUES (:organization_id, :name, :email, :phone, :company, :role, :status, :value, :last_contact, :notes, :segment)'
+        );
+    } else {
+        $stmt = $db->prepare(
+            'INSERT IGNORE INTO contacts (name, email, phone, company, role, status, value, last_contact, notes, segment)
+             VALUES (:name, :email, :phone, :company, :role, :status, :value, :last_contact, :notes, :segment)'
+        );
+    }
     foreach ($rows as $c) {
-        $stmt->execute([
+        $bind = [
             ':name'         => $c['name'],
             ':email'        => $c['email'],
             ':phone'        => $c['phone'],
@@ -97,7 +106,9 @@ if (!$dry) {
             ':last_contact' => $c['last_contact'],
             ':notes'        => $c['notes'],
             ':segment'      => $c['segment'],
-        ]);
+        ];
+        if ($importOrgId !== null) $bind[':organization_id'] = $importOrgId;
+        $stmt->execute($bind);
         if ($stmt->rowCount() > 0) {
             $inserted++;
         } else {

@@ -102,19 +102,38 @@ $aiInput = [
 $qual = ai_qualify($aiInput);
 
 // --- Save to CRM ---
+require_once __DIR__ . '/../lib/tenancy.php';
 $db = getDB();
 $status = $qual['score'] >= 70 ? 'prospect' : 'lead';
 $notes = "AI Score: {$qual['score']}\nService Fit: {$qual['service_fit']}\nSource: $source\n\nMessage:\n$msg";
 
-$stmt = $db->prepare('INSERT INTO contacts (name,email,phone,company,status,value,notes) VALUES (?,?,?,?,?,?,?)');
-$stmt->execute([$fullName, $email, null, $company, $status, 0, $notes]);
+// Public endpoint: route the lead to the host-resolved org, falling back to master.
+$intakeOrgId = null;
+if (is_org_schema_applied()) {
+    $resolved = org_from_request();
+    $intakeOrgId = $resolved ? (int)$resolved['id'] : ORG_MASTER_ID;
+}
+
+if ($intakeOrgId !== null) {
+    $stmt = $db->prepare('INSERT INTO contacts (organization_id,name,email,phone,company,status,value,notes) VALUES (?,?,?,?,?,?,?,?)');
+    $stmt->execute([$intakeOrgId, $fullName, $email, null, $company, $status, 0, $notes]);
+} else {
+    $stmt = $db->prepare('INSERT INTO contacts (name,email,phone,company,status,value,notes) VALUES (?,?,?,?,?,?,?)');
+    $stmt->execute([$fullName, $email, null, $company, $status, 0, $notes]);
+}
 $leadId = $db->lastInsertId();
 
 // Also to leads table for demo-tracking
 try {
-    $db->prepare('INSERT INTO leads (name,email,company,source) VALUES (?,?,?,?)
-                  ON DUPLICATE KEY UPDATE name=VALUES(name), company=VALUES(company)')
-       ->execute([$fullName, $email, $company, $source]);
+    if ($intakeOrgId !== null) {
+        $db->prepare('INSERT INTO leads (organization_id,name,email,company,source) VALUES (?,?,?,?,?)
+                      ON DUPLICATE KEY UPDATE name=VALUES(name), company=VALUES(company)')
+           ->execute([$intakeOrgId, $fullName, $email, $company, $source]);
+    } else {
+        $db->prepare('INSERT INTO leads (name,email,company,source) VALUES (?,?,?,?)
+                      ON DUPLICATE KEY UPDATE name=VALUES(name), company=VALUES(company)')
+           ->execute([$fullName, $email, $company, $source]);
+    }
 } catch (Exception $e) { /* ignore */ }
 
 // --- Push to HubSpot if available ---

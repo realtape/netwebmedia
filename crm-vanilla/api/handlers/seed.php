@@ -1,7 +1,10 @@
 <?php
+require_once __DIR__ . '/../lib/tenancy.php';
 if ($method !== 'POST') jsonError('Use POST to seed data', 405);
 
 $db = getDB();
+// Seed targets master org by default. Token-protected, so this is fine.
+$seedOrgId = is_org_schema_applied() ? (current_org_id() ?? ORG_MASTER_ID) : null;
 
 // Check if already seeded
 $count = (int)$db->query('SELECT COUNT(*) FROM contacts')->fetchColumn();
@@ -23,9 +26,16 @@ $contacts = [
     ['Nicolas Paredes', 'nico@urbanhub.io', '+56 9 6666 7777', 'UrbanHub', 'Co-Founder', 'prospect', 19400, '2026-04-06'],
 ];
 
-$stmt = $db->prepare('INSERT INTO contacts (name, email, phone, company, role, status, value, last_contact) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
-foreach ($contacts as $c) {
-    $stmt->execute($c);
+if ($seedOrgId !== null) {
+    $stmt = $db->prepare('INSERT INTO contacts (organization_id, name, email, phone, company, role, status, value, last_contact) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    foreach ($contacts as $c) {
+        $stmt->execute(array_merge([$seedOrgId], $c));
+    }
+} else {
+    $stmt = $db->prepare('INSERT INTO contacts (name, email, phone, company, role, status, value, last_contact) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+    foreach ($contacts as $c) {
+        $stmt->execute($c);
+    }
 }
 
 // Seed deals (stages 1-7 already exist from schema)
@@ -46,10 +56,16 @@ $deals = [
     ['TechWave Chatbot Build', 'TechWave Chile', 12000, 2, 1, 10, 15],
 ];
 
-$stmt = $db->prepare('INSERT INTO deals (title, company, contact_id, value, stage_id, probability, days_in_stage) VALUES (?, ?, ?, ?, ?, ?, ?)');
-foreach ($deals as $d) {
-    // d[0]=title, d[1]=company, d[2]=value, d[3]=contact_id, d[4]=stage_id, d[5]=prob, d[6]=days
-    $stmt->execute([$d[0], $d[1], $d[3], $d[2], $d[4], $d[5], $d[6]]);
+if ($seedOrgId !== null) {
+    $stmt = $db->prepare('INSERT INTO deals (organization_id, title, company, contact_id, value, stage_id, probability, days_in_stage) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+    foreach ($deals as $d) {
+        $stmt->execute([$seedOrgId, $d[0], $d[1], $d[3], $d[2], $d[4], $d[5], $d[6]]);
+    }
+} else {
+    $stmt = $db->prepare('INSERT INTO deals (title, company, contact_id, value, stage_id, probability, days_in_stage) VALUES (?, ?, ?, ?, ?, ?, ?)');
+    foreach ($deals as $d) {
+        $stmt->execute([$d[0], $d[1], $d[3], $d[2], $d[4], $d[5], $d[6]]);
+    }
 }
 
 // Seed conversations
@@ -62,8 +78,13 @@ $convos = [
     [4, 'whatsapp', null, 1],
 ];
 
-$stmtConv = $db->prepare('INSERT INTO conversations (contact_id, channel, subject, unread) VALUES (?, ?, ?, ?)');
-$stmtMsg = $db->prepare('INSERT INTO messages (conversation_id, sender, body, sent_at) VALUES (?, ?, ?, ?)');
+if ($seedOrgId !== null) {
+    $stmtConv = $db->prepare('INSERT INTO conversations (organization_id, contact_id, channel, subject, unread) VALUES (?, ?, ?, ?, ?)');
+    $stmtMsg  = $db->prepare('INSERT INTO messages (organization_id, conversation_id, sender, body, sent_at) VALUES (?, ?, ?, ?, ?)');
+} else {
+    $stmtConv = $db->prepare('INSERT INTO conversations (contact_id, channel, subject, unread) VALUES (?, ?, ?, ?)');
+    $stmtMsg  = $db->prepare('INSERT INTO messages (conversation_id, sender, body, sent_at) VALUES (?, ?, ?, ?)');
+}
 
 $convMessages = [
     1 => [
@@ -98,11 +119,19 @@ $convMessages = [
 ];
 
 foreach ($convos as $i => $c) {
-    $stmtConv->execute($c);
+    if ($seedOrgId !== null) {
+        $stmtConv->execute(array_merge([$seedOrgId], $c));
+    } else {
+        $stmtConv->execute($c);
+    }
     $convId = $i + 1;
     if (isset($convMessages[$convId])) {
         foreach ($convMessages[$convId] as $msg) {
-            $stmtMsg->execute([$convId, $msg[0], $msg[1], $msg[2]]);
+            if ($seedOrgId !== null) {
+                $stmtMsg->execute([$seedOrgId, $convId, $msg[0], $msg[1], $msg[2]]);
+            } else {
+                $stmtMsg->execute([$convId, $msg[0], $msg[1], $msg[2]]);
+            }
         }
     }
 }
@@ -121,9 +150,12 @@ $events = [
     ['Weekly Analytics Report', '2026-04-18', 15, 1, 'task', '#fdcb6e', null],
 ];
 
-$stmtEvent = $db->prepare('INSERT INTO events (title, event_date, start_hour, duration, type, color, contact_id) VALUES (?, ?, ?, ?, ?, ?, ?)');
-foreach ($events as $e) {
-    $stmtEvent->execute($e);
+if ($seedOrgId !== null) {
+    $stmtEvent = $db->prepare('INSERT INTO events (organization_id, title, event_date, start_hour, duration, type, color, contact_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+    foreach ($events as $e) { $stmtEvent->execute(array_merge([$seedOrgId], $e)); }
+} else {
+    $stmtEvent = $db->prepare('INSERT INTO events (title, event_date, start_hour, duration, type, color, contact_id) VALUES (?, ?, ?, ?, ?, ?, ?)');
+    foreach ($events as $e) { $stmtEvent->execute($e); }
 }
 
 // Seed social scheduled posts (blog-sourced, Twitter + Instagram)
@@ -165,11 +197,20 @@ $socialPosts = [
     ],
 ];
 
-$stmtSocial = $db->prepare(
-    'INSERT IGNORE INTO social_scheduled (user_id, providers, caption, scheduled_at) VALUES (0, ?, ?, ?)'
-);
-foreach ($socialPosts as $sp) {
-    $stmtSocial->execute([$sp['providers'], $sp['caption'], $sp['scheduled_at']]);
+if ($seedOrgId !== null) {
+    $stmtSocial = $db->prepare(
+        'INSERT IGNORE INTO social_scheduled (user_id, organization_id, providers, caption, scheduled_at) VALUES (0, ?, ?, ?, ?)'
+    );
+    foreach ($socialPosts as $sp) {
+        $stmtSocial->execute([$seedOrgId, $sp['providers'], $sp['caption'], $sp['scheduled_at']]);
+    }
+} else {
+    $stmtSocial = $db->prepare(
+        'INSERT IGNORE INTO social_scheduled (user_id, providers, caption, scheduled_at) VALUES (0, ?, ?, ?)'
+    );
+    foreach ($socialPosts as $sp) {
+        $stmtSocial->execute([$sp['providers'], $sp['caption'], $sp['scheduled_at']]);
+    }
 }
 
 jsonResponse(['seeded' => true, 'contacts' => count($contacts), 'deals' => count($deals), 'conversations' => count($convos), 'events' => count($events), 'social_posts' => count($socialPosts)]);

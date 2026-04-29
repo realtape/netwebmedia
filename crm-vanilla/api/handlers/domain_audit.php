@@ -19,18 +19,26 @@
  *      → { domains_received, contacts_deleted, total_after }
  */
 
+require_once __DIR__ . '/../lib/tenancy.php';
 $TOKEN = defined('FILTER_ID_TOKEN') ? FILTER_ID_TOKEN : 'NWM_FILTER_ID_2026';
 if (!hash_equals($TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 
 $action = (string)($_GET['action'] ?? '');
 $db     = getDB();
+$ow = ''; $owp = [];
+if (is_org_schema_applied()) { [$ow, $owp] = org_where(); }
+$andOw = $ow ? ' AND ' . $ow : '';
+$whrOw = $ow ? ' WHERE ' . $ow : '';
+$run = function (string $sql, array $params = []) use ($db) {
+    $st = $db->prepare($sql); $st->execute($params); return $st;
+};
 
 if ($action === 'count' && $method === 'GET') {
-    $total    = (int)$db->query("SELECT COUNT(*) FROM contacts")->fetchColumn();
-    $distinct = (int)$db->query("
+    $total    = (int)$run("SELECT COUNT(*) FROM contacts" . $whrOw, $owp)->fetchColumn();
+    $distinct = (int)$run("
         SELECT COUNT(DISTINCT LOWER(SUBSTRING_INDEX(email,'@',-1)))
-        FROM contacts WHERE email LIKE '%@%'
-    ")->fetchColumn();
+        FROM contacts WHERE email LIKE '%@%'" . $andOw . "
+    ", $owp)->fetchColumn();
     jsonResponse([
         'total_contacts'   => $total,
         'distinct_domains' => $distinct,
@@ -43,11 +51,11 @@ if ($action === 'list' && $method === 'GET') {
     $stmt   = $db->prepare("
         SELECT DISTINCT LOWER(SUBSTRING_INDEX(email,'@',-1)) AS d
         FROM contacts
-        WHERE email LIKE '%@%'
+        WHERE email LIKE '%@%'" . $andOw . "
         ORDER BY d
         LIMIT $limit OFFSET $offset
     ");
-    $stmt->execute();
+    $stmt->execute($owp);
     $domains = $stmt->fetchAll(PDO::FETCH_COLUMN);
     jsonResponse([
         'offset'   => $offset,
@@ -74,15 +82,13 @@ if ($action === 'purge' && $method === 'POST') {
     $deleted = 0;
     foreach (array_chunk($clean, 500) as $chunk) {
         $ph   = implode(',', array_fill(0, count($chunk), '?'));
-        $stmt = $db->prepare("
-            DELETE FROM contacts
-            WHERE LOWER(SUBSTRING_INDEX(email,'@',-1)) IN ($ph)
-        ");
-        $stmt->execute($chunk);
+        $sql  = "DELETE FROM contacts WHERE LOWER(SUBSTRING_INDEX(email,'@',-1)) IN ($ph)" . $andOw;
+        $stmt = $db->prepare($sql);
+        $stmt->execute(array_merge($chunk, $owp));
         $deleted += $stmt->rowCount();
     }
 
-    $after = (int)$db->query("SELECT COUNT(*) FROM contacts")->fetchColumn();
+    $after = (int)$run("SELECT COUNT(*) FROM contacts" . $whrOw, $owp)->fetchColumn();
     jsonResponse([
         'domains_received'  => count($clean),
         'contacts_deleted'  => $deleted,

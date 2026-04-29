@@ -373,6 +373,41 @@ function route_public($parts, $method) {
     return;
   }
 
+  // /api/public/track-visit — page-visit pixel
+  if ($sub === 'track-visit' && $method === 'POST') {
+    require_once __DIR__ . '/webhooks.php';
+    wh_route_track_visit();
+    return;
+  }
+
+  // /api/public/appointments/webhook — Calendly + generic
+  if ($sub === 'appointments' && ($parts[1] ?? null) === 'webhook' && $method === 'POST') {
+    require_once __DIR__ . '/webhooks.php';
+    wh_route_appointments();
+    return;
+  }
+
+  // /api/public/reviews/webhook — Google Reviews / Trustpilot / generic
+  if ($sub === 'reviews' && ($parts[1] ?? null) === 'webhook' && $method === 'POST') {
+    require_once __DIR__ . '/webhooks.php';
+    wh_route_reviews();
+    return;
+  }
+
+  // /api/public/voice/webhook — Twilio Voice missed-call status callback
+  if ($sub === 'voice' && ($parts[1] ?? null) === 'webhook' && $method === 'POST') {
+    require_once __DIR__ . '/webhooks.php';
+    wh_route_voice();
+    return;
+  }
+
+  // /api/public/email-inbound/webhook — SendGrid Parse / Postmark Inbound / Mailgun Routes
+  if ($sub === 'email-inbound' && ($parts[1] ?? null) === 'webhook' && $method === 'POST') {
+    require_once __DIR__ . '/webhooks.php';
+    wh_route_email_inbound();
+    return;
+  }
+
   // /api/public/ab/assign  /api/public/ab/convert
   if ($sub === 'ab' && $method === 'GET') {
     require_once __DIR__ . '/abtests.php';

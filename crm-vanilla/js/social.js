@@ -249,8 +249,10 @@
     html += '<div class="social-accounts-wrap">';
     html += '<div class="social-accounts-header">';
     html += '<span class="social-accounts-title">' + L.connectedAccounts + '</span>';
+    html += '<div style="display:flex;align-items:center;gap:10px">';
     html += '<span class="social-accounts-badge">' + connCount + '\u202f/\u202f' + total + ' connected</span>';
-    html += '</div>';
+    html += '<a href="social-connect.html" class="btn btn-sm btn-primary" style="font-size:11px;padding:4px 12px">&#43; Set Up Accounts</a>';
+    html += '</div></div>';
     html += '<div class="social-accounts-grid">';
 
     ["ig","fb","yt","li","tk"].forEach(function (key) {

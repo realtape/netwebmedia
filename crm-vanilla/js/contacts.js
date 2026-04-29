@@ -6,7 +6,21 @@
   var contacts = [];
   var currentFilter = 'all';
   var currentSegment = 'all';
+  var currentQuality = 'all';
   var searchTerm = '';
+
+  var FREE_EMAIL_DOMAINS = {
+    'gmail.com':1,'yahoo.com':1,'hotmail.com':1,'outlook.com':1,'aol.com':1,
+    'icloud.com':1,'live.com':1,'msn.com':1,'ymail.com':1,'yahoo.com.mx':1,
+    'yahoo.com.ar':1,'hotmail.es':1,'hotmail.cl':1,'googlemail.com':1
+  };
+  function isIdentifiableBusiness(c) {
+    if (!c.company || c.company.trim().length < 2) return false;
+    var email = (c.email || '').toLowerCase().trim();
+    if (!email || email.indexOf('@') === -1) return false;
+    var domain = email.split('@').pop();
+    return !FREE_EMAIL_DOMAINS[domain];
+  }
   var selected = null;
   var page = 0;
   var PAGE_SIZE = 100;
@@ -112,6 +126,19 @@
       });
     }
 
+    // Quality filter buttons (All / 🏢 Identifiable Biz)
+    var qualBtns = document.querySelectorAll('.filter-btn[data-quality]');
+    for (var q = 0; q < qualBtns.length; q++) {
+      qualBtns[q].addEventListener('click', function () {
+        var activeQual = document.querySelector('.filter-btn[data-quality].active');
+        if (activeQual) activeQual.classList.remove('active');
+        this.classList.add('active');
+        currentQuality = this.getAttribute('data-quality');
+        page = 0;
+        render();
+      });
+    }
+
     // Sort header clicks
     var heads = document.querySelectorAll('.contacts-table th.sortable');
     for (var k = 0; k < heads.length; k++) {
@@ -156,6 +183,7 @@
   function filtered() {
     var list = contacts.filter(function (c) {
       var mf = currentFilter === 'all' || c.status === currentFilter;
+      var mq = currentQuality === 'all' || (currentQuality === 'identifiable' && isIdentifiableBusiness(c));
       var s = searchTerm;
       var ms = !s
         || (c.name    && c.name.toLowerCase().indexOf(s) !== -1)
@@ -163,7 +191,7 @@
         || (c.email   && c.email.toLowerCase().indexOf(s) !== -1)
         || (c.role    && c.role.toLowerCase().indexOf(s) !== -1)
         || (c.__region && c.__region.toLowerCase().indexOf(s) !== -1);
-      return mf && ms;
+      return mf && mq && ms;
     });
     list.sort(function (a, b) { return compareVal(a, b, sortKey); });
     return list;

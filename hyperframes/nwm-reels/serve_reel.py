@@ -8,11 +8,13 @@ FILE_PATH = r"C:\Users\Usuario\Desktop\NetWebMedia\hyperframes\nwm-reels\renders
 PORT = 19876  # Use an unusual port to avoid conflicts
 
 class CORSHandler(http.server.BaseHTTPRequestHandler):
+    protocol_version = "HTTP/1.1"  # Must be 1.1 so Chrome keep-alive works correctly
     def do_OPTIONS(self):
         self.send_response(200)
         self.send_header("Content-Length", "0")
+        self.send_header("Connection", "keep-alive")
         self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "*")
         self.send_header("Access-Control-Allow-Private-Network", "true")
         self.end_headers()

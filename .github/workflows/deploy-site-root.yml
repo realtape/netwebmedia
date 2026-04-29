@@ -272,6 +272,40 @@ jobs:
           SECRET_WA_META_APP_SECRET: ${{ secrets.WA_META_APP_SECRET }}
           SECRET_SMTP_PASS:         ${{ secrets.SMTP_PASS }}
 
+      - name: Server-side cleanup of decommissioned files
+        if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
+        env:
+          FTP_HOST: ${{ secrets.CPANEL_FTP_HOST }}
+          FTP_USER: ${{ secrets.CPANEL_FTP_ROOT_USER }}
+          FTP_PASS: ${{ secrets.CPANEL_FTP_ROOT_PASSWORD }}
+        run: |
+          # FTPS deploy is non-destructive — files removed from the repo are NOT
+          # auto-removed from the server. This step explicitly deletes legacy /
+          # decommissioned files server-side. Idempotent: missing files are OK.
+          set +e  # don't fail the build if a file is already gone (rm returns non-zero)
+          sudo apt-get install -y --no-install-recommends lftp >/dev/null 2>&1 || true
+          if ! command -v lftp >/dev/null 2>&1; then
+            echo "::warning::lftp unavailable on runner — skipping server-side cleanup"
+            exit 0
+          fi
+          DELETIONS=(
+            # Public shell_exec / unauthenticated debug endpoints that shipped before
+            # the Apr 28 hardening pass purged them from the repo + workflow allowlist.
+            "_us_log.php"
+            "_us_trigger.php"
+            "_us_reset_failed.php"
+            # Legacy one-shot maintenance scripts no longer in the workflow allowlist.
+            "_fixcmoprices.php"
+          )
+          for f in "${DELETIONS[@]}"; do
+            echo "Attempting delete: $f"
+            lftp -u "$FTP_USER","$FTP_PASS" --env-password \
+                 -e "set ssl:verify-certificate no; set ftp:ssl-protect-data yes; rm -f $f; bye" \
+                 "ftps://$FTP_HOST" 2>&1 \
+              | grep -v -i 'password' | sed 's/^/  /'
+          done
+          echo "Server-side cleanup complete."
+
       - name: Deploy via FTPS
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0

@@ -1,0 +1,112 @@
+name: PSI baseline (weekly)
+
+# Captures Lighthouse / PageSpeed Insights scores for key pages, writes a
+# markdown snapshot to plans/perf-baseline-latest.md. No API key required —
+# uses the free public PSI endpoint with delays to stay under rate limits.
+#
+# Runs every Monday 09:00 UTC + on manual dispatch.
+
+on:
+  schedule:
+    - cron: "0 9 * * 1"
+  workflow_dispatch: {}
+
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Capture PSI scores
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.parse, json, time, datetime, os, sys
+
+          PAGES = [
+              ("/",                                                "Home"),
+              ("/services",                                        "Services"),
+              ("/pricing",                                         "Pricing"),
+              ("/contact",                                         "Contact"),
+              ("/aeo-agency",                                      "AEO agency"),
+              ("/industries/",                                     "Industries hub"),
+              ("/industries/professional-services/legal/",         "Legal LP"),
+              ("/industries/restaurants/",                         "Restaurants LP"),
+              ("/industries/hospitality/hotels/",                  "Hotels LP"),
+              ("/industries/real-estate/",                         "Real estate hub"),
+          ]
+
+          def psi(path, strategy="mobile", attempt=1):
+              url = "https://netwebmedia.com" + path
+              api = (
+                  "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
+                  f"?url={urllib.parse.quote(url, safe='')}"
+                  f"&strategy={strategy}"
+                  "&category=performance&category=accessibility&category=best-practices&category=seo"
+              )
+              req = urllib.request.Request(api, headers={"User-Agent": "NWM-PSI-Baseline/1.0"})
+              try:
+                  body = urllib.request.urlopen(req, timeout=180).read()
+                  data = json.loads(body)
+                  cats = data.get("lighthouseResult", {}).get("categories", {})
+                  return {
+                      "perf": cats.get("performance",   {}).get("score"),
+                      "a11y": cats.get("accessibility", {}).get("score"),
+                      "bp":   cats.get("best-practices",{}).get("score"),
+                      "seo":  cats.get("seo",           {}).get("score"),
+                  }
+              except urllib.error.HTTPError as e:
+                  if e.code == 429 and attempt < 4:
+                      wait = 60 * attempt
+                      print(f"  429 — backing off {wait}s (attempt {attempt})")
+                      time.sleep(wait)
+                      return psi(path, strategy, attempt + 1)
+                  return {"error": f"HTTP {e.code}"}
+              except Exception as e:
+                  return {"error": str(e)}
+
+          results = []
+          for path, label in PAGES:
+              print(f"Probing {label} ({path})")
+              r = psi(path, "mobile")
+              if "error" in r:
+                  print(f"  ERROR {r['error']}")
+              else:
+                  s = lambda k: int(r[k]*100) if r[k] is not None else "?"
+                  print(f"  perf={s('perf')} a11y={s('a11y')} bp={s('bp')} seo={s('seo')}")
+              results.append((path, label, r))
+              time.sleep(20)  # respect free PSI quota
+
+          md = ["# PSI Baseline — netwebmedia.com",
+                f"_Captured: {datetime.datetime.utcnow().isoformat()}Z (mobile, Lighthouse 11+, free public PSI API)_",
+                "",
+                "Auto-generated weekly by .github/workflows/psi-baseline.yml. Targets:",
+                "- Performance ≥ 70 (mobile)",
+                "- Accessibility / Best Practices / SEO ≥ 95",
+                "",
+                "| Page | Perf | A11y | BP | SEO |",
+                "|---|---|---|---|---|"]
+          for path, label, r in results:
+              if "error" in r:
+                  md.append(f"| {label} `{path}` | err | err | err | err |")
+                  continue
+              s = lambda k: str(int(r[k]*100)) if r[k] is not None else "?"
+              md.append(f"| {label} `{path}` | {s('perf')} | {s('a11y')} | {s('bp')} | {s('seo')} |")
+
+          os.makedirs("plans", exist_ok=True)
+          with open("plans/perf-baseline-latest.md", "w", encoding="utf-8") as f:
+              f.write("\n".join(md))
+          print("Wrote plans/perf-baseline-latest.md")
+          PY
+
+      - name: Commit baseline if changed
+        run: |
+          if git diff --quiet plans/perf-baseline-latest.md 2>/dev/null; then
+            echo "No baseline change — skipping commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add plans/perf-baseline-latest.md
+          git commit -m "chore(perf): weekly PSI baseline $(date -u +%Y-%m-%d)" || exit 0
+          git push origin HEAD:main || echo "::warning::push failed (non-blocking)"

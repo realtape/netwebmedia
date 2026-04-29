@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Save YT to CRM</title>
+  <style>
+    body { font-family: -apple-system, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; color: #1a1a2e; }
+    h1 { font-size: 22px; margin: 0 0 8px; }
+    .sub { color: #6b6b87; font-size: 13px; margin: 0 0 24px; }
+    button { background: #6c5ce7; color: #fff; border: 0; padding: 12px 22px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    button:disabled { opacity: 0.5; cursor: wait; }
+    pre { background: #f6f7fb; border: 1px solid #e3e5ee; padding: 14px; border-radius: 8px; font-size: 12px; max-height: 280px; overflow: auto; }
+    .ok { color: #00b894; font-weight: 600; }
+    .err { color: #d63031; font-weight: 600; }
+    .row { margin: 14px 0; }
+    label { font-size: 12px; font-weight: 600; color: #6b6b87; display: block; margin-bottom: 4px; }
+    input { width: 100%; padding: 8px 10px; border: 1px solid #e3e5ee; border-radius: 6px; font-family: monospace; font-size: 12px; box-sizing: border-box; }
+  </style>
+</head>
+<body>
+  <h1>Save YouTube credentials to CRM</h1>
+  <p class="sub">Reads <code>nwm_yt_token.json</code> from the same folder, POSTs to <code>/api/social/credentials</code> using your active CRM session. Open this file from <code>https://netwebmedia.com/...</code> origin (already logged in) — NOT from <code>file://</code>.</p>
+
+  <div class="row">
+    <label>Token JSON path (default loaded automatically):</label>
+    <input id="path" value="nwm_yt_token.json" />
+  </div>
+
+  <button onclick="run()">Load + Save to CRM</button>
+  <pre id="log">(ready)</pre>
+
+  <script>
+    const log = document.getElementById('log');
+    function say(msg, cls){ log.innerHTML += '\n' + (cls ? '<span class="'+cls+'">'+msg+'</span>' : msg); }
+
+    async function run() {
+      log.textContent = 'Starting…';
+      const p = document.getElementById('path').value || 'nwm_yt_token.json';
+      let creds;
+      try {
+        const r = await fetch(p);
+        if (!r.ok) throw new Error('Load failed: HTTP ' + r.status);
+        creds = await r.json();
+      } catch (e) {
+        say('Could not read ' + p + ': ' + e.message, 'err');
+        return;
+      }
+      say('Loaded: channel=' + (creds._channel_title||'?') + ' (' + creds.yt_channel_id + ')', 'ok');
+
+      const body = {
+        provider: 'youtube',
+        fields: {
+          yt_channel_id:    creds.yt_channel_id,
+          yt_client_id:     creds.yt_client_id,
+          yt_client_secret: creds.yt_client_secret,
+          yt_access_token:  creds.yt_access_token,
+          yt_refresh_token: creds.yt_refresh_token
+        }
+      };
+
+      const token = localStorage.getItem('nwm_token');
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+
+      try {
+        const r = await fetch('/api/social/credentials', {
+          method: 'POST',
+          headers: headers,
+          credentials: 'include',
+          body: JSON.stringify(body)
+        });
+        const txt = await r.text();
+        if (r.ok) say('SAVED ✓ ' + txt, 'ok');
+        else say('FAILED HTTP ' + r.status + ': ' + txt, 'err');
+      } catch (e) {
+        say('Network error: ' + e.message, 'err');
+      }
+
+      // Verify
+      try {
+        const r2 = await fetch('/api/social/providers', { headers: headers, credentials: 'include' });
+        const d = await r2.json();
+        const yt = (d.items || []).find(p => p.id === 'youtube');
+        say('Status: youtube ' + (yt && yt.connected ? 'CONNECTED ✓' : 'still NOT connected'), yt && yt.connected ? 'ok' : 'err');
+      } catch (e) {}
+    }
+  </script>
+</body>
+</html>

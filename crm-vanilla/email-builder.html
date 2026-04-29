@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Builder - NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css?v=8">
+  <style>
+    .eb-layout { display:grid; grid-template-columns: 240px 1fr 280px; gap:14px; height:calc(100vh - 110px); }
+    @media (max-width: 1100px) { .eb-layout { grid-template-columns: 220px 1fr; } .eb-inspector { display:none; } }
+    .eb-panel { background:#fff; border:1px solid #e3e5ee; border-radius:10px; padding:14px; overflow:auto; }
+    .eb-panel h3 { margin:0 0 10px; font:700 13px Inter; color:#010F3B; text-transform:uppercase; letter-spacing:.4px; }
+
+    .eb-blocks-list { display:flex; flex-direction:column; gap:6px; }
+    .eb-block-source { background:#f8fafc; border:1px solid #e3e5ee; border-radius:8px; padding:10px 12px; cursor:grab; user-select:none; font:600 13px Inter; color:#1a1a2e; display:flex; gap:8px; align-items:center; }
+    .eb-block-source:hover { border-color:#FF671F; color:#FF671F; }
+
+    .eb-canvas-wrap { display:flex; flex-direction:column; gap:10px; overflow:auto; }
+    .eb-toolbar { display:flex; gap:6px; flex-wrap:wrap; align-items:center; padding:10px 14px; background:#fff; border:1px solid #e3e5ee; border-radius:10px; }
+    .eb-toolbar input { flex:1; min-width:160px; padding:7px 10px; border:1px solid #e3e5ee; border-radius:6px; font:500 13px Inter; }
+
+    .eb-canvas { background:#f4f4f7; border-radius:10px; padding:24px; min-height:400px; }
+    .eb-stage { background:#fff; max-width:600px; margin:0 auto; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.06); padding:0; min-height:300px; }
+    .eb-stage.empty { display:flex; align-items:center; justify-content:center; padding:60px 20px; color:#94a3b8; font:500 13px Inter; text-align:center; border:2px dashed #c8cad6; box-shadow:none; }
+
+    .eb-block-host { position:relative; padding:0; }
+    .eb-block-host:hover { outline:2px solid rgba(255,103,31,.4); outline-offset:-2px; }
+    .eb-block-host.selected { outline:2px solid #FF671F; outline-offset:-2px; }
+    .eb-block-host .controls { position:absolute; top:4px; right:4px; display:none; gap:4px; z-index:5; }
+    .eb-block-host:hover .controls, .eb-block-host.selected .controls { display:flex; }
+    .eb-block-host .controls button { background:#010F3B; color:#fff; border:none; width:24px; height:24px; border-radius:4px; cursor:pointer; font-size:12px; }
+    .eb-block-host .controls button:hover { background:#FF671F; }
+    .eb-drop-target { height:6px; transition:.15s; }
+    .eb-drop-target.over { height:32px; background:rgba(255,103,31,.18); border-radius:4px; }
+
+    .eb-inspector { font:500 13px Inter; color:#1a1a2e; }
+    .eb-inspector label { display:block; color:#1a1a2e; font:600 11px Inter; margin:10px 0 4px; text-transform:uppercase; letter-spacing:.4px; }
+    .eb-inspector input, .eb-inspector textarea, .eb-inspector select { width:100%; padding:7px 10px; border:1px solid #e3e5ee; border-radius:6px; font:500 13px Inter; box-sizing:border-box; }
+    .eb-inspector textarea { min-height:80px; resize:vertical; font-family:Inter; }
+    .eb-inspector .row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+
+    .toast { position:fixed; bottom:24px; right:24px; background:#10b981; color:#fff; padding:10px 16px; border-radius:8px; font:600 13px Inter; z-index:1100; box-shadow:0 4px 14px rgba(0,0,0,.15); }
+    .toast.error { background:#b91c1c; }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div class="eb-toolbar" style="margin-bottom:14px">
+          <select id="ebTplSelect" style="padding:7px 10px;border:1px solid #e3e5ee;border-radius:6px;font:500 13px Inter">
+            <option value="">— New template —</option>
+          </select>
+          <input id="ebName" placeholder="Template name (e.g. Welcome email)">
+          <input id="ebSubject" placeholder="Subject line">
+          <input id="ebPreheader" placeholder="Preheader (preview text)">
+          <button class="btn btn-secondary" id="ebSave">Save</button>
+          <button class="btn btn-secondary" id="ebSaveAs">Save As</button>
+          <button class="btn btn-primary" id="ebTestSend">Send Test</button>
+        </div>
+        <div class="eb-layout">
+          <div class="eb-panel">
+            <h3>Blocks</h3>
+            <div class="eb-blocks-list" id="ebPalette"></div>
+          </div>
+          <div class="eb-canvas-wrap">
+            <div class="eb-canvas">
+              <div class="eb-stage" id="ebStage">
+                <div class="eb-stage empty">Drag blocks from the left panel to start.</div>
+              </div>
+            </div>
+          </div>
+          <div class="eb-panel eb-inspector" id="ebInspector">
+            <h3>Inspector</h3>
+            <div id="ebInspectorBody" style="color:#94a3b8;font-size:12px">Select a block to edit.</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js?v=8"></script>
+  <script src="js/notifications-bell.js?v=1"></script>
+  <script src="js/email-builder.js?v=1"></script>
+  <script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

@@ -161,15 +161,35 @@ if (file_exists($paths['sent_log'])) {
   }
 }
 
-// Recent clicks (newest first).
+// Clicks list. Default = last 25 (dashboard widget). ?clicks=all returns
+// the full list, deduped per (email, timestamp) so we don't hide repeat
+// clicks but also don't render dupes from accidental log lines. ?clicks=unique
+// returns one row per email (most-recent timestamp).
+$clicks_mode = $_GET['clicks'] ?? 'recent';
+if ($clicks_mode === 'all') {
+  $source = $click_events;
+} elseif ($clicks_mode === 'unique') {
+  $byEmail = [];
+  foreach ($click_events as $ev) {
+    $byEmail[$ev['email']] = $ev; // last write wins (most recent)
+  }
+  $source = array_values($byEmail);
+} else {
+  $source = array_slice($click_events, -25);
+}
 $recent_clicks_view = [];
-$tail = array_slice($click_events, -25);
-foreach (array_reverse($tail) as $ev) {
+foreach (array_reverse($source) as $ev) {
+  $L = $leads[$ev['email']] ?? [];
   $recent_clicks_view[] = [
     'email'     => $ev['email'],
-    'company'   => $leads[$ev['email']]['company'] ?? '',
-    'niche'     => $leads[$ev['email']]['niche']   ?? '',
+    'name'      => $L['name']    ?? '',
+    'company'   => $L['company'] ?? '',
+    'niche_key' => $L['niche_key'] ?? '',
+    'niche'     => $L['niche']   ?? '',
+    'city'      => $L['city']    ?? '',
+    'website'   => $L['website'] ?? '',
     'timestamp' => $ev['timestamp'],
+    'ip'        => $ev['ip']     ?? '',
   ];
 }
 
@@ -198,5 +218,6 @@ echo json_encode([
   'by_city'       => array_values($by_city),
   'recent_sends'  => $recent_sends,
   'recent_clicks' => $recent_clicks_view,
+  'clicks_mode'   => $clicks_mode,
   'server_time'   => date('c'),
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);

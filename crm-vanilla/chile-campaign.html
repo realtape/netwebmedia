@@ -116,6 +116,27 @@
           </div>
         </div>
 
+        <!-- Full clickers list -->
+        <div class="panel" style="margin-top:24px">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px">
+            <h2 style="margin:0">Click auditoría — lista completa</h2>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <input id="clickSearch" type="search" placeholder="Buscar por nombre, empresa, email, ciudad…"
+                     style="padding:7px 11px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;min-width:260px">
+              <select id="clickMode"
+                      style="padding:7px 11px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;background:#fff">
+                <option value="all">Todos los clicks (incluye repetidos)</option>
+                <option value="unique" selected>Únicos por contacto</option>
+              </select>
+              <button id="clickExport" class="btn"
+                      style="padding:7px 14px;background:#FF671F;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer">
+                Exportar CSV
+              </button>
+            </div>
+          </div>
+          <div id="allClicksTable"><div class="empty">Cargando…</div></div>
+        </div>
+
       </div>
     </main>
   </div>
@@ -275,6 +296,105 @@
         `;
       }
 
+      /* Full clickers list — separate request, refreshes alongside main poll. */
+      let allClicks = [];
+
+      function renderAllClicks() {
+        const q = (document.getElementById('clickSearch').value || '').toLowerCase().trim();
+        const filtered = q
+          ? allClicks.filter(c => (
+              (c.name||'').toLowerCase().includes(q) ||
+              (c.company||'').toLowerCase().includes(q) ||
+              (c.email||'').toLowerCase().includes(q) ||
+              (c.city||'').toLowerCase().includes(q) ||
+              (c.niche||'').toLowerCase().includes(q)
+            ))
+          : allClicks;
+
+        if (!filtered.length) {
+          document.getElementById('allClicksTable').innerHTML =
+            '<div class="empty">' + (allClicks.length ? 'Sin coincidencias para esa búsqueda.' : 'Aún no hay clicks.') + '</div>';
+          return;
+        }
+        const rows = filtered.map(c => `
+          <tr>
+            <td>
+              <div class="niche-name">${escapeHtml(c.name || c.company || '—')}</div>
+              ${c.company && c.company !== c.name ? '<div class="niche-key">' + escapeHtml(c.company) + '</div>' : ''}
+            </td>
+            <td class="email">${escapeHtml(c.email || '')}</td>
+            <td>${escapeHtml(c.niche || c.niche_key || '')}</td>
+            <td style="text-transform:capitalize">${escapeHtml(c.city || '')}</td>
+            <td class="num" style="white-space:nowrap;color:#6b7280;font-size:12px">${fmtTime(c.timestamp)}</td>
+            <td>${c.website ? '<a href="' + escapeAttr(c.website) + '" target="_blank" rel="noopener" style="color:#FF671F;text-decoration:none">↗</a>' : ''}</td>
+          </tr>
+        `).join('');
+        document.getElementById('allClicksTable').innerHTML = `
+          <div style="margin-bottom:8px;font-size:12px;color:#6b7280">${filtered.length} de ${allClicks.length} clicks</div>
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Contacto</th>
+                <th>Email</th>
+                <th>Nicho</th>
+                <th>Ciudad</th>
+                <th class="num">Hizo click</th>
+                <th>Sitio</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>`;
+      }
+
+      function escapeHtml(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+          .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+      }
+      function escapeAttr(s) { return escapeHtml(s); }
+
+      async function refreshAllClicks() {
+        const mode = document.getElementById('clickMode').value || 'unique';
+        const url = STATS_URL + (STATS_URL.includes('?') ? '&' : '?') + 'clicks=' + encodeURIComponent(mode);
+        try {
+          const res = await fetch(url, { credentials: 'same-origin', cache: 'no-store' });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          allClicks = data.recent_clicks || [];
+          renderAllClicks();
+        } catch (e) {
+          document.getElementById('allClicksTable').innerHTML =
+            '<div class="empty" style="color:#ef4444">Error: ' + escapeHtml(e.message) + '</div>';
+        }
+      }
+
+      function exportClicksCSV() {
+        const q = (document.getElementById('clickSearch').value || '').toLowerCase().trim();
+        const rows = q
+          ? allClicks.filter(c => (
+              (c.name||'').toLowerCase().includes(q) ||
+              (c.company||'').toLowerCase().includes(q) ||
+              (c.email||'').toLowerCase().includes(q) ||
+              (c.city||'').toLowerCase().includes(q) ||
+              (c.niche||'').toLowerCase().includes(q)
+            ))
+          : allClicks;
+        if (!rows.length) { alert('No hay filas para exportar.'); return; }
+        const head = ['name','company','email','niche','city','website','timestamp','ip'];
+        const csv = [head.join(',')].concat(
+          rows.map(r => head.map(k => {
+            const v = String(r[k] == null ? '' : r[k]).replace(/"/g, '""');
+            return /[",\n]/.test(v) ? '"' + v + '"' : v;
+          }).join(','))
+        ).join('\n');
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'chile-clickers-' + new Date().toISOString().slice(0,10) + '.csv';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+      }
+
       let timer = null;
       async function refresh() {
         try {
@@ -290,11 +410,20 @@
           renderCities(data.by_city || []);
           renderRecentSends(data.recent_sends || []);
           renderRecentClicks(data.recent_clicks || []);
+          /* Refresh full clickers list alongside the main poll */
+          refreshAllClicks();
         } catch (e) {
           document.getElementById('campaignMeta').textContent = 'Error cargando datos: ' + e.message;
         }
       }
       document.addEventListener('DOMContentLoaded', function () {
+        const searchEl = document.getElementById('clickSearch');
+        if (searchEl) searchEl.addEventListener('input', renderAllClicks);
+        const modeEl = document.getElementById('clickMode');
+        if (modeEl) modeEl.addEventListener('change', refreshAllClicks);
+        const exportEl = document.getElementById('clickExport');
+        if (exportEl) exportEl.addEventListener('click', exportClicksCSV);
+
         refresh();
         timer = setInterval(refresh, POLL_MS);
       });

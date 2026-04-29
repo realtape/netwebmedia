@@ -35,7 +35,7 @@ function client_btn(string $url, string $label): string {
 $templates = [
 
   /* ── TOURISM ─────────────────────────────────────────────────────── */
-  ['name' => '[Tourism] Booking Confirmation', 'niche' => 'Tourism & Hospitality',
+  ['name' => '[Tourism] Booking Confirmation', 'niche' => 'tourism',
    'type' => 'client_transactional',
    'subject' => 'Tu reserva está confirmada — {{company}}',
    'html' => client_wrap('
@@ -46,7 +46,7 @@ $templates = [
      <p><strong>El equipo de {{company}}</strong></p>
    ')],
 
-  ['name' => '[Tourism] Post-Stay Follow-Up', 'niche' => 'Tourism & Hospitality',
+  ['name' => '[Tourism] Post-Stay Follow-Up', 'niche' => 'tourism',
    'type' => 'client_marketing',
    'subject' => '¿Cómo fue tu estadía, {{first_name}}? — {{company}}',
    'html' => client_wrap('
@@ -59,7 +59,7 @@ $templates = [
    ')],
 
   /* ── RESTAURANTS ─────────────────────────────────────────────────── */
-  ['name' => '[Restaurants] Reservation Confirmation', 'niche' => 'Restaurants & Gastronomy',
+  ['name' => '[Restaurants] Reservation Confirmation', 'niche' => 'restaurants',
    'type' => 'client_transactional',
    'subject' => 'Tu reserva en {{company}} está confirmada',
    'html' => client_wrap('
@@ -69,7 +69,7 @@ $templates = [
      <p>¡Buen provecho de antemano!<br><strong>El equipo de {{company}}</strong></p>
    ')],
 
-  ['name' => '[Restaurants] Loyalty Offer', 'niche' => 'Restaurants & Gastronomy',
+  ['name' => '[Restaurants] Loyalty Offer', 'niche' => 'restaurants',
    'type' => 'client_marketing',
    'subject' => 'Un regalo para ti, {{first_name}} 🍽',
    'html' => client_wrap('
@@ -81,7 +81,7 @@ $templates = [
    ')],
 
   /* ── HEALTH ──────────────────────────────────────────────────────── */
-  ['name' => '[Health] Appointment Reminder', 'niche' => 'Health & Medical',
+  ['name' => '[Health] Appointment Reminder', 'niche' => 'health',
    'type' => 'client_transactional',
    'subject' => 'Recordatorio de tu cita — {{company}}',
    'html' => client_wrap('
@@ -91,7 +91,7 @@ $templates = [
      <p>¡Te esperamos!<br><strong>El equipo de {{company}}</strong></p>
    ')],
 
-  ['name' => '[Health] Preventive Care Reminder', 'niche' => 'Health & Medical',
+  ['name' => '[Health] Preventive Care Reminder', 'niche' => 'health',
    'type' => 'client_marketing',
    'subject' => '{{first_name}}, es hora de tu control preventivo',
    'html' => client_wrap('
@@ -103,7 +103,7 @@ $templates = [
    ')],
 
   /* ── BEAUTY ──────────────────────────────────────────────────────── */
-  ['name' => '[Beauty] Appointment Reminder', 'niche' => 'Beauty & Wellness',
+  ['name' => '[Beauty] Appointment Reminder', 'niche' => 'beauty',
    'type' => 'client_transactional',
    'subject' => 'Tu cita en {{company}} es pronto, {{first_name}}',
    'html' => client_wrap('
@@ -113,7 +113,7 @@ $templates = [
      <p>¡Hasta pronto!<br><strong>{{company}}</strong></p>
    ')],
 
-  ['name' => '[Beauty] Rebooking Nudge', 'niche' => 'Beauty & Wellness',
+  ['name' => '[Beauty] Rebooking Nudge', 'niche' => 'beauty',
    'type' => 'client_marketing',
    'subject' => '{{first_name}}, ¿ya tienes tu próxima cita?',
    'html' => client_wrap('
@@ -125,7 +125,7 @@ $templates = [
    ')],
 
   /* ── SMB ─────────────────────────────────────────────────────────── */
-  ['name' => '[SMB] Quote Follow-Up', 'niche' => 'Small/Medium Business Services',
+  ['name' => '[SMB] Quote Follow-Up', 'niche' => 'smb',
    'type' => 'client_transactional',
    'subject' => 'Tu cotización de {{company}} — ¿alguna duda?',
    'html' => client_wrap('
@@ -135,7 +135,7 @@ $templates = [
      <p>Saludos,<br><strong>{{company}}</strong></p>
    ')],
 
-  ['name' => '[SMB] Client Check-In', 'niche' => 'Small/Medium Business Services',
+  ['name' => '[SMB] Client Check-In', 'niche' => 'smb',
    'type' => 'client_marketing',
    'subject' => '¿Cómo van las cosas, {{first_name}}?',
    'html' => client_wrap('
@@ -146,7 +146,7 @@ $templates = [
    ')],
 
   /* ── LAW FIRMS ───────────────────────────────────────────────────── */
-  ['name' => '[Law] Consultation Confirmation', 'niche' => 'Law Firms & Legal Services',
+  ['name' => '[Law] Consultation Confirmation', 'niche' => 'law_firms',
    'type' => 'client_transactional',
    'subject' => 'Tu consulta en {{company}} está confirmada',
    'html' => client_wrap('
@@ -156,7 +156,7 @@ $templates = [
      <p>Atentamente,<br><strong>{{company}}</strong></p>
    ')],
 
-  ['name' => '[Law] Case Status Update', 'niche' => 'Law Firms & Legal Services',
+  ['name' => '[Law] Case Status Update', 'niche' => 'law_firms',
    'type' => 'client_transactional',
    'subject' => 'Actualización de su caso — {{company}}',
    'html' => client_wrap('
@@ -167,7 +167,7 @@ $templates = [
    ')],
 
   /* ── REAL ESTATE ─────────────────────────────────────────────────── */
-  ['name' => '[Real Estate] New Listing Alert', 'niche' => 'Real Estate & Property',
+  ['name' => '[Real Estate] New Listing Alert', 'niche' => 'real_estate',
    'type' => 'client_marketing',
    'subject' => 'Nueva propiedad que te podría interesar, {{first_name}}',
    'html' => client_wrap('
@@ -178,7 +178,7 @@ $templates = [
      <p>¿Tienes preguntas? Responde este correo y te contactamos hoy.<br><strong>{{company}}</strong></p>
    ')],
 
-  ['name' => '[Real Estate] Market Update', 'niche' => 'Real Estate & Property',
+  ['name' => '[Real Estate] Market Update', 'niche' => 'real_estate',
    'type' => 'client_marketing',
    'subject' => 'Reporte de mercado inmobiliario — {{company}}',
    'html' => client_wrap('
@@ -190,7 +190,7 @@ $templates = [
    ')],
 
   /* ── LOCAL SPECIALIST ────────────────────────────────────────────── */
-  ['name' => '[Local] Job Completion Confirmation', 'niche' => 'Local Specialist Services',
+  ['name' => '[Local] Job Completion Confirmation', 'niche' => 'local_specialist',
    'type' => 'client_transactional',
    'subject' => 'Trabajo completado — {{company}}',
    'html' => client_wrap('
@@ -200,7 +200,7 @@ $templates = [
      <p>¡Gracias por elegirnos!<br><strong>{{company}}</strong></p>
    ')],
 
-  ['name' => '[Local] Service Due Reminder', 'niche' => 'Local Specialist Services',
+  ['name' => '[Local] Service Due Reminder', 'niche' => 'local_specialist',
    'type' => 'client_marketing',
    'subject' => '{{first_name}}, es hora de tu mantención anual',
    'html' => client_wrap('
@@ -212,7 +212,7 @@ $templates = [
    ')],
 
   /* ── AUTOMOTIVE ──────────────────────────────────────────────────── */
-  ['name' => '[Automotive] Service Appointment Reminder', 'niche' => 'Automotive',
+  ['name' => '[Automotive] Service Appointment Reminder', 'niche' => 'automotive',
    'type' => 'client_transactional',
    'subject' => 'Recordatorio: tu turno en {{company}}',
    'html' => client_wrap('
@@ -222,7 +222,7 @@ $templates = [
      <p>¡Te esperamos!<br><strong>{{company}}</strong></p>
    ')],
 
-  ['name' => '[Automotive] Vehicle Ready for Pickup', 'niche' => 'Automotive',
+  ['name' => '[Automotive] Vehicle Ready for Pickup', 'niche' => 'automotive',
    'type' => 'client_transactional',
    'subject' => 'Tu vehículo está listo, {{first_name}} 🚗',
    'html' => client_wrap('
@@ -233,7 +233,7 @@ $templates = [
    ')],
 
   /* ── EDUCATION ───────────────────────────────────────────────────── */
-  ['name' => '[Education] Enrollment Confirmation', 'niche' => 'Education',
+  ['name' => '[Education] Enrollment Confirmation', 'niche' => 'education',
    'type' => 'client_transactional',
    'subject' => '¡Bienvenido/a a {{company}}, {{first_name}}!',
    'html' => client_wrap('
@@ -243,7 +243,7 @@ $templates = [
      <p>¡Bienvenido/a al equipo!<br><strong>{{company}}</strong></p>
    ')],
 
-  ['name' => '[Education] Course Progress Nudge', 'niche' => 'Education',
+  ['name' => '[Education] Course Progress Nudge', 'niche' => 'education',
    'type' => 'client_marketing',
    'subject' => '{{first_name}}, ¿cómo va tu aprendizaje?',
    'html' => client_wrap('
@@ -255,7 +255,7 @@ $templates = [
    ')],
 
   /* ── EVENTS & WEDDINGS ───────────────────────────────────────────── */
-  ['name' => '[Events] Booking Confirmation', 'niche' => 'Events & Weddings',
+  ['name' => '[Events] Booking Confirmation', 'niche' => 'events_weddings',
    'type' => 'client_transactional',
    'subject' => '¡Tu evento está confirmado! — {{company}}',
    'html' => client_wrap('
@@ -265,7 +265,7 @@ $templates = [
      <p>Con entusiasmo,<br><strong>{{company}}</strong></p>
    ')],
 
-  ['name' => '[Events] Planning Milestone Update', 'niche' => 'Events & Weddings',
+  ['name' => '[Events] Planning Milestone Update', 'niche' => 'events_weddings',
    'type' => 'client_transactional',
    'subject' => 'Actualización de planificación — {{company}}',
    'html' => client_wrap('
@@ -277,7 +277,7 @@ $templates = [
    ')],
 
   /* ── FINANCIAL SERVICES ──────────────────────────────────────────── */
-  ['name' => '[Finance] Quarterly Review Invite', 'niche' => 'Financial Services',
+  ['name' => '[Finance] Quarterly Review Invite', 'niche' => 'financial_services',
    'type' => 'client_marketing',
    'subject' => 'Tu revisión trimestral — {{company}}',
    'html' => client_wrap('
@@ -288,7 +288,7 @@ $templates = [
      <p>Atentamente,<br><strong>{{company}}</strong></p>
    ')],
 
-  ['name' => '[Finance] Tax Season Reminder', 'niche' => 'Financial Services',
+  ['name' => '[Finance] Tax Season Reminder', 'niche' => 'financial_services',
    'type' => 'client_marketing',
    'subject' => 'Temporada tributaria — {{company}} le ayuda',
    'html' => client_wrap('
@@ -300,7 +300,7 @@ $templates = [
    ')],
 
   /* ── HOME SERVICES ───────────────────────────────────────────────── */
-  ['name' => '[Home] Quote Follow-Up', 'niche' => 'Home Services',
+  ['name' => '[Home] Quote Follow-Up', 'niche' => 'home_services',
    'type' => 'client_transactional',
    'subject' => 'Tu cotización de {{company}} — ¿tienes dudas?',
    'html' => client_wrap('
@@ -310,7 +310,7 @@ $templates = [
      <p>Saludos,<br><strong>{{company}}</strong></p>
    ')],
 
-  ['name' => '[Home] Seasonal Maintenance Reminder', 'niche' => 'Home Services',
+  ['name' => '[Home] Seasonal Maintenance Reminder', 'niche' => 'home_services',
    'type' => 'client_marketing',
    'subject' => 'Prepara tu hogar para la temporada — {{company}}',
    'html' => client_wrap('
@@ -322,7 +322,7 @@ $templates = [
    ')],
 
   /* ── WINE & AGRICULTURE ──────────────────────────────────────────── */
-  ['name' => '[Wine] New Vintage Release', 'niche' => 'Wine & Agriculture',
+  ['name' => '[Wine] New Vintage Release', 'niche' => 'wine_agriculture',
    'type' => 'client_marketing',
    'subject' => 'Nueva cosecha disponible — {{company}}',
    'html' => client_wrap('
@@ -333,7 +333,7 @@ $templates = [
      <p>¡Salud!<br><strong>{{company}}</strong></p>
    ')],
 
-  ['name' => '[Wine] Harvest Event Invitation', 'niche' => 'Wine & Agriculture',
+  ['name' => '[Wine] Harvest Event Invitation', 'niche' => 'wine_agriculture',
    'type' => 'client_marketing',
    'subject' => 'Te invitamos a la vendimia — {{company}}',
    'html' => client_wrap('

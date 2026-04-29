@@ -648,7 +648,11 @@
     skipLink.href = '#';
     skipLink.textContent = isEs ? 'Configurar más tarde' : 'Set up later';
     skipLink.style.cssText = 'color:#94a3b8;font-size:.85rem;text-decoration:none;';
-    skipLink.addEventListener('click', function(e) { e.preventDefault(); overlay.remove(); });
+    skipLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      localStorage.setItem('nwm_niche_picker_dismissed', '1');
+      overlay.remove();
+    });
     skip.appendChild(skipLink);
     modal.appendChild(skip);
 
@@ -793,7 +797,8 @@
           fetch('/api/auth/logout', {
             method: 'POST',
             credentials: 'include',
-            headers: token ? { 'X-Auth-Token': token } : {}
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'logout' })
           }).catch(function () {}).finally(finish);
         } catch (_) { finish(); }
       });
@@ -1042,7 +1047,9 @@
     // Show niche picker for real (non-demo) users who haven't selected an industry yet
     if (!isDemo()) {
       var _u = getLoggedInUser();
-      if (_u && !_u.niche) showNichePicker();
+      if (_u && !_u.niche && !localStorage.getItem('nwm_niche_picker_dismissed')) {
+        showNichePicker();
+      }
     }
   });
 

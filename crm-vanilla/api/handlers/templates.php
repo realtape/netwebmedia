@@ -39,6 +39,7 @@ switch ($method) {
         break;
 
     case 'POST':
+        if (!$user || !$user['id']) jsonError('Authentication required', 401);
         $d = getInput();
         if (empty($d['name']) || empty($d['subject']) || empty($d['body_html'])) {
             jsonError('name, subject, body_html required');
@@ -60,6 +61,7 @@ switch ($method) {
         break;
 
     case 'PUT':
+        if (!$user || !$user['id']) jsonError('Authentication required', 401);
         if (!$id) jsonError('ID required');
         $d = getInput();
         $fields = []; $params = [];
@@ -74,6 +76,7 @@ switch ($method) {
         break;
 
     case 'DELETE':
+        if (!$user || !$user['id']) jsonError('Authentication required', 401);
         if (!$id) jsonError('ID required');
         $db->prepare('DELETE FROM email_templates WHERE id = ?')->execute([$id]);
         jsonResponse(['deleted' => true]);

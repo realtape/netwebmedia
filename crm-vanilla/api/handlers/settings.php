@@ -98,8 +98,14 @@ switch ($method) {
                     if ($newNiche !== null && !isset($niches_cfg[$newNiche])) {
                         jsonError('Unknown niche: ' . $newNiche, 400);
                     }
-                    $db->prepare('UPDATE users SET niche = ? WHERE id = ?')
-                       ->execute([$newNiche, (int)$user['id']]);
+                    try {
+                        $db->prepare('UPDATE users SET niche = ? WHERE id = ?')
+                           ->execute([$newNiche, (int)$user['id']]);
+                    } catch (Throwable $ne) {
+                        // Column may not exist yet if schema_addniche migration hasn't run.
+                        // Silently skip — don't break the entire settings save.
+                        error_log('[settings] niche save failed (migration pending?): ' . $ne->getMessage());
+                    }
                 }
                 unset($data['niche']);
             }

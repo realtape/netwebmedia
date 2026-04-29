@@ -33,12 +33,12 @@ switch ($method) {
         }
         $rows = $stmt->fetchAll();
 
-        // Group by kpi_key, keep latest value + trend (last 2 periods)
+        // Group by niche:kpi_key — prevents same key name across niches from colliding
         $grouped = [];
         foreach ($rows as $r) {
-            $k = $r['kpi_key'];
+            $k = $r['niche'] . ':' . $r['kpi_key'];
             if (!isset($grouped[$k])) {
-                $grouped[$k] = ['current' => $r, 'history' => []];
+                $grouped[$k] = ['current' => $r, 'history' => [], 'niche' => $r['niche'], 'kpi_key' => $r['kpi_key']];
             } else {
                 $grouped[$k]['history'][] = $r;
             }

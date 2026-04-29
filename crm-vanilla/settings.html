@@ -30,6 +30,7 @@
           <button class="settings-tab" data-tab="notifications" data-i18n="modules.settings.notifications">Notifications</button>
           <button class="settings-tab" data-tab="billing" data-i18n="modules.settings.billing">Billing</button>
           <button class="settings-tab" data-tab="security" data-i18n="modules.settings.security">Security</button>
+          <button class="settings-tab" data-tab="scoring">Lead Scoring</button>
         </div>
         <div class="settings-content">
 
@@ -276,13 +277,95 @@
             <button class="btn btn-primary btn-save" data-i18n="modules.settings.updatePassword">Update Password</button>
           </div>
 
+          <!-- Lead Scoring -->
+          <div class="settings-panel" id="tab-scoring">
+            <h2>Lead Scoring</h2>
+            <p class="section-desc">Configure rules that score new leads. Each rule adds (or subtracts) points when its condition matches contact data. Leads with a total score ≥ threshold are automatically qualified.</p>
+            <div class="form-group" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
+              <div style="flex:1;min-width:160px">
+                <label class="form-label">Qualification Threshold</label>
+                <input type="number" class="form-input" id="scoringThreshold" value="30" min="0">
+              </div>
+              <button class="btn btn-secondary" id="scoringRefresh">Reload Rules</button>
+              <button class="btn btn-primary" id="scoringNewRule">+ New Rule</button>
+            </div>
+
+            <div id="scoringDefaultsBanner" style="display:none;background:#fef3c7;border:1px solid #fbbf24;border-radius:8px;padding:10px 14px;margin:14px 0;color:#92400e;font-size:13px">
+              <strong>Using built-in defaults.</strong> No custom rules configured yet — leads are scored by the same defaults the API ships with. Click <strong>+ New Rule</strong> to override.
+            </div>
+
+            <table class="data-table" style="margin-top:14px;width:100%">
+              <thead>
+                <tr>
+                  <th>Name</th><th>Field</th><th>Operator</th><th>Value</th><th>Points</th><th>On</th><th></th>
+                </tr>
+              </thead>
+              <tbody id="scoringRulesBody"></tbody>
+            </table>
+
+            <div class="settings-divider" style="margin-top:24px"></div>
+            <h3 class="subsection-title">Score Preview</h3>
+            <p class="section-desc">Run a sample contact through the engine to see which rules match and the resulting score.</p>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="prevEmail" placeholder="example@acme.com"></div>
+              <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="prevPhone" placeholder="+1 555 0100"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Website</label><input class="form-input" id="prevWebsite" placeholder="acme.com"></div>
+              <div class="form-group"><label class="form-label">Niche</label><input class="form-input" id="prevNiche" placeholder="restaurants"></div>
+            </div>
+            <button class="btn btn-secondary" id="scoringPreviewBtn">Score Sample</button>
+            <div id="scoringPreviewResult" style="margin-top:14px"></div>
+          </div>
+
         </div>
       </div>
     </main>
   </div>
+
+  <!-- Lead Scoring Rule Modal -->
+  <div id="scoringModal" style="display:none;position:fixed;inset:0;background:rgba(2,8,23,.55);z-index:1000;align-items:center;justify-content:center">
+    <div style="background:#fff;border-radius:14px;padding:22px;width:520px;max-width:92vw;max-height:88vh;overflow:auto;box-shadow:0 20px 50px rgba(0,0,0,.25)">
+      <h3 style="margin:0 0 14px;color:#010F3B" id="scoringModalTitle">New Rule</h3>
+      <input type="hidden" id="ruleId">
+      <div class="form-group"><label class="form-label">Rule Name</label><input class="form-input" id="ruleName" placeholder="e.g. Has business email"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Field</label><input class="form-input" id="ruleField" placeholder="email, phone, website, niche_key, company, …"></div>
+        <div class="form-group">
+          <label class="form-label">Operator</label>
+          <select class="form-select" id="ruleOperator">
+            <option value="present">is present</option>
+            <option value="absent">is absent</option>
+            <option value="email">is valid email</option>
+            <option value="equals">equals</option>
+            <option value="contains">contains</option>
+            <option value="starts">starts with</option>
+            <option value="in">in list (csv)</option>
+            <option value="matches">matches regex</option>
+            <option value="gt">greater than</option>
+            <option value="gte">≥</option>
+            <option value="lt">less than</option>
+            <option value="lte">≤</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Value</label><input class="form-input" id="ruleValue" placeholder="(leave blank for present/absent/email)"></div>
+        <div class="form-group"><label class="form-label">Points</label><input class="form-input" type="number" id="rulePoints" value="10"></div>
+      </div>
+      <label style="display:flex;gap:8px;align-items:center;margin-top:8px;font-size:14px"><input type="checkbox" id="ruleEnabled" checked> Enabled</label>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:18px">
+        <button class="btn btn-secondary" id="ruleCancel">Cancel</button>
+        <button class="btn btn-danger"   id="ruleDelete" style="display:none">Delete</button>
+        <button class="btn btn-primary"  id="ruleSave">Save Rule</button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/data.js"></script>
   <script src="js/app.js?v=8"></script>
   <script src="js/settings.js?v=2"></script>
+  <script src="js/scoring-admin.js?v=1"></script>
 <script src="assets/nwm-i18n.js" defer></script>
   <script src="/assets/nwm-site-chat.js" defer></script>
 </body>

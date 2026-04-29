@@ -2,8 +2,9 @@
 require_once __DIR__ . '/../lib/tenancy.php';
 require_once __DIR__ . '/../lib/wf_bridge.php';
 $db = getDB();
-[$tWhere, $tParams] = tenant_where('d');
+[$tWhere, $tParams] = tenancy_where('d');
 $uid = tenant_id();
+$orgId = is_org_schema_applied() ? current_org_id() : null;
 
 /* Helper: build workflow context from a deal id (joins contact for email/phone/lang) */
 function deal_wf_ctx(PDO $db, int $dealId): array {
@@ -70,15 +71,28 @@ switch ($method) {
                 }
             } else {
                 try {
-                    $db->prepare('INSERT INTO contacts (user_id, name, email, phone, company, status) VALUES (?, ?, ?, ?, ?, ?)')
-                       ->execute([
-                           $uid,
-                           $data['company'] ?: $email,
-                           $email,
-                           $data['phone'] ?? null,
-                           $data['company'] ?? null,
-                           'lead',
-                       ]);
+                    if ($orgId !== null) {
+                        $db->prepare('INSERT INTO contacts (user_id, organization_id, name, email, phone, company, status) VALUES (?, ?, ?, ?, ?, ?, ?)')
+                           ->execute([
+                               $uid,
+                               $orgId,
+                               $data['company'] ?: $email,
+                               $email,
+                               $data['phone'] ?? null,
+                               $data['company'] ?? null,
+                               'lead',
+                           ]);
+                    } else {
+                        $db->prepare('INSERT INTO contacts (user_id, name, email, phone, company, status) VALUES (?, ?, ?, ?, ?, ?)')
+                           ->execute([
+                               $uid,
+                               $data['company'] ?: $email,
+                               $email,
+                               $data['phone'] ?? null,
+                               $data['company'] ?? null,
+                               'lead',
+                           ]);
+                    }
                     $contact_id = (int)$db->lastInsertId();
                 } catch (PDOException $race) {
                     // Only swallow integrity-constraint violations (23000); rethrow anything else
@@ -105,18 +119,34 @@ switch ($method) {
             }
         }
 
-        $stmt = $db->prepare('INSERT INTO deals (user_id, title, company, value, contact_id, stage_id, probability, days_in_stage, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
-        $stmt->execute([
-            $uid,
-            $data['title'],
-            $data['company'] ?? null,
-            $data['value'] ?? 0,
-            $contact_id,
-            $data['stage_id'] ?? 1,
-            $data['probability'] ?? 0,
-            $data['days_in_stage'] ?? 0,
-            $data['source'] ?? null,
-        ]);
+        if ($orgId !== null) {
+            $stmt = $db->prepare('INSERT INTO deals (user_id, organization_id, title, company, value, contact_id, stage_id, probability, days_in_stage, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+            $stmt->execute([
+                $uid,
+                $orgId,
+                $data['title'],
+                $data['company'] ?? null,
+                $data['value'] ?? 0,
+                $contact_id,
+                $data['stage_id'] ?? 1,
+                $data['probability'] ?? 0,
+                $data['days_in_stage'] ?? 0,
+                $data['source'] ?? null,
+            ]);
+        } else {
+            $stmt = $db->prepare('INSERT INTO deals (user_id, title, company, value, contact_id, stage_id, probability, days_in_stage, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+            $stmt->execute([
+                $uid,
+                $data['title'],
+                $data['company'] ?? null,
+                $data['value'] ?? 0,
+                $contact_id,
+                $data['stage_id'] ?? 1,
+                $data['probability'] ?? 0,
+                $data['days_in_stage'] ?? 0,
+                $data['source'] ?? null,
+            ]);
+        }
         $newId = $db->lastInsertId();
         $stmt = $db->prepare('SELECT d.*, ps.name as stage, c.name as contact_name, c.email as contact_email, c.phone as contact_phone FROM deals d LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id LEFT JOIN contacts c ON d.contact_id = c.id WHERE d.id = ?');
         $stmt->execute([$newId]);
@@ -133,14 +163,14 @@ switch ($method) {
 
     case 'PUT':
         if (!$id) jsonError('ID required');
-        // Ownership check
-        $own = $db->prepare('SELECT user_id FROM deals WHERE id = ?');
-        $own->execute([$id]);
-        $row = $own->fetch();
-        if (!$row) jsonError('Deal not found', 404);
-        if (!tenant_owns($row['user_id'] !== null ? (int)$row['user_id'] : null)) {
-            jsonError('Deal not found', 404);
-        }
+        // Ownership check — migration-aware (org first, falls back to user filter)
+        [$ownWhere, $ownParams] = tenancy_where();
+        $checkSql = 'SELECT id FROM deals WHERE id = ?';
+        $checkParams = [$id];
+        if ($ownWhere) { $checkSql .= ' AND ' . $ownWhere; $checkParams = array_merge($checkParams, $ownParams); }
+        $own = $db->prepare($checkSql);
+        $own->execute($checkParams);
+        if (!$own->fetch()) jsonError('Deal not found', 404);
 
         $data = getInput();
 
@@ -165,7 +195,9 @@ switch ($method) {
             $params[] = 0;
         }
         $params[] = $id;
-        $db->prepare('UPDATE deals SET ' . implode(', ', $fields) . ' WHERE id = ?')->execute($params);
+        $updSql = 'UPDATE deals SET ' . implode(', ', $fields) . ' WHERE id = ?';
+        if ($ownWhere) { $updSql .= ' AND ' . $ownWhere; $params = array_merge($params, $ownParams); }
+        $db->prepare($updSql)->execute($params);
         $stmt = $db->prepare('SELECT d.*, ps.name as stage FROM deals d LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id WHERE d.id = ?');
         $stmt->execute([$id]);
         $updated = $stmt->fetch();
@@ -182,14 +214,17 @@ switch ($method) {
 
     case 'DELETE':
         if (!$id) jsonError('ID required');
-        $own = $db->prepare('SELECT user_id FROM deals WHERE id = ?');
-        $own->execute([$id]);
-        $row = $own->fetch();
-        if (!$row) jsonError('Deal not found', 404);
-        if (!tenant_owns($row['user_id'] !== null ? (int)$row['user_id'] : null)) {
-            jsonError('Deal not found', 404);
-        }
-        $db->prepare('DELETE FROM deals WHERE id = ?')->execute([$id]);
+        [$ownWhere, $ownParams] = tenancy_where();
+        $checkSql = 'SELECT id FROM deals WHERE id = ?';
+        $checkParams = [$id];
+        if ($ownWhere) { $checkSql .= ' AND ' . $ownWhere; $checkParams = array_merge($checkParams, $ownParams); }
+        $own = $db->prepare($checkSql);
+        $own->execute($checkParams);
+        if (!$own->fetch()) jsonError('Deal not found', 404);
+        $delSql = 'DELETE FROM deals WHERE id = ?';
+        $delParams = [$id];
+        if ($ownWhere) { $delSql .= ' AND ' . $ownWhere; $delParams = array_merge($delParams, $ownParams); }
+        $db->prepare($delSql)->execute($delParams);
         jsonResponse(['deleted' => true]);
         break;
 

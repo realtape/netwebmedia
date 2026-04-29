@@ -13,9 +13,10 @@
 
 require_once __DIR__ . '/../lib/tenancy.php';
 $db = getDB();
-[$tWhereI, $tParamsI] = tenant_where('i');
-[$tWhereS, $tParamsS] = tenant_where('s');
+[$tWhereI, $tParamsI] = tenancy_where('i');
+[$tWhereS, $tParamsS] = tenancy_where('s');
 $uid = tenant_id();
+$orgId = is_org_schema_applied() ? current_org_id() : null;
 
 // DDL moved to schema_payments.sql — run via /api/?r=migrate&schema=payments
 // Cache "tables exist" check per PHP-FPM process so we only verify once per worker.
@@ -94,35 +95,55 @@ if ($method === 'POST') {
     $count = (int)$db->query("SELECT COUNT(*) FROM invoices")->fetchColumn();
     $num   = 'INV-' . str_pad($count + 1, 3, '0', STR_PAD_LEFT);
 
-    $stmt = $db->prepare("
-        INSERT INTO invoices (user_id, invoice_num, contact_id, client_name, company, amount, status, invoice_date, due_date, notes)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ");
-    $stmt->execute([
-        $uid,
-        $num,
-        $data['contact_id'] ?? null,
-        $data['client_name'],
-        $data['company'] ?? '',
-        (float)$data['amount'],
-        $data['status'] ?? 'pending',
-        $data['invoice_date'] ?? date('Y-m-d'),
-        $data['due_date'] ?? null,
-        $data['notes'] ?? null,
-    ]);
+    if ($orgId !== null) {
+        $stmt = $db->prepare("
+            INSERT INTO invoices (user_id, organization_id, invoice_num, contact_id, client_name, company, amount, status, invoice_date, due_date, notes)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+        $stmt->execute([
+            $uid,
+            $orgId,
+            $num,
+            $data['contact_id'] ?? null,
+            $data['client_name'],
+            $data['company'] ?? '',
+            (float)$data['amount'],
+            $data['status'] ?? 'pending',
+            $data['invoice_date'] ?? date('Y-m-d'),
+            $data['due_date'] ?? null,
+            $data['notes'] ?? null,
+        ]);
+    } else {
+        $stmt = $db->prepare("
+            INSERT INTO invoices (user_id, invoice_num, contact_id, client_name, company, amount, status, invoice_date, due_date, notes)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+        $stmt->execute([
+            $uid,
+            $num,
+            $data['contact_id'] ?? null,
+            $data['client_name'],
+            $data['company'] ?? '',
+            (float)$data['amount'],
+            $data['status'] ?? 'pending',
+            $data['invoice_date'] ?? date('Y-m-d'),
+            $data['due_date'] ?? null,
+            $data['notes'] ?? null,
+        ]);
+    }
     jsonResponse(['id' => (int)$db->lastInsertId(), 'invoice_num' => $num], 201);
 }
 
 // ── PUT — update invoice status ───────────────────────────────────────────────
 if ($method === 'PUT' && $id) {
-    // Ownership check
-    $own = $db->prepare('SELECT user_id FROM invoices WHERE id = ?');
-    $own->execute([$id]);
-    $row = $own->fetch();
-    if (!$row) jsonError('Invoice not found', 404);
-    if (!tenant_owns($row['user_id'] !== null ? (int)$row['user_id'] : null)) {
-        jsonError('Invoice not found', 404);
-    }
+    // Ownership check — migration-aware
+    [$ownWhere, $ownParams] = tenancy_where();
+    $checkSql = 'SELECT id FROM invoices WHERE id = ?';
+    $checkParams = [$id];
+    if ($ownWhere) { $checkSql .= ' AND ' . $ownWhere; $checkParams = array_merge($checkParams, $ownParams); }
+    $own = $db->prepare($checkSql);
+    $own->execute($checkParams);
+    if (!$own->fetch()) jsonError('Invoice not found', 404);
 
     $data = getInput();
     $allowed = ['draft', 'pending', 'paid', 'overdue', 'cancelled'];
@@ -139,7 +160,9 @@ if ($method === 'PUT' && $id) {
     }
     if (!$sets) jsonError('Nothing to update');
     $vals[] = $id;
-    $db->prepare("UPDATE invoices SET " . implode(', ', $sets) . " WHERE id = ?")->execute($vals);
+    $updSql = "UPDATE invoices SET " . implode(', ', $sets) . " WHERE id = ?";
+    if ($ownWhere) { $updSql .= ' AND ' . $ownWhere; $vals = array_merge($vals, $ownParams); }
+    $db->prepare($updSql)->execute($vals);
     jsonResponse(['updated' => true]);
 }
 

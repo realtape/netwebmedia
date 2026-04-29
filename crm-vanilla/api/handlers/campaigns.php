@@ -333,31 +333,56 @@ if ($id && $action) {
 switch ($method) {
     case 'GET':
         if ($id) {
-            $s = $db->prepare('SELECT * FROM email_campaigns WHERE id = ?');
-            $s->execute([$id]);
+            $sql = 'SELECT * FROM email_campaigns WHERE id = ?';
+            $params = [$id];
+            if ($tWhereCampNoAlias) { $sql .= ' AND ' . $tWhereCampNoAlias; $params = array_merge($params, $tParamsCampNoAlias); }
+            $s = $db->prepare($sql);
+            $s->execute($params);
             $row = $s->fetch();
             if (!$row) jsonError('Campaign not found', 404);
             jsonResponse($row);
         }
-        jsonResponse($db->query('SELECT * FROM email_campaigns ORDER BY created_at DESC')->fetchAll());
+        $listSql = 'SELECT * FROM email_campaigns';
+        $listParams = [];
+        if ($tWhereCampNoAlias) { $listSql .= ' WHERE ' . $tWhereCampNoAlias; $listParams = $tParamsCampNoAlias; }
+        $listSql .= ' ORDER BY created_at DESC';
+        $ls = $db->prepare($listSql);
+        $ls->execute($listParams);
+        jsonResponse($ls->fetchAll());
         break;
 
     case 'POST':
         $d = getInput();
         if (empty($d['name'])) jsonError('name required');
         $audience = isset($d['audience_filter']) ? (is_array($d['audience_filter']) ? json_encode($d['audience_filter']) : $d['audience_filter']) : null;
-        $s = $db->prepare('INSERT INTO email_campaigns (name, template_id, subject, body_html, from_name, from_email, audience_filter, status, scheduled_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
-        $s->execute([
-            $d['name'],
-            $d['template_id'] ?? null,
-            $d['subject'] ?? null,
-            $d['body_html'] ?? null,
-            $d['from_name'] ?? 'NetWebMedia',
-            $d['from_email'] ?? 'newsletter@netwebmedia.com',
-            $audience,
-            $d['status'] ?? 'draft',
-            $d['scheduled_at'] ?? null,
-        ]);
+        if ($orgId !== null) {
+            $s = $db->prepare('INSERT INTO email_campaigns (organization_id, name, template_id, subject, body_html, from_name, from_email, audience_filter, status, scheduled_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+            $s->execute([
+                $orgId,
+                $d['name'],
+                $d['template_id'] ?? null,
+                $d['subject'] ?? null,
+                $d['body_html'] ?? null,
+                $d['from_name'] ?? 'NetWebMedia',
+                $d['from_email'] ?? 'newsletter@netwebmedia.com',
+                $audience,
+                $d['status'] ?? 'draft',
+                $d['scheduled_at'] ?? null,
+            ]);
+        } else {
+            $s = $db->prepare('INSERT INTO email_campaigns (name, template_id, subject, body_html, from_name, from_email, audience_filter, status, scheduled_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+            $s->execute([
+                $d['name'],
+                $d['template_id'] ?? null,
+                $d['subject'] ?? null,
+                $d['body_html'] ?? null,
+                $d['from_name'] ?? 'NetWebMedia',
+                $d['from_email'] ?? 'newsletter@netwebmedia.com',
+                $audience,
+                $d['status'] ?? 'draft',
+                $d['scheduled_at'] ?? null,
+            ]);
+        }
         jsonResponse(['id' => (int)$db->lastInsertId()], 201);
         break;
 
@@ -374,13 +399,18 @@ switch ($method) {
         }
         if (!$fields) jsonError('No fields to update');
         $params[] = $id;
-        $db->prepare('UPDATE email_campaigns SET ' . implode(', ', $fields) . ' WHERE id = ?')->execute($params);
+        $updSql = 'UPDATE email_campaigns SET ' . implode(', ', $fields) . ' WHERE id = ?';
+        if ($tWhereCampNoAlias) { $updSql .= ' AND ' . $tWhereCampNoAlias; $params = array_merge($params, $tParamsCampNoAlias); }
+        $db->prepare($updSql)->execute($params);
         jsonResponse(['updated' => true]);
         break;
 
     case 'DELETE':
         if (!$id) jsonError('ID required');
-        $db->prepare('DELETE FROM email_campaigns WHERE id = ?')->execute([$id]);
+        $delSql = 'DELETE FROM email_campaigns WHERE id = ?';
+        $delParams = [$id];
+        if ($tWhereCampNoAlias) { $delSql .= ' AND ' . $tWhereCampNoAlias; $delParams = array_merge($delParams, $tParamsCampNoAlias); }
+        $db->prepare($delSql)->execute($delParams);
         jsonResponse(['deleted' => true]);
         break;
 

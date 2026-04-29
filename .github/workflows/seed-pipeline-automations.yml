@@ -1,14 +1,16 @@
 name: Seed Pipeline Automations (one-shot)
 
-# Loads api-php/data/pipeline-automations.json into resources(type=workflow).
+# Loads api-php/data/pipeline-automations.json into resources(type=workflow)
+# by hitting the /api/cron/seed-pipeline-automations route (token-protected
+# by the first 16 chars of jwt_secret).
+#
 # Idempotent — workflows upsert by slug. Re-run anytime after editing the JSON.
 #
-# Two manual inputs:
+# Inputs:
 #   dry_run = true  → preview only (no DB writes)
 #   dry_run = false → apply
 #
-# The JWT_SECRET secret is used to derive the seeder's protection token
-# (first 16 chars of jwt_secret), so the token never leaves GitHub.
+# JWT_SECRET must be set in repo secrets (gh secret set JWT_SECRET).
 
 on:
   workflow_dispatch:
@@ -29,20 +31,20 @@ jobs:
       - name: Checkout (for jq sanity check on JSON)
         uses: actions/checkout@v4
 
-      - name: Derive token + hit seeder
+      - name: Derive token + hit seeder route
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
           set -euo pipefail
           if [ -z "${JWT_SECRET:-}" ]; then
-            echo "::error::JWT_SECRET secret is empty — cannot derive token"
+            echo "::error::JWT_SECRET secret is empty — set it via gh secret set JWT_SECRET"
             exit 1
           fi
           TOKEN="${JWT_SECRET:0:16}"
           ORG_ID="${{ inputs.org_id }}"
           DRY="${{ inputs.dry_run }}"
 
-          URL="https://netwebmedia.com/api/seed-automations.php?token=${TOKEN}&org_id=${ORG_ID}"
+          URL="https://netwebmedia.com/api/cron/seed-pipeline-automations?token=${TOKEN}&org_id=${ORG_ID}"
           if [ "$DRY" = "true" ]; then
             URL="${URL}&dry=1"
             echo "::notice::Mode: DRY RUN (no DB writes)"
@@ -57,9 +59,7 @@ jobs:
 
           echo ""
           echo "=== HTTP $HTTP_CODE ==="
-          echo ""
-          cat "$BODY_FILE"
-          echo ""
+          jq . "$BODY_FILE" 2>/dev/null || cat "$BODY_FILE"
           echo "=== End response ==="
 
           if [ "$HTTP_CODE" != "200" ]; then
@@ -67,25 +67,19 @@ jobs:
             exit 1
           fi
 
-          INSERTED=$(grep -E '^Inserted:' "$BODY_FILE" | grep -oE '[0-9]+' || echo "0")
-          UPDATED=$(grep -E '^Updated:'  "$BODY_FILE" | grep -oE '[0-9]+' || echo "0")
-          SKIPPED=$(grep -E '^Skipped:'  "$BODY_FILE" | grep -oE '[0-9]+' || echo "0")
+          INSERTED=$(jq -r '.inserted // 0' "$BODY_FILE")
+          UPDATED=$(jq  -r '.updated  // 0' "$BODY_FILE")
+          SKIPPED=$(jq  -r '.skipped  // 0' "$BODY_FILE")
+          EXPECTED=$(jq -r '.expected // 0' "$BODY_FILE")
 
           echo ""
           echo "── Summary ──"
-          echo "Inserted: $INSERTED"
-          echo "Updated:  $UPDATED"
-          echo "Skipped:  $SKIPPED"
+          echo "Expected: $EXPECTED  Inserted: $INSERTED  Updated: $UPDATED  Skipped: $SKIPPED"
 
-          EXPECTED=$(jq '.workflows | length' api-php/data/pipeline-automations.json)
           ACCOUNTED=$((INSERTED + UPDATED))
-          echo "Expected workflows in JSON: $EXPECTED"
-          echo "Accounted for by seeder:    $ACCOUNTED"
-
           if [ "$ACCOUNTED" != "$EXPECTED" ]; then
-            echo "::warning::Mismatch — JSON has $EXPECTED but seeder accounted for $ACCOUNTED"
+            echo "::warning::Mismatch — expected $EXPECTED but accounted for $ACCOUNTED"
           fi
-
           if [ "$SKIPPED" != "0" ]; then
             echo "::warning::Seeder skipped $SKIPPED workflows — see body above"
           fi

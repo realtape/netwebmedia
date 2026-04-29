@@ -1,23 +1,32 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "updated": "2026-04-29",
-  "description": "Source-of-truth definitions for all NetWebMedia pipeline automations. Loaded into resources(type=workflow) by api-php/seed-automations.php. Re-run seeder anytime — workflows are upserted by slug.",
+  "description": "Source-of-truth definitions for all NetWebMedia pipeline automations. Loaded into resources(type=workflow) by api-php/seed-automations.php. Re-run seeder anytime — workflows are upserted by slug. Bilingual: every send_email/send_whatsapp uses {en,es} objects; lang resolves from contact.lang or ctx.lang and falls back to en. Template references use enroll_sequence (existing email-templates/ system) so we don't duplicate copy.",
+  "languages": ["en", "es"],
   "workflows": [
     {
       "slug": "mk-01-new-subscriber-welcome",
       "title": "Marketing · New Subscriber Welcome",
       "status": "active",
       "data": {
-        "trigger": { "type": "form_submission", "form_id": "newsletter" },
+        "trigger": { "type": "newsletter_subscribe" },
         "steps": [
           { "action": "tag", "tag": "subscriber" },
           { "action": "send_email", "to": "submitter",
-            "subject": "Welcome to NetWebMedia, {{first_name|there}}",
-            "body": "<p>Hi {{first_name|there}},</p><p>You're in. We send one short email a week — no fluff, just what's working in AI-powered marketing for SMBs.</p><p>— Carlos</p>" },
+            "subject": { "en": "Welcome to NetWebMedia, {{first_name|there}}", "es": "Bienvenido a NetWebMedia, {{first_name|amigo}}" },
+            "body": {
+              "en": "<p>Hi {{first_name|there}},</p><p>You're in. We send one short email a week — no fluff, just what's working in AI-powered marketing for SMBs.</p><p>— Carlos</p>",
+              "es": "<p>Hola {{first_name|amigo}},</p><p>Estás dentro. Mandamos un email corto por semana — sin relleno, solo lo que está funcionando en marketing con IA para PYMEs.</p><p>— Carlos</p>"
+            }
+          },
           { "action": "wait", "days": 2 },
           { "action": "send_email", "to": "submitter",
-            "subject": "The 14 niches we go deep on",
-            "body": "<p>Quick value drop: every NetWebMedia playbook is built for one of 14 niches. Reply with yours and I'll send the niche-specific deck.</p>" },
+            "subject": { "en": "The 14 niches we go deep on", "es": "Los 14 nichos donde vamos a fondo" },
+            "body": {
+              "en": "<p>Quick value drop: every NetWebMedia playbook is built for one of 14 niches. Reply with yours and I'll send the niche-specific deck.</p>",
+              "es": "<p>Aporte rápido: cada playbook de NetWebMedia está hecho para uno de 14 nichos. Respóndeme con el tuyo y te envío el deck específico.</p>"
+            }
+          },
           { "action": "wait", "days": 4 },
           { "action": "if",
             "condition": { "field": "tags", "op": "contains", "value": "engaged" },
@@ -38,28 +47,10 @@
           { "action": "tag", "tag": "mql" },
           { "action": "create_deal", "title_tpl": "Audit — {{company|Unknown}}", "value": 2500 },
           { "action": "assign_user", "strategy": "least_loaded" },
-          { "action": "send_email", "to": "submitter",
-            "subject": "Audit request received — your roadmap arrives in 48h",
-            "body": "<p>Hi {{first_name|there}},</p><p>Got it. Your custom 90-day growth roadmap will be in your inbox within 48 hours. While you wait, you can <a href='https://netwebmedia.com/contact.html?source=audit-1'>book a 30-min strategy call here</a>.</p><p>— Carlos</p>" },
+          { "action": "enroll_sequence", "sequence_id": "audit_followup" },
           { "action": "notify_team", "channel": "slack",
-            "message": "🟧 New audit request: {{company|?}} ({{email}}). Deal created and assigned." },
-          { "action": "create_task", "title_tpl": "Deliver audit for {{company|?}}", "due_in_days": 2 },
-          { "action": "wait", "days": 2 },
-          { "action": "send_email", "to": "submitter",
-            "subject": "Your audit roadmap is ready, {{first_name|there}}",
-            "body": "<p>Roadmap attached. Three quick wins inside + the 90-day plan. <a href='https://netwebmedia.com/contact.html?source=audit-2'>Book the walkthrough here.</a></p>" },
-          { "action": "wait", "days": 3 },
-          { "action": "if",
-            "condition": { "field": "appointment_booked", "op": "exists" },
-            "then": [ { "action": "log", "message": "Audit lead booked — sequence ends" } ],
-            "else": [
-              { "action": "send_email", "to": "submitter",
-                "subject": "Did the audit make sense, {{first_name|there}}?",
-                "body": "<p>Open invite: 30-min strategy call, no pressure. <a href='https://netwebmedia.com/contact.html?source=audit-3'>Pick a time here.</a></p>" },
-              { "action": "send_whatsapp", "to": "{{phone}}",
-                "body": "Hi {{first_name|there}} — Carlos at NetWebMedia. Did the audit roadmap land okay? Happy to walk you through it whenever." }
-            ]
-          }
+            "message": "🟧 New audit request: {{company|?}} ({{email}}). Deal created and assigned. Bilingual drip enrolled." },
+          { "action": "create_task", "title_tpl": "Deliver audit for {{company|?}}", "due_in_days": 2 }
         ]
       }
     },
@@ -74,7 +65,7 @@
           { "action": "tag", "tag": "mql" },
           { "action": "update_field", "field": "status", "value": "prospect" },
           { "action": "ai_reply",
-            "prompt_tpl": "Draft a 3-sentence personalized reply to this cold email response. Their reply: '{{reply_body}}'. They are at {{company|?}} in {{niche|the SMB}} space. Tone: friendly, helpful, no pitch. Sign off as Carlos.",
+            "prompt_tpl": "Draft a 3-sentence personalized reply to this cold email response. Their reply: '{{reply_body}}'. They are at {{company|?}} in {{niche|the SMB}} space. Tone: friendly, helpful, no pitch. Sign off as Carlos. Match the language of their reply (English or Spanish).",
             "save_as": "draft_reply" },
           { "action": "create_task", "title_tpl": "Review & send AI-drafted reply to {{first_name|?}} at {{company|?}}", "due_in_days": 1 },
           { "action": "notify_team", "channel": "slack",
@@ -99,8 +90,12 @@
               { "action": "create_task", "title_tpl": "SDR outreach: pricing-curious {{company|?}}", "due_in_days": 1 },
               { "action": "wait", "hours": 4 },
               { "action": "send_email", "to": "contact.email",
-                "subject": "Saw you checking out our pricing — questions?",
-                "body": "<p>Hi {{first_name|there}}, noticed you've been on our pricing page. Happy to walk you through what fits your situation — reply with your top 1-2 questions and I'll answer same-day.</p><p>— Carlos</p>" }
+                "subject": { "en": "Saw you checking out our pricing — questions?", "es": "Vi que estás mirando los planes — ¿preguntas?" },
+                "body": {
+                  "en": "<p>Hi {{first_name|there}}, noticed you've been on our pricing page. Happy to walk you through what fits your situation — reply with your top 1-2 questions and I'll answer same-day.</p><p>— Carlos</p>",
+                  "es": "<p>Hola {{first_name|amigo}}, vi que estuviste en nuestra página de precios. Encantado de explicarte qué encaja con tu caso — respóndeme con 1-2 preguntas y te contesto el mismo día.</p><p>— Carlos</p>"
+                }
+              }
             ]
           }
         ]
@@ -115,19 +110,7 @@
         "steps": [
           { "action": "log", "message": "Cron: scanning for contacts with last_contact > 30d and no opens" },
           { "action": "tag", "tag": "inactive_30d" },
-          { "action": "send_email", "to": "contact.email",
-            "subject": "We've shipped 30+ new modules since you checked",
-            "body": "<p>{{first_name|Hi}} — quick note: NetWebMedia added AI Agents, an Agency tier, and 30 new modules since your last visit. <a href='https://netwebmedia.com/nwm-crm'>See what's new →</a></p>" },
-          { "action": "wait", "days": 14 },
-          { "action": "if",
-            "condition": { "field": "tags", "op": "contains", "value": "engaged" },
-            "then": [ { "action": "untag", "tag": "inactive_30d" } ],
-            "else": [
-              { "action": "send_email", "to": "contact.email",
-                "subject": "Last note — one more reason to stay",
-                "body": "<p>AI Agents + Agency tier are the headline. <a href='https://netwebmedia.com/pricing'>See current pricing →</a></p>" }
-            ]
-          }
+          { "action": "enroll_sequence", "sequence_id": "re_engagement" }
         ]
       }
     },
@@ -140,8 +123,12 @@
         "steps": [
           { "action": "tag", "tag": "evangelist" },
           { "action": "send_email", "to": "contact.email",
-            "subject": "Thank you for the review, {{first_name|there}} 🙏",
-            "body": "<p>That review just made our week. As a thanks: here's <b>REFER15</b> — anyone you refer gets 15% off their first 3 months and you get $200 credit when they convert.</p><p>— Carlos</p>" },
+            "subject": { "en": "Thank you for the review, {{first_name|there}} 🙏", "es": "Gracias por la reseña, {{first_name|amigo}} 🙏" },
+            "body": {
+              "en": "<p>That review just made our week. As a thanks: here's <b>REFER15</b> — anyone you refer gets 15% off their first 3 months and you get $200 credit when they convert.</p><p>— Carlos</p>",
+              "es": "<p>Esa reseña nos alegró la semana. Como agradecimiento: aquí va <b>REFER15</b> — quien refieras obtiene 15% off los primeros 3 meses y tú recibes $200 de crédito cuando convierta.</p><p>— Carlos</p>"
+            }
+          },
           { "action": "create_task", "title_tpl": "Send hand-written thank-you card to {{first_name|?}} at {{company|?}}", "due_in_days": 5 },
           { "action": "notify_team", "channel": "slack", "message": "⭐ New review from {{company|?}}. Tagged evangelist. Referral coupon sent." }
         ]
@@ -172,16 +159,28 @@
         "steps": [
           { "action": "wait_until", "time_of_day": "09:00", "days_of_week": [1,2,3,4,5] },
           { "action": "send_email", "to": "contact.email",
-            "subject": "One thing most {{niche|SMB}} owners get wrong about marketing",
-            "body": "<p>Hi {{first_name|there}}, one quick observation from auditing 100+ {{niche|SMB}} sites this year...</p>" },
+            "subject": { "en": "One thing most {{niche|SMB}} owners get wrong about marketing", "es": "Lo que la mayoría de {{niche|PYMEs}} hacen mal en marketing" },
+            "body": {
+              "en": "<p>Hi {{first_name|there}}, one quick observation from auditing 100+ {{niche|SMB}} sites this year...</p>",
+              "es": "<p>Hola {{first_name|amigo}}, una observación rápida tras auditar 100+ sitios de {{niche|PYMEs}} este año...</p>"
+            }
+          },
           { "action": "wait", "days": 3 },
           { "action": "send_email", "to": "contact.email",
-            "subject": "How {{niche|one of our clients}} cut their cost-per-lead 62%",
-            "body": "<p>Short case study + the exact playbook we used. <a href='https://netwebmedia.com/case-studies'>Read here →</a></p>" },
+            "subject": { "en": "How {{niche|one of our clients}} cut their cost-per-lead 62%", "es": "Cómo {{niche|uno de nuestros clientes}} redujo el costo por lead 62%" },
+            "body": {
+              "en": "<p>Short case study + the exact playbook we used. <a href='https://netwebmedia.com/case-studies'>Read here →</a></p>",
+              "es": "<p>Caso breve + el playbook exacto que usamos. <a href='https://netwebmedia.com/case-studies'>Leer aquí →</a></p>"
+            }
+          },
           { "action": "wait", "days": 4 },
           { "action": "send_email", "to": "contact.email",
-            "subject": "Want me to audit your setup, {{first_name|there}}?",
-            "body": "<p>Free 90-day growth roadmap, no obligation. <a href='https://netwebmedia.com/audit'>Request your audit here →</a></p>" }
+            "subject": { "en": "Want me to audit your setup, {{first_name|there}}?", "es": "¿Te audito tu setup, {{first_name|amigo}}?" },
+            "body": {
+              "en": "<p>Free 90-day growth roadmap, no obligation. <a href='https://netwebmedia.com/audit'>Request your audit here →</a></p>",
+              "es": "<p>Roadmap de crecimiento de 90 días, gratis y sin compromiso. <a href='https://netwebmedia.com/audit'>Solicita tu auditoría aquí →</a></p>"
+            }
+          }
         ]
       }
     },
@@ -193,8 +192,12 @@
         "trigger": { "type": "date_field", "field": "signup_date", "days_offset": 365 },
         "steps": [
           { "action": "send_email", "to": "contact.email",
-            "subject": "1 year with NetWebMedia 🎉",
-            "body": "<p>{{first_name|There}} — 1 year today. Thank you. Here's <b>LOYAL20</b> for 20% off your next add-on or upgrade.</p>" },
+            "subject": { "en": "1 year with NetWebMedia 🎉", "es": "1 año con NetWebMedia 🎉" },
+            "body": {
+              "en": "<p>{{first_name|There}} — 1 year today. Thank you. Here's <b>LOYAL20</b> for 20% off your next add-on or upgrade.</p>",
+              "es": "<p>{{first_name|Amigo}} — 1 año hoy. Gracias. Aquí va <b>LOYAL20</b> para 20% off en tu próximo add-on o upgrade.</p>"
+            }
+          },
           { "action": "create_task", "title_tpl": "QBR: anniversary check-in with {{company|?}}", "due_in_days": 7 }
         ]
       }
@@ -210,17 +213,7 @@
           { "action": "tag", "tag": "sql" },
           { "action": "create_deal", "title_tpl": "Partner — {{company|?}}", "value": 5000 },
           { "action": "assign_user", "strategy": "user_id", "user_id": 1 },
-          { "action": "send_email", "to": "submitter",
-            "subject": "Keep 100% of the client AND 100% of the markup",
-            "body": "<p>Hi {{first_name|there}}, partner application received. Sub-accounts, white-label, Stripe Connect — let's get you onboarded. <a href='https://netwebmedia.com/contact.html?topic=partner'>Book onboarding call →</a></p>" },
-          { "action": "wait", "days": 2 },
-          { "action": "send_email", "to": "submitter",
-            "subject": "How one partner hit $34k/mo net in 90 days",
-            "body": "<p>Exact playbook on our Agency tier. <a href='https://netwebmedia.com/partners.html#partner-signup'>Get the partner playbook →</a></p>" },
-          { "action": "wait", "days": 5 },
-          { "action": "send_email", "to": "submitter",
-            "subject": "Founder pricing closes soon, {{first_name|there}}",
-            "body": "<p>6 founder slots left — lifetime price lock. <a href='https://netwebmedia.com/partners.html#partner-signup'>Claim my founder slot →</a></p>" },
+          { "action": "enroll_sequence", "sequence_id": "partner_application" },
           { "action": "notify_team", "channel": "slack", "message": "🤝 Partner application: {{company|?}} ({{email}})" }
         ]
       }
@@ -275,7 +268,7 @@
         "trigger": { "type": "deal_stage", "stage": "Qualified" },
         "steps": [
           { "action": "ai_reply",
-            "prompt_tpl": "Draft a one-page proposal outline for {{company|the prospect}} in the {{niche|SMB}} space. Their needs: {{notes|build full digital presence}}. Deal value target: ${{value}}. Include: (1) one-line problem statement, (2) 3-bullet solution, (3) deliverables, (4) timeline, (5) investment. Concise, scannable.",
+            "prompt_tpl": "Draft a one-page proposal outline for {{company|the prospect}} in the {{niche|SMB}} space. Their needs: {{notes|build full digital presence}}. Deal value target: ${{value}}. Include: (1) one-line problem statement, (2) 3-bullet solution, (3) deliverables, (4) timeline, (5) investment. Concise, scannable. Match recipient language: {{lang|en}}.",
             "save_as": "proposal_outline" },
           { "action": "create_task", "title_tpl": "Send proposal to {{company|?}} within 48h (AI outline ready)", "due_in_days": 2 },
           { "action": "notify_team", "channel": "slack",
@@ -292,17 +285,29 @@
         "steps": [
           { "action": "wait", "days": 2 },
           { "action": "send_email", "to": "contact.email",
-            "subject": "Quick check-in on the proposal, {{first_name|there}}",
-            "body": "<p>Just making sure the proposal landed and answering any questions before the team meeting. Anything I can clarify?</p><p>— Carlos</p>" },
+            "subject": { "en": "Quick check-in on the proposal, {{first_name|there}}", "es": "Check-in rápido sobre la propuesta, {{first_name|amigo}}" },
+            "body": {
+              "en": "<p>Just making sure the proposal landed and answering any questions before the team meeting. Anything I can clarify?</p><p>— Carlos</p>",
+              "es": "<p>Solo para confirmar que llegó la propuesta y resolver dudas antes de tu reunión de equipo. ¿Algo que aclare?</p><p>— Carlos</p>"
+            }
+          },
           { "action": "wait", "days": 3 },
           { "action": "if",
             "condition": { "field": "stage", "op": "eq", "value": "Proposal Sent" },
             "then": [
               { "action": "send_whatsapp", "to": "{{contact_phone}}",
-                "body": "Hey {{first_name|there}}, Carlos here. Quick WhatsApp follow-up on the NetWebMedia proposal — got 5 min for a quick call this week?" },
+                "body": {
+                  "en": "Hey {{first_name|there}}, Carlos here. Quick WhatsApp follow-up on the NetWebMedia proposal — got 5 min for a quick call this week?",
+                  "es": "Hola {{first_name|amigo}}, Carlos por aquí. Seguimiento rápido por WhatsApp sobre la propuesta de NetWebMedia — ¿tienes 5 min esta semana?"
+                }
+              },
               { "action": "send_email", "to": "contact.email",
-                "subject": "Two quick options if budget is the question",
-                "body": "<p>Sometimes proposals stall on scope. Happy to send a phased option (start small, expand quarterly) if that's useful — just say the word.</p>" }
+                "subject": { "en": "Two quick options if budget is the question", "es": "Dos opciones rápidas si el tema es presupuesto" },
+                "body": {
+                  "en": "<p>Sometimes proposals stall on scope. Happy to send a phased option (start small, expand quarterly) if that's useful — just say the word.</p>",
+                  "es": "<p>A veces las propuestas se atascan por scope. Puedo mandarte una opción por fases (empezar chico, expandir trimestral) si te sirve — solo avísame.</p>"
+                }
+              }
             ]
           },
           { "action": "wait", "days": 4 },
@@ -353,20 +358,14 @@
           { "action": "untag", "tag": "mql" },
           { "action": "untag", "tag": "sql" },
           { "action": "untag", "tag": "deal_stale" },
-          { "action": "send_email", "to": "contact.email",
-            "subject": "Welcome to NetWebMedia, {{first_name|there}} 🎉",
-            "body": "<p>Officially in. Three things happen now:</p><ol><li>Your kickoff call is being scheduled — calendar link incoming.</li><li>Your account dashboard is live at <a href='https://netwebmedia.com/crm'>netwebmedia.com/crm</a>.</li><li>Your CSM will reach out within 24h with the intake form.</li></ol><p>— Carlos</p>" },
+          { "action": "enroll_sequence", "sequence_id": "welcome" },
           { "action": "create_task", "title_tpl": "Schedule kickoff call with {{company|?}}", "due_in_days": 1 },
           { "action": "create_task", "title_tpl": "Send intake form to {{company|?}}", "due_in_days": 2 },
           { "action": "create_task", "title_tpl": "Deliver first asset for {{company|?}}", "due_in_days": 7 },
           { "action": "create_task", "title_tpl": "Week-1 check-in call with {{company|?}}", "due_in_days": 7 },
           { "action": "create_task", "title_tpl": "30-day milestone review with {{company|?}}", "due_in_days": 30 },
           { "action": "notify_team", "channel": "slack",
-            "message": "🎉 CLOSED WON: {{title}} — ${{value}} ({{company|?}}). Onboarding tasks created. CSM alerted." },
-          { "action": "wait", "days": 7 },
-          { "action": "send_email", "to": "contact.email",
-            "subject": "Your 10-minute first win on the platform",
-            "body": "<p>Quick guided walkthrough — Contacts + Pipeline + Automations done in ten minutes. <a href='https://netwebmedia.com/crm/contacts'>Start here →</a></p>" }
+            "message": "🎉 CLOSED WON: {{title}} — ${{value}} ({{company|?}}). Onboarding tasks created. Welcome sequence enrolled. CSM alerted." }
         ]
       }
     },
@@ -379,14 +378,16 @@
         "steps": [
           { "action": "create_task", "title_tpl": "Log loss reason for {{title}} (within 24h)", "due_in_days": 1 },
           { "action": "send_email", "to": "contact.email",
-            "subject": "No worries — quick favor, {{first_name|there}}?",
-            "body": "<p>Totally understand the timing wasn't right. One favor: 1-line reply with what tipped it (price / timing / fit / other). Helps us improve. Door's open whenever.</p><p>— Carlos</p>" },
+            "subject": { "en": "No worries — quick favor, {{first_name|there}}?", "es": "Sin problema — un favor rápido, {{first_name|amigo}}" },
+            "body": {
+              "en": "<p>Totally understand the timing wasn't right. One favor: 1-line reply with what tipped it (price / timing / fit / other). Helps us improve. Door's open whenever.</p><p>— Carlos</p>",
+              "es": "<p>Entiendo que el timing no fue. Un favor: respóndeme en 1 línea qué pesó (precio / timing / fit / otro). Nos ayuda a mejorar. Puerta abierta cuando quieras.</p><p>— Carlos</p>"
+            }
+          },
           { "action": "wait", "days": 90 },
           { "action": "update_field", "field": "status", "value": "lead" },
           { "action": "tag", "tag": "recycled_lead" },
-          { "action": "send_email", "to": "contact.email",
-            "subject": "90 days later — what's changed at {{company|your company}}",
-            "body": "<p>Hey {{first_name|there}}, checking back in. We've shipped a lot since we last spoke — happy to send a 5-min recap if useful.</p>" }
+          { "action": "enroll_sequence", "sequence_id": "winback" }
         ]
       }
     },
@@ -398,7 +399,6 @@
         "trigger": { "type": "cron", "cadence": "daily", "time": "09:00" },
         "steps": [
           { "action": "log", "message": "Cron scan: open deals where days_in_stage > stage SLA" },
-          { "action": "tag", "tag": "deal_stale" },
           { "action": "notify_team", "channel": "slack",
             "message": "📋 Daily stale-deal report — see /pipeline?filter=stale for details." },
           { "action": "create_task", "title_tpl": "Review stale deals in pipeline", "due_in_days": 1 }
@@ -420,7 +420,7 @@
                 "message": "💎 EXEC FYI: {{title}} qualified at ${{value}}. Owner: {{owner_name|?}}. Carlos — review thread." },
               { "action": "create_task", "title_tpl": "Carlos: exec review of {{title}} (${{value}})", "due_in_days": 2 },
               { "action": "ai_reply",
-                "prompt_tpl": "Draft 3 strategic questions Carlos should ask on the next call with {{company|?}} ({{niche|SMB}}, ${{value}} deal). Focus on: decision authority, success metrics, competitive landscape. Concise.",
+                "prompt_tpl": "Draft 3 strategic questions Carlos should ask on the next call with {{company|?}} ({{niche|SMB}}, ${{value}} deal). Focus on: decision authority, success metrics, competitive landscape. Concise. Match language: {{lang|en}}.",
                 "save_as": "exec_questions" }
             ]
           }
@@ -434,11 +434,12 @@
       "data": {
         "trigger": { "type": "missed_call" },
         "steps": [
-          { "action": "ai_reply",
-            "prompt_tpl": "Draft a friendly 1-line text-back for a missed call from {{first_name|there}} at {{company|?}}. Offer to call back or schedule a time. Sign as Carlos. No emojis.",
-            "save_as": "textback" },
           { "action": "send_whatsapp", "to": "{{from_number}}",
-            "body": "Hey {{first_name|there}} — Carlos at NetWebMedia, just missed your call. Best time to call you back today, or want to schedule? Calendar: https://netwebmedia.com/contact" },
+            "body": {
+              "en": "Hey {{first_name|there}} — Carlos at NetWebMedia, just missed your call. Best time to call you back today, or want to schedule? Calendar: https://netwebmedia.com/contact",
+              "es": "Hola {{first_name|amigo}} — Carlos de NetWebMedia, perdí tu llamada. ¿A qué hora te llamo hoy, o quieres agendar? Calendario: https://netwebmedia.com/contact"
+            }
+          },
           { "action": "create_task", "title_tpl": "Callback: {{first_name|?}} ({{from_number}})", "due_in_days": 1 },
           { "action": "if",
             "condition": { "field": "deal_id", "op": "exists" },
@@ -458,23 +459,26 @@
         "trigger": { "type": "appointment_booked" },
         "steps": [
           { "action": "send_email", "to": "contact.email",
-            "subject": "Confirmed: {{appointment_title}} on {{appointment_date}}",
-            "body": "<p>Hi {{first_name|there}}, confirmed for {{appointment_date}} at {{appointment_time}}. Add to calendar: {{calendar_link}}. See you then.</p><p>— Carlos</p>" },
+            "subject": { "en": "Confirmed: {{appointment_title}} on {{appointment_date}}", "es": "Confirmado: {{appointment_title}} el {{appointment_date}}" },
+            "body": {
+              "en": "<p>Hi {{first_name|there}}, confirmed for {{appointment_date}} at {{appointment_time}}. Add to calendar: {{calendar_link}}. See you then.</p><p>— Carlos</p>",
+              "es": "<p>Hola {{first_name|amigo}}, confirmado para el {{appointment_date}} a las {{appointment_time}}. Agrega al calendario: {{calendar_link}}. Nos vemos.</p><p>— Carlos</p>"
+            }
+          },
           { "action": "send_whatsapp", "to": "{{contact_phone}}",
-            "body": "Booked ✅ — {{appointment_title}} on {{appointment_date}} at {{appointment_time}}. Reply if anything changes." },
+            "body": {
+              "en": "Booked ✅ — {{appointment_title}} on {{appointment_date}} at {{appointment_time}}. Reply if anything changes.",
+              "es": "Agendado ✅ — {{appointment_title}} el {{appointment_date}} a las {{appointment_time}}. Avísame si algo cambia."
+            }
+          },
           { "action": "create_task", "title_tpl": "Prep for {{appointment_title}} with {{company|?}}", "due_in_days": 1 },
           { "action": "wait_until", "time_of_day": "09:00" },
           { "action": "send_email", "to": "contact.email",
-            "subject": "Reminder: we meet today at {{appointment_time}}",
-            "body": "<p>Quick reminder — see you today at {{appointment_time}}. Link: {{meeting_link}}</p>" },
-          { "action": "wait", "hours": 23 },
-          { "action": "if",
-            "condition": { "field": "appointment_completed", "op": "eq", "value": "true" },
-            "then": [ { "action": "log", "message": "Meeting completed — sequence ends" } ],
-            "else": [
-              { "action": "send_whatsapp", "to": "{{contact_phone}}",
-                "body": "Hey {{first_name|there}} — looks like we missed each other. Want to reschedule? Same calendar link works." }
-            ]
+            "subject": { "en": "Reminder: we meet today at {{appointment_time}}", "es": "Recordatorio: nos reunimos hoy a las {{appointment_time}}" },
+            "body": {
+              "en": "<p>Quick reminder — see you today at {{appointment_time}}. Link: {{meeting_link}}</p>",
+              "es": "<p>Recordatorio — nos vemos hoy a las {{appointment_time}}. Enlace: {{meeting_link}}</p>"
+            }
           }
         ]
       }
@@ -487,12 +491,20 @@
         "trigger": { "type": "appointment_noshow" },
         "steps": [
           { "action": "send_email", "to": "contact.email",
-            "subject": "We missed you, {{first_name|there}} — easy to reschedule",
-            "body": "<p>No worries, things come up. Use the same calendar link to grab a new time: <a href='https://netwebmedia.com/contact'>book here</a>. Or reply with a couple of times that work.</p><p>— Carlos</p>" },
+            "subject": { "en": "We missed you, {{first_name|there}} — easy to reschedule", "es": "Te extrañamos, {{first_name|amigo}} — fácil reagendar" },
+            "body": {
+              "en": "<p>No worries, things come up. Use the same calendar link to grab a new time: <a href='https://netwebmedia.com/contact'>book here</a>. Or reply with a couple of times that work.</p><p>— Carlos</p>",
+              "es": "<p>Sin problema, pasan cosas. Usa el mismo enlace para tomar otra hora: <a href='https://netwebmedia.com/contact'>agenda aquí</a>. O respóndeme con 2-3 horarios que te funcionen.</p><p>— Carlos</p>"
+            }
+          },
           { "action": "create_task", "title_tpl": "Personal follow-up: no-show {{first_name|?}} ({{company|?}})", "due_in_days": 2 },
           { "action": "wait", "days": 2 },
           { "action": "send_whatsapp", "to": "{{contact_phone}}",
-            "body": "Hi {{first_name|there}} — Carlos here. Want to grab 15 min this week instead? Easier than back-and-forth." }
+            "body": {
+              "en": "Hi {{first_name|there}} — Carlos here. Want to grab 15 min this week instead? Easier than back-and-forth.",
+              "es": "Hola {{first_name|amigo}} — Carlos. ¿Tomamos 15 min esta semana en vez del ida y vuelta?"
+            }
+          }
         ]
       }
     },
@@ -504,7 +516,6 @@
         "trigger": { "type": "cron", "cadence": "weekly", "day_of_week": 1, "time": "08:00" },
         "steps": [
           { "action": "log", "message": "Weekly scan: deals with no activity in 14d → reduce probability 20%" },
-          { "action": "tag", "tag": "decayed" },
           { "action": "notify_team", "channel": "slack",
             "message": "📉 Weekly probability decay applied. Check pipeline for re-prioritization." },
           { "action": "create_task", "title_tpl": "Pipeline grooming: review decayed deals", "due_in_days": 2 }
@@ -519,14 +530,68 @@
         "trigger": { "type": "tag_added", "tag": "customer" },
         "steps": [
           { "action": "ai_reply",
-            "prompt_tpl": "Write a 4-sentence personalized welcome email for a new NetWebMedia customer. Company: {{company|?}}, niche: {{niche|SMB}}, plan: {{plan|Pro}}. Mention one specific module relevant to their niche. Warm, founder-tone. Sign as Carlos.",
+            "prompt_tpl": "Write a 4-sentence personalized welcome email for a new NetWebMedia customer. Company: {{company|?}}, niche: {{niche|SMB}}, plan: {{plan|Pro}}. Mention one specific module relevant to their niche. Warm, founder-tone. Sign as Carlos. Language: {{lang|en}}.",
             "save_as": "personalized_welcome" },
           { "action": "send_email", "to": "contact.email",
-            "subject": "Welcome aboard, {{first_name|there}} — quick personal note",
-            "body": "{{personalized_welcome}}" },
+            "subject": { "en": "Welcome aboard, {{first_name|there}} — quick personal note", "es": "Bienvenido a bordo, {{first_name|amigo}} — nota personal rápida" },
+            "body": { "en": "{{personalized_welcome}}", "es": "{{personalized_welcome}}" }
+          },
           { "action": "notify_team", "channel": "slack",
             "message": "👋 New customer tagged: {{company|?}} ({{niche|SMB}}). AI welcome sent. Delivery team — pick up." },
           { "action": "create_task", "title_tpl": "Build niche-specific onboarding doc for {{company|?}}", "due_in_days": 3 }
+        ]
+      }
+    },
+
+    {
+      "slug": "wa-01-whatsapp-inbound-capture",
+      "title": "Channels · WhatsApp Inbound → Capture & Notify",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "whatsapp_inbound" },
+        "steps": [
+          { "action": "tag", "tag": "whatsapp_engaged" },
+          { "action": "if",
+            "condition": { "field": "contact_id", "op": "exists" },
+            "then": [
+              { "action": "notify_team", "channel": "slack",
+                "message": "💬 WhatsApp from known contact {{name|?}} ({{phone}}): \"{{message}}\"" }
+            ],
+            "else": [
+              { "action": "notify_team", "channel": "slack",
+                "message": "💬 WhatsApp from unknown number {{phone}}: \"{{message}}\". Consider adding as contact." },
+              { "action": "create_task", "title_tpl": "Add WhatsApp contact: {{phone}} (msg: {{message}})", "due_in_days": 1 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "slug": "cb-01-chatbot-lead-capture",
+      "title": "Channels · Chatbot Lead Captured (email revealed)",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "chatbot_lead" },
+        "steps": [
+          { "action": "tag", "tag": "chatbot_lead" },
+          { "action": "tag", "tag": "lead" },
+          { "action": "update_field", "field": "source", "value": "chatbot" },
+          { "action": "notify_team", "channel": "slack",
+            "message": "🤖 Chatbot captured email: {{email}} (page: {{page|?}}). Lang: {{lang}}. Msg: \"{{message}}\"" },
+          { "action": "create_task", "title_tpl": "Chatbot lead follow-up: {{email}}", "due_in_days": 1 }
+        ]
+      }
+    },
+    {
+      "slug": "cb-02-chatbot-high-intent",
+      "title": "Channels · Chatbot High-Intent Triage (cron hourly)",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "cron", "cadence": "hourly" },
+        "steps": [
+          { "action": "log", "message": "Hourly: scan public_chat_log for sessions w/ pricing/demo/audit keywords + email + no follow-up yet" },
+          { "action": "notify_team", "channel": "slack",
+            "message": "🤖 Chatbot intent review queued — check public_chat_log dashboard." }
         ]
       }
     }

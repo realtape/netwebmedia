@@ -26,10 +26,14 @@ on:
         required: false
         default: '50'
 
+concurrency:
+  group: chile-cold-outreach
+  cancel-in-progress: false
+
 jobs:
   chile-batch:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 5
     steps:
       - name: Send next batch
         run: |

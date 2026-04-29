@@ -194,6 +194,7 @@ jobs:
         run: |
           git config user.name "NWM PDF Bot"
           git config user.email "bot@netwebmedia.com"
+          git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
           git add assets/guides/ assets/plans/
           git commit -m "pdfs: regenerate guides + plans $(date -u '+%Y-%m-%d %H:%M') UTC"
           git push

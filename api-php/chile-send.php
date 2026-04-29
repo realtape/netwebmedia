@@ -562,12 +562,11 @@ if ($mode === 'batch' || $mode === 'all') {
       'niche'   => $lead['niche']   ?? null,
       'ok'      => (bool)$ok,
     ];
-    // Gap between sends within a single HTTP call. Originally 8s when this
-    // was sending via cPanel SMTP and the sender IP needed manual reputation
-    // protection. Resend now manages IP reputation for us, so we can run at
-    // 2s/send — fast enough to clear 50 in ~100s (under workflow timeout)
-    // while still well under Resend's 10/sec rate limit.
-    if ($results['sent'] < $cap) usleep(2_000_000); // 2s
+    // Gap between sends within a single HTTP call. Resend manages IP
+    // reputation for us; pacing is mostly about staying well under their
+    // 10/sec rate limit. 1s = 1 email/sec leaves a 10x safety margin and
+    // lets a single n=50 call complete in ~50s.
+    if ($results['sent'] < $cap) usleep(1_000_000); // 1s
   }
   j_exit([
     'mode'    => $mode,

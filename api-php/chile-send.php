@@ -562,10 +562,12 @@ if ($mode === 'batch' || $mode === 'all') {
       'niche'   => $lead['niche']   ?? null,
       'ok'      => (bool)$ok,
     ];
-    // Gap between sends within a single HTTP call. 8s per message keeps
-    // roughly one send per 8s — under Gmail's abuse thresholds for a new
-    // sending IP reputation. Caller controls inter-call pacing.
-    if ($results['sent'] < $cap) usleep(8_000_000); // 8s
+    // Gap between sends within a single HTTP call. Originally 8s when this
+    // was sending via cPanel SMTP and the sender IP needed manual reputation
+    // protection. Resend now manages IP reputation for us, so we can run at
+    // 2s/send — fast enough to clear 50 in ~100s (under workflow timeout)
+    // while still well under Resend's 10/sec rate limit.
+    if ($results['sent'] < $cap) usleep(2_000_000); // 2s
   }
   j_exit([
     'mode'    => $mode,

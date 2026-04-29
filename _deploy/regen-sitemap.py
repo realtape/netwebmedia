@@ -1,5 +1,16 @@
-"""Regenerate sitemap.xml — strips .venv, dev dirs, internal files."""
+"""Regenerate sitemap.xml — strips .venv, dev dirs, internal files.
+
+Output URLs match production canonicals (see plans/audit-2026-04-29.md):
+  - Top-level pages keep .html (e.g. /services.html), matching <link rel=canonical>.
+  - Nested directory pages (industries/*/index.html, blog/index.html) emit the
+    folder URL (/industries/legal-services/) since Apache serves index.html.
+  - Site root /index.html emits / (just the apex).
+
+Excludes 403'd internal pages (prospects-report, digital-gaps, etc.) so Google
+doesn't waste crawl budget on URLs the .htaccess will reject.
+"""
 import os
+import re
 from datetime import date
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
@@ -14,6 +25,9 @@ EXCLUDE_DIRS = {
     "video-factory", "social", "n8n-templates", "app", "docs",
     "tools", "audits", "lp", "community-alert-app", "poker-news",
     "templates-site", "guides", "plans",
+    # Private rendering / asset working dirs — not public marketing pages
+    "hyperframes", "livery-editor", "mobile", "reports", "content",
+    "_dev", "Netwebmedia-antigravity-copy-work",
     # Internal authenticated UI — not public pages
     "cms", "crm",
 }
@@ -23,12 +37,23 @@ EXCLUDE_FILES = {
     "diagnostic.html", "orgchart.html", "audit-report.html", "cart.html",
     "checkout.html", "dashboard.html", "netwebmedia-inbox.html",
     "pricing-onepager.html", "_base.html",
+    # Internal authenticated / scratchpad surfaces
+    "flowchart.html", "nwmai.html", "nwm-cms.html", "nwm-crm.html",
+    "audit-thanks.html",
     # Internal / verification files
     "NetWebMedia_Business_Marketing_Plan_2026.html",
     "googlef707382bdfd91013.html",
 }
 
+# Files matching these patterns are 403'd by .htaccess — must NOT appear in
+# the sitemap or Google will waste crawl budget hitting forbidden URLs.
+EXCLUDE_PATTERNS = (
+    re.compile(r"^.+-prospects-report\.html$"),
+    re.compile(r"^.+-digital-gaps\.html$"),
+)
+
 PRIORITY_MAP = {
+    "/":                        ("1.0",  "weekly"),
     "/index.html":              ("1.0",  "weekly"),
     "/pricing.html":            ("0.95", "weekly"),
     "/contact.html":            ("0.95", "weekly"),
@@ -80,6 +105,8 @@ for dirpath, dirnames, filenames in os.walk(ROOT):
             continue
         if fname in EXCLUDE_FILES:
             continue
+        if any(p.match(fname) for p in EXCLUDE_PATTERNS):
+            continue
         full = os.path.join(dirpath, fname)
         rel = full[len(ROOT):].replace("\\", "/")
         if not rel.startswith("/"):
@@ -88,6 +115,13 @@ for dirpath, dirnames, filenames in os.walk(ROOT):
         parts = rel.split("/")
         if any(p in EXCLUDE_DIRS for p in parts):
             continue
+
+        # Map index.html → folder URL (Apache serves index.html as folder root):
+        #   /index.html → /
+        #   /industries/legal-services/index.html → /industries/legal-services/
+        #   /blog/index.html → /blog/   (also covered by blog.html separately)
+        if fname == "index.html":
+            rel = rel[: -len("index.html")]  # keep trailing slash
 
         priority, changefreq = get_priority(rel)
         urls.append((rel, priority, changefreq))

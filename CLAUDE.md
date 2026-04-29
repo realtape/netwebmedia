@@ -133,10 +133,11 @@ Available sequences: `welcome`, `audit_followup`, `partner_application` (+ niche
 
 netwebmedia.com is **flat HTML on Apache**, not a framework router. Rules:
 
-- **Top-level pages have NO extension and NO trailing slash** in canonical URLs (e.g. `/services` not `/services.html` and not `/services/`). Apache rewrites in `.htaccess` handle this.
-- **Nested pages keep `.html`** (e.g. `/blog/some-post.html`).
-- **Canonical host is non-www** (`netwebmedia.com`, not `www.netwebmedia.com`).
-- **Internal-only pages are blocked publicly via `.htaccess`** — `diagnostic.html`, `flowchart.html`, `orgchart.html`, `dashboard.html`, `desktop-login.html`, `nwmai.html`, `audit-report.html`, `*-prospects-report.html`, `*-digital-gaps.html`, `NetWebMedia_Business_Marketing_Plan_2026.html`. Don't link to them from public nav.
+- **Top-level pages: `.html` is canonical.** `/services`, `/pricing`, `/about`, etc. **301 redirect to `.html`** (e.g. `/services` → `/services.html`). On-page `<link rel=canonical>` declares the `.html` URL. Sitemap entries match. Internal links can use either form (the redirect is fine), but prefer `.html` when generating new links to avoid the extra hop.
+- **Nested directory pages: folder URL with trailing slash is canonical.** `/industries/legal-services/` (Apache serves `index.html`). Avoid linking to `/industries/legal-services/index.html` directly.
+- **Nested file pages keep `.html`** (e.g. `/blog/some-post.html`).
+- **Canonical host is non-www.** `www.netwebmedia.com` 301s to `netwebmedia.com` (enforced in `.htaccess` — don't remove that block or you reintroduce duplicate-content). HTTPS is enforced via HSTS preload.
+- **Internal-only pages are blocked publicly via `.htaccess`** — `diagnostic.html`, `flowchart.html`, `orgchart.html`, `dashboard.html`, `desktop-login.html`, `nwmai.html`, `audit-report.html`, `*-prospects-report.html`, `*-digital-gaps.html`, `NetWebMedia_Business_Marketing_Plan_2026.html`. Don't link to them from public nav. The sitemap regen script (`_deploy/regen-sitemap.py`) excludes these patterns — don't add them back.
 - **Unshipped `/app/<slug>` routes** fall through to `/app/coming-soon.html` — this is intentional; don't add 404 handling.
 
 When linking between pages, match this convention or you'll generate broken canonicals.

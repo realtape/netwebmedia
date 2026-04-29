@@ -99,6 +99,11 @@ jobs:
           print("Wrote plans/perf-baseline-latest.md")
           PY
 
+      - name: Checkout with token
+        uses: actions/checkout@v6.0.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Commit baseline if changed
         run: |
           if git diff --quiet plans/perf-baseline-latest.md 2>/dev/null; then
@@ -107,6 +112,7 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
           git add plans/perf-baseline-latest.md
           git commit -m "chore(perf): weekly PSI baseline $(date -u +%Y-%m-%d)" || exit 0
           git push origin HEAD:main || echo "::warning::push failed (non-blocking)"

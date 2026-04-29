@@ -39,6 +39,7 @@ jobs:
         run: |
           git config user.name "NWM Blog Bot"
           git config user.email "bot@netwebmedia.com"
+          git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
           git add _deploy/posts-queue/
           git diff --cached --quiet && echo "Nothing new to commit" && exit 0
           git commit -m "chore: auto-generate $(git diff --cached --name-only | wc -l | tr -d ' ') blog posts for queue"

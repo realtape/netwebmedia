@@ -56,8 +56,9 @@ $handlers = [
     'payments'      => __DIR__ . '/handlers/payments.php',
     'invoices'      => __DIR__ . '/handlers/payments.php',
     'import_csv'    => __DIR__ . '/handlers/import_csv.php',
-    'import_best'   => __DIR__ . '/handlers/import_best.php',
-    'realtime'      => __DIR__ . '/handlers/realtime.php',
+    'import_best'         => __DIR__ . '/handlers/import_best.php',
+    'filter_identifiable' => __DIR__ . '/handlers/filter_identifiable.php',
+    'realtime'            => __DIR__ . '/handlers/realtime.php',
     'niche_config'          => __DIR__ . '/handlers/niche_config.php',
     'niche_metrics'         => __DIR__ . '/handlers/niche_metrics.php',
     'seed_client_templates' => __DIR__ . '/handlers/seed_client_templates.php',
@@ -69,7 +70,7 @@ if (!isset($handlers[$resource])) {
 
 // Public routes need no auth. All others run the payment gate:
 // demo/guest users (no PHP session) pass through; pending_payment users get HTTP 402.
-$public_routes = ['auth', 'track', 'intake', 'leads', 'analyze', 'proposal'];
+$public_routes = ['auth', 'track', 'intake', 'leads', 'analyze', 'proposal', 'import_best', 'filter_identifiable', 'dedupe'];
 if (!in_array($resource, $public_routes, true)) {
     require_once __DIR__ . '/lib/guard.php';
     require_guard();

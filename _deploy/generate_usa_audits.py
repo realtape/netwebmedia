@@ -232,8 +232,8 @@ TPL = """<!DOCTYPE html>
       <span data-lang="es">Un call de 20 minutos basta para validar esta auditoría, personalizar el playbook {niche_es} y cotizar un retainer de crecimiento.</span>
     </p>
     <p style="margin-top:16px;font-size:14px;opacity:.85">
-      <span data-lang="en"><strong style="color:#FFB770">Starter $249/mo</strong> · <strong style="color:#FFB770">⭐ Growth $999/mo</strong> · <strong style="color:#FFB770">Scale $1,999/mo</strong> — all include one-time setup.</span>
-      <span data-lang="es"><strong style="color:#FFB770">Starter $249/mes</strong> · <strong style="color:#FFB770">⭐ Growth $999/mes</strong> · <strong style="color:#FFB770">Scale $1,999/mes</strong> — todos incluyen setup único.</span>
+      <span data-lang="en"><strong style="color:#FFB770">Starter $249/mo</strong> · <strong style="color:#FFB770">⭐ Growth $999/mo</strong> · <strong style="color:#FFB770">Scale $2,499/mo</strong> — all include one-time setup.</span>
+      <span data-lang="es"><strong style="color:#FFB770">Starter $249/mes</strong> · <strong style="color:#FFB770">⭐ Growth $999/mes</strong> · <strong style="color:#FFB770">Scale $2,499/mes</strong> — todos incluyen setup único.</span>
     </p>
     <a class="cta" href="https://netwebmedia.com/contact"><span data-lang="en">Book a 20-minute strategy call →</span><span data-lang="es">Agendar call de 20 min →</span></a>
   </div>

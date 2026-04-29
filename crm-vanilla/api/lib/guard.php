@@ -28,6 +28,29 @@ function _guard_session_start(): void {
 function guard_user(): ?array {
     _guard_session_start();
     $uid = $_SESSION['nwm_uid'] ?? null;
+
+    // Fallback: accept the nwm_token cookie/header issued by the main site's
+    // /api/auth/login endpoint and validate it against the shared sessions table.
+    // This lets users logged in via /login.html reach their CRM data without a
+    // separate CRM login step.
+    if (!$uid) {
+        $token = $_COOKIE['nwm_token'] ?? ($_SERVER['HTTP_X_AUTH_TOKEN'] ?? '');
+        if ($token && strlen($token) >= 32) {
+            try {
+                $db   = getDB();
+                $stmt = $db->prepare(
+                    'SELECT user_id FROM sessions WHERE token = ? AND expires_at > NOW() LIMIT 1'
+                );
+                $stmt->execute([$token]);
+                $row = $stmt->fetch();
+                if ($row) {
+                    $uid = (int)$row['user_id'];
+                    $_SESSION['nwm_uid'] = $uid;
+                }
+            } catch (\Exception $e) { /* sessions table missing — fall through to guest */ }
+        }
+    }
+
     if (!$uid) return null;
 
     static $cache = [];

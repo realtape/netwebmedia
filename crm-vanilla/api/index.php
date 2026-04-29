@@ -8,8 +8,8 @@
 
 require_once __DIR__ . '/config.php';
 
-// CORS headers
-header('Access-Control-Allow-Origin: *');
+// CORS headers — use declared constant, not wildcard
+header('Access-Control-Allow-Origin: ' . ALLOWED_ORIGIN);
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
@@ -74,6 +74,23 @@ $public_routes = ['auth', 'track', 'intake', 'leads', 'analyze', 'proposal'];
 if (!in_array($resource, $public_routes, true)) {
     require_once __DIR__ . '/lib/guard.php';
     require_guard();
+}
+
+// Gate all writes behind a real session.
+// Token-protected routes (seed/migrate) handle their own auth internally.
+$token_write_routes = [
+    'seed', 'seed_contacts', 'seed_templates', 'seed_client_templates',
+    'migrate', 'niche_config', 'setup',
+];
+if (!in_array($method, ['GET', 'OPTIONS', 'HEAD'], true)
+    && !in_array($resource, $public_routes, true)
+    && !in_array($resource, $token_write_routes, true)
+) {
+    require_once __DIR__ . '/lib/guard.php';
+    $writeUser = guard_user();
+    if (!$writeUser || empty($writeUser['id'])) {
+        jsonError('Authentication required', 401);
+    }
 }
 
 require $handlers[$resource];

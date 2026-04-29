@@ -169,7 +169,11 @@
       if (extra.plan  !== undefined) u.plan  = extra.plan;
       if (extra.niche !== undefined) u.niche = extra.niche;
     }
-    localStorage.setItem('crm_demo_user', JSON.stringify(u));
-    document.cookie = 'crm_demo=1; path=/app/; max-age=604800; SameSite=Lax';
+    // Real (non-demo) users write to nwm_user; demo stays in crm_demo_user
+    var storageKey = (type === 'demo') ? 'crm_demo_user' : 'nwm_user';
+    localStorage.setItem(storageKey, JSON.stringify(u));
+    // Keep crm_demo_user cleared for real users so getLoggedInUser() hits nwm_user first
+    if (type !== 'demo') localStorage.removeItem('crm_demo_user');
+    document.cookie = 'crm_demo=1; path=/; max-age=604800; SameSite=Lax';
   }
 })();

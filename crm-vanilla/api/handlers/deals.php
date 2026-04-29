@@ -36,15 +36,23 @@ switch ($method) {
                        ->execute([$data['phone'], $contact_id]);
                 }
             } else {
-                $db->prepare('INSERT INTO contacts (name, email, phone, company, status) VALUES (?, ?, ?, ?, ?)')
-                   ->execute([
-                       $data['company'] ?: $email,
-                       $email,
-                       $data['phone'] ?? null,
-                       $data['company'] ?? null,
-                       'lead',
-                   ]);
-                $contact_id = (int)$db->lastInsertId();
+                try {
+                    $db->prepare('INSERT INTO contacts (name, email, phone, company, status) VALUES (?, ?, ?, ?, ?)')
+                       ->execute([
+                           $data['company'] ?: $email,
+                           $email,
+                           $data['phone'] ?? null,
+                           $data['company'] ?? null,
+                           'lead',
+                       ]);
+                    $contact_id = (int)$db->lastInsertId();
+                } catch (PDOException $race) {
+                    // Duplicate email from concurrent request — re-fetch
+                    $cs->execute([$email]);
+                    $recovered = $cs->fetch();
+                    if ($recovered) { $contact_id = (int)$recovered['id']; }
+                    else { jsonError('Contact creation failed', 500); }
+                }
             }
         }
 

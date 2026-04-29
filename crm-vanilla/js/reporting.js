@@ -274,6 +274,53 @@
     html += '</div>';
 
     body.innerHTML = html;
+
+    // Load niche benchmarks section asynchronously after main render
+    loadNicheBenchmarks(body, isEs);
+  }
+
+  /* ── Niche benchmarks ───────────────────────────────────────────── */
+  function loadNicheBenchmarks(body, isEs) {
+    var userNiche = window.CRM_APP ? CRM_APP.getUserNiche() : null;
+    if (!userNiche) return;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'api/?r=niche_config&niche=' + encodeURIComponent(userNiche), true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4 || xhr.status !== 200) return;
+      var nd;
+      try { nd = JSON.parse(xhr.responseText); } catch(e) { return; }
+      var kpis = nd.kpis || [];
+      if (!kpis.length) return;
+
+      var unitLabel = { percent: '%', currency_clp: ' CLP', count: '', days: ' días', hours: ' hrs', rating: '/5' };
+      var section = document.createElement('div');
+      section.className = 'card';
+      section.style.marginTop = '24px';
+
+      var title = isEs
+        ? ('📊 Benchmarks de tu industria — ' + (nd.label || userNiche))
+        : ('📊 Industry Benchmarks — ' + (nd.label || userNiche));
+      section.innerHTML = '<div class="card-header"><h2 class="card-title">' + title + '</h2></div>';
+
+      var grid = document.createElement('div');
+      grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;padding:16px 20px';
+
+      for (var i = 0; i < kpis.length; i++) {
+        var kpi = kpis[i];
+        var suffix = unitLabel[kpi.unit] || '';
+        var card = document.createElement('div');
+        card.style.cssText = 'background:var(--bg-card,#1a1d2e);border-radius:10px;padding:14px 16px;border-left:3px solid #FF671F';
+        card.innerHTML =
+          '<div style="font-size:11px;color:var(--text-dim,#8b8fa3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">' + escHtml(kpi.label) + '</div>' +
+          '<div style="font-size:1.4rem;font-weight:700;color:#FF671F">' + (kpi.benchmark || '—') + suffix + '</div>' +
+          '<div style="font-size:11px;color:var(--text-dim,#8b8fa3);margin-top:4px">' + escHtml(kpi.description || '') + '</div>';
+        grid.appendChild(card);
+      }
+      section.appendChild(grid);
+      body.appendChild(section);
+    };
+    xhr.send();
   }
 
   /* ── helpers ────────────────────────────────────────────────────── */

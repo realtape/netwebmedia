@@ -12,8 +12,8 @@
 if ($method !== 'POST') jsonError('Use POST', 405);
 if (($_GET['token'] ?? '') !== 'NWM_MIGRATE_2026') jsonError('Invalid token', 403);
 
-// Sanitise the schema name — only a-z and _ allowed; strip leading/trailing _ to prevent path traversal
-$schemaName = preg_replace('/[^a-z_]/', '', strtolower($_GET['schema'] ?? 'email'));
+// Sanitise the schema name — a-z, 0-9, _ allowed; strip leading/trailing _ to prevent path traversal
+$schemaName = preg_replace('/[^a-z0-9_]/', '', strtolower($_GET['schema'] ?? 'email'));
 $schemaName = trim($schemaName, '_');
 $sqlFile = __DIR__ . '/../schema_' . $schemaName . '.sql';
 

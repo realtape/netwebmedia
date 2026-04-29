@@ -4,6 +4,17 @@
  * Creates the admin user with a proper bcrypt hash
  * DELETE THIS FILE after running it once!
  */
+// Restrict to localhost and private networks only
+$remoteIp = $_SERVER['REMOTE_ADDR'] ?? '';
+$allowed_ips = ['127.0.0.1', '::1'];
+$is_private = (
+    strpos($remoteIp, '10.')    === 0 ||
+    strpos($remoteIp, '192.168.') === 0 ||
+    preg_match('/^172\.(1[6-9]|2\d|3[01])\./', $remoteIp)
+);
+if (!in_array($remoteIp, $allowed_ips, true) && !$is_private) {
+    jsonError('Access restricted to localhost', 403);
+}
 if ($method !== 'POST') jsonError('Use POST', 405);
 
 $db = getDB();

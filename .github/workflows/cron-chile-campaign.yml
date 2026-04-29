@@ -1,13 +1,20 @@
-name: Cron — Chile Cold Outreach (every 15 min)
+name: Cron — Chile Cold Outreach (every 5 min)
 on:
   schedule:
-    # Every 15 min, staggered (:07/:22/:37/:52) to avoid the :00/:30 hotspot.
-    # n=16 per call × 4 runs/hour = 64/hour ≈ 1,536/day — close to the
-    # 1,500/day Resend Pro target. Stays well under the 50k/mo plan cap.
+    # Every 5 min × n=50 per call = 600/hour. Clears the 3,607 pending
+    # leads in ~6 hours. Throttle this back once the list is drained.
+    - cron: '2 * * * *'
     - cron: '7 * * * *'
+    - cron: '12 * * * *'
+    - cron: '17 * * * *'
     - cron: '22 * * * *'
+    - cron: '27 * * * *'
+    - cron: '32 * * * *'
     - cron: '37 * * * *'
+    - cron: '42 * * * *'
+    - cron: '47 * * * *'
     - cron: '52 * * * *'
+    - cron: '57 * * * *'
   workflow_dispatch:
     inputs:
       niche:
@@ -15,9 +22,9 @@ on:
         required: false
         default: ''
       batch:
-        description: 'Max sends per call (default 16, capped at 50)'
+        description: 'Max sends per call (default 50, hard-capped at 50)'
         required: false
-        default: '16'
+        default: '50'
 
 jobs:
   chile-batch:
@@ -27,7 +34,7 @@ jobs:
       - name: Send next batch
         run: |
           NICHE="${{ github.event.inputs.niche }}"
-          BATCH="${{ github.event.inputs.batch || '16' }}"
+          BATCH="${{ github.event.inputs.batch || '50' }}"
           # Token currently lives embedded in api-php/chile-send.php (already in
           # the public repo); using GH secret if set, otherwise fall back.
           TOKEN="${{ secrets.CHILE_SEND_TOKEN }}"

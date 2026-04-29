@@ -31,6 +31,32 @@
 require_once __DIR__ . '/lib/db.php';
 require_once __DIR__ . '/lib/mailer.php';
 
+/**
+ * Connect to webmed6_crm (CRM database — owns the `contacts` table).
+ * api-php runs as the webmed6_nwm MySQL user which doesn't have GRANT on
+ * webmed6_crm, so we load the CRM-side config to pick up DB_PASS for the
+ * webmed6_crm user. Mirrors the pattern in migrate_wa_to_crm.php.
+ */
+function db_crm() {
+  static $pdo = null;
+  if ($pdo !== null) return $pdo;
+  $crmConfigFile = __DIR__ . '/../crm-vanilla/api/config.local.php';
+  if (file_exists($crmConfigFile)) { require_once $crmConfigFile; }
+  $crmPass = defined('DB_PASS') ? DB_PASS : (function_exists('config') ? (config()['db_pass'] ?? '') : '');
+  $pdo = new PDO(
+    'mysql:host=localhost;dbname=webmed6_crm;charset=utf8mb4',
+    'webmed6_crm',
+    $crmPass,
+    [
+      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+      PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+      PDO::ATTR_EMULATE_PREPARES => false,
+      PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
+    ]
+  );
+  return $pdo;
+}
+
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 
@@ -198,7 +224,7 @@ function usa_niche_findings($niche_key) {
 
 // ── Audience load (DB query) ─────────────────────────────────────────
 function load_pending_usa_audience(array $free_domains, int $cap_total, ?string $niche_filter, array $already, array $unsub) {
-  $pdo = db();
+  $pdo = db_crm();
 
   // Build the IN(...) clause for free domains.
   $placeholders = implode(',', array_fill(0, count($free_domains), '?'));

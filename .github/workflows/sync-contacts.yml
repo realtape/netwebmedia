@@ -110,6 +110,66 @@ jobs:
           echo "  usa[15000] → $resp"
           echo "$resp" | grep -qE '"inserted"|"parsed"' || { echo "ERROR: Unexpected response"; exit 1; }
 
+      - name: Import USA best prospects (chunk 5 — rows 20000-24999)
+        continue-on-error: true
+        env:
+          IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
+        run: |
+          token="${IMPORT_BEST_TOKEN:-NWM_IMPORT_BEST_2026}"
+          dry="${{ inputs.dry_run == true && '&dry=1' || '' }}"
+          resp=$(curl -sS --max-time 300 \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
+            -H "Accept: application/json,text/plain,*/*" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "https://netwebmedia.com/crm-vanilla/api/?r=import_best&token=${token}&country=usa&offset=20000&chunk=5000${dry}")
+          echo "  usa[20000] → $resp"
+
+      - name: Import USA best prospects (chunk 6 — rows 25000-29999)
+        continue-on-error: true
+        env:
+          IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
+        run: |
+          token="${IMPORT_BEST_TOKEN:-NWM_IMPORT_BEST_2026}"
+          dry="${{ inputs.dry_run == true && '&dry=1' || '' }}"
+          resp=$(curl -sS --max-time 300 \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
+            -H "Accept: application/json,text/plain,*/*" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "https://netwebmedia.com/crm-vanilla/api/?r=import_best&token=${token}&country=usa&offset=25000&chunk=5000${dry}")
+          echo "  usa[25000] → $resp"
+
+      - name: Import USA best prospects (chunk 7 — rows 30000-34999)
+        continue-on-error: true
+        env:
+          IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
+        run: |
+          token="${IMPORT_BEST_TOKEN:-NWM_IMPORT_BEST_2026}"
+          dry="${{ inputs.dry_run == true && '&dry=1' || '' }}"
+          resp=$(curl -sS --max-time 300 \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
+            -H "Accept: application/json,text/plain,*/*" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "https://netwebmedia.com/crm-vanilla/api/?r=import_best&token=${token}&country=usa&offset=30000&chunk=5000${dry}")
+          echo "  usa[30000] → $resp"
+
+      - name: Import USA best prospects (chunk 8 — rows 35000-39999)
+        continue-on-error: true
+        env:
+          IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
+        run: |
+          token="${IMPORT_BEST_TOKEN:-NWM_IMPORT_BEST_2026}"
+          dry="${{ inputs.dry_run == true && '&dry=1' || '' }}"
+          resp=$(curl -sS --max-time 300 \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
+            -H "Accept: application/json,text/plain,*/*" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "https://netwebmedia.com/crm-vanilla/api/?r=import_best&token=${token}&country=usa&offset=35000&chunk=5000${dry}")
+          echo "  usa[35000] → $resp"
+
       - name: Import USA full list (usa_best_200)
         env:
           IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}

@@ -418,7 +418,39 @@
 
   function loadPipelineData() {
     showSpinner();
+    var userNiche = window.CRM_APP ? CRM_APP.getUserNiche() : null;
+    if (userNiche) {
+      loadNicheStages(userNiche);
+    } else {
+      loadOrgStages();
+    }
+  }
 
+  function loadNicheStages(niche) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/?r=niche_config&niche=' + encodeURIComponent(niche), true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+      if (xhr.status === 200) {
+        try {
+          var nd = JSON.parse(xhr.responseText);
+          var ns = nd.pipeline_stages || [];
+          if (ns.length) {
+            stagesData = ns.map(function (s, idx) {
+              return { id: idx + 1, name: s.name, sort_order: s.sort_order, color: s.color || '#6366f1', probability: s.probability };
+            });
+            stagesData.sort(function (a, b) { return a.sort_order - b.sort_order; });
+            loadDeals();
+            return;
+          }
+        } catch (e) {}
+      }
+      loadOrgStages(); // fallback
+    };
+    xhr.send();
+  }
+
+  function loadOrgStages() {
     var xhrStages = new XMLHttpRequest();
     xhrStages.open('GET', '/api/?r=stages', true);
     xhrStages.onreadystatechange = function () {

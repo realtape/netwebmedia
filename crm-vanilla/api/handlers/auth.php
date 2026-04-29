@@ -20,11 +20,21 @@ if (empty($email) || empty($password)) {
     jsonError('Email and password required');
 }
 
-$stmt = $db->prepare(
-    'SELECT id, name, email, company, password_hash, role, status, plan, niche FROM users WHERE email = ?'
-);
-$stmt->execute([$email]);
-$user = $stmt->fetch();
+try {
+    $stmt = $db->prepare(
+        'SELECT id, name, email, company, password_hash, role, status, plan, niche FROM users WHERE email = ?'
+    );
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
+} catch (PDOException $e) {
+    // niche/plan column may not exist on fresh installs; retry without them
+    $stmt = $db->prepare(
+        'SELECT id, name, email, company, password_hash, role, status FROM users WHERE email = ?'
+    );
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
+    if ($user) { $user['plan'] = null; $user['niche'] = null; }
+}
 
 if (!$user || !password_verify($password, $user['password_hash'])) {
     jsonError('Invalid email or password', 401);

@@ -97,7 +97,16 @@
       if (xhr.status >= 200 && xhr.status < 300) {
         try {
           var d = JSON.parse(xhr.responseText);
-          TEMPLATES = Array.isArray(d.templates) ? d.templates : (Array.isArray(d) ? d : []);
+          var all = Array.isArray(d.templates) ? d.templates : (Array.isArray(d) ? d : []);
+          // Scope to user's niche: show niche-matched + global (null/empty niche) templates
+          var userNiche = window.CRM_APP ? CRM_APP.getUserNiche() : null;
+          if (userNiche) {
+            TEMPLATES = all.filter(function(t) {
+              return !t.niche || t.niche === userNiche;
+            });
+          } else {
+            TEMPLATES = all;
+          }
         } catch (e) { TEMPLATES = []; }
       } else { TEMPLATES = []; }
       templatesLoaded = true;

@@ -769,7 +769,7 @@ def build_page(v):
     <h1 data-en="{esc_attr(v['hero_headline'])}" data-es="{esc_attr(v['hero_headline'])}">{v["hero_headline"]}</h1>
     <p class="sub" data-en="{esc_attr(v['hero_sub'])}" data-es="{esc_attr(v['hero_sub'])}">{v["hero_sub"]}</p>
     <div class="hero-ctas">
-      <a href="https://netwebmedia.com/contact.html" class="btn-primary" data-en="Get a Free Audit &rarr;" data-es="Auditoría Gratis &rarr;">Get a Free Audit &rarr;</a>
+      <a href="https://netwebmedia.com/contact.html" class="btn-primary" data-en="Free 48-Hour Written Audit &rarr;" data-es="Auditoría Gratis de 48 Horas &rarr;">Free 48-Hour Written Audit &rarr;</a>
       <a href="https://{v["parent_slug"]}.netwebmedia.com" class="btn-ghost-white" data-en="Back to {esc_attr(v['parent_label'])}" data-es="Volver a {esc_attr(parent_label_es)}">Back to {v["parent_label"]}</a>
     </div>
   </div>
@@ -843,7 +843,7 @@ def build_page(v):
   <div class="final-cta-wrap">
     <h2 data-en="Ready to grow {esc_attr(v['cta'])}?" data-es="¿Listo para crecer {esc_attr(v['cta'])}?">Ready to grow {v["cta"]}?</h2>
     <p data-en="Get a free 30-minute audit. We'll show you exactly where you're losing visibility and revenue — and what to do about it." data-es="Obtén una auditoría gratis de 30 minutos. Te mostraremos exactamente dónde estás perdiendo visibilidad e ingresos — y qué hacer al respecto.">Get a free 30-minute audit. We&rsquo;ll show you exactly where you&rsquo;re losing visibility and revenue &mdash; and what to do about it.</p>
-    <a href="https://netwebmedia.com/contact.html" class="btn-primary" style="font-size:18px;padding:18px 40px" data-en="Book Your Free Audit &rarr;" data-es="Reserva tu Auditoría Gratis &rarr;">Book Your Free Audit &rarr;</a>
+    <a href="https://netwebmedia.com/contact.html" class="btn-primary" style="font-size:18px;padding:18px 40px" data-en="Book Your Free 48-Hour Written Audit &rarr;" data-es="Reserva tu Auditoría Gratis de 48 Horas &rarr;">Book Your Free 48-Hour Written Audit &rarr;</a>
   </div>
 </main>
 

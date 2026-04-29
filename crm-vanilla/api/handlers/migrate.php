@@ -26,17 +26,30 @@ $sql = file_get_contents($sqlFile);
 $sql = preg_replace('/^\s*--.*$/m', '', $sql);
 $statements = array_filter(array_map('trim', explode(';', $sql)));
 
-$ran = 0; $errors = [];
+// MySQL error codes that mean "the change is already applied" — safe to skip on idempotent re-runs.
+$idempotent_codes = [
+    '1060', // ER_DUP_FIELDNAME — Duplicate column name
+    '1061', // ER_DUP_KEYNAME   — Duplicate key name
+    '1050', // ER_TABLE_EXISTS_ERROR
+    '1062', // ER_DUP_ENTRY (only matters if backfill UNIQUE clashes)
+];
+
+$ran = 0; $skipped = 0; $errors = [];
 foreach ($statements as $stmt) {
     if (!$stmt) continue;
     try {
         $db->exec($stmt);
         $ran++;
     } catch (Throwable $e) {
-        $errors[] = substr($stmt, 0, 80) . ' → ' . $e->getMessage();
+        $msg = $e->getMessage();
+        $hit = false;
+        foreach ($idempotent_codes as $code) {
+            if (strpos($msg, $code) !== false) { $skipped++; $hit = true; break; }
+        }
+        if (!$hit) $errors[] = substr($stmt, 0, 80) . ' → ' . $msg;
     }
 }
 
 // Return 207 (Multi-Status-ish) when some statements failed so callers don't think it succeeded.
 $status = empty($errors) ? 200 : 207;
-jsonResponse(['schema' => $schemaName, 'ran' => $ran, 'errors' => $errors], $status);
+jsonResponse(['schema' => $schemaName, 'ran' => $ran, 'skipped' => $skipped, 'errors' => $errors], $status);

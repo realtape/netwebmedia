@@ -1,34 +1,59 @@
-/* Pipeline Page Logic - Kanban with Drag & Drop */
+/* Pipeline Page Logic — HubSpot + GHL hybrid
+ *  Sales Pipeline:    7 deal stages, weighted forecasting, quick actions, list/kanban toggle
+ *  Marketing Pipeline: 7-stage lifecycle (Subscriber→Evangelist) derived client-side from
+ *                      contact.status + deal presence — no schema change required.
+ */
 (function () {
   "use strict";
 
   var draggedCard = null;
   var L;
-  var stagesData = [];   /* [{id, name, sort_order}] loaded from API */
-  var dealsData = [];    /* [{id, title, company, value, stage, stage_id, ...}] */
+  var stagesData = [];
+  var dealsData = [];
+  var contactsData = [];
   var activeTab = 'sales';
+  var activeView = 'kanban';   /* 'kanban' | 'list' */
   var statsData = null;
+  var filters = { search: '', source: '', owner: '', status: 'open' };
+
+  /* ── Stage SLAs (HubSpot best-practice: flag stale deals) ──────── */
+  var STAGE_SLA = {
+    "New Lead": 2, "Contacted": 3, "Qualified": 5,
+    "Proposal Sent": 7, "Negotiation": 10
+  };
 
   var STAGE_TX = {
-    "New Lead": { es: "Nuevo Lead", en: "New Lead" },
-    "Contacted": { es: "Contactado", en: "Contacted" },
-    "Qualified": { es: "Calificado", en: "Qualified" },
-    "Proposal Sent": { es: "Propuesta Enviada", en: "Proposal Sent" },
-    "Negotiation": { es: "Negociación", en: "Negotiation" },
-    "Closed Won": { es: "Ganado", en: "Closed Won" },
-    "Closed Lost": { es: "Perdido", en: "Closed Lost" }
+    "New Lead":      { es: "Nuevo Lead",        en: "New Lead",      hint_en: "Captured. No contact attempt yet.",       hint_es: "Capturado. Sin contacto aún." },
+    "Contacted":     { es: "Contactado",        en: "Contacted",     hint_en: "First touch made. Awaiting reply.",        hint_es: "Primer contacto hecho." },
+    "Qualified":     { es: "Calificado",        en: "Qualified",     hint_en: "BANT confirmed. Real opportunity.",        hint_es: "BANT confirmado." },
+    "Proposal Sent": { es: "Propuesta Enviada", en: "Proposal Sent", hint_en: "Proposal/quote delivered.",                hint_es: "Propuesta enviada." },
+    "Negotiation":   { es: "Negociación",       en: "Negotiation",   hint_en: "Terms, price, scope being negotiated.",    hint_es: "Negociando términos." },
+    "Closed Won":    { es: "Ganado",            en: "Closed Won",    hint_en: "Signed. Hand off to delivery.",            hint_es: "Cerrado." },
+    "Closed Lost":   { es: "Perdido",           en: "Closed Lost",   hint_en: "Lost. Log reason for analysis.",           hint_es: "Perdido. Registrar motivo." }
   };
 
   function stageLabel(stage) {
     var lang = (window.CRM_APP && CRM_APP.getLang) ? CRM_APP.getLang() : 'en';
     return (STAGE_TX[stage] && STAGE_TX[stage][lang]) || stage;
   }
-
+  function stageHint(stage) {
+    var lang = (window.CRM_APP && CRM_APP.getLang) ? CRM_APP.getLang() : 'en';
+    var k = 'hint_' + lang;
+    return (STAGE_TX[stage] && STAGE_TX[stage][k]) || '';
+  }
   function stageIdByName(name) {
     for (var i = 0; i < stagesData.length; i++) {
       if (stagesData[i].name === name) return stagesData[i].id;
     }
     return null;
+  }
+  function stageProbByName(name) {
+    for (var i = 0; i < stagesData.length; i++) {
+      if (stagesData[i].name === name && stagesData[i].probability != null) return stagesData[i].probability;
+    }
+    /* fallback to convention-based prob */
+    var def = { "New Lead":10, "Contacted":20, "Qualified":40, "Proposal Sent":60, "Negotiation":80, "Closed Won":100, "Closed Lost":0 };
+    return def[name] != null ? def[name] : 25;
   }
 
   /* ── New Deal Modal ─────────────────────────────────────────────── */
@@ -79,10 +104,7 @@
     document.getElementById('dealForm').reset();
     document.getElementById('dealModal').style.display = '';
   }
-
-  function closeModal() {
-    document.getElementById('dealModal').style.display = 'none';
-  }
+  function closeModal() { document.getElementById('dealModal').style.display = 'none'; }
 
   function populateStageSelect() {
     var sel = document.getElementById('dealStageSelect');
@@ -122,8 +144,8 @@
         try { newDeal = JSON.parse(xhr.responseText); } catch (err) { newDeal = null; }
         if (newDeal && newDeal.id) {
           dealsData.push(newDeal);
-          appendCardToColumn(newDeal);
-          updateColumnCounts();
+          renderPipeline();
+          renderKpiBar();
         }
         closeModal();
       } else {
@@ -131,21 +153,6 @@
       }
     };
     xhr.send(body);
-  }
-
-  function appendCardToColumn(deal) {
-    var stageName = deal.stage || '';
-    var columns = document.querySelectorAll('.column-cards');
-    for (var i = 0; i < columns.length; i++) {
-      if (columns[i].getAttribute('data-stage') === stageName) {
-        var tmp = document.createElement('div');
-        tmp.innerHTML = renderDealCard(deal);
-        var card = tmp.firstChild;
-        wireCard(card);
-        columns[i].appendChild(card);
-        return;
-      }
-    }
   }
 
   /* ── Deal Detail Drawer ─────────────────────────────────────────── */
@@ -234,11 +241,10 @@
     document.getElementById('drawerForm').addEventListener('submit', handleDrawerSave);
     document.getElementById('drawerDelete').addEventListener('click', handleDrawerDelete);
 
-    /* close drawer when clicking outside (on the board) */
     document.addEventListener('click', function (e) {
       var drawer = document.getElementById('dealDrawer');
       if (!drawer || drawer.style.right === '-440px') return;
-      if (!drawer.contains(e.target) && !e.target.closest('.deal-card')) {
+      if (!drawer.contains(e.target) && !e.target.closest('.deal-card') && !e.target.closest('.pipe-quick-action')) {
         closeDrawer();
       }
     });
@@ -247,8 +253,6 @@
   function openDrawer(dealId) {
     var drawer = document.getElementById('dealDrawer');
     if (!drawer) return;
-
-    /* populate stage select */
     var sel = document.getElementById('drawerStageSelect');
     sel.innerHTML = '';
     for (var i = 0; i < stagesData.length; i++) {
@@ -257,7 +261,6 @@
       opt.textContent = stagesData[i].name;
       sel.appendChild(opt);
     }
-
     document.getElementById('drawerDealTitle').textContent = 'Loading…';
     document.getElementById('drawerSaveMsg').textContent = '';
     document.getElementById('drawerMeta').textContent = '';
@@ -342,16 +345,9 @@
           for (var i = 0; i < dealsData.length; i++) {
             if (String(dealsData[i].id) === String(dealId)) { dealsData[i] = updated; break; }
           }
-          var card = document.querySelector('.deal-card[data-deal-id="' + dealId + '"]');
-          if (card) {
-            var tmp = document.createElement('div');
-            tmp.innerHTML = renderDealCard(updated);
-            var newCard = tmp.firstChild;
-            wireCard(newCard);
-            card.parentNode.replaceChild(newCard, card);
-          }
+          renderPipeline();
+          renderKpiBar();
           document.getElementById('drawerDealTitle').textContent = updated.title;
-          updateColumnCounts();
         }
         msg.style.color = '#00b894';
         msg.textContent = 'Saved';
@@ -375,23 +371,22 @@
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;
       if (xhr.status >= 200 && xhr.status < 300) {
-        var card = document.querySelector('.deal-card[data-deal-id="' + dealId + '"]');
-        if (card) card.parentNode.removeChild(card);
         dealsData = dealsData.filter(function (d) { return String(d.id) !== String(dealId); });
-        updateColumnCounts();
+        renderPipeline();
+        renderKpiBar();
         closeDrawer();
       }
     };
     xhr.send();
   }
 
-  /* ── Data loading ───────────────────────────────────────────────── */
+  /* ── Bootstrap ──────────────────────────────────────────────────── */
 
   document.addEventListener("DOMContentLoaded", function () {
     var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
     L = isEs
-      ? { newDeal: "Nueva Oportunidad", daysInStage: "d en etapa" }
-      : { newDeal: "New Deal", daysInStage: "d in stage" };
+      ? { newDeal: "Nueva Oportunidad", daysInStage: "d en etapa", stale: "Atrasado" }
+      : { newDeal: "New Deal",          daysInStage: "d in stage", stale: "Stale" };
 
     CRM_APP.buildHeader(
       CRM_APP.t('nav.pipeline'),
@@ -404,16 +399,56 @@
       }
     });
 
+    injectStyles();
     injectModal();
     injectDrawer();
-    injectTabBar();
+    injectTopBar();
     loadStats();
     loadPipelineData();
   });
 
-  /* ── Tab bar ────────────────────────────────────────────────────── */
+  /* ── Inline styles (extends css/app.css without editing it) ─────── */
 
-  function injectTabBar() {
+  function injectStyles() {
+    if (document.getElementById('pipeUpgradeStyles')) return;
+    var s = document.createElement('style');
+    s.id = 'pipeUpgradeStyles';
+    s.textContent = [
+      '.pipe-tabbar{display:flex;gap:4px;background:#141620;border-radius:10px;padding:4px;width:fit-content}',
+      '.pipe-tab{padding:8px 18px;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;background:transparent;color:#8b8fa3;transition:.15s}',
+      '.pipe-tab.active{background:#FF671F;color:#fff}',
+      '.pipe-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:4px}',
+      '.pipe-toolbar input,.pipe-toolbar select{background:#141620;border:1px solid #2a2d3a;color:#e4e7ec;padding:7px 10px;border-radius:6px;font-size:13px;font-family:inherit}',
+      '.pipe-toolbar input:focus,.pipe-toolbar select:focus{outline:none;border-color:#FF671F}',
+      '.pipe-view-toggle{display:flex;gap:0;background:#141620;border:1px solid #2a2d3a;border-radius:6px;overflow:hidden}',
+      '.pipe-view-toggle button{background:transparent;border:none;color:#8b8fa3;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer}',
+      '.pipe-view-toggle button.active{background:#FF671F;color:#fff}',
+      '.pipe-stage-hint{font-size:10px;color:#5a5e70;margin-top:4px;line-height:1.3}',
+      '.pipe-stage-prob{font-size:10px;font-weight:700;color:#6366f1;background:rgba(99,102,241,.12);padding:1px 6px;border-radius:8px;margin-left:6px}',
+      '.deal-card{position:relative}',
+      '.deal-card.stale{border-left:3px solid #e17055}',
+      '.deal-card-quick{position:absolute;top:8px;right:8px;display:none;gap:4px}',
+      '.deal-card:hover .deal-card-quick{display:flex}',
+      '.pipe-quick-action{background:#1a1d27;border:1px solid #2a2d3a;color:#8b8fa3;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;text-decoration:none;transition:.15s}',
+      '.pipe-quick-action:hover{background:#FF671F;color:#fff;border-color:#FF671F}',
+      '.deal-card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}',
+      '.deal-card-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:8px;background:rgba(99,102,241,.15);color:#a3a8ff;text-transform:uppercase;letter-spacing:.4px}',
+      '.deal-card-score{position:absolute;top:8px;left:8px;background:#0f1117;border:1px solid #2a2d3a;color:#fdcb6e;font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px}',
+      '.pipe-list-table{width:100%;border-collapse:collapse;background:#1a1d27;border:1px solid #2a2d3a;border-radius:10px;overflow:hidden;font-size:13px}',
+      '.pipe-list-table th{background:#0f1117;color:#8b8fa3;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:10px 12px;text-align:left;border-bottom:1px solid #2a2d3a}',
+      '.pipe-list-table td{padding:10px 12px;border-bottom:1px solid #20232f;color:#e4e7ec}',
+      '.pipe-list-table tr{cursor:pointer;transition:.1s}',
+      '.pipe-list-table tr:hover td{background:#20232f}',
+      '.pipe-source-mix{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}',
+      '.pipe-source-pill{background:#1a1d27;border:1px solid #2a2d3a;border-radius:14px;padding:4px 10px;font-size:11px;color:#8b8fa3}',
+      '.pipe-source-pill b{color:#FF671F;margin-right:4px}'
+    ].join('\n');
+    document.head.appendChild(s);
+  }
+
+  /* ── Top bar: tabs + KPIs + filters + view toggle ───────────────── */
+
+  function injectTopBar() {
     var body = document.querySelector('.pipeline-body');
     if (!body || document.getElementById('pipelineTopBar')) return;
     var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
@@ -422,59 +457,131 @@
     wrap.id = 'pipelineTopBar';
     wrap.style.cssText = 'display:flex;flex-direction:column;gap:12px;margin-bottom:16px;';
 
-    var tabRow = document.createElement('div');
-    tabRow.style.cssText = 'display:flex;gap:4px;background:#141620;border-radius:10px;padding:4px;width:fit-content;';
+    /* Row 1 — tabs + view toggle */
+    var row1 = document.createElement('div');
+    row1.style.cssText = 'display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap';
 
-    [['sales', isEs ? 'Pipeline de Ventas' : 'Sales Pipeline'],
+    var tabRow = document.createElement('div');
+    tabRow.className = 'pipe-tabbar';
+    [['sales',     isEs ? 'Pipeline de Ventas'    : 'Sales Pipeline'],
      ['marketing', isEs ? 'Pipeline de Marketing' : 'Marketing Pipeline']
     ].forEach(function(pair) {
-      var tab = pair[0], label = pair[1];
       var btn = document.createElement('button');
-      btn.id = 'tab-' + tab;
-      btn.textContent = label;
-      btn.style.cssText = 'padding:8px 20px;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit;' +
-        (tab === 'sales' ? 'background:#FF671F;color:#fff;' : 'background:transparent;color:#8b8fa3;');
-      btn.addEventListener('click', function() { switchTab(tab); });
+      btn.id = 'tab-' + pair[0];
+      btn.className = 'pipe-tab' + (pair[0] === 'sales' ? ' active' : '');
+      btn.textContent = pair[1];
+      btn.addEventListener('click', function() { switchTab(pair[0]); });
       tabRow.appendChild(btn);
     });
+    row1.appendChild(tabRow);
 
+    var viewToggle = document.createElement('div');
+    viewToggle.className = 'pipe-view-toggle';
+    viewToggle.innerHTML =
+      '<button id="viewKanban" class="active">' + (isEs ? 'Kanban' : 'Kanban') + '</button>' +
+      '<button id="viewList">' + (isEs ? 'Lista' : 'List') + '</button>';
+    viewToggle.querySelector('#viewKanban').addEventListener('click', function(){ setView('kanban'); });
+    viewToggle.querySelector('#viewList').addEventListener('click', function(){ setView('list'); });
+    row1.appendChild(viewToggle);
+
+    wrap.appendChild(row1);
+
+    /* Row 2 — KPI cards */
     var statsRow = document.createElement('div');
     statsRow.id = 'pipelineStatsBar';
-    statsRow.style.cssText = 'display:flex;gap:12px;flex-wrap:wrap;';
-
-    wrap.appendChild(tabRow);
+    statsRow.style.cssText = 'display:flex;gap:12px;flex-wrap:wrap';
     wrap.appendChild(statsRow);
+
+    /* Row 3 — filter toolbar */
+    var toolbar = document.createElement('div');
+    toolbar.className = 'pipe-toolbar';
+    toolbar.id = 'pipeToolbar';
+    toolbar.innerHTML =
+      '<input type="search" id="filterSearch" placeholder="' + (isEs ? 'Buscar deal, empresa, contacto…' : 'Search deal, company, contact…') + '" style="min-width:240px">' +
+      '<select id="filterSource">' +
+        '<option value="">' + (isEs ? 'Todas las fuentes' : 'All sources') + '</option>' +
+        '<option value="cold_email_chile">Cold Email — Chile</option>' +
+        '<option value="cold_email_usa">Cold Email — USA</option>' +
+        '<option value="whatsapp">WhatsApp</option>' +
+        '<option value="referral">Referral</option>' +
+        '<option value="inbound_website">Inbound — Website</option>' +
+        '<option value="inbound_call">Inbound — Call</option>' +
+        '<option value="social_media">Social Media</option>' +
+        '<option value="event">Event</option>' +
+        '<option value="manual">Manual</option>' +
+      '</select>' +
+      '<select id="filterStatus">' +
+        '<option value="open">' + (isEs ? 'Abiertos' : 'Open only') + '</option>' +
+        '<option value="all">' + (isEs ? 'Todos' : 'All') + '</option>' +
+        '<option value="won">' + (isEs ? 'Ganados' : 'Won') + '</option>' +
+        '<option value="lost">' + (isEs ? 'Perdidos' : 'Lost') + '</option>' +
+      '</select>' +
+      '<button id="filterReset" class="btn btn-secondary" style="padding:7px 12px;font-size:12px">' + (isEs ? 'Reset' : 'Reset') + '</button>';
+    wrap.appendChild(toolbar);
+
     body.insertBefore(wrap, body.firstChild);
+
+    document.getElementById('filterSearch').addEventListener('input', function(e){ filters.search = e.target.value.toLowerCase(); renderPipeline(); renderKpiBar(); });
+    document.getElementById('filterSource').addEventListener('change', function(e){ filters.source = e.target.value; renderPipeline(); renderKpiBar(); });
+    document.getElementById('filterStatus').addEventListener('change', function(e){ filters.status = e.target.value; renderPipeline(); renderKpiBar(); });
+    document.getElementById('filterReset').addEventListener('click', function(){
+      filters = { search:'', source:'', owner:'', status:'open' };
+      document.getElementById('filterSearch').value = '';
+      document.getElementById('filterSource').value = '';
+      document.getElementById('filterStatus').value = 'open';
+      renderPipeline(); renderKpiBar();
+    });
   }
 
   function switchTab(tab) {
     activeTab = tab;
-
-    var tabSales = document.getElementById('tab-sales');
-    var tabMkt = document.getElementById('tab-marketing');
-    if (tabSales && tabMkt) {
-      if (tab === 'sales') {
-        tabSales.style.background = '#FF671F'; tabSales.style.color = '#fff';
-        tabMkt.style.background = 'transparent'; tabMkt.style.color = '#8b8fa3';
-      } else {
-        tabMkt.style.background = '#FF671F'; tabMkt.style.color = '#fff';
-        tabSales.style.background = 'transparent'; tabSales.style.color = '#8b8fa3';
-      }
+    var ts = document.getElementById('tab-sales');
+    var tm = document.getElementById('tab-marketing');
+    if (ts && tm) {
+      ts.classList.toggle('active', tab === 'sales');
+      tm.classList.toggle('active', tab === 'marketing');
     }
-
     var newDealBtn = document.getElementById('newDealBtn');
     if (newDealBtn) newDealBtn.style.display = tab === 'sales' ? '' : 'none';
 
-    renderStats(tab);
+    /* hide source/status filters in marketing (different semantics) */
+    var fSrc = document.getElementById('filterSource');
+    var fSt  = document.getElementById('filterStatus');
+    if (fSrc) fSrc.style.display = tab === 'sales' ? '' : 'none';
+    if (fSt)  fSt.style.display  = tab === 'sales' ? '' : 'none';
 
     if (tab === 'sales') {
       loadPipelineData();
     } else {
       loadMarketingPipeline();
     }
+    renderKpiBar();
   }
 
-  /* ── Stats bar ──────────────────────────────────────────────────── */
+  function setView(v) {
+    activeView = v;
+    document.getElementById('viewKanban').classList.toggle('active', v === 'kanban');
+    document.getElementById('viewList').classList.toggle('active', v === 'list');
+    renderPipeline();
+  }
+
+  /* ── Filtered deal accessor ─────────────────────────────────────── */
+
+  function visibleDeals() {
+    return dealsData.filter(function (d) {
+      if (filters.status === 'open' && (d.stage === 'Closed Won' || d.stage === 'Closed Lost')) return false;
+      if (filters.status === 'won'  && d.stage !== 'Closed Won')  return false;
+      if (filters.status === 'lost' && d.stage !== 'Closed Lost') return false;
+      if (filters.source && d.source !== filters.source) return false;
+      if (filters.search) {
+        var hay = ((d.title || '') + ' ' + (d.company || '') + ' ' + (d.contact_name || '') + ' ' + (d.contact_email || '')).toLowerCase();
+        if (hay.indexOf(filters.search) === -1) return false;
+      }
+      return true;
+    });
+  }
+
+  /* ── KPI bar ────────────────────────────────────────────────────── */
 
   function loadStats() {
     var xhr = new XMLHttpRequest();
@@ -486,38 +593,149 @@
       }
       if (!statsData && window.CRM_DATA && CRM_DATA.stats) statsData = CRM_DATA.stats;
       statsData = statsData || {};
-      renderStats(activeTab);
+      renderKpiBar();
     };
     xhr.send();
   }
 
-  function renderStats(tab) {
+  function renderKpiBar() {
     var bar = document.getElementById('pipelineStatsBar');
     if (!bar) return;
     var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
-    var d = statsData || {};
+    var items;
 
-    var items = tab === 'sales'
-      ? [
-          { label: isEs ? 'Oportunidades Activas' : 'Active Deals',  value: d.activeDeals || 0,                                   color: '#FF671F' },
-          { label: isEs ? 'Valor Pipeline'        : 'Pipeline Value', value: '$' + (((d.revenue || 0) / 1000).toFixed(0)) + 'k',  color: '#e4e7ec' },
-          { label: isEs ? 'Conversión'            : 'Conversion',     value: (d.conversion || 0) + '%',                           color: '#00b894' }
-        ]
-      : [
-          { label: isEs ? 'Contactos Totales' : 'Total Contacts', value: (d.totalContacts || 0).toLocaleString(), color: '#e4e7ec' },
-          { label: isEs ? 'Leads Nuevos'      : 'New Leads',      value: d.newLeads || 0,                         color: '#FF671F' },
-          { label: isEs ? 'Oportunidad Prom.' : 'Avg Deal',       value: '$' + (((d.avgDeal || 0) / 1000).toFixed(1)) + 'k', color: '#6366f1' }
-        ];
+    if (activeTab === 'sales') {
+      var open = dealsData.filter(function(d){ return d.stage !== 'Closed Won' && d.stage !== 'Closed Lost'; });
+      var totalValue = 0, weightedValue = 0;
+      for (var i = 0; i < open.length; i++) {
+        var v = parseInt(open[i].value, 10) || 0;
+        var p = parseInt(open[i].probability, 10) || 0;
+        totalValue += v;
+        weightedValue += v * (p / 100);
+      }
+      var now = new Date(), m = now.getMonth(), y = now.getFullYear();
+      var wonMtd = dealsData.filter(function(d){
+        if (d.stage !== 'Closed Won') return false;
+        var dt = new Date((d.updated_at || d.created_at || '').replace(' ', 'T'));
+        return dt.getMonth() === m && dt.getFullYear() === y;
+      });
+      var wonMtdValue = wonMtd.reduce(function(s,d){ return s + (parseInt(d.value,10)||0); }, 0);
+      var won = dealsData.filter(function(d){ return d.stage === 'Closed Won'; }).length;
+      var lost = dealsData.filter(function(d){ return d.stage === 'Closed Lost'; }).length;
+      var conv = (won + lost) > 0 ? Math.round((won / (won + lost)) * 100) : 0;
+
+      items = [
+        { label: isEs ? 'Pipeline Abierto'  : 'Open Pipeline',    value: '$' + fmtK(totalValue),     color: '#e4e7ec' },
+        { label: isEs ? 'Valor Ponderado'   : 'Weighted Value',   value: '$' + fmtK(weightedValue),  color: '#FF671F', sub: isEs ? 'Σ valor × prob.' : 'Σ value × prob.' },
+        { label: isEs ? 'Ganado MTD'        : 'Won MTD',          value: '$' + fmtK(wonMtdValue),    color: '#00b894', sub: wonMtd.length + ' ' + (isEs ? 'oportunidades' : 'deals') },
+        { label: isEs ? 'Conversión'        : 'Win Rate',         value: conv + '%',                 color: '#6366f1', sub: won + 'W / ' + lost + 'L' },
+        { label: isEs ? 'Oportunidades'     : 'Active Deals',     value: open.length,                 color: '#fdcb6e' }
+      ];
+    } else {
+      var lc = computeLifecycle();
+      var mqlToSql = lc.mql > 0 ? Math.round((lc.sql / lc.mql) * 100) : 0;
+      var sqlToCust = lc.sql > 0 ? Math.round((lc.customer / lc.sql) * 100) : 0;
+      items = [
+        { label: isEs ? 'Contactos Totales' : 'Total Contacts', value: (lc.total || 0).toLocaleString(), color: '#e4e7ec' },
+        { label: 'MQL',                                          value: lc.mql,        color: '#FF671F' },
+        { label: 'SQL',                                          value: lc.sql,        color: '#fdcb6e' },
+        { label: isEs ? 'Clientes' : 'Customers',                value: lc.customer,   color: '#00b894' },
+        { label: 'MQL → SQL',                                    value: mqlToSql + '%', color: '#6366f1' },
+        { label: 'SQL → ' + (isEs ? 'Cliente' : 'Customer'),     value: sqlToCust + '%', color: '#a3a8ff' }
+      ];
+    }
 
     bar.innerHTML = items.map(function (s) {
-      return '<div style="background:#1a1d27;border:1px solid #2a2d3a;border-radius:10px;padding:12px 20px;min-width:130px">' +
+      return '<div style="background:#1a1d27;border:1px solid #2a2d3a;border-radius:10px;padding:12px 18px;min-width:130px">' +
         '<div style="font-size:10px;color:#8b8fa3;text-transform:uppercase;letter-spacing:.7px;font-weight:600;margin-bottom:4px">' + s.label + '</div>' +
         '<div style="font-size:22px;font-weight:700;color:' + s.color + '">' + s.value + '</div>' +
+        (s.sub ? '<div style="font-size:10px;color:#5a5e70;margin-top:2px">' + s.sub + '</div>' : '') +
         '</div>';
     }).join('');
+
+    /* Source mix in marketing tab */
+    if (activeTab === 'marketing') renderSourceMix();
   }
 
-  /* ── Marketing Pipeline view ────────────────────────────────────── */
+  function fmtK(n) {
+    if (n >= 1000) return (n / 1000).toFixed(n >= 10000 ? 0 : 1) + 'k';
+    return String(Math.round(n));
+  }
+
+  function renderSourceMix() {
+    var bar = document.getElementById('pipelineStatsBar');
+    if (!bar) return;
+    var counts = {};
+    contactsData.forEach(function(c){
+      var c2 = c.data && typeof c.data === 'object' ? c.data : c;
+      var src = c2.source || 'unknown';
+      counts[src] = (counts[src] || 0) + 1;
+    });
+    var labels = { cold_email_chile:'Chile Email', cold_email_usa:'USA Email', whatsapp:'WhatsApp', referral:'Referral', inbound_website:'Website', inbound_call:'Call', social_media:'Social', event:'Event', manual:'Manual', unknown:'Unknown' };
+    var pills = Object.keys(counts).sort(function(a,b){ return counts[b]-counts[a]; }).slice(0,6).map(function(k){
+      return '<span class="pipe-source-pill"><b>' + counts[k] + '</b>' + (labels[k] || k) + '</span>';
+    }).join('');
+    if (pills) {
+      var mix = document.createElement('div');
+      mix.className = 'pipe-source-mix';
+      mix.style.flexBasis = '100%';
+      mix.innerHTML = pills;
+      bar.appendChild(mix);
+    }
+  }
+
+  /* ── Marketing lifecycle (HubSpot-style) ────────────────────────── */
+
+  var LIFECYCLE = [
+    { key:'subscriber',  en:'Subscriber',  es:'Suscriptor',  color:'#8b8fa3', hint_en:'Opted in but no qualifying activity yet.', hint_es:'Suscrito sin actividad calificada.' },
+    { key:'lead',        en:'Lead',        es:'Lead',        color:'#6366f1', hint_en:'Captured contact. Not engaged yet.',        hint_es:'Capturado. Sin engagement.' },
+    { key:'mql',         en:'MQL',         es:'MQL',         color:'#FF671F', hint_en:'Marketing Qualified — meets ICP + intent.', hint_es:'Calificado por marketing.' },
+    { key:'sql',         en:'SQL',         es:'SQL',         color:'#fdcb6e', hint_en:'Sales Qualified — has open deal.',          hint_es:'Calificado por ventas.' },
+    { key:'opportunity', en:'Opportunity', es:'Oportunidad', color:'#a855f7', hint_en:'Active deal in negotiation.',               hint_es:'Negociación activa.' },
+    { key:'customer',    en:'Customer',    es:'Cliente',     color:'#00b894', hint_en:'Closed Won. Onboarded.',                    hint_es:'Cerrado, ganado.' },
+    { key:'evangelist',  en:'Evangelist',  es:'Evangelista', color:'#10b981', hint_en:'Customer who refers / advocates.',          hint_es:'Cliente que refiere.' },
+    { key:'disqualified',en:'Disqualified',es:'Descalificado',color:'#636e72',hint_en:'Out of ICP / churned / unsubscribed.',     hint_es:'Fuera de ICP / baja.' }
+  ];
+
+  /* derive lifecycle stage from contact + their deals */
+  function lifecycleStageFor(contact) {
+    var c = contact.data && typeof contact.data === 'object' ? Object.assign({}, contact.data, { id: contact.id }) : contact;
+    var status = (c.status || '').toLowerCase();
+
+    if (status === 'churned') return 'disqualified';
+    if (status === 'customer') {
+      /* Evangelist if has referrals tag/source, otherwise customer */
+      var tags = (c.tags || '').toString().toLowerCase();
+      if (tags.indexOf('evangelist') >= 0 || tags.indexOf('referrer') >= 0) return 'evangelist';
+      return 'customer';
+    }
+
+    /* Find this contact's deals */
+    var myDeals = dealsData.filter(function(d){
+      return (d.contact_id && String(d.contact_id) === String(c.id)) ||
+             (c.email && d.contact_email === c.email);
+    });
+    if (myDeals.length) {
+      var hasNegotiation = myDeals.some(function(d){ return d.stage === 'Negotiation' || d.stage === 'Proposal Sent'; });
+      var hasOpen = myDeals.some(function(d){ return d.stage !== 'Closed Won' && d.stage !== 'Closed Lost'; });
+      if (hasNegotiation) return 'opportunity';
+      if (hasOpen) return 'sql';
+    }
+
+    if (status === 'prospect') return 'mql';
+    if (status === 'lead') {
+      /* Subscriber if no source/no engagement; else Lead */
+      if (!c.source && !c.last_contact) return 'subscriber';
+      return 'lead';
+    }
+    return 'subscriber';
+  }
+
+  function computeLifecycle() {
+    var counts = { subscriber:0, lead:0, mql:0, sql:0, opportunity:0, customer:0, evangelist:0, disqualified:0, total: contactsData.length };
+    contactsData.forEach(function(c){ counts[lifecycleStageFor(c)]++; });
+    return counts;
+  }
 
   function loadMarketingPipeline() {
     showSpinner();
@@ -532,69 +750,131 @@
       if ((!contacts || !contacts.length) && window.CRM_DATA && CRM_DATA.contacts) {
         contacts = CRM_DATA.contacts;
       }
-      renderMarketingPipeline(contacts || []);
+      contactsData = contacts || [];
+      /* if deals not yet loaded, load them silently for SQL/Opportunity derivation */
+      if (!dealsData.length) {
+        var xd = new XMLHttpRequest();
+        xd.open('GET', '/api/?r=deals', true);
+        xd.onreadystatechange = function () {
+          if (xd.readyState !== 4) return;
+          if (xd.status >= 200 && xd.status < 300) {
+            try { dealsData = JSON.parse(xd.responseText); } catch (e) {}
+          }
+          renderMarketingPipeline();
+          renderKpiBar();
+        };
+        xd.send();
+      } else {
+        renderMarketingPipeline();
+        renderKpiBar();
+      }
     };
     xhr.send();
   }
 
-  function renderMarketingPipeline(contacts) {
+  function renderMarketingPipeline() {
     var board = document.getElementById('pipelineBoard');
     if (!board) return;
     var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
 
-    var stages = [
-      { key: 'lead',     label: isEs ? 'Leads'      : 'Leads',      color: '#FF671F' },
-      { key: 'prospect', label: isEs ? 'Prospectos' : 'Prospects',   color: '#6366f1' },
-      { key: 'customer', label: isEs ? 'Clientes'   : 'Customers',   color: '#00b894' },
-      { key: 'churned',  label: isEs ? 'Bajas'      : 'Churned',     color: '#e17055' }
-    ];
-
-    /* API returns rows with a nested data object; mock data is flat */
-    var normalized = contacts.map(function (c) {
-      if (c.data && typeof c.data === 'object') return Object.assign({}, c.data, { id: c.id });
-      return c;
+    /* group contacts by lifecycle stage, apply search filter */
+    var groups = {};
+    LIFECYCLE.forEach(function(s){ groups[s.key] = []; });
+    contactsData.forEach(function(c){
+      var c2 = c.data && typeof c.data === 'object' ? Object.assign({}, c.data, { id: c.id }) : c;
+      if (filters.search) {
+        var hay = ((c2.name || '') + ' ' + (c2.company || '') + ' ' + (c2.email || '')).toLowerCase();
+        if (hay.indexOf(filters.search) === -1) return;
+      }
+      groups[lifecycleStageFor(c)].push(c2);
     });
 
+    if (activeView === 'list') return renderMarketingList(groups);
+
     var html = '';
-    for (var i = 0; i < stages.length; i++) {
-      var s = stages[i];
-      var sc = normalized.filter(function (c) { return (c.status || '') === s.key; });
-
+    LIFECYCLE.forEach(function(s){
+      var list = groups[s.key];
+      var label = isEs ? s.es : s.en;
+      var hint  = isEs ? s.hint_es : s.hint_en;
       html += '<div class="pipeline-column">';
-      html += '<div class="column-header"><div class="column-title">';
-      html += '<span class="column-name" style="color:' + s.color + '">' + s.label + '</span>';
-      html += '<span class="column-count">' + sc.length + '</span>';
-      html += '</div></div>';
+      html += '<div class="column-header">';
+      html +=   '<div class="column-title">';
+      html +=     '<span class="column-name" style="color:' + s.color + '">' + label + '</span>';
+      html +=     '<span class="column-count">' + list.length + '</span>';
+      html +=   '</div>';
+      html +=   '<div class="pipe-stage-hint">' + hint + '</div>';
+      html += '</div>';
       html += '<div class="column-cards" data-stage="' + s.key + '">';
-
-      for (var j = 0; j < sc.length; j++) {
-        var c = sc[j];
-        var name = c.name || c.first_name || '';
-        var company = c.company || '';
-        var email = c.email || '';
-        var value = c.value || '';
-        html += '<div class="deal-card" style="cursor:default">';
-        html += '<div class="deal-card-title">' + (name || email || '—') + '</div>';
-        if (company) html += '<div class="deal-card-company">' + company + '</div>';
-        if (email) html += '<div class="deal-card-contact">' + email + '</div>';
-        if (value) html += '<div class="deal-card-footer"><span class="deal-card-value">' + value + '</span></div>';
-        html += '</div>';
-      }
-
+      list.forEach(function(c){ html += renderContactCard(c); });
       html += '</div></div>';
-    }
+    });
+    board.innerHTML = html;
+  }
 
-    board.innerHTML = html || '<p style="color:#8b8fa3;padding:2rem">No contacts found.</p>';
+  function renderContactCard(c) {
+    var name = c.name || c.first_name || c.email || '—';
+    var html = '<div class="deal-card" data-contact-id="' + (c.id || '') + '" style="cursor:default">';
+    html += '<div class="deal-card-title">' + escapeHtml(name) + '</div>';
+    if (c.company) html += '<div class="deal-card-company">' + escapeHtml(c.company) + '</div>';
+    if (c.email)   html += '<div class="deal-card-contact">' + escapeHtml(c.email) + '</div>';
+    if (c.source) {
+      var srcLabels = { cold_email_chile:'Chile Email', cold_email_usa:'USA Email', whatsapp:'WhatsApp', referral:'Referral', inbound_website:'Website', inbound_call:'Call', social_media:'Social', event:'Event', manual:'Manual' };
+      html += '<div class="deal-card-tags"><span class="deal-card-tag">' + (srcLabels[c.source] || c.source) + '</span></div>';
+    }
+    /* quick actions */
+    var qa = '';
+    if (c.email)   qa += '<a class="pipe-quick-action" href="mailto:' + encodeURIComponent(c.email) + '" title="Email">&#9993;</a>';
+    if (c.phone)   qa += '<a class="pipe-quick-action" href="tel:' + encodeURIComponent(c.phone) + '" title="Call">&#9742;</a>';
+    if (c.phone)   qa += '<a class="pipe-quick-action" href="https://wa.me/' + encodeURIComponent(String(c.phone).replace(/[^0-9]/g,'')) + '" target="_blank" title="WhatsApp">&#128172;</a>';
+    if (qa) html += '<div class="deal-card-quick">' + qa + '</div>';
+    html += '</div>';
+    return html;
+  }
+
+  function renderMarketingList(groups) {
+    var board = document.getElementById('pipelineBoard');
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    var rows = '';
+    LIFECYCLE.forEach(function(s){
+      groups[s.key].forEach(function(c){
+        rows += '<tr>' +
+          '<td><span class="deal-card-tag" style="background:' + hexAlpha(s.color, .15) + ';color:' + s.color + '">' + (isEs ? s.es : s.en) + '</span></td>' +
+          '<td>' + escapeHtml(c.name || c.email || '—') + '</td>' +
+          '<td>' + escapeHtml(c.company || '') + '</td>' +
+          '<td>' + escapeHtml(c.email || '') + '</td>' +
+          '<td>' + escapeHtml(c.phone || '') + '</td>' +
+          '<td>' + escapeHtml(c.source || '') + '</td>' +
+        '</tr>';
+      });
+    });
+    board.style.flexDirection = 'column';
+    board.innerHTML = '<table class="pipe-list-table">' +
+      '<thead><tr>' +
+        '<th>' + (isEs ? 'Etapa' : 'Stage') + '</th>' +
+        '<th>' + (isEs ? 'Nombre' : 'Name') + '</th>' +
+        '<th>' + (isEs ? 'Empresa' : 'Company') + '</th>' +
+        '<th>Email</th>' +
+        '<th>' + (isEs ? 'Teléfono' : 'Phone') + '</th>' +
+        '<th>' + (isEs ? 'Fuente' : 'Source') + '</th>' +
+      '</tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+
+  function hexAlpha(hex, a) {
+    var h = hex.replace('#','');
+    var r = parseInt(h.substring(0,2),16), g = parseInt(h.substring(2,4),16), b = parseInt(h.substring(4,6),16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
   }
 
   function showSpinner() {
-    var container = document.getElementById("pipelineBoard");
-    if (!container) return;
-    container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:200px;">' +
+    var c = document.getElementById("pipelineBoard");
+    if (!c) return;
+    c.style.flexDirection = '';
+    c.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:200px;width:100%">' +
       '<div style="border:4px solid #e0e0e0;border-top-color:#FF671F;border-radius:50%;width:40px;height:40px;animation:spin 0.8s linear infinite;"></div>' +
-      '</div>' +
-      '<style>@keyframes spin{to{transform:rotate(360deg)}}</style>';
+      '</div><style>@keyframes spin{to{transform:rotate(360deg)}}</style>';
   }
+
+  /* ── Sales pipeline data load ───────────────────────────────────── */
 
   function loadPipelineData() {
     showSpinner();
@@ -625,83 +905,83 @@
           }
         } catch (e) {}
       }
-      loadOrgStages(); // fallback
+      loadOrgStages();
     };
     xhr.send();
   }
 
   function loadOrgStages() {
-    var xhrStages = new XMLHttpRequest();
-    xhrStages.open('GET', '/api/?r=stages', true);
-    xhrStages.onreadystatechange = function () {
-      if (xhrStages.readyState !== 4) return;
-      if (xhrStages.status >= 200 && xhrStages.status < 300) {
-        try { stagesData = JSON.parse(xhrStages.responseText); } catch (err) { stagesData = []; }
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/?r=stages', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try { stagesData = JSON.parse(xhr.responseText); } catch (err) { stagesData = []; }
         stagesData.sort(function (a, b) { return a.sort_order - b.sort_order; });
         loadDeals();
       } else {
-        var container = document.getElementById("pipelineBoard");
-        if (container) container.innerHTML = '<p style="color:red;padding:1rem;">Error loading stages.</p>';
+        var c = document.getElementById("pipelineBoard");
+        if (c) c.innerHTML = '<p style="color:red;padding:1rem;">Error loading stages.</p>';
       }
     };
-    xhrStages.send();
+    xhr.send();
   }
 
   function loadDeals() {
-    var xhrDeals = new XMLHttpRequest();
-    xhrDeals.open('GET', '/api/?r=deals', true);
-    xhrDeals.onreadystatechange = function () {
-      if (xhrDeals.readyState !== 4) return;
-      if (xhrDeals.status >= 200 && xhrDeals.status < 300) {
-        try { dealsData = JSON.parse(xhrDeals.responseText); } catch (err) { dealsData = []; }
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/?r=deals', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try { dealsData = JSON.parse(xhr.responseText); } catch (err) { dealsData = []; }
         renderPipeline();
+        renderKpiBar();
       } else {
-        var container = document.getElementById("pipelineBoard");
-        if (container) container.innerHTML = '<p style="color:red;padding:1rem;">Error loading deals.</p>';
+        var c = document.getElementById("pipelineBoard");
+        if (c) c.innerHTML = '<p style="color:red;padding:1rem;">Error loading deals.</p>';
       }
     };
-    xhrDeals.send();
+    xhr.send();
   }
 
-  /* ── Render ─────────────────────────────────────────────────────── */
+  /* ── Sales render: kanban + list ────────────────────────────────── */
 
   function renderPipeline() {
-    var container = document.getElementById("pipelineBoard");
-    if (!container) return;
+    if (activeTab === 'marketing') return renderMarketingPipeline();
+    var c = document.getElementById("pipelineBoard");
+    if (!c) return;
+    c.style.flexDirection = '';
 
-    var html = "";
+    if (activeView === 'list') return renderSalesList();
+
+    var deals = visibleDeals();
+    var html = '';
 
     for (var i = 0; i < stagesData.length; i++) {
       var stage = stagesData[i];
-      var stageName = stage.name;
-      var stageDeals = [];
-      for (var d = 0; d < dealsData.length; d++) {
-        if (dealsData[d].stage === stageName) stageDeals.push(dealsData[d]);
-      }
+      var stageDeals = deals.filter(function(d){ return d.stage === stage.name; });
+      var totalValue = stageDeals.reduce(function(s,d){ return s + (parseInt(d.value,10)||0); }, 0);
+      var weighted   = stageDeals.reduce(function(s,d){ return s + (parseInt(d.value,10)||0) * ((parseInt(d.probability,10)||0)/100); }, 0);
+      var prob = stageProbByName(stage.name);
 
-      var totalValue = 0;
-      for (var j = 0; j < stageDeals.length; j++) {
-        totalValue += parseInt(stageDeals[j].value, 10) || 0;
-      }
+      html += '<div class="pipeline-column" data-stage="' + stage.name + '">';
+      html +=   '<div class="column-header">';
+      html +=     '<div class="column-title">';
+      html +=       '<span class="column-name" style="color:' + (stage.color || '#e4e7ec') + '">' + stageLabel(stage.name) + '</span>';
+      html +=       '<span class="pipe-stage-prob">' + prob + '%</span>';
+      html +=       '<span class="column-count">' + stageDeals.length + '</span>';
+      html +=     '</div>';
+      html +=     '<div class="column-value">$' + fmtK(totalValue) + ' · <span title="Weighted">$' + fmtK(weighted) + 'w</span></div>';
+      html +=     '<div class="pipe-stage-hint">' + stageHint(stage.name) + '</div>';
+      html +=   '</div>';
 
-      html += '<div class="pipeline-column" data-stage="' + stageName + '">';
-      html += '<div class="column-header">';
-      html += '<div class="column-title">';
-      html += '<span class="column-name">' + stageLabel(stageName) + '</span>';
-      html += '<span class="column-count">' + stageDeals.length + '</span>';
-      html += '</div>';
-      html += '<div class="column-value">$' + (totalValue / 1000).toFixed(1) + 'k</div>';
-      html += '</div>';
-
-      html += '<div class="column-cards" data-stage="' + stageName + '">';
-      for (var k = 0; k < stageDeals.length; k++) {
-        html += renderDealCard(stageDeals[k]);
-      }
-      html += '</div>';
+      html +=   '<div class="column-cards" data-stage="' + stage.name + '">';
+      stageDeals.forEach(function(d){ html += renderDealCard(d); });
+      html +=   '</div>';
       html += '</div>';
     }
 
-    container.innerHTML = html;
+    c.innerHTML = html;
     initDragDrop();
   }
 
@@ -711,6 +991,8 @@
     var valueFormatted = '$' + (parseInt(deal.value, 10) || 0).toLocaleString();
     var contactName = deal.contact_name || deal.contact || '';
     var days = deal.days_in_stage !== undefined ? deal.days_in_stage : (deal.daysInStage || 0);
+    var sla = STAGE_SLA[deal.stage];
+    var stale = sla && days > sla;
 
     var sourceLabel = {
       cold_email_chile: 'Chile Email', cold_email_usa: 'USA Email',
@@ -720,24 +1002,75 @@
     };
     var src = deal.source ? (sourceLabel[deal.source] || deal.source) : '';
 
-    var html = '<div class="deal-card" draggable="true" data-deal-id="' + deal.id + '" style="cursor:pointer">';
-    if (src) {
-      html += '<div class="deal-card-source">' + src + '</div>';
-    }
-    html += '<div class="deal-card-title">' + deal.title + '</div>';
-    html += '<div class="deal-card-company">' + (deal.company || '') + '</div>';
+    /* simple lead score: probability + (value bracket) + has phone/email */
+    var score = Math.min(100, prob + Math.min(20, Math.floor((parseInt(deal.value,10)||0) / 1000)) + (deal.contact_phone ? 5 : 0) + (deal.contact_email ? 5 : 0));
+
+    var html = '<div class="deal-card' + (stale ? ' stale' : '') + '" draggable="true" data-deal-id="' + deal.id + '" style="cursor:pointer">';
+    html += '<div class="deal-card-score" title="Lead score">' + score + '</div>';
+
+    /* quick actions */
+    var qa = '';
+    if (deal.contact_email) qa += '<a class="pipe-quick-action" href="mailto:' + encodeURIComponent(deal.contact_email) + '" title="Email" onclick="event.stopPropagation()">&#9993;</a>';
+    if (deal.contact_phone) qa += '<a class="pipe-quick-action" href="tel:' + encodeURIComponent(deal.contact_phone) + '" title="Call" onclick="event.stopPropagation()">&#9742;</a>';
+    if (deal.contact_phone) qa += '<a class="pipe-quick-action" href="https://wa.me/' + encodeURIComponent(String(deal.contact_phone).replace(/[^0-9]/g,'')) + '" target="_blank" title="WhatsApp" onclick="event.stopPropagation()">&#128172;</a>';
+    if (qa) html += '<div class="deal-card-quick">' + qa + '</div>';
+
+    if (src) html += '<div class="deal-card-source">' + src + '</div>';
+    html += '<div class="deal-card-title" style="margin-top:' + (src ? '0' : '14px') + '">' + escapeHtml(deal.title) + '</div>';
+    html += '<div class="deal-card-company">' + escapeHtml(deal.company || '') + '</div>';
     html += '<div class="deal-card-footer">';
     html += '<span class="deal-card-value">' + valueFormatted + '</span>';
     html += '<span class="deal-card-prob" style="color:' + probColor + '">' + prob + '%</span>';
     html += '</div>';
-    html += '<div class="deal-card-contact">' + contactName + '</div>';
+    html += '<div class="deal-card-contact">' + escapeHtml(contactName) + '</div>';
     if (deal.next_followup_date) {
-      var actionText = deal.next_action ? ' — ' + deal.next_action : '';
+      var actionText = deal.next_action ? ' — ' + escapeHtml(deal.next_action) : '';
       html += '<div class="deal-card-followup">📅 ' + deal.next_followup_date + actionText + '</div>';
     }
-    html += '<div class="deal-card-days">' + days + L.daysInStage + '</div>';
+    html += '<div class="deal-card-days"' + (stale ? ' style="color:#e17055;font-weight:600"' : '') + '>' +
+            days + L.daysInStage + (stale ? ' · ' + L.stale : '') + '</div>';
     html += '</div>';
     return html;
+  }
+
+  function renderSalesList() {
+    var c = document.getElementById('pipelineBoard');
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    var deals = visibleDeals().slice().sort(function(a,b){
+      return ((parseInt(b.value,10)||0) * ((parseInt(b.probability,10)||0)/100))
+           - ((parseInt(a.value,10)||0) * ((parseInt(a.probability,10)||0)/100));
+    });
+    var rows = deals.map(function(d){
+      var weighted = (parseInt(d.value,10)||0) * ((parseInt(d.probability,10)||0)/100);
+      var sla = STAGE_SLA[d.stage], stale = sla && (d.days_in_stage||0) > sla;
+      return '<tr data-deal-id="' + d.id + '">' +
+        '<td>' + escapeHtml(d.title) + '</td>' +
+        '<td>' + escapeHtml(d.company || '') + '</td>' +
+        '<td><span class="deal-card-tag">' + escapeHtml(stageLabel(d.stage)) + '</span></td>' +
+        '<td style="font-weight:700">$' + (parseInt(d.value,10)||0).toLocaleString() + '</td>' +
+        '<td>' + (parseInt(d.probability,10)||0) + '%</td>' +
+        '<td>$' + Math.round(weighted).toLocaleString() + '</td>' +
+        '<td' + (stale ? ' style="color:#e17055;font-weight:600"' : '') + '>' + (d.days_in_stage||0) + 'd' + (stale ? ' ⚠' : '') + '</td>' +
+        '<td>' + escapeHtml(d.next_action || '') + (d.next_followup_date ? ' <span style="color:#FF671F">(' + d.next_followup_date + ')</span>' : '') + '</td>' +
+      '</tr>';
+    }).join('');
+    c.style.flexDirection = 'column';
+    c.innerHTML = '<table class="pipe-list-table">' +
+      '<thead><tr>' +
+        '<th>' + (isEs ? 'Deal' : 'Deal') + '</th>' +
+        '<th>' + (isEs ? 'Empresa' : 'Company') + '</th>' +
+        '<th>' + (isEs ? 'Etapa' : 'Stage') + '</th>' +
+        '<th>' + (isEs ? 'Valor' : 'Value') + '</th>' +
+        '<th>' + (isEs ? 'Prob.' : 'Prob.') + '</th>' +
+        '<th>' + (isEs ? 'Ponderado' : 'Weighted') + '</th>' +
+        '<th>' + (isEs ? 'Antigüedad' : 'Stage Age') + '</th>' +
+        '<th>' + (isEs ? 'Próxima Acción' : 'Next Action') + '</th>' +
+      '</tr></thead><tbody>' + (rows || '<tr><td colspan="8" style="padding:20px;text-align:center;color:#5a5e70">No deals match your filters.</td></tr>') + '</tbody></table>';
+
+    var trs = c.querySelectorAll('tr[data-deal-id]');
+    for (var i = 0; i < trs.length; i++) {
+      trs[i].addEventListener('click', function(){ openDrawer(this.getAttribute('data-deal-id')); });
+    }
   }
 
   /* ── Drag & Drop ────────────────────────────────────────────────── */
@@ -749,13 +1082,9 @@
   }
 
   function initDragDrop() {
-    var cards = document.querySelectorAll(".deal-card");
+    var cards = document.querySelectorAll(".deal-card[data-deal-id]");
     var columns = document.querySelectorAll(".column-cards");
-
-    for (var i = 0; i < cards.length; i++) {
-      wireCard(cards[i]);
-    }
-
+    for (var i = 0; i < cards.length; i++) wireCard(cards[i]);
     for (var j = 0; j < columns.length; j++) {
       columns[j].addEventListener("dragover", handleDragOver);
       columns[j].addEventListener("dragenter", handleDragEnter);
@@ -766,6 +1095,7 @@
 
   function handleCardClick(e) {
     if (draggedCard) return;
+    if (e.target && e.target.closest && e.target.closest('.pipe-quick-action')) return;
     var dealId = this.getAttribute("data-deal-id");
     if (dealId) openDrawer(dealId);
   }
@@ -780,35 +1110,23 @@
   function handleDragEnd() {
     this.classList.remove("dragging");
     var cols = document.querySelectorAll(".column-cards");
-    for (var i = 0; i < cols.length; i++) {
-      cols[i].classList.remove("drag-over");
-    }
+    for (var i = 0; i < cols.length; i++) cols[i].classList.remove("drag-over");
     draggedCard = null;
   }
 
-  function handleDragOver(e) {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = "move";
-  }
-
-  function handleDragEnter(e) {
-    e.preventDefault();
-    this.classList.add("drag-over");
-  }
-
-  function handleDragLeave() {
-    this.classList.remove("drag-over");
-  }
+  function handleDragOver(e) { e.preventDefault(); e.dataTransfer.dropEffect = "move"; }
+  function handleDragEnter(e) { e.preventDefault(); this.classList.add("drag-over"); }
+  function handleDragLeave() { this.classList.remove("drag-over"); }
 
   function handleDrop(e) {
     e.preventDefault();
     this.classList.remove("drag-over");
-
     if (!draggedCard) return;
 
     var newStageName = this.getAttribute("data-stage");
     var dealId = parseInt(draggedCard.getAttribute("data-deal-id"), 10);
     var newStageId = stageIdByName(newStageName);
+    var newProb = stageProbByName(newStageName);
 
     this.appendChild(draggedCard);
 
@@ -816,12 +1134,11 @@
       if (dealsData[i].id === dealId) {
         dealsData[i].stage = newStageName;
         dealsData[i].stage_id = newStageId;
+        dealsData[i].probability = newProb;
         dealsData[i].days_in_stage = 0;
         break;
       }
     }
-
-    updateColumnCounts();
 
     var col = this.closest('.pipeline-column');
     var nameEl = col ? col.querySelector('.column-name') : null;
@@ -834,34 +1151,18 @@
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;
       if (nameEl) nameEl.textContent = originalText;
+      renderKpiBar();
     };
-    xhr.send(JSON.stringify({ stage_id: newStageId }));
+    xhr.send(JSON.stringify({ stage_id: newStageId, probability: newProb }));
   }
 
-  /* ── Column count/value update ──────────────────────────────────── */
+  /* ── Helpers ────────────────────────────────────────────────────── */
 
-  function updateColumnCounts() {
-    var columns = document.querySelectorAll(".pipeline-column");
-    for (var i = 0; i < columns.length; i++) {
-      var cards = columns[i].querySelectorAll(".deal-card");
-      var count = cards.length;
-      var totalValue = 0;
-
-      for (var j = 0; j < cards.length; j++) {
-        var dealId = parseInt(cards[j].getAttribute("data-deal-id"), 10);
-        for (var k = 0; k < dealsData.length; k++) {
-          if (dealsData[k].id === dealId) {
-            totalValue += parseInt(dealsData[k].value, 10) || 0;
-            break;
-          }
-        }
-      }
-
-      var countEl = columns[i].querySelector(".column-count");
-      var valueEl = columns[i].querySelector(".column-value");
-      if (countEl) countEl.textContent = count;
-      if (valueEl) valueEl.textContent = "$" + (totalValue / 1000).toFixed(1) + "k";
-    }
+  function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str).replace(/[&<>"']/g, function(m){
+      return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[m];
+    });
   }
 
 })();

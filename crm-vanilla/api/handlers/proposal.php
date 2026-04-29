@@ -4,6 +4,11 @@
  * GET /api/?r=proposal&url=<target>&name=<name>&email=<email>&company=<company>
  * Returns: HTML (Content-Type: text/html) suitable for Save-as-PDF.
  */
+
+// Rate limit: 5 proposals per 5 minutes per IP (each call makes an outbound curl + heavy DOM parse)
+require_once __DIR__ . '/../lib/rate_limit.php';
+rate_limit('proposal', 5, 300);
+
 if ($method !== 'GET') jsonError('GET required', 405);
 
 $targetUrl = $_GET['url']     ?? '';

@@ -4,6 +4,11 @@
  * GET /api/?r=analyze&url=https://example.com
  * Returns: {url, scores:{seo,perf,a11y,bp}, checks:{seo:[...], perf:[...], ...}, fetched_ms, size_kb}
  */
+
+// Rate limit: 15 analyses per 5 minutes per IP (prevents abuse of outbound curl)
+require_once __DIR__ . '/../lib/rate_limit.php';
+rate_limit('analyze', 15, 300);
+
 if ($method !== 'GET') jsonError('GET required', 405);
 
 $url = $_GET['url'] ?? '';

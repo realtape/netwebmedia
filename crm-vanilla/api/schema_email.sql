@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `email_templates` (
   `from_name` VARCHAR(255) DEFAULT 'NetWebMedia',
   `from_email` VARCHAR(255) DEFAULT 'newsletter@netwebmedia.com',
   `niche` VARCHAR(100) DEFAULT NULL,
+  `requires_plan` TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '0=starter,1=professional,2=enterprise',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;

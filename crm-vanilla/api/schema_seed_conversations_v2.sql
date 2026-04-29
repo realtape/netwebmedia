@@ -25,22 +25,22 @@ VALUES
   (4, 'whatsapp', NULL, 1, NOW(), NOW());
 
 -- Seed messages for each conversation
-INSERT IGNORE INTO messages (conversation_id, sender, body, sent_at, created_at)
+INSERT IGNORE INTO messages (conversation_id, sender, body, sent_at)
 VALUES
-  (1, 'them', 'Hi! Just wanted to check in on the Q2 campaign timeline.', '2026-04-14 09:15:00', NOW()),
-  (1, 'me', 'Hey Sofia! We are on track. Creative briefs go out this Friday.', '2026-04-14 09:22:00', NOW()),
-  (1, 'them', 'Perfect. Can we add a TikTok component?', '2026-04-14 09:30:00', NOW()),
-  (2, 'them', 'Carlos here. The SEO report looks great, just one question about the keyword clusters.', '2026-04-13 14:00:00', NOW()),
-  (2, 'me', 'Sure, which cluster?', '2026-04-13 14:05:00', NOW()),
-  (2, 'them', 'The long-tail group for enterprise SaaS terms.', '2026-04-13 14:08:00', NOW()),
-  (2, 'me', 'Good catch. Let me send you the expanded analysis by EOD.', '2026-04-13 14:12:00', NOW()),
-  (3, 'me', 'Hi Isabella, following up on the social media proposal we sent last week.', '2026-04-12 11:00:00', NOW()),
-  (3, 'them', 'Thanks for following up! We are reviewing internally. Should have an answer by Wednesday.', '2026-04-12 16:30:00', NOW()),
-  (4, 'me', 'Hi Valentina, your ad campaign is live! Here are the first 24h metrics.', '2026-04-14 08:00:00', NOW()),
-  (4, 'them', 'Wow, 3.2% CTR already? That is amazing!', '2026-04-14 08:45:00', NOW()),
-  (5, 'them', 'Mateo from Andean Ventures. When can we schedule the brand discovery call?', '2026-04-11 10:00:00', NOW()),
-  (5, 'me', 'How about Thursday 2pm?', '2026-04-11 10:30:00', NOW()),
-  (5, 'them', 'Works for me. Send me the calendar invite.', '2026-04-11 10:35:00', NOW()),
-  (6, 'them', 'Hey, Diego here. Can you send me the landing page mockups?', '2026-04-14 07:30:00', NOW()),
-  (6, 'me', 'Sure, they are almost ready. Give me 2 hours.', '2026-04-14 07:45:00', NOW()),
-  (6, 'them', 'No rush, just whenever you can.', '2026-04-14 07:50:00', NOW());
+  (1, 'them', 'Hi! Just wanted to check in on the Q2 campaign timeline.', '2026-04-14 09:15:00'),
+  (1, 'me', 'Hey Sofia! We are on track. Creative briefs go out this Friday.', '2026-04-14 09:22:00'),
+  (1, 'them', 'Perfect. Can we add a TikTok component?', '2026-04-14 09:30:00'),
+  (2, 'them', 'Carlos here. The SEO report looks great, just one question about the keyword clusters.', '2026-04-13 14:00:00'),
+  (2, 'me', 'Sure, which cluster?', '2026-04-13 14:05:00'),
+  (2, 'them', 'The long-tail group for enterprise SaaS terms.', '2026-04-13 14:08:00'),
+  (2, 'me', 'Good catch. Let me send you the expanded analysis by EOD.', '2026-04-13 14:12:00'),
+  (3, 'me', 'Hi Isabella, following up on the social media proposal we sent last week.', '2026-04-12 11:00:00'),
+  (3, 'them', 'Thanks for following up! We are reviewing internally. Should have an answer by Wednesday.', '2026-04-12 16:30:00'),
+  (4, 'me', 'Hi Valentina, your ad campaign is live! Here are the first 24h metrics.', '2026-04-14 08:00:00'),
+  (4, 'them', 'Wow, 3.2% CTR already? That is amazing!', '2026-04-14 08:45:00'),
+  (5, 'them', 'Mateo from Andean Ventures. When can we schedule the brand discovery call?', '2026-04-11 10:00:00'),
+  (5, 'me', 'How about Thursday 2pm?', '2026-04-11 10:30:00'),
+  (5, 'them', 'Works for me. Send me the calendar invite.', '2026-04-11 10:35:00'),
+  (6, 'them', 'Hey, Diego here. Can you send me the landing page mockups?', '2026-04-14 07:30:00'),
+  (6, 'me', 'Sure, they are almost ready. Give me 2 hours.', '2026-04-14 07:45:00'),
+  (6, 'them', 'No rush, just whenever you can.', '2026-04-14 07:50:00');

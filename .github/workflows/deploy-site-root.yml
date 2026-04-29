@@ -336,18 +336,25 @@ jobs:
       - name: Run CRM DB migrations
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
         run: |
-          # Idempotent — ALTER TABLE IF NOT EXISTS + safe UPDATEs.
-          # Runs on every deploy; no-ops if columns already exist.
-          for schema in deals_v2; do
-            echo "Running migration: $schema"
-            resp=$(curl -sS --max-time 20 \
-              -A "Mozilla/5.0 (gh-actions migrate)" \
-              -X POST \
-              "https://app.netwebmedia.com/api/?r=migrate&token=NWM_MIGRATE_2026&schema=$schema")
-            echo "  $schema → $resp"
-            # Fail loudly if the endpoint itself errored (not just SQL warnings)
-            echo "$resp" | grep -q '"ran"' || { echo "Migration endpoint did not return expected JSON"; exit 1; }
-          done
+          # Auto-discovers every crm-vanilla/api/schema_*.sql file.
+          # Drop a new schema_xxx.sql → it runs automatically on next deploy.
+          # All migrations must be idempotent (ALTER TABLE IF NOT EXISTS, etc.).
+          shopt -s nullglob
+          schemas=( _stage/crm-vanilla/api/schema_*.sql )
+          if [ ${#schemas[@]} -eq 0 ]; then
+            echo "No schema_*.sql files found — skipping migrations"
+          else
+            for sql_file in "${schemas[@]}"; do
+              schema=$(basename "$sql_file" .sql | sed 's/^schema_//')
+              echo "Running migration: $schema"
+              resp=$(curl -sS --max-time 20 \
+                -A "Mozilla/5.0 (gh-actions migrate)" \
+                -X POST \
+                "https://app.netwebmedia.com/api/?r=migrate&token=NWM_MIGRATE_2026&schema=$schema")
+              echo "  $schema → $resp"
+              echo "$resp" | grep -q '"ran"' || { echo "Migration $schema did not return expected JSON"; exit 1; }
+            done
+          fi
           echo "Migrations complete"
 
       - name: Smoke test live URLs

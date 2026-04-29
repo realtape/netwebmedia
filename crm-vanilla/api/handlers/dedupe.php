@@ -6,7 +6,7 @@
  * POST /api/?r=dedupe&token=NWM_DEDUPE_2026
  *   Optional: &dry_run=1  -> report only, no deletes
  */
-if ($method !== 'POST') jsonError('Use POST', 405);
+if (!in_array($method, ['GET', 'POST'], true)) jsonError('Use GET or POST', 405);
 require_once __DIR__ . '/../lib/tenancy.php';
 if (!hash_equals(DEDUPE_TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 // SECURITY (C2): token-gated routes are master-org admin operations. Ignore

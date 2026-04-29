@@ -53,17 +53,15 @@ $agent = qOne("SELECT * FROM resources WHERE type = 'ai_agent' AND data LIKE ?",
 
 ## Backend findings — `backend/` (Django)
 
-**Status: shelf-ware.** Two commits in git history (`Initial commit` + `comprehensive hardening pass`), `db.sqlite3` present, apps `accounts`, `common`, `crm`, `organizations` exist with migrations, but **no settings.py was found** under `backend/config/` (only `__pycache__`). Nothing in `_deploy/` or workflows references it. CLAUDE.md says "separate from `crm-vanilla` and not deployed."
+**Status: shelf-ware.** Two commits touching it, `db.sqlite3` present, apps `accounts/common/crm/organizations` with migrations, **no `settings.py`** in `backend/config/` (only `__pycache__`). No deploy workflow references it.
 
-**Verdict: delete it or commit to it.** Maintaining a Django CRM you don't deploy is pure cognitive overhead — every engineer will ask "which is the real one?" If you want a real multi-tenant CRM, Django's `Organization`/`Membership` pattern + DRF + Celery is the right architecture (and dramatically better than the PHP `resources` EAV at scale). But you can't run two CRM backends in production.
+**Verdict: kill it or commit to it.** Maintaining a Django CRM you don't deploy is cognitive overhead — every engineer asks "which is real?" If you want true multi-tenant, Django's `Organization`/`Membership` + DRF + Celery is the right architecture and dramatically better than the PHP EAV at scale. You cannot run two CRM backends in parallel.
 
 ---
 
 ## `crm-vanilla/` reality check
 
-`crm-vanilla/js/data.js` is **mock data** — Sarah Chen, Marcus Johnson, hardcoded $24,500 deals. The `crm-vanilla/api/` PHP handlers (37 files) are real and connect to MySQL (`schema.sql` is a clean normalized contacts/deals/conversations schema — completely separate from `api-php/`'s `resources` table). So you have **two production databases with no shared tenancy model**: `api-php` runs on `resources`, `crm-vanilla/api` runs on its own `contacts`/`deals`/`pipeline_stages`/`messages` schema. A signup in one is invisible to the other.
-
-This is the central architectural problem. Pick one.
+`crm-vanilla/js/data.js` is **mock data** — Sarah Chen, Marcus Johnson, hardcoded $24,500 deals. The `crm-vanilla/api/` PHP handlers (37 files) are real and hit MySQL using a normalized `contacts/deals/pipeline_stages/messages` schema — **completely separate from `api-php/`'s `resources` table**. Two production databases with no shared tenancy. A signup in `api-php` is invisible to `crm-vanilla`. **This is the central architectural problem. Pick one.**
 
 ---
 
@@ -94,11 +92,11 @@ This is the central architectural problem. Pick one.
 
 ## Tech-stack gaps
 
-1. **No automated tests anywhere.** No PHPUnit, no Jest, no Cypress, no `tests/` dir in `api-php/`. The 04-29 surface audit + this audit are the QA layer. For a CRM holding customer PII, this is the single largest risk.
-2. **No staging environment.** `_deploy` workflows push straight to production InMotion. There's no `staging.netwebmedia.com` deploy target. Ad-hoc rollback = re-deploy previous commit, which is fine for static HTML but dangerous for `migrate.php`.
-3. **Backups undocumented.** `crm-vanilla/backup-status.json` is written by an auto-save commit loop (commits like "backup: auto-save 2026-04-29 07:47" pollute history). Real DB backups are presumably cPanel JetBackup but not codified or monitored.
-4. **No observability on the API.** Sentry is wired in JS only. PHP errors go to `error_log` with no aggregation. We can't see API 500 rates without SSH.
-5. **Secrets discipline.** Good: keys live in `/home/webmed6/.netwebmedia-config.php`, deploy-rotatable keys come from GH secrets. Bad: `migrate.php` is reachable by HTTP and auth'd by "first 16 chars of jwt_secret" — leak the JWT secret once and you've also leaked migration access.
+1. **Zero automated tests.** No PHPUnit, no Jest, no Cypress, no `tests/` in `api-php/`. For a CRM holding PII this is the single largest risk.
+2. **No staging.** Workflows push straight to production InMotion. No `staging.netwebmedia.com`. Rollback = redeploy previous commit — fine for static HTML, dangerous for `migrate.php`.
+3. **Backups undocumented.** `crm-vanilla/backup-status.json` is written by an auto-save commit loop polluting git history. DB backups are presumably JetBackup but neither codified nor monitored.
+4. **No API-side observability.** Sentry is JS-only. PHP errors go to `error_log` with no aggregation. We cannot see API 500 rates without SSH.
+5. **`migrate.php` is HTTP-reachable**, auth'd by "first 16 chars of jwt_secret" — leak the JWT once and migration access leaks with it. Should be CLI-only or IP-allowlisted.
 
 ---
 

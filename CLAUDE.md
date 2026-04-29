@@ -79,7 +79,16 @@ Deploys are **incremental sync by hash** (`SamKirkland/FTP-Deploy-Action`) — s
 
 ### Config generation at deploy time
 
-`deploy-site-root.yml` generates `api-php/config.local.php` and `crm-vanilla/api/config.local.php` on the fly from GitHub Secrets using Python string interpolation. It also auto-runs any `crm-vanilla/api/schema_*.sql` migrations via HTTP POST to `/crm-vanilla/api/?r=migrate` after each deploy. **Migrations must be idempotent** — they run on every deploy with no version tracking.
+`deploy-site-root.yml` generates `api-php/config.local.php` and `crm-vanilla/api/config.local.php` on the fly from GitHub Secrets using Python string interpolation. It also auto-runs any `crm-vanilla/api/schema_*.sql` migrations via HTTP POST to `/crm-vanilla/api/?r=migrate` after each deploy.
+
+### Migration system — idempotent by design, no version tracking
+
+Drop a new `crm-vanilla/api/schema_<name>.sql` file → it auto-runs on the next deploy. Rules:
+
+- **Migrations must be idempotent** — they run on every deploy. No tracking table.
+- **Use plain `ALTER TABLE` / `CREATE TABLE` / `INSERT IGNORE`.** Do NOT use `SET @x := (SELECT ... FROM information_schema)` + `PREPARE/EXECUTE` patterns — they leave PDO cursors open and fail mid-batch with "Cannot execute queries while other unbuffered queries are active." (We enable `MYSQL_ATTR_USE_BUFFERED_QUERY` in `crm-vanilla/api/config.php` as a defense, but the SET pattern still breaks under emulated prepares — just write plain DDL.)
+- **`migrate.php` swallows expected idempotency errors** by substring match: codes `1060` (dup column), `1061` (dup key), `1050` (table exists), `1062` (dup entry), `1826` (dup FK name), and `errno: 121` (InnoDB FK name clash via 1005). It returns `{ran, skipped, errors}` JSON; the CI step fails if `"ran"` isn't present.
+- **mod_security on InMotion 406-blocks bare curl UAs.** The CI migrate step in `deploy-site-root.yml` MUST send full Chrome `User-Agent` + `Origin: https://netwebmedia.com` + `Referer: https://netwebmedia.com/crm-vanilla/` headers. Don't simplify the curl call.
 
 Required GitHub Actions secrets: `JWT_SECRET`, `DB_PASSWORD`, `RESEND_API_KEY`, `ANTHROPIC_API_KEY`, `HUBSPOT_TOKEN`, `MP_ACCESS_TOKEN`, `MP_PUBLIC_KEY`, `MP_WEBHOOK_SECRET`, `TWILIO_SID`, `TWILIO_TOKEN`, `TWILIO_FROM`, `WA_VERIFY_TOKEN`, `WA_META_TOKEN`, `WA_PHONE_ID`, `WA_META_APP_SECRET`, `CPANEL_FTP_ROOT_USER`, `CPANEL_FTP_ROOT_PASSWORD`, `CPANEL_FTP_USER`, `CPANEL_FTP_PASSWORD`.
 
@@ -100,9 +109,15 @@ The API uses a **single generic `resources` table** as an EAV store — every en
 
 **Cron route** (`GET /api/cron`) processes the `email_sequence_queue` table — send next batch of drip emails. Must be called by an external scheduler (e.g. cPanel cron job every 5 min).
 
-**Rate limiting** is file-based — `/api/data/ratelimit/<ip-hash>.json`. Survives PHP-FPM restarts; no Redis needed.
+**Rate limiting** is file-based — `/api/data/ratelimit/<ip-hash>.json` (api-php) and `crm-vanilla/storage/ratelimit/` (CRM). Uses `flock(LOCK_EX)` for atomicity + probabilistic GC. Survives PHP-FPM restarts; no Redis needed. Web access to the storage dir is blocked by `.htaccess`.
 
 **Honeypot behavior:** Bot submissions get a silent 200 with fake `submission_id: 0` (not 403) to prevent bot adaptation.
+
+**Multi-tenant isolation** in `crm-vanilla/api/`: every owned table (`contacts`, `deals`, `events`, `email_templates`, `email_campaigns`, `conversations`) carries a nullable `user_id` column. Handlers MUST filter via the `tenant_where()` / `tenant_owns()` helpers in `crm-vanilla/api/lib/tenancy.php`. Legacy rows (`user_id IS NULL`) are visible to all tenants by design — backfilled rows belong to user 1 (Carlos).
+
+**SSRF defense** for any handler that fetches user-supplied URLs (e.g. `analyze`, `proposal`): use `url_guard()` from `crm-vanilla/api/lib/url_guard.php`. It DNS-resolves and rejects loopback, private, link-local, and AWS-metadata (169.254.169.254) ranges. Never disable curl SSL verification — production CA bundle works fine on InMotion.
+
+**CSRF defense:** `crm-vanilla/api/index.php` enforces a same-origin `Origin`/`Referer` check on all state-changing requests, plus session cookies are `SameSite=Strict`. Auth tokens are hash_equals-compared.
 
 ### API route modules (`api-php/routes/`)
 
@@ -219,6 +234,14 @@ NetWebMedia uses **Claude Pro Max / Anthropic API** internally — never referen
 Sentry is wired in `js/nwm-sentry.js` and loaded sitewide. The Sentry org/project is `netwebmedia`. When debugging production issues, check Sentry first.
 
 GA4 is wired across pages; lead capture also writes through `api-php/` to the CRM.
+
+## XSS hygiene in `crm-vanilla/`
+
+The CRM is vanilla JS with lots of `innerHTML` for templating. Any user-controlled string going into `innerHTML` MUST be routed through `CRM_APP.esc()` (defined in `crm-vanilla/js/app.js`) — it HTML-escapes via a textNode write. Already retrofitted across `conversations.js`, `calendar.js`, `reporting.js`; apply the same pattern when touching other modules.
+
+## Auto-backup commits — consolidate before pushing
+
+A local `auto-save` script periodically commits and pushes WIP as `backup: auto-save <timestamp>`. They fragment history. Before/after a substantive change, consolidate with `git reset --soft <pre-backup-sha>` + a single named commit + `git push --force-with-lease`. Never reset/force-push without `--force-with-lease`, and never on `main` without checking the run queue first.
 
 ## Operational notes
 

@@ -26,12 +26,14 @@ $sql = file_get_contents($sqlFile);
 $sql = preg_replace('/^\s*--.*$/m', '', $sql);
 $statements = array_filter(array_map('trim', explode(';', $sql)));
 
-// MySQL error codes that mean "the change is already applied" — safe to skip on idempotent re-runs.
+// MySQL error codes / messages that mean "the change is already applied" — safe to skip on idempotent re-runs.
 $idempotent_codes = [
-    '1060', // ER_DUP_FIELDNAME — Duplicate column name
-    '1061', // ER_DUP_KEYNAME   — Duplicate key name
-    '1050', // ER_TABLE_EXISTS_ERROR
-    '1062', // ER_DUP_ENTRY (only matters if backfill UNIQUE clashes)
+    '1060',      // ER_DUP_FIELDNAME — Duplicate column name
+    '1061',      // ER_DUP_KEYNAME   — Duplicate key name
+    '1050',      // ER_TABLE_EXISTS_ERROR
+    '1062',      // ER_DUP_ENTRY (only matters if backfill UNIQUE clashes)
+    '1826',      // ER_FK_DUP_NAME   — Duplicate foreign key constraint name (MySQL 5.7+)
+    'errno: 121',// InnoDB "Duplicate key on write or update" — old-style FK name clash (errno 121 surfaces as 1005)
 ];
 
 $ran = 0; $skipped = 0; $errors = [];

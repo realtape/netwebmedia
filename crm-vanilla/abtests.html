@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A/B Tests - NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css?v=8">
+  <style>
+    .test-card { background:#fff; border:1px solid #e3e5ee; border-radius:10px; padding:16px; margin-bottom:10px; }
+    .test-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; }
+    .test-head .title { font:700 16px Inter; color:#010F3B; }
+    .test-head .slug { color:#94a3b8; font:600 11px monospace; margin-top:2px; }
+    .test-head .hypothesis { color:#64748b; font:500 12px Inter; margin-top:4px; }
+    .badge { display:inline-block; padding:2px 8px; border-radius:6px; font:700 11px Inter; text-transform:uppercase; letter-spacing:.3px; }
+    .badge.draft   { background:#f2f3f8; color:#64748b; }
+    .badge.running { background:#dcfce7; color:#166534; }
+    .badge.paused  { background:#fee2e2; color:#b91c1c; }
+    .variants-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; margin-top:14px; }
+    .variant { background:#f8fafc; border:1px solid #e3e5ee; border-radius:8px; padding:12px; }
+    .variant.winner { background:#fff8eb; border-color:#fbbf24; }
+    .variant .v-name { font:700 13px Inter; color:#010F3B; }
+    .variant .v-payload { font:500 11px monospace; color:#64748b; margin-top:4px; word-break:break-all; max-height:48px; overflow:hidden; }
+    .variant .v-stats { display:flex; justify-content:space-between; margin-top:8px; font:600 11px Inter; }
+    .variant .v-stats .lift { color:#10b981; }
+    .variant .v-stats .lift.neg { color:#b91c1c; }
+
+    .modal-backdrop { position:fixed; inset:0; background:rgba(2,8,23,.55); z-index:1000; display:none; align-items:center; justify-content:center; }
+    .modal-backdrop.open { display:flex; }
+    .modal { background:#fff; border-radius:14px; padding:22px; width:600px; max-width:92vw; max-height:88vh; overflow:auto; box-shadow:0 20px 50px rgba(0,0,0,.25); }
+    .modal h3 { margin:0 0 14px; color:#010F3B; }
+    .modal label { display:block; color:#1a1a2e; font:600 12px Inter; margin:10px 0 4px; text-transform:uppercase; letter-spacing:.4px; }
+    .modal input, .modal textarea, .modal select { width:100%; padding:9px 10px; border:1px solid #e3e5ee; border-radius:8px; font:400 14px Inter; }
+    .modal textarea { min-height:60px; resize:vertical; }
+    .modal-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:18px; }
+    .v-row { display:grid; grid-template-columns:120px 1fr 30px; gap:8px; align-items:center; margin-bottom:6px; }
+    .v-row input { padding:7px 10px; }
+    .v-row button { background:transparent; border:none; color:#b91c1c; cursor:pointer; }
+    .empty-state { text-align:center; padding:50px 20px; color:#64748b; }
+    .toast { position:fixed; bottom:24px; right:24px; background:#10b981; color:#fff; padding:10px 16px; border-radius:8px; font:600 13px Inter; z-index:1100; box-shadow:0 4px 14px rgba(0,0,0,.15); }
+    .toast.error { background:#b91c1c; }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+          <p style="margin:0;color:#64748b;font:500 13px Inter">A/B test landing pages, email subjects, button copy, or anything else. Public assign/convert endpoints at <code>/api/public/ab/assign</code>.</p>
+          <button class="btn btn-primary" id="newTestBtn">+ New Test</button>
+        </div>
+        <div id="testsList"></div>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="testModal">
+    <div class="modal">
+      <h3 id="testModalTitle">New A/B Test</h3>
+      <input type="hidden" id="testId">
+      <label>Slug (URL-safe, used in public endpoints)</label>
+      <input id="testSlug" placeholder="hero-headline">
+      <label>Test Name</label>
+      <input id="testName" placeholder="Hero headline — value vs urgency">
+      <label>Hypothesis</label>
+      <textarea id="testHypothesis" placeholder="If we lead with urgency instead of value, conversion will increase by X%"></textarea>
+      <label>Variants</label>
+      <div id="variantsBox"></div>
+      <button type="button" class="btn btn-secondary" id="addVariantBtn" style="margin-top:6px">+ Add Variant</button>
+      <label>Status</label>
+      <select id="testStatus">
+        <option value="draft">Draft</option>
+        <option value="running" selected>Running</option>
+        <option value="paused">Paused</option>
+      </select>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="testCancel">Cancel</button>
+        <button class="btn btn-danger"   id="testDelete" style="display:none">Delete</button>
+        <button class="btn btn-primary"  id="testSave">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js?v=8"></script>
+  <script src="js/abtests.js?v=1"></script>
+  <script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

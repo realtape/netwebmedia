@@ -6,6 +6,8 @@
   var channelFilter = "all";
   var conversationList = [];
   var L;
+  var pollTimer = null;
+  var POLL_MS = 30000; // 30s — critical for catching new leads
 
   document.addEventListener("DOMContentLoaded", function () {
     var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
@@ -17,7 +19,21 @@
     CRM_APP.buildHeader(CRM_APP.t('nav.conversations'));
     bindEvents();
     loadConversations();
+    startPolling();
   });
+
+  function startPolling() {
+    stopPolling();
+    pollTimer = setInterval(function () {
+      if (!document.hidden) loadConversations();
+    }, POLL_MS);
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) loadConversations();
+    });
+  }
+  function stopPolling() {
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+  }
 
   function bindEvents() {
     var channelBtns = document.querySelectorAll(".channel-btn");

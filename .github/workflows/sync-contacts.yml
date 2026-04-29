@@ -1,0 +1,70 @@
+name: Sync Contacts (Chile + USA)
+
+# Runs every 15 minutes to keep CRM contacts current.
+# Also callable manually via workflow_dispatch.
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run only (no DB writes)'
+        type: boolean
+        default: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Import Chile CSV contacts
+        env:
+          IMPORT_CSV_TOKEN: ${{ secrets.IMPORT_CSV_TOKEN }}
+        run: |
+          token="${IMPORT_CSV_TOKEN:-NWM_IMPORT_CHILE_2026}"
+          dry="${{ inputs.dry_run == true && '&dry=1' || '' }}"
+          echo "→ Importing Chile CSV contacts..."
+          resp=$(curl -sS --max-time 90 \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
+            -H "Accept: application/json,text/plain,*/*" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "https://netwebmedia.com/crm-vanilla/api/?r=import_csv&token=${token}${dry}")
+          echo "  chile_csv → $resp"
+          echo "$resp" | grep -qE '"inserted"|"parsed"' || { echo "ERROR: Unexpected response from import_csv"; exit 1; }
+
+      - name: Import Chile best prospects
+        env:
+          IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
+        run: |
+          token="${IMPORT_BEST_TOKEN:-NWM_IMPORT_BEST_2026}"
+          dry="${{ inputs.dry_run == true && '&dry=1' || '' }}"
+          echo "→ Importing Chile best prospects..."
+          resp=$(curl -sS --max-time 120 \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
+            -H "Accept: application/json,text/plain,*/*" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "https://netwebmedia.com/crm-vanilla/api/?r=import_best&token=${token}&country=chile${dry}")
+          echo "  chile_best → $resp"
+          echo "$resp" | grep -qE '"inserted"|"parsed"' || { echo "ERROR: Unexpected response from import_best (chile)"; exit 1; }
+
+      - name: Import USA best prospects
+        env:
+          IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
+        run: |
+          token="${IMPORT_BEST_TOKEN:-NWM_IMPORT_BEST_2026}"
+          dry="${{ inputs.dry_run == true && '&dry=1' || '' }}"
+          echo "→ Importing USA best prospects..."
+          resp=$(curl -sS --max-time 120 \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
+            -H "Accept: application/json,text/plain,*/*" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "https://netwebmedia.com/crm-vanilla/api/?r=import_best&token=${token}&country=usa${dry}")
+          echo "  usa_best → $resp"
+          echo "$resp" | grep -qE '"inserted"|"parsed"' || { echo "ERROR: Unexpected response from import_best (usa)"; exit 1; }
+
+      - name: Summary
+        run: echo "Contact sync complete at $(date -u)"

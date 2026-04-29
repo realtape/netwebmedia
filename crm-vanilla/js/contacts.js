@@ -84,6 +84,11 @@
     injectSortCSS();
     bindEvents();
     loadContacts();
+    // Auto-refresh every 15 min — matches the import sync cycle
+    setInterval(function () { if (!document.hidden) loadContacts(); }, 15 * 60 * 1000);
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) loadContacts();
+    });
   });
 
   window.loadContacts = loadContacts;

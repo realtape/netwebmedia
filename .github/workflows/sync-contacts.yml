@@ -200,5 +200,16 @@ jobs:
           echo "  usa_full → $resp"
           echo "$resp" | grep -qE '"inserted"|"parsed"' || { echo "ERROR: Unexpected response from import_best (usa_full)"; exit 1; }
 
+      - name: Generate best-30k USA list (tag segment usa_best_30k)
+        continue-on-error: true
+        run: |
+          resp=$(curl -sS --max-time 180 \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
+            -H "Accept: application/json,text/plain,*/*" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "https://netwebmedia.com/crm-vanilla/api/?r=gen_best_usa&token=NWM_GEN_BEST_2026&run=1&limit=30000")
+          echo "  gen_best_usa → $resp"
+
       - name: Summary
         run: echo "Contact sync complete at $(date -u)"

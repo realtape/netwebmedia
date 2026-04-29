@@ -245,7 +245,14 @@ function require_org_access_for_write(string $requiredRole = 'member'): void {
  */
 function org_where(string $tableAlias = ''): array {
     $orgId = current_org_id();
-    if ($orgId === null) return ['1=0', []]; // fail closed
+    if ($orgId === null) {
+        // Superadmins are globally privileged. If the org can't be resolved
+        // (e.g. JWT auth with no PHP session, no org_members seed, host doesn't
+        // match subdomain), fail OPEN for superadmins so they don't get locked
+        // out of their own data. Everyone else still fails closed.
+        if (tenant_is_superadmin()) return ['1=1', []];
+        return ['1=0', []]; // fail closed for non-superadmins
+    }
 
     if ($orgId === ORG_MASTER_ID) {
         // Master org sees all rows by default. If you want master to be scoped

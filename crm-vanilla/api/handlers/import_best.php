@@ -157,8 +157,11 @@ if (!$dry) {
         ];
         if ($importOrgId !== null) $bind[':organization_id'] = $importOrgId;
         $stmt->execute($bind);
-        $inserted += $stmt->rowCount();
-        $skipped  += (1 - $stmt->rowCount());
+        if ($stmt->rowCount() > 0) {
+            $inserted++;
+        } else {
+            $skipped++;
+        }
     }
 }
 
@@ -182,6 +185,8 @@ foreach ($rows as $r) {
 arsort($regions);
 $regions = array_slice($regions, 0, 20, true);
 
+$totalInDB = (int)$db->query('SELECT COUNT(*) FROM contacts')->fetchColumn();
+
 jsonResponse([
     'dry_run'         => $dry,
     'country'         => $country,
@@ -192,6 +197,7 @@ jsonResponse([
     'parsed'          => $parsed,
     'inserted'        => $dry ? 0 : $inserted,
     'skipped_dupe'    => $dry ? 0 : $skipped,
+    'total_in_db'     => $totalInDB,
     'by_niche'        => $niches,
     'by_region_top20' => $regions,
 ]);

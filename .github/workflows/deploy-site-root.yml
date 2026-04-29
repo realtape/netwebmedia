@@ -292,18 +292,19 @@ jobs:
             "_fixcmoprices.php"
           )
           for f in "${DELETIONS[@]}"; do
-            # Use curl with explicit FTPS, passive mode, short connect+overall timeouts.
-            # --quote runs raw FTP commands; DELE is the FTP delete verb.
-            # 550 means "file not found" (already gone — fine). Other codes are warnings.
+            # Use ftp:// + --ftp-ssl for EXPLICIT FTPS on port 21 (FTPES).
+            # The ftps:// URL scheme would default to implicit FTPS on port 990,
+            # which most cPanel hosts (including InMotion) don't expose externally.
+            # 550 = file not found (already gone — fine). Other codes are warnings.
             code=$(curl --silent --show-error \
                         --user "$FTP_USER:$FTP_PASS" \
                         --ftp-ssl --ftp-pasv \
-                        --connect-timeout 15 --max-time 30 \
+                        --connect-timeout 10 --max-time 25 \
                         --insecure \
                         --output /dev/null \
-                        --write-out '%{ftp_entry_path}|%{response_code}' \
+                        --write-out '%{response_code}' \
                         --quote "DELE $f" \
-                        "ftps://$FTP_HOST/" 2>&1 || true)
+                        "ftp://$FTP_HOST/" 2>&1 || true)
             echo "  $f -> $code"
           done
           echo "Server-side cleanup complete."

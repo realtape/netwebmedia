@@ -9,6 +9,7 @@
 require_once __DIR__ . '/../lib/db.php';
 require_once __DIR__ . '/../lib/response.php';
 require_once __DIR__ . '/../lib/auth.php';
+require_once __DIR__ . '/../lib/ratelimit.php';
 
 function ai_anthropic_key() {
   $c = config();
@@ -130,8 +131,51 @@ function route_public_agent_chat($parts, $method) {
   ai_ensure_schema();
   if ($method !== 'POST') err('Method not allowed', 405);
   $b = required(['public_token', 'message']);
-  $agent = qOne("SELECT * FROM resources WHERE type = 'ai_agent' AND data LIKE ?", ['%"public_token":"' . addslashes($b['public_token']) . '"%']);
+
+  // --- Bug 2 fix: cross-tenant agent leak ----------------------------------
+  // Old query used `data LIKE '%"public_token":"...%"'` with addslashes(),
+  // which DOES NOT escape SQL LIKE wildcards. A token of `%` would match
+  // every agent in every org. We now (a) reject any token containing LIKE
+  // wildcards or backslash and other obvious junk, and (b) prefer a query
+  // against a dedicated indexed column; we fall back to JSON_EXTRACT
+  // (parameterized, no wildcard semantics) if the column hasn't been
+  // backfilled yet.
+  $token = $b['public_token'];
+  if (!is_string($token) || $token === '' || strlen($token) > 128) {
+    err('Invalid public_token', 400);
+  }
+  // Allow only safe characters. public_tokens are generated server-side as
+  // hex/base32-ish strings — letters, digits, dash, underscore. Anything
+  // outside that set is unambiguously not a real token.
+  if (!preg_match('/^[A-Za-z0-9_\-]+$/', $token)) {
+    err('Invalid public_token', 400);
+  }
+
+  // Prefer the indexed column (added by migrate.php). If the column doesn't
+  // exist yet on this install the SELECT will throw and we fall through to
+  // the JSON_EXTRACT lookup — also safe (no LIKE).
+  $agent = null;
+  try {
+    $agent = qOne("SELECT * FROM resources WHERE type = 'ai_agent' AND public_token = ?", [$token]);
+  } catch (Throwable $e) {
+    $agent = null;
+  }
+  if (!$agent) {
+    $agent = qOne(
+      "SELECT * FROM resources WHERE type = 'ai_agent'
+        AND JSON_UNQUOTE(JSON_EXTRACT(data, '$.public_token')) = ?
+        LIMIT 1",
+      [$token]
+    );
+  }
   if (!$agent) err('Agent not found', 404);
+
+  // --- Bug 3 fix: rate-limit the public chat endpoint ----------------------
+  // 20 requests / hour, scoped by IP+token. Each request is a Claude call,
+  // so this directly bounds spend. Bucket includes the agent id so a
+  // pathological bot can't burn one tenant's budget by abusing another's.
+  $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+  rate_limit_check('public_agent_chat', 20, 3600, $ip . '|' . $agent['id']);
   $data = json_decode($agent['data'] ?: '{}', true) ?: [];
   $session = $b['session_id'] ?? bin2hex(random_bytes(16));
   $history = ai_history($session);

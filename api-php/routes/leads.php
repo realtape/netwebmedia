@@ -209,42 +209,49 @@ function leads_import_csv() {
 }
 
 /**
- * Score & qualify pending leads (status='raw' → status='qualified'|'disqualified')
- * Scoring rules:
- * - Email valid: +10
- * - Phone present: +5
- * - Website present: +10
- * - Niche match: +15
- * - Recent submission: +5
- * Score >= 30 = qualified
+ * Score & qualify pending leads (status='raw' → status='qualified'|'disqualified').
+ * Uses configurable rules from lead_scoring_rules; falls back to built-in defaults
+ * when no rules are configured.
  */
 function leads_qualify() {
+  leads_ensure_scoring_schema();
   $batch = max(1, min(100, (int)($_POST['batch'] ?? 25)));
+
+  $rules = leads_load_rules();
+  $threshold = leads_load_threshold();
 
   $leads = qAll(
     "SELECT id, data FROM resources WHERE type='contact' AND JSON_EXTRACT(data, '$.status')='raw' LIMIT $batch"
   );
 
   $qualified = $disqualified = 0;
+  $applied_rules = []; // count usage for telemetry
 
   foreach ($leads as $lead) {
     $data = json_decode($lead['data'] ?? '{}', true) ?: [];
 
-    $score = 0;
-    if (filter_var($data['email'] ?? '', FILTER_VALIDATE_EMAIL)) $score += 10;
-    if (!empty($data['phone'])) $score += 5;
-    if (!empty($data['website'])) $score += 10;
-    if (!empty($data['niche_key'])) $score += 15;
+    $eval = leads_score_contact($data, $rules);
+    $score = $eval['score'];
+    foreach ($eval['matched'] as $name) {
+      $applied_rules[$name] = ($applied_rules[$name] ?? 0) + 1;
+    }
 
-    $status = $score >= 30 ? 'qualified' : 'disqualified';
+    $status = $score >= $threshold ? 'qualified' : 'disqualified';
     $data['status'] = $status;
     $data['score'] = $score;
+    $data['score_breakdown'] = $eval['breakdown'];
     $data['qualified_at'] = date('Y-m-d H:i:s');
 
     qExec(
       "UPDATE resources SET data=?, updated_at=NOW() WHERE id=?",
       [json_encode($data), $lead['id']]
     );
+
+    if (function_exists('log_activity')) {
+      log_activity($status === 'qualified' ? 'lead.qualified' : 'lead.disqualified',
+                   'contact', (int)$lead['id'],
+                   ['score' => $score, 'threshold' => $threshold]);
+    }
 
     if ($status === 'qualified') $qualified++;
     else $disqualified++;
@@ -254,7 +261,186 @@ function leads_qualify() {
     'ok' => true,
     'qualified' => $qualified,
     'disqualified' => $disqualified,
-    'processed' => $qualified + $disqualified
+    'processed' => $qualified + $disqualified,
+    'threshold' => $threshold,
+    'rules_applied' => $applied_rules,
+    'engine' => $rules ? 'configured' : 'defaults',
+  ]);
+}
+
+/* ─────────────  Scoring rule engine  ───────────── */
+
+function leads_default_rules() {
+  return [
+    ['name' => 'Valid email',     'field' => 'email',     'operator' => 'email',   'value' => null, 'points' => 10],
+    ['name' => 'Phone present',   'field' => 'phone',     'operator' => 'present', 'value' => null, 'points' => 5],
+    ['name' => 'Website present', 'field' => 'website',   'operator' => 'present', 'value' => null, 'points' => 10],
+    ['name' => 'Niche identified','field' => 'niche_key', 'operator' => 'present', 'value' => null, 'points' => 15],
+  ];
+}
+
+function leads_load_rules() {
+  try {
+    $rows = qAll("SELECT * FROM lead_scoring_rules WHERE enabled=1 ORDER BY sort_order ASC, id ASC");
+    if ($rows) return $rows;
+  } catch (Exception $e) {}
+  return leads_default_rules();
+}
+
+function leads_load_threshold() {
+  try {
+    $row = qOne("SELECT threshold FROM lead_scoring_config LIMIT 1");
+    if ($row && isset($row['threshold'])) return (int)$row['threshold'];
+  } catch (Exception $e) {}
+  return 30;
+}
+
+/**
+ * Score a single contact using rules. Returns ['score', 'matched' (rule names), 'breakdown'].
+ * Operators:
+ *   present   — non-empty
+ *   absent    — empty/missing
+ *   email     — passes FILTER_VALIDATE_EMAIL
+ *   equals    — case-insensitive equality
+ *   contains  — substring match (CI)
+ *   starts    — prefix match (CI)
+ *   in        — value in comma-separated list (CI)
+ *   matches   — regex (PCRE)
+ *   gt / gte / lt / lte — numeric compare
+ */
+function leads_score_contact($data, $rules) {
+  $score = 0;
+  $matched = [];
+  $breakdown = [];
+
+  foreach ($rules as $r) {
+    $field = $r['field'] ?? '';
+    $op    = strtolower($r['operator'] ?? 'present');
+    $val   = $r['value'] ?? null;
+    $pts   = (int)($r['points'] ?? 0);
+    $name  = $r['name'] ?? "$field $op";
+
+    $actual = $data[$field] ?? null;
+    if ($actual === '') $actual = null;
+    $hit = false;
+
+    switch ($op) {
+      case 'present':  $hit = $actual !== null && $actual !== ''; break;
+      case 'absent':   $hit = $actual === null || $actual === ''; break;
+      case 'email':    $hit = is_string($actual) && filter_var($actual, FILTER_VALIDATE_EMAIL) !== false; break;
+      case 'equals':   $hit = $actual !== null && strcasecmp((string)$actual, (string)$val) === 0; break;
+      case 'contains': $hit = $actual !== null && stripos((string)$actual, (string)$val) !== false; break;
+      case 'starts':   $hit = $actual !== null && stripos((string)$actual, (string)$val) === 0; break;
+      case 'in':
+        $list = array_map('strtolower', array_map('trim', explode(',', (string)$val)));
+        $hit = $actual !== null && in_array(strtolower((string)$actual), $list, true);
+        break;
+      case 'matches':
+        $hit = $actual !== null && @preg_match('#' . str_replace('#', '\#', (string)$val) . '#i', (string)$actual) === 1;
+        break;
+      case 'gt':  $hit = is_numeric($actual) && (float)$actual >  (float)$val; break;
+      case 'gte': $hit = is_numeric($actual) && (float)$actual >= (float)$val; break;
+      case 'lt':  $hit = is_numeric($actual) && (float)$actual <  (float)$val; break;
+      case 'lte': $hit = is_numeric($actual) && (float)$actual <= (float)$val; break;
+      default:    $hit = false;
+    }
+
+    if ($hit) {
+      $score += $pts;
+      $matched[] = $name;
+      $breakdown[] = ['rule' => $name, 'field' => $field, 'op' => $op, 'points' => $pts];
+    }
+  }
+
+  return ['score' => $score, 'matched' => $matched, 'breakdown' => $breakdown];
+}
+
+function leads_scoring_rules_list() {
+  $rules = qAll("SELECT * FROM lead_scoring_rules ORDER BY sort_order ASC, id ASC");
+  foreach ($rules as &$r) {
+    $r['id']         = (int)$r['id'];
+    $r['org_id']     = (int)$r['org_id'];
+    $r['points']     = (int)$r['points'];
+    $r['enabled']    = (int)$r['enabled'];
+    $r['sort_order'] = (int)$r['sort_order'];
+  }
+  $threshold = leads_load_threshold();
+  $defaults  = $rules ? null : leads_default_rules();
+  json_out([
+    'rules'     => $rules,
+    'threshold' => $threshold,
+    'using_defaults' => empty($rules),
+    'defaults'  => $defaults,
+  ]);
+}
+
+function leads_scoring_rule_create() {
+  $b = body();
+  if (empty($b['name']) || empty($b['field'])) err('name and field are required');
+  $row = [
+    1,
+    trim($b['name']),
+    trim($b['field']),
+    strtolower($b['operator'] ?? 'present'),
+    $b['value'] ?? null,
+    (int)($b['points'] ?? 0),
+    isset($b['enabled']) ? (int)!!$b['enabled'] : 1,
+    (int)($b['sort_order'] ?? 0),
+  ];
+  qExec(
+    "INSERT INTO lead_scoring_rules (org_id,name,field,operator,value,points,enabled,sort_order)
+     VALUES (?,?,?,?,?,?,?,?)",
+    $row
+  );
+  $id = lastId();
+  if (isset($b['threshold'])) {
+    leads_set_threshold((int)$b['threshold']);
+  }
+  json_out(['ok' => true, 'id' => $id], 201);
+}
+
+function leads_scoring_rule_update($id) {
+  $b = body();
+  $sets = []; $params = [];
+  foreach (['name','field','operator','value','points','enabled','sort_order'] as $k) {
+    if (!array_key_exists($k, $b)) continue;
+    $sets[] = "$k = ?";
+    $params[] = in_array($k, ['points','enabled','sort_order']) ? (int)$b[$k] : $b[$k];
+  }
+  if (!$sets) err('No fields to update');
+  $params[] = $id;
+  qExec("UPDATE lead_scoring_rules SET " . implode(', ', $sets) . " WHERE id = ?", $params);
+
+  if (isset($b['threshold'])) leads_set_threshold((int)$b['threshold']);
+  json_out(['ok' => true]);
+}
+
+function leads_scoring_rule_delete($id) {
+  qExec("DELETE FROM lead_scoring_rules WHERE id = ?", [$id]);
+  json_out(['ok' => true, 'id' => $id]);
+}
+
+function leads_set_threshold($t) {
+  qExec(
+    "INSERT INTO lead_scoring_config (org_id, threshold) VALUES (1, ?)
+     ON DUPLICATE KEY UPDATE threshold = VALUES(threshold)",
+    [$t]
+  );
+}
+
+function leads_score_preview() {
+  $b = body();
+  $contact = $b['contact'] ?? $b;
+  $rules = leads_load_rules();
+  $threshold = leads_load_threshold();
+  $eval = leads_score_contact($contact, $rules);
+  json_out([
+    'ok'        => true,
+    'score'     => $eval['score'],
+    'matched'   => $eval['matched'],
+    'breakdown' => $eval['breakdown'],
+    'threshold' => $threshold,
+    'verdict'   => $eval['score'] >= $threshold ? 'qualified' : 'disqualified',
   ]);
 }
 

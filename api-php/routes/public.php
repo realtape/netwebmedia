@@ -4,6 +4,7 @@
 
 require_once __DIR__ . '/../lib/mailer.php';
 require_once __DIR__ . '/../lib/workflows.php';
+require_once __DIR__ . '/../lib/ratelimit.php';
 
 function route_public($parts, $method) {
   $sub = $parts[0] ?? null;
@@ -164,6 +165,10 @@ function route_public($parts, $method) {
 
   // /api/public/newsletter/subscribe — body: {email, name?, source?}
   if ($sub === 'newsletter' && ($parts[1] ?? null) === 'subscribe' && $method === 'POST') {
+    // Spam-relay defense: 30 / hr / IP. Newsletter signups don't burn Claude
+    // tokens directly but they trigger an automated welcome email, which is
+    // its own spam-vector if uncapped.
+    rate_limit_check('newsletter_subscribe', 30, 3600);
     $b = required(['email']);
     $email = trim(strtolower($b['email']));
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) err('Invalid email');
@@ -360,6 +365,10 @@ function route_public($parts, $method) {
 
   // /api/public/audit — deep website + social audit
   if ($sub === 'audit' && $method === 'POST') {
+    // Direct Claude exposure: every audit POST runs an LLM call. 10 / hr / IP
+    // is plenty for legit use (a human is filling out a form) and aggressively
+    // caps a script that's been told to hammer this endpoint.
+    rate_limit_check('public_audit', 10, 3600);
     require_once __DIR__ . '/audit.php';
     route_public_audit($parts, $method);
     return;

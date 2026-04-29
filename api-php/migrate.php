@@ -89,6 +89,44 @@ CREATE TABLE IF NOT EXISTS resources (
   INDEX idx_slug (type, slug)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
+// Idempotent column add: dedicated indexed column for AI agent public_token.
+// Replaces the broken `data LIKE '%"public_token":"..."%'` lookup in
+// routes/ai.php which couldn't escape SQL LIKE wildcards (a token of `%`
+// matched every agent across every org). New code prefers this column;
+// the old code path is also patched to reject wildcard input.
+try {
+  $pdo->exec("ALTER TABLE resources ADD COLUMN public_token VARCHAR(64) DEFAULT NULL");
+  echo "   resources.public_token column added\n";
+} catch (PDOException $e) {
+  if (strpos($e->getMessage(), 'Duplicate column') !== false) {
+    echo "   resources.public_token already present\n";
+  } else {
+    echo "   resources.public_token ALTER skipped: " . $e->getMessage() . "\n";
+  }
+}
+try {
+  $pdo->exec("ALTER TABLE resources ADD UNIQUE KEY uniq_public_token (public_token)");
+  echo "   resources.public_token UNIQUE index added\n";
+} catch (PDOException $e) {
+  // index may already exist, or duplicate values prevent it — log and continue
+  if (strpos($e->getMessage(), 'Duplicate key name') === false) {
+    echo "   resources.public_token UNIQUE skipped: " . $e->getMessage() . "\n";
+  }
+}
+// Backfill existing ai_agent rows from JSON `data` -> column.
+try {
+  $pdo->exec("
+    UPDATE resources
+       SET public_token = JSON_UNQUOTE(JSON_EXTRACT(data, '$.public_token'))
+     WHERE type = 'ai_agent'
+       AND public_token IS NULL
+       AND JSON_EXTRACT(data, '$.public_token') IS NOT NULL
+  ");
+  echo "   ai_agent public_token backfilled\n";
+} catch (PDOException $e) {
+  echo "   ai_agent public_token backfill skipped: " . $e->getMessage() . "\n";
+}
+
 step('form_submissions', "
 CREATE TABLE IF NOT EXISTS form_submissions (
   id INT AUTO_INCREMENT PRIMARY KEY,

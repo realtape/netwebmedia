@@ -2,6 +2,30 @@
 /* /api/resources/{type}[/{id}]
    Generic CRUD for any resource type stored in the `resources` table. */
 
+/**
+ * Keep the dedicated `public_token` column in sync with what's in
+ * `data.public_token` for type='ai_agent'. Best-effort: if the column hasn't
+ * been added yet (migrate.php not run), the UPDATE is silently skipped.
+ *
+ * This is the write side of the cross-tenant agent leak fix in
+ * routes/ai.php::route_public_agent_chat — that lookup prefers the indexed
+ * column; if rows lack a value, the lookup falls back to JSON_EXTRACT.
+ */
+function _resources_sync_public_token($id, $type, $data) {
+  if ($type !== 'ai_agent') return;
+  $token = is_array($data) ? ($data['public_token'] ?? null) : null;
+  if ($token !== null && !is_string($token)) $token = null;
+  if (is_string($token) && !preg_match('/^[A-Za-z0-9_\-]{1,64}$/', $token)) {
+    // Don't write garbage into a UNIQUE indexed column.
+    $token = null;
+  }
+  try {
+    qExec("UPDATE resources SET public_token = ? WHERE id = ?", [$token, $id]);
+  } catch (Throwable $e) {
+    // Column may not exist yet on this install; safe to ignore.
+  }
+}
+
 function route_resources($parts, $method) {
   $type = $parts[0] ?? null;
   if (!$type) err('Missing resource type', 400);
@@ -59,6 +83,7 @@ function route_resources($parts, $method) {
       [$org, $type, $slug, $title, $status, json_encode($data), $u['id']]
     );
     $newId = lastId();
+    _resources_sync_public_token($newId, $type, $data);
     $r = qOne("SELECT * FROM resources WHERE id = ?", [$newId]);
     $r['data'] = json_decode($r['data'], true);
     log_activity('resource.create', $type, $newId, ['title' => $title]);
@@ -79,6 +104,9 @@ function route_resources($parts, $method) {
     if (!$fields) err('No fields to update');
     $params[] = $id;
     qExec("UPDATE resources SET " . implode(', ', $fields) . " WHERE id = ?", $params);
+    if (array_key_exists('data', $b)) {
+      _resources_sync_public_token($id, $type, $b['data']);
+    }
     $r = qOne("SELECT * FROM resources WHERE id = ?", [$id]);
     $r['data'] = json_decode($r['data'], true);
     log_activity('resource.update', $type, $id);

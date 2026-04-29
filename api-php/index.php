@@ -48,14 +48,25 @@ if (empty($parts)) {
       'GET/POST /api/resources/{type}',
       'GET/PUT/DELETE /api/resources/{type}/{id}',
       'POST /api/leads/import/csv       (import prospects from CSV)',
-      'POST /api/leads/qualify          (score & qualify raw leads)',
+      'POST /api/leads/qualify          (score & qualify raw leads via rule engine)',
       'POST /api/leads/assign           (assign qualified leads to team)',
       'POST /api/leads/enroll-sequences (enroll in nurture sequences)',
       'GET  /api/leads/status           (pipeline metrics)',
+      'GET/POST /api/leads/scoring-rules            (configure scoring rules)',
+      'PUT/DELETE /api/leads/scoring-rules/{id}     (update or delete rule)',
+      'POST /api/leads/score-preview    (preview score for a sample contact)',
       'GET  /api/hubspot/sync           (full sync: contacts + deals)',
       'GET  /api/hubspot/contacts/sync  (contacts only)',
       'GET  /api/hubspot/deals/sync     (deals only)',
       'POST /api/hubspot/webhook        (receive HubSpot webhook)',
+      'GET/POST /api/tasks              (sales rep to-dos linked to contacts/deals)',
+      'GET/PUT/DELETE /api/tasks/{id}   (single task)',
+      'POST /api/tasks/{id}/complete    (mark task done, logs activity)',
+      'POST /api/tasks/{id}/reopen      (undo complete)',
+      'GET  /api/tasks/stats            (counts by status, overdue, mine_open)',
+      'GET  /api/tasks/upcoming         (next 7 days for current user)',
+      'GET  /api/timeline?contact_id=X  (unified activity feed for a contact)',
+      'GET  /api/timeline?deal_id=X     (activity feed for a deal)',
       'POST /api/public/forms/submit',
       'GET  /api/public/blog',
       'GET  /api/public/blog/{slug}',
@@ -155,6 +166,12 @@ try {
   } elseif ($group === 'hubspot') {
     require __DIR__ . '/routes/hubspot.php';
     route_hubspot($parts, $method);
+  } elseif ($group === 'tasks') {
+    require __DIR__ . '/routes/tasks.php';
+    route_tasks($parts, $method);
+  } elseif ($group === 'timeline') {
+    require __DIR__ . '/routes/timeline.php';
+    route_timeline($parts, $method);
   } else {
     err('Route not found', 404);
   }

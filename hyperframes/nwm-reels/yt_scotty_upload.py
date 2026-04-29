@@ -9,7 +9,7 @@ FILE_PATH   = r"C:\Users\Usuario\Desktop\NetWebMedia\hyperframes\nwm-reels\rende
 CHUNK_SIZE  = 4 * 1024 * 1024   # 4 MB (must be multiple of 256 KB)
 
 # Fresh session — created just now from browser
-UPLOAD_URL  = "https://upload.youtube.com/?authuser=1&upload_type=scotty&v=1&upload_id=AAVLpEjbd7vYXaPLTb8eXL_Nm2SrRp_hN9ohYla_i7pPPe7gQWNMpZ-TuW2sM8Z1jBJLBlOpPMuPobuLWmCcic_ivfqb5hRWPCoELLzzCpD8jv4&upload_protocol=resumable&origin=CihodHRwczovL3VwbG9hZC55b3V0dWJlLmNvbS91cGxvYWQvc3R1ZGlvEjhibG9ic3RvcmUtaHR0cC1wcm9kLWdsb2JhbC15b3V0dWJlLWRlZmF1bHQtdmlkZW8tdXBsb2Fkcw"
+UPLOAD_URL  = "https://upload.youtube.com/?authuser=1&upload_type=scotty&v=1&upload_id=AAVLpEj7Fs75nZHfk3T7kDerLFZ_dLI63LeDLnwcUtPGtwexVYtFuvCrV0CXWYF0NHGHxJGjQ-ncPvfMB7cHXHWTOh41FYmfBXp9cEEPUPU5gg&upload_protocol=resumable&origin=CihodHRwczovL3VwbG9hZC55b3V0dWJlLmNvbS91cGxvYWQvc3R1ZGlvEjhibG9ic3RvcmUtaHR0cC1wcm9kLWdsb2JhbC15b3V0dWJlLWRlZmF1bHQtdmlkZW8tdXBsb2Fkcw"
 
 def query_offset():
     """Ask the server how many bytes it has received so far."""
@@ -89,6 +89,19 @@ def upload():
                 print(f"\nDONE! Upload complete!  HTTP {r.status_code}")
                 body = r.text.strip()
                 print(f"Response body: {body[:500]}")
+                # Try to extract scottyResourceId from JSON response
+                try:
+                    import json
+                    resp_json = json.loads(body)
+                    scotty_id = resp_json.get("scottyResourceId")
+                    if scotty_id:
+                        print(f"\nscottyResourceId: {scotty_id}")
+                        out_path = r"C:\Users\Usuario\Desktop\NetWebMedia\hyperframes\nwm-reels\scotty_id.txt"
+                        with open(out_path, "w") as f:
+                            f.write(scotty_id)
+                        print(f"Saved to scotty_id.txt")
+                except Exception as e:
+                    print(f"Could not parse scottyResourceId: {e}")
                 return r
 
             offset += len(chunk)

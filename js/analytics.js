@@ -11,7 +11,23 @@
   var resultsUrl = document.getElementById('results-url');
   var resultsDate = document.getElementById('results-date');
 
-  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  // HTML-escape any value going into innerHTML. Consistent with the helper in
+  // js/crm-dashboard.js. EVERY interpolation of audit response data must go
+  // through this — the audit endpoint accepts user-supplied URLs and returns
+  // parsed page titles, social handles, and Claude-generated narrative; any
+  // of those can contain attacker-controlled HTML.
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+  // Backwards-compatible short name.
+  var esc = escapeHtml;
+  function safeNum(n) { var v = Number(n); return Number.isFinite(v) ? v : 0; }
 
   function scoreColor(n) {
     if (n >= 85) return '#00b894';
@@ -39,12 +55,18 @@
     if (!overview) return;
     overview.style.gridTemplateColumns = 'repeat(auto-fit, minmax(140px, 1fr))';
     overview.innerHTML = cards.map(function (c) {
-      var color = scoreColor(c[1]);
+      // c[1] is a numeric score from the audit JSON. Coerce to a number BEFORE
+      // it's interpolated into HTML — defends against the API ever returning
+      // a non-numeric score (e.g. an object that stringifies into HTML).
+      var score = safeNum(c[1]);
+      var color = scoreColor(score); // returns one of 4 hardcoded hex strings — safe
+      var label = c[0];               // hardcoded English string from `cards` array — safe
+      var icon  = c[2];               // hardcoded emoji from `cards` array — safe
       return '<div class="score-card">' +
-        '<div style="font-size:32px;">' + c[2] + '</div>' +
-        '<div class="score-value" style="color:' + color + ';font-size:40px;font-weight:800;margin:8px 0 4px;">' + c[1] + '</div>' +
-        '<div class="score-label" style="font-size:12px;color:#9aa3b4;text-transform:uppercase;letter-spacing:.08em;">' + c[0] + '</div>' +
-        '<div style="font-size:11px;color:' + color + ';margin-top:4px;">' + scoreLabel(c[1]) + '</div>' +
+        '<div style="font-size:32px;">' + escapeHtml(icon) + '</div>' +
+        '<div class="score-value" style="color:' + color + ';font-size:40px;font-weight:800;margin:8px 0 4px;">' + score + '</div>' +
+        '<div class="score-label" style="font-size:12px;color:#9aa3b4;text-transform:uppercase;letter-spacing:.08em;">' + escapeHtml(label) + '</div>' +
+        '<div style="font-size:11px;color:' + color + ';margin-top:4px;">' + escapeHtml(scoreLabel(score)) + '</div>' +
         '</div>';
     }).join('');
   }
@@ -134,7 +156,12 @@
 
     var severityColor = { high: '#d63031', medium: '#fdcb6e', low: '#74b9ff' };
     var recsHtml = (recs || []).map(function (r) {
-      var clr = severityColor[r.severity] || '#aaa';
+      // hasOwnProperty check — guards against prototype-key lookups
+      // (e.g. severity:'__proto__') and ensures clr is always one of our
+      // four hardcoded hex strings (never attacker-controlled).
+      var clr = Object.prototype.hasOwnProperty.call(severityColor, r.severity)
+        ? severityColor[r.severity]
+        : '#aaa';
       return '<div style="padding:14px;border-left:4px solid ' + clr + ';background:rgba(255,255,255,0.04);margin-bottom:10px;border-radius:6px;">' +
         '<div style="font-size:11px;color:' + clr + ';font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px;">' + esc(r.severity) + '</div>' +
         '<div style="font-weight:600;color:#fff;margin-bottom:4px;">' + esc(r.issue) + '</div>' +

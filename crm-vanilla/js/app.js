@@ -785,6 +785,14 @@
 
     sidebar.innerHTML = html;
 
+    // Re-apply tenant branding — the sidebar markup was just replaced, so the
+    // .brand-icon / .brand-text we mutated previously is gone. Idempotent.
+    try {
+      if (window.nwmBranding && window.nwmBranding.org) {
+        window.nwmBranding.apply(window.nwmBranding.org);
+      }
+    } catch (_) {}
+
     // Wire logout
     var logoutBtn = document.getElementById("sidebarLogoutBtn");
     if (logoutBtn && logoutBtn.tagName === 'BUTTON') {

@@ -241,3 +241,79 @@ function set_session_org(int $organizationId): void {
     if (session_status() === PHP_SESSION_NONE) _guard_session_start();
     $_SESSION['nwm_org_id'] = $organizationId;
 }
+
+// =============================================================================
+// (C) Migration-window glue — used by handlers that have been swapped to
+//     org_where() but must still work on a database where
+//     schema_organizations_migrate.sql has not yet been applied.
+// =============================================================================
+
+/**
+ * True once `contacts.organization_id` exists. Cached per PHP-FPM worker.
+ * We use `contacts` as the canary — every handler that filters by org also
+ * touches contacts directly or transitively, and the migrate script adds the
+ * column to contacts in the very first ALTER. If contacts has it, all 18
+ * tenant tables will too.
+ *
+ * Failing closed (false) is the safe default: handlers fall back to the
+ * legacy tenant_where() filter, which is the pre-migration behaviour.
+ */
+function is_org_schema_applied(): bool {
+    static $cached = null;
+    if ($cached !== null) return $cached;
+    try {
+        $db = getDB();
+        $stmt = $db->query("SHOW COLUMNS FROM contacts LIKE 'organization_id'");
+        $cached = (bool)$stmt->fetch();
+    } catch (Throwable $e) {
+        $cached = false;
+    }
+    return $cached;
+}
+
+/**
+ * Migration-aware WHERE-clause builder.
+ *
+ *   [$sql, $params] = tenancy_where('c');     // for FROM contacts c
+ *
+ *   - When organization_id exists and a current org is resolved → org_where()
+ *   - Otherwise → tenant_where() (legacy per-user filter)
+ *
+ * Same return shape as both underlying helpers, so handlers can swap a single
+ * call without touching the surrounding SQL composition. Keep the alias arg
+ * in sync with the table reference (e.g. tenancy_where('c') for `FROM x c`).
+ */
+function tenancy_where(string $tableAlias = ''): array {
+    if (is_org_schema_applied()) {
+        return org_where($tableAlias);
+    }
+    return tenant_where($tableAlias);
+}
+
+/**
+ * Returns ['organization_id, ', current_org_id()] when the schema is applied,
+ * or ['', null] otherwise. Designed to splice into INSERT column / value lists:
+ *
+ *   [$orgCol, $orgVal] = tenancy_insert_org();
+ *   $sql = "INSERT INTO contacts (user_id, {$orgCol}name) VALUES (?, " . ($orgCol ? "?, " : "") . "?)";
+ *   $params = $orgCol ? [$uid, $orgVal, $name] : [$uid, $name];
+ *
+ * That is verbose. Most handlers in this codebase use named SQL strings, so
+ * the simpler pattern is:
+ *
+ *   $orgId = is_org_schema_applied() ? current_org_id() : null;
+ *   if ($orgId !== null) {
+ *       INSERT INTO ... (user_id, organization_id, ...)  // include org column
+ *   } else {
+ *       INSERT INTO ... (user_id, ...)                  // legacy form
+ *   }
+ *
+ * We expose the helper for handlers that prefer the splice form.
+ */
+function tenancy_insert_org(): array {
+    if (is_org_schema_applied()) {
+        $oid = current_org_id();
+        if ($oid !== null) return ['organization_id, ', $oid];
+    }
+    return ['', null];
+}

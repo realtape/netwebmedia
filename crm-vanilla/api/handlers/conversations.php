@@ -1,8 +1,9 @@
 <?php
 require_once __DIR__ . '/../lib/tenancy.php';
 $db = getDB();
-[$tWhere, $tParams] = tenant_where('conv');
+[$tWhere, $tParams] = tenancy_where('conv');
 $uid = tenant_id();
+$orgId = is_org_schema_applied() ? current_org_id() : null;
 
 switch ($method) {
     case 'GET':
@@ -44,14 +45,26 @@ switch ($method) {
 
     case 'POST':
         $data = getInput();
-        $stmt = $db->prepare('INSERT INTO conversations (user_id, contact_id, channel, subject, unread) VALUES (?, ?, ?, ?, ?)');
-        $stmt->execute([
-            $uid,
-            $data['contact_id'] ?? null,
-            $data['channel'] ?? 'email',
-            $data['subject'] ?? null,
-            $data['unread'] ?? 0,
-        ]);
+        if ($orgId !== null) {
+            $stmt = $db->prepare('INSERT INTO conversations (user_id, organization_id, contact_id, channel, subject, unread) VALUES (?, ?, ?, ?, ?, ?)');
+            $stmt->execute([
+                $uid,
+                $orgId,
+                $data['contact_id'] ?? null,
+                $data['channel'] ?? 'email',
+                $data['subject'] ?? null,
+                $data['unread'] ?? 0,
+            ]);
+        } else {
+            $stmt = $db->prepare('INSERT INTO conversations (user_id, contact_id, channel, subject, unread) VALUES (?, ?, ?, ?, ?)');
+            $stmt->execute([
+                $uid,
+                $data['contact_id'] ?? null,
+                $data['channel'] ?? 'email',
+                $data['subject'] ?? null,
+                $data['unread'] ?? 0,
+            ]);
+        }
         jsonResponse(['id' => (int)$db->lastInsertId()], 201);
         break;
 

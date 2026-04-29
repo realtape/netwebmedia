@@ -2,8 +2,9 @@
 require_once __DIR__ . '/../lib/tenancy.php';
 $db = getDB();
 
-[$tWhere, $tParams] = tenant_where();
+[$tWhere, $tParams] = tenancy_where();
 $uid = tenant_id();
+$orgId = is_org_schema_applied() ? current_org_id() : null;
 
 switch ($method) {
     case 'GET':
@@ -46,21 +47,40 @@ switch ($method) {
     case 'POST':
         $data = getInput();
         if (empty($data['name'])) jsonError('Name is required');
-        $stmt = $db->prepare('INSERT INTO contacts (user_id, name, email, phone, company, role, status, value, last_contact, avatar, notes, segment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-        $stmt->execute([
-            $uid,
-            $data['name'],
-            $data['email'] ?? null,
-            $data['phone'] ?? null,
-            $data['company'] ?? null,
-            $data['role'] ?? null,
-            $data['status'] ?? 'lead',
-            $data['value'] ?? 0,
-            $data['last_contact'] ?? null,
-            $data['avatar'] ?? null,
-            $data['notes'] ?? null,
-            $data['segment'] ?? null,
-        ]);
+        if ($orgId !== null) {
+            $stmt = $db->prepare('INSERT INTO contacts (user_id, organization_id, name, email, phone, company, role, status, value, last_contact, avatar, notes, segment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+            $stmt->execute([
+                $uid,
+                $orgId,
+                $data['name'],
+                $data['email'] ?? null,
+                $data['phone'] ?? null,
+                $data['company'] ?? null,
+                $data['role'] ?? null,
+                $data['status'] ?? 'lead',
+                $data['value'] ?? 0,
+                $data['last_contact'] ?? null,
+                $data['avatar'] ?? null,
+                $data['notes'] ?? null,
+                $data['segment'] ?? null,
+            ]);
+        } else {
+            $stmt = $db->prepare('INSERT INTO contacts (user_id, name, email, phone, company, role, status, value, last_contact, avatar, notes, segment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+            $stmt->execute([
+                $uid,
+                $data['name'],
+                $data['email'] ?? null,
+                $data['phone'] ?? null,
+                $data['company'] ?? null,
+                $data['role'] ?? null,
+                $data['status'] ?? 'lead',
+                $data['value'] ?? 0,
+                $data['last_contact'] ?? null,
+                $data['avatar'] ?? null,
+                $data['notes'] ?? null,
+                $data['segment'] ?? null,
+            ]);
+        }
         $newId = $db->lastInsertId();
         $stmt = $db->prepare('SELECT * FROM contacts WHERE id = ?');
         $stmt->execute([$newId]);
@@ -69,14 +89,15 @@ switch ($method) {
 
     case 'PUT':
         if (!$id) jsonError('ID required for update');
-        // Verify ownership before update
-        $own = $db->prepare('SELECT user_id FROM contacts WHERE id = ?');
-        $own->execute([$id]);
-        $row = $own->fetch();
-        if (!$row) jsonError('Contact not found', 404);
-        if (!tenant_owns($row['user_id'] !== null ? (int)$row['user_id'] : null)) {
-            jsonError('Contact not found', 404);
-        }
+        // Verify org/user ownership before update — use the same migration-aware
+        // filter so post-migration the row must belong to the active org, and
+        // pre-migration it falls back to the user check.
+        $checkSql = 'SELECT id FROM contacts WHERE id = ?';
+        $checkParams = [$id];
+        if ($tWhere) { $checkSql .= ' AND ' . $tWhere; $checkParams = array_merge($checkParams, $tParams); }
+        $own = $db->prepare($checkSql);
+        $own->execute($checkParams);
+        if (!$own->fetch()) jsonError('Contact not found', 404);
 
         $data = getInput();
         $fields = [];
@@ -89,8 +110,9 @@ switch ($method) {
             }
         }
         if (empty($fields)) jsonError('No fields to update');
-        $params[] = $id;
         $sql = 'UPDATE contacts SET ' . implode(', ', $fields) . ' WHERE id = ?';
+        $params[] = $id;
+        if ($tWhere) { $sql .= ' AND ' . $tWhere; $params = array_merge($params, $tParams); }
         $db->prepare($sql)->execute($params);
         $stmt = $db->prepare('SELECT * FROM contacts WHERE id = ?');
         $stmt->execute([$id]);
@@ -99,14 +121,17 @@ switch ($method) {
 
     case 'DELETE':
         if (!$id) jsonError('ID required for delete');
-        $own = $db->prepare('SELECT user_id FROM contacts WHERE id = ?');
-        $own->execute([$id]);
-        $row = $own->fetch();
-        if (!$row) jsonError('Contact not found', 404);
-        if (!tenant_owns($row['user_id'] !== null ? (int)$row['user_id'] : null)) {
-            jsonError('Contact not found', 404);
-        }
-        $db->prepare('DELETE FROM contacts WHERE id = ?')->execute([$id]);
+        $checkSql = 'SELECT id FROM contacts WHERE id = ?';
+        $checkParams = [$id];
+        if ($tWhere) { $checkSql .= ' AND ' . $tWhere; $checkParams = array_merge($checkParams, $tParams); }
+        $own = $db->prepare($checkSql);
+        $own->execute($checkParams);
+        if (!$own->fetch()) jsonError('Contact not found', 404);
+
+        $delSql = 'DELETE FROM contacts WHERE id = ?';
+        $delParams = [$id];
+        if ($tWhere) { $delSql .= ' AND ' . $tWhere; $delParams = array_merge($delParams, $tParams); }
+        $db->prepare($delSql)->execute($delParams);
         jsonResponse(['deleted' => true]);
         break;
 

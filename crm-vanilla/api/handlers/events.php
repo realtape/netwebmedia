@@ -1,8 +1,9 @@
 <?php
 require_once __DIR__ . '/../lib/tenancy.php';
 $db = getDB();
-[$tWhere, $tParams] = tenant_where();
+[$tWhere, $tParams] = tenancy_where();
 $uid = tenant_id();
+$orgId = is_org_schema_applied() ? current_org_id() : null;
 
 switch ($method) {
     case 'GET':
@@ -37,18 +38,34 @@ switch ($method) {
         if (empty($data['title']) || empty($data['event_date'])) {
             jsonError('title and event_date required');
         }
-        $stmt = $db->prepare('INSERT INTO events (user_id, title, event_date, start_hour, duration, type, color, contact_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
-        $stmt->execute([
-            $uid,
-            $data['title'],
-            $data['event_date'],
-            $data['start_hour'] ?? 9,
-            $data['duration'] ?? 1,
-            $data['type'] ?? 'meeting',
-            $data['color'] ?? '#6c5ce7',
-            $data['contact_id'] ?? null,
-            $data['notes'] ?? null,
-        ]);
+        if ($orgId !== null) {
+            $stmt = $db->prepare('INSERT INTO events (user_id, organization_id, title, event_date, start_hour, duration, type, color, contact_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+            $stmt->execute([
+                $uid,
+                $orgId,
+                $data['title'],
+                $data['event_date'],
+                $data['start_hour'] ?? 9,
+                $data['duration'] ?? 1,
+                $data['type'] ?? 'meeting',
+                $data['color'] ?? '#6c5ce7',
+                $data['contact_id'] ?? null,
+                $data['notes'] ?? null,
+            ]);
+        } else {
+            $stmt = $db->prepare('INSERT INTO events (user_id, title, event_date, start_hour, duration, type, color, contact_id, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+            $stmt->execute([
+                $uid,
+                $data['title'],
+                $data['event_date'],
+                $data['start_hour'] ?? 9,
+                $data['duration'] ?? 1,
+                $data['type'] ?? 'meeting',
+                $data['color'] ?? '#6c5ce7',
+                $data['contact_id'] ?? null,
+                $data['notes'] ?? null,
+            ]);
+        }
         $newId = $db->lastInsertId();
         $stmt = $db->prepare('SELECT * FROM events WHERE id = ?');
         $stmt->execute([$newId]);
@@ -57,13 +74,12 @@ switch ($method) {
 
     case 'PUT':
         if (!$id) jsonError('ID required');
-        $own = $db->prepare('SELECT user_id FROM events WHERE id = ?');
-        $own->execute([$id]);
-        $row = $own->fetch();
-        if (!$row) jsonError('Event not found', 404);
-        if (!tenant_owns($row['user_id'] !== null ? (int)$row['user_id'] : null)) {
-            jsonError('Event not found', 404);
-        }
+        $checkSql = 'SELECT id FROM events WHERE id = ?';
+        $checkParams = [$id];
+        if ($tWhere) { $checkSql .= ' AND ' . $tWhere; $checkParams = array_merge($checkParams, $tParams); }
+        $own = $db->prepare($checkSql);
+        $own->execute($checkParams);
+        if (!$own->fetch()) jsonError('Event not found', 404);
 
         $data = getInput();
         $fields = [];
@@ -77,7 +93,9 @@ switch ($method) {
         }
         if (empty($fields)) jsonError('No fields to update');
         $params[] = $id;
-        $db->prepare('UPDATE events SET ' . implode(', ', $fields) . ' WHERE id = ?')->execute($params);
+        $updSql = 'UPDATE events SET ' . implode(', ', $fields) . ' WHERE id = ?';
+        if ($tWhere) { $updSql .= ' AND ' . $tWhere; $params = array_merge($params, $tParams); }
+        $db->prepare($updSql)->execute($params);
         $stmt = $db->prepare('SELECT * FROM events WHERE id = ?');
         $stmt->execute([$id]);
         jsonResponse($stmt->fetch());
@@ -85,14 +103,16 @@ switch ($method) {
 
     case 'DELETE':
         if (!$id) jsonError('ID required');
-        $own = $db->prepare('SELECT user_id FROM events WHERE id = ?');
-        $own->execute([$id]);
-        $row = $own->fetch();
-        if (!$row) jsonError('Event not found', 404);
-        if (!tenant_owns($row['user_id'] !== null ? (int)$row['user_id'] : null)) {
-            jsonError('Event not found', 404);
-        }
-        $db->prepare('DELETE FROM events WHERE id = ?')->execute([$id]);
+        $checkSql = 'SELECT id FROM events WHERE id = ?';
+        $checkParams = [$id];
+        if ($tWhere) { $checkSql .= ' AND ' . $tWhere; $checkParams = array_merge($checkParams, $tParams); }
+        $own = $db->prepare($checkSql);
+        $own->execute($checkParams);
+        if (!$own->fetch()) jsonError('Event not found', 404);
+        $delSql = 'DELETE FROM events WHERE id = ?';
+        $delParams = [$id];
+        if ($tWhere) { $delSql .= ' AND ' . $tWhere; $delParams = array_merge($delParams, $tParams); }
+        $db->prepare($delSql)->execute($delParams);
         jsonResponse(['deleted' => true]);
         break;
 

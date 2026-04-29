@@ -12,10 +12,14 @@
  */
 
 require_once __DIR__ . '/../lib/email_sender.php';
+require_once __DIR__ . '/../lib/tenancy.php';
 
 $db = getDB();
 $action = $_GET['action'] ?? '';
 $siteBase = 'https://netwebmedia.com';
+$orgId = is_org_schema_applied() ? current_org_id() : null;
+[$tWhereCamp, $tParamsCamp] = tenancy_where('c');
+[$tWhereCampNoAlias, $tParamsCampNoAlias] = tenancy_where();
 
 /**
  * Aggregate stats across all campaigns OR a single campaign (when $id given).
@@ -44,10 +48,13 @@ if ($action === 'stats' && $_SERVER['REQUEST_METHOD'] === 'GET') {
             COUNT(s.id) AS total_rows
         FROM email_campaigns c
         LEFT JOIN campaign_sends s ON s.campaign_id = c.id
-        GROUP BY c.id
-        ORDER BY c.created_at DESC
     ";
-    $rows = $db->query($rollupSql)->fetchAll();
+    $rollupParams = [];
+    if ($tWhereCamp) { $rollupSql .= ' WHERE ' . $tWhereCamp; $rollupParams = $tParamsCamp; }
+    $rollupSql .= ' GROUP BY c.id ORDER BY c.created_at DESC';
+    $rs = $db->prepare($rollupSql);
+    $rs->execute($rollupParams);
+    $rows = $rs->fetchAll();
 
     $campaigns = [];
     $overall = ['sent' => 0, 'opened' => 0, 'clicked' => 0, 'bounced' => 0, 'unsubscribed' => 0, 'failed' => 0];
@@ -179,8 +186,11 @@ function buildAudienceSQL(?string $filterJson): array {
 
 // ---- Non-CRUD actions ----
 if ($id && $action) {
-    $s = $db->prepare('SELECT * FROM email_campaigns WHERE id = ?');
-    $s->execute([$id]);
+    $sql = 'SELECT * FROM email_campaigns WHERE id = ?';
+    $params = [$id];
+    if ($tWhereCampNoAlias) { $sql .= ' AND ' . $tWhereCampNoAlias; $params = array_merge($params, $tParamsCampNoAlias); }
+    $s = $db->prepare($sql);
+    $s->execute($params);
     $camp = $s->fetch();
     if (!$camp) jsonError('Campaign not found', 404);
 

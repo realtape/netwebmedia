@@ -1,14 +1,19 @@
 <?php
 require_once __DIR__ . '/../lib/tenancy.php';
 $db = getDB();
+$orgId = is_org_schema_applied() ? current_org_id() : null;
 
 // Ownership check helper — returns true iff the current tenant can touch this conversation.
+// Uses tenancy_where() so post-migration the check is org-scoped, pre-migration it
+// remains the legacy per-user check.
 $canAccessConv = function(int $convId) use ($db): bool {
-    $st = $db->prepare('SELECT user_id FROM conversations WHERE id = ?');
-    $st->execute([$convId]);
-    $r = $st->fetch();
-    if (!$r) return false;
-    return tenant_owns($r['user_id'] !== null ? (int)$r['user_id'] : null);
+    [$where, $params] = tenancy_where();
+    $sql = 'SELECT id FROM conversations WHERE id = ?';
+    $p   = [$convId];
+    if ($where) { $sql .= ' AND ' . $where; $p = array_merge($p, $params); }
+    $st = $db->prepare($sql);
+    $st->execute($p);
+    return (bool)$st->fetch();
 };
 
 switch ($method) {
@@ -32,8 +37,13 @@ switch ($method) {
         $sender = $data['sender'] ?? 'me';
         $body   = $data['body'];
 
-        $stmt = $db->prepare('INSERT INTO messages (conversation_id, sender, body) VALUES (?, ?, ?)');
-        $stmt->execute([$convId, $sender, $body]);
+        if ($orgId !== null) {
+            $stmt = $db->prepare('INSERT INTO messages (organization_id, conversation_id, sender, body) VALUES (?, ?, ?, ?)');
+            $stmt->execute([$orgId, $convId, $sender, $body]);
+        } else {
+            $stmt = $db->prepare('INSERT INTO messages (conversation_id, sender, body) VALUES (?, ?, ?)');
+            $stmt->execute([$convId, $sender, $body]);
+        }
         $msgId = (int)$db->lastInsertId();
 
         $db->prepare('UPDATE conversations SET updated_at = NOW() WHERE id = ?')->execute([$convId]);

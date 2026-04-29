@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">Organization Branding - NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css?v=8">
+  <style>
+    /* Page-local layout — small, intentionally not promoted to app.css yet. */
+    .org-form { max-width: 640px; }
+    .org-form .row { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+    .org-form label { display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 6px; }
+    .org-form input[type="text"],
+    .org-form input[type="email"],
+    .org-form input[type="url"] {
+      width: 100%; padding: 10px 12px; background: var(--bg-input);
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      color: var(--text); font-size: 14px;
+    }
+    .org-form input[type="color"] {
+      width: 56px; height: 38px; border: 1px solid var(--border);
+      border-radius: var(--radius-sm); background: var(--bg-input); padding: 2px;
+    }
+    .org-form .field { flex: 1 1 260px; }
+    .org-form .field-color { flex: 0 0 auto; }
+    .org-form .preview {
+      display: flex; align-items: center; gap: 12px; padding: 12px;
+      background: var(--bg-input); border-radius: var(--radius-sm);
+      border: 1px solid var(--border); margin-top: 8px;
+    }
+    .org-form .preview-swatch {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--brand-primary, var(--accent));
+    }
+    .org-form .form-actions { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
+    .org-form .status { font-size: 13px; color: var(--text-dim); }
+    .org-form .status.ok { color: var(--green); }
+    .org-form .status.err { color: var(--red); }
+    .org-form .lock-notice {
+      padding: 12px 14px; background: var(--bg-input); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text-dim); font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Organization Branding</h2>
+            <span id="orgStatus" class="status"></span>
+          </div>
+
+          <div id="orgGate" class="lock-notice" style="display:none;">
+            Loading organization&hellip;
+          </div>
+
+          <form id="orgForm" class="org-form" style="display:none;" autocomplete="off">
+            <div class="row">
+              <div class="field">
+                <label for="display_name">Display name</label>
+                <input type="text" id="display_name" name="display_name" maxlength="120" required>
+              </div>
+              <div class="field">
+                <label for="sender_email">Sender email</label>
+                <input type="email" id="sender_email" name="sender_email" maxlength="200">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="field-color">
+                <label for="branding_primary_color">Primary</label>
+                <input type="color" id="branding_primary_color" name="branding_primary_color" value="#010F3B">
+              </div>
+              <div class="field-color">
+                <label for="branding_secondary_color">Secondary</label>
+                <input type="color" id="branding_secondary_color" name="branding_secondary_color" value="#FF671F">
+              </div>
+              <div class="field">
+                <label for="branding_logo_url">Logo URL (https://&hellip;)</label>
+                <input type="url" id="branding_logo_url" name="branding_logo_url" maxlength="500" placeholder="https://example.com/logo.svg">
+              </div>
+            </div>
+
+            <div class="preview" aria-live="polite">
+              <div class="preview-swatch" id="previewSwatch"></div>
+              <div>
+                <div style="font-weight:600;" id="previewName">&nbsp;</div>
+                <div style="font-size:12px;color:var(--text-dim);" id="previewSlug"></div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="saveBtn">Save branding</button>
+              <span id="saveStatus" class="status"></span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js?v=8"></script>
+  <script src="js/branding.js?v=1" defer></script>
+  <script>
+  (function () {
+    'use strict';
+    var form    = document.getElementById('orgForm');
+    var gate    = document.getElementById('orgGate');
+    var orgStatus = document.getElementById('orgStatus');
+    var saveStatus = document.getElementById('saveStatus');
+    var saveBtn = document.getElementById('saveBtn');
+    var pSwatch = document.getElementById('previewSwatch');
+    var pName   = document.getElementById('previewName');
+    var pSlug   = document.getElementById('previewSlug');
+
+    var currentOrg = null;
+
+    function setStatus(el, msg, kind) {
+      if (!el) return;
+      el.textContent = msg || '';
+      el.className = 'status' + (kind ? ' ' + kind : '');
+    }
+
+    function showGate(msg) {
+      gate.textContent = msg;
+      gate.style.display = 'block';
+      form.style.display = 'none';
+    }
+
+    function hydrate(org) {
+      currentOrg = org;
+      document.getElementById('display_name').value = org.display_name || '';
+      document.getElementById('sender_email').value = org.sender_email || '';
+      document.getElementById('branding_primary_color').value = org.branding_primary_color || '#010F3B';
+      document.getElementById('branding_secondary_color').value = org.branding_secondary_color || '#FF671F';
+      document.getElementById('branding_logo_url').value = org.branding_logo_url || '';
+      pName.textContent = org.display_name || '(no name)';
+      pSlug.textContent = org.slug || '';
+      updatePreview();
+      form.style.display = '';
+      gate.style.display = 'none';
+    }
+
+    function updatePreview() {
+      var pri = document.getElementById('branding_primary_color').value;
+      pSwatch.style.background = pri;
+      pName.textContent = document.getElementById('display_name').value || '(no name)';
+    }
+
+    ['display_name', 'branding_primary_color', 'branding_secondary_color']
+      .forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('input', updatePreview);
+      });
+
+    // ── Load active org ─────────────────────────────────────────────────────
+    fetch('/api/?r=organizations&sub=current', {
+      credentials: 'include',
+      headers: { 'Accept': 'application/json' }
+    }).then(function (r) {
+      if (r.status === 401) { showGate('Sign in required.'); throw new Error('auth'); }
+      if (!r.ok) throw new Error('load ' + r.status);
+      return r.json();
+    }).then(function (org) {
+      // Authorization: org admins/owners only
+      var role = org.my_role || '';
+      if (role !== 'admin' && role !== 'owner') {
+        showGate('Only organization admins and owners can edit branding. Your role: ' + (role || 'none') + '.');
+        return;
+      }
+      hydrate(org);
+      setStatus(orgStatus, 'Editing: ' + (org.slug || ''));
+    }).catch(function (err) {
+      if (err && err.message !== 'auth') {
+        showGate('Could not load organization. Please reload.');
+        if (window.console) console.error('[org-settings] load failed', err);
+      }
+    });
+
+    // ── Save ────────────────────────────────────────────────────────────────
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!currentOrg) return;
+
+      saveBtn.disabled = true;
+      setStatus(saveStatus, 'Saving…');
+
+      var body = {
+        display_name:             document.getElementById('display_name').value.trim(),
+        sender_email:             document.getElementById('sender_email').value.trim() || null,
+        branding_logo_url:        document.getElementById('branding_logo_url').value.trim() || null,
+        branding_primary_color:   document.getElementById('branding_primary_color').value,
+        branding_secondary_color: document.getElementById('branding_secondary_color').value
+      };
+
+      fetch('/api/?r=organizations&slug=' + encodeURIComponent(currentOrg.slug), {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(body)
+      }).then(function (r) {
+        return r.json().then(function (j) { return { ok: r.ok, status: r.status, body: j }; });
+      }).then(function (res) {
+        if (!res.ok) {
+          var msg = (res.body && res.body.error) || ('HTTP ' + res.status);
+          setStatus(saveStatus, 'Save failed: ' + msg, 'err');
+          return;
+        }
+        setStatus(saveStatus, 'Saved. Repainting…', 'ok');
+        currentOrg = res.body;
+        // Re-apply branding immediately so the page repaints with the new colors.
+        try {
+          if (window.nwmBranding) {
+            window.nwmBranding.apply(res.body);
+            window.nwmBranding.refresh(); // also bust cache + re-fetch
+          }
+        } catch (_) {}
+        setTimeout(function () { setStatus(saveStatus, 'Saved.', 'ok'); }, 800);
+      }).catch(function (err) {
+        setStatus(saveStatus, 'Network error. Try again.', 'err');
+        if (window.console) console.error('[org-settings] save failed', err);
+      }).then(function () { saveBtn.disabled = false; });
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -60,6 +60,32 @@ $require_master_owner = function () use ($db, $user) {
 };
 
 // =============================================================================
+// CURRENT ACTIVE ORG  (GET /api/?r=organizations&sub=current)
+// =============================================================================
+// Returns the org resolved by org_from_request() (session/header/subdomain),
+// plus the caller's role on it. Used by branding.js on every page load.
+if ($method === 'GET' && $subRoute === 'current') {
+    $active = function_exists('org_from_request') ? org_from_request() : null;
+    if (!$active) {
+        // Fall back to the user's primary org membership.
+        $stmt = $db->prepare(
+            'SELECT o.* FROM organizations o
+             JOIN org_members m ON m.organization_id = o.id
+             WHERE m.user_id = ? AND o.status = "active"
+             ORDER BY m.is_primary DESC, m.created_at ASC
+             LIMIT 1'
+        );
+        $stmt->execute([(int)$user['id']]);
+        $active = $stmt->fetch() ?: null;
+    }
+    if (!$active) jsonError('No active organization for this user', 404);
+    $myRole = org_role((int)$active['id'], (int)$user['id']);
+    $payload = $active;
+    $payload['my_role'] = $myRole;
+    jsonResponse($payload);
+}
+
+// =============================================================================
 // SWITCH ACTIVE ORG  (POST /api/?r=organizations&sub=switch)
 // =============================================================================
 if ($method === 'POST' && $subRoute === 'switch') {

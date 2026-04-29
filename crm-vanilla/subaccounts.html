@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sub-accounts — NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css?v=8">
+  <style>
+    /* Page-local styling for the sub-accounts table.
+       Kept inline so we don't conflict with the branding agent's css/ work. */
+    .subaccounts-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 13px;
+    }
+    .subaccounts-table thead th {
+      text-align: left;
+      padding: 12px 14px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-card);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    .subaccounts-table tbody td {
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .subaccounts-table tbody tr:hover { background: var(--bg-card-hover); }
+    .subaccounts-table code {
+      background: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .subaccounts-card { padding: 0; overflow: hidden; }
+    .subaccounts-card .table-wrap { overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div id="subaccountsRoot">
+          <div class="card subaccounts-card">
+            <div class="table-wrap">
+              <table class="subaccounts-table">
+                <thead>
+                  <tr>
+                    <th style="width:140px;">Slug</th>
+                    <th>Name</th>
+                    <th style="width:110px;">Plan</th>
+                    <th style="width:130px;">Status</th>
+                    <th style="width:80px;">Members</th>
+                    <th style="width:120px;">Created</th>
+                    <th style="width:280px;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="subaccountsBody">
+                  <tr><td colspan="7" style="padding:24px;color:var(--text-dim);">Loading…</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/app.js?v=8"></script>
+  <script src="js/org-switcher.js?v=1"></script>
+  <script src="js/subaccounts.js?v=1"></script>
+  <script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+name: Cron — USA Cold Outreach (every 1 min, off by default)
+on:
+  # Schedule INTENTIONALLY DISABLED until a test send is verified.
+  # Re-enable by uncommenting the cron line below — every minute × n=50
+  # with 1s throttle = ~50/min = 3,000/hour. ~10 hours wall-clock to clear
+  # the 30,000 best USA "Identifiable Business" contacts.
+  # schedule:
+  #   - cron: '* * * * *'
+  workflow_dispatch:
+    inputs:
+      niche:
+        description: 'Niche key filter (optional, e.g. financial_services, health)'
+        required: false
+        default: ''
+      batch:
+        description: 'Max sends per call (default 50, hard-capped at 50)'
+        required: false
+        default: '50'
+      mode:
+        description: 'Send mode (batch | status | test)'
+        required: false
+        default: 'batch'
+
+concurrency:
+  group: usa-cold-outreach
+  cancel-in-progress: false
+
+jobs:
+  usa-batch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Send next batch
+        run: |
+          NICHE="${{ github.event.inputs.niche }}"
+          BATCH="${{ github.event.inputs.batch || '50' }}"
+          MODE="${{ github.event.inputs.mode || 'batch' }}"
+          # Token is embedded in api-php/usa-send.php; using GH secret if set,
+          # otherwise fall back to the embedded value.
+          TOKEN="${{ secrets.USA_SEND_TOKEN }}"
+          if [ -z "$TOKEN" ]; then
+            TOKEN="NWM_USA_SEND_2026_d3f7e2c9a1b48560"
+          fi
+          URL="https://netwebmedia.com/api/usa-send?token=${TOKEN}&mode=${MODE}&n=${BATCH}"
+          if [ -n "$NICHE" ]; then
+            URL="${URL}&niche=${NICHE}"
+          fi
+          # Full Chrome UA + Origin + Referer to bypass mod_security on InMotion.
+          curl -s "$URL" \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            -w "\nHTTP Status: %{http_code}\n"

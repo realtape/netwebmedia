@@ -6,7 +6,6 @@ HWND_INT  := 0x00010628          ; Chrome window integer HWND
 HWND_STR  := "ahk_id " . HWND_INT  ; proper v2 concat
 LOG       := A_ScriptDir . "\switch_click.log"
 
-FileDelete(LOG)
 FileAppend("[AHK " . FormatTime(, "HH:mm:ss") . "] Script started`n", LOG)
 
 ; ── 1. Activate Chrome window ─────────────────────────────────────────────────

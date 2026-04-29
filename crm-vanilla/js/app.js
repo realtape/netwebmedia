@@ -9,7 +9,7 @@
       nav: {
         dashboard: "Dashboard", conversations: "Conversations", calendars: "Calendars",
         contacts: "Contacts", pipeline: "Pipeline", tasks: "Tasks", booking: "Booking", sms: "SMS", payments: "Payments",
-        marketing: "Marketing", chileCampaign: "Chile Campaign", diagnostic: "Diagnostic", automation: "Automation", sites: "Sites",
+        marketing: "Marketing", emailBuilder: "Email Builder", chileCampaign: "Chile Campaign", diagnostic: "Diagnostic", automation: "Automation", abtests: "A/B Tests", sites: "Sites",
         reputation: "Reputation", reporting: "Reporting", realtime: "Realtime", documents: "Documents",
         courses: "Courses", social: "Social Planner", settings: "Settings"
       },
@@ -246,7 +246,7 @@
       nav: {
         dashboard: "Panel", conversations: "Conversaciones", calendars: "Calendarios",
         contacts: "Contactos", pipeline: "Pipeline", tasks: "Tareas", booking: "Reservas", sms: "SMS", payments: "Pagos",
-        marketing: "Marketing", chileCampaign: "Campaña Chile", diagnostic: "Diagnóstico", automation: "Automatización", sites: "Sitios",
+        marketing: "Marketing", emailBuilder: "Editor de Emails", chileCampaign: "Campaña Chile", diagnostic: "Diagnóstico", automation: "Automatización", abtests: "Tests A/B", sites: "Sitios",
         reputation: "Reputación", reporting: "Reportes", realtime: "Tiempo Real", documents: "Documentos",
         courses: "Cursos", social: "Planificador Social", settings: "Ajustes"
       },
@@ -537,6 +537,8 @@
     tasks: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
     booking: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>',
     smsBulk: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11a9 9 0 0 1 9-9h0a9 9 0 0 1 9 9v0a9 9 0 0 1-9 9H6l-3 3v-12z"/><line x1="8" y1="11" x2="8.01" y2="11"/><line x1="12" y1="11" x2="12.01" y2="11"/><line x1="16" y1="11" x2="16.01" y2="11"/></svg>',
+    abtest: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11h6"/><path d="M12 11v8"/><path d="M3 4h18l-3 6h-12z"/></svg>',
+    emailBuilder: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/><path d="M7 12h2M11 12h2"/></svg>',
     timeline: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>'
   };
 
@@ -680,6 +682,8 @@
     { id: "chileCampaign", key: "chileCampaign", icon: "rocket", href: "chile-campaign.html" },
     { id: "diagnostic", key: "diagnostic", icon: "diagnostic", href: "diagnostic.html" },
     { id: "automation", key: "automation", icon: "automation", href: "automation.html" },
+    { id: "abtests", key: "abtests", icon: "abtest", href: "abtests.html" },
+    { id: "email-builder", key: "emailBuilder", icon: "emailBuilder", href: "email-builder.html" },
     { id: "sites", key: "sites", icon: "sites", href: "sites.html" },
     { id: "reputation", key: "reputation", icon: "reputation", href: "reputation.html" },
     { id: "reporting", key: "reporting", icon: "reporting", href: "reporting.html" },
@@ -1059,6 +1063,14 @@
     applyI18n();
     injectLangSwitcher();
     initDemoGate();
+    // Lazy-load the notifications bell on every CRM page (idempotent)
+    if (!window.__nwmBellLoaded) {
+      window.__nwmBellLoaded = true;
+      var s = document.createElement('script');
+      s.src = 'js/notifications-bell.js?v=1';
+      s.defer = true;
+      document.head.appendChild(s);
+    }
 
     // Show niche picker for real (non-demo) users who haven't selected an industry yet
     if (!isDemo()) {

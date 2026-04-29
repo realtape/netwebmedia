@@ -223,7 +223,7 @@
   }
 
   /* ── boot ── */
-  document.addEventListener("DOMContentLoaded", function () {
+  function boot() {
     ensureCss();
     // Wait one tick to let CRM_APP build the header first
     setTimeout(function () {
@@ -231,7 +231,12 @@
       refreshCount();
       pollTimer = setInterval(refreshCount, POLL_INTERVAL_MS);
     }, 200);
-  });
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
 
   // Pause polling when tab hidden, refresh on visible
   document.addEventListener("visibilitychange", function () {

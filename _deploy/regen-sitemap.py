@@ -40,6 +40,8 @@ EXCLUDE_FILES = {
     # Internal authenticated / scratchpad surfaces
     "flowchart.html", "nwmai.html", "nwm-cms.html", "nwm-crm.html",
     "audit-thanks.html",
+    # Survey/thank-you pages — explicitly noindex'd, must not appear in sitemap
+    "aeo-survey-thanks.html",
     # Internal / verification files
     "NetWebMedia_Business_Marketing_Plan_2026.html",
     "googlef707382bdfd91013.html",

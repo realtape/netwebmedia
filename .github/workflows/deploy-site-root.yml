@@ -274,35 +274,37 @@ jobs:
 
       - name: Server-side cleanup of decommissioned files
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
+        timeout-minutes: 2
         env:
           FTP_HOST: ${{ secrets.CPANEL_FTP_HOST }}
           FTP_USER: ${{ secrets.CPANEL_FTP_ROOT_USER }}
           FTP_PASS: ${{ secrets.CPANEL_FTP_ROOT_PASSWORD }}
         run: |
           # FTPS deploy is non-destructive — files removed from the repo are NOT
-          # auto-removed from the server. This step explicitly deletes legacy /
-          # decommissioned files server-side. Idempotent: missing files are OK.
-          set +e  # don't fail the build if a file is already gone (rm returns non-zero)
-          sudo apt-get install -y --no-install-recommends lftp >/dev/null 2>&1 || true
-          if ! command -v lftp >/dev/null 2>&1; then
-            echo "::warning::lftp unavailable on runner — skipping server-side cleanup"
-            exit 0
-          fi
+          # auto-removed from the server. This step uses curl's --quote (DELE) to
+          # delete decommissioned files server-side. Idempotent: missing files OK.
+          # curl is preinstalled on ubuntu-latest; no apt-get install hang risk.
+          set +e
           DELETIONS=(
-            # Public shell_exec / unauthenticated debug endpoints that shipped before
-            # the Apr 28 hardening pass purged them from the repo + workflow allowlist.
             "_us_log.php"
             "_us_trigger.php"
             "_us_reset_failed.php"
-            # Legacy one-shot maintenance scripts no longer in the workflow allowlist.
             "_fixcmoprices.php"
           )
           for f in "${DELETIONS[@]}"; do
-            echo "Attempting delete: $f"
-            lftp -u "$FTP_USER","$FTP_PASS" --env-password \
-                 -e "set ssl:verify-certificate no; set ftp:ssl-protect-data yes; rm -f $f; bye" \
-                 "ftps://$FTP_HOST" 2>&1 \
-              | grep -v -i 'password' | sed 's/^/  /'
+            # Use curl with explicit FTPS, passive mode, short connect+overall timeouts.
+            # --quote runs raw FTP commands; DELE is the FTP delete verb.
+            # 550 means "file not found" (already gone — fine). Other codes are warnings.
+            code=$(curl --silent --show-error \
+                        --user "$FTP_USER:$FTP_PASS" \
+                        --ftp-ssl --ftp-pasv \
+                        --connect-timeout 15 --max-time 30 \
+                        --insecure \
+                        --output /dev/null \
+                        --write-out '%{ftp_entry_path}|%{response_code}' \
+                        --quote "DELE $f" \
+                        "ftps://$FTP_HOST/" 2>&1 || true)
+            echo "  $f -> $code"
           done
           echo "Server-side cleanup complete."
 

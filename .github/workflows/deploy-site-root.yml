@@ -333,6 +333,23 @@ jobs:
             **/_deploy/**
             **/companies/**
 
+      - name: Run CRM DB migrations
+        if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
+        run: |
+          # Idempotent — ALTER TABLE IF NOT EXISTS + safe UPDATEs.
+          # Runs on every deploy; no-ops if columns already exist.
+          for schema in deals_v2; do
+            echo "Running migration: $schema"
+            resp=$(curl -sS --max-time 20 \
+              -A "Mozilla/5.0 (gh-actions migrate)" \
+              -X POST \
+              "https://app.netwebmedia.com/api/?r=migrate&token=NWM_MIGRATE_2026&schema=$schema")
+            echo "  $schema → $resp"
+            # Fail loudly if the endpoint itself errored (not just SQL warnings)
+            echo "$resp" | grep -q '"ran"' || { echo "Migration endpoint did not return expected JSON"; exit 1; }
+          done
+          echo "Migrations complete"
+
       - name: Smoke test live URLs
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
         run: |

@@ -45,7 +45,7 @@ NAV = """<nav class="navbar has-lang-bar" id="navbar">
         <a href="https://netwebmedia.com/contact.html" data-en="Contact" data-es="Contacto">Contact</a>
       </div>
       <div class="nav-ctas">
-        <a href="https://netwebmedia.com/contact.html" class="btn-nav-solid" data-en="Get a Free Audit" data-es="Auditoría Gratis">Get a Free Audit</a>
+        <a href="https://netwebmedia.com/contact.html" class="btn-nav-solid" data-en="Free 48-Hour Written Audit" data-es="Auditoría Gratis de 48 Horas">Free 48-Hour Written Audit</a>
       </div>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>

@@ -61,6 +61,14 @@ function config() {
         }
       }
     }
+
+    // Public/default fallbacks. Safe to commit because they are non-secret
+    // identifiers (e.g. browser-side Sentry DSNs are designed to be public).
+    // config.local.php or the home file may override these.
+    if (empty($c['sentry_dsn'])) {
+      // Same project as the JS-side capture in /js/nwm-sentry.js.
+      $c['sentry_dsn'] = 'https://69fce09a20f1958bd2f1b9e601ba9a46@o4511302572441600.ingest.us.sentry.io/4511302588235776';
+    }
   }
   return $c;
 }

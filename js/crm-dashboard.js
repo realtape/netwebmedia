@@ -148,10 +148,53 @@
   function $(sel) { return document.querySelector(sel); }
   function $$(sel) { return document.querySelectorAll(sel); }
 
-  function esc(str) {
-    const d = document.createElement('div');
-    d.textContent = str || '';
-    return d.innerHTML;
+  // HTML-escape any value going into an innerHTML template literal.
+  // Pre-white-label hardening: until now the CRM only handled mock data, so
+  // the unescaped interpolations below didn't actually execute. The moment a
+  // real contact named `<script>alert(1)</script>` lands in the DB, every
+  // operator's browser runs it. ALWAYS wrap interpolations with this.
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+  // Backwards-compatible alias for existing call sites.
+  const esc = escapeHtml;
+
+  // Validate URLs going into href= or src=. Block javascript:, data:, vbscript:.
+  // Returns a safe URL or '#'.
+  function safeUrl(u) {
+    if (u == null) return '#';
+    const s = String(u).trim();
+    if (s === '') return '#';
+    if (/^(https?:|mailto:|tel:|\/|#)/i.test(s)) return s;
+    return '#';
+  }
+
+  // Whitelist values headed into inline `style` attributes. Inline style is
+  // the easiest XSS escape route after innerHTML — `expression(...)` in old
+  // IE, `url(javascript:...)` in older browsers, and CSS-injection breakouts
+  // when the attribute is single-quoted. We only allow strict color forms.
+  function safeColor(c, fallback) {
+    fallback = fallback || '#6c5ce7';
+    if (c == null) return fallback;
+    const s = String(c).trim();
+    if (/^#[0-9a-fA-F]{3,8}$/.test(s)) return s;
+    if (/^rgb\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*\)$/.test(s)) return s;
+    if (/^rgba\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*(?:0|1|0?\.\d+)\s*\)$/.test(s)) return s;
+    if (/^var\(--[a-zA-Z0-9_-]+\)$/.test(s)) return s;
+    return fallback;
+  }
+
+  // Coerce numbers from server-side data before injecting into HTML/inline
+  // styles. Strings like "99); evil()" become 0.
+  function safeNum(n) {
+    const v = Number(n);
+    return Number.isFinite(v) ? v : 0;
   }
 
   function companyName(id) {

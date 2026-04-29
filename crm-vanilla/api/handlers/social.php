@@ -5,12 +5,14 @@
  */
 
 require_once __DIR__ . '/../lib/guard.php';
+require_once __DIR__ . '/../lib/tenancy.php';
 require_once __DIR__ . '/../lib/social/fetchers.php';
 
 $user = require_guard();
 $uid  = (int)($user['id'] ?? 0);
 $db   = getDB();
 $sub  = $_GET['sub'] ?? '';
+$orgId = is_org_schema_applied() ? current_org_id() : null;
 
 // DDL moved to schema_social.sql — run once via /api/?r=migrate&schema=social
 // Per-process readiness check (cheap; cached in static).
@@ -27,48 +29,58 @@ if (!$social_ready) {
 switch ($sub) {
     case 'providers':
         if ($method !== 'GET') jsonError('Method not allowed', 405);
-        handleProviders($uid, $db);
+        handleProviders($uid, $db, $orgId);
         break;
 
     case 'credentials':
-        if ($method === 'POST')        handleSaveCredentials($uid, $db);
-        elseif ($method === 'DELETE')  handleDeleteCredentials($uid, $db);
+        if ($method === 'POST')        handleSaveCredentials($uid, $db, $orgId);
+        elseif ($method === 'DELETE')  handleDeleteCredentials($uid, $db, $orgId);
         else jsonError('Method not allowed', 405);
         break;
 
     case 'feed':
         if ($method !== 'GET') jsonError('Method not allowed', 405);
-        handleFeed($uid, $db);
+        handleFeed($uid, $db, $orgId);
         break;
 
     case 'sync':
         if ($method !== 'POST') jsonError('Method not allowed', 405);
-        handleSync($uid, $db);
+        handleSync($uid, $db, $orgId);
         break;
 
     case 'posts':
-        if ($method === 'GET')       handleListScheduled($uid, $db);
-        elseif ($method === 'POST')  handleCreateScheduled($uid, $db);
+        if ($method === 'GET')       handleListScheduled($uid, $db, $orgId);
+        elseif ($method === 'POST')  handleCreateScheduled($uid, $db, $orgId);
         else jsonError('Method not allowed', 405);
         break;
 
     case 'publish':
         if ($method !== 'POST') jsonError('Method not allowed', 405);
-        handlePublishDue($uid, $db);
+        handlePublishDue($uid, $db, $orgId);
         break;
 
     default:
         jsonError('Unknown social endpoint: ' . htmlspecialchars($sub), 404);
 }
 
+/**
+ * Build org-scoped WHERE fragment for a social_* table reading by user.
+ * Returns [' AND organization_id = ?', [$orgId]] or ['', []].
+ */
+function _social_org_clause(?int $orgId): array {
+    if ($orgId === null) return ['', []];
+    return [' AND organization_id = ?', [$orgId]];
+}
+
 /* ── Handlers ─────────────────────────────────────────────────────────────── */
 
-function handleProviders(int $uid, PDO $db): void {
+function handleProviders(int $uid, PDO $db, ?int $orgId): void {
+    [$orgClause, $orgParams] = _social_org_clause($orgId);
     $stmt = $db->prepare(
         'SELECT provider, connected_at, last_sync_at, post_count, credentials_enc
-         FROM social_credentials WHERE user_id = ?'
+         FROM social_credentials WHERE user_id = ?' . $orgClause
     );
-    $stmt->execute([$uid]);
+    $stmt->execute(array_merge([$uid], $orgParams));
     $rows = $stmt->fetchAll();
 
     $connectedMap = [];

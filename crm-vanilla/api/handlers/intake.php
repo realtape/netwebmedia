@@ -11,6 +11,10 @@
  *           HUBSPOT_TOKEN (optional — skips HS push if missing)
  */
 
+// Rate limit: 5 intakes per 5 min per IP — Anthropic spend protection
+require_once __DIR__ . '/../lib/rate_limit.php';
+rate_limit('intake', 5, 300);
+
 if ($method !== 'POST') jsonError('POST required', 405);
 $data = getInput();
 

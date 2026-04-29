@@ -1,12 +1,24 @@
 <?php
+require_once __DIR__ . '/../lib/tenancy.php';
 $db = getDB();
+
+// Ownership check helper — returns true iff the current tenant can touch this conversation.
+$canAccessConv = function(int $convId) use ($db): bool {
+    $st = $db->prepare('SELECT user_id FROM conversations WHERE id = ?');
+    $st->execute([$convId]);
+    $r = $st->fetch();
+    if (!$r) return false;
+    return tenant_owns($r['user_id'] !== null ? (int)$r['user_id'] : null);
+};
 
 switch ($method) {
     case 'GET':
         $convId = $_GET['conversation_id'] ?? null;
         if (!$convId) jsonError('conversation_id required');
+        $convId = (int)$convId;
+        if (!$canAccessConv($convId)) jsonError('Conversation not found', 404);
         $stmt = $db->prepare('SELECT * FROM messages WHERE conversation_id = ? ORDER BY sent_at ASC');
-        $stmt->execute([(int)$convId]);
+        $stmt->execute([$convId]);
         jsonResponse($stmt->fetchAll());
         break;
 
@@ -16,6 +28,7 @@ switch ($method) {
             jsonError('conversation_id and body required');
         }
         $convId = (int)$data['conversation_id'];
+        if (!$canAccessConv($convId)) jsonError('Conversation not found', 404);
         $sender = $data['sender'] ?? 'me';
         $body   = $data['body'];
 

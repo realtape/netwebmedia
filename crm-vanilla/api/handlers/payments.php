@@ -11,56 +11,42 @@
  * Returns summary stats + tabbed data for the Payments UI.
  */
 
+require_once __DIR__ . '/../lib/tenancy.php';
 $db = getDB();
+[$tWhereI, $tParamsI] = tenant_where('i');
+[$tWhereS, $tParamsS] = tenant_where('s');
+$uid = tenant_id();
 
-// Ensure the invoices table exists (idempotent migration).
-$db->exec("
-    CREATE TABLE IF NOT EXISTS `invoices` (
-        `id`            INT AUTO_INCREMENT PRIMARY KEY,
-        `invoice_num`   VARCHAR(32)  NOT NULL DEFAULT '',
-        `contact_id`    INT          NULL,
-        `client_name`   VARCHAR(255) NOT NULL DEFAULT '',
-        `company`       VARCHAR(255) NOT NULL DEFAULT '',
-        `amount`        DECIMAL(12,2) NOT NULL DEFAULT 0.00,
-        `status`        ENUM('draft','pending','paid','overdue','cancelled') NOT NULL DEFAULT 'pending',
-        `invoice_date`  DATE         NOT NULL DEFAULT (CURDATE()),
-        `due_date`      DATE         NULL,
-        `notes`         TEXT         NULL,
-        `created_at`    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        `updated_at`    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        KEY `idx_status` (`status`),
-        KEY `idx_contact` (`contact_id`)
-    ) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-");
-
-$db->exec("
-    CREATE TABLE IF NOT EXISTS `subscriptions` (
-        `id`            INT AUTO_INCREMENT PRIMARY KEY,
-        `contact_id`    INT          NULL,
-        `client_name`   VARCHAR(255) NOT NULL DEFAULT '',
-        `plan`          VARCHAR(100) NOT NULL DEFAULT 'Starter',
-        `amount`        DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-        `interval_type` ENUM('monthly','annual','one-time') NOT NULL DEFAULT 'monthly',
-        `status`        ENUM('active','past_due','cancelled','paused') NOT NULL DEFAULT 'active',
-        `next_bill_date` DATE        NULL,
-        `created_at`    TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP
-    ) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-");
+// DDL moved to schema_payments.sql — run via /api/?r=migrate&schema=payments
+// Cache "tables exist" check per PHP-FPM process so we only verify once per worker.
+static $payments_ready = false;
+if (!$payments_ready) {
+    try {
+        $db->query('SELECT 1 FROM invoices LIMIT 1');
+        $db->query('SELECT 1 FROM subscriptions LIMIT 1');
+        $payments_ready = true;
+    } catch (Throwable $e) {
+        jsonError('Payments tables not initialized. Run /api/?r=migrate&schema=payments', 503);
+    }
+}
 
 // ── GET ───────────────────────────────────────────────────────────────────────
 if ($method === 'GET') {
     $tab = $_GET['tab'] ?? 'overview';
 
-    // Summary stats from invoices
-    $stats = $db->query("
-        SELECT
+    // Summary stats from invoices (tenant-scoped)
+    $statsSql = "SELECT
             SUM(CASE WHEN status='paid'    THEN amount ELSE 0 END) AS total_revenue,
             SUM(CASE WHEN status='pending' THEN amount ELSE 0 END) AS outstanding,
             SUM(CASE WHEN status='overdue' THEN amount ELSE 0 END) AS overdue,
             SUM(CASE WHEN status='paid' AND MONTH(invoice_date)=MONTH(CURDATE())
                                          THEN amount ELSE 0 END)   AS this_month
-        FROM invoices
-    ")->fetch();
+        FROM invoices i";
+    $statsParams = [];
+    if ($tWhereI) { $statsSql .= ' WHERE ' . $tWhereI; $statsParams = $tParamsI; }
+    $st = $db->prepare($statsSql);
+    $st->execute($statsParams);
+    $stats = $st->fetch();
 
     $summary = [
         'total_revenue' => (float)($stats['total_revenue'] ?? 0),
@@ -69,23 +55,27 @@ if ($method === 'GET') {
         'this_month'    => (float)($stats['this_month']    ?? 0),
     ];
 
-    // Invoices
-    $invoices = $db->query("
-        SELECT i.*, c.name as contact_name
-        FROM invoices i
-        LEFT JOIN contacts c ON i.contact_id = c.id
-        ORDER BY i.created_at DESC
-        LIMIT 100
-    ")->fetchAll();
+    // Invoices (tenant-scoped)
+    $invSql = "SELECT i.*, c.name as contact_name
+               FROM invoices i
+               LEFT JOIN contacts c ON i.contact_id = c.id";
+    $invParams = [];
+    if ($tWhereI) { $invSql .= ' WHERE ' . $tWhereI; $invParams = $tParamsI; }
+    $invSql .= ' ORDER BY i.created_at DESC LIMIT 100';
+    $st = $db->prepare($invSql);
+    $st->execute($invParams);
+    $invoices = $st->fetchAll();
 
-    // Subscriptions
-    $subscriptions = $db->query("
-        SELECT s.*, c.name as contact_name
-        FROM subscriptions s
-        LEFT JOIN contacts c ON s.contact_id = c.id
-        ORDER BY s.status ASC, s.next_bill_date ASC
-        LIMIT 100
-    ")->fetchAll();
+    // Subscriptions (tenant-scoped)
+    $subSql = "SELECT s.*, c.name as contact_name
+               FROM subscriptions s
+               LEFT JOIN contacts c ON s.contact_id = c.id";
+    $subParams = [];
+    if ($tWhereS) { $subSql .= ' WHERE ' . $tWhereS; $subParams = $tParamsS; }
+    $subSql .= ' ORDER BY s.status ASC, s.next_bill_date ASC LIMIT 100';
+    $st = $db->prepare($subSql);
+    $st->execute($subParams);
+    $subscriptions = $st->fetchAll();
 
     jsonResponse([
         'summary'       => $summary,
@@ -105,10 +95,11 @@ if ($method === 'POST') {
     $num   = 'INV-' . str_pad($count + 1, 3, '0', STR_PAD_LEFT);
 
     $stmt = $db->prepare("
-        INSERT INTO invoices (invoice_num, contact_id, client_name, company, amount, status, invoice_date, due_date, notes)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO invoices (user_id, invoice_num, contact_id, client_name, company, amount, status, invoice_date, due_date, notes)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
     $stmt->execute([
+        $uid,
         $num,
         $data['contact_id'] ?? null,
         $data['client_name'],
@@ -124,6 +115,15 @@ if ($method === 'POST') {
 
 // ── PUT — update invoice status ───────────────────────────────────────────────
 if ($method === 'PUT' && $id) {
+    // Ownership check
+    $own = $db->prepare('SELECT user_id FROM invoices WHERE id = ?');
+    $own->execute([$id]);
+    $row = $own->fetch();
+    if (!$row) jsonError('Invoice not found', 404);
+    if (!tenant_owns($row['user_id'] !== null ? (int)$row['user_id'] : null)) {
+        jsonError('Invoice not found', 404);
+    }
+
     $data = getInput();
     $allowed = ['draft', 'pending', 'paid', 'overdue', 'cancelled'];
     if (!empty($data['status']) && !in_array($data['status'], $allowed, true)) {

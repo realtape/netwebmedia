@@ -1,12 +1,20 @@
 <?php
+require_once __DIR__ . '/../lib/tenancy.php';
 $db = getDB();
+[$tWhere, $tParams] = tenant_where('conv');
+$uid = tenant_id();
 
 switch ($method) {
     case 'GET':
         if ($id) {
-            // Get conversation with messages
-            $stmt = $db->prepare('SELECT conv.*, c.name as contact_name, c.avatar FROM conversations conv LEFT JOIN contacts c ON conv.contact_id = c.id WHERE conv.id = ?');
-            $stmt->execute([$id]);
+            // Get conversation with messages — tenant-scoped
+            $sql = 'SELECT conv.*, c.name as contact_name, c.avatar
+                    FROM conversations conv LEFT JOIN contacts c ON conv.contact_id = c.id
+                    WHERE conv.id = ?';
+            $params = [$id];
+            if ($tWhere) { $sql .= ' AND ' . $tWhere; $params = array_merge($params, $tParams); }
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
             $conv = $stmt->fetch();
             if (!$conv) jsonError('Conversation not found', 404);
 
@@ -21,6 +29,7 @@ switch ($method) {
         }
         $where = [];
         $params = [];
+        if ($tWhere) { $where[] = $tWhere; $params = array_merge($params, $tParams); }
         if (!empty($_GET['channel'])) {
             $where[] = 'conv.channel = ?';
             $params[] = $_GET['channel'];
@@ -35,8 +44,9 @@ switch ($method) {
 
     case 'POST':
         $data = getInput();
-        $stmt = $db->prepare('INSERT INTO conversations (contact_id, channel, subject, unread) VALUES (?, ?, ?, ?)');
+        $stmt = $db->prepare('INSERT INTO conversations (user_id, contact_id, channel, subject, unread) VALUES (?, ?, ?, ?, ?)');
         $stmt->execute([
+            $uid,
             $data['contact_id'] ?? null,
             $data['channel'] ?? 'email',
             $data['subject'] ?? null,

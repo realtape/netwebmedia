@@ -11,7 +11,7 @@
  * Add &dry=1 to preview without DB writes.
  */
 if ($method !== 'GET') jsonError('Use GET', 405);
-if (($_GET['token'] ?? '') !== 'NWM_IMPORT_BEST_2026') jsonError('Invalid token', 403);
+if (!hash_equals(IMPORT_BEST_TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 
 $dry        = !empty($_GET['dry']);
 $country    = strtolower(trim($_GET['country'] ?? ''));
@@ -163,7 +163,7 @@ jsonResponse([
     'csv'             => basename($csvFile),
     'chunk_start'     => $chunkStart,
     'chunk_size'      => $chunkSize,
-    'next_offset'     => $chunkStart + $lineNum - ($chunkStart > 0 ? $chunkStart : 0),
+    'next_offset'     => $chunkStart + $chunkSize,
     'parsed'          => $parsed,
     'inserted'        => $dry ? 0 : $inserted,
     'skipped_dupe'    => $dry ? 0 : $skipped,

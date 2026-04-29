@@ -301,7 +301,8 @@
       var title = isEs
         ? ('📊 Benchmarks de tu industria — ' + (nd.label || userNiche))
         : ('📊 Industry Benchmarks — ' + (nd.label || userNiche));
-      section.innerHTML = '<div class="card-header"><h2 class="card-title">' + title + '</h2></div>';
+      var __esc = (window.CRM_APP && CRM_APP.esc) ? CRM_APP.esc : function(s){ return String(s == null ? '' : s); };
+      section.innerHTML = '<div class="card-header"><h2 class="card-title">' + __esc(title) + '</h2></div>';
 
       var grid = document.createElement('div');
       grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;padding:16px 20px';

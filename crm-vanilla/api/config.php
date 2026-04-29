@@ -18,6 +18,13 @@ if (file_exists(__DIR__ . '/config.local.php')) {
 }
 if (!defined('DB_PASS')) define('DB_PASS', '');
 
+// Token-protected admin operations — define overrides in config.local.php and rotate after each use.
+if (!defined('MIGRATE_TOKEN'))     define('MIGRATE_TOKEN',     'NWM_MIGRATE_2026');
+if (!defined('SEED_TOKEN'))        define('SEED_TOKEN',        'NWM_SEED_2026');
+if (!defined('DEDUPE_TOKEN'))      define('DEDUPE_TOKEN',      'NWM_DEDUPE_2026');
+if (!defined('IMPORT_BEST_TOKEN')) define('IMPORT_BEST_TOKEN', 'NWM_IMPORT_BEST_2026');
+if (!defined('IMPORT_CSV_TOKEN'))  define('IMPORT_CSV_TOKEN',  'NWM_IMPORT_CHILE_2026');
+
 // CORS and security
 define('ALLOWED_ORIGIN', 'https://netwebmedia.com');
 

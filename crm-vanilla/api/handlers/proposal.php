@@ -11,11 +11,11 @@ rate_limit('proposal', 5, 300);
 
 if ($method !== 'GET') jsonError('GET required', 405);
 
-$targetUrl = $_GET['url']     ?? '';
+require_once __DIR__ . '/../lib/url_guard.php';
+$targetUrl = url_guard_or_fail($_GET['url'] ?? '');
 $leadName  = $_GET['name']    ?? 'Prospective Client';
 $leadEmail = $_GET['email']   ?? '';
 $company   = $_GET['company'] ?? parse_url($targetUrl, PHP_URL_HOST) ?: 'your company';
-if (!filter_var($targetUrl, FILTER_VALIDATE_URL)) jsonError('valid url param required');
 
 // Run analyzer inline
 $origGet = $_GET;
@@ -28,9 +28,11 @@ try {
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_TIMEOUT => 15,
-        CURLOPT_USERAGENT => 'NetWebMediaAnalyzer/1.0',
-        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_MAXREDIRS      => 3,
+        CURLOPT_TIMEOUT        => 15,
+        CURLOPT_USERAGENT      => 'NetWebMediaAnalyzer/1.0',
+        CURLOPT_PROTOCOLS      => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+        CURLOPT_REDIR_PROTOCOLS=> CURLPROTO_HTTP | CURLPROTO_HTTPS,
     ]);
     $t0 = microtime(true);
     $html = curl_exec($ch) ?: '';

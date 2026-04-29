@@ -93,21 +93,22 @@
       return;
     }
 
+    var esc = (window.CRM_APP && CRM_APP.esc) ? CRM_APP.esc : function(s){ return String(s == null ? '' : s); };
     var html = "";
     for (var i = 0; i < conversationList.length; i++) {
       var c = conversationList[i];
       var isActive = activeConversation && activeConversation.id === c.id ? " active" : "";
       var unreadClass = c.unread ? " unread" : "";
       var timeDisplay = formatTime(c.updated_at);
-      html += '<div class="conv-item' + isActive + unreadClass + '" data-id="' + c.id + '">';
-      html += '<div class="conv-avatar">' + (c.avatar || "??") + '</div>';
+      html += '<div class="conv-item' + isActive + unreadClass + '" data-id="' + (parseInt(c.id, 10) || 0) + '">';
+      html += '<div class="conv-avatar">' + esc(c.avatar || "??") + '</div>';
       html += '<div class="conv-content">';
       html += '<div class="conv-top">';
-      html += '<span class="conv-name">' + (c.contact_name || "") + '</span>';
-      html += '<span class="conv-time">' + timeDisplay + '</span>';
+      html += '<span class="conv-name">' + esc(c.contact_name || "") + '</span>';
+      html += '<span class="conv-time">' + esc(timeDisplay) + '</span>';
       html += '</div>';
-      html += '<div class="conv-subject">' + (c.subject || "") + '</div>';
-      html += '<div class="conv-preview">' + (c.preview || "") + '</div>';
+      html += '<div class="conv-subject">' + esc(c.subject || "") + '</div>';
+      html += '<div class="conv-preview">' + esc(c.preview || "") + '</div>';
       html += '</div>';
       html += '<div class="conv-channel">' + CRM_APP.channelIcon(c.channel) + '</div>';
       html += '</div>';
@@ -164,10 +165,13 @@
 
     var c = activeConversation;
 
+    var esc = (window.CRM_APP && CRM_APP.esc) ? CRM_APP.esc : function(s){ return String(s == null ? '' : s); };
+    var ch = String(c.channel || "");
+    var chLabel = ch ? ch.charAt(0).toUpperCase() + ch.slice(1) : "";
     header.innerHTML = '<div class="chat-header-info">' +
-      '<div class="conv-avatar">' + (c.avatar || "??") + '</div>' +
-      '<div><div class="chat-header-name">' + (c.contact_name || "") + '</div>' +
-      '<div class="chat-header-channel">' + CRM_APP.channelIcon(c.channel) + ' ' + c.channel.charAt(0).toUpperCase() + c.channel.slice(1) + '</div></div>' +
+      '<div class="conv-avatar">' + esc(c.avatar || "??") + '</div>' +
+      '<div><div class="chat-header-name">' + esc(c.contact_name || "") + '</div>' +
+      '<div class="chat-header-channel">' + CRM_APP.channelIcon(c.channel) + ' ' + esc(chLabel) + '</div></div>' +
       '</div>';
 
     var msgs = (c.messages && Array.isArray(c.messages)) ? c.messages : [];
@@ -177,11 +181,11 @@
       var isMe = m.sender === "me";
       html += '<div class="chat-message ' + (isMe ? "sent" : "received") + '">';
       if (!isMe) {
-        html += '<div class="msg-avatar">' + (c.avatar || "??") + '</div>';
+        html += '<div class="msg-avatar">' + esc(c.avatar || "??") + '</div>';
       }
       html += '<div class="msg-bubble">';
-      html += '<div class="msg-text">' + m.body + '</div>';
-      html += '<div class="msg-time">' + formatTime(m.sent_at) + '</div>';
+      html += '<div class="msg-text">' + esc(m.body) + '</div>';
+      html += '<div class="msg-time">' + esc(formatTime(m.sent_at)) + '</div>';
       html += '</div>';
       html += '</div>';
     }
@@ -197,13 +201,14 @@
     var div = document.createElement("div");
     div.className = "chat-message " + (isMe ? "sent" : "received");
 
+    var esc = (window.CRM_APP && CRM_APP.esc) ? CRM_APP.esc : function(s){ return String(s == null ? '' : s); };
     var inner = "";
     if (!isMe) {
-      inner += '<div class="msg-avatar">' + ((activeConversation && activeConversation.avatar) || "??") + '</div>';
+      inner += '<div class="msg-avatar">' + esc((activeConversation && activeConversation.avatar) || "??") + '</div>';
     }
     inner += '<div class="msg-bubble">';
-    inner += '<div class="msg-text">' + msg.body + '</div>';
-    inner += '<div class="msg-time">' + formatTime(msg.sent_at) + '</div>';
+    inner += '<div class="msg-text">' + esc(msg.body) + '</div>';
+    inner += '<div class="msg-time">' + esc(formatTime(msg.sent_at)) + '</div>';
     inner += '</div>';
     div.innerHTML = inner;
     messages.appendChild(div);

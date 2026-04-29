@@ -1,11 +1,18 @@
 <?php
+require_once __DIR__ . '/../lib/tenancy.php';
 $db = getDB();
+
+[$tWhere, $tParams] = tenant_where();
+$uid = tenant_id();
 
 switch ($method) {
     case 'GET':
         if ($id) {
-            $stmt = $db->prepare('SELECT * FROM contacts WHERE id = ?');
-            $stmt->execute([$id]);
+            $sql = 'SELECT * FROM contacts WHERE id = ?';
+            $params = [$id];
+            if ($tWhere) { $sql .= ' AND ' . $tWhere; $params = array_merge($params, $tParams); }
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
             $contact = $stmt->fetch();
             if (!$contact) jsonError('Contact not found', 404);
             jsonResponse($contact);
@@ -13,6 +20,7 @@ switch ($method) {
         // List with optional filters
         $where = [];
         $params = [];
+        if ($tWhere) { $where[] = $tWhere; $params = array_merge($params, $tParams); }
         if (!empty($_GET['status'])) {
             $where[] = 'status = ?';
             $params[] = $_GET['status'];
@@ -38,8 +46,9 @@ switch ($method) {
     case 'POST':
         $data = getInput();
         if (empty($data['name'])) jsonError('Name is required');
-        $stmt = $db->prepare('INSERT INTO contacts (name, email, phone, company, role, status, value, last_contact, avatar, notes, segment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        $stmt = $db->prepare('INSERT INTO contacts (user_id, name, email, phone, company, role, status, value, last_contact, avatar, notes, segment) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
         $stmt->execute([
+            $uid,
             $data['name'],
             $data['email'] ?? null,
             $data['phone'] ?? null,
@@ -60,6 +69,15 @@ switch ($method) {
 
     case 'PUT':
         if (!$id) jsonError('ID required for update');
+        // Verify ownership before update
+        $own = $db->prepare('SELECT user_id FROM contacts WHERE id = ?');
+        $own->execute([$id]);
+        $row = $own->fetch();
+        if (!$row) jsonError('Contact not found', 404);
+        if (!tenant_owns($row['user_id'] !== null ? (int)$row['user_id'] : null)) {
+            jsonError('Contact not found', 404);
+        }
+
         $data = getInput();
         $fields = [];
         $params = [];
@@ -81,6 +99,13 @@ switch ($method) {
 
     case 'DELETE':
         if (!$id) jsonError('ID required for delete');
+        $own = $db->prepare('SELECT user_id FROM contacts WHERE id = ?');
+        $own->execute([$id]);
+        $row = $own->fetch();
+        if (!$row) jsonError('Contact not found', 404);
+        if (!tenant_owns($row['user_id'] !== null ? (int)$row['user_id'] : null)) {
+            jsonError('Contact not found', 404);
+        }
         $db->prepare('DELETE FROM contacts WHERE id = ?')->execute([$id]);
         jsonResponse(['deleted' => true]);
         break;

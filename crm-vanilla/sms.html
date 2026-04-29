@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMS - NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css?v=8">
+  <style>
+    .sms-tabs { display:flex; gap:4px; border-bottom:1px solid #e3e5ee; margin-bottom:18px; }
+    .sms-tab { padding:10px 18px; border:none; background:transparent; color:#64748b; font:600 13px Inter; cursor:pointer; border-bottom:2px solid transparent; }
+    .sms-tab.active { color:#010F3B; border-bottom-color:#FF671F; }
+    .sms-panel { display:none; }
+    .sms-panel.active { display:block; }
+
+    .campaign-row { background:#fff; border:1px solid #e3e5ee; border-radius:10px; padding:14px; margin-bottom:8px; display:flex; gap:14px; align-items:flex-start; flex-wrap:wrap; }
+    .campaign-row .info { flex:1; min-width:240px; }
+    .campaign-row h4 { margin:0 0 4px; color:#010F3B; font:700 15px Inter; }
+    .campaign-row .body-preview { color:#64748b; font:500 13px Inter; line-height:1.4; max-height:36px; overflow:hidden; text-overflow:ellipsis; }
+    .campaign-row .meta { color:#94a3b8; font:600 11px Inter; text-transform:uppercase; letter-spacing:.4px; margin-top:8px; display:flex; gap:14px; flex-wrap:wrap; }
+    .badge { display:inline-block; padding:2px 8px; border-radius:6px; font:700 11px Inter; text-transform:uppercase; letter-spacing:.3px; }
+    .badge.draft     { background:#f2f3f8; color:#64748b; }
+    .badge.scheduled { background:#dbeafe; color:#1e40af; }
+    .badge.sending   { background:#fef3c7; color:#92400e; }
+    .badge.sent      { background:#dcfce7; color:#166534; }
+    .badge.paused    { background:#fee2e2; color:#b91c1c; }
+    .progress { height:6px; background:#f2f3f8; border-radius:999px; overflow:hidden; margin-top:8px; }
+    .progress-bar { height:100%; background:#FF671F; transition:width .3s; }
+
+    .opt-out-row { background:#fff; border:1px solid #e3e5ee; border-radius:8px; padding:10px 14px; margin-bottom:6px; display:flex; gap:14px; align-items:center; }
+    .opt-out-row .phone { font:600 13px monospace; color:#010F3B; flex:1; }
+    .opt-out-row .reason { background:#fee2e2; color:#b91c1c; padding:2px 8px; border-radius:4px; font:600 11px Inter; }
+    .opt-out-row .when { color:#94a3b8; font:500 12px Inter; }
+
+    .modal-backdrop { position:fixed; inset:0; background:rgba(2,8,23,.55); z-index:1000; display:none; align-items:center; justify-content:center; }
+    .modal-backdrop.open { display:flex; }
+    .modal { background:#fff; border-radius:14px; padding:22px; width:600px; max-width:92vw; max-height:88vh; overflow:auto; box-shadow:0 20px 50px rgba(0,0,0,.25); }
+    .modal h3 { margin:0 0 14px; color:#010F3B; }
+    .modal label { display:block; color:#1a1a2e; font:600 12px Inter; margin:10px 0 4px; text-transform:uppercase; letter-spacing:.4px; }
+    .modal input, .modal textarea, .modal select { width:100%; padding:9px 10px; border:1px solid #e3e5ee; border-radius:8px; font:400 14px Inter; }
+    .modal textarea { min-height:90px; resize:vertical; font-family: monospace; }
+    .modal .row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .modal-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:18px; }
+    .merge-tags { display:flex; gap:5px; flex-wrap:wrap; margin-top:5px; }
+    .merge-tag { background:#f2f3f8; border:1px solid #e3e5ee; padding:2px 7px; border-radius:4px; font:500 11px monospace; cursor:pointer; color:#64748b; }
+    .merge-tag:hover { background:#FF671F; color:#fff; border-color:#FF671F; }
+    .char-counter { text-align:right; color:#94a3b8; font:500 11px Inter; margin-top:4px; }
+    .char-counter.warn { color:#FF671F; }
+
+    .preview-box { background:#f8fafc; border:1px solid #e3e5ee; border-radius:10px; padding:14px; margin-top:14px; }
+    .preview-stats { display:flex; gap:18px; margin-bottom:10px; flex-wrap:wrap; }
+    .preview-stats div { font:500 13px Inter; }
+    .preview-stats div span { display:block; font:700 22px Inter; color:#010F3B; }
+    .preview-stats .alert span { color:#FF671F; }
+    .preview-msg { background:#fff; border:1px solid #e3e5ee; border-radius:8px; padding:10px 12px; margin-top:6px; font:500 13px Inter; line-height:1.4; white-space:pre-wrap; }
+    .preview-msg .to { color:#94a3b8; font:600 11px Inter; text-transform:uppercase; letter-spacing:.4px; margin-bottom:4px; }
+
+    .empty-state { text-align:center; padding:50px 20px; color:#64748b; }
+    .toast { position:fixed; bottom:24px; right:24px; background:#10b981; color:#fff; padding:10px 16px; border-radius:8px; font:600 13px Inter; z-index:1100; box-shadow:0 4px 14px rgba(0,0,0,.15); }
+    .toast.error { background:#b91c1c; }
+  </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-V71R6PD7C0',{anonymize_ip:true});</script>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="page-body">
+        <div class="sms-tabs">
+          <button class="sms-tab active" data-smstab="campaigns">Campaigns</button>
+          <button class="sms-tab" data-smstab="optouts">Opt-Outs</button>
+          <button class="sms-tab" data-smstab="inbound">Inbound</button>
+        </div>
+
+        <div class="sms-panel active" id="sms-campaigns">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+            <p style="margin:0;color:#64748b;font:500 13px Inter">Send bulk SMS to a filtered audience. Compliant with carrier rules — STOP/UNSUBSCRIBE auto-opts users out.</p>
+            <button class="btn btn-primary" id="newCampaignBtn">+ New Campaign</button>
+          </div>
+          <div id="campaignsList"></div>
+        </div>
+
+        <div class="sms-panel" id="sms-optouts">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+            <p style="margin:0;color:#64748b;font:500 13px Inter">Phones that have opted out of SMS. They will be skipped automatically on future sends.</p>
+            <button class="btn btn-secondary" id="addOptOutBtn">+ Add Opt-Out</button>
+          </div>
+          <div id="optOutsList"></div>
+        </div>
+
+        <div class="sms-panel" id="sms-inbound">
+          <p style="margin:0 0 14px;color:#64748b;font:500 13px Inter">Most recent inbound messages received from Twilio. STOP / HELP / START keywords are auto-handled.</p>
+          <div id="inboundList"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Campaign Modal -->
+  <div class="modal-backdrop" id="campaignModal">
+    <div class="modal">
+      <h3 id="campaignModalTitle">New SMS Campaign</h3>
+      <input type="hidden" id="campaignId">
+      <label>Campaign Name</label>
+      <input id="cName" placeholder="e.g. Spring Promo Blast">
+      <label>Message Body</label>
+      <textarea id="cBody" maxlength="1500" placeholder="Hi {{first_name}}, this is a quick note from {{company}}…"></textarea>
+      <div class="merge-tags" id="mergeTags">
+        <span class="merge-tag" data-tag="{{first_name}}">{{first_name}}</span>
+        <span class="merge-tag" data-tag="{{name}}">{{name}}</span>
+        <span class="merge-tag" data-tag="{{email}}">{{email}}</span>
+        <span class="merge-tag" data-tag="{{phone}}">{{phone}}</span>
+        <span class="merge-tag" data-tag="{{company}}">{{company}}</span>
+        <span class="merge-tag" data-tag="{{niche_key}}">{{niche_key}}</span>
+        <span class="merge-tag" data-tag="{{city}}">{{city}}</span>
+      </div>
+      <div class="char-counter" id="charCounter">0 / 160 (1 SMS segment)</div>
+
+      <h4 style="margin:18px 0 8px;color:#010F3B;font:700 13px Inter;text-transform:uppercase;letter-spacing:.4px">Audience filter</h4>
+      <p style="color:#64748b;font:500 12px Inter;margin:0 0 8px">All filters are AND-combined. Leave blank to include all contacts that have a phone.</p>
+      <div class="row">
+        <div>
+          <label>Segment</label>
+          <select id="cSegment">
+            <option value="">— Any —</option>
+            <option value="usa">USA</option>
+            <option value="chile">Chile</option>
+          </select>
+        </div>
+        <div>
+          <label>Niche</label>
+          <select id="cNiche">
+            <option value="">— Any —</option>
+            <option value="tourism">Tourism</option><option value="restaurants">Restaurants</option>
+            <option value="health">Health</option><option value="beauty">Beauty</option>
+            <option value="smb">SMB</option><option value="law_firms">Law Firms</option>
+            <option value="real_estate">Real Estate</option><option value="local_specialist">Local Specialist</option>
+            <option value="automotive">Automotive</option><option value="education">Education</option>
+            <option value="events_weddings">Events & Weddings</option><option value="financial_services">Financial Services</option>
+            <option value="home_services">Home Services</option><option value="wine_agriculture">Wine & Agriculture</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Status</label>
+          <select id="cStatus">
+            <option value="">— Any —</option>
+            <option value="lead">Lead</option>
+            <option value="qualified">Qualified</option>
+            <option value="customer">Customer</option>
+            <option value="prospect">Prospect</option>
+          </select>
+        </div>
+        <div>
+          <label>City (optional)</label>
+          <input id="cCity" placeholder="e.g. Santiago">
+        </div>
+      </div>
+
+      <div id="cPreviewBox"></div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="cCancel">Cancel</button>
+        <button class="btn btn-danger"   id="cDelete" style="display:none">Delete</button>
+        <button class="btn btn-secondary" id="cPreview">Preview Audience</button>
+        <button class="btn btn-secondary" id="cSave">Save Draft</button>
+        <button class="btn btn-primary"   id="cSend">Send Now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Opt-Out Modal -->
+  <div class="modal-backdrop" id="optOutModal">
+    <div class="modal" style="width:380px">
+      <h3>Add Opt-Out</h3>
+      <label>Phone</label>
+      <input id="optOutPhone" placeholder="+1 555 0100">
+      <label>Reason</label>
+      <select id="optOutReason">
+        <option value="manual">Manual entry</option>
+        <option value="STOP">STOP keyword</option>
+        <option value="bounce">Bounce</option>
+        <option value="complaint">Complaint</option>
+      </select>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="ooCancel">Cancel</button>
+        <button class="btn btn-primary" id="ooSave">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js?v=8"></script>
+  <script src="js/sms.js?v=1"></script>
+  <script src="assets/nwm-i18n.js" defer></script>
+</body>
+</html>

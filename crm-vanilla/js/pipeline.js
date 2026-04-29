@@ -6,6 +6,8 @@
   var L;
   var stagesData = [];   /* [{id, name, sort_order}] loaded from API */
   var dealsData = [];    /* [{id, title, company, value, stage, stage_id, ...}] */
+  var activeTab = 'sales';
+  var statsData = null;
 
   var STAGE_TX = {
     "New Lead": { es: "Nuevo Lead", en: "New Lead" },
@@ -404,8 +406,186 @@
 
     injectModal();
     injectDrawer();
+    injectTabBar();
+    loadStats();
     loadPipelineData();
   });
+
+  /* ── Tab bar ────────────────────────────────────────────────────── */
+
+  function injectTabBar() {
+    var body = document.querySelector('.pipeline-body');
+    if (!body || document.getElementById('pipelineTopBar')) return;
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+
+    var wrap = document.createElement('div');
+    wrap.id = 'pipelineTopBar';
+    wrap.style.cssText = 'display:flex;flex-direction:column;gap:12px;margin-bottom:16px;';
+
+    var tabRow = document.createElement('div');
+    tabRow.style.cssText = 'display:flex;gap:4px;background:#141620;border-radius:10px;padding:4px;width:fit-content;';
+
+    [['sales', isEs ? 'Pipeline de Ventas' : 'Sales Pipeline'],
+     ['marketing', isEs ? 'Pipeline de Marketing' : 'Marketing Pipeline']
+    ].forEach(function(pair) {
+      var tab = pair[0], label = pair[1];
+      var btn = document.createElement('button');
+      btn.id = 'tab-' + tab;
+      btn.textContent = label;
+      btn.style.cssText = 'padding:8px 20px;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit;' +
+        (tab === 'sales' ? 'background:#FF671F;color:#fff;' : 'background:transparent;color:#8b8fa3;');
+      btn.addEventListener('click', function() { switchTab(tab); });
+      tabRow.appendChild(btn);
+    });
+
+    var statsRow = document.createElement('div');
+    statsRow.id = 'pipelineStatsBar';
+    statsRow.style.cssText = 'display:flex;gap:12px;flex-wrap:wrap;';
+
+    wrap.appendChild(tabRow);
+    wrap.appendChild(statsRow);
+    body.insertBefore(wrap, body.firstChild);
+  }
+
+  function switchTab(tab) {
+    activeTab = tab;
+
+    var tabSales = document.getElementById('tab-sales');
+    var tabMkt = document.getElementById('tab-marketing');
+    if (tabSales && tabMkt) {
+      if (tab === 'sales') {
+        tabSales.style.background = '#FF671F'; tabSales.style.color = '#fff';
+        tabMkt.style.background = 'transparent'; tabMkt.style.color = '#8b8fa3';
+      } else {
+        tabMkt.style.background = '#FF671F'; tabMkt.style.color = '#fff';
+        tabSales.style.background = 'transparent'; tabSales.style.color = '#8b8fa3';
+      }
+    }
+
+    var newDealBtn = document.getElementById('newDealBtn');
+    if (newDealBtn) newDealBtn.style.display = tab === 'sales' ? '' : 'none';
+
+    renderStats(tab);
+
+    if (tab === 'sales') {
+      loadPipelineData();
+    } else {
+      loadMarketingPipeline();
+    }
+  }
+
+  /* ── Stats bar ──────────────────────────────────────────────────── */
+
+  function loadStats() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/?r=stats', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try { statsData = JSON.parse(xhr.responseText); } catch (e) {}
+      }
+      if (!statsData && window.CRM_DATA && CRM_DATA.stats) statsData = CRM_DATA.stats;
+      statsData = statsData || {};
+      renderStats(activeTab);
+    };
+    xhr.send();
+  }
+
+  function renderStats(tab) {
+    var bar = document.getElementById('pipelineStatsBar');
+    if (!bar) return;
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    var d = statsData || {};
+
+    var items = tab === 'sales'
+      ? [
+          { label: isEs ? 'Oportunidades Activas' : 'Active Deals',  value: d.activeDeals || 0,                                   color: '#FF671F' },
+          { label: isEs ? 'Valor Pipeline'        : 'Pipeline Value', value: '$' + (((d.revenue || 0) / 1000).toFixed(0)) + 'k',  color: '#e4e7ec' },
+          { label: isEs ? 'Conversión'            : 'Conversion',     value: (d.conversion || 0) + '%',                           color: '#00b894' }
+        ]
+      : [
+          { label: isEs ? 'Contactos Totales' : 'Total Contacts', value: (d.totalContacts || 0).toLocaleString(), color: '#e4e7ec' },
+          { label: isEs ? 'Leads Nuevos'      : 'New Leads',      value: d.newLeads || 0,                         color: '#FF671F' },
+          { label: isEs ? 'Oportunidad Prom.' : 'Avg Deal',       value: '$' + (((d.avgDeal || 0) / 1000).toFixed(1)) + 'k', color: '#6366f1' }
+        ];
+
+    bar.innerHTML = items.map(function (s) {
+      return '<div style="background:#1a1d27;border:1px solid #2a2d3a;border-radius:10px;padding:12px 20px;min-width:130px">' +
+        '<div style="font-size:10px;color:#8b8fa3;text-transform:uppercase;letter-spacing:.7px;font-weight:600;margin-bottom:4px">' + s.label + '</div>' +
+        '<div style="font-size:22px;font-weight:700;color:' + s.color + '">' + s.value + '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  /* ── Marketing Pipeline view ────────────────────────────────────── */
+
+  function loadMarketingPipeline() {
+    showSpinner();
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/?r=contacts&segment=all', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+      var contacts = [];
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try { contacts = JSON.parse(xhr.responseText); } catch (e) {}
+      }
+      if ((!contacts || !contacts.length) && window.CRM_DATA && CRM_DATA.contacts) {
+        contacts = CRM_DATA.contacts;
+      }
+      renderMarketingPipeline(contacts || []);
+    };
+    xhr.send();
+  }
+
+  function renderMarketingPipeline(contacts) {
+    var board = document.getElementById('pipelineBoard');
+    if (!board) return;
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+
+    var stages = [
+      { key: 'lead',     label: isEs ? 'Leads'      : 'Leads',      color: '#FF671F' },
+      { key: 'prospect', label: isEs ? 'Prospectos' : 'Prospects',   color: '#6366f1' },
+      { key: 'customer', label: isEs ? 'Clientes'   : 'Customers',   color: '#00b894' },
+      { key: 'churned',  label: isEs ? 'Bajas'      : 'Churned',     color: '#e17055' }
+    ];
+
+    /* API returns rows with a nested data object; mock data is flat */
+    var normalized = contacts.map(function (c) {
+      if (c.data && typeof c.data === 'object') return Object.assign({}, c.data, { id: c.id });
+      return c;
+    });
+
+    var html = '';
+    for (var i = 0; i < stages.length; i++) {
+      var s = stages[i];
+      var sc = normalized.filter(function (c) { return (c.status || '') === s.key; });
+
+      html += '<div class="pipeline-column">';
+      html += '<div class="column-header"><div class="column-title">';
+      html += '<span class="column-name" style="color:' + s.color + '">' + s.label + '</span>';
+      html += '<span class="column-count">' + sc.length + '</span>';
+      html += '</div></div>';
+      html += '<div class="column-cards" data-stage="' + s.key + '">';
+
+      for (var j = 0; j < sc.length; j++) {
+        var c = sc[j];
+        var name = c.name || c.first_name || '';
+        var company = c.company || '';
+        var email = c.email || '';
+        var value = c.value || '';
+        html += '<div class="deal-card" style="cursor:default">';
+        html += '<div class="deal-card-title">' + (name || email || '—') + '</div>';
+        if (company) html += '<div class="deal-card-company">' + company + '</div>';
+        if (email) html += '<div class="deal-card-contact">' + email + '</div>';
+        if (value) html += '<div class="deal-card-footer"><span class="deal-card-value">' + value + '</span></div>';
+        html += '</div>';
+      }
+
+      html += '</div></div>';
+    }
+
+    board.innerHTML = html || '<p style="color:#8b8fa3;padding:2rem">No contacts found.</p>';
+  }
 
   function showSpinner() {
     var container = document.getElementById("pipelineBoard");

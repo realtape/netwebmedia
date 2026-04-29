@@ -8,7 +8,7 @@
       brand: "NetWeb CRM",
       nav: {
         dashboard: "Dashboard", conversations: "Conversations", calendars: "Calendars",
-        contacts: "Contacts", pipeline: "Opportunities", payments: "Payments",
+        contacts: "Contacts", pipeline: "Pipeline", payments: "Payments",
         marketing: "Marketing", chileCampaign: "Chile Campaign", diagnostic: "Diagnostic", automation: "Automation", sites: "Sites",
         reputation: "Reputation", reporting: "Reporting", realtime: "Realtime", documents: "Documents",
         courses: "Courses", social: "Social Planner", settings: "Settings"
@@ -245,7 +245,7 @@
       brand: "NetWeb CRM",
       nav: {
         dashboard: "Panel", conversations: "Conversaciones", calendars: "Calendarios",
-        contacts: "Contactos", pipeline: "Oportunidades", payments: "Pagos",
+        contacts: "Contactos", pipeline: "Pipeline", payments: "Pagos",
         marketing: "Marketing", chileCampaign: "Campaña Chile", diagnostic: "Diagnóstico", automation: "Automatización", sites: "Sitios",
         reputation: "Reputación", reporting: "Reportes", realtime: "Tiempo Real", documents: "Documentos",
         courses: "Cursos", social: "Planificador Social", settings: "Ajustes"

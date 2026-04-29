@@ -198,6 +198,33 @@ function require_org_access(int $organizationId, string $requiredRole = 'member'
 }
 
 /**
+ * SECURITY (write-side): assert the current user is a member of the org they
+ * are about to write to. Designed to be called immediately before any INSERT
+ * in a tenant-scoped handler.
+ *
+ * Resolution semantics:
+ *   - If org schema is not yet applied → no-op (legacy per-user filter takes over).
+ *   - If no org could be resolved      → no-op (demo/guest path; INSERT without organization_id).
+ *   - If a logged-in user is operating in an org they don't belong to → 403.
+ *   - Master-org owners/admins are virtual admins everywhere (org_role()).
+ *
+ * This is the fix for audit finding H2: org_from_request() honours X-Org-Slug,
+ * which means an authenticated user can flip into another org and write into
+ * its bucket. require_org_access_for_write() blocks that.
+ */
+function require_org_access_for_write(string $requiredRole = 'member'): void {
+    if (!is_org_schema_applied()) return;
+    $orgId = current_org_id();
+    if ($orgId === null) return; // demo / unauthenticated guest — legacy path
+    $u = guard_user();
+    // No authenticated user but org resolved (e.g. via host or X-Org-Slug).
+    // INSERTs without auth fall through to the demo write path; no escalation
+    // possible because writes carry user_id = NULL anyway. Skip the check.
+    if (!$u || empty($u['id'])) return;
+    require_org_access($orgId, $requiredRole);
+}
+
+/**
  * Build a WHERE-clause fragment to scope a query to the current org.
  *
  *   [$sql, $params] = org_where('c');         // for SELECT ... FROM contacts c

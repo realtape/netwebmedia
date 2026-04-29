@@ -192,7 +192,11 @@
     org: cached || null,
     apply: function (org) { apply(org); writeCache(org); },
     refresh: refresh,
-    _clearCache: clearCache
+    _clearCache: clearCache,
+    // Validators exported for any other surface that interpolates these
+    // tenant-controlled values (org-switcher swatches, etc.).
+    safeColor: safeColor,
+    safeLogoUrl: safeLogoUrl
   };
 
   if (cached) apply(cached);

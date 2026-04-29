@@ -30,6 +30,20 @@
       .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   }
 
+  // Reuse branding.js's color validator if available; fall back to a local
+  // copy so this module is self-sufficient if branding.js hasn't loaded yet.
+  // Tenant-controlled colors are interpolated into inline style attributes
+  // below — without this, "red; background-image:url(//attacker)" escapes.
+  var _COLOR_RE = /^(#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8}|rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(?:,\s*[\d.]+\s*)?\))$/;
+  function safeColor(v, fallback) {
+    if (window.nwmBranding && typeof window.nwmBranding.safeColor === "function") {
+      return window.nwmBranding.safeColor(v, fallback);
+    }
+    if (typeof v !== "string") return fallback;
+    var t = v.trim();
+    return _COLOR_RE.test(t) ? t : fallback;
+  }
+
   function readCache() {
     try {
       var raw = sessionStorage.getItem(CACHE_KEY);

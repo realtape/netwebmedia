@@ -367,6 +367,25 @@
 
     panel.innerHTML = html;
     document.getElementById('detailClose').onclick = function () { panel.classList.remove('open'); };
+
+    // Mount click-to-dial button if phone present
+    if (window.NWMDialer && c.phone) {
+      var slot = document.getElementById('contactDialerSlot');
+      if (slot) {
+        var btn = NWMDialer.buildButton(c, {
+          onLogged: function () {
+            if (window.NWMTimeline) {
+              try { NWMTimeline.mount('#contactTimeline', { contactId: c.id, title: isEs ? 'Actividad' : 'Activity', limit: 30 }); } catch (e) {}
+            }
+          }
+        });
+        slot.replaceWith(btn);
+      }
+    }
+
+    if (window.NWMPredictions) {
+      NWMPredictions.mount('#contactPred', { contactId: c.id, title: isEs ? 'Probabilidad de cierre' : 'Predicted close probability' });
+    }
     if (window.NWMNotes) {
       NWMNotes.mount('#contactNotes', { contactId: c.id, title: isEs ? 'Notas' : 'Notes' });
     }

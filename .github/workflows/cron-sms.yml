@@ -1,0 +1,30 @@
+name: Cron — SMS Sender (every 5 min)
+on:
+  schedule:
+    # Every 5 minutes, staggered across the hour to avoid the :00 cluster
+    - cron: '4 * * * *'
+    - cron: '9 * * * *'
+    - cron: '14 * * * *'
+    - cron: '19 * * * *'
+    - cron: '24 * * * *'
+    - cron: '29 * * * *'
+    - cron: '34 * * * *'
+    - cron: '39 * * * *'
+    - cron: '44 * * * *'
+    - cron: '49 * * * *'
+    - cron: '54 * * * *'
+    - cron: '59 * * * *'
+
+jobs:
+  sms-sender:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Send pending SMS batch
+        run: |
+          TOKEN="${{ secrets.JWT_SECRET }}"
+          TOKEN="${TOKEN:0:16}"
+          curl -s -X POST \
+            "https://netwebmedia.com/api/sms/cron/process?token=${TOKEN}&batch=100" \
+            -H "User-Agent: NetWebMedia-Cron" \
+            -w "\nHTTP Status: %{http_code}\n" | head -30

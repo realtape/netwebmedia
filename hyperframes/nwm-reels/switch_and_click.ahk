@@ -2,71 +2,113 @@
 #SingleInstance Force
 
 FILE_PATH := "C:\Users\Usuario\Desktop\NetWebMedia\hyperframes\nwm-reels\renders\reel-08-340k-pipeline.mp4"
-HWND_INT  := 0x00010628          ; Chrome window integer HWND
-HWND_STR  := "ahk_id " . HWND_INT  ; proper v2 concat
-LOG       := A_ScriptDir . "\switch_click.log"
+HWND_INT  := 0x00010628
+HWND_STR  := "ahk_id " . HWND_INT
 
-FileAppend("[AHK " . FormatTime(, "HH:mm:ss") . "] Script started`n", LOG)
+; Logging helper — silently skips if write fails
+L(msg) {
+    try FileAppend(msg . "`n", A_ScriptDir . "\switch_click.log")
+}
+
+L("[AHK " . FormatTime(A_Now, "HH:mm:ss") . "] Script started")
 
 ; ── 1. Activate Chrome window ─────────────────────────────────────────────────
 if !WinExist(HWND_STR) {
-    FileAppend("[AHK] ERROR: Chrome HWND not found`n", LOG)
+    L("[AHK] ERROR: Chrome HWND 0x00010628 not found")
     ExitApp
 }
 WinActivate(HWND_STR)
-FileAppend("[AHK] WinActivate sent`n", LOG)
+L("[AHK] WinActivate sent")
 if !WinWaitActive(HWND_STR, , 5)
-    FileAppend("[AHK] WARNING: WinWaitActive timed out`n", LOG)
-FileAppend("[AHK] Chrome active`n", LOG)
-Sleep(400)
+    L("[AHK] WARNING: WinWaitActive timed out")
+L("[AHK] Chrome active")
+Sleep(500)
 
-; ── 2. Open Chrome tab search and switch to YT Studio ────────────────────────
+; ── 2. Switch to YouTube Studio tab ──────────────────────────────────────────
 Send("^+a")
-FileAppend("[AHK] Sent Ctrl+Shift+A`n", LOG)
-Sleep(800)
+L("[AHK] Sent Ctrl+Shift+A")
+Sleep(1000)
 SendText("Channel dashboard")
-FileAppend("[AHK] Typed search`n", LOG)
-Sleep(600)
+L("[AHK] Typed search")
+Sleep(700)
 Send("{Enter}")
-FileAppend("[AHK] Pressed Enter`n", LOG)
-Sleep(1800)
+L("[AHK] Pressed Enter for tab switch")
+Sleep(2500)
+L("[AHK] Tab switch wait done")
 
 ; ── 3. Click "Select files" button ───────────────────────────────────────────
-; screen coords: client_x=36, toolbar=95, btn CSS(938,399) → (974,494)
-FileAppend("[AHK] Clicking (974,494)`n", LOG)
-Click(974, 494)
-Sleep(1800)
+L("[AHK] Clicking (974,680) — btn CSS center (938,585)")
+Click(974, 680)
+Sleep(2000)
 
-; ── 4. Wait for Windows file-open dialog ─────────────────────────────────────
-if !WinWait("ahk_class #32770", , 8) {
-    FileAppend("[AHK] No dialog — trying (974,609)`n", LOG)
-    Click(974, 609)
-    if !WinWait("ahk_class #32770", , 8) {
-        FileAppend("[AHK] No dialog after 2 tries — abort`n", LOG)
-        ExitApp
+; ── 4. Wait for #32770 file dialog ───────────────────────────────────────────
+if WinExist("ahk_class #32770") {
+    L("[AHK] Dialog found immediately")
+} else {
+    L("[AHK] Waiting for dialog (up to 10s)...")
+    if !WinWait("ahk_class #32770", , 10) {
+        L("[AHK] No dialog after 10s, trying alt Y=707")
+        Click(974, 802)
+        Sleep(1000)
+        if !WinWait("ahk_class #32770", , 8) {
+            L("[AHK] No dialog after 2 tries - abort")
+            ExitApp
+        }
     }
 }
-FileAppend("[AHK] File dialog appeared!`n", LOG)
+L("[AHK] File dialog appeared!")
+Sleep(500)
 
-; ── 5. Activate dialog and type path ─────────────────────────────────────────
-WinActivate("ahk_class #32770")
-if !WinWaitActive("ahk_class #32770", , 5)
-    FileAppend("[AHK] WARNING: dialog activate timed out`n", LOG)
-Sleep(400)
-Send("^a")
-Sleep(100)
-SendText(FILE_PATH)
-FileAppend("[AHK] Typed path`n", LOG)
-Sleep(400)
-Send("{Enter}")
-FileAppend("[AHK] Pressed Enter — done!`n", LOG)
-Sleep(600)
-
-if WinExist("ahk_class #32770") {
-    FileAppend("[AHK] Dialog still open, pressing Enter again`n", LOG)
-    Send("{Enter}")
-    Sleep(400)
+; ── 5. Fill filename via ControlSetText (no focus grab needed) ───────────────
+setOk := false
+try {
+    ControlSetText(FILE_PATH, "Edit1", "ahk_class #32770")
+    L("[AHK] ControlSetText OK")
+    setOk := true
+} catch as e {
+    L("[AHK] ControlSetText failed: " . e.Message)
 }
 
-FileAppend("[AHK] Script complete`n", LOG)
+if !setOk {
+    WinActivate("ahk_class #32770")
+    if !WinWaitActive("ahk_class #32770", , 5)
+        L("[AHK] WARNING: dialog activate timed out")
+    Sleep(400)
+    Send("^a")
+    Sleep(100)
+    SendText(FILE_PATH)
+    L("[AHK] Fallback SendText done")
+}
+
+Sleep(300)
+
+; ── 6. Click the Open button ─────────────────────────────────────────────────
+clickOk := false
+try {
+    ControlClick("Button1", "ahk_class #32770")
+    L("[AHK] ControlClick Button1 OK")
+    clickOk := true
+} catch as e {
+    L("[AHK] ControlClick failed: " . e.Message)
+}
+
+if !clickOk {
+    WinActivate("ahk_class #32770")
+    if WinWaitActive("ahk_class #32770", , 3)
+        Sleep(300)
+    Send("{Enter}")
+    L("[AHK] Fallback Enter sent")
+}
+
+Sleep(800)
+
+if WinExist("ahk_class #32770") {
+    L("[AHK] Dialog still open - pressing Enter again")
+    WinActivate("ahk_class #32770")
+    Sleep(200)
+    Send("{Enter}")
+    Sleep(600)
+}
+
+L("[AHK " . FormatTime(A_Now, "HH:mm:ss") . "] Script complete")
 ExitApp

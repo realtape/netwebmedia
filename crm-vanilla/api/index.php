@@ -59,7 +59,9 @@ $handlers = [
     'import_csv'    => __DIR__ . '/handlers/import_csv.php',
     'import_best'   => __DIR__ . '/handlers/import_best.php',
     'realtime'      => __DIR__ . '/handlers/realtime.php',
-    'niche_config'  => __DIR__ . '/handlers/niche_config.php',
+    'niche_config'          => __DIR__ . '/handlers/niche_config.php',
+    'niche_metrics'         => __DIR__ . '/handlers/niche_metrics.php',
+    'seed_client_templates' => __DIR__ . '/handlers/seed_client_templates.php',
 ];
 
 if (!isset($handlers[$resource])) {

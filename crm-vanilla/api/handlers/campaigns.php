@@ -256,9 +256,17 @@ if ($id && $action) {
 
         [$whereSql, $params] = buildAudienceSQL($camp['audience_filter']);
         $sql = "SELECT c.* FROM contacts c WHERE $whereSql";
-        if ($limit > 0) $sql .= " LIMIT $limit";
+        if ($limit > 0) {
+            $sql .= " LIMIT :__rl";
+        }
         $stmt = $db->prepare($sql);
-        $stmt->execute($params);
+        foreach ($params as $i => $v) {
+            $stmt->bindValue(is_int($i) ? $i + 1 : $i, $v);
+        }
+        if ($limit > 0) {
+            $stmt->bindValue(':__rl', $limit, PDO::PARAM_INT);
+        }
+        $stmt->execute();
         $contacts = $stmt->fetchAll();
 
         if ($dryRun) jsonResponse(['dry_run' => true, 'would_send' => count($contacts)]);

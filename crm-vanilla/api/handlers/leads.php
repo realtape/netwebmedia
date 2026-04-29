@@ -3,9 +3,16 @@ $db = getDB();
 
 switch ($method) {
     case 'POST':
+        // Rate limit unauthenticated POST: 10 per 5 min per IP
+        require_once __DIR__ . '/../lib/rate_limit.php';
+        rate_limit('leads', 10, 300);
+
         $data = getInput();
         if (empty($data['name']) || empty($data['email'])) {
             jsonError('Name and email required');
+        }
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            jsonError('Valid email required');
         }
 
         $name = trim($data['name']);

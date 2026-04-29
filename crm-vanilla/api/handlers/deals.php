@@ -1,17 +1,27 @@
 <?php
+require_once __DIR__ . '/../lib/tenancy.php';
 $db = getDB();
+[$tWhere, $tParams] = tenant_where('d');
+$uid = tenant_id();
 
 switch ($method) {
     case 'GET':
         if ($id) {
-            $stmt = $db->prepare('SELECT d.*, ps.name as stage, c.name as contact_name FROM deals d LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id LEFT JOIN contacts c ON d.contact_id = c.id WHERE d.id = ?');
-            $stmt->execute([$id]);
+            $sql = 'SELECT d.*, ps.name as stage, c.name as contact_name FROM deals d LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id LEFT JOIN contacts c ON d.contact_id = c.id WHERE d.id = ?';
+            $params = [$id];
+            if ($tWhere) { $sql .= ' AND ' . $tWhere; $params = array_merge($params, $tParams); }
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
             $deal = $stmt->fetch();
             if (!$deal) jsonError('Deal not found', 404);
             jsonResponse($deal);
         }
-        $sql = 'SELECT d.*, ps.name as stage, c.name as contact_name FROM deals d LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id LEFT JOIN contacts c ON d.contact_id = c.id ORDER BY ps.sort_order, d.created_at DESC';
-        $stmt = $db->query($sql);
+        $sql = 'SELECT d.*, ps.name as stage, c.name as contact_name FROM deals d LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id LEFT JOIN contacts c ON d.contact_id = c.id';
+        $params = [];
+        if ($tWhere) { $sql .= ' WHERE ' . $tWhere; $params = $tParams; }
+        $sql .= ' ORDER BY ps.sort_order, d.created_at DESC';
+        $stmt = $db->prepare($sql);
+        $stmt->execute($params);
         jsonResponse($stmt->fetchAll());
         break;
 
@@ -37,8 +47,9 @@ switch ($method) {
                 }
             } else {
                 try {
-                    $db->prepare('INSERT INTO contacts (name, email, phone, company, status) VALUES (?, ?, ?, ?, ?)')
+                    $db->prepare('INSERT INTO contacts (user_id, name, email, phone, company, status) VALUES (?, ?, ?, ?, ?, ?)')
                        ->execute([
+                           $uid,
                            $data['company'] ?: $email,
                            $email,
                            $data['phone'] ?? null,
@@ -47,7 +58,9 @@ switch ($method) {
                        ]);
                     $contact_id = (int)$db->lastInsertId();
                 } catch (PDOException $race) {
-                    // Duplicate email from concurrent request — re-fetch
+                    // Only swallow integrity-constraint violations (23000); rethrow anything else
+                    // so connection drops, deadlocks, etc. surface in error_log.
+                    if ($race->getCode() !== '23000') throw $race;
                     $cs->execute([$email]);
                     $recovered = $cs->fetch();
                     if ($recovered) { $contact_id = (int)$recovered['id']; }
@@ -69,8 +82,9 @@ switch ($method) {
             }
         }
 
-        $stmt = $db->prepare('INSERT INTO deals (title, company, value, contact_id, stage_id, probability, days_in_stage, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
+        $stmt = $db->prepare('INSERT INTO deals (user_id, title, company, value, contact_id, stage_id, probability, days_in_stage, source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
         $stmt->execute([
+            $uid,
             $data['title'],
             $data['company'] ?? null,
             $data['value'] ?? 0,
@@ -88,6 +102,15 @@ switch ($method) {
 
     case 'PUT':
         if (!$id) jsonError('ID required');
+        // Ownership check
+        $own = $db->prepare('SELECT user_id FROM deals WHERE id = ?');
+        $own->execute([$id]);
+        $row = $own->fetch();
+        if (!$row) jsonError('Deal not found', 404);
+        if (!tenant_owns($row['user_id'] !== null ? (int)$row['user_id'] : null)) {
+            jsonError('Deal not found', 404);
+        }
+
         $data = getInput();
         $fields = [];
         $params = [];
@@ -108,6 +131,13 @@ switch ($method) {
 
     case 'DELETE':
         if (!$id) jsonError('ID required');
+        $own = $db->prepare('SELECT user_id FROM deals WHERE id = ?');
+        $own->execute([$id]);
+        $row = $own->fetch();
+        if (!$row) jsonError('Deal not found', 404);
+        if (!tenant_owns($row['user_id'] !== null ? (int)$row['user_id'] : null)) {
+            jsonError('Deal not found', 404);
+        }
         $db->prepare('DELETE FROM deals WHERE id = ?')->execute([$id]);
         jsonResponse(['deleted' => true]);
         break;

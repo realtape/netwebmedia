@@ -44,7 +44,8 @@ if (in_array($user['status'], ['suspended', 'cancelled'], true)) {
     jsonError('Account suspended. Contact support@netwebmedia.com', 403);
 }
 
-// Start authenticated session
+// Start authenticated session — regenerate ID to prevent session fixation
+session_regenerate_id(true);
 $_SESSION['nwm_uid'] = (int)$user['id'];
 
 $db->prepare('UPDATE users SET last_login = NOW() WHERE id = ?')->execute([$user['id']]);

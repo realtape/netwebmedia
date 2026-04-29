@@ -37,7 +37,6 @@ $handlers = [
     'seed_contacts' => __DIR__ . '/handlers/seed_contacts.php',
     'leads'         => __DIR__ . '/handlers/leads.php',
     'auth'          => __DIR__ . '/handlers/auth.php',
-    'setup'         => __DIR__ . '/handlers/setup.php',
     'hubspot'       => __DIR__ . '/handlers/hubspot.php',
     'intake'        => __DIR__ . '/handlers/intake.php',
     'analyze'       => __DIR__ . '/handlers/analyze.php',
@@ -80,7 +79,7 @@ if (!in_array($resource, $public_routes, true)) {
 // Token-protected routes (seed/migrate) handle their own auth internally.
 $token_write_routes = [
     'seed', 'seed_contacts', 'seed_templates', 'seed_client_templates',
-    'migrate', 'niche_config', 'setup',
+    'migrate', 'niche_config',
 ];
 if (!in_array($method, ['GET', 'OPTIONS', 'HEAD'], true)
     && !in_array($resource, $public_routes, true)
@@ -90,6 +89,17 @@ if (!in_array($method, ['GET', 'OPTIONS', 'HEAD'], true)
     $writeUser = guard_user();
     if (!$writeUser || empty($writeUser['id'])) {
         jsonError('Authentication required', 401);
+    }
+
+    // CSRF defense: cookie-authenticated state changes must come from our own origin.
+    // Token-protected routes are exempt (they're called by deploy scripts / cron).
+    $origin  = $_SERVER['HTTP_ORIGIN']  ?? '';
+    $referer = $_SERVER['HTTP_REFERER'] ?? '';
+    $allowed = ALLOWED_ORIGIN;
+    $okOrigin = $origin && strpos($origin, $allowed) === 0;
+    $okRefer  = $referer && strpos($referer, $allowed) === 0;
+    if (!$okOrigin && !$okRefer) {
+        jsonError('Cross-origin write blocked', 403);
     }
 }
 

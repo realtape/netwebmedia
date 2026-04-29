@@ -34,7 +34,7 @@ if ($method === 'GET') {
 /* ── POST: seed niche tables ────────────────────────────────────────── */
 if ($method === 'POST') {
     $action = $_GET['action'] ?? 'seed';
-    if (($_GET['token'] ?? '') !== 'NWM_SEED_2026') jsonError('Invalid token', 403);
+    if (!hash_equals(SEED_TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
     if ($action !== 'seed') jsonError("Unknown action: $action", 400);
 
     $db = getDB();

@@ -7,7 +7,7 @@
  * POST /api/?r=seed_client_templates&token=NWM_SEED_2026
  */
 if ($method !== 'POST') jsonError('Use POST', 405);
-if (($_GET['token'] ?? '') !== 'NWM_SEED_2026') jsonError('Invalid token', 403);
+if (!hash_equals(SEED_TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 
 $db = getDB();
 

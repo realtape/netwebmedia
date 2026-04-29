@@ -10,7 +10,7 @@
  *   → parse + count only, no DB writes.
  */
 if ($method !== 'GET') jsonError('Use GET', 405);
-if (($_GET['token'] ?? '') !== 'NWM_IMPORT_CHILE_2026') jsonError('Invalid token', 403);
+if (!hash_equals(IMPORT_CSV_TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 
 $dry = !empty($_GET['dry']);
 

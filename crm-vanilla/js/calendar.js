@@ -291,7 +291,8 @@
       evtEl.style.top = topOffset + "px";
       evtEl.style.height = height + "px";
       evtEl.style.cursor = "pointer";
-      evtEl.innerHTML = '<div class="cal-event-title">' + evt.title + '</div>';
+      var __esc = (window.CRM_APP && CRM_APP.esc) ? CRM_APP.esc : function(s){ return String(s == null ? '' : s); };
+      evtEl.innerHTML = '<div class="cal-event-title">' + __esc(evt.title) + '</div>';
 
       /* Closure to capture evt */
       (function (el, evtData) {

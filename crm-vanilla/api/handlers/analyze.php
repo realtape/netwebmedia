@@ -11,17 +11,19 @@ rate_limit('analyze', 15, 300);
 
 if ($method !== 'GET') jsonError('GET required', 405);
 
-$url = $_GET['url'] ?? '';
-if (!filter_var($url, FILTER_VALIDATE_URL)) jsonError('valid url query param required');
+require_once __DIR__ . '/../lib/url_guard.php';
+$url = url_guard_or_fail($_GET['url'] ?? '');
 
 $start = microtime(true);
 $ch = curl_init($url);
 curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_TIMEOUT => 15,
-    CURLOPT_USERAGENT => 'NetWebMediaAnalyzer/1.0 (+https://netwebmedia.com)',
-    CURLOPT_SSL_VERIFYPEER => false,
+    CURLOPT_MAXREDIRS      => 3,
+    CURLOPT_TIMEOUT        => 15,
+    CURLOPT_USERAGENT      => 'NetWebMediaAnalyzer/1.0 (+https://netwebmedia.com)',
+    CURLOPT_PROTOCOLS      => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+    CURLOPT_REDIR_PROTOCOLS=> CURLPROTO_HTTP | CURLPROTO_HTTPS,
 ]);
 $html = curl_exec($ch);
 $info = curl_getinfo($ch);

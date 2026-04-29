@@ -10,11 +10,17 @@ $data  = [];
    CRM — Live KPIs
 ════════════════════════════════════════ */
 
-$data['contactsToday']  = (int)$db->query("SELECT COUNT(*) FROM contacts WHERE DATE(created_at) = '$today'")->fetchColumn();
+$q = function (string $sql, array $params = []) use ($db) {
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+    return $stmt;
+};
+
+$data['contactsToday']  = (int)$q("SELECT COUNT(*) FROM contacts WHERE DATE(created_at) = ?", [$today])->fetchColumn();
 $data['dealsActive']    = (int)$db->query("SELECT COUNT(*) FROM deals d JOIN pipeline_stages ps ON d.stage_id = ps.id WHERE ps.name NOT IN ('Closed Won','Closed Lost')")->fetchColumn();
 $data['pipelineValue']  = (float)$db->query("SELECT COALESCE(SUM(d.value),0) FROM deals d JOIN pipeline_stages ps ON d.stage_id = ps.id WHERE ps.name NOT IN ('Closed Won','Closed Lost')")->fetchColumn();
 $data['totalContacts']  = (int)$db->query("SELECT COUNT(*) FROM contacts")->fetchColumn();
-$data['dealsToday']     = (int)$db->query("SELECT COUNT(*) FROM deals WHERE DATE(created_at) = '$today'")->fetchColumn();
+$data['dealsToday']     = (int)$q("SELECT COUNT(*) FROM deals WHERE DATE(created_at) = ?", [$today])->fetchColumn();
 $data['revenueWon']     = (float)$db->query("SELECT COALESCE(SUM(d.value),0) FROM deals d JOIN pipeline_stages ps ON d.stage_id = ps.id WHERE ps.name = 'Closed Won' AND DATE(d.created_at) >= DATE_FORMAT(NOW(),'%Y-%m-01')")->fetchColumn();
 
 /* ── Conversations ── */
@@ -22,18 +28,18 @@ $data['openConversations'] = (int)$db->query("SELECT COUNT(*) FROM conversations
 $data['totalConversations']= (int)$db->query("SELECT COUNT(*) FROM conversations")->fetchColumn();
 
 /* ── Events today ── */
-$data['eventsToday'] = (int)$db->query("SELECT COUNT(*) FROM events WHERE event_date = '$today'")->fetchColumn();
+$data['eventsToday'] = (int)$q("SELECT COUNT(*) FROM events WHERE event_date = ?", [$today])->fetchColumn();
 $stmt = $db->prepare("SELECT title, start_hour, type FROM events WHERE event_date = ? ORDER BY start_hour LIMIT 5");
 $stmt->execute([$today]);
 $data['eventsTodayList'] = $stmt->fetchAll();
 
 /* ── Email campaign stats today ── */
-$emailsToday = $db->query("
+$emailsToday = $q("
     SELECT COUNT(*) as sent,
            SUM(opened_at IS NOT NULL) as opened,
            SUM(clicked_at IS NOT NULL) as clicked
-    FROM campaign_sends WHERE DATE(sent_at) = '$today'
-")->fetch();
+    FROM campaign_sends WHERE DATE(sent_at) = ?
+", [$today])->fetch();
 $data['emailsSentToday']    = (int)($emailsToday['sent']   ?? 0);
 $data['emailsOpenedToday']  = (int)($emailsToday['opened'] ?? 0);
 $data['emailsClickedToday'] = (int)($emailsToday['clicked']?? 0);
@@ -109,53 +115,9 @@ $data['campaigns'] = $db->query("
 ")->fetchAll();
 
 /* ════════════════════════════════════════
-   SOCIAL MEDIA — Ensure tables exist
+   SOCIAL MEDIA — read-only (DDL moved to schema_segment.sql / migrate)
 ════════════════════════════════════════ */
 try {
-    $db->exec('CREATE TABLE IF NOT EXISTS `social_posts` (
-        `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        `user_id` INT UNSIGNED NOT NULL DEFAULT 0,
-        `provider` ENUM("facebook","instagram","linkedin","youtube","tiktok") NOT NULL,
-        `platform_id` VARCHAR(255) NOT NULL,
-        `caption` TEXT DEFAULT NULL,
-        `media_url` VARCHAR(2048) DEFAULT NULL,
-        `thumbnail_url` VARCHAR(2048) DEFAULT NULL,
-        `post_type` VARCHAR(50) DEFAULT "post",
-        `likes_count` INT UNSIGNED DEFAULT 0,
-        `comments_count` INT UNSIGNED DEFAULT 0,
-        `shares_count` INT UNSIGNED DEFAULT 0,
-        `views_count` INT UNSIGNED DEFAULT 0,
-        `reach_count` INT UNSIGNED DEFAULT 0,
-        `permalink` VARCHAR(2048) DEFAULT NULL,
-        `published_at` DATETIME DEFAULT NULL,
-        `cached_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        UNIQUE KEY `uk_user_provider_post` (`user_id`, `provider`, `platform_id`)
-    ) ENGINE=InnoDB');
-
-    $db->exec('CREATE TABLE IF NOT EXISTS `social_credentials` (
-        `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        `user_id` INT UNSIGNED NOT NULL DEFAULT 0,
-        `provider` ENUM("facebook","instagram","linkedin","youtube","tiktok") NOT NULL,
-        `credentials_enc` TEXT NOT NULL,
-        `connected_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        `last_sync_at` TIMESTAMP NULL DEFAULT NULL,
-        `post_count` INT UNSIGNED DEFAULT 0,
-        UNIQUE KEY `uk_user_provider` (`user_id`, `provider`)
-    ) ENGINE=InnoDB');
-
-    $db->exec('CREATE TABLE IF NOT EXISTS `social_scheduled` (
-        `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        `user_id` INT UNSIGNED NOT NULL DEFAULT 0,
-        `providers` VARCHAR(255) NOT NULL,
-        `caption` TEXT NOT NULL,
-        `media_url` VARCHAR(2048) DEFAULT NULL,
-        `status` ENUM("scheduled","publishing","published","failed") DEFAULT "scheduled",
-        `scheduled_at` DATETIME NOT NULL,
-        `published_at` DATETIME NULL DEFAULT NULL,
-        `error` TEXT NULL DEFAULT NULL,
-        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    ) ENGINE=InnoDB');
-
     /* ── Social: per-platform totals ── */
     $data['socialByPlatform'] = $db->query("
         SELECT provider,

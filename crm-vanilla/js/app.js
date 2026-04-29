@@ -1053,6 +1053,18 @@
     }
   });
 
+  /* HTML-escape helper — use for any user-controlled string going into innerHTML.
+     Prefer textContent or DOM nodes, but when string concat is unavoidable, route through esc(). */
+  function esc(v) {
+    if (v === null || v === undefined) return '';
+    return String(v)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   window.CRM_APP = {
     buildHeader: buildHeader,
     buildSidebar: buildSidebar,
@@ -1069,6 +1081,7 @@
     NICHES: NICHES,
     initDemoGate: initDemoGate,
     ICONS: ICONS,
+    esc: esc,
     t: t,
     getLang: getLang,
     setLang: setLang,

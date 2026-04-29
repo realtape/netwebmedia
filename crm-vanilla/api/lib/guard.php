@@ -19,7 +19,7 @@ function _guard_session_start(): void {
             'path'     => '/',
             'secure'   => true,
             'httponly' => true,
-            'samesite' => 'Lax',
+            'samesite' => 'Strict',
         ]);
         session_start();
     }

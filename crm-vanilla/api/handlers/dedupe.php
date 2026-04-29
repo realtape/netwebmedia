@@ -7,7 +7,7 @@
  *   Optional: &dry_run=1  -> report only, no deletes
  */
 if ($method !== 'POST') jsonError('Use POST', 405);
-if (($_GET['token'] ?? '') !== 'NWM_DEDUPE_2026') jsonError('Invalid token', 403);
+if (!hash_equals(DEDUPE_TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 
 $dryRun = !empty($_GET['dry_run']);
 $db = getDB();

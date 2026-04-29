@@ -94,13 +94,26 @@ if ($a === 'click' && $t) {
 
 if ($a === 'unsub') {
     if ($method === 'POST') {
+        // Require a valid send-token to unsub by email — prevents mass-unsubscribe abuse.
+        require_once __DIR__ . '/../lib/rate_limit.php';
+        rate_limit('track_unsub', 20, 300);
+
         $d = getInput();
-        $email = strtolower(trim($d['email'] ?? ''));
-        if ($email) {
-            $db->prepare('INSERT IGNORE INTO unsubscribes (email, reason) VALUES (?, ?)')->execute([$email, 'api']);
-            jsonResponse(['unsubscribed' => true]);
-        }
-        jsonError('email required');
+        $token = trim($d['token'] ?? ($_GET['t'] ?? ''));
+        if (!$token) jsonError('token required', 400);
+
+        // Look up the send by token; the email comes from the DB record, not the request body.
+        $s = $db->prepare('SELECT email FROM campaign_sends WHERE token = ? LIMIT 1');
+        $s->execute([$token]);
+        $row = $s->fetch();
+        if (!$row || empty($row['email'])) jsonError('Invalid token', 404);
+
+        $email = strtolower(trim($row['email']));
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) jsonError('Invalid email on send record', 422);
+
+        $db->prepare('INSERT IGNORE INTO unsubscribes (email, reason) VALUES (?, ?)')->execute([$email, 'list-unsub']);
+        $db->prepare("UPDATE campaign_sends SET status='unsubscribed' WHERE email = ?")->execute([$email]);
+        jsonResponse(['unsubscribed' => true]);
     }
     // GET: find email from token, show confirmation page
     $email = '';
@@ -115,7 +128,7 @@ if ($a === 'unsub') {
         $db->prepare("UPDATE campaign_sends SET status='unsubscribed' WHERE email=?")->execute([$email]);
     }
     header('Content-Type: text/html; charset=utf-8');
-    $safe = htmlspecialchars($email);
+    $safe = htmlspecialchars($email, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     echo '<!doctype html><html><head><title>Unsubscribed</title>'
        . '<style>body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:480px;margin:80px auto;padding:40px;text-align:center;background:#f6f7fb;color:#1a1a2e}'
        . 'h1{color:#FF6B00;margin-bottom:12px}p{color:#555;line-height:1.6}</style></head><body>'

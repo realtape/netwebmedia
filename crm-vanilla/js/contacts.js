@@ -170,6 +170,12 @@
     document.addEventListener('click', function (e) {
       if (e.target && e.target.id === 'addBtn') addContact();
     });
+
+    // Initialize default filter buttons as active
+    var defaultSegment = document.querySelector('.filter-btn[data-segment="all"]');
+    if (defaultSegment) defaultSegment.classList.add('active');
+    var defaultQuality = document.querySelector('.filter-btn[data-quality="all"]');
+    if (defaultQuality) defaultQuality.classList.add('active');
   }
 
   function updateSortIndicators() {

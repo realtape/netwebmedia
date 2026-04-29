@@ -21,6 +21,22 @@
     var domain = email.split('@').pop();
     return !FREE_EMAIL_DOMAINS[domain];
   }
+  function isEmailReady(c) {
+    if (!isIdentifiableBusiness(c)) return false;
+    var name = (c.name || '').trim();
+    if (!name) return false;
+    var first = name.split(/\s+/)[0];
+    return first && first.length >= 2;
+  }
+  function isWhatsAppReady(c) {
+    if (!isIdentifiableBusiness(c)) return false;
+    var digits = (c.phone || '').replace(/\D/g, '');
+    if (digits.length < 8) return false;
+    var seg = (c.segment || '').toLowerCase();
+    if (seg.indexOf('usa') === 0) return digits.length === 10 || digits.length === 11;
+    if (seg.indexOf('chile') === 0) return digits.length >= 8;
+    return digits.length >= 8;
+  }
   var selected = null;
   var page = 0;
   var PAGE_SIZE = 100;
@@ -183,7 +199,10 @@
   function filtered() {
     var list = contacts.filter(function (c) {
       var mf = currentFilter === 'all' || c.status === currentFilter;
-      var mq = currentQuality === 'all' || (currentQuality === 'identifiable' && isIdentifiableBusiness(c));
+      var mq = currentQuality === 'all'
+        || (currentQuality === 'identifiable' && isIdentifiableBusiness(c))
+        || (currentQuality === 'email_ready' && isEmailReady(c))
+        || (currentQuality === 'whatsapp_ready' && isWhatsAppReady(c));
       var s = searchTerm;
       var ms = !s
         || (c.name    && c.name.toLowerCase().indexOf(s) !== -1)

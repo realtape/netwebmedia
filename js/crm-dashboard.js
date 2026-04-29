@@ -260,26 +260,26 @@
     statsEl.innerHTML = `
       <div class="stat-card">
         <div class="stat-label">Contacts</div>
-        <div class="stat-value stat-cyan">${s.totalContacts || data.contacts.length}</div>
+        <div class="stat-value stat-cyan">${safeNum(s.totalContacts || data.contacts.length)}</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Companies</div>
-        <div class="stat-value stat-accent">${s.totalCompanies || data.companies.length}</div>
+        <div class="stat-value stat-accent">${safeNum(s.totalCompanies || data.companies.length)}</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Open Leads</div>
-        <div class="stat-value stat-orange">${s.openLeads || data.leads.length}</div>
-        <div class="stat-sub">${formatMoney(s.totalLeadValue)} est. value</div>
+        <div class="stat-value stat-orange">${safeNum(s.openLeads || data.leads.length)}</div>
+        <div class="stat-sub">${escapeHtml(formatMoney(s.totalLeadValue))} est. value</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Open Deals</div>
-        <div class="stat-value stat-green">${s.openDeals || data.deals.length}</div>
-        <div class="stat-sub">${formatMoney(s.totalPipelineValue)} pipeline</div>
+        <div class="stat-value stat-green">${safeNum(s.openDeals || data.deals.length)}</div>
+        <div class="stat-sub">${escapeHtml(formatMoney(s.totalPipelineValue))} pipeline</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Tasks Due</div>
-        <div class="stat-value ${(s.tasksOverdue > 0) ? 'stat-red' : 'stat-cyan'}">${s.tasksDueThisWeek || 0}</div>
-        <div class="stat-sub">${s.tasksOverdue || 0} overdue</div>
+        <div class="stat-value ${(safeNum(s.tasksOverdue) > 0) ? 'stat-red' : 'stat-cyan'}">${safeNum(s.tasksDueThisWeek)}</div>
+        <div class="stat-sub">${safeNum(s.tasksOverdue)} overdue</div>
       </div>
     `;
 
@@ -299,14 +299,14 @@
       return `
         <div class="pipeline-col">
           <div class="pipeline-col-header">
-            <span class="pipeline-col-title">${esc(stage.name)}</span>
-            <span class="pipeline-col-count">${stageDeals.length}</span>
+            <span class="pipeline-col-title">${escapeHtml(stage.name)}</span>
+            <span class="pipeline-col-count">${safeNum(stageDeals.length)}</span>
           </div>
           ${stageDeals.map(d => `
             <div class="pipeline-card">
-              <div class="pipeline-card-title">${esc(d.name)}</div>
-              <div class="pipeline-card-company">${companyName(d.companyId)}</div>
-              <div class="pipeline-card-value">${formatMoney(d.value)}</div>
+              <div class="pipeline-card-title">${escapeHtml(d.name)}</div>
+              <div class="pipeline-card-company">${escapeHtml(companyName(d.companyId))}</div>
+              <div class="pipeline-card-value">${escapeHtml(formatMoney(d.value))}</div>
             </div>
           `).join('')}
         </div>
@@ -327,15 +327,21 @@
 
   function renderDashboardActivity() {
     const acts = (data.stats.recentActivities || data.activities || []).slice(0, 5);
-    $('#dashboard-activity').innerHTML = acts.map(a => `
+    $('#dashboard-activity').innerHTML = acts.map(a => {
+      // Whitelist `a.kind` against the known icon map before letting it become
+      // a CSS class — prevents `kind: '" onmouseover="..."` style breakouts.
+      const safeKind = Object.prototype.hasOwnProperty.call(ACTIVITY_ICONS, a.kind) ? a.kind : '';
+      const icon = ACTIVITY_ICONS[a.kind] || '📌';
+      return `
       <div class="activity-item">
-        <div class="activity-icon ${a.kind}">${ACTIVITY_ICONS[a.kind] || '📌'}</div>
+        <div class="activity-icon ${escapeHtml(safeKind)}">${escapeHtml(icon)}</div>
         <div class="activity-body">
-          <div class="activity-summary">${esc(a.summary)}</div>
-          <div class="activity-time">${timeAgo(a.occurredAt)}</div>
+          <div class="activity-summary">${escapeHtml(a.summary)}</div>
+          <div class="activity-time">${escapeHtml(timeAgo(a.occurredAt))}</div>
         </div>
       </div>
-    `).join('');
+    `;
+    }).join('');
   }
 
   function renderDashboardLeads() {
@@ -344,8 +350,8 @@
       <div class="activity-item">
         <div class="activity-icon" style="background:rgba(253,203,110,0.15)">🎯</div>
         <div class="activity-body">
-          <div class="activity-summary">${esc(l.title)}</div>
-          <div class="activity-time">${companyName(l.companyId)} · Score: ${l.score || 0} · ${formatMoney(l.estimatedValue)}</div>
+          <div class="activity-summary">${escapeHtml(l.title)}</div>
+          <div class="activity-time">${escapeHtml(companyName(l.companyId))} · Score: ${safeNum(l.score)} · ${escapeHtml(formatMoney(l.estimatedValue))}</div>
         </div>
         ${stageBadge(l.status)}
       </div>
@@ -368,13 +374,13 @@
     const tbody = $('#contacts-table tbody');
     tbody.innerHTML = list.map(c => `
       <tr>
-        <td><strong>${esc(c.firstName)} ${esc(c.lastName)}</strong></td>
-        <td>${esc(c.email)}</td>
-        <td>${companyName(c.companyId)}</td>
-        <td>${esc(c.jobTitle || '—')}</td>
+        <td><strong>${escapeHtml(c.firstName)} ${escapeHtml(c.lastName)}</strong></td>
+        <td>${escapeHtml(c.email)}</td>
+        <td>${escapeHtml(companyName(c.companyId))}</td>
+        <td>${escapeHtml(c.jobTitle || '—')}</td>
         <td>${stageBadge(c.lifecycleStage)}</td>
         <td>
-          <button class="btn btn-sm btn-danger" onclick="deleteRecord('contacts','${c.id}')">Delete</button>
+          <button class="btn btn-sm btn-danger" data-action="delete" data-type="contacts" data-id="${escapeHtml(c.id)}">Delete</button>
         </td>
       </tr>
     `).join('');

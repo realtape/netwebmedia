@@ -67,6 +67,16 @@ if (empty($parts)) {
       'GET  /api/tasks/upcoming         (next 7 days for current user)',
       'GET  /api/timeline?contact_id=X  (unified activity feed for a contact)',
       'GET  /api/timeline?deal_id=X     (activity feed for a deal)',
+      'GET  /api/booking/links/{slug}              (public: link config)',
+      'GET  /api/booking/links/{slug}/slots        (public: available time slots)',
+      'POST /api/booking/links/{slug}/book         (public: create booking)',
+      'GET/POST /api/booking/cancel?token=...      (public: cancel booking)',
+      'GET  /api/booking/ics?id=X&token=...        (public: ICS calendar file)',
+      'GET/POST /api/booking/admin/links           (admin: manage booking links)',
+      'PUT/DELETE /api/booking/admin/links/{id}    (admin: update or delete a link)',
+      'GET/PUT /api/booking/admin/availability     (admin: weekly schedule)',
+      'GET  /api/booking/admin/bookings            (admin: list bookings)',
+      'POST /api/booking/admin/bookings/{id}/cancel (admin: cancel a booking)',
       'POST /api/public/forms/submit',
       'GET  /api/public/blog',
       'GET  /api/public/blog/{slug}',
@@ -172,6 +182,9 @@ try {
   } elseif ($group === 'timeline') {
     require __DIR__ . '/routes/timeline.php';
     route_timeline($parts, $method);
+  } elseif ($group === 'booking') {
+    require __DIR__ . '/routes/booking.php';
+    route_booking($parts, $method);
   } else {
     err('Route not found', 404);
   }

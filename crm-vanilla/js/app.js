@@ -8,7 +8,7 @@
       brand: "NetWeb CRM",
       nav: {
         dashboard: "Dashboard", conversations: "Conversations", calendars: "Calendars",
-        contacts: "Contacts", pipeline: "Pipeline", tasks: "Tasks", payments: "Payments",
+        contacts: "Contacts", pipeline: "Pipeline", tasks: "Tasks", booking: "Booking", payments: "Payments",
         marketing: "Marketing", chileCampaign: "Chile Campaign", diagnostic: "Diagnostic", automation: "Automation", sites: "Sites",
         reputation: "Reputation", reporting: "Reporting", realtime: "Realtime", documents: "Documents",
         courses: "Courses", social: "Social Planner", settings: "Settings"
@@ -245,7 +245,7 @@
       brand: "NetWeb CRM",
       nav: {
         dashboard: "Panel", conversations: "Conversaciones", calendars: "Calendarios",
-        contacts: "Contactos", pipeline: "Pipeline", tasks: "Tareas", payments: "Pagos",
+        contacts: "Contactos", pipeline: "Pipeline", tasks: "Tareas", booking: "Reservas", payments: "Pagos",
         marketing: "Marketing", chileCampaign: "Campaña Chile", diagnostic: "Diagnóstico", automation: "Automatización", sites: "Sitios",
         reputation: "Reputación", reporting: "Reportes", realtime: "Tiempo Real", documents: "Documentos",
         courses: "Cursos", social: "Planificador Social", settings: "Ajustes"
@@ -535,6 +535,7 @@
     shield: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
     diagnostic: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><polyline points="8 11 10 13 14 9"/></svg>',
     tasks: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
+    booking: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>',
     timeline: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="18" r="2"/></svg>'
   };
 
@@ -670,6 +671,7 @@
     { id: "contacts", key: "contacts", icon: "contacts", href: "contacts.html" },
     { id: "pipeline", key: "pipeline", icon: "pipeline", href: "pipeline.html" },
     { id: "tasks", key: "tasks", icon: "tasks", href: "tasks.html" },
+    { id: "booking", key: "booking", icon: "booking", href: "booking.html" },
     { id: "payments", key: "payments", icon: "payments", href: "payments.html" },
     { id: "marketing", key: "marketing", icon: "marketing", href: "marketing.html" },
     { id: "campaigns", key: "campaigns", icon: "email", href: "campaigns.html" },

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Meeting — NetWebMedia</title>
+  <meta name="description" content="Schedule a meeting with the NetWebMedia team.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="canonical" href="https://netwebmedia.com/book.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after { box-sizing: border-box; }
+    body { margin:0; background:linear-gradient(135deg,#010F3B 0%,#0d1f5c 100%); min-height:100vh; font-family:'Inter',-apple-system,Segoe UI,sans-serif; color:#1a1a2e; padding:24px 16px; }
+    .wrap { max-width:980px; margin:0 auto; }
+    .brand { color:#fff; text-align:center; margin-bottom:18px; font:700 14px 'Inter'; letter-spacing:.4px; opacity:.9; }
+    .brand a { color:#FF671F; text-decoration:none; }
+    .card { background:#fff; border-radius:18px; box-shadow:0 20px 60px rgba(0,0,0,.25); overflow:hidden; }
+    .card-head { padding:28px 32px 20px; border-bottom:1px solid #f0f1f5; display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap; }
+    .host-avatar { width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg,#010F3B,#FF671F); color:#fff; display:flex; align-items:center; justify-content:center; font:800 22px 'Poppins'; flex-shrink:0; }
+    .host-name { font:700 14px 'Inter'; color:#64748b; letter-spacing:.4px; text-transform:uppercase; margin-bottom:4px; }
+    .meeting-title { font:800 26px 'Poppins'; color:#010F3B; line-height:1.15; margin:0; }
+    .meeting-desc { color:#475569; font:500 14px 'Inter'; margin-top:8px; max-width:600px; }
+    .meeting-meta { display:flex; gap:14px; margin-top:14px; flex-wrap:wrap; color:#64748b; font:600 12px 'Inter'; }
+    .meeting-meta span { display:inline-flex; align-items:center; gap:5px; background:#f8fafc; border:1px solid #e3e5ee; padding:4px 10px; border-radius:999px; }
+    .body-grid { display:grid; grid-template-columns: 320px 1fr; min-height:440px; }
+    @media (max-width:780px) { .body-grid { grid-template-columns:1fr; } }
+    .day-list { border-right:1px solid #f0f1f5; padding:18px; max-height:520px; overflow-y:auto; }
+    .day-list h3 { font:700 12px 'Inter'; color:#64748b; text-transform:uppercase; letter-spacing:.5px; margin:0 0 10px; }
+    .day-btn { width:100%; text-align:left; padding:10px 12px; border:1px solid #e3e5ee; background:#fff; border-radius:8px; cursor:pointer; font:600 13px 'Inter'; color:#1a1a2e; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; transition:.15s; }
+    .day-btn:hover { border-color:#FF671F; }
+    .day-btn.active { background:#010F3B; color:#fff; border-color:#010F3B; }
+    .day-btn .count { font-size:11px; opacity:.7; }
+    .slot-area { padding:18px 24px 22px; }
+    .slot-area h3 { font:700 13px 'Inter'; color:#64748b; text-transform:uppercase; letter-spacing:.5px; margin:0 0 14px; }
+    .slot-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); gap:8px; }
+    .slot-btn { padding:10px 6px; border:1px solid #e3e5ee; background:#fff; border-radius:8px; font:600 13px 'Inter'; color:#010F3B; cursor:pointer; transition:.15s; }
+    .slot-btn:hover { border-color:#FF671F; color:#FF671F; }
+    .slot-btn.active { background:#FF671F; color:#fff; border-color:#FF671F; }
+    .slot-empty { color:#94a3b8; font:500 14px 'Inter'; padding:24px 0; text-align:center; }
+    .form-area { padding:22px 28px 28px; border-top:1px solid #f0f1f5; }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    @media (max-width:600px) { .form-grid { grid-template-columns:1fr; } }
+    .form-area label { display:block; color:#1a1a2e; font:600 11px 'Inter'; text-transform:uppercase; letter-spacing:.4px; margin:0 0 4px; }
+    .form-area input, .form-area textarea { width:100%; padding:10px 12px; border:1px solid #e3e5ee; border-radius:8px; font:400 14px 'Inter'; }
+    .form-area textarea { min-height:80px; resize:vertical; }
+    .submit-row { display:flex; align-items:center; justify-content:space-between; margin-top:16px; flex-wrap:wrap; gap:12px; }
+    .selected-slot { color:#1a1a2e; font:600 14px 'Inter'; }
+    .selected-slot .label { color:#64748b; font-weight:500; }
+    .btn { padding:11px 22px; border-radius:10px; border:none; cursor:pointer; font:700 14px 'Inter'; transition:.15s; }
+    .btn-primary { background:#FF671F; color:#fff; }
+    .btn-primary:hover:not(:disabled) { background:#e25710; }
+    .btn-primary:disabled { opacity:.5; cursor:not-allowed; }
+    .alert { padding:12px 14px; border-radius:8px; margin-bottom:14px; font:500 13px 'Inter'; }
+    .alert.error  { background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; }
+    .alert.success{ background:#dcfce7; border:1px solid #86efac; color:#166534; }
+    .skeleton { background:linear-gradient(90deg,#f1f5f9 0%,#e2e8f0 50%,#f1f5f9 100%); background-size:200% 100%; animation:sk 1.4s infinite; height:14px; border-radius:4px; margin:6px 0; }
+    @keyframes sk { 0% { background-position:200% 0; } 100% { background-position:-200% 0; } }
+    .success-card { padding:38px 32px; text-align:center; }
+    .success-card .check { width:62px; height:62px; border-radius:50%; background:#dcfce7; color:#166534; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:36px; }
+    .success-card h2 { color:#010F3B; font:800 24px 'Poppins'; margin:0 0 8px; }
+    .success-card p { color:#475569; font:500 15px 'Inter'; }
+    .success-card a { color:#FF671F; }
+    .footer-note { color:#fff; opacity:.6; text-align:center; font:500 12px 'Inter'; margin-top:18px; }
+    .hp-trap { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand"><a href="/">NetWebMedia</a> · Schedule a meeting</div>
+
+    <div class="card" id="bookingRoot">
+      <div style="padding:60px;text-align:center;color:#94a3b8;font:500 14px 'Inter'">
+        Loading booking page<span id="loadingDots">…</span>
+      </div>
+    </div>
+
+    <div class="footer-note">Times shown in your local timezone · Powered by NetWebMedia</div>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+  var API = "/api/booking";
+  var root = document.getElementById("bookingRoot");
+  var qs = new URLSearchParams(location.search);
+  var slug = qs.get("slug") || (location.pathname.match(/\/book\/([a-z0-9\-]+)/i) || [])[1];
+  var cancelToken = qs.get("cancel");
+
+  if (cancelToken) return loadCancelView(cancelToken);
+  if (!slug)       return showError("This booking link is missing a slug. Please check the URL.");
+
+  var state = { link: null, host: null, slotsByDay: {}, days: [], activeDay: null, selectedSlot: null };
+
+  fetch(API + "/links/" + encodeURIComponent(slug))
+    .then(function (r) { if (!r.ok) throw r; return r.json(); })
+    .then(function (info) {
+      state.link = info.link;
+      state.host = info.host;
+      document.title = info.link.title + " — NetWebMedia";
+      renderBookingShell();
+      return loadSlots();
+    })
+    .catch(function () {
+      showError("This booking link doesn't exist or is no longer active.");
+    });
+
+  function renderBookingShell() {
+    var initials = (state.host.name || "NW").split(/\s+/).map(function (w) { return w[0]; }).slice(0, 2).join("").toUpperCase();
+    root.innerHTML =
+      '<div class="card-head">' +
+        '<div class="host-avatar">' + esc(initials) + '</div>' +
+        '<div style="flex:1;min-width:240px">' +
+          '<div class="host-name">' + esc(state.host.name || 'NetWebMedia') + '</div>' +
+          '<h1 class="meeting-title">' + esc(state.link.title) + '</h1>' +
+          (state.link.description ? '<div class="meeting-desc">' + esc(state.link.description) + '</div>' : '') +
+          '<div class="meeting-meta">' +
+            '<span>⏱ ' + state.link.duration_min + ' min</span>' +
+            '<span>📡 ' + esc(state.link.meeting_type) + '</span>' +
+            (state.link.advance_min_hours ? '<span>🕒 ' + state.link.advance_min_hours + 'h notice</span>' : '') +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="body-grid">' +
+        '<div class="day-list" id="dayList">' +
+          '<h3>Pick a day</h3>' +
+          '<div class="skeleton" style="width:80%"></div>' +
+          '<div class="skeleton" style="width:65%"></div>' +
+          '<div class="skeleton" style="width:75%"></div>' +
+        '</div>' +
+        '<div class="slot-area" id="slotArea">' +
+          '<h3>Available times</h3>' +
+          '<div class="slot-empty">Pick a day to see available times.</div>' +
+        '</div>' +
+      '</div>' +
+      '<form class="form-area" id="bookForm" autocomplete="off">' +
+        '<div id="formAlert"></div>' +
+        '<div class="form-grid">' +
+          '<div><label>Your name</label><input id="bookName" required></div>' +
+          '<div><label>Email</label><input id="bookEmail" type="email" required></div>' +
+        '</div>' +
+        '<div class="form-grid" style="margin-top:12px">' +
+          '<div><label>Phone (optional)</label><input id="bookPhone" type="tel"></div>' +
+          '<div><label>Anything we should know?</label><input id="bookNotes" placeholder="Topic, links, context…"></div>' +
+        '</div>' +
+        '<div class="hp-trap"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>' +
+        '<div class="submit-row">' +
+          '<div class="selected-slot" id="selectedSlot"><span class="label">Selected:</span> none</div>' +
+          '<button type="submit" class="btn btn-primary" id="bookSubmit" disabled>Confirm Booking</button>' +
+        '</div>' +
+      '</form>';
+
+    document.getElementById("bookForm").addEventListener("submit", onSubmit);
+  }
+
+  function loadSlots() {
+    var url = API + "/links/" + encodeURIComponent(slug) + "/slots?days=" + (state.link.advance_max_days || 14);
+    return fetch(url)
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r); })
+      .then(function (data) {
+        var slots = data.slots || [];
+        state.slotsByDay = {};
+        slots.forEach(function (s) {
+          var d = new Date(s.start);
+          var key = d.toISOString().slice(0, 10);
+          (state.slotsByDay[key] = state.slotsByDay[key] || []).push(s);
+        });
+        state.days = Object.keys(state.slotsByDay).sort();
+        renderDays();
+        if (state.days.length) {
+          state.activeDay = state.days[0];
+          renderSlots();
+        } else {
+          var sa = document.getElementById("slotArea");
+          if (data.note) {
+            sa.innerHTML = '<h3>Available times</h3><div class="slot-empty">' + esc(data.note) + '</div>';
+          } else {
+            sa.innerHTML = '<h3>Available times</h3><div class="slot-empty">No open times in the next ' + (state.link.advance_max_days || 14) + ' days.</div>';
+          }
+        }
+      })
+      .catch(function () {
+        document.getElementById("dayList").innerHTML = '<h3>Pick a day</h3><div class="slot-empty">Could not load availability.</div>';
+      });
+  }
+
+  function renderDays() {
+    var html = '<h3>Pick a day</h3>';
+    if (!state.days.length) {
+      html += '<div class="slot-empty">No open days yet.</div>';
+    } else {
+      state.days.forEach(function (key) {
+        var d = new Date(key + "T12:00:00");
+        var label = d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+        var count = state.slotsByDay[key].length;
+        var active = (key === state.activeDay) ? " active" : "";
+        html += '<button type="button" class="day-btn' + active + '" data-day="' + key + '">' +
+                  '<span>' + esc(label) + '</span>' +
+                  '<span class="count">' + count + ' open</span>' +
+                '</button>';
+      });
+    }
+    var dl = document.getElementById("dayList");
+    dl.innerHTML = html;
+    dl.querySelectorAll("[data-day]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        state.activeDay = b.getAttribute("data-day");
+        state.selectedSlot = null;
+        renderDays();
+        renderSlots();
+        updateSelected();
+      });
+    });
+  }
+
+  function renderSlots() {
+    var sa = document.getElementById("slotArea");
+    var slots = (state.activeDay && state.slotsByDay[state.activeDay]) || [];
+    if (!slots.length) {
+      sa.innerHTML = '<h3>Available times</h3><div class="slot-empty">No open times that day.</div>';
+      return;
+    }
+    var html = '<h3>Available times — ' + esc(new Date(state.activeDay + "T12:00:00").toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })) + '</h3>';
+    html += '<div class="slot-grid">';
+    slots.forEach(function (s) {
+      var time = new Date(s.start).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+      var active = (state.selectedSlot && state.selectedSlot.start === s.start) ? " active" : "";
+      html += '<button type="button" class="slot-btn' + active + '" data-start="' + esc(s.start) + '">' + esc(time) + '</button>';
+    });
+    html += '</div>';
+    sa.innerHTML = html;
+    sa.querySelectorAll("[data-start]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        state.selectedSlot = { start: b.getAttribute("data-start") };
+        renderSlots();
+        updateSelected();
+      });
+    });
+  }
+
+  function updateSelected() {
+    var el = document.getElementById("selectedSlot");
+    var btn = document.getElementById("bookSubmit");
+    if (state.selectedSlot) {
+      var d = new Date(state.selectedSlot.start);
+      el.innerHTML = '<span class="label">Selected:</span> ' + esc(d.toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }));
+      btn.disabled = false;
+    } else {
+      el.innerHTML = '<span class="label">Selected:</span> none';
+      btn.disabled = true;
+    }
+  }
+
+  function onSubmit(ev) {
+    ev.preventDefault();
+    if (!state.selectedSlot) return;
+    var alertEl = document.getElementById("formAlert");
+    var btn = document.getElementById("bookSubmit");
+    btn.disabled = true;
+    btn.textContent = "Booking…";
+    alertEl.innerHTML = "";
+
+    var payload = {
+      name:     document.getElementById("bookName").value.trim(),
+      email:    document.getElementById("bookEmail").value.trim(),
+      phone:    document.getElementById("bookPhone").value.trim(),
+      notes:    document.getElementById("bookNotes").value.trim(),
+      slot:     state.selectedSlot.start,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
+      website:  document.querySelector('input[name="website"]').value, // honeypot
+    };
+
+    fetch(API + "/links/" + encodeURIComponent(slug) + "/book", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then(function (r) {
+        return r.json().then(function (d) { return r.ok ? d : Promise.reject(d); });
+      })
+      .then(function (d) { showSuccess(d); })
+      .catch(function (e) {
+        alertEl.innerHTML = '<div class="alert error">' + esc((e && e.error) || "Could not book this slot. It may have just been taken — try another.") + '</div>';
+        btn.disabled = false;
+        btn.textContent = "Confirm Booking";
+        // Reload slots so the user picks again
+        loadSlots();
+      });
+  }
+
+  function showSuccess(d) {
+    var startStr = new Date(d.starts_at).toLocaleString(undefined, { weekday: "long", month: "long", day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+    root.innerHTML =
+      '<div class="success-card">' +
+        '<div class="check">✓</div>' +
+        '<h2>You\'re booked!</h2>' +
+        '<p>Your meeting is confirmed for<br><strong>' + esc(startStr) + '</strong>' +
+          (d.host_name ? ' with <strong>' + esc(d.host_name) + '</strong>' : '') + '.</p>' +
+        '<p style="margin-top:14px"><a href="' + API + '/ics?id=' + d.booking_id + '&token=' + encodeURIComponent(d.cancel_token) + '">📅 Add to calendar</a></p>' +
+        '<p style="margin-top:6px;font-size:13px;color:#94a3b8">Need to cancel? <a href="?cancel=' + encodeURIComponent(d.cancel_token) + '">Click here</a>.</p>' +
+      '</div>';
+  }
+
+  function loadCancelView(token) {
+    fetch(API + "/cancel?token=" + encodeURIComponent(token))
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r); })
+      .then(function (d) {
+        var b = d.booking;
+        var startStr = new Date(b.starts_at).toLocaleString(undefined, { weekday: "long", month: "long", day: "numeric", hour: "numeric", minute: "2-digit" });
+        var alreadyCancelled = b.status === 'cancelled';
+        root.innerHTML =
+          '<div class="success-card">' +
+            '<h2>' + (alreadyCancelled ? 'Already Cancelled' : 'Cancel this booking?') + '</h2>' +
+            '<p>' + esc(b.link_title || 'Meeting') + (b.host_name ? ' with <strong>' + esc(b.host_name) + '</strong>' : '') + '<br>' + esc(startStr) + '</p>' +
+            (alreadyCancelled ? '' :
+              '<button class="btn btn-primary" id="confirmCancel" style="margin-top:18px">Yes, cancel</button>') +
+          '</div>';
+        var c = document.getElementById("confirmCancel");
+        if (c) c.addEventListener("click", function () {
+          c.disabled = true; c.textContent = "Cancelling…";
+          fetch(API + "/cancel?token=" + encodeURIComponent(token), { method: "POST" })
+            .then(function () {
+              root.innerHTML = '<div class="success-card"><div class="check" style="background:#fee2e2;color:#b91c1c">✕</div><h2>Cancelled</h2><p>Your booking has been cancelled.</p></div>';
+            });
+        });
+      })
+      .catch(function () { showError("Cancel link is invalid or expired."); });
+  }
+
+  function showError(msg) {
+    root.innerHTML = '<div style="padding:48px 30px;text-align:center"><h2 style="color:#010F3B;font:800 22px Poppins;margin:0 0 12px">Hmm…</h2><p style="color:#64748b;font:500 15px Inter">' + esc(msg) + '</p><p style="margin-top:20px"><a href="/" style="color:#FF671F;font-weight:600">← Back to NetWebMedia</a></p></div>';
+  }
+
+  function esc(s) {
+    if (s === null || s === undefined) return "";
+    return String(s).replace(/[&<>"']/g, function (c) { return { "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]; });
+  }
+})();
+</script>
+</body>
+</html>

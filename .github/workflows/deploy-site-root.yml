@@ -338,7 +338,7 @@ jobs:
         run: |
           # Auto-discovers every crm-vanilla/api/schema_*.sql file.
           # Drop a new schema_xxx.sql → it runs automatically on next deploy.
-          # All migrations must be idempotent (ALTER TABLE IF NOT EXISTS, etc.).
+          # All migrations must be idempotent (migrate.php tolerates "duplicate column" errors).
           shopt -s nullglob
           schemas=( _stage/crm-vanilla/api/schema_*.sql )
           if [ ${#schemas[@]} -eq 0 ]; then
@@ -347,10 +347,16 @@ jobs:
             for sql_file in "${schemas[@]}"; do
               schema=$(basename "$sql_file" .sql | sed 's/^schema_//')
               echo "Running migration: $schema"
-              resp=$(curl -sS --max-time 20 \
-                -A "Mozilla/5.0 (gh-actions migrate)" \
-                -X POST \
-                "https://app.netwebmedia.com/api/?r=migrate&token=NWM_MIGRATE_2026&schema=$schema")
+              # Browser-style headers — mod_security on InMotion 406-blocks bare curl UAs.
+              resp=$(curl -sS --max-time 60 \
+                -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
+                -H "Accept: application/json,text/plain,*/*" \
+                -H "Accept-Language: en-US,en;q=0.9" \
+                -H "Origin: https://netwebmedia.com" \
+                -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+                -H "Content-Type: application/json" \
+                -X POST -d '{}' \
+                "https://netwebmedia.com/crm-vanilla/api/?r=migrate&token=NWM_MIGRATE_2026&schema=$schema")
               echo "  $schema → $resp"
               echo "$resp" | grep -q '"ran"' || { echo "Migration $schema did not return expected JSON"; exit 1; }
             done

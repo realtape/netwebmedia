@@ -21,7 +21,7 @@ if (empty($email) || empty($password)) {
 }
 
 $stmt = $db->prepare(
-    'SELECT id, name, email, company, password_hash, role, status FROM users WHERE email = ?'
+    'SELECT id, name, email, company, password_hash, role, status, plan, niche FROM users WHERE email = ?'
 );
 $stmt->execute([$email]);
 $user = $stmt->fetch();
@@ -46,5 +46,7 @@ jsonResponse([
     'company'          => $user['company'] ?? '',
     'type'             => $user['role'] ?? 'user',
     'status'           => $user['status'],
+    'plan'             => $user['plan'] ?? null,
+    'niche'            => $user['niche'] ?? null,
     'requires_payment' => $user['status'] === 'pending_payment',
 ]);

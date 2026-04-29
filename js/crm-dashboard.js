@@ -429,33 +429,40 @@
   // ---- Render: Leads ----
   function renderLeads() {
     const tbody = $('#leads-table tbody');
-    tbody.innerHTML = data.leads.map(l => `
+    tbody.innerHTML = data.leads.map(l => {
+      const score = safeNum(l.score);
+      const colorVar = score >= 70 ? 'var(--green)' : score >= 40 ? 'var(--orange)' : 'var(--red)';
+      return `
       <tr>
-        <td><strong>${esc(l.title)}</strong></td>
-        <td>${companyName(l.companyId)}</td>
-        <td>${esc(l.source || '—')}</td>
-        <td><strong style="color:${l.score >= 70 ? 'var(--green)' : l.score >= 40 ? 'var(--orange)' : 'var(--red)'}">${l.score}</strong></td>
-        <td>${formatMoney(l.estimatedValue)}</td>
-        <td><span class="badge badge-accent">${stageName(l.stageId)}</span></td>
+        <td><strong>${escapeHtml(l.title)}</strong></td>
+        <td>${escapeHtml(companyName(l.companyId))}</td>
+        <td>${escapeHtml(l.source || '—')}</td>
+        <td><strong style="color:${colorVar}">${score}</strong></td>
+        <td>${escapeHtml(formatMoney(l.estimatedValue))}</td>
+        <td><span class="badge badge-accent">${escapeHtml(stageName(l.stageId))}</span></td>
         <td>${statusBadge(l.status)}</td>
       </tr>
-    `).join('');
+    `;
+    }).join('');
   }
 
   // ---- Render: Tasks ----
   function renderTaskItem(t) {
     const isDone = t.status === 'done';
     const isOverdue = !isDone && t.dueAt && new Date(t.dueAt) < new Date();
+    // Whitelist priority before injecting into class name.
+    const allowedPriorities = { urgent: 1, high: 1, medium: 1, low: 1 };
+    const priorityClass = allowedPriorities[t.priority] ? t.priority : 'medium';
     return `
       <div class="task-item">
-        <div class="task-check ${isDone ? 'done' : ''}" onclick="toggleTask('${t.id}')"></div>
+        <div class="task-check ${isDone ? 'done' : ''}" data-action="toggle-task" data-id="${escapeHtml(t.id)}"></div>
         <div class="task-body">
-          <div class="task-title ${isDone ? 'done' : ''}">${esc(t.title)}</div>
+          <div class="task-title ${isDone ? 'done' : ''}">${escapeHtml(t.title)}</div>
           <div class="task-meta">
-            <span class="priority-dot priority-${t.priority}"></span>${t.priority}
-            ${t.dueAt ? ` · Due ${formatDate(t.dueAt)}` : ''}
+            <span class="priority-dot priority-${priorityClass}"></span>${escapeHtml(t.priority || '')}
+            ${t.dueAt ? ` · Due ${escapeHtml(formatDate(t.dueAt))}` : ''}
             ${isOverdue ? ' · <span style="color:var(--red);font-weight:600">OVERDUE</span>' : ''}
-            ${t.companyId ? ` · ${companyName(t.companyId)}` : ''}
+            ${t.companyId ? ` · ${escapeHtml(companyName(t.companyId))}` : ''}
           </div>
         </div>
       </div>
@@ -477,7 +484,7 @@
   function renderPipeline() {
     const tabsEl = $('#pipeline-tabs');
     tabsEl.innerHTML = data.pipelines.map((p, i) =>
-      `<button class="tab ${i === 0 ? 'active' : ''}" data-pipe="${p.id}">${esc(p.name)}</button>`
+      `<button class="tab ${i === 0 ? 'active' : ''}" data-pipe="${escapeHtml(p.id)}">${escapeHtml(p.name)}</button>`
     ).join('');
 
     tabsEl.querySelectorAll('.tab').forEach(btn => {
@@ -503,14 +510,14 @@
       return `
         <div class="pipeline-col">
           <div class="pipeline-col-header">
-            <span class="pipeline-col-title">${esc(stage.name)}</span>
-            <span class="pipeline-col-count">${stageItems.length}</span>
+            <span class="pipeline-col-title">${escapeHtml(stage.name)}</span>
+            <span class="pipeline-col-count">${safeNum(stageItems.length)}</span>
           </div>
           ${stageItems.map(item => `
             <div class="pipeline-card">
-              <div class="pipeline-card-title">${esc(item.name || item.title)}</div>
-              <div class="pipeline-card-company">${companyName(item.companyId)}</div>
-              <div class="pipeline-card-value">${formatMoney(item.value || item.estimatedValue)}</div>
+              <div class="pipeline-card-title">${escapeHtml(item.name || item.title)}</div>
+              <div class="pipeline-card-company">${escapeHtml(companyName(item.companyId))}</div>
+              <div class="pipeline-card-value">${escapeHtml(formatMoney(item.value || item.estimatedValue))}</div>
             </div>
           `).join('')}
         </div>
@@ -521,15 +528,19 @@
   // ---- Render: Activity ----
   function renderActivityLog() {
     const el = $('#activity-list');
-    el.innerHTML = data.activities.map(a => `
+    el.innerHTML = data.activities.map(a => {
+      const safeKind = Object.prototype.hasOwnProperty.call(ACTIVITY_ICONS, a.kind) ? a.kind : '';
+      const icon = ACTIVITY_ICONS[a.kind] || '📌';
+      return `
       <div class="activity-item">
-        <div class="activity-icon ${a.kind}">${ACTIVITY_ICONS[a.kind] || '📌'}</div>
+        <div class="activity-icon ${escapeHtml(safeKind)}">${escapeHtml(icon)}</div>
         <div class="activity-body">
-          <div class="activity-summary">${esc(a.summary)}</div>
-          <div class="activity-time">${timeAgo(a.occurredAt)}${a.details ? ' · ' + esc(a.details) : ''}</div>
+          <div class="activity-summary">${escapeHtml(a.summary)}</div>
+          <div class="activity-time">${escapeHtml(timeAgo(a.occurredAt))}${a.details ? ' · ' + escapeHtml(a.details) : ''}</div>
         </div>
       </div>
-    `).join('');
+    `;
+    }).join('');
   }
 
   // ---- Render: Analytics ----
@@ -540,16 +551,17 @@
     if (!el) return;
     if (!maxVal) maxVal = Math.max(...items.map(i => i.value), 1);
     el.innerHTML = items.map((item, i) => {
-      const pct = Math.max((item.value / maxVal) * 100, 2);
-      const color = item.color || CHART_COLORS[i % CHART_COLORS.length];
+      const pct = Math.max((safeNum(item.value) / safeNum(maxVal || 1)) * 100, 2);
+      const color = safeColor(item.color || CHART_COLORS[i % CHART_COLORS.length]);
+      const display = item.display != null ? String(item.display) : String(safeNum(item.value));
       return `
         <div class="chart-bar-group">
           <div class="chart-bar-label">
-            <span>${esc(item.label)}</span>
-            <span>${item.display || item.value}</span>
+            <span>${escapeHtml(item.label)}</span>
+            <span>${escapeHtml(display)}</span>
           </div>
           <div class="chart-bar-track">
-            <div class="chart-bar-fill" style="width:${pct}%;background:${color}">${pct > 15 ? (item.display || item.value) : ''}</div>
+            <div class="chart-bar-fill" style="width:${pct}%;background:${color}">${pct > 15 ? escapeHtml(display) : ''}</div>
           </div>
         </div>
       `;
@@ -559,12 +571,12 @@
   function renderDonutChart(containerId, items, totalLabel) {
     const el = $(containerId);
     if (!el) return;
-    const total = items.reduce((s, i) => s + i.value, 0);
+    const total = items.reduce((s, i) => s + safeNum(i.value), 0) || 1;
     let cumulative = 0;
     const gradientParts = items.map((item, i) => {
-      const color = item.color || CHART_COLORS[i % CHART_COLORS.length];
+      const color = safeColor(item.color || CHART_COLORS[i % CHART_COLORS.length]);
       const start = (cumulative / total) * 360;
-      cumulative += item.value;
+      cumulative += safeNum(item.value);
       const end = (cumulative / total) * 360;
       return `${color} ${start}deg ${end}deg`;
     });
@@ -573,16 +585,16 @@
       <div class="donut-chart">
         <div class="donut-ring" style="background:conic-gradient(${gradientParts.join(',')})">
           <div class="donut-center">
-            <div class="donut-total">${total}</div>
-            <div class="donut-label">${totalLabel}</div>
+            <div class="donut-total">${safeNum(total)}</div>
+            <div class="donut-label">${escapeHtml(totalLabel)}</div>
           </div>
         </div>
         <div class="donut-legend">
           ${items.map((item, i) => `
             <div class="legend-item">
-              <div class="legend-dot" style="background:${item.color || CHART_COLORS[i % CHART_COLORS.length]}"></div>
-              <span>${esc(item.label)}</span>
-              <span>${item.value}</span>
+              <div class="legend-dot" style="background:${safeColor(item.color || CHART_COLORS[i % CHART_COLORS.length])}"></div>
+              <span>${escapeHtml(item.label)}</span>
+              <span>${safeNum(item.value)}</span>
             </div>
           `).join('')}
         </div>
@@ -610,27 +622,27 @@
     $('#analytics-kpis').innerHTML = `
       <div class="stat-card">
         <div class="stat-label">Total Pipeline</div>
-        <div class="stat-value stat-green">${formatMoney(totalPipeline)}</div>
-        <div class="stat-sub">${openDeals.length} open deals</div>
+        <div class="stat-value stat-green">${escapeHtml(formatMoney(totalPipeline))}</div>
+        <div class="stat-sub">${safeNum(openDeals.length)} open deals</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Weighted Forecast</div>
-        <div class="stat-value stat-cyan">${formatMoney(Math.round(weightedPipeline))}</div>
+        <div class="stat-value stat-cyan">${escapeHtml(formatMoney(Math.round(weightedPipeline)))}</div>
         <div class="stat-sub">Probability-adjusted</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Avg Deal Size</div>
-        <div class="stat-value stat-accent">${formatMoney(avgDealSize)}</div>
+        <div class="stat-value stat-accent">${escapeHtml(formatMoney(avgDealSize))}</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Open Leads</div>
-        <div class="stat-value stat-orange">${openLeads.length}</div>
-        <div class="stat-sub">${formatMoney(openLeads.reduce((s, l) => s + (l.estimatedValue || 0), 0))} est.</div>
+        <div class="stat-value stat-orange">${safeNum(openLeads.length)}</div>
+        <div class="stat-sub">${escapeHtml(formatMoney(openLeads.reduce((s, l) => s + (l.estimatedValue || 0), 0)))} est.</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Task Completion</div>
-        <div class="stat-value ${taskCompletionRate >= 50 ? 'stat-green' : 'stat-red'}">${taskCompletionRate}%</div>
-        <div class="stat-sub">${completedTasks}/${data.tasks.length} done</div>
+        <div class="stat-value ${taskCompletionRate >= 50 ? 'stat-green' : 'stat-red'}">${safeNum(taskCompletionRate)}%</div>
+        <div class="stat-sub">${safeNum(completedTasks)}/${safeNum(data.tasks.length)} done</div>
       </div>
     `;
 
@@ -676,15 +688,15 @@
     forecastBody.innerHTML = openDeals.map(d => {
       const pipeline = data.pipelines.find(p => p.id === d.pipelineId);
       const stage = pipeline ? pipeline.stages.find(st => st.id === d.stageId) : null;
-      const prob = stage ? stage.probability : 50;
-      const weighted = Math.round((d.value || 0) * prob / 100);
+      const prob = safeNum(stage ? stage.probability : 50);
+      const weighted = Math.round(safeNum(d.value) * prob / 100);
       return `
         <tr>
-          <td><strong>${esc(d.name)}</strong></td>
-          <td style="font-weight:700;color:var(--green)">${formatMoney(d.value)}</td>
+          <td><strong>${escapeHtml(d.name)}</strong></td>
+          <td style="font-weight:700;color:var(--green)">${escapeHtml(formatMoney(d.value))}</td>
           <td><span class="badge ${prob >= 60 ? 'badge-green' : prob >= 30 ? 'badge-orange' : 'badge-red'}">${prob}%</span></td>
-          <td style="font-weight:700;color:var(--cyan)">${formatMoney(weighted)}</td>
-          <td>${formatDate(d.expectedCloseDate)}</td>
+          <td style="font-weight:700;color:var(--cyan)">${escapeHtml(formatMoney(weighted))}</td>
+          <td>${escapeHtml(formatDate(d.expectedCloseDate))}</td>
         </tr>
       `;
     }).join('');
@@ -765,7 +777,7 @@
 
   function populateCompanySelects() {
     const options = '<option value="">None</option>' +
-      data.companies.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
+      data.companies.map(c => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`).join('');
     const selects = ['#contact-company-select', '#deal-company-select'];
     selects.forEach(sel => {
       const el = $(sel);
@@ -800,6 +812,20 @@
 
   // ---- Event Listeners ----
   function setupEvents() {
+    // Delegated click handler — replaces inline onclick attributes that used
+    // to interpolate user-controlled `id` values into JS strings (XSS sink).
+    document.addEventListener('click', (e) => {
+      const trigger = e.target.closest('[data-action]');
+      if (!trigger) return;
+      const action = trigger.dataset.action;
+      const id = trigger.dataset.id;
+      if (action === 'delete' && trigger.dataset.type && id) {
+        window.deleteRecord(trigger.dataset.type, id);
+      } else if (action === 'toggle-task' && id) {
+        window.toggleTask(id);
+      }
+    });
+
     // Sidebar nav
     $$('.sidebar-nav a').forEach(a => {
       a.addEventListener('click', (e) => {

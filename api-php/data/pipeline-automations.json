@@ -1,0 +1,534 @@
+{
+  "version": "1.0.0",
+  "updated": "2026-04-29",
+  "description": "Source-of-truth definitions for all NetWebMedia pipeline automations. Loaded into resources(type=workflow) by api-php/seed-automations.php. Re-run seeder anytime — workflows are upserted by slug.",
+  "workflows": [
+    {
+      "slug": "mk-01-new-subscriber-welcome",
+      "title": "Marketing · New Subscriber Welcome",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "form_submission", "form_id": "newsletter" },
+        "steps": [
+          { "action": "tag", "tag": "subscriber" },
+          { "action": "send_email", "to": "submitter",
+            "subject": "Welcome to NetWebMedia, {{first_name|there}}",
+            "body": "<p>Hi {{first_name|there}},</p><p>You're in. We send one short email a week — no fluff, just what's working in AI-powered marketing for SMBs.</p><p>— Carlos</p>" },
+          { "action": "wait", "days": 2 },
+          { "action": "send_email", "to": "submitter",
+            "subject": "The 14 niches we go deep on",
+            "body": "<p>Quick value drop: every NetWebMedia playbook is built for one of 14 niches. Reply with yours and I'll send the niche-specific deck.</p>" },
+          { "action": "wait", "days": 4 },
+          { "action": "if",
+            "condition": { "field": "tags", "op": "contains", "value": "engaged" },
+            "then": [ { "action": "tag", "tag": "lead" } ],
+            "else": [ { "action": "log", "message": "Subscriber not engaged after 6d — staying as subscriber" } ]
+          }
+        ]
+      }
+    },
+    {
+      "slug": "mk-02-audit-request-intake",
+      "title": "Marketing · Free Audit Request Intake",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "form_submission", "form_id": "audit" },
+        "steps": [
+          { "action": "tag", "tag": "audit_lead" },
+          { "action": "tag", "tag": "mql" },
+          { "action": "create_deal", "title_tpl": "Audit — {{company|Unknown}}", "value": 2500 },
+          { "action": "assign_user", "strategy": "least_loaded" },
+          { "action": "send_email", "to": "submitter",
+            "subject": "Audit request received — your roadmap arrives in 48h",
+            "body": "<p>Hi {{first_name|there}},</p><p>Got it. Your custom 90-day growth roadmap will be in your inbox within 48 hours. While you wait, you can <a href='https://netwebmedia.com/contact.html?source=audit-1'>book a 30-min strategy call here</a>.</p><p>— Carlos</p>" },
+          { "action": "notify_team", "channel": "slack",
+            "message": "🟧 New audit request: {{company|?}} ({{email}}). Deal created and assigned." },
+          { "action": "create_task", "title_tpl": "Deliver audit for {{company|?}}", "due_in_days": 2 },
+          { "action": "wait", "days": 2 },
+          { "action": "send_email", "to": "submitter",
+            "subject": "Your audit roadmap is ready, {{first_name|there}}",
+            "body": "<p>Roadmap attached. Three quick wins inside + the 90-day plan. <a href='https://netwebmedia.com/contact.html?source=audit-2'>Book the walkthrough here.</a></p>" },
+          { "action": "wait", "days": 3 },
+          { "action": "if",
+            "condition": { "field": "appointment_booked", "op": "exists" },
+            "then": [ { "action": "log", "message": "Audit lead booked — sequence ends" } ],
+            "else": [
+              { "action": "send_email", "to": "submitter",
+                "subject": "Did the audit make sense, {{first_name|there}}?",
+                "body": "<p>Open invite: 30-min strategy call, no pressure. <a href='https://netwebmedia.com/contact.html?source=audit-3'>Pick a time here.</a></p>" },
+              { "action": "send_whatsapp", "to": "{{phone}}",
+                "body": "Hi {{first_name|there}} — Carlos at NetWebMedia. Did the audit roadmap land okay? Happy to walk you through it whenever." }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "slug": "mk-03-cold-email-reply",
+      "title": "Marketing · Cold Email Reply Detection",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "webhook_in", "source": "email_reply" },
+        "steps": [
+          { "action": "tag", "tag": "engaged" },
+          { "action": "tag", "tag": "mql" },
+          { "action": "update_field", "field": "status", "value": "prospect" },
+          { "action": "ai_reply",
+            "prompt_tpl": "Draft a 3-sentence personalized reply to this cold email response. Their reply: '{{reply_body}}'. They are at {{company|?}} in {{niche|the SMB}} space. Tone: friendly, helpful, no pitch. Sign off as Carlos.",
+            "save_as": "draft_reply" },
+          { "action": "create_task", "title_tpl": "Review & send AI-drafted reply to {{first_name|?}} at {{company|?}}", "due_in_days": 1 },
+          { "action": "notify_team", "channel": "slack",
+            "message": "💬 Cold email reply from {{email}} ({{company|?}}). AI draft ready. Task created." }
+        ]
+      }
+    },
+    {
+      "slug": "mk-04-pricing-page-high-intent",
+      "title": "Marketing · High-Intent Pricing Page Visit",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "page_visit", "page_url": "/pricing" },
+        "steps": [
+          { "action": "if",
+            "condition": { "field": "visit_count", "op": "gt", "value": 2 },
+            "then": [
+              { "action": "tag", "tag": "high_intent_pricing" },
+              { "action": "tag", "tag": "mql" },
+              { "action": "notify_team", "channel": "slack",
+                "message": "🔥 {{email}} ({{company|?}}) visited /pricing {{visit_count}}× — likely buying. Reach out today." },
+              { "action": "create_task", "title_tpl": "SDR outreach: pricing-curious {{company|?}}", "due_in_days": 1 },
+              { "action": "wait", "hours": 4 },
+              { "action": "send_email", "to": "contact.email",
+                "subject": "Saw you checking out our pricing — questions?",
+                "body": "<p>Hi {{first_name|there}}, noticed you've been on our pricing page. Happy to walk you through what fits your situation — reply with your top 1-2 questions and I'll answer same-day.</p><p>— Carlos</p>" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "slug": "mk-05-dormant-reengagement",
+      "title": "Marketing · Dormant Lead Re-engagement (30d)",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "cron", "cadence": "daily", "time": "10:00" },
+        "steps": [
+          { "action": "log", "message": "Cron: scanning for contacts with last_contact > 30d and no opens" },
+          { "action": "tag", "tag": "inactive_30d" },
+          { "action": "send_email", "to": "contact.email",
+            "subject": "We've shipped 30+ new modules since you checked",
+            "body": "<p>{{first_name|Hi}} — quick note: NetWebMedia added AI Agents, an Agency tier, and 30 new modules since your last visit. <a href='https://netwebmedia.com/nwm-crm'>See what's new →</a></p>" },
+          { "action": "wait", "days": 14 },
+          { "action": "if",
+            "condition": { "field": "tags", "op": "contains", "value": "engaged" },
+            "then": [ { "action": "untag", "tag": "inactive_30d" } ],
+            "else": [
+              { "action": "send_email", "to": "contact.email",
+                "subject": "Last note — one more reason to stay",
+                "body": "<p>AI Agents + Agency tier are the headline. <a href='https://netwebmedia.com/pricing'>See current pricing →</a></p>" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "slug": "mk-06-customer-to-evangelist",
+      "title": "Marketing · Customer → Evangelist (Review Posted)",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "review_posted" },
+        "steps": [
+          { "action": "tag", "tag": "evangelist" },
+          { "action": "send_email", "to": "contact.email",
+            "subject": "Thank you for the review, {{first_name|there}} 🙏",
+            "body": "<p>That review just made our week. As a thanks: here's <b>REFER15</b> — anyone you refer gets 15% off their first 3 months and you get $200 credit when they convert.</p><p>— Carlos</p>" },
+          { "action": "create_task", "title_tpl": "Send hand-written thank-you card to {{first_name|?}} at {{company|?}}", "due_in_days": 5 },
+          { "action": "notify_team", "channel": "slack", "message": "⭐ New review from {{company|?}}. Tagged evangelist. Referral coupon sent." }
+        ]
+      }
+    },
+    {
+      "slug": "mk-07-disqualified-cleanup",
+      "title": "Marketing · Disqualified / Unsubscribed Cleanup",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "tag_added", "tag": "unsubscribed" },
+        "steps": [
+          { "action": "update_field", "field": "status", "value": "churned" },
+          { "action": "untag", "tag": "subscriber" },
+          { "action": "untag", "tag": "mql" },
+          { "action": "untag", "tag": "sql" },
+          { "action": "tag", "tag": "disqualified" },
+          { "action": "log", "message": "Contact moved to disqualified lifecycle stage" }
+        ]
+      }
+    },
+    {
+      "slug": "mk-08-lead-nurture-7day",
+      "title": "Marketing · Lead Nurture (7-day soft drip)",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "tag_added", "tag": "lead" },
+        "steps": [
+          { "action": "wait_until", "time_of_day": "09:00", "days_of_week": [1,2,3,4,5] },
+          { "action": "send_email", "to": "contact.email",
+            "subject": "One thing most {{niche|SMB}} owners get wrong about marketing",
+            "body": "<p>Hi {{first_name|there}}, one quick observation from auditing 100+ {{niche|SMB}} sites this year...</p>" },
+          { "action": "wait", "days": 3 },
+          { "action": "send_email", "to": "contact.email",
+            "subject": "How {{niche|one of our clients}} cut their cost-per-lead 62%",
+            "body": "<p>Short case study + the exact playbook we used. <a href='https://netwebmedia.com/case-studies'>Read here →</a></p>" },
+          { "action": "wait", "days": 4 },
+          { "action": "send_email", "to": "contact.email",
+            "subject": "Want me to audit your setup, {{first_name|there}}?",
+            "body": "<p>Free 90-day growth roadmap, no obligation. <a href='https://netwebmedia.com/audit'>Request your audit here →</a></p>" }
+        ]
+      }
+    },
+    {
+      "slug": "mk-09-birthday-anniversary",
+      "title": "Marketing · Customer Anniversary",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "date_field", "field": "signup_date", "days_offset": 365 },
+        "steps": [
+          { "action": "send_email", "to": "contact.email",
+            "subject": "1 year with NetWebMedia 🎉",
+            "body": "<p>{{first_name|There}} — 1 year today. Thank you. Here's <b>LOYAL20</b> for 20% off your next add-on or upgrade.</p>" },
+          { "action": "create_task", "title_tpl": "QBR: anniversary check-in with {{company|?}}", "due_in_days": 7 }
+        ]
+      }
+    },
+    {
+      "slug": "mk-10-partner-application",
+      "title": "Marketing · Agency Partner Application",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "form_submission", "form_id": "partner_application" },
+        "steps": [
+          { "action": "tag", "tag": "partner_lead" },
+          { "action": "tag", "tag": "sql" },
+          { "action": "create_deal", "title_tpl": "Partner — {{company|?}}", "value": 5000 },
+          { "action": "assign_user", "strategy": "user_id", "user_id": 1 },
+          { "action": "send_email", "to": "submitter",
+            "subject": "Keep 100% of the client AND 100% of the markup",
+            "body": "<p>Hi {{first_name|there}}, partner application received. Sub-accounts, white-label, Stripe Connect — let's get you onboarded. <a href='https://netwebmedia.com/contact.html?topic=partner'>Book onboarding call →</a></p>" },
+          { "action": "wait", "days": 2 },
+          { "action": "send_email", "to": "submitter",
+            "subject": "How one partner hit $34k/mo net in 90 days",
+            "body": "<p>Exact playbook on our Agency tier. <a href='https://netwebmedia.com/partners.html#partner-signup'>Get the partner playbook →</a></p>" },
+          { "action": "wait", "days": 5 },
+          { "action": "send_email", "to": "submitter",
+            "subject": "Founder pricing closes soon, {{first_name|there}}",
+            "body": "<p>6 founder slots left — lifetime price lock. <a href='https://netwebmedia.com/partners.html#partner-signup'>Claim my founder slot →</a></p>" },
+          { "action": "notify_team", "channel": "slack", "message": "🤝 Partner application: {{company|?}} ({{email}})" }
+        ]
+      }
+    },
+
+    {
+      "slug": "sl-01-new-deal-routing",
+      "title": "Sales · New Deal Auto-Routing",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "deal_stage", "stage": "New Lead" },
+        "steps": [
+          { "action": "assign_user", "strategy": "least_loaded" },
+          { "action": "create_task", "title_tpl": "First touch: {{title}} ({{company|?}}) — within 24h", "due_in_days": 1 },
+          { "action": "if",
+            "condition": { "field": "value", "op": "gt", "value": 10000 },
+            "then": [
+              { "action": "notify_team", "channel": "slack", "message": "💎 HIGH-VALUE new deal: {{title}} — ${{value}}. Routed to least-loaded rep." }
+            ],
+            "else": [
+              { "action": "notify_team", "channel": "slack", "message": "🟧 New deal: {{title}} (${{value}}) — assigned via round-robin." }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "slug": "sl-02-contacted-sla",
+      "title": "Sales · Contacted Stage SLA (3-day stale alert)",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "deal_stage", "stage": "Contacted" },
+        "steps": [
+          { "action": "wait", "days": 3 },
+          { "action": "if",
+            "condition": { "field": "stage", "op": "eq", "value": "Contacted" },
+            "then": [
+              { "action": "tag", "tag": "deal_stale" },
+              { "action": "notify_team", "channel": "email",
+                "message": "Deal {{title}} ({{company|?}}) has been in 'Contacted' for 3 days. Push to Qualified or back to New Lead." },
+              { "action": "create_task", "title_tpl": "Re-engage stale deal: {{title}}", "due_in_days": 1 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "slug": "sl-03-qualified-proposal-prep",
+      "title": "Sales · Qualified → Proposal Prep",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "deal_stage", "stage": "Qualified" },
+        "steps": [
+          { "action": "ai_reply",
+            "prompt_tpl": "Draft a one-page proposal outline for {{company|the prospect}} in the {{niche|SMB}} space. Their needs: {{notes|build full digital presence}}. Deal value target: ${{value}}. Include: (1) one-line problem statement, (2) 3-bullet solution, (3) deliverables, (4) timeline, (5) investment. Concise, scannable.",
+            "save_as": "proposal_outline" },
+          { "action": "create_task", "title_tpl": "Send proposal to {{company|?}} within 48h (AI outline ready)", "due_in_days": 2 },
+          { "action": "notify_team", "channel": "slack",
+            "message": "✅ Deal qualified: {{title}}. AI proposal outline drafted. 48h SLA started." }
+        ]
+      }
+    },
+    {
+      "slug": "sl-04-proposal-sent-followup",
+      "title": "Sales · Proposal Sent Follow-up Drip",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "deal_stage", "stage": "Proposal Sent" },
+        "steps": [
+          { "action": "wait", "days": 2 },
+          { "action": "send_email", "to": "contact.email",
+            "subject": "Quick check-in on the proposal, {{first_name|there}}",
+            "body": "<p>Just making sure the proposal landed and answering any questions before the team meeting. Anything I can clarify?</p><p>— Carlos</p>" },
+          { "action": "wait", "days": 3 },
+          { "action": "if",
+            "condition": { "field": "stage", "op": "eq", "value": "Proposal Sent" },
+            "then": [
+              { "action": "send_whatsapp", "to": "{{contact_phone}}",
+                "body": "Hey {{first_name|there}}, Carlos here. Quick WhatsApp follow-up on the NetWebMedia proposal — got 5 min for a quick call this week?" },
+              { "action": "send_email", "to": "contact.email",
+                "subject": "Two quick options if budget is the question",
+                "body": "<p>Sometimes proposals stall on scope. Happy to send a phased option (start small, expand quarterly) if that's useful — just say the word.</p>" }
+            ]
+          },
+          { "action": "wait", "days": 4 },
+          { "action": "if",
+            "condition": { "field": "stage", "op": "eq", "value": "Proposal Sent" },
+            "then": [
+              { "action": "tag", "tag": "deal_stale" },
+              { "action": "notify_team", "channel": "slack",
+                "message": "⏰ Proposal {{title}} ({{company|?}}) — 9 days no movement. Owner: review or re-stage." },
+              { "action": "create_task", "title_tpl": "Decision call needed: {{title}} (proposal stalled)", "due_in_days": 1 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "slug": "sl-05-negotiation-stale",
+      "title": "Sales · Negotiation Stale Alert (5d business)",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "deal_stage", "stage": "Negotiation" },
+        "steps": [
+          { "action": "wait", "days": 5 },
+          { "action": "if",
+            "condition": { "field": "stage", "op": "eq", "value": "Negotiation" },
+            "then": [
+              { "action": "ai_reply",
+                "prompt_tpl": "We've been in negotiation 5+ days on deal {{title}} (${{value}}, {{company|?}}, niche {{niche|SMB}}). Notes: {{notes|none}}. Suggest: (1) likely sticking point, (2) one concrete concession that protects margin, (3) a soft-close line for the next call. 6-bullet max.",
+                "save_as": "negotiation_play" },
+              { "action": "notify_team", "channel": "slack",
+                "message": "🟥 Carlos: {{title}} stalled in Negotiation (${{value}}). AI playbook drafted in deal notes." },
+              { "action": "create_task", "title_tpl": "Carlos: review {{title}} (negotiation stuck)", "due_in_days": 1 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "slug": "sl-06-closed-won-onboarding",
+      "title": "Sales · Closed Won → Onboarding Trigger",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "deal_stage", "stage": "Closed Won" },
+        "steps": [
+          { "action": "update_field", "field": "status", "value": "customer" },
+          { "action": "tag", "tag": "customer" },
+          { "action": "untag", "tag": "lead" },
+          { "action": "untag", "tag": "mql" },
+          { "action": "untag", "tag": "sql" },
+          { "action": "untag", "tag": "deal_stale" },
+          { "action": "send_email", "to": "contact.email",
+            "subject": "Welcome to NetWebMedia, {{first_name|there}} 🎉",
+            "body": "<p>Officially in. Three things happen now:</p><ol><li>Your kickoff call is being scheduled — calendar link incoming.</li><li>Your account dashboard is live at <a href='https://netwebmedia.com/crm'>netwebmedia.com/crm</a>.</li><li>Your CSM will reach out within 24h with the intake form.</li></ol><p>— Carlos</p>" },
+          { "action": "create_task", "title_tpl": "Schedule kickoff call with {{company|?}}", "due_in_days": 1 },
+          { "action": "create_task", "title_tpl": "Send intake form to {{company|?}}", "due_in_days": 2 },
+          { "action": "create_task", "title_tpl": "Deliver first asset for {{company|?}}", "due_in_days": 7 },
+          { "action": "create_task", "title_tpl": "Week-1 check-in call with {{company|?}}", "due_in_days": 7 },
+          { "action": "create_task", "title_tpl": "30-day milestone review with {{company|?}}", "due_in_days": 30 },
+          { "action": "notify_team", "channel": "slack",
+            "message": "🎉 CLOSED WON: {{title}} — ${{value}} ({{company|?}}). Onboarding tasks created. CSM alerted." },
+          { "action": "wait", "days": 7 },
+          { "action": "send_email", "to": "contact.email",
+            "subject": "Your 10-minute first win on the platform",
+            "body": "<p>Quick guided walkthrough — Contacts + Pipeline + Automations done in ten minutes. <a href='https://netwebmedia.com/crm/contacts'>Start here →</a></p>" }
+        ]
+      }
+    },
+    {
+      "slug": "sl-07-closed-lost-recycle",
+      "title": "Sales · Closed Lost → Reason Capture & 90d Recycle",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "deal_stage", "stage": "Closed Lost" },
+        "steps": [
+          { "action": "create_task", "title_tpl": "Log loss reason for {{title}} (within 24h)", "due_in_days": 1 },
+          { "action": "send_email", "to": "contact.email",
+            "subject": "No worries — quick favor, {{first_name|there}}?",
+            "body": "<p>Totally understand the timing wasn't right. One favor: 1-line reply with what tipped it (price / timing / fit / other). Helps us improve. Door's open whenever.</p><p>— Carlos</p>" },
+          { "action": "wait", "days": 90 },
+          { "action": "update_field", "field": "status", "value": "lead" },
+          { "action": "tag", "tag": "recycled_lead" },
+          { "action": "send_email", "to": "contact.email",
+            "subject": "90 days later — what's changed at {{company|your company}}",
+            "body": "<p>Hey {{first_name|there}}, checking back in. We've shipped a lot since we last spoke — happy to send a 5-min recap if useful.</p>" }
+        ]
+      }
+    },
+    {
+      "slug": "sl-08-stale-deal-daily-scan",
+      "title": "Sales · Daily Stale-Deal Scan (cron 09:00)",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "cron", "cadence": "daily", "time": "09:00" },
+        "steps": [
+          { "action": "log", "message": "Cron scan: open deals where days_in_stage > stage SLA" },
+          { "action": "tag", "tag": "deal_stale" },
+          { "action": "notify_team", "channel": "slack",
+            "message": "📋 Daily stale-deal report — see /pipeline?filter=stale for details." },
+          { "action": "create_task", "title_tpl": "Review stale deals in pipeline", "due_in_days": 1 }
+        ]
+      }
+    },
+    {
+      "slug": "sl-09-high-value-escalation",
+      "title": "Sales · High-Value Deal Escalation (>$10k)",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "deal_stage", "stage": "Qualified" },
+        "steps": [
+          { "action": "if",
+            "condition": { "field": "value", "op": "gt", "value": 10000 },
+            "then": [
+              { "action": "tag", "tag": "exec_attention" },
+              { "action": "notify_team", "channel": "slack",
+                "message": "💎 EXEC FYI: {{title}} qualified at ${{value}}. Owner: {{owner_name|?}}. Carlos — review thread." },
+              { "action": "create_task", "title_tpl": "Carlos: exec review of {{title}} (${{value}})", "due_in_days": 2 },
+              { "action": "ai_reply",
+                "prompt_tpl": "Draft 3 strategic questions Carlos should ask on the next call with {{company|?}} ({{niche|SMB}}, ${{value}} deal). Focus on: decision authority, success metrics, competitive landscape. Concise.",
+                "save_as": "exec_questions" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "slug": "sl-10-missed-call-recovery",
+      "title": "Sales · Missed Call Recovery",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "missed_call" },
+        "steps": [
+          { "action": "ai_reply",
+            "prompt_tpl": "Draft a friendly 1-line text-back for a missed call from {{first_name|there}} at {{company|?}}. Offer to call back or schedule a time. Sign as Carlos. No emojis.",
+            "save_as": "textback" },
+          { "action": "send_whatsapp", "to": "{{from_number}}",
+            "body": "Hey {{first_name|there}} — Carlos at NetWebMedia, just missed your call. Best time to call you back today, or want to schedule? Calendar: https://netwebmedia.com/contact" },
+          { "action": "create_task", "title_tpl": "Callback: {{first_name|?}} ({{from_number}})", "due_in_days": 1 },
+          { "action": "if",
+            "condition": { "field": "deal_id", "op": "exists" },
+            "then": [
+              { "action": "notify_team", "channel": "slack",
+                "message": "📞 Missed call from {{first_name|?}} (open deal: {{deal_title}}). Auto-text sent." }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "slug": "sl-11-appointment-confirmation",
+      "title": "Sales · Appointment Booked Confirmation & Reminders",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "appointment_booked" },
+        "steps": [
+          { "action": "send_email", "to": "contact.email",
+            "subject": "Confirmed: {{appointment_title}} on {{appointment_date}}",
+            "body": "<p>Hi {{first_name|there}}, confirmed for {{appointment_date}} at {{appointment_time}}. Add to calendar: {{calendar_link}}. See you then.</p><p>— Carlos</p>" },
+          { "action": "send_whatsapp", "to": "{{contact_phone}}",
+            "body": "Booked ✅ — {{appointment_title}} on {{appointment_date}} at {{appointment_time}}. Reply if anything changes." },
+          { "action": "create_task", "title_tpl": "Prep for {{appointment_title}} with {{company|?}}", "due_in_days": 1 },
+          { "action": "wait_until", "time_of_day": "09:00" },
+          { "action": "send_email", "to": "contact.email",
+            "subject": "Reminder: we meet today at {{appointment_time}}",
+            "body": "<p>Quick reminder — see you today at {{appointment_time}}. Link: {{meeting_link}}</p>" },
+          { "action": "wait", "hours": 23 },
+          { "action": "if",
+            "condition": { "field": "appointment_completed", "op": "eq", "value": "true" },
+            "then": [ { "action": "log", "message": "Meeting completed — sequence ends" } ],
+            "else": [
+              { "action": "send_whatsapp", "to": "{{contact_phone}}",
+                "body": "Hey {{first_name|there}} — looks like we missed each other. Want to reschedule? Same calendar link works." }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "slug": "sl-12-noshow-recovery",
+      "title": "Sales · Appointment No-Show Recovery",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "appointment_noshow" },
+        "steps": [
+          { "action": "send_email", "to": "contact.email",
+            "subject": "We missed you, {{first_name|there}} — easy to reschedule",
+            "body": "<p>No worries, things come up. Use the same calendar link to grab a new time: <a href='https://netwebmedia.com/contact'>book here</a>. Or reply with a couple of times that work.</p><p>— Carlos</p>" },
+          { "action": "create_task", "title_tpl": "Personal follow-up: no-show {{first_name|?}} ({{company|?}})", "due_in_days": 2 },
+          { "action": "wait", "days": 2 },
+          { "action": "send_whatsapp", "to": "{{contact_phone}}",
+            "body": "Hi {{first_name|there}} — Carlos here. Want to grab 15 min this week instead? Easier than back-and-forth." }
+        ]
+      }
+    },
+    {
+      "slug": "sl-13-weekly-probability-decay",
+      "title": "Sales · Weekly Inactive-Deal Probability Decay",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "cron", "cadence": "weekly", "day_of_week": 1, "time": "08:00" },
+        "steps": [
+          { "action": "log", "message": "Weekly scan: deals with no activity in 14d → reduce probability 20%" },
+          { "action": "tag", "tag": "decayed" },
+          { "action": "notify_team", "channel": "slack",
+            "message": "📉 Weekly probability decay applied. Check pipeline for re-prioritization." },
+          { "action": "create_task", "title_tpl": "Pipeline grooming: review decayed deals", "due_in_days": 2 }
+        ]
+      }
+    },
+    {
+      "slug": "sl-14-customer-tag-onboarding",
+      "title": "Sales · New Customer Tag → AI Welcome",
+      "status": "active",
+      "data": {
+        "trigger": { "type": "tag_added", "tag": "customer" },
+        "steps": [
+          { "action": "ai_reply",
+            "prompt_tpl": "Write a 4-sentence personalized welcome email for a new NetWebMedia customer. Company: {{company|?}}, niche: {{niche|SMB}}, plan: {{plan|Pro}}. Mention one specific module relevant to their niche. Warm, founder-tone. Sign as Carlos.",
+            "save_as": "personalized_welcome" },
+          { "action": "send_email", "to": "contact.email",
+            "subject": "Welcome aboard, {{first_name|there}} — quick personal note",
+            "body": "{{personalized_welcome}}" },
+          { "action": "notify_team", "channel": "slack",
+            "message": "👋 New customer tagged: {{company|?}} ({{niche|SMB}}). AI welcome sent. Delivery team — pick up." },
+          { "action": "create_task", "title_tpl": "Build niche-specific onboarding doc for {{company|?}}", "due_in_days": 3 }
+        ]
+      }
+    }
+  ]
+}

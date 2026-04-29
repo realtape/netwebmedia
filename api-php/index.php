@@ -197,6 +197,11 @@ try {
     // One-off Chile cold-outreach trigger (token-protected, see chile-send.php).
     require __DIR__ . '/chile-send.php';
     exit;
+  } elseif ($group === 'usa-send') {
+    // One-off USA cold-outreach trigger (token-protected, see usa-send.php).
+    // Pulls audience from CRM contacts table; orders by niche priority; caps at 30k.
+    require __DIR__ . '/usa-send.php';
+    exit;
   } elseif ($group === 'ab-tests' || $group === 'abtests') {
     require __DIR__ . '/routes/abtests.php';
     route_abtests($parts, $method);

@@ -57,6 +57,7 @@ $handlers = [
     'invoices'      => __DIR__ . '/handlers/payments.php',
     'import_csv'    => __DIR__ . '/handlers/import_csv.php',
     'import_best'         => __DIR__ . '/handlers/import_best.php',
+    'gen_best_usa'           => __DIR__ . '/handlers/gen_best_usa.php',
     'filter_identifiable'    => __DIR__ . '/handlers/filter_identifiable.php',
     'filter_marketing_ready' => __DIR__ . '/handlers/filter_marketing_ready.php',
     'domain_audit'           => __DIR__ . '/handlers/domain_audit.php',

@@ -29,6 +29,7 @@ if (!defined('SEED_TOKEN'))        define('SEED_TOKEN',        'NWM_SEED_2026_RO
 if (!defined('DEDUPE_TOKEN'))      define('DEDUPE_TOKEN',      'NWM_DEDUPE_2026_ROTATED_83775ea8cf335894');
 if (!defined('IMPORT_BEST_TOKEN')) define('IMPORT_BEST_TOKEN', 'NWM_IMPORT_BEST_2026_ROTATED_54d352ecf7cdd544');
 if (!defined('IMPORT_CSV_TOKEN'))  define('IMPORT_CSV_TOKEN',  'NWM_IMPORT_CHILE_2026_ROTATED_65b7d4eb01eaf403');
+if (!defined('GEN_BEST_TOKEN'))    define('GEN_BEST_TOKEN',    'NWM_GEN_BEST_2026');
 
 // Sentry DSN — same project as the JS-side capture in /js/nwm-sentry.js (loaded
 // from index.html via window.NWM_SENTRY_DSN). Public DSN; safe to commit.

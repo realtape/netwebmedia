@@ -353,7 +353,7 @@
       })
       .catch(function (err) {
         if (window.console) console.error('[settings] Failed to load settings: ' + err.message);
-        // Fall back: render empty team list gracefully
+        populateForm({});
         renderTeamMembers([]);
       });
   });

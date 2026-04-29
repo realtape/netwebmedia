@@ -1,6 +1,7 @@
 """
-Local HTTP server to serve the reel MP4 with CORS headers.
-Run this and keep it running while the upload happens.
+Local HTTP server to serve the reel MP4 with CORS headers,
+plus a loader.html page that fetches the video same-origin and
+postMessages the ArrayBuffer back to the YouTube Studio opener tab.
 """
 import http.server, socketserver, os, sys, threading
 
@@ -25,12 +26,59 @@ class CORSHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-Type", "video/mp4")
             self.send_header("Content-Length", str(file_size))
+            self.send_header("Connection", "close")
             self.send_header("Access-Control-Allow-Origin", "*")
             self.send_header("Access-Control-Allow-Private-Network", "true")
+            self.close_connection = True
             self.end_headers()
         else:
             self.send_response(404)
             self.end_headers()
+
+    LOADER_HTML = b"""<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Video Loader</title></head>
+<body>
+<div id="status">Starting fetch...</div>
+<script>
+window.__nwmReady = false;
+window.__nwmBuf = null;
+window.__nwmError = null;
+window.__nwmBytes = 0;
+(async function() {
+  var status = document.getElementById('status');
+  try {
+    var resp = await fetch('/reel.mp4');
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    var reader = resp.body.getReader();
+    var chunks = [];
+    var received = 0;
+    while (true) {
+      var r = await reader.read();
+      if (r.done) break;
+      chunks.push(r.value);
+      received += r.value.length;
+      status.textContent = 'Loaded ' + (received / 1048576).toFixed(1) + ' MB...';
+    }
+    status.textContent = 'Assembling ' + (received / 1048576).toFixed(1) + ' MB...';
+    var total = new Uint8Array(received);
+    var offset = 0;
+    for (var c of chunks) { total.set(c, offset); offset += c.length; }
+    window.__nwmBuf = total.buffer;
+    window.__nwmBytes = received;
+    window.__nwmReady = true;
+    status.textContent = 'READY: ' + received + ' bytes in memory';
+    if (window.opener) {
+      window.opener.postMessage({ type: 'VIDEO_READY', buffer: window.__nwmBuf }, '*', [window.__nwmBuf]);
+      status.textContent = 'READY+SENT: buffer posted to opener';
+    }
+  } catch(e) {
+    window.__nwmError = e.message;
+    status.textContent = 'ERROR: ' + e.message;
+    if (window.opener) window.opener.postMessage({ type: 'VIDEO_ERROR', error: e.message }, '*');
+  }
+})();
+</script>
+</body></html>"""
 
     def do_GET(self):
         if self.path == "/reel.mp4":
@@ -38,9 +86,11 @@ class CORSHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-Type", "video/mp4")
             self.send_header("Content-Length", str(file_size))
+            self.send_header("Connection", "close")
             self.send_header("Access-Control-Allow-Origin", "*")
             self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
             self.send_header("Access-Control-Allow-Private-Network", "true")
+            self.close_connection = True
             self.end_headers()
             with open(FILE_PATH, "rb") as f:
                 while True:
@@ -49,6 +99,15 @@ class CORSHandler(http.server.BaseHTTPRequestHandler):
                         break
                     self.wfile.write(chunk)
             print(f"Served {file_size:,} bytes")
+        elif self.path == "/loader.html":
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(self.LOADER_HTML)))
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.close_connection = True
+            self.end_headers()
+            self.wfile.write(self.LOADER_HTML)
+            print("Served loader.html")
         else:
             self.send_response(404)
             self.end_headers()

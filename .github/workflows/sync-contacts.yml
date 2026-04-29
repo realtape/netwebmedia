@@ -18,6 +18,21 @@ jobs:
     timeout-minutes: 30
 
     steps:
+      - name: Deduplicate contacts (keep oldest per email)
+        continue-on-error: true
+        env:
+          DEDUPE_TOKEN: ${{ secrets.DEDUPE_TOKEN }}
+        run: |
+          token="${DEDUPE_TOKEN:-NWM_DEDUPE_2026_ROTATED_83775ea8cf335894}"
+          resp=$(curl -sS --max-time 120 \
+            -X POST \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
+            -H "Accept: application/json,text/plain,*/*" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "https://netwebmedia.com/crm-vanilla/api/?r=dedupe&token=${token}")
+          echo "  dedupe → $resp"
+
       - name: Import Chile CSV contacts
         env:
           IMPORT_CSV_TOKEN: ${{ secrets.IMPORT_CSV_TOKEN }}

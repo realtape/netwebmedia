@@ -42,6 +42,8 @@
   var PAGE_SIZE = 100;
   var sortKey = 'name';
   var sortDir = 1; // 1 asc, -1 desc
+  var serverTotal = 0;   // total contacts matching current filter (server-reported)
+  var apiLimit = 5000;   // rows loaded per fetch; raise after dedupe
 
   // City (lowercase, slug-form) -> Chilean region display name
   var CITY_TO_REGION = {
@@ -106,12 +108,16 @@
   function loadContacts() {
     var tbody = document.getElementById('contactsTableBody');
     if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#888">Loading…</td></tr>';
-    var url = API + 'contacts';
+    var url = API + 'contacts&limit=' + apiLimit + '&offset=0';
     if (currentSegment && currentSegment !== 'all') url += '&segment=' + encodeURIComponent(currentSegment);
-    fetch(url).then(function (r) { return r.json(); }).then(function (data) {
-      contacts = Array.isArray(data) ? data : [];
+    fetch(url).then(function (r) { return r.json(); }).then(function (resp) {
+      // API returns {data:[], total:N} — fall back to flat array for compat
+      var rows = Array.isArray(resp) ? resp : (resp.data || []);
+      serverTotal = (resp.total != null) ? resp.total : rows.length;
+      contacts = rows;
       // Pre-compute region on each contact for sort speed
       for (var i = 0; i < contacts.length; i++) contacts[i].__region = regionOf(contacts[i]);
+      page = 0;
       render();
     }).catch(function (e) {
       if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#c0392b">Error loading contacts: ' + e.message + '</td></tr>';
@@ -283,7 +289,10 @@
   function updateCount(total, from, to) {
     var hdr = document.querySelector('.page-title, .page-header h1, .page-header-title');
     if (hdr && !hdr.dataset.orig) hdr.dataset.orig = hdr.textContent;
-    if (hdr) hdr.textContent = (hdr.dataset.orig || 'Contacts') + ' (' + total.toLocaleString() + ')';
+    var label = serverTotal > contacts.length
+      ? total.toLocaleString() + ' shown / ' + serverTotal.toLocaleString() + ' total'
+      : total.toLocaleString();
+    if (hdr) hdr.textContent = (hdr.dataset.orig || 'Contacts') + ' (' + label + ')';
   }
 
   function renderPager(total, pages, from, to) {

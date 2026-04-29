@@ -27,21 +27,34 @@ switch ($method) {
             $params[] = $_GET['status'];
         }
         if (!empty($_GET['segment'])) {
-            $where[] = 'segment = ?';
-            $params[] = $_GET['segment'];
+            // prefix match: 'usa' matches 'usa_ca', 'usa_tx', etc.
+            $where[] = 'segment LIKE ?';
+            $params[] = $_GET['segment'] . '%';
         }
         if (!empty($_GET['search'])) {
             $where[] = '(name LIKE ? OR company LIKE ? OR email LIKE ?)';
             $s = '%' . $_GET['search'] . '%';
             $params = array_merge($params, [$s, $s, $s]);
         }
-        $sql = 'SELECT * FROM contacts';
-        if ($where) $sql .= ' WHERE ' . implode(' AND ', $where);
-        $sql .= ' ORDER BY created_at DESC';
+        $wSql = $where ? (' WHERE ' . implode(' AND ', $where)) : '';
 
+        // Server-side pagination — prevents loading 300k+ rows into the browser.
+        // JS passes ?limit=N&offset=M; default 5000, hard cap 20000.
+        $limit  = max(1, min(20000, (int)($_GET['limit']  ?? 5000)));
+        $offset = max(0, (int)($_GET['offset'] ?? 0));
+
+        // Total count for the client to know how many pages exist
+        $countStmt = $db->prepare('SELECT COUNT(*) FROM contacts' . $wSql);
+        $countStmt->execute($params);
+        $total = (int)$countStmt->fetchColumn();
+
+        $sql = 'SELECT * FROM contacts' . $wSql . ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+        $pageParams = array_merge($params, [$limit, $offset]);
         $stmt = $db->prepare($sql);
-        $stmt->execute($params);
-        jsonResponse($stmt->fetchAll());
+        $stmt->execute($pageParams);
+        $rows = $stmt->fetchAll();
+
+        jsonResponse(['data' => $rows, 'total' => $total, 'limit' => $limit, 'offset' => $offset]);
         break;
 
     case 'POST':

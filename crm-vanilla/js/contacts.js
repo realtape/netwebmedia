@@ -321,12 +321,22 @@
       : { contact: 'Contact', email: 'Email', phone: 'Phone', company: 'Company', region: 'Region', niche: 'Niche', city: 'City', website: 'Website', audit: 'Audit', viewAudit: 'View audit', emailBtn: 'Email', callBtn: 'Call', deleteBtn: 'Delete', country: 'Country' };
     var seg = c.segment || meta.segment;
     var countryDisplay = seg === 'usa' ? '🇺🇸 United States' : seg === 'chile' ? '🇨🇱 Chile' : seg || null;
+    var lifecycleBadge = '';
+    var lcStage = (c.lifecycle_stage) || (function () {
+      try { var nb = (typeof meta === 'object' ? meta : {}); return nb.lifecycle_stage; } catch (e) { return null; }
+    })();
+    if (lcStage) {
+      var lcColors = { subscriber:'#94a3b8', lead:'#0369a1', mql:'#0d9488', sql:'#9333ea', opportunity:'#FF671F', customer:'#10b981', churned:'#b91c1c' };
+      var lcColor = lcColors[lcStage] || '#64748b';
+      lifecycleBadge = '<span class="lifecycle-badge" style="display:inline-block;margin-top:6px;background:' + lcColor + ';color:#fff;padding:3px 10px;border-radius:999px;font:700 11px Inter;text-transform:uppercase;letter-spacing:.5px">' + esc(lcStage) + '</span>';
+    }
     var html = '<div class="detail-header">'
       + '<button class="detail-close" id="detailClose">&times;</button>'
       + '<div class="detail-avatar">' + esc(initials) + '</div>'
       + '<h2 class="detail-name">' + esc(c.name || '') + '</h2>'
       + '<p class="detail-role">' + esc(c.role || '') + '</p>'
       + (CRM_APP && CRM_APP.statusBadge ? CRM_APP.statusBadge(c.status || 'lead') : '')
+      + lifecycleBadge
       + '</div>'
       + '<div class="detail-section"><h3>' + L.contact + '</h3>'
       +   field(L.email,    c.email)
@@ -345,12 +355,18 @@
       + '<a href="tasks.html?contact_id=' + c.id + '" class="btn btn-secondary btn-sm">' + (isEs ? 'Tareas' : 'Tasks') + '</a>'
       + '<button class="btn btn-secondary btn-sm" id="delBtn" style="margin-left:auto;color:#c0392b">' + L.deleteBtn + '</button>'
       + '</div>'
+      + '<div class="detail-section" id="contactNotesSection" style="margin-top:18px">'
+      +   '<div id="contactNotes"></div>'
+      + '</div>'
       + '<div class="detail-section" id="contactTimelineSection" style="margin-top:18px">'
       +   '<div id="contactTimeline"></div>'
       + '</div>';
 
     panel.innerHTML = html;
     document.getElementById('detailClose').onclick = function () { panel.classList.remove('open'); };
+    if (window.NWMNotes) {
+      NWMNotes.mount('#contactNotes', { contactId: c.id, title: isEs ? 'Notas' : 'Notes' });
+    }
     if (window.NWMTimeline) {
       NWMTimeline.mount('#contactTimeline', { contactId: c.id, title: isEs ? 'Actividad' : 'Activity', limit: 30 });
     }

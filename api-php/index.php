@@ -122,6 +122,20 @@ if (empty($parts)) {
       'POST /api/email-builder/render              (preview render of arbitrary blocks)',
       'POST /api/email-builder/test-send           (render + email a test)',
       'GET  /api/abtests                           (A/B tests list + per-variant stats)',
+      'GET/POST /api/forms                         (form CRUD; embeddable + progressive profiling)',
+      'GET/PUT/DELETE /api/forms/{id}              (single form + recent submission count)',
+      'GET  /api/forms/{id}/submissions            (submissions list)',
+      'GET  /api/forms/{id}/embed                  (iframe snippet + direct URL)',
+      'GET  /api/forms/public/{slug}               (public: resolved schema with progressive filtering)',
+      'POST /api/forms/public/{slug}/submit        (public: submit form)',
+      'GET  /api/reputation/stats                  (avg rating, response rate, request conv.)',
+      'GET/POST /api/reputation/reviews            (manage reviews from any platform)',
+      'POST /api/reputation/reviews/{id}/respond   (record/publish a response)',
+      'GET/POST /api/reputation/requests           (review request flow over email/SMS)',
+      'GET/POST /api/reputation/connectors         (Google/Facebook/Trustpilot/Yelp setup)',
+      'POST /api/reputation/connectors/{id}/sync   (trigger sync — stub until OAuth wired)',
+      'GET  /api/reputation/public/request/{token} (public: review submission flow)',
+      'POST /api/reputation/public/request/{token} (public: submit review)',
       'POST /api/public/forms/submit',
       'GET  /api/public/blog',
       'GET  /api/public/blog/{slug}',
@@ -260,6 +274,12 @@ try {
   } elseif ($group === 'email-builder') {
     require __DIR__ . '/routes/email_builder.php';
     route_email_builder($parts, $method);
+  } elseif ($group === 'forms') {
+    require __DIR__ . '/routes/forms.php';
+    route_forms($parts, $method);
+  } elseif ($group === 'reputation') {
+    require __DIR__ . '/routes/reputation.php';
+    route_reputation($parts, $method);
   } else {
     err('Route not found', 404);
   }

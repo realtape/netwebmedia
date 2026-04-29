@@ -242,6 +242,17 @@ function leads_qualify() {
     $data['score_breakdown'] = $eval['breakdown'];
     $data['qualified_at'] = date('Y-m-d H:i:s');
 
+    // Auto-derive lifecycle stage from score, but only if the contact hasn't been
+    // manually transitioned (preserves human override).
+    if (empty($data['lifecycle_manual'])) {
+      if (!function_exists('lifecycle_derive_stage')) {
+        @require_once __DIR__ . '/lifecycle.php';
+      }
+      if (function_exists('lifecycle_derive_stage')) {
+        $data['lifecycle_stage'] = lifecycle_derive_stage($score);
+      }
+    }
+
     qExec(
       "UPDATE resources SET data=?, updated_at=NOW() WHERE id=?",
       [json_encode($data), $lead['id']]

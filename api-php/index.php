@@ -87,6 +87,24 @@ if (empty($parts)) {
       'GET  /api/sms/inbound                      (admin: inbound SMS log)',
       'POST /api/sms/webhook                      (Twilio inbound — handles STOP)',
       'POST /api/sms/cron/process?token=...       (cron: send next batch)',
+      'GET/POST /api/notes?contact_id=X|deal_id=X|task_id=X (threaded annotations)',
+      'PUT/DELETE /api/notes/{id}                 (edit/delete note, author or admin only)',
+      'GET/POST /api/segments                     (saved dynamic segments)',
+      'GET/PUT/DELETE /api/segments/{id}          (single segment + member count)',
+      'GET  /api/segments/{id}/members            (resolve segment to contact list)',
+      'POST /api/segments/preview                 (preview an unsaved filter)',
+      'GET  /api/lifecycle/stages                 (funnel counts per stage)',
+      'GET  /api/lifecycle/contacts?stage=...     (contacts in a stage)',
+      'POST /api/lifecycle/recompute              (auto-derive stage from score)',
+      'POST /api/lifecycle/transition             (manually move a contact)',
+      'GET  /api/forecast                         (weighted pipeline by stage)',
+      'GET  /api/forecast/by-owner                (forecast per sales rep)',
+      'GET  /api/forecast/by-month                (next 6 months close-date breakdown)',
+      'GET/POST /api/snapshots                    (clone-config snapshots)',
+      'GET/DELETE /api/snapshots/{id}             (single snapshot)',
+      'POST /api/snapshots/{id}/apply             (clone snapshot into current org)',
+      'GET  /api/snapshots/{id}/export            (download snapshot as JSON)',
+      'POST /api/snapshots/import                 (import a snapshot bundle)',
       'POST /api/public/forms/submit',
       'GET  /api/public/blog',
       'GET  /api/public/blog/{slug}',
@@ -198,6 +216,21 @@ try {
   } elseif ($group === 'sms') {
     require __DIR__ . '/routes/sms.php';
     route_sms($parts, $method);
+  } elseif ($group === 'notes') {
+    require __DIR__ . '/routes/notes.php';
+    route_notes($parts, $method);
+  } elseif ($group === 'segments') {
+    require __DIR__ . '/routes/segments.php';
+    route_segments($parts, $method);
+  } elseif ($group === 'lifecycle') {
+    require __DIR__ . '/routes/lifecycle.php';
+    route_lifecycle($parts, $method);
+  } elseif ($group === 'forecast') {
+    require __DIR__ . '/routes/forecast.php';
+    route_forecast($parts, $method);
+  } elseif ($group === 'snapshots') {
+    require __DIR__ . '/routes/snapshots.php';
+    route_snapshots($parts, $method);
   } else {
     err('Route not found', 404);
   }

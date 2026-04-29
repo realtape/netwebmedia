@@ -334,8 +334,9 @@ Options -Indexes
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
 
-  # Report-only mode — flip to Content-Security-Policy after 1 week of clean reports
-  Header always set Content-Security-Policy-Report-Only "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://ipapi.co https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com;"
+  # CSP enforced 2026-04-28 (was Report-Only). Rollback path: rename header back
+  # to "Content-Security-Policy-Report-Only" if any legit resource gets blocked.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://browser.sentry-cdn.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://*.ingest.sentry.io https://ipapi.co https://api.indexnow.org https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self' https://netwebmedia.com; upgrade-insecure-requests"
 </IfModule>
 
 # ── GZIP / DEFLATE compression ─────────────────────────────────────────

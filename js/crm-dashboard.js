@@ -400,12 +400,12 @@
       const deals = data.deals.filter(d => d.companyId === c.id).length;
       return `
         <tr>
-          <td><strong>${esc(c.name)}</strong><br><span style="font-size:0.72rem;color:var(--text-dim)">${esc(c.website || '')}</span></td>
-          <td>${esc(c.industry || '—')}</td>
-          <td>${esc(c.companySize || '—')}</td>
+          <td><strong>${escapeHtml(c.name)}</strong><br><span style="font-size:0.72rem;color:var(--text-dim)">${escapeHtml(c.website || '')}</span></td>
+          <td>${escapeHtml(c.industry || '—')}</td>
+          <td>${escapeHtml(c.companySize || '—')}</td>
           <td>${statusBadge(c.status)}</td>
-          <td>${contacts}</td>
-          <td>${deals}</td>
+          <td>${safeNum(contacts)}</td>
+          <td>${safeNum(deals)}</td>
         </tr>
       `;
     }).join('');
@@ -416,11 +416,11 @@
     const tbody = $('#deals-table tbody');
     tbody.innerHTML = data.deals.map(d => `
       <tr>
-        <td><strong>${esc(d.name)}</strong></td>
-        <td>${companyName(d.companyId)}</td>
-        <td style="font-weight:700;color:var(--green)">${formatMoney(d.value)}</td>
-        <td><span class="badge badge-accent">${stageName(d.stageId)}</span></td>
-        <td>${formatDate(d.expectedCloseDate)}</td>
+        <td><strong>${escapeHtml(d.name)}</strong></td>
+        <td>${escapeHtml(companyName(d.companyId))}</td>
+        <td style="font-weight:700;color:var(--green)">${escapeHtml(formatMoney(d.value))}</td>
+        <td><span class="badge badge-accent">${escapeHtml(stageName(d.stageId))}</span></td>
+        <td>${escapeHtml(formatDate(d.expectedCloseDate))}</td>
         <td>${statusBadge(d.status)}</td>
       </tr>
     `).join('');

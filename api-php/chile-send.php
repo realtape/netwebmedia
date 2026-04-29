@@ -54,7 +54,11 @@ $confirmed  = ($_GET['confirm'] ?? '') === 'yes';
 $dryrun     = !empty($_GET['dryrun']);
 
 // ----- paths -----
-$CSV    = __DIR__ . '/data/santiago_leads.csv';
+// Prefer the expanded 5x national list (matches what crm-vanilla/api/chile_stats.php
+// uses for the dashboard); fall back to the legacy Santiago-only file.
+$CSV    = file_exists(__DIR__ . '/data/all_leads_5x.csv')
+          ? __DIR__ . '/data/all_leads_5x.csv'
+          : __DIR__ . '/data/santiago_leads.csv';
 $LOG    = __DIR__ . '/data/chile-sent.log';
 $FAIL   = __DIR__ . '/data/chile-failed.log';
 $UNSUB  = __DIR__ . '/data/unsubscribes.log';

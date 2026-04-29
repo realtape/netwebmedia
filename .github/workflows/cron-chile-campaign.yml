@@ -1,0 +1,46 @@
+name: Cron — Chile Cold Outreach (every 15 min)
+on:
+  schedule:
+    # Every 15 min, staggered (:07/:22/:37/:52) to avoid the :00/:30 hotspot.
+    # n=15 per call × 4 runs/hour = 60/hour ≈ 1,440/day max.
+    # 3,622 pending leads → ~2.5 days to clear from cold start.
+    - cron: '7 * * * *'
+    - cron: '22 * * * *'
+    - cron: '37 * * * *'
+    - cron: '52 * * * *'
+  workflow_dispatch:
+    inputs:
+      niche:
+        description: 'Niche key filter (optional, e.g. law_firms, beauty)'
+        required: false
+        default: ''
+      batch:
+        description: 'Max sends per call (default 15, capped at 15)'
+        required: false
+        default: '15'
+
+jobs:
+  chile-batch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Send next batch
+        run: |
+          NICHE="${{ github.event.inputs.niche }}"
+          BATCH="${{ github.event.inputs.batch || '15' }}"
+          # Token currently lives embedded in api-php/chile-send.php (already in
+          # the public repo); using GH secret if set, otherwise fall back.
+          TOKEN="${{ secrets.CHILE_SEND_TOKEN }}"
+          if [ -z "$TOKEN" ]; then
+            TOKEN="ADBUx9pVMR3hl3ChDLCegudz2xp_5y_0pSxG_jYVjjI"
+          fi
+          URL="https://netwebmedia.com/api/chile-send?token=${TOKEN}&mode=batch&n=${BATCH}"
+          if [ -n "$NICHE" ]; then
+            URL="${URL}&niche=${NICHE}"
+          fi
+          # Full Chrome UA + Origin + Referer to bypass mod_security on InMotion.
+          curl -s "$URL" \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/chile-campaign.html" \
+            -w "\nHTTP Status: %{http_code}\n"

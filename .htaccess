@@ -49,6 +49,17 @@
 # ── Disable directory listings sitewide ───────────────────────────────
 Options -Indexes
 
+# ── Canonical host: 301 www → apex ─────────────────────────────────────
+# Per BRAND/SEO: canonical host is the apex (netwebmedia.com), non-www.
+# Without this, www.netwebmedia.com mirrors apex 1:1 with 200 OK on every
+# URL — duplicate content, split PageRank. Must come BEFORE subdomain
+# routing below or it'll never match (other RewriteRules have [L]).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ https://netwebmedia.com/$1 [R=301,L]
+</IfModule>
+
 # ── Block sensitive directories from public access ─────────────────────
 # robots.txt disallows these, but server-level denial is the hard guarantee.
 <IfModule mod_rewrite.c>
@@ -348,16 +359,16 @@ Options -Indexes
 </IfModule>
 
 # ── Browser caching ────────────────────────────────────────────────────
-# HTML: never cache — always serve fresh so deploys propagate immediately
-# CSS/JS: short cache with revalidation — cache-busting (?v=N) controls versions
-# Images/fonts: long cache — these rarely change
+# HTML: edge-cacheable for 5 min with stale-while-revalidate fallback
+# CSS/JS: long immutable cache (filenames already cache-busted via ?v=N query string)
+# Images/fonts: long immutable cache — these rarely change
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresDefault                                "access plus 1 month"
   ExpiresByType text/html                       "access plus 0 seconds"
-  ExpiresByType text/css                        "access plus 5 minutes"
-  ExpiresByType application/javascript          "access plus 5 minutes"
-  ExpiresByType application/x-javascript        "access plus 5 minutes"
+  ExpiresByType text/css                        "access plus 1 year"
+  ExpiresByType application/javascript          "access plus 1 year"
+  ExpiresByType application/x-javascript        "access plus 1 year"
   ExpiresByType image/jpeg                      "access plus 1 year"
   ExpiresByType image/png                       "access plus 1 year"
   ExpiresByType image/gif                       "access plus 1 year"
@@ -374,16 +385,19 @@ Options -Indexes
   <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico|woff|woff2)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
-  # CSS/JS: short cache, must-revalidate — cache-busting is via ?v=N query string
+  # CSS/JS: long immutable cache — cache-busting is enforced via ?v=N query string
+  # in the HTML so version bumps invalidate cleanly without 5-min revalidation churn.
   <FilesMatch "\.(css|js)$">
-    Header set Cache-Control "public, max-age=300, must-revalidate"
+    Header set Cache-Control "public, max-age=31536000, immutable"
+    Header unset Pragma
     Header unset Expires
-    Header set Expires "0"
   </FilesMatch>
-  # HTML: always fresh — deploys must propagate immediately
+  # HTML: browser doesn't cache, but CDN/edge can hold for 5 min with stale-while-
+  # revalidate so traffic spikes don't all hit the origin. Deploys still propagate
+  # within ~5 min and SWR keeps responses instant during refresh.
   <FilesMatch "\.html$">
-    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
-    Header set Pragma "no-cache"
-    Header set Expires "0"
+    Header set Cache-Control "public, max-age=0, s-maxage=300, stale-while-revalidate=86400"
+    Header unset Pragma
+    Header unset Expires
   </FilesMatch>
 </IfModule>

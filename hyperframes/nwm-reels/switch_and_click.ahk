@@ -5,7 +5,6 @@ FILE_PATH := "C:\Users\Usuario\Desktop\NetWebMedia\hyperframes\nwm-reels\renders
 HWND_INT  := 0x00010628
 HWND_STR  := "ahk_id " . HWND_INT
 
-; Logging helper — silently skips if write fails
 L(msg) {
     try FileAppend(msg . "`n", A_ScriptDir . "\switch_click.log")
 }
@@ -33,33 +32,43 @@ L("[AHK] Typed search")
 Sleep(700)
 Send("{Enter}")
 L("[AHK] Pressed Enter for tab switch")
-Sleep(2500)
-L("[AHK] Tab switch wait done")
+Sleep(3000)
+L("[AHK] Tab render wait done")
 
-; ── 3. Click "Select files" button ───────────────────────────────────────────
-L("[AHK] Clicking (974,680) — btn CSS center (938,585)")
-Click(974, 680)
+; ── 3. Trigger "Select files" via keyboard (Tab + Enter) ─────────────────────
+; The upload dialog is a modal — Tab focuses Select files, Enter fires it
+L("[AHK] Sending Tab to focus Select files button")
+Send("{Tab}")
+Sleep(400)
+L("[AHK] Sending Enter to activate button")
+Send("{Enter}")
 Sleep(2000)
 
-; ── 4. Wait for #32770 file dialog ───────────────────────────────────────────
-if WinExist("ahk_class #32770") {
-    L("[AHK] Dialog found immediately")
-} else {
+; ── 4. If no dialog yet, try Space instead of Enter ──────────────────────────
+if !WinExist("ahk_class #32770") {
+    L("[AHK] No dialog after Enter, trying Space")
+    Send("{Space}")
+    Sleep(1500)
+}
+
+; ── 5. If still no dialog, try direct click as last resort ───────────────────
+if !WinExist("ahk_class #32770") {
+    L("[AHK] No dialog after Space, trying coordinate click (974,680)")
+    Click(974, 680)
+    Sleep(2000)
+}
+
+if !WinExist("ahk_class #32770") {
     L("[AHK] Waiting for dialog (up to 10s)...")
     if !WinWait("ahk_class #32770", , 10) {
-        L("[AHK] No dialog after 10s, trying alt Y=707")
-        Click(974, 802)
-        Sleep(1000)
-        if !WinWait("ahk_class #32770", , 8) {
-            L("[AHK] No dialog after 2 tries - abort")
-            ExitApp
-        }
+        L("[AHK] No dialog found - abort")
+        ExitApp
     }
 }
 L("[AHK] File dialog appeared!")
 Sleep(500)
 
-; ── 5. Fill filename via ControlSetText (no focus grab needed) ───────────────
+; ── 6. Fill filename via ControlSetText, then click Open ─────────────────────
 setOk := false
 try {
     ControlSetText(FILE_PATH, "Edit1", "ahk_class #32770")
@@ -82,7 +91,6 @@ if !setOk {
 
 Sleep(300)
 
-; ── 6. Click the Open button ─────────────────────────────────────────────────
 clickOk := false
 try {
     ControlClick("Button1", "ahk_class #32770")
@@ -101,13 +109,11 @@ if !clickOk {
 }
 
 Sleep(800)
-
 if WinExist("ahk_class #32770") {
     L("[AHK] Dialog still open - pressing Enter again")
     WinActivate("ahk_class #32770")
     Sleep(200)
     Send("{Enter}")
-    Sleep(600)
 }
 
 L("[AHK " . FormatTime(A_Now, "HH:mm:ss") . "] Script complete")

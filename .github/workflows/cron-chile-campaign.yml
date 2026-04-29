@@ -1,20 +1,11 @@
-name: Cron — Chile Cold Outreach (every 5 min)
+name: Cron — Chile Cold Outreach (every 1 min, send-all mode)
 on:
   schedule:
-    # Every 5 min × n=50 per call = 600/hour. Clears the 3,607 pending
-    # leads in ~6 hours. Throttle this back once the list is drained.
-    - cron: '2 * * * *'
-    - cron: '7 * * * *'
-    - cron: '12 * * * *'
-    - cron: '17 * * * *'
-    - cron: '22 * * * *'
-    - cron: '27 * * * *'
-    - cron: '32 * * * *'
-    - cron: '37 * * * *'
-    - cron: '42 * * * *'
-    - cron: '47 * * * *'
-    - cron: '52 * * * *'
-    - cron: '57 * * * *'
+    # Every minute × n=50 with 1s throttle = ~50/min = 3,000/hour.
+    # Clears the remaining ~3,400 leads in ~70 minutes. Concurrency group
+    # prevents overlap, so if a call takes >1 min the next one queues.
+    # Throttle this BACK to every 5 min once the list is drained.
+    - cron: '* * * * *'
   workflow_dispatch:
     inputs:
       niche:

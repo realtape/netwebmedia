@@ -8,15 +8,19 @@ This is the **netwebmedia.com production property** plus a collection of support
 
 1. **Marketing site** — flat HTML/CSS/JS at the repo root (`index.html`, `services.html`, `pricing.html`, etc.) plus `industries/`, `blog/`, `tutorials/`, `lp/`, `app/`. Served from cPanel/Apache at InMotion. **No build step** for the public site.
 2. **`api-php/`** — PHP API (lead capture, audit handler, CRM endpoints) served at `netwebmedia.com/api/` (canonical) — the `/api-php/` path 301-redirects to `/api/`. Entry point: `api-php/index.php`.
-3. **`crm-vanilla/`** — separate flat-HTML CRM app deployed to `netwebmedia.com/crm-vanilla/`. This is NetWebMedia's own CRM (do NOT replace with HubSpot — internal rule). **`crm-vanilla/js/data.js` is 100% mock/seed data** for UI development; real data comes from the live PHP API.
+3. **`crm-vanilla/`** — internal CRM app deployed to `netwebmedia.com/crm-vanilla/`. This is NetWebMedia's own CRM (do NOT replace with HubSpot — internal rule). **`crm-vanilla/js/data.js` is 100% mock/seed data** for UI development; real data comes from the live PHP API.
 4. **`backend/`** — Django CRM backend (multi-tenant, DRF, Celery). Uses SQLite locally (`backend/db.sqlite3`). **Not deployed to InMotion** — separate property for future use.
 5. **`mobile/`** — Capacitor 6 app (iOS + Android + web). Vite-built vanilla JS. Reuses existing `/api/` endpoints. Run separately from `mobile/`.
 6. **`video-factory/`** — Remotion-based programmatic video renderer. Express server on `:3030`. PHP API calls it at `POST /api/video/render`.
 7. **`_deploy/companies/`** — 680 generated per-company audit pages deployed to `netwebmedia.com/companies/**`.
-8. **`plans/`** — canonical strategy docs (`business-plan.html`, `marketing-plan.html`, `brand-book.html`, `execution-90day.html`, `index.html` hub). Always incorporate these when reasoning about NetWebMedia direction.
+8. **`plans/`** — internal strategy docs (`business-plan.html`, `marketing-plan.html`, `brand-book.html`, `execution-90day.html`, `index.html` hub). All are `noindex,nofollow`. Always incorporate these when reasoning about NetWebMedia direction.
 9. **`.claude/agents/`** — 12 custom agents mirroring NetWebMedia's org chart (cmo, sales-director, engineering-lead, etc.). Delegate by role; see `.claude/AGENT-ROUTING.txt` for routing rules and Sonnet-vs-Haiku assignments.
 
+**`app/` vs `crm-vanilla/`** — these are two separate things. `/app/` is a lightweight feature-stub shell for the public-facing customer dashboard (many routes point to `coming-soon.html`); it is NOT the internal CRM. `/crm-vanilla/` is the internal CRM used by the NetWebMedia team.
+
 ## Run locally
+
+There is **no automated test suite or linter** in this repo. Smoke tests run in GitHub Actions post-deploy.
 
 ```bash
 node server.js          # serves repo root at http://127.0.0.1:3000 (static file server, no build)
@@ -65,9 +69,19 @@ netwebmedia.com and **all subdomains** ship via **GitHub Actions FTPS → cPanel
 | `deploy-crm.yml` | `crm-vanilla/**` | `/public_html/crm-vanilla/` | `CPANEL_FTP_USER` |
 | `deploy-companies.yml` | `_deploy/companies/**` | `/public_html/companies/` | `CPANEL_FTP_USER` |
 
-**The two FTP users are scoped to different directories** — `CPANEL_FTP_USER` is chrooted to `/public_html/companies/` and physically cannot write site-root files. That's why `deploy-site-root.yml` uses a separate user. See header comments in each workflow for one-time setup.
+**`deploy-crm.yml` is deprecated** (as of 2026-04-25) — `deploy-site-root.yml` now handles `crm-vanilla/`. The old workflow is kept as a manual `workflow_dispatch` fallback only.
 
-Deploys are **incremental sync by hash** (`SamKirkland/FTP-Deploy-Action`) — safe to re-run.
+**The two FTP users are scoped to different directories** — `CPANEL_FTP_USER` is chrooted to `/public_html/companies/` and physically cannot write site-root files. That's why `deploy-site-root.yml` uses a separate user.
+
+Deploys are **incremental sync by hash** (`SamKirkland/FTP-Deploy-Action`) — safe to re-run. Use FTPS **explicit** mode on port 21 (not implicit/990) — this is required by InMotion cPanel.
+
+`deploy-site-root.yml` supports a `dry_run` input flag via `workflow_dispatch` — when true, skips all FTP writes (useful for testing CI logic).
+
+### Config generation at deploy time
+
+`deploy-site-root.yml` generates `api-php/config.local.php` and `crm-vanilla/api/config.local.php` on the fly from GitHub Secrets using Python string interpolation. It also auto-runs any `crm-vanilla/api/schema_*.sql` migrations via HTTP POST to `/crm-vanilla/api/?r=migrate` after each deploy. **Migrations must be idempotent** — they run on every deploy with no version tracking.
+
+Required GitHub Actions secrets: `JWT_SECRET`, `DB_PASSWORD`, `RESEND_API_KEY`, `ANTHROPIC_API_KEY`, `HUBSPOT_TOKEN`, `MP_ACCESS_TOKEN`, `MP_PUBLIC_KEY`, `MP_WEBHOOK_SECRET`, `TWILIO_SID`, `TWILIO_TOKEN`, `TWILIO_FROM`, `WA_VERIFY_TOKEN`, `WA_META_TOKEN`, `WA_PHONE_ID`, `WA_META_APP_SECRET`, `CPANEL_FTP_ROOT_USER`, `CPANEL_FTP_ROOT_PASSWORD`, `CPANEL_FTP_USER`, `CPANEL_FTP_PASSWORD`.
 
 Other workflows: `psi-baseline.yml` (PageSpeed snapshots), `uptime-smoke.yml`, `indexnow-ping.yml`, `generate-blog-queue.yml`, `publish-blogs-scheduled.yml`, `generate-guide-pdfs.yml`, `twilio-register-webhook.yml`.
 
@@ -80,11 +94,34 @@ The API uses a **single generic `resources` table** as an EAV store — every en
 - `POST /api/resources/form` — creates a form
 - Any `type` string works; no schema migration needed for new entity types
 
-**Auth:** uses `X-Auth-Token: <token>` header (NOT `Authorization: Bearer`). Token is returned on login and stored as `nwm_token` cookie. Admin credentials are seeded by `api-php/migrate.php` (run once via `GET /api/migrate.php?token=<first-16-chars-of-jwt_secret>`).
+**Auth:** uses `X-Auth-Token: <token>` header (NOT `Authorization: Bearer`). Token is returned on login and stored as `nwm_token` cookie/localStorage. Admin credentials are seeded by `api-php/migrate.php` (run once via `GET /api/migrate.php?token=<first-16-chars-of-jwt_secret>`).
 
 **Public routes** (`/api/public/*`) require no auth: form submission, newsletter subscribe, blog list, audit, stats, prospect chatbot.
 
 **Cron route** (`GET /api/cron`) processes the `email_sequence_queue` table — send next batch of drip emails. Must be called by an external scheduler (e.g. cPanel cron job every 5 min).
+
+**Rate limiting** is file-based — `/api/data/ratelimit/<ip-hash>.json`. Survives PHP-FPM restarts; no Redis needed.
+
+**Honeypot behavior:** Bot submissions get a silent 200 with fake `submission_id: 0` (not 403) to prevent bot adaptation.
+
+### API route modules (`api-php/routes/`)
+
+22 route files, each handling a business domain:
+- **Core:** `auth.php`, `resources.php` (EAV CRUD), `public.php`
+- **CRM entities:** `contacts.php`, `deals.php`, `campaigns.php`, `comments.php`
+- **Comms:** `whatsapp.php`, `social.php`, `ai.php`, `nwmai.php`, `public-chat.php`
+- **Integrations:** `hubspot.php`, `vapi.php` (voice), `heygen.php` (video synthesis), `billing.php`
+- **Content/ops:** `content.php`, `recipes.php`, `video.php`, `audit.php`, `abtests.php`, `workflows.php`, `cmo.php`
+
+`crm-vanilla/api/` uses **query-string routing** (`?r=resource&id=123`) instead of path-based routing — this is intentional ModSecurity evasion for the CRM's internal API.
+
+## CRM vanilla JS architecture (`crm-vanilla/`)
+
+Vanilla JS SPA with a custom route dispatcher in `crm-vanilla/js/app.js`. No framework, no build step.
+
+- **Session storage:** `nwm_token` and `nwm_user` in `localStorage`. The shared API client at `app/js/api-client.js` auto-redirects 401s to login unless `noRedirectOn401` is passed.
+- **Feature modules:** `contacts.js`, `conversations.js`, `pipeline.js`, `marketing.js`, `calendar.js`, `reporting.js`, `automation.js`, `payments.js`, `documents.js`, `courses.js`, `sites.js`, `settings.js` — one file per CRM section.
+- **Data layer:** `crm-vanilla/js/data.js` is mock seed data only. Real data flows through the EAV `resources` table via `/crm-vanilla/api/`.
 
 ## Email sequences
 
@@ -100,8 +137,21 @@ netwebmedia.com is **flat HTML on Apache**, not a framework router. Rules:
 - **Nested pages keep `.html`** (e.g. `/blog/some-post.html`).
 - **Canonical host is non-www** (`netwebmedia.com`, not `www.netwebmedia.com`).
 - **Internal-only pages are blocked publicly via `.htaccess`** — `diagnostic.html`, `flowchart.html`, `orgchart.html`, `dashboard.html`, `desktop-login.html`, `nwmai.html`, `audit-report.html`, `*-prospects-report.html`, `*-digital-gaps.html`, `NetWebMedia_Business_Marketing_Plan_2026.html`. Don't link to them from public nav.
+- **Unshipped `/app/<slug>` routes** fall through to `/app/coming-soon.html` — this is intentional; don't add 404 handling.
 
 When linking between pages, match this convention or you'll generate broken canonicals.
+
+### Subdomain routing
+
+`.htaccess` maps **39 industry subdomains** to `/industries/` folder paths via a single cPanel wildcard (`*.netwebmedia.com → /public_html/`). Examples: `hotels.netwebmedia.com → /industries/hospitality/hotels/`, `app.netwebmedia.com → /crm-vanilla/`, `companies.netwebmedia.com → /companies/`. `staging.netwebmedia.com` returns 503 (not yet provisioned). Never add subdomains without updating `.htaccess` and registering the wildcard in cPanel DNS.
+
+Mobile deep-linking: `.well-known/apple-app-site-association` must be served as `application/json` with status 200 and **no redirects** — `.htaccess` enforces this with explicit headers. Don't add redirect rules that would catch `.well-known/` paths.
+
+### CSP and caching
+
+**CSP is live** (not Report-Only) as of 2026-04-28 — adding new inline scripts or external origins will break pages silently. Check the `Content-Security-Policy` header in `.htaccess` before adding third-party scripts.
+
+**Caching strategy** affects how quickly deploys propagate: HTML is never cached (0s), CSS/JS cached 5 min with revalidation, images/fonts 1 year immutable. After a deploy, CSS/JS changes may take up to 5 min to reach users.
 
 ## CSS canonical file — `css/styles.css`, NOT root `styles.css`
 
@@ -139,6 +189,16 @@ Many static HTML pages are generated, not hand-written:
 - `_deploy/build-sitemap.py`, `regen-sitemap.py` — `sitemap.xml`
 
 If you're editing one industry page by hand and the change should apply to all 14, edit the **generator template** instead and rerun, or your change will be overwritten next regenerate.
+
+## Mobile app — Capacitor 6 (`mobile/`)
+
+Vanilla JS (not React), Vite-built. There is **no `vite.config.ts`** checked in — build uses Capacitor + Vite defaults. Entry point: `src/main.js` → auth check → routes to login or shell.
+
+- Use `Capacitor.isNativePlatform()` to gate native APIs — all native code must have a web fallback.
+- Splash screen is navy `#010F3B`, 800ms display, no spinner (Capacitor config).
+- Status bar: Dark style with navy background on iOS/Android.
+- Push notifications configured with badge + sound + alert.
+- Build output goes to `mobile/dist/` — this is what Capacitor syncs to native projects.
 
 ## Video factory — adding templates
 

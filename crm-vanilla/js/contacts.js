@@ -349,11 +349,14 @@
       +   field(L.website,  meta.website ? '<a href="http://' + esc(meta.website) + '" target="_blank" style="color:#FF6B00">' + esc(meta.website) + '</a>' : null, true)
       +   field(L.audit,    pageUrl ? '<a href="' + esc(pageUrl) + '" target="_blank" style="color:#FF6B00">' + L.viewAudit + ' →</a>' : null, true)
       + '</div>'
-      + '<div class="detail-actions" style="display:flex;gap:8px;margin-top:16px">'
+      + '<div class="detail-actions" id="contactActions" style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">'
       + '<a href="mailto:' + esc(c.email || '') + '" class="btn btn-primary btn-sm">' + L.emailBtn + '</a>'
-      + (c.phone ? '<a href="tel:' + esc(c.phone) + '" class="btn btn-secondary btn-sm">' + L.callBtn + '</a>' : '')
+      + '<span id="contactDialerSlot"></span>'
       + '<a href="tasks.html?contact_id=' + c.id + '" class="btn btn-secondary btn-sm">' + (isEs ? 'Tareas' : 'Tasks') + '</a>'
       + '<button class="btn btn-secondary btn-sm" id="delBtn" style="margin-left:auto;color:#c0392b">' + L.deleteBtn + '</button>'
+      + '</div>'
+      + '<div class="detail-section" id="contactPredSection" style="margin-top:18px">'
+      +   '<div id="contactPred"></div>'
       + '</div>'
       + '<div class="detail-section" id="contactNotesSection" style="margin-top:18px">'
       +   '<div id="contactNotes"></div>'

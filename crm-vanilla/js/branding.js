@@ -28,6 +28,33 @@
   // ── tiny helpers ──────────────────────────────────────────────────────────
   function safe(fn) { try { return fn(); } catch (_) { return null; } }
 
+  // ── value validators (defense in depth — server validates too) ────────────
+  // Accept #rgb / #rrggbb / #rrggbbaa hex and rgb()/rgba(int,int,int[,float]).
+  // Reject anything else so a malicious org can't smuggle CSS payloads like
+  //   "red; background-image: url(//attacker)" into a CSS custom property.
+  var COLOR_RE = /^(#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8}|rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(?:,\s*[\d.]+\s*)?\))$/;
+  function safeColor(v, fallback) {
+    if (typeof v !== 'string') return fallback;
+    var t = v.trim();
+    return COLOR_RE.test(t) ? t : fallback;
+  }
+
+  // Logo URL scheme allowlist. Rejects javascript:, data:image/svg+xml (SVG
+  // can carry script when rendered as <object>), and anything malformed.
+  function safeLogoUrl(v) {
+    if (typeof v !== 'string' || !v.trim()) return null;
+    try {
+      var raw = v.trim();
+      var u = new URL(raw, location.origin);
+      if (u.protocol === 'https:') return u.href;
+      // Localhost dev only:
+      if (u.protocol === 'http:' && (u.hostname === 'localhost' || u.hostname === '127.0.0.1')) return u.href;
+      // data: URIs only for raster image MIME types (no svg+xml due to script risk).
+      if (u.protocol === 'data:' && /^data:image\/(png|jpe?g|webp|gif);/i.test(raw)) return raw;
+      return null;
+    } catch (_) { return null; }
+  }
+
   function readCache() {
     return safe(function () {
       var raw = sessionStorage.getItem(CACHE_KEY);
@@ -56,18 +83,21 @@
     var root = document.documentElement;
     if (!root || !root.style) return;
 
-    // 1. CSS custom properties
-    if (org.branding_primary_color) {
-      root.style.setProperty('--brand-primary', org.branding_primary_color);
-    }
-    if (org.branding_secondary_color) {
-      root.style.setProperty('--brand-secondary', org.branding_secondary_color);
-    }
-    var logoUrl = org.branding_logo_url || '';
+    // 1. CSS custom properties — both inputs are validated before reaching
+    //    setProperty so a sub-account admin can't inject arbitrary CSS.
+    var primary   = safeColor(org.branding_primary_color,   '#010F3B');
+    var secondary = safeColor(org.branding_secondary_color, '#FF671F');
+    root.style.setProperty('--brand-primary',   primary);
+    root.style.setProperty('--brand-secondary', secondary);
+
+    var logoUrl = safeLogoUrl(org.branding_logo_url);
     if (logoUrl) {
-      // CSS url() value — wrap in quotes and escape the inner string.
+      // logoUrl is already an absolute, scheme-allowlisted URL. We still
+      // escape " and \ defensively for the CSS url() context.
       var safeUrl = String(logoUrl).replace(/["\\]/g, '\\$&');
       root.style.setProperty('--brand-logo-url', 'url("' + safeUrl + '")');
+    } else {
+      root.style.removeProperty('--brand-logo-url');
     }
 
     // 2. Replace every <img data-nwm-logo> with the org's logo.

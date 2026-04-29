@@ -77,6 +77,16 @@ if (empty($parts)) {
       'GET/PUT /api/booking/admin/availability     (admin: weekly schedule)',
       'GET  /api/booking/admin/bookings            (admin: list bookings)',
       'POST /api/booking/admin/bookings/{id}/cancel (admin: cancel a booking)',
+      'GET/POST /api/sms/campaigns                (admin: bulk SMS campaigns)',
+      'GET/PUT/DELETE /api/sms/campaigns/{id}     (admin: single campaign)',
+      'POST /api/sms/campaigns/{id}/preview       (admin: audience size + sample render)',
+      'POST /api/sms/campaigns/{id}/send          (admin: queue all recipients)',
+      'POST /api/sms/campaigns/{id}/cancel        (admin: pause campaign)',
+      'GET  /api/sms/campaigns/{id}/recipients    (admin: list recipients with status)',
+      'GET/POST /api/sms/opt-outs                 (admin: manage opt-out list)',
+      'GET  /api/sms/inbound                      (admin: inbound SMS log)',
+      'POST /api/sms/webhook                      (Twilio inbound — handles STOP)',
+      'POST /api/sms/cron/process?token=...       (cron: send next batch)',
       'POST /api/public/forms/submit',
       'GET  /api/public/blog',
       'GET  /api/public/blog/{slug}',
@@ -185,6 +195,9 @@ try {
   } elseif ($group === 'booking') {
     require __DIR__ . '/routes/booking.php';
     route_booking($parts, $method);
+  } elseif ($group === 'sms') {
+    require __DIR__ . '/routes/sms.php';
+    route_sms($parts, $method);
   } else {
     err('Route not found', 404);
   }

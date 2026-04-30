@@ -75,7 +75,7 @@ if (!hash_equals($expected, (string)($_GET['token'] ?? ''))) {
 }
 
 $mode       = $_GET['mode']    ?? 'status';
-$max        = min(500, max(1, (int)($_GET['n'] ?? 500)));
+$max        = min(3000, max(1, (int)($_GET['n'] ?? 3000)));
 $niche_f    = $_GET['niche']   ?? null;
 $confirmed  = ($_GET['confirm'] ?? '') === 'yes';
 $dryrun     = !empty($_GET['dryrun']);
@@ -472,7 +472,7 @@ if ($mode === 'batch' || $mode === 'all') {
       'niche'   => $lead['niche']   ?? null,
       'ok'      => (bool)$ok,
     ];
-    if ($results['sent'] < $cap) usleep(150_000); // 150ms — enough for Resend rate-limit, ~75s per 500-batch
+    if ($results['sent'] < $cap) usleep(10_000); // 10ms — Resend API latency provides natural throttle; ~30s per 3000-batch
   }
   $new_total_sent = count($already) + $results['sent'];
   ju_exit([

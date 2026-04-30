@@ -67,6 +67,7 @@ $handlers = [
     'niche_metrics'         => __DIR__ . '/handlers/niche_metrics.php',
     'seed_client_templates' => __DIR__ . '/handlers/seed_client_templates.php',
     'organizations'         => __DIR__ . '/handlers/organizations.php',
+    'ai_triage'             => __DIR__ . '/handlers/ai_triage.php',
 ];
 
 if (!isset($handlers[$resource])) {

@@ -8,6 +8,24 @@
   var L;
   var pollTimer = null;
   var POLL_MS = 30000; // 30s — critical for catching new leads
+  var triageInFlight = false;
+
+  /* Allow-list of enum values returned by /api/?r=ai_triage. The server already
+     normalises these, but we whitelist again client-side before mapping into
+     CSS classes — never let server output drive class names directly. */
+  var INTENT_VALUES = ['pricing','booking','support','complaint','feedback','spam','other'];
+  var URGENCY_VALUES = ['low','normal','urgent'];
+  var ACTION_VALUES = ['reply_now','schedule_followup','route_to_human','mark_spam'];
+  var ACTION_LABELS = {
+    reply_now: 'Reply now',
+    schedule_followup: 'Schedule follow-up',
+    route_to_human: 'Route to human',
+    mark_spam: 'Mark as spam'
+  };
+
+  function safeEnum(v, allowed, fallback) {
+    return allowed.indexOf(String(v || '')) >= 0 ? String(v) : fallback;
+  }
 
   document.addEventListener("DOMContentLoaded", function () {
     var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');

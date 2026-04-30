@@ -1,332 +1,399 @@
-/* Courses Page Logic — real API-driven course enrollment, lessons, progress tracking */
+/* Courses Module - student view + admin management */
 (function () {
   "use strict";
 
   var API_BASE = (window.CRM_APP && CRM_APP.API_BASE) || '/api';
   var userProgress = {};
-  var allCourses = [];
+  var allCourses   = [];
+  var adminCourses = [];
+  var isAdmin      = false;
+  var activeTab    = 'student';
+  var managingCourseId = null;
 
-  document.addEventListener("DOMContentLoaded", function () {
-    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
-    var L = isEs ? {
-      newCourse: "Nuevo Curso", students: "Estudiantes", lessons: "Lecciones",
-      enroll: "Inscribirse", enrolled: "Inscrito", progress: "Progreso",
-      search: "Buscar cursos…", level: "Nivel", duration: "Duración",
-      totalCourses: "Cursos Totales", totalStudents: "Estudiantes", avgCompletion: "Completación Promedio",
-      published: "Publicados", myProgress: "Mi Progreso", myEnrollments: "Mis Inscripciones",
-      lessons: "Lecciones", complete: "Completado"
-    } : {
-      newCourse: "New Course", students: "Students", lessons: "Lessons",
-      enroll: "Enroll", enrolled: "Enrolled", progress: "Progress",
-      search: "Search courses…", level: "Level", duration: "Duration",
-      totalCourses: "Total Courses", totalStudents: "Students", avgCompletion: "Avg Completion",
-      published: "Published", myProgress: "My Progress", myEnrollments: "My Enrollments",
-      lessons: "Lessons", complete: "Completed"
-    };
+  function getToken() {
+    try { return localStorage.getItem('nwm_token') || ''; } catch(_) { return ''; }
+  }
 
-    if (window.CRM_APP && CRM_APP.buildHeader) {
-      CRM_APP.buildHeader(CRM_APP.t('nav.courses'), '');
-    }
-
-    loadCoursesAndProgress(L);
-  });
-
-  function loadCoursesAndProgress(L) {
-    var body = document.getElementById("coursesBody");
-    if (!body) return;
-
-    body.innerHTML = '<div style="padding:40px; text-align:center; color:#999">Loading courses…</div>';
-
-    Promise.all([
-      fetch(API_BASE + '/courses', { headers: { 'X-Auth-Token': getToken() } }).then(r => r.json()),
-      fetch(API_BASE + '/courses/progress', { headers: { 'X-Auth-Token': getToken() } }).then(r => r.json())
-    ]).then(function (results) {
-      var coursesResp = results[0];
-      var progressResp = results[1];
-
-      allCourses = coursesResp.items || [];
-      var enrollments = progressResp.enrollments || [];
-
-      enrollments.forEach(function (e) {
-        userProgress[e.course_id] = e;
-      });
-
-      renderStatsStrip(L);
-      render(L);
-      wireSearch(L);
-    }).catch(function (err) {
-      console.error('Failed to load courses:', err);
-      body.innerHTML = '<div style="padding:40px; color:#e74c3c">Failed to load courses. Please refresh.</div>';
+  function escHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
     });
   }
 
-  function renderStatsStrip(L) {
-    var body = document.getElementById("coursesBody");
+  function api(method, path, body) {
+    var opts = { method: method, headers: { 'X-Auth-Token': getToken() } };
+    if (body) { opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(body); }
+    return fetch(API_BASE + path, opts).then(function(r) { return r.json(); });
+  }
+
+  function toast(msg, isError) {
+    var el = document.createElement('div');
+    el.className = 'toast' + (isError ? ' error' : '');
+    el.textContent = msg;
+    document.body.appendChild(el);
+    setTimeout(function() { el.remove(); }, 2800);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    var L = buildL(isEs);
+    if (window.CRM_APP && CRM_APP.buildHeader) CRM_APP.buildHeader(CRM_APP.t ? CRM_APP.t('nav.courses') : 'Courses', '');
+    try {
+      var raw = localStorage.getItem('nwm_user');
+      if (raw) { var u = JSON.parse(raw); isAdmin = u.role === 'admin' || u.role === 'superadmin' || u.type === 'superadmin'; }
+    } catch(_) {}
+    loadAll(L);
+  });
+
+  function buildL(es) {
+    return es ? {
+      newCourse:'Nuevo Curso', students:'Estudiantes', lessons:'Lecciones', enroll:'Inscribirse', progress:'Progreso',
+      search:'Buscar cursos...', totalCourses:'Cursos Totales', totalStudents:'Estudiantes', avgCompletion:'Completacion Promedio',
+      published:'Publicados', complete:'Completado', manage:'Gestionar', myCourses:'Mis Cursos',
+      createCourse:'Crear Curso', editCourse:'Editar Curso', name:'Nombre', tagline:'Subtitulo', description:'Descripcion',
+      icon:'Icono', color:'Color', levelLabel:'Nivel', statusLabel:'Estado', orderIndex:'Orden', tutorialUrl:'URL Tutorial',
+      save:'Guardar', cancel:'Cancelar', addLesson:'Agregar Leccion', editLesson:'Editar Leccion', createLesson:'Nueva Leccion',
+      title:'Titulo', type:'Tipo', videoUrl:'URL del Video', content:'Contenido', durationMin:'Duracion (min)',
+      confirmDelete:'Eliminar? No se puede deshacer.', noCoursesMatch:'Ningun curso coincide con',
+      manageCourses:'Gestion de Cursos', lessonsOf:'Lecciones de'
+    } : {
+      newCourse:'New Course', students:'Students', lessons:'Lessons', enroll:'Enroll', progress:'Progress',
+      search:'Search courses...', totalCourses:'Total Courses', totalStudents:'Students', avgCompletion:'Avg Completion',
+      published:'Published', complete:'Completed', manage:'Manage', myCourses:'My Courses',
+      createCourse:'Create Course', editCourse:'Edit Course', name:'Name', tagline:'Tagline', description:'Description',
+      icon:'Icon (emoji)', color:'Color', levelLabel:'Level', statusLabel:'Status', orderIndex:'Order', tutorialUrl:'Tutorial URL',
+      save:'Save', cancel:'Cancel', addLesson:'Add Lesson', editLesson:'Edit Lesson', createLesson:'New Lesson',
+      title:'Title', type:'Type', videoUrl:'Video URL', content:'Content', durationMin:'Duration (min)',
+      confirmDelete:'Delete this item? This cannot be undone.', noCoursesMatch:'No courses match',
+      manageCourses:'Course Management', lessonsOf:'Lessons for'
+    };
+  }
+
+  function loadAll(L) {
+    var body = document.getElementById('coursesBody');
     if (!body) return;
+    body.innerHTML = '<div style="padding:40px;text-align:center;color:#999">Loading courses...</div>';
+    Promise.all([
+      fetch(API_BASE + '/courses', { headers: { 'X-Auth-Token': getToken() } }).then(function(r){ return r.json(); }),
+      fetch(API_BASE + '/courses/progress', { headers: { 'X-Auth-Token': getToken() } }).then(function(r){ return r.json(); })
+    ]).then(function(results) {
+      allCourses = results[0].items || [];
+      (results[1].enrollments || []).forEach(function(e) { userProgress[e.course_id] = e; });
+      buildPage(L);
+    }).catch(function(err) {
+      console.error('courses load failed:', err);
+      body.innerHTML = '<div style="padding:40px;color:#e74c3c">Failed to load courses. Please refresh.</div>';
+    });
+  }
 
-    var totalStudents = allCourses.reduce(function (a, c) { return a + (c.active_students || 0); }, 0);
-    var avgCompletion = allCourses.length ? Math.round(allCourses.reduce(function (a, c) { return a + (c.avg_completion || 0); }, 0) / allCourses.length) : 0;
-    var published = allCourses.filter(function (c) { return c.status === "published"; }).length;
+  function buildPage(L) {
+    var body = document.getElementById('coursesBody');
+    if (!body) return;
+    var tabBar = isAdmin
+      ? '<div class="courses-tab-bar"><button class="courses-tab active" data-tab="student">' + L.myCourses + '</button><button class="courses-tab" data-tab="admin">' + L.manage + '</button></div>'
+      : '';
+    body.innerHTML = tabBar +
+      '<div id="courseStudentView"></div>' +
+      '<div id="courseAdminView" style="display:none"></div>' +
+      '<div id="courseDetail" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:1000;overflow-y:auto;padding:20px 0"></div>';
+    if (isAdmin) {
+      body.querySelectorAll('.courses-tab').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          body.querySelectorAll('.courses-tab').forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          activeTab = btn.getAttribute('data-tab');
+          document.getElementById('courseStudentView').style.display = activeTab === 'student' ? '' : 'none';
+          document.getElementById('courseAdminView').style.display   = activeTab === 'admin'   ? '' : 'none';
+          if (activeTab === 'admin') loadAdminView(L);
+        });
+      });
+    }
+    renderStudentView(L);
+  }
 
+  /* ── STUDENT ── */
+  function renderStudentView(L) {
+    var wrap = document.getElementById('courseStudentView');
+    if (!wrap) return;
+    var ts  = allCourses.reduce(function(a,c){ return a+(c.active_students||0); }, 0);
+    var avg = allCourses.length ? Math.round(allCourses.reduce(function(a,c){ return a+(c.avg_completion||0); },0)/allCourses.length) : 0;
+    var pub = allCourses.filter(function(c){ return c.status==='published'; }).length;
     var html = '<div class="courses-stats">';
-    html += statCard(L.totalCourses, allCourses.length, "#22d3ee");
-    html += statCard(L.totalStudents, totalStudents.toLocaleString(), "#a29bfe");
-    html += statCard(L.avgCompletion, avgCompletion + "%", "#00b894");
-    html += statCard(L.published, published, "#fdcb6e");
-    html += '</div>';
-
-    html += '<div class="courses-toolbar">';
-    html += '<input type="search" id="courseSearch" class="course-search" placeholder="' + L.search + '" />';
-    html += '</div>';
-
+    html += statCard(L.totalCourses, allCourses.length, '#22d3ee');
+    html += statCard(L.totalStudents, ts.toLocaleString(), '#a29bfe');
+    html += statCard(L.avgCompletion, avg+'%', '#00b894');
+    html += statCard(L.published, pub, '#fdcb6e');
+    html += '</div><div class="courses-toolbar"><input type="search" id="courseSearch" class="course-search" placeholder="' + escHtml(L.search) + '" /></div>';
     html += '<div class="course-grid" id="courseGrid"></div>';
-    html += '<div id="courseDetail" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:1000; overflow-y:auto"></div>';
-    body.innerHTML = html;
+    wrap.innerHTML = html;
+    renderCourseGrid(L);
+    wireSearch(L);
   }
 
   function statCard(label, value, color) {
-    return '<div class="courses-stat" style="border-left:3px solid ' + color + '">' +
-      '<div class="courses-stat-label">' + label + '</div>' +
-      '<div class="courses-stat-value">' + value + '</div>' +
-      '</div>';
+    return '<div class="courses-stat" style="border-left:3px solid ' + color + '"><span class="courses-stat-label">' + escHtml(label) + '</span><div class="courses-stat-value">' + escHtml(String(value)) + '</div></div>';
   }
 
-  function render(L, filter) {
-    var grid = document.getElementById("courseGrid");
+  function renderCourseGrid(L, filter) {
+    var grid = document.getElementById('courseGrid');
     if (!grid) return;
-    var q = (filter || "").trim().toLowerCase();
-    var list = q
-      ? allCourses.filter(function (c) { return c.name.toLowerCase().indexOf(q) !== -1 || c.tagline.toLowerCase().indexOf(q) !== -1; })
-      : allCourses;
-
-    if (!list.length) {
-      grid.innerHTML = '<div class="empty-state">No courses match "' + escapeHtml(q) + '"</div>';
-      return;
-    }
-
-    var html = "";
-    for (var i = 0; i < list.length; i++) {
-      var c = list[i];
-      var enrollment = userProgress[c.id];
-      var color = safeColor(c.color, "#6c5ce7");
-      var progress = enrollment ? Number(enrollment.progress_percent) || 0 : 0;
-      var cid = parseInt(c.id, 10) || 0;
-      var lessonCount = parseInt(c.lesson_count, 10) || 0;
-      var activeStudents = parseInt(c.active_students, 10) || 0;
-
-      html += '<article class="course-card" data-course-id="' + cid + '">';
-      html += '<div class="course-card-thumb" style="background:linear-gradient(135deg, ' + color + '22, ' + color + '55); border-bottom:1px solid ' + color + '33">';
-      html += '<div class="course-thumb-icon" style="color:' + color + '">' + escapeHtml(c.icon || '📚') + '</div>';
-      html += '<div class="course-thumb-title" style="color:' + color + '">' + escapeHtml(c.name || '') + '</div>';
-      html += '</div>';
+    var q = (filter||'').trim().toLowerCase();
+    var list = q ? allCourses.filter(function(c){ return (c.name||'').toLowerCase().indexOf(q)!==-1||(c.tagline||'').toLowerCase().indexOf(q)!==-1; }) : allCourses;
+    if (!list.length) { grid.innerHTML = '<div class="empty-state">' + L.noCoursesMatch + ' "' + escHtml(q) + '"</div>'; return; }
+    var html = '';
+    list.forEach(function(c) {
+      var en = userProgress[c.id], color = c.color||'#6c5ce7', pct = en?(en.progress_percent||0):0;
+      html += '<article class="course-card">';
+      html += '<div class="course-card-thumb" style="background:linear-gradient(135deg,' + color + '22,' + color + '55);border-bottom:1px solid ' + color + '33">';
+      html += '<div class="course-thumb-icon" style="color:' + color + '">' + escHtml(c.icon||'') + '</div>';
+      html += '<div class="course-thumb-title" style="color:' + color + '">' + escHtml(c.name) + '</div></div>';
       html += '<div class="course-card-body">';
-      html += '<div class="course-card-title">' + escapeHtml(c.name || '') + '</div>';
-      html += '<p class="course-card-tag">' + escapeHtml(c.tagline || '') + '</p>';
-      html += '<div class="course-meta">';
-      html += '<span class="course-meta-item"><b>' + lessonCount + '</b> ' + escapeHtml(L.lessons) + '</span>';
-      html += '<span class="course-meta-item">🎓 ' + escapeHtml(c.level || 'All levels') + '</span>';
-      html += '</div>';
-      html += '<div class="course-enroll">';
-      html += '<span class="course-enroll-count">' + activeStudents.toLocaleString() + ' ' + escapeHtml(L.students.toLowerCase()) + '</span>';
-      if (enrollment) {
-        html += '<span class="course-enroll-pct">' + Math.round(progress) + '% ' + escapeHtml(L.progress.toLowerCase()) + '</span>';
-      }
-      html += '</div>';
-      html += '<div class="progress-bar"><div class="progress-fill" style="width:' + Math.round(progress) + '%; background:' + color + '"></div></div>';
+      html += '<div class="course-card-title">' + escHtml(c.name) + '</div>';
+      html += '<p class="course-card-tag">' + escHtml(c.tagline||'') + '</p>';
+      html += '<div class="course-meta"><span class="course-meta-item"><b>' + (c.lesson_count||0) + '</b> ' + L.lessons + '</span><span class="course-meta-item"> ' + escHtml(c.level||'All levels') + '</span></div>';
+      html += '<div class="course-enroll"><span class="course-enroll-count">' + (c.active_students||0).toLocaleString() + ' ' + L.students.toLowerCase() + '</span>';
+      if (en) html += '<span class="course-enroll-pct">' + Math.round(pct) + '% ' + L.progress.toLowerCase() + '</span>';
+      html += '</div><div class="progress-bar"><div class="progress-fill" style="width:' + pct + '%;background:' + color + '"></div></div>';
       html += '<div class="course-card-footer">';
-      if (enrollment) {
-        html += '<button class="btn btn-primary btn-sm course-view-btn" data-course-id="' + cid + '">View Course →</button>';
-      } else {
-        html += '<button class="btn btn-primary btn-sm course-enroll-btn" data-course-id="' + cid + '">' + escapeHtml(L.enroll) + '</button>';
-      }
-      html += '</div>';
-      html += '</div>';
-      html += '</article>';
-    }
+      if (en) html += '<button class="btn course-view-btn" data-course-id="' + c.id + '">View Course</button>';
+      else    html += '<button class="btn course-enroll-btn" data-course-id="' + c.id + '">' + escHtml(L.enroll) + '</button>';
+      html += '</div></div></article>';
+    });
     grid.innerHTML = html;
-
-    // Wire up enroll and view buttons
-    wireEnrollButtons(L);
-    wireViewCourseButtons(L);
-  }
-
-  function wireEnrollButtons(L) {
-    var buttons = document.querySelectorAll(".course-enroll-btn");
-    buttons.forEach(function (btn) {
-      btn.addEventListener("click", function (e) {
-        e.preventDefault();
-        var courseId = parseInt(btn.getAttribute("data-course-id"), 10);
-        enrollCourse(courseId, L);
-      });
+    grid.querySelectorAll('.course-enroll-btn').forEach(function(btn){
+      btn.addEventListener('click', function(e){ e.preventDefault(); enrollCourse(parseInt(btn.getAttribute('data-course-id'),10),L); });
     });
-  }
-
-  function wireViewCourseButtons(L) {
-    var buttons = document.querySelectorAll(".course-view-btn");
-    buttons.forEach(function (btn) {
-      btn.addEventListener("click", function (e) {
-        e.preventDefault();
-        var courseId = parseInt(btn.getAttribute("data-course-id"), 10);
-        showCourseDetail(courseId, L);
-      });
-    });
-  }
-
-  function enrollCourse(courseId, L) {
-    fetch(API_BASE + '/courses/enroll', {
-      method: 'POST',
-      headers: {
-        'X-Auth-Token': getToken(),
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ course_id: courseId })
-    })
-    .then(r => r.json())
-    .then(function (resp) {
-      if (resp.enrollment_id) {
-        userProgress[courseId] = {
-          id: resp.enrollment_id,
-          course_id: courseId,
-          progress_percent: 0,
-          status: 'active'
-        };
-        render(L);
-      }
-    })
-    .catch(function (err) {
-      console.error('Enrollment failed:', err);
-      alert('Failed to enroll in course');
-    });
-  }
-
-  function showCourseDetail(courseId, L) {
-    var course = allCourses.find(function (c) { return c.id === courseId; });
-    var enrollment = userProgress[courseId];
-    if (!course) return;
-
-    fetch(API_BASE + '/courses/' + courseId, {
-      headers: { 'X-Auth-Token': getToken() }
-    })
-    .then(r => r.json())
-    .then(function (data) {
-      var lessons = data.lessons || [];
-      var color = safeColor(data.course && data.course.color, "#6c5ce7");
-      var courseName = (data.course && data.course.name) || '';
-      var courseTagline = (data.course && data.course.tagline) || '';
-      var courseIcon = (data.course && data.course.icon) || '📚';
-      var enrollPct = enrollment ? Number(enrollment.progress_percent) || 0 : 0;
-      var safeCourseId = parseInt(courseId, 10) || 0;
-
-      var html = '<div class="course-detail-modal" style="background:white; max-width:800px; margin:40px auto; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.3)">';
-      html += '<div class="modal-header" style="background:linear-gradient(135deg, ' + color + '22, ' + color + '55); padding:30px; border-bottom:1px solid ' + color + '33; display:flex; justify-content:space-between; align-items:center">';
-      html += '<div>';
-      html += '<div style="font-size:32px; margin-bottom:10px">' + escapeHtml(courseIcon) + '</div>';
-      html += '<h2 style="margin:0; color:' + color + '">' + escapeHtml(courseName) + '</h2>';
-      html += '<p style="margin:8px 0 0; color:#666; font-size:14px">' + escapeHtml(courseTagline) + '</p>';
-      html += '</div>';
-      html += '<button class="modal-close" style="background:none; border:none; font-size:24px; cursor:pointer; color:#666">&times;</button>';
-      html += '</div>';
-
-      html += '<div style="padding:30px">';
-      if (enrollment) {
-        html += '<div class="progress-bar" style="height:8px; margin-bottom:20px"><div class="progress-fill" style="width:' + Math.round(enrollPct) + '%; background:' + color + '; height:100%"></div></div>';
-        html += '<p style="color:#666; margin:0 0 20px; font-size:14px">' + Math.round(enrollPct) + '% ' + escapeHtml(L.complete.toLowerCase()) + '</p>';
-      }
-
-      html += '<h3 style="margin:20px 0 15px; color:#333">' + escapeHtml(L.lessons) + '</h3>';
-      for (var i = 0; i < lessons.length; i++) {
-        var lesson = lessons[i];
-        var lessonId = parseInt(lesson.id, 10) || 0;
-        var lessonDuration = parseInt(lesson.duration_minutes, 10) || 0;
-        html += '<div style="padding:12px; border:1px solid #ddd; border-radius:6px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center">';
-        html += '<div>';
-        html += '<div style="font-weight:600; color:#333">' + escapeHtml(lesson.title || '') + '</div>';
-        html += '<div style="font-size:13px; color:#999; margin-top:4px">' + lessonDuration + ' min • ' + escapeHtml(lesson.type || 'video') + '</div>';
-        html += '</div>';
-        html += '<button class="lesson-complete-btn" data-lesson-id="' + lessonId + '" data-course-id="' + safeCourseId + '" style="background:' + color + '; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; font-size:13px">Mark Done</button>';
-        html += '</div>';
-      }
-      html += '</div>';
-      html += '</div>';
-
-      var modal = document.getElementById("courseDetail");
-      modal.innerHTML = html;
-      modal.style.display = 'block';
-
-      modal.querySelector('.modal-close').addEventListener('click', function () {
-        modal.style.display = 'none';
-      });
-      modal.addEventListener('click', function (e) {
-        if (e.target === modal) modal.style.display = 'none';
-      });
-
-      // Wire lesson complete buttons
-      var lessonBtns = modal.querySelectorAll('.lesson-complete-btn');
-      lessonBtns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var lessonId = parseInt(btn.getAttribute('data-lesson-id'), 10);
-          markLessonComplete(courseId, lessonId, L);
-        });
-      });
-    })
-    .catch(function (err) {
-      console.error('Failed to load course:', err);
-      alert('Failed to load course details');
-    });
-  }
-
-  function markLessonComplete(courseId, lessonId, L) {
-    fetch(API_BASE + '/courses/' + courseId + '/complete-lesson', {
-      method: 'POST',
-      headers: {
-        'X-Auth-Token': getToken(),
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ lesson_id: lessonId, time_spent_minutes: 0 })
-    })
-    .then(r => r.json())
-    .then(function (resp) {
-      if (resp.progress_percent !== undefined) {
-        userProgress[courseId].progress_percent = resp.progress_percent;
-        showCourseDetail(courseId, L);
-        if (resp.course_complete) {
-          alert('Course completed! 🎉');
-        }
-      }
-    })
-    .catch(function (err) {
-      console.error('Failed to mark lesson complete:', err);
+    grid.querySelectorAll('.course-view-btn').forEach(function(btn){
+      btn.addEventListener('click', function(e){ e.preventDefault(); showCourseDetail(parseInt(btn.getAttribute('data-course-id'),10),L); });
     });
   }
 
   function wireSearch(L) {
-    var input = document.getElementById("courseSearch");
-    if (!input) return;
+    var input = document.getElementById('courseSearch'); if (!input) return;
     var t;
-    input.addEventListener("input", function (e) {
-      clearTimeout(t);
-      var v = e.target.value;
-      t = setTimeout(function () { render(L, v); }, 120);
+    input.addEventListener('input', function(e){ clearTimeout(t); var v=e.target.value; t=setTimeout(function(){ renderCourseGrid(L,v); },120); });
+  }
+
+  function enrollCourse(courseId, L) {
+    api('POST','/courses/enroll',{course_id:courseId}).then(function(resp){
+      if (resp.enrollment_id) { userProgress[courseId]={id:resp.enrollment_id,course_id:courseId,progress_percent:0,status:'active'}; renderCourseGrid(L); toast('Enrolled!'); }
+      else toast(resp.error||'Enroll failed',true);
+    }).catch(function(){ toast('Enroll failed',true); });
+  }
+
+  function showCourseDetail(courseId, L) {
+    api('GET','/courses/'+courseId).then(function(data){
+      var lessons=data.lessons||[], color=(data.course&&data.course.color)||'#6c5ce7', en=data.enrollment||userProgress[courseId];
+      var html='<div class="course-detail-modal" style="max-width:800px;margin:40px auto">';
+      html+='<div class="modal-header" style="background:linear-gradient(135deg,'+color+'22,'+color+'55);border-bottom:1px solid '+color+'33">';
+      html+='<div><div style="font-size:40px;line-height:1;margin-bottom:12px">'+escHtml((data.course&&data.course.icon)||'')+'</div>';
+      html+='<h2 style="margin:0;color:'+color+'">'+escHtml((data.course&&data.course.name)||'')+'</h2>';
+      html+='<p style="margin:8px 0 0;color:var(--text-dim,#8b8fa3);font-size:14px">'+escHtml((data.course&&data.course.tagline)||'')+'</p></div>';
+      html+='<button class="modal-close">&times;</button></div>';
+      html+='<div style="padding:28px">';
+      if (en) { var pct=Math.round(en.progress_percent||0); html+='<div class="progress-bar" style="height:8px;margin-bottom:12px"><div class="progress-fill" style="width:'+pct+'%;background:'+color+';height:100%"></div></div><p style="color:var(--text-dim,#8b8fa3);margin:0 0 20px;font-size:14px">'+pct+'% '+L.complete.toLowerCase()+'</p>'; }
+      html+='<h3 style="margin:0 0 16px;color:var(--text,#e4e7ec)">'+L.lessons+'</h3>';
+      if (!lessons.length) { html+='<div class="empty-state" style="padding:24px 0">No lessons available yet.</div>'; }
+      else { lessons.forEach(function(lesson){
+        html+='<div style="padding:12px;border:1px solid var(--border,#2a2d3a);border-radius:8px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:12px">';
+        html+='<div><div style="font-weight:600;color:var(--text,#e4e7ec)">'+escHtml(lesson.title)+'</div><div style="font-size:13px;color:var(--text-muted,#5a5e70);margin-top:4px">'+(lesson.duration_minutes||0)+' min - '+escHtml(lesson.type||'video')+'</div></div>';
+        if (en) html+='<button class="lesson-complete-btn" data-lesson-id="'+lesson.id+'" style="background:'+color+'">Mark Done</button>';
+        html+='</div>';
+      }); }
+      html+='</div></div>';
+      var modal=document.getElementById('courseDetail');
+      modal.innerHTML=html; modal.style.display='block';
+      modal.querySelector('.modal-close').addEventListener('click',function(){ modal.style.display='none'; });
+      modal.addEventListener('click',function(e){ if(e.target===modal) modal.style.display='none'; });
+      modal.querySelectorAll('.lesson-complete-btn').forEach(function(btn){
+        btn.addEventListener('click',function(){ markLessonComplete(courseId,parseInt(btn.getAttribute('data-lesson-id'),10),L); });
+      });
+    }).catch(function(){ toast('Failed to load course details',true); });
+  }
+
+  function markLessonComplete(courseId, lessonId, L) {
+    api('POST','/courses/'+courseId+'/complete-lesson',{lesson_id:lessonId,time_spent_minutes:0}).then(function(resp){
+      if (resp.progress_percent!==undefined) {
+        if (!userProgress[courseId]) userProgress[courseId]={course_id:courseId};
+        userProgress[courseId].progress_percent=resp.progress_percent;
+        showCourseDetail(courseId,L);
+        if (resp.course_complete) toast('Course completed!');
+      }
+    }).catch(function(e){ console.error('mark lesson failed:',e); });
+  }
+
+  /* ── ADMIN ── */
+  function loadAdminView(L) {
+    var wrap=document.getElementById('courseAdminView');
+    if (!wrap||wrap.dataset.loaded==='1') return;
+    wrap.dataset.loaded='1';
+    wrap.innerHTML='<div style="padding:40px;text-align:center;color:#999">Loading...</div>';
+    api('GET','/courses?admin=1&limit=200').then(function(resp){
+      adminCourses=resp.items||[];
+      renderAdminView(L);
+    }).catch(function(){ wrap.innerHTML='<div style="padding:40px;color:#e74c3c">Failed to load admin data.</div>'; });
+  }
+
+  function renderAdminView(L) {
+    var wrap=document.getElementById('courseAdminView'); if (!wrap) return;
+    var published=adminCourses.filter(function(c){ return c.status==='published'; }).length;
+    var drafts=adminCourses.filter(function(c){ return c.status==='draft'; }).length;
+    var totalEnroll=adminCourses.reduce(function(a,c){ return a+(c.active_students||0); },0);
+    var html='<div class="courses-admin">';
+    html+='<div class="courses-admin-header"><h2 style="margin:0;font-size:20px;font-weight:700;color:var(--text,#e4e7ec)">'+L.manageCourses+'</h2>';
+    html+='<button class="btn course-enroll-btn" id="adminCreateCourse">+ '+L.newCourse+'</button></div>';
+    html+='<div class="courses-stats" style="margin-top:20px">';
+    html+=statCard(L.totalCourses,adminCourses.length,'#22d3ee');
+    html+=statCard(L.published,published,'#00b894');
+    html+=statCard('Drafts',drafts,'#fdcb6e');
+    html+=statCard(L.totalStudents,totalEnroll.toLocaleString(),'#a29bfe');
+    html+='</div>';
+    if (!adminCourses.length) {
+      html+='<div class="empty-state" style="padding:60px 20px">No courses yet. Create your first one!</div>';
+    } else {
+      html+='<div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Course</th><th>Status</th><th>Lessons</th><th>Students</th><th>Avg %</th><th>Actions</th></tr></thead><tbody>';
+      adminCourses.forEach(function(c){
+        var bc=c.status==='published'?'badge-green':(c.status==='archived'?'badge-red':'badge-yellow');
+        html+='<tr><td><div style="display:flex;align-items:center;gap:8px"><span style="font-size:22px">'+escHtml(c.icon||'')+' </span><div><b>'+escHtml(c.name)+'</b><div style="font-size:12px;color:var(--text-muted,#5a5e70)">'+escHtml(c.tagline||'')+'</div></div></div></td>';
+        html+='<td><span class="admin-badge '+bc+'">'+escHtml(c.status)+'</span></td>';
+        html+='<td>'+(c.lesson_count||0)+'</td><td>'+(c.active_students||0)+'</td><td>'+(c.avg_completion||0)+'%</td>';
+        html+='<td class="admin-actions"><button class="btn-sm-admin btn-edit-course" data-id="'+c.id+'">Edit</button> <button class="btn-sm-admin btn-lessons" data-id="'+c.id+'" data-name="'+escHtml(c.name)+'">Lessons</button> <button class="btn-sm-admin btn-del btn-del-course" data-id="'+c.id+'">Del</button></td></tr>';
+      });
+      html+='</tbody></table></div>';
+    }
+    html+='<div id="adminLessonsPanel" class="lessons-panel" style="display:none"></div></div>';
+    wrap.innerHTML=html; wrap.dataset.loaded='1';
+    wrap.querySelector('#adminCreateCourse').addEventListener('click',function(){ showCourseModal(null,L); });
+    wrap.querySelectorAll('.btn-edit-course').forEach(function(btn){
+      btn.addEventListener('click',function(){ var id=parseInt(btn.getAttribute('data-id'),10); showCourseModal(adminCourses.find(function(c){ return c.id===id; }),L); });
+    });
+    wrap.querySelectorAll('.btn-lessons').forEach(function(btn){
+      btn.addEventListener('click',function(){ showLessonsPanel(parseInt(btn.getAttribute('data-id'),10),btn.getAttribute('data-name'),L); });
+    });
+    wrap.querySelectorAll('.btn-del-course').forEach(function(btn){
+      btn.addEventListener('click',function(){ deleteCourse(parseInt(btn.getAttribute('data-id'),10),L); });
     });
   }
 
-  function getToken() {
-    if (typeof localStorage !== 'undefined') {
-      return localStorage.getItem('nwm_token') || '';
-    }
-    return '';
+  function showCourseModal(course, L) {
+    var isEdit=!!course;
+    var html='<div class="admin-modal-overlay" id="adminModalOverlay"><div class="admin-modal">';
+    html+='<div class="admin-modal-header"><h3>'+(isEdit?L.editCourse:L.createCourse)+'</h3><button class="modal-close" id="adminModalClose">&times;</button></div>';
+    html+='<form id="adminCourseForm" class="admin-form">';
+    html+=fRow(L.name,'<input name="name" required value="'+escHtml(course?course.name:'')+'" />');
+    html+=fRow(L.tagline,'<input name="tagline" value="'+escHtml(course?(course.tagline||''):'')+'" />');
+    html+=fRow(L.description,'<textarea name="description" rows="3">'+escHtml(course?(course.description||''):'')+'</textarea>');
+    html+=fRow(L.icon,'<input name="icon" value="'+escHtml(course?(course.icon||''):'')+'" style="width:80px" />');
+    html+=fRow(L.color,'<input name="color" type="color" value="'+escHtml(course?(course.color||'#6c5ce7'):'#6c5ce7')+'" style="width:60px;height:36px;border-radius:6px;cursor:pointer" />');
+    html+=fRow(L.levelLabel,'<select name="level">'+['Beginner','Intermediate','Advanced','All levels'].map(function(l){ return '<option'+(course&&course.level===l?' selected':'')+'>'+l+'</option>'; }).join('')+'</select>');
+    html+=fRow(L.statusLabel,'<select name="status">'+['draft','published','archived'].map(function(s){ return '<option value="'+s+'"'+(course&&course.status===s?' selected':'')+'>'+s+'</option>'; }).join('')+'</select>');
+    html+=fRow(L.tutorialUrl,'<input name="tutorial_url" value="'+escHtml(course?(course.tutorial_url||''):'')+'" />');
+    html+=fRow(L.orderIndex,'<input name="order_index" type="number" min="0" value="'+(course?(course.order_index||99):99)+'" style="width:80px" />');
+    html+='<div class="admin-form-footer"><button type="submit" class="btn course-enroll-btn">'+L.save+'</button> <button type="button" id="adminFormCancel" class="btn course-view-btn">'+L.cancel+'</button></div></form></div></div>';
+    var div=document.createElement('div'); div.innerHTML=html; document.body.appendChild(div.firstChild);
+    var ov=document.getElementById('adminModalOverlay');
+    document.getElementById('adminModalClose').addEventListener('click',function(){ ov.remove(); });
+    document.getElementById('adminFormCancel').addEventListener('click',function(){ ov.remove(); });
+    ov.addEventListener('click',function(e){ if(e.target===ov) ov.remove(); });
+    document.getElementById('adminCourseForm').addEventListener('submit',function(e){
+      e.preventDefault(); var fd=new FormData(e.target),data={}; fd.forEach(function(v,k){ data[k]=v; }); data.order_index=parseInt(data.order_index,10)||99;
+      saveCourse(data,isEdit?course.id:null,L,function(){ ov.remove(); });
+    });
   }
 
-  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function (c) { return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]); }); }
+  function fRow(label, input) { return '<div class="admin-form-row"><label>'+escHtml(label)+'</label>'+input+'</div>'; }
 
-  // CSS-context safe color: only allow #hex (3/6/8) or rgba(). Everything else
-  // (e.g. malicious "red; background:url(//evil)") falls back to the default.
-  // Mirrors the same defense added to branding.js earlier — see plans/audits/RATING-2026-04-30.md.
-  var COLOR_RE = /^(#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8}|rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(?:,\s*[\d.]+\s*)?\))$/;
-  function safeColor(v, fallback) {
-    if (typeof v !== 'string') return fallback;
-    var t = v.trim();
-    return COLOR_RE.test(t) ? t : fallback;
+  function saveCourse(data, id, L, done) {
+    api(id?'PUT':'POST',id?'/courses/'+id:'/courses',data).then(function(resp){
+      if (resp.course) { toast(id?'Course updated!':'Course created!'); if(typeof done==='function') done(); var w=document.getElementById('courseAdminView'); if(w) w.dataset.loaded='0'; loadAdminView(L); }
+      else toast(resp.error||'Save failed',true);
+    }).catch(function(){ toast('Save failed',true); });
+  }
+
+  function deleteCourse(id, L) {
+    if (!confirm(L.confirmDelete)) return;
+    api('DELETE','/courses/'+id).then(function(resp){
+      if (resp.deleted) { toast('Course deleted.'); var w=document.getElementById('courseAdminView'); if(w) w.dataset.loaded='0'; loadAdminView(L); }
+      else toast(resp.error||'Delete failed',true);
+    }).catch(function(){ toast('Delete failed',true); });
+  }
+
+  function showLessonsPanel(courseId, courseName, L) {
+    managingCourseId=courseId;
+    var panel=document.getElementById('adminLessonsPanel'); if (!panel) return;
+    panel.style.display='block';
+    panel.innerHTML='<div style="padding:16px;color:#999">Loading lessons...</div>';
+    panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+    api('GET','/courses/'+courseId+'/lessons').then(function(resp){ renderLessonsPanel(courseId,courseName,resp.lessons||[],L); })
+      .catch(function(){ panel.innerHTML='<div style="padding:16px;color:#e74c3c">Failed to load lessons.</div>'; });
+  }
+
+  function renderLessonsPanel(courseId, courseName, lessons, L) {
+    var panel=document.getElementById('adminLessonsPanel'); if (!panel) return;
+    var html='<div class="lessons-panel-header"><h3>'+L.lessonsOf+': '+escHtml(courseName)+'</h3>';
+    html+='<div style="display:flex;gap:8px"><button class="btn course-enroll-btn btn-add-lesson">+ '+L.addLesson+'</button><button class="btn course-view-btn btn-close-lessons">Close</button></div></div>';
+    if (!lessons.length) { html+='<div class="empty-state" style="padding:32px 0">No lessons yet. Add your first!</div>'; }
+    else {
+      html+='<div class="lessons-list">';
+      lessons.forEach(function(lesson,idx){
+        var sc=lesson.status==='published'?'#00b894':(lesson.status==='archived'?'#e17055':'#fdcb6e');
+        html+='<div class="lesson-row"><div class="lesson-row-num">'+(idx+1)+'</div>';
+        html+='<div class="lesson-row-body"><div class="lesson-row-title">'+escHtml(lesson.title)+'</div>';
+        html+='<div class="lesson-row-meta">'+(lesson.duration_minutes||0)+' min - '+escHtml(lesson.type||'video')+' - <span style="color:'+sc+'">'+escHtml(lesson.status)+'</span></div></div>';
+        html+='<div class="lesson-row-actions"><button class="btn-sm-admin btn-edit-lesson" data-id="'+lesson.id+'">Edit</button> <button class="btn-sm-admin btn-del btn-del-lesson" data-id="'+lesson.id+'">Del</button></div></div>';
+      });
+      html+='</div>';
+    }
+    panel.innerHTML=html;
+    panel.querySelector('.btn-close-lessons').addEventListener('click',function(){ panel.style.display='none'; });
+    panel.querySelector('.btn-add-lesson').addEventListener('click',function(){ showLessonModal(null,courseId,courseName,lessons.length+1,L); });
+    panel.querySelectorAll('.btn-edit-lesson').forEach(function(btn){
+      btn.addEventListener('click',function(){ var id=parseInt(btn.getAttribute('data-id'),10); showLessonModal(lessons.find(function(l){ return l.id===id; }),courseId,courseName,lessons.length+1,L); });
+    });
+    panel.querySelectorAll('.btn-del-lesson').forEach(function(btn){
+      btn.addEventListener('click',function(){ deleteLesson(courseId,parseInt(btn.getAttribute('data-id'),10),courseName,L); });
+    });
+  }
+
+  function showLessonModal(lesson, courseId, courseName, nextOrder, L) {
+    var isEdit=!!lesson;
+    var html='<div class="admin-modal-overlay" id="adminLessonModalOverlay"><div class="admin-modal">';
+    html+='<div class="admin-modal-header"><h3>'+(isEdit?L.editLesson:L.createLesson)+' - '+escHtml(courseName)+'</h3><button class="modal-close" id="adminLessonClose">&times;</button></div>';
+    html+='<form id="adminLessonForm" class="admin-form">';
+    html+=fRow(L.title,'<input name="title" required value="'+escHtml(lesson?lesson.title:'')+'" />');
+    html+=fRow(L.description,'<textarea name="description" rows="2">'+escHtml(lesson?(lesson.description||''):'')+'</textarea>');
+    html+=fRow(L.type,'<select name="type">'+['video','text','quiz','assignment'].map(function(t){ return '<option value="'+t+'"'+(lesson&&lesson.type===t?' selected':'')+'>'+t.charAt(0).toUpperCase()+t.slice(1)+'</option>'; }).join('')+'</select>');
+    html+=fRow(L.durationMin,'<input name="duration_minutes" type="number" min="0" value="'+(lesson?(lesson.duration_minutes||0):0)+'" style="width:100px" />');
+    html+=fRow(L.videoUrl,'<input name="video_url" value="'+escHtml(lesson?(lesson.video_url||''):'')+'" />');
+    html+=fRow(L.content,'<textarea name="content" rows="4">'+escHtml(lesson?(lesson.content||''):'')+'</textarea>');
+    html+=fRow(L.statusLabel,'<select name="status">'+['draft','published','archived'].map(function(s){ return '<option value="'+s+'"'+(lesson&&lesson.status===s?' selected':'')+'>'+s+'</option>'; }).join('')+'</select>');
+    html+=fRow(L.orderIndex,'<input name="order_index" type="number" min="0" value="'+(lesson?(lesson.order_index||nextOrder):nextOrder)+'" style="width:80px" />');
+    html+='<div class="admin-form-footer"><button type="submit" class="btn course-enroll-btn">'+L.save+'</button> <button type="button" id="adminLessonCancel" class="btn course-view-btn">'+L.cancel+'</button></div></form></div></div>';
+    var div=document.createElement('div'); div.innerHTML=html; document.body.appendChild(div.firstChild);
+    var ov=document.getElementById('adminLessonModalOverlay');
+    document.getElementById('adminLessonClose').addEventListener('click',function(){ ov.remove(); });
+    document.getElementById('adminLessonCancel').addEventListener('click',function(){ ov.remove(); });
+    ov.addEventListener('click',function(e){ if(e.target===ov) ov.remove(); });
+    document.getElementById('adminLessonForm').addEventListener('submit',function(e){
+      e.preventDefault(); var fd=new FormData(e.target),data={}; fd.forEach(function(v,k){ data[k]=v; });
+      data.duration_minutes=parseInt(data.duration_minutes,10)||0; data.order_index=parseInt(data.order_index,10)||1;
+      saveLesson(data,courseId,isEdit?lesson.id:null,courseName,L,function(){ ov.remove(); });
+    });
+  }
+
+  function saveLesson(data, courseId, lessonId, courseName, L, done) {
+    api(lessonId?'PUT':'POST',lessonId?'/courses/'+courseId+'/lessons/'+lessonId:'/courses/'+courseId+'/lessons',data).then(function(resp){
+      if (resp.lesson) { toast(lessonId?'Lesson updated!':'Lesson created!'); if(typeof done==='function') done(); showLessonsPanel(courseId,courseName,L); }
+      else toast(resp.error||'Save failed',true);
+    }).catch(function(){ toast('Save failed',true); });
+  }
+
+  function deleteLesson(courseId, lessonId, courseName, L) {
+    if (!confirm(L.confirmDelete)) return;
+    api('DELETE','/courses/'+courseId+'/lessons/'+lessonId).then(function(resp){
+      if (resp.deleted) { toast('Lesson deleted.'); showLessonsPanel(courseId,courseName,L); }
+      else toast(resp.error||'Delete failed',true);
+    }).catch(function(){ toast('Delete failed',true); });
   }
 
 })();

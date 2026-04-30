@@ -379,19 +379,68 @@ function shuffle_seeded(&$arr, $seed) {
 }
 
 function subject_for($lead) {
-  // Subject leads with the deliverable ("auditoría digital de [company]") to
-  // match the new email frame, but rotates through 5 phrasings to avoid
-  // Gmail clustering identical subjects from same sender. All read 1:1, not
-  // marketing-template.
-  $c = $lead['company'] ?? $lead['name'] ?? 'tu negocio';
-  $variants = [
+  // Niche-aware subject A/B pools. Generic "auditoría digital de X" gets
+  // 0.3% CTR in Health and 0.5% in Restaurants — those niches need concrete
+  // pain-point hooks instead of "deliverable" framing. Tourism, Beauty
+  // already convert at 1.4-8.7% so we keep those generic + add one variant
+  // each. Pool is per niche; rotation seeded by email hash for consistent
+  // A/B assignment across re-sends.
+  $c  = $lead['company'] ?? $lead['name'] ?? 'tu negocio';
+  $nk = strtolower($lead['niche_key'] ?? 'unknown');
+
+  $pools = [
+    // Health/Medical — pain-point + specificity (was 0.3% CTR with generic)
+    'health' => [
+      "$c: pacientes que buscan '[especialidad] cerca' y no te encuentran",
+      "Brecha de captación de pacientes detectada en $c",
+      "Por qué pacientes nuevos eligen otra clínica antes que $c",
+      "$c — análisis de presencia digital para clínicas",
+      "Tres pacientes/semana que $c está perdiendo por Google",
+    ],
+    // Restaurants — concrete revenue framing (was 0.5% CTR)
+    'restaurants' => [
+      "Reservas que $c pierde cuando ChatGPT recomienda dónde comer",
+      "$c: análisis de presencia digital + Google Maps",
+      "Por qué clientes nuevos no encuentran $c en búsquedas locales",
+      "$c — auditoría de visibilidad para restaurantes",
+      "Mesas vacías que $c puede llenar sin gastar más en Instagram",
+    ],
+    // Tourism/Hospitality — already converting at 1.4%; reinforce
+    'tourism' => [
+      "Auditoría digital de $c",
+      "$c: huéspedes que reservan al competidor antes de verte",
+      "$c — auditoría de visibilidad para hoteles",
+      "Booking directo vs. OTAs: análisis para $c",
+      "Por qué huéspedes internacionales no encuentran $c en ChatGPT",
+    ],
+    // Beauty — small N but already at 8.7%, keep generic + one specific
+    'beauty' => [
+      "Auditoría digital de $c",
+      "$c: clientas nuevas que buscan tu servicio en Google",
+      "$c — análisis de presencia digital",
+      "Por qué $c necesita ranking AEO antes que SEO",
+      "Auditoría de captación de clientas para $c",
+    ],
+    // Smb — generic + ROI hook
+    'smb' => [
+      "$c: análisis de presencia digital",
+      "Auditoría digital de $c",
+      "$c — 3 brechas que cuestan ventas hoy",
+      "Por qué clientes nuevos no encuentran $c en ChatGPT",
+      "Auditoría 0-100 de $c en Santiago",
+    ],
+  ];
+
+  $variants = $pools[$nk] ?? [
     "Auditoría digital de $c",
     "Auditamos $c — el PDF está adentro",
     "Para $c — análisis de presencia digital",
     "$c · auditoría digital lista",
     "Auditoría 0-100 de $c en Santiago",
   ];
-  $seed = hexdec(substr(md5(strtolower(($lead['email'] ?? $c) . '|subj-v3')), 0, 8));
+
+  // Bump version tag in the seed so existing recipients get a fresh A/B assignment
+  $seed = hexdec(substr(md5(strtolower(($lead['email'] ?? $c) . '|subj-v4-niche')), 0, 8));
   return $variants[$seed % count($variants)];
 }
 

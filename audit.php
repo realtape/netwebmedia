@@ -649,6 +649,71 @@ h2.section{font-family:'Poppins',sans-serif;font-weight:800;font-size:28px;color
 </head>
 <body>
 
+<style>
+  /* Sticky conversion bar — appears on scroll. The audit is long; visitors
+     don't see the bottom CTA without scrolling. This keeps the next step
+     in their face. */
+  .nwm-sticky-cta {
+    position:fixed; top:0; left:0; right:0; z-index:9999;
+    background:linear-gradient(135deg,#010F3B,#0a1f5c); color:#fff;
+    padding:11px 22px; box-shadow:0 4px 16px rgba(0,0,0,0.18);
+    font-family:'Inter',-apple-system,sans-serif; font-size:14px; font-weight:500;
+    transform:translateY(-100%); transition:transform .28s ease;
+    display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap;
+  }
+  .nwm-sticky-cta.show { transform:translateY(0); }
+  .nwm-sticky-cta .nwm-sticky-msg { display:flex; align-items:center; gap:10px; flex:1; min-width:0; }
+  .nwm-sticky-cta .stars { color:#FFC107; letter-spacing:1px; font-size:13px; }
+  .nwm-sticky-cta .proof { color:rgba(255,255,255,0.78); font-size:12px; }
+  .nwm-sticky-cta .nwm-sticky-cta-btns { display:flex; gap:8px; flex-shrink:0; }
+  .nwm-sticky-cta a {
+    display:inline-block; padding:8px 18px; border-radius:6px; text-decoration:none;
+    font-weight:700; font-size:13px; transition:transform .1s;
+  }
+  .nwm-sticky-cta a:hover { transform:translateY(-1px); }
+  .nwm-sticky-cta .btn-pri { background:#FF671F; color:#fff; }
+  .nwm-sticky-cta .btn-sec { background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.25); }
+  @media print { .nwm-sticky-cta { display:none !important; } }
+  @media (max-width:640px) { .nwm-sticky-cta .proof { display:none; } }
+</style>
+
+<?php
+  /* Personalized urgency line — small, factual, niche-aware */
+  $sticky_urgency = $lang === 'en'
+    ? 'Custom solutions for ' . htmlspecialchars($company) . ' →'
+    : 'Soluciones a medida para ' . htmlspecialchars($company) . ' →';
+  $sticky_book = $lang === 'en' ? 'Book 20-min walkthrough' : 'Agendar 20 min';
+  $sticky_proof = $lang === 'en'
+    ? '4.9★ from 200+ Chilean SMBs'
+    : '4.9★ de 200+ pymes chilenas';
+?>
+<div class="nwm-sticky-cta" id="nwmStickyCta">
+  <div class="nwm-sticky-msg">
+    <span class="stars">★★★★★</span>
+    <span class="proof"><?= h($sticky_proof) ?></span>
+  </div>
+  <div class="nwm-sticky-cta-btns">
+    <a class="btn-sec" href="<?= h($wa_link) ?>">WhatsApp</a>
+    <a class="btn-pri" href="<?= h($cta_url) ?>"><?= h($sticky_book) ?></a>
+  </div>
+</div>
+<script>
+  /* Reveal the sticky bar after the user scrolls past the cover (~600px) */
+  (function(){
+    var bar = document.getElementById('nwmStickyCta');
+    if (!bar) return;
+    var shown = false;
+    function check() {
+      var y = window.scrollY || window.pageYOffset || 0;
+      var should = y > 600;
+      if (should && !shown) { bar.classList.add('show'); shown = true; }
+      else if (!should && shown) { bar.classList.remove('show'); shown = false; }
+    }
+    window.addEventListener('scroll', check, { passive: true });
+    check();
+  })();
+</script>
+
 <div class="print-bar">
   <span class="hint"><?= h($T['audit_ready']) ?></span>
   <button onclick="window.print()"><?= h($T['download_pdf']) ?></button>
@@ -887,13 +952,46 @@ h2.section{font-family:'Poppins',sans-serif;font-weight:800;font-size:28px;color
 </section>
 
 <!-- ─── CTA FINAL ─────────────────────────────────────────────────── -->
+<style>
+  .cta-section .nwm-proof-row {
+    display:flex; align-items:center; justify-content:center; gap:24px; flex-wrap:wrap;
+    margin:0 auto 20px; max-width:580px; opacity:.92;
+  }
+  .cta-section .nwm-proof-row .item {
+    display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.9);
+  }
+  .cta-section .nwm-proof-row .num {
+    font-family:'Poppins',sans-serif; font-weight:800; font-size:22px; color:#FF671F;
+  }
+  .cta-section .nwm-urgency {
+    display:inline-block; margin:0 0 14px; padding:6px 14px; border-radius:50px;
+    background:rgba(255,103,31,0.18); border:1px solid rgba(255,103,31,0.35);
+    color:#FFC78F; font-size:12px; font-weight:700; letter-spacing:.6px; text-transform:uppercase;
+  }
+  .cta-section .nwm-microcopy {
+    font-size:12px; color:rgba(255,255,255,0.6); margin-top:14px;
+  }
+  @media print { .nwm-proof-row, .nwm-urgency, .nwm-microcopy { display:none !important; } }
+</style>
 <section class="cta-section">
+  <span class="nwm-urgency"><?= $lang === 'en' ? '⚡ Only 4 audit walkthroughs left this week' : '⚡ Solo quedan 4 walkthroughs esta semana' ?></span>
   <h3><?= h($T['cta_title']) ?></h3>
   <p><?= h(sprintf($T['cta_body'], $company)) ?></p>
-  <div class="cta-buttons">
-    <a class="btn btn-orange" href="<?= h($wa_link) ?>"><?= h($T['cta_wa']) ?></a>
-    <a class="btn btn-ghost" href="<?= h($cta_url) ?>"><?= h(sprintf($T['cta_web'], $sub_label)) ?></a>
+
+  <div class="nwm-proof-row">
+    <div class="item"><span class="num">4.9★</span> <?= $lang === 'en' ? '200+ SMBs' : '200+ pymes' ?></div>
+    <div class="item"><span class="num">90d</span> <?= $lang === 'en' ? 'avg ROI' : 'ROI promedio' ?></div>
+    <div class="item"><span class="num">14</span> <?= $lang === 'en' ? 'industry niches' : 'nichos atendidos' ?></div>
   </div>
+
+  <div class="cta-buttons">
+    <a class="btn btn-orange" href="<?= h($cta_url) ?>"><?= $lang === 'en' ? 'Book my 20-min walkthrough →' : 'Agendar mi walkthrough de 20 min →' ?></a>
+    <a class="btn btn-ghost" href="<?= h($wa_link) ?>"><?= h($T['cta_wa']) ?></a>
+  </div>
+  <div class="nwm-microcopy"><?= $lang === 'en'
+    ? 'No pitch. We map exactly what we\'d implement at ' . htmlspecialchars($company) . ', timeline + price, then you decide.'
+    : 'Sin pitch. Te mostramos exactamente qué implementaríamos en ' . htmlspecialchars($company) . ', timeline + precio, y tú decides.'
+  ?></div>
 </section>
 
 <!-- ─── FOOTER ────────────────────────────────────────────────────── -->

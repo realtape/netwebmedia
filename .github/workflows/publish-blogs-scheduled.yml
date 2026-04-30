@@ -52,7 +52,7 @@ jobs:
           git config user.name "NWM Blog Bot"
           git config user.email "bot@netwebmedia.com"
           git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
-          git add blog/ blog.html _deploy/posts-queue/_published/
+          git add blog/ blog.html _deploy/posts-queue/
           git commit -m "publish: auto-publish $(date -u '+%Y-%m-%d %H:%M') UTC"
           git push
 

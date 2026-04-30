@@ -1,7 +1,78 @@
 <?php
 /* Courses API — course list, lessons, enrollments, progress + admin CRUD */
 
+function _courses_ensure_schema() {
+  static $done = false;
+  if ($done) return;
+  $done = true;
+  $pdo = db();
+  $pdo->exec("CREATE TABLE IF NOT EXISTS `courses` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `organization_id` BIGINT UNSIGNED NOT NULL DEFAULT 1,
+    `slug` VARCHAR(100) NOT NULL UNIQUE,
+    `name` VARCHAR(255) NOT NULL,
+    `tagline` TEXT DEFAULT NULL,
+    `description` TEXT DEFAULT NULL,
+    `icon` VARCHAR(50) DEFAULT NULL,
+    `color` VARCHAR(7) DEFAULT '#6c5ce7',
+    `level` ENUM('Beginner','Intermediate','Advanced','All levels') DEFAULT 'Intermediate',
+    `status` ENUM('draft','published','archived') DEFAULT 'draft',
+    `tutorial_url` VARCHAR(500) DEFAULT NULL,
+    `order_index` INT UNSIGNED DEFAULT 0,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX `idx_status` (`status`),
+    INDEX `idx_slug` (`slug`),
+    INDEX `idx_org` (`organization_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  $pdo->exec("CREATE TABLE IF NOT EXISTS `lessons` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `course_id` INT UNSIGNED NOT NULL,
+    `order_index` INT UNSIGNED DEFAULT 0,
+    `title` VARCHAR(255) NOT NULL,
+    `description` TEXT DEFAULT NULL,
+    `content` LONGTEXT DEFAULT NULL,
+    `duration_minutes` INT UNSIGNED DEFAULT 0,
+    `video_url` VARCHAR(500) DEFAULT NULL,
+    `type` ENUM('video','text','quiz','assignment') DEFAULT 'video',
+    `status` ENUM('draft','published','archived') DEFAULT 'draft',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`course_id`) REFERENCES `courses`(`id`) ON DELETE CASCADE,
+    INDEX `idx_course` (`course_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  $pdo->exec("CREATE TABLE IF NOT EXISTS `course_enrollments` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `organization_id` BIGINT UNSIGNED NOT NULL DEFAULT 1,
+    `course_id` INT UNSIGNED NOT NULL,
+    `user_id` INT UNSIGNED NOT NULL,
+    `enrolled_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `completed_at` TIMESTAMP DEFAULT NULL,
+    `status` ENUM('active','completed','dropped') DEFAULT 'active',
+    `progress_percent` INT UNSIGNED DEFAULT 0,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`course_id`) REFERENCES `courses`(`id`) ON DELETE CASCADE,
+    UNIQUE KEY `unique_enrollment` (`course_id`, `user_id`),
+    INDEX `idx_user` (`user_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  $pdo->exec("CREATE TABLE IF NOT EXISTS `lesson_completions` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `lesson_id` INT UNSIGNED NOT NULL,
+    `enrollment_id` INT UNSIGNED NOT NULL,
+    `completed_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `time_spent_minutes` INT UNSIGNED DEFAULT 0,
+    `score` INT UNSIGNED DEFAULT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`lesson_id`) REFERENCES `lessons`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`enrollment_id`) REFERENCES `course_enrollments`(`id`) ON DELETE CASCADE,
+    UNIQUE KEY `unique_completion` (`lesson_id`, `enrollment_id`),
+    INDEX `idx_enrollment` (`enrollment_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+}
+
 function route_courses($parts, $method) {
+  _courses_ensure_schema();
   $u = requirePaidAccess();
   $role    = $u['role']  ?? '';
   $type    = $u['type']  ?? '';

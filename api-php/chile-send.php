@@ -51,7 +51,7 @@ $mode       = $_GET['mode']    ?? 'status';
 // Hard cap was 15 when sending via cPanel SMTP; mailer.php now uses the
 // Resend HTTPS API where each call is ~150ms, so 50 is comfortably under
 // PHP max_execution_time and gives the cron headroom for 1,500/day pacing.
-$max        = min(50, max(1, (int)($_GET['n'] ?? 5)));
+$max        = min(500, max(1, (int)($_GET['n'] ?? 500)));
 $niche_f    = $_GET['niche']   ?? null;
 $confirmed  = ($_GET['confirm'] ?? '') === 'yes';
 $dryrun     = !empty($_GET['dryrun']);

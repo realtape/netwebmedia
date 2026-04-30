@@ -250,30 +250,47 @@ function load_pending_usa_audience(array $free_domains, int $cap_total, ?string 
   $st = $pdo->prepare($sql);
   $st->execute($free_domains);
 
-  $rows = [];
+  // Step 1 — load every identifiable USA contact (no skip filters yet).
+  // We need the unfiltered universe so the campaign size stays locked: the
+  // "best N" set is computed from the full universe, not from what's left
+  // after already-sent are removed (which would let new lower-priority
+  // contacts drift up into the cap as we drain it).
+  $universe = [];
   $seen = [];
   while ($r = $st->fetch()) {
     $email_lc = strtolower(trim($r['email']));
-    if (isset($seen[$email_lc]))      continue; // de-dup CSV-internal duplicates
-    if (isset($already[$email_lc]))   continue; // already sent in past run
-    if (isset($unsub[$email_lc]))     continue; // opted out
+    if (isset($seen[$email_lc])) continue; // de-dup any CSV-style duplicates
     $seen[$email_lc] = true;
-
     $r['_email_lc'] = $email_lc;
     $r['_priority'] = usa_niche_priority($r['niche_key'] ?? '');
     if ($niche_filter && stripos($r['niche_key'] ?? '', $niche_filter) === false) continue;
-    $rows[] = $r;
+    $universe[] = $r;
   }
 
-  // Order by niche priority, then id ASC for determinism.
-  usort($rows, function ($a, $b) {
+  // Step 2 — sort by niche priority, then id ASC for determinism.
+  usort($universe, function ($a, $b) {
     if ($a['_priority'] !== $b['_priority']) return $a['_priority'] <=> $b['_priority'];
     return ((int)$a['id']) <=> ((int)$b['id']);
   });
 
-  // Cap to best N.
-  if (count($rows) > $cap_total) $rows = array_slice($rows, 0, $cap_total);
-  return $rows;
+  // Step 3 — lock the campaign to the first $cap_total by priority. This
+  // is the FIXED list. Once every member of it has hit sent/failed/unsub,
+  // pending = 0 and the campaign is genuinely done — it will not bleed
+  // into lower-priority leads.
+  if (count($universe) > $cap_total) $universe = array_slice($universe, 0, $cap_total);
+
+  // Step 4 — apply skip filters (already sent in prior run / opted out).
+  // Anything in $already counts as done (sent_log + failed_log unioned by
+  // the caller); anything in $unsub is permanently excluded. What remains
+  // is the genuine pending list.
+  $pending = [];
+  foreach ($universe as $r) {
+    $email_lc = $r['_email_lc'];
+    if (isset($already[$email_lc])) continue;
+    if (isset($unsub[$email_lc]))   continue;
+    $pending[] = $r;
+  }
+  return $pending;
 }
 
 // ----- load sent + unsubscribed + recently-failed logs -----

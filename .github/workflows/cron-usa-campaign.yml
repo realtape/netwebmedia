@@ -12,9 +12,9 @@ on:
         required: false
         default: ''
       batch:
-        description: 'Max sends per call (default 50, hard-capped at 50)'
+        description: 'Max sends per call (default 500, hard-capped at 500)'
         required: false
-        default: '50'
+        default: '500'
       mode:
         description: 'Send mode (batch | status | test)'
         required: false
@@ -32,7 +32,7 @@ jobs:
       - name: Send next batch
         run: |
           NICHE="${{ github.event.inputs.niche }}"
-          BATCH="${{ github.event.inputs.batch || '50' }}"
+          BATCH="${{ github.event.inputs.batch || '500' }}"
           MODE="${{ github.event.inputs.mode || 'batch' }}"
           # Token is embedded in api-php/usa-send.php; using GH secret if set,
           # otherwise fall back to the embedded value.

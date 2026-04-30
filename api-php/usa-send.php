@@ -75,7 +75,7 @@ if (!hash_equals($expected, (string)($_GET['token'] ?? ''))) {
 }
 
 $mode       = $_GET['mode']    ?? 'status';
-$max        = min(50, max(1, (int)($_GET['n'] ?? 5)));
+$max        = min(500, max(1, (int)($_GET['n'] ?? 500)));
 $niche_f    = $_GET['niche']   ?? null;
 $confirmed  = ($_GET['confirm'] ?? '') === 'yes';
 $dryrun     = !empty($_GET['dryrun']);
@@ -472,14 +472,18 @@ if ($mode === 'batch' || $mode === 'all') {
       'niche'   => $lead['niche']   ?? null,
       'ok'      => (bool)$ok,
     ];
-    if ($results['sent'] < $cap) usleep(1_000_000); // 1s — same throttle as chile-send.php
+    if ($results['sent'] < $cap) usleep(150_000); // 150ms — enough for Resend rate-limit, ~75s per 500-batch
   }
+  $new_total_sent = count($already) + $results['sent'];
   ju_exit([
-    'mode'    => $mode,
-    'dryrun'  => $dryrun,
-    'cap'     => $cap,
-    'results' => $results,
-    'remaining_pending' => count($pending) - $results['sent'],
+    'mode'          => $mode,
+    'dryrun'        => $dryrun,
+    'cap'           => $cap,
+    'results'       => $results,
+    'total_sent'    => $new_total_sent,
+    'total_target'  => $cap_total,
+    'pct_complete'  => round($new_total_sent / $cap_total * 100, 1),
+    'remaining'     => $cap_total - $new_total_sent,
   ]);
 }
 

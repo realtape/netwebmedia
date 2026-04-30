@@ -198,8 +198,12 @@ foreach (array_reverse($source) as $ev) {
 
 // ── 5. Top-line totals ─────────────────────────────────────────────
 $sent          = count($sent_set);
-$pending       = $total - $sent;
 $failed        = count($failed_set);
+// chile-send.php skips sent+failed addresses, so pending = total - both.
+// Some addresses can appear in both sets (e.g. retried after failure then
+// succeeded), so use the union-size to avoid double-subtracting.
+$done_set      = $sent_set + $failed_set; // union (PHP array union by key)
+$pending       = max(0, $total - count($done_set));
 $unsub         = count($unsub_set);
 $clicks_total  = count($click_events);
 $clicks_unique = count($click_set);

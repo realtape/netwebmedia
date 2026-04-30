@@ -9,6 +9,10 @@
   var isAdmin      = false;
   var activeTab    = 'student';
   var managingCourseId = null;
+  var _isEs = false;
+
+  function cname(c)  { return (_isEs && c.name_es)    ? c.name_es    : (c.name    || ''); }
+  function ctag(c)   { return (_isEs && c.tagline_es)  ? c.tagline_es : (c.tagline || ''); }
 
   function getToken() {
     try { return localStorage.getItem('nwm_token') || ''; } catch(_) { return ''; }
@@ -36,6 +40,7 @@
 
   document.addEventListener('DOMContentLoaded', function() {
     var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    _isEs = isEs;
     var L = buildL(isEs);
     if (window.CRM_APP && CRM_APP.buildHeader) CRM_APP.buildHeader(CRM_APP.t ? CRM_APP.t('nav.courses') : 'Courses', '');
     try {
@@ -138,18 +143,29 @@
     var grid = document.getElementById('courseGrid');
     if (!grid) return;
     var q = (filter||'').trim().toLowerCase();
-    var list = q ? allCourses.filter(function(c){ return (c.name||'').toLowerCase().indexOf(q)!==-1||(c.tagline||'').toLowerCase().indexOf(q)!==-1; }) : allCourses;
+    var list = q ? allCourses.filter(function(c){
+      var n = (cname(c) + ' ' + (c.name||'') + ' ' + (c.name_es||'')).toLowerCase();
+      var t = (ctag(c)  + ' ' + (c.tagline||'') + ' ' + (c.tagline_es||'')).toLowerCase();
+      return n.indexOf(q) !== -1 || t.indexOf(q) !== -1;
+    }) : allCourses;
     if (!list.length) { grid.innerHTML = '<div class="empty-state">' + L.noCoursesMatch + ' "' + escHtml(q) + '"</div>'; return; }
     var html = '';
     list.forEach(function(c) {
       var en = userProgress[c.id], color = c.color||'#6c5ce7', pct = en?(en.progress_percent||0):0;
+      var nm = cname(c), tg = ctag(c);
       html += '<article class="course-card">';
-      html += '<div class="course-card-thumb" style="background:linear-gradient(135deg,' + color + '22,' + color + '55);border-bottom:1px solid ' + color + '33">';
-      html += '<div class="course-thumb-icon" style="color:' + color + '">' + escHtml(c.icon||'') + '</div>';
-      html += '<div class="course-thumb-title" style="color:' + color + '">' + escHtml(c.name) + '</div></div>';
+      if (c.cover_image) {
+        html += '<div class="course-card-thumb course-card-thumb--img" style="border-bottom:1px solid ' + color + '33">';
+        html += '<img src="' + escHtml(c.cover_image) + '" alt="' + escHtml(nm) + '" class="course-thumb-img" />';
+        html += '<div class="course-thumb-overlay"><span class="course-thumb-icon-sm">' + escHtml(c.icon||'') + '</span></div></div>';
+      } else {
+        html += '<div class="course-card-thumb" style="background:linear-gradient(135deg,' + color + '22,' + color + '55);border-bottom:1px solid ' + color + '33">';
+        html += '<div class="course-thumb-icon" style="color:' + color + '">' + escHtml(c.icon||'') + '</div>';
+        html += '<div class="course-thumb-title" style="color:' + color + '">' + escHtml(nm) + '</div></div>';
+      }
       html += '<div class="course-card-body">';
-      html += '<div class="course-card-title">' + escHtml(c.name) + '</div>';
-      html += '<p class="course-card-tag">' + escHtml(c.tagline||'') + '</p>';
+      html += '<div class="course-card-title">' + escHtml(nm) + '</div>';
+      html += '<p class="course-card-tag">' + escHtml(tg) + '</p>';
       html += '<div class="course-meta"><span class="course-meta-item"><b>' + (c.lesson_count||0) + '</b> ' + L.lessons + '</span><span class="course-meta-item"> ' + escHtml(c.level||'All levels') + '</span></div>';
       html += '<div class="course-enroll"><span class="course-enroll-count">' + (c.active_students||0).toLocaleString() + ' ' + L.students.toLowerCase() + '</span>';
       if (en) html += '<span class="course-enroll-pct">' + Math.round(pct) + '% ' + L.progress.toLowerCase() + '</span>';
@@ -184,12 +200,24 @@
   function showCourseDetail(courseId, L) {
     api('GET','/courses/'+courseId).then(function(data){
       var lessons=data.lessons||[], color=(data.course&&data.course.color)||'#6c5ce7', en=data.enrollment||userProgress[courseId];
+      var dname = data.course ? cname(data.course) : '';
+      var dtag  = data.course ? ctag(data.course)  : '';
       var html='<div class="course-detail-modal" style="max-width:800px;margin:40px auto">';
-      html+='<div class="modal-header" style="background:linear-gradient(135deg,'+color+'22,'+color+'55);border-bottom:1px solid '+color+'33">';
-      html+='<div><div style="font-size:40px;line-height:1;margin-bottom:12px">'+escHtml((data.course&&data.course.icon)||'')+'</div>';
-      html+='<h2 style="margin:0;color:'+color+'">'+escHtml((data.course&&data.course.name)||'')+'</h2>';
-      html+='<p style="margin:8px 0 0;color:var(--text-dim,#8b8fa3);font-size:14px">'+escHtml((data.course&&data.course.tagline)||'')+'</p></div>';
-      html+='<button class="modal-close">&times;</button></div>';
+      if (data.course && data.course.cover_image) {
+        html+='<div class="modal-header" style="position:relative;padding:0;overflow:hidden;border-bottom:1px solid '+color+'33">';
+        html+='<img src="'+escHtml(data.course.cover_image)+'" style="width:100%;height:220px;object-fit:cover;display:block" />';
+        html+='<div style="position:absolute;bottom:0;left:0;right:0;padding:20px 24px;background:linear-gradient(transparent,rgba(0,0,0,0.82))">';
+        html+='<div style="font-size:32px;line-height:1;margin-bottom:8px">'+escHtml((data.course.icon)||'')+'</div>';
+        html+='<h2 style="margin:0;color:#fff">'+escHtml(dname)+'</h2>';
+        html+='<p style="margin:4px 0 0;color:rgba(255,255,255,0.75);font-size:14px">'+escHtml(dtag)+'</p></div>';
+        html+='<button class="modal-close">&times;</button></div>';
+      } else {
+        html+='<div class="modal-header" style="background:linear-gradient(135deg,'+color+'22,'+color+'55);border-bottom:1px solid '+color+'33">';
+        html+='<div><div style="font-size:40px;line-height:1;margin-bottom:12px">'+escHtml((data.course&&data.course.icon)||'')+'</div>';
+        html+='<h2 style="margin:0;color:'+color+'">'+escHtml(dname)+'</h2>';
+        html+='<p style="margin:8px 0 0;color:var(--text-dim,#8b8fa3);font-size:14px">'+escHtml(dtag)+'</p></div>';
+        html+='<button class="modal-close">&times;</button></div>';
+      }
       html+='<div style="padding:28px">';
       if (en) { var pct=Math.round(en.progress_percent||0); html+='<div class="progress-bar" style="height:8px;margin-bottom:12px"><div class="progress-fill" style="width:'+pct+'%;background:'+color+';height:100%"></div></div><p style="color:var(--text-dim,#8b8fa3);margin:0 0 20px;font-size:14px">'+pct+'% '+L.complete.toLowerCase()+'</p>'; }
       html+='<h3 style="margin:0 0 16px;color:var(--text,#e4e7ec)">'+L.lessons+'</h3>';

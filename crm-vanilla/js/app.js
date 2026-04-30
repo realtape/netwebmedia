@@ -935,13 +935,19 @@
   }
   function getDemoUser() { var u = getLoggedInUser(); return (u && u.type === 'demo') ? u : null; }
   function enforceAuthGate() {
-    if (window.NWM_NO_GATE) return;
+    // Reveal helper: clears the visibility:hidden set in app.css that prevents
+    // dashboard chrome from flashing before the auth check runs.
+    function reveal() { document.documentElement.style.visibility = ''; }
+
+    if (window.NWM_NO_GATE) { reveal(); return; }
     // Never redirect FROM the login page TO the login page — that's the
     // recursive ?next=%2Flogin.html%3Fnext%3D... bug. The login page itself
     // should be reachable when unauthenticated.
     var path = (location.pathname || '').toLowerCase();
-    if (path === '/login.html' || path.endsWith('/login.html') || path === '/login') return;
-    if (getLoggedInUser()) return;
+    if (path === '/login.html' || path.endsWith('/login.html') || path === '/login') { reveal(); return; }
+    if (getLoggedInUser()) { reveal(); return; }
+    // Unauthenticated: navigate to login. Page stays hidden — user sees a
+    // blank flash then login instead of seeing dashboard chrome for ~80 ms.
     var next = encodeURIComponent(location.pathname + location.search);
     location.replace('/login.html?next=' + next);
   }

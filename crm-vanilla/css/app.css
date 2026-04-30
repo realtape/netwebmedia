@@ -2,6 +2,13 @@
    NetWeb CRM - Complete Stylesheet
    ═══════════════════════════════════════════ */
 
+/* ── Auth-flash prevention ──────────────────────────────────────────────
+   Hide the page immediately so unauthenticated users never see dashboard
+   chrome. enforceAuthGate() in app.js sets visibility:'' once auth passes
+   or reveals login.html. A redirect is instant anyway, but this closes
+   the JS-parse window (~20–80 ms) where the HTML shell was briefly visible. */
+html { visibility: hidden; }
+
 /* ── Reset & Variables ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 

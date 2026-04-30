@@ -25,6 +25,16 @@ function _courses_ensure_schema() {
     INDEX `idx_slug` (`slug`),
     INDEX `idx_org` (`organization_id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  // Bilingual + cover image columns (idempotent — 1060 = dup column, swallowed)
+  foreach ([
+    "ALTER TABLE `courses` ADD COLUMN `name_es` VARCHAR(255) DEFAULT NULL AFTER `name`",
+    "ALTER TABLE `courses` ADD COLUMN `tagline_es` TEXT DEFAULT NULL AFTER `tagline`",
+    "ALTER TABLE `courses` ADD COLUMN `cover_image` VARCHAR(500) DEFAULT NULL AFTER `tutorial_url`",
+    "ALTER TABLE `lessons` ADD COLUMN `title_es` VARCHAR(255) DEFAULT NULL AFTER `title`",
+    "ALTER TABLE `lessons` ADD COLUMN `description_es` TEXT DEFAULT NULL AFTER `description`",
+  ] as $alt) {
+    try { $pdo->exec($alt); } catch (PDOException $e) { /* dup col 1060 → ignore */ }
+  }
   $pdo->exec("CREATE TABLE IF NOT EXISTS `lessons` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `course_id` INT UNSIGNED NOT NULL,
@@ -120,7 +130,8 @@ function route_courses($parts, $method) {
 
     $total = (int) qOne("SELECT COUNT(*) AS c FROM courses $whereSql", $params)['c'];
     $rows = qAll(
-      "SELECT id, slug, name, tagline, description, icon, color, level, status, order_index,
+      "SELECT id, slug, name, name_es, tagline, tagline_es, description, icon, color, level, status,
+              tutorial_url, cover_image, order_index,
               (SELECT COUNT(*) FROM course_enrollments WHERE course_id = courses.id AND status = 'active') as active_students,
               (SELECT COUNT(*) FROM lessons WHERE course_id = courses.id) as lesson_count,
               (SELECT COUNT(*) FROM lessons WHERE course_id = courses.id AND status = 'published') as published_lessons,
@@ -170,10 +181,14 @@ function route_courses($parts, $method) {
     // Admins may specify a target org; non-admin creates within their own org.
     $courseOrgId = $isAdmin ? (int)($b['organization_id'] ?? $orgId) : $orgId;
 
+    $name_es    = trim($b['name_es'] ?? '');
+    $tagline_es = trim($b['tagline_es'] ?? '');
+    $cover_image = trim($b['cover_image'] ?? '');
+
     qExec(
-      "INSERT INTO courses (organization_id, slug, name, tagline, description, icon, color, level, status, tutorial_url, order_index)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [$courseOrgId, $slug, $name, $tagline, $description, $icon, $color, $level, $status, $tutorial_url, $order_index]
+      "INSERT INTO courses (organization_id, slug, name, name_es, tagline, tagline_es, description, icon, color, level, status, tutorial_url, cover_image, order_index)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [$courseOrgId, $slug, $name, $name_es ?: null, $tagline, $tagline_es ?: null, $description, $icon, $color, $level, $status, $tutorial_url, $cover_image ?: null, $order_index]
     );
     $id = lastId();
     json_out(['course' => qOne("SELECT * FROM courses WHERE id = ?", [$id])], 201);
@@ -316,7 +331,7 @@ function route_courses($parts, $method) {
       $b = body();
 
       $fields = []; $params = [];
-      $allowed          = ['name','tagline','description','icon','color','level','status','tutorial_url','order_index'];
+      $allowed          = ['name','name_es','tagline','tagline_es','description','icon','color','level','status','tutorial_url','cover_image','order_index'];
       $allowed_levels   = ['Beginner','Intermediate','Advanced','All levels'];
       $allowed_statuses = ['draft','published','archived'];
 

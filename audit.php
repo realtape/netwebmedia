@@ -909,5 +909,25 @@ h2.section{font-family:'Poppins',sans-serif;font-weight:800;font-size:28px;color
 <script>
   if (location.hash === '#print') setTimeout(function(){ window.print(); }, 500);
 </script>
+<script>
+  /* Identify the audit visitor by email so the tracking pixel attributes
+     this pageview to the right contact (the URL already carries it). */
+  (function(){
+    try {
+      var u = new URL(window.location.href);
+      var e = (u.searchParams.get('e') || '').toLowerCase();
+      if (!e) {
+        var raw = u.searchParams.get('lead') || '';
+        if (raw) {
+          try { e = (atob(raw.replace(/-/g,'+').replace(/_/g,'/')) || '').toLowerCase(); } catch (er) {}
+        }
+      }
+      if (e && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) {
+        try { localStorage.setItem('nwm_track_email', e); } catch (er) {}
+      }
+    } catch (er) {}
+  })();
+</script>
+<script src="/assets/nwm-track.js" defer></script>
 </body>
 </html>

@@ -57,6 +57,7 @@ function db_crm() {
   return $pdo;
 }
 
+set_time_limit(600); // allow up to 10 min for large batches
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 
@@ -75,7 +76,7 @@ if (!hash_equals($expected, (string)($_GET['token'] ?? ''))) {
 }
 
 $mode       = $_GET['mode']    ?? 'status';
-$max        = min(3000, max(1, (int)($_GET['n'] ?? 3000)));
+$max        = min(3000, max(1, (int)($_GET['n'] ?? 1500)));
 $niche_f    = $_GET['niche']   ?? null;
 $confirmed  = ($_GET['confirm'] ?? '') === 'yes';
 $dryrun     = !empty($_GET['dryrun']);
@@ -450,9 +451,9 @@ if ($mode === 'batch' || $mode === 'all') {
     ju_exit(['error' => 'mode=all requires &confirm=yes'], 400);
   }
   $cap = ($mode === 'all') ? count($pending) : $max;
-  $results = ['sent' => 0, 'failed' => 0, 'emails' => []];
+  $results = ['sent' => 0, 'failed' => 0, 'sample' => []]; // no full list — avoids OOM on large batches
   foreach ($pending as $i => $lead) {
-    if ($results['sent'] >= $cap) break;
+    if ($results['sent'] + $results['failed'] >= $cap) break;
     $email = $lead['email'];
     $html  = render_email_html_usa($lead);
     $subj  = subject_for_usa($lead);
@@ -466,13 +467,11 @@ if ($mode === 'batch' || $mode === 'all') {
       $results['failed']++;
       file_put_contents($FAIL, strtolower($email) . "\t" . date('c') . "\n", FILE_APPEND | LOCK_EX);
     }
-    $results['emails'][] = [
-      'to'      => $email,
-      'company' => $lead['company'] ?? null,
-      'niche'   => $lead['niche']   ?? null,
-      'ok'      => (bool)$ok,
-    ];
-    if ($results['sent'] < $cap) usleep(10_000); // 10ms — Resend API latency provides natural throttle; ~30s per 3000-batch
+    // Keep only first 5 as a spot-check sample
+    if (count($results['sample']) < 5) {
+      $results['sample'][] = ['to' => $email, 'company' => $lead['company'] ?? null, 'niche' => $lead['niche'] ?? null, 'ok' => (bool)$ok];
+    }
+    if (($results['sent'] + $results['failed']) < $cap) usleep(10_000); // 10ms throttle
   }
   $new_total_sent = count($already) + $results['sent'];
   ju_exit([

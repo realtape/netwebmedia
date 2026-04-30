@@ -76,7 +76,7 @@ NetWebMedia
 
 Hola,
 
-Te escribí dos veces este mes sobre la auditoría digital de {{company}}. Entiendo que no es el momento y está todo bien.
+Te escribí dos veces este mes sobre la Auditoría Digital de {{company}}. Entiendo que no es el momento y está todo bien.
 
 Voy a cerrar tu archivo del lado nuestro. Si alguna vez te sirve:
 

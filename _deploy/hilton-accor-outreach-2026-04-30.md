@@ -20,7 +20,7 @@ Hola,
 Soy Carlos Martinez, fundador de NetWebMedia (agencia de marketing digital con
 IA, basada en Santiago).
 
-Les escribo porque la auditoría digital que envié a Hampton by Hilton Antofagasta
+Les escribo porque la Auditoría Digital que envié a Hampton by Hilton Antofagasta
 fue revisada cuatro veces por distintas casillas (admin, info, contacto, hola).
 Cuando un mensaje circula así internamente, normalmente significa una de dos:
 o algo del contenido resonó, o están evaluando opciones de marketing en este
@@ -61,13 +61,13 @@ coordinar 15 minutos esta semana? Saludos.
 ## 2. Novotel Puerto Montt — Accor corporate path
 
 **To:** mauren.avalos@accor.com
-**Subject (ES):** Mauren — auditoría digital de Novotel Puerto Montt, 3 hallazgos accionables
+**Subject (ES):** Mauren — Auditoría Digital de Novotel Puerto Montt, 3 hallazgos accionables
 **Subject (EN):** Mauren — Novotel Puerto Montt digital audit, 3 actionable findings
 
 ```
 Hola Mauren,
 
-Vi que abrió la auditoría digital que envié para Novotel Puerto Montt. Antes de
+Vi que abrió la Auditoría Digital que envié para Novotel Puerto Montt. Antes de
 asumir si fue casualidad o interés real, le comparto los 3 hallazgos que más
 me llamaron la atención:
 

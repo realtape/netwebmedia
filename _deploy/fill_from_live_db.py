@@ -27,7 +27,7 @@ TPL = """<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{name} — Digital & Social Media Audit | NetWebMedia</title>
-<meta name="description" content="Auditoria digital y social de {name} ({city}) — NetWebMedia.">
+<meta name="description" content="Auditoría Digital y social de {name} ({city}) — NetWebMedia.">
 <style>
 *{{margin:0;padding:0;box-sizing:border-box}}
 body{{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f6f7fb;color:#1a1a2e;line-height:1.55}}

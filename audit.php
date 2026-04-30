@@ -134,10 +134,10 @@ $toggle_url   = '?' . http_build_query($current_qs);
 // Translation table — all static UI strings
 $t = [
   'es' => [
-    'page_title'        => 'Auditoría digital — %s | NetWebMedia',
+    'page_title'        => 'Auditoría Digital — %s | NetWebMedia',
     'download_pdf'      => 'Descargar PDF',
     'audit_ready'       => 'Auditoría lista · descárgala como PDF',
-    'cover_tag'         => 'Auditoría digital · %s',
+    'cover_tag'         => 'Auditoría Digital · %s',
     'cover_subtitle'    => 'Análisis de presencia digital, brechas detectadas y proyección de captación de clientes a 90 días.',
     'prepared_for'      => 'Preparado para',
     'by_nwm'            => 'Por NetWebMedia',

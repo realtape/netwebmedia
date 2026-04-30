@@ -76,7 +76,7 @@ $FROM_NAME  = 'NetWebMedia';
 $FROM_EMAIL = 'newsletter@netwebmedia.com';
 $REPLY_TO   = 'hola@netwebmedia.com';
 $REPORT_URL = 'https://netwebmedia.com/santiago-digital-gaps.html';
-$WA_URL     = 'https://wa.me/14155238886?text=' . rawurlencode('Hola NetWebMedia, quiero mi auditoría digital gratis.');
+$WA_URL     = 'https://wa.me/14155238886?text=' . rawurlencode('Hola NetWebMedia, quiero mi Auditoría Digital gratis.');
 
 /**
  * Map each niche_key from the Santiago CSV to (a) the most relevant industry
@@ -341,7 +341,7 @@ function render_email_html($lead) {
 
         <p style="margin:0 0 18px 0;color:#374151;font-style:italic;">Lo que vimos: ' . $hook_line . '</p>
 
-        <p style="margin:0 0 18px 0;">Preparamos una <strong>auditoría digital gratuita de ' . $company . '</strong> — incluye:</p>
+        <p style="margin:0 0 18px 0;">Preparamos una <strong>Auditoría Digital gratuita de ' . $company . '</strong> — incluye:</p>
 
         <ul style="padding-left:20px;margin:0 0 22px 0;line-height:1.7;">
           <li><strong>Puntaje 0-100</strong> de presencia digital sobre 12 dimensiones (AEO, móvil, schema, captura de leads, reseñas, automatización).</li>
@@ -379,7 +379,7 @@ function shuffle_seeded(&$arr, $seed) {
 }
 
 function subject_for($lead) {
-  // Niche-aware subject A/B pools. Generic "auditoría digital de X" gets
+  // Niche-aware subject A/B pools. Generic "Auditoría Digital de X" gets
   // 0.3% CTR in Health and 0.5% in Restaurants — those niches need concrete
   // pain-point hooks instead of "deliverable" framing. Tourism, Beauty
   // already convert at 1.4-8.7% so we keep those generic + add one variant
@@ -407,7 +407,7 @@ function subject_for($lead) {
     ],
     // Tourism/Hospitality — already converting at 1.4%; reinforce
     'tourism' => [
-      "Auditoría digital de $c",
+      "Auditoría Digital de $c",
       "$c: huéspedes que reservan al competidor antes de verte",
       "$c — auditoría de visibilidad para hoteles",
       "Booking directo vs. OTAs: análisis para $c",
@@ -415,7 +415,7 @@ function subject_for($lead) {
     ],
     // Beauty — small N but already at 8.7%, keep generic + one specific
     'beauty' => [
-      "Auditoría digital de $c",
+      "Auditoría Digital de $c",
       "$c: clientas nuevas que buscan tu servicio en Google",
       "$c — análisis de presencia digital",
       "Por qué $c necesita ranking AEO antes que SEO",
@@ -424,7 +424,7 @@ function subject_for($lead) {
     // Smb — generic + ROI hook
     'smb' => [
       "$c: análisis de presencia digital",
-      "Auditoría digital de $c",
+      "Auditoría Digital de $c",
       "$c — 3 brechas que cuestan ventas hoy",
       "Por qué clientes nuevos no encuentran $c en ChatGPT",
       "Auditoría 0-100 de $c en Santiago",
@@ -432,10 +432,10 @@ function subject_for($lead) {
   ];
 
   $variants = $pools[$nk] ?? [
-    "Auditoría digital de $c",
+    "Auditoría Digital de $c",
     "Auditamos $c — el PDF está adentro",
     "Para $c — análisis de presencia digital",
-    "$c · auditoría digital lista",
+    "$c · Auditoría Digital lista",
     "Auditoría 0-100 de $c en Santiago",
   ];
 

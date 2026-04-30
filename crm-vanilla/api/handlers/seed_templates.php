@@ -29,14 +29,14 @@ function niche_email(string $niche, string $hook, string $pain, string $cta): ar
       "<p>Hola <strong>{{first_name}}</strong>,</p>" .
       "<p>{$hook}</p>" .
       "<p>Revisando <strong>{{company}}</strong> en <strong>{{city}}</strong> nos detuvimos en algo que vemos una y otra vez en {$niche}: <em>{$pain}</em></p>" .
-      "<p>Preparamos una auditoría digital gratuita de {{company}} — incluye puntaje 0-100, comparación con el promedio del rubro, y proyección de ingresos a 90 días.</p>" .
+      "<p>Preparamos una Auditoría Digital gratuita de {{company}} — incluye puntaje 0-100, comparación con el promedio del rubro, y proyección de ingresos a 90 días.</p>" .
       "<div style='text-align:center;margin:28px 0'>" .
       "<a href='{{page_url}}' style='background:#FF6B00;color:#fff;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:700;display:inline-block'>Ver auditoría de {{company}} →</a>" .
       "</div>" .
       "<p>{$cta}</p>" .
       "<p>Un abrazo,<br><strong>Equipo NetWebMedia</strong><br><a href='mailto:hola@netwebmedia.com' style='color:#FF6B00'>hola@netwebmedia.com</a> · <a href='https://netwebmedia.com' style='color:#FF6B00'>netwebmedia.com</a></p>";
     return [
-      'subject' => "{{company}} — auditoría digital gratuita ({{city}})",
+      'subject' => "{{company}} — Auditoría Digital gratuita ({{city}})",
       'html'    => '<div style="background:#f6f7fb;padding:24px">' . '<div style="max-width:600px;margin:0 auto">' . $HDR . body_block($body) . $FTR . '</div></div>',
     ];
 }

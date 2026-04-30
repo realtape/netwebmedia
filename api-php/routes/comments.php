@@ -6,16 +6,24 @@
 
 function comments_ensure_schema() {
   db()->exec("CREATE TABLE IF NOT EXISTS blog_comments (
-    id          INT AUTO_INCREMENT PRIMARY KEY,
-    slug        VARCHAR(200) NOT NULL,
-    name        VARCHAR(100) NOT NULL,
-    email       VARCHAR(200) DEFAULT NULL,
-    comment     TEXT NOT NULL,
-    ip          VARCHAR(45)  DEFAULT NULL,
-    status      VARCHAR(20)  DEFAULT 'approved',
-    created_at  DATETIME DEFAULT CURRENT_TIMESTAMP,
-    KEY ix_slug_status (slug, status)
+    id              INT AUTO_INCREMENT PRIMARY KEY,
+    organization_id BIGINT UNSIGNED NOT NULL DEFAULT 1,
+    slug            VARCHAR(200) NOT NULL,
+    name            VARCHAR(100) NOT NULL,
+    email           VARCHAR(200) DEFAULT NULL,
+    comment         TEXT NOT NULL,
+    ip              VARCHAR(45)  DEFAULT NULL,
+    status          VARCHAR(20)  DEFAULT 'approved',
+    created_at      DATETIME DEFAULT CURRENT_TIMESTAMP,
+    KEY ix_slug_status (slug, status),
+    KEY ix_org (organization_id)
   )");
+  // Idempotent upgrade for tables created before the multi-tenant column existed.
+  // 1060 = duplicate column (already added) — silently ignored.
+  try { db()->exec("ALTER TABLE blog_comments ADD COLUMN organization_id BIGINT UNSIGNED NOT NULL DEFAULT 1 AFTER id"); }
+  catch (PDOException $e) { /* dup col 1060, ignore */ }
+  try { db()->exec("ALTER TABLE blog_comments ADD INDEX ix_org (organization_id)"); }
+  catch (PDOException $e) { /* dup key 1061, ignore */ }
 }
 
 function route_comments($parts, $method) {

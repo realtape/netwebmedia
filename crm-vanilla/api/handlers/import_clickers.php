@@ -16,7 +16,27 @@
  * and skips deals that already exist (by contact_id + source).
  */
 if ($method !== 'GET') jsonError('Use GET', 405);
-if (!hash_equals(IMPORT_CSV_TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
+
+/* Auth: accept either the CRM IMPORT_CSV_TOKEN OR the api-php jwt_secret-
+   derived token (first 16 chars). The latter mirrors /api/cron/* and is
+   resilient to empty config.local.php overrides. */
+$providedToken = (string)($_GET['token'] ?? '');
+$tokenOk = false;
+if (defined('IMPORT_CSV_TOKEN') && IMPORT_CSV_TOKEN !== '' && hash_equals(IMPORT_CSV_TOKEN, $providedToken)) {
+    $tokenOk = true;
+}
+if (!$tokenOk) {
+    /* Fallback: read jwt_secret from home config and accept its first 16 chars */
+    $homeCfg = '/home/webmed6/.netwebmedia-config.php';
+    if (is_readable($homeCfg)) {
+        $cfg = @include $homeCfg;
+        if (is_array($cfg) && !empty($cfg['jwt_secret'])) {
+            $expected = substr((string)$cfg['jwt_secret'], 0, 16);
+            if (hash_equals($expected, $providedToken)) $tokenOk = true;
+        }
+    }
+}
+if (!$tokenOk) jsonError('Invalid token', 403);
 
 require_once __DIR__ . '/../lib/tenancy.php';
 require_once __DIR__ . '/../lib/wf_bridge.php';

@@ -145,6 +145,11 @@ if (empty($parts)) {
       'POST /api/whatsapp/webhook  (Twilio or Meta inbound)',
       'GET  /api/whatsapp/stats    (admin)',
       'POST /api/whatsapp/reset    (admin, body: {phone})',
+      'GET/POST /api/courses                    (list all published courses + search/filter)',
+      'GET  /api/courses/{id}                   (course detail with lessons and enrollment status)',
+      'POST /api/courses/enroll                 (enroll user in a course)',
+      'POST /api/courses/{id}/complete-lesson   (mark lesson as complete, update progress)',
+      'GET  /api/courses/progress               (user\'s course enrollments and progress)',
       'POST /api/public/chat       (prospect chatbot, unified KB, rate-limited)',
     ],
     'server_time' => date('c'),
@@ -290,6 +295,9 @@ try {
   } elseif ($group === 'reputation') {
     require __DIR__ . '/routes/reputation.php';
     route_reputation($parts, $method);
+  } elseif ($group === 'courses') {
+    require __DIR__ . '/routes/courses.php';
+    route_courses($parts, $method);
   } else {
     err('Route not found', 404);
   }

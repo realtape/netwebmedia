@@ -276,12 +276,23 @@ function load_pending_usa_audience(array $free_domains, int $cap_total, ?string 
   return $rows;
 }
 
-// ----- load sent + unsubscribed logs -----
+// ----- load sent + unsubscribed + recently-failed logs -----
+// us-failed.log entries are also treated as "skip" so we don't keep
+// retrying addresses Resend already rejected (dead inboxes / blocked
+// domains). Without this the cron re-attempts the same dead addresses
+// on every tick and burns Resend quota on guaranteed bounces.
 $already = [];
 if (file_exists($LOG)) {
   foreach (file($LOG, FILE_IGNORE_NEW_LINES) as $line) {
     $e = strtolower(trim($line));
     if ($e !== '') $already[$e] = true;
+  }
+}
+if (file_exists($FAIL)) {
+  foreach (file($FAIL, FILE_IGNORE_NEW_LINES) as $line) {
+    $parts = explode("\t", $line);
+    $e = strtolower(trim($parts[0] ?? ''));
+    if ($e !== '' && strpos($e, '@') !== false) $already[$e] = true;
   }
 }
 $unsub = [];

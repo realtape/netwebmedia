@@ -214,9 +214,11 @@ function niche_findings($niche_key) {
 
 if (!file_exists($CSV)) j_exit(['error' => 'CSV missing', 'path' => $CSV], 500);
 
-// ----- load sent log + unsubscribe log -----
-// Both counted as "already" so we never double-send AND never mail anyone
-// who hit the List-Unsubscribe URL (one-click or manual).
+// ----- load sent log + unsubscribe log + recently-failed log -----
+// All three count as "already" so we (a) never double-send, (b) never mail
+// anyone who hit the List-Unsubscribe URL, and (c) stop retrying addresses
+// Resend already rejected (dead inboxes / blocked domains). Without (c) the
+// cron would re-attempt the same hundred dead addresses forever.
 $already = [];
 if (file_exists($LOG)) {
   foreach (file($LOG, FILE_IGNORE_NEW_LINES) as $line) {
@@ -227,6 +229,14 @@ if (file_exists($LOG)) {
 if (file_exists($UNSUB)) {
   foreach (file($UNSUB, FILE_IGNORE_NEW_LINES) as $line) {
     // Format: email<TAB>timestamp<TAB>token<TAB>ip
+    $parts = explode("\t", $line);
+    $e = strtolower(trim($parts[0] ?? ''));
+    if ($e !== '' && strpos($e, '@') !== false) $already[$e] = true;
+  }
+}
+if (file_exists($FAIL)) {
+  foreach (file($FAIL, FILE_IGNORE_NEW_LINES) as $line) {
+    // Format: email<TAB>timestamp
     $parts = explode("\t", $line);
     $e = strtolower(trim($parts[0] ?? ''));
     if ($e !== '' && strpos($e, '@') !== false) $already[$e] = true;

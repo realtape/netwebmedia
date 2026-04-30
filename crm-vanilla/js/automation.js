@@ -52,7 +52,9 @@
     var body = document.getElementById("automationBody");
     if (!body) return;
 
-    var html = '<div class="filter-group" style="margin-bottom:20px">';
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    var html = betaBannerHTML(isEs);
+    html += '<div class="filter-group" style="margin-bottom:20px">';
     html += filterBtn("all", L.all);
     html += filterBtn("active", L.active);
     html += filterBtn("inactive", L.inactive);

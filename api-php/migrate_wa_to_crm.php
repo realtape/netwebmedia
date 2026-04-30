@@ -5,7 +5,11 @@
  * GET /api-php/migrate_wa_to_crm.php?token=NWM_MIGRATE_2026         — run
  */
 
-if (($_GET['token'] ?? '') !== 'NWM_MIGRATE_2026') {
+// Prefer X-Auth-Token HEADER (not logged in webserver access logs / referrers /
+// browser history). Querystring still accepted for backward-compat — DEPRECATED.
+$_NWM_MIGRATE_WA_EXPECTED = 'NWM_MIGRATE_2026';
+$_NWM_MIGRATE_WA_PRESENTED = (string)($_SERVER['HTTP_X_AUTH_TOKEN'] ?? $_GET['token'] ?? '');
+if (!hash_equals($_NWM_MIGRATE_WA_EXPECTED, $_NWM_MIGRATE_WA_PRESENTED)) {
     http_response_code(403); echo json_encode(['error' => 'Forbidden']); exit;
 }
 

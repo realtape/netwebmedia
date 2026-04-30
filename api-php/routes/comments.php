@@ -65,9 +65,12 @@ function route_comments($parts, $method) {
     );
     if ($recent) err('Please wait a moment before posting again', 429);
 
+    // Multi-tenant: blog comments live under the master NWM blog (org_id = 1).
+    // White-label tenants don't have a public blog yet — when they do, this
+    // resolver will need to flip to current_org_id() based on host/subdomain.
     qExec(
-      "INSERT INTO blog_comments (slug, name, email, comment, ip) VALUES (?, ?, ?, ?, ?)",
-      [$slug, $name, $email ?: null, $comment, $ip]
+      "INSERT INTO blog_comments (organization_id, slug, name, email, comment, ip) VALUES (?, ?, ?, ?, ?, ?)",
+      [1, $slug, $name, $email ?: null, $comment, $ip]
     );
 
     json_out(['ok' => true, 'id' => lastId()]);

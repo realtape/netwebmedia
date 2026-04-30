@@ -42,12 +42,15 @@ jobs:
           if [ -z "$TOKEN" ]; then
             TOKEN="NWM_USA_SEND_2026_d3f7e2c9a1b48560"
           fi
-          URL="https://netwebmedia.com/api/usa-send?token=${TOKEN}&mode=${MODE}&n=${BATCH}"
+          # Token now sent via X-Auth-Token HEADER (not querystring) so it's
+          # not logged in InMotion access logs / referrers / browser history.
+          URL="https://netwebmedia.com/api/usa-send?mode=${MODE}&n=${BATCH}"
           if [ -n "$NICHE" ]; then
             URL="${URL}&niche=${NICHE}"
           fi
           # Full Chrome UA + Origin + Referer to bypass mod_security on InMotion.
           curl -s "$URL" \
+            -H "X-Auth-Token: ${TOKEN}" \
             -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
             -H "Origin: https://netwebmedia.com" \
             -H "Referer: https://netwebmedia.com/crm-vanilla/" \

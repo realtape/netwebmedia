@@ -96,14 +96,32 @@
 
     if (activeTab === 0) html += renderInvoicesTable();
     else if (activeTab === 1) html += renderSubscriptionsTable();
-    else if (activeTab === 2) html += renderPaymentLinks();
-    else html += renderTransactions();
+    else if (activeTab === 2) { html += betaBannerHTML(); html += renderPaymentLinks(); }
+    else { html += betaBannerHTML(); html += renderTransactions(); }
 
     body.innerHTML = html;
   }
 
   function summaryCard(label, value, colorClass) {
     return '<div class="summary-card"><div class="card-label">' + label + '</div><div class="card-value ' + colorClass + '">' + value + '</div></div>';
+  }
+
+  function betaBannerHTML() {
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    var title = isEs
+      ? 'Beta — En Desarrollo Activo'
+      : 'Beta — In Active Development';
+    var copy = isEs
+      ? 'Esta pestaña está en desarrollo activo. Los datos mostrados son de ejemplo. La funcionalidad completa se lanza en Q3 2026.'
+      : 'This tab is in active development. The data shown below is sample data. Full functionality ships in Q3 2026.';
+    var cta = isEs ? 'Avísame cuando esté listo →' : 'Get notified when this ships →';
+    return '<div class="nwm-beta-banner" role="status" style="background:linear-gradient(135deg,#010F3B,#0d1f5c);border:1px solid rgba(255,103,31,0.45);border-left:4px solid #FF671F;border-radius:12px;padding:14px 18px;margin:0 0 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">'
+      + '<div style="flex:1;min-width:240px;">'
+      + '<div style="color:#FF671F;font-weight:700;font-size:13px;letter-spacing:0.5px;text-transform:uppercase;">' + title + '</div>'
+      + '<div style="color:#cdd3e3;font-size:13px;margin-top:4px;line-height:1.5;">' + copy + '</div>'
+      + '</div>'
+      + '<a href="/contact.html?topic=payments-beta" style="color:#FF671F;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;">' + cta + '</a>'
+      + '</div>';
   }
 
   function renderInvoicesTable() {

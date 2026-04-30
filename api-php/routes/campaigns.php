@@ -259,7 +259,11 @@ function route_campaigns($parts, $method) {
     $base = $cfg['site_url'] ?? 'https://netwebmedia.com';
     $sent = $failed = 0;
     foreach ($rows as $rec) {
-      $contact = qOne("SELECT data FROM resources WHERE id = ?", [$rec['contact_id']]);
+      // Defense-in-depth: even though campaign_recipients are seeded server-side
+      // from cmp_resolve_audience() (which is org-filtered), re-assert org_id
+      // here so a crafted INSERT into campaign_recipients can't pull a foreign
+      // contact's data through the campaign sender.
+      $contact = qOne("SELECT data FROM resources WHERE id = ? AND org_id = ?", [$rec['contact_id'], $camp['org_id']]);
       $ctx = json_decode($contact['data'] ?? '{}', true) ?: [];
       $ctx['email'] = $rec['email']; $ctx['name'] = $rec['name'];
       $html = cmp_personalize($camp['html_body'], $ctx);

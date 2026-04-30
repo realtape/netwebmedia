@@ -2,15 +2,21 @@
 (function () {
   "use strict";
 
-  function injectComingSoonBanner(label) {
-    var existing = document.getElementById('coming-soon-banner');
-    if (existing) return;
-    var banner = document.createElement('div');
-    banner.id = 'coming-soon-banner';
-    banner.style.cssText = 'background:linear-gradient(135deg,#010F3B,#0d1f5c);border:1px solid rgba(255,103,31,0.4);border-radius:12px;padding:16px 20px;margin:0 0 20px;display:flex;align-items:center;gap:12px;';
-    banner.innerHTML = '<span style="font-size:22px">🚧</span><div><strong style="color:#FF671F">' + label + ' — Coming Soon</strong><div style="color:#9aa;font-size:13px;margin-top:2px">This module is under active development. Data shown below is illustrative.</div></div>';
-    var content = document.querySelector('.page-content') || document.querySelector('main') || document.body;
-    content.insertBefore(banner, content.firstChild);
+  function betaBannerHTML(isEs) {
+    var title = isEs
+      ? 'Beta — En Desarrollo Activo'
+      : 'Beta — In Active Development';
+    var copy = isEs
+      ? 'Este módulo está en desarrollo activo. Los datos mostrados son de ejemplo. La funcionalidad completa se lanza en Q3 2026.'
+      : 'This module is in active development. The data shown below is sample data. Full functionality ships in Q3 2026.';
+    var cta = isEs ? 'Avísame cuando esté listo →' : 'Get notified when this ships →';
+    return '<div class="nwm-beta-banner" role="status" style="background:linear-gradient(135deg,#010F3B,#0d1f5c);border:1px solid rgba(255,103,31,0.45);border-left:4px solid #FF671F;border-radius:12px;padding:14px 18px;margin:0 0 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">'
+      + '<div style="flex:1;min-width:240px;">'
+      + '<div style="color:#FF671F;font-weight:700;font-size:13px;letter-spacing:0.5px;text-transform:uppercase;">' + title + '</div>'
+      + '<div style="color:#cdd3e3;font-size:13px;margin-top:4px;line-height:1.5;">' + copy + '</div>'
+      + '</div>'
+      + '<a href="/contact.html?topic=sites-beta" style="color:#FF671F;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;">' + cta + '</a>'
+      + '</div>';
   }
 
   var FUNNELS = [
@@ -84,12 +90,13 @@
   function renderContent() {
     var body = document.getElementById("sitesBody");
     if (!body) return;
-    var html = "";
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    var html = betaBannerHTML(isEs);
 
-    if (activeTab === 0) html = renderFunnels();
-    else if (activeTab === 1) html = renderWebsites();
-    else if (activeTab === 2) html = renderFormsTable();
-    else html = renderSurveys();
+    if (activeTab === 0) html += renderFunnels();
+    else if (activeTab === 1) html += renderWebsites();
+    else if (activeTab === 2) html += renderFormsTable();
+    else html += renderSurveys();
 
     body.innerHTML = html;
   }

@@ -71,7 +71,11 @@ function ju_exit($data, $code = 200) {
 $EMBEDDED_TOKEN = 'NWM_USA_SEND_2026_d3f7e2c9a1b48560';
 $cfg = config();
 $expected = $cfg['usa_send_token'] ?? $EMBEDDED_TOKEN;
-if (!hash_equals($expected, (string)($_GET['token'] ?? ''))) {
+// Prefer X-Auth-Token HEADER (not logged in webserver access logs / referrers /
+// browser history). Querystring still accepted for backward-compat with older
+// cron callers — DEPRECATED, will be removed once GH workflows have rolled out.
+$presented = (string)($_SERVER['HTTP_X_AUTH_TOKEN'] ?? $_GET['token'] ?? '');
+if (!hash_equals($expected, $presented)) {
   ju_exit(['error' => 'unauthorized'], 401);
 }
 

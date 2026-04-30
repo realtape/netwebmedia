@@ -114,10 +114,17 @@ function route_knowledge($parts, $method) {
     $params = [];
     foreach (['title','slug','body','tags'] as $f) if (array_key_exists($f, $b)) { $fields[] = "$f = ?"; $params[] = $b[$f]; }
     if (!$fields) err('Nothing to update', 400);
+    // Defense-in-depth: re-assert org_id on the UPDATE itself, not just the prior SELECT.
+    // Prevents IDOR via crafted route input that bypasses the qOne guard.
     $params[] = $id;
-    qExec("UPDATE knowledge_articles SET " . implode(',', $fields) . " WHERE id = ?", $params);
+    $params[] = $u['org_id'];
+    qExec("UPDATE knowledge_articles SET " . implode(',', $fields) . " WHERE id = ? AND org_id = ?", $params);
     json_out(['ok' => true]);
   }
-  if ($method === 'DELETE') { qExec("DELETE FROM knowledge_articles WHERE id = ?", [$id]); json_out(['ok' => true]); }
+  if ($method === 'DELETE') {
+    // Defense-in-depth: re-assert org_id on DELETE.
+    qExec("DELETE FROM knowledge_articles WHERE id = ? AND org_id = ?", [$id, $u['org_id']]);
+    json_out(['ok' => true]);
+  }
   err('Method not allowed', 405);
 }

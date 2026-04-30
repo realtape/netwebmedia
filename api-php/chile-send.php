@@ -44,7 +44,11 @@ function j_exit($data, $code = 200) {
 $EMBEDDED_TOKEN = 'ADBUx9pVMR3hl3ChDLCegudz2xp_5y_0pSxG_jYVjjI';
 $cfg = config();
 $expected = $cfg['chile_send_token'] ?? $EMBEDDED_TOKEN;
-if (!hash_equals($expected, (string)($_GET['token'] ?? ''))) {
+// Prefer X-Auth-Token HEADER (not logged in webserver access logs / referrers /
+// browser history). Querystring still accepted for backward-compat with older
+// cron callers — DEPRECATED, will be removed once GH workflows have rolled out.
+$presented = (string)($_SERVER['HTTP_X_AUTH_TOKEN'] ?? $_GET['token'] ?? '');
+if (!hash_equals($expected, $presented)) {
   j_exit(['error' => 'unauthorized'], 401);
 }
 

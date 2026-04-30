@@ -677,20 +677,20 @@
     { id: "tasks", key: "tasks", icon: "tasks", href: "tasks.html" },
     { id: "booking", key: "booking", icon: "booking", href: "booking.html" },
     { id: "sms", key: "sms", icon: "smsBulk", href: "sms.html" },
-    { id: "payments", key: "payments", icon: "payments", href: "payments.html" },
+    { id: "payments", key: "payments", icon: "payments", href: "payments.html", beta: true },
     { id: "marketing", key: "marketing", icon: "marketing", href: "marketing.html" },
     { id: "campaigns", key: "campaigns", icon: "email", href: "campaigns.html" },
     { id: "chileCampaign", key: "chileCampaign", icon: "rocket", href: "chile-campaign.html" },
     { id: "diagnostic", key: "diagnostic", icon: "diagnostic", href: "diagnostic.html" },
-    { id: "automation", key: "automation", icon: "automation", href: "automation.html" },
+    { id: "automation", key: "automation", icon: "automation", href: "automation.html", beta: true },
     { id: "abtests", key: "abtests", icon: "abtest", href: "abtests.html" },
     { id: "email-builder", key: "emailBuilder", icon: "emailBuilder", href: "email-builder.html" },
     { id: "forms", key: "forms", icon: "forms", href: "forms.html" },
-    { id: "sites", key: "sites", icon: "sites", href: "sites.html" },
+    { id: "sites", key: "sites", icon: "sites", href: "sites.html", beta: true },
     { id: "reputation", key: "reputation", icon: "reputation", href: "reputation.html" },
     { id: "reporting", key: "reporting", icon: "reporting", href: "reporting.html" },
     { id: "realtime", key: "realtime", icon: "realtime", href: "realtime.html" },
-    { id: "documents", key: "documents", icon: "documents", href: "documents.html" },
+    { id: "documents", key: "documents", icon: "documents", href: "documents.html", beta: true },
     { id: "courses", key: "courses", icon: "courses", href: "courses.html" },
     { id: "social", key: "social", icon: "social", href: "social.html" },
     { id: "settings", key: "settings", icon: "settings", href: "settings.html" },
@@ -759,9 +759,13 @@
       if (item.superadminOnly && !isSuperadmin) continue;
       var label = item.key === 'admin' ? 'Admin' : t("nav." + item.key);
       var isActive = item.id === active ? " active" : "";
-      html += '<a href="' + item.href + '" class="nav-item' + isActive + '" title="' + label + '">';
+      html += '<a href="' + item.href + '" class="nav-item' + isActive + '" title="' + label + (item.beta ? ' (Beta)' : '') + '">';
       html += '<span class="nav-icon">' + ICONS[item.icon] + '</span>';
-      html += '<span class="nav-label">' + label + '</span>';
+      html += '<span class="nav-label">' + label;
+      if (item.beta) {
+        html += ' <span class="nav-beta-badge" style="display:inline-block;background:#FF671F;color:#fff;font-size:9px;font-weight:700;letter-spacing:0.5px;padding:1px 5px;border-radius:3px;margin-left:6px;vertical-align:middle;line-height:1.4;">BETA</span>';
+      }
+      html += '</span>';
       html += '</a>';
     }
     html += '</nav>';

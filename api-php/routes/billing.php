@@ -13,20 +13,6 @@ require_once __DIR__ . '/../lib/db.php';
 require_once __DIR__ . '/../lib/response.php';
 require_once __DIR__ . '/../lib/auth.php';
 
-/* ---------- Stripe price-ID mapping ----------
-   Carlos creates one recurring monthly Price per plan in his Stripe dashboard
-   (Products → Add product → Recurring → monthly → USD), then sets the price
-   IDs in config.local.php as:
-     'stripe_price_cmo_starter' => 'price_xxx',
-     'stripe_price_cmo_growth'  => 'price_xxx',
-     'stripe_price_cmo_scale'   => 'price_xxx',
-     ... (one per plan_code we want to sell via Stripe)
-   The constants below are placeholder defaults — they are NOT valid Stripe
-   IDs and the handler returns 503 if a real ID hasn't been overridden. */
-if (!defined('STRIPE_PRICE_CMO_STARTER')) define('STRIPE_PRICE_CMO_STARTER', 'price_TODO_carlos_create_in_dashboard');
-if (!defined('STRIPE_PRICE_CMO_GROWTH'))  define('STRIPE_PRICE_CMO_GROWTH',  'price_TODO_carlos_create_in_dashboard');
-if (!defined('STRIPE_PRICE_CMO_SCALE'))   define('STRIPE_PRICE_CMO_SCALE',   'price_TODO_carlos_create_in_dashboard');
-
 /* ---------- FX + rounding helpers ---------- */
 function bl_fx_rate() {
   $c = config();
@@ -468,129 +454,8 @@ function bl_mp_get($path) {
   return ['code' => $code, 'json' => json_decode($res, true)];
 }
 
-/* ---------- Stripe helpers ----------
-   Vanilla cURL, no SDK. Stripe API uses application/x-www-form-urlencoded
-   with bracket notation for nested params (e.g. line_items[0][price]=xxx).
-   See https://stripe.com/docs/api for shape. */
-function bl_stripe_secret() {
-  $c = config();
-  return $c['stripe_secret_key'] ?? '';
-}
-
-function bl_stripe_webhook_secret() {
-  $c = config();
-  return $c['stripe_webhook_secret'] ?? '';
-}
-
-/** Map our plan_code to a Stripe Price ID. Returns '' if not mapped. */
-function bl_stripe_price_for($plan_code) {
-  $c = config();
-  // Per-plan override from config.local.php takes precedence.
-  $key = 'stripe_price_' . $plan_code;
-  if (!empty($c[$key])) return (string) $c[$key];
-
-  // Fall back to constants (for the launch plan_codes we explicitly support).
-  $map = [
-    'cmo_starter' => STRIPE_PRICE_CMO_STARTER,
-    'cmo_growth'  => STRIPE_PRICE_CMO_GROWTH,
-    'cmo_scale'   => STRIPE_PRICE_CMO_SCALE,
-  ];
-  $val = $map[$plan_code] ?? '';
-  // Reject placeholder defaults — caller treats empty as "not configured".
-  if (strpos($val, 'price_TODO') === 0) return '';
-  return $val;
-}
-
-/** Build a flat form-encoded body from a nested array, using Stripe's bracket syntax. */
-function bl_stripe_form_encode($data, $prefix = '') {
-  $out = [];
-  foreach ($data as $k => $v) {
-    $key = $prefix === '' ? $k : $prefix . '[' . $k . ']';
-    if (is_array($v)) {
-      $out[] = bl_stripe_form_encode($v, $key);
-    } else {
-      $out[] = urlencode($key) . '=' . urlencode((string) $v);
-    }
-  }
-  return implode('&', $out);
-}
-
-function bl_stripe_post($path, $body) {
-  $sk = bl_stripe_secret();
-  if (!$sk) err('Stripe not configured', 500);
-  $ch = curl_init('https://api.stripe.com/v1' . $path);
-  curl_setopt_array($ch, [
-    CURLOPT_POST => 1,
-    CURLOPT_RETURNTRANSFER => 1,
-    CURLOPT_HTTPHEADER => [
-      'Authorization: Bearer ' . $sk,
-      'Content-Type: application/x-www-form-urlencoded',
-      'Idempotency-Key: ' . bin2hex(random_bytes(16)),
-    ],
-    CURLOPT_POSTFIELDS => bl_stripe_form_encode($body),
-    CURLOPT_TIMEOUT => 30,
-  ]);
-  $res = curl_exec($ch);
-  $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-  curl_close($ch);
-  return ['code' => $code, 'json' => json_decode($res, true), 'raw' => $res];
-}
-
-/**
- * Verify a Stripe webhook signature.
- * Stripe-Signature header format: t=<timestamp>,v1=<hex hmac>,v1=<hex hmac>...
- * Signed payload = "{$timestamp}.{$raw_body}", HMAC-SHA256 with the webhook secret.
- * Returns true if any v1 signature matches and timestamp is within tolerance.
- */
-function bl_stripe_verify_signature($raw_body, $sig_header, $secret, $tolerance = 300) {
-  if (!$sig_header || !$secret) return false;
-  $parts = explode(',', $sig_header);
-  $ts = null;
-  $sigs = [];
-  foreach ($parts as $p) {
-    $kv = explode('=', $p, 2);
-    if (count($kv) !== 2) continue;
-    if ($kv[0] === 't') $ts = $kv[1];
-    elseif ($kv[0] === 'v1') $sigs[] = $kv[1];
-  }
-  if (!$ts || empty($sigs)) return false;
-  if (abs(time() - (int) $ts) > $tolerance) return false;
-  $expected = hash_hmac('sha256', $ts . '.' . $raw_body, $secret);
-  foreach ($sigs as $s) {
-    if (hash_equals($expected, $s)) return true;
-  }
-  return false;
-}
-
-/* ---------- Locale / payment-rail selection ----------
-   Decision tree (simple, deterministic):
-     1. ?currency=usd  → Stripe (explicit override)
-     2. ?currency=clp  → Mercado Pago
-     3. ?rail=stripe   → Stripe
-     4. ?rail=mp       → Mercado Pago
-     5. CF-IPCountry / Cloudflare geo header is LatAm  → Mercado Pago
-     6. Accept-Language starts with es-CL/es-AR/es-PE/es-CO/es-MX/pt-BR → MP
-     7. Otherwise → Stripe (default for US/global) IF Stripe is configured
-     8. Stripe NOT configured → graceful fall-through to MP
-   This avoids IP-database dependencies; Cloudflare's CF-IPCountry header is
-   already populated when the site is fronted by Cloudflare. */
-function bl_pick_rail() {
-  $cur = strtolower($_GET['currency'] ?? $_POST['currency'] ?? '');
-  if ($cur === 'usd') return 'stripe';
-  if ($cur === 'clp') return 'mp';
-  $rail = strtolower($_GET['rail'] ?? $_POST['rail'] ?? '');
-  if ($rail === 'stripe' || $rail === 'mp') return $rail;
-
-  $latam = ['CL','AR','PE','CO','MX','BR','UY','PY','BO','EC','VE','CR','GT','HN','SV','NI','PA','DO'];
-  $cc = strtoupper($_SERVER['HTTP_CF_IPCOUNTRY'] ?? '');
-  if ($cc && in_array($cc, $latam, true)) return 'mp';
-
-  $al = strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '');
-  if (preg_match('/\b(es-(cl|ar|pe|co|mx|uy|bo|ec|ve|cr|gt|hn|sv|ni|pa|do)|pt-br)\b/', $al)) return 'mp';
-
-  // Default: Stripe if configured, else MP.
-  return bl_stripe_secret() ? 'stripe' : 'mp';
-}
+/* ---------- Payment rail ---------- */
+function bl_pick_rail() { return 'mp'; }
 
 /* ---------- Schema bootstrap (idempotent) ---------- */
 function bl_ensure_schema() {
@@ -656,22 +521,6 @@ function bl_ensure_schema() {
     // Duplicate column / already migrated — ignore.
   }
 
-  // Stripe columns on subscriptions — idempotent ALTER TABLE additions.
-  // We keep the MP columns intact and add parallel Stripe ones so a row can
-  // record either rail (or both, in edge cases like migration).
-  $stripeCols = [
-    "ALTER TABLE subscriptions ADD COLUMN rail VARCHAR(16) DEFAULT 'mp' AFTER status",
-    "ALTER TABLE subscriptions ADD COLUMN stripe_customer_id VARCHAR(64) DEFAULT NULL",
-    "ALTER TABLE subscriptions ADD COLUMN stripe_subscription_id VARCHAR(64) DEFAULT NULL",
-    "ALTER TABLE subscriptions ADD COLUMN stripe_session_id VARCHAR(64) DEFAULT NULL",
-    "ALTER TABLE subscriptions ADD COLUMN stripe_price_id VARCHAR(64) DEFAULT NULL",
-    "ALTER TABLE subscriptions ADD COLUMN currency VARCHAR(8) DEFAULT 'CLP'",
-    "ALTER TABLE subscriptions ADD INDEX ix_stripe_sub (stripe_subscription_id)",
-    "ALTER TABLE subscriptions ADD INDEX ix_stripe_session (stripe_session_id)",
-  ];
-  foreach ($stripeCols as $sql) {
-    try { db()->exec($sql); } catch (PDOException $e) { /* duplicate — ignore */ }
-  }
 }
 
 /* ---------- Coupon helpers ---------- */
@@ -695,203 +544,6 @@ function bl_apply_discount($clp, $pct) {
   if ($pct === 0) return (int)$clp;
   $discounted = (int)$clp * (100 - $pct) / 100;
   return (int)(round($discounted / 1000.0) * 1000); // round to nearest 1K CLP
-}
-
-/* ---------- Stripe checkout flow ---------- */
-function bl_stripe_checkout($u, $plan, $b) {
-  $sk = bl_stripe_secret();
-  if (!$sk) {
-    err('Stripe billing not yet configured — contact sales', 503, [
-      'detail' => 'stripe_secret_key missing in config.local.php',
-    ]);
-  }
-
-  $price_id = bl_stripe_price_for($plan['code']);
-  if (!$price_id) {
-    err('Stripe billing not yet configured — contact sales', 503, [
-      'detail' => 'No Stripe Price ID mapped for plan ' . $plan['code'],
-      'plan_code' => $plan['code'],
-    ]);
-  }
-
-  $c = config();
-  $backUrl = $c['site_url'] ?? 'https://netwebmedia.com';
-
-  // Promo code support: pass our internal code through metadata. We do NOT use
-  // Stripe coupons yet — Carlos creates Stripe-side promotion codes if needed.
-  $promo = trim((string) ($b['promo_code'] ?? ''));
-
-  $payload = [
-    'mode' => 'subscription',
-    'line_items' => [
-      ['price' => $price_id, 'quantity' => 1],
-    ],
-    'customer_email' => $u['email'],
-    'success_url' => $backUrl . '/thanks.html?session_id={CHECKOUT_SESSION_ID}',
-    'cancel_url'  => $backUrl . '/pricing.html',
-    'allow_promotion_codes' => 'true',
-    'metadata' => [
-      'org_id'    => (string) $u['org_id'],
-      'user_id'   => (string) $u['id'],
-      'plan_code' => $plan['code'],
-      'promo'     => $promo,
-    ],
-    'subscription_data' => [
-      'metadata' => [
-        'org_id'    => (string) $u['org_id'],
-        'user_id'   => (string) $u['id'],
-        'plan_code' => $plan['code'],
-      ],
-    ],
-    'client_reference_id' => 'org_' . $u['org_id'] . '_' . $plan['code'] . '_' . time(),
-  ];
-
-  $r = bl_stripe_post('/checkout/sessions', $payload);
-  if ($r['code'] >= 300 || empty($r['json']['url'])) {
-    err('Stripe error: ' . ($r['json']['error']['message'] ?? 'unknown'), 502, [
-      'stripe_response' => $r['json'],
-    ]);
-  }
-  $session = $r['json'];
-
-  qExec(
-    "INSERT INTO subscriptions
-       (org_id, user_id, plan_code, usd_amount, clp_amount, status, rail,
-        stripe_session_id, stripe_price_id, currency, mp_init_point)
-     VALUES (?, ?, ?, ?, ?, 'pending', 'stripe', ?, ?, 'USD', ?)",
-    [
-      $u['org_id'], $u['id'], $plan['code'], $plan['usd'], 0,
-      $session['id'], $price_id, $session['url'],
-    ]
-  );
-  $id = lastId();
-
-  qExec(
-    "INSERT INTO billing_events (subscription_id, mp_resource, mp_id, topic, raw)
-     VALUES (?, 'stripe_session', ?, 'checkout.session.created', ?)",
-    [$id, $session['id'], json_encode($session)]
-  );
-
-  // Response shape matches the MP path so the frontend doesn't need changes.
-  // Frontend uses `init_point` (or `url`) to redirect; we set both.
-  json_out([
-    'subscription_id' => $id,
-    'flow'            => 'stripe_subscription',
-    'rail'            => 'stripe',
-    'session_id'      => $session['id'],
-    'init_point'      => $session['url'],
-    'url'             => $session['url'],
-  ]);
-}
-
-/* ---------- Stripe webhook ---------- */
-function bl_stripe_webhook() {
-  $raw = file_get_contents('php://input');
-  $sig = $_SERVER['HTTP_STRIPE_SIGNATURE'] ?? '';
-  $secret = bl_stripe_webhook_secret();
-
-  if (!$secret) {
-    // Without a secret we can't verify; refuse to process. Logging the attempt
-    // is fine but never act on unverified webhook payloads.
-    qExec(
-      "INSERT INTO billing_events (mp_resource, mp_id, topic, raw)
-       VALUES ('stripe', '', 'unverified_no_secret', ?)",
-      [$raw]
-    );
-    err('Stripe webhook secret not configured', 500);
-  }
-  if (!bl_stripe_verify_signature($raw, $sig, $secret)) {
-    qExec(
-      "INSERT INTO billing_events (mp_resource, mp_id, topic, raw)
-       VALUES ('stripe', '', 'invalid_signature', ?)",
-      [$raw]
-    );
-    err('Invalid Stripe signature', 400);
-  }
-
-  $evt = json_decode($raw, true) ?: [];
-  $type = $evt['type'] ?? '';
-  $obj  = $evt['data']['object'] ?? [];
-  $evt_id = $evt['id'] ?? '';
-
-  qExec(
-    "INSERT INTO billing_events (mp_resource, mp_id, topic, status, raw)
-     VALUES ('stripe', ?, ?, ?, ?)",
-    [$evt_id, $type, $obj['status'] ?? '', $raw]
-  );
-
-  switch ($type) {
-    case 'checkout.session.completed': {
-      $session_id    = $obj['id'] ?? '';
-      $sub_id        = $obj['subscription'] ?? null;
-      $customer_id   = $obj['customer'] ?? null;
-      $payment_status = $obj['payment_status'] ?? '';
-
-      $row = qOne("SELECT * FROM subscriptions WHERE stripe_session_id = ? LIMIT 1", [$session_id]);
-      if ($row) {
-        $local = $payment_status === 'paid' ? 'active' : 'pending';
-        qExec(
-          "UPDATE subscriptions
-             SET status=?, stripe_subscription_id=?, stripe_customer_id=?,
-                 current_period_start=COALESCE(current_period_start, NOW())
-           WHERE id=?",
-          [$local, $sub_id, $customer_id, $row['id']]
-        );
-        if ($local === 'active' && !empty($row['user_id'])) {
-          // Mirror the MP webhook: activate the user and promote to admin
-          // (never overwrite a superadmin like Carlos).
-          qExec(
-            "UPDATE users
-               SET status='active',
-                   role = CASE WHEN role='superadmin' THEN role ELSE 'admin' END
-             WHERE id=?",
-            [$row['user_id']]
-          );
-        }
-      }
-      break;
-    }
-    case 'invoice.paid': {
-      $stripe_sub_id = $obj['subscription'] ?? '';
-      if ($stripe_sub_id) {
-        $period_end = !empty($obj['lines']['data'][0]['period']['end'])
-          ? date('Y-m-d H:i:s', (int) $obj['lines']['data'][0]['period']['end'])
-          : null;
-        qExec(
-          "UPDATE subscriptions
-             SET status='active',
-                 current_period_end = COALESCE(?, current_period_end)
-           WHERE stripe_subscription_id = ?",
-          [$period_end, $stripe_sub_id]
-        );
-      }
-      break;
-    }
-    case 'customer.subscription.deleted': {
-      $stripe_sub_id = $obj['id'] ?? '';
-      if ($stripe_sub_id) {
-        $row = qOne("SELECT * FROM subscriptions WHERE stripe_subscription_id = ? LIMIT 1", [$stripe_sub_id]);
-        if ($row) {
-          qExec(
-            "UPDATE subscriptions SET status='cancelled', canceled_at=NOW() WHERE id=?",
-            [$row['id']]
-          );
-          if (!empty($row['user_id'])) {
-            qExec(
-              "UPDATE users SET status='suspended' WHERE id=? AND role != 'superadmin'",
-              [$row['user_id']]
-            );
-          }
-        }
-      }
-      break;
-    }
-    default:
-      // Unhandled event type — already logged above; ack with 200.
-      break;
-  }
-
-  json_out(['ok' => true, 'received' => $type]);
 }
 
 /* ---------- Route entry ---------- */
@@ -936,14 +588,6 @@ function route_billing($parts, $method) {
     if (!empty($plan['needs_contact'])) {
       err('This plan requires a quick call — please use Contact Sales instead. /contact.html?plan=' . $plan['code'] . '&intent=sales', 400);
     }
-
-    // Locale-based rail selection. Stripe for US/default, Mercado Pago for LatAm.
-    $rail = bl_pick_rail();
-    if ($rail === 'stripe') {
-      bl_stripe_checkout($u, $plan, $b);
-      // bl_stripe_checkout exits via json_out / err; never returns.
-    }
-    // else: fall through to existing Mercado Pago flow below.
 
     // Optional coupon
     $promo = trim((string)($b['promo_code'] ?? ''));
@@ -1064,34 +708,11 @@ function route_billing($parts, $method) {
     $row = qOne("SELECT * FROM subscriptions WHERE org_id = ? AND status IN ('active','pending') ORDER BY id DESC LIMIT 1", [$u['org_id']]);
     if (!$row) err('No active subscription', 404);
 
-    if (!empty($row['stripe_subscription_id']) && bl_stripe_secret()) {
-      // Stripe: cancel at period end so the customer keeps access for the rest of the cycle.
-      // Use POST with cancel_at_period_end=true. Errors are ignored — we still mark locally.
-      $sk = bl_stripe_secret();
-      $ch = curl_init('https://api.stripe.com/v1/subscriptions/' . urlencode($row['stripe_subscription_id']));
-      curl_setopt_array($ch, [
-        CURLOPT_POST => 1,
-        CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_HTTPHEADER => [
-          'Authorization: Bearer ' . $sk,
-          'Content-Type: application/x-www-form-urlencoded',
-        ],
-        CURLOPT_POSTFIELDS => 'cancel_at_period_end=true',
-        CURLOPT_TIMEOUT => 30,
-      ]);
-      @curl_exec($ch);
-      curl_close($ch);
-    } elseif (!empty($row['mp_preapproval_id']) && bl_mp_token()) {
-      $r = bl_mp_post('/preapproval/' . $row['mp_preapproval_id'], ['status' => 'cancelled']);
-      // ignore errors — still mark cancelled locally
+    if (!empty($row['mp_preapproval_id']) && bl_mp_token()) {
+      bl_mp_post('/preapproval/' . $row['mp_preapproval_id'], ['status' => 'cancelled']);
     }
     qExec("UPDATE subscriptions SET status='cancelled', canceled_at=NOW() WHERE id=?", [$row['id']]);
     json_out(['ok' => true]);
-  }
-
-  if ($sub === 'stripe-webhook' && $method === 'POST') {
-    bl_stripe_webhook();
-    return;
   }
 
   if ($sub === 'webhook' && $method === 'POST') {

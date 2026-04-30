@@ -3,8 +3,7 @@
   NetWebMedia Catalogue — one-time digital product checkout.
   Routes:
     GET  /api/catalogue/products        → public list of products + prices
-    POST /api/catalogue/checkout        → {product_code, method:'stripe'|'mp', email?, name?} → {checkout_url}
-    POST /api/catalogue/webhook/stripe  → Stripe webhook (checkout.session.completed)
+    POST /api/catalogue/checkout        → {product_code, email?, name?} → {checkout_url}
     POST /api/catalogue/webhook/mp      → Mercado Pago payment webhook
 */
 
@@ -49,8 +48,6 @@ function cat_ensure_schema() {
     email VARCHAR(255) DEFAULT NULL,
     customer_name VARCHAR(255) DEFAULT NULL,
     external_ref VARCHAR(100) DEFAULT NULL,
-    stripe_session_id VARCHAR(120) DEFAULT NULL,
-    stripe_payment_intent VARCHAR(120) DEFAULT NULL,
     mp_preference_id VARCHAR(120) DEFAULT NULL,
     mp_payment_id VARCHAR(120) DEFAULT NULL,
     delivery_sent TINYINT(1) NOT NULL DEFAULT 0,
@@ -59,44 +56,17 @@ function cat_ensure_schema() {
     KEY ix_product (product_code),
     KEY ix_status (status),
     KEY ix_ext (external_ref),
-    KEY ix_stripe (stripe_session_id),
     KEY ix_mp_pref (mp_preference_id)
   )");
 }
 
-function cat_create_order($code, $usd, $method, $email, $name, $extRef, $stripeId, $mpPrefId) {
+function cat_create_order($code, $usd, $email, $name, $extRef, $mpPrefId) {
   db()->prepare(
     "INSERT INTO catalogue_orders
-       (product_code, usd_amount, method, email, customer_name, external_ref, stripe_session_id, mp_preference_id)
-     VALUES (?,?,?,?,?,?,?,?)"
-  )->execute([$code, $usd, $method, $email ?: null, $name ?: null, $extRef, $stripeId, $mpPrefId]);
+       (product_code, usd_amount, method, email, customer_name, external_ref, mp_preference_id)
+     VALUES (?,?,?,?,?,?,?)"
+  )->execute([$code, $usd, 'mp', $email ?: null, $name ?: null, $extRef, $mpPrefId]);
   return (int)db()->lastInsertId();
-}
-
-/* ─── Stripe helpers ────────────────────────────────────────── */
-function cat_stripe_key() {
-  return config()['stripe_secret_key'] ?? '';
-}
-
-function cat_stripe_request($method, $path, $data = []) {
-  $key = cat_stripe_key();
-  if (!$key) return ['code' => 503, 'json' => ['error' => ['message' => 'Stripe not configured']]];
-  $ch = curl_init('https://api.stripe.com/v1' . $path);
-  $opts = [
-    CURLOPT_RETURNTRANSFER => 1,
-    CURLOPT_USERPWD        => $key . ':',
-    CURLOPT_TIMEOUT        => 20,
-    CURLOPT_HTTPHEADER     => ['Content-Type: application/x-www-form-urlencoded'],
-  ];
-  if ($method === 'POST') {
-    $opts[CURLOPT_POST]       = 1;
-    $opts[CURLOPT_POSTFIELDS] = http_build_query($data);
-  }
-  curl_setopt_array($ch, $opts);
-  $res  = curl_exec($ch);
-  $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-  curl_close($ch);
-  return ['code' => $code, 'json' => json_decode($res, true)];
 }
 
 /* ─── Mercado Pago helpers ──────────────────────────────────── */
@@ -157,15 +127,13 @@ function route_catalogue($parts, $method) {
 
   /* POST /api/catalogue/checkout */
   if ($sub === 'checkout' && $method === 'POST') {
-    $b       = required(['product_code', 'method']);
+    $b       = required(['product_code']);
     $code    = $b['product_code'];
-    $pm      = $b['method'];
     $email   = trim((string)($b['email'] ?? ''));
     $name    = trim((string)($b['name']  ?? ''));
     $products = cat_products();
 
     if (!isset($products[$code])) err('Unknown product', 400);
-    if (!in_array($pm, ['stripe', 'mp'], true)) err('method must be stripe or mp', 400);
 
     $product  = $products[$code];
     $siteUrl  = rtrim(config()['site_url'] ?? 'https://netwebmedia.com', '/');
@@ -173,91 +141,33 @@ function route_catalogue($parts, $method) {
     $successUrl = $siteUrl . '/checkout.html?success=1&product=' . urlencode($code);
     $cancelUrl  = $siteUrl . '/checkout.html?product=' . urlencode($code) . '&cancelled=1';
 
-    /* ── Stripe ── */
-    if ($pm === 'stripe') {
-      if (!cat_stripe_key()) err('Stripe is not configured on this server — please use Mercado Pago', 503);
-      $data = [
-        'mode'                                              => 'payment',
-        'line_items[0][price_data][currency]'               => 'usd',
-        'line_items[0][price_data][product_data][name]'     => $product['name'],
-        'line_items[0][price_data][product_data][description]' => $product['delivery'],
-        'line_items[0][price_data][unit_amount]'            => (int)($product['usd'] * 100),
-        'line_items[0][quantity]'                           => '1',
-        'payment_method_types[0]'                           => 'card',
-        'success_url'                                       => $successUrl . '&session_id={CHECKOUT_SESSION_ID}',
-        'cancel_url'                                        => $cancelUrl,
-        'metadata[product_code]'                            => $code,
-        'metadata[external_ref]'                            => $extRef,
-      ];
-      if ($email) $data['customer_email'] = $email;
-      $r = cat_stripe_request('POST', '/checkout/sessions', $data);
-      if ($r['code'] >= 300 || empty($r['json']['url'])) {
-        err('Stripe error: ' . ($r['json']['error']['message'] ?? 'unknown'), 502, ['stripe' => $r['json']]);
-      }
-      $orderId = cat_create_order($code, $product['usd'], 'stripe', $email, $name, $extRef, $r['json']['id'], null);
-      json_out(['checkout_url' => $r['json']['url'], 'order_id' => $orderId, 'method' => 'stripe']);
+    if (!cat_mp_token()) err('Mercado Pago is not configured on this server', 503);
+    $clp     = cat_to_clp($product['usd']);
+    $payload = [
+      'items' => [[
+        'title'       => $product['name'],
+        'description' => 'NetWebMedia · ' . $product['delivery'],
+        'quantity'    => 1,
+        'unit_price'  => $clp,
+        'currency_id' => 'CLP',
+      ]],
+      'external_reference'   => $extRef,
+      'statement_descriptor' => 'NETWEBMEDIA',
+      'back_urls' => [
+        'success' => $successUrl,
+        'failure' => $cancelUrl . '&failed=1',
+        'pending' => $siteUrl . '/checkout.html?success=pending&product=' . urlencode($code),
+      ],
+      'auto_return'      => 'approved',
+      'notification_url' => $siteUrl . '/api/catalogue/webhook/mp',
+    ];
+    if ($email) $payload['payer'] = ['email' => $email, 'name' => $name ?: null];
+    $r = cat_mp_post('/checkout/preferences', $payload);
+    if ($r['code'] >= 300 || empty($r['json']['init_point'])) {
+      err('Mercado Pago error: ' . ($r['json']['message'] ?? 'unknown'), 502, ['mp' => $r['json']]);
     }
-
-    /* ── Mercado Pago ── */
-    if ($pm === 'mp') {
-      if (!cat_mp_token()) err('Mercado Pago is not configured on this server', 503);
-      $clp     = cat_to_clp($product['usd']);
-      $payload = [
-        'items' => [[
-          'title'       => $product['name'],
-          'description' => 'NetWebMedia · ' . $product['delivery'],
-          'quantity'    => 1,
-          'unit_price'  => $clp,
-          'currency_id' => 'CLP',
-        ]],
-        'external_reference'   => $extRef,
-        'statement_descriptor' => 'NETWEBMEDIA',
-        'back_urls' => [
-          'success' => $successUrl,
-          'failure' => $cancelUrl . '&failed=1',
-          'pending' => $siteUrl . '/checkout.html?success=pending&product=' . urlencode($code),
-        ],
-        'auto_return'      => 'approved',
-        'notification_url' => $siteUrl . '/api/catalogue/webhook/mp',
-      ];
-      if ($email) $payload['payer'] = ['email' => $email, 'name' => $name ?: null];
-      $r = cat_mp_post('/checkout/preferences', $payload);
-      if ($r['code'] >= 300 || empty($r['json']['init_point'])) {
-        err('Mercado Pago error: ' . ($r['json']['message'] ?? 'unknown'), 502, ['mp' => $r['json']]);
-      }
-      $orderId = cat_create_order($code, $product['usd'], 'mp', $email, $name, $extRef, null, $r['json']['id'] ?? null);
-      json_out(['checkout_url' => $r['json']['init_point'], 'order_id' => $orderId, 'method' => 'mp']);
-    }
-  }
-
-  /* POST /api/catalogue/webhook/stripe */
-  if ($sub === 'webhook' && $sub2 === 'stripe' && $method === 'POST') {
-    $payload   = file_get_contents('php://input');
-    $sigHeader = $_SERVER['HTTP_STRIPE_SIGNATURE'] ?? '';
-    $secret    = config()['stripe_webhook_secret'] ?? '';
-    if ($secret && $sigHeader) {
-      $ts = null; $valid = false;
-      foreach (explode(',', $sigHeader) as $part) {
-        if (str_starts_with($part, 't='))  $ts = (int)substr($part, 2);
-        if (str_starts_with($part, 'v1=')) {
-          $expected = hash_hmac('sha256', $ts . '.' . $payload, $secret);
-          if (hash_equals($expected, substr($part, 3))) $valid = true;
-        }
-      }
-      if (!$valid) { http_response_code(400); exit('Bad signature'); }
-    }
-    $event = json_decode($payload, true);
-    if (($event['type'] ?? '') === 'checkout.session.completed') {
-      $sess = $event['data']['object'];
-      $sid  = $sess['id'];
-      $pi   = $sess['payment_intent'] ?? null;
-      $ref  = $sess['metadata']['external_ref'] ?? null;
-      db()->prepare(
-        "UPDATE catalogue_orders SET status='paid', stripe_payment_intent=?
-         WHERE stripe_session_id=? OR external_ref=?"
-      )->execute([$pi, $sid, $ref]);
-    }
-    json_out(['ok' => true]);
+    $orderId = cat_create_order($code, $product['usd'], $email, $name, $extRef, $r['json']['id'] ?? null);
+    json_out(['checkout_url' => $r['json']['init_point'], 'order_id' => $orderId, 'method' => 'mp']);
   }
 
   /* POST /api/catalogue/webhook/mp */

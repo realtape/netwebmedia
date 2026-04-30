@@ -30,11 +30,9 @@
     .co-field input::placeholder { color:#475569; }
 
     /* Payment methods */
-    .co-methods { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
-    .co-method-btn { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:18px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.03); cursor:pointer; font-size:13px; font-weight:700; color:#ccd6f6; transition:all .2s; }
-    .co-method-btn:hover:not(:disabled) { border-color:#6366f1; background:rgba(99,102,241,.08); }
-    .co-method-btn.stripe-btn:hover:not(:disabled) { border-color:#635BFF; background:rgba(99,91,255,.08); }
-    .co-method-btn.mp-btn:hover:not(:disabled) { border-color:#009EE3; background:rgba(0,158,227,.08); }
+    .co-methods { display:grid; grid-template-columns:1fr; gap:12px; margin-top:20px; }
+    .co-method-btn { display:flex; flex-direction:row; align-items:center; justify-content:center; gap:12px; padding:18px 24px; border-radius:12px; border:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.03); cursor:pointer; font-size:15px; font-weight:700; color:#ccd6f6; transition:all .2s; width:100%; }
+    .co-method-btn:hover:not(:disabled) { border-color:#009EE3; background:rgba(0,158,227,.08); }
     .co-method-btn:disabled { opacity:.5; cursor:not-allowed; }
     .co-method-btn .btn-logo { font-size:22px; }
     .co-method-btn .btn-label { font-size:12px; color:#64748b; font-weight:400; }
@@ -110,17 +108,11 @@
         <input type="text" id="fieldName" placeholder="Your name" />
       </div>
 
-      <div id="methodsLabel" style="font-size:13px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-top:20px;margin-bottom:12px">Choose payment method</div>
       <div class="co-methods">
-        <button class="co-method-btn stripe-btn" id="btnStripe" onclick="startCheckout('stripe')">
-          <span class="btn-logo">💳</span>
-          <span>Stripe</span>
-          <span class="btn-label">Credit / Debit card</span>
-        </button>
-        <button class="co-method-btn mp-btn" id="btnMP" onclick="startCheckout('mp')">
+        <button class="co-method-btn" id="btnMP" onclick="startCheckout('mp')">
           <span class="btn-logo">🔵</span>
-          <span>Mercado Pago</span>
-          <span class="btn-label">Cards · Cash · Transfer</span>
+          <span>Pay with Mercado Pago</span>
+          <span class="btn-label" style="font-size:12px;color:#64748b;font-weight:400">Cards · Cash · Transfer</span>
         </button>
       </div>
     </div>

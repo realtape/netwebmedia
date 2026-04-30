@@ -108,33 +108,36 @@
     for (var i = 0; i < list.length; i++) {
       var c = list[i];
       var enrollment = userProgress[c.id];
-      var color = c.color || "#6c5ce7";
-      var progress = enrollment ? enrollment.progress_percent : 0;
+      var color = safeColor(c.color, "#6c5ce7");
+      var progress = enrollment ? Number(enrollment.progress_percent) || 0 : 0;
+      var cid = parseInt(c.id, 10) || 0;
+      var lessonCount = parseInt(c.lesson_count, 10) || 0;
+      var activeStudents = parseInt(c.active_students, 10) || 0;
 
-      html += '<article class="course-card" data-course-id="' + c.id + '">';
+      html += '<article class="course-card" data-course-id="' + cid + '">';
       html += '<div class="course-card-thumb" style="background:linear-gradient(135deg, ' + color + '22, ' + color + '55); border-bottom:1px solid ' + color + '33">';
-      html += '<div class="course-thumb-icon" style="color:' + color + '">' + (c.icon || '📚') + '</div>';
-      html += '<div class="course-thumb-title" style="color:' + color + '">' + c.name + '</div>';
+      html += '<div class="course-thumb-icon" style="color:' + color + '">' + escapeHtml(c.icon || '📚') + '</div>';
+      html += '<div class="course-thumb-title" style="color:' + color + '">' + escapeHtml(c.name || '') + '</div>';
       html += '</div>';
       html += '<div class="course-card-body">';
-      html += '<div class="course-card-title">' + c.name + '</div>';
-      html += '<p class="course-card-tag">' + c.tagline + '</p>';
+      html += '<div class="course-card-title">' + escapeHtml(c.name || '') + '</div>';
+      html += '<p class="course-card-tag">' + escapeHtml(c.tagline || '') + '</p>';
       html += '<div class="course-meta">';
-      html += '<span class="course-meta-item"><b>' + c.lesson_count + '</b> ' + L.lessons + '</span>';
-      html += '<span class="course-meta-item">🎓 ' + (c.level || 'All levels') + '</span>';
+      html += '<span class="course-meta-item"><b>' + lessonCount + '</b> ' + escapeHtml(L.lessons) + '</span>';
+      html += '<span class="course-meta-item">🎓 ' + escapeHtml(c.level || 'All levels') + '</span>';
       html += '</div>';
       html += '<div class="course-enroll">';
-      html += '<span class="course-enroll-count">' + (c.active_students || 0).toLocaleString() + ' ' + L.students.toLowerCase() + '</span>';
+      html += '<span class="course-enroll-count">' + activeStudents.toLocaleString() + ' ' + escapeHtml(L.students.toLowerCase()) + '</span>';
       if (enrollment) {
-        html += '<span class="course-enroll-pct">' + Math.round(progress) + '% ' + L.progress.toLowerCase() + '</span>';
+        html += '<span class="course-enroll-pct">' + Math.round(progress) + '% ' + escapeHtml(L.progress.toLowerCase()) + '</span>';
       }
       html += '</div>';
-      html += '<div class="progress-bar"><div class="progress-fill" style="width:' + progress + '%; background:' + color + '"></div></div>';
+      html += '<div class="progress-bar"><div class="progress-fill" style="width:' + Math.round(progress) + '%; background:' + color + '"></div></div>';
       html += '<div class="course-card-footer">';
       if (enrollment) {
-        html += '<button class="btn btn-primary btn-sm course-view-btn" data-course-id="' + c.id + '">View Course →</button>';
+        html += '<button class="btn btn-primary btn-sm course-view-btn" data-course-id="' + cid + '">View Course →</button>';
       } else {
-        html += '<button class="btn btn-primary btn-sm course-enroll-btn" data-course-id="' + c.id + '">' + L.enroll + '</button>';
+        html += '<button class="btn btn-primary btn-sm course-enroll-btn" data-course-id="' + cid + '">' + escapeHtml(L.enroll) + '</button>';
       }
       html += '</div>';
       html += '</div>';
@@ -207,33 +210,40 @@
     .then(r => r.json())
     .then(function (data) {
       var lessons = data.lessons || [];
-      var color = data.course.color || "#6c5ce7";
+      var color = safeColor(data.course && data.course.color, "#6c5ce7");
+      var courseName = (data.course && data.course.name) || '';
+      var courseTagline = (data.course && data.course.tagline) || '';
+      var courseIcon = (data.course && data.course.icon) || '📚';
+      var enrollPct = enrollment ? Number(enrollment.progress_percent) || 0 : 0;
+      var safeCourseId = parseInt(courseId, 10) || 0;
 
       var html = '<div class="course-detail-modal" style="background:white; max-width:800px; margin:40px auto; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.3)">';
       html += '<div class="modal-header" style="background:linear-gradient(135deg, ' + color + '22, ' + color + '55); padding:30px; border-bottom:1px solid ' + color + '33; display:flex; justify-content:space-between; align-items:center">';
       html += '<div>';
-      html += '<div style="font-size:32px; margin-bottom:10px">' + (data.course.icon || '📚') + '</div>';
-      html += '<h2 style="margin:0; color:' + color + '">' + data.course.name + '</h2>';
-      html += '<p style="margin:8px 0 0; color:#666; font-size:14px">' + data.course.tagline + '</p>';
+      html += '<div style="font-size:32px; margin-bottom:10px">' + escapeHtml(courseIcon) + '</div>';
+      html += '<h2 style="margin:0; color:' + color + '">' + escapeHtml(courseName) + '</h2>';
+      html += '<p style="margin:8px 0 0; color:#666; font-size:14px">' + escapeHtml(courseTagline) + '</p>';
       html += '</div>';
       html += '<button class="modal-close" style="background:none; border:none; font-size:24px; cursor:pointer; color:#666">&times;</button>';
       html += '</div>';
 
       html += '<div style="padding:30px">';
       if (enrollment) {
-        html += '<div class="progress-bar" style="height:8px; margin-bottom:20px"><div class="progress-fill" style="width:' + enrollment.progress_percent + '%; background:' + color + '; height:100%"></div></div>';
-        html += '<p style="color:#666; margin:0 0 20px; font-size:14px">' + Math.round(enrollment.progress_percent) + '% ' + L.complete.toLowerCase() + '</p>';
+        html += '<div class="progress-bar" style="height:8px; margin-bottom:20px"><div class="progress-fill" style="width:' + Math.round(enrollPct) + '%; background:' + color + '; height:100%"></div></div>';
+        html += '<p style="color:#666; margin:0 0 20px; font-size:14px">' + Math.round(enrollPct) + '% ' + escapeHtml(L.complete.toLowerCase()) + '</p>';
       }
 
-      html += '<h3 style="margin:20px 0 15px; color:#333">' + L.lessons + '</h3>';
+      html += '<h3 style="margin:20px 0 15px; color:#333">' + escapeHtml(L.lessons) + '</h3>';
       for (var i = 0; i < lessons.length; i++) {
         var lesson = lessons[i];
+        var lessonId = parseInt(lesson.id, 10) || 0;
+        var lessonDuration = parseInt(lesson.duration_minutes, 10) || 0;
         html += '<div style="padding:12px; border:1px solid #ddd; border-radius:6px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center">';
         html += '<div>';
-        html += '<div style="font-weight:600; color:#333">' + lesson.title + '</div>';
-        html += '<div style="font-size:13px; color:#999; margin-top:4px">' + (lesson.duration_minutes || 0) + ' min • ' + (lesson.type || 'video') + '</div>';
+        html += '<div style="font-weight:600; color:#333">' + escapeHtml(lesson.title || '') + '</div>';
+        html += '<div style="font-size:13px; color:#999; margin-top:4px">' + lessonDuration + ' min • ' + escapeHtml(lesson.type || 'video') + '</div>';
         html += '</div>';
-        html += '<button class="lesson-complete-btn" data-lesson-id="' + lesson.id + '" data-course-id="' + courseId + '" style="background:' + color + '; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; font-size:13px">Mark Done</button>';
+        html += '<button class="lesson-complete-btn" data-lesson-id="' + lessonId + '" data-course-id="' + safeCourseId + '" style="background:' + color + '; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; font-size:13px">Mark Done</button>';
         html += '</div>';
       }
       html += '</div>';
@@ -308,5 +318,15 @@
   }
 
   function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function (c) { return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]); }); }
+
+  // CSS-context safe color: only allow #hex (3/6/8) or rgba(). Everything else
+  // (e.g. malicious "red; background:url(//evil)") falls back to the default.
+  // Mirrors the same defense added to branding.js earlier — see plans/audits/RATING-2026-04-30.md.
+  var COLOR_RE = /^(#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8}|rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(?:,\s*[\d.]+\s*)?\))$/;
+  function safeColor(v, fallback) {
+    if (typeof v !== 'string') return fallback;
+    var t = v.trim();
+    return COLOR_RE.test(t) ? t : fallback;
+  }
 
 })();

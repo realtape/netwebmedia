@@ -18,6 +18,21 @@ const courses = [
   { slug:'whatsapp-automation',  color:'#25d366', icon:'💬', shapes:'chat' },
   { slug:'chatbot-automation',   color:'#22d3ee', icon:'🤖', shapes:'flow' },
   { slug:'sms-automation',       color:'#a29bfe', icon:'📲', shapes:'target' },
+  // New service-mapped courses
+  { slug:'ai-sdr',               color:'#e74c3c', icon:'📞', shapes:'flow' },
+  { slug:'ai-voice',             color:'#27ae60', icon:'🎙️', shapes:'wave' },
+  { slug:'creative-studio',      color:'#e67e22', icon:'🎨', shapes:'wave' },
+  { slug:'rag-knowledge',        color:'#8e44ad', icon:'🧩', shapes:'neural' },
+  { slug:'cro',                  color:'#00cec9', icon:'📈', shapes:'bars' },
+  { slug:'headless-commerce',    color:'#2980b9', icon:'🛒', shapes:'grid' },
+  { slug:'ai-copilot',           color:'#9b59b6', icon:'🪄', shapes:'neural' },
+  { slug:'content-ai',           color:'#e91e8c', icon:'✍️', shapes:'flow' },
+  { slug:'lead-scoring',         color:'#f39c12', icon:'🎯', shapes:'target' },
+  { slug:'sales-forecasting',    color:'#1abc9c', icon:'📊', shapes:'bars' },
+  { slug:'customer-portal',      color:'#3498db', icon:'🏛️', shapes:'grid' },
+  { slug:'reputation-monitoring',color:'#c0392b', icon:'⭐', shapes:'social' },
+  { slug:'affiliate-program',    color:'#2ecc71', icon:'🤝', shapes:'social' },
+  { slug:'ai-training',          color:'#7f8c8d', icon:'🎓', shapes:'neural' },
 ];
 
 function hex2rgb(hex) {

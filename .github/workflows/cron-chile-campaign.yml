@@ -1,9 +1,9 @@
 name: Cron — Chile Cold Outreach (every 1 min, send-all mode)
 on:
   schedule:
-    # Every minute × n=500 with 1s throttle = up to 500/call (~8 min).
-    # Concurrency group serializes runs so they queue. Clears remaining ~2.6k
-    # in ~6 calls. Throttle this BACK once the list is drained.
+    # n=3000 with 100ms throttle = a single ~5-min one-shot call that drains
+    # everything remaining. Concurrency group prevents overlap; cron stays
+    # active so any dripping additions get caught on the next tick.
     - cron: '* * * * *'
   workflow_dispatch:
     inputs:
@@ -12,9 +12,9 @@ on:
         required: false
         default: ''
       batch:
-        description: 'Max sends per call (default 500, hard-capped at 500)'
+        description: 'Max sends per call (default 3000, hard-capped at 5000)'
         required: false
-        default: '500'
+        default: '3000'
 
 concurrency:
   group: chile-cold-outreach
@@ -23,12 +23,12 @@ concurrency:
 jobs:
   chile-batch:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Send next batch
         run: |
           NICHE="${{ github.event.inputs.niche }}"
-          BATCH="${{ github.event.inputs.batch || '500' }}"
+          BATCH="${{ github.event.inputs.batch || '3000' }}"
           # Token currently lives embedded in api-php/chile-send.php (already in
           # the public repo); using GH secret if set, otherwise fall back.
           TOKEN="${{ secrets.CHILE_SEND_TOKEN }}"

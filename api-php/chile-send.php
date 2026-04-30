@@ -28,6 +28,7 @@
 require_once __DIR__ . '/lib/db.php';
 require_once __DIR__ . '/lib/mailer.php';
 
+set_time_limit(1200); // allow up to 20 min so a single one-shot run can clear the rest
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 
@@ -51,7 +52,7 @@ $mode       = $_GET['mode']    ?? 'status';
 // Hard cap was 15 when sending via cPanel SMTP; mailer.php now uses the
 // Resend HTTPS API where each call is ~150ms, so 50 is comfortably under
 // PHP max_execution_time and gives the cron headroom for 1,500/day pacing.
-$max        = min(500, max(1, (int)($_GET['n'] ?? 500)));
+$max        = min(5000, max(1, (int)($_GET['n'] ?? 3000)));
 $niche_f    = $_GET['niche']   ?? null;
 $confirmed  = ($_GET['confirm'] ?? '') === 'yes';
 $dryrun     = !empty($_GET['dryrun']);
@@ -562,11 +563,11 @@ if ($mode === 'batch' || $mode === 'all') {
       'niche'   => $lead['niche']   ?? null,
       'ok'      => (bool)$ok,
     ];
-    // Gap between sends within a single HTTP call. Resend manages IP
-    // reputation for us; pacing is mostly about staying well under their
-    // 10/sec rate limit. 1s = 1 email/sec leaves a 10x safety margin and
-    // lets a single n=50 call complete in ~50s.
-    if ($results['sent'] < $cap) usleep(1_000_000); // 1s
+    // Gap between sends within a single HTTP call. Resend (upgraded plan)
+    // handles IP reputation and a higher rate limit; 100ms = 10/sec stays
+    // under the Pro tier's documented limit and lets one big call (e.g.
+    // n=3000) complete in ~5 min.
+    if ($results['sent'] < $cap) usleep(100_000); // 100ms
   }
   j_exit([
     'mode'    => $mode,

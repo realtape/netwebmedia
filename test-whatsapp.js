@@ -257,7 +257,13 @@ async function runFullSuite() {
   console.log(`\n🧪 NetWebMedia WhatsApp Test Suite`);
   console.log(`Endpoint: ${BASE_URL}`);
   console.log(`Questions: ${QUESTIONS.length}`);
-  console.log(`Provider: Twilio\n`);
+  console.log(`Provider: Twilio`);
+  if (TWILIO_TOKEN) {
+    console.log(`✅ Twilio signature verification enabled\n`);
+  } else {
+    console.log(`⚠️  No Twilio token provided (signature verification will fail in production)`);
+    console.log(`   Set TWILIO_TOKEN environment variable or pass as second argument\n`);
+  }
 
   const results = [];
   const startTime = Date.now();

@@ -396,6 +396,42 @@ function forms_public_submit($slug) {
     } catch (Exception $e) {}
   }
 
+  // In-app bell notification to the form's creator (and to a contact's assignee
+  // if we just upserted a contact and they're assigned to someone).
+  if (!function_exists('notifications_dispatch')) @require_once __DIR__ . '/notifications.php';
+  if (function_exists('notifications_dispatch')) {
+    $previewBits = [];
+    foreach (['name','email','phone','company'] as $k) {
+      if (!empty($payload[$k])) $previewBits[] = $payload[$k];
+    }
+    $preview = $previewBits ? implode(' · ', array_slice($previewBits, 0, 3)) : 'See submission for details.';
+    $extras = [
+      'org_id' => (int)($row['org_id'] ?? 1),
+      'kind'   => 'form',
+      'icon'   => 'forms',
+      'link'   => 'forms.html',
+      'data'   => ['form_id' => (int)$row['id'], 'submission_id' => $submissionId, 'contact_id' => $contactId],
+    ];
+    $notified = [];
+    if (!empty($row['user_id'])) {
+      notifications_dispatch((int)$row['user_id'], 'New form submission: ' . $row['name'], $preview, $extras);
+      $notified[(int)$row['user_id']] = true;
+    }
+    // Also notify the contact's assignee if it's a different user
+    if ($contactId) {
+      try {
+        $c = qOne("SELECT data FROM resources WHERE id = ?", [$contactId]);
+        if ($c) {
+          $cd = json_decode($c['data'] ?? '{}', true) ?: [];
+          $assignee = isset($cd['assigned_to']) ? (int)$cd['assigned_to'] : null;
+          if ($assignee && empty($notified[$assignee])) {
+            notifications_dispatch($assignee, 'Form submitted by your contact', $preview, $extras);
+          }
+        }
+      } catch (Exception $e) {}
+    }
+  }
+
   json_out([
     'ok'             => true,
     'submission_id'  => $submissionId,

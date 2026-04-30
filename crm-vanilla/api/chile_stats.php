@@ -113,9 +113,12 @@ foreach ($leads as $email => $L) {
       'total'     => 0, 'sent' => 0, 'pending' => 0, 'clicks' => 0, 'unsub' => 0,
     ];
   }
+  // Treat sent + failed as "done" for pending math — chile-send.php now
+  // skips both sets, so neither is genuinely pending anymore.
+  $is_done = isset($sent_set[$email]) || isset($failed_set[$email]);
   $by_niche[$nk]['total']++;
   if (isset($sent_set[$email]))  $by_niche[$nk]['sent']++;
-  else                            $by_niche[$nk]['pending']++;
+  if (!$is_done)                  $by_niche[$nk]['pending']++;
   if (isset($click_set[$email])) $by_niche[$nk]['clicks']++;
   if (isset($unsub_set[$email])) $by_niche[$nk]['unsub']++;
 
@@ -127,7 +130,7 @@ foreach ($leads as $email => $L) {
   }
   $by_city[$ct]['total']++;
   if (isset($sent_set[$email]))  $by_city[$ct]['sent']++;
-  else                            $by_city[$ct]['pending']++;
+  if (!$is_done)                  $by_city[$ct]['pending']++;
   if (isset($click_set[$email])) $by_city[$ct]['clicks']++;
   if (isset($unsub_set[$email])) $by_city[$ct]['unsub']++;
 }

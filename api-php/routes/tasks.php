@@ -148,6 +148,28 @@ function tasks_create($user) {
 
   log_activity('task.created', 'task', $id, ['title' => $row['title'], 'contact_id' => $row['contact_id'], 'deal_id' => $row['deal_id']]);
 
+  // Notify assignee when the task is assigned to someone other than the creator.
+  $assignee = $row['assigned_to'];
+  if ($assignee && $assignee !== (int)$user['id']) {
+    if (!function_exists('notifications_dispatch')) @require_once __DIR__ . '/notifications.php';
+    if (function_exists('notifications_dispatch')) {
+      $createdBy = $user['name'] ?? $user['email'] ?? 'A teammate';
+      $due = $row['due_at'] ? ' · due ' . date('M j, g:ia', strtotime($row['due_at'])) : '';
+      notifications_dispatch(
+        $assignee,
+        $createdBy . ' assigned you a task',
+        $row['title'] . $due,
+        [
+          'org_id' => $row['org_id'],
+          'kind'   => 'task',
+          'icon'   => 'tasks',
+          'link'   => 'tasks.html?contact_id=' . ($row['contact_id'] ?? ''),
+          'data'   => ['task_id' => $id, 'priority' => $row['priority']],
+        ]
+      );
+    }
+  }
+
   $created = qOne("SELECT * FROM tasks WHERE id = ?", [$id]);
   json_out(['task' => tasks_decorate($created)], 201);
 }
@@ -179,6 +201,26 @@ function tasks_update($id, $user) {
   qExec("UPDATE tasks SET " . implode(', ', $sets) . " WHERE id = ?", $params);
 
   log_activity('task.updated', 'task', $id, ['fields' => array_keys($b)]);
+
+  // If assigned_to changed to someone new (and not the editor themselves), notify them.
+  if (array_key_exists('assigned_to', $b)) {
+    $newAssignee = ($b['assigned_to'] === '' || $b['assigned_to'] === null) ? null : (int)$b['assigned_to'];
+    $oldAssignee = $row['assigned_to'] !== null ? (int)$row['assigned_to'] : null;
+    if ($newAssignee && $newAssignee !== $oldAssignee && $newAssignee !== (int)$user['id']) {
+      if (!function_exists('notifications_dispatch')) @require_once __DIR__ . '/notifications.php';
+      if (function_exists('notifications_dispatch')) {
+        $editor = $user['name'] ?? $user['email'] ?? 'A teammate';
+        notifications_dispatch(
+          $newAssignee,
+          $editor . ' reassigned a task to you',
+          $row['title'],
+          ['org_id' => (int)($user['org_id'] ?? 1), 'kind' => 'task', 'icon' => 'tasks',
+           'link' => 'tasks.html?contact_id=' . ($row['contact_id'] ?? ''),
+           'data' => ['task_id' => $id]]
+        );
+      }
+    }
+  }
 
   $updated = qOne("SELECT * FROM tasks WHERE id = ?", [$id]);
   json_out(['task' => tasks_decorate($updated)]);

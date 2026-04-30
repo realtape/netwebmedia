@@ -482,10 +482,68 @@ function sms_webhook() {
     exit;
   }
 
+  // Real reply — try to find the contact by phone, then notify their assignee
+  // (or fall back to all sales reps in that org). This is best-effort: failures
+  // are silent so we always return clean TwiML to Twilio.
+  try { sms_notify_inbound_reply($phone, $body); } catch (Exception $e) {}
+
   // Anything else: empty TwiML response (don't auto-reply)
   header('Content-Type: text/xml; charset=utf-8');
   echo '<?xml version="1.0" encoding="UTF-8"?><Response/>';
   exit;
+}
+
+/**
+ * Best-effort notification fan-out for inbound SMS replies. Looks up the
+ * contact by normalized phone, finds their assigned_to user, and dispatches
+ * a notification. If no contact matches or no assignee is set, no-op (the
+ * inbound row is still in the inbox for the Inbound tab).
+ */
+function sms_notify_inbound_reply($phone, $body) {
+  // Try to resolve a contact via the resources EAV table
+  $contact = null;
+  try {
+    $contact = qOne(
+      "SELECT id, data FROM resources WHERE type='contact' AND JSON_EXTRACT(data, '$.phone') = ? LIMIT 1",
+      [$phone]
+    );
+  } catch (Exception $e) {}
+
+  $contactId = $contact ? (int)$contact['id'] : null;
+  $contactName = '';
+  $assigneeId = null;
+  $orgId = 1;
+  if ($contact) {
+    $d = json_decode($contact['data'] ?? '{}', true) ?: [];
+    $contactName = $d['name'] ?? '';
+    $assigneeId  = isset($d['assigned_to']) ? (int)$d['assigned_to'] : null;
+    $orgId       = isset($d['org_id']) ? (int)$d['org_id'] : 1;
+  }
+
+  if (!function_exists('notifications_dispatch')) @require_once __DIR__ . '/notifications.php';
+  if (!function_exists('notifications_dispatch')) return;
+
+  $title  = $contactName ? ('SMS reply from ' . $contactName) : ('SMS reply from ' . $phone);
+  $bodyShort = mb_substr($body, 0, 160);
+  $extras = [
+    'org_id' => $orgId,
+    'kind'   => 'sms',
+    'icon'   => 'sms',
+    'link'   => $contactId ? ('contacts.html#' . $contactId) : 'sms.html',
+    'data'   => ['phone' => $phone, 'contact_id' => $contactId],
+  ];
+
+  if ($assigneeId) {
+    notifications_dispatch($assigneeId, $title, $bodyShort, $extras);
+    return;
+  }
+  // No assignee — broadcast to admins / sales reps so the reply doesn't get missed.
+  try {
+    $reps = qAll(
+      "SELECT id FROM users WHERE role IN ('admin','sales_rep','sales_manager') AND COALESCE(status,'active') = 'active' LIMIT 20"
+    );
+    foreach ($reps as $r) notifications_dispatch((int)$r['id'], $title, $bodyShort, $extras);
+  } catch (Exception $e) {}
 }
 
 function sms_inbound_list($user) {

@@ -108,7 +108,14 @@ function eb_create($user) {
       isset($b['settings']) ? json_encode($b['settings']) : null,
     ]
   );
-  json_out(['ok' => true, 'id' => lastId()], 201);
+  $id = lastId();
+  if (function_exists('log_activity')) {
+    log_activity('email_template.created', 'email_template', $id, [
+      'name' => trim($b['name']),
+      'block_count' => count($blocks),
+    ]);
+  }
+  json_out(['ok' => true, 'id' => $id], 201);
 }
 
 function eb_update($id, $user) {
@@ -125,13 +132,19 @@ function eb_update($id, $user) {
   if (!$sets) err('No fields to update');
   $params[] = $id;
   qExec("UPDATE email_builder_templates SET " . implode(', ', $sets) . " WHERE id = ?", $params);
+  if (function_exists('log_activity')) {
+    log_activity('email_template.updated', 'email_template', $id, ['fields' => array_keys($b)]);
+  }
   json_out(['ok' => true]);
 }
 
 function eb_delete($id, $user) {
-  $row = qOne("SELECT id FROM email_builder_templates WHERE id = ? AND org_id = ?", [$id, (int)($user['org_id'] ?? 1)]);
+  $row = qOne("SELECT id, name FROM email_builder_templates WHERE id = ? AND org_id = ?", [$id, (int)($user['org_id'] ?? 1)]);
   if (!$row) err('Template not found', 404);
   qExec("DELETE FROM email_builder_templates WHERE id = ?", [$id]);
+  if (function_exists('log_activity')) {
+    log_activity('email_template.deleted', 'email_template', $id, ['name' => $row['name']]);
+  }
   json_out(['ok' => true, 'id' => $id]);
 }
 
@@ -156,6 +169,9 @@ function eb_test_send($user) {
 
   if (function_exists('send_mail')) {
     $res = send_mail($to, $subject, $html);
+    if (function_exists('log_activity')) {
+      log_activity('email_template.test_sent', 'email_template', null, ['to' => $to, 'subject' => $subject]);
+    }
     json_out(['ok' => true, 'sent' => true, 'detail' => $res]);
   }
   json_out(['ok' => true, 'sent' => false, 'reason' => 'send_mail() not available; HTML returned for review', 'html' => $html]);

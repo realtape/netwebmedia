@@ -342,6 +342,27 @@ function booking_public_create($slug) {
     ]);
   }
 
+  // Notify the link owner (the host) — this is a public endpoint, so no $user
+  // is logged in; we dispatch directly to the configured user_id on the link.
+  if ($userId) {
+    if (!function_exists('notifications_dispatch')) @require_once __DIR__ . '/notifications.php';
+    if (function_exists('notifications_dispatch')) {
+      $when = date('D M j · g:ia', $startTs);
+      notifications_dispatch(
+        (int)$userId,
+        'New booking: ' . $name,
+        $link['title'] . ' on ' . $when,
+        [
+          'org_id' => (int)($link['org_id'] ?? 1),
+          'kind'   => 'booking',
+          'icon'   => 'calendar',
+          'link'   => 'booking.html',
+          'data'   => ['booking_id' => $bookingId, 'contact_id' => $contactId, 'guest_email' => $email],
+        ]
+      );
+    }
+  }
+
   json_out([
     'ok'           => true,
     'booking_id'   => $bookingId,

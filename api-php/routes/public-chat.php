@@ -133,6 +133,56 @@ function pchat_extract_suggested_actions($text) {
   return $out;
 }
 
+function route_public_chat_stats() {
+  if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'GET') err('Method not allowed', 405);
+  require_once __DIR__ . '/../lib/auth.php';
+  require_once __DIR__ . '/../lib/guard.php';
+  requireAuth();
+
+  pchat_ensure_schema();
+
+  $today    = qOne("SELECT COUNT(*) AS c FROM public_chat_log WHERE role='user' AND created_at >= CURDATE()");
+  $week     = qOne("SELECT COUNT(*) AS c FROM public_chat_log WHERE role='user' AND created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)");
+  $month    = qOne("SELECT COUNT(*) AS c FROM public_chat_log WHERE role='user' AND created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)");
+  $total    = qOne("SELECT COUNT(*) AS c FROM public_chat_log WHERE role='user'");
+  $sessions = qOne("SELECT COUNT(DISTINCT session_id) AS c FROM public_chat_log");
+  $ips      = qOne("SELECT COUNT(DISTINCT ip) AS c FROM public_chat_log");
+  $rl_today = qOne("SELECT COUNT(DISTINCT ip) AS c FROM public_chat_log WHERE role='user' AND created_at >= CURDATE() GROUP BY ip HAVING COUNT(*) >= 20");
+
+  $langs = qAll("SELECT language, COUNT(*) AS c FROM public_chat_log WHERE role='user' GROUP BY language ORDER BY c DESC");
+
+  $top_pages = qAll(
+    "SELECT page, COUNT(*) AS c FROM public_chat_log WHERE role='user' AND page IS NOT NULL
+     GROUP BY page ORDER BY c DESC LIMIT 10"
+  );
+
+  $recent = qAll(
+    "SELECT session_id, ip, language, page, MIN(created_at) AS started, MAX(created_at) AS last_msg,
+            COUNT(*) AS turns
+     FROM public_chat_log WHERE role='user'
+     GROUP BY session_id, ip, language, page
+     ORDER BY last_msg DESC LIMIT 20"
+  );
+
+  // Mask IPs for privacy
+  foreach ($recent as &$r) {
+    $r['ip'] = preg_replace('/\.\d+$/', '.***', $r['ip']);
+  }
+
+  json_out([
+    'messages_today'        => (int)($today['c'] ?? 0),
+    'messages_7d'           => (int)($week['c'] ?? 0),
+    'messages_30d'          => (int)($month['c'] ?? 0),
+    'messages_total'        => (int)($total['c'] ?? 0),
+    'unique_sessions'       => (int)($sessions['c'] ?? 0),
+    'unique_ips'            => (int)($ips['c'] ?? 0),
+    'rate_limited_ips_today'=> (int)($rl_today['c'] ?? 0),
+    'language_breakdown'    => $langs,
+    'top_pages'             => $top_pages,
+    'recent_sessions'       => $recent,
+  ]);
+}
+
 function route_public_chat() {
   if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     err('Method not allowed', 405);

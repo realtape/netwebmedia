@@ -363,6 +363,13 @@ function route_public($parts, $method) {
     return;
   }
 
+  // /api/public/aeo-score — AEO Citation Index lead-magnet scorer
+  if ($sub === 'aeo-score' && $method === 'POST') {
+    require_once __DIR__ . '/aeo_score.php';
+    route_public_aeo_score($parts, $method);
+    return;
+  }
+
   // /api/public/audit — deep website + social audit
   if ($sub === 'audit' && $method === 'POST') {
     // Direct Claude exposure: every audit POST runs an LLM call. 10 / hr / IP

@@ -76,6 +76,70 @@
       ]
     },
 
+    "aeo-audit-followup": {
+      "name": "AEO Citation Index — Score Follow-up",
+      "description": "3-email follow-up for prospects who ran the free AEO Citation Index tool. Email 1: result + interpretation. Email 2: deeper explainer of why citations matter. Email 3: book a 15-min review CTA.",
+      "trigger": "aeo_score_submitted",
+      "audience": "aeo_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "aeo-audit-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your AEO Citation Index score for {{website|your site}}",
+            "es": "Tu AEO Citation Index para {{website|tu sitio}}"
+          },
+          "preview": {
+            "en": "Score, breakdown, and the next 3 things to fix",
+            "es": "Score, desglose, y las próximas 3 cosas para arreglar"
+          },
+          "template": "aeo-audit-1.html",
+          "primary_cta": {
+            "en": "Book a free 15-min review",
+            "es": "Agendar revisión de 15 min gratis"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?topic=aeo-score-review"
+        },
+        {
+          "id": "aeo-audit-2",
+          "delay_minutes": 4320,
+          "subject": {
+            "en": "Why AEO citations matter more than rankings now",
+            "es": "Por qué las citas AEO importan más que los rankings"
+          },
+          "preview": {
+            "en": "Where ChatGPT, Claude, Perplexity and Gemini get their answers",
+            "es": "De dónde sacan sus respuestas ChatGPT, Claude, Perplexity y Gemini"
+          },
+          "template": "aeo-audit-2.html",
+          "primary_cta": {
+            "en": "Read the AEO methodology",
+            "es": "Leer la metodología AEO"
+          },
+          "primary_url": "https://netwebmedia.com/aeo-methodology.html"
+        },
+        {
+          "id": "aeo-audit-3",
+          "delay_minutes": 10080,
+          "subject": {
+            "en": "Want a 15-min walkthrough of your AEO gaps?",
+            "es": "¿Quieres un recorrido de 15 min sobre tus gaps AEO?"
+          },
+          "preview": {
+            "en": "Free, no pressure — we map the next 90 days",
+            "es": "Gratis, sin presión — mapeamos los próximos 90 días"
+          },
+          "template": "aeo-audit-3.html",
+          "primary_cta": {
+            "en": "Book the 15-min review",
+            "es": "Agendar la revisión de 15 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?topic=aeo-score-review&source=aeo-audit-3"
+        }
+      ]
+    },
+
     "audit_followup": {
       "name": "Free Audit Request — Follow-up",
       "description": "Diagnostic-tone follow-up for prospects who requested a free audit. References canonical modules (Automations, Conversations, Content AI) to seed product awareness.",

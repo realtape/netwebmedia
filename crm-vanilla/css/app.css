@@ -982,6 +982,78 @@ input, select, textarea { font-family: inherit; }
 .chat-input textarea:focus { border-color: var(--accent); }
 .chat-input textarea::placeholder { color: var(--text-muted); }
 .chat-input .btn { align-self: flex-end; }
+.chat-input .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ═══════════════════════════════
+   AI TRIAGE PANEL (conversations)
+   ═══════════════════════════════ */
+.triage-panel {
+  border-top: 1px solid var(--border);
+  background: rgba(255, 103, 31, 0.06); /* tinted Gulf orange */
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+}
+.triage-panel[hidden] { display: none; }
+.triage-loading,
+.triage-error {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.triage-error { color: #c0392b; font-style: normal; }
+.triage-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.triage-badge,
+.triage-pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+  border: 1px solid transparent;
+  line-height: 1.4;
+}
+/* Intent — neutral chips, color reserved for urgency */
+.triage-intent { background: #eef2ff; color: #1e3a8a; }
+.triage-intent-spam { background: #fee2e2; color: #991b1b; }
+.triage-intent-complaint { background: #fef3c7; color: #92400e; }
+/* Urgency — semantic */
+.triage-urgency-low { background: #ecfdf5; color: #065f46; }
+.triage-urgency-normal { background: #f3f4f6; color: #374151; }
+.triage-urgency-urgent { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+/* Action pill */
+.triage-action { background: #010F3B; color: #fff; }
+.triage-action-mark_spam { background: #6b7280; }
+.triage-fallback { background: #f3f4f6; color: #6b7280; font-weight: 500; }
+
+.triage-draft {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
+.triage-draft-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.triage-draft-text {
+  color: var(--text);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.triage-draft .btn { align-self: flex-start; }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+
+#triageBtn { align-self: flex-end; white-space: nowrap; }
+#triageBtn .triage-btn-label { margin-left: 4px; }
 
 /* ═══════════════════════════════
    CALENDAR PAGE

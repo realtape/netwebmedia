@@ -75,6 +75,7 @@ PRIORITY_MAP = {
     "/analytics.html":          ("0.7",  "monthly"),
     "/knowledge-base.html":     ("0.7",  "monthly"),
     "/catalogue.html":          ("0.85", "weekly"),
+    "/aeo-index.html":          ("0.85", "weekly"),
     "/nwmai.html":              ("0.7",  "monthly"),
 }
 

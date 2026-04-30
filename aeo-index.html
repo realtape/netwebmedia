@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AEO Citation Index — Free AI Citation Score for ChatGPT, Claude, Perplexity & Gemini | NetWebMedia</title>
+  <meta name="description" content="Score your site's AEO citation surface in 60 seconds. Free tool: 0–100 score, 5-bucket breakdown, 3 fixes — across ChatGPT, Claude, Perplexity & Gemini." />
+  <link rel="canonical" href="https://netwebmedia.com/aeo-index.html" />
+  <link rel="alternate" hreflang="en" href="https://netwebmedia.com/aeo-index.html" />
+  <link rel="alternate" hreflang="es" href="https://netwebmedia.com/aeo-index.html?lang=es" />
+  <link rel="alternate" hreflang="x-default" href="https://netwebmedia.com/aeo-index.html" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:title" content="AEO Citation Index — free AI citation score" />
+  <meta property="og:description" content="Score your site's AEO citation surface across ChatGPT, Claude, Perplexity & Gemini. Free, 60 seconds." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://netwebmedia.com/aeo-index.html" />
+  <meta property="og:image" content="https://netwebmedia.com/assets/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="NetWebMedia" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AEO Citation Index — free AI citation score" />
+  <meta name="twitter:description" content="Score your site's AEO citation surface across ChatGPT, Claude, Perplexity & Gemini." />
+  <meta name="twitter:image" content="https://netwebmedia.com/assets/og-cover.png" />
+  <link rel="stylesheet" href="css/styles.css?v=9" />
+  <link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg?v=2" />
+  <link rel="apple-touch-icon" href="assets/nwm-logo.svg?v=2" />
+
+  <!-- JSON-LD: WebApplication + FAQPage + BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://netwebmedia.com/aeo-index.html#app",
+        "name": "AEO Citation Index",
+        "alternateName": "AEO Score Tool",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any (web-based)",
+        "url": "https://netwebmedia.com/aeo-index.html",
+        "description": "Free tool that scores a site's AEO citation surface from 0 to 100 across ChatGPT, Claude, Perplexity, and Google AI Overviews.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "creator": {
+          "@type": "Organization",
+          "@id": "https://netwebmedia.com/#org",
+          "name": "NetWebMedia",
+          "url": "https://netwebmedia.com/"
+        },
+        "featureList": [
+          "0-100 AEO Citation Index score",
+          "5-bucket breakdown: entity, schema, topical authority, citations, methodology",
+          "3 highest-impact action items per scan",
+          "Heuristic scoring across ChatGPT, Claude, Perplexity, Gemini citation patterns"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://netwebmedia.com/aeo-index.html#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the AEO Citation Index?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It is a free 0-100 score that evaluates how citable your site is by AI answer engines like ChatGPT, Claude, Perplexity, and Google AI Overviews. The score is computed from 5 weighted sub-scores: entity establishment (20%), schema density (30%), topical authority (20%), citation surface (15%), and methodology (15%)."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does the score work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The tool fetches the URL, parses the HTML, counts JSON-LD types, headings, word count, sameAs and outbound trust links, and presence of about/methodology/contact sections. Each sub-score is 0-100 based on a documented rubric, then weighted into a single index."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does the tool actually query Claude or ChatGPT?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Not in v1. The current score is heuristic, based on the structural signals AI engines are known to weight. v2 will add real LLM citation tests (asking each engine industry-relevant questions and parsing the cited sources). Even so, the v1 heuristic correlates well with what gets cited in practice."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is the tool free?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, completely free. We capture your email so we can send the score and a 3-email follow-up explaining how to improve. You can unsubscribe at any time from any email."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does it take?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Most scans take 5-15 seconds. Larger pages or slow servers can take up to 30 seconds. The tool times out at 30 seconds; if your site is slower than that, the score will reflect that performance issue."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What URLs work best?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Test your most important commercial-intent pages: your homepage, your top-selling product or service page, or your most important landing page. Avoid test environments behind a login — the tool needs public HTTP access."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://netwebmedia.com/" },
+          { "@type": "ListItem", "position": 2, "name": "AEO Citation Index", "item": "https://netwebmedia.com/aeo-index.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Sentry browser SDK -->
+  <script src="js/nwm-sentry.js?v=1" defer></script>
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700;800&display=swap">
+
+  <style>
+    /* Tool-specific styles, layered on top of /css/styles.css */
+    .aeo-hero {
+      background: linear-gradient(135deg, #010F3B 0%, #052266 60%, #0a3a8e 100%);
+      color: #fff;
+      padding: 80px 20px 60px;
+      text-align: center;
+    }
+    .aeo-hero h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 800;
+      max-width: 900px;
+      margin: 0 auto 18px;
+      line-height: 1.15;
+    }
+    .aeo-hero .accent { color: #FF671F; }
+    .aeo-hero p.lede {
+      font-size: 18px;
+      max-width: 700px;
+      margin: 0 auto 24px;
+      color: rgba(255,255,255,0.85);
+    }
+    .aeo-engines {
+      display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:18px 0 0;
+      font-size:13px;color:rgba(255,255,255,0.75);
+    }
+    .aeo-engine-pill {
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.12);
+      padding:6px 12px;border-radius:999px;
+    }
+    .aeo-form-card {
+      max-width: 720px;
+      margin: -36px auto 60px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px 32px 28px;
+      box-shadow: 0 18px 60px rgba(1,15,59,0.18);
+      position: relative;
+      z-index: 2;
+    }
+    .aeo-form-card h2 {
+      font-family:'Poppins',sans-serif;
+      font-size: 22px; margin: 0 0 6px; color: #010F3B;
+    }
+    .aeo-form-card .sub {
+      font-size: 14px; color: #5b5f7a; margin: 0 0 20px;
+    }
+    .aeo-field { margin-bottom: 14px; }
+    .aeo-field label {
+      display:block; font-weight:600; font-size: 13px; color:#1a1a2e; margin-bottom:6px;
+    }
+    .aeo-field input {
+      width:100%; box-sizing:border-box;
+      padding: 12px 14px; font-size: 15px;
+      border: 1px solid #d6d8e3; border-radius: 10px;
+      font-family: inherit; color:#1a1a2e; background:#fff;
+      transition: border .15s, box-shadow .15s;
+    }
+    .aeo-field input:focus {
+      outline: none; border-color:#FF671F;
+      box-shadow: 0 0 0 3px rgba(255,103,31,0.15);
+    }
+    .aeo-honeypot { position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
+    .aeo-submit {
+      display:block; width:100%;
+      background: linear-gradient(135deg,#FF671F,#ff3d00);
+      color:#fff; border:none; cursor:pointer;
+      padding: 14px 18px; font-size: 16px; font-weight:700;
+      border-radius: 10px; margin-top: 8px;
+      font-family: inherit;
+      transition: transform .12s, box-shadow .12s, opacity .12s;
+    }
+    .aeo-submit:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(255,103,31,0.3); }
+    .aeo-submit[disabled] { opacity:.6; cursor:not-allowed; transform:none; box-shadow:none; }
+    .aeo-fineprint { font-size: 12px; color: #6b7280; text-align:center; margin: 14px 0 0; }
+    .aeo-fineprint a { color:#6b7280; text-decoration: underline; }
+
+    .aeo-loading {
+      display:none; padding: 40px 20px; text-align:center; color:#1a1a2e;
+    }
+    .aeo-loading.active { display:block; }
+    .aeo-spinner {
+      width: 44px; height: 44px;
+      border: 4px solid #e5e7eb; border-top-color: #FF671F;
+      border-radius: 50%;
+      margin: 0 auto 18px;
+      animation: aeo-spin 1s linear infinite;
+    }
+    @keyframes aeo-spin { to { transform: rotate(360deg); } }
+
+    .aeo-error {
+      display:none; background:#fff5f5; border:1px solid #f5c2c0; color:#9b1c1c;
+      padding: 14px 16px; border-radius: 10px; margin-top: 14px; font-size: 14px;
+    }
+    .aeo-error.active { display:block; }
+
+    .aeo-result {
+      display: none;
+      max-width: 880px; margin: 40px auto 60px; padding: 0 20px;
+    }
+    .aeo-result.active { display:block; }
+    .aeo-result-card {
+      background: #fff; border-radius: 16px; padding: 32px;
+      box-shadow: 0 12px 40px rgba(1,15,59,0.10);
+    }
+    .aeo-score-banner {
+      display:flex; align-items:center; gap: 24px;
+      padding: 18px; border-radius: 12px;
+      background: linear-gradient(135deg, #f8fafc, #eef1f7);
+      margin-bottom: 28px;
+    }
+    .aeo-score-badge {
+      width: 120px; height: 120px; border-radius: 50%;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      color:#fff; font-family:'Poppins', sans-serif;
+      flex-shrink: 0;
+    }
+    .aeo-score-badge .num { font-size: 38px; font-weight: 800; line-height: 1; }
+    .aeo-score-badge .max { font-size: 12px; opacity: .85; margin-top: 4px; }
+    .aeo-score-badge.green  { background: linear-gradient(135deg, #16a34a, #047857); }
+    .aeo-score-badge.yellow { background: linear-gradient(135deg, #ca8a04, #b45309); }
+    .aeo-score-badge.red    { background: linear-gradient(135deg, #dc2626, #991b1b); }
+    .aeo-score-summary h3 { margin:0 0 6px; font-family:'Poppins',sans-serif; color:#010F3B; }
+    .aeo-score-summary p  { margin:0; color:#5b5f7a; font-size: 14px; }
+
+    .aeo-subscores {
+      display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px; margin-bottom: 28px;
+    }
+    .aeo-sub {
+      background:#fff; border:1px solid #e5e7eb; border-radius: 10px;
+      padding: 14px;
+    }
+    .aeo-sub .label { font-size: 12px; text-transform: uppercase; letter-spacing:.06em; color:#6b7280; font-weight:600; }
+    .aeo-sub .value { font-family:'Poppins',sans-serif; font-size: 24px; font-weight:700; color:#010F3B; margin-top: 4px; }
+    .aeo-sub .bar {
+      height: 6px; border-radius: 3px; background:#eef1f7; margin-top: 8px; overflow:hidden;
+    }
+    .aeo-sub .bar > span { display:block; height:100%; background: #FF671F; }
+
+    .aeo-actions { background:#f8fafc; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+    .aeo-actions h3 {
+      margin:0 0 12px; font-family:'Poppins',sans-serif; color:#010F3B; font-size:18px;
+    }
+    .aeo-actions ol { padding-left: 20px; margin: 0; }
+    .aeo-actions li { margin-bottom: 10px; line-height: 1.55; }
+
+    .aeo-cta {
+      text-align:center; padding: 22px;
+      background: linear-gradient(135deg,#010F3B,#052266); color:#fff;
+      border-radius: 12px;
+    }
+    .aeo-cta h3 {
+      margin:0 0 8px; font-family:'Poppins',sans-serif;
+    }
+    .aeo-cta p { margin: 0 0 14px; color: rgba(255,255,255,0.85); }
+    .aeo-cta a {
+      display:inline-block; background:#FF671F; color:#fff;
+      padding: 12px 22px; border-radius: 10px; text-decoration:none; font-weight:700;
+    }
+
+    .aeo-howitworks {
+      max-width: 880px; margin: 60px auto; padding: 0 20px;
+    }
+    .aeo-howitworks h2 {
+      font-family:'Poppins',sans-serif; color:#010F3B; text-align:center; margin-bottom: 24px;
+    }
+    .aeo-howitworks-grid {
+      display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .aeo-step {
+      background:#fff; border:1px solid #e5e7eb; border-radius: 12px;
+      padding: 20px;
+    }
+    .aeo-step .n {
+      display:inline-block; width: 28px; height: 28px; line-height: 28px; text-align:center;
+      background:#FF671F; color:#fff; border-radius: 50%;
+      font-family:'Poppins',sans-serif; font-weight:700; margin-bottom: 10px;
+    }
+    .aeo-step h4 { margin: 0 0 6px; color:#010F3B; }
+    .aeo-step p { margin: 0; color:#5b5f7a; font-size: 14px; }
+
+    /* Hide ES blocks by default; lang switcher reveals */
+    [data-lang="es"] { display: none; }
+    body.lang-es [data-lang="en"] { display: none; }
+    body.lang-es [data-lang="es"] { display: initial; }
+    body.lang-es [data-lang="es"].block { display: block; }
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<nav class="navbar has-lang-bar" id="navbar"><div class="container"><div class="navbar-inner">
+  <a href="index.html" class="nav-logo"><img src="assets/nwm-logo-lockup.png" alt="NetWebMedia" class="nav-logo-img" height="48" style="display:block;vertical-align:middle;"></a>
+  <div class="nav-links">
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="aeo-methodology.html">AEO Methodology</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="nav-ctas">
+    <div class="nav-lang"></div>
+    <a href="contact.html" class="btn-nav-solid">Get a Free Audit</a>
+  </div>
+</div></div></nav>
+
+<main id="main">
+
+<section class="aeo-hero">
+  <h1>
+    <span data-lang="en" data-en>Score your <span class="accent">AEO citation surface</span> across ChatGPT, Claude, Perplexity &amp; Gemini &mdash; free.</span>
+    <span data-lang="es" data-es>Puntea tu <span class="accent">superficie de citaci&oacute;n AEO</span> en ChatGPT, Claude, Perplexity y Gemini &mdash; gratis.</span>
+  </h1>
+  <p class="lede">
+    <span data-lang="en" data-en>Paste your URL. We'll fetch it, analyze 30+ structural signals, and return a 0&ndash;100 score with a 5-bucket breakdown and 3 specific fixes. Takes 60 seconds.</span>
+    <span data-lang="es" data-es>Pega tu URL. La traemos, analizamos 30+ se&ntilde;ales estructurales, y entregamos un score 0&ndash;100 con desglose en 5 categor&iacute;as y 3 arreglos espec&iacute;ficos. 60 segundos.</span>
+  </p>
+  <div class="aeo-engines">
+    <span class="aeo-engine-pill">ChatGPT</span>
+    <span class="aeo-engine-pill">Claude</span>
+    <span class="aeo-engine-pill">Perplexity</span>
+    <span class="aeo-engine-pill">Google AI Overviews</span>
+    <span class="aeo-engine-pill">Gemini</span>
+  </div>
+</section>
+
+<section class="aeo-form-card" id="aeo-form-section">
+  <h2>
+    <span data-lang="en" data-en>Run the AEO Citation Index</span>
+    <span data-lang="es" data-es>Correr el AEO Citation Index</span>
+  </h2>
+  <p class="sub">
+    <span data-lang="en" data-en>Free. No login. Result in seconds.</span>
+    <span data-lang="es" data-es>Gratis. Sin login. Resultado en segundos.</span>
+  </p>
+
+  <form id="aeo-form" novalidate>
+    <div class="aeo-field">
+      <label for="aeo-url" data-lang="en" data-en>Your URL</label>
+      <label for="aeo-url" data-lang="es" data-es>Tu URL</label>
+      <input type="url" id="aeo-url" name="url" inputmode="url" autocomplete="url" placeholder="https://yoursite.com/" required />
+    </div>
+    <div class="aeo-field">
+      <label for="aeo-email" data-lang="en" data-en>Email (we send the result here too)</label>
+      <label for="aeo-email" data-lang="es" data-es>Email (te enviamos el resultado tambi&eacute;n)</label>
+      <input type="email" id="aeo-email" name="email" autocomplete="email" placeholder="you@yourcompany.com" required />
+    </div>
+    <div class="aeo-field">
+      <label for="aeo-brand" data-lang="en" data-en>Brand / company name (optional)</label>
+      <label for="aeo-brand" data-lang="es" data-es>Marca / empresa (opcional)</label>
+      <input type="text" id="aeo-brand" name="brand_name" autocomplete="organization" maxlength="80" placeholder="Acme Inc." />
+    </div>
+
+    <!-- Honeypot — bots fill any visible-looking field -->
+    <div class="aeo-honeypot" aria-hidden="true">
+      <label for="hp_website">Website (do not fill)</label>
+      <input type="text" id="hp_website" name="hp_website" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <button type="submit" class="aeo-submit" id="aeo-submit">
+      <span data-lang="en" data-en>Score my site &rarr;</span>
+      <span data-lang="es" data-es>Puntear mi sitio &rarr;</span>
+    </button>
+    <p class="aeo-fineprint">
+      <span data-lang="en" data-en>By scoring you'll receive a 3-email AEO follow-up. Unsubscribe any time. <a href="privacy.html">Privacy</a>.</span>
+      <span data-lang="es" data-es>Al puntear recibir&aacute;s un follow-up AEO de 3 emails. Date de baja cuando quieras. <a href="privacy.html">Privacidad</a>.</span>
+    </p>
+    <div class="aeo-error" id="aeo-error" role="alert"></div>
+  </form>
+
+  <div class="aeo-loading" id="aeo-loading">
+    <div class="aeo-spinner"></div>
+    <p>
+      <span data-lang="en" data-en>Fetching your URL, parsing schema, scoring 5 buckets&hellip;</span>
+      <span data-lang="es" data-es>Trayendo tu URL, parseando schema, punteando 5 categor&iacute;as&hellip;</span>
+    </p>
+  </div>
+</section>
+
+<section class="aeo-result" id="aeo-result" aria-live="polite">
+  <div class="aeo-result-card">
+    <div class="aeo-score-banner">
+      <div class="aeo-score-badge" id="aeo-score-badge">
+        <div class="num" id="aeo-score-num">0</div>
+        <div class="max">/ 100</div>
+      </div>
+      <div class="aeo-score-summary">
+        <h3 id="aeo-score-title"></h3>
+        <p id="aeo-score-url"></p>
+      </div>
+    </div>
+
+    <div class="aeo-subscores" id="aeo-subscores"></div>
+
+    <div class="aeo-actions">
+      <h3 data-lang="en" data-en>Top 3 fixes</h3>
+      <h3 data-lang="es" data-es>Top 3 arreglos</h3>
+      <ol id="aeo-actions-list"></ol>
+    </div>
+
+    <div class="aeo-cta">
+      <h3>
+        <span data-lang="en" data-en>Want a 15-min human review?</span>
+        <span data-lang="es" data-es>&iquest;Quieres una revisi&oacute;n humana de 15 min?</span>
+      </h3>
+      <p>
+        <span data-lang="en" data-en>Free. No deck, no pitch. We map the next 90 days based on your actual gaps.</span>
+        <span data-lang="es" data-es>Gratis. Sin slides, sin pitch. Mapeamos los pr&oacute;ximos 90 d&iacute;as seg&uacute;n tus gaps reales.</span>
+      </p>
+      <a id="aeo-cta-link" href="contact.html?topic=aeo-score-review">
+        <span data-lang="en" data-en>Book a free 15-min review &rarr;</span>
+        <span data-lang="es" data-es>Agendar revisi&oacute;n de 15 min &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="aeo-howitworks">
+  <h2>
+    <span data-lang="en" data-en>How the score is computed</span>
+    <span data-lang="es" data-es>C&oacute;mo se calcula el score</span>
+  </h2>
+  <div class="aeo-howitworks-grid">
+    <div class="aeo-step">
+      <div class="n">1</div>
+      <h4>Entity (20%)</h4>
+      <p data-lang="en" data-en>Organization JSON-LD, brand in title + H1, sameAs, canonical, og:image.</p>
+      <p data-lang="es" data-es>Organization JSON-LD, marca en title + H1, sameAs, canonical, og:image.</p>
+    </div>
+    <div class="aeo-step">
+      <div class="n">2</div>
+      <h4>Schema (30%)</h4>
+      <p data-lang="en" data-en>FAQPage, HowTo, Article, BreadcrumbList, Service/Product density.</p>
+      <p data-lang="es" data-es>Densidad de FAQPage, HowTo, Article, BreadcrumbList, Service/Product.</p>
+    </div>
+    <div class="aeo-step">
+      <div class="n">3</div>
+      <h4>Topical (20%)</h4>
+      <p data-lang="en" data-en>Word count, H1/H2 structure, lists, internal links, image alts.</p>
+      <p data-lang="es" data-es>Conteo de palabras, estructura H1/H2, listas, enlaces internos, alts.</p>
+    </div>
+    <div class="aeo-step">
+      <div class="n">4</div>
+      <h4>Citations (15%)</h4>
+      <p data-lang="en" data-en>sameAs, outbound trust links (.edu/.gov), source language, bylines.</p>
+      <p data-lang="es" data-es>sameAs, enlaces de confianza (.edu/.gov), lenguaje de fuentes, autor&iacute;a.</p>
+    </div>
+    <div class="aeo-step">
+      <div class="n">5</div>
+      <h4>Methodology (15%)</h4>
+      <p data-lang="en" data-en>About / methodology section, datePublished, contact info, last-updated.</p>
+      <p data-lang="es" data-es>Secci&oacute;n metodolog&iacute;a / about, datePublished, contacto, &uacute;ltima actualizaci&oacute;n.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer style="background:#010F3B;color:white;padding:60px 20px;margin-top:60px;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;">
+      <div>
+        <h4 style="font-family:'Poppins',sans-serif;font-weight:700;margin-bottom:16px;">Company</h4>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li style="margin-bottom:8px;"><a href="about.html" style="color:rgba(255,255,255,0.7);text-decoration:none;">About</a></li>
+          <li style="margin-bottom:8px;"><a href="partners.html" style="color:rgba(255,255,255,0.7);text-decoration:none;">Partners</a></li>
+          <li style="margin-bottom:8px;"><a href="contact.html" style="color:rgba(255,255,255,0.7);text-decoration:none;">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-family:'Poppins',sans-serif;font-weight:700;margin-bottom:16px;">Free Tools</h4>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li style="margin-bottom:8px;"><a href="aeo-index.html" style="color:rgba(255,255,255,0.7);text-decoration:none;">AEO Citation Index</a></li>
+          <li style="margin-bottom:8px;"><a href="aeo-methodology.html" style="color:rgba(255,255,255,0.7);text-decoration:none;">AEO Methodology</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-family:'Poppins',sans-serif;font-weight:700;margin-bottom:16px;">Resources</h4>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li style="margin-bottom:8px;"><a href="faq.html" style="color:rgba(255,255,255,0.7);text-decoration:none;">FAQ</a></li>
+          <li style="margin-bottom:8px;"><a href="tutorials.html" style="color:rgba(255,255,255,0.7);text-decoration:none;">Tutorials</a></li>
+          <li style="margin-bottom:8px;"><a href="privacy.html" style="color:rgba(255,255,255,0.7);text-decoration:none;">Privacy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-family:'Poppins',sans-serif;font-weight:700;margin-bottom:16px;">Follow</h4>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li style="margin-bottom:8px;"><a href="https://instagram.com/netwebmedia" style="color:rgba(255,255,255,0.7);text-decoration:none;">Instagram</a></li>
+          <li style="margin-bottom:8px;"><a href="https://facebook.com/netwebmedia" style="color:rgba(255,255,255,0.7);text-decoration:none;">Facebook</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:40px;text-align:center;">
+      <p style="color:rgba(255,255,255,0.6);font-size:13px;margin:0;">&copy; 2026 NetWebMedia. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js?v=2"></script>
+<script>
+(function(){
+  var form     = document.getElementById('aeo-form');
+  var loading  = document.getElementById('aeo-loading');
+  var result   = document.getElementById('aeo-result');
+  var errBox   = document.getElementById('aeo-error');
+  var submit   = document.getElementById('aeo-submit');
+
+  // Honor ?lang=es as a simple class toggle. /js/main.js may also drive this.
+  var qs = new URLSearchParams(location.search);
+  if ((qs.get('lang') || '').toLowerCase() === 'es') document.body.classList.add('lang-es');
+
+  function badgeClass(score) {
+    if (score >= 70) return 'green';
+    if (score >= 40) return 'yellow';
+    return 'red';
+  }
+  function summaryText(score, lang) {
+    if (lang === 'es') {
+      if (score >= 70) return 'S&oacute;lido. Los motores de IA pueden citarte con confianza.';
+      if (score >= 40) return 'Mixto. Eres un candidato, pero hay competidores m&aacute;s claros que tomar&aacute;n la cita primero.';
+      return 'D&eacute;bil. Los motores de IA no logran extraerte de forma confiable. Schema y entidad son los arreglos prioritarios.';
+    }
+    if (score >= 70) return 'Strong. AI engines can confidently cite this page.';
+    if (score >= 40) return 'Mixed. You are a candidate, but cleaner competitors will take the citation first.';
+    return 'Weak. AI engines cannot reliably extract you. Schema and entity signals are the priority fixes.';
+  }
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  function showError(msg) {
+    errBox.textContent = msg;
+    errBox.classList.add('active');
+  }
+  function hideError() {
+    errBox.textContent = '';
+    errBox.classList.remove('active');
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    hideError();
+
+    var url   = (document.getElementById('aeo-url').value || '').trim();
+    var email = (document.getElementById('aeo-email').value || '').trim();
+    var brand = (document.getElementById('aeo-brand').value || '').trim();
+    var hp    = (document.getElementById('hp_website').value || '').trim();
+
+    if (!url) { showError('URL is required.'); return; }
+    if (!email || email.indexOf('@') < 0) { showError('A valid email is required.'); return; }
+
+    var lang = document.body.classList.contains('lang-es') ? 'es' : 'en';
+
+    submit.disabled = true;
+    form.style.display = 'none';
+    loading.classList.add('active');
+    result.classList.remove('active');
+
+    var body = { url: url, email: email, brand_name: brand, lang: lang };
+    if (hp) body.hp_website = hp;
+
+    var controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+    var t = setTimeout(function(){ if (controller) controller.abort(); }, 90000);
+
+    fetch('/api/public/aeo-score', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: controller ? controller.signal : undefined
+    })
+    .then(function(r){
+      return r.json().then(function(j){ return { ok: r.ok, status: r.status, body: j }; });
+    })
+    .then(function(res){
+      clearTimeout(t);
+      loading.classList.remove('active');
+      if (!res.ok || !res.body || res.body.ok === false) {
+        var msg = (res.body && res.body.error) ? res.body.error : 'Could not score that URL. Try a public, fully-loaded page.';
+        form.style.display = '';
+        submit.disabled = false;
+        showError(msg);
+        return;
+      }
+      renderResult(res.body, lang, url);
+      try { gtag('event', 'aeo_score_complete', { score: res.body.score }); } catch(_) {}
+    })
+    .catch(function(err){
+      clearTimeout(t);
+      loading.classList.remove('active');
+      form.style.display = '';
+      submit.disabled = false;
+      showError(err && err.name === 'AbortError'
+        ? 'The scan timed out. The site may be too slow to fetch.'
+        : 'Network error. Please retry.');
+      try { if (window.Sentry) Sentry.captureException(err); } catch(_) {}
+    });
+  });
+
+  function renderResult(data, lang, originalUrl) {
+    var score = Number(data.score) || 0;
+    var badge = document.getElementById('aeo-score-badge');
+    badge.classList.remove('green','yellow','red');
+    badge.classList.add(badgeClass(score));
+    document.getElementById('aeo-score-num').textContent = score;
+    document.getElementById('aeo-score-title').innerHTML = summaryText(score, lang);
+    document.getElementById('aeo-score-url').textContent = data.final_url || data.url || originalUrl;
+
+    // Sub-scores
+    var labels = lang === 'es'
+      ? { entity:'Entidad', schema:'Schema', topical:'T&oacute;pico', citations:'Citaciones', methodology:'Metodolog&iacute;a' }
+      : { entity:'Entity', schema:'Schema', topical:'Topical', citations:'Citations', methodology:'Methodology' };
+    var weights = { entity:'20%', schema:'30%', topical:'20%', citations:'15%', methodology:'15%' };
+    var sub = data.sub_scores || {};
+    var subBox = document.getElementById('aeo-subscores');
+    subBox.innerHTML = '';
+    Object.keys(labels).forEach(function(k){
+      var v = Number(sub[k]) || 0;
+      var div = document.createElement('div');
+      div.className = 'aeo-sub';
+      div.innerHTML =
+        '<div class="label">' + escapeHtml(labels[k]) + ' <span style="opacity:.6;font-weight:500;">(' + weights[k] + ')</span></div>' +
+        '<div class="value">' + v + '</div>' +
+        '<div class="bar"><span style="width:' + v + '%"></span></div>';
+      subBox.appendChild(div);
+    });
+
+    // Actions
+    var ol = document.getElementById('aeo-actions-list');
+    ol.innerHTML = '';
+    (data.actions || []).forEach(function(a){
+      var li = document.createElement('li');
+      li.textContent = a; // textContent — never innerHTML for scorer output
+      ol.appendChild(li);
+    });
+
+    // CTA URL with prefilled topic + url for the contact form
+    var cta = document.getElementById('aeo-cta-link');
+    cta.href = 'contact.html?topic=aeo-score-review&url=' + encodeURIComponent(data.url || originalUrl);
+
+    result.classList.add('active');
+    result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+})();
+</script>
+</body>
+</html>

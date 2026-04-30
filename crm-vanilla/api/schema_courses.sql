@@ -90,6 +90,18 @@ INSERT INTO `courses` (`slug`, `name`, `tagline`, `description`, `icon`, `color`
   ('chatbot-automation', 'AI Chatbot Automation — Full Deployment', 'Design, build, and deploy chatbots that qualify leads and close deals across every platform', 'Deploy intelligent chatbots across all customer channels', '🤖', '#22d3ee', 'Intermediate', 'published', '/tutorials/chatbot-automation.html', 14),
   ('sms-automation', 'SMS & Multi-Platform Messaging Automation', 'Compliance, keyword triggers, drip sequences, two-way automation across SMS, IG, FB, and more', 'Master multi-channel messaging automation with compliance', '📲', '#a29bfe', 'Intermediate', 'published', '/tutorials/sms-automation.html', 15);
 
+-- ─── Multi-tenant: add organization_id to courses + enrollments ───────────
+-- Idempotent: migrate.php swallows error 1060 (dup col) and 1061 (dup key).
+-- All existing seeded rows get DEFAULT 1 (NWM master org) — correct behaviour.
+ALTER TABLE `courses`
+  ADD COLUMN `organization_id` BIGINT UNSIGNED NOT NULL DEFAULT 1 AFTER `id`;
+ALTER TABLE `courses`
+  ADD INDEX `idx_courses_org` (`organization_id`);
+ALTER TABLE `course_enrollments`
+  ADD COLUMN `organization_id` BIGINT UNSIGNED NOT NULL DEFAULT 1 AFTER `id`;
+ALTER TABLE `course_enrollments`
+  ADD INDEX `idx_enrollments_org` (`organization_id`);
+
 -- Seed sample lessons for the first course (NetWeb CRM Masterclass)
 INSERT INTO `lessons` (`course_id`, `order_index`, `title`, `description`, `duration_minutes`, `type`, `status`)
 SELECT id, 1, 'Module 1: Dashboard Fundamentals', 'Learn to navigate the CRM dashboard and understand key metrics', 25, 'video', 'published' FROM courses WHERE slug = 'nwm-crm'

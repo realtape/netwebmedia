@@ -13,6 +13,11 @@ function route_courses($parts, $method) {
   $sub    = $parts[1] ?? null;
   $sub2   = $parts[2] ?? null;
 
+  // Multi-tenant: the authenticated user's org (from users.org_id, seeded on signup).
+  // org_id = 1 is the NWM master org — superadmins and NWM-internal users see everything.
+  // White-label orgs (org_id > 1) see only master-org courses + their own org's courses.
+  $orgId = (int) ($u['org_id'] ?? 1);
+
   /* ─── GET /api/courses ─── */
   if (!$action && $method === 'GET') {
     $q      = qparam('q', '');
@@ -23,6 +28,13 @@ function route_courses($parts, $method) {
 
     $where  = $asAdmin ? [] : ["status = 'published'"];
     $params = [];
+
+    // Org visibility: white-label tenants (org_id > 1) see NWM master courses
+    // (organization_id = 1) plus their own org's courses. Master org sees all.
+    if (!$asAdmin && $orgId !== 1) {
+      $where[] = '(organization_id = 1 OR organization_id = ?)';
+      $params[] = $orgId;
+    }
 
     if ($q !== '') {
       $where[] = '(name LIKE ? OR tagline LIKE ?)';
@@ -84,10 +96,13 @@ function route_courses($parts, $method) {
     if (!in_array($level, $allowed_levels))   $level  = 'Intermediate';
     if (!in_array($status, $allowed_statuses)) $status = 'draft';
 
+    // Admins may specify a target org; non-admin creates within their own org.
+    $courseOrgId = $isAdmin ? (int)($b['organization_id'] ?? $orgId) : $orgId;
+
     qExec(
-      "INSERT INTO courses (slug, name, tagline, description, icon, color, level, status, tutorial_url, order_index)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [$slug, $name, $tagline, $description, $icon, $color, $level, $status, $tutorial_url, $order_index]
+      "INSERT INTO courses (organization_id, slug, name, tagline, description, icon, color, level, status, tutorial_url, order_index)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [$courseOrgId, $slug, $name, $tagline, $description, $icon, $color, $level, $status, $tutorial_url, $order_index]
     );
     $id = lastId();
     json_out(['course' => qOne("SELECT * FROM courses WHERE id = ?", [$id])], 201);
@@ -181,8 +196,8 @@ function route_courses($parts, $method) {
     }
 
     qExec(
-      "INSERT INTO course_enrollments (course_id, user_id, status) VALUES (?, ?, ?)",
-      [$courseId, $u['id'], 'active']
+      "INSERT INTO course_enrollments (organization_id, course_id, user_id, status) VALUES (?, ?, ?, ?)",
+      [$orgId, $courseId, $u['id'], 'active']
     );
     $enrollmentId = lastId();
     log_activity('course.enroll', 'course', $courseId, ['enrollment_id' => $enrollmentId]);
@@ -196,7 +211,9 @@ function route_courses($parts, $method) {
     /* GET /api/courses/{id} */
     if ($sub === null && $method === 'GET') {
       $statusCond = $isAdmin ? '' : "AND status = 'published'";
-      $course = qOne("SELECT * FROM courses WHERE id = ? $statusCond", [$courseId]);
+      // Org-scope: white-label users can only open NWM courses or their own org's courses.
+      $orgCond  = (!$isAdmin && $orgId !== 1) ? "AND (organization_id = 1 OR organization_id = $orgId)" : '';
+      $course = qOne("SELECT * FROM courses WHERE id = ? $statusCond $orgCond", [$courseId]);
       if (!$course) err('Course not found', 404);
 
       $lessonCond = $isAdmin ? '' : "AND status = 'published'";

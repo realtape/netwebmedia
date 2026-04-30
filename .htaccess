@@ -21,8 +21,11 @@
   </FilesMatch>
 </IfModule>
 
-# ── Block log files from public access ────────────────────────────────
-<FilesMatch "\.log$">
+# ── Block sensitive file types from public access (belt-and-suspenders) ─
+# Directory-level blocks cover most cases, but a global FilesMatch ensures
+# any .sql / .md / .env / .bak / .log file that lands anywhere under
+# public_html is never served — even if a deploy places it in an unexpected path.
+<FilesMatch "\.(sql|env|bak|log|sh|py|rb|ini|cfg|pem|key|crt)$">
   Order allow,deny
   Deny from all
 </FilesMatch>

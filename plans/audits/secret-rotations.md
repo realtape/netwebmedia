@@ -7,3 +7,4 @@ only metadata (date, services rotated, GH Actions run ID).
 | Date (UTC) | Services rotated | Workflow run | Trigger |
 |---|---|---|---|
 | 2026-04-29T16:46:00Z | all (manual via `gh secret set`) | n/a — pre-automation | manual |
+| 2026-04-30T16:23:05Z | all | [#25176702774](https://github.com/netwebmedia/netwebmedia/actions/runs/25176702774) | workflow_dispatch |

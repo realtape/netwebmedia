@@ -1,161 +1,75 @@
-/* Courses Page Logic — 15 courses mapped to real NetWebMedia tutorials */
+/* Courses Page Logic — real API-driven course enrollment, lessons, progress tracking */
 (function () {
   "use strict";
 
-  function injectComingSoonBanner(label) {
-    var existing = document.getElementById('coming-soon-banner');
-    if (existing) return;
-    var banner = document.createElement('div');
-    banner.id = 'coming-soon-banner';
-    banner.style.cssText = 'background:linear-gradient(135deg,#010F3B,#0d1f5c);border:1px solid rgba(255,103,31,0.4);border-radius:12px;padding:16px 20px;margin:0 0 20px;display:flex;align-items:center;gap:12px;';
-    banner.innerHTML = '<span style="font-size:22px">🚧</span><div><strong style="color:#FF671F">' + label + ' — Coming Soon</strong><div style="color:#9aa;font-size:13px;margin-top:2px">This module is under active development. Data shown below is illustrative.</div></div>';
-    var content = document.querySelector('.page-content') || document.querySelector('main') || document.body;
-    content.insertBefore(banner, content.firstChild);
-  }
-
-  // Each course points to its tutorial page in /tutorials/{slug}.html
-  var COURSES = [
-    {
-      slug: "nwm-crm", name: "NetWeb CRM Masterclass",
-      tagline: "Master every module — Sales, Marketing, Service, CMS, AI Agents, Ops, Partner",
-      students: 486, lessons: 28, duration: "4h 20m", completion: 82, status: "published",
-      level: "All levels", color: "#6c5ce7", icon: "📇",
-      tutorial: "/tutorials/nwm-crm.html"
-    },
-    {
-      slug: "nwm-cms", name: "NetWeb CMS for Marketers",
-      tagline: "Pages, blog, memberships, LMS, community — ship in hours, not weeks",
-      students: 312, lessons: 16, duration: "2h 40m", completion: 74, status: "published",
-      level: "Beginner", color: "#00cec9", icon: "🌐",
-      tutorial: "/tutorials/nwm-cms.html"
-    },
-    {
-      slug: "ai-automate", name: "AI Automations in 2026",
-      tagline: "Build agents, workflows, and triggers that run the company while you sleep",
-      students: 241, lessons: 18, duration: "3h 05m", completion: 68, status: "published",
-      level: "Intermediate", color: "#a29bfe", icon: "⚡",
-      tutorial: "/tutorials/ai-automate.html"
-    },
-    {
-      slug: "ai-chat-agents", name: "AI Chat Agents",
-      tagline: "Design, train, and deploy chat agents that actually convert — across SMS, WhatsApp, web",
-      students: 198, lessons: 14, duration: "2h 15m", completion: 71, status: "published",
-      level: "Intermediate", color: "#22d3ee", icon: "🤖",
-      tutorial: "/tutorials/ai-chat-agents.html"
-    },
-    {
-      slug: "ai-seo", name: "AI SEO + AEO",
-      tagline: "Rank in Google, ChatGPT, Perplexity, Gemini — the modern answer-engine playbook",
-      students: 329, lessons: 22, duration: "3h 45m", completion: 77, status: "published",
-      level: "All levels", color: "#00b894", icon: "🔍",
-      tutorial: "/tutorials/ai-seo.html"
-    },
-    {
-      slug: "email-marketing", name: "Lifecycle Email Marketing",
-      tagline: "Behavioral triggers, bilingual nurture flows, and revenue attribution that stands up",
-      students: 276, lessons: 20, duration: "3h 10m", completion: 80, status: "published",
-      level: "Intermediate", color: "#e17055", icon: "💌",
-      tutorial: "/tutorials/email-marketing.html"
-    },
-    {
-      slug: "paid-ads", name: "Paid Ads at Creative Scale",
-      tagline: "40 ad variants a week on Meta, Google, TikTok — the only way to win in 2026",
-      students: 214, lessons: 16, duration: "2h 50m", completion: 69, status: "published",
-      level: "Advanced", color: "#fd79a8", icon: "🎯",
-      tutorial: "/tutorials/paid-ads.html"
-    },
-    {
-      slug: "social-media", name: "Social Media That Drives Revenue",
-      tagline: "Organic + paid + UGC + influencer — turn followers into customers, not vanity metrics",
-      students: 352, lessons: 19, duration: "3h 00m", completion: 73, status: "published",
-      level: "All levels", color: "#fdcb6e", icon: "📱",
-      tutorial: "/tutorials/social-media.html"
-    },
-    {
-      slug: "video-factory", name: "AI Video Factory",
-      tagline: "Script, shoot, edit, publish — 30+ short-form videos/week with an AI-first pipeline",
-      students: 167, lessons: 14, duration: "2h 25m", completion: 62, status: "published",
-      level: "Intermediate", color: "#8b5cf6", icon: "🎬",
-      tutorial: "/tutorials/video-factory.html"
-    },
-    {
-      slug: "websites", name: "High-Conversion Websites",
-      tagline: "From Shopify to headless — engineer sites that compound revenue month over month",
-      students: 283, lessons: 17, duration: "2h 55m", completion: 75, status: "published",
-      level: "All levels", color: "#0984e3", icon: "🖥️",
-      tutorial: "/tutorials/websites.html"
-    },
-    {
-      slug: "fractional-cmo", name: "Fractional CMO Playbook",
-      tagline: "Strategy, forecasting, and operator rhythms for growth-stage founders",
-      students: 122, lessons: 12, duration: "2h 10m", completion: 66, status: "published",
-      level: "Advanced", color: "#d63031", icon: "🧠",
-      tutorial: "/tutorials/fractional-cmo.html"
-    },
-    {
-      slug: "analyzer", name: "Growth Analyzer Deep-Dive",
-      tagline: "Run the 8-dimension diagnostic, read the signal, build the 90-day plan",
-      students: 98, lessons: 10, duration: "1h 40m", completion: 58, status: "published",
-      level: "Beginner", color: "#74b9ff", icon: "📊",
-      tutorial: "/tutorials/analyzer.html"
-    },
-    {
-      slug: "whatsapp-automation", name: "WhatsApp Business Automation Mastery",
-      tagline: "100% automated WhatsApp — templates, flows, broadcasts, CRM sync, zero manual replies",
-      students: 0, lessons: 38, duration: "4h 45m", completion: 0, status: "published",
-      level: "Intermediate", color: "#25d366", icon: "💬",
-      tutorial: "/tutorials/whatsapp-automation.html"
-    },
-    {
-      slug: "chatbot-automation", name: "AI Chatbot Automation — Full Deployment",
-      tagline: "Design, build, and deploy chatbots that qualify leads and close deals across every platform",
-      students: 0, lessons: 42, duration: "5h 10m", completion: 0, status: "published",
-      level: "Intermediate", color: "#22d3ee", icon: "🤖",
-      tutorial: "/tutorials/chatbot-automation.html"
-    },
-    {
-      slug: "sms-automation", name: "SMS & Multi-Platform Messaging Automation",
-      tagline: "Compliance, keyword triggers, drip sequences, two-way automation across SMS, IG, FB, and more",
-      students: 0, lessons: 31, duration: "3h 50m", completion: 0, status: "published",
-      level: "Intermediate", color: "#a29bfe", icon: "📲",
-      tutorial: "/tutorials/sms-automation.html"
-    }
-  ];
+  var API_BASE = (window.CRM_APP && CRM_APP.API_BASE) || '/api';
+  var userProgress = {};
+  var allCourses = [];
 
   document.addEventListener("DOMContentLoaded", function () {
     var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
     var L = isEs ? {
       newCourse: "Nuevo Curso", students: "Estudiantes", lessons: "Lecciones",
-      open: "Abrir Tutorial", edit: "Editar", search: "Buscar cursos…",
+      enroll: "Inscribirse", enrolled: "Inscrito", progress: "Progreso",
+      search: "Buscar cursos…", level: "Nivel", duration: "Duración",
       totalCourses: "Cursos Totales", totalStudents: "Estudiantes", avgCompletion: "Completación Promedio",
-      published: "Publicados",
-      duration: "Duración", level: "Nivel"
+      published: "Publicados", myProgress: "Mi Progreso", myEnrollments: "Mis Inscripciones",
+      lessons: "Lecciones", complete: "Completado"
     } : {
       newCourse: "New Course", students: "Students", lessons: "Lessons",
-      open: "Open Tutorial", edit: "Edit", search: "Search courses…",
+      enroll: "Enroll", enrolled: "Enrolled", progress: "Progress",
+      search: "Search courses…", level: "Level", duration: "Duration",
       totalCourses: "Total Courses", totalStudents: "Students", avgCompletion: "Avg Completion",
-      published: "Published",
-      duration: "Duration", level: "Level"
+      published: "Published", myProgress: "My Progress", myEnrollments: "My Enrollments",
+      lessons: "Lessons", complete: "Completed"
     };
 
     if (window.CRM_APP && CRM_APP.buildHeader) {
-      CRM_APP.buildHeader(CRM_APP.t('nav.courses'), '<button class="btn btn-primary">' + (CRM_APP.ICONS && CRM_APP.ICONS.plus || '+') + ' ' + L.newCourse + '</button>');
+      CRM_APP.buildHeader(CRM_APP.t('nav.courses'), '');
     }
-    renderStatsStrip(L);
-    render(L);
-    wireSearch(L);
+
+    loadCoursesAndProgress(L);
   });
+
+  function loadCoursesAndProgress(L) {
+    var body = document.getElementById("coursesBody");
+    if (!body) return;
+
+    body.innerHTML = '<div style="padding:40px; text-align:center; color:#999">Loading courses…</div>';
+
+    Promise.all([
+      fetch(API_BASE + '/courses', { headers: { 'X-Auth-Token': getToken() } }).then(r => r.json()),
+      fetch(API_BASE + '/courses/progress', { headers: { 'X-Auth-Token': getToken() } }).then(r => r.json())
+    ]).then(function (results) {
+      var coursesResp = results[0];
+      var progressResp = results[1];
+
+      allCourses = coursesResp.items || [];
+      var enrollments = progressResp.enrollments || [];
+
+      enrollments.forEach(function (e) {
+        userProgress[e.course_id] = e;
+      });
+
+      renderStatsStrip(L);
+      render(L);
+      wireSearch(L);
+    }).catch(function (err) {
+      console.error('Failed to load courses:', err);
+      body.innerHTML = '<div style="padding:40px; color:#e74c3c">Failed to load courses. Please refresh.</div>';
+    });
+  }
 
   function renderStatsStrip(L) {
     var body = document.getElementById("coursesBody");
     if (!body) return;
 
-    var totalStudents = COURSES.reduce(function (a, c) { return a + c.students; }, 0);
-    var avgCompletion = Math.round(COURSES.reduce(function (a, c) { return a + c.completion; }, 0) / COURSES.length);
-    var published = COURSES.filter(function (c) { return c.status === "published"; }).length;
+    var totalStudents = allCourses.reduce(function (a, c) { return a + (c.active_students || 0); }, 0);
+    var avgCompletion = allCourses.length ? Math.round(allCourses.reduce(function (a, c) { return a + (c.avg_completion || 0); }, 0) / allCourses.length) : 0;
+    var published = allCourses.filter(function (c) { return c.status === "published"; }).length;
 
     var html = '<div class="courses-stats">';
-    html += statCard(L.totalCourses, COURSES.length, "#22d3ee");
+    html += statCard(L.totalCourses, allCourses.length, "#22d3ee");
     html += statCard(L.totalStudents, totalStudents.toLocaleString(), "#a29bfe");
     html += statCard(L.avgCompletion, avgCompletion + "%", "#00b894");
     html += statCard(L.published, published, "#fdcb6e");
@@ -166,6 +80,7 @@
     html += '</div>';
 
     html += '<div class="course-grid" id="courseGrid"></div>';
+    html += '<div id="courseDetail" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:1000; overflow-y:auto"></div>';
     body.innerHTML = html;
   }
 
@@ -181,8 +96,8 @@
     if (!grid) return;
     var q = (filter || "").trim().toLowerCase();
     var list = q
-      ? COURSES.filter(function (c) { return c.name.toLowerCase().indexOf(q) !== -1 || c.tagline.toLowerCase().indexOf(q) !== -1; })
-      : COURSES;
+      ? allCourses.filter(function (c) { return c.name.toLowerCase().indexOf(q) !== -1 || c.tagline.toLowerCase().indexOf(q) !== -1; })
+      : allCourses;
 
     if (!list.length) {
       grid.innerHTML = '<div class="empty-state">No courses match "' + escapeHtml(q) + '"</div>';
@@ -192,32 +107,186 @@
     var html = "";
     for (var i = 0; i < list.length; i++) {
       var c = list[i];
-      html += '<article class="course-card">';
-      html += '<div class="course-card-thumb" style="background:linear-gradient(135deg, ' + c.color + '22, ' + c.color + '55); border-bottom:1px solid ' + c.color + '33">';
-      html += '<div class="course-thumb-icon" style="color:' + c.color + '">' + c.icon + '</div>';
-      html += '<div class="course-thumb-title" style="color:' + c.color + '">' + c.name + '</div>';
+      var enrollment = userProgress[c.id];
+      var color = c.color || "#6c5ce7";
+      var progress = enrollment ? enrollment.progress_percent : 0;
+
+      html += '<article class="course-card" data-course-id="' + c.id + '">';
+      html += '<div class="course-card-thumb" style="background:linear-gradient(135deg, ' + color + '22, ' + color + '55); border-bottom:1px solid ' + color + '33">';
+      html += '<div class="course-thumb-icon" style="color:' + color + '">' + (c.icon || '📚') + '</div>';
+      html += '<div class="course-thumb-title" style="color:' + color + '">' + c.name + '</div>';
       html += '</div>';
       html += '<div class="course-card-body">';
       html += '<div class="course-card-title">' + c.name + '</div>';
       html += '<p class="course-card-tag">' + c.tagline + '</p>';
       html += '<div class="course-meta">';
-      html += '<span class="course-meta-item"><b>' + c.lessons + '</b> ' + L.lessons + '</span>';
-      html += '<span class="course-meta-item">⏱ ' + c.duration + '</span>';
-      html += '<span class="course-meta-item">🎓 ' + c.level + '</span>';
+      html += '<span class="course-meta-item"><b>' + c.lesson_count + '</b> ' + L.lessons + '</span>';
+      html += '<span class="course-meta-item">🎓 ' + (c.level || 'All levels') + '</span>';
       html += '</div>';
       html += '<div class="course-enroll">';
-      html += '<span class="course-enroll-count">' + c.students.toLocaleString() + ' ' + L.students.toLowerCase() + '</span>';
-      html += '<span class="course-enroll-pct">' + c.completion + '% ' + (isEs(L) ? 'completado' : 'completion') + '</span>';
+      html += '<span class="course-enroll-count">' + (c.active_students || 0).toLocaleString() + ' ' + L.students.toLowerCase() + '</span>';
+      if (enrollment) {
+        html += '<span class="course-enroll-pct">' + Math.round(progress) + '% ' + L.progress.toLowerCase() + '</span>';
+      }
       html += '</div>';
-      html += '<div class="progress-bar"><div class="progress-fill" style="width:' + c.completion + '%; background:' + c.color + '"></div></div>';
+      html += '<div class="progress-bar"><div class="progress-fill" style="width:' + progress + '%; background:' + color + '"></div></div>';
       html += '<div class="course-card-footer">';
-      html += (window.CRM_APP && CRM_APP.statusBadge ? CRM_APP.statusBadge(c.status) : '<span class="badge badge-success">' + c.status + '</span>');
-      html += '<a class="btn btn-primary btn-sm" href="' + c.tutorial + '" target="_blank" rel="noopener">' + L.open + ' →</a>';
+      if (enrollment) {
+        html += '<button class="btn btn-primary btn-sm course-view-btn" data-course-id="' + c.id + '">View Course →</button>';
+      } else {
+        html += '<button class="btn btn-primary btn-sm course-enroll-btn" data-course-id="' + c.id + '">' + L.enroll + '</button>';
+      }
       html += '</div>';
       html += '</div>';
       html += '</article>';
     }
     grid.innerHTML = html;
+
+    // Wire up enroll and view buttons
+    wireEnrollButtons(L);
+    wireViewCourseButtons(L);
+  }
+
+  function wireEnrollButtons(L) {
+    var buttons = document.querySelectorAll(".course-enroll-btn");
+    buttons.forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        var courseId = parseInt(btn.getAttribute("data-course-id"), 10);
+        enrollCourse(courseId, L);
+      });
+    });
+  }
+
+  function wireViewCourseButtons(L) {
+    var buttons = document.querySelectorAll(".course-view-btn");
+    buttons.forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        var courseId = parseInt(btn.getAttribute("data-course-id"), 10);
+        showCourseDetail(courseId, L);
+      });
+    });
+  }
+
+  function enrollCourse(courseId, L) {
+    fetch(API_BASE + '/courses/enroll', {
+      method: 'POST',
+      headers: {
+        'X-Auth-Token': getToken(),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ course_id: courseId })
+    })
+    .then(r => r.json())
+    .then(function (resp) {
+      if (resp.enrollment_id) {
+        userProgress[courseId] = {
+          id: resp.enrollment_id,
+          course_id: courseId,
+          progress_percent: 0,
+          status: 'active'
+        };
+        render(L);
+      }
+    })
+    .catch(function (err) {
+      console.error('Enrollment failed:', err);
+      alert('Failed to enroll in course');
+    });
+  }
+
+  function showCourseDetail(courseId, L) {
+    var course = allCourses.find(function (c) { return c.id === courseId; });
+    var enrollment = userProgress[courseId];
+    if (!course) return;
+
+    fetch(API_BASE + '/courses/' + courseId, {
+      headers: { 'X-Auth-Token': getToken() }
+    })
+    .then(r => r.json())
+    .then(function (data) {
+      var lessons = data.lessons || [];
+      var color = data.course.color || "#6c5ce7";
+
+      var html = '<div class="course-detail-modal" style="background:white; max-width:800px; margin:40px auto; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.3)">';
+      html += '<div class="modal-header" style="background:linear-gradient(135deg, ' + color + '22, ' + color + '55); padding:30px; border-bottom:1px solid ' + color + '33; display:flex; justify-content:space-between; align-items:center">';
+      html += '<div>';
+      html += '<div style="font-size:32px; margin-bottom:10px">' + (data.course.icon || '📚') + '</div>';
+      html += '<h2 style="margin:0; color:' + color + '">' + data.course.name + '</h2>';
+      html += '<p style="margin:8px 0 0; color:#666; font-size:14px">' + data.course.tagline + '</p>';
+      html += '</div>';
+      html += '<button class="modal-close" style="background:none; border:none; font-size:24px; cursor:pointer; color:#666">&times;</button>';
+      html += '</div>';
+
+      html += '<div style="padding:30px">';
+      if (enrollment) {
+        html += '<div class="progress-bar" style="height:8px; margin-bottom:20px"><div class="progress-fill" style="width:' + enrollment.progress_percent + '%; background:' + color + '; height:100%"></div></div>';
+        html += '<p style="color:#666; margin:0 0 20px; font-size:14px">' + Math.round(enrollment.progress_percent) + '% ' + L.complete.toLowerCase() + '</p>';
+      }
+
+      html += '<h3 style="margin:20px 0 15px; color:#333">' + L.lessons + '</h3>';
+      for (var i = 0; i < lessons.length; i++) {
+        var lesson = lessons[i];
+        html += '<div style="padding:12px; border:1px solid #ddd; border-radius:6px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center">';
+        html += '<div>';
+        html += '<div style="font-weight:600; color:#333">' + lesson.title + '</div>';
+        html += '<div style="font-size:13px; color:#999; margin-top:4px">' + (lesson.duration_minutes || 0) + ' min • ' + (lesson.type || 'video') + '</div>';
+        html += '</div>';
+        html += '<button class="lesson-complete-btn" data-lesson-id="' + lesson.id + '" data-course-id="' + courseId + '" style="background:' + color + '; color:white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; font-size:13px">Mark Done</button>';
+        html += '</div>';
+      }
+      html += '</div>';
+      html += '</div>';
+
+      var modal = document.getElementById("courseDetail");
+      modal.innerHTML = html;
+      modal.style.display = 'block';
+
+      modal.querySelector('.modal-close').addEventListener('click', function () {
+        modal.style.display = 'none';
+      });
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) modal.style.display = 'none';
+      });
+
+      // Wire lesson complete buttons
+      var lessonBtns = modal.querySelectorAll('.lesson-complete-btn');
+      lessonBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var lessonId = parseInt(btn.getAttribute('data-lesson-id'), 10);
+          markLessonComplete(courseId, lessonId, L);
+        });
+      });
+    })
+    .catch(function (err) {
+      console.error('Failed to load course:', err);
+      alert('Failed to load course details');
+    });
+  }
+
+  function markLessonComplete(courseId, lessonId, L) {
+    fetch(API_BASE + '/courses/' + courseId + '/complete-lesson', {
+      method: 'POST',
+      headers: {
+        'X-Auth-Token': getToken(),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ lesson_id: lessonId, time_spent_minutes: 0 })
+    })
+    .then(r => r.json())
+    .then(function (resp) {
+      if (resp.progress_percent !== undefined) {
+        userProgress[courseId].progress_percent = resp.progress_percent;
+        showCourseDetail(courseId, L);
+        if (resp.course_complete) {
+          alert('Course completed! 🎉');
+        }
+      }
+    })
+    .catch(function (err) {
+      console.error('Failed to mark lesson complete:', err);
+    });
   }
 
   function wireSearch(L) {
@@ -231,7 +300,13 @@
     });
   }
 
-  function isEs(L) { return L && L.open && L.open.indexOf("Abrir") === 0; }
+  function getToken() {
+    if (typeof localStorage !== 'undefined') {
+      return localStorage.getItem('nwm_token') || '';
+    }
+    return '';
+  }
+
   function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function (c) { return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]); }); }
 
 })();

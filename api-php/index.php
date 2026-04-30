@@ -164,9 +164,13 @@ try {
     // Short-circuit prospect chat before loading routes/public.php — the
     // unified-KB chatbot endpoint lives in its own file to avoid OPcache
     // collisions with the rest of the public router.
-    if (($parts[0] ?? '') === 'chat' && !isset($parts[1])) {
+    if (($parts[0] ?? '') === 'chat') {
       require __DIR__ . '/routes/public-chat.php';
-      route_public_chat();
+      if (($parts[1] ?? '') === 'stats') {
+        route_public_chat_stats();
+      } else {
+        route_public_chat();
+      }
       exit;
     }
     require __DIR__ . '/routes/public.php';

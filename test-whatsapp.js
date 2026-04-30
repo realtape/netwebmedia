@@ -4,13 +4,18 @@
  * Automated WhatsApp Test Suite — 10 Prospect Questions
  * Tests /api/whatsapp/webhook (Twilio path) for relevance, hallucination, and rate limiting
  *
- * Usage: node test-whatsapp.js [test-name]
- *   node test-whatsapp.js                    — run full suite
- *   node test-whatsapp.js rate-limit         — test rate limit (50 msgs/phone/24h)
+ * Usage: node test-whatsapp.js [test-name] [twilio-token]
+ *   node test-whatsapp.js                    — run full suite (requires TWILIO_TOKEN env var)
+ *   node test-whatsapp.js rate-limit         — test rate limit (requires TWILIO_TOKEN)
  *   node test-whatsapp.js single-test-3      — run only question #3
+ *
+ * Note: Twilio signature verification is required in production.
+ * Set TWILIO_TOKEN environment variable or pass as second argument.
  */
 
+const crypto = require('crypto');
 const BASE_URL = 'https://netwebmedia.com/api/whatsapp/webhook';
+const TWILIO_TOKEN = process.env.TWILIO_TOKEN || process.argv[3] || null;
 
 const QUESTIONS = [
   {
@@ -86,6 +91,25 @@ const QUESTIONS = [
 ];
 
 /**
+ * Calculate Twilio signature for webhook verification
+ */
+function calculateTwilioSignature(url, params) {
+  if (!TWILIO_TOKEN) return null;
+
+  // Sort params and concatenate url + all param values
+  const sorted = Object.keys(params).sort();
+  let data = url;
+  for (const key of sorted) {
+    data += params[key];
+  }
+
+  // HMAC-SHA1 then base64 encode
+  const hmac = crypto.createHmac('sha1', TWILIO_TOKEN);
+  hmac.update(data);
+  return hmac.digest('base64');
+}
+
+/**
  * Send a single question via Twilio WhatsApp webhook
  */
 async function askWhatsApp(question, questionIndex) {
@@ -93,16 +117,27 @@ async function askWhatsApp(question, questionIndex) {
   const testPhone = `55199990000${String(questionIndex + 1).padStart(2, '0')}`;
 
   // Format as Twilio webhook POST (application/x-www-form-urlencoded)
-  const payload = new URLSearchParams({
+  const params = {
     From: `whatsapp:${testPhone}`,
     To: 'whatsapp:+1234567890', // Dummy destination
     Body: question.text,
-  });
+  };
+
+  const payload = new URLSearchParams(params);
+  const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+
+  // Add Twilio signature if token is available
+  if (TWILIO_TOKEN) {
+    const signature = calculateTwilioSignature(BASE_URL, params);
+    if (signature) {
+      headers['X-Twilio-Signature'] = signature;
+    }
+  }
 
   try {
     const response = await fetch(BASE_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      headers: headers,
       body: payload.toString(),
     });
 
@@ -273,16 +308,26 @@ async function testRateLimit() {
   let hitLimit = false;
 
   for (let i = 1; i <= 55; i++) {
-    const payload = new URLSearchParams({
+    const params = {
       From: `whatsapp:${testPhone}`,
       To: 'whatsapp:+1234567890',
       Body: `Test message #${i}`,
-    });
+    };
+
+    const payload = new URLSearchParams(params);
+    const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+
+    if (TWILIO_TOKEN) {
+      const signature = calculateTwilioSignature(BASE_URL, params);
+      if (signature) {
+        headers['X-Twilio-Signature'] = signature;
+      }
+    }
 
     try {
       const response = await fetch(BASE_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: headers,
         body: payload.toString(),
       });
 

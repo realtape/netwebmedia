@@ -1,10 +1,7 @@
-name: Cron — USA Cold Outreach (every 1 min)
+name: Cron — USA Cold Outreach
+# Schedule disabled — USA campaign complete (30,000 sent, 0 pending as of 2026-05-01).
+# Re-enable the `schedule:` block below to restart for a follow-up wave.
 on:
-  schedule:
-    # Every minute × n=50 with 1s throttle = ~50/min = 3,000/hour.
-    # Targets the best 30,000 USA "Identifiable Business" contacts ordered
-    # by niche priority. ~10 hours wall-clock to clear the cap.
-    - cron: '* * * * *'
   workflow_dispatch:
     inputs:
       niche:

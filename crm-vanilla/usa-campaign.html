@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USA Campaign — NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css?v=10">
+  <style>
+    .usa-body { padding: 24px 32px 80px; }
+    .usa-hero {
+      background: linear-gradient(135deg, #010F3B 0%, #0a1f5c 100%);
+      color: white; border-radius: 14px; padding: 28px 32px; margin-bottom: 24px;
+      position: relative; overflow: hidden;
+    }
+    .usa-hero::before {
+      content:''; position:absolute; top:-80px; right:-80px;
+      width:280px; height:280px; border-radius:50%; background:rgba(255,103,31,0.15);
+    }
+    .usa-hero h1 {
+      font-family:'Poppins',sans-serif; font-weight:800; font-size:24px;
+      margin:0 0 6px 0; position:relative; z-index:2;
+    }
+    .usa-hero .sub { font-size:14px; opacity:0.85; position:relative; z-index:2; }
+    .usa-hero .pill {
+      display:inline-block; background:#FF671F; color:white; padding:4px 12px;
+      border-radius:50px; font-size:11px; font-weight:700; letter-spacing:0.5px;
+      text-transform:uppercase; margin-bottom:12px; position:relative; z-index:2;
+    }
+
+    .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:14px; margin-bottom:28px; }
+    .kpi {
+      background:white; border:1px solid #e5e7eb; border-radius:10px;
+      padding:18px 20px; color:#1f2937;
+    }
+    .kpi-label { font-size:11px; color:#6b7280; letter-spacing:0.6px; text-transform:uppercase; font-weight:600; margin-bottom:6px; }
+    .kpi-value { font-family:'Poppins',sans-serif; font-weight:800; font-size:32px; color:#010F3B; line-height:1.1; }
+    .kpi-suffix { font-size:13px; color:#6b7280; margin-left:4px; }
+    .kpi.ok    .kpi-value { color:#10b981; }
+    .kpi.warn  .kpi-value { color:#FF671F; }
+    .kpi.bad   .kpi-value { color:#ef4444; }
+    .kpi-meta  { font-size:12px; color:#6b7280; margin-top:4px; }
+
+    .panel { background:white; border:1px solid #e5e7eb; border-radius:10px; padding:20px; margin-bottom:24px; color:#1f2937; }
+    .panel a { color:#FF671F; }
+    table.tbl td { color:#1f2937; }
+    table.tbl td.num { color:#010F3B; font-weight:600; }
+    .panel h2 {
+      font-family:'Poppins',sans-serif; font-weight:800; font-size:16px;
+      color:#010F3B; margin:0 0 14px 0; display:flex; align-items:center; justify-content:space-between;
+    }
+    .panel h2 .panel-meta { font-family:'Inter',sans-serif; font-weight:500; font-size:12px; color:#6b7280; letter-spacing:0; text-transform:none; }
+
+    table.tbl { width:100%; border-collapse:collapse; font-size:13px; }
+    table.tbl th { text-align:left; padding:8px 10px; color:#6b7280; font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:0.4px; border-bottom:1px solid #e5e7eb; }
+    table.tbl td { padding:10px; border-bottom:1px solid #f3f4f6; vertical-align:top; }
+    table.tbl tr:last-child td { border-bottom:0; }
+    table.tbl td.num { text-align:right; font-variant-numeric:tabular-nums; }
+    table.tbl td.email { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12px; color:#374151; }
+    .progress { background:#f3f4f6; height:6px; border-radius:3px; overflow:hidden; margin-top:6px; }
+    .progress-bar { background:#FF671F; height:100%; transition:width 0.3s; }
+
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    @media (max-width:900px) { .grid-2 { grid-template-columns:1fr; } }
+
+    .empty { color:#9ca3af; padding:24px; text-align:center; font-size:13px; }
+    .stale { color:#9ca3af; font-size:11px; margin-top:6px; }
+    .actions { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
+    .btn-orange { background:#FF671F; color:white; border:0; padding:10px 18px; border-radius:6px; font-weight:600; font-size:13px; cursor:pointer; text-decoration:none; display:inline-block; font-family:inherit; }
+    .btn-ghost  { background:transparent; color:#FF671F; border:1px solid #FF671F; padding:10px 18px; border-radius:6px; font-weight:600; font-size:13px; cursor:pointer; text-decoration:none; display:inline-block; font-family:inherit; }
+    .niche-name { font-weight:600; color:#374151; }
+    .niche-key { color:#9ca3af; font-size:11px; font-family:ui-monospace,Menlo,Consolas,monospace; margin-left:6px; }
+
+    .flag { font-size:20px; margin-right:8px; vertical-align:middle; }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+
+      <div class="usa-body">
+
+        <div class="usa-hero">
+          <span class="pill">Campaign complete</span>
+          <h1><span class="flag">🇺🇸</span>USA Cold Outreach — Identifiable Business, 2026</h1>
+          <div class="sub" id="campaignMeta">Loading…</div>
+          <div class="actions">
+            <a class="btn-ghost" href="https://netwebmedia.com/api/usa-send?mode=preview&token=NWM_USA_SEND_2026_d3f7e2c9a1b48560" target="_blank">Preview email</a>
+          </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="kpi-grid" id="kpiGrid"></div>
+
+        <!-- Per-niche table -->
+        <div class="panel">
+          <h2>By niche <span class="panel-meta" id="lastRefresh"></span></h2>
+          <div id="nicheTable"><div class="empty">Loading…</div></div>
+        </div>
+
+        <!-- Per-state table -->
+        <div class="panel">
+          <h2>By state</h2>
+          <div id="stateTable"><div class="empty">Loading…</div></div>
+        </div>
+
+        <!-- Activity feeds side by side -->
+        <div class="grid-2">
+          <div class="panel">
+            <h2>Recent sends</h2>
+            <div id="recentSends"><div class="empty">Loading…</div></div>
+          </div>
+          <div class="panel">
+            <h2>Recent clicks (audit opened)</h2>
+            <div id="recentClicks"><div class="empty">Loading…</div></div>
+          </div>
+        </div>
+
+        <!-- Full clickers list -->
+        <div class="panel" style="margin-top:24px">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px">
+            <h2 style="margin:0">All clickers — full list</h2>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <input id="clickSearch" type="search" placeholder="Search by name, company, email, state…"
+                     style="padding:7px 11px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;min-width:260px">
+              <select id="clickMode"
+                      style="padding:7px 11px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;background:#fff">
+                <option value="all">All clicks (includes repeats)</option>
+                <option value="unique" selected>Unique per contact</option>
+              </select>
+              <button id="clickExport" class="btn"
+                      style="padding:7px 14px;background:#FF671F;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer">
+                Export CSV
+              </button>
+            </div>
+          </div>
+          <div id="allClicksTable"><div class="empty">Loading…</div></div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js?v=11"></script>
+  <script>
+    /* USA Campaign tracking dashboard.
+     * Polls /crm-vanilla/api/usa_stats.php every 30s.
+     */
+    (function () {
+      const STATS_URL = (location.hostname === 'app.netwebmedia.com')
+        ? '/crm-vanilla/api/usa_stats.php'
+        : 'https://netwebmedia.com/crm-vanilla/api/usa_stats.php';
+      const POLL_MS = 30000;
+
+      function fmtTime(iso) {
+        if (!iso) return '';
+        try {
+          const d = new Date(iso);
+          if (isNaN(d.getTime())) return iso;
+          return d.toLocaleString('en-US', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+        } catch (e) { return iso; }
+      }
+
+      function renderKpis(t) {
+        const pctDone = t.total > 0 ? Math.round((t.sent / t.total) * 100) : 0;
+        const cards = [
+          { label: 'Universe (cap 30k)', val: t.total.toLocaleString(),        cls: '',     meta: `${t.cap.toLocaleString()} cap · ${pctDone}% complete` },
+          { label: 'Sent',               val: t.sent.toLocaleString(),          cls: 'ok',   meta: `${t.pending.toLocaleString()} pending` },
+          { label: 'Clicked audit',      val: t.clicks_unique.toLocaleString(), cls: t.clicks_unique > 0 ? 'ok' : '', meta: `${t.clicks_total.toLocaleString()} total clicks` },
+          { label: 'CTR',                val: t.ctr_pct + '%',                  cls: t.ctr_pct >= 5 ? 'ok' : (t.ctr_pct >= 2 ? 'warn' : ''), meta: 'Unique / sent' },
+          { label: 'Unsubscribed',       val: t.unsubscribed.toLocaleString(),  cls: t.unsubscribed > 0 ? 'warn' : '', meta: 'List-Unsubscribe + reply' },
+          { label: 'Failed',             val: t.failed.toLocaleString(),        cls: t.failed > 0 ? 'bad' : '', meta: 'Resend rejected' },
+        ];
+        document.getElementById('kpiGrid').innerHTML = cards.map(c => `
+          <div class="kpi ${c.cls}">
+            <div class="kpi-label">${c.label}</div>
+            <div class="kpi-value">${c.val}</div>
+            <div class="kpi-meta">${c.meta}</div>
+          </div>
+        `).join('');
+      }
+
+      function renderNiches(rows) {
+        if (!rows || !rows.length) {
+          document.getElementById('nicheTable').innerHTML = '<div class="empty">No niche data yet.</div>';
+          return;
+        }
+        const tbody = rows.map(r => {
+          const pct = r.total > 0 ? Math.round(r.sent * 100 / r.total) : 0;
+          return `
+            <tr>
+              <td>
+                <span class="niche-name">${r.niche || r.niche_key}</span>
+                <span class="niche-key">${r.niche_key}</span>
+              </td>
+              <td class="num">${r.total.toLocaleString()}</td>
+              <td class="num">${r.sent.toLocaleString()}<div class="progress"><div class="progress-bar" style="width:${pct}%"></div></div></td>
+              <td class="num">${r.pending.toLocaleString()}</td>
+              <td class="num">${r.clicks.toLocaleString()}</td>
+              <td class="num">${r.ctr_pct}%</td>
+              <td class="num">${r.unsub.toLocaleString()}</td>
+            </tr>`;
+        }).join('');
+        document.getElementById('nicheTable').innerHTML = `
+          <table class="tbl">
+            <thead><tr>
+              <th>Niche</th>
+              <th class="num">Total</th>
+              <th class="num">Sent</th>
+              <th class="num">Pending</th>
+              <th class="num">Unique clicks</th>
+              <th class="num">CTR</th>
+              <th class="num">Unsubs</th>
+            </tr></thead>
+            <tbody>${tbody}</tbody>
+          </table>`;
+      }
+
+      function renderStates(rows) {
+        if (!rows || !rows.length) {
+          document.getElementById('stateTable').innerHTML = '<div class="empty">No state data yet.</div>';
+          return;
+        }
+        // Sort by sent desc for most interesting view
+        const sorted = [...rows].sort((a, b) => b.sent - a.sent);
+        const tbody = sorted.map(r => {
+          const pct = r.total > 0 ? Math.round(r.sent * 100 / r.total) : 0;
+          return `
+            <tr>
+              <td class="niche-name" style="text-transform:uppercase">${r.state || 'unknown'}</td>
+              <td class="num">${r.total.toLocaleString()}</td>
+              <td class="num">${r.sent.toLocaleString()}<div class="progress"><div class="progress-bar" style="width:${pct}%"></div></div></td>
+              <td class="num">${r.pending.toLocaleString()}</td>
+              <td class="num">${r.clicks.toLocaleString()}</td>
+              <td class="num">${r.ctr_pct}%</td>
+              <td class="num">${r.unsub.toLocaleString()}</td>
+            </tr>`;
+        }).join('');
+        document.getElementById('stateTable').innerHTML = `
+          <table class="tbl">
+            <thead><tr>
+              <th>State</th>
+              <th class="num">Total</th>
+              <th class="num">Sent</th>
+              <th class="num">Pending</th>
+              <th class="num">Unique clicks</th>
+              <th class="num">CTR</th>
+              <th class="num">Unsubs</th>
+            </tr></thead>
+            <tbody>${tbody}</tbody>
+          </table>`;
+      }
+
+      function renderRecentSends(items) {
+        if (!items || !items.length) {
+          document.getElementById('recentSends').innerHTML = '<div class="empty">No sends yet.</div>';
+          return;
+        }
+        const rows = items.map(s => `
+          <tr>
+            <td>${s.company || '<span style="color:#9ca3af">unnamed</span>'}<div class="niche-key">${s.niche || ''} ${s.state ? '· '+s.state : ''}</div></td>
+            <td class="email">${s.email}</td>
+          </tr>`).join('');
+        document.getElementById('recentSends').innerHTML = `<table class="tbl"><tbody>${rows}</tbody></table>`;
+      }
+
+      function renderRecentClicks(items) {
+        if (!items || !items.length) {
+          document.getElementById('recentClicks').innerHTML = '<div class="empty">No clicks yet.</div>';
+          return;
+        }
+        const rows = items.map(c => `
+          <tr>
+            <td>${c.company || '<span style="color:#9ca3af">'+c.email+'</span>'}<div class="niche-key">${c.niche || ''} ${c.state ? '· '+c.state : ''}</div></td>
+            <td class="num" style="color:#6b7280;font-size:12px;white-space:nowrap">${fmtTime(c.timestamp)}</td>
+          </tr>`).join('');
+        document.getElementById('recentClicks').innerHTML = `<table class="tbl"><tbody>${rows}</tbody></table>`;
+      }
+
+      let allClicks = [];
+
+      function renderAllClicks() {
+        const q = (document.getElementById('clickSearch').value || '').toLowerCase().trim();
+        const filtered = q
+          ? allClicks.filter(c =>
+              (c.name||'').toLowerCase().includes(q) ||
+              (c.company||'').toLowerCase().includes(q) ||
+              (c.email||'').toLowerCase().includes(q) ||
+              (c.state||'').toLowerCase().includes(q) ||
+              (c.niche||'').toLowerCase().includes(q)
+            )
+          : allClicks;
+
+        if (!filtered.length) {
+          document.getElementById('allClicksTable').innerHTML =
+            '<div class="empty">' + (allClicks.length ? 'No matches for that search.' : 'No clicks yet.') + '</div>';
+          return;
+        }
+        const rows = filtered.map(c => `
+          <tr>
+            <td>
+              <div class="niche-name">${esc(c.name || c.company || '—')}</div>
+              ${c.company && c.company !== c.name ? '<div class="niche-key">'+esc(c.company)+'</div>' : ''}
+            </td>
+            <td class="email">${esc(c.email || '')}</td>
+            <td>${esc(c.niche || c.niche_key || '')}</td>
+            <td style="text-transform:uppercase">${esc(c.state || '')}</td>
+            <td>${esc(c.city || '')}</td>
+            <td class="num" style="white-space:nowrap;color:#6b7280;font-size:12px">${fmtTime(c.timestamp)}</td>
+            <td>${c.website ? '<a href="'+escAttr(c.website)+'" target="_blank" rel="noopener" style="color:#FF671F;text-decoration:none">↗</a>' : ''}</td>
+          </tr>`).join('');
+        document.getElementById('allClicksTable').innerHTML = `
+          <div style="margin-bottom:8px;font-size:12px;color:#6b7280">${filtered.length} of ${allClicks.length} clicks</div>
+          <table class="tbl">
+            <thead><tr>
+              <th>Contact</th><th>Email</th><th>Niche</th><th>State</th><th>City</th>
+              <th class="num">Clicked</th><th>Site</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+          </table>`;
+      }
+
+      function esc(s) {
+        return String(s == null ? '' : s)
+          .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+          .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+      }
+      function escAttr(s) { return esc(s); }
+
+      async function refreshAllClicks() {
+        const mode = document.getElementById('clickMode').value || 'unique';
+        const url = STATS_URL + '?clicks=' + encodeURIComponent(mode);
+        try {
+          const res = await fetch(url, { credentials: 'same-origin', cache: 'no-store' });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          allClicks = data.recent_clicks || [];
+          renderAllClicks();
+        } catch (e) {
+          document.getElementById('allClicksTable').innerHTML =
+            '<div class="empty" style="color:#ef4444">Error: ' + esc(e.message) + '</div>';
+        }
+      }
+
+      function exportClicksCSV() {
+        const q = (document.getElementById('clickSearch').value || '').toLowerCase().trim();
+        const rows = q
+          ? allClicks.filter(c =>
+              (c.name||'').toLowerCase().includes(q) ||
+              (c.company||'').toLowerCase().includes(q) ||
+              (c.email||'').toLowerCase().includes(q) ||
+              (c.state||'').toLowerCase().includes(q) ||
+              (c.niche||'').toLowerCase().includes(q)
+            )
+          : allClicks;
+        if (!rows.length) { alert('No rows to export.'); return; }
+        const head = ['name','company','email','niche','state','city','website','timestamp','ip'];
+        const csv = [head.join(',')].concat(
+          rows.map(r => head.map(k => {
+            const v = String(r[k] == null ? '' : r[k]).replace(/"/g, '""');
+            return /[",\n]/.test(v) ? '"' + v + '"' : v;
+          }).join(','))
+        ).join('\n');
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'usa-clickers-' + new Date().toISOString().slice(0,10) + '.csv';
+        document.body.appendChild(a); a.click(); a.remove();
+      }
+
+      async function refresh() {
+        try {
+          const res = await fetch(STATS_URL, { credentials: 'same-origin', cache: 'no-store' });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+          const t = data.totals || {};
+
+          document.getElementById('campaignMeta').textContent =
+            `${(t.sent||0).toLocaleString()} sent · ${(t.pending||0).toLocaleString()} pending · ${(t.clicks_unique||0).toLocaleString()} clicks · Last update: ${
+              new Date(data.server_time).toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' })}`;
+
+          document.getElementById('lastRefresh').textContent =
+            'Updated ' + new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+
+          if (data.db_error) {
+            document.getElementById('nicheTable').innerHTML =
+              '<div class="empty" style="color:#ef4444">DB error: ' + esc(data.db_error) + '</div>';
+          } else {
+            renderNiches(data.by_niche || []);
+            renderStates(data.by_state || []);
+          }
+
+          renderKpis(t);
+          renderRecentSends(data.recent_sends || []);
+          renderRecentClicks(data.recent_clicks || []);
+
+        } catch (e) {
+          document.getElementById('campaignMeta').textContent = 'Error loading stats: ' + e.message;
+        }
+      }
+
+      document.getElementById('clickMode').addEventListener('change', refreshAllClicks);
+      document.getElementById('clickSearch').addEventListener('input', renderAllClicks);
+      document.getElementById('clickExport').addEventListener('click', exportClicksCSV);
+
+      refresh();
+      refreshAllClicks();
+      setInterval(() => { refresh(); refreshAllClicks(); }, POLL_MS);
+    })();
+  </script>
+</body>
+</html>

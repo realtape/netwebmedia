@@ -1,10 +1,7 @@
-name: Cron — Chile Cold Outreach (every 1 min, send-all mode)
+name: Cron — Chile Cold Outreach (send-all mode)
+# Schedule disabled — Chile campaign complete (3,693 sent, 0 pending as of 2026-05-01).
+# Re-enable the `schedule:` block below to restart for a follow-up wave.
 on:
-  schedule:
-    # n=3000 with 100ms throttle = a single ~5-min one-shot call that drains
-    # everything remaining. Concurrency group prevents overlap; cron stays
-    # active so any dripping additions get caught on the next tick.
-    - cron: '* * * * *'
   workflow_dispatch:
     inputs:
       niche:

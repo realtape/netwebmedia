@@ -9,7 +9,7 @@
       nav: {
         dashboard: "Dashboard", conversations: "Conversations", calendars: "Calendars",
         contacts: "Contacts", pipeline: "Pipeline", tasks: "Tasks", booking: "Booking", sms: "SMS", payments: "Payments",
-        marketing: "Marketing", campaigns: "Campaigns", emailBuilder: "Email Builder", forms: "Forms", chileCampaign: "Chile Campaign", diagnostic: "Diagnostic", automation: "Automation", abtests: "A/B Tests", sites: "Sites",
+        marketing: "Marketing", campaigns: "Campaigns", emailBuilder: "Email Builder", forms: "Forms", chileCampaign: "Chile Campaign", usaCampaign: "USA Campaign", diagnostic: "Diagnostic", automation: "Automation", abtests: "A/B Tests", sites: "Sites",
         reputation: "Reputation", reporting: "Reporting", realtime: "Realtime", documents: "Documents",
         courses: "Courses", social: "Social Planner", settings: "Settings"
       },
@@ -246,7 +246,7 @@
       nav: {
         dashboard: "Panel", conversations: "Conversaciones", calendars: "Calendarios",
         contacts: "Contactos", pipeline: "Pipeline", tasks: "Tareas", booking: "Reservas", sms: "SMS", payments: "Pagos",
-        marketing: "Marketing", campaigns: "Campañas", emailBuilder: "Editor de Emails", forms: "Formularios", chileCampaign: "Campaña Chile", diagnostic: "Diagnóstico", automation: "Automatización", abtests: "Tests A/B", sites: "Sitios",
+        marketing: "Marketing", campaigns: "Campañas", emailBuilder: "Editor de Emails", forms: "Formularios", chileCampaign: "Campaña Chile", usaCampaign: "Campaña USA", diagnostic: "Diagnóstico", automation: "Automatización", abtests: "Tests A/B", sites: "Sitios",
         reputation: "Reputación", reporting: "Reportes", realtime: "Tiempo Real", documents: "Documentos",
         courses: "Cursos", social: "Planificador Social", settings: "Ajustes"
       },
@@ -681,6 +681,7 @@
     { id: "marketing", key: "marketing", icon: "marketing", href: "marketing.html" },
     { id: "campaigns", key: "campaigns", icon: "email", href: "campaigns.html" },
     { id: "chileCampaign", key: "chileCampaign", icon: "rocket", href: "chile-campaign.html" },
+    { id: "usaCampaign",   key: "usaCampaign",   icon: "rocket", href: "usa-campaign.html" },
     { id: "diagnostic", key: "diagnostic", icon: "diagnostic", href: "diagnostic.html" },
     { id: "automation", key: "automation", icon: "automation", href: "automation.html", beta: true },
     { id: "abtests", key: "abtests", icon: "abtest", href: "abtests.html" },

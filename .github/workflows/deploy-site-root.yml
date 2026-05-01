@@ -269,6 +269,31 @@ jobs:
           else
             echo "crm-vanilla not in stage — skipping CRM config.local.php"
           fi
+
+          # Generate js/pixel-init.js — frontend-side secret injection for Meta Pixel ID.
+          # This file sets window.NWM_META_PIXEL_ID before any other script runs.
+          # Gated initialization in HTML files checks if the ID is non-empty before fbq('init').
+          if [ -d "_stage/js" ]; then
+            python3 - <<'PYEOF' > "_stage/js/pixel-init.js"
+          import os
+          def e(v: str) -> str: return (v or '').replace("\\", "\\\\").replace('"', '\\"')
+          pixel_id = (os.environ.get('SECRET_META_PIXEL_ID') or '').strip()
+          print("// Auto-generated during deploy. DO NOT EDIT.")
+          print(f"window.NWM_META_PIXEL_ID = '{e(pixel_id)}';")
+          PYEOF
+            echo "js/pixel-init.js generated (Meta Pixel ID injected)"
+          else
+            echo "js/ not in stage — creating it"
+            mkdir -p "_stage/js"
+            python3 - <<'PYEOF' > "_stage/js/pixel-init.js"
+          import os
+          def e(v: str) -> str: return (v or '').replace("\\", "\\\\").replace('"', '\\"')
+          pixel_id = (os.environ.get('SECRET_META_PIXEL_ID') or '').strip()
+          print("// Auto-generated during deploy. DO NOT EDIT.")
+          print(f"window.NWM_META_PIXEL_ID = '{e(pixel_id)}';")
+          PYEOF
+            echo "js/pixel-init.js generated (Meta Pixel ID injected)"
+          fi
         env:
           SECRET_DB_PASS:           ${{ secrets.CRM_DB_PASSWORD }}
           SECRET_JWT_SECRET:        ${{ secrets.JWT_SECRET }}
@@ -292,6 +317,7 @@ jobs:
           SECRET_DEDUPE_TOKEN:      ${{ secrets.DEDUPE_TOKEN }}
           SECRET_IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
           SECRET_IMPORT_CSV_TOKEN:  ${{ secrets.IMPORT_CSV_TOKEN }}
+          SECRET_META_PIXEL_ID:     ${{ secrets.META_PIXEL_ID }}
 
       - name: Server-side cleanup of decommissioned files
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}

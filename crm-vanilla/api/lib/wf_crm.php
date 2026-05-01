@@ -179,11 +179,13 @@ function wf_crm_advance(array $run, PDO $db): string {
         case 'wait':
             $delay = (int)($config['delay'] ?? $config['minutes'] ?? $config['hours'] ?? $config['days'] ?? 1);
             $unit  = strtolower($config['unit'] ?? (isset($config['hours']) ? 'hours' : (isset($config['days']) ? 'days' : 'minutes')));
-            $minutes = match($unit) {
-                'hours', 'hour'   => $delay * 60,
-                'days',  'day'    => $delay * 60 * 24,
-                default           => $delay,
-            };
+            if ($unit === 'hours' || $unit === 'hour') {
+                $minutes = $delay * 60;
+            } elseif ($unit === 'days' || $unit === 'day') {
+                $minutes = $delay * 60 * 24;
+            } else {
+                $minutes = $delay;
+            }
             $waitUntil  = date('Y-m-d H:i:s', time() + $minutes * 60);
             $advanceIdx = true;   // move to next step; next_run_at gates it
             $stepResult = "wait_{$minutes}min";
@@ -193,10 +195,13 @@ function wf_crm_advance(array $run, PDO $db): string {
         case 'send_email':
             $to = $config['to'] ?? ($ctx['email'] ?? null);
             if (!$to) { $stepResult = 'no_recipient'; break; }
-            if (str_contains($to, '{{')) {
+            if (strpos($to, '{{') !== false) {
                 // Simple token replace: {{contact.email}}, {{email}}
-                $to = preg_replace_callback('/\{\{([^}]+)\}\}/', fn($m) =>
-                    $ctx[trim($m[1])] ?? ($ctx['contact'][trim($m[1])] ?? ''), $to);
+                $ctxRef = $ctx;
+                $to = preg_replace_callback('/\{\{([^}]+)\}\}/', function ($m) use ($ctxRef) {
+                    $k = trim($m[1]);
+                    return isset($ctxRef[$k]) ? $ctxRef[$k] : (isset($ctxRef['contact'][$k]) ? $ctxRef['contact'][$k] : '');
+                }, $to);
             }
             if (!filter_var($to, FILTER_VALIDATE_EMAIL)) { $stepResult = 'bad_email'; break; }
             $subject = $config['subject'] ?? 'Message from NetWebMedia';
@@ -359,15 +364,15 @@ function wf_crm_advance(array $run, PDO $db): string {
             $op    = $cond['op']    ?? 'eq';
             $cval  = $cond['value'] ?? '';
             $actual = $ctx[$field] ?? ($ctx['contact'][$field] ?? null);
-            $pass   = match($op) {
-                'eq'       => (string)$actual === (string)$cval,
-                'neq'      => (string)$actual !== (string)$cval,
-                'contains' => str_contains((string)$actual, (string)$cval),
-                'gt'       => (float)$actual > (float)$cval,
-                'lt'       => (float)$actual < (float)$cval,
-                'exists'   => !empty($actual),
-                default    => false,
-            };
+            switch ($op) {
+                case 'eq':      $pass = ((string)$actual === (string)$cval); break;
+                case 'neq':     $pass = ((string)$actual !== (string)$cval); break;
+                case 'contains':$pass = (strpos((string)$actual, (string)$cval) !== false); break;
+                case 'gt':      $pass = ((float)$actual > (float)$cval); break;
+                case 'lt':      $pass = ((float)$actual < (float)$cval); break;
+                case 'exists':  $pass = !empty($actual); break;
+                default:        $pass = false; break;
+            }
             $branch = $pass ? ($config['then'] ?? []) : ($config['else'] ?? []);
             if (!empty($branch)) {
                 // Inject branch steps AFTER current idx
@@ -458,8 +463,6 @@ function wf_crm_normalise_step(array $step): array {
  * ─────────────────────────────────────────────────────────────────────── */
 
 function wf_crm_add_tag(int $contactId, string $tag, PDO $db): void {
-    $row = $db->prepare("SELECT tags FROM contacts WHERE id=?")->execute([$contactId])
-        ? null : null;
     $stmt = $db->prepare("SELECT tags FROM contacts WHERE id=?");
     $stmt->execute([$contactId]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -478,7 +481,8 @@ function wf_crm_remove_tag(int $contactId, string $tag, PDO $db): void {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$row) return;
     $tags = array_filter(array_map('trim', explode(',', $row['tags'] ?? '')));
-    $tags = array_values(array_filter($tags, fn($t) => $t !== $tag));
+    $tagToRemove = $tag;
+    $tags = array_values(array_filter($tags, function ($t) use ($tagToRemove) { return $t !== $tagToRemove; }));
     $db->prepare("UPDATE contacts SET tags=?, updated_at=NOW() WHERE id=?")
        ->execute([implode(',', $tags), $contactId]);
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" width="1500" height="500">
+  <title>NetWebMedia social header — X / Twitter banner format</title>
+  <desc>Brand banner 1500x500. Navy gradient background, Orange accent rule, headline + tagline. Safe-area centered to survive FB/LinkedIn crops.</desc>
+  <defs>
+    <radialGradient id="bgGlow1" cx="20%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#02206b" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#02206b" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bgGlow2" cx="85%" cy="85%" r="55%">
+      <stop offset="0%" stop-color="#0d1f5c" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#0d1f5c" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="orangeRule" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF671F"/>
+      <stop offset="100%" stop-color="#ff8c4a"/>
+    </linearGradient>
+  </defs>
+  <!-- Navy base -->
+  <rect width="1500" height="500" fill="#010F3B"/>
+  <!-- Background atmospheric glows -->
+  <rect width="1500" height="500" fill="url(#bgGlow1)"/>
+  <rect width="1500" height="500" fill="url(#bgGlow2)"/>
+
+  <!-- Orange accent rule, safe-area centered -->
+  <rect x="510" y="155" width="80" height="4" fill="url(#orangeRule)"/>
+
+  <!-- Headline — primary value prop -->
+  <text x="750" y="240" text-anchor="middle"
+        font-family="'Poppins', 'Inter', sans-serif"
+        font-weight="800" font-size="64" fill="#eaf0ff" letter-spacing="-1">
+    AI-native fractional CMO.
+  </text>
+
+  <!-- Tagline — what we do -->
+  <text x="750" y="310" text-anchor="middle"
+        font-family="'Inter', sans-serif"
+        font-weight="500" font-size="28" fill="#8892b0" letter-spacing="0.5">
+    AEO strategy, content, and execution for SMBs.
+  </text>
+
+  <!-- Bottom orange chip with URL -->
+  <rect x="640" y="370" width="220" height="42" rx="21" fill="url(#orangeRule)"/>
+  <text x="750" y="397" text-anchor="middle"
+        font-family="'Inter', sans-serif"
+        font-weight="700" font-size="18" fill="#010F3B" letter-spacing="0.5">
+    netwebmedia.com
+  </text>
+</svg>

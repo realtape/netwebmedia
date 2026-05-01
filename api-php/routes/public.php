@@ -230,6 +230,110 @@ function route_public($parts, $method) {
     json_out(['ok' => true, 'id' => $contactId, 'sequence_enrolled' => $seqId ?? 'welcome'], 201);
   }
 
+  // /api/public/whatsapp/subscribe — body: {phone, name?, niche?, consent_text, source?, lang?}
+  //
+  // Captures opted-in WhatsApp subscribers BEFORE Meta WABA verification completes.
+  // Once verification clears, a separate flush job (cron) sends the double-opt-in
+  // confirmation message to every subscriber whose `wa_optin_status` is still
+  // 'pending_double_opt_in', flipping them to 'confirmed' on reply.
+  //
+  // Storage: extends the existing `contact` resource type. Tags include
+  // 'whatsapp_subscriber' + 'lead-new'. Per-record metadata in data.whatsapp:
+  //   { phone (E.164), consent_at (ISO8601), consent_text, source, niche?,
+  //     wa_optin_status: 'pending_double_opt_in' | 'confirmed' | 'opted_out' }
+  if ($sub === 'whatsapp' && ($parts[1] ?? null) === 'subscribe' && $method === 'POST') {
+    // Honeypot — silent 200 with fake id so bots don't adapt
+    foreach (['nwm_website', 'hp_website', 'honeypot'] as $hp) {
+      if (!empty($_POST[$hp]) || !empty($_GET[$hp])) {
+        json_out(['ok' => true, 'id' => 0, 'status' => 'pending_double_opt_in']);
+        return;
+      }
+    }
+    // Rate limit — stricter than newsletter (SMS abuse is more expensive than email)
+    rate_limit_check('whatsapp_subscribe', 20, 3600);
+
+    $b = required(['phone', 'consent_text']);
+
+    // Normalize phone to E.164 — strip everything except digits + leading +
+    $phoneRaw = (string)$b['phone'];
+    $phone = preg_replace('/[^\d+]/', '', $phoneRaw);
+    if (str_contains(substr($phone, 1), '+')) $phone = '+' . preg_replace('/\+/', '', $phone);
+    if (substr_count($phone, '+') > 1) err('Invalid phone format');
+    $digits = preg_replace('/\D/', '', $phone);
+    if (strlen($digits) < 10 || strlen($digits) > 15) err('Phone must be 10–15 digits in E.164 format');
+    if ($phone[0] !== '+') $phone = '+' . $digits;
+
+    $consentText = trim((string)$b['consent_text']);
+    if (mb_strlen($consentText) < 20) err('consent_text must record the exact opt-in text the user accepted');
+    if (mb_strlen($consentText) > 2000) $consentText = mb_substr($consentText, 0, 2000);
+
+    $name = trim((string)($b['name'] ?? ''));
+    if ($name === '') $name = 'WhatsApp subscriber ' . substr($phone, -4);
+    if (mb_strlen($name) > 200) $name = mb_substr($name, 0, 200);
+
+    $niche = strtolower(trim((string)($b['niche'] ?? '')));
+    $allowedNiches = ['tourism','restaurants','health','beauty','smb','law_firms','real_estate','local_specialist','automotive','education','events_weddings','financial_services','home_services','wine_agriculture'];
+    if ($niche !== '' && !in_array($niche, $allowedNiches, true)) $niche = '';
+
+    $source = mb_substr(trim((string)($b['source'] ?? 'whatsapp_optin')), 0, 100);
+    $lang = in_array(($b['lang'] ?? 'en'), ['en','es'], true) ? $b['lang'] : 'en';
+
+    $orgId = 1;
+    $now = date('c');
+
+    $waMeta = [
+      'phone'           => $phone,
+      'consent_at'      => $now,
+      'consent_text'    => $consentText,
+      'consent_ip'      => $_SERVER['REMOTE_ADDR'] ?? null,
+      'consent_ua'      => mb_substr((string)($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 500),
+      'source'          => $source,
+      'niche'           => $niche ?: null,
+      'lang'            => $lang,
+      'wa_optin_status' => 'pending_double_opt_in',
+    ];
+
+    // Idempotency: phone is the key. If already present, append tag + refresh consent_at.
+    $existing = qOne(
+      "SELECT id, data FROM resources WHERE type='contact' AND JSON_EXTRACT(data, '$.whatsapp.phone') = ? LIMIT 1",
+      [$phone]
+    );
+    if ($existing) {
+      $cd = json_decode($existing['data'], true) ?: [];
+      $tags = $cd['tags'] ?? [];
+      if (!in_array('whatsapp_subscriber', $tags, true)) $tags[] = 'whatsapp_subscriber';
+      $cd['tags'] = $tags;
+      // Preserve any existing 'confirmed' or 'opted_out' state — only refresh metadata if still pending.
+      $existingStatus = $cd['whatsapp']['wa_optin_status'] ?? 'pending_double_opt_in';
+      if ($existingStatus !== 'opted_out') {
+        $cd['whatsapp'] = array_merge($cd['whatsapp'] ?? [], $waMeta, ['wa_optin_status' => $existingStatus]);
+      }
+      qExec("UPDATE resources SET data = ? WHERE id = ?", [json_encode($cd), $existing['id']]);
+      json_out(['ok' => true, 'id' => (int)$existing['id'], 'already' => true, 'status' => $cd['whatsapp']['wa_optin_status']]);
+    }
+
+    $data = [
+      'name'      => $name,
+      'phone'     => $phone,
+      'tags'      => ['whatsapp_subscriber', 'lead-new'],
+      'source'    => $source,
+      'niche'     => $niche ?: null,
+      'whatsapp'  => $waMeta,
+    ];
+    qExec(
+      "INSERT INTO resources (org_id, type, slug, title, status, data) VALUES (?, 'contact', ?, ?, 'active', ?)",
+      [$orgId, 'wa-' . substr(bin2hex(random_bytes(4)), 0, 8), $name, json_encode($data)]
+    );
+    $contactId = lastId();
+
+    // Fire workflow trigger so anything wired to whatsapp_subscribe (legacy or future) runs
+    try {
+      wf_trigger('whatsapp_subscribe', [], ['phone' => $phone, 'name' => $name, 'niche' => $niche, 'contact_id' => $contactId], $orgId);
+    } catch (Throwable $e) {}
+
+    json_out(['ok' => true, 'id' => $contactId, 'status' => 'pending_double_opt_in'], 201);
+  }
+
   // /api/public/email/preview?id=welcome-1&lang=en — render a sequence email as HTML
   if ($sub === 'email' && ($parts[1] ?? null) === 'preview') {
     require_once __DIR__ . '/../lib/email-sequences.php';

@@ -115,8 +115,6 @@ function wf_crm_run_pending(PDO $db): array {
  * Returns the run_id or null on failure.
  */
 function wf_crm_run_now(int $workflowId, array $ctx, PDO $db): ?int {
-    $row = $db->prepare("SELECT * FROM workflows WHERE id = ?")->execute([$workflowId]);
-    // Simpler: just enqueue and advance synchronously
     try {
         $runId = wf_crm_enqueue($workflowId, null, null, $ctx, $db);
         $run = $db->prepare(

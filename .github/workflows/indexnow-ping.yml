@@ -5,10 +5,18 @@ on:
     workflows: ["Deploy site root to netwebmedia.com"]
     types:
       - completed
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Why are you manually re-pinging?'
+        required: false
+        default: 'Manual content refresh'
 
 jobs:
   ping:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # On workflow_run we only ping after a successful deploy.
+    # On workflow_dispatch (manual) we always ping — that's the whole point.
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

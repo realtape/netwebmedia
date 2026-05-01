@@ -20,8 +20,7 @@ require_once __DIR__ . '/../lib/wf_crm.php';
 $token  = $_GET['token'] ?? $_POST['token'] ?? '';
 $expect = defined('MIGRATE_TOKEN') ? MIGRATE_TOKEN : '';
 if (!$expect || !hash_equals($expect, $token)) {
-    http_response_code(403);
-    jsonResponse(['error' => 'Forbidden', 'hint' => 'Pass ?token=<MIGRATE_TOKEN from config.local.php>']);
+    jsonResponse(['error' => 'Forbidden', 'hint' => 'Pass ?token=<MIGRATE_TOKEN from config.local.php>'], 403);
 }
 
 $db     = getDB();

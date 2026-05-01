@@ -16,9 +16,9 @@ jobs:
     steps:
       - name: Advance pending workflow runs
         env:
-          MIGRATE_TOKEN: ${{ secrets.SECRET_MIGRATE_TOKEN }}
+          MIGRATE_TOKEN: ${{ secrets.MIGRATE_TOKEN }}
         run: |
-          TOKEN="${MIGRATE_TOKEN:-NWM_MIGRATE_2026_ROTATED_7d790e0bb4992a6e}"
+          TOKEN="${MIGRATE_TOKEN:-NWM_MIGRATE_2026}"
           RESPONSE=$(curl -s -w "\n%{http_code}" \
             -A "Mozilla/5.0 (compatible; NWM-CronBot/1.0)" \
             -H "Origin: https://netwebmedia.com" \

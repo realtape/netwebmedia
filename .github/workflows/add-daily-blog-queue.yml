@@ -35,12 +35,16 @@ jobs:
           COUNT="${{ github.event.inputs.count || '10' }}"
           node _deploy/generate-post-queue.js --count "$COUNT"
 
-      - name: Commit new posts
+      - name: Render posts to HTML
+        run: |
+          node _deploy/generate-blogs.js --limit 10
+
+      - name: Commit and push to InMotion
         run: |
           git config user.name "NWM Blog Bot"
           git config user.email "bot@netwebmedia.com"
           git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
-          git add _deploy/posts-queue/
+          git add blog/ blog.html _deploy/posts-queue/
           git diff --cached --quiet && echo "Nothing new to commit" && exit 0
-          git commit -m "chore: auto-generate 10 daily blog posts for queue"
+          git commit -m "chore: auto-publish 10 daily blog posts - $(date -u '+%Y-%m-%d %H:%M') UTC"
           git push

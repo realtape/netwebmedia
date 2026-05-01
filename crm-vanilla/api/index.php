@@ -70,6 +70,7 @@ $handlers = [
     'organizations'         => __DIR__ . '/handlers/organizations.php',
     'ai_triage'             => __DIR__ . '/handlers/ai_triage.php',
     'workflows'             => __DIR__ . '/handlers/workflows.php',
+    'wa_flush'              => __DIR__ . '/handlers/wa_flush.php',
 ];
 
 if (!isset($handlers[$resource])) {

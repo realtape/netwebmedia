@@ -68,6 +68,7 @@ $handlers = [
     'seed_client_templates' => __DIR__ . '/handlers/seed_client_templates.php',
     'organizations'         => __DIR__ . '/handlers/organizations.php',
     'ai_triage'             => __DIR__ . '/handlers/ai_triage.php',
+    'workflows'             => __DIR__ . '/handlers/workflows.php',
 ];
 
 if (!isset($handlers[$resource])) {

@@ -6,174 +6,24 @@
 **Base CTA URL:** `https://netwebmedia.com/`
 **UTM base:** `?utm_source=[platform]&utm_medium=social&utm_campaign=week1`
 
+**Channel mix note (2026-05-01):** X/Twitter dropped from the social mix per Carlos's decision. The data-led, thread-style content X would have hosted is now covered by email broadcasts (Posts 1–3 below repurposed as broadcast-eligible long-form copy in `email-templates/broadcasts/`).
+
 ---
 
 ## Publishing Calendar (May 4–10, 2026)
 
 | Date | Day | Platform | Post Type | Post Ref | Scheduled (Santiago / CLT) |
 |------------|-----|-------------------|------------------------|-------------|----------------------------|
-| May 4 | Mon | X (Twitter) | Thread — AEO replaces SEO | Post 1 | 09:00 CLT |
 | May 4 | Mon | Facebook | Link share + commentary | Post 9 | 10:30 CLT |
 | May 5 | Tue | Instagram | Carousel (8 slides) | Post 4 | 11:00 CLT |
 | May 5 | Tue | TikTok | 15s hook script | Post 11 | 14:00 CLT |
-| May 6 | Wed | X (Twitter) | Single stat post | Post 2 | 10:00 CLT |
 | May 6 | Wed | YouTube | Short (60s) script | Post 7 | 12:00 CLT |
 | May 6 | Wed | Reddit | Value post | Post 13 | 13:00 CLT |
 | May 7 | Thu | Instagram Reels | 30s Reel script | Post 6 | 11:00 CLT |
 | May 7 | Thu | TikTok | 45s explainer script | Post 12 | 15:00 CLT |
-| May 8 | Fri | X (Twitter) | Quote card | Post 3 | 09:30 CLT |
 | May 8 | Fri | Facebook | Native text post | Post 10 | 11:00 CLT |
 | May 9 | Sat | Instagram | Single stat card | Post 5 | 11:00 CLT |
 | May 10 | Sun | YouTube | Long-form outline | Post 8 | — (upload only, no promo) |
-
----
-
-## Post 1 — X Thread: AEO Replaces SEO (May 4, 09:00 CLT)
-
-**Format:** 7-tweet thread
-**Target hashtags:** #AEO #AISearch #FractionalCMO #SEO #B2BMarketing
-**Audience:** Founders, in-house marketers, early adopters
-**Image suggestion:** Tweet 1 gets a stat card — dark navy background (#010F3B), orange accent (#FF671F), "12% of US search" in large white type. Sized 1200x675.
-
----
-
-**Tweet 1 / Hook** [269 chars]
-```
-SEO is not dead. But it's no longer the main game.
-
-ChatGPT now drives 12% of US informational search traffic.
-Your buyers are asking AI — not Google — which vendor to hire.
-
-If you're not cited in that answer, you don't exist.
-
-A thread on why AEO has replaced SEO in 2026. 🧵
-```
-
-**Tweet 2 / What broke** [267 chars]
-```
-Three things happened 2023–2026 that broke traditional SEO economics:
-
-1. Google AI Overviews killed click-through on high-intent queries
-2. Perplexity + SearchGPT pulled millions of users out of Google
-3. Buyers now research vendors in AI before visiting any website
-
-None of this is reversing.
-```
-
-**Tweet 3 / The shift** [241 chars]
-```
-Old SEO optimized for:
-— Keyword match
-— Backlinks
-— Click-through rate
-
-AEO optimizes for:
-— Citability (can the model extract your answer?)
-— Evidence density (facts, numbers, claims)
-— Source authority (does the model know your brand?)
-
-Same craft. Different target.
-```
-
-**Tweet 4 / What actually wins** [258 chars]
-```
-The content formats that get cited most in our client work:
-
-→ "How does X work" explainers (clean structure)
-→ Honest comparison pages (AI hates marketing puffery)
-→ Benchmark studies with original data
-→ Decision frameworks ("when to choose A vs B")
-→ Glossaries with clear definitions
-
-Produce these. Get cited.
-```
-
-**Tweet 5 / The data point** [219 chars]
-```
-Our clients average 4.2x more AI engine citations vs their baseline after 90 days of AEO work.
-
-That's not from publishing more.
-It's from restructuring what already exists — and adding evidence density where there was none.
-```
-
-**Tweet 6 / The 90-day path** [252 chars]
-```
-The 90-day AEO playbook (what we actually do):
-
-Wk 1: Map 30 questions your buyer asks AI before hiring
-Wk 2–4: Audit existing content against those questions
-Wk 5–10: One definitive piece per question. Rich structure, original data.
-Wk 11–12: Track citations across Perplexity, Claude, SearchGPT
-
-Then repeat.
-```
-
-**Tweet 7 / CTA** [231 chars]
-```
-We published the full AEO playbook — read by 8,000+ marketers.
-
-But if you want it applied to your business: we run the entire thing as a fractional CMO retainer. Starting at $249/mo.
-
-→ https://netwebmedia.com/?utm_source=x&utm_medium=social&utm_campaign=week1
-```
-
-**Char counts verified:** All tweets under 280 characters.
-**Reply strategy:** Pin Tweet 1. Add "Read the full breakdown:" reply after 2 hours pointing to `https://netwebmedia.com/blog/aeo-replaces-seo-2026.html`.
-
----
-
-## Post 2 — X Single: Category-Defining Stat (May 6, 10:00 CLT)
-
-**Format:** Single tweet + stat card image
-**Character count:** 247
-**Hashtags:** #AEO #AISearch #FractionalCMO
-
-**Copy:**
-```
-Your buyer asked ChatGPT who to hire.
-Your competitor showed up. You didn't.
-
-ChatGPT now handles 12% of US informational search.
-AI Overviews absorb another 35% of Google clicks before they reach you.
-
-Getting cited by AI is not an SEO side hustle.
-It's the whole game now.
-
-→ https://netwebmedia.com/?utm_source=x&utm_medium=social&utm_campaign=week1
-```
-
-**Image:** Navy card (#010F3B). Two-stat layout:
-- Left: "12%" in orange (#FF671F), "of US informational search is now ChatGPT" in white
-- Right: "35%" in orange, "of Google clicks absorbed by AI Overviews"
-- Bottom: NetWebMedia wordmark in white
-
-**Alt text:** "Stat card: ChatGPT drives 12% of US informational search. Google AI Overviews absorb 35% of clicks. Source: Similarweb Q1 2026."
-
-**Timing note:** Post at 10:00 CLT (11:00 EST / 08:00 PST) — midweek morning peak for US B2B audience.
-
----
-
-## Post 3 — X Quote Card (May 8, 09:30 CLT)
-
-**Format:** Single tweet + branded quote card
-**Character count:** 198
-**Hashtags:** #FractionalCMO #AIMarketing #AEO
-
-**Copy:**
-```
-"The SEO teams that adapt to AEO in 2026 will still have jobs in 2030.
-The ones that don't will be writing thinkpieces about why nobody clicks on blog posts anymore."
-
-— From our blog. Written before it became obvious.
-
-Full post: https://netwebmedia.com/blog/aeo-replaces-seo-2026.html
-```
-
-**Image:** Dark navy card (#010F3B). Pull quote in large white type. Orange left-border accent. "NetWebMedia" in small orange type bottom right.
-
-**Alt text:** "Quote card: 'The SEO teams that adapt to AEO in 2026 will still have jobs in 2030. The ones that don't will be writing thinkpieces about why nobody clicks on blog posts anymore.' — NetWebMedia Blog"
-
-**Timing note:** Friday morning = high engagement window for thought leadership quotes. No hard CTA — let it breathe.
 
 ---
 
@@ -591,9 +441,6 @@ The following assets are required before each publish date. Tag: Creative Direct
 
 | Post | Asset | Specs | Due |
 |------|-------|-------|-----|
-| Post 1 (X thread) | Tweet 1 stat card — "12% / 35%" stats | 1200x675, navy #010F3B, orange #FF671F | May 3 |
-| Post 2 (X single) | Two-stat card (12% / 35%) | 1200x675, navy/orange | May 3 |
-| Post 3 (X quote) | Pull-quote card from blog post | 1200x675, navy, orange left border | May 7 |
 | Post 4 (IG carousel) | 8 slides (see slide specs above) | 1080x1350 each, navy/orange brand | May 4 |
 | Post 5 (IG stat card) | "12%" single stat card | 1080x1350, navy/orange, high contrast | May 8 |
 | Post 6 (IG Reel) | Burn-in captions + lower-third NWM branding | 1080x1920, 30s, vertical | May 6 |
@@ -615,7 +462,6 @@ Standard scheme: `https://netwebmedia.com/?utm_source=[platform]&utm_medium=soci
 
 | Platform | utm_source | utm_medium | utm_campaign | Full URL |
 |----------|------------|------------|--------------|----------|
-| X (Twitter) | x | social | week1 | `https://netwebmedia.com/?utm_source=x&utm_medium=social&utm_campaign=week1` |
 | Instagram (bio link) | instagram | social | week1 | `https://netwebmedia.com/?utm_source=instagram&utm_medium=social&utm_campaign=week1` |
 | Instagram Reels | instagram | reels | week1 | `https://netwebmedia.com/?utm_source=instagram&utm_medium=reels&utm_campaign=week1` |
 | Facebook | facebook | social | week1 | `https://netwebmedia.com/?utm_source=facebook&utm_medium=social&utm_campaign=week1` |
@@ -623,7 +469,7 @@ Standard scheme: `https://netwebmedia.com/?utm_source=[platform]&utm_medium=soci
 | TikTok (bio link) | tiktok | social | week1 | `https://netwebmedia.com/?utm_source=tiktok&utm_medium=social&utm_campaign=week1` |
 | Reddit (comment) | reddit | social | week1 | `https://netwebmedia.com/?utm_source=reddit&utm_medium=social&utm_campaign=week1` |
 
-**Blog post deep-link UTMs (for X reply, Facebook first comment, YouTube cards):**
+**Blog post deep-link UTMs (for Facebook first comment, YouTube cards):**
 `https://netwebmedia.com/blog/aeo-replaces-seo-2026.html?utm_source=[platform]&utm_medium=social&utm_campaign=week1`
 
 **GA4 event to track:** `generate_lead` on CTA click from each UTM source. Segment by `utm_source` in Explorations view (GA4 property G-V71R6PD7C0).
@@ -638,8 +484,6 @@ Standard scheme: `https://netwebmedia.com/?utm_source=[platform]&utm_medium=soci
 
 | CLT Post Time | EST Equivalent | PST Equivalent | Rationale |
 |---------------|----------------|----------------|-----------|
-| 09:00 CLT | 09:00 EST | 06:00 PST | East Coast morning peak — B2B feed check |
-| 10:00 CLT | 10:00 EST | 07:00 PST | Pre-midday, high US engagement window |
 | 10:30 CLT | 10:30 EST | 07:30 PST | Facebook B2B optimal (Sprout Social benchmark) |
 | 11:00 CLT | 11:00 EST | 08:00 PST | Instagram mid-morning — best for carousels |
 | 12:00 CLT | 12:00 EST | 09:00 PST | YouTube upload — not time-sensitive, index overnight |
@@ -649,15 +493,15 @@ Standard scheme: `https://netwebmedia.com/?utm_source=[platform]&utm_medium=soci
 
 **Day-by-day notes:**
 
-- **Monday May 4:** X thread + Facebook link share. Thread anchors the week. Drop the X thread at 09:00 CLT sharp — Monday morning is the single highest-reach window for thought leadership threads. Facebook link share 90 minutes later to avoid cannibalization.
+- **Monday May 4:** Facebook link share. Single anchor post for the week's first day. Drop at 10:30 CLT — Facebook B2B optimal window per Sprout benchmarks.
 
 - **Tuesday May 5:** Instagram carousel + TikTok 15s hook. Carousel is the highest-effort asset — post it when Instagram B2B audience is most active (11:00 CLT / 11:00 EST). TikTok hook at 14:00 CLT teases the fuller content coming Thursday.
 
-- **Wednesday May 6:** X single stat + YouTube Short + Reddit. Mid-week high-engagement day. Reddit should be posted at exactly 13:00 CLT — r/Entrepreneur peaks at US lunch. Engage actively in comments for first 2 hours.
+- **Wednesday May 6:** YouTube Short + Reddit. Mid-week high-engagement day. Reddit should be posted at exactly 13:00 CLT — r/Entrepreneur peaks at US lunch. Engage actively in comments for first 2 hours.
 
 - **Thursday May 7:** Instagram Reel + TikTok explainer. Video-first day. Reel at 11:00 CLT captures the IG midday peak. TikTok at 15:00 CLT catches US afternoon scroll.
 
-- **Friday May 8:** X quote card + Facebook native text. Quote card is low-friction, shareable — Fridays have higher retweet rates for thought leadership content. Facebook native text (no link) maximizes organic reach; add blog link in first comment.
+- **Friday May 8:** Facebook native text. Native text (no link) maximizes organic reach; add blog link in first comment.
 
 - **Saturday May 9:** Instagram stat card. Saturdays outperform Friday for Instagram discovery. Simple, high-contrast stat card requires zero context — scrollers stop, read, save.
 
@@ -668,3 +512,13 @@ Standard scheme: `https://netwebmedia.com/?utm_source=[platform]&utm_medium=soci
 - TikTok: The bio link can only point to one URL. Set it to `https://netwebmedia.com/?utm_source=tiktok&utm_medium=social&utm_campaign=week1` for the duration of Week 1.
 - Instagram: Same bio link constraint. Update Linktree or equivalent to include Week 1 CTA prominently at the top slot.
 - YouTube Shorts: The 60s Short and the 8-min long-form are separate uploads. Do NOT upload the Short as a cut of the long-form — YouTube treats them as different content types with different algorithmic treatment.
+
+---
+
+## Removed: X / Twitter (2026-05-01 decision)
+
+Posts 1, 2, 3 (X thread, single stat tweet, quote card) were removed when Carlos dropped X from the social mix on 2026-05-01. The data-led, thread-style content X would have hosted is now handled by:
+- Email broadcasts (long-form thread copy → broadcast format)
+- Blog posts (the 12% / 35% data already lives at `/blog/aeo-replaces-seo-2026.html`)
+
+If X is ever reinstated, the removed content lives in git history at the commit before this one.

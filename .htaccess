@@ -313,14 +313,34 @@ Options -Indexes
 # pipeline, sales-pipeline under /app/, and the real /crm-vanilla/ app
 # surface) keep working because the RewriteCond checks for file/dir
 # existence first.
+#
+# /crm/* legacy-path handling (added 2026-05-01): there is no /crm/ dir
+# in production — the real CRM lives at /crm-vanilla/. Many links across
+# the site (and tutorial deep-links) point to /crm/<page>. We:
+#   1) Bare /crm/ or /crm → 301 to /crm-vanilla/
+#   2) /crm/<path> where /crm-vanilla/<path> exists → 301 to the real file
+#      (covers /crm/contacts.html, /crm/css/app.css used by /cms/, etc.)
+#   3) /crm/<anything else> → soft-fallback to /app/coming-soon.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^app/.+$ /app/coming-soon.html [L]
+
+  # 1) Bare /crm/ → /crm-vanilla/
+  RewriteRule ^crm/?$ /crm-vanilla/ [R=301,L]
+
+  # 2) /crm/<path> → /crm-vanilla/<path> when the file exists in crm-vanilla
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^crm/[^/]+\.html$ /app/coming-soon.html [L]
+  RewriteCond %{DOCUMENT_ROOT}/crm-vanilla/$1 -f [OR]
+  RewriteCond %{DOCUMENT_ROOT}/crm-vanilla/$1 -d
+  RewriteRule ^crm/(.+)$ /crm-vanilla/$1 [R=301,L]
+
+  # 3) Any other /crm/<slug> (extensionless or .html) → coming-soon
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^crm/.+$ /app/coming-soon.html [L]
 </IfModule>
 
 # ── URL redirects (301) ────────────────────────────────────────────────

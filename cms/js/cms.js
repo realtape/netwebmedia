@@ -97,7 +97,7 @@
     html += '</nav>';
 
     html += '<div class="sidebar-footer">';
-    html += '<a href="/crm/" class="service-switch">';
+    html += '<a href="/crm-vanilla/" class="service-switch">';
     html += '<div class="switch-dot"></div>';
     html += '<div class="switch-body"><div class="switch-label" data-i18n="switch_to">Switch to</div><div class="switch-name" data-i18n="switch_crm">NetWeb CRM</div></div>';
     html += '</a>';

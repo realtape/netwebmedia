@@ -59,6 +59,61 @@ python -m venv .venv
 .venv\Scripts\python backend\manage.py runserver
 ```
 
+### Environment prerequisites
+
+Before developing locally, ensure:
+- **Node.js** ≥ 18 (required for video-factory; `node --version` to check)
+- **Python** 3.9+ (for generators and Django backend)
+- **PHP** 7.4+ (if running API handlers locally via built-in server)
+- **MySQL** 5.7+ (for multi-tenant database access; optional if using remote InMotion DBs)
+- **Git** (with auto-backup daemon disabled if you want cleaner commit history)
+
+### Local database & credentials
+
+Two MySQL databases (`webmed6_nwm` for public API, `webmed6_crm` for CRM) live on InMotion production. For local development:
+
+**Option 1: Remote databases (recommended for most work)**
+- Request SSH tunnel credentials or direct remote access from Carlos
+- Use InMotion databases directly to avoid data sync issues
+- Updates flow immediately across all dev environments
+
+**Option 2: Local MySQL (for isolated testing)**
+- Install MySQL 5.7+ locally
+- Request database dumps from Carlos, or create empty schemas
+- Use `localhost` in your config files
+- Credentials: provided in a `.env.local` file (request from Carlos)
+
+**For Django backend only:** SQLite (`backend/db.sqlite3`) is self-contained and requires no external database. Seed test data with:
+```bash
+python backend/manage.py seed_crm_presets
+```
+
+**For PHP API locally:** Two options:
+1. Use built-in server (dev only): `php -S 127.0.0.1:8000 -t api-php/`
+2. Use remote InMotion databases and test via production API endpoints
+
+**Seeding test data:**
+- **PHP API:** Edit `crm-vanilla/api/handlers/contacts.php` or call the seed endpoint (admin-only):
+  ```
+  curl -X POST http://127.0.0.1:3000/api/?r=seed \
+    -H "X-Auth-Token: <admin-token>"
+  ```
+- **CRM:** Use the UI to create test resources, or manually insert rows via MySQL
+
+### Mocking third-party APIs locally
+
+Most integrations require credentials. To develop without live keys:
+
+| Service | Local Mock Behavior | How to Test |
+|---|---|---|
+| **Email (Resend)** | Set `RESEND_API_KEY=dev` → returns fake `submission_id` | UI submit works; emails not sent |
+| **Stripe** | Use test keys `sk_test_...` and `pk_test_...` | Test card: `4242 4242 4242 4242` (always succeeds) |
+| **Twilio SMS** | Requires live credentials; no safe mock | Request sandbox credentials from Carlos |
+| **Meta (WhatsApp/IG)** | Unset `WA_META_TOKEN` / `IG_GRAPH_TOKEN` → returns 503 "Setup required" | Safe for UI testing; no actual sends |
+| **Video Factory** | Unset `remotion_render_url` → returns 503 "Not configured" | UI works; no video generation |
+
+For development, request a `.env.local` file from Carlos with safe test credentials for each service.
+
 ## Deploy — InMotion only, never Vercel/Netlify
 
 netwebmedia.com and **all subdomains** ship via **GitHub Actions FTPS → cPanel at InMotion**. There is no other host. Three workflows in `.github/workflows/`, each scoped to a different cPanel directory and a different FTP user:
@@ -98,7 +153,24 @@ Drop a new `crm-vanilla/api/schema_<name>.sql` file → it auto-runs on the next
 - **Statement splitter is naive — no semicolons inside string literals.** `migrate.php` splits on raw `;`. Any `COMMENT 'foo; bar'` or string literal containing `;` will be torn in half and fail with a 1064 syntax error. Rephrase the literal (use `(`/`)` or `,` instead of `;`) — don't add escape parsing to the splitter.
 - **Maintenance tokens** (`MIGRATE_TOKEN`, `SEED_TOKEN`, `DEDUPE_TOKEN`, `IMPORT_BEST_TOKEN`, `IMPORT_CSV_TOKEN`) flow GitHub Secrets → `crm-vanilla/api/config.local.php` `define()`s on every deploy. If the secret is unset the historic default in `config.php` is preserved. Rotating a token = update the secret and redeploy; producer (CI curl) and consumer (PHP `define`) both read from the same source.
 
-Required GitHub Actions secrets: `JWT_SECRET`, `DB_PASSWORD`, `RESEND_API_KEY`, `ANTHROPIC_API_KEY`, `HUBSPOT_TOKEN`, `MP_ACCESS_TOKEN`, `MP_PUBLIC_KEY`, `MP_WEBHOOK_SECRET`, `TWILIO_SID`, `TWILIO_TOKEN`, `TWILIO_FROM`, `WA_VERIFY_TOKEN`, `WA_META_TOKEN`, `WA_PHONE_ID`, `WA_META_APP_SECRET`, `CPANEL_FTP_ROOT_USER`, `CPANEL_FTP_ROOT_PASSWORD`, `CPANEL_FTP_USER`, `CPANEL_FTP_PASSWORD`.
+### GitHub Secrets explained
+
+All secrets flow from GitHub Actions → `config.local.php` → your deployed app. Required secrets:
+
+| Secret | Purpose | How to Obtain |
+|---|---|---|
+| `JWT_SECRET` | Signing auth tokens, user sessions | Generate: `openssl rand -hex 32` |
+| `DB_PASSWORD` | MySQL connection for both databases | Request from Carlos |
+| `RESEND_API_KEY` | Email delivery (Resend) | Create account at resend.io, copy API key |
+| `ANTHROPIC_API_KEY` | Claude API calls (CRM AI features) | Copy from Anthropic account console |
+| `HUBSPOT_TOKEN` | HubSpot CRM integration (public API) | Generate in HubSpot → Settings → API keys |
+| `MP_ACCESS_TOKEN`, `MP_PUBLIC_KEY`, `MP_WEBHOOK_SECRET` | Mercado Pago billing integration | MercadoPago dashboard → Credentials |
+| `STRIPE_SECRET_KEY`, `STRIPE_PUBLIC_KEY` | Stripe payments (optional, not yet live) | Stripe dashboard → API keys (test/live) |
+| `TWILIO_SID`, `TWILIO_TOKEN`, `TWILIO_FROM` | Twilio SMS (WhatsApp sandbox) | Twilio console → Credentials |
+| `WA_VERIFY_TOKEN`, `WA_META_TOKEN`, `WA_PHONE_ID`, `WA_META_APP_SECRET` | WhatsApp Business API | Meta Business Platform → Apps → WhatsApp |
+| `CPANEL_FTP_ROOT_USER`, `CPANEL_FTP_ROOT_PASSWORD`, `CPANEL_FTP_USER`, `CPANEL_FTP_PASSWORD` | Deploy via FTPS to InMotion | InMotion cPanel → FTP Accounts |
+
+**Note:** If a secret is unset, the fallback default in `config.php` is used (if one exists). For development, most of these can be mocked — see "Mocking third-party APIs" above.
 
 Other workflows: `cron-workflows.yml` (CRM workflow engine heartbeat, runs every 5 min via GH Actions schedule — no cPanel cron needed), `psi-baseline.yml` (PageSpeed snapshots), `uptime-smoke.yml`, `indexnow-ping.yml`, `generate-blog-queue.yml`, `publish-blogs-scheduled.yml`, `generate-guide-pdfs.yml`, `twilio-register-webhook.yml`.
 
@@ -126,6 +198,49 @@ The API uses a **single generic `resources` table** as an EAV store — every en
 **SSRF defense** for any handler that fetches user-supplied URLs (e.g. `analyze`, `proposal`): use `url_guard()` from `crm-vanilla/api/lib/url_guard.php`. It DNS-resolves and rejects loopback, private, link-local, and AWS-metadata (169.254.169.254) ranges. Never disable curl SSL verification — production CA bundle works fine on InMotion.
 
 **CSRF defense:** `crm-vanilla/api/index.php` enforces a same-origin `Origin`/`Referer` check on all state-changing requests, plus session cookies are `SameSite=Strict`. Auth tokens are hash_equals-compared.
+
+### Frontend-Backend API contract
+
+Understanding how frontend and backend communicate:
+
+**CRM API request format:**
+```
+GET /crm-vanilla/api/?r=contacts&id=123&limit=50
+POST /crm-vanilla/api/?r=contacts
+  X-Auth-Token: <token>
+  Content-Type: application/json
+  { "name": "John Doe", "email": "john@example.com" }
+```
+
+**Response format (all endpoints):**
+```json
+{
+  "success": true,
+  "data": [ { "id": 1, "name": "John", "type": "contact" } ],
+  "error": null,
+  "pagination": { "limit": 50, "offset": 0, "total": 152 }
+}
+```
+
+**JSON blob validation:** Handlers expect `data`, `steps_json`, etc. to be pre-validated before storage. Example in `workflows.php`:
+```php
+function workflows_normalize_steps($rawSteps) {
+  $decoded = json_decode($rawSteps, true);
+  // Validate each step has required fields: type, config
+  // Re-encode to JSON for storage
+  return json_encode($decoded);
+}
+```
+
+Never store user-supplied JSON directly; validate shape first.
+
+**Error responses (non-200):**
+- `400 Bad Request` — missing required fields, invalid enum value
+- `401 Unauthorized` — missing or invalid token
+- `403 Forbidden` — token valid but user lacks permission (tenancy violation)
+- `404 Not Found` — resource doesn't exist
+- `409 Conflict` — duplicate key, constraint violation (idempotent)
+- `500 Internal Server Error` — unhandled exception
 
 ### Workflow runtime engine
 
@@ -188,6 +303,174 @@ Pattern (see `crm-vanilla/api/handlers/workflows.php` for the canonical referenc
 3. On INSERT, call `require_org_access_for_write('member')` to block X-Org-Slug cross-org writes (matches `campaigns.php` pattern).
 4. Define `$ALLOWED_*` enum allowlists at the top; validate every enum-typed input field against them.
 5. For JSON-blob columns (`steps_json`, `data`, etc.), write a `<handler>_normalize_*()` function that decodes, validates per-type, and re-encodes — never store raw user JSON.
+
+## Common development workflows
+
+### Testing a new CRM route handler
+
+1. Create the handler in `crm-vanilla/api/handlers/myfeature.php`
+2. Test via curl or Postman:
+   ```bash
+   curl -X POST http://127.0.0.1:3000/crm-vanilla/api/?r=myfeature \
+     -H "X-Auth-Token: <token>" \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Test"}'
+   ```
+3. Verify tenancy filtering by creating as user 1, then re-authenticating as user 2 and confirming the record is hidden
+4. Check database directly: `SELECT * FROM myfeature_table WHERE user_id = ?`
+
+### Debugging a workflow engine issue
+
+1. Check the `workflow_runs` table for the run status:
+   ```sql
+   SELECT id, status, step_index, error, next_run_at 
+   FROM workflow_runs 
+   WHERE workflow_id = <id> 
+   ORDER BY id DESC LIMIT 5;
+   ```
+2. Manually advance a run for debugging:
+   ```bash
+   curl -X POST "https://netwebmedia.com/crm-vanilla/api/?r=workflows&id=<workflow_id>&action=run_now" \
+     -H "X-Auth-Token: <admin-token>"
+   ```
+3. Check CRM logs at `crm-vanilla/storage/logs/` for step execution details
+
+### Previewing email templates
+
+Preview any email template (live):
+```
+https://netwebmedia.com/api/public/email/preview?id=welcome-1&lang=es
+```
+
+To test locally:
+1. Edit template HTML in `email-templates/welcome-1.html`
+2. Reload the preview URL to see changes
+3. Use the lang toggle (`?lang=es`) to test bilingual copy
+
+### Testing a Video Factory template
+
+1. Register template in `video-factory/src/index.tsx`
+2. Run preview server:
+   ```bash
+   cd video-factory
+   npm run preview
+   ```
+3. Edit composition in `src/compositions/MyTemplate.tsx` and hot-reload works automatically
+4. Render video via API:
+   ```bash
+   curl -X POST https://netwebmedia.com/api/video/render \
+     -d '{"template": "my-template", "fields": {...}}'
+   ```
+
+## Code conventions
+
+### PHP API handlers
+
+- **Query-string routing:** All routes go through `?r=handler_name` (not path-based)
+- **Tenancy isolation:** Every query must filter by `user_id` using `tenancy_where()` helper
+  ```php
+  [$tWhere, $tParams] = tenancy_where();
+  $stmt = $db->prepare("SELECT * FROM contacts WHERE $tWhere AND name LIKE ?");
+  ```
+- **Enum validation:** Define allowlists at handler top, validate all enum inputs:
+  ```php
+  $ALLOWED_STATUSES = ['pending', 'completed', 'failed'];
+  if (!in_array($_POST['status'], $ALLOWED_STATUSES)) {
+    die(json_encode(['error' => 'Invalid status']));
+  }
+  ```
+- **JSON blob validation:** Never store raw user JSON; normalize first:
+  ```php
+  function normalize_workflow_steps($raw) {
+    $steps = json_decode($raw, true);
+    // Validate structure
+    return json_encode($steps);
+  }
+  ```
+
+### JavaScript in CRM vanilla
+
+- **XSS prevention:** All user-controlled strings going into `innerHTML` MUST use `CRM_APP.esc()`:
+  ```javascript
+  // WRONG: innerHtml = user.name;
+  // RIGHT:
+  element.innerHTML = CRM_APP.esc(user.name);
+  ```
+- **API calls:** Use the shared client in `app/js/api-client.js` (auto-handles 401 redirects)
+  ```javascript
+  NWMApi.call('POST', '/crm-vanilla/api/?r=contacts', 
+    { name: 'John' })
+    .then(resp => console.log(resp.data))
+  ```
+- **Module structure:** One feature file per sidebar entry (e.g., `contacts.js`, `automation.js`)
+
+### SQL & migrations
+
+- **Idempotent migrations:** All `schema_*.sql` must run safely on every deploy
+  ```sql
+  CREATE TABLE IF NOT EXISTS workflows (...)
+  ALTER TABLE contacts ADD COLUMN status VARCHAR(50) DEFAULT 'active' /* idempotent */
+  INSERT IGNORE INTO settings VALUES (...)
+  ```
+- **No set variables or prepared statements in migrations:** They break the statement splitter
+  ```sql
+  -- WRONG: SET @x := (SELECT ... FROM information_schema)
+  -- RIGHT: plain ALTER TABLE / CREATE TABLE / INSERT
+  ```
+
+## Feature flags & configuration
+
+**Runtime configuration** (no rebuild needed):
+
+- GitHub Actions Secrets → `config.local.php` `define()`s on every deploy
+- Per-environment toggles in `crm-vanilla/api/handlers/` for feature flags
+- Use environment variables for local overrides (e.g., `VITE_API_BASE=https://staging.netwebmedia.com/api npm run dev`)
+
+**How to add a feature flag:**
+1. Add to GitHub Secrets (e.g., `FEATURE_WORKFLOWS_ENABLED`)
+2. It auto-flows to `config.local.php` via `deploy-site-root.yml`
+3. Check in handler: `if (defined('FEATURE_WORKFLOWS_ENABLED') && FEATURE_WORKFLOWS_ENABLED) { ... }`
+4. For frontend, expose via API endpoint and read into JavaScript
+
+## Troubleshooting common issues
+
+### "Cannot execute queries while other unbuffered queries are active"
+
+**Cause:** Migration or handler uses `SET @x := (SELECT ...)` + `PREPARE/EXECUTE`  
+**Fix:** Use plain DDL instead — `ALTER TABLE`, `CREATE TABLE`, `INSERT IGNORE`
+
+### CSS/JS changes not appearing after deploy
+
+**Cause:** 5-minute caching on static assets  
+**Fix:** Wait 5 minutes, or hard-refresh browser (`Ctrl+Shift+R`), or check CloudFlare cache
+
+### New top-level directory 404s after deploy
+
+**Cause:** Forgot to add directory to `for d in ...` loop in `deploy-site-root.yml`  
+**Fix:** See "Adding a new top-level directory" section above — update both `on.push.paths` AND the staging loop
+
+### Migration fails with 1064 syntax error
+
+**Cause:** Semicolon inside string literal (e.g., `COMMENT 'foo; bar'`)  
+**Fix:** Replace `;` with `,` or `()` in the string literal
+
+### Workflow runs stuck in "waiting" state
+
+**Cause:** GitHub Actions cron not firing, or `MIGRATE_TOKEN` mismatch  
+**Fix:** Check `.github/workflows/cron-workflows.yml` is enabled; verify `MIGRATE_TOKEN` secret matches `config.local.php`
+
+### WhatsApp API returns 503 "Setup required"
+
+**Cause:** Missing `WA_META_TOKEN` or `WA_PHONE_ID` in secrets  
+**Fix:** Safe for dev (UI still works). Request credentials from Carlos for live testing.
+
+### Local API can't reach database
+
+**Cause:** Wrong credentials, network isolation, or MySQL not running  
+**Fix:** 
+1. Test MySQL locally: `mysql -u root -p -h 127.0.0.1 webmed6_crm`
+2. Or use remote InMotion DB with SSH tunnel
+3. Verify `DB_PASSWORD` in `.env.local` is correct
 
 ## CRM vanilla JS architecture (`crm-vanilla/`)
 
@@ -345,7 +628,23 @@ The CRM is vanilla JS with lots of `innerHTML` for templating. Any user-controll
 
 A local `auto-save` daemon periodically commits and pushes WIP as `backup: auto-save <timestamp>`. **It will commit your in-flight work mid-stream** — before staging a batch, run `git log --oneline -5` and check whether the daemon already captured some of your files. If so, only stage what's NOT already in the auto-save commits; don't try to amend them.
 
-Fragmented history: consolidate with `git reset --soft <pre-backup-sha>` + a single named commit + `git push --force-with-lease`. Never `--force` without `--force-with-lease`, and never on `main` without checking the run queue first.
+**Consolidating fragmented history:**
+```bash
+# Find the SHA before auto-save commits started
+git log --oneline | grep -v "backup: auto-save" | head -1
+# e.g., abc1234
+
+# Reset soft to that commit (keeps your changes staged)
+git reset --soft abc1234
+
+# Create a single clean commit
+git commit -m "Your clean message"
+
+# Push (force-with-lease is safe if no one else pushed)
+git push --force-with-lease
+```
+
+Never use `--force` without `--force-with-lease`, and never on `main` without checking the run queue first.
 
 ## Operational notes
 

@@ -397,6 +397,25 @@
   </div>
 </section>
 
+<!-- ── Above-the-fold newsletter capture (X-replacement channel per social policy) ── -->
+<section style="padding:32px 0;background:linear-gradient(135deg,rgba(255,103,31,0.08),rgba(1,15,59,0.4));border-top:1px solid rgba(255,103,31,0.2);border-bottom:1px solid rgba(255,103,31,0.2);">
+  <div class="container">
+    <div class="glass-card" style="padding:28px 32px;display:flex;flex-wrap:wrap;align-items:center;gap:24px;justify-content:space-between;max-width:1100px;margin:0 auto;">
+      <div style="flex:1 1 460px;min-width:300px;">
+        <div style="display:inline-flex;align-items:center;gap:8px;padding:4px 12px;border-radius:999px;background:rgba(255,103,31,0.15);border:1px solid rgba(255,103,31,0.45);color:#FF671F;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;">📬 <span data-en="Weekly AEO brief" data-es="Brief AEO semanal">Weekly AEO brief</span></div>
+        <h2 style="font-family:'Poppins',sans-serif;font-size:clamp(20px,2.6vw,26px);margin:0 0 6px;font-weight:700;color:#fff;" data-en="What ChatGPT, Claude &amp; Perplexity are citing this week" data-es="Lo que ChatGPT, Claude y Perplexity est&aacute;n citando esta semana">What ChatGPT, Claude &amp; Perplexity are citing this week</h2>
+        <p style="margin:0;color:#cbd5e1;font-size:14px;line-height:1.55;" data-en="One short email every Tuesday. Real audit findings, citation-pattern shifts, contrarian takes. No fluff." data-es="Un email corto cada martes. Hallazgos de auditor&iacute;as, cambios en patrones de citas, opiniones contrarias. Sin relleno.">One short email every Tuesday. Real audit findings, citation-pattern shifts, contrarian takes. No fluff.</p>
+      </div>
+      <form id="blog-top-newsletter" style="flex:0 1 auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center;min-width:280px;" onsubmit="event.preventDefault(); var e=document.getElementById('blog-top-newsletter-email').value; if(!e||!e.includes('@'))return; fetch('/api/public/newsletter/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,source:'blog-top'})}).then(function(r){return r.json()}).then(function(){document.getElementById('blog-top-newsletter').innerHTML='<div style=&quot;color:#22c55e;font-weight:700;font-size:15px;padding:14px 18px;&quot;>✓ Subscribed. Check your inbox.</div>';}).catch(function(){document.getElementById('blog-top-newsletter').innerHTML='<div style=&quot;color:#FF671F;font-weight:700;font-size:14px;&quot;>Couldn\'t subscribe — email hello@netwebmedia.com</div>';});">
+        <label for="blog-top-newsletter-email" class="sr-only">Email address</label>
+        <input id="blog-top-newsletter-email" type="email" required placeholder="you@company.com" autocomplete="email" style="padding:13px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.35);color:#fff;font-size:14px;min-width:240px;flex:1;" aria-label="Email address" />
+        <button type="submit" style="padding:13px 22px;border-radius:10px;background:#FF671F;color:#fff;border:none;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap;box-shadow:0 4px 14px rgba(255,103,31,0.35);" data-en="Get the brief →" data-es="Recibir el brief →">Get the brief →</button>
+        <p style="flex-basis:100%;margin:6px 0 0;font-size:11px;color:#9aa;" data-en="Free. Unsubscribe with one click." data-es="Gratis. Cancela con un click.">Free. Unsubscribe with one click.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
 <!-- Blog Grid -->
 <section style="padding:60px 0 100px;">
   <div class="container">

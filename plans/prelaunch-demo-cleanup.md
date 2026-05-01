@@ -229,11 +229,21 @@ This migration also runs automatically on deploy. It deletes:
 - `api-php/migrate.php` (2 demo users — DELETE)
 - `crm-vanilla/js/data.js` (frontend mock — KEEP, not in DB)
 
-**SQL migration file created:**
-- `crm-vanilla/api/schema_2026_05_01_demo_cleanup.sql` (idempotent, auto-runs on next deploy)
+**SQL migration files created:**
+- `/c/Users/Usuario/Desktop/NetWebMedia/crm-vanilla/api/schema_2026_05_01_demo_cleanup.sql` (CRM cleanup)
+- `/c/Users/Usuario/Desktop/NetWebMedia/api-php/schema_2026_05_01_demo_cleanup.sql` (API-PHP cleanup)
+
+Both files are idempotent and auto-run on next deploy via `deploy-site-root.yml` GitHub Actions.
 
 **Manual steps for Carlos:**
-1. Backup databases (optional but recommended)
-2. Commit + push migration file to main
-3. Verify cleanup post-deploy via SELECT queries
-4. (Optional) update seed file comments to note demo data is archived
+1. Commit both SQL files to main: `git add crm-vanilla/api/schema_2026_05_01_demo_cleanup.sql api-php/schema_2026_05_01_demo_cleanup.sql && git commit -m "cleanup: remove demo data pre-launch"`
+2. Push to main: `git push origin main`
+3. Wait for `deploy-site-root.yml` to complete
+4. Verify cleanup post-deploy with:
+   ```sql
+   SELECT COUNT(*) FROM webmed6_crm.contacts WHERE email IN ('sofia@latamgroup.com', 'carlos@techwave.cl', 'isabella@greenleaf.com', 'diego@novalabs.io', 'valentina@skyport.cl', 'mateo@andeanventures.com');
+   -- Should return 0
+   
+   SELECT COUNT(*) FROM webmed6_nwm.users WHERE email IN ('admin@netwebmedia.com', 'demo@netwebmedia.com');
+   -- Should return 0
+   ```

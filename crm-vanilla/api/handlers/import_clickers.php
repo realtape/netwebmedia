@@ -39,7 +39,7 @@ if (!$tokenOk) {
 if (!$tokenOk) jsonError('Invalid token', 403);
 
 require_once __DIR__ . '/../lib/tenancy.php';
-require_once __DIR__ . '/../lib/wf_bridge.php';
+require_once __DIR__ . '/../lib/wf_crm.php';
 pin_org_to_master();
 
 $dry      = !empty($_GET['dry']);
@@ -252,8 +252,9 @@ foreach ($clickers as $email => $click) {
         'last_click_at'  => $click['last_click_at'],
         'notes'          => $dealNotes,
     ];
-    $r = wf_fire('deal_stage', ['stage' => 'Qualified'], $ctx);
-    if (!empty($r['ok']) && !empty($r['count'])) $counts['wf_fired'] += (int)$r['count'];
+    $count = 0;
+    try { $count = wf_crm_trigger('deal_stage', ['stage' => 'Qualified'], $ctx, null, null); } catch (Throwable $_) {}
+    if ($count > 0) $counts['wf_fired'] += $count;
 
     $created_deals[] = [
         'deal_id'     => $deal_id,

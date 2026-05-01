@@ -208,7 +208,9 @@ switch ($method) {
         if (!empty($updated['stage']) && $updated['stage'] !== $prevStage) {
             $ctx = deal_wf_ctx($db, (int)$id);
             $ctx['previous_stage'] = $prevStage;
-            wf_fire('deal_stage', ['stage' => $updated['stage']], $ctx);
+            try {
+                wf_crm_trigger('deal_stage', ['stage' => $updated['stage']], $ctx, $uid, $orgId);
+            } catch (Throwable $_) {}
         }
 
         jsonResponse($updated);

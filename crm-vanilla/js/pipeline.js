@@ -674,7 +674,7 @@
     });
     var labels = { cold_email_chile:'Chile Email', cold_email_usa:'USA Email', whatsapp:'WhatsApp', referral:'Referral', inbound_website:'Website', inbound_call:'Call', social_media:'Social', event:'Event', manual:'Manual', unknown:'Unknown' };
     var pills = Object.keys(counts).sort(function(a,b){ return counts[b]-counts[a]; }).slice(0,6).map(function(k){
-      return '<span class="pipe-source-pill"><b>' + counts[k] + '</b>' + (labels[k] || k) + '</span>';
+      return '<span class="pipe-source-pill"><b>' + counts[k] + '</b>' + (labels[k] || escapeHtml(k)) + '</span>';
     }).join('');
     if (pills) {
       var mix = document.createElement('div');

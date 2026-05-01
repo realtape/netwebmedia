@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../lib/tenancy.php';
-require_once __DIR__ . '/../lib/wf_bridge.php';
+require_once __DIR__ . '/../lib/wf_crm.php';
 $db = getDB();
 [$tWhere, $tParams] = tenancy_where('d');
 $uid = tenant_id();
@@ -157,7 +157,7 @@ switch ($method) {
         /* Fire deal_stage trigger for the initial stage (most commonly "New Lead") */
         if (!empty($newRow['stage'])) {
             $ctx = deal_wf_ctx($db, (int)$newId);
-            wf_fire('deal_stage', ['stage' => $newRow['stage']], $ctx);
+            wf_crm_trigger('deal_stage', ['stage' => $newRow['stage']], $ctx, $uid, $orgId);
         }
 
         jsonResponse($newRow, 201);

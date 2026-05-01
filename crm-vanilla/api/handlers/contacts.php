@@ -100,7 +100,18 @@ switch ($method) {
         $newId = $db->lastInsertId();
         $stmt = $db->prepare('SELECT * FROM contacts WHERE id = ?');
         $stmt->execute([$newId]);
-        jsonResponse($stmt->fetch(), 201);
+        $newContact = $stmt->fetch();
+        // Fire CRM workflow trigger (fail-open)
+        try {
+            require_once __DIR__ . '/../lib/wf_crm.php';
+            wf_crm_trigger('contact_created', [], [
+                'contact_id' => $newId,
+                'email'      => $data['email'] ?? '',
+                'name'       => $data['name']  ?? '',
+                'source'     => 'crm_contact_create',
+            ], $uid, $orgId);
+        } catch (Throwable $_) {}
+        jsonResponse($newContact, 201);
         break;
 
     case 'PUT':

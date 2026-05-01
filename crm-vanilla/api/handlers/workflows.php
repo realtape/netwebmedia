@@ -349,8 +349,6 @@ if ($action === 'run_now' && $method === 'POST') {
     if (!$user || !$uid) jsonError('Authentication required', 401);
     if (!$id) jsonError('id required', 400);
 
-    // Admin-only: rely on org_role()-aware check. Member-or-better is enough here
-    // because run_now only fires the user's own workflows (tenancy_where filters).
     if (function_exists('require_org_access_for_write')) {
         require_org_access_for_write('admin');
     }
@@ -358,21 +356,8 @@ if ($action === 'run_now' && $method === 'POST') {
     $row = workflows_fetch_row($db, $id, $tWhere, $tParams);
     if (!$row) jsonError('Workflow not found', 404);
 
-    // Make sure mirror exists (guards against being out of sync).
-    $resourceId = workflows_upsert_engine_mirror($db, (int)$row['id'], $row);
-
-    // Bridge to api-php engine. Uses the shared DB; calling wf_enqueue + wf_advance
-    // directly avoids the trigger-match path (we're firing this *specific* workflow,
-    // bypassing wf_active_for_trigger which would fan-out to every active match).
-    $enginePath = realpath(__DIR__ . '/../../../api-php/lib/workflows.php');
-    if (!$enginePath || !is_file($enginePath)) {
-        jsonError('Engine not reachable from CRM API: ' . ($enginePath ?: 'missing api-php/lib/workflows.php'), 500);
-    }
-    // The engine uses qExec / qOne / qAll / lastId / config() helpers — pull in the
-    // api-php bootstrap. db.php defines all of them (config() is in there too).
-    // We don't run a full router; just include the libs.
-    require_once __DIR__ . '/../../../api-php/lib/db.php';
-    require_once $enginePath;
+    // CRM-native engine (webmed6_crm). No cross-DB dependency on api-php.
+    require_once __DIR__ . '/../lib/wf_crm.php';
 
     $context = [
         'triggered_by_user_id' => $uid,
@@ -381,12 +366,10 @@ if ($action === 'run_now' && $method === 'POST') {
         'source'               => 'crm_run_now',
     ];
     try {
-        $runId = wf_enqueue($resourceId, (int)($row['organization_id'] ?: 1), $context);
-        $run = qOne('SELECT * FROM workflow_runs WHERE id = ?', [$runId]);
-        if ($run) wf_advance($run);
+        $runId = wf_crm_run_now((int)$row['id'], $context, $db);
         // Update last_run_at on the builder row (best-effort).
         try { $db->prepare('UPDATE workflows SET last_run_at = NOW() WHERE id = ?')->execute([$id]); } catch (Throwable $_) {}
-        jsonResponse(['ok' => true, 'run_id' => $runId, 'resource_id' => $resourceId, 'started' => true]);
+        jsonResponse(['ok' => true, 'run_id' => $runId, 'started' => $runId !== null]);
     } catch (Throwable $e) {
         jsonError('Run failed: ' . $e->getMessage(), 500);
     }

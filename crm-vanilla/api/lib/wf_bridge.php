@@ -1,53 +1,21 @@
 <?php
 /**
- * Workflow trigger bridge — lets crm-vanilla/api/handlers fire workflows that
- * live in the canonical api-php codebase (resources(type=workflow)).
+ * Legacy shim — forwards wf_fire() calls to the CRM-native engine (wf_crm.php).
  *
- * Both codebases run on the same InMotion PHP-FPM and share webmed6_crm DB,
- * so we just include the canonical workflow lib and call wf_trigger().
+ * The old bridge tried to cross-include api-php/lib/workflows.php (webmed6_nwm)
+ * from the CRM context (webmed6_crm). This failed because the two codebases run
+ * on different databases. All trigger calls now go through wf_crm_trigger() which
+ * operates entirely within webmed6_crm.
  *
- * Fail-open: any include or call error is swallowed — the CRM API never
- * blocks user actions because of a workflow failure.
- *
- * Usage:
- *   wf_fire('deal_stage', ['stage' => 'Qualified'], $ctx);
- *   wf_fire('tag_added',  ['tag'   => 'mql'],      $ctx);
+ * This shim exists for backward-compat with any handler that still calls wf_fire().
+ * Migrate each call site to wf_crm_trigger() and delete this file when done.
  */
 
+require_once __DIR__ . '/wf_crm.php';
+
 if (!function_exists('wf_fire')) {
-
-  function wf_fire(string $type, array $match = [], array $ctx = [], int $org_id = 1): array {
-    static $loaded = null;
-    static $loadError = null;
-
-    if ($loaded === null) {
-      $loaded = false;
-      try {
-        $libPath = realpath(__DIR__ . '/../../../api-php/lib');
-        if ($libPath && is_file($libPath . '/db.php') && is_file($libPath . '/workflows.php')) {
-          require_once $libPath . '/db.php';
-          require_once $libPath . '/workflows.php';
-          $loaded = function_exists('wf_trigger');
-        } else {
-          $loadError = 'api-php/lib not found at ' . ($libPath ?: 'unresolved path');
-        }
-      } catch (Throwable $e) {
-        $loadError = 'load failed: ' . $e->getMessage();
-      }
+    function wf_fire(string $type, array $match = [], array $ctx = [], int $org_id = 1): array {
+        $count = wf_crm_trigger($type, $match, $ctx, null, $org_id ?: null);
+        return ['ok' => true, 'count' => $count, 'fired' => []];
     }
-
-    if (!$loaded) {
-      error_log('[wf_bridge] skipped trigger=' . $type . ' (' . ($loadError ?: 'unknown') . ')');
-      return ['ok' => false, 'reason' => 'bridge_unavailable'];
-    }
-
-    try {
-      $fired = wf_trigger($type, $match, $ctx, $org_id);
-      return ['ok' => true, 'count' => count($fired), 'fired' => $fired];
-    } catch (Throwable $e) {
-      error_log('[wf_bridge] trigger=' . $type . ' threw: ' . $e->getMessage());
-      return ['ok' => false, 'reason' => 'trigger_threw', 'error' => $e->getMessage()];
-    }
-  }
-
 }

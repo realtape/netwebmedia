@@ -271,6 +271,11 @@ function route_public($parts, $method) {
     if ($name === '') $name = 'WhatsApp subscriber ' . substr($phone, -4);
     if (mb_strlen($name) > 200) $name = mb_substr($name, 0, 200);
 
+    // Optional email — if provided, dual-channel them (WhatsApp pending +
+    // immediate welcome email). Enables value delivery while WABA is in review.
+    $email = trim(strtolower((string)($b['email'] ?? '')));
+    if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) $email = ''; // silently drop invalid
+
     $niche = strtolower(trim((string)($b['niche'] ?? '')));
     $allowedNiches = ['tourism','restaurants','health','beauty','smb','law_firms','real_estate','local_specialist','automotive','education','events_weddings','financial_services','home_services','wine_agriculture'];
     if ($niche !== '' && !in_array($niche, $allowedNiches, true)) $niche = '';
@@ -320,18 +325,47 @@ function route_public($parts, $method) {
       'niche'     => $niche ?: null,
       'whatsapp'  => $waMeta,
     ];
+    if ($email !== '') $data['email'] = $email;
     qExec(
       "INSERT INTO resources (org_id, type, slug, title, status, data) VALUES (?, 'contact', ?, ?, 'active', ?)",
       [$orgId, 'wa-' . substr(bin2hex(random_bytes(4)), 0, 8), $name, json_encode($data)]
     );
     $contactId = lastId();
 
+    // Email enrollment — only if user provided an email. Same welcome sequence
+    // as the newsletter signup; the contact gets immediate value while WABA
+    // verification is pending.
+    $sequenceEnrolled = null;
+    if ($email !== '') {
+      try {
+        require_once __DIR__ . '/../lib/email-sequences.php';
+        seq_enroll($contactId, 'welcome', [
+          'email'        => $email,
+          'name'         => $name,
+          'first_name'   => preg_split('/\s+/', $name, 2)[0] ?? '',
+          'lang'         => $lang,
+          'source'       => $source,
+          'niche'        => $niche ?: null,
+          'enrolled_via' => 'whatsapp_subscribe',
+        ]);
+        $sequenceEnrolled = 'welcome';
+      } catch (Throwable $e) { /* swallow — opt-in succeeded, email is bonus */ }
+    }
+
     // Fire workflow trigger so anything wired to whatsapp_subscribe (legacy or future) runs
     try {
-      wf_trigger('whatsapp_subscribe', [], ['phone' => $phone, 'name' => $name, 'niche' => $niche, 'contact_id' => $contactId], $orgId);
+      wf_trigger('whatsapp_subscribe', [], [
+        'phone' => $phone, 'name' => $name, 'niche' => $niche,
+        'email' => $email ?: null, 'contact_id' => $contactId
+      ], $orgId);
     } catch (Throwable $e) {}
 
-    json_out(['ok' => true, 'id' => $contactId, 'status' => 'pending_double_opt_in'], 201);
+    json_out([
+      'ok' => true,
+      'id' => $contactId,
+      'status' => 'pending_double_opt_in',
+      'email_sequence_enrolled' => $sequenceEnrolled,
+    ], 201);
   }
 
   // /api/public/email/preview?id=welcome-1&lang=en — render a sequence email as HTML

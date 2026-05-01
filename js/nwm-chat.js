@@ -110,7 +110,7 @@
           reply: "For contractors, plumbers, electricians, HVAC & landscaping we recommend **Growth Stack**: CRM job pipeline + Website + Google/Meta Ads + AI SDR on WhatsApp 24/7. Starts at $997/mo.\n\nExpected: 50-90% more booked jobs in 90 days. The AI handles all initial inquiries on WhatsApp so you close jobs, not messages. 40% fewer no-shows with automated reminders.",
           replies: [
             { id: 'audit-start', label: '🎯 Free audit',         action: 'audit' },
-            { id: 'async-audit', label: '💬 WhatsApp us', href: 'https://wa.me/14155238886?text=Hi%20NetWebMedia%2C%20I%20need%20help%20with%20home%20services.' },
+            { id: 'async-audit', label: '💬 WhatsApp us', href: 'https://netwebmedia.com/whatsapp.html' },
             { id: 'back',        label: '← Back',                action: 'menu' }
           ]
         },
@@ -280,7 +280,7 @@
         human: {
           reply: "Sure! How would you like to connect?",
           replies: [
-            { id: 'human-wa',    label: '💬 WhatsApp',          href: 'https://wa.me/14155238886?text=Hi%20NetWebMedia%2C%20I%20came%20from%20your%20website.' },
+            { id: 'human-wa',    label: '💬 WhatsApp',          href: 'https://netwebmedia.com/whatsapp.html' },
             { id: 'human-email', label: '✉️ Email the team',    href: 'mailto:hello@netwebmedia.com?subject=Chat%20handoff%20from%20website' },
             { id: 'human-email', label: '✉️ Email us',          href: 'mailto:hello@netwebmedia.com?subject=Chat%20handoff%20from%20website' },
             { id: 'back',        label: '← Back',               action: 'menu' }
@@ -484,7 +484,7 @@
         human: {
           reply: "¡Claro! ¿Cómo prefieres conectar?",
           replies: [
-            { id: 'human-wa',    label: '💬 WhatsApp',         href: 'https://wa.me/14155238886?text=Hola%20NetWebMedia%2C%20vine%20desde%20su%20sitio%20web.' },
+            { id: 'human-wa',    label: '💬 WhatsApp',         href: 'https://netwebmedia.com/whatsapp.html' },
             { id: 'human-email', label: '✉️ Email al equipo',  href: 'mailto:hello@netwebmedia.com?subject=Consulta%20desde%20el%20chat' },
             { id: 'human-email', label: '✉️ Escríbenos',      href: 'mailto:hello@netwebmedia.com?subject=Handoff%20desde%20chat' },
             { id: 'back',        label: '← Volver',            action: 'menu' }

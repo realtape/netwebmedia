@@ -53,7 +53,12 @@ function json(res, code, obj) {
 http
   .createServer((request, response) => {
     if (request.method === 'OPTIONS') {
-      response.writeHead(204, { 'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Headers':'*' });
+      response.writeHead(204, {
+        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Headers':'*',
+        'Access-Control-Allow-Methods':'GET, OPTIONS',
+        'Access-Control-Allow-Private-Network':'true',
+      });
       response.end(); return;
     }
     if (request.url.startsWith('/api/')) { if (mockApi(request.url, response)) return; }
@@ -77,6 +82,8 @@ http
       const extension = path.extname(filePath).toLowerCase();
       response.writeHead(200, {
         "Content-Type": contentTypes[extension] || "application/octet-stream",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Private-Network": "true",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
         "Referrer-Policy": "strict-origin-when-cross-origin",
@@ -88,7 +95,7 @@ http
           "img-src 'self' data: https://flagcdn.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; " +
           "frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'",
         "Cross-Origin-Opener-Policy": "same-origin",
-        "Cross-Origin-Resource-Policy": "same-origin",
+        "Cross-Origin-Resource-Policy": "cross-origin",
       });
       response.end(data);
     });

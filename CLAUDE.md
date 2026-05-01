@@ -77,6 +77,12 @@ Deploys are **incremental sync by hash** (`SamKirkland/FTP-Deploy-Action`) — s
 
 `deploy-site-root.yml` supports a `dry_run` input flag via `workflow_dispatch` — when true, skips all FTP writes (useful for testing CI logic).
 
+**Adding a new top-level directory requires TWO updates** in `deploy-site-root.yml` — burned us when shipping `/social/`:
+1. Add the path under `on.push.paths` (line ~87) so the workflow even triggers.
+2. Add the directory name to the staging-step allowlist loop (line ~155: `for d in css js assets ... industries app livery-editor social; do`). Without this, the workflow runs but `_stage/` doesn't include the new dir, so it never gets uploaded via FTPS.
+
+Symptom of forgetting (2): deploy succeeds, returns 200 on every URL except the new one which 404s. Root cause is the missing line in the `for d in` loop, not anything content-related.
+
 ### Config generation at deploy time
 
 `deploy-site-root.yml` generates `api-php/config.local.php` and `crm-vanilla/api/config.local.php` on the fly from GitHub Secrets using Python string interpolation. It also auto-runs any `crm-vanilla/api/schema_*.sql` migrations via HTTP POST to `/crm-vanilla/api/?r=migrate` after each deploy.
@@ -107,7 +113,7 @@ The API uses a **single generic `resources` table** as an EAV store — every en
 
 **Auth:** uses `X-Auth-Token: <token>` header (NOT `Authorization: Bearer`). Token is returned on login and stored as `nwm_token` cookie/localStorage. Admin credentials are seeded by `api-php/migrate.php` (run once via `GET /api/migrate.php?token=<first-16-chars-of-jwt_secret>`).
 
-**Public routes** (`/api/public/*`) require no auth: form submission, newsletter subscribe, blog list, audit, stats, prospect chatbot.
+**Public routes** (`/api/public/*`) require no auth: form submission, newsletter subscribe, **whatsapp/subscribe** (opt-in capture for the WABA broadcast list — stores `pending_double_opt_in` with literal consent text per Meta's WABA legal requirement; optionally also enrolls the contact in the welcome email sequence if email is provided), blog list, audit, stats, prospect chatbot.
 
 **Cron route** (`GET /api/cron`) processes the `email_sequence_queue` table — send next batch of drip emails. Must be called by an external scheduler (e.g. cPanel cron job every 5 min).
 
@@ -149,7 +155,11 @@ Vanilla JS SPA with a custom route dispatcher in `crm-vanilla/js/app.js`. No fra
 - **Session storage:** `nwm_token` and `nwm_user` in `localStorage`. The shared API client at `app/js/api-client.js` auto-redirects 401s to login unless `noRedirectOn401` is passed.
 - **Feature modules:** `contacts.js`, `conversations.js`, `pipeline.js`, `marketing.js`, `calendar.js`, `reporting.js`, `automation.js`, `payments.js`, `documents.js`, `courses.js`, `sites.js`, `settings.js` — one file per CRM section.
 - **Data layer:** `crm-vanilla/js/data.js` is mock seed data only. Real data flows through the EAV `resources` table via `/crm-vanilla/api/`.
-- **CRM handlers** in `crm-vanilla/api/handlers/` (query-string routing via `?r=<name>`) are separate from the public `api-php/routes/`. New CRM features go here. As of 2026-05, `workflows.php` is the most recent addition — use it as the template for new CRM CRUD routes (see "Adding a new CRM route handler" above).
+- **CRM handlers** in `crm-vanilla/api/handlers/` (query-string routing via `?r=<name>`) are separate from the public `api-php/routes/`. New CRM features go here. Recent additions (2026-05):
+  - `workflows.php` — visual workflow builder CRUD (canonical CRUD reference)
+  - `wa_flush.php` — admin handler for the WhatsApp opt-in pipeline. Actions: `count`, `list`, `mark`, `send`. The `send` action calls Meta Cloud API and returns 503 with a setup message if `WA_PHONE_ID` / `WA_META_TOKEN` are unset. Backed by the public `POST /api/public/whatsapp/subscribe` endpoint in `api-php/routes/public.php` — that endpoint stores subscribers as `pending_double_opt_in` until WABA verification completes; `wa_flush` then graduates them to `confirmed` via the welcome template.
+  - `ig_publish.php` — Instagram Graph API stub. Actions: `status`, `spec`, `publish`. The `publish` action does the 3-step Meta flow (upload children → create CAROUSEL container → media_publish). Pre-flight verifies all 5 image URLs are reachable. 503 with setup message if `IG_BUSINESS_ACCOUNT_ID` / `IG_GRAPH_TOKEN` unset. Carousel definitions match `assets/social/carousels/{a,b,c}-slide-{1..5}.png`.
+  - Admin UI module `crm-vanilla/whatsapp-subs.html` + `js/whatsapp-subs.js` consumes `wa_flush` for button-driven opt-in management (filterable table, mark actions, dry-run/live flush). Admin-only sidebar entry under "WhatsApp Subs".
 
 ## Email sequences
 
@@ -168,6 +178,8 @@ netwebmedia.com is **flat HTML on Apache**, not a framework router. Rules:
 - **Internal-only pages are blocked publicly via `.htaccess`** — `diagnostic.html`, `flowchart.html`, `orgchart.html`, `dashboard.html`, `desktop-login.html`, `nwmai.html`, `audit-report.html`, `*-prospects-report.html`, `*-digital-gaps.html`, `NetWebMedia_Business_Marketing_Plan_2026.html`. Don't link to them from public nav. The sitemap regen script (`_deploy/regen-sitemap.py`) excludes these patterns — don't add them back.
 - **Unshipped `/app/<slug>` routes** fall through to `/app/coming-soon.html` — this is intentional; don't add 404 handling.
 - **`register.html` is plan-aware**: `?plan=free` toggles the free-tier badge, perks list, heading copy, and CTA text, and forwards `plan` to `NWMApi.register()`. `pricing.html` "Free CRM" CTA links here — keep this contract intact when changing pricing.
+- **Apache per-directory `.htaccess` overrides parent `RewriteRule`s** — burned us once. Apache's default behavior is that a child `.htaccess` `RewriteEngine On` block REPLACES (not inherits) the parent's rules unless `RewriteOptions Inherit` is set. The `/api-php/ → /api/` 301 redirect MUST live inside `api-php/.htaccess` (which is the directory the request lands in), NOT just the root `.htaccess` — the root rule never fires for requests resolving into `api-php/`. Use `RewriteCond %{THE_REQUEST} \s/api-php/(.*?)\sHTTP` + `RewriteRule ^ /api/%1 [R=301,L]` inside the per-dir file. Same gotcha applies any time a subdirectory has its own `.htaccess` and you want a parent rule to fire — verify with curl first.
+- **`/whatsapp.html` is the canonical "contact us via WhatsApp" landing**, NOT a direct `wa.me/...` link. The Twilio sandbox `wa.me/14155238886` is dead — every public CTA across 28 files was swept (2026-05-01) to point at `/whatsapp.html`, which has intent-aware copy via `?topic=` and offers email + WhatsApp-list + contact-form fallbacks. Don't add new direct `wa.me/` links anywhere — go through `/whatsapp.html` (or `/whatsapp-updates.html` for opt-in) until WABA verification completes.
 
 When linking between pages, match this convention or you'll generate broken canonicals.
 
@@ -207,6 +219,28 @@ NetWebMedia's CRM and content target **exactly 14 niches** (do not add, rename, 
 - Navy `#010F3B` + Orange `#FF671F` + Inter / Poppins
 - Source of truth: `BRAND.md` (root) and `plans/brand-book.html`
 - Don't introduce new colors or fonts without checking the brand book
+- Social profile assets: `assets/social/avatar-1024.svg` (square brand mark) + `assets/social/header-1500x500.svg` (X/FB/LinkedIn-safe header). Export to PNG before uploading to platforms.
+
+## Social channels — what's in, what's permanently out
+
+NetWebMedia's social mix as of 2026-05-01 — these exclusions are durable, do NOT propose adding excluded channels without an explicit Carlos go-ahead:
+
+| Channel | State |
+|---|---|
+| Instagram `@netwebmedia` | In the mix; profile branding kit at `_deploy/social-channel-activation.md` §1; 3 brand-intro carousels rendered as 15 SVGs in `assets/social/carousels/` |
+| YouTube `@netwebmedia` | Live |
+| Facebook `/netwebmedia` | Live |
+| TikTok `@netwebmedia` | Account claimed, content slated Q3 2026 |
+| WhatsApp Business | In Meta verification (target June 2026); opt-ins capturing now via `/whatsapp-updates.html` |
+| Email broadcasts | Live via `email_sequence_queue` cron |
+| **LinkedIn** | **Excluded by choice** (Carlos, 2026-04-20) |
+| **X / Twitter** | **Excluded by choice** (Carlos, 2026-05-01) — `@netwebmedia` stays unclaimed; email covers the data-led, thread-style content X would have hosted |
+
+The `/social/` hub page reflects this state. The `_deploy/social-content-pipeline.md` v2 is the channel-specific playbook (3 emails + 3 follow-ups + 3 IG carousels per cluster cycle). The `_deploy/social-channel-activation.md` is the manual-tasks kit Carlos executes.
+
+### Carousel asset pipeline
+
+15 Instagram carousel slides at 1080×1080 live in `assets/social/carousels/{a,b,c}-slide-{1..5}.svg`. Regenerate by editing `_deploy/render-carousels.py` (Python templating script — slide content is in the `SLIDES` list at the top) and running `python3 _deploy/render-carousels.py`. The internal preview page at `/social-carousel-preview.html` (noindex) shows all 15 in a grid with a one-click "Export all 15 as PNG (1080×1080)" button that uses the Canvas API — zero npm deps. Carlos uses this to generate uploads for Instagram.
 
 ## Generators — Python and Node scripts at root and in `_deploy/`
 

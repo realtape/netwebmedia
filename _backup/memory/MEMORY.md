@@ -1,6 +1,7 @@
 - [User role — Carlos Martinez](user_role.md) — CEO/founder of NetWebMedia; prefers executive framing and vanilla tech
 - [NetWebMedia org & agents](netwebmedia_org.md) — 12 custom agents in `.claude/agents/` mirror the agency's org chart; delegate by role
 - [No LinkedIn distribution](feedback_distribution_no_linkedin.md) — Carlos declined LinkedIn for NetWebMedia campaign content; omit from distribution plans
+- [No X / Twitter distribution](feedback_distribution_no_x_twitter.md) — Carlos chose 2026-05-01 to drop X from the social mix; @netwebmedia stays unclaimed; email broadcasts cover the X lane
 - [Sync calendar on date changes](feedback_sync_calendar_on_date_change.md) — When a date changes in any file, automatically check and update Google Calendar too
 - [Desktop stays clean — use folders](feedback_desktop_organization.md) — Never save files to desktop; create organized folder structures instead
 - [Carlos's Google Calendar](reference_calendar.md) — carlos@netwebmedia.com, timezone America/Santiago; NWM tasks follow "NWM - Area - Task" naming + color coding

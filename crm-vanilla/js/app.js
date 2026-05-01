@@ -943,7 +943,7 @@
   function enforceAuthGate() {
     // Reveal helper: clears the visibility:hidden set in app.css that prevents
     // dashboard chrome from flashing before the auth check runs.
-    function reveal() { document.documentElement.style.visibility = ''; }
+    function reveal() { document.documentElement.style.visibility = 'visible'; }
 
     if (window.NWM_NO_GATE) { reveal(); return; }
     // Never redirect FROM the login page TO the login page — that's the

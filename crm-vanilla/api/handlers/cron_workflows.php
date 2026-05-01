@@ -4,9 +4,11 @@
  *
  * Called every 5 min by cPanel:
  *   curl -s -A "Mozilla/5.0" \
- *     "https://netwebmedia.com/crm-vanilla/api/?r=cron_workflows&token=<CRON_TOKEN>"
+ *     "https://netwebmedia.com/crm-vanilla/api/?r=cron_workflows&token=<MIGRATE_TOKEN>"
  *
- * CRON_TOKEN = first 16 chars of the CRM JWT secret (defined in config.php).
+ * MIGRATE_TOKEN is defined in config.local.php (generated from GitHub Secrets
+ * SECRET_MIGRATE_TOKEN). Same token used by the migrate endpoint.
+ * Fallback default (if secret not set): NWM_MIGRATE_2026_ROTATED_7d790e0bb4992a6e
  *
  * GET  ?r=cron_workflows&token=…  → process pending runs, return JSON summary
  * POST ?r=cron_workflows&action=stats&token=…  → queue depth stats only
@@ -14,13 +16,12 @@
 
 require_once __DIR__ . '/../lib/wf_crm.php';
 
-// Token guard — same pattern as migrate.php / dedupe.php
-$token   = $_GET['token'] ?? $_POST['token'] ?? '';
-$secret  = defined('JWT_SECRET') ? JWT_SECRET : (defined('DB_PASS') ? DB_PASS : '');
-$expect  = substr($secret, 0, 16);
+// Token guard — uses MIGRATE_TOKEN (same constant as migrate.php / dedupe.php)
+$token  = $_GET['token'] ?? $_POST['token'] ?? '';
+$expect = defined('MIGRATE_TOKEN') ? MIGRATE_TOKEN : '';
 if (!$expect || !hash_equals($expect, $token)) {
     http_response_code(403);
-    jsonResponse(['error' => 'Forbidden', 'hint' => 'Pass ?token=<first-16-of-jwt-secret>']);
+    jsonResponse(['error' => 'Forbidden', 'hint' => 'Pass ?token=<MIGRATE_TOKEN from config.local.php>']);
 }
 
 $db     = getDB();

@@ -21,7 +21,7 @@ The original v1 of this playbook assumed three live channels: Twitter/X, Instagr
 | **WhatsApp Business** | 3 broadcasts | The `wa.me/14155238866` link in the codebase points to Twilio's shared sandbox — no NetWebMedia-owned WABA exists | **REPLACED.** WA broadcasts converted to email follow-ups in the same warm-prospect sequence. Re-introduce WA when Meta WABA verification completes (infra is wired: `WA_META_TOKEN`, `WA_PHONE_ID`, `WA_META_APP_SECRET` in deploy secrets). |
 | **LinkedIn** | excluded | Confirmed no company page; matches Carlos's preference | Stays excluded. |
 
-**Net effect:** the May 4–24 cycle ships through email + Instagram (after branding). Twitter and WhatsApp re-enter the playbook only after the prerequisites in §9 are met.
+**Net effect:** the May 4–24 cycle ships through email + Instagram (after branding). WhatsApp re-enters the playbook after Meta WABA verification (§9.3). Twitter does NOT re-enter — that channel was decided out 2026-05-01.
 
 ---
 
@@ -336,9 +336,9 @@ Use these templates for any future NWM blog post → social/email conversion.
 
 ---
 
-### Twitter/X Thread Template (DEFERRED)
+### Twitter/X Thread Template (DROPPED 2026-05-01)
 
-Held in reserve. If Carlos claims `@netwebmedia` on X (see §9), reactivate using v1 of this doc — the original thread copy is preserved in git history at commit `0211282f4`.
+Decided out. Email broadcasts cover this lane. Original thread copy is preserved in git history at commit `0211282f4` for archival purposes only.
 
 ### WhatsApp Broadcast Template (DEFERRED)
 
@@ -437,11 +437,10 @@ Held in reserve. Reactivate when Meta WABA verification completes for a NetWebMe
 - Post 2–3 evergreen brand-intro carousels BEFORE the campaign launch so the May 4 cycle doesn't land on an empty grid
 - Owner: creative-director + Carlos. Target: complete by May 3, 2026.
 
-### 9.2 X / Twitter handle decision (BLOCKS reactivating §1 threads)
-- Decide whether to claim `@netwebmedia` on X
-- If yes: register, brand the profile (same Navy/Orange + bio + link), post 5 evergreen tweets to establish the account, THEN reactivate v1 thread schedule
-- If no: this section stays deferred indefinitely; the email lane in §1 covers the same content
-- Owner: Carlos. Target decision date: May 8, 2026.
+### 9.2 X / Twitter handle — RESOLVED 2026-05-01 (channel dropped)
+Decided: NetWebMedia does not operate on X. Email broadcasts cover the
+content distribution. No further action. Do not reopen without explicit
+Carlos go-ahead.
 
 ### 9.3 WhatsApp Business verification (BLOCKS reactivating §3 broadcasts)
 - Provision a NetWebMedia-owned phone number (not the Twilio sandbox)

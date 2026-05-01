@@ -306,35 +306,56 @@ function bl_plans_seed() {
       'tagline'       => 'All platforms + influencer outreach',
       'features'      => ['All major platforms','30+ posts/mo','Influencer partnership outreach','Live social listening + trend response','Dedicated community manager','Weekly strategy call'],
     ],
-    // ── AI Fractional CMO (agent + human review) ── (unchanged)
+    // ── AI Fractional CMO (canonical pricing — matches /pricing.html toggle) ──
+    // Setup fees reconciled to public pricing page on 2026-05-01.
     [
       'code'    => 'cmo_starter',
-      'name'    => 'CMO Starter',
+      'name'    => 'AEO Starter',
       'category'=> 'cmo',
       'usd'     => 249,
-      'setup'   => 249,
-      'tagline' => 'AI CMO + human review monthly — vs $5K-10K/mo fractional CMO',
-      'features'=> ['24/7 AI Fractional CMO agent (Claude-powered)','Chat anytime about strategy, pricing, positioning','Generate deliverables on demand (8 templates)','Monthly written review by NWM strategist','Metric dashboard + KPI targets','vs. human fractional CMO ($5K-10K/mo) — save 95%'],
+      'setup'   => 0,
+      'tagline' => 'Software + AEO audit + monthly strategy — async only',
+      'features'=> ['NWM CRM (3 users, 5k contacts)','AEO audit + monthly score report','24/7 AI Fractional CMO agent (Claude-powered)','Async monthly strategy note (no live calls)','vs. human fractional CMO ($5K-10K/mo) — save 95%'],
     ],
     [
       'code'     => 'cmo_growth',
       'name'     => 'CMO Growth',
       'category' => 'cmo',
       'usd'      => 999,
-      'setup'    => 999,
+      'setup'    => 499,
       'highlight'=> true,
-      'tagline'  => 'AI CMO + bi-weekly human strategist — most common',
-      'features' => ['Everything in Starter','Bi-weekly 45-min strategy calls with senior CMO','90-day marketing plan refreshed quarterly','Competitive analysis + positioning review','Campaign briefs on demand (up to 4/mo)','Priority Slack Connect','vs. $8K-15K/mo fractional CMO — save 87%'],
+      'tagline'  => 'AEO + SEO + paid ads + social — most popular',
+      'features' => ['Everything in AEO Starter','Paid ads management (Google + Meta)','Social media content & posting','Email marketing automation','AI SDR + lead qualification','Monthly async strategy report','+ ad spend at cost + 12% mgmt fee (min $300/mo)'],
     ],
     [
       'code'          => 'cmo_scale',
       'name'          => 'CMO Scale',
       'category'      => 'cmo',
       'usd'           => 2499,
-      'setup'         => 2499,
+      'setup'         => 999,
       'needs_contact' => true,
-      'tagline'       => 'Embedded CMO — weekly calls + board-ready reports',
-      'features'      => ['Everything in Growth','Weekly 60-min calls with senior CMO','Board-ready monthly reports','Attends your leadership meetings (remote)','Custom KPI dashboard + anomaly alerts','Unlimited deliverables','Hiring guidance for marketing team'],
+      'tagline'       => 'Full-stack marketing department',
+      'features'      => ['Everything in CMO Growth','Video factory (16 Reels/mo)','Custom AI agents + voice AI','White-glove onboarding','Dedicated account strategist','Priority support + daily Slack access','+ ad spend at cost + 12% mgmt fee (min $300/mo)'],
+    ],
+    [
+      'code'          => 'cmo_enterprise',
+      'name'          => 'CMO Enterprise',
+      'category'      => 'cmo',
+      'usd'           => 5999,
+      'setup'         => 0,
+      'needs_contact' => true,
+      'tagline'       => 'Multi-brand · dedicated agent · custom AI · founder access',
+      'features'      => ['Everything in CMO Scale','Multi-brand CRM (up to 5 brands)','Voice AI unlimited (was metered)','Video Factory unlimited (vs 16/mo)','Custom AI agent build (1 included)','Weekly call with Carlos (founder)','Quarterly strategy offsite','+ ad spend at cost + 10% mgmt fee (min $500/mo)'],
+    ],
+    // One-time AEO Audit — entry SKU, 100% credited toward retainer
+    [
+      'code'    => 'aeo_audit',
+      'name'    => 'AEO Audit',
+      'category'=> 'one_time',
+      'usd'     => 997,
+      'setup'   => 0,
+      'tagline' => '48h written audit — 100% credited toward retainer',
+      'features'=> ['Written 48-hour audit (no calls)','AEO citation footprint analysis (ChatGPT/Claude/Perplexity/SGE)','Schema + on-page recommendations','30/60/90-day action list','100% credit toward CMO retainer if signed in 60 days'],
     ],
     // ── Full-stack bundles (CRM + Automate + Website + Video) ──
     [
@@ -811,6 +832,51 @@ function route_billing($parts, $method) {
 
   if ($sub === 'webhook' && $method === 'POST') {
     $raw = file_get_contents('php://input');
+
+    // ── Mercado Pago webhook signature verification ──────────────────────
+    // MP signs every webhook POST with HMAC-SHA256 using the webhook secret
+    // from your MP account. Header format: x-signature: ts=NNNNN,v1=HEX
+    // Manifest format: id:DATA_ID;request-id:REQUEST_ID;ts:TIMESTAMP;
+    // See: https://www.mercadopago.com/developers/en/docs/your-integrations/notifications/webhooks
+    //
+    // FAIL-CLOSED: if the secret is unset, reject all webhook POSTs. This
+    // closes the privilege-escalation hole where a forged POST could
+    // promote any user to role=admin via the preapproval status flow below.
+    $whSecret = bl_mp_webhook_secret();
+    if (empty($whSecret)) {
+      error_log('billing webhook: MP_WEBHOOK_SECRET unset — rejecting (fail-closed)');
+      err('Webhook signature not configured', 403);
+    }
+    $sigHeader = $_SERVER['HTTP_X_SIGNATURE'] ?? '';
+    $reqId     = $_SERVER['HTTP_X_REQUEST_ID'] ?? '';
+    // Parse "ts=NNNNN,v1=HEX"
+    $parts = [];
+    foreach (explode(',', $sigHeader) as $kv) {
+      if (strpos($kv, '=') !== false) {
+        list($k, $v) = explode('=', trim($kv), 2);
+        $parts[trim($k)] = trim($v);
+      }
+    }
+    $ts = $parts['ts'] ?? '';
+    $v1 = $parts['v1'] ?? '';
+    $dataIdForSig = $_GET['data.id'] ?? ($_GET['id'] ?? '');
+    if (empty($ts) || empty($v1) || empty($dataIdForSig)) {
+      error_log('billing webhook: missing ts/v1/data.id for sig verification');
+      err('Invalid signature', 403);
+    }
+    $manifest = 'id:' . $dataIdForSig . ';request-id:' . $reqId . ';ts:' . $ts . ';';
+    $expected = hash_hmac('sha256', $manifest, $whSecret);
+    if (!hash_equals($expected, $v1)) {
+      error_log('billing webhook: signature mismatch (sig=' . substr($v1, 0, 12) . '..., expected=' . substr($expected, 0, 12) . '...)');
+      err('Invalid signature', 403);
+    }
+    // Reject replays older than 5 minutes
+    if (abs(time() * 1000 - (int)$ts) > 5 * 60 * 1000) {
+      error_log('billing webhook: stale timestamp');
+      err('Stale signature', 403);
+    }
+    // ── End signature verification ──────────────────────────────────────
+
     $b = json_decode($raw, true) ?: [];
     $topic = $b['type'] ?? $b['topic'] ?? ($_GET['topic'] ?? '');
     $dataId = $b['data']['id'] ?? ($_GET['id'] ?? '');

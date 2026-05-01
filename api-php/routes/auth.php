@@ -15,7 +15,7 @@ function route_auth($path, $method) {
     }
 
     // Reject names that look like random strings: single word over 20 chars has no legitimate use.
-    if (!str_contains($name, ' ') && strlen($name) > 20) {
+    if (strpos($name, ' ') === false && strlen($name) > 20) {
       err('Please enter your full name (first and last).', 422);
     }
 

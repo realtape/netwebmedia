@@ -89,7 +89,7 @@ This is how we deliver agency output at SMB prices.
    emails and SMS, generates bilingual landing pages, writes meta, translates,
    suggests next actions. Context-aware: knows the record/page you're on.
    Runs on Claude 3.5 Sonnet. Summoned with ⌘K / Ctrl+K.
-   For: every logged-in user on CMO Lite, Growth, Scale, and every CRM plan.
+   For: every logged-in user on AEO Starter, CMO Growth, CMO Scale, CMO Enterprise, and every CRM plan.
    Tutorial: /nwmai.html
 
 2. **AI SDR (Sales Development Representative)**
@@ -121,7 +121,7 @@ This is how we deliver agency output at SMB prices.
    AI drafts + human editing + AEO schema markup. FAQ / HowTo / Article
    structured data so LLMs cite you. 1,500+ word articles, published direct
    to your CMS.
-   For: CMO Lite, Growth, Scale.
+   For: AEO Starter, CMO Growth, CMO Scale, CMO Enterprise.
    Tutorial: /tutorials/ai-seo.html · /guides/llm-seo-getting-cited.html
 
 7. **NWM CMS — AI Website Builder**
@@ -171,27 +171,42 @@ This is how we deliver agency output at SMB prices.
 
 FLAGSHIP: FRACTIONAL CMO RETAINER (3 tiers)
 
-**CMO Lite — $249/mo · no setup fee**
-  Includes: NWM CRM (Pro tier), AEO + SEO strategy, monthly content calendar,
-  SEO audit, content pillars.
-  Cadence: self-serve onboarding + MONTHLY ASYNC STRATEGY NOTE (no live calls
-  at this tier). This is the wedge — priced below HubSpot Starter.
-  Upgrade path: 90-day Lite upgrade credit ($249 applied to Growth or Scale
-  if upgraded within 90 days).
+**AEO Audit — $997 one-time · 100% credited toward retainer**
+  Written 48-hour audit (no calls). Maps your AEO citation footprint across
+  ChatGPT, Claude, Perplexity, and Google AI Overviews; surfaces schema +
+  on-page recommendations + a 30/60/90-day action list. The full $997
+  applies as credit toward AEO Starter / Growth / Scale if you sign within
+  60 days. The wedge SKU — most CMO Growth retainers start here.
+
+**AEO Starter — $249/mo · no setup fee**
+  Includes: NWM CRM (3 users, 5k contacts), AEO audit + monthly score
+  report, 24/7 AI Fractional CMO agent (Claude-powered), monthly content
+  calendar, SEO audit, content pillars.
+  Cadence: self-serve onboarding + MONTHLY ASYNC STRATEGY NOTE (no live
+  calls at this tier). This is the wedge tier — priced below HubSpot Starter.
 
 **CMO Growth — $999/mo + $499 setup + ad management fee   [MOST POPULAR]**
-  Includes: everything in Lite + paid ads management ($5k–$20k typical spend),
-  MONTHLY ASYNC STRATEGY LOOM (5–10 min video) + written recap + attribution
-  dashboard review, email nurture sequences.
+  Includes: everything in AEO Starter + paid ads management
+  (Google + Meta, $5k–$20k typical spend), social media content & posting,
+  email marketing automation, AI SDR + lead qualification, MONTHLY ASYNC
+  STRATEGY LOOM (5–10 min video) + written recap + attribution dashboard
+  review, email nurture sequences.
   Ad management fee: ad spend billed at cost + 12% management fee
   (minimum $300/month), billed separately from the retainer.
 
 **CMO Scale — $2,499/mo + $999 setup + ad management fee**
-  Includes: everything in Growth + AI SDR outbound, Video Factory (16 Reels/
-  month), demand-gen campaigns, WEEKLY ASYNC STRATEGY LOOM + dashboard +
-  written report, QUARTERLY OKR PLANNING delivered as a written playbook
-  (not a meeting), Voice AI add-on eligibility.
+  Includes: everything in Growth + Video Factory (16 Reels/month),
+  custom AI agents + voice AI, white-glove onboarding, dedicated account
+  strategist, priority support + daily Slack access, AI SDR outbound,
+  demand-gen campaigns.
   Ad management fee: same 12% at cost, minimum $300/month.
+
+**CMO Enterprise — $5,999/mo + custom onboarding + ad management fee**
+  For multi-brand portfolios, custom SLAs, weekly founder access (Carlos),
+  white-label CRM, and dedicated AI infrastructure. Includes everything in
+  Scale + multi-brand CRM (up to 5 brands), unlimited Voice AI, unlimited
+  Video Factory, 1 custom AI agent build included, weekly call with
+  Carlos, quarterly strategy offsite. Ad management: 10% (min $500/mo).
 
 PLATFORM SKUs (SELF-SERVE — CRM only)
 
@@ -499,7 +514,7 @@ started at /pricing.html. For more info first, offer the free AI audit
 
 - Cold calling prospects (we don't).
 - Guarantee specific revenue numbers (we don't — no ethical agency does).
-- Sell standalone SEO without the CMO layer (we bundle — see CMO Lite as
+- Sell standalone SEO without the CMO layer (we bundle — see AEO Starter as
   the entry point).
 - Mark up ad spend (we bill at cost + 12% management fee — transparent).
 
@@ -1136,7 +1151,7 @@ Así entregamos output de agencia a precios de PYME.
    emails y SMS, genera landing pages bilingües, meta tags, traduce, sugiere
    próximas acciones. Consciente del contexto: sabe en qué registro estás.
    Corre sobre Claude 3.5 Sonnet. Se invoca con ⌘K / Ctrl+K.
-   Para: todo usuario logueado en CMO Lite, Growth, Scale y todo plan de CRM.
+   Para: todo usuario logueado en AEO Starter, CMO Growth, CMO Scale, CMO Enterprise y todo plan de CRM.
    Tutorial: /nwmai.html
 
 2. **AI SDR (Sales Development Representative)**
@@ -1167,7 +1182,7 @@ Así entregamos output de agencia a precios de PYME.
 6. **Content AI (motor de blog + AEO)**
    Borrador con IA + edición humana + schema AEO (FAQ, HowTo, Article) para
    que los LLMs te citen. Artículos 1,500+ palabras, publicados directo al CMS.
-   Para: CMO Lite, Growth, Scale.
+   Para: AEO Starter, CMO Growth, CMO Scale, CMO Enterprise.
    Tutorial: /tutorials/ai-seo.html · /guides/llm-seo-getting-cited.html
 
 7. **NWM CMS — Constructor de sitios con IA**
@@ -1220,28 +1235,42 @@ Así entregamos output de agencia a precios de PYME.
 
 FLAGSHIP: RETAINER FRACTIONAL CMO (3 niveles)
 
-**CMO Lite — $249/mes · sin setup**
-  Incluye: NWM CRM (tier Pro), estrategia AEO + SEO, calendario de contenido
-  mensual, auditoría SEO, pilares de contenido.
+**Auditoría AEO — $997 una vez · 100% acreditable al retainer**
+  Auditoría escrita de 48 horas (sin llamadas). Mapea tu huella de citación
+  AEO en ChatGPT, Claude, Perplexity y Google AI Overviews; entrega
+  recomendaciones de schema + on-page + plan de acción 30/60/90 días.
+  Los $997 completos se acreditan al primer mes de retainer si firmas en
+  60 días. SKU de entrada — la mayoría de retainers CMO Growth empiezan aquí.
+
+**AEO Starter — $249/mes · sin setup**
+  Incluye: NWM CRM (3 usuarios, 5k contactos), auditoría AEO + reporte
+  mensual de score, agente AI Fractional CMO 24/7 (powered by Claude),
+  calendario de contenido mensual, auditoría SEO, pilares de contenido.
   Cadencia: onboarding self-serve + NOTA ESTRATÉGICA MENSUAL ASÍNCRONA
-  (sin llamadas en vivo en este tier). Este es el wedge — por debajo de
-  HubSpot Starter.
-  Ruta de upgrade: Crédito de $249 hacia Growth o Scale si subes de nivel
-  dentro de los primeros 90 días.
+  (sin llamadas en vivo). Wedge tier — por debajo de HubSpot Starter.
 
 **CMO Growth — $999/mes + $499 setup + fee de manejo de ads   [MÁS POPULAR]**
-  Incluye: todo lo de Lite + manejo de ads pagados (gasto típico $5k–$20k),
-  LOOM ESTRATÉGICO MENSUAL ASÍNCRONO (video 5–10 min) + resumen escrito +
-  revisión del dashboard de atribución, secuencias de email nurture.
-  Fee de manejo: el gasto se factura al costo + 12% de management fee
-  (mínimo $300/mes), facturado aparte del retainer.
+  Incluye: todo lo de AEO Starter + manejo de ads pagados (Google + Meta,
+  gasto típico $5k–$20k), contenido y posting de social media, automatización
+  de email marketing, AI SDR + calificación de leads, LOOM ESTRATÉGICO
+  MENSUAL ASÍNCRONO (video 5–10 min) + resumen escrito + revisión del
+  dashboard de atribución, secuencias de email nurture.
+  Fee de manejo: gasto al costo + 12% management fee (mínimo $300/mes),
+  facturado aparte del retainer.
 
 **CMO Scale — $2,499/mes + $999 setup + fee de manejo de ads**
-  Incluye: todo lo de Growth + AI SDR outbound, Video Factory (16 Reels/mes),
-  campañas de demand-gen, LOOM ESTRATÉGICO SEMANAL ASÍNCRONO + dashboard +
-  informe escrito, PLANIFICACIÓN OKR TRIMESTRAL entregada como playbook
-  escrito (no una reunión), elegibilidad para Voice AI.
+  Incluye: todo lo de Growth + Video Factory (16 Reels/mes), agentes IA
+  custom + voice AI, onboarding white-glove, estratega de cuenta dedicado,
+  soporte prioritario + acceso diario a Slack, AI SDR outbound, campañas
+  de demand-gen.
   Fee de manejo: mismo 12% al costo, mínimo $300/mes.
+
+**CMO Enterprise — $5,999/mes + onboarding custom + fee de manejo de ads**
+  Para portfolios multi-marca, SLAs custom, acceso semanal al founder
+  (Carlos), CRM white-label, e infraestructura IA dedicada. Incluye todo
+  lo de Scale + CRM multi-marca (hasta 5 marcas), Voice AI ilimitado,
+  Video Factory ilimitado, 1 build de agente IA custom, llamada semanal
+  con Carlos, offsite estratégico trimestral. Fee de manejo: 10% (mín $500/mes).
 
 PLATAFORMA SELF-SERVE (SOLO CRM)
 

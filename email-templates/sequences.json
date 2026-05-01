@@ -268,6 +268,41 @@
       ]
     },
 
+    "aeo_brief": {
+      "name": "Tuesday AEO Brief — Weekly Broadcast",
+      "description": "Weekly Tuesday 9am broadcast — the X/LinkedIn-replacement nurture channel. Each issue is a single send to all subscribers (not a per-subscriber drip). Source: blog newsletter capture (source=blog-top) + any opt-in via /api/public/newsletter/subscribe.",
+      "trigger": "newsletter_subscribed",
+      "audience": "weekly_aeo_brief",
+      "broadcast_day": "tuesday",
+      "broadcast_hour_local": 9,
+      "broadcast_timezone": "America/Santiago",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "aeo-brief-001",
+          "delay_minutes": 0,
+          "subject": {
+            "en": "ChatGPT now cites FAQs 3.2x more than text",
+            "es": "ChatGPT cita FAQs 3.2x más que texto plano"
+          },
+          "subject_b_test": {
+            "en": "Why your competitor got cited today (you didn't)",
+            "es": "Por qué citaron a tu competidor hoy (a ti no)"
+          },
+          "preview": {
+            "en": "One observation, one action. 60 seconds. Every Tuesday.",
+            "es": "Una observación, una acción. 60 segundos. Todos los martes."
+          },
+          "template": "aeo-brief-001-launch.html",
+          "primary_cta": {
+            "en": "Score your AEO Citation Index",
+            "es": "Mide tu Índice de Citación AEO"
+          },
+          "primary_url": "https://netwebmedia.com/aeo-index.html?utm_source=aeo-brief&utm_medium=email&utm_campaign=launch&utm_content=001"
+        }
+      ]
+    },
+
     "re_engagement": {
       "name": "Re-engagement — Dormant Lead",
       "description": "For dormant leads (30d+ no opens). Reintroduces the platform after shipping 30+ new modules (AI Agents hub, Agency tier, Service hub, CMS hub). Drives to /nwm-crm or /pricing.",

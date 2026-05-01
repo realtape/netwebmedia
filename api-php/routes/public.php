@@ -270,7 +270,7 @@ function route_public($parts, $method) {
     // Normalize phone to E.164 — strip everything except digits + leading +
     $phoneRaw = (string)$b['phone'];
     $phone = preg_replace('/[^\d+]/', '', $phoneRaw);
-    if (str_contains(substr($phone, 1), '+')) $phone = '+' . preg_replace('/\+/', '', $phone);
+    if (strpos(substr($phone, 1), '+') !== false) $phone = '+' . preg_replace('/\+/', '', $phone);
     if (substr_count($phone, '+') > 1) err('Invalid phone format');
     $digits = preg_replace('/\D/', '', $phone);
     if (strlen($digits) < 10 || strlen($digits) > 15) err('Phone must be 10–15 digits in E.164 format');

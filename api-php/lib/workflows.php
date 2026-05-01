@@ -106,6 +106,9 @@ function wf_trigger_registry() {
     'review_posted'      => 'Review posted (Google / platform)',
     'date_field'         => 'Date field reached (birthday, renewal)',
     'webhook_in'         => 'Inbound webhook',
+    'whatsapp_inbound'   => 'WhatsApp inbound message',
+    'chatbot_lead'       => 'Chatbot — email captured',
+    'chatbot_message'    => 'Chatbot — any message',
   ];
 }
 

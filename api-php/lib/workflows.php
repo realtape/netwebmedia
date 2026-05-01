@@ -93,6 +93,7 @@ function wf_active_for_trigger($type, $match = []) {
 
 function wf_trigger_registry() {
   return [
+    'contact_created'    => 'When a new contact is created (newsletter, WhatsApp opt-in, form)',
     'form_submission'    => 'When a form is submitted',
     'manual'             => 'Manual run / API call',
     'cron'               => 'Scheduled (daily / weekly)',

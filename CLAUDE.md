@@ -127,6 +127,43 @@ The API uses a **single generic `resources` table** as an EAV store — every en
 
 **CSRF defense:** `crm-vanilla/api/index.php` enforces a same-origin `Origin`/`Referer` check on all state-changing requests, plus session cookies are `SameSite=Strict`. Auth tokens are hash_equals-compared.
 
+### Workflow runtime engine
+
+The visual workflow builder UI (`crm-vanilla/js/automation.js` → `crm-vanilla/api/handlers/workflows.php`) and the runtime engine (`api-php/lib/workflows.php`) **read from different tables**. The CRM handler dual-writes both tables on every CRUD op so the engine sees what the builder creates.
+
+**Two-table architecture:**
+- `workflows` — what the visual builder writes. Columns: `id, organization_id, user_id, name, trigger_type, trigger_filter, steps_json, status, last_run_at, ...`. Tenant-scoped via `tenancy_where()`. Source of truth for the builder UI.
+- `resources WHERE type='workflow'` — what the engine reads (`wf_active_for_trigger()`, `wf_run_cron_due()`). EAV row with `data` JSON containing `{trigger:{type,...}, steps:[{action,...}], _source:'visual_builder', _workflows_id:N}`. Mirrored by the handler with deterministic slug `wf-builder-{workflows.id}`.
+- `workflows_resource_link` — mapping table (`workflow_id` PK → `resource_id`) for O(1) mirror lookup on UPDATE/DELETE. Created via `schema_workflows_to_resources.sql`.
+
+**Trigger / step vocabulary mismatch.** The builder UI and the engine speak different vocabularies. Translation happens in `workflows_translate_to_engine_format()` inside the CRM handler — single source of truth, pure function:
+
+| Builder | Engine | Notes |
+|---|---|---|
+| trigger `contact_created` | trigger `contact_created` | Fired from `/api/public/newsletter/subscribe` and `/api/public/whatsapp/subscribe` after each contact insert. Listed in `wf_trigger_registry()`. |
+| trigger `form_submitted` | trigger `form_submission` | `trigger_filter` becomes `form_id`. |
+| trigger `tag_added` | trigger `tag_added` | Passthrough; `trigger_filter` becomes `tag`. |
+| trigger `deal_stage_changed` | trigger `deal_stage` | `trigger_filter` becomes `stage`. |
+| trigger `manual` | trigger `manual` | Passthrough. |
+| step `wait` `{delay, unit}` | action `wait` `{minutes\|hours\|days}` | Unit selects the engine field. |
+| step `send_email` `{template_id}` | action `send_email` `{template_id, to:'submitter'}` | `to` defaults to submitter. |
+| step `add_tag` / `remove_tag` | action `tag` / `untag` | Passthrough on `tag` field. |
+| step `create_task` `{title}` | action `create_task` `{title_tpl, due_in_days:1}` | `due_in_days` defaults to 1. |
+
+**The `_source: 'visual_builder'` marker** in `data` distinguishes mirror rows from legacy hand-written workflows seeded via `api-php/data/pipeline-automations.json` (loaded by `GET /api/cron/seed-pipeline-automations`). Legacy workflows have no `_source`. The engine doesn't branch on this — it's a debug breadcrumb.
+
+**Status mapping.** Builder `status='active'` → mirror `status='active'` (engine fires it). Builder `paused`/`draft` → mirror `inactive` (engine `wf_active_for_trigger()` requires exact `status='active'`).
+
+**Cron requirement.** No workflow fires without an external scheduler. Add a cPanel cron at 5-minute cadence:
+```
+*/5 * * * * curl -s 'https://netwebmedia.com/api/cron/automation?token=<first-16-of-jwt-secret>' > /dev/null
+```
+Same pattern as `email_sequence_queue` (also driven by `/api/cron/sequences`). `/api/cron/automation` calls both `wf_run_pending()` (advance queued runs past their wait) and `wf_run_cron_due()` (fire cron-triggered workflows). Health check: `GET /api/cron/health?token=...` returns `pending_workflow_runs` count.
+
+**Run-now.** `POST /crm-vanilla/api/?r=workflows&id=N&action=run_now` (admin) bypasses trigger matching and enqueues the specific workflow directly via `wf_enqueue` + `wf_advance` — used for manual testing of a builder workflow. Different gating than the cron endpoint (admin session vs. token).
+
+**Backfill.** `POST /crm-vanilla/api/?r=workflows&action=backfill_engine_mirror` (admin) iterates every visible workflows row and (re)writes its `resources` mirror. Idempotent — safe to re-run after schema changes or if the link table is wiped.
+
 ### API route modules (`api-php/routes/`)
 
 22 route files, each handling a business domain:

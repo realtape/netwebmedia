@@ -227,6 +227,19 @@ function route_public($parts, $method) {
       wf_trigger('newsletter_subscribe', [], ['email' => $email, 'name' => $data['name'], 'contact_id' => $contactId], $orgId);
     } catch (Throwable $e) {}
 
+    // Fire generic contact_created trigger — catches visual-builder workflows that
+    // listen for any new contact (newsletter, WhatsApp, form, etc.). Errors are
+    // swallowed because the opt-in already succeeded; workflow firing is bonus.
+    try {
+      wf_trigger('contact_created', [], [
+        'email'      => $email,
+        'name'       => $data['name'],
+        'lang'       => $b['lang'] ?? null,
+        'source'     => $b['source'] ?? 'newsletter',
+        'contact_id' => $contactId,
+      ], $orgId);
+    } catch (Throwable $e) {}
+
     json_out(['ok' => true, 'id' => $contactId, 'sequence_enrolled' => $seqId ?? 'welcome'], 201);
   }
 
@@ -352,7 +365,21 @@ function route_public($parts, $method) {
       } catch (Throwable $e) { /* swallow — opt-in succeeded, email is bonus */ }
     }
 
-    // Fire workflow trigger so anything wired to whatsapp_subscribe (legacy or future) runs
+    // Fire generic contact_created FIRST so visual-builder workflows can act on
+    // every new contact regardless of source. Then the legacy whatsapp_subscribe
+    // trigger for anything wired specifically to that event.
+    try {
+      wf_trigger('contact_created', [], [
+        'phone'      => $phone,
+        'name'       => $name,
+        'niche'      => $niche,
+        'email'      => $email ?: null,
+        'lang'       => $lang,
+        'source'     => $source,
+        'contact_id' => $contactId,
+      ], $orgId);
+    } catch (Throwable $e) {}
+
     try {
       wf_trigger('whatsapp_subscribe', [], [
         'phone' => $phone, 'name' => $name, 'niche' => $niche,

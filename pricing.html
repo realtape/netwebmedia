@@ -477,8 +477,8 @@
         <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#FF6B00,#ff3d00);color:#fff;padding:4px 16px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.1em;white-space:nowrap;">MOST POPULAR</div>
         <div style="font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#FF671F;margin-bottom:8px;">CMO Growth</div>
         <div style="font-size:13px;color:#9aa;margin-bottom:16px;">AEO + SEO + paid ads + social</div>
-        <div style="font-size:40px;font-weight:900;background:linear-gradient(135deg,#FF6B00,#ff3d00);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin-bottom:4px;">$999</div>
-        <div style="font-size:13px;color:#9aa;margin-bottom:20px;">/mo · setup $499</div>
+        <div class="nwm-price" data-monthly="$999" data-annual="$849" style="font-size:40px;font-weight:900;background:linear-gradient(135deg,#FF6B00,#ff3d00);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin-bottom:4px;">$999</div>
+        <div class="nwm-price-suffix" data-monthly="/mo · setup $499" data-annual="/mo · billed $10,190/yr · setup waived" style="font-size:13px;color:#9aa;margin-bottom:20px;">/mo · setup $499</div>
         <ul style="list-style:none;padding:0;margin:0 0 24px;flex:1;font-size:14px;color:#dde3ee;">
           <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);">✓ Everything in AEO Starter</li>
           <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);">✓ Paid ads management (Google + Meta)</li>
@@ -495,8 +495,8 @@
       <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,103,31,.25);border-radius:16px;padding:28px;display:flex;flex-direction:column;">
         <div style="font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#FF671F;margin-bottom:8px;">CMO Scale</div>
         <div style="font-size:13px;color:#9aa;margin-bottom:16px;">Full-stack marketing department</div>
-        <div style="font-size:40px;font-weight:900;background:linear-gradient(135deg,#FF6B00,#ff3d00);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin-bottom:4px;">$2,499</div>
-        <div style="font-size:13px;color:#9aa;margin-bottom:20px;">/mo · setup $999</div>
+        <div class="nwm-price" data-monthly="$2,499" data-annual="$2,124" style="font-size:40px;font-weight:900;background:linear-gradient(135deg,#FF6B00,#ff3d00);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin-bottom:4px;">$2,499</div>
+        <div class="nwm-price-suffix" data-monthly="/mo · setup $999" data-annual="/mo · billed $25,490/yr · setup waived" style="font-size:13px;color:#9aa;margin-bottom:20px;">/mo · setup $999</div>
         <ul style="list-style:none;padding:0;margin:0 0 24px;flex:1;font-size:14px;color:#dde3ee;">
           <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);">✓ Everything in CMO Growth</li>
           <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);">✓ Video factory (16 Reels/mo)</li>
@@ -514,8 +514,8 @@
         <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#6366f1,#4338ca);color:#fff;padding:4px 16px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.1em;white-space:nowrap;">ENTERPRISE — MULTI-BRAND</div>
         <div style="font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#a5b4fc;margin-bottom:8px;">CMO Enterprise</div>
         <div style="font-size:13px;color:#9aa;margin-bottom:16px;">Multi-brand · dedicated agent · custom AI</div>
-        <div style="font-size:40px;font-weight:900;background:linear-gradient(135deg,#a5b4fc,#6366f1);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin-bottom:4px;">$5,999</div>
-        <div style="font-size:13px;color:#9aa;margin-bottom:20px;">/mo · custom onboarding</div>
+        <div class="nwm-price" data-monthly="$5,999" data-annual="$5,099" style="font-size:40px;font-weight:900;background:linear-gradient(135deg,#a5b4fc,#6366f1);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin-bottom:4px;">$5,999</div>
+        <div class="nwm-price-suffix" data-monthly="/mo · custom onboarding" data-annual="/mo · billed annually · save 15%" style="font-size:13px;color:#9aa;margin-bottom:20px;">/mo · custom onboarding</div>
         <ul style="list-style:none;padding:0;margin:0 0 24px;flex:1;font-size:14px;color:#dde3ee;">
           <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);">✓ Everything in CMO Scale</li>
           <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);">✓ Multi-brand CRM (up to 5 brands)</li>
@@ -1117,5 +1117,47 @@
   <script src="/assets/nwm-site-chat.js" defer></script>
   <script src="/assets/nwm-track.js" defer></script>
   <script>if (typeof gtag !== 'undefined') gtag('event', 'pricing_page_view');</script>
+
+  <!-- Annual / Monthly billing toggle wiring -->
+  <script>
+  (function(){
+    var toggleEl = document.getElementById('nwm-billing-toggle');
+    if (!toggleEl) return;
+    var noteEl = document.getElementById('nwm-billing-note');
+    var btns = toggleEl.querySelectorAll('.nwm-billing-btn');
+    function applyMode(mode) {
+      toggleEl.dataset.mode = mode;
+      // Update button styles + aria
+      btns.forEach(function(b){
+        var on = (b.dataset.mode === mode);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        if (on) {
+          b.style.background = '#FF671F';
+          b.style.color = '#fff';
+          b.style.borderColor = 'rgba(255,103,31,.45)';
+        } else {
+          b.style.background = 'transparent';
+          b.style.color = '#cbd5e1';
+          b.style.borderColor = 'rgba(255,255,255,.12)';
+        }
+      });
+      // Swap prices and suffixes
+      document.querySelectorAll('.nwm-price').forEach(function(el){
+        var v = el.getAttribute('data-' + mode);
+        if (v) el.textContent = v;
+      });
+      document.querySelectorAll('.nwm-price-suffix').forEach(function(el){
+        var v = el.getAttribute('data-' + mode);
+        if (v) el.textContent = v;
+      });
+      if (noteEl) {
+        var noteVal = noteEl.getAttribute('data-' + mode);
+        if (noteVal) noteEl.textContent = noteVal;
+      }
+      if (typeof gtag !== 'undefined') gtag('event', 'pricing_billing_toggle', {mode: mode});
+    }
+    btns.forEach(function(b){ b.addEventListener('click', function(){ applyMode(b.dataset.mode); }); });
+  })();
+  </script>
 </body>
 </html>

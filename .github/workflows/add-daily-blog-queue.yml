@@ -47,4 +47,20 @@ jobs:
           git add blog/ blog.html _deploy/posts-queue/
           git diff --cached --quiet && echo "Nothing new to commit" && exit 0
           git commit -m "chore: auto-publish 10 daily blog posts - $(date -u '+%Y-%m-%d %H:%M') UTC"
-          git push
+          # Retry push with rebase --autostash to handle concurrent commits
+          # AND any unstaged residual files from generators (e.g., package-lock).
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            if git rebase --autostash origin/main; then
+              if git push origin HEAD:main; then
+                echo "Pushed on attempt $attempt"
+                exit 0
+              fi
+            else
+              git rebase --abort 2>/dev/null || true
+            fi
+            echo "Push attempt $attempt failed — retrying after $((attempt * 5))s"
+            sleep $((attempt * 5))
+          done
+          echo "::error::Failed to push after 5 attempts"
+          exit 1

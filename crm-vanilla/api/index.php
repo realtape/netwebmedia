@@ -53,6 +53,7 @@ $handlers = [
     'unsubscribes'  => __DIR__ . '/handlers/unsubscribes.php',
     'settings'      => __DIR__ . '/handlers/settings.php',
     'reporting'     => __DIR__ . '/handlers/reporting.php',
+    'reports'       => __DIR__ . '/handlers/reports.php',
     'payments'      => __DIR__ . '/handlers/payments.php',
     'invoices'      => __DIR__ . '/handlers/payments.php',
     'import_csv'    => __DIR__ . '/handlers/import_csv.php',

@@ -85,5 +85,30 @@ All JSON reports follow this envelope:
 ## Access
 
 - **reports/** folder: version-controlled in git (daily auto-commit via CI)
-- **CRM storage:** queryable via `/crm-vanilla/api/?r=reports` endpoint (todo)
-- **Google Drive**: Shared with carlos@netwebmedia.com, auto-synced from reports/ weekly
+- **CRM storage:** queryable via `/crm-vanilla/api/?r=reports` endpoint
+- **Google Drive**: Shared with carlos@netwebmedia.com, auto-synced from reports/ weekly via GitHub Actions
+
+## Google Drive Sync Setup
+
+The `.github/workflows/sync-reports-gdrive.yml` workflow runs weekly to push all reports to Google Drive. To enable:
+
+1. **Create a Google Cloud Service Account:**
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project or use existing
+   - Create a Service Account (`IAM & Admin` → `Service Accounts`)
+   - Generate a JSON key file
+   - Grant the service account "Editor" role on the Google Drive folder
+
+2. **Create a shared Google Drive folder:**
+   - Create a folder named `NWM Reports` in Carlos's Google Drive (shared with carlos@netwebmedia.com)
+   - Get the folder ID from the URL: `https://drive.google.com/drive/folders/{FOLDER_ID}`
+
+3. **Add GitHub Secrets** (repo settings):
+   - `GOOGLE_DRIVE_SERVICE_ACCOUNT` = JSON key file contents (paste entire JSON)
+   - `GDRIVE_REPORTS_FOLDER_ID` = the folder ID from step 2
+
+4. **Verify:**
+   - Manually trigger the workflow: `.github/workflows/sync-reports-gdrive.yml` → "Run workflow"
+   - Check Google Drive folder for synced reports in subdirectories
+
+The sync runs **every Monday at 9:15 UTC** (2:15 AM Santiago), creating or updating JSON files in the Drive folder structure matching the local `reports/` hierarchy.

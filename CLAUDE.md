@@ -132,6 +132,16 @@ The API uses a **single generic `resources` table** as an EAV store — every en
 
 `crm-vanilla/api/` uses **query-string routing** (`?r=resource&id=123`) instead of path-based routing — this is intentional ModSecurity evasion for the CRM's internal API.
 
+### Adding a new CRM route handler
+
+Pattern (see `crm-vanilla/api/handlers/workflows.php` for the canonical reference — most recent addition as of 2026-05):
+
+1. Lazy `CREATE TABLE IF NOT EXISTS` at the top of the handler — mirrors the `schema_*.sql` file exactly so the route works even on a fresh DB before migrations run.
+2. Pull tenancy via `[$tWhere, $tParams] = tenancy_where()` and append it to every SELECT/UPDATE/DELETE.
+3. On INSERT, call `require_org_access_for_write('member')` to block X-Org-Slug cross-org writes (matches `campaigns.php` pattern).
+4. Define `$ALLOWED_*` enum allowlists at the top; validate every enum-typed input field against them.
+5. For JSON-blob columns (`steps_json`, `data`, etc.), write a `<handler>_normalize_*()` function that decodes, validates per-type, and re-encodes — never store raw user JSON.
+
 ## CRM vanilla JS architecture (`crm-vanilla/`)
 
 Vanilla JS SPA with a custom route dispatcher in `crm-vanilla/js/app.js`. No framework, no build step.
@@ -139,6 +149,7 @@ Vanilla JS SPA with a custom route dispatcher in `crm-vanilla/js/app.js`. No fra
 - **Session storage:** `nwm_token` and `nwm_user` in `localStorage`. The shared API client at `app/js/api-client.js` auto-redirects 401s to login unless `noRedirectOn401` is passed.
 - **Feature modules:** `contacts.js`, `conversations.js`, `pipeline.js`, `marketing.js`, `calendar.js`, `reporting.js`, `automation.js`, `payments.js`, `documents.js`, `courses.js`, `sites.js`, `settings.js` — one file per CRM section.
 - **Data layer:** `crm-vanilla/js/data.js` is mock seed data only. Real data flows through the EAV `resources` table via `/crm-vanilla/api/`.
+- **CRM handlers** in `crm-vanilla/api/handlers/` (query-string routing via `?r=<name>`) are separate from the public `api-php/routes/`. New CRM features go here. As of 2026-05, `workflows.php` is the most recent addition — use it as the template for new CRM CRUD routes (see "Adding a new CRM route handler" above).
 
 ## Email sequences
 
@@ -156,6 +167,7 @@ netwebmedia.com is **flat HTML on Apache**, not a framework router. Rules:
 - **Canonical host is non-www.** `www.netwebmedia.com` 301s to `netwebmedia.com` (enforced in `.htaccess` — don't remove that block or you reintroduce duplicate-content). HTTPS is enforced via HSTS preload.
 - **Internal-only pages are blocked publicly via `.htaccess`** — `diagnostic.html`, `flowchart.html`, `orgchart.html`, `dashboard.html`, `desktop-login.html`, `nwmai.html`, `audit-report.html`, `*-prospects-report.html`, `*-digital-gaps.html`, `NetWebMedia_Business_Marketing_Plan_2026.html`. Don't link to them from public nav. The sitemap regen script (`_deploy/regen-sitemap.py`) excludes these patterns — don't add them back.
 - **Unshipped `/app/<slug>` routes** fall through to `/app/coming-soon.html` — this is intentional; don't add 404 handling.
+- **`register.html` is plan-aware**: `?plan=free` toggles the free-tier badge, perks list, heading copy, and CTA text, and forwards `plan` to `NWMApi.register()`. `pricing.html` "Free CRM" CTA links here — keep this contract intact when changing pricing.
 
 When linking between pages, match this convention or you'll generate broken canonicals.
 
@@ -208,6 +220,19 @@ Many static HTML pages are generated, not hand-written:
 
 If you're editing one industry page by hand and the change should apply to all 14, edit the **generator template** instead and rerun, or your change will be overwritten next regenerate.
 
+## AEO content cluster pattern
+
+When building out a niche, the canonical pattern is:
+
+1. **Industry hub**: `industries/<niche>/index.html` — add a "Resources" section with cards linking to the cluster posts, plus a 5-question FAQ + `FAQPage` JSON-LD.
+2. **Two pillar blog posts** per niche, both ~1,800–1,950 words:
+   - `blog/<niche>-aeo-strategy-2026.html` — schema-heavy (e.g. `LodgingBusiness`, `Restaurant`, `MedicalOrganization`); targets the "how to get cited by AI" query family.
+   - `blog/<niche>-local-seo-vs-aeo.html` (or `aeo-vs-google-maps`) — channel decision matrix.
+3. **Sitemap update**: add new posts at priority `0.75`, changefreq `monthly`, current `lastmod`.
+4. **Schema rule**: every post needs `Article` + `FAQPage`; industry-specific schema (`MedicalOrganization`, `Physician`, etc.) goes on the post that names that entity.
+
+Niches with full clusters as of 2026-05: `law_firms`, `tourism` (hospitality), `restaurants`, `health` (healthcare). Remaining 10 niches are pending — replicate the pattern, don't invent new structures.
+
 ## Mobile app — Capacitor 6 (`mobile/`)
 
 Vanilla JS (not React), Vite-built. There is **no `vite.config.ts`** checked in — build uses Capacitor + Vite defaults. Entry point: `src/main.js` → auth check → routes to login or shell.
@@ -243,12 +268,16 @@ The CRM is vanilla JS with lots of `innerHTML` for templating. Any user-controll
 
 ## Auto-backup commits — consolidate before pushing
 
-A local `auto-save` script periodically commits and pushes WIP as `backup: auto-save <timestamp>`. They fragment history. Before/after a substantive change, consolidate with `git reset --soft <pre-backup-sha>` + a single named commit + `git push --force-with-lease`. Never reset/force-push without `--force-with-lease`, and never on `main` without checking the run queue first.
+A local `auto-save` daemon periodically commits and pushes WIP as `backup: auto-save <timestamp>`. **It will commit your in-flight work mid-stream** — before staging a batch, run `git log --oneline -5` and check whether the daemon already captured some of your files. If so, only stage what's NOT already in the auto-save commits; don't try to amend them.
+
+Fragmented history: consolidate with `git reset --soft <pre-backup-sha>` + a single named commit + `git push --force-with-lease`. Never `--force` without `--force-with-lease`, and never on `main` without checking the run queue first.
 
 ## Operational notes
 
 - **Don't `git add -A` blindly** — `_deploy/`, `_backup/`, `site-upload/`, and `*.zip` archives accumulate large generated artifacts. Stage specific files.
-- **`_deploy/` is a junk drawer** of historical deploy bundles, ad-hoc PHP probe scripts (`_billchk.php`, `_probe.php`, etc.), generated audit JSON, and one-off Python utilities. Treat it as scratch space; do not refactor.
+- **`_deploy/` contains two kinds of files** — be careful when cleaning:
+  - *Generated artifacts* (HTML bundles, audit JSON, ad-hoc PHP probes like `_billchk.php`/`_probe.php`, one-off Python utilities) — junk drawer, scratch space, do not refactor.
+  - *Operational framework docs* (`*.md`, e.g. `case-study-program.md`, `social-content-pipeline.md`) — intentional, version-controlled playbooks that Carlos uses. Don't delete or refactor them.
 - **Desktop is OFF-LIMITS as a save location** for new files — always create organized folder structures within the repo or appropriate working directories.
 - **When changing dates anywhere** (campaign calendar, plan docs, scheduled posts), also sync Google Calendar (`carlos@netwebmedia.com`, timezone `America/Santiago`). NWM tasks follow `NWM - <Area> - <Task>` naming.
 

@@ -11,7 +11,7 @@
         contacts: "Contacts", pipeline: "Pipeline", tasks: "Tasks", booking: "Booking", sms: "SMS", payments: "Payments",
         marketing: "Marketing", campaigns: "Campaigns", emailBuilder: "Email Builder", forms: "Forms", chileCampaign: "Chile Campaign", usaCampaign: "USA Campaign", diagnostic: "Diagnostic", automation: "Automation", abtests: "A/B Tests", sites: "Sites",
         reputation: "Reputation", reporting: "Reporting", realtime: "Realtime", documents: "Documents",
-        courses: "Courses", social: "Social Planner", settings: "Settings"
+        courses: "Courses", social: "Social Planner", whatsappSubs: "WhatsApp Subs", settings: "Settings"
       },
       roles: { demo: "Demo", guest: "Guest", admin: "Admin", user: "User", client: "Client" },
       search: "Search contacts...",
@@ -248,7 +248,7 @@
         contacts: "Contactos", pipeline: "Pipeline", tasks: "Tareas", booking: "Reservas", sms: "SMS", payments: "Pagos",
         marketing: "Marketing", campaigns: "Campañas", emailBuilder: "Editor de Emails", forms: "Formularios", chileCampaign: "Campaña Chile", usaCampaign: "Campaña USA", diagnostic: "Diagnóstico", automation: "Automatización", abtests: "Tests A/B", sites: "Sitios",
         reputation: "Reputación", reporting: "Reportes", realtime: "Tiempo Real", documents: "Documentos",
-        courses: "Cursos", social: "Planificador Social", settings: "Ajustes"
+        courses: "Cursos", social: "Planificador Social", whatsappSubs: "Subs WhatsApp", settings: "Ajustes"
       },
       roles: { demo: "Demo", guest: "Invitado", admin: "Administrador", user: "Usuario", client: "Cliente" },
       search: "Buscar contactos...",
@@ -694,6 +694,7 @@
     { id: "documents", key: "documents", icon: "documents", href: "documents.html", beta: true },
     { id: "courses", key: "courses", icon: "courses", href: "courses.html" },
     { id: "social", key: "social", icon: "social", href: "social.html" },
+    { id: "whatsapp-subs", key: "whatsappSubs", icon: "whatsapp", href: "whatsapp-subs.html", adminOnly: true },
     { id: "settings", key: "settings", icon: "settings", href: "settings.html" },
     { id: "admin", key: "admin", icon: "shield", href: "admin.html", superadminOnly: true }
   ];

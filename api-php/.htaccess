@@ -1,11 +1,14 @@
 RewriteEngine On
 RewriteBase /api/
 
-# Block direct /api-php/ access — canonical URL is /api/
-# THE_REQUEST contains the raw request line (e.g. "GET /api-php/ HTTP/1.1")
-# so this fires before PHP runs, returning 403 instead of a redirect.
-RewriteCond %{THE_REQUEST} \s/api-php/
-RewriteRule ^ - [F,L]
+# Redirect direct /api-php/ access → canonical /api/ (per CLAUDE.md invariant).
+# THE_REQUEST contains the raw request line (e.g. "GET /api-php/foo HTTP/1.1").
+# %1 captures the path after /api-php/ so we preserve the rest of the URL.
+# This per-directory .htaccess overrides the root rewrite (Apache default
+# behavior — child .htaccess replaces parent RewriteRules unless
+# RewriteOptions Inherit is set), so the redirect MUST live here, not in /.
+RewriteCond %{THE_REQUEST} \s/api-php/(.*?)\sHTTP
+RewriteRule ^ /api/%1 [R=301,L]
 
 # CORS preflight
 <IfModule mod_headers.c>

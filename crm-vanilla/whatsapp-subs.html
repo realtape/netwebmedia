@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatsApp Subscribers — NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css?v=11">
+  <style>
+    .wa-subs-wrap { padding: 24px 28px; }
+    .wa-subs-head { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+    .wa-subs-head h1 { margin: 0; font-size: 22px; }
+    .wa-subs-head .pill { display: inline-block; padding: 4px 11px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; }
+    .wa-subs-counts { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 18px; }
+    .wa-count-card { flex: 1 1 180px; min-width: 160px; padding: 16px 18px; border-radius: 10px; border: 1px solid var(--border, rgba(255,255,255,0.10)); background: var(--card, #041640); }
+    .wa-count-card .lbl { color: var(--muted, #8892b0); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .wa-count-card .val { font-size: 28px; font-weight: 800; margin-top: 4px; font-family: 'Poppins','Inter',sans-serif; }
+    .wa-count-card.pending .val { color: #f59e0b; }
+    .wa-count-card.confirmed .val { color: #22C55E; }
+    .wa-count-card.opted_out .val { color: #ef4444; }
+    .wa-count-card.total .val { color: #FF671F; }
+
+    .wa-toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding: 14px 16px; background: var(--card, #041640);
+      border: 1px solid var(--border, rgba(255,255,255,0.10)); border-radius: 10px; margin-bottom: 14px; }
+    .wa-toolbar select, .wa-toolbar button { padding: 8px 12px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .wa-toolbar select { background: rgba(255,255,255,0.04); color: var(--fg, #eaf0ff); border: 1px solid var(--border, rgba(255,255,255,0.10)); font-family: inherit; }
+    .wa-toolbar button { border: 1px solid var(--border, rgba(255,255,255,0.10)); background: rgba(255,255,255,0.04); color: var(--fg, #eaf0ff); font-family: inherit; }
+    .wa-toolbar button:hover { border-color: #FF671F; color: #FF671F; }
+    .wa-toolbar button.primary { background: linear-gradient(135deg, #FF671F, #ff8c4a); color: #010F3B; border: none; }
+    .wa-toolbar button.primary:hover { opacity: 0.92; color: #010F3B; }
+    .wa-toolbar button.danger { color: #ef4444; border-color: rgba(239,68,68,0.4); }
+    .wa-toolbar button.dry { background: rgba(245,158,11,0.1); color: #f59e0b; border-color: rgba(245,158,11,0.4); }
+    .wa-toolbar .spacer { flex: 1; }
+
+    .wa-table { width: 100%; border-collapse: collapse; background: var(--card, #041640);
+      border: 1px solid var(--border, rgba(255,255,255,0.10)); border-radius: 10px; overflow: hidden; }
+    .wa-table th, .wa-table td { padding: 11px 14px; text-align: left; font-size: 13px; border-bottom: 1px solid var(--border, rgba(255,255,255,0.08)); }
+    .wa-table th { background: rgba(255,255,255,0.04); font-weight: 700; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted, #8892b0); }
+    .wa-table tr:last-child td { border-bottom: 0; }
+    .wa-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .status-pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; }
+    .status-pending_double_opt_in { background: rgba(245,158,11,0.12); color: #f59e0b; }
+    .status-confirmed { background: rgba(34,197,94,0.12); color: #22C55E; }
+    .status-opted_out { background: rgba(239,68,68,0.12); color: #ef4444; }
+    .row-actions button { padding: 4px 10px; font-size: 11px; border-radius: 5px; margin-right: 4px; cursor: pointer;
+      background: rgba(255,255,255,0.04); color: var(--fg, #eaf0ff); border: 1px solid var(--border, rgba(255,255,255,0.10)); font-family: inherit; }
+    .row-actions button:hover { border-color: #FF671F; color: #FF671F; }
+
+    .wa-pager { display: flex; gap: 10px; justify-content: center; padding: 14px 0; }
+    .wa-empty { text-align: center; padding: 40px 20px; color: var(--muted, #8892b0); }
+    .wa-msg { padding: 12px 14px; border-radius: 8px; margin: 14px 0; font-size: 13px; line-height: 1.5; }
+    .wa-msg.err { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; }
+    .wa-msg.ok  { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.3); color: #22C55E; }
+    .wa-msg.warn { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); color: #f59e0b; }
+
+    .flush-results { background: var(--card, #041640); border: 1px solid var(--border, rgba(255,255,255,0.10));
+      border-radius: 10px; padding: 16px 18px; margin: 14px 0; }
+    .flush-results h3 { margin: 0 0 8px; font-size: 14px; font-weight: 700; }
+    .flush-results .stat { display: inline-block; margin-right: 16px; font-size: 13px; }
+    .flush-results .stat strong { color: #FF671F; font-size: 16px; margin-right: 6px; }
+    .flush-results pre { margin: 8px 0 0; padding: 10px 12px; background: rgba(0,0,0,0.3); border-radius: 6px; font-size: 12px; max-height: 200px; overflow-y: auto; color: #ef4444; }
+  </style>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
+  </script>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="wa-subs-wrap">
+        <div class="wa-subs-head">
+          <div>
+            <h1>WhatsApp Subscribers</h1>
+            <div style="margin-top:6px;color:var(--muted,#8892b0);font-size:13px;">
+              Manage opt-ins captured by <code>/whatsapp-updates.html</code>. Pending subscribers graduate to <em>confirmed</em> when WABA verification completes (see <a href="/_deploy/social-channel-activation.md" target="_blank">activation kit</a>).
+            </div>
+          </div>
+          <span class="pill" id="wabaStatusPill">checking…</span>
+        </div>
+
+        <div class="wa-subs-counts" id="waCountsRow"></div>
+
+        <div class="wa-toolbar">
+          <label style="font-size:12px;color:var(--muted,#8892b0);font-weight:600;">FILTER</label>
+          <select id="waFilterStatus">
+            <option value="pending_double_opt_in" selected>Pending (double opt-in)</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="opted_out">Opted out</option>
+          </select>
+          <button id="waRefreshBtn">Refresh</button>
+          <span class="spacer"></span>
+          <button id="waDryFlushBtn" class="dry" title="Calls Meta Cloud API in dry-run mode — no real sends, but verifies env wiring">⏵ Dry flush (test)</button>
+          <button id="waLiveFlushBtn" class="primary" title="Send WABA welcome template to all pending subscribers">⏵ Live flush</button>
+        </div>
+
+        <div id="waMsg"></div>
+        <div id="waFlushResults"></div>
+        <div id="waTableWrap"></div>
+        <div class="wa-pager" id="waPager"></div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/app.js?v=11"></script>
+  <script src="js/whatsapp-subs.js?v=1"></script>
+</body>
+</html>

@@ -447,13 +447,21 @@
     <div style="display:inline-block;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#FF671F;margin-bottom:14px;padding:4px 14px;border-radius:99px;border:1px solid rgba(255,103,31,.35);">★ Most Popular — Fractional CMO Retainer</div>
     <h2 style="font-size:clamp(22px,4vw,32px);margin:0 0 10px;">Your entire marketing function, fully managed by AI + human strategists.</h2>
     <p style="color:#b8c4d9;font-size:16px;line-height:1.6;margin:0 0 32px;max-width:780px;">Get cited by Claude, ChatGPT &amp; Perplexity. Rank on Google. Run paid campaigns. Build a content engine. All under one retainer — no need to hire a marketing team, buy separate tools, or manage agencies.</p>
+
+    <!-- Annual / Monthly billing toggle -->
+    <div id="nwm-billing-toggle" data-mode="monthly" style="display:flex;align-items:center;justify-content:center;gap:14px;margin:0 0 28px;flex-wrap:wrap;">
+      <button type="button" data-mode="monthly" class="nwm-billing-btn" aria-pressed="true" style="padding:9px 20px;border-radius:999px;border:1px solid rgba(255,103,31,.45);background:#FF671F;color:#fff;font-weight:700;font-size:13px;letter-spacing:.04em;cursor:pointer;transition:all .15s;" data-en="Monthly" data-es="Mensual">Monthly</button>
+      <button type="button" data-mode="annual" class="nwm-billing-btn" aria-pressed="false" style="padding:9px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:transparent;color:#cbd5e1;font-weight:700;font-size:13px;letter-spacing:.04em;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:8px;" data-en="Annual" data-es="Anual">Annual <span style="background:#22c55e;color:#fff;padding:2px 7px;border-radius:6px;font-size:10px;font-weight:800;">-15%</span></button>
+    </div>
+    <p id="nwm-billing-note" style="text-align:center;margin:-14px 0 22px;color:#9aa;font-size:12px;" data-monthly="Monthly billing · 90-day minimum · cancel after day 90." data-annual="Annual prepay locks 12 months · setup fee waived · save 15%.">Monthly billing · 90-day minimum · cancel after day 90.</p>
+
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:20px;margin-bottom:28px;">
       <!-- AEO Starter -->
       <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,103,31,.25);border-radius:16px;padding:28px;display:flex;flex-direction:column;">
         <div style="font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#FF671F;margin-bottom:8px;">AEO Starter</div>
         <div style="font-size:13px;color:#9aa;margin-bottom:16px;">Software + AEO audit + strategy</div>
-        <div style="font-size:40px;font-weight:900;background:linear-gradient(135deg,#FF6B00,#ff3d00);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin-bottom:4px;">$249</div>
-        <div style="font-size:13px;color:#9aa;margin-bottom:20px;">/mo · no setup fee</div>
+        <div class="nwm-price" data-monthly="$249" data-annual="$212" style="font-size:40px;font-weight:900;background:linear-gradient(135deg,#FF6B00,#ff3d00);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin-bottom:4px;">$249</div>
+        <div class="nwm-price-suffix" data-monthly="/mo · no setup fee" data-annual="/mo · billed $2,540/yr · save $448" style="font-size:13px;color:#9aa;margin-bottom:20px;">/mo · no setup fee</div>
         <ul style="list-style:none;padding:0;margin:0 0 24px;flex:1;font-size:14px;color:#dde3ee;">
           <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);">✓ AEO audit + dashboard</li>
           <li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);">✓ NWM CRM (3 users, 5k contacts)</li>

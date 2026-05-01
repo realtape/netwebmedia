@@ -84,31 +84,14 @@ All JSON reports follow this envelope:
 
 ## Access
 
-- **reports/** folder: version-controlled in git (daily auto-commit via CI)
+- **reports/** folder: version-controlled in git (canonical source of truth)
 - **CRM storage:** queryable via `/crm-vanilla/api/?r=reports` endpoint
-- **Google Drive**: Shared with carlos@netwebmedia.com, auto-synced from reports/ weekly via GitHub Actions
+- **Google Drive**: [NWM Reports folder](https://drive.google.com/drive/folders/1aGUq7z1zcT42MHprM9Pg87-akpF0kO8u) — synced on-demand by Claude via the Google Drive MCP connector
 
-## Google Drive Sync Setup
+## Google Drive
 
-The `.github/workflows/sync-reports-gdrive.yml` workflow runs weekly to push all reports to Google Drive. To enable:
+The Drive folder exists for executive accessibility (Carlos and stakeholders who don't pull the repo). Folder ID: `1aGUq7z1zcT42MHprM9Pg87-akpF0kO8u`.
 
-1. **Create a Google Cloud Service Account:**
-   - Go to [Google Cloud Console](https://console.cloud.google.com/)
-   - Create a new project or use existing
-   - Create a Service Account (`IAM & Admin` → `Service Accounts`)
-   - Generate a JSON key file
-   - Grant the service account "Editor" role on the Google Drive folder
+**Sync model:** Claude pushes reports to Drive on-demand using the connected Google Drive MCP — no GitHub Actions or service account credentials required. Ask Claude "sync reports to Drive" and it will upload any reports that have changed since the last sync.
 
-2. **Create a shared Google Drive folder:**
-   - Create a folder named `NWM Reports` in Carlos's Google Drive (shared with carlos@netwebmedia.com)
-   - Get the folder ID from the URL: `https://drive.google.com/drive/folders/{FOLDER_ID}`
-
-3. **Add GitHub Secrets** (repo settings):
-   - `GOOGLE_DRIVE_SERVICE_ACCOUNT` = JSON key file contents (paste entire JSON)
-   - `GDRIVE_REPORTS_FOLDER_ID` = the folder ID from step 2
-
-4. **Verify:**
-   - Manually trigger the workflow: `.github/workflows/sync-reports-gdrive.yml` → "Run workflow"
-   - Check Google Drive folder for synced reports in subdirectories
-
-The sync runs **every Monday at 9:15 UTC** (2:15 AM Santiago), creating or updating JSON files in the Drive folder structure matching the local `reports/` hierarchy.
+This avoids the operational overhead of managing service-account JSON keys in GitHub Secrets, which were the original blocker. The Drive folder is a mirror, not a primary; if it falls out of sync, repulling from git is always authoritative.

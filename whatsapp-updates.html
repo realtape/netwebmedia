@@ -143,6 +143,9 @@
       <label for="waName" data-en="First name" data-es="Nombre">First name</label>
       <input id="waName" type="text" autocomplete="given-name" required maxlength="80" />
 
+      <label for="waEmail" data-en="Email (optional — gets you the same insights via newsletter while WhatsApp verification finishes)" data-es="Email (opcional — recibes lo mismo por newsletter mientras se completa la verificación WhatsApp)">Email (optional — gets you the same insights via newsletter while WhatsApp verification finishes)</label>
+      <input id="waEmail" type="email" autocomplete="email" maxlength="200" placeholder="you@company.com" />
+
       <label for="waPhone" data-en="WhatsApp number (with country code)" data-es="Número WhatsApp (con código de país)">WhatsApp number (with country code)</label>
       <div class="wa-row-2">
         <select id="waCountry" aria-label="Country code">
@@ -251,6 +254,9 @@
       source: 'whatsapp-updates-page',
       lang: getLang()
     };
+    var emailEl = document.getElementById('waEmail');
+    var emailVal = (emailEl && emailEl.value || '').trim();
+    if (emailVal) payload.email = emailVal;
     payload.nwm_website = hp.value;
 
     fetch('/api/public/whatsapp/subscribe', {

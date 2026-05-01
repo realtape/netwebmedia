@@ -158,11 +158,9 @@ The visual workflow builder (`crm-vanilla/js/automation.js` → `crm-vanilla/api
 
 **Cron requirement.** No `wait` step advances without an external scheduler. Wire ONE cron in cPanel at 5-minute cadence:
 ```
-*/5 * * * * curl -s -A "Mozilla/5.0" \
-  "https://netwebmedia.com/crm-vanilla/api/?r=cron_workflows&token=<CRON_TOKEN>" \
-  > /dev/null
+*/5 * * * * curl -s -A "Mozilla/5.0" "https://netwebmedia.com/crm-vanilla/api/?r=cron_workflows&token=<MIGRATE_TOKEN>" > /dev/null
 ```
-`CRON_TOKEN` = first 16 chars of `DB_PASS` (the CRM's auth secret, same secret used by `MIGRATE_TOKEN` pattern). The handler (`crm-vanilla/api/handlers/cron_workflows.php`) uses `hash_equals()` to validate it and then calls `wf_crm_run_pending()`.
+`MIGRATE_TOKEN` = the `SECRET_MIGRATE_TOKEN` GitHub Actions secret (propagated into `crm-vanilla/api/config.local.php` as `define('MIGRATE_TOKEN', ...)` on every deploy). Same token as the migrate / dedupe endpoints. The fallback default (if secret not set) is `NWM_MIGRATE_2026_ROTATED_7d790e0bb4992a6e` — do NOT use this default in production, set the secret. The handler (`crm-vanilla/api/handlers/cron_workflows.php`) validates it with `hash_equals()` then calls `wf_crm_run_pending()`.
 
 **Note:** `api-php/lib/workflows.php` + `/api/cron/automation` are a *separate* engine for `webmed6_nwm` resources (newsletter drip sequences, api-php public forms). They are unrelated to CRM builder workflows. The `wf_bridge.php` shim still exists for backward-compat but now forwards to `wf_crm_trigger`. Migrate all `wf_fire()` call sites to `wf_crm_trigger()` and delete the shim when done.
 

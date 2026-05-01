@@ -1,7 +1,9 @@
-name: Cron — USA Cold Outreach
-# Schedule disabled — USA campaign complete (30,000 sent, 0 pending as of 2026-05-01).
-# Re-enable the `schedule:` block below to restart for a follow-up wave.
+name: Cron — USA Cold Outreach (wave 2 — every 1 min)
+# Wave 2: cap raised to 61000 to cover full 60,818-contact universe.
+# Wave 1 (30,000) complete 2026-05-01. Wave 2 started 2026-05-01.
 on:
+  schedule:
+    - cron: '* * * * *'
   workflow_dispatch:
     inputs:
       niche:
@@ -41,7 +43,7 @@ jobs:
           fi
           # Token now sent via X-Auth-Token HEADER (not querystring) so it's
           # not logged in InMotion access logs / referrers / browser history.
-          URL="https://netwebmedia.com/api/usa-send?mode=${MODE}&n=${BATCH}"
+          URL="https://netwebmedia.com/api/usa-send?mode=${MODE}&n=${BATCH}&cap_total=61000"
           if [ -n "$NICHE" ]; then
             URL="${URL}&niche=${NICHE}"
           fi

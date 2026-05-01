@@ -197,4 +197,16 @@ jobs:
           git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
           git add assets/guides/ assets/plans/
           git commit -m "pdfs: regenerate guides + plans $(date -u '+%Y-%m-%d %H:%M') UTC"
-          git push
+          # Retry push with rebase to handle concurrent commits from auto-save daemon
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            git rebase origin/main || { git rebase --abort; exit 1; }
+            if git push origin HEAD:main; then
+              echo "Pushed on attempt $attempt"
+              exit 0
+            fi
+            echo "Push attempt $attempt rejected — retrying after $((attempt * 5))s"
+            sleep $((attempt * 5))
+          done
+          echo "::error::Failed to push after 5 attempts"
+          exit 1

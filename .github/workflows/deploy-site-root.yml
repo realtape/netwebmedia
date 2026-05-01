@@ -358,8 +358,64 @@ jobs:
           done
           echo "Server-side cleanup complete."
 
-      - name: Deploy via FTPS
+      # InMotion FTPS occasionally drops the connection mid-transfer
+      # ("Server sent FIN packet unexpectedly"). Retry up to 3 attempts.
+      # Each attempt runs FTP-Deploy-Action's incremental sync (hash-based),
+      # so retries only re-upload what's still missing — they don't redo work.
+      - name: Deploy via FTPS (attempt 1)
+        id: deploy1
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
+        continue-on-error: true
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.CPANEL_FTP_HOST }}
+          username: ${{ secrets.CPANEL_FTP_ROOT_USER }}
+          password: ${{ secrets.CPANEL_FTP_ROOT_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./_stage/
+          server-dir: ./
+          dangerous-clean-slate: false
+          log-level: standard
+          exclude: |
+            **/.git*
+            **/.github/**
+            **/.DS_Store
+            **/Thumbs.db
+            **/*.py
+            **/__pycache__/**
+            **/node_modules/**
+            **/_deploy/**
+            **/companies/**
+
+      - name: Deploy via FTPS (attempt 2 — retry on transient FTP error)
+        id: deploy2
+        if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true && steps.deploy1.outcome == 'failure' }}
+        continue-on-error: true
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.CPANEL_FTP_HOST }}
+          username: ${{ secrets.CPANEL_FTP_ROOT_USER }}
+          password: ${{ secrets.CPANEL_FTP_ROOT_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./_stage/
+          server-dir: ./
+          dangerous-clean-slate: false
+          log-level: standard
+          exclude: |
+            **/.git*
+            **/.github/**
+            **/.DS_Store
+            **/Thumbs.db
+            **/*.py
+            **/__pycache__/**
+            **/node_modules/**
+            **/_deploy/**
+            **/companies/**
+
+      - name: Deploy via FTPS (attempt 3 — final, fails workflow on error)
+        if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true && steps.deploy1.outcome == 'failure' && steps.deploy2.outcome == 'failure' }}
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.CPANEL_FTP_HOST }}

@@ -402,6 +402,100 @@ function bl_plan($code) {
   return null;
 }
 
+/* ---------- Meta Conversions API (server-side Pixel) ---------- */
+/**
+ * Fire a server-side Meta CAPI event. No-ops gracefully if either
+ * META_CAPI_PIXEL_ID or META_CAPI_TOKEN are unset (so this is safe to
+ * call from the MP webhook before secrets are wired into config.local.php).
+ *
+ * @param string  $event_name   Meta standard event ('Purchase', 'Subscribe', 'Lead')
+ * @param float   $value        Transaction value
+ * @param string  $currency     ISO 4217 (e.g. 'USD', 'CLP')
+ * @param int|null $userId      NWM users.id (for hashing into external_id)
+ * @param array   $extra        Optional metadata: ['email' => 'x', 'plan_code' => 'y', 'mp_id' => 'z']
+ * @return bool   True if the request was sent (regardless of API response); false if config missing
+ */
+function bl_meta_capi_fire($event_name, $value, $currency, $userId = null, $extra = []) {
+  $c = config();
+  $pixelId = $c['meta_capi_pixel_id'] ?? '';
+  $token   = $c['meta_capi_token']    ?? '';
+  // Graceful no-op when not configured — log to billing_events so we know it ran.
+  if (!$pixelId || !$token) {
+    try {
+      qExec(
+        "INSERT INTO billing_events (mp_resource, mp_id, topic, raw, status) VALUES (?, ?, ?, ?, ?)",
+        [
+          'capi',
+          (string)($extra['mp_id'] ?? ''),
+          'capi_skipped_no_config',
+          json_encode(['event_name' => $event_name, 'value' => $value, 'currency' => $currency]),
+          'skipped',
+        ]
+      );
+    } catch (\Throwable $e) {}
+    return false;
+  }
+
+  // Hash PII per Meta CAPI requirements (SHA-256, lowercased)
+  $userData = [];
+  $email = trim(strtolower((string)($extra['email'] ?? '')));
+  if ($email) $userData['em'] = [hash('sha256', $email)];
+  if ($userId) $userData['external_id'] = [hash('sha256', (string)$userId)];
+  // Best-effort context for de-dup/match-quality
+  $userData['client_ip_address'] = $_SERVER['REMOTE_ADDR'] ?? '';
+  $userData['client_user_agent'] = $_SERVER['HTTP_USER_AGENT'] ?? '';
+  $userData['fbc'] = $_COOKIE['_fbc'] ?? '';
+  $userData['fbp'] = $_COOKIE['_fbp'] ?? '';
+
+  $payload = [
+    'data' => [[
+      'event_name'      => $event_name,
+      'event_time'      => time(),
+      'event_id'        => 'capi_' . bin2hex(random_bytes(8)),
+      'action_source'   => 'website',
+      'event_source_url' => 'https://netwebmedia.com/contact.html?topic=audit',
+      'user_data'       => $userData,
+      'custom_data'     => [
+        'value'         => round((float)$value, 2),
+        'currency'      => strtoupper($currency),
+        'content_name'  => $extra['product'] ?? 'aeo_audit',
+        'content_type'  => 'product',
+      ],
+    ]],
+  ];
+  if (!empty($c['meta_capi_test_code'])) {
+    $payload['test_event_code'] = $c['meta_capi_test_code'];
+  }
+
+  $ch = curl_init('https://graph.facebook.com/v18.0/' . urlencode($pixelId) . '/events?access_token=' . urlencode($token));
+  curl_setopt_array($ch, [
+    CURLOPT_POST           => 1,
+    CURLOPT_RETURNTRANSFER => 1,
+    CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+    CURLOPT_POSTFIELDS     => json_encode($payload),
+    CURLOPT_TIMEOUT        => 8,
+  ]);
+  $res  = curl_exec($ch);
+  $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  curl_close($ch);
+
+  // Audit row so we can confirm CAPI fires from the BillEvents UI.
+  try {
+    qExec(
+      "INSERT INTO billing_events (mp_resource, mp_id, topic, raw, status) VALUES (?, ?, ?, ?, ?)",
+      [
+        'capi',
+        (string)($extra['mp_id'] ?? ''),
+        'capi_' . strtolower($event_name),
+        substr((string)$res, 0, 2000),
+        $code < 300 ? 'sent' : ('error_' . $code),
+      ]
+    );
+  } catch (\Throwable $e) {}
+
+  return true;
+}
+
 /* ---------- Mercado Pago helpers ---------- */
 function bl_mp_token() {
   $c = config();
@@ -747,6 +841,18 @@ function route_billing($parts, $method) {
                WHERE id = ?",
               [$sub['user_id']]
             );
+            // Meta CAPI server-side event: subscription start = audit_purchase
+            // (the AEO Audit is the entry SKU; retainer subscriptions count as
+            // Subscribe). Fire-and-forget — never blocks the webhook response.
+            try {
+              bl_meta_capi_fire(
+                'Subscribe',
+                (float)($sub['usd_amount'] ?? 0),
+                'USD',
+                $sub['user_id'],
+                ['plan_code' => $sub['plan_code'] ?? null, 'mp_id' => $dataId]
+              );
+            } catch (\Throwable $e) { /* never break the webhook on CAPI errors */ }
           }
           // If MP tells us the subscription was cancelled/paused, suspend app access too.
           if ($status === 'cancelled' && !empty($sub['user_id'])) {
@@ -759,6 +865,39 @@ function route_billing($parts, $method) {
         }
       }
     }
+
+    // One-time payment topic (AEO Audit $997) — fire CAPI Purchase.
+    // Mercado Pago sends topic='payment' for one-time charges. We resolve
+    // the linked subscription via mp_init_point preference id when available.
+    if ($topic === 'payment' && $dataId && bl_mp_token()) {
+      $r = bl_mp_get('/v1/payments/' . $dataId);
+      if ($r['code'] < 300 && !empty($r['json'])) {
+        $py = $r['json'];
+        $pyStatus = $py['status'] ?? '';
+        if ($pyStatus === 'approved') {
+          $value = (float)($py['transaction_amount'] ?? 0);
+          $currency = (string)($py['currency_id'] ?? 'CLP');
+          $email = $py['payer']['email'] ?? '';
+          $userId = null;
+          // Best-effort: link payment to a user via their email
+          if ($email) {
+            $u = qOne("SELECT id FROM users WHERE email = ? LIMIT 1", [$email]);
+            if ($u) $userId = $u['id'];
+          }
+          try {
+            bl_meta_capi_fire(
+              'Purchase',
+              $value,
+              $currency,
+              $userId,
+              ['mp_id' => $dataId, 'email' => $email, 'product' => 'aeo_audit']
+            );
+          } catch (\Throwable $e) { /* never break the webhook */ }
+          qExec("UPDATE billing_events SET status=? WHERE mp_id=? AND topic='payment'", [$pyStatus, $dataId]);
+        }
+      }
+    }
+
     json_out(['ok' => true]);
   }
 

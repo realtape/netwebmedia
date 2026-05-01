@@ -16,7 +16,7 @@ The original v1 of this playbook assumed three live channels: Twitter/X, Instagr
 
 | Channel | v1 plan | Reality | v2 decision |
 |---|---|---|---|
-| **Twitter / X** | 3 threads | `@netwebmedia` does not exist on X | **DROPPED.** Threads converted to email broadcasts via the existing `email_sequence_queue` (api-php). The handle remains open if Carlos wants to claim it later. |
+| **Twitter / X** | 3 threads | `@netwebmedia` does not exist on X | **DROPPED PERMANENTLY** (Carlos, 2026-05-01). Threads converted to email broadcasts via the existing `email_sequence_queue` (api-php). The handle stays unclaimed by choice. Do not propose reactivation without explicit go-ahead. |
 | **Instagram** | 3 carousels | `@netwebmedia` exists but display name still reads "Carlos Martinez", no indexed posts | **GATED.** Carousels stay as designed but DO NOT publish until IG profile is branded (display name → "NetWebMedia", Navy/Orange avatar, bio link to netwebmedia.com). |
 | **WhatsApp Business** | 3 broadcasts | The `wa.me/14155238866` link in the codebase points to Twilio's shared sandbox — no NetWebMedia-owned WABA exists | **REPLACED.** WA broadcasts converted to email follow-ups in the same warm-prospect sequence. Re-introduce WA when Meta WABA verification completes (infra is wired: `WA_META_TOKEN`, `WA_PHONE_ID`, `WA_META_APP_SECRET` in deploy secrets). |
 | **LinkedIn** | excluded | Confirmed no company page; matches Carlos's preference | Stays excluded. |

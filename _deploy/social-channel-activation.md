@@ -9,13 +9,16 @@
 
 ## What this kit unblocks
 
-The May 4–24 social campaign blocked on three things I cannot do for you:
+The May 4–24 social campaign blocked on two manual items I cannot do for you,
+plus one decision Carlos has now resolved:
 
-1. **Branding the Instagram profile** — needs your IG login
-2. **Deciding whether to claim @netwebmedia on X** — your call
-3. **Meta WABA verification** — needs Meta Business Manager access + business documents
+1. **Branding the Instagram profile** — needs your IG login (open)
+2. ~~**Deciding whether to claim @netwebmedia on X**~~ — **RESOLVED 2026-05-01: dropped.** Email broadcasts cover that lane. See §2.
+3. **Meta WABA verification** — needs Meta Business Manager access + business documents (open)
 
-Below is everything you need to execute each one, in order. Once §1 ships, the May 4 IG carousel can post. Once §3 clears (target June 2026), the WhatsApp opt-in list captured by `/whatsapp-updates.html` can broadcast.
+Below is everything you need to execute the two open items. Once §1 ships, the
+May 4 IG carousel can post. Once §3 clears (target June 2026), the WhatsApp
+opt-in list captured by `/whatsapp-updates.html` can broadcast.
 
 ---
 
@@ -92,95 +95,34 @@ After this, the May 4 campaign carousel (law-firm cluster, see `social-content-p
 
 ---
 
-## §2. X / Twitter handle decision — 5 minutes
+## §2. X / Twitter handle — DECISION LOCKED: dropped (Carlos, 2026-05-01)
 
-### The decision
-`@netwebmedia` on X is **unclaimed**. You have two choices:
+`@netwebmedia` on X stays unclaimed. Email broadcasts (already wired in
+`social-content-pipeline.md` v2 §1) cover the same content distribution.
+This section is preserved for context only — do not reactivate without a
+new explicit decision from Carlos.
 
-| Option | Effort | Effect |
-|---|---|---|
-| **A. Claim it now** (defensive) | 15 min: register, brand, post 5 seed tweets | Reactivates §1 of `social-content-pipeline.md` v2 — Twitter threads return to the channel mix. Prevents squatters. |
-| **B. Stay deferred** | 0 min | Email replaces Twitter in the playbook (already wired in v2). No exposure to a squatter-impersonation risk for now, but the handle stays open. |
+**What this means going forward:**
+- X is excluded from the NWM social mix indefinitely (parallel to LinkedIn).
+- The 5 seed tweets and registration kit previously in this section are
+  preserved in git history at `0b26185a4` if a future revisit is needed.
+- The `/social/` hub page reflects the deferred status with a "not on X by
+  choice — get it via email instead" framing.
+- Any future CMO/agent suggesting "let's add Twitter" should reference this
+  decision and require a new go-ahead before acting.
 
-**My recommendation:** Option A — defensive registration. Twitter is still a meaningful AEO indirect signal (cited often in Perplexity), and the handle is too risky to leave open with a credible brand growing.
+### Why Option B (chosen 2026-05-01)
+- LinkedIn already excluded; X joins it. NWM social mix is now Instagram +
+  YouTube + Facebook + WhatsApp, with email carrying the data-led
+  thread-style content X would have hosted.
+- The `@netwebmedia` X handle stays unclaimed. Squatter risk is minor (no
+  trademark dispute history, low brand-search volume on X).
+- Revisit only with explicit Carlos go-ahead. Default for any future agent
+  asking "should we add Twitter": no, do not propose it.
 
-### Option A execution
-
-#### Account setup
-1. Go to https://x.com/i/flow/signup → create account
-2. **Email:** `social@netwebmedia.com` (or any forwarding alias to your inbox)
-3. **Username:** `@netwebmedia`
-4. **Display name:** `NetWebMedia`
-5. **Profile photo:** upload `assets/social/avatar-1024.svg` (export PNG first, X requires raster)
-6. **Header:** upload `assets/social/header-1500x500.svg` (export PNG, 1500×500)
-7. **Bio (160 char limit, paste exact):**
-   ```
-   AI-native fractional CMO for SMBs.
-   AEO + content + execution.
-   ChatGPT-cited brands in 14 verticals.
-   Run by 1 operator + 12 AI agents.
-   ```
-8. **Location:** `Santiago, CL · USA`
-9. **Website:** `https://netwebmedia.com`
-10. **Birth date / professional category:** "Marketing Agency"
-
-#### 5 evergreen seed tweets (post within 48 hours, NOT all at once)
-Post these in order, ~6–12 hours apart, before May 4. They establish the brand voice so the campaign threads don't land on an empty timeline.
-
-**Tweet 1 (intro):**
-```
-NetWebMedia is an AI-native fractional CMO for SMBs.
-
-One senior operator. Twelve AI agents.
-Same agency-grade output, half the cost, zero handoffs.
-
-We get brands cited in ChatGPT.
-```
-
-**Tweet 2 (contrarian take):**
-```
-The agency model is dead.
-
-40 people, 6 weeks per deliverable, $20k/mo retainers, "let me check with the team."
-
-The replacement: 1 operator, 12 AI agents, real-time execution, $999/mo.
-
-The math is over.
-```
-
-**Tweet 3 (data hook):**
-```
-A boutique hotel in Chile went from 0 ChatGPT citations to consistent inclusion in 60 days.
-
-Booking inquiries from AI-sourced traffic: +22%.
-
-The fix wasn't backlinks. It was schema, FAQ blocks, and one 4,200-word authority guide.
-```
-
-**Tweet 4 (process tease):**
-```
-The AEO framework we use, in 5 lines:
-
-1. Audit AI perception across 40 vertical-specific questions
-2. Add FAQPage + vertical Service schema everywhere
-3. Publish 1 authority pillar per quarter
-4. Earn citations in industry pubs + travel/legal/medical blogs
-5. Track citations monthly across Claude/GPT/Perplexity
-```
-
-**Tweet 5 (CTA):**
-```
-We'll run a free AEO audit on your site and show you exactly what ChatGPT, Claude, and Perplexity see today.
-
-$997 value. Credited 100% toward retainer if you decide to work with us.
-
-netwebmedia.com/contact
-```
-
-After these post, the May 4 thread (`social-content-pipeline.md` v1 §1, preserved in git history at commit `0211282f4`) can launch.
-
-### Option B execution
-Do nothing. Email already replaces Twitter in the v2 playbook. Revisit in Q3 2026.
+> Account-setup instructions, bio copy, and 5 evergreen seed tweets that were
+> previously here are preserved in git history at commit `0b26185a4` if a
+> future reactivation ever happens.
 
 ---
 

@@ -48,7 +48,7 @@ function url_guard_or_fail(string $url): string {
     // Block obvious local hostnames pre-resolution.
     $hostLower = strtolower($host);
     if ($hostLower === 'localhost' || $hostLower === 'localhost.localdomain'
-        || str_ends_with($hostLower, '.local') || str_ends_with($hostLower, '.internal')
+        || substr($hostLower, -6) === '.local' || substr($hostLower, -9) === '.internal'
         || $hostLower === 'metadata.google.internal') {
         jsonError('Target host is not permitted', 400);
     }

@@ -71,6 +71,7 @@ $handlers = [
     'ai_triage'             => __DIR__ . '/handlers/ai_triage.php',
     'workflows'             => __DIR__ . '/handlers/workflows.php',
     'wa_flush'              => __DIR__ . '/handlers/wa_flush.php',
+    'ig_publish'            => __DIR__ . '/handlers/ig_publish.php',
 ];
 
 if (!isset($handlers[$resource])) {

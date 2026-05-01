@@ -98,5 +98,58 @@
   </div>
 </div>
 
+<script>
+/* Client-side SVG→PNG batch export. Zero deps — uses Canvas API.
+ * Each SVG is fetched, rendered into a 1080×1080 canvas via Image, then exported as PNG. */
+async function exportAllAsPng() {
+  var slides = [];
+  ['a','b','c'].forEach(function(c) {
+    for (var i = 1; i <= 5; i++) slides.push({ name: c + '-slide-' + i, src: '/assets/social/carousels/' + c + '-slide-' + i + '.svg' });
+  });
+
+  var btn = event.target;
+  var origText = btn.textContent;
+  btn.disabled = true;
+
+  for (var i = 0; i < slides.length; i++) {
+    var s = slides[i];
+    btn.textContent = 'Exporting ' + (i + 1) + '/' + slides.length + '…';
+    try {
+      var resp = await fetch(s.src);
+      var svgText = await resp.text();
+      var blob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      await new Promise(function(resolve, reject) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement('canvas');
+          canvas.width = 1080; canvas.height = 1080;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, 1080, 1080);
+          canvas.toBlob(function(pngBlob) {
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(pngBlob);
+            a.download = s.name + '.png';
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            URL.revokeObjectURL(a.href);
+            URL.revokeObjectURL(url);
+            resolve();
+          }, 'image/png');
+        };
+        img.onerror = function(e) { URL.revokeObjectURL(url); reject(e); };
+        img.src = url;
+      });
+      // Small delay between downloads so the browser doesn't drop them
+      await new Promise(function(r) { setTimeout(r, 200); });
+    } catch (err) {
+      console.error('Failed to export ' + s.name, err);
+    }
+  }
+  btn.disabled = false;
+  btn.textContent = '✓ ' + slides.length + ' PNGs downloaded';
+  setTimeout(function() { btn.textContent = origText; }, 4000);
+}
+</script>
+
 </body>
 </html>

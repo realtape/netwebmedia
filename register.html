@@ -3,54 +3,73 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Create account · NetWebMedia</title>
+<title>Create your free CRM account · NetWebMedia</title>
 <link rel="icon" type="image/svg+xml" href="/assets/nwm-logo.svg?v=2" />
 <style>
   :root {
-    --bg: #0b1020; --card: #121933; --fg: #eaf0ff; --muted: #8892b0;
-    --accent: #6c5ce7; --accent2: #00b894; --err: #ff6b6b; --ok: #00d28f;
-    --border: rgba(255,255,255,0.08);
+    --bg: #010F3B; --card: #041640; --fg: #eaf0ff; --muted: #8892b0;
+    --accent: #FF671F; --accent2: #ff8c4a; --err: #ff6b6b; --ok: #22C55E;
+    --border: rgba(255,255,255,0.10);
   }
   * { box-sizing: border-box; }
   html, body { height: 100%; }
   body {
-    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     color: var(--fg);
-    background: radial-gradient(1000px 600px at 15% 10%, #1a2555 0%, transparent 60%),
-                radial-gradient(900px 500px at 85% 90%, #0f2942 0%, transparent 60%), var(--bg);
-    display: flex; align-items: center; justify-content: center; padding: 24px;
+    background: radial-gradient(900px 500px at 20% 10%, #02206b 0%, transparent 60%),
+                radial-gradient(700px 400px at 80% 90%, #0d1f5c 0%, transparent 60%), var(--bg);
+    display: flex; align-items: center; justify-content: center; padding: 24px; min-height: 100%;
   }
   .card {
     width: 100%; max-width: 460px; background: var(--card);
     border: 1px solid var(--border); border-radius: 18px; padding: 36px 32px;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55);
   }
   .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
   .brand-logo { width: 36px; height: 36px; border-radius: 10px;
     background: linear-gradient(135deg, var(--accent), var(--accent2));
-    display: grid; place-items: center; color: white; font-weight: 800; }
+    display: grid; place-items: center; color: #010F3B; font-weight: 800; font-size: 18px; }
   .brand-text { font-weight: 700; font-size: 18px; }
+  .plan-badge {
+    display: inline-flex; align-items: center; gap: 6px; background: rgba(255,103,31,0.12);
+    border: 1px solid rgba(255,103,31,0.35); color: var(--accent); border-radius: 20px;
+    font-size: 12px; font-weight: 600; padding: 3px 10px; margin-bottom: 14px; letter-spacing: 0.3px;
+  }
   h1 { margin: 0 0 6px; font-size: 22px; }
-  .sub { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+  .sub { color: var(--muted); font-size: 14px; margin-bottom: 18px; line-height: 1.5; }
   label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 6px; }
-  input {
+  input[type="text"], input[type="email"], input[type="password"] {
     width: 100%; padding: 12px 14px; border-radius: 10px;
     background: rgba(255,255,255,0.04); color: var(--fg);
-    border: 1px solid var(--border); outline: none; font-size: 14px;
+    border: 1px solid var(--border); outline: none; font-size: 14px; font-family: inherit;
   }
-  input:focus { border-color: var(--accent); background: rgba(108,92,231,0.08); }
+  input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+    border-color: var(--accent); background: rgba(255,103,31,0.06);
+    box-shadow: 0 0 0 3px rgba(255,103,31,0.15);
+  }
   .btn {
-    margin-top: 20px; width: 100%; padding: 12px 16px; border-radius: 10px; border: none;
-    background: linear-gradient(135deg, var(--accent), #8475ff);
-    color: white; font-weight: 600; font-size: 14px; cursor: pointer;
+    margin-top: 20px; width: 100%; padding: 13px 16px; border-radius: 10px; border: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #010F3B; font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit;
+    box-shadow: 0 4px 14px rgba(255,103,31,0.35); transition: opacity 0.15s;
   }
-  .btn:disabled { opacity: 0.6; cursor: wait; }
+  .btn:hover { opacity: 0.92; }
+  .btn:disabled { opacity: 0.55; cursor: wait; }
   .alt { color: var(--muted); font-size: 13px; text-align: center; margin-top: 14px; }
   .alt a { color: var(--fg); text-decoration: none; border-bottom: 1px dashed var(--muted); }
   .msg { margin-top: 12px; font-size: 13px; min-height: 16px; }
   .msg.err { color: var(--err); }
   .msg.ok  { color: var(--ok); }
+  .free-perks { background: rgba(255,103,31,0.07); border: 1px solid rgba(255,103,31,0.2);
+    border-radius: 10px; padding: 12px 14px; margin-bottom: 18px; font-size: 13px; }
+  .free-perks ul { margin: 4px 0 0; padding: 0 0 0 16px; color: var(--muted); line-height: 1.7; }
+  .free-perks strong { color: var(--fg); }
 </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Sentry -->
+  <script src="/js/nwm-sentry.js" defer></script>
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
   <script>
@@ -66,8 +85,18 @@
       <div class="brand-logo">N</div>
       <div class="brand-text">NetWebMedia</div>
     </div>
-    <h1>Create your account</h1>
-    <div class="sub">Get your own CMS &amp; CRM workspace in seconds.</div>
+    <div id="planBadge" style="display:none" class="plan-badge">✦ Free CRM Plan</div>
+    <h1 id="pageTitle">Create your account</h1>
+    <div class="sub" id="pageSub">Get your own CRM workspace in seconds.</div>
+    <div id="freePerks" class="free-perks" style="display:none">
+      <strong>What's included — free forever:</strong>
+      <ul>
+        <li>1 user · 250 contacts</li>
+        <li>Pipeline, calendar &amp; email marketing</li>
+        <li>NetWebMedia-branded workspace</li>
+        <li>Upgrade anytime as you grow</li>
+      </ul>
+    </div>
 
     <form id="registerForm">
       <!-- honeypot: hidden from humans, bots fill it in -->
@@ -98,10 +127,21 @@
   <script src="/js/api-client.js"></script>
   <script>
     (function () {
+      // Plan context from URL
+      var params = new URLSearchParams(location.search);
+      var plan = params.get('plan') || '';
+      if (plan === 'free') {
+        document.getElementById('planBadge').style.display = 'inline-flex';
+        document.getElementById('freePerks').style.display = 'block';
+        document.getElementById('pageTitle').textContent = 'Start your free CRM';
+        document.getElementById('pageSub').textContent = 'No credit card required. Up and running in under 2 minutes.';
+        document.getElementById('submitBtn').textContent = 'Create free account';
+      }
+
       var form = document.getElementById('registerForm');
-      var name = document.getElementById('name');
-      var email = document.getElementById('email');
-      var pass = document.getElementById('password');
+      var nameEl = document.getElementById('name');
+      var emailEl = document.getElementById('email');
+      var passEl = document.getElementById('password');
       var hp = document.getElementById('nwm_website');
       var consent = document.getElementById('consent');
       var btn = document.getElementById('submitBtn');
@@ -117,8 +157,8 @@
         btn.disabled = true;
         msg.className = 'msg';
         msg.textContent = 'Creating your account…';
-        window.NWMApi.register(email.value.trim(), pass.value, name.value.trim(), hp.value)
-          .then(function (r) {
+        window.NWMApi.register(emailEl.value.trim(), passEl.value, nameEl.value.trim(), hp.value, plan || undefined)
+          .then(function () {
             msg.className = 'msg ok';
             msg.textContent = 'Account created — redirecting…';
             setTimeout(function () { location.href = '/app/'; }, 400);

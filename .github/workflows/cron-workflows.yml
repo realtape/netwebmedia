@@ -1,0 +1,33 @@
+name: CRM Workflow Engine Cron
+
+# Advances pending workflow_runs every 5 minutes.
+# Hits the CRM-native cron endpoint — no cPanel access needed.
+# MIGRATE_TOKEN must be set in GitHub Actions secrets (SECRET_MIGRATE_TOKEN).
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:   # manual trigger for testing
+
+jobs:
+  run-pending-workflows:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Advance pending workflow runs
+        env:
+          MIGRATE_TOKEN: ${{ secrets.SECRET_MIGRATE_TOKEN }}
+        run: |
+          TOKEN="${MIGRATE_TOKEN:-NWM_MIGRATE_2026_ROTATED_7d790e0bb4992a6e}"
+          RESPONSE=$(curl -s -w "\n%{http_code}" \
+            -A "Mozilla/5.0 (compatible; NWM-CronBot/1.0)" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "https://netwebmedia.com/crm-vanilla/api/?r=cron_workflows&token=${TOKEN}")
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          BODY=$(echo "$RESPONSE" | head -1)
+          echo "HTTP: $HTTP_CODE"
+          echo "Response: $BODY"
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "::warning::Cron endpoint returned $HTTP_CODE — check token or endpoint"
+          fi

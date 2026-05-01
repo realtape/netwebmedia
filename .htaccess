@@ -72,7 +72,9 @@ Options -Indexes
   RewriteRule ^_backup(/|$)             - [F,L]
   RewriteRule ^_cron(/|$)               - [F,L]
   RewriteRule ^backend(/|$)             - [F,L]
-  RewriteRule ^api-php(/|$)             - [F,L]
+  # /api-php/ is the on-disk source folder; /api/ is the canonical public path.
+  # 301 to /api/ instead of 403, per CLAUDE.md invariant — old clients still resolve.
+  RewriteRule ^api-php(/.*)?$           /api$1 [R=301,L]
   RewriteRule ^n8n-templates(/|$)       - [F,L]
   RewriteRule ^plans(/|$)               - [F,L]
   RewriteRule ^proposals(/|$)           - [F,L]

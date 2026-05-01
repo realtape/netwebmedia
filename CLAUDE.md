@@ -129,40 +129,46 @@ The API uses a **single generic `resources` table** as an EAV store — every en
 
 ### Workflow runtime engine
 
-The visual workflow builder UI (`crm-vanilla/js/automation.js` → `crm-vanilla/api/handlers/workflows.php`) and the runtime engine (`api-php/lib/workflows.php`) **read from different tables**. The CRM handler dual-writes both tables on every CRUD op so the engine sees what the builder creates.
+**Critical architecture note — two separate databases.** `api-php` connects to `webmed6_nwm`; `crm-vanilla/api` connects to `webmed6_crm`. Do NOT attempt to cross-include functions or read across databases from within a single handler. They run as separate PHP contexts with different PDO connections.
 
-**Two-table architecture:**
-- `workflows` — what the visual builder writes. Columns: `id, organization_id, user_id, name, trigger_type, trigger_filter, steps_json, status, last_run_at, ...`. Tenant-scoped via `tenancy_where()`. Source of truth for the builder UI.
-- `resources WHERE type='workflow'` — what the engine reads (`wf_active_for_trigger()`, `wf_run_cron_due()`). EAV row with `data` JSON containing `{trigger:{type,...}, steps:[{action,...}], _source:'visual_builder', _workflows_id:N}`. Mirrored by the handler with deterministic slug `wf-builder-{workflows.id}`.
-- `workflows_resource_link` — mapping table (`workflow_id` PK → `resource_id`) for O(1) mirror lookup on UPDATE/DELETE. Created via `schema_workflows_to_resources.sql`.
+The visual workflow builder (`crm-vanilla/js/automation.js` → `crm-vanilla/api/handlers/workflows.php`) and the CRM-native runtime engine (`crm-vanilla/api/lib/wf_crm.php`) **both operate entirely in `webmed6_crm`**. `api-php/lib/workflows.php` is a separate engine for `webmed6_nwm` resources — not used for CRM-builder workflows.
 
-**Trigger / step vocabulary mismatch.** The builder UI and the engine speak different vocabularies. Translation happens in `workflows_translate_to_engine_format()` inside the CRM handler — single source of truth, pure function:
+**CRM workflow tables (all in `webmed6_crm`):**
+- `workflows` — visual builder rows: `id, organization_id, user_id, name, trigger_type, trigger_filter, steps_json, status, last_run_at`. Tenant-scoped via `tenancy_where()`. Source of truth.
+- `workflow_runs` — run queue: `id, workflow_id, user_id, org_id, status (pending/running/waiting/completed/failed), step_index, context_json, next_run_at, error`. Created by `schema_workflow_runs.sql`.
+- `resources WHERE type='workflow'` + `workflows_resource_link` — mirror for UI visibility only (kept in sync by `workflows_upsert_engine_mirror()`). The engine does NOT read these; it reads `workflows` directly.
 
-| Builder | Engine | Notes |
+**CRM-native engine (`crm-vanilla/api/lib/wf_crm.php`):**
+- `wf_crm_trigger($type, $match, $ctx, $uid, $orgId)` — find active workflows matching the trigger, insert `workflow_runs` rows. Called from CRM events.
+- `wf_crm_run_pending($db)` — advance all pending/waiting runs whose `next_run_at` has passed. Call from the cron endpoint.
+- `wf_crm_advance($run, $db)` — execute the next step for one run, update `step_index` / `status`. Recurses for non-wait steps.
+- `wf_crm_run_now($workflowId, $ctx, $db)` — admin: enqueue + synchronously advance a specific workflow.
+
+**Step types supported:** `send_email`, `wait` (sets `next_run_at`), `tag` / `add_tag`, `untag` / `remove_tag`, `update_field`, `move_stage`, `create_task`, `webhook`, `send_whatsapp`, `if` (conditional branch), `notify_team`, `log`.
+
+**Trigger wiring (CRM events that fire `wf_crm_trigger`):**
+
+| Event | Trigger type | Handler |
 |---|---|---|
-| trigger `contact_created` | trigger `contact_created` | Fired from `/api/public/newsletter/subscribe` and `/api/public/whatsapp/subscribe` after each contact insert. Listed in `wf_trigger_registry()`. |
-| trigger `form_submitted` | trigger `form_submission` | `trigger_filter` becomes `form_id`. |
-| trigger `tag_added` | trigger `tag_added` | Passthrough; `trigger_filter` becomes `tag`. |
-| trigger `deal_stage_changed` | trigger `deal_stage` | `trigger_filter` becomes `stage`. |
-| trigger `manual` | trigger `manual` | Passthrough. |
-| step `wait` `{delay, unit}` | action `wait` `{minutes\|hours\|days}` | Unit selects the engine field. |
-| step `send_email` `{template_id}` | action `send_email` `{template_id, to:'submitter'}` | `to` defaults to submitter. |
-| step `add_tag` / `remove_tag` | action `tag` / `untag` | Passthrough on `tag` field. |
-| step `create_task` `{title}` | action `create_task` `{title_tpl, due_in_days:1}` | `due_in_days` defaults to 1. |
+| CRM contact created | `contact_created` | `crm-vanilla/api/handlers/contacts.php` POST |
+| Deal created / stage changed | `deal_stage` | `crm-vanilla/api/handlers/deals.php` POST + PUT |
+| Tag added to contact | `tag_added` | cascades from `wf_crm_advance` tag steps |
+| Tag removed | `tag_removed` | cascades from `wf_crm_advance` untag steps |
+| Manual admin fire | `manual` | `run_now` action in workflows handler |
 
-**The `_source: 'visual_builder'` marker** in `data` distinguishes mirror rows from legacy hand-written workflows seeded via `api-php/data/pipeline-automations.json` (loaded by `GET /api/cron/seed-pipeline-automations`). Legacy workflows have no `_source`. The engine doesn't branch on this — it's a debug breadcrumb.
-
-**Status mapping.** Builder `status='active'` → mirror `status='active'` (engine fires it). Builder `paused`/`draft` → mirror `inactive` (engine `wf_active_for_trigger()` requires exact `status='active'`).
-
-**Cron requirement.** No workflow fires without an external scheduler. Add a cPanel cron at 5-minute cadence:
+**Cron requirement.** No `wait` step advances without an external scheduler. Wire ONE cron in cPanel at 5-minute cadence:
 ```
-*/5 * * * * curl -s 'https://netwebmedia.com/api/cron/automation?token=<first-16-of-jwt-secret>' > /dev/null
+*/5 * * * * curl -s -A "Mozilla/5.0" \
+  "https://netwebmedia.com/crm-vanilla/api/?r=cron_workflows&token=<CRON_TOKEN>" \
+  > /dev/null
 ```
-Same pattern as `email_sequence_queue` (also driven by `/api/cron/sequences`). `/api/cron/automation` calls both `wf_run_pending()` (advance queued runs past their wait) and `wf_run_cron_due()` (fire cron-triggered workflows). Health check: `GET /api/cron/health?token=...` returns `pending_workflow_runs` count.
+`CRON_TOKEN` = first 16 chars of `DB_PASS` (the CRM's auth secret, same secret used by `MIGRATE_TOKEN` pattern). The handler (`crm-vanilla/api/handlers/cron_workflows.php`) uses `hash_equals()` to validate it and then calls `wf_crm_run_pending()`.
 
-**Run-now.** `POST /crm-vanilla/api/?r=workflows&id=N&action=run_now` (admin) bypasses trigger matching and enqueues the specific workflow directly via `wf_enqueue` + `wf_advance` — used for manual testing of a builder workflow. Different gating than the cron endpoint (admin session vs. token).
+**Note:** `api-php/lib/workflows.php` + `/api/cron/automation` are a *separate* engine for `webmed6_nwm` resources (newsletter drip sequences, api-php public forms). They are unrelated to CRM builder workflows. The `wf_bridge.php` shim still exists for backward-compat but now forwards to `wf_crm_trigger`. Migrate all `wf_fire()` call sites to `wf_crm_trigger()` and delete the shim when done.
 
-**Backfill.** `POST /crm-vanilla/api/?r=workflows&action=backfill_engine_mirror` (admin) iterates every visible workflows row and (re)writes its `resources` mirror. Idempotent — safe to re-run after schema changes or if the link table is wiped.
+**Run-now.** `POST /crm-vanilla/api/?r=workflows&id=N&action=run_now` (admin session required) bypasses trigger matching and fires the specific workflow immediately via `wf_crm_run_now()`.
+
+**Backfill mirror.** `POST /crm-vanilla/api/?r=workflows&action=backfill_engine_mirror` (admin) rewrites all `resources` mirrors for UI visibility. Idempotent. Does NOT affect execution — the engine reads `workflows` directly.
 
 ### API route modules (`api-php/routes/`)
 

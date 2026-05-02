@@ -383,9 +383,10 @@ function render_email_html_usa($lead) {
         <p style="margin:0 0 18px 0;">We put together a <strong>free digital audit for ' . $company . '</strong> — including:</p>
 
         <ul style="padding-left:20px;margin:0 0 22px 0;line-height:1.7;">
-          <li><strong>Score 0-100</strong> across 12 dimensions of digital presence (AI visibility, mobile, schema, lead capture, reviews, automation).</li>
-          <li><strong>Online credibility analysis</strong> of ' . $company . ' versus your direct competitors.</li>
-          <li><strong>90-day customer-acquisition projection</strong> if you act on the gaps we found.</li>
+          ' . implode('', array_map(function($d) use ($company_raw) {
+              // Replace {{COMPANY}} placeholder used in default fallback
+              return '<li style="margin-bottom:6px">' . str_replace('{{COMPANY}}', htmlspecialchars($company_raw, ENT_QUOTES, 'UTF-8'), $d) . '</li>';
+            }, audit_dimensions_usa($niche_key))) . '
         </ul>
 
         <p style="text-align:center;margin:0 0 22px 0;">
@@ -408,17 +409,196 @@ function render_email_html_usa($lead) {
   </body></html>';
 }
 
-function subject_for_usa($lead) {
-  $c = $lead['company'] ?? $lead['name'] ?? 'your business';
-  $variants = [
-    "Digital audit for $c",
-    "$c — we ran the numbers, the PDF is inside",
-    "For $c — digital presence analysis",
-    "$c · digital audit ready",
-    "AI-visibility audit of $c (free PDF)",
+/**
+ * Niche-specific subject lines — 4 variants per niche, seeded per email
+ * so the same contact always gets the same subject (idempotent preview).
+ */
+function subject_for_niche_usa($lead) {
+  $c  = $lead['company'] ?? $lead['name'] ?? 'your business';
+  $nk = strtolower($lead['niche_key'] ?? '');
+
+  $pools = [
+    'financial_services' => [
+      "$c — financial advisor visibility audit (free)",
+      "AI doesn't recommend $c yet — here's the gap",
+      "$c · digital presence vs 3 competitors",
+      "Advisor lead capture audit for $c",
+    ],
+    'events_weddings' => [
+      "$c — wedding & events visibility audit",
+      "ChatGPT isn't recommending $c for events (yet)",
+      "$c · venue inquiry audit — free report",
+      "AI search gap: $c in your events market",
+    ],
+    'health' => [
+      "$c — new patient acquisition audit (free)",
+      "AI isn't surfacing $c for patient searches",
+      "$c · digital health presence vs competitors",
+      "Patient booking audit for $c — free report inside",
+    ],
+    'real_estate' => [
+      "$c — buyer lead audit is ready",
+      "AI visibility for real estate — $c report",
+      "$c · digital presence vs top local agents",
+      "Listing & lead capture audit for $c",
+    ],
+    'restaurants' => [
+      "$c — restaurant visibility audit (free)",
+      "ChatGPT isn't recommending $c for dining",
+      "$c · menu & reservation audit ready",
+      "Digital dining audit for $c — free report",
+    ],
+    'law_firms' => [
+      "$c — attorney intake audit (free report)",
+      "Case leads going cold: $c digital gap",
+      "ChatGPT doesn't recommend $c yet — here's why",
+      "$c · legal visibility vs 3 competitors",
+    ],
+    'smb' => [
+      "$c — digital presence audit (free)",
+      "AI isn't routing prospects to $c yet",
+      "$c · local visibility vs competitors",
+      "Lead capture audit for $c — free report inside",
+    ],
+    'local_specialist' => [
+      "$c — local search visibility audit (free)",
+      "AI search gap: $c isn't in the recommendation set",
+      "$c · digital presence vs top local results",
+      "Local authority audit for $c — free report",
+    ],
+    'tourism' => [
+      "$c — travel & lodging visibility audit",
+      "AI travel search isn't surfacing $c yet",
+      "$c · booking inquiry audit — free report",
+      "Hospitality digital audit for $c",
+    ],
+    'beauty' => [
+      "$c — salon & spa visibility audit (free)",
+      "AI beauty search gap: $c isn't showing up",
+      "$c · booking & review audit — free report",
+      "Beauty & spa digital audit for $c",
+    ],
+    'automotive' => [
+      "$c — dealership visibility audit (free)",
+      "AI auto search isn't recommending $c yet",
+      "$c · service booking & review audit",
+      "Automotive digital presence audit for $c",
+    ],
+    'education' => [
+      "$c — student enrollment audit (free)",
+      "AI education search gap: $c isn't visible",
+      "$c · program discovery & inquiry audit",
+      "Enrollment funnel audit for $c — free report",
+    ],
+    'home_services' => [
+      "$c — home services visibility audit (free)",
+      "AI service search isn't surfacing $c yet",
+      "$c · booking & review audit — free report",
+      "Home services digital audit for $c",
+    ],
+    'wine_agriculture' => [
+      "$c — wine & ag digital presence audit",
+      "Direct-to-consumer gap: $c visibility audit",
+      "$c · tasting room & e-commerce audit",
+      "Wine & agriculture digital audit for $c",
+    ],
   ];
-  $seed = hexdec(substr(md5(strtolower(($lead['email'] ?? $c) . '|usa-subj-v1')), 0, 8));
+
+  $default = [
+    "Digital audit for $c",
+    "$c — we ran the numbers, the report is inside",
+    "For $c — digital presence analysis",
+    "$c · AI-visibility audit ready",
+  ];
+
+  $variants = $pools[$nk] ?? $default;
+  $seed = hexdec(substr(md5(strtolower(($lead['email'] ?? $c) . '|usa-subj-v2')), 0, 8));
   return $variants[$seed % count($variants)];
+}
+
+/**
+ * Niche-specific audit dimensions — 3 bullets that replace the generic
+ * "12 dimensions" copy. Each reads as if the audit was built for that industry.
+ */
+function audit_dimensions_usa($niche_key) {
+  $map = [
+    'financial_services' => [
+      '<strong>AI/ChatGPT visibility</strong> for your practice area and service lines — are prospects finding you before your competitors?',
+      '<strong>Lead qualification automation</strong> by asset size, product fit, and urgency — so advisors spend time on closeable deals.',
+      '<strong>Online credibility score</strong> vs 3-4 direct competitors in your market (site authority, reviews, schema, trust signals).',
+    ],
+    'events_weddings' => [
+      '<strong>AI/ChatGPT visibility</strong> when couples and planners search for venues and coordinators in your area.',
+      '<strong>Mobile portfolio performance</strong> — load time, gallery rendering, and quote-request conversion on phones.',
+      '<strong>After-hours inquiry capture</strong> — how many weekend and evening leads are you losing to faster-responding competitors?',
+    ],
+    'health' => [
+      '<strong>AI/ChatGPT visibility</strong> for new-patient searches in your specialty and zip code.',
+      '<strong>Online booking integration</strong> with real-time chair and exam-room availability.',
+      '<strong>Review response rate</strong> on Google, Healthgrades, and Zocdoc — the #1 selection signal for new patients.',
+    ],
+    'real_estate' => [
+      '<strong>AI/ChatGPT visibility</strong> when buyers and sellers search for agents in your market.',
+      '<strong>Listing schema coverage</strong> — are your properties showing in Google\'s rich result with price, sqft, and gallery?',
+      '<strong>Lead qualification and self-scheduling</strong> for showings — how many serious buyers are you losing to email lag?',
+    ],
+    'restaurants' => [
+      '<strong>AI/ChatGPT visibility</strong> when locals and visitors search for your cuisine type in your city.',
+      '<strong>Menu and reservation schema</strong> — is Google surfacing your rich card with hours, prices, and booking?',
+      '<strong>After-hours reservation capture</strong> and Google review response rate (direct driver of map click-through).',
+    ],
+    'law_firms' => [
+      '<strong>ChatGPT/AI visibility</strong> for your practice areas — are opposing counsel\'s clients finding your firm first?',
+      '<strong>Intake automation</strong> — consultation self-scheduling and same-day triage for urgent inquiries.',
+      '<strong>Google Business review management</strong> — response rate and recency, the two signals clients weight most.',
+    ],
+    'smb' => [
+      '<strong>AI/ChatGPT visibility</strong> in your product or service category — are B2B prospects finding you before they Google you?',
+      '<strong>Lead capture and automated follow-up</strong> — what percentage of inbound inquiries convert without a manual reply?',
+      '<strong>Local credibility score</strong> vs 3 direct competitors (reviews, schema, site authority, map ranking).',
+    ],
+    'local_specialist' => [
+      '<strong>AI/ChatGPT visibility</strong> for your specialty searches — are you in the recommendation set or are 3 competitors?',
+      '<strong>LocalBusiness schema</strong> coverage — hours, service area, service types, and Google rich result priority.',
+      '<strong>Mobile performance and core web vitals</strong> — Google\'s explicit local ranking signal.',
+    ],
+    'tourism' => [
+      '<strong>AI/ChatGPT visibility</strong> for travel searches in your destination — boutique stays, tours, and local experiences.',
+      '<strong>Hotel/Lodging schema</strong> with prices and availability — are you in Google\'s rich lodging card on mobile?',
+      '<strong>Booking inquiry automation</strong> — same-hour response rate vs the industry benchmark (guests book the first to reply).',
+    ],
+    'beauty' => [
+      '<strong>AI/ChatGPT visibility</strong> for "best salon/spa near me" — are you in the recommendation set at the moment of decision?',
+      '<strong>24/7 online booking</strong> with real-time availability — how many evening and weekend bookings are you losing?',
+      '<strong>Appointment reminder automation</strong> via SMS and email — industry no-show rate without reminders: ~15%.',
+    ],
+    'automotive' => [
+      '<strong>AI/ChatGPT visibility</strong> for service and sales searches in your area — those high-intent calls go to 3 fixed names.',
+      '<strong>Online quote and service booking</strong> — after-hours and weekend leads going to the first shop that responds.',
+      '<strong>Google review management</strong> — response recency and owner reply rate, the two signals that drive service calls.',
+    ],
+    'education' => [
+      '<strong>AI/ChatGPT visibility</strong> for program and enrollment searches — are you in the recommendation set for your degrees?',
+      '<strong>Enrollment inquiry automation</strong> — drip nurture for brochure downloads and open-house registrations.',
+      '<strong>Course/Program schema</strong> — is Google showing your offering in the education rich result with dates and pricing?',
+    ],
+    'home_services' => [
+      '<strong>AI/ChatGPT visibility</strong> for service searches in your area — HVAC, plumbing, roofing, landscaping, and more.',
+      '<strong>Online quote and booking automation</strong> — same-day lead capture for calls that come in after business hours.',
+      '<strong>Google Business review management</strong> — response rate and recency are the top two signals homeowners check.',
+    ],
+    'wine_agriculture' => [
+      '<strong>AI/ChatGPT visibility</strong> for direct-to-consumer wine and ag searches — club memberships, tasting rooms, and shipments.',
+      '<strong>E-commerce and wine club automation</strong> — cart abandonment, renewal reminders, and club acquisition flows.',
+      '<strong>Tasting room and events booking</strong> — online self-scheduling and after-hours inquiry capture.',
+    ],
+  ];
+
+  return $map[$niche_key] ?? [
+    '<strong>Score 0-100</strong> across 12 dimensions of digital presence (AI visibility, mobile, schema, lead capture, reviews, automation).',
+    '<strong>Online credibility analysis</strong> of ' . '{{COMPANY}}' . ' versus your direct competitors.',
+    '<strong>90-day customer-acquisition projection</strong> if you act on the gaps we found.',
+  ];
 }
 
 // ── mode dispatch ──
@@ -450,7 +630,7 @@ if ($mode === 'test') {
 
   $lead = count($pending) ? $pending[0] : ['company' => 'NetWebMedia Test', 'name' => 'Test', 'email' => 'demo@netwebmedia.com', 'niche' => 'Health & Medical', 'niche_key' => 'health'];
   $html = render_email_html_usa($lead);
-  $subj = '[TEST] ' . subject_for_usa($lead);
+  $subj = '[TEST] ' . subject_for_niche_usa($lead);
 
   $results = [];
   foreach ($recipients as $rcpt) {
@@ -488,7 +668,7 @@ if ($mode === 'batch' || $mode === 'all') {
     if ($results['sent'] + $results['failed'] >= $cap) break;
     $email = $lead['email'];
     $html  = render_email_html_usa($lead);
-    $subj  = subject_for_usa($lead);
+    $subj  = subject_for_niche_usa($lead);
     $ok    = $dryrun ? true : send_mail($email, $subj, $html, [
       'from_name' => $FROM_NAME, 'from_email' => $FROM_EMAIL, 'reply_to' => $REPLY_TO,
     ]);

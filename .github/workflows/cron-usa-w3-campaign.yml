@@ -1,0 +1,52 @@
+name: Cron — USA Wave 3 (CSV, every 1 min)
+# Wave 3: reads usa_5x_full.csv (~263k unique emails).
+# Automatically skips anything already in us-sent.log (waves 1 & 2).
+# Same niche-specific copy engine as waves 1 & 2 — per-niche subjects,
+# niche-specific audit dimensions for all 14 niches across tiers 1-3.
+# Start: after wave 2 completes (~2026-05-02).
+on:
+  schedule:
+    - cron: '* * * * *'
+  workflow_dispatch:
+    inputs:
+      niche:
+        description: 'Niche key filter (optional, e.g. financial_services, law_firms)'
+        required: false
+        default: ''
+      batch:
+        description: 'Max sends per call (default 3000, hard-capped at 3000)'
+        required: false
+        default: '3000'
+      mode:
+        description: 'Send mode (batch | status | test | preview)'
+        required: false
+        default: 'batch'
+
+concurrency:
+  group: usa-w3-outreach
+  cancel-in-progress: false
+
+jobs:
+  w3-batch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Send next wave-3 batch
+        run: |
+          NICHE="${{ github.event.inputs.niche }}"
+          BATCH="${{ github.event.inputs.batch || '3000' }}"
+          MODE="${{ github.event.inputs.mode || 'batch' }}"
+          TOKEN="${{ secrets.USA_W3_TOKEN }}"
+          if [ -z "$TOKEN" ]; then
+            TOKEN="NWM_USA_W3_2026_f8a3c1e9b2d47056"
+          fi
+          URL="https://netwebmedia.com/api/usa-send-w3?mode=${MODE}&n=${BATCH}"
+          if [ -n "$NICHE" ]; then
+            URL="${URL}&niche=${NICHE}"
+          fi
+          curl -s "$URL" \
+            -H "X-Auth-Token: ${TOKEN}" \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            -w "\nHTTP Status: %{http_code}\n"

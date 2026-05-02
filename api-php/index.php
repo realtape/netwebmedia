@@ -207,9 +207,12 @@ try {
     require __DIR__ . '/chile-send.php';
     exit;
   } elseif ($group === 'usa-send') {
-    // One-off USA cold-outreach trigger (token-protected, see usa-send.php).
-    // Pulls audience from CRM contacts table; orders by niche priority; caps at 30k.
+    // USA cold-outreach waves 1 & 2 (CRM DB, 60k contacts, niche-priority ordered).
     require __DIR__ . '/usa-send.php';
+    exit;
+  } elseif ($group === 'usa-send-w3') {
+    // USA cold-outreach wave 3 (CSV-based, usa_5x_full.csv, ~263k unique emails).
+    require __DIR__ . '/usa-send-w3.php';
     exit;
   } elseif ($group === 'ab-tests' || $group === 'abtests') {
     require __DIR__ . '/routes/abtests.php';

@@ -678,7 +678,6 @@
     { id: "booking", key: "booking", icon: "booking", href: "booking.html" },
     { id: "sms", key: "sms", icon: "smsBulk", href: "sms.html" },
     { id: "payments", key: "payments", icon: "payments", href: "payments.html", beta: true },
-    { id: "marketing", key: "marketing", icon: "marketing", href: "marketing.html" },
     { id: "campaigns", key: "campaigns", icon: "email", href: "campaigns.html" },
     { id: "chileCampaign", key: "chileCampaign", icon: "rocket", href: "chile-campaign.html" },
     { id: "usaCampaign",   key: "usaCampaign",   icon: "rocket", href: "usa-campaign.html" },

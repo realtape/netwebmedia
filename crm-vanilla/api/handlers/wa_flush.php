@@ -25,6 +25,7 @@
  */
 
 require_once __DIR__ . '/../lib/tenancy.php';
+require_once __DIR__ . '/../lib/wa_meta_send.php';
 
 $db    = getDB();
 $user  = guard_user();
@@ -219,45 +220,20 @@ switch ($method) {
                     continue;
                 }
 
-                // Meta Cloud API send. Templates must be pre-approved in Meta Business Manager.
-                $payload = [
-                    'messaging_product' => 'whatsapp',
-                    'to'                => preg_replace('/[^\d]/', '', $phone),
-                    'type'              => 'template',
-                    'template'          => [
-                        'name'     => $templateName,
-                        'language' => ['code' => $lang === 'es' ? 'es' : 'en'],
-                        'components' => [[
-                            'type' => 'body',
-                            'parameters' => [
-                                ['type' => 'text', 'text' => substr($name, 0, 60) ?: 'there'],
-                                ['type' => 'text', 'text' => 'Welcome — first real broadcast next Tuesday.'],
-                                ['type' => 'text', 'text' => 'https://netwebmedia.com/blog/'],
-                            ],
-                        ]],
-                    ],
-                ];
-
-                $url = "https://graph.facebook.com/v20.0/" . urlencode($waPhoneId) . "/messages";
-                $ch = curl_init($url);
-                curl_setopt_array($ch, [
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_POST           => true,
-                    CURLOPT_POSTFIELDS     => json_encode($payload),
-                    CURLOPT_HTTPHEADER     => [
-                        'Authorization: Bearer ' . $waToken,
-                        'Content-Type: application/json',
-                    ],
-                    CURLOPT_TIMEOUT        => 12,
-                    CURLOPT_SSL_VERIFYPEER => true,
+                $result = wa_meta_send($phone, '', [
+                    'name'       => $templateName,
+                    'lang'       => $lang === 'es' ? 'es' : 'en',
+                    'components' => [[
+                        'type' => 'body',
+                        'parameters' => [
+                            ['type' => 'text', 'text' => substr($name, 0, 60) ?: 'there'],
+                            ['type' => 'text', 'text' => 'Welcome — first real broadcast next Tuesday.'],
+                            ['type' => 'text', 'text' => 'https://netwebmedia.com/blog/'],
+                        ],
+                    ]],
                 ]);
-                $resp = curl_exec($ch);
-                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                $err = curl_error($ch);
-                curl_close($ch);
 
-                if ($httpCode >= 200 && $httpCode < 300 && !$err) {
-                    // Success — graduate to confirmed
+                if ($result['success']) {
                     $cd['whatsapp']['wa_optin_status'] = 'confirmed';
                     $cd['whatsapp']['flushed_at']      = date('c');
                     $cd['whatsapp']['flushed_by']      = $uid;
@@ -268,15 +244,12 @@ switch ($method) {
                 } else {
                     $results['failed']++;
                     $results['errors'][] = [
-                        'id' => (int)$r['id'],
-                        'http' => (int)$httpCode,
-                        'curl_err' => $err ?: null,
-                        'body' => is_string($resp) ? substr($resp, 0, 240) : null,
+                        'id'         => (int)$r['id'],
+                        'error'      => $result['error'],
+                        'error_code' => $result['error_code'],
                     ];
-                    // Also annotate the row so we don't retry blindly
                     $cd['whatsapp']['last_flush_attempt_at']    = date('c');
-                    $cd['whatsapp']['last_flush_error_http']    = (int)$httpCode;
-                    $cd['whatsapp']['last_flush_error_excerpt'] = is_string($resp) ? substr($resp, 0, 240) : null;
+                    $cd['whatsapp']['last_flush_error_excerpt'] = $result['error'];
                     $u = $db->prepare("UPDATE resources SET data = ? WHERE id = ?");
                     $u->execute([json_encode($cd), (int)$r['id']]);
                 }

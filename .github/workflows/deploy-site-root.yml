@@ -250,6 +250,7 @@ jobs:
           print(f"define('TWILIO_AUTH_TOKEN', '{e(os.environ.get('SECRET_TWILIO_TOKEN',''))}');")
           print(f"define('TWILIO_FROM_SMS', '{e(os.environ.get('SECRET_TWILIO_FROM',''))}');")
           print(f"define('TWILIO_FROM_WHATSAPP', '{e(os.environ.get('SECRET_TWILIO_FROM',''))}');")
+          print(f"define('OPERATOR_WHATSAPP_NUMBER', '{e(os.environ.get('SECRET_OPERATOR_WHATSAPP_NUMBER',''))}');")
           # phpmail — PHP mail() via server Exim, no AUTH lockout risk
           # Keep SMTP constants for fallback / future use
           print(f"define('MAIL_PROVIDER', 'phpmail');")
@@ -308,6 +309,7 @@ jobs:
           SECRET_TWILIO_SID:        ${{ secrets.TWILIO_SID }}
           SECRET_TWILIO_TOKEN:      ${{ secrets.TWILIO_TOKEN }}
           SECRET_TWILIO_FROM:       ${{ secrets.TWILIO_FROM }}
+          SECRET_OPERATOR_WHATSAPP_NUMBER: ${{ secrets.OPERATOR_WHATSAPP_NUMBER }}
           SECRET_WA_VERIFY_TOKEN:   ${{ secrets.WA_VERIFY_TOKEN }}
           SECRET_WA_META_TOKEN:     ${{ secrets.WA_META_TOKEN }}
           SECRET_WA_PHONE_ID:       ${{ secrets.WA_PHONE_ID }}

@@ -79,9 +79,16 @@ try {
 [$tWhere, $tParams] = tenancy_where();
 
 // ─── Allowed enums (kept in sync with the JS step-card builder) ───────
-$ALLOWED_TRIGGERS = ['contact_created', 'form_submitted', 'tag_added', 'deal_stage_changed', 'manual'];
+$ALLOWED_TRIGGERS = ['contact_created', 'form_submitted', 'tag_added', 'deal_stage_changed', 'manual', 'conversation_inbound'];
 $ALLOWED_STATUSES = ['active', 'paused', 'draft'];
-$ALLOWED_STEP_TYPES = ['wait', 'send_email', 'add_tag', 'remove_tag', 'create_task'];
+// Auto-reply types (PR 3): draft_ai_reply, route_by_confidence, auto_send_if_eligible,
+// push_for_approval, holding_reply_if_no_approval. Allowed in steps_json so the
+// visual builder can save the auto-reply workflow without rejecting unknown types.
+$ALLOWED_STEP_TYPES = [
+    'wait', 'send_email', 'add_tag', 'remove_tag', 'create_task',
+    'draft_ai_reply', 'route_by_confidence', 'auto_send_if_eligible',
+    'push_for_approval', 'holding_reply_if_no_approval',
+];
 
 /* ─── Vocabulary translation (visual builder → engine) ────────────────────
  *
@@ -320,6 +327,45 @@ function workflows_normalize_steps($raw, array $allowedTypes): string {
                 break;
             case 'create_task':
                 $cfg = ['title' => substr((string)($cfg['title'] ?? ''), 0, 200)];
+                break;
+            // Auto-reply step types (PR 3). Config is engine-controlled — sanitize the
+            // few user-tunable knobs and drop everything else to prevent accidental
+            // injection of e.g. raw URLs or tokens via the visual builder.
+            case 'draft_ai_reply':
+                $cfg = []; // no user config — drafter pulls everything from ctx + KB
+                break;
+            case 'route_by_confidence':
+                $threshold = isset($cfg['threshold']) ? (float)$cfg['threshold'] : null;
+                if ($threshold !== null) {
+                    if ($threshold < 0) $threshold = 0;
+                    if ($threshold > 1) $threshold = 1;
+                    $cfg = ['threshold' => $threshold];
+                } else {
+                    $cfg = [];
+                }
+                break;
+            case 'auto_send_if_eligible':
+                $cfg = []; // no user config
+                break;
+            case 'push_for_approval':
+                // Optional channels list — accept whatsapp / crm only. Drop anything else.
+                $allowedCh = ['whatsapp', 'crm'];
+                $channels = [];
+                if (isset($cfg['channels']) && is_array($cfg['channels'])) {
+                    foreach ($cfg['channels'] as $c) {
+                        $c = strtolower(trim((string)$c));
+                        if (in_array($c, $allowedCh, true) && !in_array($c, $channels, true)) {
+                            $channels[] = $c;
+                        }
+                    }
+                }
+                $cfg = $channels ? ['channels' => $channels] : [];
+                break;
+            case 'holding_reply_if_no_approval':
+                $wait = isset($cfg['wait_minutes']) ? (int)$cfg['wait_minutes'] : 4;
+                if ($wait < 1) $wait = 1;
+                if ($wait > 60) $wait = 60;
+                $cfg = ['wait_minutes' => $wait];
                 break;
         }
 

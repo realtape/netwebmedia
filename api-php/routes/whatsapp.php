@@ -312,6 +312,43 @@ function wa_generate_reply(string $phone, string $userMessage, string $provider)
   wa_save_turn($phone, 'user', $userMessage, $provider);
   wa_sync_crm($phone, 'user', $userMessage);
 
+  /* ─── PR 3: Mirror inbound into webmed6_crm + fire conversation_inbound ───
+   *
+   * The wa_sync_crm() above writes to webmed6_nwm (api-php DB). The CRM-side
+   * tables for the auto-reply system live in webmed6_crm and need their own
+   * row history. wa_mirror_to_crm() opens a SECOND PDO scoped to webmed6_crm
+   * and performs an idempotent upsert + INSERT. NEVER joins across DBs.
+   *
+   * Trigger fires only when the mirror succeeded — partial state would leave
+   * the workflow engine pointing at a missing conversation_id. All failures
+   * are swallowed so the WhatsApp reply path stays alive. */
+  $mirror = wa_mirror_to_crm($phone, $userMessage, 'inbound');
+  if ($mirror !== null) {
+    try {
+      require_once __DIR__ . '/../../crm-vanilla/api/lib/wf_crm.php';
+      // Reuse the PDO that the mirror returned — do NOT open a third connection.
+      // The wf_crm engine internally calls getDB() which returns a static singleton
+      // bound to webmed6_crm; that's the same DB we just wrote into, so the engine
+      // will see the conversation/message rows we just inserted. (Note: wf_crm uses
+      // its own getDB() PDO — different connection, same DB — and that's fine.)
+      wf_crm_trigger(
+        'conversation_inbound',
+        ['channel' => 'whatsapp'],
+        [
+          'conversation_id' => $mirror['conv_id'],
+          'message_id'      => $mirror['message_id'],
+          'channel'         => 'whatsapp',
+          'contact_id'      => $mirror['contact_id'],
+          'inbound_body'    => $userMessage,
+        ],
+        $mirror['user_id'],
+        $mirror['org_id']
+      );
+    } catch (\Throwable $e) {
+      error_log('WA conversation_inbound trigger failed: ' . $e->getMessage());
+    }
+  }
+
   // Load recent history (last 20 turns = 10 exchanges)
   $history = wa_load_history($phone, 20);
 
@@ -478,6 +515,160 @@ function wa_sync_crm(string $phone, string $role, string $message): void {
   } catch (Throwable $e) {
     // Non-blocking — WhatsApp reply is not held hostage by CRM sync failures
     error_log('wa_sync_crm error: ' . $e->getMessage());
+  }
+}
+
+/**
+ * PR 3: Cross-DB mirror — webmed6_nwm → webmed6_crm.
+ *
+ * Opens a SECOND PDO connection scoped to webmed6_crm (api-php's db() PDO is
+ * scoped to webmed6_nwm and we MUST NOT JOIN across DBs — CLAUDE.md rule).
+ *
+ * Behavior:
+ *   1. Find or create a contacts row in webmed6_crm for this phone.
+ *   2. Find or create a conversations row (channel='whatsapp') for that contact.
+ *   3. INSERT a messages row tied to that conversation.
+ *
+ * Tenancy: all rows belong to org 1 (Carlos's master org) because we don't
+ * yet route inbound WA by tenant. TODO(multi-tenant-WA): once Twilio/Meta
+ * subaccount-per-tenant lands, look up org_id from the inbound phone's
+ * destination number, not just the source phone.
+ *
+ * Returns ['conv_id', 'message_id', 'contact_id', 'org_id', 'user_id'] on success,
+ * or null on any failure. The WA webhook MUST NOT propagate exceptions — Meta
+ * retries 5xx responses and would generate duplicate inbound rows.
+ *
+ * @return array{conv_id:int,message_id:int,contact_id:int,org_id:int,user_id:?int}|null
+ */
+function wa_mirror_to_crm(string $phone, string $body, string $direction = 'inbound'): ?array {
+  static $crmPdo = null;
+
+  // Phase 1 multi-tenant decision: WA inbound assigned to master org (1).
+  $ORG_ID = 1;
+  $USER_ID = null;
+
+  $phone = trim($phone);
+  $body  = (string)$body;
+  if ($phone === '' || $body === '') return null;
+  $sender = ($direction === 'inbound') ? 'them' : 'me';
+
+  try {
+    if ($crmPdo === null) {
+      // Read CRM creds. The deploy injects DB_PASS into both api-php and crm-vanilla
+      // configs (same MySQL user pwd in cPanel). For the CRM connection we explicitly
+      // use the webmed6_crm user/db. If the constant isn't defined yet (pre-deploy /
+      // missing config.local.php), bail rather than guessing.
+      $cfg = config();
+      $dbPass = $cfg['db_pass'] ?? '';
+      if ($dbPass === '') {
+        error_log('wa_mirror_to_crm: db_pass unset — cannot open webmed6_crm connection');
+        return null;
+      }
+      $dsn = 'mysql:host=' . ($cfg['db_host'] ?? 'localhost') . ';dbname=webmed6_crm;charset=utf8mb4';
+      $crmPdo = new PDO($dsn, 'webmed6_crm', $dbPass, [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES   => false,
+        PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
+      ]);
+    }
+
+    // 1. Find or create contact (webmed6_crm.contacts).
+    $sel = $crmPdo->prepare("SELECT id FROM contacts WHERE phone = ? LIMIT 1");
+    $sel->execute([$phone]);
+    $row = $sel->fetch();
+    if ($row) {
+      $contactId = (int)$row['id'];
+    } else {
+      $ins = $crmPdo->prepare(
+        "INSERT INTO contacts (name, phone, source, status, created_at)
+         VALUES (?, ?, 'whatsapp', 'lead', NOW())"
+      );
+      $ins->execute(["WhatsApp: $phone", $phone]);
+      $contactId = (int)$crmPdo->lastInsertId();
+    }
+
+    // 2. Find or create conversation (webmed6_crm.conversations).
+    $sel2 = $crmPdo->prepare(
+      "SELECT id FROM conversations WHERE contact_id = ? AND channel = 'whatsapp' LIMIT 1"
+    );
+    $sel2->execute([$contactId]);
+    $convRow = $sel2->fetch();
+    if ($convRow) {
+      $convId = (int)$convRow['id'];
+    } else {
+      // Insert with organization_id when the column exists (post-tenancy migration).
+      // Tolerant of pre-tenancy schema — fall back to the legacy column set.
+      try {
+        $ins = $crmPdo->prepare(
+          "INSERT INTO conversations (organization_id, contact_id, channel, subject, unread, updated_at)
+           VALUES (?, ?, 'whatsapp', ?, 1, NOW())"
+        );
+        $ins->execute([$ORG_ID, $contactId, "WhatsApp – $phone"]);
+      } catch (Throwable $e) {
+        $ins = $crmPdo->prepare(
+          "INSERT INTO conversations (contact_id, channel, subject, unread, updated_at)
+           VALUES (?, 'whatsapp', ?, 1, NOW())"
+        );
+        $ins->execute([$contactId, "WhatsApp – $phone"]);
+      }
+      $convId = (int)$crmPdo->lastInsertId();
+    }
+
+    // 3. Insert the message. Idempotency guard against double-fire (5s dedup).
+    $dup = $crmPdo->prepare(
+      "SELECT id FROM messages
+        WHERE conversation_id = ? AND body = ? AND sender = ?
+          AND sent_at >= DATE_SUB(NOW(), INTERVAL 5 SECOND)
+        LIMIT 1"
+    );
+    $dup->execute([$convId, $body, $sender]);
+    $existing = $dup->fetch();
+    if ($existing) {
+      $msgId = (int)$existing['id'];
+    } else {
+      try {
+        $insMsg = $crmPdo->prepare(
+          "INSERT INTO messages (organization_id, conversation_id, sender, body, sent_at)
+           VALUES (?, ?, ?, ?, NOW())"
+        );
+        $insMsg->execute([$ORG_ID, $convId, $sender, $body]);
+      } catch (Throwable $e) {
+        // Fallback for pre-tenancy schema without organization_id.
+        $insMsg = $crmPdo->prepare(
+          "INSERT INTO messages (conversation_id, sender, body, sent_at)
+           VALUES (?, ?, ?, NOW())"
+        );
+        $insMsg->execute([$convId, $sender, $body]);
+      }
+      $msgId = (int)$crmPdo->lastInsertId();
+    }
+
+    // Bump conversation updated_at + unread on inbound. Tolerant of column shape.
+    if ($sender === 'them') {
+      try {
+        $crmPdo->prepare(
+          "UPDATE conversations SET updated_at = NOW(), unread = unread + 1 WHERE id = ?"
+        )->execute([$convId]);
+      } catch (Throwable $_) {
+        $crmPdo->prepare("UPDATE conversations SET updated_at = NOW() WHERE id = ?")
+               ->execute([$convId]);
+      }
+    } else {
+      $crmPdo->prepare("UPDATE conversations SET updated_at = NOW() WHERE id = ?")
+             ->execute([$convId]);
+    }
+
+    return [
+      'conv_id'    => $convId,
+      'message_id' => $msgId,
+      'contact_id' => $contactId,
+      'org_id'     => $ORG_ID,
+      'user_id'    => $USER_ID,
+    ];
+  } catch (Throwable $e) {
+    error_log('wa_mirror_to_crm error: ' . $e->getMessage());
+    return null;
   }
 }
 

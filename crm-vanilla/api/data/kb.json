@@ -1,0 +1,250 @@
+{
+  "$comment": "NetWebMedia auto-reply knowledge base. Runtime artifact — read by crm-vanilla/api/lib/kb.php (PR 2). All facts verified against BRAND.md, pricing.html, services.html, about.html as of 2026-05-01. Source draft + review notes: plans/auto-reply-kb-draft-v1.json.",
+
+  "version": 1,
+  "updated_at": "2026-05-01T00:00:00Z",
+
+  "voice": {
+    "tone": "direct, executive, specific. No fluff. Lead with outcome, end with motion.",
+    "must_avoid": [
+      "revolutionary", "disruptive", "game-changing", "amazing",
+      "synergy", "leverage as a verb", "circle back", "seamless workflow",
+      "we try to", "hopefully", "if you're interested", "feel free to",
+      "we help businesses grow"
+    ],
+    "signature_en": "— Carlos",
+    "signature_es": "— Carlos",
+    "max_words": 120,
+    "rules_do": [
+      "Lead with the outcome, not the feature",
+      "Name things exactly — specific tools, numbers, timeframes",
+      "Use second person, active voice, present tense ('You get…')",
+      "End with motion — every reply has a next step (book, reply with X, click link)"
+    ],
+    "rules_dont": [
+      "Use vague phrases or hedging language",
+      "Use exclamation points as decoration — earn them with the claim",
+      "Reference ChatGPT as our internal tool — we use Claude. ChatGPT is an AEO target."
+    ],
+    "spanish_adjustments": {
+      "formality": "Use 'tú' for digital/social. Use 'usted' for formal proposals.",
+      "energy": "Slightly warmer than English — LATAM business culture rewards relationship-building.",
+      "currency_format": "Show USD prominently with optional local context: '$249 USD (~$4,100 MXN/mes)'",
+      "do_not_translate": ["NetWebMedia", "Fractional CMO", "CRM", "AI", "ChatGPT", "Perplexity", "AEO"]
+    }
+  },
+
+  "company_facts": {
+    "name": "NetWebMedia",
+    "category": "AI-Native Fractional CMO",
+    "primary_tagline": "The AI-Native Fractional CMO",
+    "audience": "$1M–$20M SMBs across the US and LATAM",
+    "founder": "Carlos Martinez",
+    "founder_role": "CEO / Creative Director",
+    "founder_direct_channel": "WhatsApp during America/Santiago business hours",
+    "languages_supported": ["English", "Spanish"],
+    "contact_email": "hello@netwebmedia.com",
+    "careers_email": "careers@netwebmedia.com",
+    "website": "https://netwebmedia.com",
+    "what_we_do": [
+      "Fractional CMO strategy and 90-day roadmap",
+      "AI automations and AI agent development",
+      "CRM implementation and management (our own 46-module platform)",
+      "Paid advertising (Google, Meta, ad platforms)",
+      "Answer-Engine Optimization (AEO) — getting cited by ChatGPT, Perplexity, Google AI Overviews, Claude",
+      "AI SEO and content production",
+      "Social media (Instagram, YouTube, Facebook, TikTok, WhatsApp Business, email broadcasts)",
+      "Email marketing (sequences + broadcasts)",
+      "Video production (programmatic + manual)",
+      "Conversion-optimized website builds (14-day async build cycle)"
+    ],
+    "what_we_are_not": [
+      "Not a SaaS-only tool — we run the campaigns, not just hand you software",
+      "Not a generalist agency — we name our stack and our outcomes",
+      "Not enterprise-only — pricing is built for $1M–$20M businesses, not Fortune 500"
+    ],
+    "stack": ["Claude (Anthropic) — internal thinking engine", "GA4", "Stripe", "Mercado Pago", "our own CRM (crm-vanilla)", "Remotion", "Resend", "Twilio", "Meta Cloud API"],
+    "channels_excluded": ["LinkedIn — not in NetWebMedia's mix", "X / Twitter — dropped 2026-05-01"]
+  },
+
+  "pricing_facts": {
+    "as_of": "2026-04-21 reprice",
+    "tiers": [
+      { "id": "aeo_starter", "name": "AEO Starter", "monthly_usd": 249, "annual_monthly_usd": 212, "annual_total_usd": 2540, "annual_savings_usd": 448, "setup_fee_monthly": 0, "setup_fee_annual": 0, "ad_spend_model": null, "gate": null },
+      { "id": "growth", "name": "Growth", "monthly_usd": 999, "annual_monthly_usd": 849, "annual_total_usd": 10190, "setup_fee_monthly": 499, "setup_fee_annual": 0, "ad_spend_model": "at cost + 12% mgmt fee, $300/mo min", "gate": null, "summary": "Most common tier" },
+      { "id": "scale", "name": "Scale", "monthly_usd": 2499, "annual_monthly_usd": 2124, "annual_total_usd": 25490, "setup_fee_monthly": 999, "setup_fee_annual": 0, "ad_spend_model": "at cost + 12% mgmt fee, $300/mo min", "gate": "Requires 20-min fit call before onboarding" },
+      { "id": "enterprise", "name": "Enterprise", "monthly_usd": 5999, "annual_monthly_usd": 5099, "setup_fee_monthly": "custom", "setup_fee_annual": 0, "ad_spend_model": "at cost + 10% mgmt fee, $500/mo min", "gate": "Requires 45-min strategy call before onboarding" }
+    ],
+    "free_crm": "Free forever CRM tier — register at /register.html?plan=free. No credit card. Limited modules.",
+    "audit_offer": { "name": "AEO Migration Audit", "price_usd": 997, "credit": "100% applies toward first 3 months on any retainer" },
+    "trial": "14-day free trial on all CMO retainers, no credit card required",
+    "minimum_commitment": "90-day minimum on monthlies, month-to-month thereafter",
+    "cancellation": "Email hello@netwebmedia.com. No fees. No penalties. Client keeps every asset built.",
+    "annual_billing": "15% discount on annual prepay. Setup fees waived.",
+    "ad_spend_note": "Ad spend is billed at cost + management fee (separate from retainer)"
+  },
+
+  "value_props": [
+    { "pillar": "AI Visibility (AEO)", "summary": "Get cited by ChatGPT, Perplexity, Google AI Overviews. Typical first citation: 45–90 days (60 days observed in hospitality, law, multi-location restaurants)." },
+    { "pillar": "Fractional CMO Leadership", "summary": "Senior marketing mind on your strategy without the $180K/yr salary commitment." },
+    { "pillar": "Single-Vendor Simplicity", "summary": "One retainer replaces five vendors, four invoices, and three monthly performance calls." }
+  ],
+
+  "niches": [
+    "tourism (hospitality)", "restaurants", "health (healthcare)", "beauty",
+    "smb (general)", "law_firms (legal services)", "real_estate", "local_specialist",
+    "automotive", "education", "events_weddings", "financial_services",
+    "home_services", "wine_agriculture"
+  ],
+
+  "topics": [
+    {
+      "id": "pricing_overview",
+      "label": "Pricing — full tier overview",
+      "patterns": ["how much", "what's the cost", "what is the cost", "pricing", "price", "rates", "cuánto cuesta", "cuanto cuesta", "precio", "tarifas"],
+      "answer_en": "Three core retainer tiers: AEO Starter $249/mo, Growth $999/mo (most common), Scale $2,499/mo. Each includes our full 46-module CRM, AEO content, and bilingual delivery. 14-day free trial, 90-day minimum, then month-to-month. Setup: Starter $0, Growth $499, Scale $999. Full breakdown: https://netwebmedia.com/pricing.html — Carlos",
+      "answer_es": "Tres niveles de retainer: AEO Starter $249/mes USD, Growth $999/mes USD (el más común), Scale $2,499/mes USD. Cada uno incluye el CRM completo (46 módulos), contenido AEO y entrega bilingüe. Prueba gratis 14 días, mínimo 90 días, luego mes a mes. Setup: Starter $0, Growth $499, Scale $999. Detalle: https://netwebmedia.com/pricing.html — Carlos",
+      "auto_send_eligible": true,
+      "links": ["https://netwebmedia.com/pricing.html"]
+    },
+    {
+      "id": "trial_terms",
+      "label": "Free trial mechanics",
+      "patterns": ["trial", "free trial", "test it", "try first", "demo", "prueba gratis", "probar"],
+      "answer_en": "14 days free on every retainer. No credit card to start. After day 14 the setup fee is charged and the monthly begins. 90-day minimum, then month-to-month. Cancel anytime after day 90 by emailing hello@netwebmedia.com — no fees, you keep every asset we built. — Carlos",
+      "answer_es": "14 días gratis en cualquier plan. No pedimos tarjeta para iniciar. Día 14 se cobra el setup y comienza el mensual. Mínimo 90 días, luego mes a mes. Cancela cuando quieras después del día 90 enviando un correo a hello@netwebmedia.com — sin penalidades, te quedas con todo lo construido. — Carlos",
+      "auto_send_eligible": true,
+      "links": ["https://netwebmedia.com/pricing.html"]
+    },
+    {
+      "id": "cancellation_terms",
+      "label": "How to cancel",
+      "patterns": ["how do I cancel", "cancel my plan", "cancellation fee", "cómo cancelo", "como cancelo", "cancelar"],
+      "answer_en": "Email hello@netwebmedia.com — that's it. No fees, no penalties, no notice period. You keep every asset we built (sites, content, automations, your CRM data). 90-day minimum applies if you're inside your first 90 days; after that you're month-to-month. — Carlos",
+      "answer_es": "Envía un correo a hello@netwebmedia.com — eso es todo. Sin costos, sin penalidades, sin período de aviso. Te quedas con todo lo construido (sitios, contenido, automatizaciones, datos del CRM). Aplica el mínimo de 90 días si estás en los primeros 90; después eres mes a mes. — Carlos",
+      "auto_send_eligible": true,
+      "links": []
+    },
+    {
+      "id": "what_is_nwm",
+      "label": "What does NetWebMedia do",
+      "patterns": ["what is netwebmedia", "what do you do", "what does your company do", "qué hacen", "que hacen", "qué es netwebmedia"],
+      "answer_en": "NetWebMedia is an AI-native fractional CMO for $1M–$20M SMBs across the US and LATAM. Strategy, software, and full execution — paid ads, AEO content, CRM, automations — under one retainer starting at $249/mo. Bilingual EN/ES. Want to see if we're a fit? https://netwebmedia.com/contact.html — Carlos",
+      "answer_es": "NetWebMedia es un CMO fraccional nativo en IA para SMBs de $1M–$20M en EE.UU. y LATAM. Estrategia, software y ejecución completa — pauta, contenido AEO, CRM, automatizaciones — en un solo retainer desde $249 USD/mes. Bilingüe EN/ES. ¿Hablamos? https://netwebmedia.com/contact.html — Carlos",
+      "auto_send_eligible": true,
+      "links": ["https://netwebmedia.com/contact.html"]
+    },
+    {
+      "id": "audit_offer",
+      "label": "AEO Migration Audit",
+      "patterns": ["aeo audit", "free audit", "$997 audit", "migration audit", "auditoría", "auditoria"],
+      "answer_en": "$997 AEO Migration Audit — full assessment of your AEO posture (where you're cited, where competitors out-rank you, what schema you're missing). 100% credit applies to your first 3 months on any retainer if you sign. Book it: https://netwebmedia.com/contact.html?service=aeo-audit&intent=audit — Carlos",
+      "answer_es": "Auditoría AEO de Migración por $997 USD — evaluación completa de tu posición AEO (dónde te citan, dónde te ganan competidores, qué schema te falta). 100% del crédito aplica a tus primeros 3 meses en cualquier retainer si firmas. Agenda: https://netwebmedia.com/contact.html?service=aeo-audit&intent=audit — Carlos",
+      "auto_send_eligible": true,
+      "links": ["https://netwebmedia.com/contact.html?service=aeo-audit&intent=audit"]
+    },
+    {
+      "id": "ack_received",
+      "label": "Acknowledge received content",
+      "patterns": ["sending", "I'll send", "attached", "will send", "envío", "te envío", "te mando"],
+      "answer_en": "Got it — I'll review and confirm receipt within the hour. — Carlos",
+      "answer_es": "Recibido — reviso y confirmo en la próxima hora. — Carlos",
+      "auto_send_eligible": true,
+      "links": []
+    },
+    {
+      "id": "ack_thanks",
+      "label": "Acknowledge thanks",
+      "patterns": ["thanks", "thank you", "appreciated", "gracias", "muchas gracias"],
+      "answer_en": "Anytime. — Carlos",
+      "answer_es": "Cuando quieras. — Carlos",
+      "auto_send_eligible": true,
+      "links": []
+    },
+    {
+      "id": "office_hours",
+      "label": "Availability and response times",
+      "patterns": ["when are you available", "office hours", "are you open", "horario", "cuándo atienden", "cuando atienden"],
+      "answer_en": "I'm reachable WhatsApp + email during America/Santiago business hours, with response times under 5 minutes during the day. After hours you'll get a confirmation immediately and a full reply by next morning. — Carlos",
+      "answer_es": "Estoy disponible WhatsApp + email en horario America/Santiago, con tiempos de respuesta bajo 5 minutos en el día. Después de horas recibes confirmación al instante y respuesta completa la mañana siguiente. — Carlos",
+      "auto_send_eligible": true,
+      "links": []
+    },
+    {
+      "id": "languages",
+      "label": "Bilingual support",
+      "patterns": ["do you speak spanish", "english only", "bilingual", "hablan español", "hablan espanol", "en español"],
+      "answer_en": "Bilingual by design — every service, deliverable, and client touchpoint runs in both English and Spanish. We serve US brands targeting bilingual consumers and LATAM businesses growing into the US. — Carlos",
+      "answer_es": "Bilingüe por diseño — todo servicio, entregable y comunicación corre en inglés y español. Atendemos marcas en EE.UU. con audiencias bilingües y empresas LATAM que crecen en el mercado estadounidense. — Carlos",
+      "auto_send_eligible": true,
+      "links": []
+    },
+    {
+      "id": "scheduling",
+      "label": "Book a call",
+      "patterns": ["book a call", "schedule a call", "set up a meeting", "agendar", "agendar llamada", "calendario", "schedule"],
+      "answer_en": "Easiest path: https://netwebmedia.com/contact.html — picks a slot in my calendar in your timezone. If you want a Scale fit call (20 min) or Enterprise strategy call (45 min) specifically, mention the tier in the form. — Carlos",
+      "answer_es": "Más fácil: https://netwebmedia.com/contact.html — elige un horario en mi calendario en tu zona horaria. Si buscas un fit call Scale (20 min) o llamada estratégica Enterprise (45 min), menciónalo en el formulario. — Carlos",
+      "auto_send_eligible": true,
+      "links": ["https://netwebmedia.com/contact.html"]
+    },
+    {
+      "id": "aeo_timeline",
+      "label": "How long until AI citations appear",
+      "patterns": ["how long until", "when will I see results", "how fast", "results timeline", "cuánto tarda", "cuanto tarda"],
+      "answer_en": "Typical first citation in ChatGPT, Perplexity, or Google AI Overviews lands in 45–90 days from kickoff. Some verticals — boutique hospitality, mid-size law, multi-location restaurants — hit first citation around day 60. We track citation appearances weekly and report them in your dashboard. — Carlos",
+      "answer_es": "Primera citación típica en ChatGPT, Perplexity o Google AI Overviews aterriza entre 45–90 días del kickoff. Verticales como hospitality boutique, derecho mediano y restaurantes multilocación llegan al día 60. Monitoreamos citaciones semanalmente y las reportamos en tu dashboard. — Carlos",
+      "auto_send_eligible": true,
+      "links": []
+    }
+  ],
+
+  "human_required_topics": [
+    { "id": "soc2_certification", "reason": "We do not currently make SOC 2 claims. Always escalate." },
+    { "id": "hipaa_baa", "reason": "BAA availability depends on the specific deployment. Always escalate to Carlos." },
+    { "id": "gdpr_specifics", "reason": "Beyond standard 'we honor unsubscribe + delete-on-request', any specifics need Carlos." },
+    { "id": "data_residency", "reason": "Server location, data export, retention policy — Carlos approves." },
+    { "id": "uptime_sla", "reason": "No published numerical SLA. Don't invent one." },
+    { "id": "refund_request", "reason": "Money flows always require human approval." },
+    { "id": "billing_dispute", "reason": "Money flows always require human approval." },
+    { "id": "complaint", "reason": "Service quality complaints require Carlos's eyes." },
+    { "id": "custom_quote", "reason": "Anything outside the four published tiers needs scoping." },
+    { "id": "contract_modification", "reason": "Any change to MSA, retainer terms, or scope requires Carlos." },
+    { "id": "competitor_comparison", "reason": "Direct comparisons to HubSpot, GHL, Klaviyo, Mailchimp, etc. always go to Carlos." },
+    { "id": "discount_request", "reason": "Pricing discretion is Carlos's only." },
+    { "id": "investor_inquiry", "reason": "Any investor / fundraising / equity question is Carlos." },
+    { "id": "press_inquiry", "reason": "All media inquiries are Carlos." },
+    { "id": "white_label_partnership", "reason": "Reseller deals require a written brief and Carlos's approval per BRAND.md §17." },
+    { "id": "legal_inquiry", "reason": "Anything mentioning legal, lawyer, terms, liability routes to Carlos." },
+    { "id": "security_questionnaire", "reason": "Vendor security forms are Carlos." }
+  ],
+
+  "auto_send_blocked_contact_tags": ["enterprise", "at_risk", "vip", "press", "investor", "partner", "legal_review_pending", "paused"],
+
+  "default_holding_reply": {
+    "en": "Got your message — Carlos will respond within the hour.",
+    "es": "Recibido — Carlos responde en la próxima hora."
+  },
+
+  "drafter_safety_rules": [
+    "If the inbound message references any item in human_required_topics, set auto_send_eligible=false regardless of confidence.",
+    "If the contact has any tag in auto_send_blocked_contact_tags, set auto_send_eligible=false.",
+    "If the message contains a price not in the pricing_facts.tiers array, set auto_send_eligible=false (the contact may have a custom quote).",
+    "If the message is in a language other than English or Spanish, set auto_send_eligible=false.",
+    "If the message references a competitor by name, set auto_send_eligible=false.",
+    "If the message asks 'are you a real person' or similar, set auto_send_eligible=false.",
+    "Never invent a fact not present in this KB. If the right answer requires a fact not here, set auto_send_eligible=false and flag topic_id='kb_gap'."
+  ],
+
+  "channel_cta_links": {
+    "book_general_call": "https://netwebmedia.com/contact.html",
+    "book_scale_fit_call": "https://netwebmedia.com/contact.html?plan=cmo-scale&intent=sales",
+    "book_enterprise_strategy_call": "https://netwebmedia.com/contact.html?plan=cmo-enterprise&intent=sales",
+    "book_audit": "https://netwebmedia.com/contact.html?service=aeo-audit&intent=audit",
+    "free_crm_signup": "https://netwebmedia.com/register.html?plan=free",
+    "whatsapp_optin": "https://netwebmedia.com/whatsapp.html",
+    "pricing_page": "https://netwebmedia.com/pricing.html",
+    "services_page": "https://netwebmedia.com/services.html",
+    "faq_page": "https://netwebmedia.com/faq.html"
+  }
+}

@@ -70,6 +70,7 @@ $handlers = [
     'organizations'         => __DIR__ . '/handlers/organizations.php',
     'ai_triage'             => __DIR__ . '/handlers/ai_triage.php',
     'workflows'             => __DIR__ . '/handlers/workflows.php',
+    'ai_draft_reply'        => __DIR__ . '/handlers/ai_draft_reply.php',
     'wa_flush'              => __DIR__ . '/handlers/wa_flush.php',
     'ig_publish'            => __DIR__ . '/handlers/ig_publish.php',
     'cron_workflows'        => __DIR__ . '/handlers/cron_workflows.php',

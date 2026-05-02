@@ -69,6 +69,45 @@ switch ($method) {
 
         $db->prepare('UPDATE conversations SET updated_at = NOW() WHERE id = ?')->execute([$convId]);
 
+        // ─── Auto-reply trigger (PR 3) ───────────────────────────────
+        // Fire `conversation_inbound` workflows ONLY on inbound messages (sender=them).
+        // Wrapped in try/catch with a hard guarantee: inbound persistence already
+        // succeeded above (lastInsertId returned). A trigger failure must NEVER
+        // surface as an HTTP 500 to the caller — silent fallthrough only.
+        if ($sender === 'them') {
+            try {
+                require_once __DIR__ . '/../lib/wf_crm.php';
+
+                // Hydrate the conversation row to enrich the trigger context.
+                // Single SELECT in webmed6_crm — no cross-DB call. Tolerate failure.
+                $convChannel = null; $convContactId = null; $convUserId = null;
+                try {
+                    $cstmt = $db->prepare('SELECT channel, contact_id, user_id FROM conversations WHERE id = ?');
+                    $cstmt->execute([$convId]);
+                    $crow = $cstmt->fetch();
+                    if ($crow) {
+                        $convChannel   = $crow['channel'] ?? null;
+                        $convContactId = isset($crow['contact_id']) ? (int)$crow['contact_id'] : null;
+                        $convUserId    = isset($crow['user_id'])    ? (int)$crow['user_id']    : null;
+                    }
+                } catch (\Throwable $_) { /* user_id column may be missing pre-migrate; ok */ }
+
+                wf_crm_trigger('conversation_inbound', [
+                    'channel' => $convChannel,
+                ], [
+                    'conversation_id' => $convId,
+                    'message_id'      => $msgId,
+                    'channel'         => $convChannel,
+                    'contact_id'      => $convContactId,
+                    'inbound_body'    => $body,
+                ], $convUserId, $convOrgId);
+            } catch (\Throwable $e) {
+                error_log('conversation_inbound trigger failed: ' . $e->getMessage()
+                    . ' (conv=' . $convId . ', msg=' . $msgId . ')');
+                // Persistence already succeeded — silent fallthrough.
+            }
+        }
+
         // Deliver outbound message via Twilio when replying to SMS/WhatsApp
         $twilioSid = null;
         if ($sender === 'me') {

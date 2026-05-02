@@ -717,7 +717,7 @@ function wf_crm_advance(array $run, PDO $db): string {
             }
             break;
 
-        /* ── push_for_approval (PR 3 — STUB; PR 5 wires real WhatsApp send) ── */
+        /* ── push_for_approval (PR 5 — two-phase: notify operator → send on approval) ── */
         case 'push_for_approval':
             try {
                 if (($ctx['route'] ?? 'approval') !== 'approval') {
@@ -729,18 +729,67 @@ function wf_crm_advance(array $run, PDO $db): string {
                     $stepResult = 'push_skipped:no_draft_id';
                     break;
                 }
-                // STUB: PR 5 will dispatch a WhatsApp message to Carlos's operator number.
-                // The CRM polling badge already picks up the row via status='pending_approval'.
-                $db->prepare(
-                    "UPDATE conversation_drafts
-                        SET approval_channel='whatsapp', updated_at=NOW()
-                      WHERE id = ?"
-                )->execute([$draftId]);
-                error_log('[PUSH STUB] would send draft ' . $draftId . ' to operator (PR 5)');
-                $stepResult = 'push_stub:' . $draftId;
+
+                if (empty($ctx['push_notified_at'])) {
+                    // ── Phase 1: send WA notification to operator ──────────────
+                    $operatorPhone = defined('OPERATOR_WHATSAPP_NUMBER')
+                        ? OPERATOR_WHATSAPP_NUMBER
+                        : (getenv('OPERATOR_WHATSAPP_NUMBER') ?: '');
+
+                    $drow   = wf_crm_load_draft_with_conv($db, $draftId);
+                    $draft  = $drow ? (string)$drow['draft_body'] : '(unavailable)';
+                    $convId = $drow ? (int)$drow['conversation_id'] : 0;
+                    $preview  = mb_substr($draft, 0, 280);
+                    $truncated = mb_strlen($draft) > 280;
+
+                    $notifBody = "[Auto-Draft]\nConv #{$convId} · "
+                        . (string)($ctx['channel'] ?? 'unknown') . "\n\n"
+                        . '"' . $preview . '"' . ($truncated ? '…' : '')
+                        . "\n\nReply *Y {$draftId}* to send · *N {$draftId}* to reject.";
+
+                    if ($operatorPhone) {
+                        require_once __DIR__ . '/wa_meta_send.php';
+                        $r = wa_meta_send($operatorPhone, $notifBody);
+                        if (!$r['success']) {
+                            error_log('[wf_crm] push_for_approval notify failed: ' . ($r['error'] ?? '?'));
+                        }
+                    } else {
+                        error_log('[wf_crm] push_for_approval: OPERATOR_WHATSAPP_NUMBER not set draft=' . $draftId);
+                    }
+
+                    $db->prepare(
+                        "UPDATE conversation_drafts SET approval_channel='whatsapp', updated_at=NOW() WHERE id = ?"
+                    )->execute([$draftId]);
+
+                    $waitMinutes = max(1, (int)($config['wait_minutes'] ?? 2));
+                    $ctx['push_notified_at'] = date('Y-m-d H:i:s');
+                    $waitUntil  = date('Y-m-d H:i:s', time() + $waitMinutes * 60);
+                    $advanceIdx = false;
+                    $stepResult = 'push_notified:draft=' . $draftId;
+                } else {
+                    // ── Phase 2: act on approval / rejection / timeout ─────────
+                    $sel = $db->prepare('SELECT status FROM conversation_drafts WHERE id = ? LIMIT 1');
+                    $sel->execute([$draftId]);
+                    $draftStatus = (string)($sel->fetchColumn() ?: 'unknown');
+
+                    if ($draftStatus === 'approved') {
+                        $sent = wf_crm_send_approved_draft($db, $draftId);
+                        $stepResult = $sent ? 'push_phase2_sent' : 'push_phase2_send_failed';
+                    } elseif (in_array($draftStatus, ['sent', 'auto_sent'], true)) {
+                        // messages.php operator handler already sent it.
+                        $stepResult = 'push_phase2_already_sent';
+                    } elseif ($draftStatus === 'rejected') {
+                        $stepResult = 'push_phase2_rejected';
+                    } else {
+                        // Timed out while still pending — holding_reply_if_no_approval takes over.
+                        $stepResult = 'push_phase2_timeout:' . $draftStatus;
+                    }
+                    $advanceIdx = true;
+                }
             } catch (Throwable $e) {
                 error_log('[wf_crm] push_for_approval exception run=' . $runId . ': ' . $e->getMessage());
                 $stepResult = 'push_exception';
+                $advanceIdx = true; // never stall the workflow on error
             }
             break;
 
@@ -1061,4 +1110,73 @@ function wf_crm_audit_merge(?string $existingJson, array $extra): string {
     }
     foreach ($extra as $k => $v) $base[$k] = $v;
     return json_encode($base, JSON_UNESCAPED_UNICODE);
+}
+
+/**
+ * Send an approved draft to the customer, persist the outbound message, and
+ * flip the draft status to 'sent'. Called from push_for_approval Phase 2 and
+ * the messages.php operator handler (first-write-wins race guard is the
+ * status='approved' → 'sent' transition — only one caller wins the UPDATE).
+ * Returns true on successful send, false on failure.
+ */
+function wf_crm_send_approved_draft(PDO $db, int $draftId): bool {
+    $row = wf_crm_load_draft_with_conv($db, $draftId);
+    if (!$row) return false;
+
+    $channel = (string)$row['channel'];
+    $body    = (string)$row['draft_body'];
+    $convId  = (int)$row['conversation_id'];
+    $convOrg = isset($row['conv_org_id']) && $row['conv_org_id'] !== null ? (int)$row['conv_org_id'] : null;
+
+    $sendOk = false;
+    $sendErr = null;
+
+    if ($channel === 'email') {
+        require_once __DIR__ . '/email_sender.php';
+        $to = $row['contact_email'] ?? null;
+        if ($to) {
+            $res = mailSend([
+                'to'      => $to,
+                'subject' => 'Reply from NetWebMedia',
+                'html'    => nl2br(htmlspecialchars($body)),
+            ]);
+            $sendOk = !empty($res['ok']);
+            if (!$sendOk) $sendErr = $res['error'] ?? 'mail_send_failed';
+        } else {
+            $sendErr = 'no_recipient_email';
+        }
+    } elseif ($channel === 'sms' || $channel === 'whatsapp') {
+        require_once __DIR__ . '/twilio_client.php';
+        $phone = $row['contact_phone'] ?? null;
+        if ($phone) {
+            $sid    = twilio_send($phone, $body, $channel);
+            $sendOk = $sid !== false;
+            if (!$sendOk) $sendErr = 'twilio_send_failed';
+        } else {
+            $sendErr = 'no_recipient_phone';
+        }
+    } else {
+        $sendErr = 'channel_unsupported:' . $channel;
+    }
+
+    if (!$sendOk) {
+        error_log('[wf_crm] send_approved_draft failed draft=' . $draftId . ' err=' . $sendErr);
+        return false;
+    }
+
+    if ($convOrg !== null) {
+        $db->prepare(
+            "INSERT INTO messages (organization_id, conversation_id, sender, body, sent_at) VALUES (?, ?, 'me', ?, NOW())"
+        )->execute([$convOrg, $convId, $body]);
+    } else {
+        $db->prepare(
+            "INSERT INTO messages (conversation_id, sender, body, sent_at) VALUES (?, 'me', ?, NOW())"
+        )->execute([$convId, $body]);
+    }
+    $db->prepare("UPDATE conversations SET updated_at = NOW() WHERE id = ?")->execute([$convId]);
+    $db->prepare(
+        "UPDATE conversation_drafts SET status='sent', sent_at=NOW(), updated_at=NOW() WHERE id = ?"
+    )->execute([$draftId]);
+
+    return true;
 }

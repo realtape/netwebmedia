@@ -69,12 +69,59 @@ switch ($method) {
 
         $db->prepare('UPDATE conversations SET updated_at = NOW() WHERE id = ?')->execute([$convId]);
 
+        // ─── PR 5: Operator phone discriminator ──────────────────────────
+        // Inbound messages whose conversation phone matches OPERATOR_WHATSAPP_NUMBER
+        // are approval/rejection commands from Carlos, not customer messages.
+        // Parse them, act on the referenced draft, then skip the auto-reply pipeline.
+        $isOperatorMessage = false;
+        {
+            $opPhone = defined('OPERATOR_WHATSAPP_NUMBER')
+                ? OPERATOR_WHATSAPP_NUMBER
+                : (getenv('OPERATOR_WHATSAPP_NUMBER') ?: '');
+            if ($sender === 'them' && $opPhone) {
+                try {
+                    $opRow = $db->prepare('SELECT phone FROM conversations WHERE id = ? LIMIT 1');
+                    $opRow->execute([$convId]);
+                    $convPhone = (string)($opRow->fetchColumn() ?: '');
+                    $convNorm  = preg_replace('/[^\d]/', '', $convPhone);
+                    $opNorm    = preg_replace('/[^\d]/', '', $opPhone);
+                    if ($convNorm !== '' && $convNorm === $opNorm) {
+                        $isOperatorMessage = true;
+                        // Commands: "Y 42" / "yes 42" / "approve 42"  →  approve
+                        //           "N 42" / "no 42"  / "reject 42"   →  reject
+                        if (preg_match('/^(y|yes|approve|send)\s+#?(\d+)/i', trim($body), $m)) {
+                            $refId = (int)$m[2];
+                            $upd = $db->prepare(
+                                "UPDATE conversation_drafts
+                                    SET status='approved', approved_at=NOW(),
+                                        approval_channel='whatsapp', updated_at=NOW()
+                                  WHERE id = ? AND status = 'pending_approval'"
+                            );
+                            $upd->execute([$refId]);
+                            if ($upd->rowCount() > 0) {
+                                // Won the first-write-wins race — send immediately.
+                                require_once __DIR__ . '/../lib/wf_crm.php';
+                                wf_crm_send_approved_draft($db, $refId);
+                            }
+                        } elseif (preg_match('/^(n|no|reject|skip)\s+#?(\d+)/i', trim($body), $m)) {
+                            $refId = (int)$m[2];
+                            $db->prepare(
+                                "UPDATE conversation_drafts
+                                    SET status='rejected', updated_at=NOW()
+                                  WHERE id = ? AND status = 'pending_approval'"
+                            )->execute([$refId]);
+                        }
+                    }
+                } catch (\Throwable $_) { /* never block message storage on operator parse error */ }
+            }
+        }
+
         // ─── Auto-reply trigger (PR 3) ───────────────────────────────
-        // Fire `conversation_inbound` workflows ONLY on inbound messages (sender=them).
-        // Wrapped in try/catch with a hard guarantee: inbound persistence already
-        // succeeded above (lastInsertId returned). A trigger failure must NEVER
-        // surface as an HTTP 500 to the caller — silent fallthrough only.
-        if ($sender === 'them') {
+        // Fire `conversation_inbound` workflows ONLY on inbound customer messages.
+        // Operator approval commands (above) are excluded via $isOperatorMessage.
+        // Wrapped in try/catch: inbound persistence already succeeded above.
+        // A trigger failure must NEVER surface as an HTTP 500 — silent fallthrough.
+        if ($sender === 'them' && !$isOperatorMessage) {
             try {
                 require_once __DIR__ . '/../lib/wf_crm.php';
 

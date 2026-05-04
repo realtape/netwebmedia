@@ -69,13 +69,31 @@ These constraints are durable and override defaults. Violating any of them creat
 
 **Key facts:** No build step for the public site — all HTML/CSS/JS is deployed flat. No automated tests or linter — smoke tests run post-deploy in GitHub Actions.
 
+## Before Your First Commit — Checklist
+
+Run through this list before pushing any non-trivial change. Each item maps to a known production landmine:
+
+- [ ] **Editing an industry page?** Confirm it's not auto-generated. If it is, edit `build_industry_pages.py` instead — see [Don't Edit These](#dont-edit-these--auto-generated-files).
+- [ ] **Editing CSS/JS?** Confirm you're touching `css/styles.css` and `js/main.js` (canonical), not root `styles.css` / `script.js`.
+- [ ] **Editing copy on a page with `data-en`/`data-es`?** Update BOTH attributes — the lang switch will regress otherwise.
+- [ ] **Adding a new top-level directory?** Two updates required in `deploy-site-root.yml` (paths trigger + staging loop). Forgetting #2 = 404 on the new dir while everything else returns 200.
+- [ ] **Adding a third-party script or external origin?** Check the `Content-Security-Policy` header in `.htaccess` — CSP is live (not Report-Only) since 2026-04-28; new origins fail silently.
+- [ ] **Changing a date** (campaigns, scheduled posts, plan docs)? Sync Google Calendar (`carlos@netwebmedia.com`, `America/Santiago`).
+- [ ] **Touching a CRM handler?** Pull tenancy via `tenancy_where()` / `tenancy_owns()`; require `require_org_access_for_write('member')` on writes.
+- [ ] **Creating a `schema_*.sql`?** Make it idempotent — it runs on every deploy. No `SET @x := (SELECT ...)` + `PREPARE/EXECUTE` patterns.
+- [ ] **Routing through `/api-php/`?** The 301 → `/api/` MUST live in `api-php/.htaccess` (per-directory), not root.
+- [ ] **Adding a CTA?** WhatsApp goes through `/whatsapp.html`, never direct `wa.me/...` links.
+- [ ] **Cache propagation:** CSS/JS changes take up to 5 min; bust with `?v=<timestamp>` for instant rollout.
+- [ ] **Don't `git add -A`** — `_deploy/`, `_backup/`, `site-upload/`, `*.zip` accumulate large generated artifacts. Stage specific files.
+- [ ] **Check `git log --oneline -5`** before staging — the `auto-save` daemon may have already captured your in-flight work.
+
 ## What this repo is
 
 This is the **netwebmedia.com production property** plus a collection of supporting apps and operating assets. It is NOT a single application — it is a flat-deployed multi-property monorepo:
 
 1. **Marketing site** — flat HTML/CSS/JS at the repo root (`index.html`, `services.html`, `pricing.html`, etc.) plus `industries/`, `blog/`, `tutorials/`, `lp/`, `app/`. Served from cPanel/Apache at InMotion. **No build step** for the public site.
 2. **`api-php/`** — PHP API (lead capture, audit handler, CRM endpoints) served at `netwebmedia.com/api/` (canonical) — the `/api-php/` path 301-redirects to `/api/`. Entry point: `api-php/index.php`.
-3. **`crm-vanilla/`** — internal CRM app deployed to `netwebmedia.com/crm-vanilla/`. This is NetWebMedia's own CRM (do NOT replace with HubSpot — internal rule). **`crm-vanilla/js/data.js` is 100% mock/seed data** for UI development; real data comes from the live PHP API.
+3. **`crm-vanilla/`** — internal CRM app deployed to `netwebmedia.com/crm-vanilla/`. This is NetWebMedia's own CRM (do NOT replace with HubSpot — internal rule). **`crm-vanilla/js/data.js` is 100% mock/seed data** for UI development only — never write business logic against it, never read it as source of truth, never extend it as if it were a database. Real data flows through `/crm-vanilla/api/` against the live `webmed6_crm` MySQL database. If you find yourself importing from `data.js` in production code paths, stop and route through the API instead.
 4. **`backend/`** — Django CRM backend (multi-tenant, DRF, Celery). Uses SQLite locally (`backend/db.sqlite3`). **Not deployed to InMotion** — separate property for future use.
 5. **`mobile/`** — Capacitor 6 app (iOS + Android + web). Vite-built vanilla JS. Reuses existing `/api/` endpoints. Run separately from `mobile/`.
 6. **`video-factory/`** — Remotion-based programmatic video renderer. Express server on `:3030`. PHP API calls it at `POST /api/video/render`.
@@ -254,14 +272,20 @@ For API issues, check `.htaccess` rewrites (path-based to query-string routing),
 
 ## File Organization Notes
 
-### Generated files — don't edit by hand
+### Don't Edit These — Auto-Generated Files
 
-These are output from Python/Node scripts and will be overwritten on regeneration:
-- `industries/<niche>/index.html` (from `build_industry_pages.py`)
-- `_deploy/companies/*/index.html` (from `generate_company_pages.py`, 680 files)
-- `blog/**/<niche>-*-pages.html` if part of a bulk generation run
+These files are **output from generator scripts** and will be silently overwritten on the next regenerate. If you hand-edit one, your change disappears the moment someone runs the generator. Always edit the generator template.
 
-**To make changes stick:** Edit the **generator template** (e.g., `build_industry_pages.py` or `_deploy/generate_company_pages.py`), not the output. Regenerate and commit the updated files.
+| File pattern | Generator | What to edit instead |
+|---|---|---|
+| `industries/<niche>/index.html` | `build_industry_pages.py` | The Python template inside `build_industry_pages.py` |
+| `_deploy/companies/*/index.html` (680 files) | `_deploy/generate_company_pages.py` | The template + data sources in that script |
+| `blog/**/<niche>-*-pages.html` (bulk runs) | Various Python generators | The matching generator script |
+| `sitemap.xml` | `_deploy/regen-sitemap.py` | The exclusion patterns + URL builder in that script |
+| `assets/social/carousels/{a,b,c}-slide-{1..5}.svg` (15 files) | `_deploy/render-carousels.py` | The `SLIDES` list at the top of the renderer |
+| `_deploy/companies/sitemap*.xml` | `_deploy/build-sitemap.py` | The sitemap builder |
+
+**Workflow:** Edit generator → run generator → review the diff → commit both the generator change and the regenerated output together. Reviewing the diff catches template bugs before they ship 680× across the company audit pages.
 
 ### Hand-written files — safe to edit
 
@@ -329,10 +353,25 @@ The visual workflow builder (`crm-vanilla/js/automation.js` → `crm-vanilla/api
 | Tag removed | `tag_removed` | cascades from `wf_crm_advance` untag steps |
 | Manual admin fire | `manual` | `run_now` action in workflows handler |
 
-**Cron requirement.** No `wait` step advances without an external scheduler. The primary scheduler is **`.github/workflows/cron-workflows.yml`** — a GitHub Actions scheduled workflow that runs `*/5 * * * *` and POSTs to the cron endpoint using `secrets.MIGRATE_TOKEN`. No cPanel cron job is needed. If you ever need a fallback cPanel job:
+**Cron requirement.** No `wait` step advances without an external scheduler. The primary scheduler is **`.github/workflows/cron-workflows.yml`** — a GitHub Actions scheduled workflow that runs `*/5 * * * *` and POSTs to the cron endpoint using `secrets.MIGRATE_TOKEN`. No cPanel cron job is needed.
+
+**If GitHub Actions is unavailable** (account suspended, scheduling outage, or you need a redundant scheduler), enable the cPanel cron fallback:
+
 ```
 */5 * * * * curl -s -A "Mozilla/5.0" "https://netwebmedia.com/crm-vanilla/api/?r=cron_workflows&token=<MIGRATE_TOKEN>" > /dev/null
 ```
+
+A second fallback cron should also drive the `api-php` newsletter queue (separate engine):
+
+```
+*/5 * * * * curl -s -A "Mozilla/5.0" "https://netwebmedia.com/api/cron" > /dev/null
+```
+
+**Fallback decision tree:**
+- GitHub Actions running on schedule? → Do nothing; both engines are driven.
+- GitHub Actions paused but you need workflow advancement *now*? → Manually `POST /crm-vanilla/api/?r=workflows&id=N&action=run_now` per workflow (admin session required).
+- GitHub Actions down for >1 hour? → Add the cPanel cron lines above; remove them once GH Actions resumes (otherwise you'll double-fire and risk duplicate `send_email` steps).
+
 `MIGRATE_TOKEN` is the `secrets.MIGRATE_TOKEN` GitHub Actions secret (written into `crm-vanilla/api/config.local.php` as `define('MIGRATE_TOKEN', ...)` on every deploy by `deploy-site-root.yml`). The fallback default (when secret is unset) is `NWM_MIGRATE_2026` — do NOT rely on this in production. The handler (`crm-vanilla/api/handlers/cron_workflows.php`) validates with `hash_equals()` then calls `wf_crm_run_pending()`.
 
 **Note:** `api-php/lib/workflows.php` + `/api/cron/automation` are a *separate* engine for `webmed6_nwm` resources (newsletter drip sequences, api-php public forms). They are unrelated to CRM builder workflows. `wf_bridge.php` has been deleted — all call sites use `wf_crm_trigger()` directly.
@@ -399,7 +438,32 @@ When linking between pages, match this convention or you'll generate broken cano
 
 ### Subdomain routing
 
-`.htaccess` maps **39 industry subdomains** to `/industries/` folder paths via a single cPanel wildcard (`*.netwebmedia.com → /public_html/`). Examples: `hotels.netwebmedia.com → /industries/hospitality/hotels/`, `app.netwebmedia.com → /crm-vanilla/`, `companies.netwebmedia.com → /companies/`. `staging.netwebmedia.com` returns 503 (not yet provisioned). Never add subdomains without updating `.htaccess` and registering the wildcard in cPanel DNS.
+`.htaccess` maps **39 industry subdomains** to `/industries/` folder paths via a single cPanel wildcard (`*.netwebmedia.com → /public_html/`). The wildcard is registered once in cPanel DNS; per-subdomain routing is done in `.htaccess` `RewriteCond %{HTTP_HOST}` blocks.
+
+**Subdomain → path map (representative — full list in `.htaccess`):**
+
+| Category | Subdomains → path |
+|---|---|
+| App / infra | `app.netwebmedia.com → /crm-vanilla/`, `companies.netwebmedia.com → /companies/`, `staging.netwebmedia.com → 503` (unprovisioned) |
+| Hospitality (tourism niche) | `hotels`, `restaurants-hospitality`, `vacation-rentals` → `/industries/hospitality/<sub>/` |
+| Restaurants | `restaurants`, `cafes`, `bars` → `/industries/restaurants/<sub>/` |
+| Health | `clinics`, `dentists`, `physiotherapy`, `mental-health`, `veterinary` → `/industries/health/<sub>/` |
+| Beauty | `salons`, `spas`, `barbers` → `/industries/beauty/<sub>/` |
+| Legal | `law-firms`, `attorneys` → `/industries/legal-services/<sub>/` |
+| Real estate | `real-estate`, `property-management` → `/industries/real-estate/<sub>/` |
+| Automotive | `auto-dealers`, `auto-repair` → `/industries/automotive/<sub>/` |
+| Education | `schools`, `tutors`, `language-schools` → `/industries/education/<sub>/` |
+| Events | `wedding-planners`, `event-venues` → `/industries/events_weddings/<sub>/` |
+| Financial | `accountants`, `financial-advisors` → `/industries/financial_services/<sub>/` |
+| Home services | `plumbers`, `electricians`, `landscapers`, `cleaning` → `/industries/home_services/<sub>/` |
+| Wine/agriculture | `wineries`, `vineyards`, `farms` → `/industries/wine_agriculture/<sub>/` |
+| Local specialist | `boutiques`, `gyms` → `/industries/local_specialist/<sub>/` |
+| SMB | `consulting`, `marketing-agencies` → `/industries/smb/<sub>/` |
+
+**Adding a new subdomain — three steps, all required:**
+1. Register the subdomain (or rely on the existing wildcard) in cPanel DNS.
+2. Add a `RewriteCond %{HTTP_HOST} ^<sub>\.netwebmedia\.com$ [NC]` + `RewriteRule ^(.*)$ /industries/<niche>/<sub>/$1 [L]` block in `.htaccess`.
+3. Confirm the target `/industries/<niche>/<sub>/` directory exists (if creating it new, also confirm it ships via `deploy-site-root.yml`'s `industries/` trigger and staging loop).
 
 Mobile deep-linking: `.well-known/apple-app-site-association` must be served as `application/json` with status 200 and **no redirects** — `.htaccess` enforces this with explicit headers. Don't add redirect rules that would catch `.well-known/` paths.
 
@@ -423,10 +487,26 @@ Some properties (industry pages, certain LPs) instead use parallel files with an
 
 ## Industry / niche taxonomy — exactly 14, fixed
 
-NetWebMedia's CRM and content target **exactly 14 niches** (do not add, rename, or split):
-`tourism, restaurants, health, beauty, smb, law_firms, real_estate, local_specialist, automotive, education, events_weddings, financial_services, home_services, wine_agriculture`
+NetWebMedia's CRM and content target **exactly 14 niches** (do not add, rename, or split — this constraint is referenced from generators, CRM enums, email sequences, and AEO content clusters; expanding it has cascading effects across the codebase):
 
-`industries/` page slugs map to these but use display names (e.g. `legal-services` for `law_firms`). When generating new industry pages, copy an existing one as a template — the layout and schema/AEO blocks need to match.
+| # | Niche key (CRM enum) | Industry display path | Notes |
+|---|---|---|---|
+| 1 | `tourism` | `industries/hospitality/` | Hotels, vacation rentals, tour operators |
+| 2 | `restaurants` | `industries/restaurants/` | Restaurants, cafes, bars |
+| 3 | `health` | `industries/health/` | Clinics, dentists, vets, therapy |
+| 4 | `beauty` | `industries/beauty/` | Salons, spas, barbers |
+| 5 | `smb` | `industries/smb/` | General small/medium business catch-all |
+| 6 | `law_firms` | `industries/legal-services/` | Display slug differs from key |
+| 7 | `real_estate` | `industries/real-estate/` | Brokerages, property management |
+| 8 | `local_specialist` | `industries/local_specialist/` | Boutiques, niche local retail, gyms |
+| 9 | `automotive` | `industries/automotive/` | Dealers, repair, parts |
+| 10 | `education` | `industries/education/` | Schools, tutors, language schools |
+| 11 | `events_weddings` | `industries/events_weddings/` | Wedding planners, event venues |
+| 12 | `financial_services` | `industries/financial_services/` | Accountants, advisors, brokers |
+| 13 | `home_services` | `industries/home_services/` | Plumbers, electricians, landscapers, cleaning |
+| 14 | `wine_agriculture` | `industries/wine_agriculture/` | Wineries, vineyards, farms |
+
+When generating new industry pages, copy an existing one as a template — the layout and schema/AEO blocks need to match. See [AEO content cluster pattern](#aeo-content-cluster-pattern) for the per-niche content expansion plan.
 
 ## Brand — Gulf Oil palette
 

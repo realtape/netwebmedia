@@ -85,16 +85,16 @@
       <div class="brand-logo">N</div>
       <div class="brand-text">NetWebMedia</div>
     </div>
-    <div id="planBadge" style="display:none" class="plan-badge">✦ Free CRM Plan</div>
-    <h1 id="pageTitle">Create your account</h1>
-    <div class="sub" id="pageSub">Get your own CRM workspace in seconds.</div>
+    <div id="planBadge" style="display:none" class="plan-badge" data-en="✦ Free CRM Plan" data-es="✦ Plan CRM Gratuito">✦ Free CRM Plan</div>
+    <h1 id="pageTitle" data-en="Create your account" data-es="Crea tu cuenta">Create your account</h1>
+    <div class="sub" id="pageSub" data-en="Get your own CRM workspace in seconds." data-es="Obtén tu propio espacio de trabajo CRM en segundos.">Get your own CRM workspace in seconds.</div>
     <div id="freePerks" class="free-perks" style="display:none">
-      <strong>What's included — free forever:</strong>
+      <strong data-en="What's included — free forever:" data-es="Qué incluye — gratis por siempre:">What's included — free forever:</strong>
       <ul>
-        <li>1 user · 250 contacts</li>
-        <li>Pipeline, calendar &amp; email marketing</li>
-        <li>NetWebMedia-branded workspace</li>
-        <li>Upgrade anytime as you grow</li>
+        <li data-en="1 user · 250 contacts" data-es="1 usuario · 250 contactos">1 user · 250 contacts</li>
+        <li data-en="Pipeline, calendar &amp; email marketing" data-es="Pipeline, calendario y email marketing">Pipeline, calendar &amp; email marketing</li>
+        <li data-en="NetWebMedia-branded workspace" data-es="Espacio de trabajo con marca NetWebMedia">NetWebMedia-branded workspace</li>
+        <li data-en="Upgrade anytime as you grow" data-es="Actualiza en cualquier momento conforme crezcas">Upgrade anytime as you grow</li>
       </ul>
     </div>
 
@@ -103,25 +103,25 @@
       <input id="nwm_website" name="nwm_website" type="text" tabindex="-1" autocomplete="off"
              style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true" />
 
-      <label for="name">Full name</label>
-      <input id="name" type="text" required autocomplete="name" />
+      <label for="name" data-en="Full name" data-es="Nombre completo">Full name</label>
+      <input id="name" type="text" required autocomplete="name" placeholder="" data-en-placeholder="" data-es-placeholder="" />
 
-      <label for="email">Work email</label>
-      <input id="email" type="email" required autocomplete="email" />
+      <label for="email" data-en="Work email" data-es="Email de trabajo">Work email</label>
+      <input id="email" type="email" required autocomplete="email" placeholder="" data-en-placeholder="" data-es-placeholder="" />
 
-      <label for="password">Password (min 8 chars)</label>
-      <input id="password" type="password" required minlength="8" autocomplete="new-password" />
+      <label for="password" data-en="Password (min 8 chars)" data-es="Contraseña (mín 8 caracteres)">Password (min 8 chars)</label>
+      <input id="password" type="password" required minlength="8" autocomplete="new-password" placeholder="" data-en-placeholder="" data-es-placeholder="" />
 
       <label style="display:flex;align-items:flex-start;gap:10px;margin:16px 0 0;color:var(--muted);font-size:12.5px;line-height:1.45;cursor:pointer;">
         <input id="consent" type="checkbox" required style="width:16px;height:16px;margin-top:2px;accent-color:var(--accent);flex-shrink:0;" />
-        <span>I agree to the <a href="/terms.html" target="_blank" rel="noopener" style="color:var(--fg);text-decoration:underline;">Terms of Service</a> and <a href="/privacy.html" target="_blank" rel="noopener" style="color:var(--fg);text-decoration:underline;">Privacy Policy</a>.</span>
+        <span data-en="I agree to the Terms of Service and Privacy Policy." data-es="Acepto los Términos del Servicio y la Política de Privacidad.">I agree to the <a href="/terms.html" target="_blank" rel="noopener" style="color:var(--fg);text-decoration:underline;">Terms of Service</a> and <a href="/privacy.html" target="_blank" rel="noopener" style="color:var(--fg);text-decoration:underline;">Privacy Policy</a>.</span>
       </label>
 
-      <button class="btn" id="submitBtn" type="submit">Create account</button>
+      <button class="btn" id="submitBtn" type="submit" data-en="Create account" data-es="Crear cuenta">Create account</button>
       <div id="msg" class="msg"></div>
     </form>
 
-    <div class="alt">Already have one? <a href="/login.html">Sign in</a></div>
+    <div class="alt" data-en="Already have one? Sign in" data-es="¿Ya tienes una cuenta? Inicia sesión">Already have one? <a href="/login.html">Sign in</a></div>
   </div>
 
   <script src="/js/api-client.js"></script>
@@ -133,9 +133,10 @@
       if (plan === 'free') {
         document.getElementById('planBadge').style.display = 'inline-flex';
         document.getElementById('freePerks').style.display = 'block';
-        document.getElementById('pageTitle').textContent = 'Start your free CRM';
-        document.getElementById('pageSub').textContent = 'No credit card required. Up and running in under 2 minutes.';
-        document.getElementById('submitBtn').textContent = 'Create free account';
+        var lang = (new URLSearchParams(location.search)).get('lang') || 'en';
+        document.getElementById('pageTitle').textContent = lang === 'es' ? 'Comienza tu CRM gratuito' : 'Start your free CRM';
+        document.getElementById('pageSub').textContent = lang === 'es' ? 'Sin tarjeta de crédito. Funcionando en menos de 2 minutos.' : 'No credit card required. Up and running in under 2 minutes.';
+        document.getElementById('submitBtn').textContent = lang === 'es' ? 'Crear cuenta gratuita' : 'Create free account';
       }
 
       var form = document.getElementById('registerForm');
@@ -149,23 +150,24 @@
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
+        var lang = (new URLSearchParams(location.search)).get('lang') || 'en';
         if (!consent.checked) {
           msg.className = 'msg err';
-          msg.textContent = 'Please accept the Terms and Privacy Policy to continue.';
+          msg.textContent = lang === 'es' ? 'Acepta los Términos y la Política de Privacidad para continuar.' : 'Please accept the Terms and Privacy Policy to continue.';
           return;
         }
         btn.disabled = true;
         msg.className = 'msg';
-        msg.textContent = 'Creating your account…';
+        msg.textContent = lang === 'es' ? 'Creando tu cuenta…' : 'Creating your account…';
         window.NWMApi.register(emailEl.value.trim(), passEl.value, nameEl.value.trim(), hp.value, plan || undefined)
           .then(function () {
             msg.className = 'msg ok';
-            msg.textContent = 'Account created — redirecting…';
+            msg.textContent = lang === 'es' ? 'Cuenta creada — redirigiendo…' : 'Account created — redirecting…';
             setTimeout(function () { location.href = '/app/'; }, 400);
           })
           .catch(function (err) {
             msg.className = 'msg err';
-            msg.textContent = err.message || 'Registration failed.';
+            msg.textContent = err.message || (lang === 'es' ? 'Registro fallido.' : 'Registration failed.');
             btn.disabled = false;
           });
       });

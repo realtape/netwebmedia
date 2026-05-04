@@ -188,9 +188,9 @@ if __name__ == '__main__':
                 elif result > 0:
                     changed_paths.append(futures[fut])
                     done += 1
-                    print(f'  ✓ {name} ({result} strings)')
+                    print(f'  OK {name} ({result} strings)')
                 else:
-                    print(f'  · {name} (no changes)')
+                    print(f'  -- {name} (no changes)')
 
         # Commit every 25 changed files
         if not DRY_RUN and len(changed_paths) >= 25:

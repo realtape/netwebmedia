@@ -124,7 +124,7 @@
   <div class="container">
     <a class="article-back" href="../blog.html" data-en="← All articles" data-es="← Todos los artículos">← All articles</a>
     <div class="tag">Real Estate</div>
-    <h1>How Real Estate Agents Get Recommended by AI Assistants in 2026: The AEO Playbook</h1>
+    <h1 data-en="How Real Estate Agents Get Recommended by AI Assistants in 2026: The AEO Playbook" data-es="Cómo los agentes inmobiliarios obtienen recomendaciones de asistentes de IA en 2026: El manual AEO">How Real Estate Agents Get Recommended by AI Assistants in 2026: The AEO Playbook</h1>
     <div class="article-meta">By Carlos Martínez · May 1, 2026 · 9 min read</div>
     <div class="article-cover" style="background-image:url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80&auto=format&fit=crop');background-size:cover;background-position:center;" role="img" aria-label="Article cover"></div>
   </div>
@@ -133,17 +133,17 @@
 <article class="article-body">
 <p>Before a buyer contacts a real estate agent in 2026, they've already asked an AI assistant multiple questions: "What's the best neighborhood in [city] for young families?" "What should I look for in a buyer's agent?" "Who are the top real estate agents in [ZIP code]?" The agents who appear in those AI responses get the first call. The agents who don't have to compete for whatever leads remain after AI-referred buyers have already chosen. This playbook shows you exactly how to become the agent AI systems recommend.</p>
 
-<h2>The AI-first buyer journey in real estate</h2>
+<h2 data-en="The AI-first buyer journey in real estate" data-es="El viaje del comprador enfocado en IA en bienes raíces">The AI-first buyer journey in real estate</h2>
 
 <p>The modern real estate buyer journey begins 3–18 months before the purchase. Buyers use AI assistants for research throughout this entire window — neighborhood comparisons, school district data, market condition questions, financing education, and ultimately agent selection. This is a fundamentally different dynamic than traditional real estate marketing, which focused on capturing buyers at the moment they were actively searching listings.</p>
 
 <p>AEO positions you at every stage of this extended journey. An agent who has published comprehensive neighborhood guides, buyer education FAQs, and market data content gets cited by AI assistants for questions buyers are asking 6 months before they're ready to make an offer. By the time that buyer is ready to contact an agent, they've already seen your name 3–5 times in AI responses. The "who should I call?" question is effectively pre-answered.</p>
 
-<h2>The AI-first buyer journey in real estate</h2>
+<h2 data-en="The AI-first buyer journey in real estate" data-es="El viaje del comprador enfocado en IA en bienes raíces">The AI-first buyer journey in real estate</h2>
 
 <p>Real estate agent discovery has fundamentally shifted. A 2025 NAR survey found that buyers who used AI assistants during their home search were 40% more likely to contact an agent they had seen cited in an AI response compared to one they found through a Zillow search. The AI citation creates perceived authority — the buyer assumes the AI has vetted the recommendation. That assumption converts to higher first-contact trust and lower persuasion effort for the agent.</p>
 
-<h2>RealEstateAgent schema: the implementation guide</h2>
+<h2 data-en="RealEstateAgent schema: the implementation guide" data-es="Esquema RealEstateAgent: la guía de implementación">RealEstateAgent schema: the implementation guide</h2>
 
 <p>Schema.org's <code>RealEstateAgent</code> type is the correct structured data type for individual agents and small brokerages. It inherits from <code>LocalBusiness</code> with real estate-specific properties. Here is the recommended implementation:</p>
 
@@ -185,7 +185,7 @@
 
 <p>The <code>areaServed</code> array should include both neighborhood names (as they appear in local usage) and ZIP codes. Real estate buyers search by neighborhood far more than by city — "agent in Hawthorne" is a specific query that requires "Hawthorne" explicitly in <code>areaServed</code>.</p>
 
-<h2>Neighborhood guide content strategy</h2>
+<h2 data-en="Neighborhood guide content strategy" data-es="Estrategia de contenido para guías de vecindarios">Neighborhood guide content strategy</h2>
 
 <p>Neighborhood guides are the highest-leverage AEO content investment for real estate agents. They win AI citations for the buyer research queries that occur earliest in the decision journey — and they establish geographic authority that makes all subsequent AEO content perform better.</p>
 
@@ -201,7 +201,7 @@
 
 <p>Publish a minimum of 10 neighborhood guides covering the core areas you serve. Each guide should be 800–1,200 words — long enough for depth, short enough to be readable. Update market data quarterly to maintain freshness signals.</p>
 
-<h2>Buyer-side FAQ content: 10 essential topics</h2>
+<h2 data-en="Buyer-side FAQ content: 10 essential topics" data-es="Contenido de preguntas frecuentes para compradores: 10 temas esenciales">Buyer-side FAQ content: 10 essential topics</h2>
 
 <p>Buyer research queries are the highest-volume AI real estate questions. Each of these FAQ topics should be a fully answered page on your website with FAQPage schema:</p>
 
@@ -218,7 +218,7 @@
   <li>"How do I make a competitive offer in a hot market?"</li>
 </ol>
 
-<h2>Seller-side FAQ content: 8 essential topics</h2>
+<h2 data-en="Seller-side FAQ content: 8 essential topics" data-es="Contenido de preguntas frecuentes para vendedores: 8 temas esenciales">Seller-side FAQ content: 8 essential topics</h2>
 
 <ol>
   <li>"How do I price my home to sell quickly in [city]?"</li>
@@ -231,13 +231,13 @@
   <li>"How do I evaluate multiple offers on my home?"</li>
 </ol>
 
-<h2>Market data publishing framework</h2>
+<h2 data-en="Market data publishing framework" data-es="Marco de publicación de datos de mercado">Market data publishing framework</h2>
 
 <p>Real estate agents who publish regular market data reports are cited by AI systems for market condition queries — one of the highest-volume real estate query categories. Publish a monthly market report covering your service area. The format can be simple: a 400-word article with current median prices, DOM, inventory levels, and your interpretation of what the data means for buyers and sellers.</p>
 
 <p>Add <code>Article</code> schema to each market report with <code>datePublished</code> and <code>dateModified</code> properties. Freshness signals matter in real estate AEO — an AI assistant answering "what is the Portland housing market doing right now?" will preferentially cite recently published, schema-marked content over older general-purpose pages.</p>
 
-<h2>90-day AEO implementation plan for real estate agents</h2>
+<h2 data-en="90-day AEO implementation plan for real estate agents" data-es="Plan de implementación AEO de 90 días para agentes inmobiliarios">90-day AEO implementation plan for real estate agents</h2>
 
 <p><strong>Days 1–15:</strong> Add RealEstateAgent schema to your website homepage and bio page. Audit your Google Business Profile — add all neighborhoods you serve to the service area, complete your services list, and add your license number to the description. Write and publish your first 5 buyer-side FAQs with FAQPage schema.</p>
 
@@ -247,14 +247,14 @@
 
 <p><strong>Days 61–90:</strong> Complete your 10-guide neighborhood library. Publish your second monthly market report. Review which FAQ pages are driving direct website visits and expand to 5 more topics in the most successful category (buyer or seller). Measure AI-referred inquiry percentage against your pre-AEO baseline.</p>
 
-<h2>Why independent agents can outperform Zillow in AI search</h2>
+<h2 data-en="Why independent agents can outperform Zillow in AI search" data-es="Por qué los agentes independientes pueden superar a Zillow en búsqueda con IA">Why independent agents can outperform Zillow in AI search</h2>
 
 <p>Zillow and Realtor.com own the listing aggregation layer. They cannot be beaten for "homes for sale in [city]" queries. But they publish zero hyperlocal neighborhood authority content. An agent who has published 10 neighborhood guides for specific Portland neighborhoods — with current market data, school information, and local expertise — owns the AI recommendation for "which neighborhoods in Portland are best for families?" in a way that no national aggregator can replicate.</p>
 
 <p>The specificity advantage compounds: neighborhood guide depth → AI citation for neighborhood queries → buyer contacts agent with existing trust → higher close rate. The cycle repeats every time a new buyer begins their Portland home search. Build the neighborhood library once, maintain the data quarterly, and the citation advantage persists for years.</p>
 
   <div class="article-cta-box">
-    <h3>Want this working inside your own stack?</h3>
+    <h3 data-en="Want this working inside your own stack?" data-es="¿Quieres esto funcionando dentro de tu propio stack?">Want this working inside your own stack?</h3>
     <p>NetWebMedia builds AI marketing systems for US brands — from autonomous agents to full AEO-ready content engines. Book a free 30-minute strategy call and we'll map out the highest-ROI next step for your team.</p>
     <a class="btn-primary" href="../contact.html" data-en="Book a Free Strategy Call →" data-es="Agenda una Llamada Estratégica Gratis →">Book a Free Strategy Call →</a>
   </div>

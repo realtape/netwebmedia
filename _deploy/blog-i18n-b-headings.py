@@ -172,10 +172,11 @@ if __name__ == '__main__':
     changed_paths = []
     skipped = errors = done = 0
 
-    # Process in parallel batches of 10 (rate-limit friendly)
-    BATCH = 10
+    # Process in parallel batches of 4 (rate-limit friendly)
+    BATCH = 4
     for i in range(0, len(posts), BATCH):
         chunk = posts[i:i + BATCH]
+        import time; time.sleep(3)
         with concurrent.futures.ThreadPoolExecutor(max_workers=BATCH) as ex:
             futures = {ex.submit(process_file, p): p for p in chunk}
             for fut in concurrent.futures.as_completed(futures):

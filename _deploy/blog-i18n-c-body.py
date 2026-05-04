@@ -55,6 +55,8 @@ BODY_PATTERNS = [BODY_P_RE, BODY_LI_RE, BODY_BQ_RE, BODY_TD_RE]
 MAX_TEXT_LEN = 600  # skip elements longer than this (likely contain HTML tables/code)
 
 
+JS_SKIP = re.compile(r"[{};]|function\(|=>|\bvar \b|\blet \b|\bconst \b|\.replace\(|esc\(")
+
 def extract_body_texts(html: str) -> list[str]:
     am = ARTICLE_RE.search(html)
     if not am:
@@ -67,19 +69,24 @@ def extract_body_texts(html: str) -> list[str]:
             if 'data-es' in m.group(1):
                 continue
             plain = re.sub(r'<[^>]+>', '', m.group(2)).strip()
-            if plain and 10 < len(plain) <= MAX_TEXT_LEN and plain not in seen:
+            # Skip JS fragments, empty strings, and already-translated boilerplate
+            if (not plain or len(plain) <= 10 or len(plain) > MAX_TEXT_LEN
+                    or JS_SKIP.search(plain)
+                    or plain.startswith('//') or plain.startswith('/*')):
+                continue
+            if plain not in seen:
                 seen.add(plain)
                 texts.append(plain)
     return texts
 
 
 def call_haiku_body(texts: list[str]) -> dict[str, str]:
+    import time
     if not texts:
         return {}
     client = anthropic.Anthropic(api_key=API_KEY)
-    # Chunk to avoid token limits (~80 strings per call)
     result = {}
-    for i in range(0, len(texts), 60):
+    for i in range(0, len(texts), 40):  # smaller chunks
         chunk = texts[i:i+60]
         payload = json.dumps(chunk, ensure_ascii=False, indent=2)
         prompt = textwrap.dedent(f"""
@@ -106,6 +113,8 @@ def call_haiku_body(texts: list[str]) -> dict[str, str]:
         raw = re.sub(r'^```(?:json)?\s*', '', raw)
         raw = re.sub(r'\s*```$', '', raw)
         result.update(json.loads(raw))
+        if i + 40 < len(texts):
+            time.sleep(2)  # avoid rate limit between chunks
     return result
 
 
@@ -174,7 +183,7 @@ if __name__ == '__main__':
     changed_paths = []
     skipped = errors = done = 0
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as ex:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as ex:
         futures = {ex.submit(process_file, p): p for p in posts}
         for fut in concurrent.futures.as_completed(futures):
             name, result = fut.result()

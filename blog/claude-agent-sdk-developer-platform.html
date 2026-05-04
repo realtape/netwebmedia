@@ -193,70 +193,70 @@
 </section>
 
 <article class="article-body">
-<p>Most AI news cycles focus on benchmarks: which model scored highest on which eval. It's the wrong lens for most business decisions. What actually matters is the developer platform around the model — how easy it is to build, deploy, debug, and maintain production systems. On that axis, Anthropic's Claude Agent SDK has become the quiet favorite inside serious engineering teams, and it's worth understanding why.</p>
+<p data-en="Most AI news cycles focus on benchmarks: which model scored highest on which eval. It's the wrong lens for most business decisions. What actually matters is the developer platform around the model — how easy it is to build, deploy, debug, and maintain production systems. On that axis, Anthropic's Claude Agent SDK has become the quiet favorite inside serious engineering teams, and it's worth understanding why." data-es="La mayoría de los ciclos de noticias de IA se enfocan en benchmarks: cuál modelo obtuvo la puntuación más alta en cuál evaluación. Es la lente equivocada para la mayoría de las decisiones comerciales. Lo que realmente importa es la plataforma de desarrolladores alrededor del modelo — qué tan fácil es construir, desplegar, depurar y mantener sistemas en producción. En ese eje, el Claude Agent SDK de Anthropic se ha convertido en el favorito silencioso dentro de los equipos de ingeniería serios, y vale la pena entender por qué.">Most AI news cycles focus on benchmarks: which model scored highest on which eval. It's the wrong lens for most business decisions. What actually matters is the developer platform around the model — how easy it is to build, deploy, debug, and maintain production systems. On that axis, Anthropic's Claude Agent SDK has become the quiet favorite inside serious engineering teams, and it's worth understanding why.</p>
 
 <h2 data-en="What the SDK actually is" data-es="Qué es realmente el SDK">What the SDK actually is</h2>
 
-<p>The Claude Agent SDK is a code-first framework for building agents that use Claude as their reasoning layer. It handles the boring-but-critical parts of agent development: tool registration, conversation state, file and code handling, structured output, streaming responses, and integration with external services.</p>
+<p data-en="The Claude Agent SDK is a code-first framework for building agents that use Claude as their reasoning layer. It handles the boring-but-critical parts of agent development: tool registration, conversation state, file and code handling, structured output, streaming responses, and integration with external services." data-es="El Claude Agent SDK es un framework code-first para construir agentes que usan Claude como su capa de razonamiento. Maneja las partes aburridas pero críticas del desarrollo de agentes: registro de herramientas, estado de conversación, manejo de archivos y código, salida estructurada, respuestas en streaming, e integración con servicios externos.">The Claude Agent SDK is a code-first framework for building agents that use Claude as their reasoning layer. It handles the boring-but-critical parts of agent development: tool registration, conversation state, file and code handling, structured output, streaming responses, and integration with external services.</p>
 
-<p>It's not a drag-and-drop builder. It's an SDK for developers who want to ship production systems without reinventing the wheel on every boilerplate decision.</p>
+<p data-en="It's not a drag-and-drop builder. It's an SDK for developers who want to ship production systems without reinventing the wheel on every boilerplate decision." data-es="No es un constructor de arrastrar y soltar. Es un SDK para desarrolladores que quieren desplegar sistemas en producción sin reinventar la rueda en cada decisión de boilerplate.">It's not a drag-and-drop builder. It's an SDK for developers who want to ship production systems without reinventing the wheel on every boilerplate decision.</p>
 
 <h2 data-en="Why it's winning inside agencies" data-es="Por qué está ganando dentro de las agencias">Why it's winning inside agencies</h2>
 
-<p>We've been building AI marketing workflows with various stacks since early 2023 — LangChain, Autogen, OpenAI Assistants, custom state machines, and now the Claude Agent SDK. Here's what we noticed as we shifted heavier workloads onto Anthropic's platform:</p>
+<p data-en="We've been building AI marketing workflows with various stacks since early 2023 — LangChain, Autogen, OpenAI Assistants, custom state machines, and now the Claude Agent SDK. Here's what we noticed as we shifted heavier workloads onto Anthropic's platform:" data-es="Hemos estado construyendo flujos de trabajo de marketing con IA usando varios stacks desde principios de 2023 — LangChain, Autogen, OpenAI Assistants, máquinas de estado personalizadas, y ahora el Claude Agent SDK. Aquí está lo que notamos al trasladar cargas de trabajo más pesadas a la plataforma de Anthropic:">We've been building AI marketing workflows with various stacks since early 2023 — LangChain, Autogen, OpenAI Assistants, custom state machines, and now the Claude Agent SDK. Here's what we noticed as we shifted heavier workloads onto Anthropic's platform:</p>
 
 <ul>
-  <li><strong>Less glue code.</strong> The SDK handles the 80% of orchestration that every agent project had to rewrite from scratch.</li>
-  <li><strong>Saner tool use.</strong> Claude's tool-use behavior is more consistent than some alternatives, and the SDK surfaces the orchestration cleanly.</li>
-  <li><strong>Better debugging.</strong> When an agent misbehaves, the SDK exposes enough state to actually understand why. Half of agent debugging is "what did the model see when it made this decision" — the SDK makes that visible.</li>
-  <li><strong>File and code operations work.</strong> For agents that need to read and write files, generate and execute code, or modify documents, the SDK handles the operations reliably.</li>
-  <li><strong>Streaming is first-class.</strong> You can ship real-time agent experiences — not just "loading spinner, then a wall of text."</li>
+  <li data-en="Less glue code. The SDK handles the 80% of orchestration that every agent project had to rewrite from scratch." data-es="Menos código adhesivo. El SDK maneja el 80% de la orquestación que cada proyecto de agente tenía que reescribir desde cero."><strong>Less glue code.</strong> The SDK handles the 80% of orchestration that every agent project had to rewrite from scratch.</li>
+  <li data-en="Saner tool use. Claude's tool-use behavior is more consistent than some alternatives, and the SDK surfaces the orchestration cleanly." data-es="Uso más sensato de herramientas. El comportamiento de uso de herramientas de Claude es más consistente que algunas alternativas, y el SDK expone la orquestación limpiamente."><strong>Saner tool use.</strong> Claude's tool-use behavior is more consistent than some alternatives, and the SDK surfaces the orchestration cleanly.</li>
+  <li data-en="Better debugging. When an agent misbehaves, the SDK exposes enough state to actually understand why. Half of agent debugging is &quot;what did the model see when it made this decision&quot; — the SDK makes that visible." data-es="Mejor depuración. Cuando un agente se comporta mal, el SDK expone suficiente estado para entender realmente por qué. La mitad de la depuración de agentes es &quot;qué vio el modelo cuando tomó esta decisión&quot; — el SDK hace eso visible."><strong>Better debugging.</strong> When an agent misbehaves, the SDK exposes enough state to actually understand why. Half of agent debugging is "what did the model see when it made this decision" — the SDK makes that visible.</li>
+  <li data-en="File and code operations work. For agents that need to read and write files, generate and execute code, or modify documents, the SDK handles the operations reliably." data-es="Las operaciones de archivos y código funcionan. Para agentes que necesitan leer y escribir archivos, generar y ejecutar código, o modificar documentos, el SDK maneja las operaciones de manera confiable."><strong>File and code operations work.</strong> For agents that need to read and write files, generate and execute code, or modify documents, the SDK handles the operations reliably.</li>
+  <li data-en="Streaming is first-class. You can ship real-time agent experiences — not just &quot;loading spinner, then a wall of text.&quot;" data-es="El streaming es de primera clase. Puedes desplegar experiencias de agente en tiempo real — no solo &quot;spinner de carga, luego una pared de texto&quot;."><strong>Streaming is first-class.</strong> You can ship real-time agent experiences — not just "loading spinner, then a wall of text."</li>
 </ul>
 
 <h2 data-en="What it's good at, what it isn't" data-es="En qué es bueno, en qué no lo es">What it's good at, what it isn't</h2>
 
-<p>The SDK shines for:</p>
+<p data-en="The SDK shines for:" data-es="El SDK destaca para:">The SDK shines for:</p>
 
 <ul>
-  <li>Internal tooling for marketing ops (research agents, audit agents, content generation pipelines)</li>
-  <li>Code-first workflows where developers want control</li>
-  <li>Multi-step reasoning tasks that need tool use</li>
-  <li>Any workflow where you need to debug complex agent decisions</li>
+  <li data-en="Internal tooling for marketing ops (research agents, audit agents, content generation pipelines)" data-es="Herramientas internas para operaciones de marketing (agentes de investigación, agentes de auditoría, pipelines de generación de contenido)">Internal tooling for marketing ops (research agents, audit agents, content generation pipelines)</li>
+  <li data-en="Code-first workflows where developers want control" data-es="Flujos de trabajo code-first donde los desarrolladores quieren control">Code-first workflows where developers want control</li>
+  <li data-en="Multi-step reasoning tasks that need tool use" data-es="Tareas de razonamiento multietapa que necesitan uso de herramientas">Multi-step reasoning tasks that need tool use</li>
+  <li data-en="Any workflow where you need to debug complex agent decisions" data-es="Cualquier flujo de trabajo donde necesites depurar decisiones complejas de agentes">Any workflow where you need to debug complex agent decisions</li>
 </ul>
 
-<p>It's not the right choice for:</p>
+<p data-en="It's not the right choice for:" data-es="No es la opción correcta para:">It's not the right choice for:</p>
 
 <ul>
-  <li>Simple "chat with your docs" deployments — there are lighter-weight options</li>
-  <li>Teams that need a no-code builder for non-developers</li>
-  <li>Pure inference-cost optimization — you'll pay frontier API prices</li>
+  <li data-en="Simple &quot;chat with your docs&quot; deployments — there are lighter-weight options" data-es="Despliegues simples de &quot;chat con tus documentos&quot; — hay opciones más ligeras">Simple "chat with your docs" deployments — there are lighter-weight options</li>
+  <li data-en="Teams that need a no-code builder for non-developers" data-es="Equipos que necesitan un constructor sin código para no desarrolladores">Teams that need a no-code builder for non-developers</li>
+  <li data-en="Pure inference-cost optimization — you'll pay frontier API prices" data-es="Optimización pura de costos de inferencia — pagarás precios de API frontier">Pure inference-cost optimization — you'll pay frontier API prices</li>
 </ul>
 
 <h2 data-en="The strategic bet" data-es="La apuesta estratégica">The strategic bet</h2>
 
-<p>Here's the interesting part. Anthropic isn't trying to be the default AI API for everyone. They're trying to be the default platform for teams building serious, production-grade agents — the stuff that actually makes money. The developer experience reflects that bet, and for agency work, it's paying off.</p>
+<p data-en="Here's the interesting part. Anthropic isn't trying to be the default AI API for everyone. They're trying to be the default platform for teams building serious, production-grade agents — the stuff that actually makes money. The developer experience reflects that bet, and for agency work, it's paying off." data-es="Aquí está la parte interesante. Anthropic no está intentando ser la API de IA por defecto para todos. Están intentando ser la plataforma por defecto para equipos que construyen agentes serios, de nivel producción — lo que realmente genera dinero. La experiencia del desarrollador refleja esa apuesta, y para el trabajo de agencias, está dando resultados.">Here's the interesting part. Anthropic isn't trying to be the default AI API for everyone. They're trying to be the default platform for teams building serious, production-grade agents — the stuff that actually makes money. The developer experience reflects that bet, and for agency work, it's paying off.</p>
 
-<p>Compared to competitors:</p>
+<p data-en="Compared to competitors:" data-es="En comparación con competidores:">Compared to competitors:</p>
 
 <ul>
-  <li><strong>OpenAI Assistants</strong> pushes a more managed experience with less control. Good for consumer apps, more awkward for complex agency workflows.</li>
-  <li><strong>LangChain</strong> is still the biggest ecosystem but has accumulated a lot of complexity. Great for prototypes, harder to ship to production.</li>
-  <li><strong>Self-built orchestration</strong> gives maximum control but costs months of engineering you could have spent on the actual product.</li>
+  <li data-en="OpenAI Assistants pushes a more managed experience with less control. Good for consumer apps, more awkward for complex agency workflows." data-es="OpenAI Assistants impulsa una experiencia más gestionada con menos control. Bueno para aplicaciones de consumidor, más incómodo para flujos de trabajo complejos de agencias."><strong>OpenAI Assistants</strong> pushes a more managed experience with less control. Good for consumer apps, more awkward for complex agency workflows.</li>
+  <li data-en="LangChain is still the biggest ecosystem but has accumulated a lot of complexity. Great for prototypes, harder to ship to production." data-es="LangChain sigue siendo el ecosistema más grande pero ha acumulado mucha complejidad. Excelente para prototipos, más difícil de desplegar en producción."><strong>LangChain</strong> is still the biggest ecosystem but has accumulated a lot of complexity. Great for prototypes, harder to ship to production.</li>
+  <li data-en="Self-built orchestration gives maximum control but costs months of engineering you could have spent on the actual product." data-es="La orquestación construida por uno mismo da el máximo control pero cuesta meses de ingeniería que podrías haber gastado en el producto real."><strong>Self-built orchestration</strong> gives maximum control but costs months of engineering you could have spent on the actual product.</li>
 </ul>
 
-<p>For production marketing workflows, the Agent SDK is hitting a sweet spot.</p>
+<p data-en="For production marketing workflows, the Agent SDK is hitting a sweet spot." data-es="Para flujos de trabajo de marketing en producción, el Agent SDK está encontrando un punto óptimo.">For production marketing workflows, the Agent SDK is hitting a sweet spot.</p>
 
 <h2 data-en="A practical example" data-es="Un ejemplo práctico">A practical example</h2>
 
-<p>One of our clients wanted an agent that audits their landing pages every Monday, compares them against competitor pages, generates a prioritized list of recommended changes, and drops the report into Slack. Six layers: data, retrieval, tools, orchestration, safety, oversight. We built the whole thing on the Claude Agent SDK in a week. A year ago, the same workflow would have been a month of LangChain wiring and state debugging.</p>
+<p data-en="One of our clients wanted an agent that audits their landing pages every Monday, compares them against competitor pages, generates a prioritized list of recommended changes, and drops the report into Slack. Six layers: data, retrieval, tools, orchestration, safety, oversight. We built the whole thing on the Claude Agent SDK in a week. A year ago, the same workflow would have been a month of LangChain wiring and state debugging." data-es="Uno de nuestros clientes quería un agente que auditara sus páginas de aterrizaje cada lunes, las comparara contra páginas de competidores, generara una lista priorizada de cambios recomendados, y dejara el reporte en Slack. Seis capas: datos, recuperación, herramientas, orquestación, seguridad, supervisión. Construimos todo en el Claude Agent SDK en una semana. Hace un año, el mismo flujo de trabajo hubiera sido un mes de cableado de LangChain y depuración de estado.">One of our clients wanted an agent that audits their landing pages every Monday, compares them against competitor pages, generates a prioritized list of recommended changes, and drops the report into Slack. Six layers: data, retrieval, tools, orchestration, safety, oversight. We built the whole thing on the Claude Agent SDK in a week. A year ago, the same workflow would have been a month of LangChain wiring and state debugging.</p>
 
-<blockquote>The model benchmark you care about is the one where your engineers can ship something reliable in a week.</blockquote>
+<blockquote data-en="The model benchmark you care about is the one where your engineers can ship something reliable in a week." data-es="El benchmark del modelo que te importa es el donde tus ingenieros pueden desplegar algo confiable en una semana.">The model benchmark you care about is the one where your engineers can ship something reliable in a week.</blockquote>
 
-<p>That's the lens we're using now when evaluating AI platforms for client work. It's a much better predictor of actual project success than MMLU scores.</p>
+<p data-en="That's the lens we're using now when evaluating AI platforms for client work. It's a much better predictor of actual project success than MMLU scores." data-es="Esa es la lente que estamos usando ahora al evaluar plataformas de IA para trabajo con clientes. Es un predictor mucho mejor del éxito real del proyecto que los puntajes MMLU.">That's the lens we're using now when evaluating AI platforms for client work. It's a much better predictor of actual project success than MMLU scores.</p>
 
   <div class="article-cta-box">
     <h3 data-en="Want this working inside your own stack?" data-es="¿Quieres que funcione dentro de tu propio stack?">Want this working inside your own stack?</h3>
-    <p>NetWebMedia builds AI marketing systems for US brands — from autonomous agents to full AEO-ready content engines. Request a free AI audit and we'll send you a written growth plan within 48 hours — no call required.</p>
+    <p data-en="NetWebMedia builds AI marketing systems for US brands — from autonomous agents to full AEO-ready content engines. Request a free AI audit and we'll send you a written growth plan within 48 hours — no call required." data-es="NetWebMedia construye sistemas de marketing con IA para marcas estadounidenses — desde agentes autónomos hasta motores de contenido completamente listos para AEO. Solicita una auditoría de IA gratuita y te enviaremos un plan de crecimiento escrito en 48 horas — sin llamada requerida.">NetWebMedia builds AI marketing systems for US brands — from autonomous agents to full AEO-ready content engines. Request a free AI audit and we'll send you a written growth plan within 48 hours — no call required.</p>
     <a class="btn-primary" href="../contact.html" data-en="Request Free AI Audit →" data-es="Solicitar Auditoría IA Gratuita →">Request Free AI Audit →</a>
   </div>
 
@@ -319,7 +319,7 @@
 
     <!-- New comment form -->
     <div style="background:#f9fafb;border-radius:12px;padding:28px 32px;border:1px solid #e5e7eb;">
-      <p style="font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;color:#010F3B;margin:0 0 20px;">Leave a comment</p>
+      <p style="font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;color:#010F3B;margin:0 0 20px;" data-en="Leave a comment" data-es="Deja un comentario">Leave a comment</p>
       <form id="nwm-comment-form" onsubmit="nwmSubmitComment(event,'claude-agent-sdk-developer-platform')">
         <input type="text" name="hp_field" style="display:none" tabindex="-1" autocomplete="off" />
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
@@ -369,7 +369,7 @@
             var el = document.getElementById('nwm-comment-list');
             if (!el) return;
             if (!d.comments || d.comments.length === 0){
-              el.innerHTML = '<p style="color:#9ca3af;font-size:14px;font-style:italic;">No comments yet — be the first!</p>';
+              el.innerHTML = '<p style="color:#9ca3af;font-size:14px;font-style:italic;" data-en="No comments yet — be the first!" data-es="Sin comentarios aún — ¡sé el primero!">No comments yet — be the first!</p>';
               return;
             }
             el.innerHTML = d.comments.map(function(c){

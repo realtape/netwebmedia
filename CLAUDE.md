@@ -2,6 +2,61 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Table of Contents
+
+- [Hard Constraints — Read First](#hard-constraints--read-first)
+- [Quick Start — Essential Commands](#quick-start--essential-commands)
+- [Before Your First Commit — Checklist](#before-your-first-commit--checklist)
+- [What this repo is](#what-this-repo-is)
+- [Critical: Two Separate Databases](#critical-two-separate-databases)
+- [MCP Server Configuration](#mcp-server-configuration-claude-code)
+- [Run locally](#run-locally)
+- [Secrets & Environment Setup](#secrets--environment-setup)
+- [Deploy — InMotion only](#deploy--inmotion-only-never-vercelnetlify)
+  - [Migration system](#migration-system--idempotent-by-design-no-version-tracking)
+- [Common Development Workflows](#common-development-workflows)
+- [File Organization Notes](#file-organization-notes)
+  - [Don't Edit These — Auto-Generated Files](#dont-edit-these--auto-generated-files)
+- [PHP API architecture](#php-api-architecture)
+  - [Workflow runtime engine + cron fallback](#workflow-runtime-engine)
+- [CRM vanilla JS architecture](#crm-vanilla-js-architecture-crm-vanilla)
+- [Email sequences](#email-sequences)
+- [URL routing rules](#url-routing-rules--non-obvious-will-trip-you-up)
+  - [Subdomain routing — 39 industry subdomains](#subdomain-routing)
+- [CSS canonical file](#css-canonical-file--cssstylescss-not-root-stylescss)
+- [Bilingual (EN / ES)](#bilingual-en--es)
+- [Industry / niche taxonomy — exactly 14, fixed](#industry--niche-taxonomy--exactly-14-fixed)
+- [Brand — Gulf Oil palette](#brand--gulf-oil-palette)
+- [Social channels](#social-channels--whats-in-whats-permanently-out)
+- [Generators](#generators--python-and-node-scripts-at-root-and-in-_deploy)
+- [AEO content cluster pattern](#aeo-content-cluster-pattern)
+- [Mobile app — Capacitor 6](#mobile-app--capacitor-6-mobile)
+- [Video factory](#video-factory--adding-templates)
+- [Internal AI rule](#internal-ai-rule)
+- [Observability](#observability)
+- [XSS hygiene](#xss-hygiene-in-crm-vanilla)
+- [Auto-backup commits](#auto-backup-commits--consolidate-before-pushing)
+- [Gotchas & Common Mistakes](#gotchas--common-mistakes)
+- [Operational notes](#operational-notes)
+- [Agents — when to use which](#agents--when-to-use-which)
+
+## Hard Constraints — Read First
+
+These constraints are durable and override defaults. Violating any of them creates production incidents or wastes Carlos's time.
+
+| # | Constraint | Source of truth |
+|---|---|---|
+| 1 | **Exactly 14 niches** — never add, rename, split, or invent new ones | [Niche taxonomy](#industry--niche-taxonomy--exactly-14-fixed) |
+| 2 | **Two separate databases** — `webmed6_nwm` (api-php) and `webmed6_crm` (crm-vanilla); never cross-query from one handler | [Two Separate Databases](#critical-two-separate-databases) |
+| 3 | **Deploy via InMotion only** — never Vercel, Netlify, Cloudflare Pages, or any other host | [Deploy](#deploy--inmotion-only-never-vercelnetlify) |
+| 4 | **`crm-vanilla/js/data.js` is mock seed data only** — real data flows through `/crm-vanilla/api/`, never write business logic against `data.js` |  [CRM JS architecture](#crm-vanilla-js-architecture-crm-vanilla) |
+| 5 | **`css/styles.css` is canonical** — NOT root `styles.css`; same for `js/main.js` over root `script.js` | [CSS canonical file](#css-canonical-file--cssstylescss-not-root-stylescss) |
+| 6 | **Internal AI = Claude Pro Max / Anthropic API** — ChatGPT/Perplexity/Google AI are AEO *targets*, never internal tools | [Internal AI rule](#internal-ai-rule) |
+| 7 | **Use NWM's own CRM (crm-vanilla)** — never replace with HubSpot for internal ops | [What this repo is](#what-this-repo-is) |
+| 8 | **No LinkedIn, no X/Twitter** distribution — durable Carlos decisions | [Social channels](#social-channels--whats-in-whats-permanently-out) |
+| 9 | **Don't edit auto-generated files** — edit the generator template instead | [Don't Edit These](#dont-edit-these--auto-generated-files) |
+| 10 | **Update both `data-en` and `data-es`** when changing bilingual copy | [Bilingual](#bilingual-en--es) |
+
 ## Quick Start — Essential Commands
 
 | Task | Command |

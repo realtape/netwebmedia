@@ -145,6 +145,7 @@
   <!-- Sentry (browser, active). Paste DSN into window.NWM_SENTRY_DSN once signed up. -->
   <script>window.NWM_SENTRY_DSN = window.NWM_SENTRY_DSN || 'https://69fce09a20f1958bd2f1b9e601ba9a46@o4511302572441600.ingest.us.sentry.io/4511302588235776'; window.NWM_RELEASE = window.NWM_RELEASE || 'nwm@1.0.0';</script>
   <script src="/js/nwm-sentry.js" defer></script>
+  <script src="/assets/nwm-i18n.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
@@ -289,9 +290,9 @@
 <section class="page-hero" style="position:relative;overflow:hidden;text-align:center;padding-top:60px;padding-bottom:40px;">
   <div class="glow-orb glow-cyan" style="width:500px;height:300px;left:50%;top:0;transform:translateX(-50%);opacity:0.1;"></div>
   <div class="container" style="position:relative;z-index:1;">
-    <div class="section-label">Free AI Marketing Audit</div>
-    <h1 class="section-title">Request Your Free<br><span class="gradient-text">AI Marketing Audit</span></h1>
-    <p class="section-subtitle" style="max-width:600px;margin:0 auto 0;">
+    <div class="section-label" data-en="Free AI Marketing Audit" data-es="Auditoría Gratis de Marketing con IA">Free AI Marketing Audit</div>
+    <h1 class="section-title" data-en="Request Your Free" data-es="Solicita tu Auditoría Gratis">Request Your Free<br><span class="gradient-text" data-en="AI Marketing Audit" data-es="de Marketing con IA">AI Marketing Audit</span></h1>
+    <p class="section-subtitle" style="max-width:600px;margin:0 auto 0;" data-en="Submit the form below. We deliver a written audit to your inbox within 48 hours. No calls, no back-and-forth — just answers." data-es="Completa el formulario inferior. Entregamos una auditoría escrita en tu bandeja en máximo 48 horas. Sin llamadas, sin idas y vueltas — solo respuestas.">
       Submit the form below. We deliver a written audit to your inbox within 48 hours. No calls, no back-and-forth — just answers.
     </p>
   </div>
@@ -303,9 +304,9 @@
     <div class="contact-grid">
       <!-- Form -->
       <div class="scroll-reveal">
-        <h2 style="font-size:28px;font-weight:700;margin-bottom:8px;">Send Your Audit Request</h2>
-        <p style="color:var(--text-secondary);font-size:15px;margin-bottom:32px;">Fill out the form below. We'll send a written AI marketing audit to your inbox within 48 hours — no calls required.</p>
-        <form class="contact-form contact-form-el" id="contact-form" data-nwm-form="contact-main" data-nwm-success="Thanks! We received your request — our team will reach out within 24 hours.">
+        <h2 style="font-size:28px;font-weight:700;margin-bottom:8px;" data-en="Send Your Audit Request" data-es="Envía tu Solicitud de Auditoría">Send Your Audit Request</h2>
+        <p style="color:var(--text-secondary);font-size:15px;margin-bottom:32px;" data-en="Fill out the form below. We'll send a written AI marketing audit to your inbox within 48 hours — no calls required." data-es="Completa el formulario. Enviaremos una auditoría de marketing con IA escrita a tu bandeja en máximo 48 horas — sin llamadas requeridas.">Fill out the form below. We'll send a written AI marketing audit to your inbox within 48 hours — no calls required.</p>
+        <form class="contact-form contact-form-el" id="contact-form" data-nwm-form="contact-main" data-nwm-success-en="Thanks! We received your request — our team will reach out within 24 hours." data-nwm-success-es="¡Gracias! Recibimos tu solicitud — nuestro equipo te contactará en máximo 24 horas." data-nwm-success="Thanks! We received your request — our team will reach out within 24 hours.">
           <!-- Honeypot: bots will fill this; humans won't see it. The form handler must reject any submission where nwm_website is non-empty. -->
           <div aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden">
             <label for="nwm_website">Website (leave blank)</label>
@@ -314,7 +315,7 @@
           <!-- Cloudflare Turnstile placeholder. Renders only if window.NWM_TURNSTILE_SITE_KEY is set. See js/contact-turnstile.js (TBD). -->
           <div id="nwm-turnstile" data-sitekey="" style="margin:0 0 18px"></div>
           <div class="form-group">
-            <label for="inquiry-type" style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span>What brings you here?</span><span id="topic-badge" style="display:none;font-size:11px;background:rgba(99,102,241,.15);color:#6366f1;padding:3px 10px;border-radius:99px;font-weight:700;text-transform:uppercase;letter-spacing:.06em">Pre-selected</span></label>
+            <label for="inquiry-type" style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span data-en="What brings you here?" data-es="¿Qué te trae aquí?">What brings you here?</span><span id="topic-badge" style="display:none;font-size:11px;background:rgba(99,102,241,.15);color:#6366f1;padding:3px 10px;border-radius:99px;font-weight:700;text-transform:uppercase;letter-spacing:.06em" data-en="Pre-selected" data-es="Pre-seleccionado">Pre-selected</span></label>
             <select id="inquiry-type" name="topic" class="form-control" required style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:14px 18px;font-family:var(--font-main);font-size:15px;outline:none;">
               <option value="audit" style="background:#111;">Free AI marketing audit</option>
               <option value="services" style="background:#111;">Hire NetWebMedia (direct client)</option>
@@ -329,24 +330,24 @@
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
             <div class="form-group">
-              <label for="first-name">First Name</label>
+              <label for="first-name" data-en="First Name" data-es="Nombre">First Name</label>
               <input type="text" id="first-name" name="first_name" class="form-control" placeholder="Carlos" required />
             </div>
             <div class="form-group">
-              <label for="last-name">Last Name</label>
+              <label for="last-name" data-en="Last Name" data-es="Apellido">Last Name</label>
               <input type="text" id="last-name" name="last_name" class="form-control" placeholder="Rivera" required />
             </div>
           </div>
           <div class="form-group">
-            <label for="email">Business Email</label>
+            <label for="email" data-en="Business Email" data-es="Email Empresarial">Business Email</label>
             <input type="email" id="email" name="email" class="form-control" placeholder="carlos@yourcompany.com" required />
           </div>
           <div class="form-group">
-            <label for="company">Company / Website</label>
+            <label for="company" data-en="Company / Website" data-es="Empresa / Sitio Web">Company / Website</label>
             <input type="text" id="company" name="company" class="form-control" placeholder="yourcompany.com" />
           </div>
           <div class="form-group">
-            <label for="budget">Monthly Marketing Budget</label>
+            <label for="budget" data-en="Monthly Marketing Budget" data-es="Presupuesto Mensual de Marketing">Monthly Marketing Budget</label>
             <select id="budget" name="budget" class="form-control" style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:14px 18px;font-family:var(--font-main);font-size:15px;outline:none;">
               <option value="" style="background:#111;">Select a range...</option>
               <option value="5k" style="background:#111;">$1,000 - $5,000/mo</option>
@@ -357,7 +358,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="services">Services You're Interested In</label>
+            <label for="services" data-en="Services You're Interested In" data-es="Servicios que te Interesan">Services You're Interested In</label>
             <select id="services" name="services" class="form-control" style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:14px 18px;font-family:var(--font-main);font-size:15px;outline:none;">
               <option value="" style="background:#111;">Select service...</option>
               <option value="ai-automations" style="background:#111;">AI Automations</option>
@@ -371,80 +372,80 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="message">Tell Us About Your Goals</label>
+            <label for="message" data-en="Tell Us About Your Goals" data-es="Cuéntanos sobre tus Objetivos">Tell Us About Your Goals</label>
             <textarea id="message" name="message" class="form-control" placeholder="What are your top 3 growth goals for the next 12 months? What's your biggest marketing challenge right now?"></textarea>
           </div>
-          <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:17px;padding:16px;">
+          <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:17px;padding:16px;" data-en="Send Audit Request →" data-es="Envía tu Solicitud →">
             Send Audit Request →
           </button>
-          <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:12px;">Your information is kept strictly confidential.</p>
+          <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:12px;" data-en="Your information is kept strictly confidential." data-es="Tu información se mantiene estrictamente confidencial.">Your information is kept strictly confidential.</p>
         </form>
       </div>
 
       <!-- Contact Info -->
       <div class="contact-info scroll-reveal">
         <div>
-          <h2 style="font-size:22px;font-weight:700;margin-bottom:24px;">How It Works</h2>
+          <h2 style="font-size:22px;font-weight:700;margin-bottom:24px;" data-en="How It Works" data-es="Cómo Funciona">How It Works</h2>
           <div class="contact-info-item">
             <div class="contact-info-icon">📧</div>
             <div>
-              <div class="contact-info-label">Email</div>
+              <div class="contact-info-label" data-en="Email" data-es="Email">Email</div>
               <div class="contact-info-value"><a href="mailto:hello@netwebmedia.com" style="color:var(--accent-blue);">hello@netwebmedia.com</a></div>
             </div>
           </div>
           <div class="contact-info-item" style="margin-top:24px;">
             <div class="contact-info-icon">💬</div>
             <div>
-              <div class="contact-info-label">WhatsApp</div>
-              <div class="contact-info-value"><a href="https://netwebmedia.com/whatsapp.html" style="color:var(--text-primary);">WhatsApp</a></div>
+              <div class="contact-info-label" data-en="WhatsApp" data-es="WhatsApp">WhatsApp</div>
+              <div class="contact-info-value"><a href="https://netwebmedia.com/whatsapp.html" style="color:var(--text-primary);" data-en="WhatsApp" data-es="WhatsApp">WhatsApp</a></div>
             </div>
           </div>
           <div class="contact-info-item" style="margin-top:24px;">
             <div class="contact-info-icon">🌍</div>
             <div>
-              <div class="contact-info-label">Working Style</div>
-              <div class="contact-info-value" style="font-size:15px;">Remote-first team serving brands worldwide</div>
+              <div class="contact-info-label" data-en="Working Style" data-es="Estilo de Trabajo">Working Style</div>
+              <div class="contact-info-value" style="font-size:15px;" data-en="Remote-first team serving brands worldwide" data-es="Equipo remoto sirviendo marcas en todo el mundo">Remote-first team serving brands worldwide</div>
             </div>
           </div>
           <div class="contact-info-item" style="margin-top:24px;">
             <div class="contact-info-icon">⏰</div>
             <div>
-              <div class="contact-info-label">Response Time</div>
-              <div class="contact-info-value" style="font-size:15px;">Within 24 hours (usually faster)</div>
+              <div class="contact-info-label" data-en="Response Time" data-es="Tiempo de Respuesta">Response Time</div>
+              <div class="contact-info-value" style="font-size:15px;" data-en="Within 24 hours (usually faster)" data-es="En máximo 24 horas (usualmente más rápido)">Within 24 hours (usually faster)</div>
             </div>
           </div>
         </div>
 
         <!-- What to Expect -->
         <div class="glass-card" style="padding:32px;margin-top:32px;">
-          <h4 style="font-weight:700;font-size:18px;margin-bottom:20px;">What Happens Next?</h4>
+          <h4 style="font-weight:700;font-size:18px;margin-bottom:20px;" data-en="What Happens Next?" data-es="¿Qué Sucede Luego?">What Happens Next?</h4>
           <div style="display:flex;flex-direction:column;gap:16px;">
             <div style="display:flex;gap:12px;">
               <div style="width:28px;height:28px;border-radius:50%;background:var(--gradient-btn);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">1</div>
               <div>
-                <div style="font-weight:600;font-size:14px;margin-bottom:2px;">We Review Your Submission</div>
-                <div style="font-size:13px;color:var(--text-muted);">Our team analyzes your needs within 24 hours</div>
+                <div style="font-weight:600;font-size:14px;margin-bottom:2px;" data-en="We Review Your Submission" data-es="Revisamos Tu Solicitud">We Review Your Submission</div>
+                <div style="font-size:13px;color:var(--text-muted);" data-en="Our team analyzes your needs within 24 hours" data-es="Nuestro equipo analiza tus necesidades en máximo 24 horas">Our team analyzes your needs within 24 hours</div>
               </div>
             </div>
             <div style="display:flex;gap:12px;">
               <div style="width:28px;height:28px;border-radius:50%;background:var(--gradient-btn);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">2</div>
               <div>
-                <div style="font-weight:600;font-size:14px;margin-bottom:2px;">Free AI Audit</div>
-                <div style="font-size:13px;color:var(--text-muted);">We analyze your digital presence and identify opportunities</div>
+                <div style="font-weight:600;font-size:14px;margin-bottom:2px;" data-en="Free AI Audit" data-es="Auditoría Gratis con IA">Free AI Audit</div>
+                <div style="font-size:13px;color:var(--text-muted);" data-en="We analyze your digital presence and identify opportunities" data-es="Analizamos tu presencia digital e identificamos oportunidades">We analyze your digital presence and identify opportunities</div>
               </div>
             </div>
             <div style="display:flex;gap:12px;">
               <div style="width:28px;height:28px;border-radius:50%;background:var(--gradient-btn);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">3</div>
               <div>
-                <div style="font-weight:600;font-size:14px;margin-bottom:2px;">Written Report Delivered</div>
-                <div style="font-size:13px;color:var(--text-muted);">Full audit lands in your inbox within 48 hours — no call needed</div>
+                <div style="font-weight:600;font-size:14px;margin-bottom:2px;" data-en="Written Report Delivered" data-es="Reporte Escrito Entregado">Written Report Delivered</div>
+                <div style="font-size:13px;color:var(--text-muted);" data-en="Full audit lands in your inbox within 48 hours — no call needed" data-es="La auditoría completa llega a tu bandeja en máximo 48 horas — sin llamada necesaria">Full audit lands in your inbox within 48 hours — no call needed</div>
               </div>
             </div>
             <div style="display:flex;gap:12px;">
               <div style="width:28px;height:28px;border-radius:50%;background:var(--gradient-btn);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;">4</div>
               <div>
-                <div style="font-weight:600;font-size:14px;margin-bottom:2px;">Custom Growth Plan</div>
-                <div style="font-size:13px;color:var(--text-muted);">Tailored proposal with clear ROI projections</div>
+                <div style="font-weight:600;font-size:14px;margin-bottom:2px;" data-en="Custom Growth Plan" data-es="Plan de Crecimiento Personalizado">Custom Growth Plan</div>
+                <div style="font-size:13px;color:var(--text-muted);" data-en="Tailored proposal with clear ROI projections" data-es="Propuesta personalizada con proyecciones claras de ROI">Tailored proposal with clear ROI projections</div>
               </div>
             </div>
           </div>

@@ -11,11 +11,24 @@ doesn't waste crawl budget on URLs the .htaccess will reject.
 """
 import os
 import re
-from datetime import date
+from datetime import date, datetime
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
 BASE = "https://netwebmedia.com"
 TODAY = date.today().strftime("%Y-%m-%d")
+
+
+def file_mtime(path):
+    """Return YYYY-MM-DD of file mtime; fall back to TODAY if missing/unreadable.
+
+    AEO/SEO note: <lastmod> should reflect the page's actual last edit so search
+    engines and AI crawlers prioritize fresh content. Stamping every URL with
+    today's date defeats that signal and looks like a freshness-spam pattern.
+    """
+    try:
+        return datetime.fromtimestamp(os.path.getmtime(path)).strftime("%Y-%m-%d")
+    except (OSError, ValueError):
+        return TODAY
 
 EXCLUDE_DIRS = {
     ".venv", "node_modules", ".git", "_backup", "_cron", "_deploy",
@@ -127,7 +140,11 @@ for dirpath, dirnames, filenames in os.walk(ROOT):
             rel = rel[: -len("index.html")]  # keep trailing slash
 
         priority, changefreq = get_priority(rel)
-        urls.append((rel, priority, changefreq))
+        # Use the source file's mtime so each URL carries its real last-edit
+        # date — `full` is the actual file path on disk, including index.html
+        # for folder-canonical URLs (we already mapped rel above).
+        lastmod = file_mtime(full)
+        urls.append((rel, priority, changefreq, lastmod))
 
 urls.sort(key=lambda x: x[0])
 
@@ -135,12 +152,12 @@ lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
 ]
-for rel, priority, changefreq in urls:
+for rel, priority, changefreq, lastmod in urls:
     loc = BASE + rel
     lines += [
         "  <url>",
         f"    <loc>{loc}</loc>",
-        f"    <lastmod>{TODAY}</lastmod>",
+        f"    <lastmod>{lastmod}</lastmod>",
         f"    <changefreq>{changefreq}</changefreq>",
         f"    <priority>{priority}</priority>",
         "  </url>",

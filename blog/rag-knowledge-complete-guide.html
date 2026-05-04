@@ -25,32 +25,32 @@
 <main id="main"><div class="container" style="max-width:760px;margin:0 auto;padding:48px 20px 80px;">
   <div style="margin-bottom:32px;"><a href="../blog.html" style="color:#FF671F;font-size:14px;text-decoration:none;" data-en="← All Articles" data-es="← Todos los artículos">← All Articles</a></div>
   <div style="display:inline-block;background:rgba(255,103,31,0.12);color:#FF671F;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:20px;">AI Infrastructure</div>
-  <h1 style="font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.15;margin:0 0 20px;color:#fff;">RAG Knowledge Agent: Build an AI That Knows Your Entire Business</h1>
+  <h1 style="font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.15;margin:0 0 20px;color:#fff;" data-en="RAG Knowledge Agent: Build an AI That Knows Your Entire Business" data-es="RAG Knowledge Agent: Construye una IA que Conozca tu Negocio Completo">RAG Knowledge Agent: Build an AI That Knows Your Entire Business</h1>
   <div style="color:#94a3b8;font-size:14px;margin-bottom:48px;">By Carlos Martinez &nbsp;·&nbsp; May 1, 2026 &nbsp;·&nbsp; 8 min read</div>
   <p style="font-size:18px;line-height:1.7;color:#cbd5e1;margin-bottom:40px;">A general LLM knows everything about the world and nothing about your business. A RAG knowledge agent knows your pricing, your processes, your client history, and your entire document library — and answers questions about them accurately, instantly, and without making things up.</p>
 
-  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;">What RAG Solves (and Why It Matters)</h2>
+  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;" data-en="What RAG Solves (and Why It Matters)" data-es="Qué Resuelve RAG (y Por Qué Importa)">What RAG Solves (and Why It Matters)</h2>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">Retrieval-Augmented Generation (RAG) solves the two core limitations of LLMs used alone: hallucination (the model invents facts not in its training data) and knowledge cutoff (the model knows nothing after its training date). RAG gives the LLM access to a searchable knowledge base at inference time. It retrieves relevant documents first, then passes them as context to the model before generating an answer. The model can only state what the retrieved documents say.</p>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">For a business, this means an AI that can accurately answer: "What's our refund policy for the Enterprise plan?", "What did we promise the Apex Dental client in the March proposal?", "Which contacts in our CRM are in the healthcare vertical and haven't been touched in 30 days?" — all from your actual data, with citations.</p>
 
-  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;">The Four-Stage RAG Pipeline</h2>
+  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;" data-en="The Four-Stage RAG Pipeline" data-es="El Pipeline RAG de Cuatro Etapas">The Four-Stage RAG Pipeline</h2>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;"><strong>Stage 1 — Ingestion:</strong> Load source documents. PDFs, web pages, Google Docs, Notion pages, Slack threads, spreadsheets. Extract clean text. This step is underestimated — bad extraction produces bad answers regardless of the rest of the pipeline.</p>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;"><strong>Stage 2 — Chunking:</strong> Split documents into retrievable segments. Start with 512-token chunks with 50-token overlap. The overlap prevents answer gaps at chunk boundaries where a single idea spans two chunks.</p>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;"><strong>Stage 3 — Embedding:</strong> Pass each chunk through an embedding model to produce a dense vector representation capturing semantic meaning. Store these vectors in a vector database (Pinecone, Weaviate, Qdrant, or pgvector).</p>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;"><strong>Stage 4 — Retrieval and Generation:</strong> At query time, embed the user's question, perform approximate nearest-neighbor search in the vector DB, retrieve the top-k relevant chunks, inject them into the LLM context, and generate an answer with citations.</p>
 
-  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;">Hybrid Search: Better Than Either Method Alone</h2>
+  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;" data-en="Hybrid Search: Better Than Either Method Alone" data-es="Búsqueda Híbrida: Mejor que Cualquier Método por Separado">Hybrid Search: Better Than Either Method Alone</h2>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">Pure vector search excels at semantic understanding but struggles with exact-match queries — specific product names, model numbers, person names. BM25 keyword search handles exact matches and rare terms better than vector search. Combining them with Reciprocal Rank Fusion produces significantly better retrieval accuracy than either method alone, without requiring parameter tuning per query type.</p>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">Additional retrieval improvements: query expansion (generate 3 alternative phrasings of the user's question and retrieve for each, then merge results), Hypothetical Document Embedding (generate a hypothetical answer and use it as the embedding query — counterintuitively, a verbose hypothetical answer is a better embedding target than a short question), and query classification (route factual lookups to keyword search, conceptual questions to vector, procedural questions to hybrid).</p>
 
-  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;">Keeping the Knowledge Base Fresh</h2>
+  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;" data-en="Keeping the Knowledge Base Fresh" data-es="Manteniendo la Base de Conocimiento Actualizada">Keeping the Knowledge Base Fresh</h2>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">A RAG system is only as good as its freshness. Implement two update mechanisms: incremental sync (check sources for changes on a schedule, re-embed only changed chunks based on file hash comparison) and triggered updates (webhook from your CMS or document system triggers immediate re-ingestion when a document is published or updated). Pricing, policy, and compliance documents must update within minutes of change — not overnight.</p>
 
-  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;">Production Deployment and Monitoring</h2>
+  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;" data-en="Production Deployment and Monitoring" data-es="Implementación en Producción y Monitoreo">Production Deployment and Monitoring</h2>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">Before launch, validate against an evaluation set of 50–100 question-answer pairs covering your most important use cases. Target retrieval recall above 80% (the correct source document appears in the top-3 results) before exposing to users. In production, log every query, retrieved chunks with similarity scores, final response, and latency. Weekly: review the 10 lowest-similarity queries — these are gaps in your knowledge base. Create documents that answer these gaps. Over 4–8 weeks, the knowledge base converges to cover the real questions your users ask.</p>
 
   <div style="background:rgba(255,103,31,0.08);border:1px solid rgba(255,103,31,0.25);border-radius:16px;padding:32px;margin:48px 0;">
-    <h2 style="font-size:20px;font-weight:700;color:#FF671F;margin:0 0 16px;">Frequently Asked Questions</h2>
+    <h2 style="font-size:20px;font-weight:700;color:#FF671F;margin:0 0 16px;" data-en="Frequently Asked Questions" data-es="Preguntas Frecuentes">Frequently Asked Questions</h2>
     <h3 style="font-size:16px;font-weight:600;color:#fff;margin:0 0 8px;">How does RAG prevent the AI from making things up?</h3>
     <p style="color:#cbd5e1;line-height:1.7;margin:0 0 24px;">RAG constrains the model's answer to what's in the retrieved documents. The system prompt instructs the model to answer only from provided context and cite sources explicitly. When retrieval quality is low (similarity score below threshold), the agent adds a disclaimer rather than confidently answering from general knowledge. Hallucinations become detectable because claims that can't be traced to a cited source are wrong by definition.</p>
     <h3 style="font-size:16px;font-weight:600;color:#fff;margin:0 0 8px;">What's the best vector database for a small business RAG system?</h3>
@@ -60,7 +60,7 @@
   </div>
 
   <div style="background:rgba(108,92,231,0.1);border:1px solid rgba(108,92,231,0.25);border-radius:16px;padding:32px;margin-top:48px;text-align:center;">
-    <h2 style="font-size:22px;font-weight:700;color:#fff;margin:0 0 12px;">Ready to implement this?</h2>
+    <h2 style="font-size:22px;font-weight:700;color:#fff;margin:0 0 12px;" data-en="Ready to implement this?" data-es="¿Listo para implementar esto?">Ready to implement this?</h2>
     <p style="color:#94a3b8;margin:0 0 24px;">NetWebMedia handles full execution — strategy, build, and optimization.</p>
     <a href="https://netwebmedia.com/pricing.html" style="display:inline-block;background:#FF671F;color:#fff;padding:14px 32px;border-radius:8px;font-weight:700;text-decoration:none;">See Pricing →</a>
   </div>

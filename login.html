@@ -147,19 +147,20 @@
 
       function doLogin(e, creds) {
         if (e) e.preventDefault();
+        var lang = (new URLSearchParams(location.search)).get('lang') || 'en';
         btn.disabled = true;
         msg.className = 'msg';
-        msg.textContent = 'Signing you in…';
+        msg.textContent = lang === 'es' ? 'Iniciando sesión…' : 'Signing you in…';
         var p = creds || { email: email.value.trim(), password: pass.value };
         window.NWMApi.login(p.email, p.password)
           .then(function (r) {
             msg.className = 'msg ok';
-            msg.textContent = 'Welcome, ' + (r.user.name || r.user.email) + '!';
+            msg.textContent = (lang === 'es' ? 'Bienvenido, ' : 'Welcome, ') + (r.user.name || r.user.email) + '!';
             setTimeout(function () { go(r.user); }, 300);
           })
           .catch(function (err) {
             msg.className = 'msg err';
-            msg.textContent = err.message || 'Sign-in failed.';
+            msg.textContent = err.message || (lang === 'es' ? 'Fallo al iniciar sesión.' : 'Sign-in failed.');
             btn.disabled = false;
           });
       }

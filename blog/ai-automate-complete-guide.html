@@ -24,16 +24,16 @@
 <main id="main"><div class="container" style="max-width:760px;margin:0 auto;padding:48px 20px 80px;">
   <div style="margin-bottom:32px;"><a href="../blog.html" style="color:#FF671F;font-size:14px;text-decoration:none;" data-en="← All Articles" data-es="← Todos los artículos">← All Articles</a></div>
   <div style="display:inline-block;background:rgba(255,103,31,0.12);color:#FF671F;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:20px;">AI Automation</div>
-  <h1 style="font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.15;margin:0 0 20px;color:#fff;">AI Automations in 2026: Build Agents That Run Your Company While You Sleep</h1>
+  <h1 style="font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.15;margin:0 0 20px;color:#fff;" data-en="AI Automations in 2026: Build Agents That Run Your Company While You Sleep" data-es="Automatizaciones con AI en 2026: Construya Agentes que Ejecuten su Empresa Mientras Duerme">AI Automations in 2026: Build Agents That Run Your Company While You Sleep</h1>
   <div style="color:#94a3b8;font-size:14px;margin-bottom:48px;">By Carlos Martinez &nbsp;·&nbsp; May 1, 2026 &nbsp;·&nbsp; 7 min read</div>
   <p style="font-size:18px;line-height:1.7;color:#cbd5e1;margin-bottom:40px;">The difference between companies growing 10% a year and companies growing 3x is rarely product or market — it's operational leverage. AI automation is the fastest path to leverage available to a small team right now, and most businesses are still treating it like a novelty instead of infrastructure.</p>
 
-  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;">Workflows vs. AI Agents: The Critical Distinction</h2>
+  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;" data-en="Workflows vs. AI Agents: The Critical Distinction" data-es="Workflows vs. Agentes de AI: La Distinción Crítica">Workflows vs. AI Agents: The Critical Distinction</h2>
   <p style="line-height:1.8;color:#cbd5e1;margin-bottom:20px;">The first mistake in AI automation is treating every process like a nail for the AI hammer. Some processes should be deterministic workflows — fixed logic, predictable inputs, consistent outputs. Others genuinely need AI judgment because inputs vary and outputs should vary in response.</p>
   <p style="line-height:1.8;color:#cbd5e1;margin-bottom:20px;">Use a workflow when: inputs are structured (form fields, database values), outputs are specific actions (send this email, create this record), and you need 100% auditability. Use an AI agent when: inputs are unstructured text (email bodies, call transcripts, support tickets), the task requires classification or summarization, and different inputs should produce meaningfully different outputs.</p>
   <p style="line-height:1.8;color:#cbd5e1;margin-bottom:20px;">The highest-performing automation systems use both together: a deterministic workflow handles routing and structured actions, an AI agent handles the tasks that require natural language understanding.</p>
 
-  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;">The Five Logic Errors That Break Production Automations</h2>
+  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;" data-en="The Five Logic Errors That Break Production Automations" data-es="Los Cinco Errores de Lógica que Rompen las Automatizaciones en Producción">The Five Logic Errors That Break Production Automations</h2>
   <ul style="color:#cbd5e1;line-height:1.9;padding-left:24px;margin-bottom:20px;">
     <li><strong>No loop guard:</strong> A workflow that creates a record also triggers on record creation → infinite loop. Add a flag field exit condition.</li>
     <li><strong>Missing null checks:</strong> Your action reads a field that 30% of contacts don't have → silent failures for that segment.</li>
@@ -42,11 +42,11 @@
     <li><strong>Testing with clean data only:</strong> Your test contacts are perfect. Real contacts have missing fields and unusual formats. Test with intentionally dirty data before launch.</li>
   </ul>
 
-  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;">Production Prompt Engineering</h2>
+  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;" data-en="Production Prompt Engineering" data-es="Ingeniería de Prompts en Producción">Production Prompt Engineering</h2>
   <p style="line-height:1.8;color:#cbd5e1;margin-bottom:20px;">AI automations fail in production when the prompt is not specific enough to produce consistent, parseable output across all edge cases. A prompt that works perfectly with typical data will break when a contact writes in Spanish, omits their company name, or includes a quoted email thread.</p>
   <p style="line-height:1.8;color:#cbd5e1;margin-bottom:20px;">Every production prompt needs four sections: <strong>Role</strong> (one sentence defining who the AI is and its exact goal), <strong>Rules</strong> (numbered list of hard constraints for edge cases), <strong>Output Schema</strong> (the exact JSON structure expected — never free text when JSON is required), and <strong>Few-Shot Examples</strong> (2–3 input/output pairs including at least one edge case). Few-shot examples cut output variance by 60–70% compared to prompt-only approaches.</p>
 
-  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;">The Lead Qualification Agent: What It Looks Like in Production</h2>
+  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;" data-en="The Lead Qualification Agent: What It Looks Like in Production" data-es="El Agente de Calificación de Leads: Cómo se ve en Producción">The Lead Qualification Agent: What It Looks Like in Production</h2>
   <p style="line-height:1.8;color:#cbd5e1;margin-bottom:20px;">The highest-ROI AI automation for most businesses: a lead qualification agent that processes every inbound form submission in under 60 seconds. The five-component pipeline:</p>
   <ul style="color:#cbd5e1;line-height:1.9;padding-left:24px;margin-bottom:20px;">
     <li><strong>Webhook trigger:</strong> Form submission POSTs to an automation endpoint. Raw payload stored immediately.</li>
@@ -57,7 +57,7 @@
   </ul>
 
   <div style="background:rgba(255,103,31,0.08);border:1px solid rgba(255,103,31,0.25);border-radius:16px;padding:32px;margin:48px 0;">
-    <h2 style="font-size:20px;font-weight:700;color:#FF671F;margin:0 0 16px;">Frequently Asked Questions</h2>
+    <h2 style="font-size:20px;font-weight:700;color:#FF671F;margin:0 0 16px;" data-en="Frequently Asked Questions" data-es="Preguntas Frecuentes">Frequently Asked Questions</h2>
     <h3 style="font-size:16px;font-weight:700;color:#fff;margin:24px 0 8px;">What AI model does NetWebMedia use for its automation layer?</h3>
     <p style="color:#cbd5e1;line-height:1.7;margin:0 0 20px;">We use the Anthropic API (Claude) for all internal AI automation. It's the most capable model for structured output generation and consistently outperforms alternatives on JSON parse success rates in production environments.</p>
     <h3 style="font-size:16px;font-weight:700;color:#fff;margin:24px 0 8px;">How long does it take to build the lead qualification agent?</h3>
@@ -67,7 +67,7 @@
   </div>
 
   <div style="background:rgba(108,92,231,0.1);border:1px solid rgba(108,92,231,0.25);border-radius:16px;padding:32px;margin-top:48px;text-align:center;">
-    <h2 style="font-size:22px;font-weight:700;color:#fff;margin:0 0 12px;">Ready to implement this?</h2>
+    <h2 style="font-size:22px;font-weight:700;color:#fff;margin:0 0 12px;" data-en="Ready to implement this?" data-es="¿Listo para implementar esto?">Ready to implement this?</h2>
     <p style="color:#94a3b8;margin:0 0 24px;">NetWebMedia handles full execution — strategy, build, and optimization.</p>
     <a href="https://netwebmedia.com/pricing.html" style="display:inline-block;background:#FF671F;color:#fff;padding:14px 32px;border-radius:8px;font-weight:700;text-decoration:none;">See Pricing →</a>
   </div>

@@ -95,6 +95,7 @@ COMPANY_TPL = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{name} — Digital & Social Media Audit | NetWebMedia</title>
 <meta name="description" content="Auditoría social + web de {name} ({city}) por NetWebMedia. {vertical_name} / {niche_name}.">
+<meta name="robots" content="noindex,nofollow">
 <style>
 * {{ margin: 0; padding: 0; box-sizing: border-box; }}
 body {{ font-family: -apple-system, Segoe UI, Roboto, sans-serif; background: #f6f7fb; color: #1a1a2e; line-height: 1.55; }}
@@ -355,6 +356,7 @@ def write_index(records):
 <head>
 <meta charset="UTF-8">
 <title>NetWebMedia Chile — 680 Prospects (10 niches × 16 regions)</title>
+<meta name="robots" content="noindex,nofollow">
 <style>
 *{{margin:0;padding:0;box-sizing:border-box}}
 body{{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#f6f7fb;color:#1a1a2e;padding:24px}}

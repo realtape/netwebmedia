@@ -146,6 +146,9 @@
         '</button>';
       c.querySelector('.lang-btn').addEventListener('click', function() {
         setLang(alt);
+        // Bridge to js/main.js's setLanguage so [data-en]/[data-es] elements swap too.
+        // nwm-i18n.js only handles [data-i18n] dictionary keys; data-en/es is main.js's job.
+        if (typeof w.setLanguage === 'function') { try { w.setLanguage(alt); } catch(_) {} }
         renderNavLang(); // re-render to flip the flag
       });
     });

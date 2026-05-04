@@ -183,7 +183,7 @@ if __name__ == '__main__':
     changed_paths = []
     skipped = errors = done = 0
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as ex:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as ex:
         futures = {ex.submit(process_file, p): p for p in posts}
         for fut in concurrent.futures.as_completed(futures):
             name, result = fut.result()

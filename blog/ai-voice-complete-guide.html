@@ -25,33 +25,33 @@
 <main id="main"><div class="container" style="max-width:760px;margin:0 auto;padding:48px 20px 80px;">
   <div style="margin-bottom:32px;"><a href="../blog.html" style="color:#FF671F;font-size:14px;text-decoration:none;" data-en="← All Articles" data-es="← Todos los artículos">← All Articles</a></div>
   <div style="display:inline-block;background:rgba(255,103,31,0.12);color:#FF671F;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:20px;">AI Automation</div>
-  <h1 style="font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.15;margin:0 0 20px;color:#fff;">AI Voice Receptionist: The Complete Guide</h1>
+  <h1 style="font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.15;margin:0 0 20px;color:#fff;" data-en="AI Voice Receptionist: The Complete Guide" data-es="Recepcionista de IA por Voz: La Guía Completa">AI Voice Receptionist: The Complete Guide</h1>
   <div style="color:#94a3b8;font-size:14px;margin-bottom:48px;">By Carlos Martinez &nbsp;·&nbsp; May 1, 2026 &nbsp;·&nbsp; 7 min read</div>
   <p style="font-size:18px;line-height:1.7;color:#cbd5e1;margin-bottom:40px;">Every missed call is a missed patient, client, or customer — often one who immediately calls your competitor. An AI voice receptionist answers every call, qualifies the caller, and books the appointment in real time, without putting anyone on hold.</p>
 
-  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;">The Business Case for AI Voice</h2>
+  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;" data-en="The Business Case for AI Voice" data-es="El Caso de Negocio para IA por Voz">The Business Case for AI Voice</h2>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">The average service business misses 28% of inbound calls. For a dental practice, medical office, or law firm, each missed call represents $300–2,000 in lost lifetime value. An AI voice receptionist eliminates that leak. It answers on the first ring, at 2am, on holidays, and handles 50 simultaneous calls if necessary.</p>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">The technology has crossed the quality threshold. Modern voice AI — powered by streaming speech recognition, low-latency text-to-speech, and large language models — produces conversations that callers often can't distinguish from a human receptionist. The uncanny valley is over.</p>
 
-  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;">How the Technology Stack Works</h2>
+  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;" data-en="How the Technology Stack Works" data-es="Cómo Funciona el Stack de Tecnología">How the Technology Stack Works</h2>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">A voice AI system has three layers: <strong>ASR (Automatic Speech Recognition)</strong> converts the caller's voice to text in real time, an <strong>LLM</strong> processes the text and generates a response, and <strong>TTS (Text-to-Speech)</strong> converts the response back to voice. The entire loop must complete under 800 milliseconds — above 1 second, callers perceive an awkward pause.</p>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">Streaming ASR (Deepgram Nova-2 leads the field) processes audio as the person speaks rather than waiting for silence. The LLM generates a response before the caller finishes their sentence, and the TTS begins playing before the full response is generated. This pipelining is what makes modern voice AI feel conversational rather than robotic.</p>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">VAPI orchestrates these three layers via a single API — you configure the model, voice, transcriber, and system prompt, and VAPI handles turn detection, interruption handling, and call state management. It's the most pragmatic path to production for most businesses.</p>
 
-  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;">Designing Call Flows That Work</h2>
+  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;" data-en="Designing Call Flows That Work" data-es="Diseñando Flujos de Llamadas que Funcionan">Designing Call Flows That Work</h2>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">Call flows are designed as decision trees, not linear scripts. Every node has a question, expected intents, and branches. The opening matters most: "Thanks for calling Apex Dental, this is Nova — how can I help you today?" sets the right tone without over-explaining. Keep questions to one piece of information at a time. Compound questions confuse callers and the ASR.</p>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">Every flow needs clearly defined escalation triggers: caller expresses frustration, asks for a human, or raises a topic outside the agent's scope (billing disputes, legal matters, medical emergencies). On escalation, the agent immediately transfers or takes a detailed message — it never argues or stalls.</p>
 
-  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;">Real-Time Booking: The Highest-Value Capability</h2>
+  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;" data-en="Real-Time Booking: The Highest-Value Capability" data-es="Reserva en Tiempo Real: La Capacidad de Mayor Valor">Real-Time Booking: The Highest-Value Capability</h2>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">Real-time appointment booking during the call eliminates the single most common reason service businesses lose new clients: "I called and no one could book me, so I called someone else." The agent queries your calendar API mid-conversation, reads the next available slots in natural language, and writes the confirmed appointment to your scheduling system before the caller hangs up.</p>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">Implementation requires two API tools exposed to the voice agent: <code>get_availability</code> (returns open slots) and <code>create_appointment</code> (writes the booking). Format times as natural language — "I have Thursday at 2 PM or Friday at 10 AM" — never ISO timestamps. A post-call confirmation SMS reduces no-shows by 30–40%.</p>
 
-  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;">Quality Monitoring and Compliance</h2>
+  <h2 style="font-size:26px;font-weight:700;color:#fff;margin:40px 0 16px;" data-en="Quality Monitoring and Compliance" data-es="Monitoreo de Calidad y Cumplimiento">Quality Monitoring and Compliance</h2>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">The four KPIs for a voice AI deployment: call resolution rate (target above 75% for routine calls), booking conversion rate (target above 80% from expressed intent), average handle time (90–120 seconds for booking), and escalation rate (track by reason to identify capability gaps). Implement automated QA: nightly LLM review of every call transcript scored against a rubric. Flag calls below 80% for human review.</p>
   <p style="color:#cbd5e1;line-height:1.7;margin-bottom:24px;">For healthcare practices, every vendor in the stack — VAPI, ElevenLabs, Deepgram, your LLM provider — requires a signed Business Associate Agreement before handling protected health information. All call recordings must be stored on US-based infrastructure and deleted after your defined retention period.</p>
 
   <div style="background:rgba(255,103,31,0.08);border:1px solid rgba(255,103,31,0.25);border-radius:16px;padding:32px;margin:48px 0;">
-    <h2 style="font-size:20px;font-weight:700;color:#FF671F;margin:0 0 16px;">Frequently Asked Questions</h2>
+    <h2 style="font-size:20px;font-weight:700;color:#FF671F;margin:0 0 16px;" data-en="Frequently Asked Questions" data-es="Preguntas Frecuentes">Frequently Asked Questions</h2>
     <h3 style="font-size:16px;font-weight:600;color:#fff;margin:0 0 8px;">Will callers know they're talking to an AI?</h3>
     <p style="color:#cbd5e1;line-height:1.7;margin:0 0 24px;">With modern TTS voices (ElevenLabs, Cartesia), many callers cannot tell. However, you should always disclose AI nature if directly asked. The opening greeting uses the receptionist's name ("this is Nova") without specifying human or AI — this is standard practice in the industry and compliant in most jurisdictions.</p>
     <h3 style="font-size:16px;font-weight:600;color:#fff;margin:0 0 8px;">What happens when the AI doesn't understand the caller?</h3>
@@ -61,7 +61,7 @@
   </div>
 
   <div style="background:rgba(108,92,231,0.1);border:1px solid rgba(108,92,231,0.25);border-radius:16px;padding:32px;margin-top:48px;text-align:center;">
-    <h2 style="font-size:22px;font-weight:700;color:#fff;margin:0 0 12px;">Ready to implement this?</h2>
+    <h2 style="font-size:22px;font-weight:700;color:#fff;margin:0 0 12px;" data-en="Ready to implement this?" data-es="¿Listo para implementar esto?">Ready to implement this?</h2>
     <p style="color:#94a3b8;margin:0 0 24px;">NetWebMedia handles full execution — strategy, build, and optimization.</p>
     <a href="https://netwebmedia.com/pricing.html" style="display:inline-block;background:#FF671F;color:#fff;padding:14px 32px;border-radius:8px;font-weight:700;text-decoration:none;">See Pricing →</a>
   </div>

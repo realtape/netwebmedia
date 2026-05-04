@@ -83,7 +83,7 @@
   <div class="container">
     <a class="article-back" href="../blog.html" data-en="← All articles" data-es="← Todos los artículos">← All articles</a>
     <div class="tag">CRO</div>
-    <h1>Your A/B Testing Is Too Slow for Modern Paid Media</h1>
+    <h1 data-en="Your A/B Testing Is Too Slow for Modern Paid Media" data-es="Tu A/B testing es demasiado lento para el paid media moderno">Your A/B Testing Is Too Slow for Modern Paid Media</h1>
     <div class="article-meta">By Priya Patel · April 21, 2026 · 7 min read</div>
     <div class="article-cover" style="background-image:url('https://images.unsplash.com/photo-1713947501966-34897f21162e?w=1200&q=80&auto=format&fit=crop');background-size:cover;background-position:center;" role="img" aria-label="Article cover"></div>
   </div>
@@ -92,19 +92,19 @@
 <article class="article-body">
 <p>Traditional A/B testing was built for a world where traffic was cheap, campaigns ran long, and marketing teams had four to eight weeks to wait for statistically significant results on a single variable. That world doesn't exist anymore for B2B paid media teams. Campaign cycles are shorter, CPCs are higher, and performance pressure is measured in weeks, not quarters. AI landing page optimization answers this structural mismatch by continuously reallocating traffic to better-performing variants in real time rather than holding traffic constant until significance is reached.</p>
 
-<h2>The Math Against Sequential A/B Testing</h2>
+<h2 data-en="The Math Against Sequential A/B Testing" data-es="Las matemáticas en contra del A/B testing secuencial">The Math Against Sequential A/B Testing</h2>
 
 <p>A standard A/B test at a three to five percent baseline conversion rate with typical B2B paid media traffic takes four to eight weeks to reach ninety-five percent confidence. During those weeks, fifty percent of your traffic is going to the control variant you've already hypothesized is underperforming. The opportunity cost of that traffic isn't theoretical. It's measurable in form fills and demo requests that didn't happen.</p>
 
 <p>The compounding problem: if each test takes six weeks and you run one at a time, you run eight or nine tests per year. At ten to fifteen percent lift each, you eventually compound to meaningful improvement. Eventually. Meanwhile, you've spent most of the year testing rather than deploying learnings. Add the campaign cycle reality (tests abandoned mid-cycle when creative rotates or budget shifts) and most B2B teams end up running a handful of high-stakes tests while the majority of landing pages never get systematically optimized at all.</p>
 
-<h2>How Multi-Armed Bandits Actually Work</h2>
+<h2 data-en="How Multi-Armed Bandits Actually Work" data-es="Cómo funcionan realmente los Multi-Armed Bandits">How Multi-Armed Bandits Actually Work</h2>
 
 <p>AI landing page optimization uses adaptive algorithms called multi-armed bandits. The name comes from the slot machine analogy: given multiple machines with unknown payout probabilities, the optimal strategy is allocating more pulls to the machine showing better results while continuing to explore the others. For landing pages, the payout is conversion, and the algorithm continuously updates its probability estimate for each variant based on accumulated evidence.</p>
 
 <p>The statistical mechanism is Bayesian inference. The algorithm maintains a probability distribution over each variant's expected conversion rate, updates it with each conversion event, and uses the updated distribution to set traffic allocation. Bayesian bandits typically require thirty to fifty percent less traffic than frequentist A/B tests to reach actionable confidence, and they route traffic toward winners throughout the test rather than only after it concludes. The tradeoff is slightly less statistical precision for meaningfully faster deployment of winners and reduced traffic to losers. For marketing, that tradeoff is almost always favorable.</p>
 
-<h2>Stop Testing Button Colors First</h2>
+<h2 data-en="Stop Testing Button Colors First" data-es="Deja de probar colores de botones primero">Stop Testing Button Colors First</h2>
 
 <p>Not all landing page variables are equal. The documented conversion impact varies by an order of magnitude across element types. Testing button color when the value proposition is unclear is an expensive way to produce noise. Work the hierarchy from the top down.</p>
 
@@ -118,25 +118,25 @@
 
 <p>Optimize Tier 1 to a stable winner before moving to Tier 2. Compounding works by building on stable wins, not by running all variables simultaneously. A page that starts at three point two percent conversion and reaches five point eight percent over twelve months of systematic optimization represents an eighty-one percent lift. In terms that matter to leadership, that's the same paid media budget producing eighty-one percent more qualified leads.</p>
 
-<h2>Picking a Platform Without Overbuying</h2>
+<h2 data-en="Picking a Platform Without Overbuying" data-es="Elegir una plataforma sin sobregastar">Picking a Platform Without Overbuying</h2>
 
 <p>The AI optimization platform market has matured into four distinct options. Unbounce Smart Traffic is built into the Unbounce builder and applies Bayesian optimization automatically at no additional cost above the subscription. Best for teams already on Unbounce who want zero-config AI optimization without deep personalization. VWO is the full CRO platform, strong across multivariate testing, analytics, heatmaps, and session recordings. Requires dedicated CRO expertise to get full value.</p>
 
 <p>Mutiny is purpose-built for B2B personalization at scale, with account-level variants driven by IP data and CRM integration. Pricing starts at fifteen hundred a month, justified for enterprise ABM programs, over-specified for pure CRO. Intellimize uses AI to generate copy and layout variants from your brief, then optimizes across them. Best when variant production time is your constraint. Platform selection should follow team maturity, not feature lists. Smart Traffic used well beats VWO deployed poorly every time.</p>
 
-<h2>Segmentation Multiplies the Lift</h2>
+<h2 data-en="Segmentation Multiplies the Lift" data-es="La segmentación multiplica el lift">Segmentation Multiplies the Lift</h2>
 
 <p>Optimization and audience segmentation are complementary. Optimization finds the best variant for the average visitor. Segmentation finds the best variant for specific segments. The maximum lift comes from running AI optimization within each segment, not just across all traffic.</p>
 
 <p>For B2B, the most valuable segments are defined by intent signals (the ad they clicked, the channel they came from) and firmographic characteristics (company size, industry, job function available through IP enrichment or CRM matching). Build segment-specific page variants from the start: enterprise visitors from ABM campaigns versus mid-market from inbound demand gen versus competitive-switch audiences from competitor campaigns. Each variant runs its own AI optimization within its traffic stream. The compound effect: a page optimized across all traffic might hit fifteen percent lift. The same page with segment-specific variants, each optimized within segment, routinely hits twenty-five to thirty-five percent aggregate lift.</p>
 
-<h2>Traffic Minimums Nobody Talks About</h2>
+<h2 data-en="Traffic Minimums Nobody Talks About" data-es="Mínimos de tráfico de los que nadie habla">Traffic Minimums Nobody Talks About</h2>
 
 <p>AI optimization needs data to learn. Below certain traffic thresholds, even Bayesian algorithms don't have enough conversion events to produce reliable rankings. The general minimum is two hundred to three hundred conversions per month on the tested page. Below that, limit variants to two or three and extend observation windows before acting. An underpowered test produces noise, not learning.</p>
 
 <p>For low-traffic high-value pages (enterprise pricing, ABM landing pages, partner co-marketing), three alternatives work: qualitative expert CRO using session recordings and heatmaps for informed redesign decisions, cross-page pattern application where winning headlines and value prop framings transfer from high-traffic pages to low-traffic ones in the same funnel, and temporary budget concentration that concentrates paid traffic on critical low-traffic pages long enough to gather optimization data.</p>
 
-<h2>Reporting That Makes the Investment Defensible</h2>
+<h2 data-en="Reporting That Makes the Investment Defensible" data-es="Reportes que hacen la inversión justificable">Reporting That Makes the Investment Defensible</h2>
 
 <p>Most CRO reports show individual test results: variant A versus B, winner is B with X percent lift. That misses the compounding story that makes AI optimization defensible over twelve months. Build a cumulative lift tracker per page: baseline conversion rate at program start, every test conducted and its outcome, and current conversion rate. Plotted over time, the chart shows compounding improvement, each test building on a higher baseline.</p>
 
@@ -167,7 +167,7 @@
   </aside>
 
   <div class="article-cta-box">
-    <h3>Want this working inside your own stack?</h3>
+    <h3 data-en="Want this working inside your own stack?" data-es="¿Quieres que esto funcione dentro de tu propio stack?">Want this working inside your own stack?</h3>
     <p>NetWebMedia builds AI marketing systems for US brands — from autonomous agents to full AEO-ready content engines. Request a free AI audit and we'll send you a written growth plan within 48 hours — no call required.</p>
     <a class="btn-primary" href="../contact.html" data-en="Request Free AI Audit →" data-es="Solicitar Auditoría IA Gratuita →">Request Free AI Audit →</a>
   </div>

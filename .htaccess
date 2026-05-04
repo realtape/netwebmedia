@@ -360,6 +360,21 @@ Options -Indexes
   RewriteRule ^tutorials$    /tutorials.html [R=301,L,NC]
   RewriteRule ^aeo$          /aeo-agency.html [R=301,L,NC]
   RewriteRule ^aeo-agency$   /aeo-agency.html [R=301,L,NC]
+
+  # ── Blog pillar slug canonicalization (2026-05) ──
+  # Restaurants: singular → plural
+  RewriteRule ^blog/restaurant-aeo-strategy-2026\.html$ /blog/restaurants-aeo-strategy-2026.html [R=301,L]
+  RewriteRule ^blog/restaurant-aeo-vs-google-maps\.html$ /blog/restaurants-local-seo-vs-aeo.html [R=301,L]
+  # Law firms: singular + old date → plural + 2026 date
+  RewriteRule ^blog/law-firm-aeo-strategy\.html$ /blog/law-firms-aeo-strategy-2026.html [R=301,L]
+  RewriteRule ^blog/law-firm-local-seo-vs-aeo\.html$ /blog/law-firms-local-seo-vs-aeo.html [R=301,L]
+  # Tourism: hotel → tourism (niche canonicalization)
+  RewriteRule ^blog/hotel-aeo-strategy-2026\.html$ /blog/tourism-aeo-strategy-2026.html [R=301,L]
+  RewriteRule ^blog/hotel-local-seo-vs-aeo\.html$ /blog/tourism-local-seo-vs-aeo.html [R=301,L]
+  # Health: healthcare/medical-practice → health (niche canonicalization)
+  RewriteRule ^blog/healthcare-aeo-strategy-2026\.html$ /blog/health-aeo-strategy-2026.html [R=301,L]
+  RewriteRule ^blog/healthcare-local-seo-vs-aeo\.html$ /blog/health-local-seo-vs-aeo.html [R=301,L]
+  RewriteRule ^blog/medical-practice-aeo-strategy-2026\.html$ /blog/health-aeo-strategy-2026.html [R=301,L]
 </IfModule>
 
 # ── Security headers ───────────────────────────────────────────────────

@@ -221,16 +221,24 @@ function wa_handle_meta(): void {
   }
 
   $reply = wa_generate_reply($from, $body, 'meta');
-  wa_meta_send($from, $reply);
+  wa_bot_meta_reply($from, $reply);
 }
 
-function wa_meta_send(string $to, string $message): void {
+/**
+ * Internal bot-path Meta send: used only by wa_handle_meta() for the
+ * synchronous reply after fastcgi_finish_request(). Reads token/phoneId
+ * from config() (api-php convention). Named distinctly from the CRM library
+ * function wa_meta_send() in crm-vanilla/api/lib/wa_meta_send.php (which
+ * uses PHP constants) to prevent fatal redeclaration when wf_crm.php pulls
+ * that library into the same request.
+ */
+function wa_bot_meta_reply(string $to, string $message): void {
   $cfg     = config();
   $token   = $cfg['whatsapp_meta_token'] ?? '';
   $phoneId = $cfg['whatsapp_phone_id']   ?? '';
   if (!$token || !$phoneId || !$message) return;
 
-  $ch = curl_init("https://graph.facebook.com/v19.0/{$phoneId}/messages");
+  $ch = curl_init("https://graph.facebook.com/v20.0/{$phoneId}/messages");
   curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_POST           => true,
@@ -245,6 +253,7 @@ function wa_meta_send(string $to, string $message): void {
       'text'              => ['body' => $message],
     ]),
     CURLOPT_TIMEOUT => 15,
+    CURLOPT_SSL_VERIFYPEER => true,
   ]);
   curl_exec($ch);
   curl_close($ch);
@@ -302,26 +311,19 @@ function wa_generate_reply(string $phone, string $userMessage, string $provider)
   if (wa_rate_limited($phone)) {
     $limited = "You've hit today's message limit for this chat. For a quick answer, see plans at https://netwebmedia.com/pricing.html, request a free async AI audit at https://netwebmedia.com/contact.html, or email hello@netwebmedia.com.";
     wa_save_turn($phone, 'user',      $userMessage, $provider);
-    wa_sync_crm($phone,  'user',      $userMessage);
     wa_save_turn($phone, 'assistant', $limited, $provider);
-    wa_sync_crm($phone,  'assistant', $limited);
+    wa_mirror_to_crm($phone, $userMessage, 'inbound');
+    wa_mirror_to_crm($phone, $limited,     'outbound');
     return $limited;
   }
 
-  // Save user turn + sync to CRM
+  // Save user turn to whatsapp_sessions (webmed6_nwm) and mirror inbound to CRM (webmed6_crm).
   wa_save_turn($phone, 'user', $userMessage, $provider);
-  wa_sync_crm($phone, 'user', $userMessage);
 
-  /* ─── PR 3: Mirror inbound into webmed6_crm + fire conversation_inbound ───
-   *
-   * The wa_sync_crm() above writes to webmed6_nwm (api-php DB). The CRM-side
-   * tables for the auto-reply system live in webmed6_crm and need their own
-   * row history. wa_mirror_to_crm() opens a SECOND PDO scoped to webmed6_crm
-   * and performs an idempotent upsert + INSERT. NEVER joins across DBs.
-   *
-   * Trigger fires only when the mirror succeeded — partial state would leave
-   * the workflow engine pointing at a missing conversation_id. All failures
-   * are swallowed so the WhatsApp reply path stays alive. */
+  /* ─── Mirror inbound into webmed6_crm + fire conversation_inbound ────────
+   * wa_mirror_to_crm() opens a dedicated PDO to webmed6_crm (separate from
+   * the api-php db() PDO bound to webmed6_nwm — NEVER JOIN across DBs).
+   * Trigger fires only when mirror succeeded so the engine has a valid conv_id. */
   $mirror = wa_mirror_to_crm($phone, $userMessage, 'inbound');
   if ($mirror !== null) {
     try {
@@ -358,7 +360,7 @@ function wa_generate_reply(string $phone, string $userMessage, string $provider)
   if (!empty($result['error'])) {
     $fallback = "Sorry, I hit a technical hiccup. Please email us at hello@netwebmedia.com and we'll reply within a few hours. 🙏";
     wa_save_turn($phone, 'assistant', $fallback, $provider);
-    wa_sync_crm($phone, 'assistant', $fallback);
+    wa_mirror_to_crm($phone, $fallback, 'outbound');
     return $fallback;
   }
 
@@ -368,7 +370,7 @@ function wa_generate_reply(string $phone, string $userMessage, string $provider)
   }
 
   wa_save_turn($phone, 'assistant', $reply, $provider);
-  wa_sync_crm($phone, 'assistant', $reply);
+  wa_mirror_to_crm($phone, $reply, 'outbound'); // Mirror bot reply into webmed6_crm so CRM shows full thread
   return $reply;
 }
 
@@ -436,87 +438,11 @@ function wa_save_turn(string $phone, string $role, string $message, string $prov
   } catch (Throwable $e) { /* non-blocking */ }
 }
 
-/**
- * Bridge: sync each WA turn into the CRM conversations/messages tables so the
- * Conversations module shows live WhatsApp threads in the CRM UI.
- *
- * Strategy:
- *  1. Find or create a CRM contact by phone number.
- *  2. Find or create a CRM conversation (channel='whatsapp') for that contact.
- *  3. Insert the message (dedup by body+sent_at within 5 seconds — idempotent).
- */
-function wa_sync_crm(string $phone, string $role, string $message): void {
-  try {
-    $pdo = db();
-
-    // 1. Find or create contact
-    $contact = $pdo->prepare(
-      "SELECT id, name FROM contacts WHERE phone = ? LIMIT 1"
-    );
-    $contact->execute([$phone]);
-    $row = $contact->fetch(PDO::FETCH_ASSOC);
-
-    if ($row) {
-      $contactId   = (int)$row['id'];
-      $contactName = $row['name'];
-    } else {
-      // Create a minimal contact — no name yet, just the phone
-      $ins = $pdo->prepare(
-        "INSERT INTO contacts (name, phone, source, created_at)
-         VALUES (?, ?, 'whatsapp', NOW())"
-      );
-      $ins->execute(["WhatsApp: $phone", $phone]);
-      $contactId   = (int)$pdo->lastInsertId();
-      $contactName = "WhatsApp: $phone";
-    }
-
-    // 2. Find or create conversation
-    $conv = $pdo->prepare(
-      "SELECT id FROM conversations WHERE contact_id = ? AND channel = 'whatsapp' LIMIT 1"
-    );
-    $conv->execute([$contactId]);
-    $convRow = $conv->fetch(PDO::FETCH_ASSOC);
-
-    if ($convRow) {
-      $convId = (int)$convRow['id'];
-    } else {
-      $ins = $pdo->prepare(
-        "INSERT INTO conversations (contact_id, channel, subject, unread, updated_at)
-         VALUES (?, 'whatsapp', ?, 1, NOW())"
-      );
-      $ins->execute([$contactId, "WhatsApp – $contactName"]);
-      $convId = (int)$pdo->lastInsertId();
-    }
-
-    // 3. Insert message (idempotent: skip if same body inserted in last 5 sec)
-    $dup = $pdo->prepare(
-      "SELECT id FROM messages
-       WHERE conversation_id = ? AND body = ? AND sent_at >= DATE_SUB(NOW(), INTERVAL 5 SECOND)
-       LIMIT 1"
-    );
-    $dup->execute([$convId, $message]);
-    if ($dup->fetch()) return; // already written (double-trigger guard)
-
-    $sender = ($role === 'user') ? 'them' : 'me';
-    $pdo->prepare(
-      "INSERT INTO messages (conversation_id, sender, body, sent_at) VALUES (?, ?, ?, NOW())"
-    )->execute([$convId, $sender, $message]);
-
-    // Bump conversation timestamp + mark unread on inbound
-    if ($role === 'user') {
-      $pdo->prepare(
-        "UPDATE conversations SET updated_at = NOW(), unread = unread + 1 WHERE id = ?"
-      )->execute([$convId]);
-    } else {
-      $pdo->prepare(
-        "UPDATE conversations SET updated_at = NOW() WHERE id = ?"
-      )->execute([$convId]);
-    }
-  } catch (Throwable $e) {
-    // Non-blocking — WhatsApp reply is not held hostage by CRM sync failures
-    error_log('wa_sync_crm error: ' . $e->getMessage());
-  }
-}
+// wa_sync_crm() removed: it was querying contacts/conversations/messages from
+// webmed6_nwm (the api-php DB) where those tables don't exist — silently failing
+// every call. CRM sync is now handled exclusively by wa_mirror_to_crm(), which
+// opens a correct second PDO to webmed6_crm. Both inbound and outbound turns are
+// mirrored there so the Conversations module shows the full thread.
 
 /**
  * PR 3: Cross-DB mirror — webmed6_nwm → webmed6_crm.

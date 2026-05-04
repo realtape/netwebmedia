@@ -353,9 +353,9 @@ function wf_crm_advance(array $run, PDO $db): string {
             $body = $config['body'] ?? '';
             if (!$to) { $stepResult = 'no_phone'; break; }
             try {
-                require_once __DIR__ . '/twilio_client.php';
-                $res = twilioSendWhatsapp($to, $body);
-                $stepResult = $res['ok'] ? 'wa_sent' : 'wa_failed';
+                require_once __DIR__ . '/wa_meta_send.php';
+                $res = wa_meta_send((string)$to, (string)$body);
+                $stepResult = $res['success'] ? 'wa_sent' : 'wa_failed:' . ($res['error'] ?? 'unknown');
             } catch (Throwable $e) {
                 $stepResult = 'wa_error:' . $e->getMessage();
             }
@@ -663,14 +663,23 @@ function wf_crm_advance(array $run, PDO $db): string {
                         $sendOk = !empty($res['ok']);
                         if (!$sendOk) $sendErr = $res['error'] ?? 'mail_send_failed';
                     }
-                } elseif ($channel === 'sms' || $channel === 'whatsapp') {
+                } elseif ($channel === 'whatsapp') {
+                    require_once __DIR__ . '/wa_meta_send.php';
+                    $phone = $row['contact_phone'] ?? null;
+                    if (!$phone) { $sendErr = 'no_recipient_phone'; }
+                    else {
+                        $res = wa_meta_send((string)$phone, $body);
+                        $sendOk = $res['success'];
+                        if (!$sendOk) $sendErr = 'wa_meta_send_failed:' . ($res['error'] ?? 'unknown');
+                    }
+                } elseif ($channel === 'sms') {
                     require_once __DIR__ . '/twilio_client.php';
                     $phone = $row['contact_phone'] ?? null;
                     if (!$phone) { $sendErr = 'no_recipient_phone'; }
                     else {
-                        $sid = twilio_send($phone, $body, $channel);
+                        $sid = twilio_send($phone, $body, 'sms');
                         $sendOk = $sid !== false;
-                        if (!$sendOk) $sendErr = 'twilio_send_failed';
+                        if (!$sendOk) $sendErr = 'twilio_sms_failed';
                     }
                 } else {
                     // ig_dm or unknown — should have been routed to approval. Defense-in-depth.
@@ -809,14 +818,23 @@ function wf_crm_advance(array $run, PDO $db): string {
                         $sendOk = !empty($res['ok']);
                         if (!$sendOk) $sendErr = $res['error'] ?? 'mail_send_failed';
                     }
-                } elseif ($channel === 'sms' || $channel === 'whatsapp') {
+                } elseif ($channel === 'whatsapp') {
+                    require_once __DIR__ . '/wa_meta_send.php';
+                    $phone = $drow['contact_phone'] ?? null;
+                    if (!$phone) { $sendErr = 'no_recipient_phone'; }
+                    else {
+                        $res = wa_meta_send((string)$phone, $body);
+                        $sendOk = $res['success'];
+                        if (!$sendOk) $sendErr = 'wa_meta_send_failed:' . ($res['error'] ?? 'unknown');
+                    }
+                } elseif ($channel === 'sms') {
                     require_once __DIR__ . '/twilio_client.php';
                     $phone = $drow['contact_phone'] ?? null;
                     if (!$phone) { $sendErr = 'no_recipient_phone'; }
                     else {
-                        $sid = twilio_send($phone, $body, $channel);
+                        $sid = twilio_send($phone, $body, 'sms');
                         $sendOk = $sid !== false;
-                        if (!$sendOk) $sendErr = 'twilio_send_failed';
+                        if (!$sendOk) $sendErr = 'twilio_sms_failed';
                     }
                 } else {
                     $sendErr = 'channel_not_supported_for_holding:' . $channel;

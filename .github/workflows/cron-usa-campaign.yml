@@ -1,9 +1,13 @@
-name: Cron — USA Cold Outreach (wave 2 — every 1 min)
+name: Cron — USA Cold Outreach (wave 2 — every 15 min)
 # Wave 2: cap raised to 61000 to cover full 60,818-contact universe.
 # Wave 1 (30,000) complete 2026-05-01. Wave 2 started 2026-05-01.
+# Schedule reduced from every-minute to every-15-min on 2026-05-05 — the
+# every-minute cadence was burning ~44k Actions minutes/month with concurrency
+# already serialized to one runner anyway. 15-min × 3000 batch = 12k/hour
+# headroom, well above sending throughput.
 on:
   schedule:
-    - cron: '* * * * *'
+    - cron: '*/15 * * * *'
   workflow_dispatch:
     inputs:
       niche:
@@ -35,13 +39,15 @@ jobs:
           BATCH="${{ github.event.inputs.batch || '3000' }}"
 
           MODE="${{ github.event.inputs.mode || 'batch' }}"
-          # Token is embedded in api-php/usa-send.php; using GH secret if set,
-          # otherwise fall back to the embedded value.
+          # Token must be set as USA_SEND_TOKEN repo secret. No hardcoded
+          # fallback — committing live tokens to YAML leaks them via git history.
           TOKEN="${{ secrets.USA_SEND_TOKEN }}"
           if [ -z "$TOKEN" ]; then
-            TOKEN="NWM_USA_SEND_2026_d3f7e2c9a1b48560"
+            echo "::error::USA_SEND_TOKEN secret is not set."
+            echo "Set it with: gh secret set USA_SEND_TOKEN --repo netwebmedia/netwebmedia"
+            exit 1
           fi
-          # Token now sent via X-Auth-Token HEADER (not querystring) so it's
+          # Token sent via X-Auth-Token HEADER (not querystring) so it's
           # not logged in InMotion access logs / referrers / browser history.
           URL="https://netwebmedia.com/api/usa-send?mode=${MODE}&n=${BATCH}&cap_total=61000"
           if [ -n "$NICHE" ]; then
@@ -53,4 +59,5 @@ jobs:
             -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
             -H "Origin: https://netwebmedia.com" \
             -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            --max-time 600 \
             -w "\nHTTP Status: %{http_code}\n"

@@ -1,20 +1,9 @@
+// This Node.js stub is not deployed. Production auth is at api-php/routes/auth.php
 module.exports = (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(204).end();
 
-  if (req.method === 'POST') {
-    const { email, password } = req.body || {};
-    // Demo auth — replace with real auth in production
-    if (email === 'admin@netwebmedia.com' && password === 'admin123') {
-      return res.json({
-        token: 'demo_token_' + Date.now(),
-        user: { email, name: 'Admin', role: 'owner' },
-      });
-    }
-    return res.status(401).json({ error: 'Invalid credentials' });
-  }
-
-  res.status(405).json({ error: 'Method not allowed' });
+  return res.status(501).json({ error: 'This endpoint is not active. Use /api/auth instead.' });
 };

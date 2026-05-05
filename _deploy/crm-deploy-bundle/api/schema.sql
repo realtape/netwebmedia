@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   INDEX `idx_status` (`status`)
 ) ENGINE=InnoDB;
 
--- Seed a default admin user (password: admin123 — change immediately!)
+-- Seed default admin user. Set password via the admin panel before first use.
 INSERT INTO `users` (`name`, `email`, `password_hash`, `company`, `role`, `plan`, `status`) VALUES
-  ('Carlos Martinez', 'carlos@netwebmedia.com', '$2y$10$YXJyYXktcGFzc3dvcmQtaGFzaC1wbGFjZWhvbGRlcg', 'NetWebMedia', 'superadmin', 'enterprise', 'active')
+  ('Carlos Martinez', 'carlos@netwebmedia.com', 'CHANGE_THIS_HASH_BEFORE_USE', 'NetWebMedia', 'superadmin', 'enterprise', 'active')
 ON DUPLICATE KEY UPDATE `name` = VALUES(`name`);

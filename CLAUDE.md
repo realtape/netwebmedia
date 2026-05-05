@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - [Before Your First Commit — Checklist](#before-your-first-commit--checklist)
 - [What this repo is](#what-this-repo-is)
 - [Critical: Two Separate Databases](#critical-two-separate-databases)
+- [CRM Platform Decision](#crm-platform-decision--2026-05-05)
 - [MCP Server Configuration](#mcp-server-configuration-claude-code)
 - [Run locally](#run-locally)
 - [Secrets & Environment Setup](#secrets--environment-setup)
@@ -56,6 +57,7 @@ These constraints are durable and override defaults. Violating any of them creat
 | 8 | **No LinkedIn, no X/Twitter** distribution — durable Carlos decisions | [Social channels](#social-channels--whats-in-whats-permanently-out) |
 | 9 | **Don't edit auto-generated files** — edit the generator template instead | [Don't Edit These](#dont-edit-these--auto-generated-files) |
 | 10 | **Update both `data-en` and `data-es`** when changing bilingual copy | [Bilingual](#bilingual-en--es) |
+| 11 | **`crm-vanilla/` is the internal CRM of record** — do not add HubSpot or Supabase to production workflows | [CRM Platform Decision](#crm-platform-decision--2026-05-05) |
 
 ## Quick Start — Essential Commands
 
@@ -117,6 +119,14 @@ This is the **netwebmedia.com production property** plus a collection of support
 - `crm-vanilla/api/lib/wf_crm.php` operates in `webmed6_crm` (visual workflow builder)
 
 These are completely separate systems — do not mix them.
+
+## CRM Platform Decision — 2026-05-05
+
+**Internal CRM of record:** `crm-vanilla/` (PHP/MySQL at `/crm-vanilla/`) — 691 contacts, 60 seeded deals, primary pipeline tool.
+**Client-facing CRM SKU:** GHL White-Label — productized deliverable for clients; each client gets a sub-account.
+**Not active:** HubSpot (deferred backup option); Supabase (possible future migration target only — not in production use).
+
+When building internal ops features, always extend `crm-vanilla/api/`. When provisioning a new client, spin up a GHL sub-account using Estetica.Social as the template.
 
 ## MCP Server Configuration (Claude Code)
 

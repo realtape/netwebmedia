@@ -100,18 +100,30 @@ function route_public($parts, $method) {
 
     // Auto-create a contact resource if email is present & not duplicate
     if (!empty($ctx['email']) && filter_var($ctx['email'], FILTER_VALIDATE_EMAIL)) {
+      // Build a UTM/attribution block once — preserved on create AND merged on existing-contact updates
+      $utm = [];
+      foreach (['utm_source','utm_campaign','utm_medium','utm_content','utm_term','landing_page','referrer'] as $uk) {
+        if (!empty($b['data'][$uk])) $utm[$uk] = (string)$b['data'][$uk];
+      }
+      $niche = !empty($b['data']['niche']) ? (string)$b['data']['niche'] : null;
+
       $existing = qOne(
-        "SELECT id FROM resources WHERE type='contact' AND JSON_EXTRACT(data, '$.email') = ? LIMIT 1",
+        "SELECT id, data FROM resources WHERE type='contact' AND JSON_EXTRACT(data, '$.email') = ? LIMIT 1",
         [$ctx['email']]
       );
       if (!$existing) {
         $contactData = [
-          'name'   => $ctx['name'] ?? $ctx['email'],
-          'email'  => $ctx['email'],
-          'phone'  => $b['data']['phone'] ?? null,
-          'company'=> $b['data']['company'] ?? null,
-          'source' => 'form:' . $formTitle,
-          'tags'   => ['lead-new'],
+          'name'    => $ctx['name'] ?? $ctx['email'],
+          'email'   => $ctx['email'],
+          'phone'   => $b['data']['phone'] ?? null,
+          'company' => $b['data']['company'] ?? null,
+          'source'  => 'form:' . $formTitle,
+          'niche'   => $niche,
+          'tags'    => ['lead-new'],
+          'first_touch'    => $utm,
+          'last_touch'     => $utm,
+          'first_seen_at'  => date('c'),
+          'last_seen_at'   => date('c'),
         ];
         qExec(
           "INSERT INTO resources (org_id, type, slug, title, status, data) VALUES (?, 'contact', ?, ?, 'active', ?)",
@@ -119,7 +131,20 @@ function route_public($parts, $method) {
         );
         $ctx['contact_id'] = lastId();
       } else {
+        // Update existing: refresh last_touch, preserve first_touch, append niche if missing
         $ctx['contact_id'] = (int)$existing['id'];
+        $cd = json_decode($existing['data'] ?? '{}', true) ?: [];
+        if (empty($cd['first_touch']) && !empty($utm))   $cd['first_touch']   = $utm;
+        if (empty($cd['first_seen_at']))                  $cd['first_seen_at'] = date('c');
+        if (!empty($utm))                                  $cd['last_touch']   = $utm;
+        $cd['last_seen_at'] = date('c');
+        if ($niche && empty($cd['niche']))                $cd['niche']        = $niche;
+        // Tag: every form submission adds to a touchpoints list (capped at last 10)
+        $tps = $cd['touchpoints'] ?? [];
+        $tps[] = ['form' => $formTitle, 'at' => date('c'), 'utm' => $utm];
+        if (count($tps) > 10) $tps = array_slice($tps, -10);
+        $cd['touchpoints'] = $tps;
+        qExec("UPDATE resources SET data = ? WHERE id = ?", [json_encode($cd), $existing['id']]);
       }
     }
 

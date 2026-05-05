@@ -75,6 +75,14 @@ Options -Indexes
   # /api-php/ is the on-disk source folder; /api/ is the canonical public path.
   # 301 to /api/ instead of 403, per CLAUDE.md invariant — old clients still resolve.
   RewriteRule ^api-php(/.*)?$           /api$1 [R=301,L]
+  # ── 14-niche taxonomy enforcement (2026-05-05) ─────────────────────────
+  # Off-taxonomy hubs migrated into canonical 14 niches per CLAUDE.md hard
+  # constraint #1. Wildcard 301s preserve hub-level link equity; subpage
+  # equity is sacrificed for taxonomy consistency.
+  RewriteRule ^industries/ecommerce(/.*)?$            /industries/smb/ [R=301,L]
+  RewriteRule ^industries/professional-services(/.*)?$ /industries/smb/ [R=301,L]
+  RewriteRule ^industries/tech-saas(/.*)?$            /industries/smb/ [R=301,L]
+  RewriteRule ^industries/fitness(/.*)?$              /industries/local-services/ [R=301,L]
   RewriteRule ^n8n-templates(/|$)       - [F,L]
   RewriteRule ^plans(/|$)               - [F,L]
   RewriteRule ^proposals(/|$)           - [F,L]

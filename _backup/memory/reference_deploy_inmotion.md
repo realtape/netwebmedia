@@ -14,7 +14,7 @@ Carlos's instruction (2026-04-23): **always deploy with InMotion hosting**.
 
 ## Exception
 
-Client sites (e.g., DYADLaw) have their own hosts — DYAD runs on Vercel. This rule only applies to NetWebMedia-owned properties (netwebmedia.com + subdomains, companies.netwebmedia.com, the CRM/CMS demos, etc.).
+Client sites have their own hosts and may use Vercel or other providers. This rule only applies to NetWebMedia-owned properties.
 
 ## When adding new content that should deploy
 

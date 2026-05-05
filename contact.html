@@ -372,8 +372,16 @@
             </select>
           </div>
           <div class="form-group">
+            <label for="whatsapp" data-en="WhatsApp / Phone (optional)" data-es="WhatsApp / Teléfono (opcional)">WhatsApp / Phone <span style="font-weight:400;opacity:0.6;" data-en="(optional — for faster reply)" data-es="(opcional — para respuesta más rápida)">(optional — for faster reply)</span></label>
+            <input type="tel" id="whatsapp" name="whatsapp" class="form-control" placeholder="+1 (555) 000-0000" autocomplete="tel" />
+          </div>
+          <div class="form-group">
             <label for="message" data-en="Tell Us About Your Goals" data-es="Cuéntanos sobre tus Objetivos">Tell Us About Your Goals</label>
             <textarea id="message" name="message" class="form-control" placeholder="What are your top 3 growth goals for the next 12 months? What's your biggest marketing challenge right now?"></textarea>
+          </div>
+          <div class="form-group" style="display:flex;align-items:flex-start;gap:10px;margin-top:4px;">
+            <input type="checkbox" id="consent" name="consent" required style="margin-top:3px;flex-shrink:0;accent-color:#FF671F;" />
+            <label for="consent" style="font-size:13px;color:var(--text-secondary);line-height:1.5;cursor:pointer;" data-en='I agree to NetWebMedia&apos;s <a href="/privacy.html" style="color:#93c5fd;">Privacy Policy</a> and consent to being contacted about my request.' data-es='Acepto la <a href="/privacy.html" style="color:#93c5fd;">Política de Privacidad</a> de NetWebMedia y consiento ser contactado sobre mi solicitud.'>I agree to NetWebMedia's <a href="/privacy.html" style="color:#93c5fd;">Privacy Policy</a> and consent to being contacted about my request.</label>
           </div>
           <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:17px;padding:16px;" data-en="Send Audit Request →" data-es="Envía tu Solicitud →">
             Send Audit Request →

@@ -10,7 +10,7 @@
   window.__nwmChatLoaded = true;
 
   var path = location.pathname.toLowerCase();
-  var SKIP = ['/crm/', '/cms/', '/app/', '/login', '/dashboard', '/admin', '/desktop-login'];
+  var SKIP = ['/crm-vanilla/', '/crm/', '/cms/', '/app/', '/login', '/dashboard', '/admin', '/desktop-login'];
   for (var i = 0; i < SKIP.length; i++) {
     if (path.indexOf(SKIP[i]) === 0) return;
   }

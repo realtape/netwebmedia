@@ -6,6 +6,8 @@
 (function () {
   "use strict";
 
+  var API = 'api/index.php?r=';
+
   var draggedCard = null;
   var L;
   var stagesData = [];
@@ -135,7 +137,7 @@
     });
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/?r=deals', true);
+    xhr.open('POST', API + 'deals', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;
@@ -267,7 +269,7 @@
     drawer.style.right = '0';
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/?r=deals&id=' + dealId, true);
+    xhr.open('GET', API + 'deals&id=' + dealId, true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;
       if (xhr.status >= 200 && xhr.status < 300) {
@@ -335,7 +337,7 @@
     });
 
     var xhr = new XMLHttpRequest();
-    xhr.open('PUT', '/api/?r=deals&id=' + dealId, true);
+    xhr.open('PUT', API + 'deals&id=' + dealId, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;
@@ -368,7 +370,7 @@
     if (!confirm('Delete "' + title + '"? This cannot be undone.')) return;
 
     var xhr = new XMLHttpRequest();
-    xhr.open('DELETE', '/api/?r=deals&id=' + dealId, true);
+    xhr.open('DELETE', API + 'deals&id=' + dealId, true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;
       if (xhr.status >= 200 && xhr.status < 300) {
@@ -404,6 +406,7 @@
     injectModal();
     injectDrawer();
     injectTopBar();
+    injectScrollControls();
     loadStats();
     loadPipelineData();
   });
@@ -442,9 +445,53 @@
       '.pipe-list-table tr:hover td{background:#20232f}',
       '.pipe-source-mix{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}',
       '.pipe-source-pill{background:#1a1d27;border:1px solid #2a2d3a;border-radius:14px;padding:4px 10px;font-size:11px;color:#8b8fa3}',
-      '.pipe-source-pill b{color:#FF671F;margin-right:4px}'
+      '.pipe-source-pill b{color:#FF671F;margin-right:4px}',
+      '.pipe-scroll-ctrl{position:fixed;right:12px;bottom:70px;z-index:8000;display:flex;flex-direction:column;gap:6px}',
+      '.pipe-scroll-btn{width:38px;height:38px;border-radius:50%;border:1px solid #2a2d3a;background:#1a1d27;color:#e4e7ec;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.4);transition:.15s;line-height:1}',
+      '.pipe-scroll-btn:hover{background:#FF671F;border-color:#FF671F;color:#fff}',
+      '.pipe-scroll-btn[disabled]{opacity:.25;cursor:default;pointer-events:none}'
     ].join('\n');
     document.head.appendChild(s);
+  }
+
+  function updateScrollArrows() {
+    var cols = Array.prototype.slice.call(document.querySelectorAll('.column-cards'));
+    var atTop    = cols.length === 0 || cols.every(function (el) { return el.scrollTop <= 0; });
+    var atBottom = cols.length === 0 || cols.every(function (el) { return el.scrollTop + el.clientHeight >= el.scrollHeight - 2; });
+    var up = document.getElementById('pipeScrollUp');
+    var dn = document.getElementById('pipeScrollDn');
+    if (up) up.disabled = atTop;
+    if (dn) dn.disabled = atBottom;
+    /* re-attach scroll listeners whenever columns are re-rendered */
+    cols.forEach(function (el) {
+      if (!el._scrollListened) {
+        el._scrollListened = true;
+        el.addEventListener('scroll', updateScrollArrows, { passive: true });
+      }
+    });
+  }
+
+  function injectScrollControls() {
+    if (document.getElementById('pipeScrollCtrl')) return;
+    var wrap = document.createElement('div');
+    wrap.id = 'pipeScrollCtrl';
+    wrap.className = 'pipe-scroll-ctrl';
+    wrap.innerHTML =
+      '<button class="pipe-scroll-btn" id="pipeScrollUp" title="Scroll up">&#8679;</button>' +
+      '<button class="pipe-scroll-btn" id="pipeScrollDn" title="Scroll down">&#8681;</button>';
+    document.body.appendChild(wrap);
+
+    document.getElementById('pipeScrollUp').addEventListener('click', function () {
+      Array.prototype.slice.call(document.querySelectorAll('.column-cards'))
+        .forEach(function (el) { el.scrollBy({ top: -180, behavior: 'smooth' }); });
+      setTimeout(updateScrollArrows, 220);
+    });
+    document.getElementById('pipeScrollDn').addEventListener('click', function () {
+      Array.prototype.slice.call(document.querySelectorAll('.column-cards'))
+        .forEach(function (el) { el.scrollBy({ top: 180, behavior: 'smooth' }); });
+      setTimeout(updateScrollArrows, 220);
+    });
+    updateScrollArrows();
   }
 
   /* ── Top bar: tabs + KPIs + filters + view toggle ───────────────── */
@@ -586,7 +633,7 @@
 
   function loadStats() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/?r=stats', true);
+    xhr.open('GET', API + 'stats', true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;
       if (xhr.status >= 200 && xhr.status < 300) {
@@ -741,7 +788,7 @@
   function loadMarketingPipeline() {
     showSpinner();
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/?r=contacts&segment=all', true);
+    xhr.open('GET', API + 'contacts&segment=all', true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;
       var contacts = [];
@@ -755,7 +802,7 @@
       /* if deals not yet loaded, load them silently for SQL/Opportunity derivation */
       if (!dealsData.length) {
         var xd = new XMLHttpRequest();
-        xd.open('GET', '/api/?r=deals', true);
+        xd.open('GET', API + 'deals', true);
         xd.onreadystatechange = function () {
           if (xd.readyState !== 4) return;
           if (xd.status >= 200 && xd.status < 300) {
@@ -810,6 +857,7 @@
       html += '</div></div>';
     });
     board.innerHTML = html;
+    updateScrollArrows();
   }
 
   function renderContactCard(c) {
@@ -889,7 +937,7 @@
 
   function loadNicheStages(niche) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/?r=niche_config&niche=' + encodeURIComponent(niche), true);
+    xhr.open('GET', API + 'niche_config&niche=' + encodeURIComponent(niche), true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;
       if (xhr.status === 200) {
@@ -913,7 +961,7 @@
 
   function loadOrgStages() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/?r=stages', true);
+    xhr.open('GET', API + 'stages', true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;
       if (xhr.status >= 200 && xhr.status < 300) {
@@ -930,7 +978,7 @@
 
   function loadDeals() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/?r=deals', true);
+    xhr.open('GET', API + 'deals', true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;
       if (xhr.status >= 200 && xhr.status < 300) {
@@ -984,6 +1032,7 @@
 
     c.innerHTML = html;
     initDragDrop();
+    updateScrollArrows();
   }
 
   function renderDealCard(deal) {
@@ -1147,7 +1196,7 @@
     if (nameEl) nameEl.textContent = 'Saving…';
 
     var xhr = new XMLHttpRequest();
-    xhr.open('PUT', '/api/?r=deals&id=' + dealId, true);
+    xhr.open('PUT', API + 'deals&id=' + dealId, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;

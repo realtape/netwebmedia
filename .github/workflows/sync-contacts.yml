@@ -191,6 +191,7 @@ jobs:
           echo "  usa[35000] → $resp"
 
       - name: Import USA full list (usa_best_200)
+        continue-on-error: true
         env:
           IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
         run: |

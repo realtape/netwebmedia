@@ -35,9 +35,13 @@ jobs:
           NICHE="${{ github.event.inputs.niche }}"
           BATCH="${{ github.event.inputs.batch || '3000' }}"
           MODE="${{ github.event.inputs.mode || 'batch' }}"
+          # Token must be set as USA_W3_TOKEN repo secret. No hardcoded
+          # fallback — committing live tokens to YAML leaks them via git history.
           TOKEN="${{ secrets.USA_W3_TOKEN }}"
           if [ -z "$TOKEN" ]; then
-            TOKEN="NWM_USA_W3_2026_f8a3c1e9b2d47056"
+            echo "::error::USA_W3_TOKEN secret is not set."
+            echo "Set it with: gh secret set USA_W3_TOKEN --repo netwebmedia/netwebmedia"
+            exit 1
           fi
           URL="https://netwebmedia.com/api/usa-send-w3?mode=${MODE}&n=${BATCH}"
           if [ -n "$NICHE" ]; then
@@ -48,4 +52,5 @@ jobs:
             -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
             -H "Origin: https://netwebmedia.com" \
             -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            --max-time 600 \
             -w "\nHTTP Status: %{http_code}\n"

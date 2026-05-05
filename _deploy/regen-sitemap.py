@@ -58,6 +58,10 @@ EXCLUDE_FILES = {
     # Internal / verification files
     "NetWebMedia_Business_Marketing_Plan_2026.html",
     "googlef707382bdfd91013.html",
+    "meta-verification-worksheet.html",
+    "social-carousel-preview.html",
+    "form.html",
+    "review.html",
 }
 
 # Files matching these patterns are 403'd by .htaccess — must NOT appear in

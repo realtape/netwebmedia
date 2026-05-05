@@ -19,16 +19,7 @@
       + '</div>';
   }
 
-  var DOCUMENTS = [
-    { name: "TechCorp Enterprise Proposal", type: "Proposal", recipient: "Sarah Chen", status: "signed", created: "Apr 10, 2026" },
-    { name: "Innovate Co Service Agreement", type: "Contract", recipient: "Marcus Johnson", status: "sent", created: "Apr 8, 2026" },
-    { name: "GlobalFin Renewal Contract", type: "Contract", recipient: "David Kim", status: "viewed", created: "Apr 5, 2026" },
-    { name: "DesignHub Web Dev Proposal", type: "Proposal", recipient: "Rachel Foster", status: "draft", created: "Apr 12, 2026" },
-    { name: "EuroTech Enterprise SOW", type: "Proposal", recipient: "Nina Volkov", status: "sent", created: "Apr 7, 2026" },
-    { name: "Nexus Group NDA", type: "Contract", recipient: "Aisha Patel", status: "signed", created: "Apr 1, 2026" },
-    { name: "LATAM Retail Invoice Q1", type: "Invoice", recipient: "Carlos Mendez", status: "signed", created: "Mar 31, 2026" },
-    { name: "CloudNine Starter Proposal", type: "Proposal", recipient: "Lisa Wang", status: "draft", created: "Apr 13, 2026" }
-  ];
+  var DOCUMENTS = [];
 
   var activeTab = 0;
   var L, TABS;
@@ -80,6 +71,11 @@
 
     var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
     var html = betaBannerHTML(isEs);
+    if (filtered.length === 0) {
+      html += '<div style="padding:32px;text-align:center;color:var(--text-dim)">' + (isEs ? 'Sin documentos todavía' : 'No documents yet') + '</div>';
+      body.innerHTML = html;
+      return;
+    }
     html += '<table class="data-table"><thead><tr>';
     html += '<th>' + L.name + '</th><th>' + L.type + '</th><th>' + L.recipient + '</th><th>' + L.status + '</th><th>' + L.created + '</th><th>' + L.actions + '</th>';
     html += '</tr></thead><tbody>';

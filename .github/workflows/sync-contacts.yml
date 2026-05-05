@@ -12,6 +12,10 @@ on:
         type: boolean
         default: false
 
+concurrency:
+  group: sync-contacts
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -209,13 +213,23 @@ jobs:
 
       - name: Generate best-30k USA list (tag segment usa_best_30k)
         continue-on-error: true
+        env:
+          GEN_BEST_TOKEN: ${{ secrets.GEN_BEST_TOKEN }}
         run: |
+          # Token must be set as GEN_BEST_TOKEN repo secret. No hardcoded
+          # fallback — committing live tokens to YAML leaks them via git history.
+          token="${GEN_BEST_TOKEN}"
+          if [ -z "$token" ]; then
+            echo "::warning::GEN_BEST_TOKEN secret is not set — skipping gen_best_usa step."
+            echo "Set it with: gh secret set GEN_BEST_TOKEN --repo netwebmedia/netwebmedia"
+            exit 0
+          fi
           resp=$(curl -sS --max-time 180 \
             -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
             -H "Accept: application/json,text/plain,*/*" \
             -H "Origin: https://netwebmedia.com" \
             -H "Referer: https://netwebmedia.com/crm-vanilla/" \
-            "https://netwebmedia.com/crm-vanilla/api/?r=gen_best_usa&token=NWM_GEN_BEST_2026&run=1&limit=30000")
+            "https://netwebmedia.com/crm-vanilla/api/?r=gen_best_usa&token=${token}&run=1&limit=30000")
           echo "  gen_best_usa → $resp"
 
       - name: Summary

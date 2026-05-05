@@ -569,7 +569,9 @@ When building out a niche, the canonical pattern is:
 3. **Sitemap update**: add new posts at priority `0.75`, changefreq `monthly`, current `lastmod`.
 4. **Schema rule**: every post needs `Article` + `FAQPage`; industry-specific schema (`MedicalOrganization`, `Physician`, etc.) goes on the post that names that entity.
 
-Niches with full clusters as of 2026-05: `law_firms`, `tourism` (hospitality), `restaurants`, `health` (healthcare). Remaining 10 niches are pending — replicate the pattern, don't invent new structures.
+Canonical 2-pillar clusters (industry hub + Pillar 1 `<niche>-aeo-strategy-2026.html` + Pillar 2 `<niche>-local-seo-vs-aeo.html`) are shipped for **all 14 niches** as of 2026-05-05 — verified against filesystem. Don't invent new structures or rename pillars when extending.
+
+An optional **audit-findings third pillar** exists only for `law_firms` (`blog/law-firm-audit-findings-2026.html` — note the filename uses singular "law-firm"). It's a 232-line bilingual editorial with niche-specific schema findings and stylized audit data ("We audited 50 X websites — here's what we found"). Treat as a future expansion candidate, not a coverage gap; do not mass-generate the other 13 without an explicit Carlos go-ahead, since each needs niche-specific schema (LodgingBusiness, Restaurant, MedicalOrganization, etc.) and defensible audit data, not template-fill.
 
 ## Mobile app — Capacitor 6 (`mobile/`)
 

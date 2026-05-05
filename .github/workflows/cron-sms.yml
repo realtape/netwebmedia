@@ -27,4 +27,5 @@ jobs:
           curl -s -X POST \
             "https://netwebmedia.com/api/sms/cron/process?token=${TOKEN}&batch=100" \
             -H "User-Agent: NetWebMedia-Cron" \
-            -w "\nHTTP Status: %{http_code}\n" | head -30
+            --max-time 30 \
+            -w "\nHTTP Status: %{http_code}\n"

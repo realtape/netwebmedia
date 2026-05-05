@@ -214,6 +214,9 @@ try {
     // USA cold-outreach wave 3 (CSV-based, usa_5x_full.csv, ~263k unique emails).
     require __DIR__ . '/usa-send-w3.php';
     exit;
+  } elseif ($group === 'sprint') {
+    require __DIR__ . '/routes/sprint.php';
+    route_sprint($parts, $method);
   } elseif ($group === 'ab-tests' || $group === 'abtests') {
     require __DIR__ . '/routes/abtests.php';
     route_abtests($parts, $method);

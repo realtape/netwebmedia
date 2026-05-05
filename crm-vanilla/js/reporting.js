@@ -106,6 +106,7 @@
     var contacts  = data.contacts  || {};
     var deals     = data.deals     || {};
     var campaigns = data.campaigns || {};
+    var sprint    = data.sprint    || {};
 
     var html = '';
 
@@ -116,6 +117,175 @@
     html += summaryCard(L.totalValue,    formatCurrency(deals.total_value || 0), '');
     html += summaryCard(L.wonThisMonth,  deals.won_this_month || 0, 'green');
     html += '</div>';
+
+    /* ── 30-Day Sprint KPI widgets ── */
+    html += '<div style="margin:24px 0 8px">';
+    html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:12px 16px;' +
+            'background:rgba(255,103,31,.08);border-left:3px solid #FF671F;border-radius:8px">';
+    html += '<span style="font-size:16px">🚀</span>';
+    html += '<div><strong style="color:#FF671F">30-Day Sprint KPIs</strong>' +
+            '<span style="color:var(--text-dim);font-size:12px;margin-left:8px">' +
+            escHtml(sprint.period || 'May 5–Jun 4, 2026') + '</span></div>';
+    html += '</div>';
+
+    html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px">';
+
+    /* Widget 1 — Pipeline by stage (open pipeline) */
+    html += '<div style="background:var(--bg-card,#1a1d2e);border-radius:12px;padding:18px 20px;' +
+            'border-top:3px solid #010F3B">';
+    html += '<div style="font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--text-dim);margin-bottom:10px">Open Pipeline</div>';
+    html += '<div style="font-size:1.75rem;font-weight:700;color:#fff;line-height:1">' +
+            formatCurrency(sprint.open_pipeline_value || 0) + '</div>';
+    html += '<div style="font-size:12px;color:var(--text-dim);margin-top:4px">' +
+            (sprint.open_pipeline_count || 0) + ' open deal' +
+            ((sprint.open_pipeline_count !== 1) ? 's' : '') + '</div>';
+    /* mini stage bars */
+    var stageData = deals.by_stage || [];
+    var openStages = [];
+    for (var wsi = 0; wsi < stageData.length; wsi++) {
+      var st = stageData[wsi];
+      var sn = (st.stage || '').toLowerCase();
+      if (sn !== 'closed won' && sn !== 'closed lost') openStages.push(st);
+    }
+    if (openStages.length) {
+      var maxSV = 1;
+      for (var wsi2 = 0; wsi2 < openStages.length; wsi2++) {
+        if (openStages[wsi2].count > maxSV) maxSV = openStages[wsi2].count;
+      }
+      html += '<div style="margin-top:14px">';
+      for (var wsi3 = 0; wsi3 < openStages.length; wsi3++) {
+        var wst = openStages[wsi3];
+        var wPct = Math.round((wst.count / maxSV) * 100);
+        html += '<div style="margin-bottom:8px">';
+        html += '<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px">';
+        html += '<span style="color:var(--text-dim)">' + escHtml(wst.stage) + '</span>';
+        html += '<span style="font-weight:600">' + wst.count + '</span>';
+        html += '</div>';
+        html += '<div style="height:4px;background:var(--bg-secondary,#252840);border-radius:2px;overflow:hidden">';
+        html += '<div style="height:4px;width:' + wPct + '%;background:linear-gradient(90deg,#010F3B,#FF671F);border-radius:2px"></div>';
+        html += '</div>';
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+
+    /* Widget 2 — Contacts by niche */
+    html += '<div style="background:var(--bg-card,#1a1d2e);border-radius:12px;padding:18px 20px;' +
+            'border-top:3px solid #a29bfe">';
+    html += '<div style="font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--text-dim);margin-bottom:10px">Contacts by Niche</div>';
+    var nicheColors = {
+      healthcare: '#00b894', health: '#00b894',
+      real_estate: '#74b9ff', real_estate_mortgage: '#74b9ff',
+      saas: '#a29bfe', tech_saas: '#a29bfe', saas_tech: '#a29bfe',
+      hospitality: '#fd79a8', tourism: '#fd79a8',
+      untagged: '#636e72'
+    };
+    var nichePriority = ['healthcare', 'health', 'real_estate', 'real_estate_mortgage',
+                         'saas', 'tech_saas', 'hospitality', 'tourism'];
+    var nicheRows = sprint.by_niche || [];
+    if (!nicheRows.length) {
+      html += '<div style="font-size:13px;color:var(--text-dim)">No segment data yet — assign niches to contacts to populate.</div>';
+    } else {
+      var maxNicheCount = 1;
+      for (var ni = 0; ni < nicheRows.length; ni++) {
+        if (nicheRows[ni].count > maxNicheCount) maxNicheCount = nicheRows[ni].count;
+      }
+      /* Show priority niches first, then others, max 6 rows */
+      var sortedNiches = nicheRows.slice().sort(function(a,b) {
+        var ai = nichePriority.indexOf(a.niche), bi = nichePriority.indexOf(b.niche);
+        if (ai === -1) ai = 99; if (bi === -1) bi = 99;
+        return ai !== bi ? ai - bi : b.count - a.count;
+      });
+      var totalContacts = 0;
+      for (var ni2 = 0; ni2 < sortedNiches.length; ni2++) totalContacts += sortedNiches[ni2].count;
+      html += '<div style="font-size:1.75rem;font-weight:700;color:#fff;line-height:1;margin-bottom:12px">' +
+              totalContacts + '</div>';
+      for (var ni3 = 0; ni3 < Math.min(sortedNiches.length, 5); ni3++) {
+        var nr = sortedNiches[ni3];
+        var nColor = nicheColors[nr.niche] || '#fdcb6e';
+        var nPct = Math.round((nr.count / maxNicheCount) * 100);
+        html += '<div style="margin-bottom:8px">';
+        html += '<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px">';
+        html += '<span style="color:var(--text-dim)">' + escHtml(nr.niche.replace(/_/g,' ')) + '</span>';
+        html += '<span style="font-weight:600">' + nr.count + '</span>';
+        html += '</div>';
+        html += '<div style="height:4px;background:var(--bg-secondary,#252840);border-radius:2px;overflow:hidden">';
+        html += '<div style="height:4px;width:' + nPct + '%;background:' + nColor + ';border-radius:2px"></div>';
+        html += '</div>';
+        html += '</div>';
+      }
+    }
+    html += '</div>';
+
+    /* Widget 3 — Conversions by channel (Closed Won by source) */
+    html += '<div style="background:var(--bg-card,#1a1d2e);border-radius:12px;padding:18px 20px;' +
+            'border-top:3px solid #00b894">';
+    html += '<div style="font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--text-dim);margin-bottom:10px">Won by Channel</div>';
+    var channelRows = sprint.by_channel || [];
+    var totalWon = 0;
+    for (var chi = 0; chi < channelRows.length; chi++) totalWon += channelRows[chi].count;
+    html += '<div style="font-size:1.75rem;font-weight:700;color:#00b894;line-height:1;margin-bottom:12px">' +
+            totalWon + ' <span style="font-size:13px;font-weight:400;color:var(--text-dim)">deals closed</span></div>';
+    if (!channelRows.length) {
+      html += '<div style="font-size:13px;color:var(--text-dim)">Sprint starting — first conversions will appear here.</div>';
+    } else {
+      var maxCH = 1;
+      for (var chi2 = 0; chi2 < channelRows.length; chi2++) {
+        if (channelRows[chi2].count > maxCH) maxCH = channelRows[chi2].count;
+      }
+      var chColors = ['#00b894','#FF671F','#a29bfe','#74b9ff','#fdcb6e','#fd79a8'];
+      for (var chi3 = 0; chi3 < Math.min(channelRows.length, 5); chi3++) {
+        var ch = channelRows[chi3];
+        var chPct = Math.round((ch.count / maxCH) * 100);
+        html += '<div style="margin-bottom:8px">';
+        html += '<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px">';
+        html += '<span style="color:var(--text-dim)">' + escHtml(ch.source.replace(/_/g,' ')) + '</span>';
+        html += '<span style="font-weight:600">' + ch.count +
+                ' <span style="color:var(--text-dim)">(' + formatCurrency(ch.value) + ')</span></span>';
+        html += '</div>';
+        html += '<div style="height:4px;background:var(--bg-secondary,#252840);border-radius:2px;overflow:hidden">';
+        html += '<div style="height:4px;width:' + chPct + '%;background:' + (chColors[chi3] || '#636e72') + ';border-radius:2px"></div>';
+        html += '</div>';
+        html += '</div>';
+      }
+    }
+    html += '</div>';
+
+    /* Widget 4 — Projected MRR */
+    html += '<div style="background:var(--bg-card,#1a1d2e);border-radius:12px;padding:18px 20px;' +
+            'border-top:3px solid #FF671F">';
+    html += '<div style="font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--text-dim);margin-bottom:10px">Projected MRR</div>';
+    var pmrr = sprint.projected_mrr || 0;
+    html += '<div style="font-size:1.75rem;font-weight:700;color:#FF671F;line-height:1">' +
+            formatCurrency(pmrr) + '<span style="font-size:13px;font-weight:400;color:var(--text-dim)">/mo</span></div>';
+    html += '<div style="font-size:12px;color:var(--text-dim);margin-top:4px">Weighted open pipeline</div>';
+    /* Tier benchmarks */
+    html += '<div style="margin-top:14px;border-top:1px solid rgba(255,255,255,.07);padding-top:12px">';
+    html += '<div style="font-size:11px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Sprint targets</div>';
+    var tiers = [
+      {label:'3× Starter', value: 3 * 249, color:'#74b9ff'},
+      {label:'3× Standard', value: 3 * 1490, color:'#FF671F'},
+      {label:'1× Premium', value: 2990, color:'#a29bfe'}
+    ];
+    for (var ti = 0; ti < tiers.length; ti++) {
+      var t = tiers[ti];
+      var tPct = pmrr >= t.value ? 100 : (pmrr > 0 ? Math.round((pmrr / t.value) * 100) : 0);
+      html += '<div style="margin-bottom:8px">';
+      html += '<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px">';
+      html += '<span style="color:var(--text-dim)">' + t.label + '</span>';
+      html += '<span style="font-weight:600;color:' + t.color + '">' + formatCurrency(t.value) + '</span>';
+      html += '</div>';
+      html += '<div style="height:4px;background:var(--bg-secondary,#252840);border-radius:2px;overflow:hidden">';
+      html += '<div style="height:4px;width:' + tPct + '%;background:' + t.color + ';border-radius:2px;transition:width .4s"></div>';
+      html += '</div>';
+      html += '</div>';
+    }
+    html += '</div>';
+    html += '</div>';
+
+    html += '</div>'; /* end sprint grid */
+    html += '</div>'; /* end sprint section */
 
     /* ── two-column charts row ── */
     html += '<div class="charts-row">';

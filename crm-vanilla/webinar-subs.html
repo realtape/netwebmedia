@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webinar Registrations — Sprint Tracking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css?v=11">
+  <style>
+    .sp-wrap { padding: 24px 28px; }
+    .sp-head { display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;margin-bottom:18px; }
+    .sp-head h1 { margin:0;font-size:22px; }
+    .sp-head .pill { display:inline-block;padding:4px 11px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.04em;background:rgba(255,103,31,.12);color:#FF671F; }
+    .sp-cards { display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:18px; }
+    .sp-card { padding:16px 18px;border-radius:10px;border:1px solid var(--border,rgba(255,255,255,.10));background:var(--card,#041640); }
+    .sp-card .lbl { color:var(--muted,#8892b0);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase; }
+    .sp-card .val { font-size:26px;font-weight:800;margin-top:4px;font-family:'Poppins','Inter',sans-serif;color:#FF671F; }
+    .sp-card .sub { color:var(--muted,#8892b0);font-size:11px;margin-top:4px; }
+    .sp-card .progress { height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-top:8px; }
+    .sp-card .progress > div { height:5px;background:linear-gradient(90deg,#FF671F,#ff8c4a);border-radius:3px;transition:width .4s; }
+
+    .sp-toolbar { display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:14px 16px;background:var(--card,#041640);border:1px solid var(--border,rgba(255,255,255,.10));border-radius:10px;margin-bottom:14px; }
+    .sp-toolbar select, .sp-toolbar input, .sp-toolbar button { padding:8px 12px;border-radius:6px;font-size:13px;font-weight:600;font-family:inherit; }
+    .sp-toolbar select, .sp-toolbar input { background:rgba(255,255,255,.04);color:var(--fg,#eaf0ff);border:1px solid var(--border,rgba(255,255,255,.10)); }
+    .sp-toolbar button { border:1px solid var(--border,rgba(255,255,255,.10));background:rgba(255,255,255,.04);color:var(--fg,#eaf0ff);cursor:pointer; }
+    .sp-toolbar button:hover { border-color:#FF671F;color:#FF671F; }
+    .sp-toolbar button.primary { background:linear-gradient(135deg,#FF671F,#ff8c4a);color:#010F3B;border:none; }
+    .sp-toolbar .spacer { flex:1; }
+
+    .sp-table { width:100%;border-collapse:collapse;background:var(--card,#041640);border:1px solid var(--border,rgba(255,255,255,.10));border-radius:10px;overflow:hidden; }
+    .sp-table th, .sp-table td { padding:11px 14px;text-align:left;font-size:13px;border-bottom:1px solid var(--border,rgba(255,255,255,.08));vertical-align:top; }
+    .sp-table th { background:rgba(255,255,255,.04);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted,#8892b0); }
+    .sp-table tr:last-child td { border-bottom:0; }
+    .sp-table tr:hover td { background:rgba(255,255,255,.02); }
+
+    .niche-pill { display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em; }
+    .niche-healthcare { background:rgba(0,184,148,.14);color:#00b894; }
+    .niche-real_estate { background:rgba(116,185,255,.14);color:#74b9ff; }
+    .niche-saas { background:rgba(162,155,254,.14);color:#a29bfe; }
+    .niche-hospitality { background:rgba(253,121,168,.14);color:#fd79a8; }
+    .niche-other, .niche-unspecified { background:rgba(140,150,180,.14);color:#8b95b3; }
+
+    .sp-empty { text-align:center;padding:40px 20px;color:var(--muted,#8892b0); }
+    .sp-msg { padding:12px 14px;border-radius:8px;margin:14px 0;font-size:13px;line-height:1.5; }
+    .sp-msg.err { background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);color:#ef4444; }
+    .sp-msg.ok { background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.3);color:#22C55E; }
+
+    .sp-breakdown { display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px; }
+    @media (max-width:720px) { .sp-breakdown { grid-template-columns:1fr; } }
+    .sp-breakdown-card { background:var(--card,#041640);border:1px solid var(--border,rgba(255,255,255,.10));border-radius:10px;padding:16px 18px; }
+    .sp-breakdown-card h3 { margin:0 0 12px;font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#8892b0); }
+    .sp-bar-row { margin-bottom:10px; }
+    .sp-bar-row .lbl-row { display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px; }
+    .sp-bar-row .lbl-row span:first-child { color:var(--fg,#eaf0ff); }
+    .sp-bar-row .lbl-row span:last-child { color:var(--muted,#8892b0);font-weight:700; }
+    .sp-bar { height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden; }
+    .sp-bar > div { height:6px;border-radius:3px;transition:width .4s; }
+  </style>
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
+  </script>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main-content" id="mainContent">
+      <header class="page-header" id="pageHeader"></header>
+      <div class="sp-wrap">
+        <div class="sp-head">
+          <div>
+            <h1>Webinar Registrations</h1>
+            <div style="margin-top:6px;color:var(--muted,#8892b0);font-size:13px;">
+              30-Day Sprint tracking — registrations from <code>/lp/webinar-ai-marketing-system.html</code>. Webinar: <strong>Thu May 22, 2026 · 12:00 PM EST</strong>.
+            </div>
+          </div>
+          <span class="pill" id="sprintPill">May 5–Jun 4, 2026</span>
+        </div>
+
+        <div class="sp-cards" id="sprintCards"></div>
+
+        <div class="sp-breakdown" id="sprintBreakdown"></div>
+
+        <div class="sp-toolbar">
+          <label style="font-size:12px;color:var(--muted,#8892b0);font-weight:600;">FILTER NICHE</label>
+          <select id="filterNiche">
+            <option value="">All niches</option>
+            <option value="healthcare">Healthcare</option>
+            <option value="real_estate">Real Estate</option>
+            <option value="saas">SaaS / Tech</option>
+            <option value="hospitality">Hospitality</option>
+            <option value="other">Other</option>
+          </select>
+          <input type="text" id="searchBox" placeholder="Search name, email, company…" style="min-width:220px;" />
+          <span class="spacer"></span>
+          <button id="refreshBtn">Refresh</button>
+          <button id="exportBtn" class="primary">⇩ Export CSV</button>
+        </div>
+
+        <div id="spMsg"></div>
+        <div id="spTableWrap"></div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script>
+  <script src="js/app.js?v=11"></script>
+  <script src="js/webinar-subs.js?v=1"></script>
+</body>
+</html>

@@ -503,18 +503,18 @@ NetWebMedia's CRM and content target **exactly 14 niches** (do not add, rename, 
 |---|---|---|---|
 | 1 | `tourism` | `industries/hospitality/` | Hotels, vacation rentals, tour operators |
 | 2 | `restaurants` | `industries/restaurants/` | Restaurants, cafes, bars |
-| 3 | `health` | `industries/health/` | Clinics, dentists, vets, therapy |
+| 3 | `health` | `industries/healthcare/` | Display slug differs from key. Clinics, dentists, vets, therapy |
 | 4 | `beauty` | `industries/beauty/` | Salons, spas, barbers |
 | 5 | `smb` | `industries/smb/` | General small/medium business catch-all |
 | 6 | `law_firms` | `industries/legal-services/` | Display slug differs from key |
 | 7 | `real_estate` | `industries/real-estate/` | Brokerages, property management |
-| 8 | `local_specialist` | `industries/local_specialist/` | Boutiques, niche local retail, gyms |
+| 8 | `local_specialist` | `industries/local-services/` | Display slug differs from key. Boutiques, niche local retail, gyms |
 | 9 | `automotive` | `industries/automotive/` | Dealers, repair, parts |
 | 10 | `education` | `industries/education/` | Schools, tutors, language schools |
-| 11 | `events_weddings` | `industries/events_weddings/` | Wedding planners, event venues |
-| 12 | `financial_services` | `industries/financial_services/` | Accountants, advisors, brokers |
-| 13 | `home_services` | `industries/home_services/` | Plumbers, electricians, landscapers, cleaning |
-| 14 | `wine_agriculture` | `industries/wine_agriculture/` | Wineries, vineyards, farms |
+| 11 | `events_weddings` | `industries/events-weddings/` | Wedding planners, event venues. Path uses dashes |
+| 12 | `financial_services` | `industries/finance/` | Display slug differs from key. Accountants, advisors, brokers |
+| 13 | `home_services` | `industries/home-services/` | Plumbers, electricians, landscapers, cleaning. Path uses dashes |
+| 14 | `wine_agriculture` | `industries/wine-agriculture/` | Wineries, vineyards, farms. Path uses dashes |
 
 When generating new industry pages, copy an existing one as a template — the layout and schema/AEO blocks need to match. See [AEO content cluster pattern](#aeo-content-cluster-pattern) for the per-niche content expansion plan.
 

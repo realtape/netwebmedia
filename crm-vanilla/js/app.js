@@ -722,7 +722,7 @@
       '<button data-l="en" class="' + (cur === "en" ? "on" : "") + '">EN</button>';
     var css = document.createElement("style");
     css.textContent =
-      '#nwmLangSwitch{position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:4px;background:#fff;border:1px solid #e3e5ee;border-radius:8px;padding:4px;box-shadow:0 6px 20px rgba(20,22,40,.12)}' +
+      '#nwmLangSwitch{position:fixed;left:14px;bottom:14px;z-index:9999;display:flex;gap:4px;background:#fff;border:1px solid #e3e5ee;border-radius:8px;padding:4px;box-shadow:0 6px 20px rgba(20,22,40,.12)}' +
       '#nwmLangSwitch button{border:0;background:transparent;color:#1a1a2e;font:600 12px -apple-system,Segoe UI,Roboto,sans-serif;padding:5px 10px;border-radius:6px;cursor:pointer;letter-spacing:.5px}' +
       '#nwmLangSwitch button.on{background:#FF6B00;color:#fff}' +
       '#nwmLangSwitch button:hover:not(.on){background:#f2f3f8}';

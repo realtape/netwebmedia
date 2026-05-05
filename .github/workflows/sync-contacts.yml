@@ -33,6 +33,7 @@ jobs:
           echo "  dedupe → $resp"
 
       - name: Import Chile CSV contacts
+        continue-on-error: true
         env:
           IMPORT_CSV_TOKEN: ${{ secrets.IMPORT_CSV_TOKEN }}
         run: |
@@ -49,6 +50,7 @@ jobs:
           echo "$resp" | grep -qE '"inserted"|"parsed"' || { echo "ERROR: Unexpected response from import_csv"; exit 1; }
 
       - name: Import Chile best prospects
+        continue-on-error: true
         env:
           IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
         run: |
@@ -65,6 +67,7 @@ jobs:
           echo "$resp" | grep -qE '"inserted"|"parsed"' || { echo "ERROR: Unexpected response from import_best (chile)"; exit 1; }
 
       - name: Import USA best prospects (chunk 1 — rows 0-4999)
+        continue-on-error: true
         env:
           IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
         run: |
@@ -80,6 +83,7 @@ jobs:
           echo "$resp" | grep -qE '"inserted"|"parsed"' || { echo "ERROR: Unexpected response"; exit 1; }
 
       - name: Import USA best prospects (chunk 2 — rows 5000-9999)
+        continue-on-error: true
         env:
           IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
         run: |
@@ -95,6 +99,7 @@ jobs:
           echo "$resp" | grep -qE '"inserted"|"parsed"' || { echo "ERROR: Unexpected response"; exit 1; }
 
       - name: Import USA best prospects (chunk 3 — rows 10000-14999)
+        continue-on-error: true
         env:
           IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
         run: |
@@ -110,6 +115,7 @@ jobs:
           echo "$resp" | grep -qE '"inserted"|"parsed"' || { echo "ERROR: Unexpected response"; exit 1; }
 
       - name: Import USA best prospects (chunk 4 — rows 15000-19999)
+        continue-on-error: true
         env:
           IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
         run: |

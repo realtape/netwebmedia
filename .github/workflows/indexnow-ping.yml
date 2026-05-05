@@ -28,7 +28,9 @@ jobs:
         run: |
           # Pull every <loc> from sitemap.xml (the canonical URL inventory).
           # IndexNow accepts up to 10,000 URLs per submission.
-          urls=$(grep -oP '(?<=<loc>)[^<]+' sitemap.xml | head -10000)
+          # Write to a temp file first to avoid SIGPIPE with pipefail active.
+          grep -oP '(?<=<loc>)[^<]+' sitemap.xml > /tmp/all_urls.txt || true
+          urls=$(head -10000 /tmp/all_urls.txt)
           if [ -z "$urls" ]; then
             echo "No URLs found in sitemap.xml — nothing to ping."
             exit 0

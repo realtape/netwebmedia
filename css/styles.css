@@ -1463,8 +1463,9 @@ textarea.form-control { resize: vertical; min-height: 140px; }
   /* Safe-area padding for notched devices */
   body { padding-bottom: env(safe-area-inset-bottom, 0px); }
   .mobile-menu { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
-  /* Prevent horizontal overflow from absolute-positioned elements */
-  html, body { overflow-x: hidden; max-width: 100%; }
+  /* Prevent horizontal overflow — only on body, not html (html overflow-x:hidden breaks position:fixed on iOS Safari) */
+  html { max-width: 100%; }
+  body { overflow-x: hidden; max-width: 100%; }
 }
 
 /* Extra-small phones (iPhone 5/SE 1st gen @ 320px) */

@@ -68,9 +68,17 @@ jobs:
       - name: Smoke test
         run: |
           echo "Testing CRM endpoints..."
-          BASE="https://netwebmedia.com/companies/crm-vanilla"
+          # NOTE: this workflow is DEPRECATED — see header. The chrooted FTP user
+          # writes to /companies/crm-vanilla/ which is NOT the live CRM path.
+          # The live CRM is at /crm-vanilla/ (deployed by deploy-site-root.yml).
+          # We probe BOTH paths so a manual workflow_dispatch run reports
+          # whether the deprecated path got files AND whether the live path
+          # is still reachable.
           UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-          for path in "/" "/contacts.html" "/api/index.php?r=contacts" "/api/index.php?r=leads"; do
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$BASE$path" -H "User-Agent: $UA")
-            echo "  $path -> $STATUS"
+          for BASE in "https://netwebmedia.com/companies/crm-vanilla" "https://netwebmedia.com/crm-vanilla"; do
+            echo "── $BASE ──"
+            for path in "/" "/contacts.html" "/api/index.php?r=contacts" "/api/index.php?r=leads"; do
+              STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 20 "$BASE$path" -H "User-Agent: $UA")
+              echo "  $path -> $STATUS"
+            done
           done

@@ -15,6 +15,10 @@ on:
     - cron: '54 * * * *'
     - cron: '59 * * * *'
 
+concurrency:
+  group: cron-sms
+  cancel-in-progress: false
+
 jobs:
   sms-sender:
     runs-on: ubuntu-latest

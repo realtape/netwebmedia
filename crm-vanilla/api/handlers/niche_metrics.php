@@ -90,6 +90,7 @@ switch ($method) {
         break;
 
     case 'POST':
+        require_org_access_for_write('member');
         $d = getInput();
         $required = ['contact_id', 'niche', 'kpi_key', 'recorded_date'];
         foreach ($required as $f) {

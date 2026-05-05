@@ -79,6 +79,7 @@ switch ($method) {
 
     case 'POST':
         if (!$user || !$user['id']) jsonError('Authentication required', 401);
+        require_org_access_for_write('member');
         $d = getInput();
         if (empty($d['name']) || empty($d['subject']) || empty($d['body_html'])) {
             jsonError('name, subject, body_html required');

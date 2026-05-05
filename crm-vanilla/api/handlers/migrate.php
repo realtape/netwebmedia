@@ -44,9 +44,18 @@ foreach ($statements as $stmt) {
         $ran++;
     } catch (Throwable $e) {
         $msg = $e->getMessage();
+        // Prefer driver-specific code (errorInfo[1] for PDOException, errno for mysqli),
+        // fall back to substring match only for non-PDO surfaces (e.g. 'errno: 121').
+        $driverCode = null;
+        if ($e instanceof PDOException && is_array($e->errorInfo ?? null) && isset($e->errorInfo[1])) {
+            $driverCode = (string)$e->errorInfo[1];
+        }
         $hit = false;
         foreach ($idempotent_codes as $code) {
-            if (strpos($msg, $code) !== false) { $skipped++; $hit = true; break; }
+            if ($driverCode !== null && $driverCode === $code) { $skipped++; $hit = true; break; }
+            if ($driverCode === null && strpos($msg, $code) !== false) { $skipped++; $hit = true; break; }
+            // Special-case the InnoDB FK-name clash hint that doesn't surface as a numeric driver code.
+            if ($code === 'errno: 121' && strpos($msg, 'errno: 121') !== false) { $skipped++; $hit = true; break; }
         }
         if (!$hit) $errors[] = substr($stmt, 0, 80) . ' → ' . $msg;
     }

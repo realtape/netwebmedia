@@ -120,7 +120,7 @@
       page = 0;
       render();
     }).catch(function (e) {
-      if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#c0392b">Error loading contacts: ' + e.message + '</td></tr>';
+      if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#c0392b">Error loading contacts: ' + esc(e && e.message) + '</td></tr>';
     });
   }
 

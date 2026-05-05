@@ -722,6 +722,32 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 })();
 
+// ── Scroll-down FAB ───────────────────────────────────────────────────────
+(function nwmScrollFab() {
+  var btn = document.createElement('button');
+  btn.id = 'nwm-scroll-down';
+  btn.setAttribute('aria-label', 'Scroll down');
+  btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+  document.body.appendChild(btn);
+
+  function update() {
+    var scrolled = window.scrollY || window.pageYOffset;
+    var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    if (scrolled > 80 && scrolled < maxScroll - 40) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  }
+
+  btn.addEventListener('click', function () {
+    window.scrollBy({ top: window.innerHeight * 0.85, behavior: 'smooth' });
+  });
+
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
 // WhatsApp FAB is mounted by /assets/nwm-site-chat.js (canonical).
 // (Legacy in-this-file mounter removed to fix duplicate FABs.)
 

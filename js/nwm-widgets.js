@@ -12,9 +12,8 @@
   if (!window.__nwmWaLoaded) {
     window.__nwmWaLoaded = true;
 
-    var PHONE = '14155238886';
-    var MSG   = encodeURIComponent('Hi! I\u2019d like to learn more about NetWebMedia\u2019s services.');
-    var HREF  = 'https://wa.me/' + PHONE + '?text=' + MSG;
+    // WABA in Meta verification \u2014 canonical CTA is /whatsapp.html (intent landing).
+    var HREF = 'https://netwebmedia.com/whatsapp.html';
 
     function mountWA() {
       if (document.getElementById('nwm-wa-btn')) return;
@@ -33,7 +32,6 @@
       var btn = document.createElement('a');
       btn.id      = 'nwm-wa-btn';
       btn.href    = HREF;
-      btn.target  = '_blank';
       btn.rel     = 'noopener noreferrer';
       btn.setAttribute('aria-label', 'Chat with NetWebMedia on WhatsApp');
       btn.innerHTML =

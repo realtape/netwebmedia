@@ -168,6 +168,60 @@ try {
     }
 } catch (Exception $e) {}
 
+/* ── SPRINT KPIs (30-Day Sprint May 5–Jun 4, 2026) ───────────────────── */
+
+// Contacts by segment/niche
+$bySegment = [];
+try {
+    $sql = 'SELECT COALESCE(segment, "untagged") as seg, COUNT(*) as cnt FROM contacts';
+    if ($orgWhere) $sql .= ' WHERE ' . $orgWhere;
+    $sql .= ' GROUP BY seg ORDER BY cnt DESC LIMIT 10';
+    $stmt = $run($sql, $orgParams);
+    foreach ($stmt->fetchAll() as $r) {
+        $bySegment[] = ['niche' => $r['seg'], 'count' => (int)$r['cnt']];
+    }
+} catch (Exception $e) {}
+
+// Closed Won deals by source (conversions by channel)
+$bySource = [];
+try {
+    $sql = "SELECT COALESCE(d.source, 'organic') as src, COUNT(d.id) as cnt, COALESCE(SUM(d.value),0) as val
+            FROM deals d
+            JOIN pipeline_stages ps ON d.stage_id = ps.id
+            WHERE ps.name = 'Closed Won'";
+    if ($orgWhereD) $sql .= ' AND ' . $orgWhereD;
+    $sql .= ' GROUP BY src ORDER BY cnt DESC LIMIT 8';
+    $stmt = $run($sql, $orgParamsD);
+    foreach ($stmt->fetchAll() as $r) {
+        $bySource[] = ['source' => $r['src'], 'count' => (int)$r['cnt'], 'value' => (float)$r['val']];
+    }
+} catch (Exception $e) {}
+
+// Projected MRR — weighted pipeline (probability × value), excludes closed stages
+$projectedMrr = 0;
+try {
+    $sql = "SELECT SUM(d.value * d.probability / 100)
+            FROM deals d
+            JOIN pipeline_stages ps ON d.stage_id = ps.id
+            WHERE ps.name NOT IN ('Closed Won', 'Closed Lost')";
+    if ($orgWhereD) $sql .= ' AND ' . $orgWhereD;
+    $projectedMrr = (float)($run($sql, $orgParamsD)->fetchColumn() ?: 0);
+} catch (Exception $e) {}
+
+// Open pipeline totals (excludes closed stages)
+$openPipelineCount = 0;
+$openPipelineValue = 0;
+try {
+    $sql = "SELECT COUNT(d.id), COALESCE(SUM(d.value),0)
+            FROM deals d
+            JOIN pipeline_stages ps ON d.stage_id = ps.id
+            WHERE ps.name NOT IN ('Closed Won', 'Closed Lost')";
+    if ($orgWhereD) $sql .= ' AND ' . $orgWhereD;
+    $row = $run($sql, $orgParamsD)->fetch(\PDO::FETCH_NUM);
+    $openPipelineCount = (int)($row[0] ?? 0);
+    $openPipelineValue = (float)($row[1] ?? 0);
+} catch (Exception $e) {}
+
 /* ── RESPONSE ─────────────────────────────────────────────────────────── */
 
 jsonResponse([
@@ -188,5 +242,13 @@ jsonResponse([
         'avg_open_rate'  => $avgOpenRate,
         'avg_click_rate' => $avgClickRate,
         'recent'         => $recentCampaigns
+    ],
+    'sprint' => [
+        'period'               => 'May 5–Jun 4, 2026',
+        'by_niche'             => $bySegment,
+        'by_channel'           => $bySource,
+        'projected_mrr'        => round($projectedMrr, 2),
+        'open_pipeline_count'  => $openPipelineCount,
+        'open_pipeline_value'  => $openPipelineValue
     ]
 ]);

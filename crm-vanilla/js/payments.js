@@ -180,11 +180,10 @@
   }
 
   function renderPaymentLinks() {
-    var links = [
-      { name: "Premium Onboarding", url: "pay.netweb.com/premium", amount: "$2,500", clicks: 45, conversions: 12 },
-      { name: "Monthly Retainer", url: "pay.netweb.com/retainer", amount: "$1,200/mo", clicks: 128, conversions: 34 },
-      { name: "One-Time Setup", url: "pay.netweb.com/setup", amount: "$500", clicks: 67, conversions: 21 }
-    ];
+    var links = [];
+    if (links.length === 0) {
+      return '<div style="padding:32px;text-align:center;color:var(--text-dim)">' + L.noData + '</div>';
+    }
     var html = '<table class="data-table"><thead><tr>';
     html += '<th>' + L.name + '</th><th>' + L.link + '</th><th>' + L.amount + '</th><th>' + L.clicks + '</th><th>' + L.conversions + '</th><th>' + L.actions + '</th>';
     html += '</tr></thead><tbody>';
@@ -204,14 +203,10 @@
   }
 
   function renderTransactions() {
-    var txns = [
-      { id: "TXN-4821", client: "Sarah Chen", amount: "$24,500", type: "Invoice", method: "Credit Card", date: "Apr 10, 2026" },
-      { id: "TXN-4820", client: "David Kim", amount: "$45,000", type: "Invoice", method: "Bank Transfer", date: "Apr 5, 2026" },
-      { id: "TXN-4819", client: "Carlos Mendez", amount: "$28,750", type: "Invoice", method: "Credit Card", date: "Apr 3, 2026" },
-      { id: "TXN-4818", client: "Aisha Patel", amount: "$31,200", type: "Invoice", method: "Credit Card", date: "Apr 1, 2026" },
-      { id: "TXN-4817", client: "Nexus Group", amount: "$1,200", type: "Subscription", method: "Credit Card", date: "Apr 1, 2026" },
-      { id: "TXN-4816", client: "TechCorp", amount: "$2,450", type: "Subscription", method: "Credit Card", date: "Apr 1, 2026" }
-    ];
+    var txns = [];
+    if (txns.length === 0) {
+      return '<div style="padding:32px;text-align:center;color:var(--text-dim)">' + L.noData + '</div>';
+    }
     var html = '<table class="data-table"><thead><tr>';
     html += '<th>' + L.txnId + '</th><th>' + L.client + '</th><th>' + L.amount + '</th><th>' + L.type + '</th><th>' + L.method + '</th><th>' + L.date + '</th>';
     html += '</tr></thead><tbody>';

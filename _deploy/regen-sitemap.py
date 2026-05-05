@@ -73,7 +73,7 @@ PRIORITY_MAP = {
     "/pricing.html":            ("0.95", "weekly"),
     "/contact.html":            ("0.95", "weekly"),
     "/services.html":           ("0.95", "weekly"),
-    "/about.html":              ("0.7",  "monthly"),
+    "/about.html":              ("0.9",  "monthly"),
     "/results.html":            ("0.8",  "monthly"),
     "/faq.html":                ("0.8",  "monthly"),
     "/partners.html":           ("0.8",  "monthly"),

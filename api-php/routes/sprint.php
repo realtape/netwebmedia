@@ -11,7 +11,7 @@ require_once __DIR__ . '/../lib/response.php';
 require_once __DIR__ . '/../lib/auth.php';
 
 function route_sprint($parts, $method) {
-  $u = requireUser(); // admin auth
+  $u = requireAuth(); // admin auth
 
   $sub = $parts[0] ?? '';
   $sub2 = $parts[1] ?? '';

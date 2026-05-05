@@ -43,7 +43,7 @@ function ai_qualify(array $lead): array {
         return [
             'score' => $score,
             'service_fit' => $lead['service_interest'] ?: 'ai-seo',
-            'reply' => "Hi " . ($lead['first_name'] ?? 'there') . ", thanks for reaching out to NetWebMedia! We received your message and a strategist will be in touch within 24 hours with a personalized plan. In the meantime, feel free to explore our free website analyzer at netwebmedia.com/analytics.html.",
+            'reply' => "Hi " . htmlspecialchars((string)($lead['first_name'] ?? 'there'), ENT_QUOTES, 'UTF-8') . ", thanks for reaching out to NetWebMedia! We received your message and a strategist will be in touch within 24 hours with a personalized plan. In the meantime, feel free to explore our free website analyzer at netwebmedia.com/analytics.html.",
             'source' => 'heuristic',
         ];
     }

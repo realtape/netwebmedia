@@ -209,12 +209,12 @@
       var openRate  = c.sent > 0 ? ((c.opens  / c.sent) * 100).toFixed(1) + "%" : "-";
       var clickRate = c.sent > 0 ? ((c.clicks / c.sent) * 100).toFixed(1) + "%" : "-";
       html += '<tr>';
-      html += '<td><strong>' + c.name + '</strong></td>';
+      html += '<td><strong>' + escHtml(c.name || '-') + '</strong></td>';
       html += '<td>' + CRM_APP.statusBadge(c.status) + '</td>';
       html += '<td>' + (c.sent > 0 ? c.sent.toLocaleString() : "-") + '</td>';
       html += '<td>' + (c.sent > 0 ? c.opens.toLocaleString() + ' <span style="color:var(--text-dim);font-size:11px">(' + openRate  + ')</span>' : "-") + '</td>';
       html += '<td>' + (c.sent > 0 ? c.clicks.toLocaleString() + ' <span style="color:var(--text-dim);font-size:11px">(' + clickRate + ')</span>' : "-") + '</td>';
-      html += '<td>' + c.date + '</td>';
+      html += '<td>' + escHtml(c.date || '-') + '</td>';
       html += '<td><button class="action-link">Edit</button> <button class="action-link">Clone</button></td>';
       html += '</tr>';
     }

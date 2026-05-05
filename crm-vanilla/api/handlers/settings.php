@@ -83,6 +83,7 @@ switch ($method) {
         break;
 
     case 'POST':
+        require_org_access_for_write('member');
         $data = getInput();
         if (empty($data)) {
             jsonError('No data provided');

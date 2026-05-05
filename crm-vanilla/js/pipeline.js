@@ -868,7 +868,7 @@
     if (c.email)   html += '<div class="deal-card-contact">' + escapeHtml(c.email) + '</div>';
     if (c.source) {
       var srcLabels = { cold_email_chile:'Chile Email', cold_email_usa:'USA Email', whatsapp:'WhatsApp', referral:'Referral', inbound_website:'Website', inbound_call:'Call', social_media:'Social', event:'Event', manual:'Manual' };
-      html += '<div class="deal-card-tags"><span class="deal-card-tag">' + (srcLabels[c.source] || c.source) + '</span></div>';
+      html += '<div class="deal-card-tags"><span class="deal-card-tag">' + (srcLabels[c.source] || escapeHtml(c.source)) + '</span></div>';
     }
     /* quick actions */
     var qa = '';

@@ -26,6 +26,10 @@ if (!$social_ready) {
     }
 }
 
+if ($method !== 'GET') {
+    require_org_access_for_write('member');
+}
+
 switch ($sub) {
     case 'providers':
         if ($method !== 'GET') jsonError('Method not allowed', 405);
@@ -249,6 +253,7 @@ function handleListScheduled(int $uid, PDO $db, ?int $orgId): void {
     $ensureSql = 'CREATE TABLE IF NOT EXISTS `social_scheduled` (
       `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       `user_id` INT UNSIGNED NOT NULL DEFAULT 0,
+      `organization_id` INT UNSIGNED DEFAULT NULL,
       `providers` VARCHAR(255) NOT NULL,
       `caption` TEXT NOT NULL,
       `media_url` VARCHAR(2048) DEFAULT NULL,
@@ -258,6 +263,7 @@ function handleListScheduled(int $uid, PDO $db, ?int $orgId): void {
       `error` TEXT NULL DEFAULT NULL,
       `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       INDEX `idx_user` (`user_id`),
+      INDEX `idx_org` (`organization_id`),
       INDEX `idx_status_scheduled` (`status`, `scheduled_at`)
     ) ENGINE=InnoDB';
     $db->exec($ensureSql);
@@ -288,6 +294,7 @@ function handleCreateScheduled(int $uid, PDO $db, ?int $orgId): void {
     $db->exec('CREATE TABLE IF NOT EXISTS `social_scheduled` (
       `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       `user_id` INT UNSIGNED NOT NULL DEFAULT 0,
+      `organization_id` INT UNSIGNED DEFAULT NULL,
       `providers` VARCHAR(255) NOT NULL,
       `caption` TEXT NOT NULL,
       `media_url` VARCHAR(2048) DEFAULT NULL,
@@ -297,6 +304,7 @@ function handleCreateScheduled(int $uid, PDO $db, ?int $orgId): void {
       `error` TEXT NULL DEFAULT NULL,
       `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       INDEX `idx_user` (`user_id`),
+      INDEX `idx_org` (`organization_id`),
       INDEX `idx_status_scheduled` (`status`, `scheduled_at`)
     ) ENGINE=InnoDB');
 
@@ -322,6 +330,7 @@ function handlePublishDue(int $uid, PDO $db, ?int $orgId): void {
     $db->exec('CREATE TABLE IF NOT EXISTS `social_scheduled` (
       `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
       `user_id` INT UNSIGNED NOT NULL DEFAULT 0,
+      `organization_id` INT UNSIGNED DEFAULT NULL,
       `providers` VARCHAR(255) NOT NULL,
       `caption` TEXT NOT NULL,
       `media_url` VARCHAR(2048) DEFAULT NULL,
@@ -331,6 +340,7 @@ function handlePublishDue(int $uid, PDO $db, ?int $orgId): void {
       `error` TEXT NULL DEFAULT NULL,
       `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       INDEX `idx_user` (`user_id`),
+      INDEX `idx_org` (`organization_id`),
       INDEX `idx_status_scheduled` (`status`, `scheduled_at`)
     ) ENGINE=InnoDB');
 

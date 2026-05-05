@@ -94,6 +94,7 @@ try {
             echo json_encode($reports);
         }
     } elseif ($method === 'POST') {
+        require_org_access_for_write('member');
         // Create or upsert report
         $input = json_decode(file_get_contents('php://input'), true);
 

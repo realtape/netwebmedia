@@ -60,11 +60,19 @@ function advanceDealStage($db, $token, $toStageName) {
 }
 
 if ($a === 'open' && $t) {
-    $db->prepare("UPDATE campaign_sends SET status='opened', opened_at=COALESCE(opened_at, NOW()) WHERE token=? AND status IN ('sent','queued')")
-        ->execute([$t]);
-    // Bump campaign counter (only once per send via status check above)
-    $db->prepare("UPDATE email_campaigns c JOIN campaign_sends s ON s.campaign_id=c.id SET c.opened_count=c.opened_count+1 WHERE s.token=? AND s.status='opened' AND s.opened_at > NOW() - INTERVAL 5 SECOND")
-        ->execute([$t]);
+    // Scope by organization_id to prevent cross-org token-collision flipping send rows.
+    $openOrgId = track_org_id_for_token($db, $t, $orgSchemaApplied);
+    if ($openOrgId !== null) {
+        $db->prepare("UPDATE campaign_sends SET status='opened', opened_at=COALESCE(opened_at, NOW()) WHERE token=? AND organization_id=? AND status IN ('sent','queued')")
+            ->execute([$t, $openOrgId]);
+        $db->prepare("UPDATE email_campaigns c JOIN campaign_sends s ON s.campaign_id=c.id SET c.opened_count=c.opened_count+1 WHERE s.token=? AND s.organization_id=? AND s.status='opened' AND s.opened_at > NOW() - INTERVAL 5 SECOND")
+            ->execute([$t, $openOrgId]);
+    } else {
+        $db->prepare("UPDATE campaign_sends SET status='opened', opened_at=COALESCE(opened_at, NOW()) WHERE token=? AND status IN ('sent','queued')")
+            ->execute([$t]);
+        $db->prepare("UPDATE email_campaigns c JOIN campaign_sends s ON s.campaign_id=c.id SET c.opened_count=c.opened_count+1 WHERE s.token=? AND s.status='opened' AND s.opened_at > NOW() - INTERVAL 5 SECOND")
+            ->execute([$t]);
+    }
     advanceDealStage($db, $t, 'Contacted');
     header('Content-Type: image/gif');
     header('Cache-Control: no-store, no-cache, must-revalidate');
@@ -80,10 +88,18 @@ if ($a === 'click' && $t) {
     }
 
     // ── Record click ──────────────────────────────────────────────────────
-    $db->prepare("UPDATE campaign_sends SET status='clicked', clicked_at=COALESCE(clicked_at, NOW()), opened_at=COALESCE(opened_at, NOW()) WHERE token=?")
-        ->execute([$t]);
-    $db->prepare("UPDATE email_campaigns c JOIN campaign_sends s ON s.campaign_id=c.id SET c.clicked_count=c.clicked_count+1 WHERE s.token=? AND s.clicked_at > NOW() - INTERVAL 5 SECOND")
-        ->execute([$t]);
+    $clickOrgId = track_org_id_for_token($db, $t, $orgSchemaApplied);
+    if ($clickOrgId !== null) {
+        $db->prepare("UPDATE campaign_sends SET status='clicked', clicked_at=COALESCE(clicked_at, NOW()), opened_at=COALESCE(opened_at, NOW()) WHERE token=? AND organization_id=?")
+            ->execute([$t, $clickOrgId]);
+        $db->prepare("UPDATE email_campaigns c JOIN campaign_sends s ON s.campaign_id=c.id SET c.clicked_count=c.clicked_count+1 WHERE s.token=? AND s.organization_id=? AND s.clicked_at > NOW() - INTERVAL 5 SECOND")
+            ->execute([$t, $clickOrgId]);
+    } else {
+        $db->prepare("UPDATE campaign_sends SET status='clicked', clicked_at=COALESCE(clicked_at, NOW()), opened_at=COALESCE(opened_at, NOW()) WHERE token=?")
+            ->execute([$t]);
+        $db->prepare("UPDATE email_campaigns c JOIN campaign_sends s ON s.campaign_id=c.id SET c.clicked_count=c.clicked_count+1 WHERE s.token=? AND s.clicked_at > NOW() - INTERVAL 5 SECOND")
+            ->execute([$t]);
+    }
     advanceDealStage($db, $t, 'Qualified');
 
     // ── Append UTMs for GA4 attribution ──────────────────────────────────

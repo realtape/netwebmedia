@@ -26,7 +26,7 @@
 
     var style = document.createElement('style');
     style.textContent =
-      '.nwm-app-cta{position:fixed;bottom:14px;right:14px;z-index:9998;display:flex;align-items:center;gap:10px;' +
+      '.nwm-app-cta{position:fixed;bottom:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));right:14px;z-index:9998;display:flex;align-items:center;gap:10px;' +
       'padding:12px 14px 12px 16px;border-radius:999px;background:#010F3B;color:#fff;' +
       'box-shadow:0 8px 24px rgba(0,0,0,.28),0 2px 6px rgba(0,0,0,.18);' +
       'font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:14px;font-weight:600;' +

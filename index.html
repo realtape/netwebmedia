@@ -394,24 +394,59 @@
           <a href="/aeo-index.html" style="color:#FFB58A;text-decoration:underline;font-weight:600;" data-i18n="hero_aeo_index">Score your AEO Citation Index in 60 seconds →</a>
         </p>
 
-        <!-- MVP services strip — 3 plans above the fold -->
-        <div style="margin-top:28px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:560px;">
-          <a href="services.html" style="text-decoration:none;padding:14px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:4px;transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(255,103,31,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
-            <span style="font-size:10px;font-weight:700;letter-spacing:.08em;color:#FF671F;text-transform:uppercase;" data-en="AEO Starter" data-es="AEO Starter">AEO Starter</span>
-            <span style="font-size:18px;font-weight:800;color:var(--text-primary);line-height:1;">$249<span style="font-size:11px;font-weight:500;color:var(--text-secondary);">/mo</span></span>
-            <span style="font-size:11px;color:var(--text-secondary);line-height:1.4;" data-en="AEO + SEO + content strategy" data-es="AEO + SEO + estrategia de contenido">AEO + SEO + content strategy</span>
-          </a>
-          <a href="services.html" style="text-decoration:none;padding:14px 12px;border-radius:12px;border:1px solid rgba(255,103,31,0.5);background:rgba(255,103,31,0.06);display:flex;flex-direction:column;gap:4px;position:relative;transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(255,103,31,0.8)'" onmouseout="this.style.borderColor='rgba(255,103,31,0.5)'">
-            <span style="position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:#FF671F;color:#fff;font-size:8px;font-weight:800;letter-spacing:.06em;padding:2px 8px;border-radius:20px;text-transform:uppercase;white-space:nowrap;" data-en="Most Popular" data-es="Más Popular">Most Popular</span>
-            <span style="font-size:10px;font-weight:700;letter-spacing:.08em;color:#FF671F;text-transform:uppercase;" data-en="CMO Growth" data-es="CMO Growth">CMO Growth</span>
-            <span style="font-size:18px;font-weight:800;color:var(--text-primary);line-height:1;">$999<span style="font-size:11px;font-weight:500;color:var(--text-secondary);">/mo</span></span>
-            <span style="font-size:11px;color:var(--text-secondary);line-height:1.4;" data-en="AEO + paid ads + social" data-es="AEO + anuncios + social">AEO + paid ads + social</span>
-          </a>
-          <a href="services.html" style="text-decoration:none;padding:14px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:4px;transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(255,103,31,0.4)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
-            <span style="font-size:10px;font-weight:700;letter-spacing:.08em;color:#FF671F;text-transform:uppercase;" data-en="CMO Scale" data-es="CMO Scale">CMO Scale</span>
-            <span style="font-size:18px;font-weight:800;color:var(--text-primary);line-height:1;">$2,499<span style="font-size:11px;font-weight:500;color:var(--text-secondary);">/mo</span></span>
-            <span style="font-size:11px;color:var(--text-secondary);line-height:1.4;" data-en="Full-stack marketing dept." data-es="Dpto. de marketing completo">Full-stack marketing dept.</span>
-          </a>
+        <!-- Pricing cards — matches services.html layout -->
+        <div style="margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:20px;text-align:left;">
+          <!-- AEO Starter -->
+          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,103,31,.25);border-radius:16px;padding:28px;display:flex;flex-direction:column;">
+            <div style="font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#FF671F;margin-bottom:8px;" data-en="AEO Starter" data-es="AEO Starter">AEO Starter</div>
+            <div style="font-size:13px;color:#9aa;margin-bottom:16px;" data-en="AEO + SEO + content strategy" data-es="AEO + SEO + estrategia de contenido">AEO + SEO + content strategy</div>
+            <div style="font-size:36px;font-weight:900;background:linear-gradient(135deg,#FF6B00,#ff3d00);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin-bottom:4px;">$249</div>
+            <div style="font-size:13px;color:#9aa;margin-bottom:20px;" data-en="/mo · no setup fee" data-es="/mes · sin tarifa de configuración">/mo · no setup fee</div>
+            <ul style="list-style:none;padding:0;margin:0 0 24px;flex:1;font-size:14px;color:#dde3ee;">
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ AEO + AI citation strategy" data-es="✓ Estrategia de citación AEO + IA">✓ AEO + AI citation strategy</li>
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ Monthly content calendar &amp; execution" data-es="✓ Calendario de contenido mensual y ejecución">✓ Monthly content calendar &amp; execution</li>
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ SEO audit + keyword roadmap" data-es="✓ Auditoría SEO + hoja de ruta de palabras clave">✓ SEO audit + keyword roadmap</li>
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ NWM CRM included" data-es="✓ NWM CRM incluido">✓ NWM CRM included</li>
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ Monthly async strategy note" data-es="✓ Nota de estrategia asíncrona mensual">✓ Monthly async strategy note</li>
+              <li style="padding:7px 0;color:#FFB082;" data-en="↗ 90-day upgrade credit to Growth / Scale" data-es="↗ Crédito de actualización de 90 días a Growth / Scale">↗ 90-day upgrade credit to Growth / Scale</li>
+            </ul>
+            <a href="/contact.html?plan=cmo-lite&intent=sales" style="display:block;text-align:center;padding:13px;border-radius:10px;background:linear-gradient(135deg,#FF6B00,#ff3d00);color:#fff;text-decoration:none;font-weight:700;font-size:14px;" data-en="Get started →" data-es="Empezar →">Get started →</a>
+          </div>
+          <!-- CMO Growth -->
+          <div style="background:rgba(255,255,255,.03);border:2px solid rgba(255,103,31,.55);border-radius:16px;padding:28px;display:flex;flex-direction:column;position:relative;">
+            <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#FF6B00,#ff3d00);color:#fff;padding:4px 16px;border-radius:99px;font-size:11px;font-weight:800;letter-spacing:.1em;white-space:nowrap;" data-en="MOST POPULAR" data-es="MÁS POPULAR">MOST POPULAR</div>
+            <div style="font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#FF671F;margin-bottom:8px;" data-en="CMO Growth" data-es="CMO Growth">CMO Growth</div>
+            <div style="font-size:13px;color:#9aa;margin-bottom:16px;" data-en="AEO + SEO + paid ads + social" data-es="AEO + SEO + anuncios pagos + redes sociales">AEO + SEO + paid ads + social</div>
+            <div style="font-size:36px;font-weight:900;background:linear-gradient(135deg,#FF6B00,#ff3d00);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin-bottom:4px;">$999</div>
+            <div style="font-size:13px;color:#9aa;margin-bottom:20px;" data-en="/mo · setup $499" data-es="/mes · configuración $499">/mo · setup $499</div>
+            <ul style="list-style:none;padding:0;margin:0 0 24px;flex:1;font-size:14px;color:#dde3ee;">
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ Everything in AEO Starter +" data-es="✓ Todo en AEO Starter +">✓ Everything in AEO Starter +</li>
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ Paid ads management (Google + Meta)" data-es="✓ Gestión de anuncios pagos (Google + Meta)">✓ Paid ads management (Google + Meta)</li>
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ Social media content &amp; posting" data-es="✓ Contenido de redes sociales y publicación">✓ Social media content &amp; posting</li>
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ Email marketing automation" data-es="✓ Automatización de marketing por email">✓ Email marketing automation</li>
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ AI SDR + lead qualification" data-es="✓ AI SDR + calificación de leads">✓ AI SDR + lead qualification</li>
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ Monthly async strategy report" data-es="✓ Informe de estrategia asíncrona mensual">✓ Monthly async strategy report</li>
+              <li style="padding:7px 0;color:#9aa;font-size:12.5px;" data-en="+ ad spend at cost + 12% mgmt fee (min $300/mo)" data-es="+ presupuesto publicitario a costo + tarifa de gestión 12% (min $300/mes)">+ ad spend at cost + 12% mgmt fee (min $300/mo)</li>
+            </ul>
+            <a href="/contact.html?plan=cmo-growth&intent=sales" style="display:block;text-align:center;padding:13px;border-radius:10px;background:linear-gradient(135deg,#FF6B00,#ff3d00);color:#fff;text-decoration:none;font-weight:700;font-size:14px;" data-en="Get started →" data-es="Empezar →">Get started →</a>
+          </div>
+          <!-- CMO Scale -->
+          <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,103,31,.25);border-radius:16px;padding:28px;display:flex;flex-direction:column;">
+            <div style="font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#FF671F;margin-bottom:8px;" data-en="CMO Scale" data-es="CMO Scale">CMO Scale</div>
+            <div style="font-size:13px;color:#9aa;margin-bottom:16px;" data-en="Full-stack marketing department" data-es="Departamento de marketing de pila completa">Full-stack marketing department</div>
+            <div style="font-size:36px;font-weight:900;background:linear-gradient(135deg,#FF6B00,#ff3d00);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;margin-bottom:4px;">$2,499</div>
+            <div style="font-size:13px;color:#9aa;margin-bottom:20px;" data-en="/mo · setup $999" data-es="/mes · configuración $999">/mo · setup $999</div>
+            <ul style="list-style:none;padding:0;margin:0 0 24px;flex:1;font-size:14px;color:#dde3ee;">
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ Everything in CMO Growth" data-es="✓ Todo en CMO Growth">✓ Everything in CMO Growth</li>
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ Video factory (16 Reels/mo)" data-es="✓ Fábrica de video (16 Reels/mes)">✓ Video factory (16 Reels/mo)</li>
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ Custom AI agents + voice AI" data-es="✓ Agentes IA personalizados + IA de voz">✓ Custom AI agents + voice AI</li>
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ White-glove onboarding" data-es="✓ Incorporación de servicio premium">✓ White-glove onboarding</li>
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ Dedicated account strategist" data-es="✓ Estratega de cuenta dedicado">✓ Dedicated account strategist</li>
+              <li style="padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);" data-en="✓ Priority support + daily Slack access" data-es="✓ Soporte prioritario + acceso diario a Slack">✓ Priority support + acceso diario a Slack</li>
+              <li style="padding:7px 0;color:#9aa;font-size:12.5px;" data-en="+ ad spend at cost + 12% mgmt fee (min $300/mo)" data-es="+ presupuesto publicitario a costo + tarifa de gestión 12% (min $300/mes)">+ ad spend at cost + 12% mgmt fee (min $300/mo)</li>
+            </ul>
+            <a href="/contact.html?plan=cmo-scale&intent=sales" style="display:block;text-align:center;padding:13px;border-radius:10px;border:1px solid rgba(255,103,31,.6);background:transparent;color:#FF671F;text-decoration:none;font-weight:700;font-size:14px;" data-en="Contact sales →" data-es="Contactar ventas →">Contact sales →</a>
+          </div>
         </div>
 
       </div>

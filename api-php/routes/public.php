@@ -475,8 +475,8 @@ function route_public($parts, $method) {
       // Render simple confirmation HTML
       header('Content-Type: text/html; charset=UTF-8');
       echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Unsubscribed</title>' .
-           '<style>body{font-family:-apple-system,sans-serif;background:#0a0e27;color:#fff;display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0;padding:20px;text-align:center}div{max-width:420px}h1{color:#FF6B00}</style></head>' .
-           '<body><div><h1>You\'re unsubscribed</h1><p>We\'ve removed <strong>' . htmlspecialchars($email) . '</strong> from all email sequences. The door stays open if you change your mind.</p><p><a href="https://netwebmedia.com" style="color:#FF6B00">Back to NetWebMedia</a></p></div></body></html>';
+           '<style>body{font-family:-apple-system,sans-serif;background:#0a0e27;color:#fff;display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0;padding:20px;text-align:center}div{max-width:420px}h1{color:#FF671F}</style></head>' .
+           '<body><div><h1>You\'re unsubscribed</h1><p>We\'ve removed <strong>' . htmlspecialchars($email) . '</strong> from all email sequences. The door stays open if you change your mind.</p><p><a href="https://netwebmedia.com" style="color:#FF671F">Back to NetWebMedia</a></p></div></body></html>';
       exit;
     }
     if ($action === 'keep') {
@@ -493,7 +493,7 @@ function route_public($parts, $method) {
       header('Content-Type: text/html; charset=UTF-8');
       echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Welcome back</title>' .
            '<style>body{font-family:-apple-system,sans-serif;background:#0a0e27;color:#fff;display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0;padding:20px;text-align:center}div{max-width:420px}h1{color:#7fe3a3}</style></head>' .
-           '<body><div><h1>Welcome back! 🎉</h1><p>We\'ve confirmed <strong>' . htmlspecialchars($email) . '</strong> stays subscribed. Quality content coming your way.</p><p><a href="https://netwebmedia.com" style="color:#FF6B00">Back to NetWebMedia</a></p></div></body></html>';
+           '<body><div><h1>Welcome back! 🎉</h1><p>We\'ve confirmed <strong>' . htmlspecialchars($email) . '</strong> stays subscribed. Quality content coming your way.</p><p><a href="https://netwebmedia.com" style="color:#FF671F">Back to NetWebMedia</a></p></div></body></html>';
       exit;
     }
     err('Unknown action', 400);
@@ -529,7 +529,7 @@ function route_public($parts, $method) {
   if ($sub === 'stats' && $method === 'GET') {
     $counts = [];
     foreach (['page', 'blog_post', 'landing_page', 'form', 'template', 'contact', 'deal'] as $t) {
-      $counts[$t] = (int) qOne("SELECT COUNT(*) AS c FROM resources WHERE type = ?", [$t])['c'];
+      $counts[$t] = (int) (qOne("SELECT COUNT(*) AS c FROM resources WHERE type = ?", [$t])['c'] ?? 0);
     }
     $submissions30d = (int) qOne(
       "SELECT COUNT(*) AS c FROM form_submissions WHERE created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)"

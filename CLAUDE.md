@@ -392,12 +392,14 @@ A second fallback cron should also drive the `api-php` newsletter queue (separat
 
 ### API route modules (`api-php/routes/`)
 
-22 route files, each handling a business domain:
-- **Core:** `auth.php`, `resources.php` (EAV CRUD), `public.php`
-- **CRM entities:** `contacts.php`, `deals.php`, `campaigns.php`, `comments.php`
-- **Comms:** `whatsapp.php`, `social.php`, `ai.php`, `nwmai.php`, `public-chat.php`
-- **Integrations:** `hubspot.php`, `vapi.php` (voice), `heygen.php` (video synthesis), `billing.php`
-- **Content/ops:** `content.php`, `recipes.php`, `video.php`, `audit.php`, `abtests.php`, `workflows.php`, `cmo.php`
+44 route files, each handling a business domain:
+- **Core:** `auth.php`, `resources.php` (EAV CRUD), `public.php`, `public-chat.php`, `health.php`
+- **CRM entities:** `contacts.php`, `deals.php`, `campaigns.php`, `comments.php`, `leads.php`, `segments.php`, `tasks.php`, `notes.php`, `timeline.php`, `lifecycle.php`, `snapshots.php`
+- **Comms:** `whatsapp.php`, `sms.php`, `social.php`, `ai.php`, `nwmai.php`, `notifications.php`
+- **Integrations:** `hubspot.php`, `vapi.php` (voice), `heygen.php` (video synthesis), `billing.php`, `webhooks.php`
+- **Content/ops:** `content.php`, `recipes.php`, `video.php`, `audit.php`, `abtests.php`, `workflows.php`, `cmo.php`, `forms.php`, `courses.php`, `reputation.php`, `booking.php`, `catalogue.php`
+- **Analytics:** `forecast.php`, `predictions.php`, `sprint.php`, `calls.php`, `aeo_score.php`, `email_builder.php`
+- **Infra:** `cron.php`
 
 `crm-vanilla/api/` uses **query-string routing** (`?r=resource&id=123`) instead of path-based routing — this is intentional ModSecurity evasion for the CRM's internal API.
 

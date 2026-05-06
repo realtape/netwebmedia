@@ -24,12 +24,12 @@ if (!defined('DB_PASS')) define('DB_PASS', '');
 // tripwires: if they ever get accepted on prod it means config.local.php is missing — fail fast.
 // Previous defaults (NWM_MIGRATE_2026 etc.) leaked publicly via a misconfigured deploy on
 // 2026-04-29 and are considered compromised. Rotated below; rotate again on the server.
-if (!defined('MIGRATE_TOKEN'))     define('MIGRATE_TOKEN',     'NWM_MIGRATE_2026_ROTATED_7d790e0bb4992a6e');
-if (!defined('SEED_TOKEN'))        define('SEED_TOKEN',        'NWM_SEED_2026_ROTATED_d47666718c958165');
-if (!defined('DEDUPE_TOKEN'))      define('DEDUPE_TOKEN',      'NWM_DEDUPE_2026_ROTATED_83775ea8cf335894');
-if (!defined('IMPORT_BEST_TOKEN')) define('IMPORT_BEST_TOKEN', 'NWM_IMPORT_BEST_2026_ROTATED_54d352ecf7cdd544');
-if (!defined('IMPORT_CSV_TOKEN'))  define('IMPORT_CSV_TOKEN',  'NWM_IMPORT_CHILE_2026_ROTATED_65b7d4eb01eaf403');
-if (!defined('GEN_BEST_TOKEN'))    define('GEN_BEST_TOKEN',    'NWM_GEN_BEST_2026');
+if (!defined('MIGRATE_TOKEN'))     define('MIGRATE_TOKEN',     bin2hex(random_bytes(32)));
+if (!defined('SEED_TOKEN'))        define('SEED_TOKEN',        bin2hex(random_bytes(32)));
+if (!defined('DEDUPE_TOKEN'))      define('DEDUPE_TOKEN',      bin2hex(random_bytes(32)));
+if (!defined('IMPORT_BEST_TOKEN')) define('IMPORT_BEST_TOKEN', bin2hex(random_bytes(32)));
+if (!defined('IMPORT_CSV_TOKEN'))  define('IMPORT_CSV_TOKEN',  bin2hex(random_bytes(32)));
+if (!defined('GEN_BEST_TOKEN'))    define('GEN_BEST_TOKEN',    bin2hex(random_bytes(32)));
 
 // Sentry DSN — same project as the JS-side capture in /js/nwm-sentry.js (loaded
 // from index.html via window.NWM_SENTRY_DSN). Public DSN; safe to commit.

@@ -528,7 +528,7 @@
     if (document.getElementById('nwm-chat-style')) return;
     const css = `
       #nwm-chat-launcher{position:fixed;left:20px;bottom:20px;z-index:9998;display:flex;align-items:center;gap:10px;flex-direction:row;}
-      #nwm-chat-launcher .nwm-chat-btn{position:relative;display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#FF6B00,#ff3d00);color:#fff;box-shadow:0 8px 24px rgba(255,107,0,.45),0 2px 6px rgba(0,0,0,.25);border:none;outline:none;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;font-size:0;padding:0}
+      #nwm-chat-launcher .nwm-chat-btn{position:relative;display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#FF671F,#FF671F);color:#fff;box-shadow:0 8px 24px rgba(255,107,0,.45),0 2px 6px rgba(0,0,0,.25);border:none;outline:none;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;font-size:0;padding:0}
       #nwm-chat-launcher .nwm-chat-btn:hover{transform:scale(1.08);box-shadow:0 10px 28px rgba(255,107,0,.6),0 2px 6px rgba(0,0,0,.3);}
       #nwm-chat-launcher .nwm-chat-btn svg{width:30px;height:30px;fill:#fff}
       #nwm-chat-launcher .nwm-chat-tip{background:#0a1033;color:#fff;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.3);white-space:nowrap;opacity:0;transform:translateX(-8px);transition:opacity .25s ease,transform .25s ease;pointer-events:none;border:1px solid rgba(255,255,255,.1);max-width:240px}
@@ -541,7 +541,7 @@
       #nwm-chat-panel.open{display:flex;animation:nwmChatSlide .3s cubic-bezier(.2,.8,.2,1)}
       @keyframes nwmChatSlide{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
 
-      .nwm-chat-header{display:flex;align-items:center;gap:12px;padding:16px 18px;background:linear-gradient(135deg,#FF6B00,#ff3d00);flex-shrink:0}
+      .nwm-chat-header{display:flex;align-items:center;gap:12px;padding:16px 18px;background:linear-gradient(135deg,#FF671F,#FF671F);flex-shrink:0}
       .nwm-chat-avatar{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:800;font-size:14px}
       .nwm-chat-hdr-txt{flex:1;min-width:0}
       .nwm-chat-name{font-weight:700;font-size:15px;line-height:1.2;color:#fff}
@@ -559,7 +559,7 @@
       @keyframes nwmMsgIn{from{transform:translateY(6px);opacity:0}to{transform:translateY(0);opacity:1}}
       .nwm-msg-bot{align-self:flex-start}
       .nwm-msg-user{align-self:flex-end;flex-direction:row-reverse}
-      .nwm-msg-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#FF6B00,#ff3d00);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0}
+      .nwm-msg-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#FF671F,#FF671F);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0}
       .nwm-msg-user .nwm-msg-avatar{background:#3a4a6a}
       .nwm-msg-bubble{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:11px 14px;font-size:14px;line-height:1.55;color:#dde3ee;max-width:100%;word-wrap:break-word}
       .nwm-msg-user .nwm-msg-bubble{background:linear-gradient(135deg,rgba(255,107,0,.15),rgba(255,61,0,.08));border-color:rgba(255,107,0,.3)}
@@ -572,15 +572,15 @@
       @keyframes nwmType{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-3px);opacity:1}}
 
       .nwm-replies{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0;margin-top:2px}
-      .nwm-reply{background:rgba(255,107,0,.08);border:1px solid rgba(255,107,0,.3);color:#FF6B00;padding:8px 13px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,transform .1s;font-family:inherit;text-decoration:none;display:inline-block}
+      .nwm-reply{background:rgba(255,107,0,.08);border:1px solid rgba(255,107,0,.3);color:#FF671F;padding:8px 13px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,transform .1s;font-family:inherit;text-decoration:none;display:inline-block}
       .nwm-reply:hover{background:rgba(255,107,0,.2);transform:translateY(-1px)}
       .nwm-reply:active{transform:translateY(0)}
 
       .nwm-chat-form{display:flex;flex-direction:column;gap:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-top:4px}
       .nwm-chat-form label{font-size:12px;color:#9aa;font-weight:600}
       .nwm-chat-form input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:9px 11px;color:#fff;font-size:13px;font-family:inherit;outline:none;transition:border-color .2s}
-      .nwm-chat-form input:focus{border-color:#FF6B00;background:rgba(255,107,0,.06)}
-      .nwm-chat-form button{background:linear-gradient(135deg,#FF6B00,#ff3d00);color:#fff;border:none;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer;margin-top:4px;font-size:13px;font-family:inherit;transition:transform .15s}
+      .nwm-chat-form input:focus{border-color:#FF671F;background:rgba(255,107,0,.06)}
+      .nwm-chat-form button{background:linear-gradient(135deg,#FF671F,#FF671F);color:#fff;border:none;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer;margin-top:4px;font-size:13px;font-family:inherit;transition:transform .15s}
       .nwm-chat-form button:hover:not(:disabled){transform:translateY(-1px)}
       .nwm-chat-form button:disabled{opacity:.6;cursor:not-allowed}
       .nwm-form-err{color:#f88;font-size:12px}
@@ -588,8 +588,8 @@
       .nwm-chat-input-wrap{display:flex;gap:8px;padding:12px 14px 8px;background:#0d1340;border-top:1px solid rgba(255,255,255,.06);flex-shrink:0;align-items:center}
       .nwm-chat-input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 14px;color:#fff;font-size:14px;font-family:inherit;outline:none;transition:border-color .15s, background .15s;min-width:0}
       .nwm-chat-input::placeholder{color:rgba(255,255,255,.4)}
-      .nwm-chat-input:focus{border-color:#FF6B00;background:rgba(255,107,0,.07)}
-      .nwm-chat-send{background:linear-gradient(135deg,#FF6B00,#ff3d00);color:#fff;border:none;width:38px;height:38px;border-radius:10px;cursor:pointer;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s, opacity .15s;line-height:1}
+      .nwm-chat-input:focus{border-color:#FF671F;background:rgba(255,107,0,.07)}
+      .nwm-chat-send{background:linear-gradient(135deg,#FF671F,#FF671F);color:#fff;border:none;width:38px;height:38px;border-radius:10px;cursor:pointer;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .15s, opacity .15s;line-height:1}
       .nwm-chat-send:hover{transform:translateY(-1px);opacity:.92}
       .nwm-chat-send:active{transform:translateY(0)}
       .nwm-chat-clear{background:transparent;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.7);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s, border-color .2s;margin-right:6px}

@@ -183,7 +183,7 @@ if ($a === 'unsub') {
     $safe = htmlspecialchars($email, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     echo '<!doctype html><html><head><title>Unsubscribed</title>'
        . '<style>body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:480px;margin:80px auto;padding:40px;text-align:center;background:#f6f7fb;color:#1a1a2e}'
-       . 'h1{color:#FF6B00;margin-bottom:12px}p{color:#555;line-height:1.6}</style></head><body>'
+       . 'h1{color:#FF671F;margin-bottom:12px}p{color:#555;line-height:1.6}</style></head><body>'
        . '<h1>Unsubscribed</h1>'
        . ($email ? "<p><strong>$safe</strong> will no longer receive emails from NetWebMedia.</p>" : '<p>You have been unsubscribed.</p>')
        . '<p style="font-size:13px;color:#999;margin-top:30px">If this was a mistake, reply to any previous email to be re-added.</p>'

@@ -122,7 +122,7 @@
       var targetPct;
       if (pctMatch) {
         targetPct = Math.min(100, Math.abs(parseFloat(pctMatch[1])));
-        fill.style.background = 'linear-gradient(90deg,#ff6b00,#f85149)';
+        fill.style.background = 'linear-gradient(90deg,#FF671F,#f85149)';
       } else if (txt.indexOf('$') === 0 && maxDollar > 0) {
         var v = parseAmount(txt);
         var mult = /[Mm]$/.test(txt) ? 1e6 : /[Kk]$/.test(txt) ? 1e3 : 1;

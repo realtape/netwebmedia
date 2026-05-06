@@ -467,7 +467,7 @@ $wa_text = rawurlencode(
     ? 'Hi NetWebMedia, I\'m from '.$company.'. I saw the audit and want to talk.'
     : 'Hola NetWebMedia, soy de '.$company.'. Vi la auditoría y quiero conversar.'
 );
-$wa_link = 'https://wa.me/17407363884?text='.$wa_text;
+$wa_link = '/whatsapp.html?topic=audit&utm=audit-pdf&' . ($lang === 'en' ? '' : 'lang=es&') . 'msg=' . $wa_text;
 
 $audit_date = 'abril / April 2026';
 

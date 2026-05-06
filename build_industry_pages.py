@@ -1,4 +1,12 @@
-import os
+import os, sys
+
+# IMPORTANT: Before running, ensure all hand-edits from live hub pages are captured
+# in the template below. Known sections currently added by hand (NOT yet in template):
+#   - Schema.org in <head>: FAQPage, niche-specific schema, Organization, BreadcrumbList
+#   - FAQ interactive <details> section (5-8 Q&A per niche)
+# Running without backporting those will wipe them from all 14 hub pages.
+# Resources section and schema_type are NOW in template (added 2026-05-06).
+# TODO: Add FAQ data per niche and generate <details> section.
 
 NAV = """<nav class="navbar has-lang-bar" id="navbar">
   <div class="container">
@@ -53,6 +61,42 @@ NAV = """<nav class="navbar has-lang-bar" id="navbar">
     </div>
   </div>
 </nav>"""
+
+# Blog slug map: folder → pillar post slug prefix (used to auto-generate resources section)
+BLOG_SLUG_MAP = {
+    "hospitality":    "tourism",
+    "healthcare":     "health",
+    "beauty":         "beauty",
+    "restaurants":    "restaurants",
+    "smb":            "smb",
+    "legal-services": "law-firms",
+    "real-estate":    "real-estate",
+    "local-services": "local-specialist",
+    "automotive":     "automotive",
+    "education":      "education",
+    "events-weddings":"events-weddings",
+    "finance":        "financial-services",
+    "home-services":  "home-services",
+    "wine-agriculture":"wine-agriculture",
+}
+
+# Schema.org type per folder — used in <head> JSON-LD for structured data enrichment
+SCHEMA_TYPE_MAP = {
+    "hospitality":    "LodgingBusiness",
+    "healthcare":     "MedicalOrganization",
+    "beauty":         "HealthAndBeautyBusiness",
+    "restaurants":    "Restaurant",
+    "smb":            "Organization",
+    "legal-services": "LegalService",
+    "real-estate":    "RealEstateAgent",
+    "local-services": "LocalBusiness",
+    "automotive":     "AutomotiveService",
+    "education":      "EducationalOrganization",
+    "events-weddings":"EventVenue",
+    "finance":        "FinancialService",
+    "home-services":  "HomeAndConstructionBusiness",
+    "wine-agriculture":"Winery",
+}
 
 VERTICALS = [
   {
@@ -749,6 +793,26 @@ def build_page(v):
     scale_lis = "\n".join(f'            <li data-en="{e}" data-es="{s}">{e}</li>' for e, s in v["scale"])
     r1, r2, r3 = v["results"]
 
+    blog_slug = BLOG_SLUG_MAP.get(v["folder"], v["folder"])
+    schema_type = SCHEMA_TYPE_MAP.get(v["folder"], "LocalBusiness")
+    resources_section = f"""  <hr class="divider">
+  <section style="padding:60px 20px;max-width:1100px;margin:0 auto">
+    <p style="text-align:center;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--nwm-orange);margin-bottom:10px" data-en="Resources" data-es="Recursos">Resources</p>
+    <h2 style="text-align:center;font-size:clamp(22px,3vw,34px);font-weight:800;margin-bottom:36px" data-en="Guides for {v['eyebrow_en']}" data-es="Guías para {v['eyebrow_es']}">Guides for {v['eyebrow_en']}</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
+      <a href="../../blog/{blog_slug}-aeo-strategy-2026.html" style="display:block;background:var(--surface-card);border:1px solid var(--border-glass);border-radius:16px;padding:28px;text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='var(--nwm-orange)'" onmouseout="this.style.borderColor='var(--border-glass)'">
+        <p style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--nwm-orange);margin:0 0 10px">AEO Strategy</p>
+        <h3 style="font-size:17px;font-weight:700;color:var(--text-primary);margin:0 0 10px">AEO for {v['eyebrow_en']}: Get Cited by AI in 2026</h3>
+        <p style="font-size:13px;color:var(--text-secondary);margin:0">How to structure your content so Claude, ChatGPT, and Perplexity recommend your business &rarr;</p>
+      </a>
+      <a href="../../blog/{blog_slug}-local-seo-vs-aeo.html" style="display:block;background:var(--surface-card);border:1px solid var(--border-glass);border-radius:16px;padding:28px;text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='var(--nwm-orange)'" onmouseout="this.style.borderColor='var(--border-glass)'">
+        <p style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--nwm-orange);margin:0 0 10px">Local SEO vs AEO</p>
+        <h3 style="font-size:17px;font-weight:700;color:var(--text-primary);margin:0 0 10px">Local SEO vs AEO for {v['eyebrow_en']}: Which Drives More Leads?</h3>
+        <p style="font-size:13px;color:var(--text-secondary);margin:0">The channel decision matrix for businesses choosing between Google Maps and AI search &rarr;</p>
+      </a>
+    </div>
+  </section>"""
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -768,6 +832,17 @@ def build_page(v):
   <link rel="icon" type="image/svg+xml" href="https://netwebmedia.com/assets/nwm-logo.svg">
   <link rel="stylesheet" href="https://netwebmedia.com/css/styles.css">
   <style>{CSS}</style>
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "{schema_type}",
+    "name": "NetWebMedia",
+    "url": "https://netwebmedia.com/industries/{v["folder"]}/",
+    "description": "{v["meta_desc"]}",
+    "areaServed": "US",
+    "serviceType": "{v["eyebrow_en"]}"
+  }}
+  </script>
 </head>
 <body>
 
@@ -859,6 +934,8 @@ def build_page(v):
     </div>
     <p style="text-align:center;color:var(--text-muted);font-size:13px;margin-top:24px">+ ad spend at cost &middot; 12% mgmt fee on ad spend (min $300/mo) &middot; <a href="https://netwebmedia.com/contact.html" style="color:var(--nwm-orange)">Questions? hello@netwebmedia.com</a></p>
   </div>
+
+{resources_section}
 
   <hr class="divider">
 

@@ -100,8 +100,8 @@
     var s = document.createElement('style'); s.id = 'contactsSortCSS';
     s.textContent =
       '.contacts-table th.sortable{cursor:pointer;user-select:none}' +
-      '.contacts-table th.sortable:hover{color:#FF6B00}' +
-      '.contacts-table th .sort-ind{display:inline-block;margin-left:6px;color:#FF6B00;font-size:11px;font-weight:700;min-width:10px}';
+      '.contacts-table th.sortable:hover{color:#FF671F}' +
+      '.contacts-table th .sort-ind{display:inline-block;margin-left:6px;color:#FF671F;font-size:11px;font-weight:700;min-width:10px}';
     document.head.appendChild(s);
   }
 
@@ -267,7 +267,7 @@
       html += '<td>' + (c.value && Number(c.value) > 0 ? '$' + Number(c.value).toLocaleString() : '—') + '</td>';
       html += '<td>' + (c.last_contact || fmtAgo(c.created_at)) + '</td>';
       html += '<td>' + (auditUrl
-          ? '<a href="' + esc(auditUrl) + '" target="_blank" onclick="event.stopPropagation()" style="color:#FF6B00;font-weight:600;text-decoration:none;padding:6px 10px;border:1px solid #FF6B00;border-radius:6px;font-size:12px">View ↗</a>'
+          ? '<a href="' + esc(auditUrl) + '" target="_blank" onclick="event.stopPropagation()" style="color:#FF671F;font-weight:600;text-decoration:none;padding:6px 10px;border:1px solid #FF671F;border-radius:6px;font-size:12px">View ↗</a>'
           : '<span style="color:#bbb;font-size:12px">—</span>') + '</td>';
       html += '</tr>';
     }
@@ -307,9 +307,9 @@
     div.innerHTML =
       '<div>Showing <strong>' + from + '–' + to + '</strong> of <strong>' + total.toLocaleString() + '</strong></div>' +
       '<div style="display:flex;gap:8px;align-items:center">' +
-        '<button id="pgPrev"' + (page === 0 ? ' disabled' : '') + ' style="padding:6px 14px;border:1px solid #FF6B00;background:#FF6B00;color:#fff;border-radius:6px;cursor:pointer;font-weight:600' + (page === 0 ? ';opacity:.4;cursor:not-allowed' : '') + '">← Prev</button>' +
+        '<button id="pgPrev"' + (page === 0 ? ' disabled' : '') + ' style="padding:6px 14px;border:1px solid #FF671F;background:#FF671F;color:#fff;border-radius:6px;cursor:pointer;font-weight:600' + (page === 0 ? ';opacity:.4;cursor:not-allowed' : '') + '">← Prev</button>' +
         '<span>Page <strong>' + (page + 1) + '</strong> / ' + pages + '</span>' +
-        '<button id="pgNext"' + (page >= pages - 1 ? ' disabled' : '') + ' style="padding:6px 14px;border:1px solid #FF6B00;background:#FF6B00;color:#fff;border-radius:6px;cursor:pointer;font-weight:600' + (page >= pages - 1 ? ';opacity:.4;cursor:not-allowed' : '') + '">Next →</button>' +
+        '<button id="pgNext"' + (page >= pages - 1 ? ' disabled' : '') + ' style="padding:6px 14px;border:1px solid #FF671F;background:#FF671F;color:#fff;border-radius:6px;cursor:pointer;font-weight:600' + (page >= pages - 1 ? ';opacity:.4;cursor:not-allowed' : '') + '">Next →</button>' +
       '</div>';
     wrap.parentNode.insertBefore(div, wrap);
     var prev = document.getElementById('pgPrev');
@@ -366,8 +366,8 @@
       +   field(L.region,   c.__region)
       +   field(L.niche,    meta.niche || meta.vertical)
       +   field(L.city,     meta.city)
-      +   field(L.website,  meta.website ? '<a href="http://' + esc(meta.website) + '" target="_blank" style="color:#FF6B00">' + esc(meta.website) + '</a>' : null, true)
-      +   field(L.audit,    pageUrl ? '<a href="' + esc(pageUrl) + '" target="_blank" style="color:#FF6B00">' + L.viewAudit + ' →</a>' : null, true)
+      +   field(L.website,  meta.website ? '<a href="http://' + esc(meta.website) + '" target="_blank" style="color:#FF671F">' + esc(meta.website) + '</a>' : null, true)
+      +   field(L.audit,    pageUrl ? '<a href="' + esc(pageUrl) + '" target="_blank" style="color:#FF671F">' + L.viewAudit + ' →</a>' : null, true)
       + '</div>'
       + '<div class="detail-actions" id="contactActions" style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">'
       + '<a href="mailto:' + esc(c.email || '') + '" class="btn btn-primary btn-sm">' + L.emailBtn + '</a>'

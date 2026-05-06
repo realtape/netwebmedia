@@ -228,7 +228,7 @@
     var div = document.createElement('div');
     div.className = 'nwm-msg ' + role;
     div.textContent = text;
-    msgs.insertBefore(div, typing);
+    msgs.appendChild(div);
     msgs.scrollTop = msgs.scrollHeight;
   }
 

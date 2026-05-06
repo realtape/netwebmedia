@@ -80,7 +80,9 @@ $FROM_NAME  = 'NetWebMedia';
 $FROM_EMAIL = 'newsletter@netwebmedia.com';
 $REPLY_TO   = 'hola@netwebmedia.com';
 $REPORT_URL = 'https://netwebmedia.com/santiago-digital-gaps.html';
-$WA_URL     = 'https://wa.me/14155238886?text=' . rawurlencode('Hola NetWebMedia, quiero mi Auditoría Digital gratis.');
+// Twilio sandbox number (14155238886) is dead — route through canonical /whatsapp.html
+// landing until WABA verification completes (Meta meeting 2026-05-07).
+$WA_URL     = 'https://netwebmedia.com/whatsapp.html?topic=audit&utm=cold-email-cl&lang=es&msg=' . rawurlencode('Hola NetWebMedia, quiero mi Auditoría Digital gratis.');
 
 /**
  * Map each niche_key from the Santiago CSV to (a) the most relevant industry
@@ -317,9 +319,10 @@ function render_email_html($lead) {
     $site_phrase = ' (revisamos ' . $clean_site . ')';
   }
 
-  // WhatsApp deep link — pre-fills company name.
+  // WhatsApp deep link — pre-fills company name. Routes through /whatsapp.html
+  // (twilio sandbox number is dead; WABA verification pending 2026-05-07).
   $wa_text = rawurlencode('Hola NetWebMedia, soy de ' . $company_raw . '. Vi la auditoría y quiero conversar.');
-  $wa_link = 'https://wa.me/14155238886?text=' . $wa_text;
+  $wa_link = 'https://netwebmedia.com/whatsapp.html?topic=audit&utm=cold-email-cl&lang=es&msg=' . $wa_text;
 
   // Mailer substitutes {{UNSUB_URL}} with the canonical per-message URL.
   $unsub_url = '{{UNSUB_URL}}';

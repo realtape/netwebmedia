@@ -18,6 +18,11 @@ rate_limit('intake', 5, 300);
 if ($method !== 'POST') jsonError('POST required', 405);
 $data = getInput();
 
+// Cloudflare Turnstile gate — second layer of Anthropic-spend protection.
+// Skips gracefully if TURNSTILE_SECRET_KEY is unset (existing deploys keep working).
+require_once __DIR__ . '/../lib/turnstile.php';
+turnstile_require($data['cf_turnstile_token'] ?? '');
+
 // --- Validate ---
 $first  = trim($data['first_name'] ?? '');
 $last   = trim($data['last_name']  ?? '');

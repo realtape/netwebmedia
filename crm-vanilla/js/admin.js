@@ -4,7 +4,7 @@
 
   var PLAN_LABELS = { starter: 'Starter', professional: 'Professional', enterprise: 'Enterprise' };
   var PLAN_MRR   = { starter: 29, professional: 79, enterprise: 199 };
-  var PLAN_COLOR  = { starter: '#6366f1', professional: '#FF6B00', enterprise: '#10b981' };
+  var PLAN_COLOR  = { starter: '#6366f1', professional: '#FF671F', enterprise: '#10b981' };
 
   var STATUS_LABELS = {
     active: 'Active', pending_payment: 'Pending Payment',
@@ -163,14 +163,14 @@
       var joined = u.created_at ? u.created_at.slice(0, 10) : '—';
 
       html += '<div class="contact-row">';
-      html += '<div class="contact-avatar">' + initials + '</div>';
+      html += '<div class="contact-avatar">' + esc(initials) + '</div>';
       html += '<div class="contact-info">';
       html += '<div class="contact-name">' + esc(u.name || '—') + '</div>';
-      html += '<div class="contact-company">' + esc(u.email || '—') + ' · ' + joined + '</div>';
+      html += '<div class="contact-company">' + esc(u.email || '—') + ' · ' + esc(joined) + '</div>';
       html += '</div>';
       html += '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">';
-      html += '<span class="stat-change positive" style="font-size:11px;">' + planLabel + '</span>';
-      html += '<span class="stat-change ' + statusCls + '" style="font-size:11px;">' + statusLbl + '</span>';
+      html += '<span class="stat-change positive" style="font-size:11px;">' + esc(planLabel) + '</span>';
+      html += '<span class="stat-change ' + statusCls + '" style="font-size:11px;">' + esc(statusLbl) + '</span>';
       html += '</div>';
       html += '</div>';
     }
@@ -194,10 +194,10 @@
       var logins = parseInt(l.login_count || 0, 10);
 
       html += '<div class="contact-row">';
-      html += '<div class="contact-avatar" style="background:var(--primary-light);color:var(--primary);">' + initials + '</div>';
+      html += '<div class="contact-avatar" style="background:var(--primary-light);color:var(--primary);">' + esc(initials) + '</div>';
       html += '<div class="contact-info">';
       html += '<div class="contact-name">' + esc(l.name || '—') + '</div>';
-      html += '<div class="contact-company">' + esc(l.company || l.email || '—') + ' · ' + joined + '</div>';
+      html += '<div class="contact-company">' + esc(l.company || l.email || '—') + ' · ' + esc(joined) + '</div>';
       html += '</div>';
       html += '<span class="stat-change ' + (logins >= 3 ? 'positive' : 'negative') + '" style="font-size:11px;white-space:nowrap;">' + logins + ' login' + (logins !== 1 ? 's' : '') + '</span>';
       html += '</div>';

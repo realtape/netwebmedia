@@ -15,8 +15,8 @@ $db = getDB();
 $seedOrgId = is_org_schema_applied() ? (current_org_id() ?? ORG_MASTER_ID) : null;
 
 // Common header/footer styling for branded feel
-$HDR = '<div style="background:linear-gradient(135deg,#FF6B00,#ff4e00);padding:24px;border-radius:12px 12px 0 0;color:#fff;text-align:center"><div style="font-size:22px;font-weight:800;letter-spacing:.5px">NetWebMedia</div><div style="font-size:13px;opacity:.9;margin-top:4px">Chile · Digital Growth Partners</div></div>';
-$FTR = '<div style="background:#f6f7fb;padding:20px;border-radius:0 0 12px 12px;text-align:center;color:#666;font-size:12px;border-top:1px solid #eee"><p>NetWebMedia · Santiago, Chile · <a href="https://netwebmedia.com" style="color:#FF6B00">netwebmedia.com</a></p><p style="margin-top:6px"><a href="{{unsubscribe_url}}" style="color:#999;text-decoration:underline">Unsubscribe</a></p></div>';
+$HDR = '<div style="background:linear-gradient(135deg,#FF671F,#ff4e00);padding:24px;border-radius:12px 12px 0 0;color:#fff;text-align:center"><div style="font-size:22px;font-weight:800;letter-spacing:.5px">NetWebMedia</div><div style="font-size:13px;opacity:.9;margin-top:4px">Chile · Digital Growth Partners</div></div>';
+$FTR = '<div style="background:#f6f7fb;padding:20px;border-radius:0 0 12px 12px;text-align:center;color:#666;font-size:12px;border-top:1px solid #eee"><p>NetWebMedia · Santiago, Chile · <a href="https://netwebmedia.com" style="color:#FF671F">netwebmedia.com</a></p><p style="margin-top:6px"><a href="{{unsubscribe_url}}" style="color:#999;text-decoration:underline">Unsubscribe</a></p></div>';
 
 function body_block(string $content): string {
     return '<div style="max-width:600px;margin:0 auto;font-family:-apple-system,Segoe UI,Roboto,sans-serif;color:#1a1a2e;line-height:1.6"><div style="background:#fff;padding:32px;border-left:1px solid #eee;border-right:1px solid #eee">' . $content . '</div></div>';
@@ -31,10 +31,10 @@ function niche_email(string $niche, string $hook, string $pain, string $cta): ar
       "<p>Revisando <strong>{{company}}</strong> en <strong>{{city}}</strong> nos detuvimos en algo que vemos una y otra vez en {$niche}: <em>{$pain}</em></p>" .
       "<p>Preparamos una Auditoría Digital gratuita de {{company}} — incluye puntaje 0-100, comparación con el promedio del rubro, y proyección de ingresos a 90 días.</p>" .
       "<div style='text-align:center;margin:28px 0'>" .
-      "<a href='{{page_url}}' style='background:#FF6B00;color:#fff;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:700;display:inline-block'>Ver auditoría de {{company}} →</a>" .
+      "<a href='{{page_url}}' style='background:#FF671F;color:#fff;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:700;display:inline-block'>Ver auditoría de {{company}} →</a>" .
       "</div>" .
       "<p>{$cta}</p>" .
-      "<p>Un abrazo,<br><strong>Equipo NetWebMedia</strong><br><a href='mailto:hola@netwebmedia.com' style='color:#FF6B00'>hola@netwebmedia.com</a> · <a href='https://netwebmedia.com' style='color:#FF6B00'>netwebmedia.com</a></p>";
+      "<p>Un abrazo,<br><strong>Equipo NetWebMedia</strong><br><a href='mailto:hola@netwebmedia.com' style='color:#FF671F'>hola@netwebmedia.com</a> · <a href='https://netwebmedia.com' style='color:#FF671F'>netwebmedia.com</a></p>";
     return [
       'subject' => "{{company}} — Auditoría Digital gratuita ({{city}})",
       'html'    => '<div style="background:#f6f7fb;padding:24px">' . '<div style="max-width:600px;margin:0 auto">' . $HDR . body_block($body) . $FTR . '</div></div>',

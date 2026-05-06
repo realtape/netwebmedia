@@ -662,11 +662,11 @@ document.addEventListener('DOMContentLoaded', () => {
       @keyframes nwmCookieSlide{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
       #nwm-cookie-banner .nwm-c-title{font-weight:700;font-size:14px;margin-bottom:6px}
       #nwm-cookie-banner .nwm-c-body{font-size:13px;color:#b8c4d9;line-height:1.5;margin-bottom:14px}
-      #nwm-cookie-banner .nwm-c-body a{color:#FF6B00;text-decoration:none}
+      #nwm-cookie-banner .nwm-c-body a{color:#FF671F;text-decoration:none}
       #nwm-cookie-banner .nwm-c-actions{display:flex;flex-wrap:wrap;gap:8px}
       #nwm-cookie-banner button{flex:1;min-width:130px;padding:10px 14px;border-radius:8px;border:0;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .15s}
       #nwm-cookie-banner button:hover{transform:translateY(-1px)}
-      #nwm-cookie-banner .nwm-c-accept{background:linear-gradient(135deg,#FF6B00,#ff3d00);color:#fff;box-shadow:0 4px 14px rgba(255,107,0,.3)}
+      #nwm-cookie-banner .nwm-c-accept{background:linear-gradient(135deg,#FF671F,#FF671F);color:#fff;box-shadow:0 4px 14px rgba(255,107,0,.3)}
       #nwm-cookie-banner .nwm-c-essential{background:rgba(255,255,255,.06);color:#dde3ee;border:1px solid rgba(255,255,255,.12)}
       @media (max-width:640px){#nwm-cookie-banner{left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom, 0px));padding:14px 16px;border-radius:12px}#nwm-cookie-banner .nwm-c-actions{flex-direction:column}#nwm-cookie-banner button{flex:none;width:100%}}
     `;

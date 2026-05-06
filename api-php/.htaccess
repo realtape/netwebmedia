@@ -10,12 +10,13 @@ RewriteBase /api/
 RewriteCond %{THE_REQUEST} \s/api-php/(.*?)\sHTTP
 RewriteRule ^ /api/%1 [R=301,L]
 
-# CORS preflight
+# CORS — allowlist only; never echo arbitrary Origin
 <IfModule mod_headers.c>
-  Header always set Access-Control-Allow-Origin "%{HTTP_ORIGIN}e" env=HTTP_ORIGIN
-  Header always set Access-Control-Allow-Credentials "true"
-  Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-  Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Auth-Token"
+  SetEnvIf Origin "^https://(netwebmedia\.com|www\.netwebmedia\.com|app\.netwebmedia\.com)$" CORS_OK=1
+  Header always set Access-Control-Allow-Origin "https://netwebmedia.com" env=CORS_OK
+  Header always set Access-Control-Allow-Credentials "true" env=CORS_OK
+  Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS" env=CORS_OK
+  Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Auth-Token" env=CORS_OK
 </IfModule>
 
 # Do not expose lib/ or routes/ or migrate.php directly

@@ -185,7 +185,7 @@ function setLanguage(lang) {
   // 2. Update all [data-en] / [data-es] elements (service cards, steps, etc.)
   document.querySelectorAll('[data-en]').forEach(el => {
     const text = lang === 'es' ? el.getAttribute('data-es') : el.getAttribute('data-en');
-    if (text) el.textContent = text;
+    if (text) el.innerHTML = text;
   });
 
   // 3. Update placeholder attributes

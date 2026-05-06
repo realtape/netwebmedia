@@ -511,7 +511,16 @@ function initForm() {
       service_interest: document.getElementById('services')?.value || '',
       message:    document.getElementById('message')?.value    || '',
       source:     'contact_form',
+      cf_turnstile_token: (window.NWM_TURNSTILE && window.NWM_TURNSTILE.getToken && window.NWM_TURNSTILE.getToken()) || '',
     };
+
+    // If Turnstile is active and no token present, abort with a friendly nudge.
+    if (window.NWM_TURNSTILE && window.NWM_TURNSTILE.isActive && window.NWM_TURNSTILE.isActive() && !payload.cf_turnstile_token) {
+      btn.disabled = false;
+      btn.textContent = original;
+      alert(currentLang === 'es' ? 'Por favor completa el desafío anti-bot.' : 'Please complete the bot challenge.');
+      return;
+    }
 
     try {
       const res = await fetch('/app/api/?r=intake', {

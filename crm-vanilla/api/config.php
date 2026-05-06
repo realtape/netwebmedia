@@ -39,6 +39,12 @@ if (!defined('SENTRY_DSN')) define('SENTRY_DSN', 'https://69fce09a20f1958bd2f1b9
 // CORS and security
 define('ALLOWED_ORIGIN', 'https://netwebmedia.com');
 
+// Cloudflare Turnstile — bot challenge for paid-AI public endpoints (intake, proposal).
+// Both keys flow GitHub Secrets → config.local.php at deploy. If unset, verification is
+// gracefully skipped (existing behavior) so adding the secret is opt-in per environment.
+if (!defined('TURNSTILE_SITE_KEY'))   define('TURNSTILE_SITE_KEY',   '');
+if (!defined('TURNSTILE_SECRET_KEY')) define('TURNSTILE_SECRET_KEY', '');
+
 // HubSpot API - Private App Token
 // Create at: Settings > Integrations > Private Apps > Create
 // Required scopes: crm.objects.contacts.write, crm.objects.contacts.read

@@ -9,6 +9,11 @@
 require_once __DIR__ . '/../lib/rate_limit.php';
 rate_limit('proposal', 5, 300);
 
+// Cloudflare Turnstile gate — second layer of cost protection.
+// Skips gracefully if TURNSTILE_SECRET_KEY is unset.
+require_once __DIR__ . '/../lib/turnstile.php';
+turnstile_require($_GET['cf_turnstile_token'] ?? '');
+
 if ($method !== 'GET') jsonError('GET required', 405);
 
 require_once __DIR__ . '/../lib/url_guard.php';

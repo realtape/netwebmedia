@@ -6,11 +6,11 @@
     en: {
       // Public site nav & content
       nav_services:'Services', nav_about:'About', nav_results:'Results', nav_blog:'Blog',
-      nav_contact:'Contact', nav_cta:'Free AI Audit', nav_dashboard:'🔐 Client Login',
+      nav_contact:'Contact', nav_cta:'Get Your AEO Audit', nav_dashboard:'🔐 Client Login',
       hero_badge:'', hero_title_1:'The AI-Native Fractional CMO',
       hero_title_2:'AI-Powered', hero_title_3:'Growth',
-      hero_desc:'Get cited by ChatGPT, Perplexity & Google. Close more deals. One retainer covers strategy, software, and full execution — starting at $1,997/mo.',
-      hero_cta1:'Request Free AI Audit →', hero_cta2:'See Pricing & Packages →',
+      hero_desc:'Get cited by ChatGPT, Perplexity & Google. Close more deals. One retainer covers strategy, software, and full execution — starting at $249/mo.',
+      hero_cta1:'Get Your AEO Audit ($997 — 100% credit toward retainer) →', hero_cta2:'See Pricing & Packages →',
       hero_stat1_num:'1', hero_stat1_label:'Senior operator',
       hero_stat2_num:'7', hero_stat2_label:'AI agents on staff',
       hero_stat3_num:'2026', hero_stat3_label:'Founding cohort open',
@@ -21,7 +21,7 @@
       results_subtitle:'Real results for real businesses. Here\'s what AI-powered marketing delivers.',
       cta_title:'Ready to Dominate Your Market?',
       cta_subtitle:'Get a free AI marketing audit and discover exactly where your competitors are beating you. We run on WhatsApp, chat, and email — no phone, no Zoom.',
-      cta_btn:'Request Free AI Audit →',
+      cta_btn:'Get Your AEO Audit →',
       footer_tagline:'The world\'s most advanced AI marketing agency. We combine human creativity with machine intelligence to deliver unprecedented growth.',
       // Nav (CMS sidebar)
       nav_pages:'Pages', nav_landing:'Landing Pages',

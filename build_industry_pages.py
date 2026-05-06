@@ -756,10 +756,14 @@ def build_page(v):
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{v["title"]} | NetWebMedia</title>
   <meta name="description" content="{v["meta_desc"]}">
-  <link rel="canonical" href="https://{v["slug"]}.netwebmedia.com">
+  <link rel="canonical" href="https://netwebmedia.com/industries/{v["folder"]}/">
+  <link rel="alternate" hreflang="en" href="https://netwebmedia.com/industries/{v["folder"]}/">
+  <link rel="alternate" hreflang="es" href="https://netwebmedia.com/industries/{v["folder"]}/?lang=es">
+  <link rel="alternate" hreflang="x-default" href="https://netwebmedia.com/industries/{v["folder"]}/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
   <meta property="og:title" content="{v["title"]} | NetWebMedia">
   <meta property="og:description" content="{v["meta_desc"]}">
-  <meta property="og:url" content="https://{v["slug"]}.netwebmedia.com">
+  <meta property="og:url" content="https://netwebmedia.com/industries/{v["folder"]}/">
   <meta property="og:type" content="website">
   <link rel="icon" type="image/svg+xml" href="https://netwebmedia.com/assets/nwm-logo.svg">
   <link rel="stylesheet" href="https://netwebmedia.com/css/styles.css">

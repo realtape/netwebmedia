@@ -252,6 +252,9 @@ jobs:
           print(f"define('HUBSPOT_TOKEN', '{e(os.environ.get('SECRET_HUBSPOT_TOKEN',''))}');")
           print(f"define('ANTHROPIC_API_KEY', '{e(os.environ.get('SECRET_ANTHROPIC_API_KEY',''))}');")
           print(f"define('RESEND_API_KEY', '{e(os.environ.get('SECRET_RESEND_API_KEY',''))}');")
+          print(f"define('AWS_SES_KEY', '{e(os.environ.get('SECRET_AWS_SES_KEY',''))}');")
+          print(f"define('AWS_SES_SECRET', '{e(os.environ.get('SECRET_AWS_SES_SECRET',''))}');")
+          print(f"define('AWS_SES_REGION', '{e(os.environ.get('SECRET_AWS_SES_REGION','us-east-1'))}');")
           print(f"define('TWILIO_ACCOUNT_SID', '{e(os.environ.get('SECRET_TWILIO_SID',''))}');")
           print(f"define('TWILIO_AUTH_TOKEN', '{e(os.environ.get('SECRET_TWILIO_TOKEN',''))}');")
           print(f"define('TWILIO_FROM_SMS', '{e(os.environ.get('SECRET_TWILIO_FROM',''))}');")
@@ -314,6 +317,9 @@ jobs:
           SECRET_HUBSPOT_TOKEN:     ${{ secrets.HUBSPOT_TOKEN }}
           SECRET_ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SECRET_RESEND_API_KEY:    ${{ secrets.RESEND_API_KEY }}
+          SECRET_AWS_SES_KEY:       ${{ secrets.AWS_SES_KEY }}
+          SECRET_AWS_SES_SECRET:    ${{ secrets.AWS_SES_SECRET }}
+          SECRET_AWS_SES_REGION:    ${{ secrets.AWS_SES_REGION }}
           SECRET_MP_ACCESS_TOKEN:   ${{ secrets.MP_ACCESS_TOKEN }}
           SECRET_MP_PUBLIC_KEY:     ${{ secrets.MP_PUBLIC_KEY }}
           SECRET_MP_WEBHOOK_SECRET: ${{ secrets.MP_WEBHOOK_SECRET }}

@@ -163,7 +163,7 @@ def post_schedule(api_base: str, token: str, posts: list[dict], dry_run: bool) -
         },
     )
     try:
-        with urllib.request.urlopen(req, timeout=120) as resp:
+        with urllib.request.urlopen(req, timeout=600) as resp:
             return {"http": resp.status, "body": json.loads(resp.read().decode("utf-8"))}
     except urllib.error.HTTPError as e:
         return {"http": e.code, "body": e.read().decode("utf-8", errors="replace")}

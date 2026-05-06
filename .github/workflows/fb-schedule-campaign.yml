@@ -17,12 +17,13 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'status | dry-run | live'
+        description: 'status | list | dry-run | live'
         required: true
         default: 'status'
         type: choice
         options:
           - status
+          - list
           - dry-run
           - live
 
@@ -42,6 +43,18 @@ jobs:
             -H "Origin: https://netwebmedia.com" \
             -H "Referer: https://netwebmedia.com/crm-vanilla/" \
             "https://netwebmedia.com/crm-vanilla/api/?r=fb_publish&action=status&token=$MIGRATE_TOKEN" \
+            | python3 -m json.tool
+
+      - name: List fb_publish_log
+        if: inputs.mode == 'list'
+        env:
+          MIGRATE_TOKEN: ${{ secrets.MIGRATE_TOKEN }}
+        run: |
+          UA="Mozilla/5.0 (compatible; NWM-FBSchedule/1.0)"
+          curl -sS -A "$UA" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "https://netwebmedia.com/crm-vanilla/api/?r=fb_publish&action=list&token=$MIGRATE_TOKEN" \
             | python3 -m json.tool
 
       - name: Set up Python (for seed)

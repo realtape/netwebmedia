@@ -15,8 +15,18 @@
   var API = 'api/index.php?r=';
 
   // ─── Config (kept in sync with handlers/workflows.php enums) ─────────
-  var TRIGGERS = ['contact_created', 'form_submitted', 'tag_added', 'deal_stage_changed', 'manual'];
-  var STEP_TYPES = ['wait', 'send_email', 'add_tag', 'remove_tag', 'create_task'];
+  // Trigger names match exactly what the PHP engine fires from CRM handlers.
+  // 'form_submitted' is intentionally absent: no handler currently fires it,
+  // and the previous 'deal_stage_changed' value never matched the engine's
+  // 'deal_stage' SELECT — workflows on stage change silently never ran.
+  var TRIGGERS = ['contact_created', 'tag_added', 'tag_removed', 'deal_stage', 'manual', 'conversation_inbound'];
+  var STEP_TYPES = [
+    'wait', 'send_email', 'add_tag', 'remove_tag', 'create_task',
+    'update_field', 'move_stage', 'send_whatsapp', 'notify_team', 'webhook', 'log'
+  ];
+  // Whitelist of contact fields that update_field can mutate. Mirrors the
+  // engine's allowlist in wf_crm.php (case 'update_field').
+  var UPDATE_FIELDS = ['status', 'segment', 'niche', 'source', 'company', 'city', 'country'];
 
   // i18n — populated from CRM_APP.getLang() at render time
   var L;
@@ -139,8 +149,23 @@
       newWorkflowName: 'Flujo sin título',
       moveUp: 'Subir', moveDown: 'Bajar', removeStep: 'Eliminar',
       never: 'nunca', justNow: 'ahora mismo', minAgo: ' min', hrAgo: ' h', dayAgo: ' d',
-      stepTypes: { wait: 'Esperar', send_email: 'Enviar email', add_tag: 'Añadir etiqueta', remove_tag: 'Quitar etiqueta', create_task: 'Crear tarea' },
-      triggers: { contact_created: 'Contacto creado', form_submitted: 'Formulario enviado', tag_added: 'Etiqueta añadida', deal_stage_changed: 'Cambio de etapa', manual: 'Manual' },
+      stepTypes: {
+        wait: 'Esperar', send_email: 'Enviar email', add_tag: 'Añadir etiqueta',
+        remove_tag: 'Quitar etiqueta', create_task: 'Crear tarea',
+        update_field: 'Actualizar campo', move_stage: 'Mover a etapa',
+        send_whatsapp: 'Enviar WhatsApp', notify_team: 'Notificar al equipo',
+        webhook: 'Webhook', log: 'Registrar nota'
+      },
+      triggers: {
+        contact_created: 'Contacto creado', tag_added: 'Etiqueta añadida',
+        tag_removed: 'Etiqueta quitada', deal_stage: 'Cambio de etapa',
+        manual: 'Manual', conversation_inbound: 'Mensaje entrante'
+      },
+      field: 'Campo', value: 'Valor', stage: 'Etapa',
+      messageBody: 'Mensaje', whatsappBody: 'Mensaje (WhatsApp)',
+      teamNotice: 'Aviso al equipo', teamRecipient: 'Email destinatario (opcional)',
+      teamRecipientPh: 'Por defecto: email de la organización',
+      webhookUrl: 'URL del webhook', logNote: 'Nota interna',
       betaTitle: 'Beta — En Desarrollo Activo',
       betaCopy: 'El motor de ejecución de flujos se está desarrollando. Puedes crear y guardar flujos ahora; comenzarán a ejecutarse cuando se active el motor en Q3 2026.'
     } : {
@@ -167,8 +192,23 @@
       newWorkflowName: 'Untitled workflow',
       moveUp: 'Move up', moveDown: 'Move down', removeStep: 'Remove',
       never: 'never', justNow: 'just now', minAgo: 'm ago', hrAgo: 'h ago', dayAgo: 'd ago',
-      stepTypes: { wait: 'Wait', send_email: 'Send email', add_tag: 'Add tag', remove_tag: 'Remove tag', create_task: 'Create task' },
-      triggers: { contact_created: 'Contact created', form_submitted: 'Form submitted', tag_added: 'Tag added', deal_stage_changed: 'Deal stage changed', manual: 'Manual' },
+      stepTypes: {
+        wait: 'Wait', send_email: 'Send email', add_tag: 'Add tag',
+        remove_tag: 'Remove tag', create_task: 'Create task',
+        update_field: 'Update field', move_stage: 'Move to stage',
+        send_whatsapp: 'Send WhatsApp', notify_team: 'Notify team',
+        webhook: 'Webhook', log: 'Log note'
+      },
+      triggers: {
+        contact_created: 'Contact created', tag_added: 'Tag added',
+        tag_removed: 'Tag removed', deal_stage: 'Deal stage changed',
+        manual: 'Manual', conversation_inbound: 'Inbound message'
+      },
+      field: 'Field', value: 'Value', stage: 'Stage',
+      messageBody: 'Message', whatsappBody: 'Message (WhatsApp)',
+      teamNotice: 'Team notice', teamRecipient: 'Recipient email (optional)',
+      teamRecipientPh: 'Defaults to organization email',
+      webhookUrl: 'Webhook URL', logNote: 'Internal note',
       betaTitle: 'Beta — In Active Development',
       betaCopy: 'The workflow execution engine is in active development. You can create and save workflows now; they will begin running once the engine ships in Q3 2026.'
     };
@@ -404,6 +444,49 @@
         + '<input type="text" maxlength="200" class="wf-step-input wf-step-task" data-idx="' + idx + '" value="' + esc(c.title || '') + '">'
         + '</div>';
     }
+    if (step.type === 'update_field') {
+      var fieldOpts = UPDATE_FIELDS.map(function (f) {
+        return '<option value="' + esc(f) + '"' + ((c.field === f) ? ' selected' : '') + '>' + esc(f) + '</option>';
+      }).join('');
+      return '<div class="wf-step-row">'
+        + '<label class="wf-step-label">' + esc(L.field) + '</label>'
+        + '<select class="wf-step-input wf-step-uf-field" data-idx="' + idx + '" style="max-width:180px;">' + fieldOpts + '</select>'
+        + '<label class="wf-step-label" style="margin-left:12px;">' + esc(L.value) + '</label>'
+        + '<input type="text" maxlength="200" class="wf-step-input wf-step-uf-value" data-idx="' + idx + '" value="' + esc(c.value || '') + '">'
+        + '</div>';
+    }
+    if (step.type === 'move_stage') {
+      return '<div class="wf-step-row">'
+        + '<label class="wf-step-label">' + esc(L.stage) + '</label>'
+        + '<input type="text" maxlength="100" class="wf-step-input wf-step-stage" data-idx="' + idx + '" value="' + esc(c.stage || '') + '" placeholder="e.g. Won">'
+        + '</div>';
+    }
+    if (step.type === 'send_whatsapp') {
+      return '<div class="wf-step-row">'
+        + '<label class="wf-step-label">' + esc(L.whatsappBody) + '</label>'
+        + '<textarea class="wf-step-input wf-step-wabody" data-idx="' + idx + '" rows="3" maxlength="4000">' + esc(c.body || '') + '</textarea>'
+        + '</div>';
+    }
+    if (step.type === 'notify_team') {
+      return '<div class="wf-step-row">'
+        + '<label class="wf-step-label">' + esc(L.messageBody) + '</label>'
+        + '<input type="text" maxlength="500" class="wf-step-input wf-step-nt-msg" data-idx="' + idx + '" value="' + esc(c.message || '') + '">'
+        + '<label class="wf-step-label" style="margin-left:12px;">' + esc(L.teamRecipient) + '</label>'
+        + '<input type="email" class="wf-step-input wf-step-nt-to" data-idx="' + idx + '" value="' + esc(c.to || '') + '" placeholder="' + esc(L.teamRecipientPh) + '">'
+        + '</div>';
+    }
+    if (step.type === 'webhook') {
+      return '<div class="wf-step-row">'
+        + '<label class="wf-step-label">' + esc(L.webhookUrl) + '</label>'
+        + '<input type="url" class="wf-step-input wf-step-webhook" data-idx="' + idx + '" value="' + esc(c.url || '') + '" placeholder="https://...">'
+        + '</div>';
+    }
+    if (step.type === 'log') {
+      return '<div class="wf-step-row">'
+        + '<label class="wf-step-label">' + esc(L.logNote) + '</label>'
+        + '<input type="text" maxlength="500" class="wf-step-input wf-step-log" data-idx="' + idx + '" value="' + esc(c.message || '') + '">'
+        + '</div>';
+    }
     return '';
   }
 
@@ -473,6 +556,33 @@
       });
     });
 
+    // New step-type field bindings (update_field, move_stage, send_whatsapp,
+    // notify_team, webhook, log). Each writes into config[<key>] for its idx.
+    function bindText(selector, key) {
+      body.querySelectorAll(selector).forEach(function (el) {
+        el.addEventListener('input', function () {
+          var idx = parseInt(this.getAttribute('data-idx'), 10);
+          state.editing.steps[idx].config[key] = this.value;
+        });
+      });
+    }
+    function bindSelect(selector, key) {
+      body.querySelectorAll(selector).forEach(function (el) {
+        el.addEventListener('change', function () {
+          var idx = parseInt(this.getAttribute('data-idx'), 10);
+          state.editing.steps[idx].config[key] = this.value;
+        });
+      });
+    }
+    bindSelect('.wf-step-uf-field', 'field');
+    bindText('.wf-step-uf-value',   'value');
+    bindText('.wf-step-stage',      'stage');
+    bindText('.wf-step-wabody',     'body');
+    bindText('.wf-step-nt-msg',     'message');
+    bindText('.wf-step-nt-to',      'to');
+    bindText('.wf-step-webhook',    'url');
+    bindText('.wf-step-log',        'message');
+
     // Reorder + remove
     body.querySelectorAll('.wf-reorder-btn, .wf-remove-btn').forEach(function (el) {
       el.addEventListener('click', function () {
@@ -518,11 +628,17 @@
 
   function defaultConfigFor(type) {
     switch (type) {
-      case 'wait':       return { delay: 1, unit: 'days' };
-      case 'send_email': return { template_id: null, template_name: null };
-      case 'add_tag':    return { tag: '' };
-      case 'remove_tag': return { tag: '' };
-      case 'create_task':return { title: '' };
+      case 'wait':         return { delay: 1, unit: 'days' };
+      case 'send_email':   return { template_id: null, template_name: null };
+      case 'add_tag':      return { tag: '' };
+      case 'remove_tag':   return { tag: '' };
+      case 'create_task':  return { title: '' };
+      case 'update_field': return { field: 'status', value: '' };
+      case 'move_stage':   return { stage: '' };
+      case 'send_whatsapp':return { body: '' };
+      case 'notify_team':  return { message: '', to: '' };
+      case 'webhook':      return { url: '' };
+      case 'log':          return { message: '' };
     }
     return {};
   }

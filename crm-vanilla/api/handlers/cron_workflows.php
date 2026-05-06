@@ -26,7 +26,9 @@ if (!$expect || !hash_equals($expect, $token)) {
 $db     = getDB();
 $action = $_POST['action'] ?? $_GET['action'] ?? 'run';
 
-// Schema guard — ensure table exists before querying
+// Schema guard — ensure table exists before querying. Includes claim_token
+// (added in schema_workflow_runs_claim.sql) so a fresh-DB deploy has full
+// concurrency safety from the first cron tick.
 try {
     $db->exec(
         "CREATE TABLE IF NOT EXISTS `workflow_runs` (
@@ -39,11 +41,13 @@ try {
           `context_json` MEDIUMTEXT DEFAULT NULL,
           `next_run_at`  DATETIME DEFAULT NULL,
           `error`        TEXT DEFAULT NULL,
+          `claim_token`  VARCHAR(32) DEFAULT NULL,
           `created_at`   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
           `updated_at`   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
           PRIMARY KEY (`id`),
           INDEX `idx_wr_status_next` (`status`, `next_run_at`),
-          INDEX `idx_wr_workflow`    (`workflow_id`)
+          INDEX `idx_wr_workflow`    (`workflow_id`),
+          INDEX `idx_wr_claim`       (`claim_token`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
     );
 } catch (Throwable $e) {

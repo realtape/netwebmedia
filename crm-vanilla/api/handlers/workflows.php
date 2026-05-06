@@ -78,14 +78,34 @@ try {
 
 [$tWhere, $tParams] = tenancy_where();
 
-// ─── Allowed enums (kept in sync with the JS step-card builder) ───────
-$ALLOWED_TRIGGERS = ['contact_created', 'form_submitted', 'tag_added', 'deal_stage_changed', 'manual', 'conversation_inbound'];
+// ─── Allowed enums (kept in sync with the JS step-card builder + wf_crm.php engine) ─
+//
+// Trigger names match exactly what wf_crm_trigger() is fired with from the
+// CRM handlers (contacts.php, deals.php, messages.php, lib/wf_crm.php cascades).
+// Renaming any of these breaks workflows silently — the engine SELECT does an
+// exact-match on trigger_type, so 'deal_stage_changed' would never fire.
+//
+// 'form_submitted' is intentionally absent: no handler currently fires it.
+// Re-add only when api-php form intake is wired through to webmed6_crm.
+$ALLOWED_TRIGGERS = [
+    'contact_created',
+    'tag_added',
+    'tag_removed',
+    'deal_stage',
+    'manual',
+    'conversation_inbound',
+];
 $ALLOWED_STATUSES = ['active', 'paused', 'draft'];
-// Auto-reply types (PR 3): draft_ai_reply, route_by_confidence, auto_send_if_eligible,
-// push_for_approval, holding_reply_if_no_approval. Allowed in steps_json so the
-// visual builder can save the auto-reply workflow without rejecting unknown types.
+
+// Step types — must be a subset of what wf_crm_advance() can execute.
+// Auto-reply types (PR 3) are admin-only at the engine level but allowed here
+// so the AI auto-reply workflow can be saved through the visual builder.
 $ALLOWED_STEP_TYPES = [
+    // Universal building blocks
     'wait', 'send_email', 'add_tag', 'remove_tag', 'create_task',
+    'update_field', 'move_stage', 'send_whatsapp', 'notify_team',
+    'webhook', 'log',
+    // AI auto-reply pipeline (PR 3)
     'draft_ai_reply', 'route_by_confidence', 'auto_send_if_eligible',
     'push_for_approval', 'holding_reply_if_no_approval',
 ];
@@ -118,18 +138,15 @@ function workflows_translate_to_engine_format(string $name, string $triggerType,
     // ─── Trigger ──
     $trigger = ['type' => $triggerType];
     switch ($triggerType) {
-        case 'form_submitted':
-            $trigger['type'] = 'form_submission';
-            if ($triggerFilter !== null && $triggerFilter !== '') $trigger['form_id'] = $triggerFilter;
-            break;
         case 'tag_added':
+        case 'tag_removed':
             if ($triggerFilter !== null && $triggerFilter !== '') $trigger['tag'] = $triggerFilter;
             break;
-        case 'deal_stage_changed':
-            $trigger['type'] = 'deal_stage';
+        case 'deal_stage':
             if ($triggerFilter !== null && $triggerFilter !== '') $trigger['stage'] = $triggerFilter;
             break;
         case 'contact_created':
+        case 'conversation_inbound':
         case 'manual':
         default:
             break;
@@ -327,6 +344,52 @@ function workflows_normalize_steps($raw, array $allowedTypes): string {
                 break;
             case 'create_task':
                 $cfg = ['title' => substr((string)($cfg['title'] ?? ''), 0, 200)];
+                break;
+            case 'update_field':
+                // Engine enforces an allowlist of mutable contact fields; mirror it
+                // here so the UI can't even save a forbidden field name.
+                $allowedFields = ['status', 'segment', 'niche', 'source', 'company', 'city', 'country'];
+                $field = (string)($cfg['field'] ?? '');
+                if (!in_array($field, $allowedFields, true)) {
+                    jsonError("Step $i: update_field 'field' must be one of " . implode(',', $allowedFields), 400);
+                }
+                $cfg = [
+                    'field' => $field,
+                    'value' => substr((string)($cfg['value'] ?? ''), 0, 200),
+                ];
+                break;
+            case 'move_stage':
+                $cfg = ['stage' => substr((string)($cfg['stage'] ?? ''), 0, 100)];
+                break;
+            case 'send_whatsapp':
+                $cfg = ['body' => substr((string)($cfg['body'] ?? ''), 0, 4000)];
+                break;
+            case 'notify_team':
+                $to = isset($cfg['to']) ? trim((string)$cfg['to']) : '';
+                if ($to !== '' && !filter_var($to, FILTER_VALIDATE_EMAIL)) {
+                    jsonError("Step $i: notify_team 'to' must be a valid email", 400);
+                }
+                $cfg = [
+                    'message' => substr((string)($cfg['message'] ?? ''), 0, 500),
+                    'to'      => $to !== '' ? $to : null,
+                ];
+                break;
+            case 'webhook':
+                $url = (string)($cfg['url'] ?? '');
+                if (!filter_var($url, FILTER_VALIDATE_URL)) {
+                    jsonError("Step $i: webhook 'url' must be a valid URL", 400);
+                }
+                // SSRF defence happens at execute-time via url_guard(); here we
+                // just block obviously-bad schemes at save-time so a typo doesn't
+                // ship to the runtime.
+                $scheme = strtolower((string)parse_url($url, PHP_URL_SCHEME));
+                if (!in_array($scheme, ['http', 'https'], true)) {
+                    jsonError("Step $i: webhook URL must be http(s)", 400);
+                }
+                $cfg = ['url' => $url];
+                break;
+            case 'log':
+                $cfg = ['message' => substr((string)($cfg['message'] ?? ''), 0, 500)];
                 break;
             // Auto-reply step types (PR 3). Config is engine-controlled — sanitize the
             // few user-tunable knobs and drop everything else to prevent accidental

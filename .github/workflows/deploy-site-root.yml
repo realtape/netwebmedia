@@ -267,6 +267,11 @@ jobs:
           print(f"define('DEDUPE_TOKEN', '{e(os.environ.get('SECRET_DEDUPE_TOKEN') or 'NWM_DEDUPE_2026')}');")
           print(f"define('IMPORT_BEST_TOKEN', '{e(os.environ.get('SECRET_IMPORT_BEST_TOKEN') or 'NWM_IMPORT_BEST_2026')}');")
           print(f"define('IMPORT_CSV_TOKEN', '{e(os.environ.get('SECRET_IMPORT_CSV_TOKEN') or 'NWM_IMPORT_CHILE_2026')}');")
+          # Facebook Page publishing — long-lived Page access token + numeric Page ID.
+          # Both must come from Meta Business Manager / Graph API Explorer (no defaults).
+          # Empty = fb_publish handler returns 503 on schedule action.
+          print(f"define('FB_PAGE_ID', '{e(os.environ.get('SECRET_FB_PAGE_ID',''))}');")
+          print(f"define('FB_PAGE_TOKEN', '{e(os.environ.get('SECRET_FB_PAGE_TOKEN',''))}');")
           PYEOF
             echo "crm-vanilla/api/config.local.php generated"
           else

@@ -196,6 +196,54 @@
     footer a:hover{color:var(--nwm-orange)}
 </style>
   <script src="/assets/nwm-i18n.js?v=2" defer></script>
+  <!-- Industry-specific schema for AEO citation (Service + audience) -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": "https://legal.netwebmedia.com/#service",
+  "name": "AI marketing services for law firms and legal practices",
+  "serviceType": [
+    "Fractional CMO",
+    "AEO (Answer Engine Optimization)",
+    "Local SEO",
+    "Paid Ads",
+    "AI Automation",
+    "CRM"
+  ],
+  "provider": {
+    "@id": "https://netwebmedia.com/#org"
+  },
+  "areaServed": [
+    {
+      "@type": "Country",
+      "name": "United States"
+    }
+  ],
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "Law firms, attorneys, and legal practices"
+  },
+  "knowsAbout": [
+    "Legal marketing",
+    "Attorney AEO",
+    "Law firm SEO",
+    "Qualified consult generation",
+    "DWI defense marketing",
+    "Practice-area content",
+    "Bar-compliant advertising",
+    "Legal handbooks for SEO"
+  ],
+  "offers": {
+    "@type": "AggregateOffer",
+    "lowPrice": "249",
+    "highPrice": "5999",
+    "priceCurrency": "USD",
+    "offerCount": "5",
+    "url": "https://netwebmedia.com/pricing.html"
+  }
+}
+  </script>
 </head>
 <body>
 

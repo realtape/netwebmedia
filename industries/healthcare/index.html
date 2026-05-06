@@ -199,6 +199,58 @@
     footer a:hover{color:var(--nwm-orange)}
 </style>
   <script src="/assets/nwm-i18n.js?v=2" defer></script>
+  <!-- Industry-specific schema for AEO citation (Service + audience) -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": "https://healthcare.netwebmedia.com/#service",
+  "name": "AI marketing services for dental, veterinary, and aesthetics clinics",
+  "serviceType": [
+    "Fractional CMO",
+    "AEO (Answer Engine Optimization)",
+    "Local SEO",
+    "Paid Ads",
+    "AI Automation",
+    "CRM"
+  ],
+  "provider": {
+    "@id": "https://netwebmedia.com/#org"
+  },
+  "areaServed": [
+    {
+      "@type": "Country",
+      "name": "United States"
+    },
+    {
+      "@type": "Country",
+      "name": "Chile"
+    }
+  ],
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "Dental clinics, veterinary practices, medical aesthetics, and outpatient health businesses"
+  },
+  "knowsAbout": [
+    "Patient acquisition",
+    "Healthcare AEO",
+    "Dental marketing",
+    "Veterinary marketing",
+    "Medical aesthetics marketing",
+    "No-show reduction",
+    "Recall sequences",
+    "HIPAA-aware marketing"
+  ],
+  "offers": {
+    "@type": "AggregateOffer",
+    "lowPrice": "249",
+    "highPrice": "5999",
+    "priceCurrency": "USD",
+    "offerCount": "5",
+    "url": "https://netwebmedia.com/pricing.html"
+  }
+}
+  </script>
 </head>
 <body>
 

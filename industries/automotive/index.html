@@ -196,7 +196,52 @@
 }
   </script>
   <script src="/assets/nwm-i18n.js?v=2" defer></script>
-</head>
+  <!-- Industry-specific schema for AEO citation (Service + audience) -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": "https://auto.netwebmedia.com/#service",
+  "name": "AI marketing services for auto dealers and repair shops",
+  "serviceType": [
+    "Fractional CMO",
+    "AEO (Answer Engine Optimization)",
+    "Local SEO",
+    "Paid Ads",
+    "AI Automation",
+    "CRM"
+  ],
+  "provider": {
+    "@id": "https://netwebmedia.com/#org"
+  },
+  "areaServed": [
+    {
+      "@type": "Country",
+      "name": "United States"
+    }
+  ],
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "Auto dealerships, repair shops, and automotive service businesses"
+  },
+  "knowsAbout": [
+    "Dealership marketing",
+    "Auto repair local SEO",
+    "Auto AEO citations",
+    "Service-bay scheduling",
+    "Lead nurture for auto",
+    "Inventory feed marketing"
+  ],
+  "offers": {
+    "@type": "AggregateOffer",
+    "lowPrice": "249",
+    "highPrice": "5999",
+    "priceCurrency": "USD",
+    "offerCount": "5",
+    "url": "https://netwebmedia.com/pricing.html"
+  }
+}
+  </script>
 </head>
 <body>
 

@@ -327,6 +327,9 @@ jobs:
           SECRET_IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
           SECRET_IMPORT_CSV_TOKEN:  ${{ secrets.IMPORT_CSV_TOKEN }}
           SECRET_META_PIXEL_ID:     ${{ secrets.META_PIXEL_ID }}
+          # Facebook Page publishing (fb_publish handler)
+          SECRET_FB_PAGE_ID:        ${{ secrets.FB_PAGE_ID }}
+          SECRET_FB_PAGE_TOKEN:     ${{ secrets.FB_PAGE_TOKEN }}
 
       - name: Server-side cleanup of decommissioned files
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}

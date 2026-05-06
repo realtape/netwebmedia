@@ -111,3 +111,5 @@ foreach ($rows as $r) {
 
 fclose($out);
 exit;
+
+// rev: 2026-05-06b

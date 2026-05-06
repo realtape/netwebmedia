@@ -15,6 +15,11 @@ crm/
 .deploy-session
 _deploy/*.zip
 
+# CRM exports — contain PII, never commit
+_deploy/nwm-contacts*.csv
+_deploy/_serve_csv.py
+_birdtoken.tmp
+
 # Secrets — generated on server at deploy time, never commit local copies
 config.local.php
 api-php/config.local.php

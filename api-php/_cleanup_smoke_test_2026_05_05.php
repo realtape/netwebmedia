@@ -5,16 +5,17 @@
  * Scope: rows where the data.email matches '@nwm-test.local' (a TLD that
  * does not exist publicly — guarantees no real customer is touched).
  *
- * Token-gated with MIGRATE_TOKEN. Run once via curl, then this file is
- * deleted in the same commit. Idempotent: re-running returns zero counts.
+ * Token-gated with MIGRATE_TOKEN. Invoked via the router group
+ * `cleanup-smoke-test-20260505` registered in index.php.
  *
  * Usage:
- *   curl -A "Mozilla/5.0" "https://netwebmedia.com/api/_cleanup_smoke_test_2026_05_05.php?token=..."
+ *   curl "https://netwebmedia.com/api/cleanup-smoke-test-20260505?token=..."
+ *
+ * Idempotent: re-running returns zero counts after the first success.
  */
 declare(strict_types=1);
 
-require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/lib/db.php';
+// db.php is already required by index.php; no extra requires needed here.
 
 $token = $_GET['token'] ?? '';
 $expected = defined('MIGRATE_TOKEN') ? MIGRATE_TOKEN : 'NWM_MIGRATE_2026';
@@ -22,7 +23,7 @@ if (!hash_equals($expected, $token)) {
     http_response_code(403);
     header('Content-Type: application/json');
     echo json_encode(['error' => 'forbidden']);
-    exit;
+    return;
 }
 
 header('Content-Type: application/json');
@@ -30,23 +31,18 @@ header('Content-Type: application/json');
 $pattern = '%@nwm-test.local%';
 $results = [];
 
-$db = pdo();
-
 // 1. Delete contacts in resources table where data.email LIKE pattern
 try {
-    // Find them first so we can return ids
-    $stmt = $db->prepare(
-        "SELECT id, JSON_EXTRACT(data, '$.email') AS email FROM resources " .
-        "WHERE type='contact' AND JSON_EXTRACT(data, '$.email') LIKE ?"
+    $pdo  = db();
+    $stmt = $pdo->prepare(
+        "SELECT id FROM resources " .
+        "WHERE type='contact' AND JSON_UNQUOTE(JSON_EXTRACT(data, '$.email')) LIKE ?"
     );
     $stmt->execute([$pattern]);
-    $contactIds = [];
-    while ($r = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $contactIds[] = (int)$r['id'];
-    }
+    $contactIds = array_map('intval', $stmt->fetchAll(PDO::FETCH_COLUMN, 0));
     if ($contactIds) {
         $placeholders = implode(',', array_fill(0, count($contactIds), '?'));
-        $del = $db->prepare("DELETE FROM resources WHERE id IN ($placeholders)");
+        $del = $pdo->prepare("DELETE FROM resources WHERE id IN ($placeholders)");
         $del->execute($contactIds);
         $results['resources_contacts'] = ['deleted' => $del->rowCount(), 'ids' => $contactIds];
     } else {
@@ -58,17 +54,15 @@ try {
 
 // 2. Delete form_submissions where data.email LIKE pattern
 try {
-    $stmt = $db->prepare(
-        "SELECT id FROM form_submissions WHERE JSON_EXTRACT(data, '$.email') LIKE ?"
+    $pdo  = db();
+    $stmt = $pdo->prepare(
+        "SELECT id FROM form_submissions WHERE JSON_UNQUOTE(JSON_EXTRACT(data, '$.email')) LIKE ?"
     );
     $stmt->execute([$pattern]);
-    $subIds = [];
-    while ($r = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $subIds[] = (int)$r['id'];
-    }
+    $subIds = array_map('intval', $stmt->fetchAll(PDO::FETCH_COLUMN, 0));
     if ($subIds) {
         $placeholders = implode(',', array_fill(0, count($subIds), '?'));
-        $del = $db->prepare("DELETE FROM form_submissions WHERE id IN ($placeholders)");
+        $del = $pdo->prepare("DELETE FROM form_submissions WHERE id IN ($placeholders)");
         $del->execute($subIds);
         $results['form_submissions'] = ['deleted' => $del->rowCount(), 'ids' => $subIds];
     } else {
@@ -78,24 +72,14 @@ try {
     $results['form_submissions'] = ['error' => $e->getMessage()];
 }
 
-// 3. Delete queued email_sequence_queue rows for those test emails
+// 3. Delete email_sequence_queue rows for those test emails
 try {
-    $stmt = $db->prepare("DELETE FROM email_sequence_queue WHERE email LIKE ?");
+    $pdo  = db();
+    $stmt = $pdo->prepare("DELETE FROM email_sequence_queue WHERE email LIKE ?");
     $stmt->execute([$pattern]);
     $results['email_sequence_queue'] = ['deleted' => $stmt->rowCount()];
 } catch (Throwable $e) {
-    // Table may not have an 'email' column directly — try via contact_id JOIN
-    try {
-        $stmt = $db->prepare(
-            "DELETE eq FROM email_sequence_queue eq " .
-            "INNER JOIN resources r ON r.id = eq.contact_id " .
-            "WHERE JSON_EXTRACT(r.data, '$.email') LIKE ?"
-        );
-        $stmt->execute([$pattern]);
-        $results['email_sequence_queue'] = ['deleted_via_join' => $stmt->rowCount()];
-    } catch (Throwable $e2) {
-        $results['email_sequence_queue'] = ['error' => $e->getMessage(), 'fallback_error' => $e2->getMessage()];
-    }
+    $results['email_sequence_queue'] = ['error' => $e->getMessage()];
 }
 
 echo json_encode($results, JSON_PRETTY_PRINT);

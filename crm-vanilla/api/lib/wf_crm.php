@@ -41,6 +41,11 @@ const WF_CRM_HARDCODED_DENYLIST_TOPICS = [
 
 const WF_CRM_HARDCODED_DENYLIST_TAGS = ['enterprise', 'at_risk', 'vip', 'paused'];
 
+/* Cascade depth limit: a tag/stage step that fires another trigger must not
+ * loop forever. 5 levels is generous — deeper than that almost always means
+ * a misconfigured workflow rather than legitimate chaining. */
+const WF_CRM_MAX_CASCADE_DEPTH = 5;
+
 /* ──────────────────────────────────────────────────────────────────────────
  * Trigger matching
  * ─────────────────────────────────────────────────────────────────────── */
@@ -49,16 +54,44 @@ const WF_CRM_HARDCODED_DENYLIST_TAGS = ['enterprise', 'at_risk', 'vip', 'paused'
  * Fire a trigger. Finds all active workflows whose trigger_type matches $type
  * and whose optional trigger_filter (string) matches $match['tag'] or
  * $match['stage'] etc. Queues a workflow_run for each. Returns count queued.
+ *
+ * Tenancy: workflows are scoped per-tenant. A trigger fired in org A must
+ * never queue a workflow defined by org B against org A's data — that would
+ * leak org B's automations onto org A's contacts. Filtering rules:
+ *   - if $orgId is non-null: only match workflows in the same org
+ *   - else if $uid is non-null: match workflows owned by that user
+ *     (or with NULL user_id — legacy/global workflows)
+ *   - else: refuse to fire (anonymous trigger context is unsafe)
  */
 function wf_crm_trigger(string $type, array $match, array $ctx, ?int $uid, ?int $orgId): int {
+    // Cascade-depth circuit breaker.
+    $depth = (int)($ctx['_cascade_depth'] ?? 0);
+    if ($depth > WF_CRM_MAX_CASCADE_DEPTH) {
+        error_log("[wf_crm] cascade depth {$depth} exceeded, dropping trigger '{$type}'");
+        return 0;
+    }
+
+    // Anonymous fire is a bug — refuse rather than risk cross-tenant fanout.
+    if ($orgId === null && $uid === null) {
+        error_log("[wf_crm] refusing anonymous trigger '{$type}' (no org/user context)");
+        return 0;
+    }
+
     $db = getDB();
     try {
-        $stmt = $db->prepare(
-            "SELECT id, user_id, organization_id, trigger_filter, steps_json
-               FROM workflows
-              WHERE status = 'active' AND trigger_type = ?"
-        );
-        $stmt->execute([$type]);
+        $sql = "SELECT id, user_id, organization_id, trigger_filter, steps_json
+                  FROM workflows
+                 WHERE status = 'active' AND trigger_type = ?";
+        $params = [$type];
+        if ($orgId !== null) {
+            $sql .= " AND organization_id = ?";
+            $params[] = $orgId;
+        } else {
+            $sql .= " AND (user_id = ? OR user_id IS NULL)";
+            $params[] = $uid;
+        }
+        $stmt = $db->prepare($sql);
+        $stmt->execute($params);
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (Throwable $e) {
         error_log('[wf_crm] trigger lookup failed: ' . $e->getMessage());
@@ -103,17 +136,73 @@ function wf_crm_enqueue(int $workflowId, ?int $uid, ?int $orgId, array $ctx, PDO
  * ─────────────────────────────────────────────────────────────────────── */
 
 function wf_crm_run_pending(PDO $db): array {
-    $stmt = $db->prepare(
-        "SELECT r.*, w.steps_json
-           FROM workflow_runs r
-           JOIN workflows w ON w.id = r.workflow_id
-          WHERE r.status IN ('pending','waiting')
-            AND (r.next_run_at IS NULL OR r.next_run_at <= NOW())
-          ORDER BY r.id ASC
-          LIMIT 50"
-    );
-    $stmt->execute();
-    $runs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Crash recovery: a PHP timeout / fatal during advance() leaves a row
+    // stuck in status='running'. Reap anything older than 5 minutes back
+    // to 'pending' so the next claim picks it up. step_index is persisted
+    // after every executed step, so a reaped run resumes from the right
+    // place rather than re-firing earlier sends.
+    try {
+        $db->exec(
+            "UPDATE workflow_runs
+                SET status='pending', claim_token=NULL,
+                    error=CONCAT('reaped: stuck running for >5min @ ', NOW()),
+                    updated_at=NOW()
+              WHERE status='running'
+                AND updated_at < (NOW() - INTERVAL 5 MINUTE)"
+        );
+    } catch (Throwable $_) { /* claim_token may not exist yet on first deploy */ }
+
+    // Atomic claim. Two cron processes firing within milliseconds of each
+    // other used to read the same pending row and execute it twice
+    // (= duplicate emails to clients). We now flip status='running' on up
+    // to 50 rows in a single UPDATE, tagging each with a per-cron token,
+    // then SELECT only the rows that were tagged with our token. Rows
+    // already claimed by a concurrent cron are skipped because their
+    // status is no longer in ('pending','waiting').
+    //
+    // Requires `claim_token` column (schema_workflow_runs_claim.sql).
+    // Falls back to non-atomic select if the column doesn't exist yet.
+    $token = bin2hex(random_bytes(8));
+
+    $hasClaim = false;
+    try {
+        $upd = $db->prepare(
+            "UPDATE workflow_runs
+                SET status='running', claim_token=?, updated_at=NOW()
+              WHERE status IN ('pending','waiting')
+                AND (next_run_at IS NULL OR next_run_at <= NOW())
+              ORDER BY id ASC
+              LIMIT 50"
+        );
+        $upd->execute([$token]);
+        $hasClaim = true;
+    } catch (Throwable $e) {
+        // Column missing — fall back. Migration will add it on next deploy.
+        error_log('[wf_crm] atomic claim unavailable, falling back: ' . $e->getMessage());
+    }
+
+    if ($hasClaim) {
+        $sel = $db->prepare(
+            "SELECT r.*, w.steps_json
+               FROM workflow_runs r
+               JOIN workflows w ON w.id = r.workflow_id
+              WHERE r.claim_token = ?
+              ORDER BY r.id ASC"
+        );
+        $sel->execute([$token]);
+    } else {
+        $sel = $db->prepare(
+            "SELECT r.*, w.steps_json
+               FROM workflow_runs r
+               JOIN workflows w ON w.id = r.workflow_id
+              WHERE r.status IN ('pending','waiting')
+                AND (r.next_run_at IS NULL OR r.next_run_at <= NOW())
+              ORDER BY r.id ASC
+              LIMIT 50"
+        );
+        $sel->execute();
+    }
+    $runs = $sel->fetchAll(PDO::FETCH_ASSOC);
 
     $results = [];
     foreach ($runs as $run) {
@@ -122,7 +211,7 @@ function wf_crm_run_pending(PDO $db): array {
             $results[] = ['id' => $run['id'], 'wf' => $run['workflow_id'], 'result' => $res];
         } catch (Throwable $e) {
             error_log('[wf_crm] advance run=' . $run['id'] . ' threw: ' . $e->getMessage());
-            $db->prepare("UPDATE workflow_runs SET status='failed', error=?, updated_at=NOW() WHERE id=?")
+            $db->prepare("UPDATE workflow_runs SET status='failed', error=?, claim_token=NULL, updated_at=NOW() WHERE id=?")
                ->execute([$e->getMessage(), $run['id']]);
             $results[] = ['id' => $run['id'], 'wf' => $run['workflow_id'], 'result' => 'exception'];
         }
@@ -213,7 +302,7 @@ function wf_crm_advance(array $run, PDO $db): string {
         case 'send_email':
             $to = $config['to'] ?? ($ctx['email'] ?? null);
             if (!$to) { $stepResult = 'no_recipient'; break; }
-            if (strpos($to, '{{') !== false) {
+            if (is_string($to) && strpos($to, '{{') !== false) {
                 // Simple token replace: {{contact.email}}, {{email}}
                 $ctxRef = $ctx;
                 $to = preg_replace_callback('/\{\{([^}]+)\}\}/', function ($m) use ($ctxRef) {
@@ -222,18 +311,64 @@ function wf_crm_advance(array $run, PDO $db): string {
                 }, $to);
             }
             if (!filter_var($to, FILTER_VALIDATE_EMAIL)) { $stepResult = 'bad_email'; break; }
-            $subject = $config['subject'] ?? 'Message from NetWebMedia';
-            $body    = $config['body']    ?? '';
-            // Replace basic merge tags
+
+            // Resolve subject + body. Priority order:
+            //   1. inline subject/body from the step config (legacy direct-email steps)
+            //   2. email_templates row keyed by template_id (visual builder)
+            //   3. defaults — but log so we don't silently send blank.
+            $subject = $config['subject'] ?? null;
+            $body    = $config['body']    ?? null;
+            $isHtml  = false;
+
+            $templateId = isset($config['template_id']) ? (int)$config['template_id'] : 0;
+            if ($templateId > 0 && ($subject === null || $body === null)) {
+                try {
+                    $tplStmt = $db->prepare(
+                        "SELECT subject, body_html, body_text, from_name, from_email
+                           FROM email_templates WHERE id = ? LIMIT 1"
+                    );
+                    $tplStmt->execute([$templateId]);
+                    $tpl = $tplStmt->fetch(PDO::FETCH_ASSOC);
+                    if (!$tpl) {
+                        $stepResult = 'template_not_found:' . $templateId;
+                        break;
+                    }
+                    if ($subject === null) $subject = (string)($tpl['subject'] ?? '');
+                    if ($body === null) {
+                        $body = (string)($tpl['body_html'] ?? '');
+                        if ($body !== '') {
+                            $isHtml = true;
+                        } else {
+                            $body = (string)($tpl['body_text'] ?? '');
+                        }
+                    }
+                } catch (Throwable $e) {
+                    $stepResult = 'template_load_failed:' . substr($e->getMessage(), 0, 80);
+                    break;
+                }
+            }
+
+            if ($subject === null || $subject === '') $subject = 'Message from NetWebMedia';
+            if ($body === null) $body = '';
+            if ($body === '') {
+                // Refuse to send a blank email — the client would see nothing
+                // and we'd burn a Resend API call. Better to fail visibly.
+                $stepResult = 'email_skipped:empty_body';
+                break;
+            }
+
+            // Replace basic merge tags in both subject and body.
             foreach ($ctx as $k => $v) {
                 if (is_scalar($v)) {
                     $subject = str_replace('{{' . $k . '}}', (string)$v, $subject);
                     $body    = str_replace('{{' . $k . '}}', (string)$v, $body);
                 }
             }
-            $html = nl2br(htmlspecialchars($body));
+
+            // body_html is already HTML; raw inline bodies are plaintext-style.
+            $html = $isHtml ? $body : nl2br(htmlspecialchars($body));
             $res  = mailSend(['to' => $to, 'subject' => $subject, 'html' => $html]);
-            $stepResult = $res['ok'] ? 'email_sent' : 'email_failed';
+            $stepResult = !empty($res['ok']) ? 'email_sent' : 'email_failed';
             break;
 
         /* ── tag / add_tag ───────────────────────────────────────────── */
@@ -367,12 +502,32 @@ function wf_crm_advance(array $run, PDO $db): string {
             foreach ($ctx as $k => $v) {
                 if (is_scalar($v)) $msg = str_replace('{{' . $k . '}}', (string)$v, $msg);
             }
+
+            // Recipient resolution: explicit step config wins, else the
+            // organization's sender_email (white-label safe), else the
+            // global default. Without this, a client deploying NWM CRM
+            // sees their team notifications land in our inbox.
+            $recipient = !empty($config['to']) && filter_var($config['to'], FILTER_VALIDATE_EMAIL)
+                ? (string)$config['to']
+                : null;
+            if (!$recipient && !empty($run['org_id'])) {
+                try {
+                    $orgStmt = $db->prepare('SELECT sender_email FROM organizations WHERE id = ? LIMIT 1');
+                    $orgStmt->execute([(int)$run['org_id']]);
+                    $orgEmail = $orgStmt->fetchColumn();
+                    if ($orgEmail && filter_var($orgEmail, FILTER_VALIDATE_EMAIL)) {
+                        $recipient = (string)$orgEmail;
+                    }
+                } catch (Throwable $_) { /* org table may not exist yet */ }
+            }
+            if (!$recipient) $recipient = 'hello@netwebmedia.com';
+
             mailSend([
-                'to'      => 'hello@netwebmedia.com',
-                'subject' => '[NWM Workflow] ' . $msg,
+                'to'      => $recipient,
+                'subject' => '[Workflow] ' . $msg,
                 'html'    => '<p>' . htmlspecialchars($msg) . '</p>',
             ]);
-            $stepResult = 'team_notified';
+            $stepResult = 'team_notified:' . $recipient;
             break;
 
         /* ── if (conditional branch) ─────────────────────────────────── */
@@ -895,6 +1050,29 @@ function wf_crm_advance(array $run, PDO $db): string {
         $ctx['_injected_at']    = $idx;
     }
 
+    // Per-step audit trail. Inserted regardless of how the run continues —
+    // this is what tenants will see when they ask "why didn't my workflow run?".
+    // Best-effort: a missing table must not abort the run. The schema migration
+    // creates it; this CREATE TABLE IF NOT EXISTS is defence-in-depth.
+    try {
+        $db->exec(
+            "CREATE TABLE IF NOT EXISTS `workflow_run_steps` (
+              `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+              `run_id` BIGINT UNSIGNED NOT NULL,
+              `step_index` SMALLINT UNSIGNED NOT NULL,
+              `step_type` VARCHAR(50) NOT NULL,
+              `result` VARCHAR(200) NOT NULL,
+              `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              PRIMARY KEY (`id`),
+              INDEX `idx_wrs_run` (`run_id`),
+              INDEX `idx_wrs_created` (`created_at`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
+        );
+        $db->prepare(
+            "INSERT INTO workflow_run_steps (run_id, step_index, step_type, result) VALUES (?, ?, ?, ?)"
+        )->execute([$runId, $idx, (string)$action, substr((string)$stepResult, 0, 200)]);
+    } catch (Throwable $_) { /* swallow — audit must never break the run */ }
+
     // $advanceIdx = false means "re-enter the same step on the next pending tick".
     // Used by holding_reply_if_no_approval which is a wait+resume self-pair.
     $nextIdx = $advanceIdx ? ($idx + 1) : $idx;
@@ -902,21 +1080,25 @@ function wf_crm_advance(array $run, PDO $db): string {
 
     if ($waitUntil) {
         $db->prepare(
-            "UPDATE workflow_runs SET status='waiting', step_index=?, context_json=?, next_run_at=?, error=NULL, updated_at=NOW() WHERE id=?"
+            "UPDATE workflow_runs SET status='waiting', step_index=?, context_json=?, next_run_at=?, error=NULL, claim_token=NULL, updated_at=NOW() WHERE id=?"
         )->execute([$nextIdx, $newCtx, $waitUntil, $runId]);
         return $stepResult;
     }
 
     if ($nextIdx >= count($steps)) {
         $db->prepare(
-            "UPDATE workflow_runs SET status='completed', step_index=?, context_json=?, next_run_at=NULL, error=NULL, updated_at=NOW() WHERE id=?"
+            "UPDATE workflow_runs SET status='completed', step_index=?, context_json=?, next_run_at=NULL, error=NULL, claim_token=NULL, updated_at=NOW() WHERE id=?"
         )->execute([$nextIdx, $newCtx, $runId]);
         return $stepResult;
     }
 
-    // More steps remain — stay pending, advance index, re-run synchronously (non-wait steps)
+    // More steps remain — KEEP status='running' between synchronous recursions so
+    // a concurrent cron's atomic claim (which filters on status IN ('pending','waiting'))
+    // cannot grab this row mid-execution. We persist step_index after every step
+    // so a PHP crash mid-recurse can be reaped by the stuck-running watchdog and
+    // resume from the right step. claim_token is preserved for the same reason.
     $db->prepare(
-        "UPDATE workflow_runs SET status='pending', step_index=?, context_json=?, next_run_at=NULL, error=NULL, updated_at=NOW() WHERE id=?"
+        "UPDATE workflow_runs SET status='running', step_index=?, context_json=?, next_run_at=NULL, error=NULL, updated_at=NOW() WHERE id=?"
     )->execute([$nextIdx, $newCtx, $runId]);
 
     // Recurse synchronously for non-wait steps (max depth guard via step_index)
@@ -924,7 +1106,7 @@ function wf_crm_advance(array $run, PDO $db): string {
         $nextRun = array_merge($run, [
             'step_index'   => $nextIdx,
             'context_json' => $newCtx,
-            'status'       => 'pending',
+            'status'       => 'running',
         ]);
         return wf_crm_advance($nextRun, $db);
     }

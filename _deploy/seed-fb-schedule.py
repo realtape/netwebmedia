@@ -28,16 +28,18 @@ import json
 import os
 import sys
 import urllib.request
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from zoneinfo import ZoneInfo
 
 from openpyxl import load_workbook
+
+# Chile (America/Santiago) is UTC-3 in May (winter, no DST observed since 2022).
+# Hardcoded offset avoids tzdata dependency on Windows. Override via --tz-offset.
+DEFAULT_TZ_OFFSET_HOURS = -3
 
 DEFAULT_TRACKER = r"C:\Users\Usuario\Documents\Claude\Projects\Social Media Campaign\NetWebMedia_Posts_Tracker.xlsx"
 DEFAULT_API_BASE = "https://netwebmedia.com/crm-vanilla/api"
 DEFAULT_ASSET_BASE = "https://netwebmedia.com/assets/social/campaign"
-DEFAULT_TZ = "America/Santiago"
 
 # Carousel themes → folder name + slide count.
 # Slide files are named "<folder>_slide_<N>.png" (per local inventory).
@@ -78,21 +80,18 @@ def parse_xlsx(path: str) -> list[dict]:
     return rows
 
 
-def parse_schedule_dt(date_str: str, time_str: str, tz_name: str) -> int:
+def parse_schedule_dt(date_str: str, time_str: str, tz_offset_hours: int) -> int:
     """
-    Parse "2026-05-08 (Fri)" + "10:00 AM" in tz, return UNIX timestamp.
-    Tracker date format may include weekday in parens; strip it.
+    Parse "2026-05-08 (Fri)" + "10:00 AM" at fixed UTC offset, return UNIX timestamp.
     """
-    # Strip "(Fri)" suffix
     date_part = date_str.split("(")[0].strip()
-    # Combine and parse
     combined = f"{date_part} {time_str}"
     dt_naive = datetime.strptime(combined, "%Y-%m-%d %I:%M %p")
-    dt_local = dt_naive.replace(tzinfo=ZoneInfo(tz_name))
-    return int(dt_local.timestamp())
+    tz = timezone(timedelta(hours=tz_offset_hours))
+    return int(dt_naive.replace(tzinfo=tz).timestamp())
 
 
-def build_post_payload(row: dict, asset_base: str) -> dict | None:
+def build_post_payload(row: dict, asset_base: str, tz_offset_hours: int) -> dict | None:
     """Convert one tracker row into a schedule API payload entry."""
     status = row.get("Status", "").upper()
     if status != "PENDING":
@@ -116,7 +115,7 @@ def build_post_payload(row: dict, asset_base: str) -> dict | None:
     sched_unix = parse_schedule_dt(
         row.get("Schedule Date", ""),
         row.get("Schedule Time (Chile = ET in May)", ""),
-        DEFAULT_TZ,
+        tz_offset_hours,
     )
 
     payload = {
@@ -175,7 +174,7 @@ def main():
     ap.add_argument("--tracker", default=DEFAULT_TRACKER)
     ap.add_argument("--api-base", default=DEFAULT_API_BASE)
     ap.add_argument("--asset-base", default=DEFAULT_ASSET_BASE)
-    ap.add_argument("--tz", default=DEFAULT_TZ)
+    ap.add_argument("--tz-offset", type=int, default=DEFAULT_TZ_OFFSET_HOURS, help="UTC offset in hours (default -3 = Chile in May).")
     ap.add_argument("--dry-run", action="store_true", help="Send dry_run=true; logs to fb_publish_log without calling FB API.")
     ap.add_argument("--print-only", action="store_true", help="Print payloads, do not POST.")
     args = ap.parse_args()
@@ -193,7 +192,7 @@ def main():
     payloads = []
     errors = []
     for row in rows:
-        p = build_post_payload(row, args.asset_base)
+        p = build_post_payload(row, args.asset_base, args.tz_offset)
         if p is None:
             continue
         if "_error" in p:

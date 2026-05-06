@@ -53,6 +53,11 @@ $stmt = $db->prepare($sql);
 $stmt->execute($params);
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Override CORS to allow Bird app to fetch directly (token-gated, safe)
+header_remove('Access-Control-Allow-Origin');
+header('Access-Control-Allow-Origin: https://app.bird.com');
+header('Access-Control-Allow-Methods: GET, OPTIONS');
+
 header('Content-Type: text/csv; charset=UTF-8');
 header('Content-Disposition: attachment; filename="nwm-contacts-bird.csv"');
 header('Cache-Control: no-store');

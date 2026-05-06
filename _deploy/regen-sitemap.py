@@ -43,6 +43,8 @@ EXCLUDE_DIRS = {
     "_dev", "Netwebmedia-antigravity-copy-work",
     # Internal authenticated UI — not public pages
     "cms", "crm",
+    # Archive of pre-AEO-pivot site content — kept for reference, not crawled
+    "_archive", "_lessons", "_ci",
 }
 
 EXCLUDE_FILES = {

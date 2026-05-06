@@ -646,8 +646,47 @@ HTML is never cached (0s), CSS/JS cached 5 min with revalidation. After deployin
 
 ## Agents — when to use which
 
-See `.claude/AGENT-ROUTING.txt` for the full table. Short version:
+See `.claude/AGENT-ROUTING.txt` for the full table, and [orgchart.html](orgchart.html) for a visual map. Short version:
 
-- **Strategic / complex** (Sonnet): `cmo`, `engineering-lead`, `carlos-ceo-assistant`
-- **Routine work** (Haiku, ~⅓ the tokens): `finance-controller`, `operations-manager`, `customer-success`, `sales-director`, `project-manager`, `data-analyst`, `content-strategist`, `creative-director`, `product-manager`
+- **Strategic / complex** (Opus): `cmo`, `engineering-lead`, `product-manager`
+- **Executive support** (Sonnet): `carlos-ceo-assistant`
+- **Routine work** (Haiku, ~⅓ the tokens): `finance-controller`, `operations-manager`, `customer-success`, `sales-director`, `project-manager`, `data-analyst`, `content-strategist`, `creative-director`
 - **Batch requests to one agent** instead of multiple round-trips — saves 30–40% tokens.
+
+```mermaid
+graph TD
+  CEO["👤 Carlos Martinez<br/>CEO & Founder"]:::ceo
+  COS["🧠 carlos-ceo-assistant<br/><i>Chief of Staff</i> · Sonnet"]:::sonnet
+
+  CMO["📣 cmo<br/><i>Brand · demand · content</i> · Opus"]:::opus
+  PROD["📦 product-manager<br/><i>Packages · CRM · automations</i> · Opus"]:::opus
+  SALES["📈 sales-director<br/><i>Pipeline · new revenue</i> · Haiku"]:::haiku
+  OPS["⚙️ operations-manager<br/><i>SOPs · vendors · tooling</i> · Haiku"]:::haiku
+
+  CONT["✍️ content-strategist<br/>Blog · AEO/SEO · Haiku"]:::haiku
+  CREA["🎨 creative-director<br/>Brand · UX/UI · Haiku"]:::haiku
+  ENG["🛠️ engineering-lead<br/>Architecture · AI builds · Opus"]:::opus
+  PM["📅 project-manager<br/>Delivery · scope · Haiku"]:::haiku
+  CS["💚 customer-success<br/>Retention · QBRs · Haiku"]:::haiku
+  FIN["💰 finance-controller<br/>Billing · P&L · cash · Haiku"]:::haiku
+  DATA["📊 data-analyst<br/>Analytics · reporting · Haiku"]:::haiku
+
+  CEO --> COS
+  COS --> CMO
+  COS --> PROD
+  COS --> SALES
+  COS --> OPS
+
+  CMO --> CONT
+  CMO --> CREA
+  PROD --> ENG
+  PROD --> PM
+  SALES --> CS
+  OPS --> FIN
+  OPS --> DATA
+
+  classDef ceo fill:#FF671F,stroke:#FF671F,color:#fff,stroke-width:2px
+  classDef opus fill:#012169,stroke:#4A90D9,color:#fff,stroke-width:2px
+  classDef sonnet fill:#01306E,stroke:#4A90D9,color:#fff,stroke-width:2px
+  classDef haiku fill:#0a1f3d,stroke:#7B8FAD,color:#C8D4E6,stroke-width:1px
+```

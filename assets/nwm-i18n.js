@@ -46,11 +46,11 @@
     es: {
       // Public site nav & content
       nav_services:'Servicios', nav_about:'Nosotros', nav_results:'Resultados', nav_blog:'Blog',
-      nav_contact:'Contacto', nav_cta:'Auditoría Gratis', nav_dashboard:'🔐 Acceso Cliente',
+      nav_contact:'Contacto', nav_cta:'Tu Auditoría AEO', nav_dashboard:'🔐 Acceso Cliente',
       hero_badge:'', hero_title_1:'Tu Marca Merece',
       hero_title_2:'Crecimiento', hero_title_3:'con Inteligencia Artificial',
       hero_desc:'NetWebMedia es la agencia de marketing AI que combina inteligencia de datos, agentes autónomos y estrategias probadas de crecimiento para multiplicar por 10 el rendimiento de tu marca.',
-      hero_cta1:'Solicitar Auditoría IA Gratis →', hero_cta2:'Ver Nuestros Resultados →',
+      hero_cta1:'Tu Auditoría AEO ($997 — 100% crédito) →', hero_cta2:'Ver Precios y Paquetes →',
       hero_stat1_num:'1', hero_stat1_label:'Operador senior',
       hero_stat2_num:'7', hero_stat2_label:'Agentes AI en el equipo',
       hero_stat3_num:'2026', hero_stat3_label:'Cupo fundador abierto',
@@ -61,7 +61,7 @@
       results_subtitle:'Resultados reales para negocios reales. Esto es lo que entrega el marketing potenciado por IA.',
       cta_title:'¿Listo para Dominar tu Mercado?',
       cta_subtitle:'Obtén una auditoría de marketing AI gratuita y descubre exactamente dónde te están superando tus competidores. Trabajamos por WhatsApp, chat y email — sin llamadas, sin Zoom.',
-      cta_btn:'Solicitar Auditoría IA Gratis →',
+      cta_btn:'Tu Auditoría AEO →',
       footer_tagline:'La agencia de marketing AI más avanzada del mundo. Combinamos creatividad humana con inteligencia artificial para entregar un crecimiento sin precedentes.',
       // Nav (CMS sidebar)
       nav_pages:'Páginas', nav_landing:'Landing Pages',

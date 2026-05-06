@@ -110,19 +110,29 @@ if ($action === 'status') {
             'note'       => 'Add FB_PAGE_ID + FB_PAGE_TOKEN to GitHub Secrets and redeploy. See deploy-site-root.yml.',
         ]);
     }
-    // Verify token + page identity by hitting /me
-    $r = fb_curl_get("https://graph.facebook.com/{$gv}/me?fields=id,name,fan_count&access_token=" . urlencode($pageTk));
-    $ok = ($r['http'] >= 200 && $r['http'] < 300 && !empty($r['body']['id']));
-    $idMatches = $ok && (string)$r['body']['id'] === (string)$pageId;
+    // Verify token by hitting /me (works for both User and Page tokens) and
+    // /{page-id} (verifies the token has access to the configured Page).
+    $rMe = fb_curl_get("https://graph.facebook.com/{$gv}/me?fields=id,name&access_token=" . urlencode($pageTk));
+    $rPg = fb_curl_get("https://graph.facebook.com/{$gv}/" . urlencode($pageId) . "?fields=id,name,access_token&access_token=" . urlencode($pageTk));
+    $meOk    = ($rMe['http'] >= 200 && $rMe['http'] < 300 && !empty($rMe['body']['id']));
+    $pgOk    = ($rPg['http'] >= 200 && $rPg['http'] < 300 && !empty($rPg['body']['id']));
+    $isPageToken = $meOk && (string)$rMe['body']['id'] === (string)$pageId;
+    $isUserToken = $meOk && !$isPageToken;
     jsonResponse([
-        'configured'    => true,
-        'config'        => $cfg,
-        'token_valid'   => $ok,
-        'page_id_match' => $idMatches,
-        'fb_response'   => $r['body'],
-        'note'          => $ok && $idMatches
-            ? 'Ready. Page token resolves to the configured FB_PAGE_ID.'
-            : ($ok ? 'Token valid but resolves to a different Page ID than FB_PAGE_ID. Check FB_PAGE_ID.' : 'Token invalid or call failed.'),
+        'configured'        => true,
+        'config'            => $cfg,
+        'me_response'       => $rMe['body'],
+        'page_response'     => $rPg['body'],
+        'me_ok'             => $meOk,
+        'page_accessible'   => $pgOk,
+        'token_kind'        => $isPageToken ? 'page' : ($isUserToken ? 'user' : 'unknown'),
+        'note'              => $isPageToken && $pgOk
+            ? 'Ready. Token is a Page token for the configured FB_PAGE_ID.'
+            : ($isUserToken && $pgOk
+                ? 'Token is a User token with access to the Page. Posts will work, but Page tokens are recommended. /me/accounts can return the Page-scoped token.'
+                : ($pgOk
+                    ? 'Token can access the Page but identity is unclear.'
+                    : 'Token cannot access the configured Page. Check FB_PAGE_ID + FB_PAGE_TOKEN scopes (pages_manage_posts).')),
     ]);
 }
 

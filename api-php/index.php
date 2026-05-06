@@ -198,6 +198,11 @@ try {
   } elseif ($group === 'campaigns') {
     require __DIR__ . '/routes/campaigns.php';
     route_campaigns($parts, $method);
+  } elseif ($group === 'cleanup-smoke-test-20260505') {
+    // One-shot cleanup of clearly-marked smoke-test rows from 2026-05-05 audit
+    // (token-protected; targets only @nwm-test.local emails).
+    require __DIR__ . '/_cleanup_smoke_test_2026_05_05.php';
+    exit;
   } elseif ($group === 'migrate-wa') {
     // One-shot WhatsApp history migration (token-protected).
     require __DIR__ . '/migrate_wa_to_crm.php';

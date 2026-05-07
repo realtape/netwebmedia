@@ -32,7 +32,7 @@ try {
           `run_id` BIGINT UNSIGNED NOT NULL,
           `step_index` SMALLINT UNSIGNED NOT NULL,
           `step_type` VARCHAR(50) NOT NULL,
-          `result` VARCHAR(200) NOT NULL,
+          `result` VARCHAR(500) NOT NULL,
           `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
           PRIMARY KEY (`id`),
           INDEX `idx_wrs_run` (`run_id`),

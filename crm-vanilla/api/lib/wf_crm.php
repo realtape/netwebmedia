@@ -391,7 +391,8 @@ function wf_crm_advance(array $run, PDO $db): string {
                     ? 'email_sent:' . $providerUsed
                     : 'email_unknown:' . $providerUsed;
             } catch (Throwable $e) {
-                $stepResult = 'email_failed:' . substr($e->getMessage(), 0, 150);
+                // Cap at 450 to leave headroom under the new 500-char column.
+                $stepResult = 'email_failed:' . substr($e->getMessage(), 0, 450);
             }
             break;
 
@@ -1115,7 +1116,7 @@ function wf_crm_advance(array $run, PDO $db): string {
               `run_id` BIGINT UNSIGNED NOT NULL,
               `step_index` SMALLINT UNSIGNED NOT NULL,
               `step_type` VARCHAR(50) NOT NULL,
-              `result` VARCHAR(200) NOT NULL,
+              `result` VARCHAR(500) NOT NULL,
               `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
               PRIMARY KEY (`id`),
               INDEX `idx_wrs_run` (`run_id`),

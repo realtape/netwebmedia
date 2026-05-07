@@ -124,7 +124,7 @@ def run(args):
     ]
 
     print(f"\n{'='*62}")
-    print(f"NWM Email Enricher  —  {len(eligible)} leads to enrich")
+    print(f"NWM Email Enricher  -  {len(eligible)} leads to enrich")
     print(f"(already have email: {sum(1 for r in rows if r.get('email'))})")
     print(f"{'='*62}\n")
 
@@ -145,9 +145,9 @@ def run(args):
         if email:
             cp["enriched"] = cp.get("enriched", 0) + 1
             enriched_this_run += 1
-            print(f"✓ {email}")
+            print(f"OK {email}")
         else:
-            print("—")
+            print("-")
 
         # Save checkpoint every 50 rows
         if (idx + 1) % 50 == 0:
@@ -160,7 +160,7 @@ def run(args):
     save_cp(cp)
     _rewrite_csv(rows)
     total_with_email = sum(1 for r in rows if r.get("email"))
-    print(f"\n✓ Done.  Enriched this run: {enriched_this_run}")
+    print(f"\nDone. Enriched this run: {enriched_this_run}")
     print(f"  Total leads with email: {total_with_email} / {total_rows}")
     print(f"  File: {LEADS_CSV}\n")
 

@@ -140,13 +140,21 @@ def parse_element(el, city_name, country, selected_niches):
 def fetch_overpass(query, retries=3):
     for attempt in range(retries):
         try:
-            r = requests.post(OVERPASS, data=query, timeout=75)
+            r = requests.post(OVERPASS, data=query, timeout=90)
             if r.status_code == 200:
-                return json.loads(r.text).get("elements", [])
+                data = json.loads(r.text)
+                # detect server-side timeout (elements=[] but remark present)
+                if not data.get("elements") and "remark" in data:
+                    print(f"  [overpass] server timeout: {data['remark'][:80]}")
+                    return None   # signals caller to retry in smaller batches
+                return data.get("elements", [])
             if r.status_code == 429:
                 wait = 90 * (attempt + 1)
                 print(f"  [rate-limit] sleeping {wait}s")
                 time.sleep(wait)
+            elif r.status_code in (504, 502, 503):
+                print(f"  [overpass] HTTP {r.status_code}, retry {attempt+1}")
+                time.sleep(20 * (attempt + 1))
             else:
                 print(f"  [overpass] HTTP {r.status_code}")
                 break
@@ -154,6 +162,39 @@ def fetch_overpass(query, retries=3):
             print(f"  [overpass] attempt {attempt+1} error: {e}")
             time.sleep(15)
     return []
+
+
+# ── Split niche groups for large cities ───────────────────────────────────────
+
+NICHE_GROUPS = [
+    ["tourism", "restaurants", "health", "beauty", "smb", "law_firms", "real_estate"],
+    ["local_specialist", "automotive", "education", "events_weddings",
+     "financial_services", "home_services", "wine_agriculture"],
+]
+
+def fetch_city(bbox, niche_filter):
+    """Fetch all elements for a city. Splits into 2 niche batches if needed."""
+    niches = niche_filter or list(NICHE_PATTERNS.keys())
+
+    # Try single combined query first
+    query = build_union_query(bbox, set(niches))
+    result = fetch_overpass(query)
+    if result is not None:
+        return result
+
+    # Overpass timed out — split into niche groups and merge
+    print(f"  [split] retrying in 2 batches...")
+    all_elements = []
+    for group in NICHE_GROUPS:
+        batch = [n for n in group if n in niches]
+        if not batch:
+            continue
+        time.sleep(random.uniform(5, 10))
+        q = build_union_query(bbox, set(batch))
+        els = fetch_overpass(q)
+        if els:
+            all_elements.extend(els)
+    return all_elements
 
 # ── CSV / checkpoint helpers ──────────────────────────────────────────────────
 
@@ -253,8 +294,7 @@ def run(args):
 
         print(f"[{i+1}/{len(tasks)}] {country} | {city}... ", end="", flush=True)
 
-        query    = build_union_query(bbox, niche_filter)
-        elements = fetch_overpass(query)
+        elements = fetch_city(bbox, niche_filter)
 
         leads = []
         seen  = set()

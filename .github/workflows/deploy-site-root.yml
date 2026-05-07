@@ -260,9 +260,12 @@ jobs:
           print(f"define('TWILIO_FROM_SMS', '{e(os.environ.get('SECRET_TWILIO_FROM',''))}');")
           print(f"define('TWILIO_FROM_WHATSAPP', '{e(os.environ.get('SECRET_TWILIO_FROM',''))}');")
           print(f"define('OPERATOR_WHATSAPP_NUMBER', '{e(os.environ.get('SECRET_OPERATOR_WHATSAPP_NUMBER',''))}');")
-          # phpmail — PHP mail() via server Exim, no AUTH lockout risk
-          # Keep SMTP constants for fallback / future use
-          print(f"define('MAIL_PROVIDER', 'phpmail');")
+          # 'auto' = SES first, then Resend, then SMTP, then phpmail.
+          # Caught during pre-launch smoke testing: phpmail silently dropped
+          # workflow emails to Gmail (mail() returned true but Exim never
+          # delivered). The CRM-vanilla email_sender now has a fallback chain
+          # that tries reliable API providers first.
+          print(f"define('MAIL_PROVIDER', 'auto');")
           print(f"define('SMTP_HOST', 'mail.netwebmedia.com');")
           print(f"define('SMTP_PORT', 465);")
           print(f"define('SMTP_ENCRYPTION', 'ssl');")

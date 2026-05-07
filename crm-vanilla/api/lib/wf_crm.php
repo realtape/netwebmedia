@@ -508,7 +508,7 @@ function wf_crm_advance(array $run, PDO $db): string {
             if (!filter_var($url, FILTER_VALIDATE_URL)) { $stepResult = 'bad_url'; break; }
             try {
                 require_once __DIR__ . '/url_guard.php';
-                url_guard($url);
+                url_guard_or_fail($url);
                 $ch = curl_init($url);
                 curl_setopt_array($ch, [
                     CURLOPT_RETURNTRANSFER => true,
@@ -1089,19 +1089,16 @@ function wf_crm_advance(array $run, PDO $db): string {
 
     // Handle 'if' branch injection: store branch steps into context_json so the
     // top-of-advance splice picks them up on every subsequent tick.
+    //
+    // The injection metadata stays in ctx for the lifetime of the run on
+    // purpose: the splice at top-of-advance is what makes step_index map
+    // correctly to the merged array. If we dropped the keys mid-run, the
+    // merged array would shrink and step_index would skip past the original
+    // step that comes AFTER the if. Caught during live testing — the step
+    // following the if was being silently dropped.
     if ($extraSteps) {
         $ctx['_injected_steps'] = $extraSteps;
         $ctx['_injected_at']    = $idx;
-    }
-
-    // Once we're past the injected segment, drop the keys so a later 'if' can
-    // re-use the slot and so the audit context doesn't keep stale data forever.
-    if (!empty($ctx['_injected_steps']) && isset($ctx['_injected_at'])) {
-        $endOfInjected = (int)$ctx['_injected_at'] + count($ctx['_injected_steps']);
-        $checkIdx = $advanceIdx ? ($idx + 1) : $idx;
-        if ($checkIdx > $endOfInjected) {
-            unset($ctx['_injected_steps'], $ctx['_injected_at']);
-        }
     }
 
     // Per-step audit trail. Inserted regardless of how the run continues —

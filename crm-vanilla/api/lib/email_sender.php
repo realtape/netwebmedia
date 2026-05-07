@@ -60,15 +60,60 @@ function buildContactVars(array $contact, string $siteBase, string $token): arra
 /**
  * Send one email. Provider selected by MAIL_PROVIDER constant.
  * $opts keys: to, subject, html, from_name, from_email, reply_to, text, headers
+ *
+ * Fallback chain: when MAIL_PROVIDER is 'auto' (or the configured provider's
+ * credentials are missing), tries providers in this order until one succeeds:
+ *   ses → resend → smtp → phpmail
+ * This was added after a smoke test caught phpmail silently dropping mail to
+ * Gmail — providers that report success based on local MTA hand-off are
+ * untrustworthy. SES/Resend return real send IDs.
  */
 function mailSend(array $opts): array {
-    $provider = defined('MAIL_PROVIDER') ? MAIL_PROVIDER : 'resend';
+    $provider = defined('MAIL_PROVIDER') ? MAIL_PROVIDER : 'auto';
+
+    if ($provider === 'auto') {
+        return mailSend_withFallback($opts, ['ses', 'resend', 'smtp', 'phpmail']);
+    }
+
+    // Explicit provider — try it, fall back if its credentials aren't configured.
+    try {
+        return mailSend_oneShot($opts, $provider);
+    } catch (RuntimeException $e) {
+        if (strpos($e->getMessage(), 'not configured') !== false) {
+            // Credential gap — fall through to whichever provider has its keys.
+            return mailSend_withFallback($opts, array_diff(['ses', 'resend', 'smtp', 'phpmail'], [$provider]));
+        }
+        throw $e;
+    }
+}
+
+function mailSend_oneShot(array $opts, string $provider): array {
     switch ($provider) {
         case 'smtp':    return smtpSend($opts);
         case 'ses':     return sesSend($opts);
         case 'phpmail': return phpMailSend($opts);
+        case 'resend':  return resendSend($opts);
         default:        return resendSend($opts);
     }
+}
+
+function mailSend_withFallback(array $opts, array $order): array {
+    $errors = [];
+    foreach ($order as $p) {
+        try {
+            $res = mailSend_oneShot($opts, $p);
+            if (count($errors) > 0) {
+                error_log('[mailSend] succeeded via ' . $p . ' after ' . count($errors) . ' provider failures: ' . implode(' | ', $errors));
+            }
+            $res['provider'] = $res['provider'] ?? $p;
+            return $res;
+        } catch (RuntimeException $e) {
+            $errors[] = $p . ':' . $e->getMessage();
+        } catch (Throwable $e) {
+            $errors[] = $p . ':' . $e->getMessage();
+        }
+    }
+    throw new RuntimeException('all mail providers failed: ' . implode(' | ', $errors));
 }
 
 // ── Resend ────────────────────────────────────────────────────────────────────

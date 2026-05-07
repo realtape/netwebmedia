@@ -72,7 +72,13 @@ function mailSend(array $opts): array {
     $provider = defined('MAIL_PROVIDER') ? MAIL_PROVIDER : 'auto';
 
     if ($provider === 'auto') {
-        return mailSend_withFallback($opts, ['ses', 'resend', 'smtp', 'phpmail']);
+        // phpmail is intentionally excluded from auto fallback. PHP's mail()
+        // returns true based on local MTA acceptance, not actual delivery —
+        // it's a silent sink for any sender that isn't authorized via DKIM/SPF
+        // for the local Exim instance. Keeping it as the last-resort would
+        // mask real provider failures. If you genuinely need it, set
+        // MAIL_PROVIDER='phpmail' explicitly.
+        return mailSend_withFallback($opts, ['ses', 'resend', 'smtp']);
     }
 
     // Explicit provider — try it, fall back if its credentials aren't configured.
@@ -81,7 +87,7 @@ function mailSend(array $opts): array {
     } catch (RuntimeException $e) {
         if (strpos($e->getMessage(), 'not configured') !== false) {
             // Credential gap — fall through to whichever provider has its keys.
-            return mailSend_withFallback($opts, array_diff(['ses', 'resend', 'smtp', 'phpmail'], [$provider]));
+            return mailSend_withFallback($opts, array_diff(['ses', 'resend', 'smtp'], [$provider]));
         }
         throw $e;
     }

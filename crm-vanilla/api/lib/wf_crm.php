@@ -386,9 +386,12 @@ function wf_crm_advance(array $run, PDO $db): string {
             // step result rather than a thrown exception that fails the whole run.
             try {
                 $res = mailSend(['to' => $to, 'subject' => $subject, 'html' => $html]);
-                $stepResult = !empty($res['id']) || !empty($res['provider']) ? 'email_sent' : 'email_unknown';
+                $providerUsed = $res['provider'] ?? 'unknown';
+                $stepResult = (!empty($res['id']) || !empty($res['provider']))
+                    ? 'email_sent:' . $providerUsed
+                    : 'email_unknown:' . $providerUsed;
             } catch (Throwable $e) {
-                $stepResult = 'email_failed:' . substr($e->getMessage(), 0, 120);
+                $stepResult = 'email_failed:' . substr($e->getMessage(), 0, 150);
             }
             break;
 

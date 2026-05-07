@@ -76,6 +76,7 @@ $handlers = [
     'ig_publish'            => __DIR__ . '/handlers/ig_publish.php',
     'fb_publish'            => __DIR__ . '/handlers/fb_publish.php',
     'cron_workflows'        => __DIR__ . '/handlers/cron_workflows.php',
+    'workflow_runs'         => __DIR__ . '/handlers/workflow_runs.php',
     'export_bird'           => __DIR__ . '/handlers/export_bird.php',
 ];
 

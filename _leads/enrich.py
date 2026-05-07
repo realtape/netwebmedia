@@ -134,7 +134,7 @@ def run(args):
             print(f"\nLimit of {limit} reached.")
             break
 
-        name = row.get("name","?")[:40]
+        name = row.get("name","?")[:40].encode('ascii', 'replace').decode('ascii')
         print(f"[{idx+1}/{len(eligible)}] {row.get('country','?')} | {row.get('niche','?'):15s} | {name}... ", end="", flush=True)
 
         email = fetch_email(row["website"], session)

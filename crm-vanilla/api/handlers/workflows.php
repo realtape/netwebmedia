@@ -104,7 +104,7 @@ $ALLOWED_STEP_TYPES = [
     // Universal building blocks
     'wait', 'send_email', 'add_tag', 'remove_tag', 'create_task',
     'update_field', 'move_stage', 'send_whatsapp', 'notify_team',
-    'webhook', 'log',
+    'webhook', 'log', 'if',
     // AI auto-reply pipeline (PR 3)
     'draft_ai_reply', 'route_by_confidence', 'auto_send_if_eligible',
     'push_for_approval', 'holding_reply_if_no_approval',
@@ -390,6 +390,34 @@ function workflows_normalize_steps($raw, array $allowedTypes): string {
                 break;
             case 'log':
                 $cfg = ['message' => substr((string)($cfg['message'] ?? ''), 0, 500)];
+                break;
+            case 'if':
+                // Conditional branch. v1 supports a single non-nested level —
+                // `if` inside then/else is rejected to keep the engine merge
+                // logic simple and predictable.
+                $cond = isset($cfg['condition']) && is_array($cfg['condition']) ? $cfg['condition'] : [];
+                $field = substr((string)($cond['field'] ?? ''), 0, 80);
+                $op    = (string)($cond['op'] ?? 'eq');
+                $allowedOps = ['eq', 'neq', 'contains', 'gt', 'lt', 'exists'];
+                if (!in_array($op, $allowedOps, true)) {
+                    jsonError("Step $i: if op must be one of " . implode(',', $allowedOps), 400);
+                }
+                $value = substr((string)($cond['value'] ?? ''), 0, 200);
+
+                $branchTypes = array_diff($allowedTypes, ['if']); // no nested if
+                $thenRaw = isset($cfg['then']) && is_array($cfg['then']) ? $cfg['then'] : [];
+                $elseRaw = isset($cfg['else']) && is_array($cfg['else']) ? $cfg['else'] : [];
+                if (count($thenRaw) > 20 || count($elseRaw) > 20) {
+                    jsonError("Step $i: if branches limited to 20 steps each", 400);
+                }
+                // Recurse via the same normalizer with `if` excluded.
+                $thenJson = workflows_normalize_steps($thenRaw, $branchTypes);
+                $elseJson = workflows_normalize_steps($elseRaw, $branchTypes);
+                $cfg = [
+                    'condition' => ['field' => $field, 'op' => $op, 'value' => $value],
+                    'then'      => json_decode($thenJson, true) ?: [],
+                    'else'      => json_decode($elseJson, true) ?: [],
+                ];
                 break;
             // Auto-reply step types (PR 3). Config is engine-controlled — sanitize the
             // few user-tunable knobs and drop everything else to prevent accidental

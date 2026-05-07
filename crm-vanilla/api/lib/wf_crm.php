@@ -262,6 +262,19 @@ function wf_crm_advance(array $run, PDO $db): string {
     // Normalise step vocabulary (visual builder → engine)
     $steps = array_map('wf_crm_normalise_step', $steps);
 
+    // 'if' branch injection: a previous step wrote then/else branch steps into
+    // context_json. We splice them in immediately after the 'if' index every
+    // time we advance, so the merged array is stable across cron ticks. This
+    // is the fix for the long-broken if-step (was previously a no-op past
+    // logging the verdict). v1 supports a single non-nested branch — a second
+    // 'if' inside an injected branch overwrites the prior injection metadata.
+    if (!empty($ctx['_injected_steps']) && is_array($ctx['_injected_steps']) && isset($ctx['_injected_at'])) {
+        $insertAt = (int)$ctx['_injected_at'] + 1;
+        if ($insertAt < 0) $insertAt = 0;
+        if ($insertAt > count($steps)) $insertAt = count($steps);
+        array_splice($steps, $insertAt, 0, array_map('wf_crm_normalise_step', $ctx['_injected_steps']));
+    }
+
     if ($idx >= count($steps)) {
         $db->prepare("UPDATE workflow_runs SET status='completed', updated_at=NOW() WHERE id=?")
            ->execute([$runId]);
@@ -1051,11 +1064,21 @@ function wf_crm_advance(array $run, PDO $db): string {
             break;
     }
 
-    // Handle 'if' branch injection: prepend branch steps into context so they run next
+    // Handle 'if' branch injection: store branch steps into context_json so the
+    // top-of-advance splice picks them up on every subsequent tick.
     if ($extraSteps) {
-        // Store injected steps in context for pickup next advance
         $ctx['_injected_steps'] = $extraSteps;
         $ctx['_injected_at']    = $idx;
+    }
+
+    // Once we're past the injected segment, drop the keys so a later 'if' can
+    // re-use the slot and so the audit context doesn't keep stale data forever.
+    if (!empty($ctx['_injected_steps']) && isset($ctx['_injected_at'])) {
+        $endOfInjected = (int)$ctx['_injected_at'] + count($ctx['_injected_steps']);
+        $checkIdx = $advanceIdx ? ($idx + 1) : $idx;
+        if ($checkIdx > $endOfInjected) {
+            unset($ctx['_injected_steps'], $ctx['_injected_at']);
+        }
     }
 
     // Per-step audit trail. Inserted regardless of how the run continues —

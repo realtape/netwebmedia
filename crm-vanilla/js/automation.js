@@ -33,12 +33,17 @@
 
   // App state
   var state = {
-    view: 'list',          // 'list' | 'editor'
+    view: 'list',           // 'list' | 'editor' | 'runs' | 'runDetail'
     workflows: [],          // list rows from GET ?r=workflows
     templates: [],          // email templates for the send_email step picker
     editing: null,          // workflow object currently being edited (or new)
     loading: false,
-    error: null
+    error: null,
+    // Runs audit panel state
+    runs: [],               // list rows from GET ?r=workflow_runs
+    runFilter: { workflow_id: null, status: null }, // current Runs filters
+    runDetail: null,        // single run with .steps[] expanded
+    runsLoading: false
   };
 
   // ─── Helpers ─────────────────────────────────────────────────────────
@@ -156,6 +161,15 @@
         send_whatsapp: 'Enviar WhatsApp', notify_team: 'Notificar al equipo',
         webhook: 'Webhook', log: 'Registrar nota'
       },
+      tabWorkflows: 'Flujos', tabRuns: 'Ejecuciones',
+      runsEmpty: 'Aún no se han ejecutado flujos.',
+      runStatus: { pending: 'Pendiente', running: 'En curso', waiting: 'Esperando', completed: 'Completado', failed: 'Fallido' },
+      runId: 'ID', runWorkflow: 'Flujo', runStatusCol: 'Estado',
+      runStep: 'Paso', runResult: 'Resultado', runWhen: 'Cuándo',
+      runFilterAll: 'Todos los estados', runFilterAny: 'Todos los flujos',
+      runDetailTitle: 'Detalle de ejecución', runStepsHeader: 'Pasos ejecutados',
+      runContext: 'Contexto', runError: 'Error', runNoSteps: 'Aún no se han registrado pasos.',
+      backToRuns: '← Volver a ejecuciones', refresh: 'Actualizar',
       triggers: {
         contact_created: 'Contacto creado', tag_added: 'Etiqueta añadida',
         tag_removed: 'Etiqueta quitada', deal_stage: 'Cambio de etapa',
@@ -199,6 +213,15 @@
         send_whatsapp: 'Send WhatsApp', notify_team: 'Notify team',
         webhook: 'Webhook', log: 'Log note'
       },
+      tabWorkflows: 'Workflows', tabRuns: 'Runs',
+      runsEmpty: 'No workflow runs yet.',
+      runStatus: { pending: 'Pending', running: 'Running', waiting: 'Waiting', completed: 'Completed', failed: 'Failed' },
+      runId: 'ID', runWorkflow: 'Workflow', runStatusCol: 'Status',
+      runStep: 'Step', runResult: 'Result', runWhen: 'When',
+      runFilterAll: 'All statuses', runFilterAny: 'All workflows',
+      runDetailTitle: 'Run detail', runStepsHeader: 'Executed steps',
+      runContext: 'Context', runError: 'Error', runNoSteps: 'No steps recorded yet.',
+      backToRuns: '← Back to runs', refresh: 'Refresh',
       triggers: {
         contact_created: 'Contact created', tag_added: 'Tag added',
         tag_removed: 'Tag removed', deal_stage: 'Deal stage changed',
@@ -242,6 +265,22 @@
       + '</div>';
   }
 
+  // ─── Tab strip (Workflows / Runs) ────────────────────────────────────
+  function renderTabs() {
+    var isList = state.view === 'list';
+    var isRuns = state.view === 'runs' || state.view === 'runDetail';
+    function tab(key, label, active) {
+      return '<button class="wf-tab' + (active ? ' is-active' : '') + '" data-tab="' + esc(key) + '" '
+        + 'style="background:transparent;border:none;border-bottom:2px solid ' + (active ? '#FF671F' : 'transparent') + ';'
+        + 'color:' + (active ? '#fff' : '#9aa4bf') + ';font-weight:600;padding:10px 18px;cursor:pointer;font-size:14px;">'
+        + esc(label) + '</button>';
+    }
+    return '<div class="wf-tabs" style="display:flex;gap:4px;border-bottom:1px solid rgba(255,255,255,0.08);margin:0 0 18px;">'
+      + tab('list', L.tabWorkflows, isList)
+      + tab('runs', L.tabRuns, isRuns)
+      + '</div>';
+  }
+
   // ─── Main render dispatcher ──────────────────────────────────────────
   function render() {
     loadStrings();
@@ -250,15 +289,44 @@
     if (!body) return;
 
     var html = betaBannerHTML();
+    // Editor view doesn't show the tab strip — it's a focused mode.
+    if (state.view !== 'editor') html += renderTabs();
+
     if (state.view === 'editor') {
       html += renderEditor();
+    } else if (state.view === 'runs') {
+      html += renderRunsList();
+    } else if (state.view === 'runDetail') {
+      html += renderRunDetail();
     } else {
       html += renderList();
     }
     body.innerHTML = html;
 
-    if (state.view === 'editor') wireEditor();
-    else wireList();
+    if (state.view === 'editor')      wireEditor();
+    else if (state.view === 'runs')   wireRunsList();
+    else if (state.view === 'runDetail') wireRunDetail();
+    else                              wireList();
+
+    if (state.view !== 'editor') wireTabs();
+  }
+
+  function wireTabs() {
+    var body = document.getElementById('automationBody');
+    if (!body) return;
+    body.querySelectorAll('[data-tab]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        var t = this.getAttribute('data-tab');
+        if (t === 'list') {
+          state.view = 'list';
+          render();
+        } else if (t === 'runs') {
+          state.view = 'runs';
+          render();
+          loadRuns();
+        }
+      });
+    });
   }
 
   // ─── List view ───────────────────────────────────────────────────────
@@ -739,6 +807,201 @@
       toast(L.duplicated);
       loadList();
     }).catch(function (e) { toast(e.message, true); });
+  }
+
+  // ─── Runs view ───────────────────────────────────────────────────────
+  function runStatusBadge(status) {
+    var label = (L.runStatus && L.runStatus[status]) || status || '';
+    var bg = '#374151';
+    if (status === 'completed') bg = '#10b981';
+    else if (status === 'failed') bg = '#ef4444';
+    else if (status === 'running') bg = '#3b82f6';
+    else if (status === 'waiting') bg = '#f59e0b';
+    else if (status === 'pending') bg = '#6b7280';
+    return '<span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;background:' + bg + ';color:#fff;">' + esc(label) + '</span>';
+  }
+
+  function renderRunsList() {
+    var statusOpts = ['', 'pending', 'running', 'waiting', 'completed', 'failed'].map(function (s) {
+      var lbl = s === '' ? L.runFilterAll : (L.runStatus[s] || s);
+      var sel = (state.runFilter.status || '') === s ? ' selected' : '';
+      return '<option value="' + esc(s) + '"' + sel + '>' + esc(lbl) + '</option>';
+    }).join('');
+
+    var wfOpts = '<option value="">' + esc(L.runFilterAny) + '</option>'
+      + state.workflows.map(function (w) {
+          var sel = Number(state.runFilter.workflow_id) === Number(w.id) ? ' selected' : '';
+          return '<option value="' + esc(w.id) + '"' + sel + '>' + esc(w.name) + '</option>';
+        }).join('');
+
+    var h = '<div class="wf-runs-controls" style="display:flex;gap:12px;margin:0 0 16px;align-items:center;flex-wrap:wrap;">'
+      + '<select id="wfRunsWfFilter" style="background:#0d1f5c;border:1px solid rgba(255,255,255,0.15);color:#fff;padding:8px 12px;border-radius:8px;font-size:13px;">' + wfOpts + '</select>'
+      + '<select id="wfRunsStatusFilter" style="background:#0d1f5c;border:1px solid rgba(255,255,255,0.15);color:#fff;padding:8px 12px;border-radius:8px;font-size:13px;">' + statusOpts + '</select>'
+      + '<button id="wfRunsRefresh" class="btn btn-secondary" style="font-size:13px;">' + esc(L.refresh) + '</button>'
+      + '</div>';
+
+    if (state.runsLoading) {
+      return h + '<div class="crm-loading" style="text-align:center;padding:48px;color:#6b7280;">' + esc(L.loading) + '</div>';
+    }
+    if (!state.runs.length) {
+      return h + '<div class="empty-state" style="text-align:center;padding:48px;color:#6b7280;border:1px dashed rgba(255,255,255,0.15);border-radius:12px;">'
+        + esc(L.runsEmpty) + '</div>';
+    }
+
+    h += '<div class="wf-list-wrap"><table class="wf-list-table"><thead><tr>'
+      + '<th>' + esc(L.runId) + '</th>'
+      + '<th>' + esc(L.runWorkflow) + '</th>'
+      + '<th>' + esc(L.trigger) + '</th>'
+      + '<th>' + esc(L.runStatusCol) + '</th>'
+      + '<th>' + esc(L.runStep) + '</th>'
+      + '<th>' + esc(L.runResult) + '</th>'
+      + '<th>' + esc(L.runWhen) + '</th>'
+      + '</tr></thead><tbody>';
+
+    for (var i = 0; i < state.runs.length; i++) {
+      var r = state.runs[i];
+      var trigLabel = (L.triggers && L.triggers[r.trigger_type]) || r.trigger_type || '';
+      var lastResult = r.last_result || (r.error ? r.error.slice(0, 80) : '—');
+      h += '<tr class="wf-run-row" data-run="' + esc(r.id) + '" style="cursor:pointer;">'
+        + '<td><strong>#' + esc(r.id) + '</strong></td>'
+        + '<td>' + esc(r.workflow_name || '') + '</td>'
+        + '<td>' + esc(trigLabel) + '</td>'
+        + '<td>' + runStatusBadge(r.status) + '</td>'
+        + '<td>' + esc(r.step_index) + '/' + esc(r.step_count) + '</td>'
+        + '<td><code style="font-size:12px;color:#cdd3e3;">' + esc(lastResult) + '</code></td>'
+        + '<td>' + esc(fmtAgo(r.updated_at || r.created_at)) + '</td>'
+        + '</tr>';
+    }
+    h += '</tbody></table></div>';
+    return h;
+  }
+
+  function wireRunsList() {
+    var body = document.getElementById('automationBody');
+    if (!body) return;
+    var wfSel = document.getElementById('wfRunsWfFilter');
+    if (wfSel) wfSel.addEventListener('change', function () {
+      state.runFilter.workflow_id = this.value ? parseInt(this.value, 10) : null;
+      loadRuns();
+    });
+    var stSel = document.getElementById('wfRunsStatusFilter');
+    if (stSel) stSel.addEventListener('change', function () {
+      state.runFilter.status = this.value || null;
+      loadRuns();
+    });
+    var rb = document.getElementById('wfRunsRefresh');
+    if (rb) rb.addEventListener('click', loadRuns);
+    body.querySelectorAll('.wf-run-row').forEach(function (el) {
+      el.addEventListener('click', function () {
+        var id = parseInt(this.getAttribute('data-run'), 10);
+        loadRunDetail(id);
+      });
+    });
+  }
+
+  function renderRunDetail() {
+    var d = state.runDetail;
+    if (!d) {
+      return '<div class="crm-loading" style="text-align:center;padding:48px;color:#6b7280;">' + esc(L.loading) + '</div>';
+    }
+    var trigLabel = (L.triggers && L.triggers[d.trigger_type]) || d.trigger_type || '';
+    var h = '<button id="wfBackToRuns" class="btn btn-secondary" style="margin:0 0 16px;">' + esc(L.backToRuns) + '</button>';
+    h += '<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px;margin:0 0 16px;">'
+      + '<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">'
+      + '<div>'
+      + '<div style="font-size:11px;letter-spacing:0.5px;text-transform:uppercase;color:#9aa4bf;">' + esc(L.runDetailTitle) + ' #' + esc(d.id) + '</div>'
+      + '<div style="font-size:18px;font-weight:700;color:#fff;margin-top:4px;">' + esc(d.workflow_name || '') + '</div>'
+      + '<div style="font-size:13px;color:#cdd3e3;margin-top:4px;">' + esc(trigLabel)
+      + (d.trigger_filter ? ' · <span class="wf-filter-chip">' + esc(d.trigger_filter) + '</span>' : '')
+      + '</div>'
+      + '</div>'
+      + '<div>' + runStatusBadge(d.status) + '</div>'
+      + '</div>'
+      + '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:14px;font-size:13px;color:#cdd3e3;">'
+      + '<div><div style="color:#9aa4bf;font-size:11px;text-transform:uppercase;">Created</div>' + esc(d.created_at || '') + '</div>'
+      + '<div><div style="color:#9aa4bf;font-size:11px;text-transform:uppercase;">Updated</div>' + esc(d.updated_at || '') + '</div>'
+      + '<div><div style="color:#9aa4bf;font-size:11px;text-transform:uppercase;">' + esc(L.runStep) + '</div>' + esc(d.step_index) + '</div>'
+      + (d.next_run_at ? '<div><div style="color:#9aa4bf;font-size:11px;text-transform:uppercase;">Next run</div>' + esc(d.next_run_at) + '</div>' : '')
+      + '</div>'
+      + (d.error ? '<div style="margin-top:12px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:10px;color:#fca5a5;font-size:13px;font-family:monospace;"><strong>' + esc(L.runError) + ':</strong> ' + esc(d.error) + '</div>' : '')
+      + '</div>';
+
+    // Steps
+    h += '<div style="font-size:13px;font-weight:700;color:#fff;letter-spacing:0.5px;text-transform:uppercase;margin:0 0 8px;">' + esc(L.runStepsHeader) + '</div>';
+    if (!d.steps || !d.steps.length) {
+      h += '<div class="empty-state" style="text-align:center;padding:24px;color:#6b7280;border:1px dashed rgba(255,255,255,0.15);border-radius:12px;">' + esc(L.runNoSteps) + '</div>';
+    } else {
+      h += '<div class="wf-list-wrap"><table class="wf-list-table"><thead><tr>'
+        + '<th style="width:60px;">#</th>'
+        + '<th>' + esc(L.stepType) + '</th>'
+        + '<th>' + esc(L.runResult) + '</th>'
+        + '<th style="width:160px;">' + esc(L.runWhen) + '</th>'
+        + '</tr></thead><tbody>';
+      for (var i = 0; i < d.steps.length; i++) {
+        var s = d.steps[i];
+        var typeLabel = (L.stepTypes && L.stepTypes[s.step_type]) || s.step_type;
+        var isError = /^(email_failed|email_skipped|template_not_found|template_load_failed|wa_failed|wa_error|webhook_blocked|task_failed|holding_send_failed|auto_send_failed|draft_failed|router_exception)/.test(s.result || '');
+        var resultColor = isError ? '#fca5a5' : '#cdd3e3';
+        h += '<tr>'
+          + '<td>' + esc(s.step_index) + '</td>'
+          + '<td>' + esc(typeLabel) + '</td>'
+          + '<td><code style="font-size:12px;color:' + resultColor + ';">' + esc(s.result) + '</code></td>'
+          + '<td>' + esc(fmtAgo(s.created_at)) + '</td>'
+          + '</tr>';
+      }
+      h += '</tbody></table></div>';
+    }
+
+    // Context dump (collapsible)
+    if (d.context) {
+      h += '<details style="margin-top:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px 18px;">'
+        + '<summary style="cursor:pointer;color:#9aa4bf;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">' + esc(L.runContext) + '</summary>'
+        + '<pre style="margin:10px 0 0;color:#cdd3e3;font-size:12px;white-space:pre-wrap;word-break:break-word;">' + esc(JSON.stringify(d.context, null, 2)) + '</pre>'
+        + '</details>';
+    }
+
+    return h;
+  }
+
+  function wireRunDetail() {
+    var b = document.getElementById('wfBackToRuns');
+    if (b) b.addEventListener('click', function () {
+      state.runDetail = null;
+      state.view = 'runs';
+      render();
+    });
+  }
+
+  function loadRuns() {
+    state.runsLoading = true;
+    render();
+    var qs = '';
+    if (state.runFilter.workflow_id) qs += '&workflow_id=' + state.runFilter.workflow_id;
+    if (state.runFilter.status)      qs += '&status=' + encodeURIComponent(state.runFilter.status);
+    api('GET', 'workflow_runs' + qs).then(function (rows) {
+      state.runs = Array.isArray(rows) ? rows : [];
+      state.runsLoading = false;
+      render();
+    }).catch(function (e) {
+      state.runs = [];
+      state.runsLoading = false;
+      state.error = e.message;
+      render();
+    });
+  }
+
+  function loadRunDetail(id) {
+    state.view = 'runDetail';
+    state.runDetail = null;
+    render();
+    api('GET', 'workflow_runs&id=' + id).then(function (run) {
+      state.runDetail = run;
+      render();
+    }).catch(function (e) {
+      toast(e.message, true);
+      state.view = 'runs';
+      render();
+    });
   }
 
   function toggleStatus(id) {

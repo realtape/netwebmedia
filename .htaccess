@@ -21,6 +21,19 @@
   </FilesMatch>
 </IfModule>
 
+# ── HTTP → HTTPS canonical redirect ────────────────────────────────────
+# Force every request to HTTPS at the server level. HSTS preload protects
+# browsers that have visited before, but bots, curl, and never-visited
+# browsers hit raw HTTP — those need a real 301. Preserves HTTP_HOST so
+# subdomains stay on their own subdomain (hotels.* → hotels.*, not apex).
+# Stacks cleanly with the www→apex rule below: http://www → https://www
+# → https://apex (two hops only for an unusual edge case).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+</IfModule>
+
 # ── Block sensitive file types from public access (belt-and-suspenders) ─
 # Directory-level blocks cover most cases, but a global FilesMatch ensures
 # any .sql / .md / .env / .bak / .log file that lands anywhere under

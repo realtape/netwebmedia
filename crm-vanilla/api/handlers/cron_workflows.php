@@ -61,6 +61,47 @@ if ($action === 'stats') {
     jsonResponse(['stats' => $stats, 'ts' => date('c')]);
 }
 
+// Audit-table TTL: prune workflow_run_steps rows older than 90 days, plus
+// any workflow_runs in completed/failed state older than 90 days. Runs at
+// most once per UTC day (gated by a marker row in a tiny scratch table) so
+// 288 cron firings/day don't all hammer the same DELETE.
+//
+// Tuning: 90 days is generous for a CRM client to debug "why did this fail
+// last quarter?" — adjust here if storage becomes a real cost.
+try {
+    $db->exec(
+        "CREATE TABLE IF NOT EXISTS `cron_marker` (
+          `name` VARCHAR(64) NOT NULL PRIMARY KEY,
+          `last_run_at` DATETIME NOT NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
+    );
+    $sel = $db->prepare("SELECT last_run_at FROM cron_marker WHERE name = 'workflow_audit_prune'");
+    $sel->execute();
+    $lastRun = $sel->fetchColumn();
+    $shouldPrune = !$lastRun || strtotime($lastRun) < (time() - 24 * 3600);
+
+    if ($shouldPrune) {
+        $deletedSteps = $db->exec(
+            "DELETE FROM workflow_run_steps WHERE created_at < (NOW() - INTERVAL 90 DAY)"
+        );
+        $deletedRuns = $db->exec(
+            "DELETE FROM workflow_runs
+              WHERE status IN ('completed','failed')
+                AND updated_at < (NOW() - INTERVAL 90 DAY)"
+        );
+        $db->prepare(
+            "INSERT INTO cron_marker (name, last_run_at) VALUES ('workflow_audit_prune', NOW())
+             ON DUPLICATE KEY UPDATE last_run_at = NOW()"
+        )->execute();
+        error_log(sprintf(
+            '[cron_workflows] audit prune: %d step rows, %d run rows removed (>90d)',
+            (int)$deletedSteps, (int)$deletedRuns
+        ));
+    }
+} catch (Throwable $e) {
+    error_log('[cron_workflows] audit prune failed: ' . $e->getMessage());
+}
+
 // Run pending
 $start   = microtime(true);
 $results = wf_crm_run_pending($db);

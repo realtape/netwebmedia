@@ -396,6 +396,7 @@ function initActiveNav() {
 
 // ── Particle network canvas (optional background) ──────────
 function initParticles() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const canvas = document.getElementById('particles-canvas');
   if (!canvas) return;
 
@@ -417,6 +418,7 @@ function initParticles() {
   }
 
   function draw() {
+    if (document.hidden) { requestAnimationFrame(draw); return; }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     particles.forEach(p => {

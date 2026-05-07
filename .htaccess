@@ -404,6 +404,12 @@ Options -Indexes
   Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://browser.sentry-cdn.com https://challenges.cloudflare.com https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://*.ingest.sentry.io https://ipapi.co https://api.indexnow.org https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self' https://netwebmedia.com; upgrade-insecure-requests"
 </IfModule>
 
+# ── Force UTF-8 charset in HTTP response headers ──────────────────────
+# InMotion/cPanel Apache defaults to iso-8859-1 in the Content-Type header
+# unless explicitly overridden here. The HTML meta charset tag alone is not
+# sufficient — browsers and AI crawlers trust the HTTP header first.
+AddDefaultCharset UTF-8
+
 # ── GZIP / DEFLATE compression ─────────────────────────────────────────
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript

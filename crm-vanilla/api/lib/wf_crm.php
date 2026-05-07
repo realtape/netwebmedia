@@ -367,8 +367,16 @@ function wf_crm_advance(array $run, PDO $db): string {
 
             // body_html is already HTML; raw inline bodies are plaintext-style.
             $html = $isHtml ? $body : nl2br(htmlspecialchars($body));
-            $res  = mailSend(['to' => $to, 'subject' => $subject, 'html' => $html]);
-            $stepResult = !empty($res['ok']) ? 'email_sent' : 'email_failed';
+            // mailSend throws RuntimeException on provider failure, returns
+            // ['id' => ..., 'provider' => ...] on success. No 'ok' key — checking
+            // for it produced false negatives. Wrap so a failure becomes a
+            // step result rather than a thrown exception that fails the whole run.
+            try {
+                $res = mailSend(['to' => $to, 'subject' => $subject, 'html' => $html]);
+                $stepResult = !empty($res['id']) || !empty($res['provider']) ? 'email_sent' : 'email_unknown';
+            } catch (Throwable $e) {
+                $stepResult = 'email_failed:' . substr($e->getMessage(), 0, 120);
+            }
             break;
 
         /* ── tag / add_tag ───────────────────────────────────────────── */

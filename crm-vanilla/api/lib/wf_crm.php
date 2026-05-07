@@ -441,15 +441,38 @@ function wf_crm_advance(array $run, PDO $db): string {
         case 'move_stage':
             $stage = $config['stage'] ?? '';
             if ($stage && !empty($ctx['contact_id'])) {
-                $db->prepare("UPDATE deals SET stage = ?, updated_at = NOW() WHERE contact_id = ? ORDER BY id DESC LIMIT 1")
-                   ->execute([$stage, $ctx['contact_id']]);
-                $stepResult = "stage→{$stage}";
-                // Cascade trigger
+                // The deals table stores stage_id (FK), not the stage name. Look
+                // up the pipeline_stages.id by name first. Match is case-insensitive
+                // so a workflow with "Won" still works against a row named "won".
                 try {
-                    wf_crm_trigger('deal_stage', ['stage' => $stage],
-                        array_merge($ctx, ['_cascade_depth' => ($ctx['_cascade_depth'] ?? 0) + 1]),
-                        $run['user_id'] ?? null, $run['org_id'] ?? null);
-                } catch (Throwable $_) {}
+                    $sStmt = $db->prepare(
+                        "SELECT id FROM pipeline_stages WHERE LOWER(name) = LOWER(?) LIMIT 1"
+                    );
+                    $sStmt->execute([$stage]);
+                    $stageId = $sStmt->fetchColumn();
+                    if (!$stageId) {
+                        $stepResult = 'stage_not_found:' . substr((string)$stage, 0, 60);
+                        break;
+                    }
+                    // Update the most recent deal for this contact. days_in_stage
+                    // resets when the stage changes (matches deals.php PUT behaviour).
+                    $db->prepare(
+                        "UPDATE deals SET stage_id = ?, days_in_stage = 0, updated_at = NOW()
+                          WHERE contact_id = ? ORDER BY id DESC LIMIT 1"
+                    )->execute([(int)$stageId, $ctx['contact_id']]);
+                    $stepResult = "stage->{$stage}";
+                    // Cascade trigger using the human-readable stage name
+                    // (engine triggers fire on stage *name*, not id).
+                    try {
+                        wf_crm_trigger('deal_stage', ['stage' => $stage],
+                            array_merge($ctx, ['_cascade_depth' => ($ctx['_cascade_depth'] ?? 0) + 1]),
+                            $run['user_id'] ?? null, $run['org_id'] ?? null);
+                    } catch (Throwable $_) {}
+                } catch (Throwable $e) {
+                    $stepResult = 'stage_failed:' . substr($e->getMessage(), 0, 80);
+                }
+            } else {
+                $stepResult = 'stage_skipped:no_contact_or_name';
             }
             break;
 

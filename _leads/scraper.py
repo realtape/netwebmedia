@@ -65,7 +65,7 @@ NICHE_PATTERNS = {
 
 # ── Build one unified Overpass query per city ─────────────────────────────────
 
-def build_union_query(bbox, niches=None):
+def build_union_query(bbox, niches=None, timeout=90):
     """All selected niches combined into one Overpass union query."""
     lat1, lon1, lat2, lon2 = bbox
     bb = f"({lat1},{lon1},{lat2},{lon2})"
@@ -83,7 +83,7 @@ def build_union_query(bbox, niches=None):
                 parts.add(f'nw["{key}"]{bb};')
 
     union = "\n  ".join(sorted(parts))
-    return f"[out:json][timeout:60];\n(\n  {union}\n);\nout body;"
+    return f"[out:json][timeout:{timeout}];\n(\n  {union}\n);\nout body;"
 
 # ── Classify an OSM element into an NWM niche ─────────────────────────────────
 
@@ -140,7 +140,7 @@ def parse_element(el, city_name, country, selected_niches):
 def fetch_overpass(query, retries=3):
     for attempt in range(retries):
         try:
-            r = requests.post(OVERPASS, data=query, timeout=90)
+            r = requests.post(OVERPASS, data=query, timeout=110)
             if r.status_code == 200:
                 data = json.loads(r.text)
                 # detect server-side timeout (elements=[] but remark present)
@@ -172,28 +172,63 @@ NICHE_GROUPS = [
      "financial_services", "home_services", "wine_agriculture"],
 ]
 
+def split_bbox(bbox):
+    """Split a bounding box into 4 quadrants."""
+    lat1, lon1, lat2, lon2 = bbox
+    lat_mid = (lat1 + lat2) / 2
+    lon_mid = (lon1 + lon2) / 2
+    return [
+        (lat1,    lon1,    lat_mid, lon_mid),
+        (lat1,    lon_mid, lat_mid, lon2),
+        (lat_mid, lon1,    lat2,    lon_mid),
+        (lat_mid, lon_mid, lat2,    lon2),
+    ]
+
 def fetch_city(bbox, niche_filter):
-    """Fetch all elements for a city. Splits into 2 niche batches if needed."""
+    """Fetch all elements for a city. Falls back to split strategies on timeout."""
     niches = niche_filter or list(NICHE_PATTERNS.keys())
 
-    # Try single combined query first
-    query = build_union_query(bbox, set(niches))
+    # 1. Try single combined query (90s server timeout)
+    query = build_union_query(bbox, set(niches), timeout=90)
     result = fetch_overpass(query)
     if result is not None:
         return result
 
-    # Overpass timed out — split into niche groups and merge
-    print(f"  [split] retrying in 2 batches...")
+    # 2. Split into 2 niche batches (same bbox)
+    print(f"  [split-niches] retrying in 2 niche batches...")
     all_elements = []
+    any_success = False
     for group in NICHE_GROUPS:
         batch = [n for n in group if n in niches]
         if not batch:
             continue
         time.sleep(random.uniform(5, 10))
-        q = build_union_query(bbox, set(batch))
+        q = build_union_query(bbox, set(batch), timeout=90)
         els = fetch_overpass(q)
         if els:
             all_elements.extend(els)
+            any_success = True
+        elif els is None:
+            # Still timing out — fall through to geographic split
+            any_success = False
+            break
+
+    if any_success:
+        return all_elements
+
+    # 3. Geographic split: 4 quadrants × 2 niche batches
+    print(f"  [split-geo] retrying in 4 geographic quadrants...")
+    all_elements = []
+    for quad_bbox in split_bbox(bbox):
+        for group in NICHE_GROUPS:
+            batch = [n for n in group if n in niches]
+            if not batch:
+                continue
+            time.sleep(random.uniform(4, 8))
+            q = build_union_query(quad_bbox, set(batch), timeout=60)
+            els = fetch_overpass(q)
+            if els:
+                all_elements.extend(els)
     return all_elements
 
 # ── CSV / checkpoint helpers ──────────────────────────────────────────────────

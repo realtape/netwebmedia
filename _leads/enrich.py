@@ -33,9 +33,20 @@ EMAIL_RE     = re.compile(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}")
 SKIP_DOMAINS = {"sentry.io","example.com","wix.com","squarespace.com","yourdomain.com",
                 "wordpress.com","domain.com","email.com","yourcompany.com","google.com",
                 "facebook.com","instagram.com","twitter.com","yelp.com","tripadvisor.com",
-                "opentable.com","grubhub.com","doordash.com","ubereats.com","maps.google.com"}
+                "opentable.com","grubhub.com","doordash.com","ubereats.com","maps.google.com",
+                "site.com","1.com","test.com","localhost.com","mailinator.com","guerrillamail.com",
+                "tempmail.com","wixpress.com","hubspot.com","klaviyo.com","mailchimp.com",
+                "constantcontact.com","sendgrid.net","amazonses.com","sparkpostmail.com"}
+SKIP_DOMAIN_KEYWORDS = {"sentry","wixpress","tracking","noreply","bounce","mailer-daemon",
+                        "spamgourmet","guerrilla","tempmail","throwam","trashmail"}
 SKIP_PREFIXES = {"noreply","no-reply","donotreply","support@support","webmaster",
-                 "postmaster","bounce","mailer","info@info","admin@admin"}
+                 "postmaster","bounce","mailer","info@info","admin@admin","privacy",
+                 "legal","unsubscribe","abuse","spam","newsletter","news","press@",
+                 "marketing@","sales@sales","help@help"}
+IMAGE_EXTS   = {".jpg",".jpeg",".png",".gif",".svg",".webp",".bmp",".ico",".avif",
+                ".tiff",".tif",".heic",".heif"}
+
+HASH_RE      = re.compile(r'^[0-9a-f]{20,}$')   # 20+ hex chars = tracking hash
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -46,14 +57,39 @@ HEADERS = {
 
 def clean_email(email):
     e = email.lower().strip()
-    if len(e) < 6 or len(e) > 100:
+    if len(e) < 8 or len(e) > 100:
         return None
-    domain = e.split("@")[-1]
-    prefix = e.split("@")[0]
+    parts = e.split("@")
+    if len(parts) != 2:
+        return None
+    prefix, domain = parts[0], parts[1]
+
+    # --- domain checks ---
     if domain in SKIP_DOMAINS or "." not in domain:
         return None
-    if any(prefix.startswith(p) for p in SKIP_PREFIXES):
+    # image-extension domains (e.g. img@2x.png, bg@hero.jpg)
+    tld = "." + domain.rsplit(".", 1)[-1]
+    if tld in IMAGE_EXTS:
         return None
+    # domains containing tracking/spam keywords
+    if any(kw in domain for kw in SKIP_DOMAIN_KEYWORDS):
+        return None
+
+    # --- prefix checks ---
+    if len(prefix) < 2:
+        return None
+    if any(prefix.startswith(p.rstrip("@")) for p in SKIP_PREFIXES):
+        return None
+    # hex hash prefix (Sentry error IDs, pixel trackers, etc.)
+    if HASH_RE.match(prefix):
+        return None
+    # dimension-style prefix like "190x80_190x" or "img_0384_495x"
+    if re.match(r'^[a-z_\-0-9]+\d+x\d*', prefix):
+        return None
+    # purely numeric prefix
+    if prefix.isdigit():
+        return None
+
     return e
 
 def extract_emails(text):

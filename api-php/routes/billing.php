@@ -713,7 +713,11 @@ function route_billing($parts, $method) {
 
   if ($sub === 'my-subscription' && $method === 'GET') {
     $u = requireAuth();
-    $row = qOne("SELECT * FROM subscriptions WHERE org_id = ? AND status IN ('active','pending') ORDER BY id DESC LIMIT 1", [$u['org_id']]);
+    // Scope by user_id AND org_id — both are needed because multiple users can
+    // share an org, and we want a user's own subscription only. Without the
+    // user_id filter, any team member could see another user's subscription
+    // (security issue surfaced via payment-flow-tutorial cleanup on 2026-05-11).
+    $row = qOne("SELECT * FROM subscriptions WHERE org_id = ? AND user_id = ? AND status IN ('active','pending') ORDER BY id DESC LIMIT 1", [$u['org_id'], $u['id']]);
     if (!$row) json_out(['subscription' => null]);
     $row['plan'] = bl_plan($row['plan_code']);
     json_out(['subscription' => $row]);
@@ -844,7 +848,15 @@ function route_billing($parts, $method) {
 
   if ($sub === 'cancel' && $method === 'POST') {
     $u = requireAuth();
-    $row = qOne("SELECT * FROM subscriptions WHERE org_id = ? AND status IN ('active','pending') ORDER BY id DESC LIMIT 1", [$u['org_id']]);
+    // Scope by user_id AND org_id. Previously this only scoped by org_id, which
+    // allowed any team member in a shared org to cancel another user's
+    // subscription (their own most-recent pending/active row). Surfaced
+    // 2026-05-11 during payment-flow-tutorial cleanup — a benign accident
+    // (subscription was pending, no money charged) but a real cross-tenant
+    // escalation. user_id filter closes the hole. If admin-on-behalf-of cancel
+    // is ever needed, add a separate /api/billing/admin-cancel endpoint with
+    // explicit subscription_id + role check.
+    $row = qOne("SELECT * FROM subscriptions WHERE org_id = ? AND user_id = ? AND status IN ('active','pending') ORDER BY id DESC LIMIT 1", [$u['org_id'], $u['id']]);
     if (!$row) err('No active subscription', 404);
 
     if (!empty($row['mp_preapproval_id']) && bl_mp_token()) {

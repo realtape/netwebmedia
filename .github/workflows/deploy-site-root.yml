@@ -277,7 +277,10 @@ jobs:
           # workflow emails to Gmail (mail() returned true but Exim never
           # delivered). The CRM-vanilla email_sender now has a fallback chain
           # that tries reliable API providers first.
-          print(f"define('MAIL_PROVIDER', 'auto');")
+          # Override via SECRET_MAIL_PROVIDER ('phpmail' / 'smtp' / 'resend' / 'ses').
+          # When Resend quota is exhausted and SMTP creds are stale, set the
+          # secret to 'phpmail' as a temporary unblocker.
+          print(f"define('MAIL_PROVIDER', '{e(os.environ.get('SECRET_MAIL_PROVIDER','auto'))}');")
           print(f"define('SMTP_HOST', 'mail.netwebmedia.com');")
           print(f"define('SMTP_PORT', 465);")
           print(f"define('SMTP_ENCRYPTION', 'ssl');")
@@ -357,6 +360,7 @@ jobs:
           SECRET_WA_PHONE_ID:       ${{ secrets.WA_PHONE_ID }}
           SECRET_WA_META_APP_SECRET: ${{ secrets.WA_META_APP_SECRET }}
           SECRET_SMTP_PASS:         ${{ secrets.SMTP_PASS }}
+          SECRET_MAIL_PROVIDER:     ${{ secrets.MAIL_PROVIDER }}
           # Maintenance-endpoint tokens (optional secrets — missing = production defaults preserved)
           SECRET_MIGRATE_TOKEN:     ${{ secrets.MIGRATE_TOKEN }}
           SECRET_SEED_TOKEN:        ${{ secrets.SEED_TOKEN }}

@@ -423,7 +423,9 @@ Vanilla JS SPA with a custom route dispatcher in `crm-vanilla/js/app.js`. No fra
 - **CRM handlers** in `crm-vanilla/api/handlers/` (query-string routing via `?r=<name>`) are separate from the public `api-php/routes/`. New CRM features go here. Recent additions (2026-05):
   - `workflows.php` — visual workflow builder CRUD (canonical CRUD reference)
   - `wa_flush.php` — admin handler for the WhatsApp opt-in pipeline. Actions: `count`, `list`, `mark`, `send`. The `send` action calls Meta Cloud API and returns 503 with a setup message if `WA_PHONE_ID` / `WA_META_TOKEN` are unset. Backed by the public `POST /api/public/whatsapp/subscribe` endpoint in `api-php/routes/public.php` — that endpoint stores subscribers as `pending_double_opt_in` until WABA verification completes; `wa_flush` then graduates them to `confirmed` via the welcome template.
-  - `ig_publish.php` — Instagram Graph API stub. Actions: `status`, `spec`, `publish`. The `publish` action does the 3-step Meta flow (upload children → create CAROUSEL container → media_publish). Pre-flight verifies all 5 image URLs are reachable. 503 with setup message if `IG_BUSINESS_ACCOUNT_ID` / `IG_GRAPH_TOKEN` unset. Carousel definitions match `assets/social/carousels/{a,b,c}-slide-{1..5}.png`.
+  - `ig_publish.php` — Instagram Graph API stub. Actions: `status`, `spec`, `publish`. 3-step Meta flow (upload children → CAROUSEL container → media_publish). Pre-flight verifies 5 image URLs reachable. 503 if `IG_BUSINESS_ACCOUNT_ID` / `IG_GRAPH_TOKEN` unset. Carousel defs match `assets/social/carousels/{a,b,c}-slide-{1..5}.png`. **PNGs return 406 on bare curl** (InMotion mod_security) — verified 200 on real browser UA 2026-05-11, so Meta's Graph fetcher succeeds. Session-admin gated (NOT MIGRATE_TOKEN like fb/tt_publish).
+  - `fb_publish.php` — Facebook Page publishing. Actions: `status`, `schedule`, `list`. MIGRATE_TOKEN gated. Video + carousel formats. Posts scheduled `now+10min` to `now+6mo` (FB Graph minimum — no immediate-fire). Idempotent on `post_number`. Audit log `fb_publish_log`. Secrets `FB_PAGE_ID` + `FB_PAGE_TOKEN` already in production.
+  - `tt_publish.php` — TikTok Content Posting API. Actions: `status`, `spec`, `publish`, `status_check`, `list`. MIGRATE_TOKEN gated. Uses PULL_FROM_URL with `assets/social/campaign/reel_*.mp4`. 6 reels predefined (AEO/Growth/Scale × EN/ES). 24-hour idempotency per `reel_key`. Returns 503 until `TT_ACCESS_TOKEN` set. **Domain ownership must be verified in TikTok Developer Portal → URL Prefix Configuration**, else PULL_FROM_URL returns `url_ownership_unverified`. Audit log `tt_publish_log`.
   - Admin UI module `crm-vanilla/whatsapp-subs.html` + `js/whatsapp-subs.js` consumes `wa_flush` for button-driven opt-in management (filterable table, mark actions, dry-run/live flush). Admin-only sidebar entry under "WhatsApp Subs".
 
 ## Email sequences
@@ -536,7 +538,7 @@ NetWebMedia's social mix as of 2026-05-01 — these exclusions are durable, do N
 | Instagram `@netwebmedia` | In the mix; profile branding kit at `_deploy/social-channel-activation.md` §1; 3 brand-intro carousels rendered as 15 SVGs in `assets/social/carousels/` |
 | YouTube `@netwebmedia` | Live |
 | Facebook `/netwebmedia` | Live |
-| TikTok `@netwebmedia` | Account claimed, content slated Q3 2026 |
+| TikTok `@netwebmedia` | **Activating 2026-05-11** (Carlos overrode Q3 plan). 6 reels (AEO/Growth/Scale × EN/ES) ready at `assets/social/campaign/reel_*.mp4`. Handler `crm-vanilla/api/handlers/tt_publish.php` wired; live posting gated on TikTok Developer Portal Content Posting API + Direct Post approval (2–4 week review). |
 | WhatsApp Business | In Meta verification (target June 2026); opt-ins capturing now via `/whatsapp-updates.html` |
 | Email broadcasts | Live via `email_sequence_queue` cron |
 | **LinkedIn** | **Excluded by choice** (Carlos, 2026-04-20) |

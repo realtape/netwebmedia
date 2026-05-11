@@ -75,6 +75,7 @@ $handlers = [
     'wa_flush'              => __DIR__ . '/handlers/wa_flush.php',
     'ig_publish'            => __DIR__ . '/handlers/ig_publish.php',
     'fb_publish'            => __DIR__ . '/handlers/fb_publish.php',
+    'tt_publish'            => __DIR__ . '/handlers/tt_publish.php',
     'cron_workflows'        => __DIR__ . '/handlers/cron_workflows.php',
     'workflow_runs'         => __DIR__ . '/handlers/workflow_runs.php',
     'export_bird'           => __DIR__ . '/handlers/export_bird.php',
@@ -86,7 +87,7 @@ if (!isset($handlers[$resource])) {
 
 // Public routes need no auth. All others run the payment gate:
 // demo/guest users (no PHP session) pass through; pending_payment users get HTTP 402.
-$public_routes = ['auth', 'track', 'intake', 'leads', 'analyze', 'proposal', 'import_best', 'import_clickers', 'filter_identifiable', 'filter_marketing_ready', 'domain_audit', 'dedupe', 'cron_workflows', 'fb_publish', 'export_bird'];
+$public_routes = ['auth', 'track', 'intake', 'leads', 'analyze', 'proposal', 'import_best', 'import_clickers', 'filter_identifiable', 'filter_marketing_ready', 'domain_audit', 'dedupe', 'cron_workflows', 'fb_publish', 'tt_publish', 'export_bird'];
 if (!in_array($resource, $public_routes, true)) {
     require_once __DIR__ . '/lib/guard.php';
     require_guard();

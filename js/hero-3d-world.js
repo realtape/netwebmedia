@@ -69,7 +69,7 @@
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(38, w / h, 0.1, 100);
-    camera.position.set(0, 0.6, 7.2);
+    camera.position.set(0, 0.5, 10);
     camera.lookAt(0, 0, 0);
 
     // ── Lights ─────────────────────────────────────────────────────────────
@@ -90,7 +90,8 @@
 
     // ── Master group (so the whole assembly shifts to the right column) ────
     const orbital = new THREE.Group();
-    orbital.rotation.x = 0.18;   // gentle axial tilt — makes Earth look 3D, not a flat disc
+    orbital.rotation.x = 0.18;     // gentle axial tilt — makes Earth look 3D, not flat
+    orbital.scale.setScalar(0.68); // scale the whole assembly down to fit the right half
     scene.add(orbital);
 
     // ── Earth ──────────────────────────────────────────────────────────────
@@ -257,8 +258,8 @@
     // City label
     const labelMat = new THREE.SpriteMaterial({ transparent: true, depthWrite: false, opacity: 0 });
     const cityLabel = new THREE.Sprite(labelMat);
-    cityLabel.scale.set(0.95, 0.34, 1);
-    cityLabel.position.set(0, 0.20, 0);
+    cityLabel.scale.set(0.70, 0.25, 1);   // smaller — matches the icon badges
+    cityLabel.position.set(0, 0.18, 0);
     pinGroup.add(cityLabel);
 
     function makeCityLabelTexture(city, country) {
@@ -292,67 +293,147 @@
       return tex;
     }
 
-    // ── Brand-label texture maker (glass card) ─────────────────────────────
-    function makeLabelTexture(text) {
+    // ── Circular icon-badge texture maker (for LLM logos) ─────────────────
+    // Draws a glass-orb badge with a simplified, abstract glyph that evokes
+    // each AI brand without using copyrighted marks directly.
+    function makeIconBadge(kind) {
       const cnv = document.createElement('canvas');
-      cnv.width = 512; cnv.height = 192;
+      cnv.width = 256; cnv.height = 256;
       const ctx = cnv.getContext('2d');
-      const grad = ctx.createLinearGradient(0, 0, 0, cnv.height);
-      grad.addColorStop(0, 'rgba(255, 103, 31, 0.22)');
-      grad.addColorStop(1, 'rgba(1, 15, 59, 0.92)');
-      ctx.fillStyle = grad;
-      const rr = 28, x = 8, y = 8, ww = cnv.width - 16, hh = cnv.height - 16;
+      const cx = 128, cy = 128;
+
+      // Glass-orb background — radial gradient orange to navy
+      const bg = ctx.createRadialGradient(cx - 30, cy - 40, 10, cx, cy, 122);
+      bg.addColorStop(0, 'rgba(255, 150, 90, 0.95)');
+      bg.addColorStop(0.55, 'rgba(255, 103, 31, 0.92)');
+      bg.addColorStop(1, 'rgba(1, 15, 59, 0.95)');
+      ctx.fillStyle = bg;
       ctx.beginPath();
-      ctx.moveTo(x + rr, y);
-      ctx.arcTo(x + ww, y,      x + ww, y + hh, rr);
-      ctx.arcTo(x + ww, y + hh, x,      y + hh, rr);
-      ctx.arcTo(x,      y + hh, x,      y,      rr);
-      ctx.arcTo(x,      y,      x + ww, y,      rr);
-      ctx.closePath();
+      ctx.arc(cx, cy, 120, 0, Math.PI * 2);
       ctx.fill();
-      ctx.strokeStyle = 'rgba(255, 181, 138, 0.7)';
-      ctx.lineWidth = 3;
+
+      // Outer rim
+      ctx.strokeStyle = 'rgba(255, 200, 160, 0.85)';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 120, 0, Math.PI * 2);
       ctx.stroke();
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '700 78px Inter, "Helvetica Neue", Arial, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.shadowColor = 'rgba(255, 103, 31, 0.6)';
-      ctx.shadowBlur = 20;
-      ctx.fillText(text, cnv.width / 2, cnv.height / 2 + 4);
-      ctx.shadowBlur = 12;
-      ctx.fillStyle = '#FF671F';
+
+      // Inner ring (decorative)
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
+      ctx.lineWidth = 1.5;
       ctx.beginPath();
-      ctx.arc(38, 36, 7, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.arc(cx, cy, 108, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Glyph (white, glowing)
+      ctx.shadowColor = 'rgba(255, 235, 205, 0.95)';
+      ctx.shadowBlur = 14;
+      ctx.fillStyle = '#ffffff';
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 9;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      const r = 52;
+      switch (kind) {
+        case 'claude': {
+          // Anthropic-style 8-rayed asterisk burst
+          for (let i = 0; i < 8; i++) {
+            const a = i * Math.PI / 4;
+            const len = (i % 2 === 0) ? r : r * 0.6;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(cx + Math.cos(a) * len, cy + Math.sin(a) * len);
+            ctx.stroke();
+          }
+          // Center dot
+          ctx.beginPath();
+          ctx.arc(cx, cy, 6, 0, Math.PI * 2);
+          ctx.fill();
+          break;
+        }
+        case 'chatgpt': {
+          // OpenAI-style hex knot — 3 overlapping ellipses at 60° offsets
+          ctx.lineWidth = 6;
+          for (let i = 0; i < 3; i++) {
+            const a = i * Math.PI / 3;
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(a);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, r * 0.95, r * 0.42, 0, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+          }
+          break;
+        }
+        case 'perplexity': {
+          // Concentric arc + center dot (evokes "search/answer" emblem)
+          ctx.lineWidth = 7;
+          // Outer arc, top half
+          ctx.beginPath();
+          ctx.arc(cx, cy, r, Math.PI * 1.1, Math.PI * 1.9);
+          ctx.stroke();
+          // Middle arc, bottom half
+          ctx.beginPath();
+          ctx.arc(cx, cy, r * 0.68, Math.PI * 0.1, Math.PI * 0.9);
+          ctx.stroke();
+          // Center dot
+          ctx.beginPath();
+          ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+          ctx.fill();
+          break;
+        }
+        case 'gemini': {
+          // 4-pointed sparkle star (Google Gemini-style)
+          const drawSparkle = (sx, sy, sr) => {
+            ctx.beginPath();
+            ctx.moveTo(sx, sy - sr);
+            ctx.quadraticCurveTo(sx + sr * 0.18, sy - sr * 0.18, sx + sr, sy);
+            ctx.quadraticCurveTo(sx + sr * 0.18, sy + sr * 0.18, sx, sy + sr);
+            ctx.quadraticCurveTo(sx - sr * 0.18, sy + sr * 0.18, sx - sr, sy);
+            ctx.quadraticCurveTo(sx - sr * 0.18, sy - sr * 0.18, sx, sy - sr);
+            ctx.closePath();
+            ctx.fill();
+          };
+          drawSparkle(cx, cy, r);
+          // Small accent sparkle
+          ctx.globalAlpha = 0.7;
+          drawSparkle(cx + r * 0.78, cy - r * 0.78, r * 0.32);
+          ctx.globalAlpha = 1;
+          break;
+        }
+      }
+
       const tex = new THREE.CanvasTexture(cnv);
       tex.anisotropy = 4;
       tex.needsUpdate = true;
       return tex;
     }
 
-    // ── LLM labels orbiting around Earth ───────────────────────────────────
-    const LLM_NAMES = ['Claude', 'ChatGPT', 'Perplexity', 'Gemini'];
-    const LLM_ORBIT_R = 3.1;
+    // ── LLM icon badges orbiting around Earth ─────────────────────────────
+    const LLM_KINDS = ['claude', 'chatgpt', 'perplexity', 'gemini'];
+    const LLM_ORBIT_R = 2.45;
     const llmGroup = new THREE.Group();
     orbital.add(llmGroup);
 
     const llmSprites = [];
-    const llmLaserLines = [];   // line segments from each label down to the pin
+    const llmLaserLines = [];
 
-    LLM_NAMES.forEach((txt, i) => {
-      const angle = (i / LLM_NAMES.length) * Math.PI * 2;
-      const tex = makeLabelTexture(txt);
+    LLM_KINDS.forEach((kind, i) => {
+      const angle = (i / LLM_KINDS.length) * Math.PI * 2;
+      const tex = makeIconBadge(kind);
       const mat = new THREE.SpriteMaterial({
         map: tex, transparent: true, depthWrite: false, opacity: 0.95
       });
       const sprite = new THREE.Sprite(mat);
-      sprite.scale.set(1.1, 0.41, 1);
+      sprite.scale.set(0.55, 0.55, 1);   // small square badges
       sprite.userData = { baseAngle: angle };
       llmGroup.add(sprite);
       llmSprites.push(sprite);
 
-      // Laser line from this label to the pin (updated per-frame)
+      // Laser line from this badge to the pin (updated per-frame)
       const lineGeo = new THREE.BufferGeometry().setFromPoints([
         new THREE.Vector3(), new THREE.Vector3()
       ]);
@@ -431,7 +512,8 @@
     function applyOrbitalOffset() {
       const fovRad = camera.fov * Math.PI / 180;
       const visibleW = 2 * camera.position.z * Math.tan(fovRad / 2) * camera.aspect;
-      const shiftRatio = (w >= 1024) ? 0.20 : 0;
+      // Push the (now smaller) scene to ~25% past center → sits in the right column
+      const shiftRatio = (w >= 1024) ? 0.25 : 0;
       orbital.position.x = shiftRatio * visibleW;
     }
     applyOrbitalOffset();

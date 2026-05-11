@@ -56,7 +56,7 @@
       alpha: true,
       powerPreference: 'low-power'
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setPixelRatio(1);
     renderer.setSize(w, h, false);
     renderer.setClearColor(0x000000, 0);
 
@@ -212,10 +212,15 @@
     const clock = new THREE.Clock();
     let frames = 0, fpsSum = 0, lowFpsStreak = 0, stopped = false;
     let lastFpsCheck = performance.now();
+    let lastRender = 0;
+    const TARGET_INTERVAL = 1000 / 30; // 30fps cap
 
     function loop() {
       if (stopped) return;
       requestAnimationFrame(loop);
+      const now = performance.now();
+      if (now - lastRender < TARGET_INTERVAL) return;
+      lastRender = now;
 
       const t = clock.getElapsedTime();
 
@@ -249,15 +254,15 @@
 
       renderer.render(scene, camera);
 
-      // FPS watchdog: if avg drops below 24 for 3 consecutive seconds, stop
+      // FPS watchdog: if avg drops below 18 for 3 consecutive seconds, stop
+      // (threshold lowered since we're capping at 30fps target)
       frames++;
-      const now = performance.now();
       if (now - lastFpsCheck >= 1000) {
         const fps = (frames * 1000) / (now - lastFpsCheck);
         fpsSum = fps;
         frames = 0;
         lastFpsCheck = now;
-        if (fps < 24) {
+        if (fps < 18) {
           lowFpsStreak++;
           if (lowFpsStreak >= 3) {
             stopped = true;

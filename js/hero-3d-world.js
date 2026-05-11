@@ -74,6 +74,12 @@
     rim.position.set(-5, -2, 3);
     scene.add(rim);
 
+    // World shift — anchors orbital system over the right column on desktop
+    // so it doesn't overlap the hero copy on the left.
+    // Computed in animation loop based on aspect ratio.
+    const orbital = new THREE.Group();
+    scene.add(orbital);
+
     // ── Core sphere (navy with orange emissive pulse) ──────────────────────
     const coreGeo = new THREE.IcosahedronGeometry(1.05, 2);
     const coreMat = new THREE.MeshStandardMaterial({
@@ -85,7 +91,7 @@
       flatShading: true
     });
     const core = new THREE.Mesh(coreGeo, coreMat);
-    scene.add(core);
+    orbital.add(core);
 
     // Wireframe halo around core
     const haloGeo = new THREE.IcosahedronGeometry(1.35, 1);
@@ -96,12 +102,12 @@
       opacity: 0.18
     });
     const halo = new THREE.Mesh(haloGeo, haloMat);
-    scene.add(halo);
+    orbital.add(halo);
 
     // ── Orbiting label sprites ─────────────────────────────────────────────
     const labels = ['Claude', 'ChatGPT', 'Perplexity', 'Gemini'];
     const orbitGroup = new THREE.Group();
-    scene.add(orbitGroup);
+    orbital.add(orbitGroup);
 
     const labelSprites = [];
     const orbitRadius = 3.4;
@@ -208,6 +214,19 @@
     const stars = new THREE.Points(starGeo, starMat);
     scene.add(stars);
 
+    // ── Position orbital system over the right column ──────────────────────
+    // Visible world-width at z=0 plane = 2 * cameraZ * tan(fov/2)
+    // We want the orbital center at ~70% of canvas width (right column).
+    // Shift = (0.70 - 0.50) * visibleWidth = 0.20 * visibleWidth
+    function applyOrbitalOffset() {
+      const fovRad = camera.fov * Math.PI / 180;
+      const visibleW = 2 * camera.position.z * Math.tan(fovRad / 2) * camera.aspect;
+      // On narrow viewports, center it instead of pushing right
+      const shiftRatio = (w >= 1024) ? 0.20 : 0;
+      orbital.position.x = shiftRatio * visibleW;
+    }
+    applyOrbitalOffset();
+
     // ── Animation loop ─────────────────────────────────────────────────────
     const clock = new THREE.Clock();
     let frames = 0, fpsSum = 0, lowFpsStreak = 0, stopped = false;
@@ -286,6 +305,7 @@
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
+        applyOrbitalOffset();
       });
     });
 

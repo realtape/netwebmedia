@@ -40,7 +40,7 @@ jobs:
             -H "Accept: application/json,text/plain,*/*" \
             -H "Origin: https://netwebmedia.com" \
             -H "Referer: https://netwebmedia.com/" \
-            "https://netwebmedia.com/api/_cleanup_audit_lead.php?token=${token}")
+            "https://netwebmedia.com/api/_cleanup_audit_lead?token=${token}")
 
           echo "Response:"
           echo "$resp"

@@ -36,6 +36,14 @@ if (($parts[0] ?? '') === 'health') {
   exit;
 }
 
+// One-shot post-audit smoke-test lead cleanup. Gated by JWT_SECRET-derived
+// token (same pattern as migrate.php). See _cleanup_audit_lead.php.
+// Safe to remove this block + the file once the cleanup has run.
+if (($parts[0] ?? '') === '_cleanup_audit_lead') {
+  require __DIR__ . '/_cleanup_audit_lead.php';
+  exit;
+}
+
 // Root: API info
 if (empty($parts)) {
   json_out([

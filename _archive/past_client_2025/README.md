@@ -1,1 +1,0 @@
-Archived 2026-05-05. Files from a past client engagement. Per updated audit policy, past-client artifacts are excluded from active workspace. Do not reference this client by name in future work.

@@ -1107,23 +1107,52 @@
     });
   });
 
-  fetch('/api/billing/plans?_=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (r) {
-    var plans = r.items || [];
+  // Plan hydration with graceful fallback:
+  //   1. Try live API at /api/billing/plans (returns fresh USD/CLP + MP-aware data)
+  //   2. If that fails (e.g. local dev with no PHP, or production API outage),
+  //      load the static catalog at /assets/billing-plans-fallback.json so the
+  //      buy buttons still render. Mark hydrated containers with data-source.
+  //   3. If both fail, mark hydrate-failed and leave the skeleton placeholders.
+  function nwmHydratePlans(plans, source) {
     renderPlans(plans);
+    document.querySelectorAll('[id^="plans-"]').forEach(function (el) {
+      el.setAttribute('data-source', source);
+      el.removeAttribute('data-hydrate-failed');
+    });
     var p = new URLSearchParams(location.search);
     var autoCheckout = p.get('checkout');
     if (autoCheckout && window.NWMApi && NWMApi.isAuthed()) {
       var b = document.querySelector('[data-plan="' + autoCheckout + '"]');
       if (b) b.click();
     }
-  }).catch(function () {
-    // Static skeleton fallbacks remain visible — they already include "Talk to sales" links.
-    // Annotate so we can tell hydration failed (visible in DevTools, no UI change).
-    ['plans-bundle','plans-crm','plans-website','plans-agents','plans-automate','plans-video','plans-seo','plans-ads','plans-social','plans-cmo'].forEach(function(id){
-      var el = document.getElementById(id);
-      if (el) el.setAttribute('data-hydrate-failed', '1');
+  }
+  function nwmMarkHydrateFailed() {
+    document.querySelectorAll('[id^="plans-"]').forEach(function (el) {
+      el.setAttribute('data-hydrate-failed', '1');
     });
-  });
+  }
+
+  fetch('/api/billing/plans?_=' + Date.now(), { cache: 'no-store' })
+    .then(function (r) {
+      if (!r.ok) throw new Error('api ' + r.status);
+      return r.json();
+    })
+    .then(function (r) {
+      var plans = (r && r.items) || [];
+      if (!plans.length) throw new Error('empty');
+      nwmHydratePlans(plans, 'api');
+    })
+    .catch(function () {
+      // Live API unreachable — fall back to the static catalog snapshot.
+      fetch('/assets/billing-plans-fallback.json', { cache: 'no-store' })
+        .then(function (r) { if (!r.ok) throw new Error('static ' + r.status); return r.json(); })
+        .then(function (r) {
+          var plans = (r && r.items) || [];
+          if (!plans.length) { nwmMarkHydrateFailed(); return; }
+          nwmHydratePlans(plans, 'fallback');
+        })
+        .catch(nwmMarkHydrateFailed);
+    });
 </script>
 
 <script src="/js/cookie-consent.js"></script>

@@ -171,21 +171,39 @@
     tiltRing.rotation.y = 0.3;
     orbital.add(tiltRing);
 
-    // ── Earth textures (best-effort, non-blocking) ─────────────────────────
+    // ── Earth textures ─────────────────────────────────────────────────────
+    // Diffuse map: self-hosted 5400×2700 NASA Blue Marble (higher than 4K).
+    // Normal/specular/clouds: 2K from threejs.org CDN (lower-res but adequate
+    // — the eye is much more sensitive to diffuse-map resolution than to
+    // normal/specular detail at the size we render).
     const texLoader = new THREE.TextureLoader();
     texLoader.crossOrigin = 'anonymous';
-    const TEX = 'https://threejs.org/examples/textures/planets/';
+    const CDN = 'https://threejs.org/examples/textures/planets/';
+    const maxAniso = renderer.capabilities.getMaxAnisotropy();
 
-    texLoader.load(TEX + 'earth_atmos_2048.jpg',
-      (t) => { earthMat.map = t; earthMat.color.setHex(0xffffff); earthMat.needsUpdate = true; }
+    texLoader.load('/assets/textures/planets/earth_daymap_5400.jpg',
+      (t) => {
+        t.anisotropy = maxAniso;
+        if (THREE.SRGBColorSpace) t.colorSpace = THREE.SRGBColorSpace;
+        earthMat.map = t;
+        earthMat.color.setHex(0xffffff);
+        earthMat.needsUpdate = true;
+      },
+      undefined,
+      () => {
+        // Fallback to threejs.org 2K if local 4K fails (e.g. file missing in deploy)
+        texLoader.load(CDN + 'earth_atmos_2048.jpg', (t) => {
+          earthMat.map = t; earthMat.color.setHex(0xffffff); earthMat.needsUpdate = true;
+        });
+      }
     );
-    texLoader.load(TEX + 'earth_normal_2048.jpg',
+    texLoader.load(CDN + 'earth_normal_2048.jpg',
       (t) => { earthMat.normalMap = t; earthMat.needsUpdate = true; }
     );
-    texLoader.load(TEX + 'earth_specular_2048.jpg',
+    texLoader.load(CDN + 'earth_specular_2048.jpg',
       (t) => { earthMat.specularMap = t; earthMat.needsUpdate = true; }
     );
-    texLoader.load(TEX + 'earth_clouds_1024.png',
+    texLoader.load(CDN + 'earth_clouds_1024.png',
       (t) => { cloudsMat.map = t; cloudsMat.opacity = 0.36; cloudsMat.needsUpdate = true; }
     );
 

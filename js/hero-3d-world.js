@@ -45,9 +45,10 @@
     const ORANGE = 0xFF671F;
     const ORANGE_SOFT = 0xFFB58A;
 
-    const container = canvas.parentElement || canvas;
-    let w = container.clientWidth || window.innerWidth;
-    let h = container.clientHeight || window.innerHeight;
+    // Size from the canvas's own rendered CSS box, NOT the parent .hero section
+    // (the hero is much taller than the canvas due to pricing cards below the fold).
+    let w = canvas.clientWidth || window.innerWidth;
+    let h = canvas.clientHeight || window.innerHeight;
 
     const renderer = new THREE.WebGLRenderer({
       canvas,

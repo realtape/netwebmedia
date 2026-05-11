@@ -48,6 +48,7 @@ on:
       - 'tutorials/**'
       - 'crm-demo/**'
       - 'cms-demo/**'
+      - 'cms/**'
       # /app/* shell for coming-soon waitlist + shipped feature stubs
       - 'app/**'
       # Industry pages + subdomain landing pages (39 subdomains served from here)
@@ -154,7 +155,18 @@ jobs:
           # .well-known/ (security.txt, etc.) — RFC 8615 conventions
           [ -d .well-known ] && cp -r .well-known _stage/.well-known || true
           # Directories
-          for d in css js assets images fonts crm api api-php tutorials crm-demo cms-demo crm-vanilla blog lp guides plans industries app livery-editor social; do
+          #
+          # Intentionally NON-public (excluded from this loop on purpose):
+          #   community-alert-app/  — separate Node.js app, not InMotion-deployable (has its own server.js)
+          #   hyperframes/          — local video render workspace (~50GB of MP4/JPG artifacts; never ship)
+          #   _deploy/              — generator scratch + playbooks (excluded via FTP exclude rules below)
+          #   _backup/              — local backups
+          #   mobile/               — Capacitor app, ships via Xcode/Android Studio not FTPS
+          #   video-factory/        — Remotion renderer, runs separately on :3030
+          #   backend/              — Django CRM, separate property
+          # When adding a new top-level public dir, you must update BOTH the `on.push.paths` trigger
+          # AND this staging loop (forgetting the loop = silent 404 on the new dir).
+          for d in css js assets images fonts crm api api-php tutorials crm-demo cms-demo crm-vanilla cms blog lp guides plans industries app livery-editor social; do
             [ -d "$d" ] && cp -r "$d" "_stage/$d" || true
           done
           # Drop dev/test artifacts that shouldn't ship

@@ -71,15 +71,15 @@
     camera.lookAt(0, 0, 0);
 
     // ── Lights ─────────────────────────────────────────────────────────────
-    // Subtle ambient so dark side of Earth isn't pitch black
-    scene.add(new THREE.AmbientLight(0x404a66, 0.55));
-    // Sun-like directional light from upper-right (matches the page lighting)
-    const sun = new THREE.DirectionalLight(0xfff2dc, 1.3);
-    sun.position.set(5, 3, 4);
+    // Brighter ambient — Earth always readable, no pitch-black hemisphere
+    scene.add(new THREE.AmbientLight(0x6e7da0, 1.1));
+    // Strong sun-like directional light from camera's side (front-lit Earth)
+    const sun = new THREE.DirectionalLight(0xfff2dc, 1.8);
+    sun.position.set(2, 1.5, 7);
     scene.add(sun);
-    // Subtle warm rim to keep brand temperature
-    const rim = new THREE.PointLight(ORANGE, 0.5, 20);
-    rim.position.set(-4, -2, 3);
+    // Warm orange rim from opposite side — adds brand temperature on the limb
+    const rim = new THREE.PointLight(ORANGE, 0.9, 18);
+    rim.position.set(-5, 1, 2);
     scene.add(rim);
 
     // ── Orbital group (so the whole earth+pin+atmosphere shifts right) ────
@@ -188,17 +188,17 @@
     pinGroup.visible = false;     // hidden until geolocation resolves
     earth.add(pinGroup);
 
-    const pinCoreGeo = new THREE.SphereGeometry(0.035, 16, 16);
+    const pinCoreGeo = new THREE.SphereGeometry(0.06, 16, 16);
     const pinCoreMat = new THREE.MeshBasicMaterial({ color: ORANGE });
     const pinCore = new THREE.Mesh(pinCoreGeo, pinCoreMat);
     pinGroup.add(pinCore);
 
     // Glow halo around the pin (additive)
-    const pinHaloGeo = new THREE.SphereGeometry(0.08, 16, 16);
+    const pinHaloGeo = new THREE.SphereGeometry(0.14, 16, 16);
     const pinHaloMat = new THREE.MeshBasicMaterial({
       color: ORANGE,
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.5,
       blending: THREE.AdditiveBlending,
       depthWrite: false
     });
@@ -206,7 +206,7 @@
     pinGroup.add(pinHalo);
 
     // Expanding ring on the surface — re-spawned each pulse cycle
-    const ringGeo = new THREE.RingGeometry(0.04, 0.05, 32);
+    const ringGeo = new THREE.RingGeometry(0.06, 0.08, 32);
     const ringMat = new THREE.MeshBasicMaterial({
       color: ORANGE,
       side: THREE.DoubleSide,

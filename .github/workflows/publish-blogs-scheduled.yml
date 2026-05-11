@@ -3,7 +3,7 @@ name: Publish Blog Posts (Scheduled)
 # Runs every hour from 11:00–20:00 UTC = 7 AM–4 PM Santiago (UTC-4)
 # 1 post per run × 10 runs = 10 posts/day
 # Posts are read from _deploy/posts-queue/*.json (pre-written queue)
-# After publishing, blog/*.html + blog.html are committed, which triggers deploy-site-root.yml
+# After publishing, blog/*.html + blog.html + sitemap.xml are committed, which triggers deploy-site-root.yml
 
 on:
   schedule:
@@ -46,13 +46,17 @@ jobs:
           echo "changed=$COUNT" >> "$GITHUB_OUTPUT"
           echo "Posts changed: $COUNT file(s)"
 
+      - name: Regenerate sitemap
+        if: steps.generate.outputs.changed != '0'
+        run: python3 _deploy/regen-sitemap.py
+
       - name: Commit and push published posts
         if: steps.generate.outputs.changed != '0'
         run: |
           git config user.name "NWM Blog Bot"
           git config user.email "bot@netwebmedia.com"
           git config --global url."https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/".insteadOf "https://github.com/"
-          git add blog/ blog.html _deploy/posts-queue/
+          git add blog/ blog.html _deploy/posts-queue/ sitemap.xml
           git commit -m "publish: auto-publish $(date -u '+%Y-%m-%d %H:%M') UTC"
           # Retry push with rebase --autostash for concurrent push + unstaged residuals
           for attempt in 1 2 3 4 5; do

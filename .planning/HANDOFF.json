@@ -1,0 +1,209 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-05-11T09:42:48-04:00",
+  "context": "default",
+  "phase": null,
+  "phase_name": "Social publishing rollout (FB / IG / TikTok activation + Higgsfield content generation)",
+  "phase_dir": null,
+  "plan": null,
+  "task": null,
+  "total_tasks": null,
+  "status": "paused-awaiting-user-input",
+  "completed_tasks": [
+    {
+      "id": 1,
+      "name": "Organization sameAs schema fix — add TikTok URL across 12 production pages",
+      "status": "done",
+      "commit": "2fbdfef83"
+    },
+    {
+      "id": 2,
+      "name": "Git history consolidation — collapse 13 fragmented auto-saves into 4 named commits",
+      "status": "done",
+      "commit": "974c95c3b (chore: auto-save artifacts), 3b593163b (sitemap backfill), 6341c441e (CI sitemap regen), 2fbdfef83 (schema fix)",
+      "note": "Force-pushed with --force-with-lease=main:cace3bf13...974c95c3b. Tree byte-identical to old origin. Run queue was clear at push time."
+    },
+    {
+      "id": 3,
+      "name": "TikTok Content Posting API handler scaffold",
+      "status": "done",
+      "files": [
+        "crm-vanilla/api/handlers/tt_publish.php (280 lines — actions: status/spec/publish/status_check/list, 6 reels predefined, 24-hour idempotency)",
+        "crm-vanilla/api/index.php (router + public_routes)",
+        ".github/workflows/deploy-site-root.yml (TT_ACCESS_TOKEN + TT_CLIENT_KEY + TT_REEL_BASE_URL plumbed)",
+        "social/index.html (TikTok badge: Q3 2026 → Activating)",
+        "CLAUDE.md (durable decision flipped + handler docs added for fb_publish/tt_publish/ig_publish)"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Instagram Graph publishing secrets wired (env-only — handler already existed)",
+      "status": "done",
+      "files": [".github/workflows/deploy-site-root.yml: IG_BUSINESS_ACCOUNT_ID + IG_GRAPH_TOKEN + IG_IMAGE_BASE_URL"]
+    },
+    {
+      "id": 5,
+      "name": "Social publishing unblock runbook",
+      "status": "done",
+      "files": ["_deploy/social-publishing-unblock-2026-05-11.md — 4 sections: IG fast-path (Dev Mode, ~90 min, no App Review), TikTok formal review (2–4 weeks), FB live first post (pick A/B/C), cross-poster phase-2 spec"]
+    },
+    {
+      "id": 6,
+      "name": "Higgsfield tooling validation",
+      "status": "done",
+      "findings": "Ultra plan, 2,694.88 credits, workspace 4df1d4d6-02bb-48f8-a91e-30eb0ec3aa56 selected. Nano Banana 2 = nano_banana_flash; Nano Banana Pro = nano_banana_2; Kling 3.0 = kling3_0 (3–15s, std/pro modes, start_image+end_image roles)."
+    },
+    {
+      "id": 7,
+      "name": "Higgsfield smoke-test image fired",
+      "status": "in_progress",
+      "job_id": "417e43b4-af81-41b4-8333-874d8d6e0c9b",
+      "params": "nano_banana_flash, 4:5, 4k, 4:5 IG cover, NetWebMedia brand palette navy #010F3B + orange #FF671F, no human figures, premium tech-brand aesthetic"
+    }
+  ],
+  "remaining_tasks": [
+    {
+      "id": 8,
+      "name": "Carlos reviews smoke-test image",
+      "status": "not_started",
+      "blocking_on": "human review"
+    },
+    {
+      "id": 9,
+      "name": "Carlos picks scope tier (T1 / T2 / T3) + character choice (Soul Character yes/no, and if yes who)",
+      "status": "not_started",
+      "blocking_on": "human decision"
+    },
+    {
+      "id": 10,
+      "name": "Batch generate selected tier",
+      "status": "not_started",
+      "depends_on": "task 9",
+      "tier_specs": {
+        "T1": {
+          "scope": "Photoreal replacements: 57 carousel slides + 6 reels (May campaign refresh)",
+          "credits_est": 530,
+          "time_est": "1–2 days wall clock"
+        },
+        "T2": {
+          "scope": "T1 + 10 IG-native singles + 6 TT-pacing reels + 5 FB-feed clips",
+          "credits_est": 1200,
+          "time_est": "1 week"
+        },
+        "T3": {
+          "scope": "T2 + 14-niche packs (1 carousel + 1 reel per niche)",
+          "credits_est": 2250,
+          "time_est": "3+ weeks"
+        }
+      }
+    },
+    {
+      "id": 11,
+      "name": "Mirror Higgsfield outputs to netwebmedia.com hosting",
+      "status": "not_started",
+      "note": "Generated images live on Higgsfield URLs; ig_publish/tt_publish/fb_publish all need publicly-reachable URLs at our domain. Workflow: download from Higgsfield → upload to assets/social/higgsfield/ → git push → InMotion deploy."
+    },
+    {
+      "id": 12,
+      "name": "FB first scheduled post (A: brand-intro carousel / B: AEO reel / C: long-form AEO carousel)",
+      "status": "not_started",
+      "blocking_on": "Carlos picks A/B/C from runbook §3"
+    },
+    {
+      "id": 13,
+      "name": "IG fast-path execution (Carlos hands — _deploy/social-publishing-unblock-2026-05-11.md §1 steps 1–7)",
+      "status": "not_started",
+      "blocking_on": "human action — Meta Business Suite + IG conversion to Business + Meta App + token gen + gh secret set"
+    },
+    {
+      "id": 14,
+      "name": "TikTok Content Posting API application (Carlos hands — runbook §2)",
+      "status": "not_started",
+      "blocking_on": "human action — TikTok dev portal + Direct Post review (2–4 weeks)"
+    }
+  ],
+  "blockers": [
+    {
+      "description": "Carlos has not yet answered: which scope tier (T1/T2/T3) and whether to train a Soul Character",
+      "type": "human_action",
+      "workaround": "Smoke test fired so Carlos can sanity-check brand fit while deciding"
+    },
+    {
+      "description": "IG live posting blocked on Carlos completing Meta Business Suite setup (~90 min hands-on, no App Review needed thanks to Dev Mode shortcut)",
+      "type": "human_action",
+      "workaround": "Runbook documents step-by-step — no decisions remaining"
+    },
+    {
+      "description": "TikTok live posting blocked on TikTok Developer Portal Content Posting API + Direct Post approval (2–4 week review)",
+      "type": "external",
+      "workaround": "Handler is wired and ready; apply ASAP to start the clock"
+    }
+  ],
+  "human_actions_pending": [
+    {
+      "action": "Pick Higgsfield scope tier (T1/T2/T3) and character choice (yes/no, who if yes)",
+      "context": "Determines whether next batch is 57 assets (~530 credits, 20% of balance) or up to 168 assets (~2,250 credits, 84% of balance)",
+      "blocking": true
+    },
+    {
+      "action": "Pick FB first scheduled post: A (brand carousel) / B (AEO reel) / C (long-form AEO carousel)",
+      "context": "FB infrastructure is live — secrets set, handler deployed. Just need content choice + scheduled_at_unix.",
+      "blocking": true
+    },
+    {
+      "action": "IG Dev Mode setup: convert @netwebmedia to Business → link to FB Page → create Meta App → generate long-lived token → gh secret set IG_BUSINESS_ACCOUNT_ID + IG_GRAPH_TOKEN → push",
+      "context": "Unblocks IG publishing today (~90 min). No App Review needed since we're posting to our own account in Dev Mode.",
+      "blocking": false,
+      "blocking_for": "Anything IG-related (smoke test, batch publish)"
+    },
+    {
+      "action": "TikTok Dev Portal application: create app → add Content Posting API + Direct Post products → DNS TXT verify https://netwebmedia.com/assets/social/campaign/ → submit for review",
+      "context": "2–4 week TikTok review. Start the clock today to unblock TT publishing by early June.",
+      "blocking": false,
+      "blocking_for": "TT live posting"
+    }
+  ],
+  "decisions": [
+    {
+      "decision": "TikTok activated 2026-05-11 — overrode the durable Q3 2026 deferral",
+      "rationale": "Carlos explicit decision this session. Handler scaffolded, hub badge flipped, CLAUDE.md updated, deploy workflow plumbed. Q3 2026 was a CAPACITY decision — now that Higgsfield + Kling 3.0 are accessible, content production isn't capacity-bound.",
+      "files_changed": ["CLAUDE.md (line 539, ~426)", "social/index.html (TikTok block)", "crm-vanilla/api/handlers/tt_publish.php (new)", ".github/workflows/deploy-site-root.yml (TT_* secrets)"]
+    },
+    {
+      "decision": "Force-push to main via --force-with-lease=main:cace3bf13... (consolidate 13 fragmented commits → 4 named)",
+      "rationale": "Carlos explicit decision (option B from earlier in session). Run queue was clear at push time. Tree byte-identical. Auto-save daemon was acknowledged as risk but operation completed before daemon fired again.",
+      "verified": "git diff origin/main = empty before push; git push output: + cace3bf13...974c95c3b main -> main (forced update)"
+    },
+    {
+      "decision": "Token-gate tt_publish via MIGRATE_TOKEN (mirroring fb_publish pattern, not ig_publish admin-session pattern)",
+      "rationale": "Publishing handlers should be invokable from GH Actions cron / external schedulers. Session-admin gating (ig_publish) requires CRM cookie which CI doesn't have. fb_publish chose MIGRATE_TOKEN for the same reason — keep consistent."
+    },
+    {
+      "decision": "Parallel folder for Higgsfield assets (assets/social/higgsfield/) rather than overwriting existing handmade",
+      "rationale": "A/B test feasibility — keep both sets available until Carlos confirms Higgsfield versions are better. Manifest with job IDs preserved per asset for re-generation."
+    },
+    {
+      "decision": "Use nano_banana_flash (named 'Nano Banana 2' in UI) per Carlos's literal request — not nano_banana_2 (named 'Nano Banana Pro')",
+      "rationale": "Respect the literal model name Carlos requested. Pro may be better for typography-heavy slides — escalate per asset if Flash text rendering is poor."
+    }
+  ],
+  "uncommitted_files": [
+    "crm-vanilla/backup-status.json (auto-managed, NOT my work — daemon updates on every Stop hook)"
+  ],
+  "next_action": "When resuming: (1) check Higgsfield job 417e43b4-af81-41b4-8333-874d8d6e0c9b status via show_generations or job_display, (2) re-present scope tiers if Carlos hasn't picked, (3) if tier is locked, begin batch generation by reading existing carousel/reel assets to mirror the structure into assets/social/higgsfield/.",
+  "context_notes": "Carlos and I have been compressing several days of work into one session. Pace is intentional — he wants forward motion and pushes back when I gate on questions. But infrastructure decisions still need his sign-off (tier scope, brand character, FB content pick) because Higgsfield credits and brand voice are non-recoverable once spent. Smoke test is the right move — gives him visual signal before committing scope.",
+  "anti_patterns_discovered": [
+    {
+      "pattern": "Auto-save daemon fragmenting history mid-operation",
+      "manifestation": "While I was building the schema fix, the daemon fired 13 times over 70 minutes — committing partial work as 'backup: auto-save <timestamp>' commits that mixed unrelated files (leads CSV regen, screenshot batches). Required surgical force-push to consolidate.",
+      "severity": "advisory",
+      "mitigation": "For long surgical operations: (a) do everything within a single Claude turn (Stop hook only fires when Claude responds to user), (b) when consolidation is needed, soft-reset to pre-fragmentation SHA and cherry-pick named commits, (c) force-with-lease against the expected SHA so daemon races fail-safe."
+    },
+    {
+      "pattern": "Bare curl 406'd by InMotion mod_security",
+      "manifestation": "Plain curl to https://netwebmedia.com/assets/social/carousels/*.png returned 406. Initially looked like missing files. Real browser UA returns 200.",
+      "severity": "advisory",
+      "mitigation": "CLAUDE.md already documents this in the migrate.php section. For any HEAD/GET against netwebmedia.com, always send Mozilla/Chrome UA + Origin/Referer headers. Meta/TikTok image fetchers use real UAs, so this is a CI/Claude-side issue only — production fetchers from third parties will succeed."
+    }
+  ]
+}

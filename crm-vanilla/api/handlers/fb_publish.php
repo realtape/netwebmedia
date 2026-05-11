@@ -24,11 +24,31 @@
 
 $db = getDB();
 
-// Token guard — same MIGRATE_TOKEN as cron_workflows / migrate
+// Dual auth — accept either:
+//   (a) MIGRATE_TOKEN (cron / CI use case)
+//   (b) Admin/superadmin session via X-Auth-Token (admin UI / browser-driven use case)
+// This was added 2026-05-11 to allow Carlos's logged-in browser session to fire FB schedules
+// without needing to paste the production MIGRATE_TOKEN into chat. The session path uses the
+// existing guard helper which validates nwm_token against the users table.
+$auth_ok = false;
+$auth_method = null;
 $token  = $_GET['token'] ?? $_POST['token'] ?? '';
 $expect = defined('MIGRATE_TOKEN') ? MIGRATE_TOKEN : '';
-if (!$expect || !hash_equals($expect, (string)$token)) {
-    jsonResponse(['error' => 'Forbidden', 'hint' => 'Pass ?token=<MIGRATE_TOKEN>'], 403);
+if ($expect && $token !== '' && hash_equals($expect, (string)$token)) {
+    $auth_ok = true;
+    $auth_method = 'migrate_token';
+}
+if (!$auth_ok) {
+    // Try session-admin auth as fallback
+    require_once __DIR__ . '/../lib/guard.php';
+    $user = function_exists('guard_user') ? guard_user() : null;
+    if ($user && in_array(($user['role'] ?? ''), ['admin', 'superadmin', 'owner'], true)) {
+        $auth_ok = true;
+        $auth_method = 'session_' . $user['role'];
+    }
+}
+if (!$auth_ok) {
+    jsonResponse(['error' => 'Forbidden', 'hint' => 'Pass ?token=<MIGRATE_TOKEN> or authenticate as admin via X-Auth-Token'], 403);
 }
 
 $action = $_GET['action'] ?? $_POST['action'] ?? 'status';

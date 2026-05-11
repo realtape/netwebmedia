@@ -378,6 +378,172 @@ foreach ($coupon_cols as [$name, $sql]) {
     </div>
   </section>
 
+  <!-- ─────────── PART 2: CMO Standard / Checkout Pro flow ─────────── -->
+  <section>
+    <div class="section-head">
+      <div class="section-num ok">★</div>
+      <div>
+        <h2>Part 2 — testing the second MP flow (Checkout Pro)</h2>
+        <p class="section-sub">Mercado Pago has two checkout flows. CMO Starter at $249 fits within the CLP 350k preapproval cap, so it uses the recurring preapproval flow. Anything above that hits Checkout Pro — and we wanted to capture that flow too.</p>
+      </div>
+    </div>
+
+    <h3>The two flows side by side</h3>
+    <table class="compact">
+      <thead><tr><th>Dimension</th><th>Preapproval flow</th><th>Checkout Pro flow</th></tr></thead>
+      <tbody>
+        <tr><td>Triggered by</td><td>CLP &le; 350,000 (~USD 368)</td><td>CLP &gt; 350,000</td></tr>
+        <tr><td>Plans in scope</td><td>cmo_starter ($249), crm_starter ($49), crm_pro ($249), agent_starter ($99), social_starter ($297)</td><td>cmo_growth ($999), seo_pro ($997), ads_pro ($997), all video/ad/seo tiers</td></tr>
+        <tr><td>API response <code>flow</code></td><td><code>"preapproval"</code></td><td><code>"one_time_checkout_pro"</code></td></tr>
+        <tr><td>MP URL pattern</td><td><code>/subscriptions/checkout?preapproval_id=...</code></td><td><code>/checkout/v1/redirect?pref_id=...</code></td></tr>
+        <tr><td>What MP shows</td><td>"Detalle de tu suscripción"<br>monthly recurring price</td><td>"Detalles del pago"<br>setup + month 1 = one-time amount</td></tr>
+        <tr><td>Recurring billing</td><td>✓ Auto-charged monthly by MP</td><td>✗ Manual invoices for month 2+ (per the API note)</td></tr>
+        <tr><td>Buyer payment splits</td><td>Single source</td><td>Can split across 2 cards (visible in MP UI)</td></tr>
+        <tr><td>Test-mode reason</td><td>—</td><td>Production MP keys would lift the cap and enable recurring</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout info">
+      <strong>Why the dual flow exists:</strong> In MP TEST mode, recurring preapprovals are capped at CLP 350,000. Plans above that fall back to one-time Checkout Pro. The <code>note</code> field in the checkout response makes the cost clear: <em>"One-time charge covers setup + first month. Monthly invoices for month 2+ sent by email. Upgrade to production MP keys to switch to auto-recurring."</em>
+    </div>
+  </section>
+
+  <!-- BUG #2 SECTION -->
+  <section>
+    <div class="step">
+      <div class="step-no bad">⚠</div>
+      <div>
+        <div class="step-head"><h3>Bug #2 found — pricing.html SKU mismatch</h3><span class="step-trigger bad">HTTP 400 · "Unknown plan"</span></div>
+        <p>Our first attempt to test CMO Standard used <code>plan_code: "cmo_standard"</code> (matching the data-plan attribute on the "Start Standard — $1,490/mo →" button at <code>pricing.html:441</code>). Response:</p>
+        <pre><code>{
+  "status": 400,
+  "body": { "error": "Unknown plan" }
+}</code></pre>
+
+        <p>Every click on that button hits this 400 error. The CMO Standard $1,490/mo button is currently broken in production.</p>
+
+        <div class="callout bad">
+          <strong>Root cause:</strong> The catalog in <code>api-php/routes/billing.php:317-353</code> defines four CMO plans — <strong>cmo_starter ($249), cmo_growth ($999), cmo_scale ($2,499), cmo_enterprise ($5,999)</strong>. There is no <code>cmo_standard</code>. There is no $1,490 CMO plan at all.
+        </div>
+
+        <h3>The pricing-vs-catalog mismatch in one table</h3>
+        <table class="compact">
+          <thead><tr><th>Pricing page label</th><th>data-plan code</th><th>Catalog plan</th><th>Catalog price</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>"Start AEO Starter — $249/mo →"</td><td>cmo_starter</td><td>AEO Starter</td><td>$249</td><td>✅ matches</td></tr>
+            <tr><td>"Start Standard — $1,490/mo →"</td><td>cmo_standard</td><td><strong>does not exist</strong></td><td>—</td><td>❌ 400 error</td></tr>
+            <tr><td>(catalog only) CMO Growth</td><td>cmo_growth</td><td>CMO Growth ⭐ most popular</td><td>$999</td><td>✅ works via dynamic grid</td></tr>
+            <tr><td>(catalog only) CMO Scale</td><td>cmo_scale</td><td>CMO Scale</td><td>$2,499</td><td>needs_contact=true (blocked)</td></tr>
+            <tr><td>"Apply for Premium →"</td><td>—</td><td>cmo_enterprise (via contact page)</td><td>$5,999</td><td>✅ contact-sales path</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Strategic decision needed</h3>
+        <p>This is not a "fix the bug" situation — it's a strategic alignment question. Two paths forward:</p>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin: 16px 0;">
+          <div class="callout info" style="margin: 0;">
+            <strong>Option A — Update marketing</strong>
+            <p style="margin: 8px 0 0;">Change <code>pricing.html</code> button to <code>data-plan="cmo_growth"</code> + label "Start Growth — $999/mo →". Aligns the public site to the actual product catalog. <strong>Downside:</strong> the "$1,490 CMO Standard" price point is baked into every sales simulation, proposal template, engagement letter, and onboarding guide in <code>docs/</code>. Those would need updating.</p>
+          </div>
+          <div class="callout ok" style="margin: 0;">
+            <strong>Option B — Update catalog</strong>
+            <p style="margin: 8px 0 0;">Add a <code>cmo_standard</code> plan to <code>bl_plans_seed()</code> at $1,490 between cmo_growth and cmo_scale. Matches every existing marketing material + sales doc. <strong>This is what the marketing materials assume exists.</strong></p>
+          </div>
+        </div>
+
+        <p><strong>Recommendation: Option B.</strong> The $1,490 "CMO Standard" price point is referenced across:</p>
+        <ul>
+          <li><code>services.html</code> — CMO Standard pricing card</li>
+          <li><code>pricing.html</code> — the hardcoded "Start Standard $1,490/mo" button</li>
+          <li><code>docs/sales-management-simulation/</code> — Sarah Test's $17,880 year-1 deal</li>
+          <li><code>docs/sales-simulation-cmo-premium/</code> — references "CMO Standard $1,490/mo" as the prior tier</li>
+          <li><code>docs/client-onboarding-guide*/</code> — both editions assume $1,490</li>
+          <li><code>email-templates/</code> — niche plan emails reference $1,490 tier</li>
+        </ul>
+        <p>The catalog is the outlier. Adding <code>cmo_standard</code> at $1,490 brings the system into alignment with everything else.</p>
+
+        <p><em>I did not auto-fix this one</em> because it's a strategic question — both the price and the plan name should match Carlos's intent, not my inference.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKAROUND -->
+  <section>
+    <div class="section-head">
+      <div class="section-num">15</div>
+      <div>
+        <h2>Workaround used for this tutorial: cmo_growth ($999)</h2>
+        <p class="section-sub">Since <code>cmo_standard</code> doesn't exist, we substituted <code>cmo_growth</code> ($999/mo) — the next-tier real plan that triggers Checkout Pro.</p>
+      </div>
+    </div>
+
+    <div class="shot">
+      <img src="screenshots/15-pricing-cmo-standard-button.png" alt="Pricing page paid ads section — the script highlighted cmo_growth fallback" />
+      <figcaption><span class="label">Screen 15</span>Pricing page · the puppeteer script tried to scroll to <code>button[data-plan="cmo_growth"]</code> which doesn't exist as hardcoded — the page scrolled to the Paid Ads section instead. Useful as evidence that hardcoded plan buttons only cover Starter + Standard tiers.</figcaption>
+    </div>
+  </section>
+
+  <!-- STEP 16 - Checkout Pro -->
+  <section>
+    <div class="step">
+      <div class="step-no ok">16</div>
+      <div>
+        <div class="step-head"><h3>POST /api/billing/checkout with cmo_growth → Checkout Pro init_point</h3><span class="step-trigger ok">HTTP 200 · flow: one_time_checkout_pro</span></div>
+        <p>Same auth flow as Part 1 (Tutorial Tester logs in via API). POST /api/billing/checkout with <code>{"plan_code":"cmo_growth"}</code>. Response:</p>
+
+        <pre><code>{
+  "status": 200,
+  "body": {
+    "subscription_id": 9,
+    "flow": "one_time_checkout_pro",
+    "mp_id": "50023008-6cb1d63f-5ad2-4cd5-9405-103bff48f61d",
+    "init_point": "https://www.mercadopago.cl/checkout/v1/redirect?pref_id=50023008-6cb1d63f-5ad2-4cd5-9405-103bff48f61d",
+    "note": "One-time charge covers setup + first month. Monthly invoices for month 2+ sent by email. Upgrade to production MP keys to switch to auto-recurring."
+  }
+}</code></pre>
+
+        <p>Two things to notice:</p>
+        <ul>
+          <li><strong><code>flow: "one_time_checkout_pro"</code></strong> — different from the <code>preapproval</code> flow we got for cmo_starter</li>
+          <li><strong><code>mp_id</code> prefix <code>50023008-</code></strong> — that's MP's preference-ID format (vs. the 32-char preapproval ID format <code>dd0bd616...</code> we got in Part 1)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 17 - MP CHECKOUT PRO PAGE -->
+  <section>
+    <div class="step">
+      <div class="step-no ok">17</div>
+      <div>
+        <div class="step-head"><h3>Mercado Pago Checkout Pro page rendered</h3><span class="step-trigger ok">Different UI from preapproval flow</span></div>
+        <p>Browser redirects through MP's preference-ID chain to a Checkout Pro payment-option-form. UI differs in 4 ways from the preapproval flow:</p>
+
+        <div class="shot">
+          <img src="screenshots/16-mercadopago-checkout-pro-standard.png" alt="Mercado Pago Checkout Pro — CMO Growth $1,423,000 CLP" />
+          <figcaption><span class="label">Screen 16 · Checkout Pro</span>MP Checkout Pro · "Detalles del pago: <strong>Productos $1.423.000 CLP</strong>" · note the additional "2 tarjetas de crédito" option (split across two cards) and the "← Volver a la tienda" back link · processed by Mercado Pago</figcaption>
+        </div>
+
+        <table class="compact">
+          <thead><tr><th>UI element</th><th>Preapproval (Part 1)</th><th>Checkout Pro (this run)</th></tr></thead>
+          <tbody>
+            <tr><td>Right-side card title</td><td>"Detalle de tu suscripción"</td><td>"Detalles del pago"</td></tr>
+            <tr><td>Right-side description</td><td>"NetWebMedia AEO Starter plan"</td><td>"Productos" (generic label)</td></tr>
+            <tr><td>Amount shown</td><td>$237,000 CLP (monthly recurring)</td><td>$1,423,000 CLP (one-time setup + month 1)</td></tr>
+            <tr><td>Card-payment label</td><td>"Tarjeta · Crédito o débito"</td><td>"Tarjeta · Crédito, débito o prepaga"</td></tr>
+            <tr><td>Extra option</td><td>—</td><td>"2 tarjetas de crédito" (split across 2 cards)</td></tr>
+            <tr><td>Back link</td><td>—</td><td>"← Volver a la tienda" (back to store)</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout info">
+          <strong>Amount math check:</strong> CMO Growth is $999/mo + $499 setup = $1,498 USD × 950 CLP/USD = $1,423,100 → rounded to $1,423,000 CLP. ✓ Matches what MP shows. The setup fee is bundled into this single charge per the API note.
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- TIMELINE -->
   <section>
     <div class="section-head">
@@ -424,8 +590,13 @@ foreach ($coupon_cols as [$name, $sql]) {
         </tr>
         <tr>
           <td><code>webmed6_nwm.subscriptions</code></td>
-          <td>subscription_id <strong>8</strong> · status <code>pending</code> · plan <code>cmo_starter</code></td>
-          <td><code>DELETE FROM subscriptions WHERE id=8</code> · or POST <code>/api/billing/cancel</code> while logged in as the test user (sets <code>status='cancelled'</code>)</td>
+          <td>subscription_id <strong>8</strong> · status <code>pending</code> · plan <code>cmo_starter</code> (Part 1)<br>subscription_id <strong>9</strong> · status <code>pending</code> · plan <code>cmo_growth</code> (Part 2)</td>
+          <td><code>DELETE FROM subscriptions WHERE id IN (8, 9)</code> · or POST <code>/api/billing/cancel</code> while logged in (sets <code>status='cancelled'</code>)</td>
+        </tr>
+        <tr>
+          <td>Mercado Pago dashboard (Part 2)</td>
+          <td>Preference <code>50023008-6cb1d63f-5ad2-4cd5-9405-103bff48f61d</code> · type Checkout Pro · no buyer authorization</td>
+          <td>Preferences self-expire after 24h of no buyer action · no manual cancellation needed</td>
         </tr>
         <tr>
           <td>Mercado Pago dashboard</td>

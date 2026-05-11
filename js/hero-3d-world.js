@@ -311,16 +311,18 @@
       return tex;
     }
 
-    // ── Circular icon-badge texture maker (for LLM logos) ─────────────────
-    // Draws a glass-orb badge with a simplified, abstract glyph that evokes
-    // each AI brand without using copyrighted marks directly.
+    // ── Circular icon-badge texture maker (real LLM logos) ────────────────
+    // Synchronously renders a glass-orb circle and returns its CanvasTexture.
+    // Asynchronously loads the real SVG logo from /assets/llm-logos/ and
+    // composites it on top, marking the texture needsUpdate when ready.
+    // Falls back to an abstract glyph if the SVG fails to load.
     function makeIconBadge(kind) {
       const cnv = document.createElement('canvas');
       cnv.width = 256; cnv.height = 256;
       const ctx = cnv.getContext('2d');
       const cx = 128, cy = 128;
 
-      // Glass-orb background — radial gradient orange to navy
+      // Glass-orb background — radial gradient orange → navy
       const bg = ctx.createRadialGradient(cx - 30, cy - 40, 10, cx, cy, 122);
       bg.addColorStop(0, 'rgba(255, 150, 90, 0.95)');
       bg.addColorStop(0.55, 'rgba(255, 103, 31, 0.92)');
@@ -337,96 +339,48 @@
       ctx.arc(cx, cy, 120, 0, Math.PI * 2);
       ctx.stroke();
 
-      // Inner ring (decorative)
+      // Decorative inner ring
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.arc(cx, cy, 108, 0, Math.PI * 2);
       ctx.stroke();
 
-      // Glyph (white, glowing)
-      ctx.shadowColor = 'rgba(255, 235, 205, 0.95)';
-      ctx.shadowBlur = 14;
-      ctx.fillStyle = '#ffffff';
-      ctx.strokeStyle = '#ffffff';
-      ctx.lineWidth = 9;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-
-      const r = 52;
-      switch (kind) {
-        case 'claude': {
-          // Anthropic-style 8-rayed asterisk burst
-          for (let i = 0; i < 8; i++) {
-            const a = i * Math.PI / 4;
-            const len = (i % 2 === 0) ? r : r * 0.6;
-            ctx.beginPath();
-            ctx.moveTo(cx, cy);
-            ctx.lineTo(cx + Math.cos(a) * len, cy + Math.sin(a) * len);
-            ctx.stroke();
-          }
-          // Center dot
-          ctx.beginPath();
-          ctx.arc(cx, cy, 6, 0, Math.PI * 2);
-          ctx.fill();
-          break;
-        }
-        case 'chatgpt': {
-          // OpenAI-style hex knot — 3 overlapping ellipses at 60° offsets
-          ctx.lineWidth = 6;
-          for (let i = 0; i < 3; i++) {
-            const a = i * Math.PI / 3;
-            ctx.save();
-            ctx.translate(cx, cy);
-            ctx.rotate(a);
-            ctx.beginPath();
-            ctx.ellipse(0, 0, r * 0.95, r * 0.42, 0, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.restore();
-          }
-          break;
-        }
-        case 'perplexity': {
-          // Concentric arc + center dot (evokes "search/answer" emblem)
-          ctx.lineWidth = 7;
-          // Outer arc, top half
-          ctx.beginPath();
-          ctx.arc(cx, cy, r, Math.PI * 1.1, Math.PI * 1.9);
-          ctx.stroke();
-          // Middle arc, bottom half
-          ctx.beginPath();
-          ctx.arc(cx, cy, r * 0.68, Math.PI * 0.1, Math.PI * 0.9);
-          ctx.stroke();
-          // Center dot
-          ctx.beginPath();
-          ctx.arc(cx, cy, 8, 0, Math.PI * 2);
-          ctx.fill();
-          break;
-        }
-        case 'gemini': {
-          // 4-pointed sparkle star (Google Gemini-style)
-          const drawSparkle = (sx, sy, sr) => {
-            ctx.beginPath();
-            ctx.moveTo(sx, sy - sr);
-            ctx.quadraticCurveTo(sx + sr * 0.18, sy - sr * 0.18, sx + sr, sy);
-            ctx.quadraticCurveTo(sx + sr * 0.18, sy + sr * 0.18, sx, sy + sr);
-            ctx.quadraticCurveTo(sx - sr * 0.18, sy + sr * 0.18, sx - sr, sy);
-            ctx.quadraticCurveTo(sx - sr * 0.18, sy - sr * 0.18, sx, sy - sr);
-            ctx.closePath();
-            ctx.fill();
-          };
-          drawSparkle(cx, cy, r);
-          // Small accent sparkle
-          ctx.globalAlpha = 0.7;
-          drawSparkle(cx + r * 0.78, cy - r * 0.78, r * 0.32);
-          ctx.globalAlpha = 1;
-          break;
-        }
-      }
-
+      // Create the texture now (logo will composite in later, async)
       const tex = new THREE.CanvasTexture(cnv);
       tex.anisotropy = 4;
       tex.needsUpdate = true;
+
+      // Async load real logo SVG
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        // Per-kind sizing — Perplexity & ChatGPT marks are denser so go smaller
+        const sizeByKind = { claude: 130, chatgpt: 124, perplexity: 122, gemini: 138 };
+        const size = sizeByKind[kind] || 128;
+        // Drop shadow glow under the logo
+        ctx.save();
+        ctx.shadowColor = 'rgba(255, 235, 205, 0.95)';
+        ctx.shadowBlur = 12;
+        ctx.drawImage(img, cx - size / 2, cy - size / 2, size, size);
+        ctx.restore();
+        tex.needsUpdate = true;
+      };
+      img.onerror = () => {
+        // Fallback: simple "AI" text glyph so badge isn't empty
+        ctx.save();
+        ctx.shadowColor = 'rgba(255, 235, 205, 0.95)';
+        ctx.shadowBlur = 12;
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '700 76px Inter, Arial, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('AI', cx, cy + 6);
+        ctx.restore();
+        tex.needsUpdate = true;
+      };
+      img.src = '/assets/llm-logos/' + kind + '.svg';
+
       return tex;
     }
 
@@ -556,19 +510,11 @@
 
       const t = clock.getElapsedTime();
 
-      // Earth rotation
-      if (geolocResolved) {
-        const delta = targetEarthRotY - earth.rotation.y;
-        earth.rotation.y += delta * 0.05;
-        clouds.rotation.y += delta * 0.05;
-        if (Math.abs(delta) < 0.01) {
-          earth.rotation.y += 0.0006;
-          clouds.rotation.y += 0.0009;
-        }
-      } else {
-        earth.rotation.y += 0.0028;
-        clouds.rotation.y += 0.0036;
-      }
+      // Earth rotation — always-on, ~4°/sec. The geolocation snap inside
+      // placePin() jumps Earth to Chile facing camera the moment we know
+      // the user's city; from there it keeps rotating so the world feels alive.
+      earth.rotation.y += 0.0022;
+      clouds.rotation.y += 0.0028;
 
       // Atmosphere subtle breathing
       const breathe = 1.0 + Math.sin(t * 0.6) * 0.005;

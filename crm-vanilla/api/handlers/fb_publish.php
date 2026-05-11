@@ -383,3 +383,4 @@ if ($action === 'schedule') {
 }
 
 jsonError('Unknown action. Use status|schedule|list', 400);
+// Trigger deploy after FB_PAGE_TOKEN rotation 2026-05-11

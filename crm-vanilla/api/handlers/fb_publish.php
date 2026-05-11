@@ -39,7 +39,7 @@ if ($expect && $token !== '' && hash_equals($expect, (string)$token)) {
     $auth_method = 'migrate_token';
 }
 if (!$auth_ok) {
-    // Try session-admin auth as fallback
+    // Try session-admin auth as fallback (crm-vanilla's own session table)
     require_once __DIR__ . '/../lib/guard.php';
     $user = function_exists('guard_user') ? guard_user() : null;
     if ($user && in_array(($user['role'] ?? ''), ['admin', 'superadmin', 'owner'], true)) {
@@ -48,7 +48,49 @@ if (!$auth_ok) {
     }
 }
 if (!$auth_ok) {
-    jsonResponse(['error' => 'Forbidden', 'hint' => 'Pass ?token=<MIGRATE_TOKEN> or authenticate as admin via X-Auth-Token'], 403);
+    // Cross-system fallback: validate the X-Auth-Token against the main site's
+    // /api/auth/me endpoint (api-php in webmed6_nwm). Lets a logged-in user from
+    // the main /api/auth/login flow drive fb_publish without a duplicate CRM login.
+    // Respects the two-DB architecture rule by going through HTTP, not cross-DB SQL.
+    $bearer = $_SERVER['HTTP_X_AUTH_TOKEN'] ?? ($_COOKIE['nwm_token'] ?? '');
+    if ($bearer && strlen($bearer) >= 32) {
+        $ch = curl_init('https://netwebmedia.com/api/auth/me');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER     => [
+                'X-Auth-Token: ' . $bearer,
+                'Accept: application/json',
+                'User-Agent: NWM-FBPublish-AuthCheck/1.0'
+            ],
+            CURLOPT_TIMEOUT        => 8,
+            CURLOPT_SSL_VERIFYPEER => true,
+        ]);
+        $body = curl_exec($ch);
+        $code = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if ($code >= 200 && $code < 300 && is_string($body)) {
+            $me = json_decode($body, true);
+            $role = $me['user']['role'] ?? $me['role'] ?? '';
+            if (in_array($role, ['admin', 'superadmin', 'owner'], true)) {
+                $auth_ok = true;
+                $auth_method = 'api_php_session_' . $role;
+            }
+        }
+    }
+}
+if (!$auth_ok) {
+    $debug = !empty($_GET['debug']);
+    $body = ['error' => 'Forbidden', 'hint' => 'Pass ?token=<MIGRATE_TOKEN>, authenticate as admin via X-Auth-Token (CRM session), or send X-Auth-Token from main-site session (api-php /api/auth/me)'];
+    if ($debug) {
+        $body['debug'] = [
+            'received_token_param_len' => strlen((string)$token),
+            'received_x_auth_token_len' => strlen($_SERVER['HTTP_X_AUTH_TOKEN'] ?? ''),
+            'received_cookie_token_len' => strlen($_COOKIE['nwm_token'] ?? ''),
+            'migrate_token_defined' => $expect !== '',
+            'guard_user_returned_role' => (isset($user) && $user) ? ($user['role'] ?? 'no-role') : 'null-user',
+        ];
+    }
+    jsonResponse($body, 403);
 }
 
 $action = $_GET['action'] ?? $_POST['action'] ?? 'status';

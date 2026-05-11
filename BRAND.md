@@ -151,7 +151,7 @@ Rationale: Every piece of copy is part of a funnel. It should make something hap
 | **Blog article** | Expert, educational, slightly conversational | Longer sentences permitted. First person ("we found," "in our experience"). Cite sources. No hard sell until the end. |
 | **Customer email (onboarding / update)** | Warm, clear, operational | Start with what happened or what's next. No fluff opener. Use bullet lists for action items. |
 | **Error message / system notice** | Calm, honest, actionable | State what went wrong in plain language. Tell them exactly what to do. Never blame the user. |
-| **Social post (X / Instagram)** | Sharp, punchy, slightly provocative | 1-2 sentences max for hook. No throat-clearing. A stat or a contrarian take beats a feel-good affirmation every time. |
+| **Social post (Instagram, Facebook, email subject line)** | Sharp, punchy, slightly provocative | 1-2 sentences max for hook. No throat-clearing. A stat or a contrarian take beats a feel-good affirmation every time. |
 
 ---
 
@@ -178,7 +178,7 @@ This is not a tagline — it is a category claim. We are naming a product type. 
 "NetWebMedia is an AI-native fractional CMO for US and LATAM SMBs. Strategy, software, and full execution in one retainer — starting at $249 a month."
 
 **30-second version (intro call, voice message)**
-"NetWebMedia gives $1M–$20M businesses what they usually can't afford: a CMO-grade marketing system. We handle strategy, build the automations, run the campaigns, and produce the content — using AI at every layer to do the work of a five-person team. One monthly retainer, no agency markup chaos, fully transparent reporting. We're bilingual — serving US brands and LATAM businesses growing in the US market."
+""NetWebMedia gives $1M–$20M businesses what they usually can't afford: a CMO-grade marketing system. We handle strategy, build the automations, run the campaigns, and produce the content — using AI at every layer to do the work of a five-person team. One monthly retainer, no agency markup chaos, fully transparent reporting. We're bilingual — serving US brands and LATAM businesses growing in the US market.""
 
 **60-second version (pitch deck opener, investor intro, partner onboarding)**
 "Most SMBs are spending $2,000–$5,000 a month on fragmented agency services — an SEO vendor, a social media freelancer, a paid ads person — with no one connecting the dots. Meanwhile, large brands have CMOs coordinating all of it. We built NetWebMedia to close that gap using AI.
@@ -195,7 +195,7 @@ We are bilingual by design, serving both US and LATAM markets, and our pricing s
 NetWebMedia is an AI-native fractional CMO for US and LATAM SMBs. We deliver strategy, software, and full-execution marketing — AI agents, CRM automation, paid ads, SEO, and content — in one monthly retainer starting at $249/mo. We specialize in answer-engine optimization (AEO), helping clients get cited by ChatGPT, Perplexity, and Google AI Overviews. Bilingual in English and Spanish. Visit netwebmedia.com.
 
 **Medium (150 words — About pages, partner introductions, proposals)**
-NetWebMedia is a US-based AI-native fractional CMO agency serving SMBs across North America and Latin America. We close the marketing advantage gap between large enterprises and small businesses by delivering CMO-level strategy, AI-powered software stacks, and full-execution services — all under one retainer. Our services include AI automations and agents, CRM implementation and management, paid advertising, answer-engine optimization (AEO), AI SEO and content, social media, and video production. We specialize in making clients visible where AI-driven discovery is already happening: ChatGPT, Perplexity, Google SGE, and conversational search. Our pricing starts at $249/month for the Lite tier, scaling to $2,499/month for the Scale tier, with a Growth tier at $999/month in between. *(Repriced 2026-04-21 per CEO directive.)* We operate bilingually in English and Spanish, with deep expertise in the US Hispanic market and LATAM growth corridors. Over 100 SMBs trust NetWebMedia to run their marketing.
+NetWebMedia is a US-based AI-native fractional CMO agency serving SMBs across North America and Latin America. We close the marketing advantage gap between large enterprises and small businesses by delivering CMO-level strategy, AI-powered software stacks, and full-execution services — all under one retainer. Our services include AI automations and agents, CRM implementation and management, paid advertising, answer-engine optimization (AEO), AI SEO and content, social media, and video production. We specialize in making clients visible where AI-driven discovery is already happening: ChatGPT, Perplexity, Google AI Overviews, and conversational search. Our pricing starts at $249/month for the Starter tier, scaling to $2,990/month for the Premium tier, with a Standard tier at $1,490/month in between. *(Tier names and prices locked May 5, 2026 per CEO directive.)* We operate bilingually in English and Spanish, with deep expertise in the US Hispanic market and LATAM growth corridors. Over 100 SMBs trust NetWebMedia to run their marketing.
 
 **Long (300 words — investor decks, press kits, detailed proposals)**
 NetWebMedia is an AI-native fractional CMO agency headquartered in the United States, serving small and mid-size businesses across the US market and Latin America. Founded to close the CMO access gap — the structural disadvantage facing businesses that generate $1M–$20M in revenue but cannot afford a full-time Chief Marketing Officer — NetWebMedia delivers the strategy, tools, and execution that enterprise brands take for granted.
@@ -206,7 +206,7 @@ What distinguishes NetWebMedia in a crowded agency market is our commitment to a
 
 The business is bilingual by design. All services, software interfaces, and client communications are available in both English and Spanish. We serve US-based businesses targeting bilingual consumers, as well as LATAM-headquartered businesses growing into the US market.
 
-Pricing is structured as a monthly retainer with an optional setup fee, ranging from $249/month (Lite) to $2,499/month (Scale). This positions NetWebMedia below the cost of SaaS marketing tools on the low end and a single mid-level marketing hire on the high end — while delivering the output of an integrated agency team powered by AI. *(Repriced 2026-04-21 per CEO directive.)*
+Pricing is structured as a monthly retainer with an optional setup fee, ranging from $249/month (Starter) to $2,990/month (Premium), with a Standard tier at $1,490/month. This positions NetWebMedia below the cost of SaaS marketing tools on the low end and a single mid-level marketing hire on the high end — while delivering the output of an integrated agency team powered by AI. *(Tier names and prices locked May 5, 2026 per CEO directive.)*
 
 ---
 
@@ -775,17 +775,19 @@ Use `fadeInUp` (already defined as a keyframe in styles.css) for all elements th
 
 ### Profile Assets
 
+**Channel mix.** NetWebMedia is on Instagram, YouTube, Facebook, TikTok, WhatsApp Business, and email. We are intentionally NOT on LinkedIn or X/Twitter — those exclusions are durable Carlos decisions (LinkedIn declined 2026-04-20; X dropped 2026-05-01). Do not author profile-asset specs for either platform.
+
 | Platform | Profile Image | Cover / Header |
 |----------|--------------|----------------|
-| X (Twitter) | NWM mark (`nwm-logo.svg`) on navy circle, 400×400px | Wordmark lockup on dark navy + gradient, 1500×500px |
-| Instagram | Same as X | Grid-consistent — posts define the profile, no cover |
-| Facebook | Same as X | 820×312px — wordmark + "AI-Native Fractional CMO" tagline |
-| YouTube | Same as X (800×800px) | 2560×1440px — wordmark centered, dark gradient bg, social handles listed |
-| TikTok | Same as X | N/A (no cover) |
+| Instagram | NWM mark (`nwm-logo.svg`) on navy circle, 400×400px | Grid-consistent — posts define the profile, no cover |
+| Facebook | Same as Instagram | 820×312px — wordmark + "AI-Native Fractional CMO" tagline |
+| YouTube | Same as Instagram (800×800px) | 2560×1440px — wordmark centered, dark gradient bg, social handles listed |
+| TikTok | Same as Instagram | N/A (no cover) |
+| WhatsApp Business | Same as Instagram | N/A (catalog assets defined separately) |
 
 ### Post Template System
 
-**Type A — Stat/Hook post (X, Instagram, Facebook)**
+**Type A — Stat/Hook post (Instagram, Facebook)**
 ```
 ┌─────────────────────────────────────────────┐
 │ [Dark navy bg #010F3B] │
@@ -798,9 +800,9 @@ Use `fadeInUp` (already defined as a keyframe in styles.css) for all elements th
 │ [NWM horizontal lockup — bottom right] │
 └─────────────────────────────────────────────┘
 ```
-Dimensions: 1080×1080 (Instagram/Facebook square), 1200×675 (X/Twitter card)
+Dimensions: 1080×1080 (Instagram/Facebook square), 1080×1350 (Instagram 4:5 carousel)
 
-**Type B — Article/Blog promo (X, LinkedIn alt)**
+**Type B — Article/Blog promo (Instagram, Facebook, email hero image)**
 ```
 ┌─────────────────────────────────────────────┐
 │ [Photography — 60% of height, dark-graded] │
@@ -835,11 +837,12 @@ Dimensions: 1080×1080 (Instagram/Facebook square), 1200×675 (X/Twitter card)
 
 | Platform | Tone | Content mix |
 |----------|------|-------------|
-| X | Punchy, stats-first, slightly provocative | 60% takes/opinions, 30% client wins, 10% product |
 | Instagram | Visual-first, clean, aspirational | 50% educational carousels, 30% behind-the-scenes, 20% promos |
 | Facebook | Educational, community-oriented | 40% long-form tips, 40% client results, 20% promotions |
 | YouTube | Detailed tutorials and case studies | How-we-did-it videos, tool walkthroughs, client interviews |
 | TikTok | Rapid, hook-driven, informal delivery | 30-60s tips, "one thing I learned," founder commentary |
+| WhatsApp Business | Direct, helpful, transactional | Catalog browsing, opt-in broadcasts, customer service |
+| Email broadcasts | Sharp, data-led, founder-voiced | Replaces the "X lane" — thread-style takes, contrarian data points, 1 main CTA |
 
 ---
 

@@ -7,13 +7,13 @@
 -- =============================================================================
 --
 -- Strategy:
---   1. Add nullable organization_id column + index (idempotent — migrate.php
---      swallows error 1060 "duplicate column").
+--   1. Add nullable organization_id column + index. Each ALTER runs as its OWN
+--      statement so migrate.php can swallow code 1060 (dup column) and 1061
+--      (dup key) independently — compound ALTER with `IF NOT EXISTS` requires
+--      MySQL 8.0.29+ and we want to stay portable across 5.7 / 8.0.x.
 --   2. Backfill every existing row to organization_id = 1 (master org).
---   3. Foreign keys are added in this same file — note that adding a FK to a
---      table that already has one of the same name will throw 1826 (ER_FK_DUP_NAME);
---      that's fine, migrate.php skips it via the existing 1061 idempotent code path
---      (key-name dup), and we use IF NOT EXISTS where supported.
+--   3. Foreign keys are added in their own statements — 1826 (dup FK name)
+--      is also in the swallow list, so re-runs are safe.
 --   4. NOT NULL is NOT applied here. Apply it once we've audited that all writes
 --      pass an organization_id. Run schema_organizations_enforce.sql later.
 --
@@ -24,9 +24,8 @@
 USE `webmed6_crm`;
 
 -- ----- contacts -------------------------------------------------------------
-ALTER TABLE `contacts`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `contacts` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `contacts` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `contacts` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `contacts`
   ADD CONSTRAINT `fk_contacts_org`
@@ -34,9 +33,8 @@ ALTER TABLE `contacts`
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 -- ----- deals ----------------------------------------------------------------
-ALTER TABLE `deals`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `deals` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `deals` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `deals` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `deals`
   ADD CONSTRAINT `fk_deals_org`
@@ -46,9 +44,8 @@ ALTER TABLE `deals`
 -- ----- pipeline_stages ------------------------------------------------------
 -- Pipeline stages are tenant-scoped: each org defines its own funnel.
 -- Existing rows backfill to org 1 (NetWebMedia's default seed pipeline).
-ALTER TABLE `pipeline_stages`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `pipeline_stages` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `pipeline_stages` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `pipeline_stages` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `pipeline_stages`
   ADD CONSTRAINT `fk_stages_org`
@@ -56,9 +53,8 @@ ALTER TABLE `pipeline_stages`
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 -- ----- conversations --------------------------------------------------------
-ALTER TABLE `conversations`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `conversations` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `conversations` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `conversations` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `conversations`
   ADD CONSTRAINT `fk_conversations_org`
@@ -68,9 +64,8 @@ ALTER TABLE `conversations`
 -- ----- messages -------------------------------------------------------------
 -- Messages inherit org via conversations FK, but we denormalize for query speed
 -- and so a cross-tenant SQL bug can't leak via a malformed JOIN.
-ALTER TABLE `messages`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `messages` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `messages` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `messages` m
   JOIN `conversations` c ON c.id = m.conversation_id
   SET m.organization_id = c.organization_id
@@ -82,9 +77,8 @@ ALTER TABLE `messages`
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 -- ----- events (calendar) ----------------------------------------------------
-ALTER TABLE `events`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `events` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `events` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `events` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `events`
   ADD CONSTRAINT `fk_events_org`
@@ -92,9 +86,8 @@ ALTER TABLE `events`
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 -- ----- email_templates ------------------------------------------------------
-ALTER TABLE `email_templates`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `email_templates` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `email_templates` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `email_templates` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `email_templates`
   ADD CONSTRAINT `fk_email_templates_org`
@@ -102,9 +95,8 @@ ALTER TABLE `email_templates`
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 -- ----- email_campaigns ------------------------------------------------------
-ALTER TABLE `email_campaigns`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `email_campaigns` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `email_campaigns` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `email_campaigns` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `email_campaigns`
   ADD CONSTRAINT `fk_email_campaigns_org`
@@ -113,9 +105,8 @@ ALTER TABLE `email_campaigns`
 
 -- ----- campaign_sends -------------------------------------------------------
 -- Inherits org through campaign, denormalized for fast unsubscribe scoping.
-ALTER TABLE `campaign_sends`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `campaign_sends` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `campaign_sends` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `campaign_sends` cs
   JOIN `email_campaigns` ec ON ec.id = cs.campaign_id
   SET cs.organization_id = ec.organization_id
@@ -130,9 +121,8 @@ ALTER TABLE `campaign_sends`
 -- Per-org unsubscribe list. Master org's global list does NOT auto-suppress
 -- a sub-tenant's sends and vice versa — each org owns its consent record.
 -- The UNIQUE on email becomes (organization_id, email).
-ALTER TABLE `unsubscribes`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `unsubscribes` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `unsubscribes` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `unsubscribes` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 -- Note: dropping the existing UNIQUE(email) and adding UNIQUE(org,email) needs
 -- explicit DROP + ADD; we keep both for now to avoid breaking inserts. Audit
@@ -143,9 +133,8 @@ ALTER TABLE `unsubscribes`
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 -- ----- social_posts ---------------------------------------------------------
-ALTER TABLE `social_posts`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `social_posts` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `social_posts` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `social_posts` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `social_posts`
   ADD CONSTRAINT `fk_social_posts_org`
@@ -153,9 +142,8 @@ ALTER TABLE `social_posts`
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 -- ----- social_credentials ---------------------------------------------------
-ALTER TABLE `social_credentials`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `social_credentials` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `social_credentials` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `social_credentials` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `social_credentials`
   ADD CONSTRAINT `fk_social_credentials_org`
@@ -163,9 +151,8 @@ ALTER TABLE `social_credentials`
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 -- ----- social_scheduled -----------------------------------------------------
-ALTER TABLE `social_scheduled`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `social_scheduled` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `social_scheduled` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `social_scheduled` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `social_scheduled`
   ADD CONSTRAINT `fk_social_scheduled_org`
@@ -173,9 +160,8 @@ ALTER TABLE `social_scheduled`
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 -- ----- invoices -------------------------------------------------------------
-ALTER TABLE `invoices`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `invoices` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `invoices` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `invoices` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `invoices`
   ADD CONSTRAINT `fk_invoices_org`
@@ -183,9 +169,8 @@ ALTER TABLE `invoices`
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 -- ----- subscriptions --------------------------------------------------------
-ALTER TABLE `subscriptions`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `subscriptions` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `subscriptions` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `subscriptions` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `subscriptions`
   ADD CONSTRAINT `fk_subscriptions_org`
@@ -193,9 +178,8 @@ ALTER TABLE `subscriptions`
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 -- ----- niche_pipeline_stages ------------------------------------------------
-ALTER TABLE `niche_pipeline_stages`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `niche_pipeline_stages` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `niche_pipeline_stages` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `niche_pipeline_stages` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `niche_pipeline_stages`
   ADD CONSTRAINT `fk_niche_pipeline_stages_org`
@@ -203,9 +187,8 @@ ALTER TABLE `niche_pipeline_stages`
   ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 -- ----- niche_custom_fields --------------------------------------------------
-ALTER TABLE `niche_custom_fields`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `niche_custom_fields` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `niche_custom_fields` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `niche_custom_fields` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `niche_custom_fields`
   ADD CONSTRAINT `fk_niche_custom_fields_org`
@@ -215,9 +198,8 @@ ALTER TABLE `niche_custom_fields`
 -- ----- leads (signup funnel) ------------------------------------------------
 -- Leads are inbound; they map to whichever org owns the form/landing page.
 -- For now, all backfill to master org.
-ALTER TABLE `leads`
-  ADD COLUMN IF NOT EXISTS `organization_id` INT UNSIGNED NULL AFTER `id`,
-  ADD INDEX IF NOT EXISTS `idx_organization_id` (`organization_id`);
+ALTER TABLE `leads` ADD COLUMN `organization_id` INT UNSIGNED NULL AFTER `id`;
+ALTER TABLE `leads` ADD INDEX `idx_organization_id` (`organization_id`);
 UPDATE `leads` SET `organization_id` = 1 WHERE `organization_id` IS NULL;
 ALTER TABLE `leads`
   ADD CONSTRAINT `fk_leads_org`

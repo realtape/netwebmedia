@@ -97,14 +97,14 @@ function tt_reel_def(string $key): ?array {
             'theme'    => 'AEO',
             'language' => 'en',
             'filename' => 'reel_1_aeo_en_final.mp4',
-            'caption'  => "SEO is over. AEO is starting.\n\nBuyers ask ChatGPT, not Google. The brands cited in those answers get the calls. We get SMBs cited in AI answer engines in 60 days flat.\n\nFree audit at netwebmedia.com.\n\n#AEO #AnswerEngineOptimization #AIMarketing #SmallBusiness #DigitalMarketing #ChatGPT #FractionalCMO",
+            'caption'  => "SEO is shifting. AEO is here.\n\n25% of Google searches now show AI Overviews (Semrush, 2026). Gartner forecasts traditional search drops 25% by 2026. Buyers ask ChatGPT, not Google — the brands cited in those answers win the call.\n\nFree AEO Migration Audit at netwebmedia.com.\n\n#AEO #AnswerEngineOptimization #AIMarketing #SmallBusiness #DigitalMarketing #ChatGPT #FractionalCMO",
             'privacy'  => 'PUBLIC_TO_EVERYONE',
         ],
         '1_aeo_es' => [
             'theme'    => 'AEO',
             'language' => 'es',
             'filename' => 'reel_1_aeo_es_final.mp4',
-            'caption'  => "SEO está cambiando. Llega el AEO.\n\nLos compradores le preguntan a ChatGPT, no a Google. Las marcas citadas en esas respuestas ganan. Hacemos que tu PyME sea citada en 60 días.\n\nAuditoría gratis en netwebmedia.com.\n\n#AEO #MarketingDigital #IA #PyME #ChatGPT #CMO",
+            'caption'  => "SEO está cambiando. Llega el AEO.\n\n25% de las búsquedas en Google ya muestran AI Overviews (Semrush, 2026). Gartner: el volumen de búsqueda tradicional caerá 25% para 2026. Los compradores le preguntan a ChatGPT, no a Google — las marcas citadas en esas respuestas ganan.\n\nAuditoría AEO gratis en netwebmedia.com.\n\n#AEO #MarketingDigital #IA #PyME #ChatGPT #CMO",
             'privacy'  => 'PUBLIC_TO_EVERYONE',
         ],
         '2_growth_en' => [
@@ -125,14 +125,14 @@ function tt_reel_def(string $key): ?array {
             'theme'    => 'Scale',
             'language' => 'en',
             'filename' => 'reel_3_scale_en_final.mp4',
-            'caption'  => "How a Chilean-founded agency is winning US SMB CMO seats.\n\nBilingual EN/ES. AI-native from day one. 14 verticals dialed in. 340% average ROI. 4.4× conversion vs traditional agencies.\n\nSee case studies at netwebmedia.com.\n\n#StartupStory #FractionalCMO #BilingualMarketing #SMB #AIAgency",
+            'caption'  => "How a Chilean-founded agency is winning US SMB CMO seats.\n\nBilingual EN/ES. AI-native from day one. 14 verticals dialed in. Built for the AI-search shift — 47% of startups now rely on fractional marketing leadership (HubSpot CMO Outlook, 2025).\n\nSee how we work at netwebmedia.com.\n\n#StartupStory #FractionalCMO #BilingualMarketing #SMB #AIAgency",
             'privacy'  => 'PUBLIC_TO_EVERYONE',
         ],
         '3_scale_es' => [
             'theme'    => 'Scale',
             'language' => 'es',
             'filename' => 'reel_3_scale_es_final.mp4',
-            'caption'  => "Cómo una agencia chilena está ganando contratos de CMO en PyMEs estadounidenses.\n\nBilingüe ES/EN. AI-native desde el día uno. 14 verticales. ROI promedio 340%. 4.4× conversión vs agencias tradicionales.\n\nVer casos en netwebmedia.com.\n\n#EmprendimientoChileno #CMO #MarketingDigital #PyME #IA",
+            'caption'  => "Cómo una agencia chilena está ganando contratos de CMO en PyMEs estadounidenses.\n\nBilingüe ES/EN. AI-native desde el día uno. 14 verticales. Construida para el cambio de búsqueda con IA — 47% de las startups ya usa liderazgo de marketing fraccional (HubSpot CMO Outlook, 2025).\n\nCómo trabajamos en netwebmedia.com.\n\n#EmprendimientoChileno #CMO #MarketingDigital #PyME #IA",
             'privacy'  => 'PUBLIC_TO_EVERYONE',
         ],
     ];

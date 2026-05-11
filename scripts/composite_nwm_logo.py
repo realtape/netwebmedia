@@ -53,7 +53,10 @@ def composite_logo(input_path: Path, output_path: Path) -> None:
     # Paste with alpha mask
     base.alpha_composite(logo, dest=(x, y))
     base.convert("RGB").save(output_path, "PNG", optimize=True)
-    print(f"  ✓ {output_path.relative_to(REPO_ROOT)}  ({base.width}x{base.height})")
+    try:
+        print(f"  [OK] {output_path.relative_to(REPO_ROOT)}  ({base.width}x{base.height})")
+    except UnicodeEncodeError:
+        print(f"  [OK] {output_path}  ({base.width}x{base.height})")
 
 
 def main() -> int:

@@ -33,25 +33,19 @@ API="https://netwebmedia.com/crm-vanilla/api/?r=fb_publish&action=schedule&token
 BASE="https://netwebmedia.com/assets/social/higgsfield/campaign-cmo-en"
 UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
 
-# Caption — same for both posts (FB allows duplicate caption across post types)
-read -r -d '' CAPTION <<'CAP' || true
-Your Fractional CMO. AI-native.
-
-Most agencies need 40 people and six weeks to ship one campaign. By the time they decide, your competitor already launched.
-
-NetWebMedia is one senior operator plus 12 AI agents. Same agency-grade work. Half the cost. Zero handoffs.
-
-The numbers from real client work:
-• 340% average ROI
-• 4.4x conversion vs traditional agencies
-• 60 days to your first ChatGPT citation
-
-Bilingual EN/ES. Direct line to the founder. Free audit, $997 credited toward your first retainer.
-
-Book a strategy call at netwebmedia.com
-
-#FractionalCMO #AImarketing #AEO #SmallBusiness #MarketingAgency
-CAP
+# Caption — read from caption.txt so it always picks up the current content.
+# Edit assets/social/higgsfield/campaign-cmo-en/caption.txt to change the post copy;
+# do NOT hardcode captions here (was a source of stale claims pre-2026-05-11).
+CAPTION_FILE="$(dirname "$0")/../assets/social/higgsfield/campaign-cmo-en/caption.txt"
+if [ ! -f "$CAPTION_FILE" ]; then
+  echo "ERROR: caption.txt not found at $CAPTION_FILE"
+  exit 1
+fi
+CAPTION="$(cat "$CAPTION_FILE")"
+echo "--- Caption to be posted (from $CAPTION_FILE) ---"
+echo "$CAPTION"
+echo "---"
+echo ""
 
 # Compute scheduled timestamps — tomorrow & day-after at 09:00 ET (13:00 UTC)
 # Using GNU date (works in Git Bash on Windows + Linux)

@@ -240,6 +240,7 @@
         <li><a href="#login">First login &amp; access tiers</a></li>
         <li><a href="#firstrun">First-run niche picker</a></li>
         <li><a href="#tour">Module tour — every CRM screen</a></li>
+        <li><a href="#nurture">Email nurture sequence (7 emails over 16 days)</a></li>
         <li><a href="#upgrade">Upgrading to Fractional CMO</a></li>
         <li><a href="#cta">Hand-off &amp; next steps</a></li>
       </ol>
@@ -520,10 +521,121 @@
     </div>
   </section>
 
-  <!-- 7. UPGRADE -->
-  <section id="upgrade">
+  <!-- 7. NURTURE SEQUENCE -->
+  <section id="nurture">
     <div class="section-head">
       <div class="section-num">7</div>
+      <div>
+        <h2>Email nurture sequence — what Carlos receives over 16 days</h2>
+        <p class="section-sub">Three sequences fire for Carlos Test based on his actions: <strong>Welcome</strong> (account_created), <strong>Niche</strong> (wine_agriculture form_submit), and the ongoing <strong>AEO Brief</strong> Tuesday broadcast. All emails are rendered from the production templates at <code>email-templates/</code> with real personalization tokens (<code>{{first_name}}</code> = "Carlos", <code>{{business_name}}</code> = "Chile Spirits").</p>
+      </div>
+    </div>
+
+    <!-- Timeline strip -->
+    <div class="card-box" style="padding: 22px 26px;">
+      <h3 style="margin: 0 0 16px; font-size: 16px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); font-family: 'Inter', sans-serif;">16-day sequence map</h3>
+      <table class="compact">
+        <thead>
+          <tr><th>Day</th><th>Email</th><th>Sequence</th><th>Subject line</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Day 0 · +5 min</td><td>welcome-1</td><td>Welcome</td><td>Your NetWebMedia account is live</td></tr>
+          <tr><td>Day 3</td><td>welcome-2</td><td>Welcome</td><td>Your 10-minute first win on the platform</td></tr>
+          <tr><td>Day 7</td><td>welcome-3</td><td>Welcome</td><td>Meet the 5 AI Agents in your account</td></tr>
+          <tr><td>Tue 9am</td><td>aeo-brief-001</td><td>Weekly broadcast</td><td>ChatGPT now cites FAQs 3.2x more than text</td></tr>
+          <tr><td>Day 14 · +5 min</td><td>wine-plan-1</td><td>Niche (wine_agriculture)</td><td>Your winery growth plan is being crafted, Carlos</td></tr>
+          <tr><td>Day 14 · +2 hr</td><td>wine-plan-2</td><td>Niche (wine_agriculture)</td><td>3 growth levers for your winery or vineyard, Carlos</td></tr>
+          <tr><td>Day 16</td><td>wine-plan-3</td><td>Niche (wine_agriculture)</td><td>Did the winery growth plan land, Carlos?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="email-1">Email 1 · Day 0, +5 min · Welcome — account is live</h3>
+    <p>Fires within 5 minutes of <code>account_created</code>. Personal note from Carlos Martinez (CEO), the full 7-hub map, and a single CTA: open the dashboard.</p>
+    <div class="shot">
+      <figure>
+        <img src="screenshots/email-01-welcome-1.png" alt="welcome-1 email: Your NetWebMedia account is live, Carlos" />
+        <figcaption><span class="label">Email 1</span>Subject: <em>Your NetWebMedia account is live</em> · Preview: <em>7 hubs, 46 modules, one login — start here</em></figcaption>
+      </figure>
+    </div>
+
+    <h3 id="email-2">Email 2 · Day 3 · Welcome — your 10-minute first win</h3>
+    <p>Skips the tutorial maze. Three concrete steps in 10 minutes: Contacts → Pipeline → first Automation. The P.S. ("Stuck? Reply with a screenshot — we'll unblock you in under an hour") is the highest-converting line in the sequence.</p>
+    <div class="shot">
+      <figure>
+        <img src="screenshots/email-02-welcome-2.png" alt="welcome-2 email: Your 10-minute first win, Carlos" />
+        <figcaption><span class="label">Email 2</span>Subject: <em>Your 10-minute first win on the platform</em> · Preview: <em>Contacts + Pipeline + Automations, done in ten</em></figcaption>
+      </figure>
+    </div>
+
+    <h3 id="email-3">Email 3 · Day 7 · Welcome — meet the 5 AI Agents</h3>
+    <p>One week in, introduce the differentiator: 5 AI Agents (Copilot, SDR, Voice AI, Video Factory, Content AI). This is where free users start to feel the gap between "self-serve" and "have NWM run it for you" — the bridge into Fractional CMO.</p>
+    <div class="shot">
+      <figure>
+        <img src="screenshots/email-03-welcome-3.png" alt="welcome-3 email: Meet the 5 AI Agents in your account" />
+        <figcaption><span class="label">Email 3</span>Subject: <em>Meet the 5 AI Agents in your account</em> · Preview: <em>Copilot, SDR, Voice AI, Video Factory, Content AI</em></figcaption>
+      </figure>
+    </div>
+
+    <h3 id="email-aeo">Tuesday Broadcast · AEO Brief #001 — ChatGPT cites FAQs 3.2x more</h3>
+    <p>The weekly Tuesday-9am-Santiago broadcast. One observation, one action, 60 seconds. This is the email channel that replaces what X/Twitter would have been in NWM's mix — durable, dense, signed editorial.</p>
+    <div class="shot">
+      <figure>
+        <img src="screenshots/email-07-aeo-brief-001.png" alt="AEO Brief #001: ChatGPT now cites structured FAQs 3.2x more than plain text" />
+        <figcaption><span class="label">AEO Brief #001</span>Subject: <em>ChatGPT now cites FAQs 3.2x more than text</em> · Preview: <em>One observation, one action. 60 seconds. Every Tuesday.</em></figcaption>
+      </figure>
+    </div>
+
+    <h3 id="email-4">Email 4 · Day 14 · Niche — your winery growth plan is being crafted</h3>
+    <p>The niche sequence fires when Carlos visits the wine_agriculture landing page and submits a form. Personalized to "Chile Spirits" by business_name token. Three wine-specific analysis pillars: DTC channel, wine club retention, digital export reach.</p>
+    <div class="shot">
+      <figure>
+        <img src="screenshots/email-04-wine-plan-1.png" alt="wine_agriculture-plan-1 email: Your winery growth plan is being crafted, Carlos" />
+        <figcaption><span class="label">Email 4</span>Subject: <em>Your winery growth plan is being crafted, Carlos</em> · Sequence: <code>niche_wine_agriculture</code></figcaption>
+      </figure>
+    </div>
+
+    <h3 id="email-5">Email 5 · Day 14, +2 hours · Niche — 3 growth levers for Chile Spirits</h3>
+    <p>The substance email. Three wine-specific strategies: DTC e-commerce + wine club acquisition funnel, AI content for international buyers, post-visit hospitality funnel from cellar door to club. The business_name interpolates directly into the H2.</p>
+    <div class="shot">
+      <figure>
+        <img src="screenshots/email-05-wine-plan-2.png" alt="wine_agriculture-plan-2 email: 3 growth levers for Chile Spirits, Carlos" />
+        <figcaption><span class="label">Email 5</span>Subject: <em>3 growth levers for your winery or vineyard, Carlos</em></figcaption>
+      </figure>
+    </div>
+
+    <h3 id="email-6">Email 6 · Day 16 · Niche — did the plan land?</h3>
+    <p>The follow-up close. Short, low-pressure, open invitation: 15-min call. This is the email that converts the niche-sequence opens into a Fractional CMO discovery call.</p>
+    <div class="shot">
+      <figure>
+        <img src="screenshots/email-06-wine-plan-3.png" alt="wine_agriculture-plan-3 email: Did the winery growth plan land, Carlos?" />
+        <figcaption><span class="label">Email 6</span>Subject: <em>Did the winery growth plan land, Carlos?</em> · CTA: <em>Yes, let's talk</em></figcaption>
+      </figure>
+    </div>
+
+    <div class="callout ok">
+      <strong>How the engine fires these:</strong> All sequences run on the <code>email_sequence_queue</code> table in <code>webmed6_nwm</code>. The <code>/api/cron</code> endpoint (called every 5 min by GitHub Actions or cPanel cron) sends the next batch. Bilingual delivery is automatic — recipients flagged ES get the Spanish body of the same template.
+    </div>
+
+    <h3>Other sequences a client may receive</h3>
+    <table class="compact">
+      <thead>
+        <tr><th>Sequence</th><th>Trigger</th><th>Use case</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>audit_followup</td><td>Free audit form submit</td><td>Diagnostic-tone follow-up · 3 emails over 5 days</td></tr>
+        <tr><td>aeo-audit-followup</td><td>AEO Citation Index score</td><td>Score + interpretation + 15-min review CTA</td></tr>
+        <tr><td>partner_application</td><td>Agency partner signup</td><td>White-label sub-account pitch · 3 emails</td></tr>
+        <tr><td>re_engagement</td><td>30 days no opens</td><td>"30+ new modules shipped since you checked"</td></tr>
+        <tr><td>winback</td><td>Subscription cancelled</td><td>Feedback ask + 30% COMEBACK30 offer</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 8. UPGRADE -->
+  <section id="upgrade">
+    <div class="section-head">
+      <div class="section-num">8</div>
       <div>
         <h2>The Fractional CMO upgrade path</h2>
         <p class="section-sub">When a free user is ready for done-for-you marketing, three contact paths exist — and we surface all three at the right moments.</p>

@@ -141,7 +141,77 @@ The Free CRM ships with the same 46 modules clients get on a Fractional CMO reta
 
 ---
 
-## Section 7 — The Fractional CMO upgrade path
+## Section 7 — Email nurture sequence (7 emails over 16 days)
+
+Three sequences fire for Carlos Test based on his actions:
+- **Welcome** — triggers on `account_created`
+- **Niche (wine_agriculture)** — triggers on a wine_agriculture landing-page form_submit
+- **AEO Brief** — Tuesday-9am-Santiago weekly broadcast
+
+All emails are rendered from production templates at `email-templates/` with real personalization (`{{first_name}}` = "Carlos", `{{business_name}}` = "Chile Spirits").
+
+### 16-day sequence map
+
+| Day | Email | Sequence | Subject line |
+|---|---|---|---|
+| Day 0 · +5min | welcome-1 | Welcome | Your NetWebMedia account is live |
+| Day 3 | welcome-2 | Welcome | Your 10-minute first win on the platform |
+| Day 7 | welcome-3 | Welcome | Meet the 5 AI Agents in your account |
+| Tue 9am | aeo-brief-001 | Weekly broadcast | ChatGPT now cites FAQs 3.2x more than text |
+| Day 14 · +5min | wine-plan-1 | Niche | Your winery growth plan is being crafted, Carlos |
+| Day 14 · +2hr | wine-plan-2 | Niche | 3 growth levers for your winery or vineyard, Carlos |
+| Day 16 | wine-plan-3 | Niche | Did the winery growth plan land, Carlos? |
+
+### Email 1 · Day 0 +5min — Welcome (account is live)
+
+![welcome-1](./screenshots/email-01-welcome-1.png)
+*Subject: Your NetWebMedia account is live · Preview: 7 hubs, 46 modules, one login*
+
+### Email 2 · Day 3 — Welcome (your 10-minute first win)
+
+![welcome-2](./screenshots/email-02-welcome-2.png)
+*Subject: Your 10-minute first win on the platform — Contacts + Pipeline + Automations*
+
+### Email 3 · Day 7 — Welcome (meet the 5 AI Agents)
+
+![welcome-3](./screenshots/email-03-welcome-3.png)
+*Subject: Meet the 5 AI Agents in your account — Copilot, SDR, Voice AI, Video Factory, Content AI*
+
+### Tuesday Broadcast — AEO Brief #001
+
+![aeo-brief-001](./screenshots/email-07-aeo-brief-001.png)
+*Subject: ChatGPT now cites FAQs 3.2x more than text · One observation, one action, every Tuesday*
+
+### Email 4 · Day 14 — Niche (your winery growth plan)
+
+![wine-plan-1](./screenshots/email-04-wine-plan-1.png)
+*Subject: Your winery growth plan is being crafted, Carlos · Personalized to "Chile Spirits"*
+
+### Email 5 · Day 14 +2hr — Niche (3 growth levers for Chile Spirits)
+
+![wine-plan-2](./screenshots/email-05-wine-plan-2.png)
+*Subject: 3 growth levers for your winery or vineyard, Carlos · The substance email*
+
+### Email 6 · Day 16 — Niche (did the plan land?)
+
+![wine-plan-3](./screenshots/email-06-wine-plan-3.png)
+*Subject: Did the winery growth plan land, Carlos? · The follow-up close · CTA: Yes, let's talk*
+
+> **Engine:** All sequences run on the `email_sequence_queue` table in `webmed6_nwm`. The `/api/cron` endpoint (called every 5 min by GitHub Actions or cPanel cron) sends the next batch. Bilingual delivery is automatic.
+
+### Other sequences a client may receive
+
+| Sequence | Trigger | Use case |
+|---|---|---|
+| `audit_followup` | Free audit form submit | Diagnostic follow-up · 3 emails over 5 days |
+| `aeo-audit-followup` | AEO Citation Index score | Score + interpretation + 15-min review CTA |
+| `partner_application` | Agency partner signup | White-label sub-account pitch · 3 emails |
+| `re_engagement` | 30 days no opens | "30+ new modules shipped since you checked" |
+| `winback` | Subscription cancelled | Feedback ask + 30% COMEBACK30 offer |
+
+---
+
+## Section 8 — The Fractional CMO upgrade path
 
 When a free user is ready for done-for-you marketing, three contact paths surface at the right moments.
 

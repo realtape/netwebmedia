@@ -394,9 +394,15 @@
       pinGroup.visible = true;
       pinSpawnTime = clock.getElapsedTime();
 
-      // Rotate Earth so this pin's local (x,z) gets rotated to (0, +z) — face camera
-      // The rotation that brings horizontal vector (px,pz) → (0, |v|) is -atan2(px, pz)
+      // Rotate Earth so this pin's local (x,z) gets rotated to (0, +z) — face camera.
+      // The rotation that brings horizontal vector (px,pz) → (0, |v|) is -atan2(px, pz).
       targetEarthRotY = -Math.atan2(surfacePos.x, surfacePos.z);
+
+      // Snap to the target immediately on first placement so visitor sees their
+      // city facing forward right away. Subsequent drift is handled by the loop.
+      earth.rotation.y = targetEarthRotY;
+      clouds.rotation.y = targetEarthRotY;
+
       geolocResolved = true;
     }
 
@@ -527,14 +533,19 @@
 
       renderer.render(scene, camera);
 
+      // FPS watchdog — only trips on sustained terrible performance.
+      // Threshold lowered (10 FPS) and only counts when the tab is actually
+      // active (document.visibilityState === 'visible'), so background-
+      // throttled tabs don't get permanently hidden.
       frames++;
       if (now - lastFpsCheck >= 1000) {
         const fps = (frames * 1000) / (now - lastFpsCheck);
         frames = 0;
         lastFpsCheck = now;
-        if (fps < 18) {
+        const tabVisible = (typeof document !== 'undefined' && document.visibilityState === 'visible');
+        if (tabVisible && fps < 10) {
           lowFpsStreak++;
-          if (lowFpsStreak >= 3) { stopped = true; hide(); }
+          if (lowFpsStreak >= 5) { stopped = true; hide(); }
         } else {
           lowFpsStreak = 0;
         }

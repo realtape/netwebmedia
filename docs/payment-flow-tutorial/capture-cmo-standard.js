@@ -3,7 +3,7 @@
 // Why this matters: CMO Standard exceeds the CLP 350k preapproval cap, so
 // MP returns a DIFFERENT flow:
 //   - cmo_starter ($249/mo) → "preapproval" (recurring, /subscriptions/checkout)
-//   - cmo_standard ($1,490/mo) → "one_time" Checkout Pro Preference
+//   - cmo_growth ($1,490/mo) → "one_time" Checkout Pro Preference
 // We need to see and document the Checkout Pro UX too.
 
 const puppeteer = require('puppeteer');
@@ -72,7 +72,7 @@ const VIEWPORT = { width: 1440, height: 900, deviceScaleFactor: 1 };
   await page.evaluate(() => {
     document.getElementById('nwm-cookie-banner')?.remove();
     document.querySelectorAll('#nwm-site-chat, .nwm-chat-widget').forEach(el => el.style.display = 'none');
-    const btn = document.querySelector('button[data-plan="cmo_standard"]');
+    const btn = document.querySelector('button[data-plan="cmo_growth"]');
     if (btn) {
       btn.scrollIntoView({ block: 'center' });
       btn.style.outline = '3px solid #FF671F';
@@ -83,7 +83,7 @@ const VIEWPORT = { width: 1440, height: 900, deviceScaleFactor: 1 };
   await new Promise(r => setTimeout(r, 600));
   await shot('15-pricing-cmo-standard-button');
 
-  console.log('[3/4] POSTing /api/billing/checkout for cmo_standard...');
+  console.log('[3/4] POSTing /api/billing/checkout for cmo_growth...');
   const checkoutResult = await page.evaluate(async () => {
     const token = localStorage.getItem('nwm_token');
     try {
@@ -91,7 +91,7 @@ const VIEWPORT = { width: 1440, height: 900, deviceScaleFactor: 1 };
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json', 'X-Auth-Token': token },
-        body: JSON.stringify({ plan_code: 'cmo_standard' })
+        body: JSON.stringify({ plan_code: 'cmo_growth' })
       });
       const body = await r.json();
       return { status: r.status, body };

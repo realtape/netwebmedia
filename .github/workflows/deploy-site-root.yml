@@ -296,6 +296,16 @@ jobs:
           # Empty = fb_publish handler returns 503 on schedule action.
           print(f"define('FB_PAGE_ID', '{e(os.environ.get('SECRET_FB_PAGE_ID',''))}');")
           print(f"define('FB_PAGE_TOKEN', '{e(os.environ.get('SECRET_FB_PAGE_TOKEN',''))}');")
+          # Instagram Graph publishing — Business Account ID + long-lived token w/ instagram_content_publish.
+          # Requires Meta App Review (7–21 days). Empty = ig_publish handler returns 503.
+          print(f"define('IG_BUSINESS_ACCOUNT_ID', '{e(os.environ.get('SECRET_IG_BUSINESS_ACCOUNT_ID',''))}');")
+          print(f"define('IG_GRAPH_TOKEN', '{e(os.environ.get('SECRET_IG_GRAPH_TOKEN',''))}');")
+          print(f"define('IG_IMAGE_BASE_URL', '{e(os.environ.get('SECRET_IG_IMAGE_BASE_URL') or 'https://netwebmedia.com')}');")
+          # TikTok Content Posting API — long-lived access token + client key.
+          # Requires TikTok Developer Portal approval (2–4 weeks). Empty = tt_publish handler returns 503.
+          print(f"define('TT_ACCESS_TOKEN', '{e(os.environ.get('SECRET_TT_ACCESS_TOKEN',''))}');")
+          print(f"define('TT_CLIENT_KEY', '{e(os.environ.get('SECRET_TT_CLIENT_KEY',''))}');")
+          print(f"define('TT_REEL_BASE_URL', '{e(os.environ.get('SECRET_TT_REEL_BASE_URL') or 'https://netwebmedia.com')}');")
           PYEOF
             echo "crm-vanilla/api/config.local.php generated"
           else
@@ -357,6 +367,14 @@ jobs:
           # Facebook Page publishing (fb_publish handler)
           SECRET_FB_PAGE_ID:        ${{ secrets.FB_PAGE_ID }}
           SECRET_FB_PAGE_TOKEN:     ${{ secrets.FB_PAGE_TOKEN }}
+          # Instagram Graph publishing (ig_publish handler) — pending Meta App Review
+          SECRET_IG_BUSINESS_ACCOUNT_ID: ${{ secrets.IG_BUSINESS_ACCOUNT_ID }}
+          SECRET_IG_GRAPH_TOKEN:        ${{ secrets.IG_GRAPH_TOKEN }}
+          SECRET_IG_IMAGE_BASE_URL:     ${{ secrets.IG_IMAGE_BASE_URL }}
+          # TikTok Content Posting API (tt_publish handler) — pending TikTok Developer Portal approval
+          SECRET_TT_ACCESS_TOKEN:   ${{ secrets.TT_ACCESS_TOKEN }}
+          SECRET_TT_CLIENT_KEY:     ${{ secrets.TT_CLIENT_KEY }}
+          SECRET_TT_REEL_BASE_URL:  ${{ secrets.TT_REEL_BASE_URL }}
 
       - name: Server-side cleanup of decommissioned files
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}

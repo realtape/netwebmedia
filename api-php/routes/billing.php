@@ -2,11 +2,16 @@
 /* NetWebMedia billing — Mercado Pago (CLP native, USD display).
    Routes:
      GET  /api/billing/plans                    Public. List plans with USD/CLP.
+     GET  /api/billing/validate-coupon          Public. Check promo code validity.
      GET  /api/billing/my-subscription          Auth. Current org's active sub.
      POST /api/billing/checkout                 Auth. {plan_code} → MP preapproval URL.
      POST /api/billing/cancel                   Auth. Cancel current sub.
      POST /api/billing/webhook                  Public (signed). MP notifications.
-     GET  /api/billing/return                   Public. Post-checkout redirect handler.
+
+   Post-checkout return URL (set in MP preapproval payload as back_url):
+     https://netwebmedia.com/crm/?billing=return  → 301 → /crm-vanilla/?billing=return
+     Handled by the CRM frontend, NOT this API. The CRM reads ?billing=return
+     and ?preapproval_id from the URL and confirms the subscription state.
 */
 
 require_once __DIR__ . '/../lib/db.php';

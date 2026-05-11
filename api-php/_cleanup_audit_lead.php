@@ -17,7 +17,9 @@
  * Triggered by .github/workflows/cleanup-audit-lead.yml (workflow_dispatch only).
  * Safe to delete this file after the cleanup has run successfully.
  */
-require __DIR__ . '/lib/db.php';
+// NOTE: This file is included from api-php/index.php after lib/db.php has
+// already been required, so config() and db() are available. Do NOT re-require
+// lib/db.php here — it would redeclare function db() and fatal-error.
 header('Content-Type: application/json');
 
 $cfg = config();

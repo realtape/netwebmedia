@@ -641,6 +641,25 @@ function bl_ensure_schema() {
     // Duplicate column / already migrated — ignore.
   }
 
+  // Coupon support: the subscriptions table CREATE statement above includes
+  // promo_code / discount_pct / discount_cycles, but `CREATE TABLE IF NOT EXISTS`
+  // does NOT add new columns to a pre-existing table. Production databases that
+  // were created before these columns were added need them backfilled here.
+  // Each ALTER is wrapped individually so an already-present column doesn't
+  // skip the ones after it. Errno 1060 (Duplicate column) is the expected
+  // no-op on databases that already have the column.
+  $coupon_cols = [
+    ['promo_code',      "ALTER TABLE subscriptions ADD COLUMN promo_code VARCHAR(40) DEFAULT NULL AFTER mp_init_point"],
+    ['discount_pct',    "ALTER TABLE subscriptions ADD COLUMN discount_pct TINYINT UNSIGNED DEFAULT 0 AFTER promo_code"],
+    ['discount_cycles', "ALTER TABLE subscriptions ADD COLUMN discount_cycles TINYINT UNSIGNED DEFAULT 0 AFTER discount_pct"],
+  ];
+  foreach ($coupon_cols as [$name, $sql]) {
+    try { db()->exec($sql); }
+    catch (PDOException $e) {
+      // 1060 = Duplicate column — already migrated, ignore.
+      if (strpos($e->getMessage(), '1060') === false) throw $e;
+    }
+  }
 }
 
 /* ---------- Coupon helpers ---------- */

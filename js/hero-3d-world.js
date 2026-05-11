@@ -276,8 +276,8 @@
     window.addEventListener('resize', () => {
       cancelAnimationFrame(resizeRaf);
       resizeRaf = requestAnimationFrame(() => {
-        w = container.clientWidth || window.innerWidth;
-        h = container.clientHeight || window.innerHeight;
+        w = canvas.clientWidth || window.innerWidth;
+        h = canvas.clientHeight || window.innerHeight;
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
@@ -286,7 +286,7 @@
 
     // ── Pause when off-screen (intersection observer) ──────────────────────
     if ('IntersectionObserver' in window) {
-      const heroSection = canvas.closest('section') || canvas.parentElement;
+      const heroSection = canvas.closest('section') || canvas.parentElement || canvas;
       let visible = true;
       const io = new IntersectionObserver((entries) => {
         visible = entries[0].isIntersecting;

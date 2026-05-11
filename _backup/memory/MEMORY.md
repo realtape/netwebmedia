@@ -14,6 +14,5 @@
 - [14 CRM Niches](reference_14_niches.md) — exactly 14 niches: tourism, restaurants, health, beauty, smb, law_firms, real_estate, local_specialist, automotive, education, events_weddings, financial_services, home_services, wine_agriculture
 - [URL routing rules](reference_url_routing.md) — netwebmedia.com is flat HTML on Apache: top-level extensionless (no slash), nested needs `.html`, canonical is non-www
 - [Token optimization — April 2026](project_token_optimization_2026.md) — 8 agents downgraded Sonnet→Haiku for 60-70% token savings; keep 3 on Sonnet for strategy only
-- [No past legal client references](feedback_no_past_legal_client.md) — Do not name former legal client/firm; say "consult your attorney" instead
 - [NWM incorporated in Chile, serves US clients](project_nwm_incorporation.md) — Chilean corporation; governing law = Chile; arbitration = ICDR (not AAA domestic)
 - [Meta verification pending — pause social](project_meta_verification_pending.md) — Meta WABA/IG verification 2026-05-07; freeze all social work until after

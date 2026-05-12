@@ -406,6 +406,14 @@
           <div class="hero-robot-wrap">
             <!-- Glow halo -->
             <div class="hero-robot-halo"></div>
+            <!-- Hero dashboard SVG: externalized 2026-05-12 for 12.7KB per-page savings.
+                 SMIL animations inside the SVG run when loaded via <img>; the CSS
+                 robotFloat/robotTilt on .hero-robot-svg still applies to <img>. -->
+            <img src="/assets/hero-robot.svg"
+                 class="hero-robot-svg"
+                 width="320" height="360"
+                 alt="NetWebMedia AI marketing dashboard with live KPI charts"
+                 loading="eager" decoding="async">
             <!-- Orbital rings -->
             <div class="hero-orbit hero-orbit-1"><span class="hero-orbit-dot"></span></div>
             <div class="hero-orbit hero-orbit-2"><span class="hero-orbit-dot"></span></div>

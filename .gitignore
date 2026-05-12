@@ -20,6 +20,14 @@ _deploy/nwm-contacts*.csv
 _deploy/_serve_csv.py
 _birdtoken.tmp
 
+# Email broadcast subscribers + previews — PII, never commit
+scripts/email-broadcast/subscribers.csv
+scripts/email-broadcast/_preview.html
+scripts/email-broadcast/_errors.json
+scripts/email-broadcast/node_modules/
+scripts/email-broadcast/package.json
+scripts/email-broadcast/package-lock.json
+
 # Secrets — generated on server at deploy time, never commit local copies
 config.local.php
 api-php/config.local.php

@@ -7,6 +7,7 @@
 <meta name="robots" content="noindex,nofollow" />
 <link rel="stylesheet" href="plans.css" />
 <style>
+  .swatch-nwm-sky { background: #5DB4E5; color: #010F3B; }
   .swatch-nwm-navy-dark { background: #010F3B; color: #fff; border-color: #1a2a5a; }
   .swatch-nwm-navy { background: #012169; color: #fff; }
   .swatch-nwm-navy-mid { background: #01306E; color: #fff; }
@@ -46,8 +47,10 @@
   .btn-ghost { background: transparent; color: var(--nwm-orange) !important; border: 1px solid var(--border-accent) !important; }
 
   .logo-demo-box { background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 40px 24px; text-align: center; min-height: 140px; display: flex; align-items: center; justify-content: center; margin: 12px 0; }
-  .logo-placeholder { font-family: var(--font-display); font-weight: 800; font-size: 28px; letter-spacing: -0.02em; }
-  .logo-placeholder .dot { color: var(--nwm-orange); }
+  .logo-demo-box.light { background: #FFFFFF; border-color: rgba(0,0,0,0.08); }
+  .logo-wordmark { font-family: 'Arial Black','Helvetica Neue',Arial,sans-serif; font-weight: 900; font-size: 56px; letter-spacing: -3px; line-height: 1; }
+  .logo-wordmark .sky { color: #5DB4E5; }
+  .logo-wordmark .orange { color: #FF671F; }
 </style>
 </head>
 <body>
@@ -238,14 +241,21 @@
 
   <h2 id="s5"><span class="num">05</span>Color System</h2>
 
-  <h3>Primary palette (Gulf-Oil inspired)</h3>
+  <p class="callout"><strong>v1.1 update (2026-05-12).</strong> Wordmark refreshed: lowercase <code>netwebmedia</code> in <strong>Sky Blue <code>#5DB4E5</code></strong> + <strong>Orange <code>#FF671F</code></strong>. Sky Blue is promoted to a core palette role; Navy stays the brand background; <code>#4A90D9</code> becomes the info/link blue only.</p>
+
+  <h3>Wordmark palette</h3>
+  <div class="swatch-row">
+    <div class="swatch swatch-nwm-sky"><div class="name">NWM Sky (wordmark)</div><div class="hex">#5DB4E5</div></div>
+    <div class="swatch swatch-nwm-orange"><div class="name">NWM Orange (wordmark)</div><div class="hex">#FF671F</div></div>
+  </div>
+
+  <h3>Brand backgrounds &amp; supporting palette</h3>
   <div class="swatch-row">
     <div class="swatch swatch-nwm-navy-dark"><div class="name">NWM Navy Dark</div><div class="hex">#010F3B</div></div>
     <div class="swatch swatch-nwm-navy"><div class="name">NWM Navy</div><div class="hex">#012169</div></div>
     <div class="swatch swatch-nwm-navy-mid"><div class="name">NWM Navy Mid</div><div class="hex">#01306E</div></div>
-    <div class="swatch swatch-nwm-orange"><div class="name">NWM Orange</div><div class="hex">#FF671F</div></div>
     <div class="swatch swatch-nwm-orange-light"><div class="name">NWM Orange Light</div><div class="hex">#FF8C42</div></div>
-    <div class="swatch swatch-nwm-blue"><div class="name">NWM Blue</div><div class="hex">#4A90D9</div></div>
+    <div class="swatch swatch-nwm-blue"><div class="name">NWM Info Blue</div><div class="hex">#4A90D9</div></div>
   </div>
 
   <h3>Neutrals</h3>
@@ -267,9 +277,10 @@
   <table>
     <thead><tr><th>Color</th><th>Use for</th><th>Do NOT use for</th></tr></thead>
     <tbody>
-      <tr><td><strong>NWM Navy Dark <code>#010F3B</code></strong></td><td>Primary backgrounds, headers, dark surfaces</td><td>Body text (too close to black on dark screens)</td></tr>
-      <tr><td><strong>NWM Orange <code>#FF671F</code></strong></td><td>CTAs, accents, hover states, data highlights</td><td>Body paragraphs, long-form text blocks</td></tr>
-      <tr><td><strong>NWM Blue <code>#4A90D9</code></strong></td><td>Secondary accents, info callouts, links on light bg</td><td>Primary CTAs (that&rsquo;s Orange&rsquo;s job)</td></tr>
+      <tr><td><strong>NWM Sky <code>#5DB4E5</code></strong></td><td>Wordmark letters (<code>net</code>, <code>media</code>, <code>nwm</code>), favicon mark, social profile mark, prominent brand moments on dark bg</td><td>Body copy, links, info callouts (use <code>#4A90D9</code>), CTAs</td></tr>
+      <tr><td><strong>NWM Orange <code>#FF671F</code></strong></td><td>Wordmark <code>web</code> letters, CTAs, accents, hover states, data highlights</td><td>Body paragraphs, long-form text blocks</td></tr>
+      <tr><td><strong>NWM Navy Dark <code>#010F3B</code></strong></td><td>Primary backgrounds, headers, dark surfaces, favicon/avatar bg</td><td>Body text (too close to black on dark screens)</td></tr>
+      <tr><td><strong>NWM Info Blue <code>#4A90D9</code></strong></td><td>Info callouts, links on light bg, secondary accents</td><td>Primary CTAs (Orange&rsquo;s job); wordmark letters (Sky&rsquo;s job)</td></tr>
       <tr><td>White <code>#FFFFFF</code></td><td>Primary body text on navy, reversed logo</td><td>Large flat fills &mdash; dilutes the dark brand</td></tr>
     </tbody>
   </table>
@@ -287,9 +298,11 @@
     <thead><tr><th>Pair</th><th>Ratio</th><th>WCAG 2.2</th></tr></thead>
     <tbody>
       <tr><td>White on NWM Navy Dark</td><td>17.12:1</td><td><span class="pill green">AAA</span></td></tr>
+      <tr><td>Sky <code>#5DB4E5</code> on NWM Navy Dark</td><td>8.24:1</td><td><span class="pill green">AAA</span></td></tr>
+      <tr><td>Sky <code>#5DB4E5</code> on White</td><td>2.26:1</td><td><span class="pill">Wordmark display only (48px+)</span></td></tr>
       <tr><td>Orange on NWM Navy Dark</td><td>5.94:1</td><td><span class="pill green">AA large + normal</span></td></tr>
       <tr><td>Orange on White</td><td>3.24:1</td><td><span class="pill">AA large only</span></td></tr>
-      <tr><td>Blue on NWM Navy Dark</td><td>5.21:1</td><td><span class="pill green">AA</span></td></tr>
+      <tr><td>Info Blue <code>#4A90D9</code> on NWM Navy Dark</td><td>5.21:1</td><td><span class="pill green">AA</span></td></tr>
       <tr><td>Text Secondary <code>#C8D4E6</code> on Navy Dark</td><td>12.84:1</td><td><span class="pill green">AAA</span></td></tr>
     </tbody>
   </table>
@@ -340,25 +353,34 @@
   </ul>
 
   <h2 id="s7"><span class="num">07</span>Logo Usage</h2>
+
+  <p>The NetWebMedia wordmark is set in <strong>all lowercase</strong> as <code>netwebmedia</code>. Letters <code>net</code> and <code>media</code> are Sky Blue <code>#5DB4E5</code>; letters <code>web</code> are Orange <code>#FF671F</code>. Heavy geometric sans (Arial Black weight), tight letter-spacing.</p>
+
   <div class="logo-demo-box">
-    <span class="logo-placeholder">NetWebMedia<span class="dot">.</span></span>
+    <span class="logo-wordmark"><span class="sky">net</span><span class="orange">web</span><span class="sky">media</span></span>
   </div>
-  <p class="type-small"><em>Canonical logo files: <code>assets/images/netwebmedia-logo-lockup.png</code> (horizontal) and <code>assets/images/nwm-logo.svg</code> (mark).</em></p>
+  <p class="type-small"><em>Demo above: on Navy Dark (default). Below: on White (light variant).</em></p>
+  <div class="logo-demo-box light">
+    <span class="logo-wordmark"><span class="sky">net</span><span class="orange">web</span><span class="sky">media</span></span>
+  </div>
+
+  <p class="type-small"><em>Canonical files: <code>assets/nwm-logo-horizontal.svg</code> (wordmark on dark bg), <code>assets/nwm-logo-horizontal-dark.svg</code> (wordmark on light bg), <code>assets/nwm-logo.svg</code> (favicon / app icon mark), <code>assets/social/avatar-1024.svg</code>, <code>assets/social/header-1500x500.svg</code>.</em></p>
 
   <h3>Clear space</h3>
   <p>Minimum clear space around the logo = the height of the lowercase &ldquo;n&rdquo; on all four sides. Never let anything cross that boundary.</p>
 
   <h3>Minimum sizes</h3>
   <ul>
-    <li><strong>Digital:</strong> 120px wide (lockup), 32px wide (mark)</li>
-    <li><strong>Print:</strong> 1 inch wide (lockup), 0.5 inch (mark)</li>
+    <li><strong>Digital:</strong> 120px wide (wordmark), 24px wide (<code>nwm</code> mark), 16px (favicon)</li>
+    <li><strong>Print:</strong> 35mm wide (wordmark), 8mm (<code>nwm</code> mark)</li>
   </ul>
 
   <h3>Approved color versions</h3>
   <ul>
-    <li>Full color &mdash; Navy + Orange &mdash; on white or light cream backgrounds</li>
-    <li>Reversed &mdash; White + Orange &mdash; on NWM Navy Dark or any dark photograph</li>
-    <li>Monochrome &mdash; All Navy or All White &mdash; for single-color print or favicons</li>
+    <li><strong>Full color on dark</strong> (sky blue <code>net</code>/<code>media</code> + orange <code>web</code>) &mdash; default for digital surfaces with dark backgrounds</li>
+    <li><strong>Full color on light</strong> (same wordmark on white/cream) &mdash; print, light-mode partner docs, proposals</li>
+    <li>White monochrome &mdash; dark photography backgrounds where color is unavailable</li>
+    <li>Navy monochrome (all <code>#012169</code>) &mdash; light backgrounds when color is not available</li>
   </ul>
 
   <h3>Six misuse &ldquo;don&rsquo;ts&rdquo;</h3>

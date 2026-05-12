@@ -1,6 +1,8 @@
 # NetWebMedia Brand Book
-### Version 1.0 — April 21, 2026
+### Version 1.1 — May 12, 2026
 ### Owner: Carlos Martinez, CEO / Creative Director
+
+> **v1.1 changelog (2026-05-12 wordmark refresh).** The wordmark is now lowercase `netwebmedia` with **Sky Blue `#5DB4E5`** letters and **Orange `#FF671F`** on `web`. Sky Blue replaces the old pale `#B9D9EB` accent on dark backgrounds and is promoted to a core palette role. Navy stays the brand background. Favicon, social avatar, and social header redesigned to match. See Section 5 (Color System), Section 7 (Logo Usage), and Section 13 (Social Media) for specifics.
 
 ---
 
@@ -235,44 +237,51 @@ Supporting copy: "Most founders manage four to six vendors to run their marketin
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│ NWM BRAND PALETTE │
-│ │
-│ ████ Navy Primary #012169 rgb(1, 33, 105) │
-│ ████ Navy Dark #010F3B rgb(1, 15, 59) │
-│ ████ Navy Mid #01306E rgb(1, 48, 110) │
-│ ████ Orange Primary #FF671F rgb(255, 103, 31) │
-│ ████ Orange Light #FF8C42 rgb(255, 140, 66) │
-│ ████ Blue Accent #4A90D9 rgb(74, 144, 217) │
-│ ████ White #FFFFFF rgb(255, 255, 255) │
-│ ████ Text Primary #FFFFFF (on dark backgrounds) │
-│ ████ Text Secondary #C8D4E6 rgb(200, 212, 230) │
-│ ████ Text Muted #7B8FAD rgb(123, 143, 173) │
+│ NWM BRAND PALETTE                                                   │
+│                                                                     │
+│ ████ Sky Blue       #5DB4E5    rgb(93, 180, 229)  ← wordmark blue   │
+│ ████ Orange Primary #FF671F    rgb(255, 103, 31)  ← wordmark accent │
+│ ████ Navy Primary   #012169    rgb(1, 33, 105)                      │
+│ ████ Navy Dark      #010F3B    rgb(1, 15, 59)     ← page background │
+│ ████ Navy Mid       #01306E    rgb(1, 48, 110)                      │
+│ ████ Orange Light   #FF8C42    rgb(255, 140, 66)                    │
+│ ████ Blue Info      #4A90D9    rgb(74, 144, 217)  ← info/links only │
+│ ████ White          #FFFFFF    rgb(255, 255, 255)                   │
+│ ████ Text Primary   #FFFFFF    (on dark backgrounds)                │
+│ ████ Text Secondary #C8D4E6    rgb(200, 212, 230)                   │
+│ ████ Text Muted     #7B8FAD    rgb(123, 143, 173)                   │
 └─────────────────────────────────────────────────────────────────────┘
 ```
+
+**Wordmark colors (v1.1, 2026-05-12).** The lowercase `netwebmedia` wordmark renders `net` and `media` in **Sky Blue `#5DB4E5`** and `web` in **Orange `#FF671F`**. This is the signature color application of the brand — do not substitute Navy or any other blue for the wordmark letters.
 
 ### Color Reference Table
 
 | Token | Name | Hex | RGB | CSS Variable |
 |-------|------|-----|-----|--------------|
+| **Wordmark Blue** | **Sky Blue** | **`#5DB4E5`** | **93, 180, 229** | **`--nwm-sky`** |
 | Primary Background | Navy Dark | `#010F3B` | 1, 15, 59 | `--bg-primary` |
 | Secondary Background | Navy Mid | `#011550` | 1, 21, 80 | `--bg-secondary` |
 | Card Background | Glass Dark | `rgba(255,255,255,0.06)` | — | `--bg-card` |
 | Brand Navy | Navy Primary | `#012169` | 1, 33, 105 | `--nwm-navy` |
 | Brand Orange | Orange Primary | `#FF671F` | 255, 103, 31 | `--nwm-orange` |
 | Orange Hover | Orange Light | `#FF8C42` | 255, 140, 66 | `--nwm-orange-light` |
-| Blue Accent | Sky Blue | `#4A90D9` | 74, 144, 217 | `--nwm-blue` |
+| Info Blue | Sky Blue (legacy) | `#4A90D9` | 74, 144, 217 | `--nwm-blue` |
 | Text Primary | White | `#FFFFFF` | 255, 255, 255 | `--text-primary` |
 | Text Secondary | Light Steel | `#C8D4E6` | 200, 212, 230 | `--text-secondary` |
 | Text Muted | Slate | `#7B8FAD` | 123, 143, 173 | `--text-muted` |
+
+> **`--nwm-blue` vs `--nwm-sky`.** `#4A90D9` (`--nwm-blue`) stays the *info/link* color — it's tuned for AA contrast on dark navy in body text. `#5DB4E5` (`--nwm-sky`) is the *brand wordmark* color and should be used for the logo letters and prominent brand moments, not for body copy or links.
 
 ### Usage Rules
 
 | Color | Use | Do NOT use |
 |-------|-----|-----------|
-| **Orange `#FF671F`** | Primary CTA buttons, active nav states, key section labels, gradient accents, badge dots | Body copy, large background fills, decorative illustration fills |
-| **Navy Dark `#010F3B`** | Page background, modal overlays, mobile menu background | Text on dark backgrounds (too low contrast) |
-| **Navy Primary `#012169`** | Card borders with glow, hero gradients, section dividers | Replacing the page background (too blue, loses depth) |
-| **Blue Accent `#4A90D9`** | Secondary UI actions, informational callouts, link color in body copy, cyan glow effects | CTAs (orange owns that role), error states |
+| **Sky Blue `#5DB4E5`** | Wordmark letters (`net`, `media`, `nwm`), favicon mark, social profile mark, prominent brand moments on dark backgrounds | Body copy, links, info callouts (use `#4A90D9` for those), CTAs |
+| **Orange `#FF671F`** | Wordmark `web` letters, primary CTA buttons, active nav states, key section labels, gradient accents, badge dots | Body copy, large background fills, decorative illustration fills |
+| **Navy Dark `#010F3B`** | Page background, modal overlays, mobile menu background, favicon/avatar background | Text on dark backgrounds (too low contrast) |
+| **Navy Primary `#012169`** | Card borders with glow, hero gradients, section dividers | Replacing the page background (too blue, loses depth); wordmark letters (Sky Blue owns that role) |
+| **Info Blue `#4A90D9`** | Secondary UI actions, informational callouts, link color in body copy, cyan glow effects | CTAs (orange owns that role), error states, wordmark (Sky Blue owns that role) |
 | **White `#FFFFFF`** | Primary text on dark backgrounds, nav solid CTA button fill, hero stat numbers | Backgrounds behind dark text (defeats dark-mode design) |
 | **Text Secondary `#C8D4E6`** | Body paragraphs, descriptive text, nav link default state | Headlines (too light for display type) |
 | **Text Muted `#7B8FAD`** | Captions, labels, form placeholders, stat labels | Any text that carries meaning in a CTA context |
@@ -382,23 +391,30 @@ Load only the weights you use. The current `styles.css` loads Inter 300–900 an
 
 ## 7. Logo Usage
 
+### The Wordmark (v1.1, 2026-05-12)
+
+The NetWebMedia wordmark is set in **all lowercase** as `netwebmedia`. The letters `net` and `media` are **Sky Blue `#5DB4E5`**. The letters `web` are **Orange `#FF671F`**. Typeface is heavy geometric sans (Arial Black / Helvetica Black weight), letter-spacing tight (-3 to -4 at display sizes). The wordmark is the primary identifier of the brand — the standalone lowercase `nwm` is a derivative for icon-only surfaces (favicon, app icon, social profile mark).
+
 ### Files
 
 | File | Format | Use |
 |------|--------|-----|
-| `assets/nwm-logo.svg` | SVG vector mark | Favicon, app icon, social profile image, standalone mark |
-| `assets/nwm-logo-horizontal.svg` | SVG horizontal lockup | Nav bar, email header, co-branding lockups, proposals |
-| `assets/images/netwebmedia-logo-lockup.png` | PNG raster | Legacy fallback only — prefer SVG wherever possible |
+| `assets/nwm-logo.svg` | SVG `nwm` mark on navy rounded square | Favicon, app icon, browser tab |
+| `assets/nwm-logo-horizontal.svg` | SVG horizontal wordmark (dark bg) | Nav bar, email header, dark-mode lockups |
+| `assets/nwm-logo-horizontal-dark.svg` | SVG horizontal wordmark (light bg) | Light-mode proposals, print collateral on white/cream |
+| `assets/social/avatar-1024.svg` | SVG social profile mark | Instagram, FB, YouTube, TikTok profile images |
+| `assets/social/header-1500x500.svg` | SVG social banner | FB/YT/LinkedIn header (LinkedIn banked even though we don't publish — for partners reposting) |
+| `assets/nwm-logo-lockup.png` | PNG raster | Legacy fallback only — re-export from current SVG when used |
 
 ### Clear Space
-The minimum clear space around any logo version is equal to the cap-height of the "N" in the wordmark. Call this unit X.
+The minimum clear space around any logo version is equal to the cap-height of the `n` in the wordmark. Call this unit X.
 
 ```
  X
  ┌───────────────────────────────┐
- X │ │ X
- │ [NWM MARK] NetWebMedia │
- │ │
+ X │                              │ X
+   │        netwebmedia           │
+   │                              │
  └───────────────────────────────┘
  X
 ```
@@ -409,18 +425,18 @@ Nothing — text, image, edge, decorative element — enters this zone.
 
 | Context | Minimum width |
 |---------|---------------|
-| Digital — horizontal lockup | 120px |
-| Digital — mark only | 24px |
-| Print — horizontal lockup | 35mm |
-| Print — mark only | 8mm |
+| Digital — horizontal wordmark | 120px |
+| Digital — `nwm` mark only | 24px |
+| Print — horizontal wordmark | 35mm |
+| Print — `nwm` mark only | 8mm |
 | Favicon / app icon | 16px (mark only, no wordmark) |
 
 ### Approved Color Versions
 
 | Version | When to use |
 |---------|-------------|
-| Full color on dark (orange mark + white wordmark on navy/dark bg) | Default — all digital surfaces with dark backgrounds |
-| Full color on light (orange mark + navy wordmark on white/light bg) | Print, light-mode partner documents, proposals on white |
+| **Full color on dark** (sky-blue `net`/`media` + orange `web` on navy/dark bg) | **Default** — all digital surfaces with dark backgrounds |
+| **Full color on light** (sky-blue `net`/`media` + orange `web` on white/light bg) | Light-mode partner documents, proposals on white, print collateral |
 | White monochrome (all white) | Dark photography backgrounds, sponsorship materials where color is unavailable |
 | Navy monochrome (all `#012169`) | Light backgrounds when color is not available |
 | Reversed (white on orange) | Emergency use only — orange CTA banner backgrounds |
@@ -779,11 +795,13 @@ Use `fadeInUp` (already defined as a keyframe in styles.css) for all elements th
 
 | Platform | Profile Image | Cover / Header |
 |----------|--------------|----------------|
-| Instagram | NWM mark (`nwm-logo.svg`) on navy circle, 400×400px | Grid-consistent — posts define the profile, no cover |
-| Facebook | Same as Instagram | 820×312px — wordmark + "AI-Native Fractional CMO" tagline |
-| YouTube | Same as Instagram (800×800px) | 2560×1440px — wordmark centered, dark gradient bg, social handles listed |
-| TikTok | Same as Instagram | N/A (no cover) |
-| WhatsApp Business | Same as Instagram | N/A (catalog assets defined separately) |
+| Instagram | `assets/social/avatar-1024.svg` — lowercase `nwm` (sky-blue + orange) on navy with orange accent ring, 1024×1024 (downscale per platform) | Grid-consistent — posts define the profile, no cover |
+| Facebook | Same avatar as Instagram | `assets/social/header-1500x500.svg` — wordmark + "AI-native fractional CMO" tagline |
+| YouTube | Same avatar as Instagram (800×800px) | Use header SVG, upscale to 2560×1440 with safe-area centering |
+| TikTok | Same avatar as Instagram | N/A (no cover) |
+| WhatsApp Business | Same avatar as Instagram | N/A (catalog assets defined separately) |
+
+**Export note.** The masters live as SVG in `assets/social/`. Export to PNG (sRGB, no alpha for platforms that require it) before uploading. Instagram, Facebook, and YouTube auto-crop circular for the profile image — the avatar SVG is designed with the wordmark and accent ring inside the 87.5% safe circle to survive that crop.
 
 ### Post Template System
 
@@ -947,7 +965,9 @@ WCAG 2.2 Level AA is the minimum for every page, component, and email. We target
 | Orange `#FF671F` | Navy Dark `#010F3B` | — | **6.3:1** | PASS | PASS | CTAs, section labels |
 | Orange `#FF671F` | White `#FFFFFF` | — | **3.0:1** | FAIL small | PASS large | Only for text 18px+ bold |
 | Orange Light `#FF8C42` | Navy Dark `#010F3B` | — | **5.2:1** | PASS | FAIL | Acceptable for large text, not small |
-| Blue `#4A90D9` | Navy Dark `#010F3B` | — | **4.8:1** | PASS | FAIL | Secondary actions, links in body |
+| Sky Blue `#5DB4E5` | Navy Dark `#010F3B` | — | **8.0:1** | PASS | PASS | Wordmark letters on dark backgrounds — primary brand use |
+| Sky Blue `#5DB4E5` | White `#FFFFFF` | — | **2.3:1** | FAIL | FAIL | Only valid for the wordmark itself at large display sizes (48px+ heavy weight) — never use for body copy on white |
+| Info Blue `#4A90D9` | Navy Dark `#010F3B` | — | **4.8:1** | PASS | FAIL | Secondary actions, links in body |
 | Text Secondary `#C8D4E6` | Navy Dark `#010F3B` | — | **11.1:1** | PASS | PASS | Body paragraphs |
 | Text Muted `#7B8FAD` | Navy Dark `#010F3B` | — | **4.6:1** | PASS (large) | FAIL | Use only for captions/labels at 13px+ |
 | Success `#00B894` | Navy Dark `#010F3B` | — | **7.2:1** | PASS | PASS | Success messages |

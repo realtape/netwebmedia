@@ -9,11 +9,26 @@
  *   { inserted, skipped_dup, skipped_missing, total_received, ms }
  */
 require_once __DIR__ . '/../lib/tenancy.php';
+require_once __DIR__ . '/../lib/guard.php';
 
 if ($method !== 'POST') jsonError('POST required', 405);
 
+// Auth: accept EITHER a valid IMPORT_BEST_TOKEN (for cron/CI) OR an authenticated
+// superadmin session (for one-off imports from a logged-in operator browser).
+$tokenOk = false;
 $TOKEN = defined('IMPORT_BEST_TOKEN') ? IMPORT_BEST_TOKEN : 'NWM_IMPORT_BEST_2026';
-if (!hash_equals($TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
+$providedToken = (string)($_GET['token'] ?? '');
+if ($providedToken && hash_equals($TOKEN, $providedToken)) {
+    $tokenOk = true;
+}
+$sessionOk = false;
+if (!$tokenOk) {
+    $u = guard_user();
+    if ($u && ($u['role'] ?? '') === 'superadmin') {
+        $sessionOk = true;
+    }
+}
+if (!$tokenOk && !$sessionOk) jsonError('Auth required (token or superadmin session)', 403);
 
 // SECURITY (C2): pin to master org so a token leak + X-Org-Slug can't redirect this.
 pin_org_to_master();

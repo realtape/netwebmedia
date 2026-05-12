@@ -11,7 +11,7 @@
 (function () {
   "use strict";
 
-  var API_BASE = "/crm-vanilla/api";
+  var API_BASE = "api/";
   var R = "?r=wa_flush";
   var TOKEN_KEY = "nwm_token";
 

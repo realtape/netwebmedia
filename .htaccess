@@ -143,6 +143,10 @@ Options -Indexes
   RewriteRule .* - [L]
 
   # ── Infrastructure subdomains ──
+  # admin.netwebmedia.com → superadmin panel (/superadmin/)
+  # Separate PHP sessions from app.netwebmedia.com — no shared auth.
+  RewriteCond %{HTTP_HOST} ^admin\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /superadmin/$1 [L]
   # app.netwebmedia.com → the CRM app (/crm-vanilla/)
   RewriteCond %{HTTP_HOST} ^app\.netwebmedia\.com$ [NC]
   RewriteRule ^(.*)$ /crm-vanilla/$1 [L]

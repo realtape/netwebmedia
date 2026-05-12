@@ -93,6 +93,8 @@ on:
       - '.rotation/**'
       # Social channel hub (/social/index.html etc.)
       - 'social/**'
+      # Superadmin panel (admin.netwebmedia.com)
+      - 'superadmin/**'
       # Workflow itself
       - '.github/workflows/deploy-site-root.yml'
   workflow_dispatch:
@@ -171,7 +173,7 @@ jobs:
           #   backend/              — Django CRM, separate property
           # When adding a new top-level public dir, you must update BOTH the `on.push.paths` trigger
           # AND this staging loop (forgetting the loop = silent 404 on the new dir).
-          for d in css js assets images fonts crm api api-php tutorials crm-demo cms-demo crm-vanilla cms blog lp guides plans industries app livery-editor social; do
+          for d in css js assets images fonts crm api api-php tutorials crm-demo cms-demo crm-vanilla cms blog lp guides plans industries app livery-editor social superadmin; do
             [ -d "$d" ] && cp -r "$d" "_stage/$d" || true
           done
           # Drop dev/test artifacts that shouldn't ship

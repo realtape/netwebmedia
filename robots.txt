@@ -143,5 +143,10 @@ Allow: /
 User-agent: webzio-extended
 Allow: /
 
-# ── Sitemap declaration — primary discovery point ─────────────────────────
+# ── Sitemap declaration — index references both child sitemaps ───────────
+# sitemap-priority.xml: 78 high-priority URLs (priority >= 0.85) for fresh
+#   crawl-budget allocation on a young domain (13/178 pages indexed 2026-05-12).
+# sitemap.xml: full 499-URL inventory.
+Sitemap: https://netwebmedia.com/sitemap-index.xml
+Sitemap: https://netwebmedia.com/sitemap-priority.xml
 Sitemap: https://netwebmedia.com/sitemap.xml

@@ -95,17 +95,25 @@ $adminName = htmlspecialchars($admin['name'], ENT_QUOTES, 'UTF-8');
 
   <!-- Leads tab -->
   <section id="tab-leads" class="tab-panel">
-    <div class="section-card" style="margin-top:0">
-      <h3 class="section-title">Recent Demo Leads</h3>
-      <div class="table-wrap">
-        <table class="data-table" id="leadsTable">
-          <thead><tr>
-            <th>Name</th><th>Email</th><th>Company</th>
-            <th>Phone</th><th>Source</th><th>Logins</th><th>Date</th>
-          </tr></thead>
-          <tbody id="leadsBody"><tr><td colspan="7" class="empty">Loading…</td></tr></tbody>
-        </table>
-      </div>
+    <div class="toolbar">
+      <input class="search-input" id="leadSearch" type="search" placeholder="Search name, email, company, phone…">
+      <select class="filter-select" id="leadStatusFilter">
+        <option value="">All statuses</option>
+        <option value="lead">Lead</option>
+        <option value="prospect">Prospect</option>
+        <option value="customer">Customer</option>
+        <option value="churned">Churned</option>
+      </select>
+      <button class="btn-primary" id="leadSearchBtn">Search</button>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table" id="leadsTable">
+        <thead><tr>
+          <th>Name</th><th>Email</th><th>Company</th>
+          <th>Phone</th><th>Role</th><th>Status</th><th>Value</th><th>Created</th>
+        </tr></thead>
+        <tbody id="leadsBody"><tr><td colspan="8" class="empty">Loading…</td></tr></tbody>
+      </table>
     </div>
   </section>
 

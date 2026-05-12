@@ -59,7 +59,6 @@ async function loadStats() {
     renderDist('distStatus', data.byStatus, '#010F3B');
     renderPlanDist('distPlan', data.byPlan);
     renderRecentUsers(data.recentUsers || []);
-    renderLeads(data.recentLeads || []);
   } catch (e) {
     console.error('loadStats', e);
   }
@@ -116,19 +115,21 @@ function renderRecentUsers(users) {
   }).join('');
 }
 
-function renderLeads(leads) {
+function renderLeads(contacts) {
   var tbody = document.getElementById('leadsBody');
   if (!tbody) return;
-  if (!leads.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">No leads yet</td></tr>'; return; }
-  tbody.innerHTML = leads.map(function(l) {
+  if (!contacts.length) { tbody.innerHTML = '<tr><td colspan="8" class="empty">No contacts found</td></tr>'; return; }
+  tbody.innerHTML = contacts.map(function(c) {
+    var val = c.value && +c.value > 0 ? fmtMoney(+c.value) : '—';
     return '<tr>' +
-      '<td>' + esc(l.name) + '</td>' +
-      '<td>' + esc(l.email) + '</td>' +
-      '<td>' + esc(l.company || '—') + '</td>' +
-      '<td>' + esc(l.phone || '—') + '</td>' +
-      '<td>' + esc(l.source || '—') + '</td>' +
-      '<td>' + fmt(l.login_count || 0) + '</td>' +
-      '<td>' + fmtDate(l.created_at) + '</td>' +
+      '<td>' + esc(c.name) + '</td>' +
+      '<td>' + esc(c.email || '—') + '</td>' +
+      '<td>' + esc(c.company || '—') + '</td>' +
+      '<td>' + esc(c.phone || '—') + '</td>' +
+      '<td>' + esc(c.role || '—') + '</td>' +
+      '<td>' + pill(c.status) + '</td>' +
+      '<td>' + val + '</td>' +
+      '<td>' + fmtDate(c.created_at) + '</td>' +
     '</tr>';
   }).join('');
 }
@@ -224,13 +225,42 @@ document.getElementById('userSearch').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') document.getElementById('userSearchBtn').click();
 });
 
-// Load users when tab is first clicked
-var usersLoaded = false;
+/* ── Contacts / Leads tab ── */
+async function loadContacts(q, status) {
+  var tbody = document.getElementById('leadsBody');
+  tbody.innerHTML = '<tr><td colspan="8" class="empty">Loading…</td></tr>';
+  var url = '/api/contacts.php?q=' + encodeURIComponent(q || '') + '&status=' + encodeURIComponent(status || '');
+  try {
+    var res  = await fetch(url);
+    var data = await res.json();
+    renderLeads(data.contacts || []);
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="8" class="empty">Failed to load contacts</td></tr>';
+  }
+}
+
+document.getElementById('leadSearchBtn').addEventListener('click', function() {
+  loadContacts(
+    document.getElementById('leadSearch').value,
+    document.getElementById('leadStatusFilter').value
+  );
+});
+document.getElementById('leadSearch').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') document.getElementById('leadSearchBtn').click();
+});
+
+// Lazy-load tabs on first click
+var usersLoaded   = false;
+var contactsLoaded = false;
 document.querySelectorAll('.tab').forEach(function(btn) {
   btn.addEventListener('click', function() {
     if (btn.dataset.tab === 'users' && !usersLoaded) {
       usersLoaded = true;
       loadUsers('', '');
+    }
+    if (btn.dataset.tab === 'leads' && !contactsLoaded) {
+      contactsLoaded = true;
+      loadContacts('', '');
     }
   });
 });

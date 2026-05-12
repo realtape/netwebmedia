@@ -36,11 +36,6 @@ try {
          FROM users ORDER BY created_at DESC LIMIT 20'
     )->fetchAll();
 
-    $recentLeads = $db->query(
-        'SELECT id, name, email, company, phone, source, created_at, login_count
-         FROM leads ORDER BY created_at DESC LIMIT 10'
-    )->fetchAll();
-
     sa_json([
         'mrr'           => $mrr,
         'arr'           => $mrr * 12,
@@ -51,7 +46,6 @@ try {
         'byStatus'      => $byStatus,
         'byPlan'        => $byPlan,
         'recentUsers'   => $recentUsers,
-        'recentLeads'   => $recentLeads,
     ]);
 } catch (Exception $e) {
     error_log('[superadmin/stats] ' . $e->getMessage());

@@ -1,6 +1,52 @@
 # 9-Reel MVP Expansion — Higgsfield Kling 3.0
 
-**Status:** Scripts drafted 2026-05-12 — awaiting Carlos approval before generation.
+**Status:** Scripts drafted + all 22 generations queued 2026-05-12.
+**Higgsfield balance pre-batch:** 2,299.38 credits (Ultra plan).
+**Confirmed unit cost:** 15 credits per Kling 3.0 clip (std mode, 9:16, 10s, sound off).
+**Estimated total spend this batch:** ~285 credits (19 clips × 15) + ~3 image credits ≈ **~290 credits**.
+
+## Generation manifest — 2026-05-12
+
+### Character portraits (Nano Banana 2 — completed)
+
+| Char | Role | Job ID | Status |
+|---|---|---|---|
+| A | Skeptic Founder | `fa4634bb-e146-46f3-b6c3-0d6509f8a074` | completed |
+| B | Operator | `a0be5e3f-04df-46bd-be54-0ac56daabf4a` | completed |
+| C | Executive Closer | `3336b8d8-a1a8-4669-9e6a-1e2b95d006ee` | completed |
+
+### Character speaking-shot clips (Kling 3.0, 9:16, std, sound off — pending)
+
+| Reel | Char | Duration | Job ID |
+|---|---|---|---|
+| 1A — Hook | A | 10s | `5f4cb284-617d-4648-8828-d06e74a636c3` |
+| 2A — Demo | A | 5s | `fa457722-f110-48b1-96fb-d4ede93813f5` |
+| 3A — Proof | A | 5s | `77232d6f-8b03-45b6-acf4-e6e279b33788` |
+| 4B — Hook | B | 7s | `00dc0e26-7fff-47bd-8725-1d199d6e3b25` |
+| 5B — Demo | B | 5s | `805beee6-f261-4be7-84f4-567ce124764a` |
+| 6B — Proof | B | 5s | `8c4c6b57-3017-4e54-bf6c-5b911f013d1e` |
+| 7C — Hook | C | 10s | `360af0d2-6c0b-40d8-b42c-e265aecb7803` |
+| 8C — Demo | C | 5s | `f0c42c6e-b4a6-478f-b06f-d9fa8abdd77d` |
+| 9C — Proof | C | 5s | `53c8290d-e2e9-4617-87f8-f2070a086d03` |
+
+### B-roll clips (Kling 3.0, 9:16, std, sound off, text-to-video — pending)
+
+| Reel | Beat | Description | Job ID |
+|---|---|---|---|
+| 1A | Beat 2 | iPhone showing ChatGPT result with competitor | `fd6ed0f1-dd0b-477b-bfc7-f1c3925c6940` |
+| 2A | Beat 3 | Schema markup + FAQ blocks animating in | `c8324c62-0cc1-42ef-b14e-5d07b50fe2df` |
+| 3A | Beat 3 | Citation lift line chart climbing | `30eb61bf-0d8a-442a-be08-d88f664e98e8` |
+| 4B | Beat 3 | 7 tabs closing → unified CRM dashboard | `b1725b7d-42a9-4fea-82cf-1a2d768f4ffc` |
+| 5B | Beat 2 | CRM marketing calendar populating | `dadbaecf-ad47-48f7-ad7a-010f9f034a87` |
+| 6B | Beat 3 | iPhone email "ready to scale" | `70ebf5f9-35b0-4675-8328-2c3e235d3048` |
+| 7C | Beat 2 | Chaotic spreadsheets / missed deadlines | `4e51723d-5d1d-4cd6-af6e-278a8534ff6e` |
+| 8C | Beat 2 | Executive KPI dashboard 2x2 grid | `79449f2a-0005-4ad3-9270-79de0b9e577b` |
+| 8C | Beat 3 | AI workflow node animation | `ad246def-0111-4c6f-aeac-fe868b456120` |
+| 9C | Beat 2 | Client logo wall + revenue chart | `e5bd67ac-525d-463a-b064-78ab5b62fb25` |
+
+**Total queued:** 22 generations (3 images + 19 video clips).
+
+
 **Target:** 9 IG Reels (9:16, 12–15s each), 3 per MVP package, different face per package.
 **Generator:** Higgsfield Kling 3.0 via Higgsfield MCP.
 **Posting:** HOLD until Meta verification confirmed (memory flag 2026-05-07 — status unconfirmed).

@@ -40,7 +40,95 @@
     renderTabs();
     loadData();
     injectInvoiceModal();
+
+    document.body.addEventListener('click', function(e) {
+      var btn = e.target.closest && e.target.closest('.action-link');
+      if (!btn) return;
+      var action = btn.dataset.action;
+      var row    = btn.closest('tr');
+      if (!row) return;
+      var invoiceId = row.dataset.invoiceId;
+      if (!invoiceId) return;
+      var inv = INVOICES.filter(function(i){ return String(i.id) === String(invoiceId); })[0];
+      if (!inv) return;
+      if (action === 'view') openInvoiceView(inv);
+      else if (action === 'send') sendInvoice(inv, btn);
+    });
   });
+
+  /* ── Invoice view modal ──────────────────────────────────────────────── */
+  function openInvoiceView(inv) {
+    var isEs = window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es';
+    var num    = inv.invoice_num || inv.id || '';
+    var client = inv.client_name || inv.client || inv.contact_name || '';
+    var company= inv.company || '';
+    var amount = parseFloat(inv.amount) || 0;
+    var date   = (inv.invoice_date || inv.date || '').replace(/T.*/, '');
+    var due    = (inv.due_date || '').replace(/T.*/, '');
+    var notes  = inv.notes || '';
+
+    var existing = document.getElementById('invViewModal');
+    if (existing) existing.remove();
+
+    var wrap = document.createElement('div');
+    wrap.id = 'invViewModal';
+    wrap.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+    wrap.innerHTML =
+      '<div style="background:#0d1b3e;border-radius:14px;padding:28px;width:100%;max-width:440px;color:#e8ecf4" onclick="event.stopPropagation()">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">' +
+          '<h3 style="margin:0;font-size:18px;font-weight:700">' + (isEs ? 'Factura' : 'Invoice') + ' #' + num + '</h3>' +
+          '<button id="invViewClose" style="background:rgba(255,255,255,.1);border:none;color:#fff;font-size:18px;width:30px;height:30px;border-radius:50%;cursor:pointer;line-height:1">&times;</button>' +
+        '</div>' +
+        row('Client', client + (company ? ' — ' + company : '')) +
+        row('Amount', '$' + amount.toLocaleString()) +
+        row('Status', CRM_APP.statusBadge(inv.status)) +
+        row('Date', date) +
+        (due  ? row(isEs ? 'Vencimiento' : 'Due',   due)   : '') +
+        (notes? row(isEs ? 'Notas'       : 'Notes', notes) : '') +
+      '</div>';
+
+    function row(label, val) {
+      return '<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:14px">' +
+        '<span style="color:#9aa5be">' + label + '</span>' +
+        '<span style="font-weight:500">' + val + '</span>' +
+      '</div>';
+    }
+
+    document.body.appendChild(wrap);
+    wrap.addEventListener('click', function(e){ if (e.target === wrap) wrap.remove(); });
+    document.getElementById('invViewClose').addEventListener('click', function(){ wrap.remove(); });
+  }
+
+  /* ── Invoice send ────────────────────────────────────────────────────── */
+  function sendInvoice(inv, btn) {
+    var isEs  = window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es';
+    var email = inv.client_email || inv.email || '';
+    if (email) {
+      var num    = inv.invoice_num || inv.id || '';
+      var amount = parseFloat(inv.amount) || 0;
+      var subj   = encodeURIComponent((isEs ? 'Factura' : 'Invoice') + ' #' + num + ' — NetWebMedia');
+      var body   = encodeURIComponent(
+        (isEs ? 'Hola,' : 'Hi,') + '\n\n' +
+        (isEs ? 'Adjuntamos la factura #' + num + ' por $' + amount.toLocaleString() + '.' :
+                'Please find attached invoice #' + num + ' for $' + amount.toLocaleString() + '.') + '\n\n' +
+        'NetWebMedia'
+      );
+      window.location.href = 'mailto:' + email + '?subject=' + subj + '&body=' + body;
+    } else {
+      var origText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = isEs ? 'Enviando…' : 'Sending…';
+      var token = '';
+      try { token = localStorage.getItem('nwm_token') || ''; } catch(_){}
+      fetch('api/?r=payments&id=' + inv.id, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', 'X-Auth-Token': token },
+        body: JSON.stringify({ action: 'send' })
+      }).then(function(){ btn.textContent = isEs ? 'Enviado ✓' : 'Sent ✓'; })
+        .catch(function(){ btn.disabled = false; btn.textContent = origText; });
+    }
+  }
 
   /* ── New Invoice Modal ──────────────────────────────────────────────── */
   function injectInvoiceModal() {
@@ -216,13 +304,13 @@
       var company = inv.company || '';
       var amount  = parseFloat(inv.amount) || 0;
       var date    = (inv.invoice_date || inv.date || '').replace(/T.*/, '');
-      html += '<tr>';
+      html += '<tr data-invoice-id="' + (inv.id || '') + '">';
       html += '<td><strong>' + num + '</strong></td>';
       html += '<td>' + client + (company ? '<br><span style="font-size:11px;color:var(--text-dim)">' + company + '</span>' : '') + '</td>';
       html += '<td>$' + amount.toLocaleString() + '</td>';
       html += '<td>' + CRM_APP.statusBadge(inv.status) + '</td>';
       html += '<td>' + date + '</td>';
-      html += '<td><button class="action-link">' + L.view + '</button> <button class="action-link">' + L.send + '</button></td>';
+      html += '<td><button class="action-link" data-action="view">' + L.view + '</button> <button class="action-link" data-action="send">' + L.send + '</button></td>';
       html += '</tr>';
     }
     html += '</tbody></table>';

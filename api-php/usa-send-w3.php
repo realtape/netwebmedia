@@ -448,8 +448,16 @@ if ($mode === 'batch') {
       file_put_contents($FAIL, strtolower($email) . "\t" . date('c') . "\n", FILE_APPEND | LOCK_EX);
     }
     if (count($results['sample']) < 5) {
-      $results['sample'][] = ['to' => $email, 'company' => $lead['company'] ?? null,
-                               'niche' => $lead['niche'] ?? null, 'ok' => (bool)$ok];
+      $sample_row = ['to' => $email, 'company' => $lead['company'] ?? null,
+                     'niche' => $lead['niche'] ?? null, 'ok' => (bool)$ok];
+      if (!$ok) {
+        $sample_row['debug'] = [
+          'http'  => $GLOBALS['NWM_LAST_MAIL_HTTP']  ?? null,
+          'error' => $GLOBALS['NWM_LAST_MAIL_ERROR'] ?? null,
+          'resp'  => $GLOBALS['NWM_LAST_MAIL_RESP']  ?? null,
+        ];
+      }
+      $results['sample'][] = $sample_row;
     }
     if ($results['sent'] + $results['failed'] < $cap) usleep(10_000); // 10ms throttle
   }

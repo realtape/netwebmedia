@@ -4,7 +4,40 @@ require_once __DIR__ . '/lib/db.php';
 
 sa_require();
 
-if ($_SERVER['REQUEST_METHOD'] !== 'GET') sa_error('Method not allowed', 405);
+$method = $_SERVER['REQUEST_METHOD'];
+
+if ($method === 'PUT') {
+    $origin  = $_SERVER['HTTP_ORIGIN']  ?? '';
+    $referer = $_SERVER['HTTP_REFERER'] ?? '';
+    $allowed = 'https://admin.netwebmedia.com';
+    if ($origin && $origin !== $allowed) sa_error('Forbidden', 403);
+    if (!$origin && !str_starts_with($referer, $allowed)) sa_error('Forbidden', 403);
+
+    $data = json_decode(file_get_contents('php://input'), true) ?? [];
+    $id   = (int)($data['id'] ?? 0);
+    if (!$id) sa_error('Contact ID required');
+
+    $ALLOWED_FIELDS = ['name', 'email', 'phone', 'company', 'role', 'status', 'value', 'notes'];
+    $ALLOWED_STATUS = ['lead', 'prospect', 'customer', 'churned'];
+    $updates = [];
+    $params  = [];
+    foreach ($ALLOWED_FIELDS as $f) {
+        if (!array_key_exists($f, $data)) continue;
+        if ($f === 'status' && !in_array($data[$f], $ALLOWED_STATUS, true)) sa_error('Invalid status');
+        $updates[] = "`$f` = ?";
+        $params[]  = $data[$f] === '' ? null : $data[$f];
+    }
+    if (!$updates) sa_error('Nothing to update');
+    $params[] = $id;
+    try {
+        $db->prepare('UPDATE contacts SET ' . implode(', ', $updates) . ' WHERE id = ?')->execute($params);
+        sa_json(['ok' => true]);
+    } catch (Exception $e) {
+        sa_error('Database error', 500);
+    }
+}
+
+if ($method !== 'GET') sa_error('Method not allowed', 405);
 
 try {
     $db = getDB();

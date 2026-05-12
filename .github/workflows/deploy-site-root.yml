@@ -73,7 +73,12 @@ on:
       # Mobile deep-linking (Apple Universal Links + Android App Links)
       - '.well-known/**'
       # SEO crawl directives — sitemap + robots
+      # sitemap.xml: full inventory.
+      # sitemap-priority.xml: top-value URLs (priority >= 0.85) for crawl-budget signal.
+      # sitemap-index.xml: master index referencing both child sitemaps.
       - 'sitemap.xml'
+      - 'sitemap-priority.xml'
+      - 'sitemap-index.xml'
       - 'robots.txt'
       # Server-side API
       - 'api/**'
@@ -133,7 +138,7 @@ jobs:
         run: |
           mkdir -p _stage
           # Top-level HTML — copy all .html files at repo root
-          for f in *.html robots.txt sitemap.xml humans.txt; do
+          for f in *.html robots.txt sitemap.xml sitemap-priority.xml sitemap-index.xml humans.txt; do
             [ -f "$f" ] && cp "$f" "_stage/$f" || true
           done
           # IndexNow ownership-verification key file (32-hex-char filename).

@@ -292,9 +292,14 @@ def main():
     username = os.environ.get("IG_USERNAME")
     password = os.environ.get("IG_PASSWORD")
     if args.cmd != "logout" and (not username or not password):
+        # Use ASCII-only chars in case stdout is cp1252 (Windows default)
+        try:
+            sys.stdout.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
         print("ERROR: IG_USERNAME / IG_PASSWORD not set.")
-        print(f"       Copy {REPO_ROOT / '.env.ig.example'} → {REPO_ROOT / '.env.ig'}")
-        print("       and fill in the values (NEVER commit .env.ig — it's gitignored).")
+        print(f"       Copy {REPO_ROOT / '.env.ig.example'} -> {REPO_ROOT / '.env.ig'}")
+        print("       and fill in the values (NEVER commit .env.ig - it's gitignored).")
         sys.exit(1)
 
     creds = {"username": username, "password": password}

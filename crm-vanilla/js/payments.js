@@ -39,7 +39,84 @@
     CRM_APP.buildHeader(CRM_APP.t('nav.payments'), '<button class="btn btn-primary" onclick="window.openNewInvoice && window.openNewInvoice()">' + CRM_APP.ICONS.plus + ' ' + L.createInvoice + '</button>');
     renderTabs();
     loadData();
+    injectInvoiceModal();
   });
+
+  /* ── New Invoice Modal ──────────────────────────────────────────────── */
+  function injectInvoiceModal() {
+    if (document.getElementById('invoiceModal')) return;
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    var T = isEs ? {
+      title: 'Nueva Factura', client: 'Cliente', company: 'Empresa', amount: 'Monto ($)',
+      due: 'Fecha de Vencimiento', notes: 'Notas', cancel: 'Cancelar', save: 'Guardar Factura',
+      err: 'Error al guardar la factura. Inténtalo de nuevo.'
+    } : {
+      title: 'New Invoice', client: 'Client', company: 'Company', amount: 'Amount ($)',
+      due: 'Due Date', notes: 'Notes', cancel: 'Cancel', save: 'Save Invoice',
+      err: 'Error saving invoice. Please try again.'
+    };
+    var div = document.createElement('div');
+    div.innerHTML = '<div id="invoiceModal" class="crm-modal" style="display:none">' +
+      '<div class="crm-modal-backdrop"></div>' +
+      '<div class="crm-modal-box">' +
+        '<h3>' + T.title + '</h3>' +
+        '<form id="invoiceForm">' +
+          '<label>' + T.client + ' *<input name="client_name" required placeholder="Acme Corp"></label>' +
+          '<label>' + T.company + '<input name="company" placeholder="Acme Inc."></label>' +
+          '<label>' + T.amount + ' *<input name="amount" type="number" min="0" step="0.01" required placeholder="1500"></label>' +
+          '<label>' + T.due + '<input name="due_date" type="date"></label>' +
+          '<label>' + T.notes + '<textarea name="notes" rows="3" placeholder="—"></textarea></label>' +
+          '<div class="modal-actions">' +
+            '<button type="button" id="invoiceModalCancel" class="btn btn-secondary">' + T.cancel + '</button>' +
+            '<button type="submit" class="btn btn-primary">' + T.save + '</button>' +
+          '</div>' +
+        '</form>' +
+      '</div>' +
+    '</div>';
+    document.body.appendChild(div.firstChild);
+    document.getElementById('invoiceModalCancel').addEventListener('click', closeInvoiceModal);
+    document.querySelector('#invoiceModal .crm-modal-backdrop').addEventListener('click', closeInvoiceModal);
+    document.getElementById('invoiceForm').addEventListener('submit', handleInvoiceSubmit);
+  }
+
+  function closeInvoiceModal() {
+    var m = document.getElementById('invoiceModal');
+    if (m) m.style.display = 'none';
+  }
+
+  window.openNewInvoice = function () {
+    injectInvoiceModal();
+    var f = document.getElementById('invoiceForm');
+    if (f) f.reset();
+    document.getElementById('invoiceModal').style.display = '';
+  };
+
+  function handleInvoiceSubmit(e) {
+    e.preventDefault();
+    var form = document.getElementById('invoiceForm');
+    var payload = {
+      client_name: form.client_name.value.trim(),
+      company:     form.company.value.trim(),
+      amount:      parseFloat(form.amount.value) || 0,
+      due_date:    form.due_date.value || null,
+      notes:       form.notes.value.trim(),
+      status:      'pending'
+    };
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/?r=payments', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+      if (xhr.status >= 200 && xhr.status < 300) {
+        closeInvoiceModal();
+        loadData();
+      } else {
+        var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+        alert(isEs ? 'Error al guardar la factura. Inténtalo de nuevo.' : 'Error saving invoice. Please try again.');
+      }
+    };
+    xhr.send(JSON.stringify(payload));
+  }
 
   function loadData() {
     var body = document.getElementById("paymentsBody");

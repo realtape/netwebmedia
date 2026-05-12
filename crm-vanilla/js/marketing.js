@@ -230,7 +230,7 @@
       '<p style="color:rgba(255,255,255,.65);font-size:14px;margin:0 0 20px;max-width:420px;margin-inline:auto">' +
         'Two-way SMS marketing is under active development. Email campaigns are fully live now.' +
       '</p>' +
-      '<button class="btn btn-outline" onclick="(function(){var tabs=document.querySelectorAll('tab-btn');if(tabs[0])tabs[0].click();})()">Go to Email Campaigns</button>' +
+      '<button class="btn btn-outline" onclick="(function(){var tabs=document.querySelectorAll(\'.tab-btn\');if(tabs[0])tabs[0].click();})()">Go to Email Campaigns</button>' +
       '</div>';
   }
 
@@ -242,7 +242,7 @@
     if (!TEMPLATES.length) {
       return '<div style="padding:40px;text-align:center">' +
         '<p style="color:var(--text-dim);margin:0 0 12px">No templates yet.</p>' +
-        '<button class="btn btn-primary" onclick="alert('Template builder coming soon.')">+ New Template</button>' +
+        '<button class="btn btn-primary" onclick="alert(\'Template builder coming soon.\')">+ New Template</button>' +
         '</div>';
     }
     var html = '<table class="data-table"><thead><tr>';

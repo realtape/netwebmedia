@@ -38,10 +38,28 @@
       view: "View", send: "Send"
     };
     TABS = isEs ? ["Todos", "Propuestas", "Contratos", "Facturas"] : ["All", "Proposals", "Contracts", "Invoices"];
-    CRM_APP.buildHeader(CRM_APP.t('nav.documents'), '<button class="btn btn-primary">' + CRM_APP.ICONS.plus + ' ' + L.newDoc + '</button>');
+    CRM_APP.buildHeader(CRM_APP.t('nav.documents'), '<button class="btn btn-primary" id="newDocBtn">' + CRM_APP.ICONS.plus + ' ' + L.newDoc + '</button>');
+    var newBtn = document.getElementById("newDocBtn");
+    if (newBtn) newBtn.addEventListener("click", function () { notifyBeta('new-document'); });
+    document.body.addEventListener("click", function (e) {
+      var t = e.target;
+      if (t && t.classList && t.classList.contains("action-link")) {
+        notifyBeta(t.textContent.trim().toLowerCase());
+      }
+    });
     renderTabs();
     renderContent();
   });
+
+  function notifyBeta(action) {
+    var isEs = (window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es');
+    var msg = isEs
+      ? 'El módulo de Documentos está en beta (lanza Q3 2026). Mientras tanto, contáctanos para esta solicitud.'
+      : 'The Documents module is in beta (ships Q3 2026). Contact us for early-access requests in the meantime.';
+    if (confirm(msg + '\n\n' + (isEs ? '¿Abrir formulario de contacto?' : 'Open the contact form?'))) {
+      window.location.href = '/contact.html?topic=documents-beta&action=' + encodeURIComponent(action);
+    }
+  }
 
   function renderTabs() {
     var bar = document.getElementById("tabBar");
@@ -51,13 +69,16 @@
       html += '<button class="tab-btn' + (i === activeTab ? " active" : "") + '" data-tab="' + i + '">' + TABS[i] + '</button>';
     }
     bar.innerHTML = html;
-    bar.addEventListener("click", function (e) {
-      var btn = e.target.closest(".tab-btn");
-      if (!btn) return;
-      activeTab = parseInt(btn.getAttribute("data-tab"), 10);
-      renderTabs();
-      renderContent();
-    });
+    if (!bar.dataset.bound) {
+      bar.dataset.bound = "1";
+      bar.addEventListener("click", function (e) {
+        var btn = e.target.closest(".tab-btn");
+        if (!btn) return;
+        activeTab = parseInt(btn.getAttribute("data-tab"), 10);
+        renderTabs();
+        renderContent();
+      });
+    }
   }
 
   function renderContent() {

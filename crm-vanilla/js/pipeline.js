@@ -874,7 +874,7 @@
     var qa = '';
     if (c.email)   qa += '<a class="pipe-quick-action" href="mailto:' + encodeURIComponent(c.email) + '" title="Email">&#9993;</a>';
     if (c.phone)   qa += '<a class="pipe-quick-action" href="tel:' + encodeURIComponent(c.phone) + '" title="Call">&#9742;</a>';
-    if (c.phone)   qa += '<a class="pipe-quick-action" href="https://wa.me/' + encodeURIComponent(String(c.phone).replace(/[^0-9]/g,'')) + '" target="_blank" title="WhatsApp">&#128172;</a>';
+    if (c.phone)   qa += '<a class="pipe-quick-action" href="/whatsapp.html?topic=contact&phone=' + encodeURIComponent(String(c.phone).replace(/[^0-9]/g,'')) + '" target="_blank" title="WhatsApp">&#128172;</a>';
     if (qa) html += '<div class="deal-card-quick">' + qa + '</div>';
     html += '</div>';
     return html;
@@ -1062,7 +1062,7 @@
     var qa = '';
     if (deal.contact_email) qa += '<a class="pipe-quick-action" href="mailto:' + encodeURIComponent(deal.contact_email) + '" title="Email" onclick="event.stopPropagation()">&#9993;</a>';
     if (deal.contact_phone) qa += '<a class="pipe-quick-action" href="tel:' + encodeURIComponent(deal.contact_phone) + '" title="Call" onclick="event.stopPropagation()">&#9742;</a>';
-    if (deal.contact_phone) qa += '<a class="pipe-quick-action" href="https://wa.me/' + encodeURIComponent(String(deal.contact_phone).replace(/[^0-9]/g,'')) + '" target="_blank" title="WhatsApp" onclick="event.stopPropagation()">&#128172;</a>';
+    if (deal.contact_phone) qa += '<a class="pipe-quick-action" href="/whatsapp.html?topic=deal-followup&phone=' + encodeURIComponent(String(deal.contact_phone).replace(/[^0-9]/g,'')) + '" target="_blank" title="WhatsApp" onclick="event.stopPropagation()">&#128172;</a>';
     if (qa) html += '<div class="deal-card-quick">' + qa + '</div>';
 
     if (src) html += '<div class="deal-card-source">' + src + '</div>';

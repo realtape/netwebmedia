@@ -79,6 +79,7 @@
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; scroll-padding-top: 120px; }
+@media (max-width: 768px) { html { scroll-padding-top: 80px; } }
 body {
   font-family: var(--font-main);
   background-color: var(--bg-primary);
@@ -1381,7 +1382,7 @@ footer {
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-md);
   padding: 14px 18px;
-  font-size: 15px;
+  font-size: 16px;
   color: var(--text-primary);
   font-family: var(--font-main);
   transition: var(--transition);

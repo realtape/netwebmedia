@@ -127,11 +127,132 @@
     loadTemplates();
 
     document.addEventListener("click", function (e) {
+      // Header "New" button
       if (e.target && (e.target.id === "mktNewBtn" || e.target.closest("#mktNewBtn"))) {
         if (activeTab === 3) openNewPostModal();
+        else if (activeTab === 0) openNewCampaignModal(null);
+        else if (activeTab === 2) location.href = 'email-builder.html';
+      }
+
+      // action-link buttons inside campaign / template rows
+      var btn = e.target.closest && e.target.closest('.action-link');
+      if (!btn) return;
+      var action = btn.dataset.action;
+      var row = btn.closest('tr');
+      if (!row) return;
+      var campaignId = row.dataset.campaignId;
+      var templateId = row.dataset.templateId;
+
+      if (campaignId) {
+        if (action === 'edit') openNewCampaignModal(campaignId);
+        else if (action === 'clone') cloneCampaign(campaignId, row);
+      } else if (templateId) {
+        if (action === 'edit') location.href = 'email-builder.html';
+        else if (action === 'use') openNewCampaignModal(null, templateId);
       }
     });
   });
+
+  /* ── Campaign modal (create + edit) ─────────────────────────────────── */
+  function openNewCampaignModal(campaignId, prefillTemplateId) {
+    var isEs = window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es';
+    var existing = campaignId ? EMAIL_CAMPAIGNS.filter(function(c){ return String(c.id) === String(campaignId); })[0] : null;
+    var tmpl     = prefillTemplateId ? TEMPLATES.filter(function(t){ return String(t.id) === String(prefillTemplateId); })[0] : null;
+
+    var wrap = document.createElement('div');
+    wrap.id = 'mktCampaignModal';
+    wrap.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+    var title  = existing ? (isEs ? 'Editar campaña' : 'Edit Campaign') : (isEs ? 'Nueva campaña' : 'New Campaign');
+    var tplOpts = TEMPLATES.map(function(t){
+      var sel = (prefillTemplateId && String(t.id) === String(prefillTemplateId)) || (existing && String(t.id) === String(existing.template_id)) ? ' selected' : '';
+      return '<option value="' + t.id + '"' + sel + '>' + escHtml(t.name || t.subject || 'Template ' + t.id) + '</option>';
+    }).join('');
+
+    wrap.innerHTML =
+      '<div style="background:#0d1b3e;border-radius:14px;padding:28px 28px 24px;width:100%;max-width:480px;color:#e8ecf4" onclick="event.stopPropagation()">' +
+        '<h3 style="margin:0 0 20px;font-size:18px;font-weight:700">' + title + '</h3>' +
+        '<form id="mktCampaignForm">' +
+          '<label style="display:block;margin-bottom:14px">' +
+            '<span style="font-size:13px;color:#9aa5be;display:block;margin-bottom:6px">' + (isEs ? 'Nombre de la campaña *' : 'Campaign name *') + '</span>' +
+            '<input name="name" required placeholder="' + (isEs ? 'Ej: Campaña bienvenida' : 'e.g. Welcome series') + '" value="' + escHtml(existing ? existing.name || '' : '') + '" style="width:100%;box-sizing:border-box;background:#162040;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:10px 12px;color:#e8ecf4;font-size:14px">' +
+          '</label>' +
+          '<label style="display:block;margin-bottom:14px">' +
+            '<span style="font-size:13px;color:#9aa5be;display:block;margin-bottom:6px">' + (isEs ? 'Asunto del email *' : 'Email subject *') + '</span>' +
+            '<input name="subject" required placeholder="' + (isEs ? 'Ej: Tu kit de marca está listo' : 'e.g. Your brand kit is ready') + '" value="' + escHtml(existing ? existing.subject || '' : (tmpl ? tmpl.subject || '' : '')) + '" style="width:100%;box-sizing:border-box;background:#162040;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:10px 12px;color:#e8ecf4;font-size:14px">' +
+          '</label>' +
+          (TEMPLATES.length ? '<label style="display:block;margin-bottom:20px">' +
+            '<span style="font-size:13px;color:#9aa5be;display:block;margin-bottom:6px">' + (isEs ? 'Plantilla (opcional)' : 'Template (optional)') + '</span>' +
+            '<select name="template_id" style="width:100%;box-sizing:border-box;background:#162040;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:10px 12px;color:#e8ecf4;font-size:14px"><option value="">' + (isEs ? '— Sin plantilla —' : '— No template —') + '</option>' + tplOpts + '</select>' +
+          '</label>' : '') +
+          '<div id="mktCampaignErr" style="color:#f87171;font-size:13px;margin-bottom:12px;min-height:18px"></div>' +
+          '<div style="display:flex;gap:10px;justify-content:flex-end">' +
+            '<button type="button" id="mktCampaignCancel" class="btn btn-secondary">' + (isEs ? 'Cancelar' : 'Cancel') + '</button>' +
+            '<button type="submit" class="btn btn-primary">' + (existing ? (isEs ? 'Guardar' : 'Save') : (isEs ? 'Crear borrador' : 'Create draft')) + '</button>' +
+          '</div>' +
+        '</form>' +
+      '</div>';
+
+    document.body.appendChild(wrap);
+    wrap.addEventListener('click', function(e){ if (e.target === wrap) closeMktCampaignModal(); });
+    document.getElementById('mktCampaignCancel').addEventListener('click', closeMktCampaignModal);
+    document.getElementById('mktCampaignForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      var form = e.target;
+      var payload = {
+        name:        form.name.value.trim(),
+        subject:     form.subject.value.trim(),
+        template_id: form.template_id ? (form.template_id.value || null) : null,
+        status:      'draft'
+      };
+      var errEl = document.getElementById('mktCampaignErr');
+      errEl.textContent = '';
+      var method = existing ? 'PUT' : 'POST';
+      var url    = existing ? 'api/?r=campaigns&id=' + campaignId : 'api/?r=campaigns';
+      var token  = '';
+      try { token = localStorage.getItem('nwm_token') || ''; } catch(_){}
+      fetch(url, {
+        method: method,
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', 'X-Auth-Token': token },
+        body: JSON.stringify(payload)
+      }).then(function(r){ return r.json(); }).then(function(r){
+        if (r.error) { errEl.textContent = r.error; return; }
+        closeMktCampaignModal();
+        loadEmailCampaigns();
+      }).catch(function(err){ errEl.textContent = (isEs ? 'Error de red' : 'Network error') + ': ' + err.message; });
+    });
+  }
+
+  function closeMktCampaignModal() {
+    var m = document.getElementById('mktCampaignModal');
+    if (m) m.remove();
+  }
+
+  /* ── Clone campaign ──────────────────────────────────────────────────── */
+  function cloneCampaign(campaignId, row) {
+    var isEs = window.CRM_APP && CRM_APP.getLang && CRM_APP.getLang() === 'es';
+    var src  = EMAIL_CAMPAIGNS.filter(function(c){ return String(c.id) === String(campaignId); })[0];
+    if (!src) return;
+    var token = '';
+    try { token = localStorage.getItem('nwm_token') || ''; } catch(_){}
+    var origText = row ? row.querySelector('[data-action="clone"]') : null;
+    if (origText) { origText.disabled = true; origText.textContent = '…'; }
+    fetch('api/?r=campaigns', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json', 'X-Auth-Token': token },
+      body: JSON.stringify({
+        name:        (src.name || 'Campaign') + (isEs ? ' (Copia)' : ' (Copy)'),
+        subject:     src.subject || '',
+        template_id: src.template_id || null,
+        status:      'draft'
+      })
+    }).then(function(r){ return r.json(); }).then(function(){
+      loadEmailCampaigns();
+    }).catch(function(){
+      if (origText) { origText.disabled = false; origText.textContent = 'Clone'; }
+    });
+  }
 
   /* ── Tabs ───────────────────────────────────────────────────────────── */
   function renderTabs() {
@@ -208,14 +329,14 @@
       var c = EMAIL_CAMPAIGNS[i];
       var openRate  = c.sent > 0 ? ((c.opens  / c.sent) * 100).toFixed(1) + "%" : "-";
       var clickRate = c.sent > 0 ? ((c.clicks / c.sent) * 100).toFixed(1) + "%" : "-";
-      html += '<tr>';
+      html += '<tr data-campaign-id="' + (c.id || '') + '">';
       html += '<td><strong>' + escHtml(c.name || '-') + '</strong></td>';
       html += '<td>' + CRM_APP.statusBadge(c.status) + '</td>';
       html += '<td>' + (c.sent > 0 ? c.sent.toLocaleString() : "-") + '</td>';
       html += '<td>' + (c.sent > 0 ? c.opens.toLocaleString() + ' <span style="color:var(--text-dim);font-size:11px">(' + openRate  + ')</span>' : "-") + '</td>';
       html += '<td>' + (c.sent > 0 ? c.clicks.toLocaleString() + ' <span style="color:var(--text-dim);font-size:11px">(' + clickRate + ')</span>' : "-") + '</td>';
       html += '<td>' + escHtml(c.date || '-') + '</td>';
-      html += '<td><button class="action-link">Edit</button> <button class="action-link">Clone</button></td>';
+      html += '<td><button class="action-link" data-action="edit">Edit</button> <button class="action-link" data-action="clone">Clone</button></td>';
       html += '</tr>';
     }
     html += '</tbody></table>';
@@ -242,7 +363,7 @@
     if (!TEMPLATES.length) {
       return '<div style="padding:40px;text-align:center">' +
         '<p style="color:var(--text-dim);margin:0 0 12px">No templates yet.</p>' +
-        '<button class="btn btn-primary" onclick="alert(\'Template builder coming soon.\')">+ New Template</button>' +
+        '<button class="btn btn-primary" onclick="location.href=\'email-builder.html\'">+ New Template</button>' +
         '</div>';
     }
     var html = '<table class="data-table"><thead><tr>';
@@ -251,12 +372,12 @@
     for (var i = 0; i < TEMPLATES.length; i++) {
       var t = TEMPLATES[i];
       var modified = t.updated_at ? t.updated_at.slice(0, 10) : (t.lastModified || '-');
-      html += '<tr>';
+      html += '<tr data-template-id="' + (t.id || '') + '">';
       html += '<td><strong>' + escHtml(t.name || t.subject || '-') + '</strong></td>';
       html += '<td>' + escHtml(t.type || t.channel || 'Email') + '</td>';
       html += '<td>' + escHtml(t.category || '-') + '</td>';
       html += '<td>' + modified + '</td>';
-      html += '<td><button class="action-link">Edit</button> <button class="action-link">Use</button></td>';
+      html += '<td><button class="action-link" data-action="edit">Edit</button> <button class="action-link" data-action="use">Use</button></td>';
       html += '</tr>';
     }
     html += '</tbody></table>';

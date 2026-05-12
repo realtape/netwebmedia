@@ -702,6 +702,7 @@ section { position: relative; }
   text-align: center;
   text-decoration: none;
   color: var(--text-primary);
+  min-width: 0;
   min-height: 152px;
   border-radius: 14px;
   transition: var(--transition);
@@ -713,18 +714,24 @@ section { position: relative; }
   transition: transform 0.25s ease;
 }
 .industry-tile-label {
+  display: block;
+  width: 100%;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 14.5px;
   line-height: 1.2;
   letter-spacing: -0.01em;
+  overflow-wrap: break-word;
 }
 .industry-tile-sub {
+  display: block;
+  width: 100%;
   font-size: 11px;
   font-weight: 500;
   line-height: 1.35;
   color: rgba(255,255,255,0.55);
   letter-spacing: 0.01em;
+  overflow-wrap: break-word;
 }
 .industry-tile:hover .industry-tile-icon {
   transform: scale(1.12);
@@ -737,18 +744,24 @@ section { position: relative; }
   .industry-tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (max-width: 720px) {
-  .industry-tiles-section { padding: 60px 0 70px; }
+  .industry-tiles-section { padding: 56px 0 64px; }
   .industry-tiles {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
   .industry-tile {
-    min-height: 124px;
-    padding: 18px 10px;
+    min-height: 0;
+    padding: 18px 12px;
+    gap: 8px;
   }
-  .industry-tile-icon { font-size: 28px; }
+  .industry-tile-icon { font-size: 26px; }
   .industry-tile-label { font-size: 14px; }
   .industry-tile-sub { font-size: 10.5px; }
+}
+@media (max-width: 380px) {
+  .industry-tile { padding: 16px 8px; }
+  .industry-tile-label { font-size: 13px; }
+  .industry-tile-sub { font-size: 10px; }
 }
 
 /* ── SERVICES SECTION ── */
@@ -1539,7 +1552,7 @@ textarea.form-control { resize: vertical; min-height: 140px; }
   h1, .h1 { font-size: 28px !important; line-height: 1.15; }
   h2, .h2 { font-size: 22px !important; }
   h3, .h3 { font-size: 18px !important; }
-  .glass-card { padding: 18px !important; }
+  .glass-card:not(.industry-tile) { padding: 18px !important; }
   .service-card { padding: 18px !important; }
   .pricing-tiers .tier, .plan { padding: 22px !important; }
   .footer-col { margin-bottom: 20px; }

@@ -89,6 +89,10 @@ def build_drawtext_filter(overlays: list[dict], textfile_dir: Path) -> str:
         parts = [
             f"fontfile='{font_path}'",
             f"textfile='{textfile_str}'",
+            # CRITICAL: expansion=none means literal text (no %{...} macro parsing).
+            # Without this, a bare "%" character in text like "25%" silently
+            # corrupts the rendered glyph. Took us a debug round to find this.
+            "expansion=none",
             f"fontcolor={ov['color']}",
             f"fontsize={ov['font_size']}",
             f"x={ov['x']}",

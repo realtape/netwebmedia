@@ -139,11 +139,20 @@ def compose(spec_path: Path, input_override: str | None, output_override: str | 
         filter_parts: list[str] = []
 
         if logo:
+            # ffprobe the main video width so we can compute logo_w as a fixed pixel value
+            # (ffmpeg scale filter doesn't expose main-canvas dimensions; W/H only work in overlay)
+            probe = subprocess.run(
+                ["ffprobe", "-v", "error", "-select_streams", "v:0",
+                 "-show_entries", "stream=width", "-of", "csv=p=0", str(bg)],
+                capture_output=True, text=True
+            )
+            main_w = int(probe.stdout.strip() or "1080")
+            logo_w = int(main_w * 0.22)
             cmd.extend(["-i", str(Path(logo).resolve())])
             filter_parts.append(f"[0:v]{filter_text}[vt]")
-            # Scale logo to 22% of video width, place bottom-left at 6% inset
+            # Scale logo to ~22% of video width, place bottom-left at 6% inset
             filter_parts.append(
-                "[1:v]scale=iw*0.22*W/iw:-1,format=rgba,colorchannelmixer=aa=0.92[wm]"
+                f"[1:v]scale={logo_w}:-1,format=rgba,colorchannelmixer=aa=0.92[wm]"
             )
             filter_parts.append("[vt][wm]overlay=W*0.06:H-h-H*0.06[v]")
             map_video = "[v]"

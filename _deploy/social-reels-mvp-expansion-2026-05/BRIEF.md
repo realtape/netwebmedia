@@ -1,9 +1,10 @@
 # 9-Reel MVP Expansion — Higgsfield Kling 3.0
 
-**Status:** Scripts drafted + all 22 generations queued 2026-05-12.
-**Higgsfield balance pre-batch:** 2,299.38 credits (Ultra plan).
-**Confirmed unit cost:** 15 credits per Kling 3.0 clip (std mode, 9:16, 10s, sound off).
-**Estimated total spend this batch:** ~285 credits (19 clips × 15) + ~3 image credits ≈ **~290 credits**.
+**Status:** ✅ ALL 22 GENERATIONS COMPLETE — clips downloaded to `assets/social/campaign/v2/` (73 MB total).
+**Higgsfield balance:** 2,299.38 → 2,132.88 credits. **Actual spend: 166.5 credits** (Ultra plan discounting brought it well below the 290 estimate).
+**Confirmed unit cost:** 15 credits/clip preflight; effective average ~7.5 credits/clip on Ultra plan.
+**Render time:** All 19 Kling clips completed in ~4 minutes (parallel render).
+**Total batch cost:** 166.5 credits for 22 assets (3 portraits + 19 video clips).
 
 ## Generation manifest — 2026-05-12
 
@@ -15,36 +16,57 @@
 | B | Operator | `a0be5e3f-04df-46bd-be54-0ac56daabf4a` | completed |
 | C | Executive Closer | `3336b8d8-a1a8-4669-9e6a-1e2b95d006ee` | completed |
 
-### Character speaking-shot clips (Kling 3.0, 9:16, std, sound off — pending)
+### Character reference portraits (Nano Banana 2 — ✅ completed)
 
-| Reel | Char | Duration | Job ID |
+| Char | File | Job ID |
+|---|---|---|
+| A | `assets/social/campaign/v2/character-refs/character-A-skeptic-founder.png` | `fa4634bb-…0d6509f8a074` |
+| B | `assets/social/campaign/v2/character-refs/character-B-operator.png` | `a0be5e3f-…0ac56daabf4a` |
+| C | `assets/social/campaign/v2/character-refs/character-C-executive-closer.png` | `3336b8d8-…1e2b95d006ee` |
+
+### Character speaking-shot clips (Kling 3.0 image-to-video — ✅ completed)
+
+| Reel | Char | Dur | Local file |
 |---|---|---|---|
-| 1A — Hook | A | 10s | `5f4cb284-617d-4648-8828-d06e74a636c3` |
-| 2A — Demo | A | 5s | `fa457722-f110-48b1-96fb-d4ede93813f5` |
-| 3A — Proof | A | 5s | `77232d6f-8b03-45b6-acf4-e6e279b33788` |
-| 4B — Hook | B | 7s | `00dc0e26-7fff-47bd-8725-1d199d6e3b25` |
-| 5B — Demo | B | 5s | `805beee6-f261-4be7-84f4-567ce124764a` |
-| 6B — Proof | B | 5s | `8c4c6b57-3017-4e54-bf6c-5b911f013d1e` |
-| 7C — Hook | C | 10s | `360af0d2-6c0b-40d8-b42c-e265aecb7803` |
-| 8C — Demo | C | 5s | `f0c42c6e-b4a6-478f-b06f-d9fa8abdd77d` |
-| 9C — Proof | C | 5s | `53c8290d-e2e9-4617-87f8-f2070a086d03` |
+| 1A — Hook | A | 10s | `assets/social/campaign/v2/reel_01_aeo_hero_skeptic-founder.mp4` |
+| 2A — Demo | A | 5s | `assets/social/campaign/v2/reel_02_aeo_hero_phone-reaction.mp4` |
+| 3A — Proof | A | 5s | `assets/social/campaign/v2/reel_03_aeo_hero_audit-reports.mp4` |
+| 4B — Hook | B | 7s | `assets/social/campaign/v2/reel_04_growth_hero_operator-laptop.mp4` |
+| 5B — Demo | B | 5s | `assets/social/campaign/v2/reel_05_growth_hero_whiteboard-list.mp4` |
+| 6B — Proof | B | 5s | `assets/social/campaign/v2/reel_06_growth_hero_whiteboard-arrow.mp4` |
+| 7C — Hook | C | 10s | `assets/social/campaign/v2/reel_07_scale_hero_executive-window.mp4` |
+| 8C — Demo | C | 5s | `assets/social/campaign/v2/reel_08_scale_hero_conference-table.mp4` |
+| 9C — Proof | C | 5s | `assets/social/campaign/v2/reel_09_scale_hero_phone-call-window.mp4` |
 
-### B-roll clips (Kling 3.0, 9:16, std, sound off, text-to-video — pending)
+### B-roll clips (Kling 3.0 text-to-video — ✅ completed)
 
-| Reel | Beat | Description | Job ID |
+| Reel | Beat | Description | Local file |
 |---|---|---|---|
-| 1A | Beat 2 | iPhone showing ChatGPT result with competitor | `fd6ed0f1-dd0b-477b-bfc7-f1c3925c6940` |
-| 2A | Beat 3 | Schema markup + FAQ blocks animating in | `c8324c62-0cc1-42ef-b14e-5d07b50fe2df` |
-| 3A | Beat 3 | Citation lift line chart climbing | `30eb61bf-0d8a-442a-be08-d88f664e98e8` |
-| 4B | Beat 3 | 7 tabs closing → unified CRM dashboard | `b1725b7d-42a9-4fea-82cf-1a2d768f4ffc` |
-| 5B | Beat 2 | CRM marketing calendar populating | `dadbaecf-ad47-48f7-ad7a-010f9f034a87` |
-| 6B | Beat 3 | iPhone email "ready to scale" | `70ebf5f9-35b0-4675-8328-2c3e235d3048` |
-| 7C | Beat 2 | Chaotic spreadsheets / missed deadlines | `4e51723d-5d1d-4cd6-af6e-278a8534ff6e` |
-| 8C | Beat 2 | Executive KPI dashboard 2x2 grid | `79449f2a-0005-4ad3-9270-79de0b9e577b` |
-| 8C | Beat 3 | AI workflow node animation | `ad246def-0111-4c6f-aeac-fe868b456120` |
-| 9C | Beat 2 | Client logo wall + revenue chart | `e5bd67ac-525d-463a-b064-78ab5b62fb25` |
+| 1A | 2 | iPhone showing ChatGPT result | `assets/social/campaign/v2/reel_01_aeo_broll_chatgpt-phone.mp4` |
+| 2A | 3 | Schema markup + FAQ animating | `assets/social/campaign/v2/reel_02_aeo_broll_schema-markup.mp4` |
+| 3A | 3 | Citation lift line chart | `assets/social/campaign/v2/reel_03_aeo_broll_citation-chart.mp4` |
+| 4B | 3 | 7 tabs closing → CRM | `assets/social/campaign/v2/reel_04_growth_broll_tabs-closing.mp4` |
+| 5B | 2 | CRM calendar populating | `assets/social/campaign/v2/reel_05_growth_broll_calendar-fill.mp4` |
+| 6B | 3 | iPhone email "ready to scale" | `assets/social/campaign/v2/reel_06_growth_broll_email-scale.mp4` |
+| 7C | 2 | Chaotic spreadsheets montage | `assets/social/campaign/v2/reel_07_scale_broll_chaos-montage.mp4` |
+| 8C | 2 | Executive KPI dashboard | `assets/social/campaign/v2/reel_08_scale_broll_kpi-dashboard.mp4` |
+| 8C | 3 | AI workflow nodes | `assets/social/campaign/v2/reel_08_scale_broll_workflow-nodes.mp4` |
+| 9C | 2 | Logos + revenue chart | `assets/social/campaign/v2/reel_09_scale_broll_logos-revenue.mp4` |
 
-**Total queued:** 22 generations (3 images + 19 video clips).
+**Total delivered:** 22 assets (3 portraits + 19 video clips), 73 MB on disk.
+
+## Next steps (post-production — NOT done yet)
+
+1. **QA review** — open each clip and flag any that need a regenerate (Kling sometimes hallucinates faces in `start_image` mode; check Character A/B/C consistency across their 3 reels).
+2. **Editor handoff** — open `assets/social/campaign/v2/` in DaVinci Resolve / CapCut / Premiere.
+3. **Per-reel assembly** (for each of the 9 reels):
+   - Hero clip (character) + b-roll clip cut to script timing → 12–15s total
+   - Burn-in captions (orange `#FF671F` for emphasis words; IG mutes ~85% of plays)
+   - Corner watermark — square `assets/nwm-logo.svg` top-right, 80×80px, 70% opacity
+   - 2s end card — `assets/nwm-logo-horizontal.svg` on navy `#010F3B`, orange CTA strip with package name + URL
+4. **Voice-over** — Carlos or hired VO records the 9 EN scripts; ES dubs after EN locked.
+5. **Final export** — H.264 MP4, 1080×1920, 30fps. Naming: `reel_01_aeo_v2_en_final.mp4` … `reel_09_scale_v2_es_final.mp4`.
+6. **Publishing** — HOLD until Meta verification confirmed. Then use `ig_publish.php` (admin-gated), `fb_publish.php` (MIGRATE_TOKEN), `tt_publish.php` (MIGRATE_TOKEN).
 
 
 **Target:** 9 IG Reels (9:16, 12–15s each), 3 per MVP package, different face per package.

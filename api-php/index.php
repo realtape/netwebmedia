@@ -44,6 +44,13 @@ if (($parts[0] ?? '') === '_cleanup_audit_lead') {
   exit;
 }
 
+// One-shot CSV decompression endpoint for wave-3 (large file ships gzipped).
+// Gated by MIGRATE_TOKEN — see _decompress-csv.php.
+if (($parts[0] ?? '') === '_decompress-csv') {
+  require __DIR__ . '/_decompress-csv.php';
+  exit;
+}
+
 // Root: API info
 if (empty($parts)) {
   json_out([

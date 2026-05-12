@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 320 360" xmlns="http://www.w3.org/2000/svg" aria-label="NetWebMedia AI Marketing Dashboard">
+              <defs>
+                <linearGradient id="dashBg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#020c24"/>
+                  <stop offset="100%" stop-color="#010F3B"/>
+                </linearGradient>
+                <linearGradient id="barOrange" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#FF8A4C"/>
+                  <stop offset="100%" stop-color="#FF671F"/>
+                </linearGradient>
+                <linearGradient id="barNavy" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2254C8"/>
+                  <stop offset="100%" stop-color="#010F3B"/>
+                </linearGradient>
+                <linearGradient id="barMid" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#FF9A5C"/>
+                  <stop offset="100%" stop-color="#CC4A00"/>
+                </linearGradient>
+                <linearGradient id="lineGrd" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#FF671F"/>
+                  <stop offset="100%" stop-color="#FF9A5C"/>
+                </linearGradient>
+                <linearGradient id="screenGlow" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#FF671F" stop-opacity="0.15"/>
+                  <stop offset="100%" stop-color="#010F3B" stop-opacity="0"/>
+                </linearGradient>
+                <radialGradient id="orangeGlow" cx="0.5" cy="0.5" r="0.5">
+                  <stop offset="0%" stop-color="#FF671F" stop-opacity="0.5"/>
+                  <stop offset="100%" stop-color="#FF671F" stop-opacity="0"/>
+                </radialGradient>
+                <filter id="dashGlow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feGaussianBlur stdDeviation="3" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+                <clipPath id="screenClip">
+                  <rect x="30" y="18" width="260" height="290" rx="16"/>
+                </clipPath>
+              </defs>
+
+              <!-- Floor glow -->
+              <ellipse cx="160" cy="345" rx="100" ry="8" fill="#FF671F" opacity="0.12">
+                <animate attributeName="opacity" values="0.08;0.18;0.08" dur="3s" repeatCount="indefinite"/>
+              </ellipse>
+
+              <!-- Main screen body -->
+              <rect x="30" y="18" width="260" height="290" rx="16" fill="url(#dashBg)" stroke="#FF671F" stroke-width="1.2" stroke-opacity="0.4"/>
+              <!-- Screen glow overlay -->
+              <rect x="30" y="18" width="260" height="290" rx="16" fill="url(#screenGlow)"/>
+              <!-- Top bar -->
+              <rect x="30" y="18" width="260" height="32" rx="16" fill="#010F3B"/>
+              <rect x="30" y="34" width="260" height="16" fill="#010F3B"/>
+              <!-- Top bar dots -->
+              <circle cx="52" cy="34" r="5" fill="#FF671F" opacity="0.9"/>
+              <circle cx="68" cy="34" r="5" fill="#FF671F" opacity="0.5"/>
+              <circle cx="84" cy="34" r="5" fill="#FF671F" opacity="0.25"/>
+              <!-- Title text simulation -->
+              <rect x="110" y="29" width="60" height="5" rx="2.5" fill="rgba(255,255,255,0.2)"/>
+              <!-- Live indicator -->
+              <circle cx="268" cy="34" r="4" fill="#22C55E">
+                <animate attributeName="opacity" values="1;0.3;1" dur="1.4s" repeatCount="indefinite"/>
+              </circle>
+              <rect x="246" y="31" width="16" height="5" rx="2" fill="rgba(34,197,94,0.3)"/>
+
+              <!-- Grid lines (clipped) -->
+              <g clip-path="url(#screenClip)" opacity="0.07">
+                <line x1="30" y1="100" x2="290" y2="100" stroke="#fff" stroke-width="1"/>
+                <line x1="30" y1="140" x2="290" y2="140" stroke="#fff" stroke-width="1"/>
+                <line x1="30" y1="180" x2="290" y2="180" stroke="#fff" stroke-width="1"/>
+                <line x1="30" y1="220" x2="290" y2="220" stroke="#fff" stroke-width="1"/>
+                <line x1="30" y1="260" x2="290" y2="260" stroke="#fff" stroke-width="1"/>
+              </g>
+
+              <!-- KPI row -->
+              <!-- KPI 1 -->
+              <rect x="42" y="60" width="68" height="40" rx="8" fill="rgba(255,103,31,0.1)" stroke="#FF671F" stroke-width="0.8" stroke-opacity="0.4"/>
+              <rect x="48" y="66" width="28" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <rect x="48" y="76" width="40" height="7" rx="3" fill="#FF671F" opacity="0.9"/>
+              <rect x="48" y="88" width="22" height="4" rx="2" fill="rgba(34,197,94,0.6)"/>
+              <!-- KPI 2 -->
+              <rect x="116" y="60" width="88" height="40" rx="8" fill="rgba(255,103,31,0.08)" stroke="#FF671F" stroke-width="0.8" stroke-opacity="0.3"/>
+              <rect x="122" y="66" width="36" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <rect x="122" y="76" width="52" height="7" rx="3" fill="#FF671F" opacity="0.8"/>
+              <rect x="122" y="88" width="28" height="4" rx="2" fill="rgba(34,197,94,0.6)"/>
+              <!-- KPI 3 -->
+              <rect x="210" y="60" width="68" height="40" rx="8" fill="rgba(255,103,31,0.1)" stroke="#FF671F" stroke-width="0.8" stroke-opacity="0.4"/>
+              <rect x="216" y="66" width="24" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
+              <rect x="216" y="76" width="44" height="7" rx="3" fill="#FF671F" opacity="0.9"/>
+              <rect x="216" y="88" width="18" height="4" rx="2" fill="rgba(34,197,94,0.6)"/>
+
+              <!-- Bar chart area -->
+              <!-- Floor line -->
+              <line x1="42" y1="270" x2="278" y2="270" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+
+              <!-- Bars (animated rise) -->
+              <!-- Bar 1 -->
+              <rect x="54" y="270" width="22" height="0" rx="3 3 0 0" fill="url(#barNavy)">
+                <animate attributeName="height" values="0;60;60" dur="1.2s" begin="0.1s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+                <animate attributeName="y" values="270;210;210" dur="1.2s" begin="0.1s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+              </rect>
+              <!-- Bar 2 -->
+              <rect x="88" y="270" width="22" height="0" rx="3 3 0 0" fill="url(#barOrange)" filter="url(#dashGlow)">
+                <animate attributeName="height" values="0;95;95" dur="1.2s" begin="0.2s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+                <animate attributeName="y" values="270;175;175" dur="1.2s" begin="0.2s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+              </rect>
+              <!-- Bar 3 -->
+              <rect x="122" y="270" width="22" height="0" rx="3 3 0 0" fill="url(#barNavy)">
+                <animate attributeName="height" values="0;72;72" dur="1.2s" begin="0.3s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+                <animate attributeName="y" values="270;198;198" dur="1.2s" begin="0.3s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+              </rect>
+              <!-- Bar 4 (tallest - orange) -->
+              <rect x="156" y="270" width="22" height="0" rx="3 3 0 0" fill="url(#barOrange)" filter="url(#dashGlow)">
+                <animate attributeName="height" values="0;115;115" dur="1.2s" begin="0.4s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+                <animate attributeName="y" values="270;155;155" dur="1.2s" begin="0.4s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+              </rect>
+              <!-- Bar 5 -->
+              <rect x="190" y="270" width="22" height="0" rx="3 3 0 0" fill="url(#barMid)">
+                <animate attributeName="height" values="0;82;82" dur="1.2s" begin="0.5s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+                <animate attributeName="y" values="270;188;188" dur="1.2s" begin="0.5s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+              </rect>
+              <!-- Bar 6 -->
+              <rect x="224" y="270" width="22" height="0" rx="3 3 0 0" fill="url(#barNavy)">
+                <animate attributeName="height" values="0;50;50" dur="1.2s" begin="0.6s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+                <animate attributeName="y" values="270;220;220" dur="1.2s" begin="0.6s" fill="freeze" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+              </rect>
+
+              <!-- Line chart overlay -->
+              <path d="M65,215 C88,195 99,185 99,185 S122,175 133,195 S145,170 167,158 S190,172 201,188 S224,230 235,222" fill="none" stroke="url(#lineGrd)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="340" stroke-dashoffset="340" opacity="0.85">
+                <animate attributeName="stroke-dashoffset" values="340;0" dur="1.8s" begin="0.8s" fill="freeze" calcMode="spline" keySplines="0.4 0 0.2 1"/>
+              </path>
+              <!-- Line dots -->
+              <circle cx="65" cy="215" r="0" fill="#FF671F" filter="url(#dashGlow)">
+                <animate attributeName="r" values="0;4;4" dur="0.3s" begin="1s" fill="freeze"/>
+              </circle>
+              <circle cx="133" cy="195" r="0" fill="#FF671F" filter="url(#dashGlow)">
+                <animate attributeName="r" values="0;4;4" dur="0.3s" begin="1.3s" fill="freeze"/>
+              </circle>
+              <circle cx="167" cy="158" r="0" fill="#FF8A4C" filter="url(#dashGlow)">
+                <animate attributeName="r" values="0;5;5" dur="0.3s" begin="1.5s" fill="freeze"/>
+              </circle>
+              <!-- Pulse on peak -->
+              <circle cx="167" cy="158" r="5" fill="none" stroke="#FF671F" stroke-width="1.5" opacity="0">
+                <animate attributeName="r" values="5;14;5" dur="2s" begin="2s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.8;0;0.8" dur="2s" begin="2s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="201" cy="188" r="0" fill="#FF671F" filter="url(#dashGlow)">
+                <animate attributeName="r" values="0;4;4" dur="0.3s" begin="1.7s" fill="freeze"/>
+              </circle>
+              <circle cx="235" cy="222" r="0" fill="#FF671F" filter="url(#dashGlow)">
+                <animate attributeName="r" values="0;4;4" dur="0.3s" begin="1.9s" fill="freeze"/>
+              </circle>
+
+              <!-- Floating sparkles -->
+              <circle cx="72" cy="130" r="2.5" fill="#FF671F" opacity="0">
+                <animate attributeName="opacity" values="0;0.7;0" dur="2.8s" begin="1s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="130;115;130" dur="2.8s" begin="1s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="248" cy="115" r="2" fill="#FF8A4C" opacity="0">
+                <animate attributeName="opacity" values="0;0.6;0" dur="3.2s" begin="0.5s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="115;100;115" dur="3.2s" begin="0.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="160" cy="108" r="2" fill="#FF671F" opacity="0">
+                <animate attributeName="opacity" values="0;0.5;0" dur="2.4s" begin="1.8s" repeatCount="indefinite"/>
+                <animate attributeName="cy" values="108;95;108" dur="2.4s" begin="1.8s" repeatCount="indefinite"/>
+              </circle>
+
+              <!-- Bottom bar -->
+              <rect x="30" y="290" width="260" height="18" rx="0" fill="#010F3B" opacity="0.8"/>
+              <rect x="30" y="290" width="260" height="18" rx="0 0 16 16" fill="#010F3B" opacity="0.8"/>
+              <rect x="42" y="296" width="30" height="4" rx="2" fill="rgba(255,103,31,0.4)"/>
+              <rect x="78" y="296" width="20" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+              <rect x="104" y="296" width="24" height="4" rx="2" fill="rgba(255,255,255,0.1)"/>
+              <!-- Animated ticker -->
+              <rect x="200" y="296" width="70" height="4" rx="2" fill="rgba(255,103,31,0.2)">
+                <animate attributeName="width" values="10;70;10" dur="4s" repeatCount="indefinite"/>
+              </rect>
+
+              <!-- Screen edge highlight -->
+              <rect x="30" y="18" width="260" height="290" rx="16" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            </svg>

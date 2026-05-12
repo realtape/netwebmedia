@@ -155,8 +155,22 @@ for dirpath, dirnames, filenames in os.walk(ROOT):
 urls.sort(key=lambda x: x[0])
 
 
+def atomic_write(path, content):
+    """Write content to path atomically via a .tmp file + os.replace.
+
+    Prevents a partial-write window where a reader (Google's crawler hitting
+    the FTP-deployed file, or a parallel process) could see a half-written
+    XML document. os.replace is atomic on POSIX and Windows when source and
+    target are on the same filesystem (always true here -- repo root).
+    """
+    tmp_path = path + ".tmp"
+    with open(tmp_path, "w", encoding="utf-8") as fh:
+        fh.write(content)
+    os.replace(tmp_path, path)
+
+
 def write_urlset(path, url_list):
-    """Write a sitemap urlset file."""
+    """Write a sitemap urlset file (atomic)."""
     out_lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
@@ -172,11 +186,26 @@ def write_urlset(path, url_list):
             "  </url>",
         ]
     out_lines.append("</urlset>")
-    with open(path, "w", encoding="utf-8") as fh:
-        fh.write("\n".join(out_lines) + "\n")
+    atomic_write(path, "\n".join(out_lines) + "\n")
 
 
-# Full sitemap — every URL
+def latest_lastmod(url_list, fallback=TODAY):
+    """Return the maximum <lastmod> across a url_list, or fallback if empty.
+
+    The sitemap index's <lastmod> should reflect when the child sitemap's
+    contents actually changed, NOT today's date. Always-TODAY signals false
+    freshness and (per Google's docs) can trigger unnecessary re-crawls of
+    unchanged URLs.
+    """
+    if not url_list:
+        return fallback
+    return max(u[3] for u in url_list)  # u[3] is lastmod (YYYY-MM-DD string)
+
+
+# Full sitemap — every URL.
+# Children MUST be written before the index so the index never references a
+# file that doesn't exist on disk (mitigates the crash-safety race where the
+# process dies between writing children and index, leaving stale references).
 write_urlset(os.path.join(ROOT, "sitemap.xml"), urls)
 print(f"sitemap.xml written -- {len(urls)} URLs")
 
@@ -199,19 +228,26 @@ print(f"sitemap-priority.xml written -- {len(priority_urls)} URLs (priority >= 0
 # Submitting sitemap-index.xml is equivalent to submitting both children;
 # Google's crawler picks up both. This is the canonical pattern for sites
 # that want to publish multiple sitemaps.
+#
+# <lastmod> for each child is derived from the latest URL <lastmod> inside
+# that child (not stamped with TODAY). This way the index only signals
+# freshness when something actually changed, avoiding the "freshness-spam"
+# pattern flagged elsewhere in this file.
 index_lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     "  <sitemap>",
     f"    <loc>{BASE}/sitemap-priority.xml</loc>",
-    f"    <lastmod>{TODAY}</lastmod>",
+    f"    <lastmod>{latest_lastmod(priority_urls)}</lastmod>",
     "  </sitemap>",
     "  <sitemap>",
     f"    <loc>{BASE}/sitemap.xml</loc>",
-    f"    <lastmod>{TODAY}</lastmod>",
+    f"    <lastmod>{latest_lastmod(urls)}</lastmod>",
     "  </sitemap>",
     "</sitemapindex>",
 ]
-with open(os.path.join(ROOT, "sitemap-index.xml"), "w", encoding="utf-8") as fh:
-    fh.write("\n".join(index_lines) + "\n")
+# Atomic write so the FTP-deployed index is never half-written; and so a
+# reader that hits this file mid-rebuild gets either the previous version
+# or the new version, never a truncated one.
+atomic_write(os.path.join(ROOT, "sitemap-index.xml"), "\n".join(index_lines) + "\n")
 print("sitemap-index.xml written -- master index referencing both sitemaps")

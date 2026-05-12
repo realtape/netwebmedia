@@ -143,10 +143,10 @@ Allow: /
 User-agent: webzio-extended
 Allow: /
 
-# ── Sitemap declaration — index references both child sitemaps ───────────
-# sitemap-priority.xml: 78 high-priority URLs (priority >= 0.85) for fresh
-#   crawl-budget allocation on a young domain (13/178 pages indexed 2026-05-12).
-# sitemap.xml: full 499-URL inventory.
+# ── Sitemap declaration ───────────────────────────────────────────────────
+# Only the index is listed -- it references both child sitemaps
+# (sitemap-priority.xml + sitemap.xml) and major crawlers (Google, Bing,
+# DuckDuckGo) follow the index correctly. Listing the children separately
+# is redundant. The children remain submitted directly in Google Search
+# Console alongside the index for belt-and-suspenders redundancy.
 Sitemap: https://netwebmedia.com/sitemap-index.xml
-Sitemap: https://netwebmedia.com/sitemap-priority.xml
-Sitemap: https://netwebmedia.com/sitemap.xml

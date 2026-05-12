@@ -154,24 +154,64 @@ for dirpath, dirnames, filenames in os.walk(ROOT):
 
 urls.sort(key=lambda x: x[0])
 
-lines = [
-    '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-]
-for rel, priority, changefreq, lastmod in urls:
-    loc = BASE + rel
-    lines += [
-        "  <url>",
-        f"    <loc>{loc}</loc>",
-        f"    <lastmod>{lastmod}</lastmod>",
-        f"    <changefreq>{changefreq}</changefreq>",
-        f"    <priority>{priority}</priority>",
-        "  </url>",
+
+def write_urlset(path, url_list):
+    """Write a sitemap urlset file."""
+    out_lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ]
-lines.append("</urlset>")
+    for rel, priority, changefreq, lastmod in url_list:
+        loc = BASE + rel
+        out_lines += [
+            "  <url>",
+            f"    <loc>{loc}</loc>",
+            f"    <lastmod>{lastmod}</lastmod>",
+            f"    <changefreq>{changefreq}</changefreq>",
+            f"    <priority>{priority}</priority>",
+            "  </url>",
+        ]
+    out_lines.append("</urlset>")
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write("\n".join(out_lines) + "\n")
 
-out_path = os.path.join(ROOT, "sitemap.xml")
-with open(out_path, "w", encoding="utf-8") as f:
-    f.write("\n".join(lines) + "\n")
 
-print(f"sitemap.xml written — {len(urls)} URLs")
+# Full sitemap — every URL
+write_urlset(os.path.join(ROOT, "sitemap.xml"), urls)
+print(f"sitemap.xml written -- {len(urls)} URLs")
+
+# Priority sitemap — top-value URLs only (priority >= 0.85).
+#
+# Why a separate file:
+#   Google allocates crawl budget partly at the sitemap level. A young domain
+#   (10mo old, 13/178 pages indexed as of 2026-05-12) gets a slow drip across
+#   a 500-URL sitemap. A focused sitemap of the 30-50 highest-priority URLs
+#   submitted separately gives those pages a fresh-budget signal.
+#
+# Submit this file separately in Google Search Console alongside sitemap.xml.
+# The site index (sitemap-index.xml) references both so Google sees the
+# relationship.
+priority_urls = [u for u in urls if float(u[1]) >= 0.85]
+write_urlset(os.path.join(ROOT, "sitemap-priority.xml"), priority_urls)
+print(f"sitemap-priority.xml written -- {len(priority_urls)} URLs (priority >= 0.85)")
+
+# Sitemap index — master that references both child sitemaps.
+# Submitting sitemap-index.xml is equivalent to submitting both children;
+# Google's crawler picks up both. This is the canonical pattern for sites
+# that want to publish multiple sitemaps.
+index_lines = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    "  <sitemap>",
+    f"    <loc>{BASE}/sitemap-priority.xml</loc>",
+    f"    <lastmod>{TODAY}</lastmod>",
+    "  </sitemap>",
+    "  <sitemap>",
+    f"    <loc>{BASE}/sitemap.xml</loc>",
+    f"    <lastmod>{TODAY}</lastmod>",
+    "  </sitemap>",
+    "</sitemapindex>",
+]
+with open(os.path.join(ROOT, "sitemap-index.xml"), "w", encoding="utf-8") as fh:
+    fh.write("\n".join(index_lines) + "\n")
+print("sitemap-index.xml written -- master index referencing both sitemaps")

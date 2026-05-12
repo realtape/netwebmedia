@@ -1152,22 +1152,12 @@ footer {
   0%, 100% { transform: rotateY(-8deg) rotateX(2deg); }
   50%      { transform: rotateY(8deg)  rotateX(-2deg); }
 }
-.hero-robot-svg .hero-robot-head {
-  transform-origin: 160px 90px;
-  animation: robotHeadBob 4s ease-in-out infinite;
-}
-@keyframes robotHeadBob {
-  0%, 100% { transform: rotate(-2deg); }
-  50%      { transform: rotate(2deg); }
-}
-.hero-robot-svg .hero-robot-scan {
-  animation: robotScan 2.2s ease-in-out infinite;
-}
-@keyframes robotScan {
-  0%   { transform: translateY(0);  opacity: 0.9; }
-  50%  { transform: translateY(28px); opacity: 0.35; }
-  100% { transform: translateY(0);  opacity: 0.9; }
-}
+/* Removed 2026-05-12: .hero-robot-head and .hero-robot-scan CSS rules + their
+   @keyframes were dead code. The SVG never contained elements with those classes
+   (audit confirmed `grep "hero-robot-head|hero-robot-scan" assets/hero-robot.svg`
+   returned zero), and once the SVG was externalized via <img src=>, descendant
+   selectors cannot cross the <img> document boundary anyway. The container-level
+   robotFloat / robotTilt animations on .hero-robot-svg above still apply. */
 .hero-robot-halo {
   position: absolute;
   left: 50%;

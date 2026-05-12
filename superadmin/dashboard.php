@@ -20,7 +20,9 @@ $adminName = htmlspecialchars($admin['name'], ENT_QUOTES, 'UTF-8');
     <nav class="tabs">
       <button class="tab active" data-tab="overview">Overview</button>
       <button class="tab" data-tab="users">Users</button>
-      <button class="tab" data-tab="leads">Leads</button>
+      <button class="tab" data-tab="leads">Contacts</button>
+      <button class="tab" data-tab="deals">Deals</button>
+      <button class="tab" data-tab="conversations">Conversations</button>
     </nav>
     <div class="top-bar-right">
       <span class="admin-name"><?= $adminName ?></span>
@@ -114,6 +116,59 @@ $adminName = htmlspecialchars($admin['name'], ENT_QUOTES, 'UTF-8');
         </tr></thead>
         <tbody id="leadsBody"><tr><td colspan="8" class="empty">Loading…</td></tr></tbody>
       </table>
+    </div>
+  </section>
+
+
+  <!-- Deals tab -->
+  <section id="tab-deals" class="tab-panel">
+    <div class="toolbar">
+      <input class="search-input" id="dealSearch" type="search" placeholder="Search title, company…">
+      <select class="filter-select" id="dealStageFilter">
+        <option value="">All stages</option>
+      </select>
+      <button class="btn-primary" id="dealSearchBtn">Search</button>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table" id="dealsTable">
+        <thead><tr>
+          <th>Title</th><th>Company</th><th>Contact</th><th>Stage</th>
+          <th>Value</th><th>Prob.</th><th>Next Action</th><th>Follow-up</th><th>Updated</th>
+        </tr></thead>
+        <tbody id="dealsBody"><tr><td colspan="9" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Conversations tab -->
+  <section id="tab-conversations" class="tab-panel">
+    <div class="toolbar">
+      <input class="search-input" id="convSearch" type="search" placeholder="Search subject, contact…">
+      <select class="filter-select" id="convChannelFilter">
+        <option value="">All channels</option>
+        <option value="email">Email</option>
+        <option value="sms">SMS</option>
+        <option value="whatsapp">WhatsApp</option>
+      </select>
+      <button class="btn-primary" id="convSearchBtn">Search</button>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table" id="convTable">
+        <thead><tr>
+          <th>Channel</th><th>Contact</th><th>Subject</th>
+          <th>Messages</th><th>Last Message</th><th>Updated</th>
+        </tr></thead>
+        <tbody id="convBody"><tr><td colspan="6" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+
+    <!-- Message thread panel -->
+    <div id="threadPanel" style="display:none;margin-top:1.5rem;" class="section-card">
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+        <button class="btn-primary" id="threadCloseBtn" style="padding:0.25rem 0.75rem;font-size:0.8rem;">← Back</button>
+        <h3 class="section-title" id="threadTitle" style="margin:0"></h3>
+      </div>
+      <div id="threadMessages" style="display:flex;flex-direction:column;gap:0.75rem;max-height:500px;overflow-y:auto;padding:0.5rem 0;"></div>
     </div>
   </section>
 

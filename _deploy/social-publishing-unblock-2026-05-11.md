@@ -96,7 +96,24 @@ curl -X POST "https://netwebmedia.com/crm-vanilla/api/?r=ig_publish&action=publi
 
 `dry_run:true` returns the IG-ready payload without posting. Verify it looks right, then re-run with `dry_run:false` to publish carousel `a` ("Who we are") to @netwebmedia.
 
-**Total elapsed time: ~90 minutes. IG goes live today.**
+### Step 8 — Service-reels batch publish (the 9 R2..R10 reels)
+
+After Steps 1–6 leave IG_BUSINESS_ACCOUNT_ID + IG_GRAPH_TOKEN configured, the 9 NetWebMedia service reels (from `assets/social/higgsfield/service-reels-2026/`) publish via the extended `ig_publish.php` handler in three commands:
+
+```bash
+# 1. Readiness probe
+MIGRATE_TOKEN=<value> python3 _deploy/publish-service-reels.py --check
+
+# 2. Dry-run all 9 (logs to ig_publish_log as 'dry_run', no Meta calls)
+MIGRATE_TOKEN=<value> python3 _deploy/publish-service-reels.py --dry-run
+
+# 3. Live publish all 9 (~90 sec each, sequential, ~15 min total wall time)
+MIGRATE_TOKEN=<value> python3 _deploy/publish-service-reels.py
+```
+
+Per-reel publish is idempotent on `reel_key` — re-running skips already-`complete` rows and resumes `processing` rows. To publish only a subset: `--only R2,R3,R4`.
+
+**Total elapsed time: ~90 minutes setup + ~15 min publish. IG goes live today.**
 
 ---
 

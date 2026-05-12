@@ -15,6 +15,11 @@
   RewriteCond %{HTTP_HOST} ^app\.netwebmedia\.com$ [NC]
   RewriteRule ^(.*)$ /crm-vanilla/api/$1 [L]
 
+  # Same issue for the superadmin panel: admin.netwebmedia.com/api/* must
+  # route to /superadmin/api/, not the api-php bridge.
+  RewriteCond %{HTTP_HOST} ^admin\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /superadmin/api/$1 [L]
+
   # Everything else → index.php (bridge to /api-php/)
   RewriteRule ^.*$ index.php [QSA,L]
 </IfModule>

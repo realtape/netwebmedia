@@ -1,8 +1,8 @@
 <?php
-/* Mailer wrapper v3.0 (2026-05-02).
-   Primary sender: AWS SES v2 API (when AWS_SES_KEY + AWS_SES_SECRET are set).
-   Fallback:       Resend HTTPS API (when RESEND_API_KEY is set).
-   Both use direct cURL — no Composer dependency.
+/* Mailer wrapper v3.1 (2026-05-11).
+   Single sender: AWS SES v2 API (requires AWS_SES_KEY + AWS_SES_SECRET).
+   Uses direct cURL with AWS Signature V4 — no Composer dependency.
+   Resend fallback was removed 2026-05-11 per CEO decision (SES-only stack).
    Preserves existing function signatures: send_mail(), send_to_admin(),
    html_to_plain(), render_template(), email_shell().
 */

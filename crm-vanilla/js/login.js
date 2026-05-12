@@ -112,6 +112,18 @@
   var signinError = document.getElementById('signinError');
   var signinBtn = document.getElementById('signinBtn');
 
+  /* ── Forgot password ── */
+  var forgotLink = document.querySelector('.login-forgot a');
+  if (forgotLink) {
+    forgotLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      signinError.textContent = isEs
+        ? 'Para restablecer tu contraseña, contacta a tu administrador en carlos@netwebmedia.com'
+        : 'To reset your password, contact your administrator at carlos@netwebmedia.com';
+      signinError.style.color = '#7fe3a3';
+    });
+  }
+
   signinForm.addEventListener('submit', function(e) {
     e.preventDefault();
     var email = signinEmail.value.trim();

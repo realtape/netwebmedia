@@ -69,7 +69,7 @@ def overpass_query(bbox, tourism_tags=None, amenity_tags=None, shop_tags=None):
     return []
 
 
-def fetch(url, timeout=8):
+def fetch(url, timeout=5):
     try:
         if not url.startswith("http"):
             url = "http://" + url
@@ -177,12 +177,22 @@ def process_job(job):
     with_web = [b for b in businesses if b["website"]]
     print(f"  Named: {len(businesses)} | With website: {len(with_web)}")
 
-    # Scrape emails concurrently (Lambda has limited CPU but lots of I/O headroom)
+    # Scrape emails concurrently, with hard budget so we always have time to save to S3
+    # Lambda has 15min timeout; we leave 2 min for save + buffer.
+    completed = 0
     if with_web:
-        with ThreadPoolExecutor(max_workers=20) as ex:
-            futures = {ex.submit(scrape_one, b): b for b in with_web}
-            for f in as_completed(futures, timeout=600):
-                pass
+        scrape_budget = max(60, 720 - int(time.time() - started))  # 12 min max, never less than 1 min
+        try:
+            with ThreadPoolExecutor(max_workers=30) as ex:
+                futures = {ex.submit(scrape_one, b): b for b in with_web}
+                for f in as_completed(futures, timeout=scrape_budget):
+                    completed += 1
+        except TimeoutError:
+            # Budget exhausted — partial results are already mutated in-place on the dicts
+            pass
+        except Exception as e:
+            print(f"  Scrape pool error (continuing with partial): {e}")
+        print(f"  Scraped {completed}/{len(with_web)} websites in {time.time()-started:.0f}s")
 
     with_email = sum(1 for b in businesses if b.get("scraped_emails") or b.get("osm_email"))
     elapsed = time.time() - started

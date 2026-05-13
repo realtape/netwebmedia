@@ -944,7 +944,7 @@ Before publishing any Spanish-language asset:
 - [ ] Currency shown in USD with optional local equivalent
 - [ ] Contact info routes to Spanish-speaking team member or Spanish intake form
 - [ ] Date format: DD/MM/YYYY for LATAM (not MM/DD/YYYY)
-- [ ] Phone numbers shown in international format (+1 for US)
+- [ ] Phone numbers shown in international format (+1 for US). Canonical brand number is **+1 (760) 334-8731** — also reachable on WhatsApp at `https://wa.me/17603348731`. Tel links: `tel:+17603348731`. Schema.org telephone: `+1-760-334-8731`.
 - [ ] Social proof includes at least one Spanish-language testimonial or LATAM case study
 - [ ] `lang="es"` attribute set on the HTML element or section
 
@@ -1051,4 +1051,4 @@ NetWebMedia operates white-label services for partner agencies. When a reseller 
 
 *NetWebMedia Brand Book v1.0 — April 21, 2026*
 *Maintained by: Carlos Martinez, CEO*
-*Questions: hello@netwebmedia.com*
+*Questions: hello@netwebmedia.com · +1 (760) 334-8731 (US — voice + WhatsApp)*

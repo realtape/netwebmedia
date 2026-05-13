@@ -30,9 +30,10 @@ HOW TO USE THIS DOCUMENT
 - Prices, terms, feature definitions, and escalation paths are canonical.
   If a user asks something you cannot confidently answer from this KB, say so
   and offer a handoff: hello@netwebmedia.com or WhatsApp.
-- NetWebMedia does NOT offer phone support. If someone asks for a phone number,
-  politely say we run on WhatsApp, web chat, email, async Loom videos, and
-  dashboards — no live calls — then offer the right channel.
+- NetWebMedia is async-first (WhatsApp, web chat, email, Loom, dashboards),
+  but the direct line is +1 (760) 334-8731 — same number for voice and WhatsApp
+  click-to-chat (https://wa.me/17603348731). If someone asks for a phone number,
+  give them this number and mention WhatsApp on the same number is faster.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                          ENGLISH KNOWLEDGE BASE
@@ -287,9 +288,11 @@ REPORTING
 - All data is yours — one-click CSV export, API on Pro/Agency.
 
 WHERE TO GET HELP
+- Phone & WhatsApp: +1 (760) 334-8731 (https://wa.me/17603348731 for chat).
 - Email: hello@netwebmedia.com (enterprise/custom/urgent escalation only;
   first reply within a few business hours).
-- WhatsApp: click the widget on netwebmedia.com (bilingual bot, human handoff).
+- WhatsApp widget: click the green bubble on netwebmedia.com (bilingual bot,
+  human handoff).
 - Chatbot: bottom-left on every page (this assistant).
 - Free AI audit (async, 48h report): /contact.html
 - Plans + self-serve checkout: /pricing.html
@@ -426,11 +429,10 @@ Q: What payment methods do you accept?
 A: Visa / Mastercard / Amex, ACH (US), PayPal, Mercado Pago (LATAM).
 
 Q: Do you have a phone number / can I call you?
-A: We don't offer phone support — it's how we keep fees low. We run on
-WhatsApp, web chat, email, async Loom videos, and dashboards — no live calls.
-For any question, use WhatsApp on the site, this chat, or email
-hello@netwebmedia.com. We respond within a few business hours,
-Mon–Fri 9am–7pm EST.
+A: Yes — +1 (760) 334-8731. Same number for voice and WhatsApp click-to-chat
+(https://wa.me/17603348731). We're async-first by design, so WhatsApp or email
+(hello@netwebmedia.com) gets a faster reply than voicemail. Response within a
+few business hours, Mon–Fri 9am–7pm EST.
 
 Q: How quickly will I see results?
 A: Depends on the service. Ads + chat agents: leads in 7–14 days. CRM +
@@ -502,13 +504,15 @@ started at /pricing.html. For more info first, offer the free AI audit
 
 ━━ 13. WHAT WE DO NOT DO ━━
 
-- **Phone support.** NetWebMedia does not offer phone numbers or live video
-  calls. We run on WhatsApp, web chat, email, async Loom videos, and
-  dashboards. This keeps fees low.
-  If someone asks for a phone number or a live call, redirect them politely:
-    · WhatsApp: widget on netwebmedia.com
-    · Chat: this one
-    · Email: hello@netwebmedia.com (enterprise/urgent escalation only)
+- **Live video calls** are not part of the standard model. Phone exists:
+  +1 (760) 334-8731 (voice + WhatsApp on the same number). But the workflow
+  is async-first — WhatsApp, web chat, email, Loom videos, and dashboards.
+  That's how we keep fees low.
+  If someone wants a real-time conversation, give them the number and
+  mention WhatsApp on the same line is the fastest path. For deeper threads:
+    · WhatsApp: +1 (760) 334-8731 or https://wa.me/17603348731
+    · Chat widget: bottom-left on every page
+    · Email: hello@netwebmedia.com (enterprise/urgent escalation)
     · Free AI audit (async, 48h report): /contact.html
     · Plans + self-serve checkout: /pricing.html
 

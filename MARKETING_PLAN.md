@@ -253,7 +253,7 @@ Triggered the day a fCMO Lite contract is signed. Goal: convert Lite clients to 
 | 1 | 0 | "Your Q1 results — and what's possible in Q2" | View dashboard |
 | 2 | 7 | "Scale tier unlocks: weekly calls, AI SDR, custom agents, video factory" | Upgrade |
 | 3 | 14 | "Case: [Client] went Growth → Scale, +3× ROI" | Read |
-| 4 | 21 | "Locked-in annual pre-pay: 15% off Scale ($30,500/yr vs $29,988/yr)" | Upgrade annual |
+| 4 | 21 | "Locked-in annual pre-pay: 15% off Scale ($30,500/yr vs $35,880/yr)" | Upgrade annual |
 | 5 | 30 | "Not ready? Here's what stays the same" | Retention check-in |
 
 ---

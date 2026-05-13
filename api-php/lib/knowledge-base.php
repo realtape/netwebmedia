@@ -194,7 +194,7 @@ FLAGSHIP: FRACTIONAL CMO RETAINER (3 tiers)
   Ad management fee: ad spend billed at cost + 12% management fee
   (minimum $300/month), billed separately from the retainer.
 
-**CMO Scale — $2,499/mo + $999 setup + ad management fee**
+**CMO Scale — $2,990/mo + $999 setup + ad management fee**
   Includes: everything in Growth + Video Factory (16 Reels/month),
   custom AI agents + voice AI, white-glove onboarding, dedicated account
   strategist, priority support + daily Slack access, AI SDR outbound,
@@ -242,7 +242,7 @@ Self-serve catalogue: /catalogue.html
 - 90-day minimum, month-to-month thereafter. No long-term contract.
 - Cancellation: 30-day written notice to hello@netwebmedia.com. No penalties.
 - **ANNUAL PRE-PAY: 15% DISCOUNT.**
-  Lite $2,540/yr · Growth $10,190/yr · Scale $25,490/yr. Net-15 invoicing
+  Lite $2,540/yr · Growth $10,190/yr · Scale $30,500/yr. Net-15 invoicing
   on annuals. Locks your rate against mid-year changes.
 - **LITE UPGRADE CREDIT:** $249 credited toward the first month of Growth or
   Scale if upgraded within 90 days of signup.
@@ -324,7 +324,7 @@ QUALIFYING QUESTIONS (use one at a time, conversationally)
 
 vs **HubSpot Marketing Hub**
   - HubSpot Pro is $3,600+/mo and you still need an agency to run it.
-  - We are $249–$2,499 for the agency AND the software.
+  - We are $249–$2,990 for the agency AND the software.
   - We are tuned for ChatGPT/Perplexity citations. HubSpot is retrofitting AI.
   - Close: "Ask HubSpot to name one client getting cited in ChatGPT because of
     HubSpot AI. We publish ours every month."
@@ -338,7 +338,7 @@ vs **GoHighLevel (GHL)**
 
 vs **Chief Outsiders / Marketri (traditional fractional CMO)**
   - They charge $15k–$25k/mo for a human CMO giving strategy decks.
-  - We deliver the same strategic thinking at $249–$2,499, and we execute —
+  - We deliver the same strategic thinking at $249–$2,990, and we execute —
     not just recommend.
   - Carlos leads every engagement personally; AI does 80% of execution grind.
 
@@ -399,7 +399,7 @@ A: Yes. Fully bilingual EN + ES. US ad platforms, Chilean consumer behavior,
 Mercado Pago integration, local SEO in both countries — all covered.
 
 Q: How does pricing work?
-A: Flagship is the Fractional CMO retainer ($249 / $999 / $2,499). Setup fees
+A: Flagship is the Fractional CMO retainer ($249 / $999 / $2,990). Setup fees
 $0 / $499 / $999. Growth and Scale add an ad management fee (12% of ad spend,
 $300/mo minimum). Also available: CRM standalone ($49 / $249 / $449) and
 project services ($1.5k–$12k).
@@ -410,7 +410,7 @@ long-term lock-in.
 
 Q: Can I pay annually?
 A: Yes — 15% discount on annual pre-pay. Lite $2,540/yr · Growth $10,190/yr ·
-Scale $25,490/yr. Net-15 invoicing, and your rate is locked against mid-year
+Scale $30,500/yr. Net-15 invoicing, and your rate is locked against mid-year
 changes.
 
 Q: Can I upgrade later?
@@ -582,7 +582,7 @@ OBJECTION: "We might just hire a full-time CMO."
 RESPONSE: "Great idea — and the right move once you're past $5–10M ARR. Before
   that, a full-time senior CMO runs $150k–$220k/year in salary alone, before
   benefits, equity, or their own tool budget. And they still need an execution
-  team or agency underneath them. CMO Scale at $2,499/mo ($29,988/yr) gives you
+  team or agency underneath them. CMO Scale at $2,990/mo ($29,988/yr) gives you
   the same strategic output plus our execution team at about 1/7th the cost.
   When you do hire in-house, we help with the transition — we can even help
   recruit and onboard your new VP. No drama, no lock-in."
@@ -1258,7 +1258,7 @@ FLAGSHIP: RETAINER FRACTIONAL CMO (3 niveles)
   Fee de manejo: gasto al costo + 12% management fee (mínimo $300/mes),
   facturado aparte del retainer.
 
-**CMO Scale — $2,499/mes + $999 setup + fee de manejo de ads**
+**CMO Scale — $2,990/mes + $999 setup + fee de manejo de ads**
   Incluye: todo lo de Growth + Video Factory (16 Reels/mes), agentes IA
   custom + voice AI, onboarding white-glove, estratega de cuenta dedicado,
   soporte prioritario + acceso diario a Slack, AI SDR outbound, campañas
@@ -1307,7 +1307,7 @@ Catálogo self-serve: /catalogue.html
 - Cancelación: aviso por escrito 30 días a hello@netwebmedia.com. Sin
   penalización.
 - **PAGO ANUAL: 15% DE DESCUENTO.**
-  Lite $2,540/año · Growth $10,190/año · Scale $25,490/año. Facturación
+  Lite $2,540/año · Growth $10,190/año · Scale $30,500/año. Facturación
   Net-15 para anuales. Bloquea tu tarifa contra cambios a mitad de año.
 - **CRÉDITO DE UPGRADE DESDE LITE:** $249 de crédito hacia el primer mes de
   Growth o Scale si haces upgrade dentro de los primeros 90 días.
@@ -1390,7 +1390,7 @@ PREGUNTAS DE CALIFICACIÓN (una a la vez, conversacional)
 
 vs **HubSpot Marketing Hub**
   - HubSpot Pro cuesta $3,600+/mes y aún necesitas una agencia que lo opere.
-  - Nosotros somos $249–$2,499 por la agencia Y el software.
+  - Nosotros somos $249–$2,990 por la agencia Y el software.
   - Estamos afinados para citas de ChatGPT/Perplexity. HubSpot está
     retrofittando IA.
   - Cierre: "Pídele a HubSpot que nombre un cliente citado en ChatGPT gracias
@@ -1405,7 +1405,7 @@ vs **GoHighLevel (GHL)**
 
 vs **Chief Outsiders / Marketri (Fractional CMO tradicional)**
   - Cobran $15k–$25k/mes por un CMO humano que entrega decks de estrategia.
-  - Nosotros entregamos el mismo pensamiento estratégico a $249–$2,499 y
+  - Nosotros entregamos el mismo pensamiento estratégico a $249–$2,990 y
     ejecutamos — no solo recomendamos.
   - Carlos lidera toda cuenta personalmente; la IA hace 80% de la ejecución.
 
@@ -1468,7 +1468,7 @@ comportamiento de consumidor chileno, integración Mercado Pago, SEO local
 en ambos países — todo cubierto.
 
 P: ¿Cómo funciona el precio?
-R: Flagship es el retainer Fractional CMO ($249 / $999 / $2,499). Setup
+R: Flagship es el retainer Fractional CMO ($249 / $999 / $2,990). Setup
 $0 / $499 / $999. Growth y Scale agregan un fee de manejo de ads (12% del
 gasto, mínimo $300/mes). También disponible: CRM standalone ($49 / $249 /
 $449) y servicios de proyecto ($1.5k–$12k).
@@ -1479,7 +1479,7 @@ Sin lock-in largo.
 
 P: ¿Puedo pagar anual?
 R: Sí — 15% de descuento en pago anual. Lite $2,540/año · Growth
-$10,190/año · Scale $25,490/año. Facturación Net-15, y tu tarifa queda
+$10,190/año · Scale $30,500/año. Facturación Net-15, y tu tarifa queda
 bloqueada contra cambios a mitad de año.
 
 P: ¿Puedo subir de plan después?
@@ -1661,7 +1661,7 @@ OBJECIÓN: "Quizás contratamos un CMO full-time."
 RESPUESTA: "Gran idea — y la decisión correcta cuando superes los $5–10M ARR.
   Antes de eso, un CMO senior cuesta $150k–$220k al año en salario, antes de
   beneficios, equity o su propio presupuesto de herramientas. Y todavía necesita
-  un equipo de ejecución o una agencia debajo. CMO Scale a $2,499/mes ($29,988/año)
+  un equipo de ejecución o una agencia debajo. CMO Scale a $2,990/mes ($29,988/año)
   te da el mismo output estratégico más nuestro equipo de ejecución a 1/7 del
   costo. Cuando contrates in-house, te ayudamos con la transición — podemos
   incluso ayudar a reclutar tu nuevo VP. Sin drama, sin lock-in."

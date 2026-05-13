@@ -35,7 +35,7 @@ The site went from 6.7/10 → 7.2/10 in production quality. Distribution stayed 
 ✅ Public site fixes (www→apex, cache headers, Chilean prospect-pill links removed, sitemap rebuilt clean)
 ✅ AEO content moat kickoff (methodology page + 3 case studies + FAQ schema on top blogs + survey landing page + Tier 1 pitch templates + ranking applications playbook)
 ✅ Stripe + MercadoPago dual-rail billing
-✅ Pricing reconciled ($2,499 across all surfaces)
+✅ Pricing reconciled ($2,990 across all surfaces)
 ✅ 47 industry pages regenerated with "Free 48-Hour Written Audit" copy
 ✅ 17-icon SVG mask system replacing 32 emojis across 4 pages
 ✅ Founder SVG monogram trust strip

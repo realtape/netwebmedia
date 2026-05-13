@@ -15,7 +15,7 @@
 |---|---|---|---|---|---|
 | CMO Lite | $249/mo | $0 | AEO + SEO strategy, monthly content calendar, SEO audit, NWM CRM, monthly async strategy note | $1,862 / 3.1x | 11 mo |
 | CMO Growth | $999/mo + 12% ad mgmt (min $300) | $499 | Lite + paid ads, social posting, email automation, AI SDR, monthly async report | $9,790 / 6.5x | 14 mo |
-| CMO Scale | $2,499/mo + 12% ad mgmt (min $300) | $999 | Growth + Video Factory (16 Reels), custom AI agents + voice AI, white-glove onboarding, dedicated strategist, daily Slack | $32,387 / 10.1x | 18 mo |
+| CMO Scale | $2,990/mo + 12% ad mgmt (min $300) | $999 | Growth + Video Factory (16 Reels), custom AI agents + voice AI, white-glove onboarding, dedicated strategist, daily Slack | $32,387 / 10.1x | 18 mo |
 
 Annual pre-pay: 15% discount. 14-day trial. 90-day minimum. NWM CRM bundled in all tiers.
 
@@ -97,7 +97,7 @@ Repackaging principles applied:
 
 **Why split the engines:** Growth currently bundles ads + SDR + social + email. Most clients use one of those seriously. Forcing the choice raises perceived focus, lowers delivery cost, and creates a clean expansion path *inside* the tier.
 
-### Scale — "Run my revenue" — $2,499/mo + ad mgmt — $999 setup
+### Scale — "Run my revenue" — $2,990/mo + ad mgmt — $999 setup
 
 **Job-to-be-done:** "I want one team accountable for the full marketing-to-revenue motion. I have $5M+ ARR or I'm pushing toward it."
 
@@ -130,7 +130,7 @@ Repackaging principles applied:
 |---|---|---|---|---|
 | Starter | $249 | $0 | $2,540 | $2.5k–$3k |
 | Growth | $999 + ad mgmt | $499 | $10,190 + ad mgmt | $14k–$22k |
-| Scale | $2,499 + ad mgmt | $999 | $25,490 + ad mgmt | $34k–$52k |
+| Scale | $2,990 + ad mgmt | $999 | $30,500 + ad mgmt | $34k–$52k |
 
 Hold the price points. The repricing on 2026-04-21 is fresh; do not move the headline numbers again. The change is *what's inside* the tiers and *how they're sold*.
 
@@ -161,14 +161,14 @@ These are price-sensitive, high-volume, low-trust-required SMBs. Self-serve flow
 
 **Prioritize Growth acquisition on health, home services, and tourism** — these have the budget and the existing-marketing-doesn't-work pain.
 
-### Scale ($2,499) — niches with $5M+ revenue and complex revenue ops
+### Scale ($2,990) — niches with $5M+ revenue and complex revenue ops
 
 10. **Law firms** — high-ACV cases, content-heavy, AEO + SDR + voice AI all stack
 11. **Financial services** (RIAs, accountants, insurance, mortgage) — compliance-bound, content-heavy, long cycles
 12. **Education** (private schools, tutoring chains, course creators) — multi-stakeholder buying, brand-heavy
 13. **Wine / agriculture** — premium positioning, story-driven, often multi-brand (vineyard + tasting room + DTC)
 
-**Prioritize Scale outbound on law firms and financial services.** These are the niches where the human CMO comparable ($8k–$18k/mo from Chief Outsiders) is the honest competitor — and our $2,499 looks like an obvious win.
+**Prioritize Scale outbound on law firms and financial services.** These are the niches where the human CMO comparable ($8k–$18k/mo from Chief Outsiders) is the honest competitor — and our $2,990 looks like an obvious win.
 
 ### Niche I would deprioritize at the SKU level
 
@@ -212,9 +212,9 @@ Ranked by RICE (rough), focused on what unlocks the Lever A volume + Scale upsel
 
 **Build/buy/partner:** Build. This *is* our defensible IP.
 
-### Gap 3: "Fractional CMO Embedded" — Scale+ tier above $2,499
+### Gap 3: "Fractional CMO Embedded" — Scale+ tier above $2,990
 
-**Problem:** We're capped at $2,499 + ad mgmt. The marketing plan says traditional fCMOs charge $8k–$18k. There is space between Scale and Chief Outsiders that we're leaving on the table for buyers with $10M+ revenue.
+**Problem:** We're capped at $2,990 + ad mgmt. The marketing plan says traditional fCMOs charge $8k–$18k. There is space between Scale and Chief Outsiders that we're leaving on the table for buyers with $10M+ revenue.
 
 **Build (test, don't ship yet):** A $4,999/mo tier that adds:
 - Hiring + managing the buyer's internal marketer (1 FTE)

@@ -12,7 +12,7 @@
 
 Carlos reviewed this audit and locked two calls:
 
-1. **Pricing:** **Option C** (new). CMO retainer tiers repriced to **$249 / $999 / $2,499/mo** (Lite / Growth / Scale). This is NOT the plan price ($1,997/$2,997/$5,997) and NOT the prior live-site price ($1,997/$4,997/$9,997). Setup fees: **$0 / $499 / $999**. *Propagated to all plan MDs + social content + brand doc. Live site + 250+ programmatic pages still carry stale numbers — engineering-lead handoff required.*
+1. **Pricing:** **Option C** (new). CMO retainer tiers repriced to **$249 / $999 / $2,990/mo** (Lite / Growth / Scale). This is NOT the plan price ($1,997/$2,997/$5,997) and NOT the prior live-site price ($1,997/$4,997/$9,997). Setup fees: **$0 / $499 / $999**. *Propagated to all plan MDs + social content + brand doc. Live site + 250+ programmatic pages still carry stale numbers — engineering-lead handoff required.*
 2. **LinkedIn:** **Keep as a client service**, do not distribute NetWebMedia-brand content there. Footer link stays, `/services.html` LinkedIn ad + SDR copy stays, but no LinkedIn posts go out from our own account. Week-1 social content already excludes LinkedIn ✓.
 
 **Downstream impact NOT yet resolved** (see BUSINESS_PLAN.md strategic callout at top):

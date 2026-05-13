@@ -423,7 +423,7 @@ foreach ($coupon_cols as [$name, $sql]) {
         <p>Every click on that button hits this 400 error. The CMO Standard $1,490/mo button is currently broken in production.</p>
 
         <div class="callout bad">
-          <strong>Root cause:</strong> The catalog in <code>api-php/routes/billing.php:317-353</code> defines four CMO plans — <strong>cmo_starter ($249), cmo_growth ($999), cmo_scale ($2,499), cmo_enterprise ($5,999)</strong>. There is no <code>cmo_standard</code>. There is no $1,490 CMO plan at all.
+          <strong>Root cause:</strong> The catalog in <code>api-php/routes/billing.php:317-353</code> defines four CMO plans — <strong>cmo_starter ($249), cmo_growth ($999), cmo_scale ($2,990), cmo_enterprise ($5,999)</strong>. There is no <code>cmo_standard</code>. There is no $1,490 CMO plan at all.
         </div>
 
         <h3>The pricing-vs-catalog mismatch in one table</h3>
@@ -433,7 +433,7 @@ foreach ($coupon_cols as [$name, $sql]) {
             <tr><td>"Start AEO Starter — $249/mo →"</td><td>cmo_starter</td><td>AEO Starter</td><td>$249</td><td>✅ matches</td></tr>
             <tr><td>"Start Standard — $1,490/mo →"</td><td>cmo_standard</td><td><strong>does not exist</strong></td><td>—</td><td>❌ 400 error</td></tr>
             <tr><td>(catalog only) CMO Growth</td><td>cmo_growth</td><td>CMO Growth ⭐ most popular</td><td>$999</td><td>✅ works via dynamic grid</td></tr>
-            <tr><td>(catalog only) CMO Scale</td><td>cmo_scale</td><td>CMO Scale</td><td>$2,499</td><td>needs_contact=true (blocked)</td></tr>
+            <tr><td>(catalog only) CMO Scale</td><td>cmo_scale</td><td>CMO Scale</td><td>$2,990</td><td>needs_contact=true (blocked)</td></tr>
             <tr><td>"Apply for Premium →"</td><td>—</td><td>cmo_enterprise (via contact page)</td><td>$5,999</td><td>✅ contact-sales path</td></tr>
           </tbody>
         </table>

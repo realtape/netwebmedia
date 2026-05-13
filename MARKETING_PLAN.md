@@ -53,7 +53,7 @@ Companion document to [BUSINESS_PLAN.md](BUSINESS_PLAN.md) and [EXECUTION_90DAY.
 
 ### Pillar 2 — "One price, one retainer"
 - Bundled: CMO + CRM + content + outbound in one invoice
-- Transparent tiers ($249 / $999 / $2,499) — no scope games
+- Transparent tiers ($249 / $999 / $2,990) — no scope games
 - Fewer vendors = faster execution (ship in week 1, not month 3)
 
 ### Pillar 3 — "AI does the grind, humans lead the strategy"
@@ -253,7 +253,7 @@ Triggered the day a fCMO Lite contract is signed. Goal: convert Lite clients to 
 | 1 | 0 | "Your Q1 results — and what's possible in Q2" | View dashboard |
 | 2 | 7 | "Scale tier unlocks: weekly calls, AI SDR, custom agents, video factory" | Upgrade |
 | 3 | 14 | "Case: [Client] went Growth → Scale, +3× ROI" | Read |
-| 4 | 21 | "Locked-in annual pre-pay: 15% off Scale ($25,490/yr vs $29,988/yr)" | Upgrade annual |
+| 4 | 21 | "Locked-in annual pre-pay: 15% off Scale ($30,500/yr vs $29,988/yr)" | Upgrade annual |
 | 5 | 30 | "Not ready? Here's what stays the same" | Retention check-in |
 
 ---

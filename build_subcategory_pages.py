@@ -826,7 +826,7 @@ def build_page(v):
         <div class="price-tier">CMO Scale</div>
         <div class="price-name">CMO Scale</div>
         <div class="price-desc" data-en="Full-stack marketing department" data-es="Departamento de marketing completo">Full-stack marketing department</div>
-        <div class="price-amount">$2,499<span data-en="/mo" data-es="/mes">/mo</span></div>
+        <div class="price-amount">$2,990<span data-en="/mo" data-es="/mes">/mo</span></div>
         <div class="price-setup" data-en="Setup $999" data-es="Setup $999">Setup $999</div>
         <ul class="price-features">
 {scale_lis}

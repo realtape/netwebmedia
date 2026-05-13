@@ -63,17 +63,17 @@
 
 **Verified:**
 - `/contact.html?topic=design-partner` returns 33 KB, the inline `autoSelectTopic()` IIFE reads `URLSearchParams`, maps `design-partner → partner`, sets the dropdown, and reveals a "Pre-selected" badge. **Funnel works.**
-- pricing.html shows **7 instances of $2,499** (anchor price). Lower numbers are legitimate ($497, $249/mo, $99/mo) for sub-services or add-ons; the lone "$1,997" is contextual ("up to $1,997/mo Premium" on the video tier), not a regression.
+- pricing.html shows **7 instances of $2,990** (anchor price). Lower numbers are legitimate ($497, $249/mo, $99/mo) for sub-services or add-ons; the lone "$1,997" is contextual ("up to $1,997/mo Premium" on the video tier), not a regression.
 - Stripe + MercadoPago wiring is referenced 13× in pricing.html.
 - Billing endpoint `/api/billing/checkout` returns `{"error":"Not authenticated"}` for unauth POST — **correct behavior.**
 
 **Issues:**
-- The Stripe button can't be tested end-to-end without a logged-in user; auth-then-checkout is two clicks of friction on a $2,499 anchor. For cold traffic, the "Apply for the program" path is the right CTA — but the homepage above-fold buttons are still "Get a Free Audit" / "View Pricing", not "Apply for Q2 Design Partner Program." Pricing is what it is; the design-partner pitch is the realistic 2026-Q2 conversion path and it's not the primary CTA.
-- The `$249/mo` and `$999/mo` repeat ten times each on pricing.html — competing anchors against the $2,499 hero. Pricing page is doing the **opposite** of focusing buyers; it's a buffet.
+- The Stripe button can't be tested end-to-end without a logged-in user; auth-then-checkout is two clicks of friction on a $2,990 anchor. For cold traffic, the "Apply for the program" path is the right CTA — but the homepage above-fold buttons are still "Get a Free Audit" / "View Pricing", not "Apply for Q2 Design Partner Program." Pricing is what it is; the design-partner pitch is the realistic 2026-Q2 conversion path and it's not the primary CTA.
+- The `$249/mo` and `$999/mo` repeat ten times each on pricing.html — competing anchors against the $2,990 hero. Pricing page is doing the **opposite** of focusing buyers; it's a buffet.
 - Founder monogram is doing some trust-building work above the fold, but on the rest of the site (services, industries, blog) it disappears. Single-page trust ≠ site-wide trust.
 - No exit-intent, no scroll-CTA, no testimonial carousel reuse on case-studies. Pages are static essays, not conversion machines.
 
-**Improved:** dual-rail billing API live, design-partner deep link works, $2,499 anchor reconciled.
+**Improved:** dual-rail billing API live, design-partner deep link works, $2,990 anchor reconciled.
 **Regressed:** none.
 
 ---

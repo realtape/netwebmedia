@@ -14,7 +14,7 @@ All prices shown in USD. Billing in CLP via Mercado Pago at rate 950 CLP/USD (se
 | **AEO Audit** | $997 one-time | — | (no seed) | 🟢 None | Credit guarantee: 100% toward first 3 mo retainer |
 | **AEO Starter** | $249/mo, setup $0 | $249 | $249/mo, setup $249 | 🔴 SETUP MISMATCH | HTML shows $0 setup; backend charges $249 |
 | **CMO Growth** | $999/mo, setup $499 | $999 + $499 | $999/mo, setup $999 | 🔴 SETUP MISMATCH | HTML shows $499 setup; backend charges $999 |
-| **CMO Scale** | $2,499/mo, setup $999 | $2,499 + $999 | $2,499/mo, setup $2,499 | 🔴 SETUP MISMATCH | HTML shows $999 setup; backend charges $2,499 |
+| **CMO Scale** | $2,990/mo, setup $999 | $2,990 + $999 | $2,990/mo, setup $2,990 | 🔴 SETUP MISMATCH | HTML shows $999 setup; backend charges $2,990 |
 | **CMO Enterprise** | $5,999/mo, setup TBD | — | **MISSING** | 🔴 NOT IN BACKEND | Displayed on pricing.html; no plan seed in billing.php |
 
 ### Annual Prepay Pricing (15% discount, setup waived)
@@ -23,7 +23,7 @@ All prices shown in USD. Billing in CLP via Mercado Pago at rate 950 CLP/USD (se
 |---|---|---|---|---|---|
 | **AEO Starter** | $249 | $212/mo, $2,540/yr | $2,540 | $249 × 12 = $2,988; − $448 = $2,540 ✓ | ✓ CORRECT |
 | **CMO Growth** | $999 + $499 setup | $849/mo, $10,190/yr | $10,190 | $999 × 12 = $11,988; × 0.85 = $10,189 ✓ | ✓ CORRECT* |
-| **CMO Scale** | $2,499 + $999 setup | $2,124/mo, $25,490/yr | $25,490 | $2,499 × 12 = $29,988; × 0.85 = $25,489 ✓ | ✓ CORRECT* |
+| **CMO Scale** | $2,990 + $999 setup | $2,124/mo, $30,500/yr | $30,500 | $2,990 × 12 = $29,988; × 0.85 = $25,489 ✓ | ✓ CORRECT* |
 | **CMO Enterprise** | $5,999 + TBD | $5,099/mo, "save 15%" | $5,099 × 12 = $61,188 | $5,999 × 12 = $71,988; × 0.85 = $61,189 ≈ $61,188 | ⚠ CORRECT BUT NOT IN BACKEND |
 
 *Note: Annual math applies 15% discount to monthly recurring fee only, not setup (setup is waived/included). HTML wording "setup waived" is correct UX framing but backend logic must handle it.
@@ -69,8 +69,8 @@ All prices shown in USD. Billing in CLP via Mercado Pago at rate 950 CLP/USD (se
 
 **Issue 3: CMO Scale setup fee mismatch**
 - **HTML says:** "setup $999"
-- **Backend charges:** $2,499
-- **Impact:** Customer sees $999; billed $2,499
+- **Backend charges:** $2,990
+- **Impact:** Customer sees $999; billed $2,990
 - **Evidence:**
   ```html
   <!-- pricing.html L499 -->
@@ -80,7 +80,7 @@ All prices shown in USD. Billing in CLP via Mercado Pago at rate 950 CLP/USD (se
   // billing.php L334
   'setup' => 2499,
   ```
-- **Severity:** High—$1,500 surprise charge on the $2,499/mo tier is material.
+- **Severity:** High—$1,500 surprise charge on the $2,990/mo tier is material.
 
 **Issue 4: CMO Enterprise tier missing from backend**
 - **Location:** pricing.html L513–530 vs billing.php (no plan seed)
@@ -121,7 +121,7 @@ All prices shown in USD. Billing in CLP via Mercado Pago at rate 950 CLP/USD (se
 All pricing pages display tiers in ascending price order:
 1. AEO Starter ($249/mo) or AEO Audit ($997 one-time)
 2. CMO Growth ($999/mo) — flagged "Most Popular"
-3. CMO Scale ($2,499/mo)
+3. CMO Scale ($2,990/mo)
 4. CMO Enterprise ($5,999/mo)
 
 Growth tier is correctly positioned as mid-tier and visually highlighted. ✓
@@ -152,9 +152,9 @@ Growth tier is correctly positioned as mid-tier and visually highlighted. ✓
 - Setup ($499) is waived (not added to annual total, not discounted) ✓
 
 ### Scale Annual Prepay
-- Monthly: $2,499 × 12 = $29,988
+- Monthly: $2,990 × 12 = $29,988
 - 15% discount: $29,988 × 0.85 = $25,489.20
-- Annual shown: $25,490 ✓
+- Annual shown: $30,500 ✓
 - Setup ($999) is waived ✓
 
 ### Enterprise Annual Prepay

@@ -22,7 +22,7 @@
 
 ### The Case AGAINST TikTok
 - **Wrong primary demographic.** NetWebMedia's target SMB is the restaurant owner in Phoenix (52 years old), the dental practice manager (45), the HVAC contractor (55). These people live on Facebook, WhatsApp, and email. TikTok for B2B agency services is *aspirational* — not where the buyer is shopping.
-- **Noisy, unproven ROI for B2B services.** Codie Sanchez sells *ideas* (entrepreneurship, finance mindset). NetWebMedia sells *retainers* ($249–$2,499/mo). Services contracts close on trust, case studies, and track record — not viral credibility stacking.
+- **Noisy, unproven ROI for B2B services.** Codie Sanchez sells *ideas* (entrepreneurship, finance mindset). NetWebMedia sells *retainers* ($249–$2,990/mo). Services contracts close on trust, case studies, and track record — not viral credibility stacking.
 - **Opportunity cost is high.** Google + Meta + YouTube are still under-optimized in the paid mix (45% / 20% / 25%). Organic blog posts are the true AEO lever. LinkedIn was explicitly killed by CEO directive (`0%` in plan). TikTok would be another zero-payoff channel dividing focus from proven levers.
 - **Virality risk.** TikTok algorithm rewards young, entertaining, casual tone. NetWebMedia's brand is sharp, contrarian, data-driven. Forced "relatable CEO" videos feel inauthentic. Codie Sanchez works because she *is* the product.
 - **Churn in metrics.** TikTok's API is hostile to SMB SaaS attribution. No pixel like Meta. No structured conversion tracking. Hard to prove CAC or tie followers → leads → customers.

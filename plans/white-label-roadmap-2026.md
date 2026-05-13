@@ -94,7 +94,7 @@ In flight (engineering agents running in parallel as I write):
 ### Month 6 (October 2026) — GA LAUNCH + GROWTH
 **Theme:** Open the gates. Drive volume.
 
-- [ ] Lift the design-partner-only gate; GA pricing live ($499/$999/$2,499 white-label tiers)
+- [ ] Lift the design-partner-only gate; GA pricing live ($499/$999/$2,990 white-label tiers)
 - [ ] Affiliate program: agency partners refer other agencies, get 30% lifetime
 - [ ] YouTube case studies live (4 vertical examples — see content audit)
 - [ ] Paid acquisition: Meta + Google ads against "GoHighLevel alternative" + "white-label CRM" terms
@@ -132,7 +132,7 @@ In flight (engineering agents running in parallel as I write):
 |---|---|---|---|
 | **CMO Lite** | $249/mo | Done-for-you fractional CMO | SMB owner direct |
 | **CMO Growth** | $999/mo | Lite + paid ads + AI SDR | Established SMB |
-| **CMO Scale** | $2,499/mo | Growth + custom AI + dedicated strategist | Mid-market |
+| **CMO Scale** | $2,990/mo | Growth + custom AI + dedicated strategist | Mid-market |
 | **White-Label Agency** | $499/mo platform + $99/mo per sub-account | Full white-label CRM, 3 included sub-accounts, agency dashboard | Marketing agency owners |
 | **White-Label Pro** | $1,499/mo platform + $79/mo per sub-account | Above + custom domain + AI agents + Voice AI | Established agencies |
 | **White-Label Enterprise** | Custom | Above + dedicated infra + SLA | Large agency networks |

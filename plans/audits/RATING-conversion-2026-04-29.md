@@ -1,6 +1,6 @@
 # Conversion & Product-Readiness Rating — 2026-04-29
 
-**Lens:** A 50-year-old US SMB owner deciding whether to wire $249–$2,499/mo to a vendor they've never heard of.
+**Lens:** A 50-year-old US SMB owner deciding whether to wire $249–$2,990/mo to a vendor they've never heard of.
 
 ---
 

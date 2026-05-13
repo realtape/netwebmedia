@@ -101,7 +101,7 @@ To continue on the Base scenario, we must hit:
 | CAC (blended) | <$2,400 | <$1,800 | >$3,500 |
 | Partners signed | 25 | 32 | <15 |
 
-**Bear pivot:** Pause fCMO Lite acquisition. Concentrate demand on fCMO Growth ($999) + fCMO Scale ($2,499) + CRM $449. Don't wait to pull that lever. *(Updated post-repricing 2026-04-21.)*
+**Bear pivot:** Pause fCMO Lite acquisition. Concentrate demand on fCMO Growth ($999) + fCMO Scale ($2,990) + CRM $449. Don't wait to pull that lever. *(Updated post-repricing 2026-04-21.)*
 
 ---
 
@@ -111,7 +111,7 @@ To continue on the Base scenario, we must hit:
 2. **Decide on the root `styles.css` file** — conflicts with the canonical `css/styles.css` (Gulf palette). Delete the stray one or confirm it's template leftover.
 3. **Carlos26 50% off promo retired on 2026-04-21.** Verify coupon is disabled in Stripe/CRM backend.
 4. **Commit BRAND.md + BUSINESS_PLAN.md + MARKETING_PLAN.md + EXECUTION_90DAY.md** to the repo before May 4 so all agents reference the same source of truth.
-5. **Propagate the 2026-04-21 repricing** ($249 / $999 / $2,499) to the live site (`pricing.html`, `services.html`, `index.html`, `partners.html`, `pricing-onepager.html`, `email-templates/partner-2.html`) — see `audits/SITE_AUDIT_2026-04-21.md` §Decisions. Engineering-lead handoff.
+5. **Propagate the 2026-04-21 repricing** ($249 / $999 / $2,990) to the live site (`pricing.html`, `services.html`, `index.html`, `partners.html`, `pricing-onepager.html`, `email-templates/partner-2.html`) — see `audits/SITE_AUDIT_2026-04-21.md` §Decisions. Engineering-lead handoff.
 6. **Rebuild financial projections** in BUSINESS_PLAN.md §7 (5-year) and §8 (M12 mix) at new ACVs — finance-controller handoff.
 
 ---

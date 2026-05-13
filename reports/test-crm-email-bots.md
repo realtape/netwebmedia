@@ -217,7 +217,7 @@ Confirmed via live `email_status` API call:
 **Widget capabilities (from source code):**
 - Floating bubble (bottom-left), bilingual EN/ES.
 - Intent routing: pricing, audit, services, industry, partner, human-handoff.
-- Full pricing data embedded client-side (CMO Lite $249, Growth $999, Scale $2,499).
+- Full pricing data embedded client-side (CMO Lite $249, Growth $999, Scale $2,990).
 - Fallback to `/api/public/chat` (Claude Sonnet 4.6) for free-form questions.
 - Lead capture form built in.
 - sessionStorage persistence, cookie-based dismissal.

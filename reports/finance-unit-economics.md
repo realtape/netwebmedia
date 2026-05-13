@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-NetWebMedia has repriced to **$249 / $999 / $2,499** monthly for Fractional CMO tiers (effective 2026-04-21). This analysis validates those prices, quantifies unit margins, identifies break-even client counts, and projects cash flow with confidence bands.
+NetWebMedia has repriced to **$249 / $999 / $2,990** monthly for Fractional CMO tiers (effective 2026-04-21). This analysis validates those prices, quantifies unit margins, identifies break-even client counts, and projects cash flow with confidence bands.
 
 **Key findings:**
 - **All three tiers are cash-flow positive with 72% blended gross margin** assuming target API and labor costs
@@ -34,7 +34,7 @@ This model assumes:
 |------|---------|-------|-------|------------------------|
 | **CMO Lite** | $249 | $0 | AEO + SEO strategy, monthly content calendar, audit, CRM included. Async-only, 90-day upgrade credit of $249 | $2,540 |
 | **CMO Growth** | $999 + ad mgmt fee | $499 | Everything in Lite + paid ads mgmt ($5k–$20k spend), monthly strategy call, email nurture, attribution. Ad mgmt = 12% of spend (min $300/mo). | $10,190 |
-| **CMO Scale** | $2,499 + ad mgmt fee | $999 | Everything in Growth + AI SDR outbound, 12 short-form video assets/mo, demand gen, weekly strategy calls, quarterly OKR planning. Ad mgmt = 12% of spend (min $300/mo). | $25,490 |
+| **CMO Scale** | $2,990 + ad mgmt fee | $999 | Everything in Growth + AI SDR outbound, 12 short-form video assets/mo, demand gen, weekly strategy calls, quarterly OKR planning. Ad mgmt = 12% of spend (min $300/mo). | $30,500 |
 
 **Supporting SKUs (CRM/Platform):**
 
@@ -70,7 +70,7 @@ This model assumes:
 | **Gross Margin (retainer only)** | **$759–829 (76–83% before ad mgmt)** | Conservatively 70% = $700 / $999 |
 | **Ad mgmt margin** | 12% of ad spend | Pure margin after pass-through costs |
 
-### CMO Scale ($2,499/mo + ad mgmt fee)
+### CMO Scale ($2,990/mo + ad mgmt fee)
 
 | Cost Category | Monthly (excluding ad spend) | Notes |
 |---------------|------------------------------|-------|
@@ -79,7 +79,7 @@ This model assumes:
 | **Time (Carlos + contractor)** | $250–350 | 2–3.5 hrs/mo for strategy, weekly calls, campaign oversight |
 | **Ad mgmt (pass-through)** | Variable | Billed at 12% of ad spend (min $300/mo); operational |
 | **Total COGS (retainer only)** | **$405–558** | |
-| **Gross Margin (retainer only)** | **$1,941–2,094 (78–84% before ad mgmt)** | Conservatively 72% = $1,800 / $2,499 |
+| **Gross Margin (retainer only)** | **$1,941–2,094 (78–84% before ad mgmt)** | Conservatively 72% = $1,800 / $2,990 |
 | **Ad mgmt margin** | 12% of ad spend | Pure margin after pass-through costs |
 
 ---
@@ -92,7 +92,7 @@ This model assumes:
 |------|---------------|------|---|---|---|
 | **Lite** | $249 | $75 | $174 | 68% | Entry wedge; thin but positive |
 | **Growth** | $999 | $240 | $759 | 70% | Primary revenue driver; ad mgmt adds 12% on top |
-| **Scale** | $2,499 | $558 | $1,941 | 72% | Enterprise-grade; highest retention & LTV:CAC |
+| **Scale** | $2,990 | $558 | $1,941 | 72% | Enterprise-grade; highest retention & LTV:CAC |
 | **Blended (Y1 target mix)** | ~$857 avg | $192 | $665 | **71%** | Assuming 50% Lite, 35% Growth, 15% Scale by Month 12 |
 
 **Platform SKUs (estimated):**
@@ -248,7 +248,7 @@ This model assumes:
 |------|---|---|---|---|---|---|---|
 | **Lite** | $249 | 68% | 11 mo | $1,862 | $600 | 3.1x | 3.6 |
 | **Growth** | $999 | 70% | 14 mo | $9,790 | $1,500 | 6.5x | 2.2 |
-| **Scale** | $2,499 | 72% | 18 mo | $32,387 | $3,200 | 10.1x | 1.8 |
+| **Scale** | $2,990 | 72% | 18 mo | $32,387 | $3,200 | 10.1x | 1.8 |
 | **CRM $49** | $49 | 85% | 11 mo | $458 | $140 | 3.3x | 3.4 |
 | **CRM $249** | $249 | 80% | 14 mo | $2,789 | $650 | 4.3x | 3.3 |
 
@@ -314,7 +314,7 @@ This model assumes:
 
 ### Pricing Assessment
 
-**APPROVED.** The $249 / $999 / $2,499 structure is sound:
+**APPROVED.** The $249 / $999 / $2,990 structure is sound:
 - All tiers exceed 65% gross margin (sustainable)
 - Lite is correctly positioned as a wedge (low price for volume + upgrades)
 - Growth and Scale carry the revenue load and support healthy LTV:CAC
@@ -326,7 +326,7 @@ This model assumes:
 
 2. **Retire Carlos26 promo.** Confirm the 50% off coupon is disabled in Stripe and CRM by May 1. Any active users on that code should be grandfathered or manually migrated.
 
-3. **Set up prepaid annual invoicing.** Create Net-15 annual invoices for clients opting for the 15% discount ($2,540 / $10,190 / $25,490). Process on 2026-05-01 and 2027-01-01.
+3. **Set up prepaid annual invoicing.** Create Net-15 annual invoices for clients opting for the 15% discount ($2,540 / $10,190 / $30,500). Process on 2026-05-01 and 2027-01-01.
 
 4. **Build cash dashboard.** Looker Studio board tracking daily cash position, weekly collections, 13-week forecast. Auto-refresh daily. Shared with Carlos.
 

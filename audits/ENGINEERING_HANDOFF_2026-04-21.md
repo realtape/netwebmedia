@@ -17,12 +17,12 @@ This doc bundles everything the eng workstream needs before the May 4 90-day kic
 |---|---|---|---|---|
 | CMO Lite | $1,997/mo | $997 | **$249/mo** | **$0** |
 | CMO Growth | $4,997/mo | $1,997 | **$999/mo** | **$499** |
-| CMO Scale | $9,997/mo | $2,997 | **$2,499/mo** | **$999** |
+| CMO Scale | $9,997/mo | $2,997 | **$2,990/mo** | **$999** |
 
 ### Tier scope adjustments (affects copy on every pricing touchpoint)
 - **Lite $249:** Self-serve onboarding. No live strategy calls (was bi-weekly). Monthly async strategy note only. Everything else in Lite scope retained.
 - **Growth $999:** Strategy call cadence dropped from **weekly → monthly**. All other scope retained.
-- **Scale $2,499:** Keeps weekly strategy calls + quarterly OKR planning. All scope retained.
+- **Scale $2,990:** Keeps weekly strategy calls + quarterly OKR planning. All scope retained.
 
 ### Files to update (high to low priority)
 

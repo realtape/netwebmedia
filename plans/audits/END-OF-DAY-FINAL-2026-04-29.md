@@ -27,7 +27,7 @@
 | Submit Carlos's LinkedIn personal post | Posting on user's behalf to public social = explicit-permission action; better with your eyes on responses. |
 | Submit X (Twitter) thread | Same. |
 | **GitHub PAT creation** | github.com web session requires password entry (safety rule absolute prohibition). No GitHub API exists for self-creating PATs (intentional GitHub design). The local `gh` CLI's OAuth token cannot mint new PATs. **Fundamentally requires you in the browser.** |
-| Add Stripe API keys to InMotion `config.local.php` | Your Stripe dashboard. Plus pricing decisions ($249/$999/$2,499) need final human sign-off before products go live. |
+| Add Stripe API keys to InMotion `config.local.php` | Your Stripe dashboard. Plus pricing decisions ($249/$999/$2,990) need final human sign-off before products go live. |
 | Drop a real founder photo to `/assets/founder-carlos.jpg` | I cannot create a photo of your actual face. SVG monogram is filling the trust strip credibly until then. |
 
 ---
@@ -51,7 +51,7 @@ The morning audit said "5 impressions in 3 months." **GSC Overview shows:**
 - **Multi-tenant white-label CRM foundation:** `organizations` + `org_members` + 18-table tenancy + handler migration + branding render path + admin UI (`subaccounts.html`, `org-settings.html`, org-switcher) + migrations applied to production DB + verified via curl
 - **Security:** XSS escapes in 25+ places, cross-tenant write fixes (templates.php PUT/DELETE + 7 INSERT handlers), rate limits on `/api/public/*`, 5 admin tokens rotated, public secret `.htaccess` lockdown, `MIGRATE_TOKEN` killed, server-side Sentry vanilla PHP, monthly auto-rotation workflow (needs PAT)
 - **Public site:** www→apex 301, immutable cache for CSS/JS, HTML edge-cacheable with stale-while-revalidate, sitemap rebuilt clean (212 URLs no leakage), Schema.org `sameAs` FB ID corrected (was wrong on 11 pages), HSTS+CSP+XFO+Permissions-Policy verified, `Vary: Accept-Encoding` only, `fetchpriority="high"` on LCP, footer SVG icons replacing emoji glyphs site-wide
-- **Conversion:** Stripe + MercadoPago dual-rail billing with locale routing, founder SVG monogram trust strip, "Free 48-Hour Written Audit" copy specificity across all CTAs, $2,499 Scale pricing reconciled across 5 root + 3,430 company pages, 47 industry pages regenerated
+- **Conversion:** Stripe + MercadoPago dual-rail billing with locale routing, founder SVG monogram trust strip, "Free 48-Hour Written Audit" copy specificity across all CTAs, $2,990 Scale pricing reconciled across 5 root + 3,430 company pages, 47 industry pages regenerated
 - **AEO content moat:** `/aeo-methodology.html` (5-phase framework + FAQPage + HowTo + Article schemas), `/case-studies.html` (3 honest design-partner pilots), `/aeo-survey.html` (15-question SMB AEO adoption survey), reciprocal cross-links between all 3 pillar pages, FAQ schema on top 5 blog posts
 
 ### Distribution kickoff (this is the new lever)

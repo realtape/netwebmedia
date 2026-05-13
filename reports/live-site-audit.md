@@ -57,8 +57,8 @@ Overall site health is **solid at a 7.4 / 10**. The robots-fix is confirmed live
 | Meta description | PARTIAL | "Free 14-day trial on all plans" — **conflicts with "90-day minimum" disclosed on-page**. FTC risk. |
 | Robots meta | **FAIL** | **No `meta name="robots"` tag present.** Page defaults to browser/crawler default (index) but lacks explicit directive. Inconsistent with all other pages. |
 | Canonical | PASS | `https://netwebmedia.com/pricing.html` |
-| JSON-LD schema | PASS | Organization, WebPage, Service with Offer for all 3 tiers ($249/$999/$2,499), BreadcrumbList, FAQPage — excellent coverage |
-| Pricing accuracy | PASS | $249 / $999 / $2,499 — confirmed correct |
+| JSON-LD schema | PASS | Organization, WebPage, Service with Offer for all 3 tiers ($249/$999/$2,990), BreadcrumbList, FAQPage — excellent coverage |
+| Pricing accuracy | PASS | $249 / $999 / $2,990 — confirmed correct |
 | H1 | PASS | "Strategy, software & execution. One retainer." |
 | CTA | PASS | All CTAs route to `/contact.html` with intent params. Email only. No phone/Zoom. |
 | Carlos26 | PASS | Not present |
@@ -239,7 +239,7 @@ The `.log` file protection is working. The `.htaccess` `<FilesMatch "\.log$">` d
 | Orange #FF671F | PASS | Confirmed as `--nwm-orange` and CTA gradient base in `css/styles.css` |
 | WhatsApp CTAs only (no phone) | PASS | No `tel:` links found on homepage, pricing, contact, or services |
 | No Zoom links | PASS | Zoom only appears as "no Zoom" in FAQ copy — not as a link |
-| Pricing $249/$999/$2,499 | PASS | Confirmed on pricing.html and in homepage FAQ schema |
+| Pricing $249/$999/$2,990 | PASS | Confirmed on pricing.html and in homepage FAQ schema |
 | Carlos26 promo absent | PASS | Only appears in `plans/` internal docs (correctly blocked in robots.txt) |
 | No LinkedIn distribution | N/A | Not a live-site concern — confirmed absent from social proof section |
 | Canonical is non-www | PASS | All canonicals use `https://netwebmedia.com/` (no www) |
@@ -307,7 +307,7 @@ Three high-intent landing pages (legal, healthcare, restaurants) have zero struc
 The meta description says "Free 14-day trial on all plans" but the page also discloses a "90-day minimum." This is potentially misleading to a user who clicks through expecting a no-strings trial. Fix the description to:
 
 ```
-"CMO Lite $249/mo · Growth $999/mo · Scale $2,499/mo. 14-day free trial, then 90-day retainer. Full AI marketing — strategy, software, and execution."
+"CMO Lite $249/mo · Growth $999/mo · Scale $2,990/mo. 14-day free trial, then 90-day retainer. Full AI marketing — strategy, software, and execution."
 ```
 
 ---

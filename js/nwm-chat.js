@@ -83,7 +83,7 @@
           ]
         },
         pricing: {
-          reply: "**Fractional CMO Packages** ⭐ (our star products):\n\n🚀 **CMO Lite — $249/mo** · no setup\n AEO + SEO + content calendar, NWM CRM included, monthly strategy note\n\n📈 **CMO Growth — $999/mo** + $499 setup *(most popular)*\n Everything in Lite + Google/Meta ads, social content, email automation, AI SDR + lead qualification\n Ad spend billed at cost + 12% (min $300/mo)\n\n⭐ **CMO Scale — $2,499/mo** + $999 setup\n Everything in Growth + Video Factory (16 Reels/mo), custom AI agents + voice AI, dedicated strategist, daily Slack access\n\nPay annually and save **15%** · Lite $2,540/yr · Growth $10,190/yr · Scale $25,490/yr\n90-day minimum, then month-to-month.\n\n**Platform only (DIY):** CRM Starter $49 · Pro $249 · Agency $449/mo\n\nWhich tier fits your budget?",
+          reply: "**Fractional CMO Packages** ⭐ (our star products):\n\n🚀 **AEO Starter — $249/mo** · no setup\n AEO + SEO + content calendar, NWM CRM included, monthly strategy note\n\n📈 **CMO Growth — $999/mo** + $499 setup *(most popular)*\n Everything in Starter + Google/Meta ads, social content, email automation, AI SDR + lead qualification\n Ad spend billed at cost + 12% (min $300/mo)\n\n⭐ **CMO Premium — $2,990/mo** + $999 setup\n Everything in Growth + Video Factory (16 Reels/mo), custom AI agents + voice AI, dedicated strategist, daily Slack access\n\nPay annually and save **15%** · Starter $2,540/yr · Growth $10,190/yr · Premium $30,500/yr\n90-day minimum, then month-to-month.\n\n**Platform only (DIY):** CRM Starter $49 · Pro $249 · Agency $449/mo\n\nWhich tier fits your budget?",
           replies: [
             { id: 'pricing-page',   label: '💳 See full pricing',   href: '/pricing.html' },
             { id: 'pricing-quote',  label: '📝 Get custom quote',   action: 'audit' },
@@ -765,23 +765,82 @@
       page:       location.pathname
     };
     var ctrl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
-    var timeout = setTimeout(function(){ if (ctrl) ctrl.abort(); }, 25000);
+    // 12s is the empirical p99 for /api/public/chat. Anything longer is a worse UX
+    // than just falling back to a static answer + handoff.
+    var timeout = setTimeout(function(){ if (ctrl) ctrl.abort(); }, 12000);
     fetch(CONFIG.chatEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
       signal: ctrl ? ctrl.signal : undefined
     })
-      .then(function(res){ return res.json().then(function(j){ return { ok: res.ok, status: res.status, json: j }; }); })
+      .then(function(res){ return res.json().then(function(j){ return { ok: res.ok, status: res.status, json: j }; }, function(){ return { ok:false, status:res.status, json:null }; }); })
       .then(function(out){
         clearTimeout(timeout);
+        // Treat any 5xx, empty reply, or non-200 (except 429) as a soft failure
+        // so the static fallback fires. 429 is handled distinctly so users get
+        // the "you've hit the limit" message rather than a generic outage one.
         if (out.json && out.json.reply) {
           onReply(out.json.reply, out.json.suggested_actions || [], out.status === 429);
-        } else {
-          onError();
+          return;
         }
+        if (out.status === 429 && out.json) {
+          onReply(out.json.reply || (LANG === 'es'
+            ? "Has alcanzado el límite del chat por hoy. Escríbenos a hello@netwebmedia.com o por WhatsApp."
+            : "You've hit today's chat limit. Email hello@netwebmedia.com or message us on WhatsApp."),
+            [], true);
+          return;
+        }
+        onError(out.status >= 500 ? 'server' : 'empty');
       })
-      .catch(function(){ clearTimeout(timeout); onError(); });
+      .catch(function(err){
+        clearTimeout(timeout);
+        // AbortError = timeout. Network error = connectivity. Both route to onError.
+        onError((err && err.name === 'AbortError') ? 'timeout' : 'network');
+      });
+  }
+
+  // Static keyword fallback — fires when /api/public/chat is unreachable.
+  // Returns a {reply, replies[]} object or null if no local match.
+  function localFallbackAnswer(text){
+    var t = (text || '').toLowerCase();
+    var es = LANG === 'es';
+    // Pricing / plans / cost
+    if (/(price|pricing|cost|how much|plan|tier|paquete|precio|cuesta|cu[áa]nto|plan|tarif)/i.test(t)) {
+      return {
+        reply: es
+          ? "**Paquetes Fractional CMO:**\n• 🚀 **AEO Starter — $249/mes** · sin setup\n• 📈 **CMO Growth — $999/mes** + setup $499 *(más popular)*\n• ⭐ **CMO Premium — $2,990/mes** + setup $999\n\nMínimo 90 días, después mes a mes. Ahorra 15% al pagar anual."
+          : "**Fractional CMO packages:**\n• 🚀 **AEO Starter — $249/mo** · no setup\n• 📈 **CMO Growth — $999/mo** + $499 setup *(most popular)*\n• ⭐ **CMO Premium — $2,990/mo** + $999 setup\n\n90-day minimum, then month-to-month. 15% off when paid annually.",
+        replies: [
+          { id: 'see-pricing', label: es ? '💳 Ver precios' : '💳 See full pricing', href: '/pricing.html' },
+          { id: 'free-audit',  label: es ? '🎯 Auditoría gratis' : '🎯 Free audit',   href: '/contact.html' }
+        ]
+      };
+    }
+    // Audit
+    if (/(audit|auditoria|auditor[ií]a|free report|reporte)/i.test(t)) {
+      return {
+        reply: es
+          ? "La auditoría gratis es un reporte escrito en 48 horas — sin llamadas. Cubrimos AEO/SEO, anuncios pagos, brechas de CRM y un plan priorizado 30/60/90 días."
+          : "The free audit is a 48-hour written report — no calls. We cover AEO/SEO, paid-ads hygiene, CRM gaps, and a prioritized 30/60/90-day action list.",
+        replies: [
+          { id: 'free-audit', label: es ? '📝 Solicitar auditoría' : '📝 Request audit', href: '/contact.html' }
+        ]
+      };
+    }
+    // Contact / WhatsApp / human
+    if (/(contact|human|agent|sales|wha?ts?app|hablar|humano|contacto|persona)/i.test(t)) {
+      return {
+        reply: es
+          ? "Estamos en línea — WhatsApp suele ser lo más rápido. También respondemos por email en horas hábiles."
+          : "We're online — WhatsApp is usually fastest. Email also gets a same-business-day reply.",
+        replies: [
+          { id: 'wa',    label: '💬 WhatsApp',  href: '/whatsapp.html' },
+          { id: 'email', label: '✉️ Email',    href: 'mailto:hello@netwebmedia.com?subject=Chat%20handoff' }
+        ]
+      };
+    }
+    return null;
   }
 
   // ── Free-text smart router ────────────────────────────────
@@ -809,15 +868,25 @@
         }
         addBotMessage(reply, replies);
       },
-      function onError(){
+      function onError(reason){
         if (typing) typing.remove();
+        trackEvent('chat_api_error', { reason: reason || 'unknown', page: location.pathname });
+        // Second-chance local match — if the user asked about a high-intent topic
+        // (pricing, audit, contact), serve a static answer rather than an outage message.
+        var local = localFallbackAnswer(text);
+        if (local) {
+          local.replies.push({ id: 'back', label: LANG === 'es' ? '← Menú' : '← Menu', action: 'menu' });
+          addBotMessage(local.reply, local.replies);
+          return;
+        }
         var fallback = LANG === 'es'
-          ? "Buena pregunta — me cuesta conectarme en este momento. Escríbenos a *hello@netwebmedia.com* o agenda 30 min en /contact.html y te respondemos en pocas horas."
-          : "Good question — I'm having trouble connecting right now. Email *hello@netwebmedia.com* or book 30 min at /contact.html and we'll reply within a few business hours.";
+          ? "Buena pregunta — me cuesta conectarme en este momento. Escríbenos por WhatsApp, manda un email a *hello@netwebmedia.com*, o pide la auditoría gratis en /contact.html y te respondemos en pocas horas hábiles."
+          : "Good question — I'm having trouble connecting right now. Message us on WhatsApp, email *hello@netwebmedia.com*, or request the free audit at /contact.html and we'll reply within a few business hours.";
         addBotMessage(fallback, [
+          { id: 'whatsapp',    label: '💬 WhatsApp',                                       href: '/whatsapp.html' },
           { id: 'async-audit', label: LANG === 'es' ? '📝 Auditoría async' : '📝 Free async audit', href: '/contact.html' },
-          { id: 'human-email', label: '✉️ Email', href: 'mailto:hello@netwebmedia.com?subject=Chat%20handoff' },
-          { id: 'back', label: LANG === 'es' ? '← Menú' : '← Menu', action: 'menu' }
+          { id: 'human-email', label: '✉️ Email',                                          href: 'mailto:hello@netwebmedia.com?subject=Chat%20handoff' },
+          { id: 'back',        label: LANG === 'es' ? '← Menú' : '← Menu',                 action: 'menu' }
         ]);
       }
     );

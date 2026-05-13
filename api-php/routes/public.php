@@ -188,6 +188,139 @@ function route_public($parts, $method) {
     json_out(['ok' => true, 'id' => $submissionId, 'workflows_fired' => count($wfFired)], 201);
   }
 
+  // /api/public/track/lead — server-side Meta CAPI Lead event (deduped with Pixel via event_id)
+  //
+  // Body: {event_id, form_id?, email?, phone?, first_name?, last_name?,
+  //        fbp?, fbc?, ga_client_id?, source_url?}
+  //
+  // Fires a `Lead` event to Meta CAPI. The Pixel fires the same event_id client-side
+  // — Meta dedupes them when fbp+event_id match. No-op when META_CAPI_PIXEL_ID /
+  // META_CAPI_TOKEN are unset (silent skip + audit row in billing_events).
+  if ($sub === 'track' && ($parts[1] ?? null) === 'lead' && $method === 'POST') {
+    // Rate limit — abuse-cap server-side CAPI relays. 60 / hr / IP is plenty
+    // for legitimate users (1 lead submission with ~3 retries on flaky nets).
+    rate_limit_check('track_lead', 60, 3600);
+
+    $b = json_decode(file_get_contents('php://input'), true) ?: [];
+    $eventId = (string)($b['event_id'] ?? '');
+    if (!$eventId || !preg_match('/^[a-z0-9_\-]{6,64}$/i', $eventId)) {
+      err('Invalid event_id');
+    }
+
+    $cfg     = config();
+    $pixelId = $cfg['meta_capi_pixel_id'] ?? '';
+    $token   = $cfg['meta_capi_token']    ?? '';
+
+    // Normalize + hash PII per Meta CAPI spec (SHA-256, lowercased, trimmed)
+    $hash = function ($v) { $v = trim(strtolower((string)$v)); return $v === '' ? null : hash('sha256', $v); };
+    $email = $hash($b['email'] ?? '');
+    $phone = $b['phone'] ?? '';
+    if ($phone !== '') {
+      // E.164-ish: digits only for hashing (Meta strips +)
+      $phone = preg_replace('/[^\d]/', '', (string)$phone);
+      $phone = $phone ? hash('sha256', $phone) : null;
+    } else {
+      $phone = null;
+    }
+    $fn = $hash($b['first_name'] ?? '');
+    $ln = $hash($b['last_name']  ?? '');
+
+    $userData = array_filter([
+      'em'                => $email ? [$email] : null,
+      'ph'                => $phone ? [$phone] : null,
+      'fn'                => $fn    ? [$fn]    : null,
+      'ln'                => $ln    ? [$ln]    : null,
+      'fbp'               => $b['fbp'] ?? null,
+      'fbc'               => $b['fbc'] ?? null,
+      'client_ip_address' => $_SERVER['REMOTE_ADDR']     ?? null,
+      'client_user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? null,
+    ]);
+
+    // Audit-log every relay attempt so we can confirm CAPI dedup is working
+    // from the BillEvents UI. status='skipped' when secrets are unset.
+    $auditStatus = 'sent';
+    $auditRaw    = '';
+
+    if (!$pixelId || !$token) {
+      $auditStatus = 'skipped_no_config';
+    } else {
+      $payload = [
+        'data' => [[
+          'event_name'       => 'Lead',
+          'event_time'       => time(),
+          'event_id'         => $eventId,
+          'action_source'    => 'website',
+          'event_source_url' => (string)($b['source_url'] ?? 'https://netwebmedia.com/contact.html'),
+          'user_data'        => $userData,
+          'custom_data'      => [
+            'content_name' => (string)($b['form_id'] ?? 'form-submit'),
+            'currency'     => 'USD',
+            'value'        => 1,
+            'lead_event_source' => 'nwm-forms.js',
+          ],
+        ]],
+      ];
+      if (!empty($cfg['meta_capi_test_code'])) {
+        $payload['test_event_code'] = $cfg['meta_capi_test_code'];
+      }
+
+      $ch = curl_init('https://graph.facebook.com/v18.0/' . urlencode($pixelId) . '/events?access_token=' . urlencode($token));
+      curl_setopt_array($ch, [
+        CURLOPT_POST           => 1,
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+        CURLOPT_POSTFIELDS     => json_encode($payload),
+        CURLOPT_TIMEOUT        => 6,
+      ]);
+      $res  = curl_exec($ch);
+      $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      curl_close($ch);
+      $auditRaw    = substr((string)$res, 0, 2000);
+      $auditStatus = ($code >= 200 && $code < 300) ? 'sent' : ('error_' . $code);
+    }
+
+    try {
+      qExec(
+        "INSERT INTO billing_events (mp_resource, mp_id, topic, raw, status) VALUES (?, ?, ?, ?, ?)",
+        ['capi', $eventId, 'capi_lead', $auditRaw, $auditStatus]
+      );
+    } catch (Throwable $e) { /* ignore audit log failures */ }
+
+    // GA4 server-side relay — fire a `generate_lead` Measurement Protocol event
+    // when GA4_MP_API_SECRET is configured. Same event_id propagates as ga_event_id.
+    $ga4MeasurementId  = $cfg['ga4_measurement_id'] ?? 'G-V71R6PD7C0';
+    $ga4ApiSecret      = $cfg['ga4_mp_api_secret']  ?? '';
+    $ga4ClientId       = (string)($b['ga_client_id'] ?? '');
+    if ($ga4ApiSecret && $ga4ClientId && $ga4MeasurementId) {
+      $gaPayload = [
+        'client_id' => $ga4ClientId,
+        'events'    => [[
+          'name'   => 'generate_lead',
+          'params' => [
+            'event_id' => $eventId,
+            'form_id'  => (string)($b['form_id'] ?? ''),
+            'value'    => 1,
+            'currency' => 'USD',
+          ],
+        ]],
+      ];
+      $ga4Url = 'https://www.google-analytics.com/mp/collect?measurement_id=' . urlencode($ga4MeasurementId) .
+                '&api_secret=' . urlencode($ga4ApiSecret);
+      $ch2 = curl_init($ga4Url);
+      curl_setopt_array($ch2, [
+        CURLOPT_POST           => 1,
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+        CURLOPT_POSTFIELDS     => json_encode($gaPayload),
+        CURLOPT_TIMEOUT        => 4,
+      ]);
+      @curl_exec($ch2);
+      @curl_close($ch2);
+    }
+
+    json_out(['ok' => true, 'event_id' => $eventId, 'capi_status' => $auditStatus]);
+  }
+
   // /api/public/newsletter/subscribe — body: {email, name?, source?}
   if ($sub === 'newsletter' && ($parts[1] ?? null) === 'subscribe' && $method === 'POST') {
     // Spam-relay defense: 30 / hr / IP. Newsletter signups don't burn Claude

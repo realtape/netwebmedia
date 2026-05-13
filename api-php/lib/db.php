@@ -46,6 +46,11 @@ function config() {
       'mp_public_key',
       'mp_webhook_secret',
       'jwt_secret',
+      'meta_capi_pixel_id',
+      'meta_capi_token',
+      'meta_capi_test_code',
+      'ga4_measurement_id',
+      'ga4_mp_api_secret',
     ];
     $localFile = __DIR__ . '/../config.local.php';
     if (file_exists($localFile)) {

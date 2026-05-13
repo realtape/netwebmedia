@@ -21,11 +21,19 @@ from pathlib import Path
 
 BASE = Path(__file__).parent.resolve()
 FFMPEG = r"C:\Users\Usuario\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin\ffmpeg.exe"
+def _find_source(stem):
+    """Find source file with stem in /sources, accepting .mp4 or .webm."""
+    for ext in (".mp4", ".webm", ".mkv"):
+        p = BASE / "sources" / f"{stem}{ext}"
+        if p.exists():
+            return p
+    return BASE / "sources" / f"{stem}.mp4"
+
 SOURCES = {
-    "V01": BASE / "sources" / "video-01-imsa-89min.mp4",
-    "V02": BASE / "sources" / "video-02-imsa-50min.mp4",
-    "V03": BASE / "sources" / "video-03-porsche-100min.mp4",
-    "V04": BASE / "sources" / "video-04-imsa-16min.mp4",
+    "V01": _find_source("video-01-imsa-89min"),
+    "V02": _find_source("video-02-imsa-50min"),
+    "V03": _find_source("video-03-porsche-100min"),
+    "V04": _find_source("video-04-imsa-16min"),
 }
 
 # Each reel: id, source, cut_start_sec, duration_sec, accent, archetype,

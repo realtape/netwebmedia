@@ -2,37 +2,37 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1080, height=1920" />
+    <meta name="viewport" content="width=1440, height=2560" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800;900&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; font-family: 'Poppins', sans-serif; }
+      html, body { width: 1440px; height: 2560px; overflow: hidden; background: #000; font-family: 'Poppins', sans-serif; }
       .clip { position: absolute; top: 0; left: 0; }
-      .broll { position: absolute; top:0; left:0; width: 1080px; height: 1920px; object-fit: cover; }
-      .broll-tint-top { position: absolute; top:0; left:0; width: 1080px; height: 1920px; background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 22%, rgba(0,0,0,0.0) 38%); }
-      .broll-tint-bottom { position: absolute; top:0; left:0; width: 1080px; height: 1920px; background: linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.0) 35%, rgba(0,0,0,0.55) 65%, rgba(0,0,0,0.85) 100%); }
-      .handle { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); color: #fff; font-weight: 800; font-size: 32px; letter-spacing: 4px; text-shadow: 0 2px 8px rgba(0,0,0,0.7); opacity: 0.95; }
+      .broll { position: absolute; top:0; left:0; width: 1440px; height: 2560px; object-fit: cover; }
+      .broll-tint-top { position: absolute; top:0; left:0; width: 1440px; height: 2560px; background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 22%, rgba(0,0,0,0.0) 38%); }
+      .broll-tint-bottom { position: absolute; top:0; left:0; width: 1440px; height: 2560px; background: linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.0) 35%, rgba(0,0,0,0.55) 65%, rgba(0,0,0,0.85) 100%); }
+      .handle { position: absolute; top: 80px; left: 50%; transform: translateX(-50%); color: #fff; font-weight: 800; font-size: 43px; letter-spacing: 5px; text-shadow: 0 3px 11px rgba(0,0,0,0.7); opacity: 0.95; }
       .handle .at { color: #FF1A1A; }
-      .chapter { position: absolute; top: 175px; left: 60px; background: #FF1A1A; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; padding: 10px 20px; opacity: 0; }
-      #hook { position: absolute; top: 250px; left: 60px; width: 960px; opacity: 0; }
-      #hook-headline { color: #fff; font-size: 108px; font-weight: 900; line-height: 0.96; text-transform: uppercase; text-shadow: 0 4px 20px rgba(0,0,0,0.92); letter-spacing: -1px; }
+      .chapter { position: absolute; top: 233px; left: 80px; background: #FF1A1A; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 29px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; padding: 13px 27px; opacity: 0; }
+      #hook { position: absolute; top: 333px; left: 80px; width: 1280px; opacity: 0; }
+      #hook-headline { color: #fff; font-size: 144px; font-weight: 900; line-height: 0.96; text-transform: uppercase; text-shadow: 0 5px 27px rgba(0,0,0,0.92); letter-spacing: -1px; }
       #hook-headline .accent { color: #FF1A1A; }
-      #hud { position: absolute; top: 740px; left: 60px; width: 540px; opacity: 0; background: rgba(0,0,0,0.72); border-left: 6px solid #FF1A1A; padding: 26px 32px; backdrop-filter: blur(8px); }
-      #hud-label { color: #FF1A1A; font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
-      #hud-val { color: #fff; font-size: 84px; font-weight: 900; line-height: 1; }
-      #hud-sub { color: rgba(255,255,255,0.85); font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 400; margin-top: 8px; }
-      #build { position: absolute; top: 1100px; left: 60px; width: 960px; opacity: 0; }
-      #build-text { color: #fff; font-family: 'Inter', sans-serif; font-size: 44px; font-weight: 700; line-height: 1.18; text-shadow: 0 2px 12px rgba(0,0,0,0.92); }
+      #hud { position: absolute; top: 987px; left: 80px; width: 720px; opacity: 0; background: rgba(0,0,0,0.72); border-left: 8px solid #FF1A1A; padding: 35px 43px; backdrop-filter: blur(11px); }
+      #hud-label { color: #FF1A1A; font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 13px; }
+      #hud-val { color: #fff; font-size: 112px; font-weight: 900; line-height: 1; }
+      #hud-sub { color: rgba(255,255,255,0.85); font-family: 'Inter', sans-serif; font-size: 29px; font-weight: 400; margin-top: 11px; }
+      #build { position: absolute; top: 1467px; left: 80px; width: 1280px; opacity: 0; }
+      #build-text { color: #fff; font-family: 'Inter', sans-serif; font-size: 59px; font-weight: 700; line-height: 1.18; text-shadow: 0 3px 16px rgba(0,0,0,0.92); }
       #build-text .accent { color: #FF1A1A; }
-      #cta { position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%); width: 960px; text-align: center; opacity: 0; }
-      #cta-line1 { color: #fff; font-size: 36px; font-weight: 800; line-height: 1.1; text-transform: uppercase; text-shadow: 0 2px 12px rgba(0,0,0,0.9); margin-bottom: 14px; }
-      #cta-handle { display: inline-block; background: #FF1A1A; color: #fff; font-size: 38px; font-weight: 800; padding: 18px 38px; border-radius: 60px; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 8px 28px rgba(255,26,26,0.45); }
-      #progress { position: absolute; bottom: 0; left: 0; width: 0; height: 8px; background: #FF1A1A; }
+      #cta { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); width: 1280px; text-align: center; opacity: 0; }
+      #cta-line1 { color: #fff; font-size: 48px; font-weight: 800; line-height: 1.1; text-transform: uppercase; text-shadow: 0 3px 16px rgba(0,0,0,0.9); margin-bottom: 19px; }
+      #cta-handle { display: inline-block; background: #FF1A1A; color: #fff; font-size: 51px; font-weight: 800; padding: 24px 51px; border-radius: 80px; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 11px 37px rgba(255,26,26,0.45); }
+      #progress { position: absolute; bottom: 0; left: 0; width: 0; height: 11px; background: #FF1A1A; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="r40" data-start="0" data-duration="20" data-width="1080" data-height="1920">
+    <div id="root" data-composition-id="r40" data-start="0" data-duration="20" data-width="1440" data-height="2560">
       <video id="broll" class="broll clip" muted autoplay loop src="assets/broll/clip-R40.mp4" data-start="0" data-duration="20" data-track-index="0"></video>
       <div class="broll-tint-top clip" data-start="0" data-duration="20" data-track-index="1"></div>
       <div class="broll-tint-bottom clip" data-start="0" data-duration="20" data-track-index="2"></div>

@@ -2,6 +2,10 @@
 
 **Session date:** 2026-05-13
 **Working dir:** `C:\Users\Usuario\Desktop\NetWebMedia\hyperframes\spa-reels-2026-05-12`
+**Output:** QHD vertical 1440×2560 @ 30fps, H264 video + AAC audio 192k
+**v1 backup:** 1080×1920 silent renders archived at `renders/_v1-1080p/`
+
+> **Why 1440 not 4K:** YouTube only stored these uploads up to 1440p. True 4K source isn't available; 1440p is the native max. Output uses original audio from the source streams.
 
 ---
 
@@ -30,11 +34,11 @@
 | ✅ | All 4 source videos downloaded (5.6 GB total) |
 | ✅ | All 40 b-roll clips cut at 1080×1920 (some need timestamp tweaks — see below) |
 | ✅ | All 40 Hyperframes composition HTMLs |
-| ✅ | **ALL 40 REELS RENDERED** in `renders/reel-R01.mp4` through `renders/reel-R40.mp4` — total ~1.0 GB |
+| ✅ | **ALL 40 REELS RENDERED** at QHD 1440×2560 + original audio. Files in `renders/reel-R01.mp4` through `reel-R40.mp4`, ~3-4 GB total |
 | ✅ | Reusable pipeline script (`build-reels.py`) — adjust timestamps + re-render any individual reel |
 | ✅ | **V03 timestamps locked.** TWO races confirmed (Race 1 ~09:00-30:00, Race 2 ~65:00-95:00). Reels R21-R25 = Race 1, R26-R30 = Race 2. |
-| ✅ | Spot-checked frames: R02, R04, R06, R12, R18, R22, R28, R29, R32, R40 — all show on-track Spa content with proper HUD, hook, CTA branding. |
-| ⚠ | Minor: R09, R10, R11, R12, R31 are smaller files (5–8 MB) because the b-roll happens to be quiet moments. Reels play fine; if you want more action there, shift those `start=` values by ±30s in `build-reels.py` and re-run `python build-reels.py render RXX`. |
+| ✅ | v1 1080p silent versions kept at `renders/_v1-1080p/` as backup |
+| ⚠ | Minor: R09, R10, R11, R12, R31 picked quieter b-roll moments (pit lane / formation). Visually still fine; shift `start=` ±30s in `build-reels.py` and re-render if you want more action. |
 
 ---
 
@@ -114,7 +118,9 @@ The `@REALTAPE` handle stays top-center the full 20 seconds. Bottom-third of the
 
 ## What to publish & where
 
-These reels are 1080×1920, no audio (silent — the iRacing in-game audio is left out so Carlos can add music). 20 seconds each. Format: H.264 in MP4.
+These reels are **1440×2560 QHD vertical** with **original iRacing onboard audio** (engine + sim sounds + Carlos's wheel/pedal noise). 20 seconds each. Format: H.264 video + AAC audio in MP4.
+
+**On audio:** The audio is the raw onboard track. If you'd prefer music beds for some platforms (TikTok loves music), mute in the platform editor before posting, or use the script's mux step to swap audio: see "Adding audio" below.
 
 ### Recommended publishing order
 
@@ -126,19 +132,21 @@ These reels are 1080×1920, no audio (silent — the iRacing in-game audio is le
 
 **Posting cadence proposal:** 2/day for 20 days. Spread by archetype, not by source video (so each day has variety: e.g. Day 1 = 2 starts from different sources, Day 2 = an overtake + a finish, etc.). Don't dump all 40 in one week — algorithm needs spacing.
 
-### Adding audio
+### Swapping audio
+
+The reels already ship with original onboard audio. To replace it with a music bed for a specific reel:
 
 ```bash
-# Mux a music bed onto a silent reel
-ffmpeg -i renders/reel-R02.mp4 -i path/to/music.m4a -c:v copy -c:a aac -shortest reel-R02-with-audio.mp4
+# Replace audio with a music track
+ffmpeg -i renders/reel-R02.mp4 -i path/to/music.m4a \
+  -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 192k -shortest \
+  reel-R02-music.mp4
 ```
 
-Or use the original onboard audio from the source clip — just re-cut without the `-an` flag:
+To strip audio entirely (silent reel for music-only platforms):
 ```bash
-ffmpeg -ss 1230 -i sources/video-01-imsa-89min.mp4 -t 20 -vf "scale=-2:1920,crop=1080:1920,fps=30" -c:v libx264 -crf 20 -c:a aac assets/broll/clip-R02-with-audio.mp4
+ffmpeg -i renders/reel-R02.mp4 -c:v copy -an reel-R02-silent.mp4
 ```
-
-(Engine noise might be too constant to be useful as audio. Music beds usually win.)
 
 ---
 

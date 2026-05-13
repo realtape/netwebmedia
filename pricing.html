@@ -1153,6 +1153,51 @@
         })
         .catch(nwmMarkHydrateFailed);
     });
+
+  // Monthly / Annual billing toggle
+  (function () {
+    var toggle = document.getElementById('nwm-billing-toggle');
+    if (!toggle) return;
+
+    var ctaText = {
+      monthly: { cmo_starter: 'Start AEO Starter — $249/mo →', cmo_growth: 'Start Growth — $999/mo →' },
+      annual:  { cmo_starter: 'Start AEO Starter — $212/mo →', cmo_growth: 'Start Growth — $849/mo →' }
+    };
+
+    function applyMode(m) {
+      toggle.dataset.mode = m;
+
+      document.querySelectorAll('.nwm-billing-btn').forEach(function (btn) {
+        var active = btn.dataset.mode === m;
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+        btn.style.background = active ? '#FF671F' : 'transparent';
+        btn.style.color      = active ? '#fff'    : '#cbd5e1';
+        btn.style.border     = active ? '1px solid rgba(255,103,31,.45)' : '1px solid rgba(255,255,255,.12)';
+      });
+
+      var note = document.getElementById('nwm-billing-note');
+      if (note) note.textContent = note.getAttribute('data-' + m) || '';
+
+      document.querySelectorAll('.nwm-price[data-' + m + ']').forEach(function (el) {
+        el.textContent = el.getAttribute('data-' + m);
+      });
+      document.querySelectorAll('.nwm-price-suffix[data-' + m + ']').forEach(function (el) {
+        el.textContent = el.getAttribute('data-' + m);
+      });
+
+      var map = ctaText[m] || {};
+      Object.keys(map).forEach(function (plan) {
+        var btn = document.querySelector('[data-plan="' + plan + '"]');
+        if (btn) btn.textContent = map[plan];
+      });
+    }
+
+    document.querySelectorAll('.nwm-billing-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () { applyMode(btn.dataset.mode); });
+    });
+
+    applyMode('monthly');
+  })();
 </script>
 
 <script src="/js/cookie-consent.js"></script>

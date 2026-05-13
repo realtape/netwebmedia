@@ -349,9 +349,6 @@
 
 <!-- ── HERO ─────────────────────────────────────────────── -->
 <section class="hero" id="home">
-  <!-- 3D world background (orbital data system: navy core + AI citation labels). Graceful no-op on low-power / reduced-motion. -->
-  <canvas id="hero-3d-canvas" aria-hidden="true"></canvas>
-
   <!-- Particle canvas background -->
   <canvas id="particles-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:0;"></canvas>
 
@@ -407,28 +404,6 @@
 
       </div>
 
-      <!-- Right: Futuristic 3D robot visual -->
-      <div class="hero-visual">
-        <div class="squares-container"></div>
-        <div class="hero-robot-stage" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;">
-          <div class="hero-robot-wrap">
-            <!-- Glow halo -->
-            <div class="hero-robot-halo"></div>
-            <!-- Hero dashboard SVG: externalized 2026-05-12 for 12.7KB per-page savings.
-                 SMIL animations inside the SVG run when loaded via <img>; the CSS
-                 robotFloat/robotTilt on .hero-robot-svg still applies to <img>. -->
-            <img src="/assets/hero-robot.svg"
-                 class="hero-robot-svg"
-                 width="320" height="360"
-                 alt="NetWebMedia AI marketing dashboard with live KPI charts"
-                 loading="eager" decoding="async">
-            <!-- Orbital rings -->
-            <div class="hero-orbit hero-orbit-1"><span class="hero-orbit-dot"></span></div>
-            <div class="hero-orbit hero-orbit-2"><span class="hero-orbit-dot"></span></div>
-            <div class="hero-orbit hero-orbit-3"><span class="hero-orbit-dot"></span></div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -1153,7 +1128,6 @@
 </main>
 
 <script src="/js/main.js?v=11" defer></script>
-<script src="/js/hero-3d-world.js?v=11" defer></script>
 <script src="/js/cart.js" defer></script>
 <script src="/js/app-cta.js?v=3" defer></script>
 <script>

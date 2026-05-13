@@ -1,6 +1,6 @@
 # NWM CRM Launch Campaign — Operational Plan
 
-> 🛑 **CAMPAIGN RETIRED — 2026-04-21.** The `Carlos26` promo code was killed per CEO directive after the 2026-04-21 repricing of fCMO tiers to $249 / $999 / $2,499. The prices below are STALE. **DO NOT distribute, link to, or reactivate this campaign without Carlos sign-off.** Backend action required: disable the coupon in Stripe + CRM (see §Ops below). This document is retained for historical reference and post-mortem analysis only.
+> 🛑 **CAMPAIGN RETIRED — 2026-04-21.** The `Carlos26` promo code was killed per CEO directive after the 2026-04-21 repricing of fCMO tiers to $249 / $999 / $2,990. The prices below are STALE. **DO NOT distribute, link to, or reactivate this campaign without Carlos sign-off.** Backend action required: disable the coupon in Stripe + CRM (see §Ops below). This document is retained for historical reference and post-mortem analysis only.
 
 **Campaign name:** `NWM CRM Launch — Carlos26` *(RETIRED)*
 **Launch date:** Wednesday, April 22, 2026 *(did not ship as planned)*

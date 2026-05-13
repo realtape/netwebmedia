@@ -582,7 +582,7 @@ OBJECTION: "We might just hire a full-time CMO."
 RESPONSE: "Great idea — and the right move once you're past $5–10M ARR. Before
   that, a full-time senior CMO runs $150k–$220k/year in salary alone, before
   benefits, equity, or their own tool budget. And they still need an execution
-  team or agency underneath them. CMO Scale at $2,990/mo ($29,988/yr) gives you
+  team or agency underneath them. CMO Scale at $2,990/mo ($35,880/yr) gives you
   the same strategic output plus our execution team at about 1/7th the cost.
   When you do hire in-house, we help with the transition — we can even help
   recruit and onboard your new VP. No drama, no lock-in."
@@ -1661,7 +1661,7 @@ OBJECIÓN: "Quizás contratamos un CMO full-time."
 RESPUESTA: "Gran idea — y la decisión correcta cuando superes los $5–10M ARR.
   Antes de eso, un CMO senior cuesta $150k–$220k al año en salario, antes de
   beneficios, equity o su propio presupuesto de herramientas. Y todavía necesita
-  un equipo de ejecución o una agencia debajo. CMO Scale a $2,990/mes ($29,988/año)
+  un equipo de ejecución o una agencia debajo. CMO Scale a $2,990/mes ($35,880/año)
   te da el mismo output estratégico más nuestro equipo de ejecución a 1/7 del
   costo. Cuando contrates in-house, te ayudamos con la transición — podemos
   incluso ayudar a reclutar tu nuevo VP. Sin drama, sin lock-in."

@@ -13,7 +13,10 @@
  *   GET  /api/?r=tt_publish&action=status&token=…
  *           → readiness probe; verifies TT_ACCESS_TOKEN via /v2/post/publish/creator_info/query/
  *           → returns creator nickname, allowed privacy levels, max video duration, comment caps
- *   GET  /api/?r=tt_publish&action=spec&reel=1_aeo_en|1_aeo_es|2_growth_en|2_growth_es|3_scale_en|3_scale_es&token=…
+ *   GET  /api/?r=tt_publish&action=spec&reel=<key>&token=…
+ *           Allowed keys (12 total — 2 cohorts):
+ *             Original campaign:  1_aeo_en, 1_aeo_es, 2_growth_en, 2_growth_es, 3_scale_en, 3_scale_es
+ *             Higgsfield UGC:     hf_aeo_en, hf_aeo_es, hf_growth_en, hf_growth_es, hf_speed_en, hf_speed_es
  *           → returns the TT-ready publish payload spec for a given reel (URL + caption + post_info)
  *   POST /api/?r=tt_publish&action=publish&token=…
  *           body: {reel: '1_aeo_en'|..., caption_override?: string, privacy_level?: 'PUBLIC_TO_EVERYONE'|'SELF_ONLY'|...,
@@ -34,7 +37,9 @@
  *   3. Apply for "Direct Post" permission (required for auto-publish without manual confirm).
  *      Estimated TikTok review: 2–4 weeks. Provide use-case description + recorded demo.
  *   4. Verify domain ownership: app settings → URL Prefix Configuration → add
- *      `https://netwebmedia.com/assets/social/campaign/` and complete TXT-record verification.
+ *      `https://netwebmedia.com/assets/social/campaign/` AND
+ *      `https://netwebmedia.com/assets/social/higgsfield/remix-2026-05-14/` (for HF UGC cohort)
+ *      Complete TXT-record verification for each prefix.
  *      Without this, PULL_FROM_URL returns "url_ownership_unverified".
  *   5. Generate access token via OAuth2 flow (or use TikTok's test-token flow during sandbox)
  *      with scopes: video.publish, video.upload, user.info.basic.
@@ -90,12 +95,22 @@ $ttKey   = tt_env('TT_CLIENT_KEY');
 $reelBase = rtrim(tt_env('TT_REEL_BASE_URL', 'https://netwebmedia.com'), '/');
 $apiBase = 'https://open.tiktokapis.com/v2';
 
-/** Built-in reel catalog — matches assets/social/campaign/reel_*.mp4 */
+/**
+ * Built-in reel catalog.
+ *
+ * Two cohorts:
+ *   1_*/2_*/3_* — original data-led campaign reels at /assets/social/campaign/
+ *   hf_*        — Higgsfield UGC remixes (rendered 2026-05-14 via video-factory)
+ *                 at /assets/social/higgsfield/remix-2026-05-14/
+ *
+ * Each def declares its own `subpath` so the URL builder can route correctly.
+ */
 function tt_reel_def(string $key): ?array {
     $defs = [
         '1_aeo_en' => [
             'theme'    => 'AEO',
             'language' => 'en',
+            'subpath'  => '/assets/social/campaign/',
             'filename' => 'reel_1_aeo_en_final.mp4',
             'caption'  => "SEO is shifting. AEO is here.\n\n25% of Google searches now show AI Overviews (Semrush, 2026). Gartner forecasts traditional search drops 25% by 2026. Buyers ask ChatGPT, not Google — the brands cited in those answers win the call.\n\nFree AEO Migration Audit at netwebmedia.com.\n\n#AEO #AnswerEngineOptimization #AIMarketing #SmallBusiness #DigitalMarketing #ChatGPT #FractionalCMO",
             'privacy'  => 'PUBLIC_TO_EVERYONE',
@@ -103,6 +118,7 @@ function tt_reel_def(string $key): ?array {
         '1_aeo_es' => [
             'theme'    => 'AEO',
             'language' => 'es',
+            'subpath'  => '/assets/social/campaign/',
             'filename' => 'reel_1_aeo_es_final.mp4',
             'caption'  => "SEO está cambiando. Llega el AEO.\n\n25% de las búsquedas en Google ya muestran AI Overviews (Semrush, 2026). Gartner: el volumen de búsqueda tradicional caerá 25% para 2026. Los compradores le preguntan a ChatGPT, no a Google — las marcas citadas en esas respuestas ganan.\n\nAuditoría AEO gratis en netwebmedia.com.\n\n#AEO #MarketingDigital #IA #PyME #ChatGPT #CMO",
             'privacy'  => 'PUBLIC_TO_EVERYONE',
@@ -110,6 +126,7 @@ function tt_reel_def(string $key): ?array {
         '2_growth_en' => [
             'theme'    => 'Growth',
             'language' => 'en',
+            'subpath'  => '/assets/social/campaign/',
             'filename' => 'reel_2_growth_en_final.mp4',
             'caption'  => "One senior operator + 12 AI agents > 40-person agency.\n\nSame agency-grade output. Half the cost. No handoffs. Direct line to the founder.\n\nWe ship in days, not quarters. Book a strategy call at netwebmedia.com.\n\n#AIagents #FractionalCMO #SmallBusiness #MarketingAgency #Automation",
             'privacy'  => 'PUBLIC_TO_EVERYONE',
@@ -117,6 +134,7 @@ function tt_reel_def(string $key): ?array {
         '2_growth_es' => [
             'theme'    => 'Growth',
             'language' => 'es',
+            'subpath'  => '/assets/social/campaign/',
             'filename' => 'reel_2_growth_es_final.mp4',
             'caption'  => "Un operador senior + 12 agentes de IA > agencia de 40 personas.\n\nMismo nivel de output. Mitad del costo. Sin handoffs. Línea directa al fundador.\n\nLanzamos en días, no en trimestres. Agenda en netwebmedia.com.\n\n#IA #AgenciaIA #CMO #PyME #MarketingAutomatizado",
             'privacy'  => 'PUBLIC_TO_EVERYONE',
@@ -124,6 +142,7 @@ function tt_reel_def(string $key): ?array {
         '3_scale_en' => [
             'theme'    => 'Scale',
             'language' => 'en',
+            'subpath'  => '/assets/social/campaign/',
             'filename' => 'reel_3_scale_en_final.mp4',
             'caption'  => "How a Chilean-founded agency is winning US SMB CMO seats.\n\nBilingual EN/ES. AI-native from day one. 14 verticals dialed in. Built for the AI-search shift — 47% of startups now rely on fractional marketing leadership (HubSpot CMO Outlook, 2025).\n\nSee how we work at netwebmedia.com.\n\n#StartupStory #FractionalCMO #BilingualMarketing #SMB #AIAgency",
             'privacy'  => 'PUBLIC_TO_EVERYONE',
@@ -131,8 +150,59 @@ function tt_reel_def(string $key): ?array {
         '3_scale_es' => [
             'theme'    => 'Scale',
             'language' => 'es',
+            'subpath'  => '/assets/social/campaign/',
             'filename' => 'reel_3_scale_es_final.mp4',
             'caption'  => "Cómo una agencia chilena está ganando contratos de CMO en PyMEs estadounidenses.\n\nBilingüe ES/EN. AI-native desde el día uno. 14 verticales. Construida para el cambio de búsqueda con IA — 47% de las startups ya usa liderazgo de marketing fraccional (HubSpot CMO Outlook, 2025).\n\nCómo trabajamos en netwebmedia.com.\n\n#EmprendimientoChileno #CMO #MarketingDigital #PyME #IA",
+            'privacy'  => 'PUBLIC_TO_EVERYONE',
+        ],
+
+        // Higgsfield UGC remixes — punchier, lower text density, face-forward
+        'hf_aeo_en' => [
+            'theme'    => 'AEO (UGC)',
+            'language' => 'en',
+            'subpath'  => '/assets/social/higgsfield/remix-2026-05-14/',
+            'filename' => 'hf-aeo-en.mp4',
+            'caption'  => "POV: AI answers are eating Google — and your business isn't in any of them.\n\nIf ChatGPT and Perplexity can't cite you, you don't exist to your next customer.\n\nFree AEO audit at netwebmedia.com.\n\n#AEO #AIsearch #SmallBusiness #FractionalCMO #ChatGPT #Perplexity",
+            'privacy'  => 'PUBLIC_TO_EVERYONE',
+        ],
+        'hf_aeo_es' => [
+            'theme'    => 'AEO (UGC)',
+            'language' => 'es',
+            'subpath'  => '/assets/social/higgsfield/remix-2026-05-14/',
+            'filename' => 'hf-aeo-es.mp4',
+            'caption'  => "POV: la IA se está comiendo a Google — y tu negocio no aparece en ninguna respuesta.\n\nSi ChatGPT y Perplexity no te citan, no existes para tu próximo cliente.\n\nAuditoría AEO gratis en netwebmedia.com.\n\n#AEO #BúsquedaIA #PyME #CMO #ChatGPT #Perplexity",
+            'privacy'  => 'PUBLIC_TO_EVERYONE',
+        ],
+        'hf_growth_en' => [
+            'theme'    => 'Growth (UGC)',
+            'language' => 'en',
+            'subpath'  => '/assets/social/higgsfield/remix-2026-05-14/',
+            'filename' => 'hf-growth-en.mp4',
+            'caption'  => "One dashboard. Every lead. Zero chaos.\n\nCapture, score, follow up — while you sleep. Built for owners who hate their CRM.\n\nYour CRM, finally yours. netwebmedia.com\n\n#CRM #SmallBusiness #Automation #SalesOps #Leads",
+            'privacy'  => 'PUBLIC_TO_EVERYONE',
+        ],
+        'hf_growth_es' => [
+            'theme'    => 'Growth (UGC)',
+            'language' => 'es',
+            'subpath'  => '/assets/social/higgsfield/remix-2026-05-14/',
+            'filename' => 'hf-growth-es.mp4',
+            'caption'  => "Un panel. Cada lead. Cero caos.\n\nCaptura, califica, da seguimiento — mientras duermes. Hecho para dueños que odian su CRM.\n\nTu CRM, por fin tuyo. netwebmedia.com\n\n#CRM #PyME #Automatización #Ventas #Leads",
+            'privacy'  => 'PUBLIC_TO_EVERYONE',
+        ],
+        'hf_speed_en' => [
+            'theme'    => 'Speed (UGC)',
+            'language' => 'en',
+            'subpath'  => '/assets/social/higgsfield/remix-2026-05-14/',
+            'filename' => 'hf-speed-en.mp4',
+            'caption'  => "From audit to launch in 14 days.\n\nMost agencies take six months. We don't. AI-native ops + one operator = your site, CRM, and AEO live in two weeks.\n\nShip faster. Grow faster. netwebmedia.com\n\n#WebDesign #FastLaunch #SmallBusiness #AIAgency #FractionalCMO",
+            'privacy'  => 'PUBLIC_TO_EVERYONE',
+        ],
+        'hf_speed_es' => [
+            'theme'    => 'Speed (UGC)',
+            'language' => 'es',
+            'subpath'  => '/assets/social/higgsfield/remix-2026-05-14/',
+            'filename' => 'hf-speed-es.mp4',
+            'caption'  => "De auditoría a lanzamiento en 14 días.\n\nLa mayoría tarda seis meses. Nosotros no. Operación AI-native + un operador = tu sitio, CRM y AEO en vivo en dos semanas.\n\nLanza rápido. Crece rápido. netwebmedia.com\n\n#DiseñoWeb #LanzamientoRápido #PyME #AgenciaIA #CMO",
             'privacy'  => 'PUBLIC_TO_EVERYONE',
         ],
     ];
@@ -140,7 +210,14 @@ function tt_reel_def(string $key): ?array {
 }
 
 function tt_allowed_reels(): array {
-    return ['1_aeo_en', '1_aeo_es', '2_growth_en', '2_growth_es', '3_scale_en', '3_scale_es'];
+    return [
+        '1_aeo_en', '1_aeo_es',
+        '2_growth_en', '2_growth_es',
+        '3_scale_en', '3_scale_es',
+        'hf_aeo_en', 'hf_aeo_es',
+        'hf_growth_en', 'hf_growth_es',
+        'hf_speed_en', 'hf_speed_es',
+    ];
 }
 
 function tt_allowed_privacy(): array {
@@ -152,7 +229,10 @@ function tt_publish_spec(string $reelKey, string $reelBase, ?string $captionOver
     $def = tt_reel_def($reelKey);
     if (!$def) return ['error' => 'unknown reel'];
 
-    $videoUrl = $reelBase . '/assets/social/campaign/' . $def['filename'];
+    // subpath defaults to original campaign path for backwards compat with any
+    // older defs that pre-date the multi-cohort split.
+    $subpath  = $def['subpath'] ?? '/assets/social/campaign/';
+    $videoUrl = $reelBase . $subpath . $def['filename'];
     $caption  = $captionOverride !== null && $captionOverride !== '' ? $captionOverride : $def['caption'];
     $priv     = $privacy ?: $def['privacy'];
 

@@ -1,9 +1,18 @@
-# TikTok Publish Runbook — 6 Campaign Reels
+# TikTok Publish Runbook — 12 Reels (6 Campaign + 6 HF UGC)
 
 **Date:** 2026-05-14
 **Target:** @netwebmedia on TikTok
-**Handler:** `crm-vanilla/api/handlers/tt_publish.php` (already wired)
+**Handler:** `crm-vanilla/api/handlers/tt_publish.php` (already wired, 12 reel slots)
 **Idempotency:** Each `reel_key` is guarded for 24h — re-running same reel returns existing publish_id without re-calling TikTok
+
+## TWO COHORTS
+
+| Cohort | Style | Keys | Asset path | TikTok prefix verified? |
+|---|---|---|---|---|
+| **Campaign** | Data-led (Semrush, Gartner, HubSpot) | `1_aeo_*`, `2_growth_*`, `3_scale_*` (× en/es) | `/assets/social/campaign/` | ✅ Already verified |
+| **HF UGC** | POV selfie-walk, punchy hooks | `hf_aeo_*`, `hf_growth_*`, `hf_speed_*` (× en/es) | `/assets/social/higgsfield/remix-2026-05-14/` | ⚠️ **Needs verification** — add this URL prefix in TikTok Developer Portal before publishing |
+
+**Before firing any `hf_*` reel:** TikTok Developer Portal → Manage Apps → URL Prefix Configuration → add `https://netwebmedia.com/assets/social/higgsfield/remix-2026-05-14/` and complete the TXT-record verification. Without this, `hf_*` reels will fail init with `url_ownership_unverified`. The Campaign cohort prefix is already verified — those work today.
 
 ---
 
@@ -151,7 +160,9 @@ Returns the last 50 publish attempts with status + tt_post_id + error.
 
 ---
 
-## What's posted (reference)
+## All 12 reels (reference)
+
+### Campaign cohort — `/assets/social/campaign/`
 
 | reel_key | Theme | Lang | Source MP4 | Caption (first line) |
 |---|---|---|---|---|
@@ -162,15 +173,41 @@ Returns the last 50 publish attempts with status + tt_post_id + error.
 | `3_scale_en` | Scale | EN | `reel_3_scale_en_final.mp4` | "How a Chilean-founded agency is winning US SMB CMO seats." |
 | `3_scale_es` | Scale | ES | `reel_3_scale_es_final.mp4` | "Cómo una agencia chilena está ganando contratos de CMO en PyMEs estadounidenses." |
 
-All 6 verified 200 on production at `https://netwebmedia.com/assets/social/campaign/<filename>` as of 2026-05-14.
+### HF UGC cohort — `/assets/social/higgsfield/remix-2026-05-14/`
+
+| reel_key | Theme | Lang | Source MP4 | Caption (first line) |
+|---|---|---|---|---|
+| `hf_aeo_en` | AEO (UGC) | EN | `hf-aeo-en.mp4` | "POV: AI answers are eating Google — and your business isn't in any of them." |
+| `hf_aeo_es` | AEO (UGC) | ES | `hf-aeo-es.mp4` | "POV: la IA se está comiendo a Google — y tu negocio no aparece en ninguna respuesta." |
+| `hf_growth_en` | Growth (UGC) | EN | `hf-growth-en.mp4` | "One dashboard. Every lead. Zero chaos." |
+| `hf_growth_es` | Growth (UGC) | ES | `hf-growth-es.mp4` | "Un panel. Cada lead. Cero caos." |
+| `hf_speed_en` | Speed (UGC) | EN | `hf-speed-en.mp4` | "From audit to launch in 14 days." |
+| `hf_speed_es` | Speed (UGC) | ES | `hf-speed-es.mp4` | "De auditoría a lanzamiento en 14 días." |
+
+All 12 verified 200 on production as of 2026-05-14.
+
+---
+
+## Suggested 12-day cadence (mix cohorts for variety)
+
+Posting twice/day for 6 days, alternating cohort + language for algorithm variety:
+
+| Day | Slot 1 (morning) | Slot 2 (evening) |
+|---|---|---|
+| 1 | `1_aeo_en` | `hf_growth_es` |
+| 2 | `hf_aeo_en` | `2_growth_es` |
+| 3 | `3_scale_en` | `hf_speed_es` |
+| 4 | `hf_growth_en` | `1_aeo_es` |
+| 5 | `2_growth_en` | `hf_aeo_es` |
+| 6 | `hf_speed_en` | `3_scale_es` |
+
+Spacing of ~6 hours within a day. Adjust to your audience's TZ.
 
 ---
 
 ## After publishing — cross-publish to other channels
 
-The 6 HF UGC remix reels (rendered today, different content) are also live and ready at `https://netwebmedia.com/assets/social/higgsfield/remix-2026-05-14/hf-{aeo,growth,speed}-{en,es}.mp4`. To publish those too, the handler needs 6 new reel definitions added — separate task.
-
-For Instagram + Facebook, the handlers `ig_publish.php` and `fb_publish.php` exist but currently target carousels (IG) and scheduled video posts (FB) — see their headers for parameters. They are also `MIGRATE_TOKEN`-gated.
+For Instagram + Facebook, the handlers `ig_publish.php` and `fb_publish.php` exist but currently target carousels (IG) and scheduled video posts (FB) — see their headers for parameters. They are also `MIGRATE_TOKEN`-gated. The HF cohort would need an IG-specific Reels handler (the existing `ig_publish.php` is carousel-only) — that's a separate code change if you want to mirror to IG Reels.
 
 ---
 

@@ -18,3 +18,4 @@
 - [NWM incorporated in Chile, serves US clients](project_nwm_incorporation.md) — Chilean corporation; governing law = Chile; arbitration = ICDR (not AAA domestic)
 - [NWM phone number](reference_nwm_phone.md) — +1 (760) 334-8731 activated 2026-05-13; same line for voice + WhatsApp click-to-chat (wa.me/17603348731); outbound WABA still pending Meta
 - [Realtape YouTube channel](project_realtape_channel.md) — Carlos's personal sim-racing channel; retention crisis on live VODs; hyperframes reel pipeline at `NetWebMedia/hyperframes/realtape-reels` and `spa-reels-2026-05-12`
+- [Realtape rig optimization docs](reference_realtape_rig_docs.md) — iRacing + OBS streaming checklist and importable OBS profile in Obsidian vault at `Projects/Realtape/`; 1440p60 @ 20 Mbps NVENC HEVC on RTX 5060 Ti

@@ -96,7 +96,16 @@ $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $ALLOWED_CAROUSELS = ['a', 'b', 'c'];
 $gv = 'v20.0';
 
-// ── Service reels catalog (9 reels, matches assets/social/higgsfield/service-reels-2026/MANIFEST.json) ──
+// ── Service reels catalog ───────────────────────────────────────────────────
+//
+//   R2–R10            (9): legacy service reels at the Higgsfield CDN
+//   1_AEO_*, 2_GROWTH_*, 3_SCALE_* (6): campaign cohort, mirrors tt_publish/fb_publish
+//   HF_AEO_*, HF_GROWTH_*, HF_SPEED_* (6): UGC cohort, mirrors tt_publish/fb_publish
+//
+//   IG keys are UPPERCASE (handler uses strtoupper for normalization). The
+//   sister TT/FB handlers use lowercase keys (`1_aeo_en`, `hf_aeo_en`).
+//   When porting a workflow between channels, lowercase ↔ uppercase the keys.
+//
 function ig_service_reels(): array {
     return [
         'R2' => [
@@ -152,6 +161,82 @@ function ig_service_reels(): array {
             'hook'    => 'Stop Burning Ad Budget',
             'video_url' => 'https://d8j0ntlcm91z4.cloudfront.net/user_3DJQnJGVViYJk8WBv0y84SffJOU/hf_20260512_013934_b0b714cd-0792-441c-a8eb-0b5cc0d7ddfb.mp4',
             'caption' => "Stop burning your ad budget. 🔥\n\nIf your ROAS is below 3x, you're leaving money on the table.\n\nMost businesses waste 40–60% of their ad spend on:\n→ Wrong audiences\n→ Weak creative\n→ No optimization cadence\n\nWe manage Google, Meta, and TikTok Ads with a data-first approach:\n→ CPC from \$4.20 → \$1.10\n→ ROAS from 1.2x → 4.8x\n→ Conversions up. Budget down.\n\n📊 Free ad audit — link in bio.\n\n#PaidAds #GoogleAds #MetaAds #TikTokAds #PaidAdvertising #DigitalMarketing #PerformanceMarketing #ROAS #AdOptimization #PPC #FacebookAds #MarketingROI #AdStrategy #GrowthMarketing #NetWebMedia",
+        ],
+
+        // ── Campaign cohort (mirrors tt_publish lowercase keys: 1_aeo_en, etc.) ──
+        '1_AEO_EN' => [
+            'service' => 'AEO Migration',
+            'hook'    => 'SEO is shifting. AEO is here.',
+            'video_url' => 'https://netwebmedia.com/assets/social/campaign/reel_1_aeo_en_final.mp4',
+            'caption' => "SEO is shifting. AEO is here. 🎯\n\n25% of Google searches now show AI Overviews (Semrush, 2026). Gartner forecasts traditional search drops 25% by 2026.\n\nBuyers ask ChatGPT, not Google — the brands cited in those answers win the call.\n\n📊 Free AEO Migration Audit — link in bio.\n\n#AEO #AnswerEngineOptimization #AIMarketing #SmallBusiness #DigitalMarketing #ChatGPT #FractionalCMO #AIsearch #NetWebMedia",
+        ],
+        '1_AEO_ES' => [
+            'service' => 'AEO Migration',
+            'hook'    => 'SEO está cambiando. Llega el AEO.',
+            'video_url' => 'https://netwebmedia.com/assets/social/campaign/reel_1_aeo_es_final.mp4',
+            'caption' => "SEO está cambiando. Llega el AEO. 🎯\n\n25% de las búsquedas en Google ya muestran AI Overviews (Semrush, 2026).\n\nLos compradores le preguntan a ChatGPT, no a Google — las marcas citadas en esas respuestas ganan.\n\n📊 Auditoría AEO gratis — link en bio.\n\n#AEO #MarketingDigital #IA #PyME #ChatGPT #CMO #NetWebMedia",
+        ],
+        '2_GROWTH_EN' => [
+            'service' => 'Lean AI-Native Agency',
+            'hook'    => 'One operator + 12 AI agents > 40-person agency.',
+            'video_url' => 'https://netwebmedia.com/assets/social/campaign/reel_2_growth_en_final.mp4',
+            'caption' => "One senior operator + 12 AI agents > 40-person agency. ⚡\n\nSame agency-grade output. Half the cost. No handoffs. Direct line to the founder.\n\nWe ship in days, not quarters.\n\n📅 Book a strategy call — link in bio.\n\n#AIagents #FractionalCMO #SmallBusiness #MarketingAgency #Automation #LeanStartup #AIMarketing #NetWebMedia",
+        ],
+        '2_GROWTH_ES' => [
+            'service' => 'Lean AI-Native Agency',
+            'hook'    => 'Un operador + 12 agentes de IA > agencia de 40.',
+            'video_url' => 'https://netwebmedia.com/assets/social/campaign/reel_2_growth_es_final.mp4',
+            'caption' => "Un operador senior + 12 agentes de IA > agencia de 40 personas. ⚡\n\nMismo nivel de output. Mitad del costo. Sin handoffs. Línea directa al fundador.\n\nLanzamos en días, no en trimestres.\n\n📅 Agenda en netwebmedia.com.\n\n#IA #AgenciaIA #CMO #PyME #MarketingAutomatizado #NetWebMedia",
+        ],
+        '3_SCALE_EN' => [
+            'service' => 'Bilingual AI Agency Story',
+            'hook'    => 'Chilean-founded agency winning US SMB CMO seats.',
+            'video_url' => 'https://netwebmedia.com/assets/social/campaign/reel_3_scale_en_final.mp4',
+            'caption' => "How a Chilean-founded agency is winning US SMB CMO seats. 🌎\n\nBilingual EN/ES. AI-native from day one. 14 verticals dialed in.\n\nBuilt for the AI-search shift — 47% of startups now rely on fractional marketing leadership (HubSpot CMO Outlook, 2025).\n\n💬 DM \"WORK\" to see how we work.\n\n#StartupStory #FractionalCMO #BilingualMarketing #SMB #AIAgency #ChileTech #LatinXFounders #NetWebMedia",
+        ],
+        '3_SCALE_ES' => [
+            'service' => 'Bilingual AI Agency Story',
+            'hook'    => 'Agencia chilena ganando contratos de CMO en EEUU.',
+            'video_url' => 'https://netwebmedia.com/assets/social/campaign/reel_3_scale_es_final.mp4',
+            'caption' => "Cómo una agencia chilena está ganando contratos de CMO en PyMEs estadounidenses. 🌎\n\nBilingüe ES/EN. AI-native desde el día uno. 14 verticales.\n\nConstruida para el cambio de búsqueda con IA — 47% de las startups ya usa liderazgo de marketing fraccional (HubSpot CMO Outlook, 2025).\n\n💬 DM \"TRABAJO\" para ver cómo trabajamos.\n\n#EmprendimientoChileno #CMO #MarketingDigital #PyME #IA #NetWebMedia",
+        ],
+
+        // ── HF UGC cohort (mirrors tt_publish lowercase keys: hf_aeo_en, etc.) ──
+        'HF_AEO_EN' => [
+            'service' => 'AEO Migration (UGC)',
+            'hook'    => 'AI answers are eating Google.',
+            'video_url' => 'https://netwebmedia.com/assets/social/higgsfield/remix-2026-05-14/hf-aeo-en.mp4',
+            'caption' => "POV: AI answers are eating Google — and your business isn't in any of them. 😬\n\nIf ChatGPT and Perplexity can't cite you, you don't exist to your next customer.\n\nThat shift is already happening. The brands that win the next decade are the ones cited by AI today.\n\n📊 Free AEO audit — link in bio.\n\n#AEO #AIsearch #SmallBusiness #FractionalCMO #ChatGPT #Perplexity #AImarketing #NetWebMedia",
+        ],
+        'HF_AEO_ES' => [
+            'service' => 'AEO Migration (UGC)',
+            'hook'    => 'La IA se está comiendo a Google.',
+            'video_url' => 'https://netwebmedia.com/assets/social/higgsfield/remix-2026-05-14/hf-aeo-es.mp4',
+            'caption' => "POV: la IA se está comiendo a Google — y tu negocio no aparece en ninguna respuesta. 😬\n\nSi ChatGPT y Perplexity no te citan, no existes para tu próximo cliente.\n\nLas marcas que ganen la próxima década son las que la IA cita hoy.\n\n📊 Auditoría AEO gratis — link en bio.\n\n#AEO #BúsquedaIA #PyME #CMO #ChatGPT #Perplexity #IA #NetWebMedia",
+        ],
+        'HF_GROWTH_EN' => [
+            'service' => 'CRM Automation (UGC)',
+            'hook'    => 'One dashboard. Every lead.',
+            'video_url' => 'https://netwebmedia.com/assets/social/higgsfield/remix-2026-05-14/hf-growth-en.mp4',
+            'caption' => "One dashboard. Every lead. Zero chaos. 🚀\n\nCapture, score, follow up — while you sleep. Built for owners who hate their CRM.\n\nNo more leads slipping through. No more guessing what to send next.\n\n💬 DM \"CRM\" to see it in action.\n\n#CRM #SmallBusiness #Automation #SalesOps #Leads #MarketingAutomation #ProductivityHacks #NetWebMedia",
+        ],
+        'HF_GROWTH_ES' => [
+            'service' => 'CRM Automation (UGC)',
+            'hook'    => 'Un panel. Cada lead.',
+            'video_url' => 'https://netwebmedia.com/assets/social/higgsfield/remix-2026-05-14/hf-growth-es.mp4',
+            'caption' => "Un panel. Cada lead. Cero caos. 🚀\n\nCaptura, califica, da seguimiento — mientras duermes. Hecho para dueños que odian su CRM.\n\nSe acabaron los leads perdidos. Se acabó adivinar qué enviar.\n\n💬 DM \"CRM\" para verlo en acción.\n\n#CRM #PyME #Automatización #Ventas #Leads #Productividad #NetWebMedia",
+        ],
+        'HF_SPEED_EN' => [
+            'service' => '14-Day Launch (UGC)',
+            'hook'    => 'From audit to launch in 14 days.',
+            'video_url' => 'https://netwebmedia.com/assets/social/higgsfield/remix-2026-05-14/hf-speed-en.mp4',
+            'caption' => "From audit to launch in 14 days. ⚡\n\nMost agencies take six months. We don't.\n\nAI-native ops + one senior operator = your site, CRM, and AEO live in two weeks. Not phases. Not stages. Live.\n\nShip faster. Grow faster.\n\n📅 Free 14-day plan — link in bio.\n\n#WebDesign #FastLaunch #SmallBusiness #AIAgency #FractionalCMO #SpeedToMarket #NetWebMedia",
+        ],
+        'HF_SPEED_ES' => [
+            'service' => '14-Day Launch (UGC)',
+            'hook'    => 'De auditoría a lanzamiento en 14 días.',
+            'video_url' => 'https://netwebmedia.com/assets/social/higgsfield/remix-2026-05-14/hf-speed-es.mp4',
+            'caption' => "De auditoría a lanzamiento en 14 días. ⚡\n\nLa mayoría tarda seis meses. Nosotros no.\n\nOperación AI-native + un operador senior = tu sitio, CRM y AEO en vivo en dos semanas. No fases. No etapas. En vivo.\n\nLanza rápido. Crece rápido.\n\n📅 Plan de 14 días gratis — link en bio.\n\n#DiseñoWeb #LanzamientoRápido #PyME #AgenciaIA #CMO #VelocidadAlMercado #NetWebMedia",
         ],
     ];
 }

@@ -1,14 +1,20 @@
-# Multi-Platform Publish Runbook — 12 Reels × 2 Channels (TikTok + Facebook)
+# Multi-Platform Publish Runbook — 12 Reels × 3 Channels (TikTok + Facebook + Instagram)
 
 **Date:** 2026-05-14
-**Target:** @netwebmedia on TikTok + the @netwebmedia Facebook Page
+**Target:** @netwebmedia on TikTok, Facebook Page, and Instagram
 **Handlers:**
-  - `crm-vanilla/api/handlers/tt_publish.php` — TikTok, 12 reel slots, 24h reel-key idempotency
-  - `crm-vanilla/api/handlers/fb_publish.php` — Facebook, same 12 reel_keys via `reel_key` shortcut, post_number idempotency
+  - `crm-vanilla/api/handlers/tt_publish.php` — TikTok, 12 reel keys (lowercase), 24h reel-key idempotency
+  - `crm-vanilla/api/handlers/fb_publish.php` — Facebook, 12 reel keys (lowercase) via `reel_key` shortcut, post_number idempotency
+  - `crm-vanilla/api/handlers/ig_publish.php` — Instagram, 12 reel keys (UPPERCASE) + 9 legacy R2-R10, per-key idempotency, async container-poll-publish flow
 
-**Both handlers share the same 12-reel registry** (duplicated per file for
-self-containment, drift caught by review). Captions and source MP4 paths are
-identical across channels — same content, different distribution.
+**All three handlers share the same 12-reel content registry** (duplicated per
+file for self-containment, drift caught by review). Captions are tailored per
+platform (IG has more emojis, TT has trending hashtags, FB has scheduling).
+Source MP4s are identical across channels.
+
+**Case convention warning:** TT and FB use lowercase keys (`1_aeo_en`). IG uses
+UPPERCASE (`1_AEO_EN`). The same content is keyed differently per channel — this
+is documented in the IG section below.
 
 ## TWO COHORTS
 
@@ -290,12 +296,75 @@ curl -s -A "Mozilla/5.0" \
   "https://netwebmedia.com/crm-vanilla/api/?r=fb_publish&action=list&token=$MIGRATE_TOKEN" | jq '.rows[] | {post_number, status, fb_video_id, scheduled_at_iso, error}'
 ```
 
-### Instagram
+## After publishing — cross-publish to Instagram Reels (same 12 reels)
 
-`ig_publish.php` is still carousel-only (image carousels matching
-`assets/social/carousels/{a,b,c}-slide-{1..5}.png`). Adding IG Reels support
-for these video reels requires a separate code change (Reels use a different
-Graph API flow than carousels — resumable upload + REELS media_type).
+`ig_publish.php` accepts the same 12 reel_keys via the `publish_reel` action.
+The handler already had a Reels flow (originally for the R2–R10 service reels);
+the 12 campaign + HF UGC reels were added on top.
+
+**IMPORTANT — case convention:** IG keys are **UPPERCASE** (matches the
+handler's existing R2–R10 convention + the internal `strtoupper` normalization).
+TT/FB use lowercase. When porting a reel across channels:
+
+| Channel | Key format | Example |
+|---|---|---|
+| TikTok (`tt_publish`) | lowercase | `1_aeo_en`, `hf_aeo_en` |
+| Facebook (`fb_publish`) | lowercase | `1_aeo_en`, `hf_aeo_en` |
+| **Instagram (`ig_publish`)** | **UPPERCASE** | `1_AEO_EN`, `HF_AEO_EN` |
+
+### IG readiness probe
+
+```bash
+curl -s -A "Mozilla/5.0" \
+  "https://netwebmedia.com/crm-vanilla/api/?r=ig_publish&action=status&token=$MIGRATE_TOKEN" | jq .
+```
+
+Expected: `{"configured":true,"account_accessible":true,"available_reels":[...]}`. The
+`available_reels` array should now show 21 keys: R2-R10 (legacy), 1_AEO_EN/ES,
+2_GROWTH_EN/ES, 3_SCALE_EN/ES, HF_AEO_EN/ES, HF_GROWTH_EN/ES, HF_SPEED_EN/ES.
+
+### IG dry-run a reel — inspect spec before publishing
+
+```bash
+curl -s -X POST -A "Mozilla/5.0" \
+  -H "Content-Type: application/json" \
+  -d '{"reel":"1_AEO_EN","dry_run":true}' \
+  "https://netwebmedia.com/crm-vanilla/api/?r=ig_publish&action=publish_reel&token=$MIGRATE_TOKEN" | jq .
+```
+
+### IG publish a reel — live
+
+```bash
+curl -s -X POST -A "Mozilla/5.0" \
+  -H "Content-Type: application/json" \
+  -d '{"reel":"1_AEO_EN","share_to_feed":true}' \
+  "https://netwebmedia.com/crm-vanilla/api/?r=ig_publish&action=publish_reel&token=$MIGRATE_TOKEN" | jq .
+```
+
+Returns `{"results":[{"reel":"1_AEO_EN","status":"published","container_id":"...","ig_media_id":"..."}]}`.
+If Meta takes longer than the default 90s poll, response will be `"status":"still_processing"`
+with a `container_id` — re-run the same command to resume; the handler is idempotent.
+
+### IG batch — all 12 reels (with `only` filter to scope to the new cohorts)
+
+```bash
+curl -s -X POST -A "Mozilla/5.0" \
+  -H "Content-Type: application/json" \
+  -d '{"only":["1_AEO_EN","1_AEO_ES","2_GROWTH_EN","2_GROWTH_ES","3_SCALE_EN","3_SCALE_ES","HF_AEO_EN","HF_AEO_ES","HF_GROWTH_EN","HF_GROWTH_ES","HF_SPEED_EN","HF_SPEED_ES"],"share_to_feed":true}' \
+  "https://netwebmedia.com/crm-vanilla/api/?r=ig_publish&action=publish_all_reels&token=$MIGRATE_TOKEN" | jq .
+```
+
+This runs sequentially — each reel goes through container creation, polling, and
+media_publish before the next. Expect ~45–90 seconds per reel; 12 reels = 10-20
+minutes total. The handler resumes from `container_id` on retry, so a partial
+batch can be re-run safely.
+
+### IG audit log
+
+```bash
+curl -s -A "Mozilla/5.0" \
+  "https://netwebmedia.com/crm-vanilla/api/?r=ig_publish&action=list&token=$MIGRATE_TOKEN" | jq '.rows[] | {kind, item_key, status, ig_media_id, error}'
+```
 
 ---
 

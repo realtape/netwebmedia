@@ -60,3 +60,8 @@ mobile/android/local.properties
 api-php/data/usa_5x_full.csv
 api-php/data/usa_5x.csv
 api-php/data/usa_all_base.json
+
+# Cleaned/consolidated lead CSVs — too large to push via GH (60MB+),
+# fully regenerable by running:
+#   python3 _deploy/clean_leads.py && python3 _deploy/consolidate_leads.py
+*_cleaned.csv

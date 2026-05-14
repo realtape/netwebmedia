@@ -47,6 +47,11 @@ hyperframes/*/renders/batch.log
 hyperframes/*/dialog_*.txt
 hyperframes/*/wait_dialog_out.txt
 
+# Universal node_modules — never commit (caught us once when the auto-save
+# daemon committed a 193MB chrome-headless-shell.exe under
+# video-factory/node_modules and blocked GitHub pushes for 14 commits)
+**/node_modules/
+
 # Mobile app (Capacitor / Vite)
 mobile/node_modules/
 mobile/dist/

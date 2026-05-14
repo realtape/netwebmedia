@@ -47,6 +47,12 @@ hyperframes/*/renders/batch.log
 hyperframes/*/dialog_*.txt
 hyperframes/*/wait_dialog_out.txt
 
+# Video-factory (Remotion) — outputs + source clips are local artifacts
+# Source clips in public/ are inputs to render; rendered MP4s in out/ are outputs.
+# Both are large binaries that bloat history; keep code only.
+video-factory/out/
+video-factory/public/*.mp4
+
 # Universal node_modules — never commit (caught us once when the auto-save
 # daemon committed a 193MB chrome-headless-shell.exe under
 # video-factory/node_modules and blocked GitHub pushes for 14 commits)

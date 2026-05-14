@@ -13,8 +13,12 @@
  *           → readiness probe; verifies FB_PAGE_ID/FB_PAGE_TOKEN configured + valid via /me call
  *   POST /api/?r=fb_publish&action=schedule&token=…
  *           body: {posts: [{post_number, format: 'video'|'carousel', caption, scheduled_at_unix,
- *                            video_url?, image_urls?: [..]}], dry_run?: bool}
+ *                            video_url?, image_urls?: [..],
+ *                            reel_key?: '1_aeo_en' | 'hf_aeo_en' | ...}], dry_run?: bool}
  *           → schedules each post via FB Graph; logs to fb_publish_log; returns array of results.
+ *           If `reel_key` is provided, it resolves to format='video' + video_url + caption from the
+ *           shared reel registry (12 keys — same as tt_publish.php). caption and video_url in the
+ *           same post override the registry defaults when present.
  *   GET  /api/?r=fb_publish&action=list&token=…
  *           → returns recent fb_publish_log rows (audit).
  *

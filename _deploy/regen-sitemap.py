@@ -13,6 +13,25 @@ import os
 import re
 from datetime import date, datetime
 
+# Minimum unique word count for a sitemap inclusion. SEO audit 2026-05-13: 339
+# pages reported "not indexed" by GSC; root cause for industry subniche skeletons
+# is sub-800-word boilerplate that Google rates as thin/duplicate. Exclude until
+# each page has ≥800 words of distinct copy.
+MIN_WORDS = 800
+
+_WORD_STRIP_RE = re.compile(r"<script[^>]*>.*?</script>|<style[^>]*>.*?</style>|<[^>]+>", re.S)
+
+
+def word_count(path):
+    """Return rough word count of visible text in an HTML file (script/style stripped)."""
+    try:
+        with open(path, encoding="utf-8") as fh:
+            html = fh.read()
+    except (OSError, UnicodeDecodeError):
+        return 0
+    text = _WORD_STRIP_RE.sub(" ", html)
+    return len(text.split())
+
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
 BASE = "https://netwebmedia.com"
 TODAY = date.today().strftime("%Y-%m-%d")
@@ -55,6 +74,9 @@ EXCLUDE_FILES = {
     # Internal authenticated / scratchpad surfaces
     "flowchart.html", "nwmai.html", "nwm-cms.html", "nwm-crm.html",
     "audit-thanks.html",
+    # Internal noindex'd pages — must NOT appear in sitemap (Google penalizes
+    # sitemaps that submit noindex'd URLs as a quality signal)
+    "agents-flowchart.html", "emails.html",
     # Survey/thank-you pages — explicitly noindex'd, must not appear in sitemap
     "aeo-survey-thanks.html",
     # Internal / verification files
@@ -68,9 +90,20 @@ EXCLUDE_FILES = {
 
 # Files matching these patterns are 403'd by .htaccess — must NOT appear in
 # the sitemap or Google will waste crawl budget hitting forbidden URLs.
+# Also excludes:
+#   - _audit_*.html: internal duplicate-page audit artifacts (canonical to real
+#     pages; pollute sitemap and burn crawl budget on identical content).
+#   - CUsers*.html: broken sitemap-generator artifacts where a Windows path
+#     was mangled into a filename. These resolve to 404s in production.
+#   - template-N.html: stub template files in industries/<niche>/ that are
+#     not real content (sub-800-word skeletons). Excluded until promoted to
+#     real subniche pages with unique copy + schema.
 EXCLUDE_PATTERNS = (
     re.compile(r"^.+-prospects-report\.html$"),
     re.compile(r"^.+-digital-gaps\.html$"),
+    re.compile(r"^_audit_.+\.html$"),
+    re.compile(r"^C[Uu]sers.+\.html$"),
+    re.compile(r"^template-\d+\.html$"),
 )
 
 PRIORITY_MAP = {
@@ -131,6 +164,18 @@ for dirpath, dirnames, filenames in os.walk(ROOT):
             continue
         full = os.path.join(dirpath, fname)
         rel = full[len(ROOT):].replace("\\", "/")
+        # Thin-content exclusion (≥800 words required for industry subniche pages).
+        # The 14 niche HUBS at /industries/<niche>/index.html stay in even if thin
+        # (commercial intent + audit acknowledges they need expansion). Only the
+        # /industries/<niche>/<subniche>/index.html depth gets the word-count gate.
+        rel_parts = rel.replace("\\", "/").lstrip("/").split("/")
+        is_industry_subniche = (
+            len(rel_parts) == 4
+            and rel_parts[0] == "industries"
+            and rel_parts[3] == "index.html"
+        )
+        if is_industry_subniche and word_count(full) < MIN_WORDS:
+            continue
         if not rel.startswith("/"):
             rel = "/" + rel
         # Safety: skip anything that slipped through with excluded dir names

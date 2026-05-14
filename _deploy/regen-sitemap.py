@@ -32,6 +32,24 @@ def word_count(path):
     text = _WORD_STRIP_RE.sub(" ", html)
     return len(text.split())
 
+
+_NOINDEX_RE = re.compile(r'<meta\s+name="robots"\s+content="[^"]*noindex', re.I)
+
+
+def has_noindex_meta(path):
+    """Return True if the HTML file declares a robots noindex meta in its <head>.
+
+    Only reads the first 8KB so the scan stays cheap across hundreds of files
+    (meta tags live near the top). Returns False on read errors so a transient
+    I/O issue never silently drops a page from the sitemap.
+    """
+    try:
+        with open(path, "rb") as fh:
+            head = fh.read(8192).decode("utf-8", errors="ignore")
+    except OSError:
+        return False
+    return bool(_NOINDEX_RE.search(head))
+
 ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
 BASE = "https://netwebmedia.com"
 TODAY = date.today().strftime("%Y-%m-%d")
@@ -175,6 +193,12 @@ for dirpath, dirnames, filenames in os.walk(ROOT):
             and rel_parts[3] == "index.html"
         )
         if is_industry_subniche and word_count(full) < MIN_WORDS:
+            continue
+        # Skip pages that explicitly noindex themselves — submitting noindex'd
+        # URLs in a sitemap is a quality-signal hit per Google's docs. Currently
+        # affects ~70 loser posts in dedup'd blog clusters (see
+        # _deploy/dedup-blog-canonicals.py) plus the 18 industry template stubs.
+        if has_noindex_meta(full):
             continue
         if not rel.startswith("/"):
             rel = "/" + rel

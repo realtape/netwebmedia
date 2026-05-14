@@ -135,6 +135,88 @@ try {
 $pageId = fb_env('FB_PAGE_ID');
 $pageTk = fb_env('FB_PAGE_TOKEN');
 $gv     = 'v20.0';
+$reelBase = rtrim(fb_env('FB_REEL_BASE_URL', 'https://netwebmedia.com'), '/');
+
+/**
+ * Shared reel registry — duplicated from tt_publish.php's tt_reel_def() so each
+ * handler is self-contained. If you change a reel's filename/subpath/caption here,
+ * update the same key in tt_publish.php's tt_reel_def() too. Drift-protection lives
+ * in the integration runbook (_deploy/tiktok-publish-runbook.md).
+ *
+ * Returns video_url + caption + format=video for a known reel_key, or null.
+ */
+function fb_reel_def(string $key, string $reelBase): ?array {
+    $defs = [
+        // Campaign cohort — data-led, /assets/social/campaign/
+        '1_aeo_en' => [
+            'subpath'  => '/assets/social/campaign/',
+            'filename' => 'reel_1_aeo_en_final.mp4',
+            'caption'  => "SEO is shifting. AEO is here.\n\n25% of Google searches now show AI Overviews (Semrush, 2026). Buyers ask ChatGPT, not Google — the brands cited in those answers win the call.\n\nFree AEO Migration Audit at netwebmedia.com.\n\n#AEO #AnswerEngineOptimization #AIMarketing #SmallBusiness #FractionalCMO",
+        ],
+        '1_aeo_es' => [
+            'subpath'  => '/assets/social/campaign/',
+            'filename' => 'reel_1_aeo_es_final.mp4',
+            'caption'  => "SEO está cambiando. Llega el AEO.\n\n25% de las búsquedas en Google ya muestran AI Overviews (Semrush, 2026). Los compradores le preguntan a ChatGPT, no a Google — las marcas citadas en esas respuestas ganan.\n\nAuditoría AEO gratis en netwebmedia.com.\n\n#AEO #MarketingDigital #IA #PyME #CMO",
+        ],
+        '2_growth_en' => [
+            'subpath'  => '/assets/social/campaign/',
+            'filename' => 'reel_2_growth_en_final.mp4',
+            'caption'  => "One senior operator + 12 AI agents > 40-person agency.\n\nSame agency-grade output. Half the cost. No handoffs.\n\nBook a strategy call at netwebmedia.com.\n\n#AIagents #FractionalCMO #SmallBusiness #Automation",
+        ],
+        '2_growth_es' => [
+            'subpath'  => '/assets/social/campaign/',
+            'filename' => 'reel_2_growth_es_final.mp4',
+            'caption'  => "Un operador senior + 12 agentes de IA > agencia de 40 personas.\n\nMismo output. Mitad del costo. Sin handoffs.\n\nAgenda en netwebmedia.com.\n\n#IA #CMO #PyME #MarketingAutomatizado",
+        ],
+        '3_scale_en' => [
+            'subpath'  => '/assets/social/campaign/',
+            'filename' => 'reel_3_scale_en_final.mp4',
+            'caption'  => "How a Chilean-founded agency is winning US SMB CMO seats.\n\nBilingual EN/ES. AI-native from day one. 14 verticals dialed in.\n\nSee how we work at netwebmedia.com.\n\n#StartupStory #FractionalCMO #BilingualMarketing #SMB",
+        ],
+        '3_scale_es' => [
+            'subpath'  => '/assets/social/campaign/',
+            'filename' => 'reel_3_scale_es_final.mp4',
+            'caption'  => "Cómo una agencia chilena gana contratos de CMO en PyMEs estadounidenses.\n\nBilingüe ES/EN. AI-native desde el día uno. 14 verticales.\n\nCómo trabajamos en netwebmedia.com.\n\n#EmprendimientoChileno #CMO #PyME #IA",
+        ],
+        // Higgsfield UGC cohort — /assets/social/higgsfield/remix-2026-05-14/
+        'hf_aeo_en' => [
+            'subpath'  => '/assets/social/higgsfield/remix-2026-05-14/',
+            'filename' => 'hf-aeo-en.mp4',
+            'caption'  => "POV: AI answers are eating Google — and your business isn't in any of them.\n\nIf ChatGPT and Perplexity can't cite you, you don't exist to your next customer.\n\nFree AEO audit at netwebmedia.com.\n\n#AEO #AIsearch #SmallBusiness #FractionalCMO",
+        ],
+        'hf_aeo_es' => [
+            'subpath'  => '/assets/social/higgsfield/remix-2026-05-14/',
+            'filename' => 'hf-aeo-es.mp4',
+            'caption'  => "POV: la IA se está comiendo a Google — y tu negocio no aparece en ninguna respuesta.\n\nSi ChatGPT y Perplexity no te citan, no existes para tu próximo cliente.\n\nAuditoría AEO gratis en netwebmedia.com.\n\n#AEO #BúsquedaIA #PyME #CMO",
+        ],
+        'hf_growth_en' => [
+            'subpath'  => '/assets/social/higgsfield/remix-2026-05-14/',
+            'filename' => 'hf-growth-en.mp4',
+            'caption'  => "One dashboard. Every lead. Zero chaos.\n\nCapture, score, follow up — while you sleep. Built for owners who hate their CRM.\n\nYour CRM, finally yours. netwebmedia.com\n\n#CRM #SmallBusiness #Automation #SalesOps",
+        ],
+        'hf_growth_es' => [
+            'subpath'  => '/assets/social/higgsfield/remix-2026-05-14/',
+            'filename' => 'hf-growth-es.mp4',
+            'caption'  => "Un panel. Cada lead. Cero caos.\n\nCaptura, califica, da seguimiento — mientras duermes. Hecho para dueños que odian su CRM.\n\nTu CRM, por fin tuyo. netwebmedia.com\n\n#CRM #PyME #Automatización #Ventas",
+        ],
+        'hf_speed_en' => [
+            'subpath'  => '/assets/social/higgsfield/remix-2026-05-14/',
+            'filename' => 'hf-speed-en.mp4',
+            'caption'  => "From audit to launch in 14 days.\n\nMost agencies take six months. We don't. AI-native ops + one operator = your site, CRM, and AEO live in two weeks.\n\nShip faster. Grow faster. netwebmedia.com\n\n#WebDesign #FastLaunch #AIAgency",
+        ],
+        'hf_speed_es' => [
+            'subpath'  => '/assets/social/higgsfield/remix-2026-05-14/',
+            'filename' => 'hf-speed-es.mp4',
+            'caption'  => "De auditoría a lanzamiento en 14 días.\n\nLa mayoría tarda seis meses. Nosotros no. AI-native + un operador = tu sitio, CRM y AEO en vivo en dos semanas.\n\nLanza rápido. Crece rápido. netwebmedia.com\n\n#DiseñoWeb #LanzamientoRápido #AgenciaIA",
+        ],
+    ];
+    if (!isset($defs[$key])) return null;
+    $d = $defs[$key];
+    return [
+        'video_url' => $reelBase . $d['subpath'] . $d['filename'],
+        'caption'   => $d['caption'],
+    ];
+}
 
 function fb_curl_post(string $url, array $fields, int $timeout = 30): array {
     $ch = curl_init($url);
@@ -237,6 +319,20 @@ if ($action === 'schedule') {
         $schedUnix  = isset($p['scheduled_at_unix']) ? (int)$p['scheduled_at_unix'] : 0;
         $videoUrl   = isset($p['video_url']) ? (string)$p['video_url'] : '';
         $imageUrls  = isset($p['image_urls']) && is_array($p['image_urls']) ? $p['image_urls'] : [];
+        $reelKey    = isset($p['reel_key']) ? (string)$p['reel_key'] : '';
+
+        // reel_key shortcut — resolves to format=video + video_url + caption from the
+        // shared registry. Explicit caption/video_url in the same post override registry defaults.
+        if ($reelKey !== '') {
+            $reel = fb_reel_def($reelKey, $reelBase);
+            if (!$reel) {
+                $results[] = ['post_number' => $postNum, 'status' => 'failed', 'error' => "unknown reel_key '{$reelKey}'"];
+                continue;
+            }
+            if ($format === '')   $format   = 'video';
+            if ($videoUrl === '') $videoUrl = $reel['video_url'];
+            if ($caption === '')  $caption  = $reel['caption'];
+        }
 
         // Validate
         if ($postNum < 1)              { $results[] = ['post_number' => $postNum, 'status' => 'failed', 'error' => 'post_number required']; continue; }

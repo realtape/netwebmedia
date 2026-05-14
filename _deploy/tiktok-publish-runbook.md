@@ -1,9 +1,14 @@
-# TikTok Publish Runbook — 12 Reels (6 Campaign + 6 HF UGC)
+# Multi-Platform Publish Runbook — 12 Reels × 2 Channels (TikTok + Facebook)
 
 **Date:** 2026-05-14
-**Target:** @netwebmedia on TikTok
-**Handler:** `crm-vanilla/api/handlers/tt_publish.php` (already wired, 12 reel slots)
-**Idempotency:** Each `reel_key` is guarded for 24h — re-running same reel returns existing publish_id without re-calling TikTok
+**Target:** @netwebmedia on TikTok + the @netwebmedia Facebook Page
+**Handlers:**
+  - `crm-vanilla/api/handlers/tt_publish.php` — TikTok, 12 reel slots, 24h reel-key idempotency
+  - `crm-vanilla/api/handlers/fb_publish.php` — Facebook, same 12 reel_keys via `reel_key` shortcut, post_number idempotency
+
+**Both handlers share the same 12-reel registry** (duplicated per file for
+self-containment, drift caught by review). Captions and source MP4 paths are
+identical across channels — same content, different distribution.
 
 ## TWO COHORTS
 
@@ -205,9 +210,92 @@ Spacing of ~6 hours within a day. Adjust to your audience's TZ.
 
 ---
 
-## After publishing — cross-publish to other channels
+## After publishing — cross-publish to Facebook (same 12 reels)
 
-For Instagram + Facebook, the handlers `ig_publish.php` and `fb_publish.php` exist but currently target carousels (IG) and scheduled video posts (FB) — see their headers for parameters. They are also `MIGRATE_TOKEN`-gated. The HF cohort would need an IG-specific Reels handler (the existing `ig_publish.php` is carousel-only) — that's a separate code change if you want to mirror to IG Reels.
+`fb_publish.php` now accepts the same 12 `reel_key`s as `tt_publish.php`. The
+key resolves to `format=video` + `video_url` + `caption` from a shared
+registry, so the same content posts to TikTok and Facebook with identical
+captions. FB requires scheduling at least 10 min in the future (and at most
+6 months out).
+
+### FB readiness probe
+
+```bash
+curl -s -A "Mozilla/5.0" \
+  "https://netwebmedia.com/crm-vanilla/api/?r=fb_publish&action=status&token=$MIGRATE_TOKEN" | jq .
+```
+
+Expected: `{"configured":true,"page_accessible":true,"token_kind":"page",...}`. If
+`token_kind:user` is returned, posts still work but `pages_manage_posts` scope on a
+Page token is preferred (rotate via `/me/accounts`).
+
+### FB schedule one reel — dry-run first
+
+```bash
+WHEN=$(($(date +%s) + 900))   # 15 minutes from now
+curl -s -X POST -A "Mozilla/5.0" \
+  -H "Content-Type: application/json" \
+  -d "{\"dry_run\":true,\"posts\":[{\"post_number\":101,\"reel_key\":\"1_aeo_en\",\"scheduled_at_unix\":$WHEN}]}" \
+  "https://netwebmedia.com/crm-vanilla/api/?r=fb_publish&action=schedule&token=$MIGRATE_TOKEN" | jq .
+```
+
+Expected: `{"results":[{"post_number":101,"status":"dry_run","scheduled_at_iso":"..."}]}`.
+Inspect the logged caption + asset URLs via `action=list` before live-firing.
+
+### FB live schedule — single reel
+
+```bash
+WHEN=$(($(date +%s) + 900))
+curl -s -X POST -A "Mozilla/5.0" \
+  -H "Content-Type: application/json" \
+  -d "{\"posts\":[{\"post_number\":101,\"reel_key\":\"1_aeo_en\",\"scheduled_at_unix\":$WHEN}]}" \
+  "https://netwebmedia.com/crm-vanilla/api/?r=fb_publish&action=schedule&token=$MIGRATE_TOKEN" | jq .
+```
+
+Expected: `{"results":[{"post_number":101,"status":"scheduled","fb_video_id":"...","scheduled_at_iso":"..."}]}`.
+
+### FB batch — all 12 reels, staggered 6 hours apart
+
+```bash
+NOW=$(date +%s)
+HOUR=3600
+
+curl -s -X POST -A "Mozilla/5.0" \
+  -H "Content-Type: application/json" \
+  -d "{\"posts\":[
+    {\"post_number\":201,\"reel_key\":\"1_aeo_en\",     \"scheduled_at_unix\":$((NOW + 1*HOUR))},
+    {\"post_number\":202,\"reel_key\":\"hf_growth_es\", \"scheduled_at_unix\":$((NOW + 7*HOUR))},
+    {\"post_number\":203,\"reel_key\":\"hf_aeo_en\",    \"scheduled_at_unix\":$((NOW + 13*HOUR))},
+    {\"post_number\":204,\"reel_key\":\"2_growth_es\",  \"scheduled_at_unix\":$((NOW + 19*HOUR))},
+    {\"post_number\":205,\"reel_key\":\"3_scale_en\",   \"scheduled_at_unix\":$((NOW + 25*HOUR))},
+    {\"post_number\":206,\"reel_key\":\"hf_speed_es\",  \"scheduled_at_unix\":$((NOW + 31*HOUR))},
+    {\"post_number\":207,\"reel_key\":\"hf_growth_en\", \"scheduled_at_unix\":$((NOW + 37*HOUR))},
+    {\"post_number\":208,\"reel_key\":\"1_aeo_es\",     \"scheduled_at_unix\":$((NOW + 43*HOUR))},
+    {\"post_number\":209,\"reel_key\":\"2_growth_en\",  \"scheduled_at_unix\":$((NOW + 49*HOUR))},
+    {\"post_number\":210,\"reel_key\":\"hf_aeo_es\",    \"scheduled_at_unix\":$((NOW + 55*HOUR))},
+    {\"post_number\":211,\"reel_key\":\"hf_speed_en\",  \"scheduled_at_unix\":$((NOW + 61*HOUR))},
+    {\"post_number\":212,\"reel_key\":\"3_scale_es\",   \"scheduled_at_unix\":$((NOW + 67*HOUR))}
+  ]}" \
+  "https://netwebmedia.com/crm-vanilla/api/?r=fb_publish&action=schedule&token=$MIGRATE_TOKEN" | jq .
+```
+
+Each entry's `post_number` is the idempotency key — re-running this batch
+returns `already_scheduled` for any post_number already on FB. Bump numbers
+(301+) for a second batch.
+
+### FB audit log
+
+```bash
+curl -s -A "Mozilla/5.0" \
+  "https://netwebmedia.com/crm-vanilla/api/?r=fb_publish&action=list&token=$MIGRATE_TOKEN" | jq '.rows[] | {post_number, status, fb_video_id, scheduled_at_iso, error}'
+```
+
+### Instagram
+
+`ig_publish.php` is still carousel-only (image carousels matching
+`assets/social/carousels/{a,b,c}-slide-{1..5}.png`). Adding IG Reels support
+for these video reels requires a separate code change (Reels use a different
+Graph API flow than carousels — resumable upload + REELS media_type).
 
 ---
 

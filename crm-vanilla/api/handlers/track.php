@@ -86,6 +86,25 @@ if ($a === 'click' && $t) {
     if (!$u || !filter_var($u, FILTER_VALIDATE_URL)) {
         http_response_code(400); echo 'Invalid URL'; exit;
     }
+    // Anti-phishing hardening (F-08): only plain http/https, no embedded
+    // credentials (https://netwebmedia.com@evil.com), and never bounce the
+    // visitor back into the tracking endpoint itself (open-redirect loop).
+    $uParts = parse_url($u);
+    $uScheme = strtolower($uParts['scheme'] ?? '');
+    if ($uScheme !== 'http' && $uScheme !== 'https') {
+        http_response_code(400); echo 'Invalid URL'; exit;
+    }
+    if (isset($uParts['user']) || isset($uParts['pass'])) {
+        http_response_code(400); echo 'Invalid URL'; exit;
+    }
+    $uHost = strtolower($uParts['host'] ?? '');
+    if ($uHost === '' ) {
+        http_response_code(400); echo 'Invalid URL'; exit;
+    }
+    if (($uHost === 'netwebmedia.com' || substr($uHost, -15) === '.netwebmedia.com')
+        && stripos($uParts['path'] ?? '', '/api') === 0) {
+        http_response_code(400); echo 'Invalid URL'; exit;
+    }
 
     // ── Record click ──────────────────────────────────────────────────────
     $clickOrgId = track_org_id_for_token($db, $t, $orgSchemaApplied);

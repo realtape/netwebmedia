@@ -47,12 +47,18 @@ switch ($method) {
         // SECURITY (H2): block X-Org-Slug-based cross-org INSERT.
         require_org_access_for_write('member');
         $data = getInput();
+        $contactId = isset($data['contact_id']) ? (int)$data['contact_id'] : null;
+        if ($contactId && $tWhere) {
+            $chk = $db->prepare('SELECT id FROM contacts WHERE id = ? AND ' . $tWhere . ' LIMIT 1');
+            $chk->execute(array_merge([$contactId], $tParams));
+            if (!$chk->fetch()) jsonError('Contact not found', 404);
+        }
         if ($orgId !== null) {
             $stmt = $db->prepare('INSERT INTO conversations (user_id, organization_id, contact_id, channel, subject, unread) VALUES (?, ?, ?, ?, ?, ?)');
             $stmt->execute([
                 $uid,
                 $orgId,
-                $data['contact_id'] ?? null,
+                $contactId ?? null,
                 $data['channel'] ?? 'email',
                 $data['subject'] ?? null,
                 $data['unread'] ?? 0,
@@ -61,7 +67,7 @@ switch ($method) {
             $stmt = $db->prepare('INSERT INTO conversations (user_id, contact_id, channel, subject, unread) VALUES (?, ?, ?, ?, ?)');
             $stmt->execute([
                 $uid,
-                $data['contact_id'] ?? null,
+                $contactId ?? null,
                 $data['channel'] ?? 'email',
                 $data['subject'] ?? null,
                 $data['unread'] ?? 0,

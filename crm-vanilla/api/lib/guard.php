@@ -70,6 +70,24 @@ function require_guard(): array {
 
     // No session = demo / unauthenticated guest — let them through.
     // They only see the seed data already in the DB; no org-specific records.
+    //
+    // SECURITY CONTRACT (audit finding F-02 — accepted by design, 2026-05-18):
+    // The guest fall-through is an INTENTIONAL product feature (the public
+    // free-CRM demo linked from pricing.html / register.html?plan=free).
+    // Removing it would break a shipped product surface and requires a
+    // product decision — it is NOT a code bug to silently "fix".
+    //
+    // The residual tenant-data-leak risk is structurally mitigated, NOT by
+    // this function, but by two invariants every handler MUST uphold:
+    //   1. tenancy_where() fails closed — it returns ('1=0', []) for a
+    //      non-superadmin guest once the org schema is applied, so
+    //      org-scoped SELECTs return zero rows for guests.
+    //   2. index.php's $public_routes allowlist + the same-origin CSRF /
+    //      org-write guards gate which handlers a guest can even reach and
+    //      block any guest write from carrying an organization_id.
+    // Therefore: any NEW handler that reads owned/tenant data MUST scope
+    // every query through tenancy_where()/tenant_where(). A handler that
+    // hand-rolls its own WHERE without the tenancy clause re-opens F-02.
     if (!$user) {
         // Return a synthetic guest record so handlers can type-hint array.
         return ['id' => 0, 'role' => 'guest', 'status' => 'demo'];

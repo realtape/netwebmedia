@@ -1,186 +1,154 @@
 {
   "version": "1.0",
-  "timestamp": "2026-05-18T06:00:35.727980-04:00",
+  "timestamp": "2026-05-18T12:07:01.932935-04:00",
   "context": "default",
   "phase": null,
-  "phase_name": "Site audit + social publishing rollout (FB/IG/TikTok, Higgsfield content, SEO/indexing hardening)",
+  "phase_name": "Social publishing — content done & free; distribution gated on browser-UI (no API creds left)",
   "phase_dir": null,
   "plan": null,
   "task": null,
   "total_tasks": null,
-  "status": "active-multi-cycle (audit-fix cycles ongoing; social publishing partially live; IG/TT blocked on credentials/review)",
+  "status": "blocked-on-distribution (34 reels ready, 0 published; all API publish channels dead, browser-UI path gated on Chrome extension window-state)",
   "completed_tasks": [
     {
       "id": 1,
-      "name": "Organization sameAs schema: IG+FB+YouTube+TikTok across production pages",
+      "name": "Audit-fix cycles 1-2: pixel-init defer, FB ID, SearchAction canonical, JSON-LD orphan, apple-touch PNG, hero img/CSS, invalid rx, sitemap atomic+lastmod, robots cleanup",
       "status": "done",
-      "commit": "2fbdfef83 / a0f1e3242"
+      "commit": "a0f1e3242 / 6e47af8b0 / 898968836"
     },
     {
       "id": 2,
-      "name": "Audit-fix cycle 1: pixel-init defer regression, FB page ID, SearchAction canonical, JSON-LD orphan, apple-touch PNG",
-      "status": "done",
-      "commit": "a0f1e3242"
-    },
-    {
-      "id": 3,
-      "name": "F-07 CI guards: _ci/validate-html.py + validate-html.yml (pixel-sync, search-canon, fb-page-id, jsonld-parse)",
+      "name": "F-07 CI guards (_ci/validate-html.py + validate-html.yml)",
       "status": "done",
       "commit": "cf15e49a0"
     },
     {
-      "id": 4,
-      "name": "Homepage opt: hero SVG externalized (later superseded by video hero)",
-      "status": "superseded",
-      "commit": "3334cf4d1"
-    },
-    {
-      "id": 5,
-      "name": "Sitemap split: sitemap.xml + priority + index; deploy staging fix; submitted to GSC",
+      "id": 3,
+      "name": "Sitemap split (priority+full+index) + GSC submission",
       "status": "done",
       "commit": "8a4449374 / 898968836"
     },
     {
-      "id": 6,
-      "name": "Audit-fix cycle 2: CR-01 hero img restore, CR-02 dead CSS, WR-01 rx, WR-02/03 sitemap atomic+lastmod, WR-04 SearchAction restore, IN-01 robots cleanup",
+      "id": 4,
+      "name": "Security audit-fix series: F-01 SSRF DNS-rebind, F-08 click redirect hardening, F-09 tenancy contact_id, F-11 readiness probe cache, F-12 SQL splitter, F-13 wa_flush org_role, F-18 filter validation",
       "status": "done",
-      "commit": "6e47af8b0 / 898968836"
+      "commit": "abbbd6b1 / a5b02981 / aad95daf / bae776cd / 1ceec431 / 2247721d / 99f9da33"
+    },
+    {
+      "id": 5,
+      "name": "Stats attribution fix + _export-logs endpoint",
+      "status": "done",
+      "commit": "1fdaa8f0 / 0b94d991"
+    },
+    {
+      "id": 6,
+      "name": "Hero: Higgsfield AI-humanoid video on homepage (superseded SVG)",
+      "status": "done",
+      "commit": "3334cf4d1"
     },
     {
       "id": 7,
-      "name": "Higgsfield batch: campaign-cmo en/es, mvp tiers, reel-d/e/f, remix, service-reels (11 folders)",
+      "name": "10 new reels — batch-2026-05-18 via compose_reel.py, $0 AI credits (reused Kling bg + local FFmpeg)",
       "status": "done",
-      "commit": "f690870de"
+      "commit": "9c8ffbaa"
     },
     {
       "id": 8,
-      "name": "IG/TikTok/FB shared reel registry (12 reel slots)",
+      "name": "Deploy: all batch reels live on netwebmedia.com (verified HTTP 200)",
       "status": "done",
-      "commit": "e038ee92b / 669aa01f4"
+      "commit": "9c8ffbaa"
     },
     {
       "id": 9,
-      "name": "SEO indexing hardening: dedup 48 blog clusters, noindex 70 cannibalizing posts, GSC action plan",
+      "name": "@netwebmedia IG + TikTok logins resolved — Carlos logged into both real accounts in browser (Edit profile visible / TikTok Studio upload page)",
       "status": "done",
-      "commit": "35ad80901 / 171cd45cf / c52b87b4d"
-    },
-    {
-      "id": 10,
-      "name": "Mobile fixes: iOS input zoom, anchor scroll offset, 14-niche grid",
-      "status": "done",
-      "commit": "e0cc5ff5f / 96d572568"
-    },
-    {
-      "id": 11,
-      "name": "Hero: Higgsfield AI-humanoid video on homepage (replaced SVG hero)",
-      "status": "done",
-      "commit": "3334cf4d1"
+      "commit": "n/a (user action)"
     }
   ],
   "remaining_tasks": [
     {
-      "name": "IG live posting: link @netwebmedia to NetWebmedia FB Page, generate long-lived token, set IG_BUSINESS_ACCOUNT_ID + IG_GRAPH_TOKEN",
+      "name": "Publish 34 finished reels to @netwebmedia IG + TikTok via browser UI (proof batch of 3 first: aeo-shift-en, audit-offer-en, 900m-chatgpt-en)",
       "blocking": true,
-      "owner": "Carlos (credential-bound)"
+      "owner": "Claude — gated on Chrome extension"
     },
     {
-      "name": "TikTok live posting: complete Dev Portal Content Posting API + Direct Post review",
-      "blocking": true,
-      "owner": "external review (2-4wk)"
-    },
-    {
-      "name": "FB first scheduled post: pick A/B/C + scheduled_at_unix",
+      "name": "Regenerate FB_PAGE_TOKEN so the fb-schedule-campaign API path works again",
       "blocking": false,
-      "owner": "Carlos (content pick)"
+      "owner": "Carlos (Meta login) — paste fresh Page token, Claude sets the secret"
     },
     {
-      "name": "Verify Higgsfield job 417e43b4 outcome (orphaned in prior HANDOFF; batch since done so likely moot)",
+      "name": "TikTok Content Posting API Dev Portal review (for automated, not manual, posting)",
       "blocking": false,
-      "owner": "Claude"
-    },
-    {
-      "name": "Optional cleanup: assets/hero-robot.svg orphaned (hero is video now)",
-      "blocking": false,
-      "owner": "Claude (low priority)"
+      "owner": "external 2-4wk"
     }
   ],
   "blockers": [
     {
-      "name": "IG live posting blocked: IG_BUSINESS_ACCOUNT_ID / IG_GRAPH_TOKEN unset. Only FB_PAGE_ID + FB_PAGE_TOKEN + META_PIXEL_ID in repo secrets. @netwebmedia IG not linked to NetWebmedia FB Page. Claude cannot enter IG password (safety rule).",
+      "name": "Chrome automation extension broken: tabs_context_mcp returns 'Tabs can only be moved to and from normal windows' (5+ consecutive failures). A stray non-normal Chrome window blocks the MCP tab group. Claude cannot fix window state (computer-use is read-tier for browsers). FIX: Carlos closes stray Chrome window(s), keeps one normal window, says 'go'.",
       "severity": "high"
     },
     {
-      "name": "TikTok live posting blocked: no TT_ACCESS_TOKEN. Dev Portal review pending (filed ~2026-05-11, earliest clear ~2026-05-25).",
+      "name": "FB_PAGE_TOKEN secret dead: fb-schedule-campaign status probe returned FB error 190/467 'session is invalid because the user logged out'. me_ok=false, page_accessible=false. Earlier GAE session token also expired (05:00 PDT). FB API publish path fully down until token regenerated.",
+      "severity": "high"
+    },
+    {
+      "name": "No IG/TikTok API credentials (IG_BUSINESS_ACCOUNT_ID, IG_GRAPH_TOKEN, TT_ACCESS_TOKEN all unset). API publish abandoned in favor of browser-UI publish (which is why the logins above were resolved).",
       "severity": "medium"
     }
   ],
   "human_actions_pending": [
     {
-      "action": "Meta Business Suite: convert @netwebmedia to Business, link to NetWebmedia FB Page, Graph API Explorer long-lived token, gh secret set IG_BUSINESS_ACCOUNT_ID + IG_GRAPH_TOKEN",
-      "context": "~90 min hands-on. No App Review (own-account Dev Mode). Unblocks all IG publishing.",
+      "action": "Close stray Chrome window(s) so only one normal browser window remains, then say 'go'",
+      "context": "Unblocks ALL browser-UI publishing. ~5 seconds. The single highest-leverage action on the board.",
       "blocking": true
     },
     {
-      "action": "TikTok Dev Portal: confirm Content Posting API + Direct Post application submitted and tracking",
-      "context": "2-4wk review. Verify status.",
-      "blocking": false
-    },
-    {
-      "action": "FB first post content pick: A/B/C + schedule time",
-      "context": "FB infra live (FB_PAGE_ID + FB_PAGE_TOKEN set). Needs content + scheduled_at_unix.",
-      "blocking": false
-    },
-    {
-      "action": "Visual QA of live homepage video hero (mobile + desktop)",
-      "context": "Hero changed SVG -> Higgsfield video (3334cf4d1). Confirm renders + autoplays muted.",
+      "action": "Regenerate FB Page token (Graph API Explorer -> select NetWebmedia page 193910553972807 -> copy token -> paste in chat)",
+      "context": "Restores the fb-schedule-campaign automated FB path. Optional if browser-UI publish covers FB too.",
       "blocking": false
     }
   ],
   "decisions": [
     {
-      "decision": "Hero changed from animated SVG to Higgsfield AI-humanoid video (3334cf4d1)",
-      "rationale": "Superseded SVG-externalization work. Higher-impact brand signal. Earlier CR-01 img-restore is now moot (intentional replacement, not regression)."
+      "decision": "Credit optimization: use $0 local FFmpeg (compose_reel.py) reusing existing Kling backgrounds instead of HeyGen/Higgsfield",
+      "rationale": "Higgsfield out of credits; HeyGen Creator plan is the most expensive option. compose_reel.py = zero AI credits, ~30s/reel, defect-proof text. 34 finished reels now on disk; marginal cost of more is $0."
     },
     {
-      "decision": "F-07 CI guards adopted as institutional-memory pattern",
-      "rationale": "Each guard documents the incident commit. Pattern: regression class -> add guard -> document incident -> ship together."
+      "decision": "Abandon API publish, pivot to browser-UI publish",
+      "rationale": "FB token dead, no IG/TikTok API secrets, @netwebmedia not in API scope. Carlos logged into the real @netwebmedia IG + TikTok accounts in-browser so upload via Studio/New-post UI is the viable path."
     },
     {
-      "decision": "SearchAction restored pointing at /blog.html?q= (canonical)",
-      "rationale": "Removal forfeited Google sitelinks-search-box for no benefit. Canonical satisfies F-07-SEARCH-CANON."
+      "decision": "Publish proof-batch of 3 before scaling to 34",
+      "rationale": "Verify the browser-upload path lands clean before blasting all reels to a 2-follower brand account. Reels chosen: aeo-shift-en, audit-offer-en, 900m-chatgpt-en (core AEO wedge + offer + demand hook)."
     },
     {
-      "decision": "Sitemap split (priority+full+index); only index in robots.txt",
-      "rationale": "Crawl-budget signal for young domain. Children submitted in GSC for redundancy. Atomic writes prevent half-written deploys."
-    },
-    {
-      "decision": "TikTok activated 2026-05-11 (overrode Q3 2026 deferral)",
-      "rationale": "Carlos explicit. Higgsfield + Kling 3.0 access removed the capacity constraint."
+      "decision": "FB URL profile.php?id=61573687500626 is CORRECT — not a bug",
+      "rationale": "It is the New-Pages public profile-ID form of the same page Graph addresses as 193910553972807 (both 'NetWebmedia', 33 followers). Earlier 'dead page' flag was a misread of an expected Graph error. NO site change made; doing so would be the 3rd FB-URL regression."
     }
   ],
   "uncommitted_files": [
-    "crm-vanilla/backup-status.json (auto-managed by auto-save daemon on every Stop hook, NOT manual work)"
+    "crm-vanilla/backup-status.json (auto-save daemon, not manual work)"
   ],
-  "next_action": "Audit-fix cycles are the current cadence. On resume: (1) if Carlos completed Meta Business Suite IG link, set IG_BUSINESS_ACCOUNT_ID + IG_GRAPH_TOKEN and trigger first IG smoke-test; (2) otherwise continue audit-fix passes (gsd-code-reviewer on recent diff, classify, fix auto-fixable, commit, deploy, verify live); (3) optionally remove orphaned assets/hero-robot.svg. Prior 'check Higgsfield job 417e43b4' entry point is stale (batch done days ago, 11 folders populated).",
-  "context_notes": "Carlos drives in terse one-word commands (deploy / fix all / audit). Wants forward motion, pushes back on gating questions. Auto-save daemon commits WIP every few min and races manual edits: rebase --autostash + verify HEAD before claiming success. mod_security 406s bare curl: always send Chrome UA + Origin/Referer. InMotion-only deploy via GitHub Actions FTPS. Credential-bound actions (IG/YouTube login, passwords) hard-blocked by safety rules regardless of repeated asks: hand to Carlos.",
+  "next_action": "On resume: if Carlos said 'go' (Chrome fixed) -> drive TikTok Studio upload of aeo-shift-en.mp4 (local path assets/social/higgsfield/batch-2026-05-18/) + approved 1_aeo_en caption, verify it lands, then audit-offer-en + 900m-chatgpt-en, then Instagram same 3, then scale to 34. If Chrome still broken -> do not retry the dead tool; continue audit-fix cycles or other non-browser work. The HANDOFF prior 'IG_BUSINESS_ACCOUNT_ID unset' framing is obsolete — distribution is now browser-UI, not API.",
+  "context_notes": "Carlos drives terse (deploy / fix / go / 'do it yourself'). Wants forward motion. Chrome+Meta has been fragile the ENTIRE session (timeouts, screenshot failures, 'normal windows' error). Credential-bound actions (passwords) hard-blocked by safety rules regardless of asks. Auto-save daemon races edits — rebase --autostash + verify HEAD before claiming success. mod_security 406s bare curl — use Chrome UA. Never claim 'published' until a real live post URL is verified (the CR-01 + 'are those 3 live' lessons: 'deployed to server' != 'published to social').",
   "anti_patterns_discovered": [
     {
-      "pattern": "Auto-save daemon swallowing in-flight edits (CR-01 class)",
-      "manifestation": "Hero img extraction lost when daemon committed a version without it during an edit race. Live homepage empty hero for ~3h. git log -S confirmed the tag never reached main. Caught only by file-scoped gsd-code-reviewer, not by my own success report.",
-      "severity": "high",
-      "mitigation": "After multi-file edits: git log --oneline -3 + grep the committed/live file for the exact change before reporting success. Never trust Edit returned OK; verify post-rebase."
-    },
-    {
-      "pattern": "Bare curl 406'd by InMotion mod_security",
-      "manifestation": "Plain curl to netwebmedia.com assets returns 406; looks like missing files. Real browser UA returns 200.",
-      "severity": "advisory",
-      "mitigation": "Always send Mozilla/Chrome UA (+ Origin/Referer for state-changing). Third-party fetchers use real UAs so production is fine."
-    },
-    {
       "pattern": "Reporting success before verifying live",
-      "manifestation": "Claimed fixes shipped based on Edit returning OK or one curl, when the auto-save race or stale cache meant they were not live. CR-01 is worst case.",
+      "manifestation": "Repeatedly risked claiming a fix/publish shipped on Edit-OK or one curl. 'are those 3 live?' exposed the ambiguity — files on server != posted to social.",
       "severity": "high",
-      "mitigation": "Closeout reports must include a fresh cache-busted browser-UA curl against the live URL AND a git log check that the commit is on origin/main. 'Deployed' = verified live, not 'I committed it'."
+      "mitigation": "Closeouts require a cache-busted browser-UA curl on the live URL + git-on-origin check. 'Published' means a verified social post URL, full stop."
+    },
+    {
+      "pattern": "Fighting a broken Chrome/Meta extension past the point of value",
+      "manifestation": "Many turns lost to extension timeouts/crashes on Meta pages and 'normal windows' errors across the whole session.",
+      "severity": "advisory",
+      "mitigation": "Cap browser-MCP retries at ~3-5. When it's structurally broken (window state, extension disconnect), stop, give Carlos the precise minimal fix, stage everything for instant execution on reconnect."
+    },
+    {
+      "pattern": "Auto-save daemon swallowing in-flight edits (CR-01 class)",
+      "manifestation": "Hero img tag lost in a daemon commit race; live homepage empty ~3h before code-review caught it.",
+      "severity": "high",
+      "mitigation": "After multi-file edits: git log -3 + grep committed/live file for the exact change before reporting success."
     }
   ]
 }

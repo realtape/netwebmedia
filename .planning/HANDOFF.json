@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-05-18T12:07:01.932935-04:00",
+  "timestamp": "2026-05-18T15:35:19.091404-04:00",
   "context": "default",
   "phase": null,
   "phase_name": "Social publishing — content done & free; distribution gated on browser-UI (no API creds left)",
@@ -84,7 +84,7 @@
   ],
   "blockers": [
     {
-      "name": "Chrome automation extension broken: tabs_context_mcp returns 'Tabs can only be moved to and from normal windows' (5+ consecutive failures). A stray non-normal Chrome window blocks the MCP tab group. Claude cannot fix window state (computer-use is read-tier for browsers). FIX: Carlos closes stray Chrome window(s), keeps one normal window, says 'go'.",
+      "name": "Chrome browser-UI publish blocked by SPA tooling limit (root cause RESOLVED, residual limit remains). ROOT CAUSE found 2026-05-18: 3 Chrome browsers connected, none selected -> 'Tabs can only be moved to/from normal windows'. FIXED: select_browser locked to 'NWM' (deviceId d995c328). RESIDUAL: find/read_page time out (45s document_idle) on never-idle SPAs (TikTok Studio, instagram.com); javascript_tool hangs (300s) on Meta/developers.facebook.com. file_upload needs a ref from find/read_page -> structurally cannot drive IG/TikTok web upload. Not a credential issue (Carlos logged into @netwebmedia on both).",
       "severity": "high"
     },
     {
@@ -129,7 +129,7 @@
   "uncommitted_files": [
     "crm-vanilla/backup-status.json (auto-save daemon, not manual work)"
   ],
-  "next_action": "On resume: if Carlos said 'go' (Chrome fixed) -> drive TikTok Studio upload of aeo-shift-en.mp4 (local path assets/social/higgsfield/batch-2026-05-18/) + approved 1_aeo_en caption, verify it lands, then audit-offer-en + 900m-chatgpt-en, then Instagram same 3, then scale to 34. If Chrome still broken -> do not retry the dead tool; continue audit-fix cycles or other non-browser work. The HANDOFF prior 'IG_BUSINESS_ACCOUNT_ID unset' framing is obsolete — distribution is now browser-UI, not API.",
+  "next_action": "Chrome multi-browser ambiguity is solved (locked to 'NWM'). Browser-UI IG/TikTok publish remains blocked by the SPA-never-idle tooling limit (find/read_page/file_upload). Real unblock paths: (1) Carlos pastes a fresh FB Page token from Graph API Explorer -> gh secret set FB_PAGE_TOKEN -> fb-schedule-campaign status/dry-run/live (automated FB distribution, no browser tooling needed); (2) TikTok Content Posting API Dev Portal approval (pending); (3) Carlos manually drag-drops the 34 ready reels into IG/TikTok upload pages. Do NOT keep retrying find/read_page/javascript_tool on Meta/TikTok/IG SPAs — proven non-functional all session.",
   "context_notes": "Carlos drives terse (deploy / fix / go / 'do it yourself'). Wants forward motion. Chrome+Meta has been fragile the ENTIRE session (timeouts, screenshot failures, 'normal windows' error). Credential-bound actions (passwords) hard-blocked by safety rules regardless of asks. Auto-save daemon races edits — rebase --autostash + verify HEAD before claiming success. mod_security 406s bare curl — use Chrome UA. Never claim 'published' until a real live post URL is verified (the CR-01 + 'are those 3 live' lessons: 'deployed to server' != 'published to social').",
   "anti_patterns_discovered": [
     {
@@ -149,6 +149,12 @@
       "manifestation": "Hero img tag lost in a daemon commit race; live homepage empty ~3h before code-review caught it.",
       "severity": "high",
       "mitigation": "After multi-file edits: git log -3 + grep committed/live file for the exact change before reporting success."
+    },
+    {
+      "pattern": "Chrome MCP 'normal windows' error = unselected multi-browser, NOT a broken extension",
+      "manifestation": "Entire session lost to 'Tabs can only be moved to and from normal windows'. Real cause: 3 Chrome installs connected to the account, none selected for the session.",
+      "severity": "high",
+      "mitigation": "On that error, immediately AskUserQuestion listing connected browsers, then select_browser by deviceId. Do not interpret it as extension breakage or retry tabs_context_mcp."
     }
   ]
 }

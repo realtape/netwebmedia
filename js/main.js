@@ -505,12 +505,13 @@ function initForm() {
     btn.textContent = currentLang === 'es' ? 'Analizando con IA…' : 'AI analyzing…';
 
     const payload = {
-      first_name: document.getElementById('first-name')?.value || '',
-      last_name:  document.getElementById('last-name')?.value  || '',
+      name:       (document.getElementById('full-name')?.value || '').trim(),
+      first_name: (document.getElementById('full-name')?.value || '').trim().split(' ')[0] || '',
+      last_name:  (document.getElementById('full-name')?.value || '').trim().split(' ').slice(1).join(' ') || '',
       email:      document.getElementById('email')?.value      || '',
       company:    document.getElementById('company')?.value    || '',
-      budget:     document.getElementById('budget')?.value     || '',
-      service_interest: document.getElementById('services')?.value || '',
+      budget:     '',
+      service_interest: '',
       message:    document.getElementById('message')?.value    || '',
       source:     'contact_form',
       cf_turnstile_token: (window.NWM_TURNSTILE && window.NWM_TURNSTILE.getToken && window.NWM_TURNSTILE.getToken()) || '',

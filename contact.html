@@ -291,7 +291,7 @@
       <!-- Form -->
       <div class="scroll-reveal">
         <h2 style="font-size:28px;font-weight:700;margin-bottom:8px;" data-en="Send Your Audit Request" data-es="Envía tu Solicitud de Auditoría">Send Your Audit Request</h2>
-        <p style="color:var(--text-secondary);font-size:15px;margin-bottom:32px;" data-en="Fill out the form below. We'll send a written AI marketing audit to your inbox within 48 hours — no calls required." data-es="Completa el formulario. Enviaremos una auditoría de marketing con IA escrita a tu bandeja en máximo 48 horas — sin llamadas requeridas.">Fill out the form below. We'll send a written AI marketing audit to your inbox within 48 hours — no calls required.</p>
+        <p style="color:var(--text-secondary);font-size:15px;margin-bottom:32px;" data-en="3 fields. 60 seconds. We'll send your free AI marketing audit within 48 hours — no calls required." data-es="3 campos. 60 segundos. Recibirás tu auditoría gratis en 48 horas — sin llamadas.">3 fields. 60 seconds. We'll send your free AI marketing audit within 48 hours — no calls required.</p>
         <form class="contact-form contact-form-el" id="contact-form" data-nwm-form="contact-main" data-nwm-success-en="Thanks! We received your request — our team will reach out within 24 hours." data-nwm-success-es="¡Gracias! Recibimos tu solicitud — nuestro equipo te contactará en máximo 24 horas." data-nwm-success="Thanks! We received your request — our team will reach out within 24 hours.">
           <!-- Honeypot: bots will fill this; humans won't see it. The form handler must reject any submission where nwm_website is non-empty. -->
           <div aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden">
@@ -314,18 +314,12 @@
               <option value="other" style="background:#111;">Something else</option>
             </select>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-            <div class="form-group">
-              <label for="first-name" data-en="First Name" data-es="Nombre">First Name</label>
-              <input type="text" id="first-name" name="first_name" class="form-control" placeholder="Carlos" required />
-            </div>
-            <div class="form-group">
-              <label for="last-name" data-en="Last Name" data-es="Apellido">Last Name</label>
-              <input type="text" id="last-name" name="last_name" class="form-control" placeholder="Rivera" required />
-            </div>
+          <div class="form-group">
+            <label for="full-name" data-en="Your Name" data-es="Tu Nombre">Your Name</label>
+            <input type="text" id="full-name" name="name" class="form-control" placeholder="Carlos Rivera" required />
           </div>
           <div class="form-group">
-            <label for="email" data-en="Business Email" data-es="Email Empresarial">Business Email</label>
+            <label for="email" data-en="Email" data-es="Email">Email</label>
             <input type="email" id="email" name="email" class="form-control" placeholder="carlos@yourcompany.com" required />
           </div>
           <div class="form-group">
@@ -333,37 +327,12 @@
             <input type="text" id="company" name="company" class="form-control" placeholder="yourcompany.com" />
           </div>
           <div class="form-group">
-            <label for="budget" data-en="Monthly Marketing Budget" data-es="Presupuesto Mensual de Marketing">Monthly Marketing Budget</label>
-            <select id="budget" name="budget" class="form-control" style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:14px 18px;font-family:var(--font-main);font-size:15px;outline:none;">
-              <option value="" style="background:#111;">Select a range...</option>
-              <option value="5k" style="background:#111;">$1,000 - $5,000/mo</option>
-              <option value="10k" style="background:#111;">$5,000 - $10,000/mo</option>
-              <option value="25k" style="background:#111;">$10,000 - $25,000/mo</option>
-              <option value="50k" style="background:#111;">$25,000 - $50,000/mo</option>
-              <option value="50k+" style="background:#111;">$50,000+/mo</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="services" data-en="Services You're Interested In" data-es="Servicios que te Interesan">Services You're Interested In</label>
-            <select id="services" name="services" class="form-control" style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:14px 18px;font-family:var(--font-main);font-size:15px;outline:none;">
-              <option value="" style="background:#111;">Select service...</option>
-              <option value="ai-automations" style="background:#111;">AI Automations</option>
-              <option value="ai-agents" style="background:#111;">AI Agents</option>
-              <option value="crm" style="background:#111;">CRM</option>
-              <option value="ai-websites" style="background:#111;">CMS / AI Websites</option>
-              <option value="paid-ads" style="background:#111;">Paid Ads</option>
-              <option value="ai-seo" style="background:#111;">AI SEO And Content</option>
-              <option value="social" style="background:#111;">Social Media</option>
-              <option value="full" style="background:#111;">Full-Service Package</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="whatsapp" data-en="WhatsApp / Phone (optional)" data-es="WhatsApp / Teléfono (opcional)">WhatsApp / Phone <span style="font-weight:400;opacity:0.6;" data-en="(optional — for faster reply)" data-es="(opcional — para respuesta más rápida)">(optional — for faster reply)</span></label>
+            <label for="whatsapp" data-en="WhatsApp / Phone (optional)" data-es="WhatsApp / Teléfono (opcional)">WhatsApp / Phone <span style="font-weight:400;opacity:0.6;" data-en="(optional — faster reply)" data-es="(opcional — respuesta más rápida)">(optional — faster reply)</span></label>
             <input type="tel" id="whatsapp" name="whatsapp" class="form-control" placeholder="+1 (555) 000-0000" autocomplete="tel" />
           </div>
           <div class="form-group">
-            <label for="message" data-en="Tell Us About Your Goals" data-es="Cuéntanos sobre tus Objetivos">Tell Us About Your Goals</label>
-            <textarea id="message" name="message" class="form-control" placeholder="What are your top 3 growth goals for the next 12 months? What's your biggest marketing challenge right now?"></textarea>
+            <label for="message" data-en="What's your biggest challenge right now? (optional)" data-es="¿Cuál es tu mayor desafío ahora? (opcional)">What's your biggest challenge right now? <span style="font-weight:400;opacity:0.6;">(optional)</span></label>
+            <textarea id="message" name="message" class="form-control" rows="3" placeholder="e.g. We need more leads, our website isn't converting, we want to automate follow-ups..."></textarea>
           </div>
           <div class="form-group" style="display:flex;align-items:flex-start;gap:10px;margin-top:4px;">
             <input type="checkbox" id="consent" name="consent" required style="margin-top:3px;flex-shrink:0;accent-color:#FF671F;" />

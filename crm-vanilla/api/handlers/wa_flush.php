@@ -35,7 +35,9 @@ $orgId = is_org_schema_applied() ? current_org_id() : null;
 if (!$user || !$uid) jsonError('Authentication required', 401);
 
 // Admin-only — block writes via X-Org-Slug cross-org and require admin role.
-$role = $user['role'] ?? 'member';
+// org_role() handles master-org virtual-admin escalation correctly; $user['role']
+// is the global user-table column and does not reflect org-contextual permissions.
+$role = org_role(current_org_id() ?? ORG_MASTER_ID);
 if (!in_array($role, ['admin', 'owner'], true)) {
     jsonError('Admin role required for WhatsApp flush operations', 403);
 }

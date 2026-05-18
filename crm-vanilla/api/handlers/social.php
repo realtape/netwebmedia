@@ -15,15 +15,20 @@ $sub  = $_GET['sub'] ?? '';
 $orgId = is_org_schema_applied() ? current_org_id() : null;
 
 // DDL moved to schema_social.sql — run once via /api/?r=migrate&schema=social
-// Per-process readiness check (cheap; cached in static).
-static $social_ready = false;
-if (!$social_ready) {
+// Real per-worker readiness cache: a function-scope `static` persists across
+// requests within one PHP-FPM worker (a file-scope `static` does not).
+function _social_tables_ready(PDO $db): bool {
+    static $ready = false;
+    if ($ready) return true;
     try {
         $db->query('SELECT 1 FROM social_credentials LIMIT 1');
-        $social_ready = true;
+        return $ready = true;
     } catch (Throwable $e) {
-        jsonError('Social tables not initialized. Run /api/?r=migrate&schema=social', 503);
+        return false;
     }
+}
+if (!_social_tables_ready($db)) {
+    jsonError('Social tables not initialized. Run /api/?r=migrate&schema=social', 503);
 }
 
 if ($method !== 'GET') {

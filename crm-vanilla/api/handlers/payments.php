@@ -19,16 +19,21 @@ $uid = tenant_id();
 $orgId = is_org_schema_applied() ? current_org_id() : null;
 
 // DDL moved to schema_payments.sql — run via /api/?r=migrate&schema=payments
-// Cache "tables exist" check per PHP-FPM process so we only verify once per worker.
-static $payments_ready = false;
-if (!$payments_ready) {
+// Real per-worker readiness cache: a function-scope `static` persists across
+// requests within one PHP-FPM worker (a file-scope `static` does not).
+function _payments_tables_ready(PDO $db): bool {
+    static $ready = false;
+    if ($ready) return true;
     try {
         $db->query('SELECT 1 FROM invoices LIMIT 1');
         $db->query('SELECT 1 FROM subscriptions LIMIT 1');
-        $payments_ready = true;
+        return $ready = true;
     } catch (Throwable $e) {
-        jsonError('Payments tables not initialized. Run /api/?r=migrate&schema=payments', 503);
+        return false;
     }
+}
+if (!_payments_tables_ready($db)) {
+    jsonError('Payments tables not initialized. Run /api/?r=migrate&schema=payments', 503);
 }
 
 // ── GET ───────────────────────────────────────────────────────────────────────

@@ -51,6 +51,13 @@ if (($parts[0] ?? '') === '_decompress-csv') {
   exit;
 }
 
+// Read-only export of campaign dedup logs (sent/failed/unsub) for offline
+// list filtering. Gated by MIGRATE_TOKEN — see _export-logs.php.
+if (($parts[0] ?? '') === '_export-logs') {
+  require __DIR__ . '/_export-logs.php';
+  exit;
+}
+
 // Root: API info
 if (empty($parts)) {
   json_out([

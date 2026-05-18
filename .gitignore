@@ -77,3 +77,28 @@ api-php/data/usa_5x_full.csv
 api-php/data/usa_5x.csv
 api-php/data/usa_all_base.json
 api-php/data/clean/
+
+# ── History-rewrite hardening (2026-05-18) ──────────────────────────────
+# These patterns were purged from git history via git-filter-repo after
+# a 27GB .git bloat. Never re-commit them. Regenerate locally as needed.
+# Binaries — never belong in git
+*.exe
+*.dll
+*.node
+# PII contact/lead exports — security; never commit
+_leads/
+_deploy/*contacts*.csv
+_deploy/*leads*.csv
+_deploy/live_contacts.json
+_deploy/contacts_dump.json
+api-php/data/*.csv
+api-php/data/*.json
+# Generated media (regenerable; served from InMotion, not git)
+*.mp4
+hyperframes/*/renders/
+hyperframes/realtape-reels/assets/
+campaigns/*/assets/
+video-factory/out/
+.tmp_render/
+# node_modules anywhere (root + nested) — belt to **/node_modules/ above
+node_modules/

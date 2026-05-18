@@ -22,9 +22,71 @@ if (!file_exists($sqlFile)) jsonError("Schema file schema_{$schemaName}.sql not 
 $db  = getDB();
 $sql = file_get_contents($sqlFile);
 
-// Strip -- comments
-$sql = preg_replace('/^\s*--.*$/m', '', $sql);
-$statements = array_filter(array_map('trim', explode(';', $sql)));
+/**
+ * Split a SQL script into statements on top-level `;` only. Respects
+ * '...' and "..." string literals (with doubled-quote and backslash
+ * escapes), block comments, and -- / # line comments, so a `;` inside
+ * any of those does NOT split the statement.
+ */
+function migrate_split_sql(string $sql): array {
+    $stmts = [];
+    $buf = '';
+    $n = strlen($sql);
+    $i = 0;
+    while ($i < $n) {
+        $ch = $sql[$i];
+        $nx = $i + 1 < $n ? $sql[$i + 1] : '';
+
+        // Line comment: -- … or # … (run to end of line)
+        if (($ch === '-' && $nx === '-') || $ch === '#') {
+            while ($i < $n && $sql[$i] !== "\n") { $buf .= $sql[$i]; $i++; }
+            continue;
+        }
+        // Block comment: /* … */
+        if ($ch === '/' && $nx === '*') {
+            $buf .= '/*'; $i += 2;
+            while ($i < $n && !($sql[$i] === '*' && ($i + 1 < $n ? $sql[$i + 1] : '') === '/')) {
+                $buf .= $sql[$i]; $i++;
+            }
+            if ($i < $n) { $buf .= '*/'; $i += 2; }
+            continue;
+        }
+        // String literal: '…' or "…"
+        if ($ch === "'" || $ch === '"') {
+            $q = $ch;
+            $buf .= $ch; $i++;
+            while ($i < $n) {
+                $c = $sql[$i];
+                $buf .= $c;
+                if ($c === '\\' && $i + 1 < $n) { $buf .= $sql[$i + 1]; $i += 2; continue; }
+                if ($c === $q) {
+                    if ($i + 1 < $n && $sql[$i + 1] === $q) { $buf .= $sql[$i + 1]; $i += 2; continue; }
+                    $i++; break;
+                }
+                $i++;
+            }
+            continue;
+        }
+        // Top-level statement terminator
+        if ($ch === ';') {
+            $t = trim($buf);
+            if ($t !== '') $stmts[] = $t;
+            $buf = '';
+            $i++;
+            continue;
+        }
+        $buf .= $ch;
+        $i++;
+    }
+    $t = trim($buf);
+    if ($t !== '') $stmts[] = $t;
+    return $stmts;
+}
+
+// Quote/comment-aware split so a `;` inside a string literal or block
+// comment no longer tears a statement (F-12). MySQL parses -- / # / *​/
+// comments itself, so we keep them in the buffer rather than pre-stripping.
+$statements = migrate_split_sql($sql);
 
 // MySQL error codes / messages that mean "the change is already applied" — safe to skip on idempotent re-runs.
 $idempotent_codes = [

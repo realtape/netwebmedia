@@ -60,5 +60,28 @@ function url_guard_or_fail(string $url): string {
         if (_url_guard_is_blocked_ip($ip)) jsonError('Target IP is not permitted', 400);
     }
 
+    // Pin the first safe IP so callers can prevent DNS rebinding via CURLOPT_RESOLVE.
+    if (!isset($GLOBALS['_nwm_url_guard_safe_ip'])) $GLOBALS['_nwm_url_guard_safe_ip'] = [];
+    $GLOBALS['_nwm_url_guard_safe_ip'][$host] = $ips[0];
+
     return $url;
+}
+
+/**
+ * Returns CURLOPT_RESOLVE entries that pin $url's host to the IP already
+ * validated by url_guard_or_fail(). Pass the result directly as the value
+ * for CURLOPT_RESOLVE on the curl handle to close the DNS-rebinding window.
+ *
+ * Usage:
+ *   $url = url_guard_or_fail($raw);
+ *   $ch = curl_init($url);
+ *   curl_setopt($ch, CURLOPT_RESOLVE, url_guard_curlopt_resolve($url));
+ */
+function url_guard_curlopt_resolve(string $url): array {
+    $host = parse_url($url, PHP_URL_HOST) ?: '';
+    // IP-literal URLs don't need pinning; only hostname URLs were cached.
+    if (!$host || filter_var($host, FILTER_VALIDATE_IP)) return [];
+    $ip = $GLOBALS['_nwm_url_guard_safe_ip'][$host] ?? '';
+    if (!$ip) return [];
+    return ["{$host}:80:{$ip}", "{$host}:443:{$ip}"];
 }

@@ -39,6 +39,8 @@ try {
         CURLOPT_PROTOCOLS      => CURLPROTO_HTTP | CURLPROTO_HTTPS,
         CURLOPT_REDIR_PROTOCOLS=> CURLPROTO_HTTP | CURLPROTO_HTTPS,
     ]);
+    $resolve = url_guard_curlopt_resolve($targetUrl);
+    if ($resolve) curl_setopt($ch, CURLOPT_RESOLVE, $resolve);
     $t0 = microtime(true);
     $html = curl_exec($ch) ?: '';
     $ms = round((microtime(true) - $t0) * 1000);

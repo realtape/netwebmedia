@@ -25,6 +25,8 @@ curl_setopt_array($ch, [
     CURLOPT_PROTOCOLS      => CURLPROTO_HTTP | CURLPROTO_HTTPS,
     CURLOPT_REDIR_PROTOCOLS=> CURLPROTO_HTTP | CURLPROTO_HTTPS,
 ]);
+$resolve = url_guard_curlopt_resolve($url);
+if ($resolve) curl_setopt($ch, CURLOPT_RESOLVE, $resolve);
 $html = curl_exec($ch);
 $info = curl_getinfo($ch);
 curl_close($ch);

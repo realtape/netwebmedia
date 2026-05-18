@@ -23,10 +23,16 @@ switch ($method) {
         $params = [];
         if ($tWhere) { $where[] = $tWhere; $params = array_merge($params, $tParams); }
         if (!empty($_GET['status'])) {
+            if (!preg_match('/^[a-z0-9_]{1,40}$/', (string)$_GET['status'])) {
+                jsonError('Invalid status filter', 400);
+            }
             $where[] = 'status = ?';
             $params[] = $_GET['status'];
         }
         if (!empty($_GET['segment'])) {
+            if (!preg_match('/^[a-z0-9_]{1,40}$/', (string)$_GET['segment'])) {
+                jsonError('Invalid segment filter', 400);
+            }
             // prefix match: 'usa' matches 'usa_ca', 'usa_tx', etc.
             $where[] = 'segment LIKE ?';
             $params[] = $_GET['segment'] . '%';

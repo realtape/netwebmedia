@@ -90,6 +90,11 @@ if (file_exists($paths['audit_log'])) {
     $p = explode("\t", $line);
     $e = strtolower(trim($p[0] ?? ''));
     if ($e === '' || strpos($e, '@') === false) continue;
+    // A Chile click = an audit-views.log entry whose email actually
+    // received a CHILE send. audit-views.log is shared with the USA
+    // campaign; without this gate the dashboard was counting ~140 USA
+    // .com clickers as "Chile" (only 2 of 142 were real .cl prospects).
+    if (!isset($sent_set[$e]) && !isset($failed_set[$e])) continue;
     $click_set[$e] = true;
     $click_events[] = [
       'email'     => $e,

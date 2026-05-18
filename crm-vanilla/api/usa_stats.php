@@ -149,7 +149,12 @@ if (file_exists($paths['audit_log'])) {
     $p = explode("\t", $line);
     $e = strtolower(trim($p[0] ?? ''));
     if ($e === '' || strpos($e, '@') === false) continue;
-    if (!isset($leads[$e])) continue; // not a US contact — skip (Chile, etc.)
+    // A USA click = an audit-views.log entry whose email actually received
+    // a USA send. us-sent.log is the ground truth — waves 1+2 (CRM) and
+    // wave 3 (CSV) all append to it. The capped 30k CRM universe ($leads)
+    // is NOT ground truth: it misses ~25k of the 55k waves-1+2 recipients
+    // and every wave-3 CSV recipient, which is why this read 0 before.
+    if (!isset($sent_set[$e])) continue; // not a USA recipient — skip (Chile, etc.)
     $click_set[$e] = true;
     $click_events[] = [
       'email'     => $e,
@@ -220,12 +225,16 @@ if (file_exists($paths['sent_log'])) {
   $tail = array_slice($sent_lines, -25);
   foreach (array_reverse($tail) as $line) {
     $e = strtolower(trim($line));
-    if ($e === '' || !isset($leads[$e])) continue;
+    if ($e === '') continue;
+    // Show every actual recipient. Enrich from the CRM universe when the
+    // contact is known there; wave-3 CSV recipients won't be, so fall back
+    // to the bare email rather than dropping the row.
+    $L = $leads[$e] ?? [];
     $recent_sends[] = [
       'email'   => $e,
-      'company' => $leads[$e]['company'] ?? '',
-      'niche'   => $leads[$e]['niche']   ?? '',
-      'state'   => $leads[$e]['state']   ?? '',
+      'company' => $L['company'] ?? '',
+      'niche'   => $L['niche']   ?? '',
+      'state'   => $L['state']   ?? '',
     ];
   }
 }

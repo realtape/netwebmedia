@@ -8,7 +8,8 @@
  *
  * MIGRATE_TOKEN is defined in config.local.php (generated from GitHub Secrets
  * SECRET_MIGRATE_TOKEN). Same token used by the migrate endpoint.
- * Fallback default (if secret not set): NWM_MIGRATE_2026_ROTATED_7d790e0bb4992a6e
+ * If the secret is unset, config.php generates a random per-process fallback
+ * (bin2hex(random_bytes(32))) — there is no static default to memorize.
  *
  * GET  ?r=cron_workflows&token=…  → process pending runs, return JSON summary
  * POST ?r=cron_workflows&action=stats&token=…  → queue depth stats only

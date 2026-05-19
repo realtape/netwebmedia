@@ -14,25 +14,14 @@ if ($method !== 'GET') jsonError('GET required', 405);
 require_once __DIR__ . '/../lib/url_guard.php';
 $url = url_guard_or_fail($_GET['url'] ?? '');
 
-$start = microtime(true);
-$ch = curl_init($url);
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_MAXREDIRS      => 3,
-    CURLOPT_TIMEOUT        => 15,
-    CURLOPT_USERAGENT      => 'NetWebMediaAnalyzer/1.0 (+https://netwebmedia.com)',
-    CURLOPT_PROTOCOLS      => CURLPROTO_HTTP | CURLPROTO_HTTPS,
-    CURLOPT_REDIR_PROTOCOLS=> CURLPROTO_HTTP | CURLPROTO_HTTPS,
-]);
-$resolve = url_guard_curlopt_resolve($url);
-if ($resolve) curl_setopt($ch, CURLOPT_RESOLVE, $resolve);
-$html = curl_exec($ch);
-$info = curl_getinfo($ch);
-curl_close($ch);
-if (!$html) jsonError('Could not fetch URL (timeout or blocked)', 502);
+// SSRF-safe fetch: redirects are followed manually and re-guarded per hop
+// (url_guard_safe_fetch). Do NOT swap back to CURLOPT_FOLLOWLOCATION => true.
+$fetch = url_guard_safe_fetch($url, ['timeout' => 15]);
+if (!$fetch['ok'] || $fetch['body'] === '') jsonError('Could not fetch URL (timeout or blocked)', 502);
 
-$fetchedMs = round((microtime(true) - $start) * 1000);
+$html = $fetch['body'];
+$info = $fetch['info'];
+$fetchedMs = $fetch['t_ms'];
 $sizeKb = round(strlen($html) / 1024, 1);
 
 $doc = new DOMDocument();

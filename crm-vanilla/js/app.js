@@ -110,7 +110,7 @@
           template: "Template", city: "City",
           mergeTags: "Merge tags:",
           loadErr: "Error loading data: ",
-          firstTimeHint: "If this is your first time: POST to /api/?r=migrate&token=NWM_MIGRATE_2026 to create tables.",
+          firstTimeHint: "If this is your first time: POST to /api/?r=migrate&token=<MIGRATE_TOKEN> to create tables.",
           save: "Save", cancel: "Cancel"
         },
         automation: {
@@ -347,7 +347,7 @@
           template: "Plantilla", city: "Ciudad",
           mergeTags: "Etiquetas:",
           loadErr: "Error al cargar datos: ",
-          firstTimeHint: "Si es tu primera vez: POST a /api/?r=migrate&token=NWM_MIGRATE_2026 para crear las tablas.",
+          firstTimeHint: "Si es tu primera vez: POST a /api/?r=migrate&token=<MIGRATE_TOKEN> para crear las tablas.",
           save: "Guardar", cancel: "Cancelar"
         },
         automation: {

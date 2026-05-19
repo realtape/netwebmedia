@@ -85,3 +85,86 @@ function url_guard_curlopt_resolve(string $url): array {
     if (!$ip) return [];
     return ["{$host}:80:{$ip}", "{$host}:443:{$ip}"];
 }
+
+// Resolve a (possibly relative) redirect target against the URL it came from.
+function _url_guard_resolve_url(string $base, string $next): string {
+    $next = trim($next);
+    if ($next === '') return $base;
+    if (preg_match('#^https?://#i', $next)) return $next;
+    $p = parse_url($base);
+    if (empty($p['scheme']) || empty($p['host'])) return $next;
+    $origin = $p['scheme'] . '://' . $p['host'] . (isset($p['port']) ? ':' . $p['port'] : '');
+    if (strpos($next, '//') === 0) return $p['scheme'] . ':' . $next;
+    if ($next[0] === '/') return $origin . $next;
+    $dir = isset($p['path']) ? preg_replace('#/[^/]*$#', '/', $p['path']) : '/';
+    if ($dir === '' || $dir[0] !== '/') $dir = '/' . $dir;
+    return $origin . $dir . $next;
+}
+
+/**
+ * SSRF-safe outbound fetch. The initial URL AND every redirect hop are run
+ * through url_guard_or_fail() (which hard-fails the request on a private/
+ * loopback/link-local/metadata target), DNS is pinned per hop via
+ * CURLOPT_RESOLVE to close the rebinding window, redirects are followed
+ * manually so each Location is re-validated, protocols are restricted to
+ * http/https, and TLS peer verification is always on.
+ *
+ * Mirrors the hardened api-php/routes/audit.php aud_fetch_url() pattern.
+ * Do NOT replace this with CURLOPT_FOLLOWLOCATION => true — that bypasses
+ * the per-hop guard and reintroduces redirect-based SSRF.
+ *
+ * @return array{ok:bool, body:string, status:int, info:array, t_ms:int, final_url:string, err:string}
+ */
+function url_guard_safe_fetch(string $url, array $opts = []): array {
+    $maxRedirects = 5;
+    $hop = 0;
+    $current = $url;
+    $timeout = $opts['timeout'] ?? 15;
+    $ua = $opts['user_agent'] ?? 'NetWebMediaAnalyzer/1.0 (+https://netwebmedia.com)';
+
+    while (true) {
+        // err()s out (jsonError + exit) if this hop targets a blocked address.
+        url_guard_or_fail($current);
+
+        $ch = curl_init($current);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER  => true,
+            CURLOPT_FOLLOWLOCATION  => 0,                 // followed manually + re-guarded
+            CURLOPT_TIMEOUT         => $timeout,
+            CURLOPT_CONNECTTIMEOUT  => 7,
+            CURLOPT_SSL_VERIFYPEER  => true,
+            CURLOPT_SSL_VERIFYHOST  => 2,
+            CURLOPT_PROTOCOLS       => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+            CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+            CURLOPT_RESOLVE         => url_guard_curlopt_resolve($current),
+            CURLOPT_USERAGENT       => $ua,
+            CURLOPT_HEADER          => 1,
+            CURLOPT_ENCODING        => '',
+        ]);
+        $t0 = microtime(true);
+        $raw = curl_exec($ch);
+        $t_ms = (int) ((microtime(true) - $t0) * 1000);
+        $info = curl_getinfo($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
+        if ($raw === false) {
+            return ['ok' => false, 'body' => '', 'status' => 0, 'info' => $info,
+                    't_ms' => $t_ms, 'final_url' => $current, 'err' => $err];
+        }
+
+        $headerSize = $info['header_size'];
+        $headers = substr($raw, 0, $headerSize);
+        $body = substr($raw, $headerSize);
+        $code = (int) $info['http_code'];
+
+        if ($code >= 300 && $code < 400 && $hop < $maxRedirects
+            && preg_match('/^\s*location:\s*(.+?)\s*$/im', $headers, $lm)) {
+            $current = _url_guard_resolve_url($current, $lm[1]);
+            $hop++;
+            continue; // top of loop re-guards $current
+        }
+
+        return ['ok' => true, 'body' => $body, 'status' => $code, 'info' => $info,
+                't_ms' => $t_ms, 'final_url' => $current, 'err' => ''];
+    }
+}

@@ -116,6 +116,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6.0.2
 
+      - name: Security gate — ban known-compromised token literal
+        run: |
+          # NWM_MIGRATE_2026 leaked publicly on 2026-04-29 and is permanently
+          # burned. No shipped PHP may compare against it as a literal. Doc
+          # mentions (config.php tripwire comment, CLAUDE.md) are allowed; an
+          # actual string comparison is not. Fail the deploy if one ships.
+          if grep -rnE "(['\"])NWM_MIGRATE_2026\1" \
+               --include='*.php' api-php crm-vanilla 2>/dev/null; then
+            echo "::error::A shipped PHP file references the compromised literal 'NWM_MIGRATE_2026'. Use hash_equals(MIGRATE_TOKEN, ...) and fail closed instead."
+            exit 1
+          fi
+          echo "OK — no compromised token literal in shipped PHP."
+
       - name: Preflight — verify required secrets
         id: preflight
         run: |

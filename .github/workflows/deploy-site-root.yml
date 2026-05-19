@@ -118,13 +118,14 @@ jobs:
 
       - name: Security gate — ban known-compromised token literal
         run: |
-          # NWM_MIGRATE_2026 leaked publicly on 2026-04-29 and is permanently
-          # burned. No shipped PHP may compare against it as a literal. Doc
-          # mentions (config.php tripwire comment, CLAUDE.md) are allowed; an
-          # actual string comparison is not. Fail the deploy if one ships.
-          if grep -rnE "(['\"])NWM_MIGRATE_2026\1" \
+          # NWM_MIGRATE_2026 (and any *_ROTATED_* successor) leaked publicly on
+          # 2026-04-29 and is permanently burned. No shipped PHP may compare
+          # against it as a quoted literal. Unquoted prose mentions (config.php
+          # tripwire comment, CLAUDE.md) are allowed; a quoted string value is
+          # not. The trailing [A-Za-z0-9_]* also catches the rotated variant.
+          if grep -rnE "(['\"])NWM_MIGRATE_2026[A-Za-z0-9_]*\1" \
                --include='*.php' api-php crm-vanilla 2>/dev/null; then
-            echo "::error::A shipped PHP file references the compromised literal 'NWM_MIGRATE_2026'. Use hash_equals(MIGRATE_TOKEN, ...) and fail closed instead."
+            echo "::error::A shipped PHP file references the compromised token literal 'NWM_MIGRATE_2026*'. Use hash_equals(MIGRATE_TOKEN, ...) and fail closed instead."
             exit 1
           fi
           echo "OK — no compromised token literal in shipped PHP."

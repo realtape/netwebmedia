@@ -33,6 +33,7 @@
  */
 
 require_once __DIR__ . '/env.php';
+require_once __DIR__ . '/url_guard.php';
 
 // ── Public entry: cached wrapper ──────────────────────────────────────
 function nwm_audit_cached(string $url, string $niche_key, string $city = 'Santiago'): array {
@@ -261,30 +262,26 @@ function nwm_audit_normalize_url(string $url): string {
 
 // ── HTTP fetch (cURL with timeout + redirect follow) ──────────────────
 function nwm_audit_fetch(string $url): array {
-  $ch = curl_init($url);
-  curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_MAXREDIRS      => 5,
-    CURLOPT_TIMEOUT        => 12,
-    CURLOPT_CONNECTTIMEOUT => 5,
-    CURLOPT_USERAGENT      => 'NetWebMediaAuditBot/2.1 (+https://netwebmedia.com/audit)',
-    CURLOPT_HTTPHEADER     => [
+  // SSRF-safe: every redirect hop is re-guarded by url_guard_safe_fetch and
+  // TLS peer verification stays on. The audited URL is attacker-influenceable
+  // (root audit.php derives it from a forgeable-token email domain), so this
+  // MUST NOT use CURLOPT_FOLLOWLOCATION => true with only an entry guard.
+  $fetch = url_guard_safe_fetch($url, [
+    'timeout'         => 12,
+    'connect_timeout' => 5,
+    'max_redirects'   => 5,
+    'user_agent'      => 'NetWebMediaAuditBot/2.1 (+https://netwebmedia.com/audit)',
+    'headers'         => [
       'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
       'Accept-Language: es-CL,es;q=0.9,en;q=0.8',
     ],
-    CURLOPT_SSL_VERIFYPEER => true,
-    CURLOPT_SSL_VERIFYHOST => 2,
-    CURLOPT_ENCODING       => '',
   ]);
-  $body = curl_exec($ch);
-  $err  = curl_error($ch);
-  $info = curl_getinfo($ch);
-  curl_close($ch);
-
-  $status    = (int)($info['http_code'] ?? 0);
-  $final_url = (string)($info['url'] ?? $url);
-  $ok        = ($body !== false) && ($status >= 200 && $status < 400);
+  $body      = $fetch['ok'] ? $fetch['body'] : false;
+  $err       = $fetch['error'];
+  $info      = $fetch['info'] ?: [];
+  $status    = (int)$fetch['status'];
+  $final_url = (string)$fetch['final_url'];
+  $ok        = $fetch['ok'] && ($status >= 200 && $status < 400);
 
   return [
     'ok'             => $ok,
@@ -1096,17 +1093,22 @@ function nwm_verify_social_profiles(array $profiles): array {
   $mh      = curl_multi_init();
   $handles = [];
   foreach ($profiles as $name => $profile_url) {
+    // SSRF guard: profile URLs are derived from links on the audited page.
+    // Skip any that resolve to a blocked target; pins the safe IP for RESOLVE.
+    if (!url_guard_is_safe_url($profile_url)) continue;
     $ch = curl_init($profile_url);
     curl_setopt_array($ch, [
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_NOBODY         => true,   // HEAD request — no body downloaded
-      CURLOPT_FOLLOWLOCATION => true,
-      CURLOPT_MAXREDIRS      => 3,
+      CURLOPT_FOLLOWLOCATION => false,  // no redirect into an unguarded host
       CURLOPT_TIMEOUT        => 7,
       CURLOPT_CONNECTTIMEOUT => 4,
       CURLOPT_USERAGENT      => 'Mozilla/5.0 (Linux; Android 11; Pixel 5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
       CURLOPT_HTTPHEADER     => ['Accept: text/html,application/xhtml+xml,*/*;q=0.8'],
-      CURLOPT_SSL_VERIFYPEER => false,
+      CURLOPT_PROTOCOLS      => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+      CURLOPT_RESOLVE        => url_guard_curlopt_resolve($profile_url),
+      CURLOPT_SSL_VERIFYPEER => true,
+      CURLOPT_SSL_VERIFYHOST => 2,
     ]);
     curl_multi_add_handle($mh, $ch);
     $handles[$name] = $ch;
@@ -1121,12 +1123,11 @@ function nwm_verify_social_profiles(array $profiles): array {
 
   $verified = [];
   foreach ($handles as $name => $ch) {
-    $http_code    = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $effective_url = (string)curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
-    // Reject redirects to login/error pages (non-existent profiles on some platforms).
-    $is_error_page = (bool)preg_match('#/(login|signin|error|404|not[_-]found|accounts/login|session/new)#i', $effective_url);
-    // 200: profile exists. 403/405: exists but HEAD not allowed — count as verified.
-    if (($http_code >= 200 && $http_code < 400 && !$is_error_page)
+    $http_code = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    // Redirects are no longer followed (SSRF hardening), so a 30x can't be
+    // resolved to a real-vs-login destination — treat only direct hits as
+    // proof the profile exists. 2xx: exists. 403/405: exists but HEAD blocked.
+    if (($http_code >= 200 && $http_code < 300)
      || $http_code === 403
      || $http_code === 405) {
       $verified[] = $name;
@@ -1160,19 +1161,13 @@ function nwm_check_content(string $html, string $url): array {
   if ($base !== '') {
     foreach (['/sitemap.xml', '/sitemap_index.xml', '/wp-sitemap.xml'] as $path) {
       $sm_url = $base . $path;
-      $ch = curl_init($sm_url);
-      curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT        => 8,
-        CURLOPT_CONNECTTIMEOUT => 4,
-        CURLOPT_USERAGENT      => 'NetWebMediaAuditBot/2.1',
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_MAXREDIRS      => 2,
-        CURLOPT_SSL_VERIFYPEER => false,
+      // SSRF-safe + TLS-verified (was CURLOPT_SSL_VERIFYPEER => false).
+      $sm = url_guard_safe_fetch($sm_url, [
+        'timeout' => 8, 'connect_timeout' => 4, 'max_redirects' => 2,
+        'user_agent' => 'NetWebMediaAuditBot/2.1',
       ]);
-      $sm_body   = curl_exec($ch);
-      $sm_status = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
-      curl_close($ch);
+      $sm_body   = $sm['ok'] ? $sm['body'] : '';
+      $sm_status = (int)$sm['status'];
       if ($sm_status === 200 && $sm_body) {
         $page_count = (int)preg_match_all('#<loc>#i', $sm_body);
         if ($page_count > 0) { $sitemap_src = $path; break; }
@@ -1332,19 +1327,14 @@ function nwm_check_crawlability(string $url, string $html, array $http = []): ar
     }
   }
 
-  // ⑤ Fetch robots.txt.
+  // ⑤ Fetch robots.txt. SSRF-safe + TLS-verified (was SSL_VERIFYPEER=>false).
   $robots_url  = $base . '/robots.txt';
-  $ch = curl_init($robots_url);
-  curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_TIMEOUT        => 5,
-    CURLOPT_CONNECTTIMEOUT => 3,
-    CURLOPT_USERAGENT      => 'NetWebMediaAuditBot/2.1',
-    CURLOPT_SSL_VERIFYPEER => false,
+  $rb = url_guard_safe_fetch($robots_url, [
+    'timeout' => 5, 'connect_timeout' => 3, 'max_redirects' => 2,
+    'user_agent' => 'NetWebMediaAuditBot/2.1',
   ]);
-  $robots_body   = curl_exec($ch);
-  $robots_status = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
-  curl_close($ch);
+  $robots_body   = $rb['ok'] ? $rb['body'] : '';
+  $robots_status = (int)$rb['status'];
 
   $has_robots         = ($robots_status === 200 && !empty($robots_body));
   $robots_blocks_all  = $has_robots && (bool)preg_match('/^\s*Disallow\s*:\s*\/\s*$/m', (string)$robots_body);

@@ -77,6 +77,131 @@ function url_guard_or_fail(string $url): string {
 }
 
 /**
+ * Non-exiting predicate form of url_guard_or_fail(). Same checks, but
+ * returns false instead of err()/exit, and still pins the safe IP on pass.
+ * Use from non-API flows (e.g. the HTML audit page) that must degrade
+ * gracefully instead of emitting a JSON error and exiting.
+ */
+function url_guard_is_safe_url(string $url): bool {
+    if (!filter_var($url, FILTER_VALIDATE_URL)) return false;
+    $parts = parse_url($url);
+    $scheme = strtolower($parts['scheme'] ?? '');
+    if ($scheme !== 'http' && $scheme !== 'https') return false;
+    $host = $parts['host'] ?? '';
+    if (!$host) return false;
+
+    if (filter_var($host, FILTER_VALIDATE_IP)) {
+        return !_url_guard_is_blocked_ip($host);
+    }
+
+    $hostLower = strtolower($host);
+    if ($hostLower === 'localhost' || $hostLower === 'localhost.localdomain'
+        || substr($hostLower, -6) === '.local' || substr($hostLower, -9) === '.internal'
+        || $hostLower === 'metadata.google.internal') {
+        return false;
+    }
+
+    $ips = @gethostbynamel($host);
+    if (!$ips) return false;
+    foreach ($ips as $ip) {
+        if (_url_guard_is_blocked_ip($ip)) return false;
+    }
+
+    if (!isset($GLOBALS['_nwm_url_guard_safe_ip'])) $GLOBALS['_nwm_url_guard_safe_ip'] = [];
+    $GLOBALS['_nwm_url_guard_safe_ip'][$host] = $ips[0];
+    return true;
+}
+
+// Resolve a (possibly relative) redirect target against the URL it came from.
+function _url_guard_resolve_url(string $base, string $next): string {
+    $next = trim($next);
+    if ($next === '') return $base;
+    if (preg_match('#^https?://#i', $next)) return $next;
+    $p = parse_url($base);
+    if (empty($p['scheme']) || empty($p['host'])) return $next;
+    $origin = $p['scheme'] . '://' . $p['host'] . (isset($p['port']) ? ':' . $p['port'] : '');
+    if (strpos($next, '//') === 0) return $p['scheme'] . ':' . $next;
+    if ($next[0] === '/') return $origin . $next;
+    $dir = isset($p['path']) ? preg_replace('#/[^/]*$#', '/', $p['path']) : '/';
+    if ($dir === '' || $dir[0] !== '/') $dir = '/' . $dir;
+    return $origin . $dir . $next;
+}
+
+/**
+ * SSRF-safe outbound fetch, GRACEFUL variant. Every hop (initial + each
+ * redirect Location) is re-checked with url_guard_is_safe_url(); a blocked
+ * hop returns ['ok'=>false] instead of exiting. TLS peer verification is
+ * always on, DNS is pinned per hop, redirects are followed manually.
+ *
+ * NOTE: behaviourally parallel to crm-vanilla's url_guard_safe_fetch(), but
+ * that copy hard-fails via jsonError() because its callers are JSON APIs;
+ * this copy degrades gracefully because the audit HTML page has its own
+ * unreachable-result path. Keep the SSRF checks themselves in sync.
+ *
+ * @return array{ok:bool, body:string, status:int, info:array, final_url:string, t_ms:int, error:string}
+ */
+function url_guard_safe_fetch(string $url, array $opts = []): array {
+    $maxRedirects = $opts['max_redirects'] ?? 5;
+    $hop = 0;
+    $current = $url;
+    $timeout = $opts['timeout'] ?? 12;
+    $connect = $opts['connect_timeout'] ?? 5;
+    $ua = $opts['user_agent'] ?? 'NetWebMediaAuditBot/2.1 (+https://netwebmedia.com/audit)';
+    $headers = $opts['headers'] ?? [];
+    $nobody = $opts['nobody'] ?? false;
+    $fail = ['ok' => false, 'body' => '', 'status' => 0, 'info' => [],
+             'final_url' => $current, 't_ms' => 0, 'error' => 'blocked or unreachable'];
+
+    while (true) {
+        if (!url_guard_is_safe_url($current)) {
+            $fail['final_url'] = $current;
+            $fail['error'] = 'SSRF guard blocked target';
+            return $fail;
+        }
+        $ch = curl_init($current);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER  => true,
+            CURLOPT_NOBODY          => $nobody,
+            CURLOPT_FOLLOWLOCATION  => 0,                 // followed manually + re-guarded
+            CURLOPT_TIMEOUT         => $timeout,
+            CURLOPT_CONNECTTIMEOUT  => $connect,
+            CURLOPT_SSL_VERIFYPEER  => true,
+            CURLOPT_SSL_VERIFYHOST  => 2,
+            CURLOPT_PROTOCOLS       => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+            CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
+            CURLOPT_RESOLVE         => url_guard_curlopt_resolve($current),
+            CURLOPT_USERAGENT       => $ua,
+            CURLOPT_HTTPHEADER      => $headers,
+            CURLOPT_HEADER          => 1,
+            CURLOPT_ENCODING        => '',
+        ]);
+        $t0 = microtime(true);
+        $raw = curl_exec($ch);
+        $t_ms = (int) ((microtime(true) - $t0) * 1000);
+        $info = curl_getinfo($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
+        if ($raw === false) {
+            return ['ok' => false, 'body' => '', 'status' => 0, 'info' => $info,
+                    'final_url' => $current, 't_ms' => $t_ms, 'error' => $err];
+        }
+        $headerSize = $info['header_size'] ?? 0;
+        $rawHeaders = substr($raw, 0, $headerSize);
+        $body = substr($raw, $headerSize);
+        $code = (int) ($info['http_code'] ?? 0);
+
+        if ($code >= 300 && $code < 400 && $hop < $maxRedirects
+            && preg_match('/^\s*location:\s*(.+?)\s*$/im', $rawHeaders, $lm)) {
+            $current = _url_guard_resolve_url($current, $lm[1]);
+            $hop++;
+            continue; // top of loop re-guards $current
+        }
+        return ['ok' => true, 'body' => $body, 'status' => $code, 'info' => $info,
+                'final_url' => $current, 't_ms' => $t_ms, 'error' => ''];
+    }
+}
+
+/**
  * Returns CURLOPT_RESOLVE entries that pin $url's host to the IP already
  * validated by url_guard_or_fail(). Closes the DNS-rebinding window.
  */

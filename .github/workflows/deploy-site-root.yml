@@ -428,6 +428,53 @@ jobs:
       # ("Server sent FIN packet unexpectedly"). Retry up to 3 attempts.
       # Each attempt runs FTP-Deploy-Action's incremental sync (hash-based),
       # so retries only re-upload what's still missing — they don't redo work.
+      # Priority upload of the auth-critical CRM files BEFORE the incremental
+      # sync. FTP-Deploy-Action's server-side sync-state once recorded these as
+      # uploaded when the bytes never landed (silent FTPS drop), so the
+      # incremental sync skipped them for 3+ days — production ran pre-2026-05-18
+      # crm-vanilla auth code and every deploy failed at the migrate step. The
+      # comment-only "deploy-nonce" hash-busts (commits 0a70c2966 / 678fdb207)
+      # did NOT fix it: the action re-recorded the file as synced without the
+      # bytes landing. This force-pushes the two files directly via the proven
+      # curl --ftp-ssl pattern (same as the cleanup step) so production is
+      # correct within seconds, independent of the sync-state. The state-name
+      # bump below makes the underlying drift self-heal permanently — once one
+      # full re-sync has run green, this step can be deleted.
+      - name: Priority upload — corrected CRM auth files
+        if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
+        timeout-minutes: 2
+        env:
+          FTP_HOST: ${{ secrets.CPANEL_FTP_HOST }}
+          FTP_USER: ${{ secrets.CPANEL_FTP_ROOT_USER }}
+          FTP_PASS: ${{ secrets.CPANEL_FTP_ROOT_PASSWORD }}
+        run: |
+          set +e
+          # Explicit FTPS on port 21 (FTPES) — ftps:// would default to
+          # implicit 990 which InMotion doesn't expose. Mirrors the cleanup step.
+          UPLOADS=(
+            "_stage/crm-vanilla/api/index.php|crm-vanilla/api/index.php"
+            "_stage/crm-vanilla/api/lib/guard.php|crm-vanilla/api/lib/guard.php"
+          )
+          for pair in "${UPLOADS[@]}"; do
+            src="${pair%%|*}"
+            dst="${pair##*|}"
+            if [ ! -f "$src" ]; then
+              echo "  MISSING in stage: $src — skipping"
+              continue
+            fi
+            code=$(curl --silent --show-error \
+                        --user "$FTP_USER:$FTP_PASS" \
+                        --ftp-ssl --ftp-pasv \
+                        --connect-timeout 10 --max-time 30 \
+                        --insecure \
+                        --output /dev/null \
+                        --write-out '%{response_code}' \
+                        --upload-file "$src" \
+                        "ftp://$FTP_HOST/$dst" 2>&1)
+            echo "  $src -> /$dst  ($code)"
+          done
+          echo "Priority CRM auth-file upload complete."
+
       - name: Deploy via FTPS (attempt 1)
         id: deploy1
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
@@ -442,6 +489,15 @@ jobs:
           local-dir: ./_stage/
           server-dir: ./
           dangerous-clean-slate: false
+          # Bumped from .ftp-deploy-sync-state.json (2026-05-19): the old
+          # server-side state was poisoned — it recorded crm-vanilla/api/
+          # files as synced when the bytes never landed, so the incremental
+          # sync skipped the 2026-05-18 auth fix for 3+ days. A fresh state
+          # name forces one authoritative full re-push from the repo (source
+          # of truth) and self-heals all latent drift. dangerous-clean-slate
+          # stays false so server-only dirs (storage/, ratelimit/,
+          # config.local.php, IndexNow key) are untouched.
+          state-name: .ftp-deploy-sync-state-v2.json
           log-level: standard
           exclude: |
             **/.git*
@@ -468,6 +524,7 @@ jobs:
           local-dir: ./_stage/
           server-dir: ./
           dangerous-clean-slate: false
+          state-name: .ftp-deploy-sync-state-v2.json
           log-level: standard
           exclude: |
             **/.git*

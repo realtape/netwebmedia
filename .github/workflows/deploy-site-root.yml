@@ -434,6 +434,27 @@ jobs:
       # ("Server sent FIN packet unexpectedly"). Retry up to 3 attempts.
       # Each attempt runs FTP-Deploy-Action's incremental sync (hash-based),
       # so retries only re-upload what's still missing — they don't redo work.
+      # One-time heal for FTP-Deploy-Action stale-state desync.
+      # The action diffs local files against a server-side
+      # .ftp-deploy-sync-state.json — NOT the real files. If that JSON drifts
+      # (partial past deploy / manual server edit), it reports unchanged files
+      # ("File content is the same, doing nothing: crm-vanilla/api/index.php")
+      # and never re-uploads them, so fixes silently never ship.
+      # Deleting the state file forces the next sync to re-hash and upload the
+      # TRUE diff. dangerous-clean-slate stays false, so NO server files are
+      # deleted (/companies/ etc. are safe) — it's an additive full re-upload.
+      # Manual only: trigger via workflow_dispatch with reset_ftp_state=true.
+      - name: Heal stale FTP sync state (one-time, manual)
+        if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true && inputs.reset_ftp_state == true }}
+        env:
+          FTP_HOST: ${{ secrets.CPANEL_FTP_HOST }}
+          FTP_USER: ${{ secrets.CPANEL_FTP_ROOT_USER }}
+          FTP_PASS: ${{ secrets.CPANEL_FTP_ROOT_PASSWORD }}
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y lftp >/dev/null 2>&1
+          lftp -c "set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate no; set net:timeout 20; set net:max-retries 2; open -u '${FTP_USER}','${FTP_PASS}' -p 21 ftp://${FTP_HOST}; rm -f .ftp-deploy-sync-state.json; bye"
+          echo "Stale FTP sync-state removed (or already absent). Next sync re-uploads the true diff."
+
       - name: Deploy via FTPS (attempt 1)
         id: deploy1
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}

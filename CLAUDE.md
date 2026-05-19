@@ -613,9 +613,17 @@ The CRM is vanilla JS with lots of `innerHTML` for templating. Any user-controll
 
 ## Auto-backup commits — consolidate before pushing
 
-A local `auto-save` daemon periodically commits and pushes WIP as `backup: auto-save <timestamp>`. **It will commit your in-flight work mid-stream** — before staging a batch, run `git log --oneline -5` and check whether the daemon already captured some of your files. If so, only stage what's NOT already in the auto-save commits; don't try to amend them.
+The local `auto-save` daemon (`_backup/backup.sh` via the Claude Code **Stop hook**, and `_backup/daily-backup.sh` via the Windows "NetWebMedia Daily Backup" task at 11 PM) was **REDESIGNED 2026-05-19** after it twice corrupted `main`.
 
-Fragmented history: consolidate with `git reset --soft <pre-backup-sha>` + a single named commit + `git push --force-with-lease`. Never `--force` without `--force-with-lease`, and never on `main` without checking the run queue first.
+**Old behavior (the bug):** `git add -A && git commit` on *whatever branch was checked out*, then a hardcoded `git push origin main`. This polluted `main`/`origin/main` with hundreds of `backup: auto-save` commits, made the checked-out branch name appear to change at random, and on 2026-05-19 pushed a destructive `salvage` commit that deleted `fractional-cmo.html` + ~12 blog posts from the deployed site.
+
+**New behavior (the contract):**
+- The daemon **NEVER commits to `main` and NEVER pushes `origin/main`.** `main` only ever receives deliberate, reviewed commits.
+- WIP is snapshotted onto `refs/heads/backup/auto` via a **separate temp index** (`GIT_INDEX_FILE=.git/backup-index`), so your real HEAD, current branch, index, and working tree are never touched. That ref is pushed to `origin/backup/auto`.
+- Recover WIP with `git log backup/auto` or `git checkout backup/auto -- <path>`. Real commits from a pre-rewrite history are preserved under `keep/*` tags; old branch tips under `archive/*` tags.
+- The junk-exclusion and 95 MiB size-guard logic (the 534 MB hyperframes incident) is retained.
+
+**After any history rewrite of `main` (force-push):** Computer 2 must **re-clone** (or hard-reset to `origin/main`) before its daemon runs, or its stale `main` will re-pollute `origin/main` on the next push. Quiesce all writers first: disable the Stop hook / Windows task, and remember **GitHub Actions auto-publishes `publish: auto-publish` content commits to `main` on a schedule** — `--force-with-lease` (never bare `--force`, never on `main` without checking the run queue) will safely fail rather than clobber a concurrent CI publish; recover by replaying the new publish commit onto the clean tip.
 
 ## Gotchas & Common Mistakes
 

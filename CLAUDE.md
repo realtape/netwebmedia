@@ -658,6 +658,23 @@ See `.claude/AGENT-ROUTING.txt` for the full table, and [orgchart.html](orgchart
 - **Routine work** (Haiku, ~⅓ the tokens): `finance-controller`, `operations-manager`, `customer-success`, `sales-director`, `project-manager`, `data-analyst`, `content-strategist`, `creative-director`
 - **Batch requests to one agent** instead of multiple round-trips — saves 30–40% tokens.
 
+### Skill vs Agent precedence — resolve triggering collisions
+
+~230 skills are installed; several functions are triple-covered (generic plugin skill vs NWM agent vs built-in). When more than one could fire, **do not let triggering be a coin-flip — apply this precedence**:
+
+| Function | Use THIS | NOT these |
+|---|---|---|
+| Any NWM marketing/sales/finance/eng/product/ops work | The matching **agent** (`cmo`, `sales-director`, `finance-controller`, `engineering-lead`, `product-manager`, `operations-manager`, `data-analyst`, etc.) — they carry NWM context (14 niches, two DBs, brand, InMotion) | `marketing:*`, `sales:*`, `finance:*`, `engineering:*`, `product-management:*`, `data:*`, `operations:*` generic skills |
+| Task/phase structure for non-trivial work | **GSD** (`gsd-fast`/`gsd-quick`/`gsd-debug`; `.planning/STATE.md`) | `productivity:task-management` (`TASKS.md`) — do not run a second task system |
+| Memory across sessions | **Built-in auto-memory** (`MEMORY.md` + `memory/`); `anthropic-skills:consolidate-memory` for periodic cleanup only | `productivity:memory-management` — do not maintain a parallel memory store |
+| Brand voice / guidelines | `cmo` or `content-strategist` agent (anchored to `BRAND.md`) | the duplicated `brand-voice:*` skills |
+| Competitive analysis | `cmo` agent (one source of truth) | `sales:competitive-intelligence` / `marketing:competitive-brief` / `product-management:competitive-brief` (pick none) |
+| Codebase search / exploration | Built-in `Grep`/`Glob`/`Explore` agent | `enterprise-search:*` |
+| Scheduling / recurring | `loop` (in-session) or `schedule` (remote cron) | `mcp__scheduled-tasks__*` unless explicitly required |
+| Client website edits | `netwebmedia-update-website` skill (now host-agnostic; netwebmedia.com itself = InMotion only) | ad-hoc manual git/deploy |
+
+**Rule of thumb:** NWM work → the role agent. Structure → GSD. Memory → built-in. Generic plugin skills are for non-NWM, throwaway one-offs only. When two could fire, the more NWM-context-aware one wins.
+
 ```mermaid
 graph TD
   CEO["👤 Carlos Martinez<br/>CEO & Founder"]:::ceo

@@ -2,6 +2,10 @@
 function route_auth($path, $method) {
   // /api/auth/register
   if ($path === 'register' && $method === 'POST') {
+    // Throttle mass account creation: a legit human registers once; a bot loops.
+    require_once __DIR__ . '/../lib/ratelimit.php';
+    rate_limit_check('auth_register', 5, 3600);
+
     $b = required(['email', 'password', 'name']);
     $email = strtolower(trim($b['email']));
     $name  = trim($b['name']);

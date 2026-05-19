@@ -17,8 +17,27 @@ fi
 
 cd "$REPO_DIR"
 
-# Stage all changes
+# Stage changes (git add -A respects .gitignore for UNtracked files)
 git add -A
+
+# Defense-in-depth: forcibly UNSTAGE junk that must never be committed —
+# this also catches already-tracked blobs that predate .gitignore coverage
+# (root cause of the 534MB hyperframes/*.part incident, 2026-05-18).
+git reset -q HEAD -- \
+  '*.part' '*.tmp' '*.zip' '*.mp4' '*.mov' '*.mkv' '*.webm' '*.avi' \
+  '*.exe' '*.dll' '*.iso' '*.bin' \
+  'hyperframes/' 'site-upload/' '_backup/logs/' '.claude/worktrees/' \
+  '**/node_modules/' 2>/dev/null || true
+
+# Hard size guard: unstage any staged file >= 95 MiB (GitHub rejects >100MB).
+# Keeps the daemon resilient — it still backs up everything else.
+git diff --cached --name-only -z 2>/dev/null | while IFS= read -r -d '' f; do
+  sz=$(git cat-file -s ":$f" 2>/dev/null || echo 0)
+  if [ "$sz" -ge 99614720 ]; then
+    echo "[backup] SKIP oversized ($((sz/1048576))MB): $f" >&2
+    git reset -q HEAD -- "$f" 2>/dev/null || true
+  fi
+done
 
 # Commit only if there's something staged
 if ! git diff --cached --quiet; then

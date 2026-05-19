@@ -1,3 +1,8 @@
+# Defense in depth: config files are include-only, never served directly.
+<FilesMatch "^config(\.local)?\.php$">
+  Require all denied
+</FilesMatch>
+
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

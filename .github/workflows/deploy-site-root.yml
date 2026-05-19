@@ -103,6 +103,10 @@ on:
         description: 'Log-only mode (no actual FTP writes)'
         type: boolean
         default: false
+      reset_ftp_state:
+        description: 'One-time heal: delete stale remote FTP sync-state so genuine diffs re-upload (fixes crm-vanilla desync). Manual only.'
+        type: boolean
+        default: false
 
 concurrency:
   group: deploy-site-root
@@ -111,7 +115,9 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # 25 min covers normal incremental syncs. The one-time reset_ftp_state heal
+    # forces a full ~1,600-file re-upload, which needs more headroom.
+    timeout-minutes: 40
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.2

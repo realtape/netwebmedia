@@ -140,7 +140,7 @@ jobs:
 
       - name: Upload preview as artifact (for inspection)
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: aeo-brief-preview-${{ github.run_number }}
           path: scripts/email-broadcast/_preview.html

@@ -22,34 +22,12 @@ $leadName  = $_GET['name']    ?? 'Prospective Client';
 $leadEmail = $_GET['email']   ?? '';
 $company   = $_GET['company'] ?? parse_url($targetUrl, PHP_URL_HOST) ?: 'your company';
 
-// Run analyzer inline
-$origGet = $_GET;
-ob_start();
-$_GET = ['r' => 'analyze', 'url' => $targetUrl];
-try {
-    // We can't easily re-include analyze.php because it calls jsonResponse+exit.
-    // Instead, duplicate the fetch+parse (simplified) here:
-    $ch = curl_init($targetUrl);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_MAXREDIRS      => 3,
-        CURLOPT_TIMEOUT        => 15,
-        CURLOPT_USERAGENT      => 'NetWebMediaAnalyzer/1.0',
-        CURLOPT_PROTOCOLS      => CURLPROTO_HTTP | CURLPROTO_HTTPS,
-        CURLOPT_REDIR_PROTOCOLS=> CURLPROTO_HTTP | CURLPROTO_HTTPS,
-    ]);
-    $resolve = url_guard_curlopt_resolve($targetUrl);
-    if ($resolve) curl_setopt($ch, CURLOPT_RESOLVE, $resolve);
-    $t0 = microtime(true);
-    $html = curl_exec($ch) ?: '';
-    $ms = round((microtime(true) - $t0) * 1000);
-    $size = round(strlen($html) / 1024, 1);
-    curl_close($ch);
-} finally {
-    ob_end_clean();
-    $_GET = $origGet;
-}
+// SSRF-safe fetch: redirects are followed manually and re-guarded per hop
+// (url_guard_safe_fetch). Do NOT swap back to CURLOPT_FOLLOWLOCATION => true.
+$fetch = url_guard_safe_fetch($targetUrl, ['timeout' => 15, 'user_agent' => 'NetWebMediaAnalyzer/1.0']);
+$html = $fetch['ok'] ? $fetch['body'] : '';
+$ms = $fetch['t_ms'];
+$size = round(strlen($html) / 1024, 1);
 
 $doc = new DOMDocument();
 libxml_use_internal_errors(true);

@@ -115,11 +115,20 @@ if (!in_array($method, ['GET', 'OPTIONS', 'HEAD'], true)
 
     // CSRF defense: cookie-authenticated state changes must come from our own origin.
     // Token-protected routes are exempt (they're called by deploy scripts / cron).
+    // Exact scheme+host(+port) match — NOT a prefix match. A prefix match
+    // (strpos === 0) is bypassable by https://netwebmedia.com.evil.com.
+    $origin_of = static function (string $url): string {
+        $p = parse_url($url);
+        if (empty($p['scheme']) || empty($p['host'])) return '';
+        $o = strtolower($p['scheme']) . '://' . strtolower($p['host']);
+        if (isset($p['port'])) $o .= ':' . $p['port'];
+        return $o;
+    };
+    $expected = $origin_of(ALLOWED_ORIGIN);
     $origin  = $_SERVER['HTTP_ORIGIN']  ?? '';
     $referer = $_SERVER['HTTP_REFERER'] ?? '';
-    $allowed = ALLOWED_ORIGIN;
-    $okOrigin = $origin && strpos($origin, $allowed) === 0;
-    $okRefer  = $referer && strpos($referer, $allowed) === 0;
+    $okOrigin = $origin  && $origin_of($origin)  === $expected;
+    $okRefer  = $referer && $origin_of($referer) === $expected;
     if (!$okOrigin && !$okRefer) {
         jsonError('Cross-origin write blocked', 403);
     }

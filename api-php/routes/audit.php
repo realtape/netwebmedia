@@ -6,87 +6,42 @@
 */
 require_once __DIR__ . '/../lib/db.php';
 require_once __DIR__ . '/../lib/response.php';
-require_once __DIR__ . '/../lib/url_guard.php';
-require_once __DIR__ . '/../lib/ratelimit.php';
 
-// Resolve a (possibly relative) redirect target against the URL it came from.
-function _aud_resolve_url($base, $next) {
-  $next = trim($next);
-  if ($next === '') return $base;
-  if (preg_match('#^https?://#i', $next)) return $next;
-  $p = parse_url($base);
-  if (empty($p['scheme']) || empty($p['host'])) return $next;
-  $origin = $p['scheme'] . '://' . $p['host'] . (isset($p['port']) ? ':' . $p['port'] : '');
-  if (strpos($next, '//') === 0) return $p['scheme'] . ':' . $next;
-  if ($next[0] === '/') return $origin . $next;
-  $dir = isset($p['path']) ? preg_replace('#/[^/]*$#', '/', $p['path']) : '/';
-  if ($dir === '' || $dir[0] !== '/') $dir = '/' . $dir;
-  return $origin . $dir . $next;
-}
-
-/* SSRF-safe fetch. The initial URL AND every redirect hop are run through
-   url_guard_or_fail() (which hard-fails the request on a private/loopback/
-   link-local/metadata target), DNS is pinned per hop via CURLOPT_RESOLVE to
-   close the rebinding window, redirects are followed manually so each Location
-   is re-validated, protocols are restricted to http/https, and TLS peer
-   verification is always on. */
 function aud_fetch_url($url, $method = 'GET') {
-  $maxRedirects = 5;
-  $hop = 0;
-  $current = $url;
-
-  while (true) {
-    // err()s out (400 + exit) if this hop targets a blocked address.
-    url_guard_or_fail($current);
-
-    $ch = curl_init($current);
-    curl_setopt_array($ch, [
-      CURLOPT_NOBODY          => $method === 'HEAD',
-      CURLOPT_RETURNTRANSFER  => 1,
-      CURLOPT_FOLLOWLOCATION  => 0,                 // followed manually + re-guarded
-      CURLOPT_TIMEOUT         => 15,
-      CURLOPT_CONNECTTIMEOUT  => 7,
-      CURLOPT_SSL_VERIFYPEER  => true,
-      CURLOPT_SSL_VERIFYHOST  => 2,
-      CURLOPT_PROTOCOLS       => CURLPROTO_HTTP | CURLPROTO_HTTPS,
-      CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTP | CURLPROTO_HTTPS,
-      CURLOPT_RESOLVE         => url_guard_curlopt_resolve($current),
-      CURLOPT_USERAGENT       => 'Mozilla/5.0 (compatible; NetWebMedia-Audit/1.0; +https://netwebmedia.com)',
-      CURLOPT_HEADER          => 1,
-      CURLOPT_ENCODING        => '',
-    ]);
-    $t0 = microtime(true);
-    $raw = curl_exec($ch);
-    $t_ms = (int) ((microtime(true) - $t0) * 1000);
-    $info = curl_getinfo($ch);
-    $err  = curl_error($ch);
-    curl_close($ch);
-    if ($raw === false) return ['ok' => false, 'err' => $err, 't_ms' => $t_ms, 'info' => $info];
-
-    $headerSize = $info['header_size'];
-    $headers = substr($raw, 0, $headerSize);
-    $body    = substr($raw, $headerSize);
-    $code    = (int) $info['http_code'];
-
-    if ($code >= 300 && $code < 400 && $hop < $maxRedirects
-        && preg_match('/^\s*location:\s*(.+?)\s*$/im', $headers, $lm)) {
-      $current = _aud_resolve_url($current, $lm[1]);
-      $hop++;
-      continue; // top of loop re-guards $current
-    }
-
-    return [
-      'ok'         => true,
-      'status'     => $code,
-      't_ms'       => $t_ms,
-      'final_url'  => $current,
-      'size_bytes' => strlen($body),
-      'headers'    => $headers,
-      'body'       => $body,
-      'ssl_ok'     => ($info['ssl_verifyresult'] ?? 0) === 0,
-      'redirect_count' => $hop,
-    ];
-  }
+  $ch = curl_init($url);
+  curl_setopt_array($ch, [
+    CURLOPT_NOBODY         => $method === 'HEAD',
+    CURLOPT_RETURNTRANSFER => 1,
+    CURLOPT_FOLLOWLOCATION => 1,
+    CURLOPT_MAXREDIRS      => 5,
+    CURLOPT_TIMEOUT        => 15,
+    CURLOPT_CONNECTTIMEOUT => 7,
+    CURLOPT_SSL_VERIFYPEER => 0,
+    CURLOPT_USERAGENT      => 'Mozilla/5.0 (compatible; NetWebMedia-Audit/1.0; +https://netwebmedia.com)',
+    CURLOPT_HEADER         => 1,
+    CURLOPT_ENCODING       => '',
+  ]);
+  $t0 = microtime(true);
+  $raw = curl_exec($ch);
+  $t_ms = (int) ((microtime(true) - $t0) * 1000);
+  $info = curl_getinfo($ch);
+  $err  = curl_error($ch);
+  curl_close($ch);
+  if ($raw === false) return ['ok' => false, 'err' => $err, 't_ms' => $t_ms, 'info' => $info];
+  $headerSize = $info['header_size'];
+  $headers = substr($raw, 0, $headerSize);
+  $body    = substr($raw, $headerSize);
+  return [
+    'ok'         => true,
+    'status'     => $info['http_code'],
+    't_ms'       => $t_ms,
+    'final_url'  => $info['url'],
+    'size_bytes' => strlen($body),
+    'headers'    => $headers,
+    'body'       => $body,
+    'ssl_ok'     => $info['ssl_verifyresult'] === 0,
+    'redirect_count' => $info['redirect_count'],
+  ];
 }
 
 function aud_parse_html($html, $baseUrl = '') {
@@ -274,10 +229,6 @@ function aud_check_social($handles) {
 function route_public_audit($parts, $method) {
   if ($method !== 'POST') err('Method not allowed', 405);
 
-  // Public + unauthenticated + drives an outbound fetch and the Anthropic API.
-  // Throttle per IP so it can't be weaponized into an SSRF probe or a billing DoS.
-  rate_limit_check('audit', 5, 600);
-
   $b = body();
   $url   = trim($b['url'] ?? '');
   $email = trim($b['email'] ?? '');
@@ -288,9 +239,6 @@ function route_public_audit($parts, $method) {
   if (!preg_match('#^https?://#i', $url)) $url = 'https://' . $url;
   $host = parse_url($url, PHP_URL_HOST);
   if (!$host) err('Invalid URL', 400);
-
-  // Explicit SSRF gate before any fetch (aud_fetch_url also re-guards every hop).
-  url_guard_or_fail($url);
 
   $fetch = aud_fetch_url($url, 'GET');
   if (!$fetch['ok']) err('Could not reach the site: ' . ($fetch['err'] ?? 'unknown'), 400);

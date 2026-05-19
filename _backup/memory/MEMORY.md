@@ -1,4 +1,4 @@
-- [main history rewrite 2026-05-19](project_main_history_rewrite_2026_05_19.md) — origin/main force-pushed clean + daemon redesigned; Computer 2 MUST re-clone before its daemon runs or it re-pollutes main
+- [main history rewrite 2026-05-19](project_main_history_rewrite_2026_05_19.md) — origin/main force-pushed clean + daemon redesigned (never touches main); Computer 2 retired so no re-clone needed
 - [User role — Carlos Martinez](user_role.md) — CEO/founder of NetWebMedia; prefers executive framing and vanilla tech
 - [NetWebMedia org & agents](netwebmedia_org.md) — 12 custom agents in `.claude/agents/` mirror the agency's org chart; delegate by role
 - [Agent human names](reference_agent_names.md) — Sofia/Marcus/Priya/Diego/Elena/Isabel/Aria/David/Rachel/Maya/James/Liam map to the 12 agent slugs

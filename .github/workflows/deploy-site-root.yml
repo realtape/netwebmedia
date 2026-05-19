@@ -116,6 +116,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6.0.2
 
+      - name: Security gate — ban known-compromised token literal
+        run: |
+          # NWM_MIGRATE_2026 leaked publicly on 2026-04-29 and is permanently
+          # burned. No shipped PHP may compare against it as a literal. Doc
+          # mentions (config.php tripwire comment, CLAUDE.md) are allowed; an
+          # actual string comparison is not. Fail the deploy if one ships.
+          if grep -rnE "(['\"])NWM_MIGRATE_2026\1" \
+               --include='*.php' api-php crm-vanilla 2>/dev/null; then
+            echo "::error::A shipped PHP file references the compromised literal 'NWM_MIGRATE_2026'. Use hash_equals(MIGRATE_TOKEN, ...) and fail closed instead."
+            exit 1
+          fi
+          echo "OK — no compromised token literal in shipped PHP."
+
       - name: Preflight — verify required secrets
         id: preflight
         run: |
@@ -423,6 +436,51 @@ jobs:
             echo "  $f -> $code"
           done
           echo "Server-side cleanup complete."
+
+      # Safety net: force-land the auth-critical CRM files BEFORE the
+      # incremental sync. FTP-Deploy-Action's server-side sync-state can
+      # record a file as uploaded when the bytes never landed (silent FTPS
+      # drop) — that drift once stranded the 2026-05-18 crm-vanilla auth fix
+      # for 3+ days and reddened every deploy at the migrate step. The manual
+      # "Heal stale FTP sync state" step below fixes the general case on
+      # demand; this complements it by ALWAYS re-uploading the two
+      # auth-critical files directly via the proven curl --ftp-ssl pattern
+      # (same as the cleanup step): idempotent, ~1s, and immune to
+      # sync-state drift on these two files without needing a manual trigger.
+      - name: Priority upload — corrected CRM auth files
+        if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
+        timeout-minutes: 2
+        env:
+          FTP_HOST: ${{ secrets.CPANEL_FTP_HOST }}
+          FTP_USER: ${{ secrets.CPANEL_FTP_ROOT_USER }}
+          FTP_PASS: ${{ secrets.CPANEL_FTP_ROOT_PASSWORD }}
+        run: |
+          set +e
+          # Explicit FTPS on port 21 (FTPES) — ftps:// would default to
+          # implicit 990 which InMotion doesn't expose. Mirrors the cleanup step.
+          UPLOADS=(
+            "_stage/crm-vanilla/api/index.php|crm-vanilla/api/index.php"
+            "_stage/crm-vanilla/api/lib/guard.php|crm-vanilla/api/lib/guard.php"
+          )
+          for pair in "${UPLOADS[@]}"; do
+            src="${pair%%|*}"
+            dst="${pair##*|}"
+            if [ ! -f "$src" ]; then
+              echo "  MISSING in stage: $src — skipping"
+              continue
+            fi
+            code=$(curl --silent --show-error \
+                        --user "$FTP_USER:$FTP_PASS" \
+                        --ftp-ssl --ftp-pasv \
+                        --connect-timeout 10 --max-time 30 \
+                        --insecure \
+                        --output /dev/null \
+                        --write-out '%{response_code}' \
+                        --upload-file "$src" \
+                        "ftp://$FTP_HOST/$dst" 2>&1)
+            echo "  $src -> /$dst  ($code)"
+          done
+          echo "Priority CRM auth-file upload complete."
 
       # InMotion FTPS occasionally drops the connection mid-transfer
       # ("Server sent FIN packet unexpectedly"). Retry up to 3 attempts.

@@ -107,6 +107,10 @@
     requireAuth: function (opts) {
       opts = opts || {};
       if (!getToken()) {
+        if (opts.demo) {
+          // Demo-mode auto-login
+          return api.login('demo@netwebmedia.com', 'demo1234');
+        }
         var next = encodeURIComponent(location.pathname + location.search);
         location.href = '/login.html?next=' + next;
         return Promise.reject(new Error('not authenticated'));
@@ -121,6 +125,7 @@
   /* --- Auto auth-gate ----------------------------------------------------
      When this script loads, inspect the URL and decide:
        • login.html / register.html           → do nothing
+       • /cms-demo/ or /app-demo/             → auto-login as demo user if needed
        • everything else                      → require a valid token, else redirect
      Pages that want to opt out can set `window.NWM_NO_GATE = true` before this file loads.
   */
@@ -128,6 +133,7 @@
     if (w.NWM_NO_GATE) return;
     var p = (location.pathname || '').toLowerCase();
     if (/\/(login|register)\.html$/.test(p)) return;
+    var isDemo = /^\/(demo\/(crm|cms)|cms-demo|app-demo)(\/|$)/.test(p);
 
     function reqAuth() {
       if (!getToken()) {
@@ -139,6 +145,12 @@
       api.me().catch(function () {});
     }
 
+    if (isDemo) {
+      if (!getToken()) {
+        api.login('demo@netwebmedia.com', 'demo1234').catch(function () {});
+      }
+      return;
+    }
     reqAuth();
   })();
 })(window);

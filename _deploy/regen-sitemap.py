@@ -82,8 +82,6 @@ EXCLUDE_DIRS = {
     "cms", "crm",
     # Archive of pre-AEO-pivot site content — kept for reference, not crawled
     "_archive", "_lessons", "_ci",
-    # Disallowed by robots.txt — submitting these sends conflicting crawler signals
-    "competitive",
 }
 
 EXCLUDE_FILES = {

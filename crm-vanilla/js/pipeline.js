@@ -639,6 +639,7 @@
       if (xhr.status >= 200 && xhr.status < 300) {
         try { statsData = JSON.parse(xhr.responseText); } catch (e) {}
       }
+      if (!statsData && window.CRM_DATA && CRM_DATA.stats) statsData = CRM_DATA.stats;
       statsData = statsData || {};
       renderKpiBar();
     };
@@ -793,6 +794,9 @@
       var contacts = [];
       if (xhr.status >= 200 && xhr.status < 300) {
         try { contacts = JSON.parse(xhr.responseText); } catch (e) {}
+      }
+      if ((!contacts || !contacts.length) && window.CRM_DATA && CRM_DATA.contacts) {
+        contacts = CRM_DATA.contacts;
       }
       contactsData = contacts || [];
       /* if deals not yet loaded, load them silently for SQL/Opportunity derivation */

@@ -154,8 +154,8 @@
   <script>window.NWM_SENTRY_DSN = window.NWM_SENTRY_DSN || 'https://69fce09a20f1958bd2f1b9e601ba9a46@o4511302572441600.ingest.us.sentry.io/4511302588235776'; window.NWM_RELEASE = window.NWM_RELEASE || 'nwm@1.0.0';</script>
   <script src="/js/nwm-sentry.js" defer></script>
   <script src="/assets/nwm-i18n.js?v=2" defer></script>
-  <!-- Turnstile site key — set via window.NWM_TURNSTILE_SITE_KEY (deploy-time injection from TURNSTILE_SITE_KEY secret). When empty, /js/nwm-turnstile.js is a no-op and the form posts unprotected, matching the server-side fail-open. -->
-  <script>window.NWM_TURNSTILE_SITE_KEY = '';</script>
+  <!-- Turnstile site key (PUBLIC by design — ships in client HTML). "NetWebMedia production" widget from Cloudflare dashboard. Server-side enforcement additionally requires the TURNSTILE_SECRET_KEY GitHub Secret; until that is set, turnstile.php fails open (widget renders, but tokens aren't verified). -->
+  <script>window.NWM_TURNSTILE_SITE_KEY = '0x4AAAAAADODFouRnHdsxvXW';</script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
@@ -299,7 +299,7 @@
             <input type="text" id="nwm_website" name="nwm_website" tabindex="-1" autocomplete="off" />
           </div>
           <!-- Cloudflare Turnstile placeholder. Renders only if window.NWM_TURNSTILE_SITE_KEY is set. See js/contact-turnstile.js (TBD). -->
-          <div id="nwm-turnstile" data-sitekey="" style="margin:0 0 18px"></div>
+          <div id="nwm-turnstile" data-sitekey="0x4AAAAAADODFouRnHdsxvXW" style="margin:0 0 18px"></div>
           <div class="form-group">
             <label for="inquiry-type" style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span data-en="What brings you here?" data-es="¿Qué te trae aquí?">What brings you here?</span><span id="topic-badge" style="display:none;font-size:11px;background:rgba(99,102,241,.15);color:#6366f1;padding:3px 10px;border-radius:99px;font-weight:700;text-transform:uppercase;letter-spacing:.06em" data-en="Pre-selected" data-es="Pre-seleccionado">Pre-selected</span></label>
             <select id="inquiry-type" name="topic" class="form-control" required style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-glass);border-radius:var(--radius-md);padding:14px 18px;font-family:var(--font-main);font-size:15px;outline:none;">

@@ -4,6 +4,9 @@
  *
  * Routes: /api/{resource}[/{id}]
  * Methods: GET, POST, PUT, DELETE
+ *
+ * Deploy-nonce: 2026-05-19a — force FTP re-upload to bust incremental
+ * sync hash-state drift (migrate route was 401ing on stale on-disk code).
  */
 
 require_once __DIR__ . '/config.php';

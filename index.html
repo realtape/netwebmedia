@@ -24,6 +24,128 @@
   <meta name="twitter:description" content="Get cited by Claude, ChatGPT &amp; Perplexity, rank on Google, close more deals. Strategy, software, and full execution in one retainer. Starting at $249/mo." />
   <meta name="twitter:image" content="https://netwebmedia.com/assets/og-cover.png" />
   <link rel="stylesheet" href="css/styles.css?v=12" />
+
+  <!-- Hero typography (Claude Design port, 2026-05-19): Geist + Geist Mono + Instrument Serif. Scoped to .hero-clean only. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap">
+  <style id="hero-clean-css">
+    /* === Hero (Claude Design port) — scoped under .hero-clean to not bleed onto other pages === */
+    .hero-clean {
+      --hc-bg-0: #060814;
+      --hc-ink: #f4f6fb;
+      --hc-ink-dim: #aab3c8;
+      --hc-ink-mute: #6c7693;
+      --hc-accent: #ff7a2a;
+      --hc-accent-2: #ffb273;
+      --hc-line: rgba(255,255,255,0.08);
+      --hc-line-strong: rgba(255,255,255,0.16);
+      --hc-green: #4ade80;
+      --hc-serif: 'Instrument Serif', Georgia, serif;
+      --hc-sans: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --hc-mono: 'Geist Mono', ui-monospace, monospace;
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      min-height: 100vh;
+      background:
+        radial-gradient(1200px 700px at 85% 30%, rgba(255,122,42,0.16), transparent 60%),
+        radial-gradient(900px 600px at 10% 70%, rgba(60,90,200,0.18), transparent 60%),
+        radial-gradient(1400px 900px at 50% 0%, rgba(120,80,220,0.10), transparent 60%),
+        linear-gradient(180deg, #060814 0%, #0a0e22 100%);
+      color: var(--hc-ink);
+      font-family: var(--hc-sans);
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+    .hero-clean .hc-stars { position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.55; }
+    .hero-clean .hero-left {
+      position: relative; z-index: 5;
+      padding: 96px 40px 56px 56px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .hero-clean h1.headline {
+      font-family: var(--hc-sans);
+      font-size: clamp(40px, 5vw, 78px);
+      font-weight: 600;
+      line-height: 1.04;
+      letter-spacing: -0.035em;
+      margin: 0 0 28px;
+      color: var(--hc-ink);
+    }
+    .hero-clean h1.headline .serif {
+      font-family: var(--hc-serif);
+      font-weight: 400; font-style: italic;
+      letter-spacing: -0.01em;
+      color: var(--hc-accent-2);
+    }
+    .hero-clean h1.headline .accent { color: var(--hc-accent); }
+    .hero-clean .sub {
+      font-size: 17px; line-height: 1.55;
+      color: var(--hc-ink-dim);
+      max-width: 540px;
+      margin: 0 0 32px;
+    }
+    .hero-clean .sub strong { color: var(--hc-ink); font-weight: 600; }
+    .hero-clean .trust { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+    .hero-clean .trust-row {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13.5px; color: var(--hc-ink-dim);
+      font-family: var(--hc-mono);
+    }
+    .hero-clean .trust-row strong { color: var(--hc-ink); font-weight: 500; }
+    .hero-clean .trust-row .ic { width: 18px; height: 18px; display: grid; place-items: center; color: var(--hc-accent); }
+    .hero-clean .trust-row .dot-g {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--hc-green);
+      box-shadow: 0 0 0 3px rgba(74,222,128,0.18);
+    }
+    .hero-clean .cta-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .hero-clean .cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 18px 28px; border-radius: 999px;
+      background: linear-gradient(180deg, #ff8c44 0%, #ef6816 100%);
+      color: #fff; font-weight: 600; font-size: 16px;
+      border: 0; cursor: pointer;
+      box-shadow: 0 8px 24px -8px rgba(239,104,22,0.7), inset 0 1px 0 rgba(255,255,255,0.3);
+      transition: transform 0.15s, box-shadow 0.15s;
+      text-decoration: none;
+    }
+    .hero-clean .cta:hover { transform: translateY(-1px); box-shadow: 0 12px 28px -6px rgba(239,104,22,0.85), inset 0 1px 0 rgba(255,255,255,0.3); }
+    .hero-clean .cta .cta-sub { opacity: .8; font-weight: 500; font-size: 14px; }
+    .hero-clean .cta-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 16px 24px; border-radius: 999px;
+      background: transparent;
+      color: var(--hc-ink); font-weight: 500; font-size: 15px;
+      border: 1px solid var(--hc-line-strong);
+      cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .hero-clean .cta-ghost:hover { border-color: var(--hc-ink-mute); background: rgba(255,255,255,0.03); }
+    .hero-clean .hero-right { position: relative; min-height: 100vh; z-index: 2; overflow: hidden; }
+    .hero-clean .hero-stage { position: absolute; inset: 0; }
+    .hero-clean .stage-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+              mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+      pointer-events: none; opacity: 0.6;
+    }
+    .hero-clean .stage-vignette {
+      position: absolute; inset: 0; pointer-events: none;
+      box-shadow: inset 80px 0 120px -40px rgba(6,8,20,0.85);
+      z-index: 3;
+    }
+    @media (max-width: 1024px) {
+      .hero-clean { grid-template-columns: 1fr; }
+      .hero-clean .hero-left { padding: 96px 28px 56px; }
+      .hero-clean .hero-right { min-height: 40vh; }
+    }
+  </style>
+
   <link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg?v=2" />
   <link rel="apple-touch-icon" href="assets/nwm-apple-touch-icon.png?v=1" />
 
@@ -349,71 +471,91 @@
 
 <main id="main">
 
-<!-- ── HERO ─────────────────────────────────────────────── -->
-<section class="hero" id="home">
-  <!-- Particle canvas background -->
-  <canvas id="particles-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:0;"></canvas>
+<!-- ── HERO (Claude Design port, 2026-05-19) ────────────── -->
+<section class="hero-clean" id="home">
+  <!-- Subtle starfield background -->
+  <svg class="hc-stars" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+    <defs>
+      <pattern id="hc-st" x="0" y="0" width="240" height="240" patternUnits="userSpaceOnUse">
+        <circle cx="20" cy="40" r="0.6" fill="rgba(255,255,255,0.5)"/>
+        <circle cx="120" cy="80" r="0.8" fill="rgba(255,180,120,0.4)"/>
+        <circle cx="200" cy="160" r="0.5" fill="rgba(255,255,255,0.4)"/>
+        <circle cx="60" cy="190" r="0.7" fill="rgba(180,200,255,0.4)"/>
+        <circle cx="170" cy="30" r="0.4" fill="rgba(255,255,255,0.3)"/>
+        <circle cx="40" cy="130" r="0.5" fill="rgba(255,255,255,0.35)"/>
+        <circle cx="220" cy="100" r="0.4" fill="rgba(255,180,120,0.3)"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#hc-st)"/>
+  </svg>
 
-  <!-- Glow orbs -->
-  <div class="glow-orb glow-blue" style="width:600px;height:600px;right:-150px;top:50%;transform:translateY(-50%);opacity:0.3;"></div>
-  <div class="glow-orb glow-purple" style="width:400px;height:400px;left:-100px;bottom:-100px;opacity:0.2;"></div>
+  <div class="hero-left">
+    <h1 class="headline"
+        data-en='The <span class="accent">AI&#8209;Native</span> Fractional<br><span class="serif">CMO</span> that gets you cited by<br><span class="serif">ChatGPT, Claude, Perplexity</span><br><span class="serif">&amp; Google AI Overviews.</span>'
+        data-es='El <span class="serif">CMO Fraccional</span><br><span class="accent">AI&#8209;Native</span> que te hace citar<br>en <span class="serif">ChatGPT, Claude, Perplexity</span><br><span class="serif">y Google AI Overviews.</span>'>
+      The <span class="accent">AI‑Native</span> Fractional<br>
+      <span class="serif">CMO</span> that gets you cited by<br>
+      <span class="serif">ChatGPT, Claude, Perplexity</span><br>
+      <span class="serif">&amp; Google AI Overviews.</span>
+    </h1>
 
-  <div class="container" style="position:relative;z-index:1;">
-    <div class="hero-grid">
-      <!-- Left: Copy -->
-      <div class="hero-content">
-        <h1 class="hero-title">
-          <span data-i18n="hero_title_1">The AI-Native Fractional CMO that gets you cited by ChatGPT, Claude, Perplexity &amp; Google AI Overviews.</span><br>
-          <span class="gradient-text typewriter"
-                data-words='["for Growing US Brands.","for Bilingual SMBs.","that Gets You Found by AI.","for Ambitious Founders."]'
-                data-words-es='["para PYMES en EE.UU.","para Negocios Bilingües.","para Fundadores Ambiciosos.","que te Hace Visible en IA."]'></span>
-        </h1>
+    <p class="sub"
+       data-en='Get cited by <strong>Claude</strong>, <strong>ChatGPT</strong>, <strong>Perplexity</strong> &amp; <strong>Google</strong>. Close more deals. One retainer covers strategy, software, and full execution — starting at <strong>$249/mo</strong>.'
+       data-es='Hazte citar en <strong>Claude</strong>, <strong>ChatGPT</strong>, <strong>Perplexity</strong> y <strong>Google</strong>. Cierra más ventas. Un plan mensual cubre estrategia, software y ejecución completa — desde <strong>$249/mes</strong>.'>
+      Get cited by <strong>Claude</strong>, <strong>ChatGPT</strong>, <strong>Perplexity</strong> &amp; <strong>Google</strong>.
+      Close more deals. One retainer covers strategy, software, and full execution —
+      starting at <strong>$249/mo</strong>.
+    </p>
 
-        <p class="hero-desc" data-i18n="hero_desc">
-          Get cited by Claude, ChatGPT, Perplexity &amp; Google. Close more deals. One retainer covers strategy, software, and full execution — starting at $249/mo.
-        </p>
-
-        <!-- Above-the-fold social proof strip — BEFORE CTAs for conversion lift -->
-        <div class="hero-trust" style="margin-bottom:22px;display:flex;flex-wrap:wrap;gap:20px 28px;align-items:center;font-size:13px;color:var(--text-secondary);">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span style="width:8px;height:8px;border-radius:50%;background:#22C55E;box-shadow:0 0 10px #22C55E;display:inline-block;"></span>
-            <span>48-hour written audit · no calls</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span style="color:var(--accent-orange);font-weight:700;">★</span>
-            <span>Cited by <strong style="color:var(--text-primary);">Claude, ChatGPT, Gemini &amp; Perplexity</strong></span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span style="color:var(--accent-orange);font-weight:700;">✓</span>
-            <span>Month-to-month · cancel anytime</span>
-          </div>
-          <a href="https://g.page/netwebmedia" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;color:var(--text-secondary);text-decoration:none;" data-en="⭐ Google Reviews" data-es="⭐ Reseñas en Google">
-            <span style="color:#FBBF24;font-weight:700;">⭐</span>
-            <span style="text-decoration:underline;text-underline-offset:3px;">Google Reviews</span>
-          </a>
-        </div>
-
-        <div class="hero-ctas">
-          <a href="contact.html" class="btn-primary" data-i18n="hero_cta1">Get Your AEO Audit ($997 — 100% credit toward retainer) →</a>
-          <a href="pricing.html" class="btn-secondary" data-i18n="hero_cta2">See Pricing &amp; Packages →</a>
-        </div>
-
-        <p style="margin-top:14px;font-size:13.5px;color:rgba(255,255,255,0.75);">
-          <span style="display:inline-block;background:rgba(255,103,31,0.15);color:#FFB58A;border:1px solid rgba(255,103,31,0.35);padding:2px 8px;border-radius:99px;font-size:11px;letter-spacing:.04em;text-transform:uppercase;font-weight:700;margin-right:8px;">Free</span>
-          <a href="/aeo-index.html" style="color:#FFB58A;text-decoration:underline;font-weight:600;" data-i18n="hero_aeo_index">Score your AEO Citation Index in 60 seconds →</a>
-        </p>
-
-
+    <div class="trust">
+      <div class="trust-row">
+        <span class="dot-g"></span>
+        <span data-en='<strong>48&#8209;hour</strong> written audit · no calls'
+              data-es='Auditoría escrita en <strong>48 h</strong> · sin llamadas'>
+          <strong>48‑hour</strong> written audit · no calls
+        </span>
       </div>
-
-      <!-- Right: Higgsfield AI humanoid 3D video -->
-      <div class="hero-video-wrap" aria-hidden="true">
-        <video class="hero-video"
-               src="assets/video/hero-humanoid.mp4"
-               autoplay muted loop playsinline preload="auto"
-               poster=""></video>
+      <div class="trust-row">
+        <span class="ic">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 14.6 8.6 22 9.3l-5.5 4.8L18.1 22 12 18.3 5.9 22l1.6-7.9L2 9.3l7.4-.7L12 2z"/></svg>
+        </span>
+        <span data-en='Cited by <strong>Claude, ChatGPT, Gemini &amp; Perplexity</strong>'
+              data-es='Citados por <strong>Claude, ChatGPT, Gemini y Perplexity</strong>'>
+          Cited by <strong>Claude, ChatGPT, Gemini &amp; Perplexity</strong>
+        </span>
       </div>
+      <div class="trust-row">
+        <span class="ic">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+        </span>
+        <span data-en='Month&#8209;to&#8209;month · cancel anytime'
+              data-es='Mes a mes · cancela cuando quieras'>
+          Month‑to‑month · cancel anytime
+        </span>
+      </div>
+    </div>
 
+    <div class="cta-row">
+      <a class="cta" href="contact.html"
+         data-en='Get Your AEO Audit <span class="cta-sub">$997 — 100% credit toward retainer</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>'
+         data-es='Solicita tu Auditoría AEO <span class="cta-sub">$997 — 100% crédito hacia tu plan</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>'>
+        Get Your AEO Audit
+        <span class="cta-sub">$997 — 100% credit toward retainer</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a class="cta-ghost" href="pricing.html"
+         data-en='See Pricing &amp; Packages <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>'
+         data-es='Ver Precios y Planes <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>'>
+        See Pricing &amp; Packages
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-right" aria-hidden="true">
+    <div class="hero-stage">
+      <div class="stage-grid"></div>
+      <div class="stage-vignette"></div>
     </div>
   </div>
 </section>

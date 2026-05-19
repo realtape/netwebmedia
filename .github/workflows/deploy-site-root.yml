@@ -277,7 +277,7 @@ jobs:
           # returns 500 (DB connection fails because DB_PASS is undefined).
           if [ -d "_stage/crm-vanilla/api" ]; then
             python3 - <<'PYEOF' > "_stage/crm-vanilla/api/config.local.php"
-          import os
+          import os, secrets
           def e(v: str) -> str: return (v or '').replace("\\", "\\\\").replace("'", "\\'")
           print("<?php")
           print("// Auto-generated during deploy. DO NOT EDIT.")
@@ -307,14 +307,16 @@ jobs:
           print(f"define('SMTP_ENCRYPTION', 'ssl');")
           print(f"define('SMTP_USER', 'newsletter@netwebmedia.com');")
           print(f"define('SMTP_PASS', '{e(os.environ.get('SECRET_SMTP_PASS','').strip())}');")
-          # Maintenance-endpoint tokens. Fallbacks match the historic defaults in
-          # crm-vanilla/api/config.php so a missing secret = no behavior change.
-          # Rotate by setting the matching GitHub Actions secret + re-deploying.
-          print(f"define('MIGRATE_TOKEN', '{e(os.environ.get('SECRET_MIGRATE_TOKEN') or 'NWM_MIGRATE_2026')}');")
-          print(f"define('SEED_TOKEN', '{e(os.environ.get('SECRET_SEED_TOKEN') or 'NWM_SEED_2026')}');")
-          print(f"define('DEDUPE_TOKEN', '{e(os.environ.get('SECRET_DEDUPE_TOKEN') or 'NWM_DEDUPE_2026')}');")
-          print(f"define('IMPORT_BEST_TOKEN', '{e(os.environ.get('SECRET_IMPORT_BEST_TOKEN') or 'NWM_IMPORT_BEST_2026')}');")
-          print(f"define('IMPORT_CSV_TOKEN', '{e(os.environ.get('SECRET_IMPORT_CSV_TOKEN') or 'NWM_IMPORT_CHILE_2026')}');")
+          # Maintenance-endpoint tokens. If a GitHub secret is unset we emit a
+          # fresh random per-deploy token (NOT the old NWM_*_2026 literals — they
+          # leaked publicly on 2026-04-29 and are permanently burned). A missing
+          # secret therefore fails closed (unguessable) instead of shipping a
+          # known-public token. Rotate by setting the matching secret + redeploy.
+          print(f"define('MIGRATE_TOKEN', '{e(os.environ.get('SECRET_MIGRATE_TOKEN') or secrets.token_hex(32))}');")
+          print(f"define('SEED_TOKEN', '{e(os.environ.get('SECRET_SEED_TOKEN') or secrets.token_hex(32))}');")
+          print(f"define('DEDUPE_TOKEN', '{e(os.environ.get('SECRET_DEDUPE_TOKEN') or secrets.token_hex(32))}');")
+          print(f"define('IMPORT_BEST_TOKEN', '{e(os.environ.get('SECRET_IMPORT_BEST_TOKEN') or secrets.token_hex(32))}');")
+          print(f"define('IMPORT_CSV_TOKEN', '{e(os.environ.get('SECRET_IMPORT_CSV_TOKEN') or secrets.token_hex(32))}');")
           # Facebook Page publishing — long-lived Page access token + numeric Page ID.
           # Both must come from Meta Business Manager / Graph API Explorer (no defaults).
           # Empty = fb_publish handler returns 503 on schedule action.
@@ -593,8 +595,10 @@ jobs:
           # Auto-discovers every crm-vanilla/api/schema_*.sql file.
           # Drop a new schema_xxx.sql → it runs automatically on next deploy.
           # All migrations must be idempotent (migrate.php tolerates "duplicate column" errors).
-          # Fallback to the historic default keeps CI working when the secret is unset.
-          token="${MIGRATE_TOKEN:-NWM_MIGRATE_2026}"
+          # Fail closed if the secret is unset — do NOT fall back to the burned
+          # public NWM_MIGRATE_2026 literal (config.local.php now gets a random
+          # token in that case, so a hardcoded fallback would mismatch anyway).
+          token="${MIGRATE_TOKEN:?MIGRATE_TOKEN secret must be set — refusing to use a burned/guessed token}"
           shopt -s nullglob
           schemas=( _stage/crm-vanilla/api/schema_*.sql )
           if [ ${#schemas[@]} -eq 0 ]; then

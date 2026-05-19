@@ -21,3 +21,5 @@
 - [Realtape rig optimization docs](reference_realtape_rig_docs.md) — iRacing + OBS streaming checklist and importable OBS profile in Obsidian vault at `Projects/Realtape/`; 1440p60 @ 20 Mbps NVENC HEVC on RTX 5060 Ti
 - [Keep Claude Code Workspace mode on](feedback_keep_workspace_mode.md) — On VM-platform errors, fix the underlying Windows feature; don't propose disabling Workspace mode
 - [Documents & downloads → D: drive](feedback_documents_to_d_drive.md) — Documents/deliverables → D:\Documents\, downloads → D:\Downloads first (never C:, never Desktop); enforced by PreToolUse hook d-drive-enforce.js which exempts the NetWebMedia repo + C:\Users\Usuario\.claude\ config/memory + AppData + junctioned user folders
+- [CMO Premium pricing](project_cmo_premium_pricing.md) — Premium = $2,499/mo (Carlos-confirmed 2026-05-19); fractional-cmo.html intentionally deleted (404); do NOT flip to $2,990 or recreate the page
+- [Parallel sessions & heal artifacts](feedback_parallel_session_and_heal_artifacts.md) — post-FTP-heal live value ≠ intent; git fetch + re-check divergence before pushing to main; never force-push to win a cross-session race

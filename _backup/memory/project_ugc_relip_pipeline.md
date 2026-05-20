@@ -11,7 +11,11 @@ NetWebMedia has a **totally-free, local, commercially-licensed avatar relip pipe
 
 **Why this stack (decided 2026-05-20 after testing):**
 - Voice clone: **OpenVoice v2** (MIT, commercial-clean). NOT XTTS-v2 — XTTS weights are CPML *non-commercial* and the paid tier died with Coqui, so it's a hard no-go for client work.
-- Relip: **MuseTalk** (MIT, commercial-clean). NOT LatentSync — LatentSync is OpenRAIL/commercial-OK but too heavy for the 8 GB card without sm_120 xformers (one short clip took 50+ min). MuseTalk fits 8 GB and renders short UGC in minutes. (`--engine latentsync` kept as a fallback flag.)
+- Relip engine — there's a real tradeoff, learned the hard way 2026-05-20:
+  - **MuseTalk** (MIT) — fast (~minutes on 8 GB) BUT its lip-sync is inadequate: measured mouth-vs-its-own-audio cross-correlation 0.17 (= noise; mouth doesn't track the audio). Fine only when sync barely matters. NOT good enough for a talking-head UGC ad.
+  - **LatentSync 1.6** (OpenRAIL++, commercial-clean) — good, correctly-aligned sync (corr 0.218, sharp zero-lag peak) BUT brutally slow/OOM-prone on the 8 GB card without sm_120 xformers (a single short 720p clip took ~2.5 HOURS and needs other GPU apps closed). **This is the engine to use when lip-sync quality matters** (`--engine latentsync`).
+  - For real volume / good sync without the wait, the honest answer is the paid SaaS **Sync.so** (~$20/mo, commercial-OK) — the 8 GB card simply can't do fast+good local lip-sync.
+  - **The #1 sync prerequisite: a clean-cadence source.** Higgsfield reels with burned-in captions were 25→30 fps PULLDOWN (held frames = judder); use the RAW Higgsfield export (native 24 fps, all-unique frames) and keep its native fps as true CFR — never convert/pulldown to 30.
 
 **Command:**
 ```

@@ -34,6 +34,12 @@
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 </IfModule>
 
+# ── Custom 404 — branded, bilingual error page (preserves 404 status) ──
+# Local path keeps the 404 HTTP status (an external URL would 302). The
+# page uses absolute asset paths so it renders correctly when served at
+# any nested request URL.
+ErrorDocument 404 /404.html
+
 # ── Block sensitive file types from public access (belt-and-suspenders) ─
 # Directory-level blocks cover most cases, but a global FilesMatch ensures
 # any .sql / .md / .env / .bak / .log file that lands anywhere under

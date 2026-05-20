@@ -232,8 +232,8 @@ TPL = """<!DOCTYPE html>
       <span data-lang="es">Un call de 20 minutos basta para validar esta auditoría, personalizar el playbook {niche_es} y cotizar un retainer de crecimiento.</span>
     </p>
     <p style="margin-top:16px;font-size:14px;opacity:.85">
-      <span data-lang="en"><strong style="color:#FFB770">Starter $249/mo</strong> · <strong style="color:#FFB770">⭐ Growth $999/mo</strong> · <strong style="color:#FFB770">Scale $2,990/mo</strong> — all include one-time setup.</span>
-      <span data-lang="es"><strong style="color:#FFB770">Starter $249/mes</strong> · <strong style="color:#FFB770">⭐ Growth $999/mes</strong> · <strong style="color:#FFB770">Scale $2,990/mes</strong> — todos incluyen setup único.</span>
+      <span data-lang="en"><strong style="color:#FFB770">Starter $249/mo</strong> · <strong style="color:#FFB770">⭐ Growth $999/mo</strong> · <strong style="color:#FFB770">Premium $2,499/mo</strong> — all include one-time setup.</span>
+      <span data-lang="es"><strong style="color:#FFB770">Starter $249/mes</strong> · <strong style="color:#FFB770">⭐ Growth $999/mes</strong> · <strong style="color:#FFB770">Premium $2,499/mes</strong> — todos incluyen setup único.</span>
     </p>
     <a class="cta" href="https://netwebmedia.com/contact"><span data-lang="en">Book a 20-minute strategy call →</span><span data-lang="es">Agendar call de 20 min →</span></a>
   </div>
@@ -298,7 +298,7 @@ def render(contact, notes):
     # Package cards — 3 tiers
     service_cards = (
       '<div class="svc">'
-        '<div class="n"><span data-lang="en">CMO Starter</span><span data-lang="es">CMO Starter</span></div>'
+        '<div class="n"><span data-lang="en">AEO Starter</span><span data-lang="es">AEO Starter</span></div>'
         '<div class="p">$249<span>/<span data-lang="en">mo</span><span data-lang="es">mes</span></span></div>'
         '<div class="setup"><span data-lang="en">One-time setup: $249</span><span data-lang="es">Setup único: $249</span></div>'
         '<div class="includes"><span data-lang="en">AI Website · Google Business · Basic CRM · Monthly reports</span>'
@@ -317,9 +317,9 @@ def render(contact, notes):
         '<span data-lang="en">Get started →</span><span data-lang="es">Empezar →</span></a>'
       '</div>'
       '<div class="svc scale">'
-        '<div class="n"><span data-lang="en">CMO Scale</span><span data-lang="es">CMO Scale</span></div>'
-        '<div class="p">$1,999<span>/<span data-lang="en">mo</span><span data-lang="es">mes</span></span></div>'
-        '<div class="setup"><span data-lang="en">One-time setup: $1,999</span><span data-lang="es">Setup único: $1,999</span></div>'
+        '<div class="n"><span data-lang="en">CMO Premium</span><span data-lang="es">CMO Premium</span></div>'
+        '<div class="p">$2,499<span>/<span data-lang="en">mo</span><span data-lang="es">mes</span></span></div>'
+        '<div class="setup"><span data-lang="en">One-time setup: $999</span><span data-lang="es">Setup único: $999</span></div>'
         '<div class="includes"><span data-lang="en">Everything in Growth + Fractional CMO · AI Automations · Virtual Tours · Full strategy</span>'
         '<span data-lang="es">Todo Growth + CMO Fraccional · Automatizaciones IA · Tours virtuales · Estrategia completa</span></div>'
         '<a class="cta-pkg" href="https://netwebmedia.com/contact">'

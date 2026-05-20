@@ -93,7 +93,9 @@
         modalHtml(cfg, item), function (m) {
           m.querySelector('#nwmCancel').onclick = function () { m.remove(); };
           m.querySelector('#nwmSave').onclick = function () {
-            var payload = { data: {} };
+            // Preserve any existing data keys not exposed as editor fields so
+            // editing a rich record (e.g. a blog post body) never clobbers them.
+            var payload = { data: item && item.data ? JSON.parse(JSON.stringify(item.data)) : {} };
             cfg.fields.forEach(function (f) {
               var el = m.querySelector('[data-field="' + f.name + '"]');
               var v = el.value;

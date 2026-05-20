@@ -1,13 +1,22 @@
 ---
 name: cmo-premium-pricing
-description: "CMO Premium price is $2,499/mo (Carlos-confirmed 2026-05-19, deployed); fractional-cmo.html intentionally deleted — do not flip back to $2,990 or resurrect the page"
+description: "Canonical CMO ladder: AEO Starter $249 / CMO Growth $999 / CMO Premium $2,499 / Custom-Agency (bespoke). pricing.html is source of truth. Do not flip Premium to $2,990 or resurrect fractional-cmo.html."
 metadata: 
   node_type: memory
   type: project
   originSessionId: 73467eb1-9a1b-4e6f-98a0-98cbf5c66ad4
 ---
 
-**CMO Premium price = $2,499/month.** AEO Starter $249 · Growth $999 · Premium $2,499. The `$7,500–$22,000` figure on marketing pages is the solo-operator/agency comparison anchor, NOT a NWM price.
+**Canonical CMO ladder (pricing.html = source of truth):** AEO Starter $249 · CMO Growth $999 (12% ad fee, min $300) · CMO Premium $2,499 (10% ad fee, min $400, by consultation) · Custom / Agency (bespoke, contact-only). Annuals at 15% off: $2,540 / $10,190 / $25,488. The `$7,500–$22,000` figure on marketing pages is the solo-operator/agency comparison anchor, NOT a NWM price.
+
+**Retired tier names (do NOT reintroduce):** "CMO Scale" ($2,990) → renamed to **CMO Premium $2,499**. "CMO Enterprise" ($5,999) → **retired**, replaced by the bespoke "Custom / Agency" tier. "CMO Lite" / "CMO Starter" → **AEO Starter**. The billing plan *code* is still `cmo_scale` (display name "CMO Premium") — code intentionally kept so existing subscriptions aren't orphaned; do not rename the code.
+
+**Site-wide sweep deployed 2026-05-20** (commits `c40f72807` + `4b9cdc6ff`): the chatbot brain (`api-php/lib/knowledge-base.php` EN+ES) had been quoting the wrong "CMO Scale $2,990" live; fixed + verified. Also swept ~80 customer-facing surfaces (homepage, faq, services, partners, nwm-crm/cms, nwmai, vs-intentmedia, tutorials, llms.txt, audit.php report cards, all 14 industry hubs, billing catalog) to the canonical ladder.
+
+**Still-outstanding pricing landmines (flagged to Carlos, not yet done):**
+- `assets/og-pricing.svg` source was fixed but the served `assets/og-pricing.PNG` (referenced as og:image on pricing.html) still needs **re-rendering** from the SVG.
+- `_deploy/companies/**` (680 per-company audit pages) carry their OWN divergent variant ("CMO Starter $249 / CMO Scale **$1,999**") — needs their generator fixed + 680-page regen + the separate `deploy-companies.yml` deploy.
+- Internal docs left as historical: `BUSINESS_PLAN.md`, `EXECUTION_90DAY.md`, `MARKETING_PLAN.md`, `plans/*.html`, `*-prospects-report.html`, `*-digital-gaps.html` still show old pricing — intentionally untouched.
 
 **`fractional-cmo.html` was intentionally deleted** (salvage commit `c4fc2f6ff`, 2026-05-19) — it 404s on purpose. `pricing.html` is the single source of the Premium price surface.
 

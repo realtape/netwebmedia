@@ -1,3 +1,0 @@
--- RETIRED 2026-05-06: seed contacts and demo conversations removed from deploy pipeline.
--- File kept as a no-op so the migration runner does not error on a missing schema name.
--- All INSERT IGNORE statements have been removed to prevent re-seeding on every deploy.

@@ -52,7 +52,7 @@ CAROUSEL_FOLDERS = {
         "EN": "cmo_growth_en",
         "ES": "cmo_growth_es",
     },
-    "CMO Scale Engagement Structure": {
+    "CMO Premium Engagement Structure": {
         "EN": "cmo_scale_en",
         "ES": "cmo_scale_es",
     },

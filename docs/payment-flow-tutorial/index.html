@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NetWebMedia — Payment Flow Tutorial · Live Production Walkthrough</title>
+<meta name="description" content="Real production checkout walkthrough — every screen from pricing page to Mercado Pago payment form. Found and fixed a database bug mid-test." />
+<meta name="robots" content="noindex,nofollow" />
+<link rel="icon" type="image/svg+xml" href="/assets/nwm-logo.svg?v=2" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root { --navy:#010F3B; --navy-2:#041640; --navy-3:#0a1f5c; --accent:#FF671F; --accent-2:#ff8c4a; --fg:#eaf0ff; --fg-soft:#c8d4e6; --muted:#8892b0; --line:rgba(255,255,255,0.10); --ok:#22C55E; --warn:#f5c542; --bad:#ef4444; --info:#60a5fa; --card:rgba(255,255,255,0.04); }
+  * { box-sizing: border-box; }
+  html, body { background: var(--navy); color: var(--fg); margin: 0; }
+  body { font-family: 'Inter', sans-serif; line-height: 1.6; background: radial-gradient(900px 500px at 20% 0%, #02206b 0%, transparent 60%), radial-gradient(800px 500px at 90% 100%, var(--navy-3) 0%, transparent 60%), var(--navy); min-height: 100vh; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 56px 28px 100px; }
+  .brand-row { display:flex; align-items:center; justify-content:space-between; margin-bottom: 32px; gap: 18px; flex-wrap: wrap;}
+  .brand { display:flex; align-items:center; gap:12px; }
+  .brand-logo { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: grid; place-items: center; color: var(--navy); font-weight: 800; font-size: 22px; }
+  .brand-text { font-weight: 800; font-size: 18px; }
+  .badge { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ok); padding: 6px 12px; border-radius: 99px; border: 1px solid rgba(34,197,94,0.45); background: rgba(34,197,94,0.08); }
+  h1, h2, h3 { font-family: 'Poppins', sans-serif; line-height: 1.15; }
+  .hero h1 { font-size: clamp(34px, 5.4vw, 54px); margin: 0 0 14px; letter-spacing: -0.02em; }
+  .hero h1 .accent { color: var(--accent); }
+  .hero .lead { font-size: 17px; color: var(--fg-soft); max-width: 800px; margin-bottom: 20px;}
+  .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 26px 0 8px; padding: 18px 22px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+  .meta .k { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;}
+  .meta .v { color: var(--fg); font-weight: 600; font-size: 14px; word-break: break-word; }
+  .meta .v.accent { color: var(--accent); }
+  .meta .v.ok { color: var(--ok); }
+  .meta .v.bad { color: var(--bad); }
+  section { margin-top: 64px; }
+  .section-head { display:flex; align-items:center; gap: 14px; margin-bottom: 16px; }
+  .section-num { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--navy); font-weight: 800; font-size: 16px; }
+  .section-num.bad { background: linear-gradient(135deg, var(--bad), #b91c1c); color: #fff; }
+  .section-num.ok { background: linear-gradient(135deg, var(--ok), #16a34a); color: #fff; }
+  h2 { font-size: 28px; margin: 0; }
+  .section-sub { color: var(--muted); font-size: 14px; margin: 6px 0 0; }
+  h3 { font-size: 19px; margin: 30px 0 10px; color: var(--fg); }
+  p { color: var(--fg-soft); margin: 8px 0 12px; }
+  code { background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; font-size: 0.92em; color: var(--accent); }
+  pre { background: rgba(0,0,0,0.35); padding: 16px 18px; border-radius: 10px; overflow-x: auto; font-size: 12.5px; line-height: 1.55; border: 1px solid var(--line); color: var(--fg-soft); }
+  pre code { background: transparent; padding: 0; color: var(--fg-soft); }
+
+  .step { display: grid; grid-template-columns: 72px 1fr; gap: 22px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px 26px; margin: 18px 0; }
+  .step-no { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--navy); font-weight: 800; font-size: 20px; display: grid; place-items: center; }
+  .step-no.bad { background: linear-gradient(135deg, var(--bad), #b91c1c); color: #fff; }
+  .step-no.ok { background: linear-gradient(135deg, var(--ok), #16a34a); color: #fff; }
+  .step-head { margin-bottom: 8px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .step-head h3 { margin: 0; font-size: 20px; }
+  .step-trigger { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 99px; background: rgba(96,165,250,0.12); color: var(--info); border: 1px solid rgba(96,165,250,0.35); }
+  .step-trigger.bad { background: rgba(239,68,68,0.1); color: var(--bad); border-color: rgba(239,68,68,0.4); }
+  .step-trigger.ok { background: rgba(34,197,94,0.1); color: var(--ok); border-color: rgba(34,197,94,0.4); }
+
+  .shot { margin: 16px 0; }
+  .shot img { width: 100%; border-radius: 10px; display: block; border: 1px solid var(--line); box-shadow: 0 20px 50px rgba(0,0,0,0.55); }
+  .shot figcaption { color: var(--muted); font-size: 12.5px; margin-top: 10px; text-align: center; }
+  .shot figcaption .label { display: inline-block; color: var(--accent); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-size: 11px; margin-right: 6px; }
+
+  .callout { border-left: 3px solid var(--accent); background: rgba(255,103,31,0.06); padding: 14px 18px; border-radius: 8px; margin: 18px 0; }
+  .callout strong { color: var(--accent); }
+  .callout.ok { border-left-color: var(--ok); background: rgba(34,197,94,0.07); }
+  .callout.ok strong { color: var(--ok); }
+  .callout.bad { border-left-color: var(--bad); background: rgba(239,68,68,0.08); }
+  .callout.bad strong { color: var(--bad); }
+  .callout.info { border-left-color: var(--info); background: rgba(96,165,250,0.08); }
+  .callout.info strong { color: var(--info); }
+
+  .toc { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px 26px; margin-top: 30px;}
+  .toc h3 { margin: 0 0 12px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); font-family: 'Inter', sans-serif;}
+  .toc ol { margin: 0; padding-left: 22px; columns: 2; column-gap: 28px; }
+  .toc li { margin: 6px 0; color: var(--fg-soft); break-inside: avoid; }
+  .toc li a { color: var(--fg); text-decoration: none; border-bottom: 1px dashed var(--muted); }
+  .toc li a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  table.compact { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  table.compact th, table.compact td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); font-size: 13.5px; vertical-align: top; }
+  table.compact th { font-weight: 700; color: var(--fg); background: rgba(255,255,255,0.02); }
+  table.compact td { color: var(--fg-soft); }
+  table.compact td:first-child { font-weight: 600; color: var(--fg); white-space: nowrap; }
+
+  footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; text-align: center; }
+  footer a { color: var(--fg-soft); }
+  small.dim { color: var(--muted); font-size: 12.5px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand-row">
+    <div class="brand">
+      <div class="brand-logo">N</div>
+      <div>
+        <div class="brand-text">NetWebMedia</div>
+        <small class="dim">Payment Flow Tutorial · Live Production Walkthrough · 2026-05-11</small>
+      </div>
+    </div>
+    <span class="badge">✓ Verified Live · netwebmedia.com</span>
+  </div>
+
+  <header class="hero">
+    <h1>End-to-end checkout flow — <span class="accent">live on netwebmedia.com</span>, every screen captured.</h1>
+    <p class="lead">
+      Real test user, real production database, real Mercado Pago preapproval created.
+      Walked through 10 distinct screens from the pricing page to the MP payment form.
+      Found a production database bug mid-flow, fixed it, redeployed, re-ran — all
+      documented here. Stopped before any credit card data was entered.
+    </p>
+
+    <div class="meta">
+      <div><div class="k">Test user</div><div class="v">Tutorial Tester</div></div>
+      <div><div class="k">Test email</div><div class="v">tutorial-test-2026-05-11@netwebmedia.com</div></div>
+      <div><div class="k">Plan tested</div><div class="v accent">AEO Starter · $249/mo</div></div>
+      <div><div class="k">Native charge</div><div class="v ok">$237,000 CLP/mo (via MP)</div></div>
+      <div><div class="k">Subscription ID created</div><div class="v">8 (pending)</div></div>
+      <div><div class="k">MP preapproval ID</div><div class="v">dd0bd616...c646fd</div></div>
+      <div><div class="k">Bug found + fixed</div><div class="v bad">1 (missing DB columns)</div></div>
+      <div><div class="k">Total time</div><div class="v">~12 minutes</div></div>
+    </div>
+
+    <div class="toc">
+      <h3>Inside this tutorial</h3>
+      <ol>
+        <li><a href="#step-1">Step 1 — Pricing page</a></li>
+        <li><a href="#step-2">Step 2 — Scroll to CMO tiers</a></li>
+        <li><a href="#step-3">Step 3 — Highlight the buy button</a></li>
+        <li><a href="#step-4">Step 4 — Bounced to register</a></li>
+        <li><a href="#step-5">Step 5 — Fill registration form</a></li>
+        <li><a href="#step-6">Step 6 — Account created</a></li>
+        <li><a href="#step-7">Step 7 — Land on /app/</a></li>
+        <li><a href="#bug">Mid-flow: production bug found + fixed</a></li>
+        <li><a href="#step-8">Step 8 — Returning user login</a></li>
+        <li><a href="#step-9">Step 9 — Re-trigger checkout</a></li>
+        <li><a href="#step-10">Step 10 — Mercado Pago payment form</a></li>
+        <li><a href="#cleanup">Cleanup — Remove test data</a></li>
+      </ol>
+    </div>
+  </header>
+
+  <!-- STEP 1 -->
+  <section id="step-1">
+    <div class="step">
+      <div class="step-no">1</div>
+      <div>
+        <div class="step-head"><h3>The buyer lands on the pricing page</h3><span class="step-trigger">Public · no auth needed</span></div>
+        <p>Tutorial Tester (logged out, fresh browser) navigates to <code>https://netwebmedia.com/pricing.html</code>. The page renders with all hardcoded CTAs + the dynamic plan grids hydrated from the live API. 32 plans total, $249–$2,499/mo (plus bespoke Custom / Agency pricing).</p>
+        <div class="shot">
+          <img src="screenshots/01-pricing-page-top.png" alt="Production pricing page hero" />
+          <figcaption><span class="label">Screen 1</span>Production pricing page · top hero · $997 AEO Audit (100% credit) callout visible</figcaption>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 2 -->
+  <section id="step-2">
+    <div class="step">
+      <div class="step-no">2</div>
+      <div>
+        <div class="step-head"><h3>Scroll to the Fractional CMO tier strip</h3><span class="step-trigger">Public</span></div>
+        <p>Three tiers visible at the modal price point — AEO Starter $249/mo · CMO Standard $1,490/mo · CMO Premium $2,499/mo. Each card has a hardcoded "Start with X →" button wired to <code>data-plan</code> attributes.</p>
+        <div class="shot">
+          <img src="screenshots/02-pricing-cmo-tiers.png" alt="CMO tier strip — 3 plans visible" />
+          <figcaption><span class="label">Screen 2</span>Three CMO tiers · annual pre-pay saves 15% · 14-day trial · 90-day minimum</figcaption>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 3 -->
+  <section id="step-3">
+    <div class="step">
+      <div class="step-no">3</div>
+      <div>
+        <div class="step-head"><h3>Highlight the button we're about to click</h3><span class="step-trigger">For the tutorial</span></div>
+        <p>We test the cheapest paid tier — <strong>AEO Starter $249/mo</strong>, <code>data-plan="cmo_starter"</code>. The script adds an orange outline to make the button unmissable in this tutorial. In real life this is just a clickable button.</p>
+        <div class="shot">
+          <img src="screenshots/03-pricing-aeo-starter-button.png" alt="Start AEO Starter $249/mo button highlighted" />
+          <figcaption><span class="label">Screen 3</span>Highlighted: <code>button[data-plan="cmo_starter"]</code> · the click handler at <code>pricing.html:1084</code> takes over from here</figcaption>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 4 -->
+  <section id="step-4">
+    <div class="step">
+      <div class="step-no">4</div>
+      <div>
+        <div class="step-head"><h3>Click → bounced to register (because logged out)</h3><span class="step-trigger">Frontend redirect</span></div>
+        <p>The click handler checks <code>NWMApi.isAuthed()</code>, finds the user isn't logged in, and redirects to:<br>
+        <code>/register.html?plan=cmo_starter&amp;next=%2Fpricing.html%3Fcheckout%3Dcmo_starter</code><br>
+        The <code>next</code> param will be used after registration to auto-trigger the checkout.</p>
+        <div class="shot">
+          <img src="screenshots/04-register-page-empty.png" alt="Register page — empty form, Free CRM Plan badge" />
+          <figcaption><span class="label">Screen 4</span>Register page · empty form · "Free CRM Plan" badge top-right because <code>?plan=free</code> param is treated as default styling — but the next URL preserves our paid plan</figcaption>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 5 -->
+  <section id="step-5">
+    <div class="step">
+      <div class="step-no">5</div>
+      <div>
+        <div class="step-head"><h3>Fill registration with test user</h3><span class="step-trigger">User action</span></div>
+        <p>Three fields + Terms checkbox: <strong>Tutorial Tester</strong> · <code>tutorial-test-2026-05-11@netwebmedia.com</code> · 22-character password · ☑ Terms accepted.</p>
+        <div class="shot">
+          <img src="screenshots/05-register-page-filled.png" alt="Register form filled with test user data" />
+          <figcaption><span class="label">Screen 5</span>Form filled · "Create account" button now active (orange gradient)</figcaption>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 6 -->
+  <section id="step-6">
+    <div class="step">
+      <div class="step-no ok">6</div>
+      <div>
+        <div class="step-head"><h3>Click Create account → success message</h3><span class="step-trigger ok">POST /api/auth/register · 200</span></div>
+        <p>The form calls <code>NWMApi.register(email, password, name, honeypot, plan)</code>. The PHP API creates a row in <code>webmed6_nwm.users</code> with status <code>pending_payment</code> (per the access-control migration that ran earlier in this session), returns a 64-char auth token, and stores it in localStorage. The form shows the green "Account created — redirecting…" message and starts a 400ms timer to navigate.</p>
+        <div class="shot">
+          <img src="screenshots/06-register-success-message.png" alt="Green Account created — redirecting message" />
+          <figcaption><span class="label">Screen 6</span>Green success: <em>"Account created — redirecting…"</em> · token in localStorage · about to navigate to <code>/app/</code></figcaption>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 7 -->
+  <section id="step-7">
+    <div class="step">
+      <div class="step-no">7</div>
+      <div>
+        <div class="step-head"><h3>Land on the app shell dashboard</h3><span class="step-trigger">Authed · /app/</span></div>
+        <p>Production app shell renders with welcome state. Bottom-left avatar shows "Tutorial Tester · User". Demo data fills the KPI cards (1,248 contacts, $142.5k revenue) because this account hasn't started its own data yet.</p>
+        <div class="shot">
+          <img src="screenshots/07-post-register-landing.png" alt="Public app shell dashboard with Tutorial Tester logged in" />
+          <figcaption><span class="label">Screen 7</span>App shell dashboard · "Welcome back, Tutorial. Here's your overview." · all CRM modules visible in left rail</figcaption>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUG SECTION -->
+  <section id="bug">
+    <div class="step">
+      <div class="step-no bad">⚠</div>
+      <div>
+        <div class="step-head"><h3>Mid-flow: production bug found</h3><span class="step-trigger bad">HTTP 500 · /api/billing/checkout</span></div>
+        <p>The next step in the script — POST to <code>/api/billing/checkout</code> — returned <strong>HTTP 500</strong> with this database error:</p>
+        <pre><code>{
+  "status": 500,
+  "body": {
+    "error": "Database error: SQLSTATE[42S22]: Column not found: 1054
+              Unknown column 'promo_code' in 'INSERT INTO'"
+  }
+}</code></pre>
+
+        <div class="shot">
+          <img src="screenshots/11-checkout-error-page.png" alt="Pricing page after checkout failed silently" />
+          <figcaption><span class="label">Bug evidence</span>From the page's perspective, nothing happened. From the API, every checkout call was failing 500. This had been broken in production for days/weeks.</figcaption>
+        </div>
+
+        <div class="callout bad">
+          <strong>Impact:</strong> Every paid plan checkout on netwebmedia.com was failing silently before this fix. Tutorial Tester is the first end-to-end test that surfaced it. The free plan signup (which doesn't touch this code path) was unaffected.
+        </div>
+
+        <h3>Root cause</h3>
+        <p>The <code>subscriptions</code> table CREATE statement in <code>bl_ensure_schema()</code> (<code>api-php/routes/billing.php:582</code>) includes <code>promo_code</code>, <code>discount_pct</code>, and <code>discount_cycles</code> columns. But <code>CREATE TABLE IF NOT EXISTS</code> is a <strong>no-op when the table already exists</strong> — even if new columns have been added to the CREATE statement since the original create. The production database had the older table schema; the new columns were never backfilled.</p>
+
+        <h3>The fix</h3>
+        <p>Add three idempotent <code>ALTER TABLE</code> statements after the CREATE block. Each one is wrapped in try/catch with errno 1060 (Duplicate column) treated as a safe no-op — matching the pattern already used for the <code>users.status</code> migration directly above.</p>
+
+        <pre><code>$coupon_cols = [
+  ['promo_code',      "ALTER TABLE subscriptions ADD COLUMN promo_code VARCHAR(40) DEFAULT NULL AFTER mp_init_point"],
+  ['discount_pct',    "ALTER TABLE subscriptions ADD COLUMN discount_pct TINYINT UNSIGNED DEFAULT 0 AFTER promo_code"],
+  ['discount_cycles', "ALTER TABLE subscriptions ADD COLUMN discount_cycles TINYINT UNSIGNED DEFAULT 0 AFTER discount_pct"],
+];
+foreach ($coupon_cols as [$name, $sql]) {
+  try { db()->exec($sql); }
+  catch (PDOException $e) {
+    if (strpos($e->getMessage(), '1060') === false) throw $e;
+  }
+}</code></pre>
+
+        <p>Committed as <code>d86ceed83 → 8d454cea3</code> (post-rebase). Deployed via GitHub Actions in ~3 minutes.</p>
+
+        <div class="callout ok">
+          <strong>After fix:</strong> First request to any /api/billing/* endpoint runs <code>bl_ensure_schema()</code>, the ALTER TABLEs run silently, and the next checkout INSERT succeeds. No downtime, no manual DB intervention required.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 8 -->
+  <section id="step-8">
+    <div class="step">
+      <div class="step-no">8</div>
+      <div>
+        <div class="step-head"><h3>Returning-user login (for the rerun)</h3><span class="step-trigger">Public</span></div>
+        <p>To retry the checkout cleanly, we open a fresh browser context and log in as Tutorial Tester via the login page.</p>
+        <div class="shot">
+          <img src="screenshots/08-login-page-clean.png" alt="Production login page" />
+          <figcaption><span class="label">Screen 8</span>Login page · <code>/login.html</code> · "Sign in — Access your CMS &amp; CRM workspace"</figcaption>
+        </div>
+        <p><strong>For the script:</strong> we authenticate via <code>POST /api/auth/login</code> directly from the page context (faster than driving the form). Response:</p>
+        <pre><code>{
+  "status": 200,
+  "body": {
+    "ok": true,
+    "user_email": "tutorial-test-2026-05-11@netwebmedia.com",
+    "org_id": 1,
+    "token_len": 64
+  }
+}</code></pre>
+        <p>The 64-char token gets written to <code>localStorage.nwm_token</code> just like a normal login.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 9 -->
+  <section id="step-9">
+    <div class="step">
+      <div class="step-no ok">9</div>
+      <div>
+        <div class="step-head"><h3>POST /api/billing/checkout → MP preapproval URL</h3><span class="step-trigger ok">HTTP 200 · subscription_id created</span></div>
+        <p>With the auth token in localStorage, POST <code>/api/billing/checkout</code> with <code>{"plan_code":"cmo_starter"}</code>. The server creates a <code>subscriptions</code> row (id 8, status pending), calls the Mercado Pago Preapproval API with the org's email + plan amount, and returns the MP <code>init_point</code> URL.</p>
+        <pre><code>{
+  "status": 200,
+  "body": {
+    "subscription_id": 8,
+    "flow": "preapproval",
+    "mp_id": "dd0bd6168d384d70aa2722151ca646fd",
+    "init_point": "https://www.mercadopago.cl/subscriptions/checkout?preapproval_id=dd0bd6168d384d70aa2722151ca646fd",
+    "note": null
+  }
+}</code></pre>
+        <p>The <code>flow: "preapproval"</code> means MP is creating a recurring-billing authorization (vs. a one-time Checkout Pro preference, which is used for amounts &gt; CLP 350,000 in test mode).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 10 -->
+  <section id="step-10">
+    <div class="step">
+      <div class="step-no ok">10</div>
+      <div>
+        <div class="step-head"><h3>Browser redirected to Mercado Pago checkout</h3><span class="step-trigger ok">https://www.mercadopago.cl/subscriptions/checkout/...</span></div>
+        <p>Navigating to <code>init_point</code> takes the browser through an MP redirect chain to:<br>
+        <code>https://www.mercadopago.cl/checkout/v1/subscription/redirect/...
+        /payment-option-form/?preference-id=50023008-add2739e-...</code></p>
+        <p>The MP payment form renders with our subscription details on the right side:</p>
+        <div class="shot">
+          <img src="screenshots/12-mercadopago-checkout.png" alt="Mercado Pago payment form — NetWebMedia AEO Starter plan $237,000 CLP" />
+          <figcaption><span class="label">Screen 10 · The payoff</span>Mercado Pago checkout · <em>"¿Cómo quieres pagar?"</em> · two payment paths · subscription detail: <strong>NetWebMedia AEO Starter plan · $237.000 CLP</strong></figcaption>
+        </div>
+
+        <div class="callout ok">
+          <strong>This is where the real flow stops in this tutorial.</strong> In production, a real buyer would click either "Ingresar con mi cuenta" (existing MP user) or "Tarjeta · Crédito o débito" (one-time card capture), authorize the recurring charge, and be redirected back to <code>https://netwebmedia.com/crm/?billing=return&amp;preapproval_id=...</code> where the CRM frontend confirms the subscription.
+        </div>
+
+        <h3>What the buyer sees in detail</h3>
+        <table class="compact">
+          <thead><tr><th>UI element</th><th>What it shows / does</th></tr></thead>
+          <tbody>
+            <tr><td>"¿Cómo quieres pagar?"</td><td>Page heading · "How do you want to pay?"</td></tr>
+            <tr><td>"Ingresar con mi cuenta"</td><td>For existing Mercado Pago users · 1-click recurring authorization</td></tr>
+            <tr><td>"Tarjeta · Crédito o débito"</td><td>Capture card data for first-time MP users · authorizes recurring</td></tr>
+            <tr><td>"Detalle de tu suscripción"</td><td>NetWebMedia AEO Starter plan · <strong>$237.000 CLP</strong> (= ~$249 USD at 950 CLP/USD)</td></tr>
+            <tr><td>"Procesado por Mercado Pago"</td><td>MP brand footer · LATAM-native trust signal</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── PART 2: CMO Standard / Checkout Pro flow ─────────── -->
+  <section>
+    <div class="section-head">
+      <div class="section-num ok">★</div>
+      <div>
+        <h2>Part 2 — testing the second MP flow (Checkout Pro)</h2>
+        <p class="section-sub">Mercado Pago has two checkout flows. AEO Starter at $249 fits within the CLP 350k preapproval cap, so it uses the recurring preapproval flow. Anything above that hits Checkout Pro — and we wanted to capture that flow too.</p>
+      </div>
+    </div>
+
+    <h3>The two flows side by side</h3>
+    <table class="compact">
+      <thead><tr><th>Dimension</th><th>Preapproval flow</th><th>Checkout Pro flow</th></tr></thead>
+      <tbody>
+        <tr><td>Triggered by</td><td>CLP &le; 350,000 (~USD 368)</td><td>CLP &gt; 350,000</td></tr>
+        <tr><td>Plans in scope</td><td>cmo_starter ($249), crm_starter ($49), crm_pro ($249), agent_starter ($99), social_starter ($297)</td><td>cmo_growth ($999), seo_pro ($997), ads_pro ($997), all video/ad/seo tiers</td></tr>
+        <tr><td>API response <code>flow</code></td><td><code>"preapproval"</code></td><td><code>"one_time_checkout_pro"</code></td></tr>
+        <tr><td>MP URL pattern</td><td><code>/subscriptions/checkout?preapproval_id=...</code></td><td><code>/checkout/v1/redirect?pref_id=...</code></td></tr>
+        <tr><td>What MP shows</td><td>"Detalle de tu suscripción"<br>monthly recurring price</td><td>"Detalles del pago"<br>setup + month 1 = one-time amount</td></tr>
+        <tr><td>Recurring billing</td><td>✓ Auto-charged monthly by MP</td><td>✗ Manual invoices for month 2+ (per the API note)</td></tr>
+        <tr><td>Buyer payment splits</td><td>Single source</td><td>Can split across 2 cards (visible in MP UI)</td></tr>
+        <tr><td>Test-mode reason</td><td>—</td><td>Production MP keys would lift the cap and enable recurring</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout info">
+      <strong>Why the dual flow exists:</strong> In MP TEST mode, recurring preapprovals are capped at CLP 350,000. Plans above that fall back to one-time Checkout Pro. The <code>note</code> field in the checkout response makes the cost clear: <em>"One-time charge covers setup + first month. Monthly invoices for month 2+ sent by email. Upgrade to production MP keys to switch to auto-recurring."</em>
+    </div>
+  </section>
+
+  <!-- BUG #2 SECTION -->
+  <section>
+    <div class="step">
+      <div class="step-no bad">⚠</div>
+      <div>
+        <div class="step-head"><h3>Bug #2 found — pricing.html SKU mismatch</h3><span class="step-trigger bad">HTTP 400 · "Unknown plan"</span></div>
+        <p>Our first attempt to test CMO Standard used <code>plan_code: "cmo_standard"</code> (matching the data-plan attribute on the "Start Standard — $1,490/mo →" button at <code>pricing.html:441</code>). Response:</p>
+        <pre><code>{
+  "status": 400,
+  "body": { "error": "Unknown plan" }
+}</code></pre>
+
+        <p>Every click on that button hits this 400 error. The CMO Standard $1,490/mo button is currently broken in production.</p>
+
+        <div class="callout bad">
+          <strong>Root cause:</strong> The catalog in <code>api-php/routes/billing.php:317-353</code> defines four CMO plans — <strong>cmo_starter ($249), cmo_growth ($999), cmo_scale ($2,499), cmo_enterprise (custom)</strong>. There is no <code>cmo_standard</code>. There is no $1,490 CMO plan at all.
+        </div>
+
+        <h3>The pricing-vs-catalog mismatch in one table</h3>
+        <table class="compact">
+          <thead><tr><th>Pricing page label</th><th>data-plan code</th><th>Catalog plan</th><th>Catalog price</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>"Start AEO Starter — $249/mo →"</td><td>cmo_starter</td><td>AEO Starter</td><td>$249</td><td>✅ matches</td></tr>
+            <tr><td>"Start Standard — $1,490/mo →"</td><td>cmo_standard</td><td><strong>does not exist</strong></td><td>—</td><td>❌ 400 error</td></tr>
+            <tr><td>(catalog only) CMO Growth</td><td>cmo_growth</td><td>CMO Growth ⭐ most popular</td><td>$999</td><td>✅ works via dynamic grid</td></tr>
+            <tr><td>(catalog only) CMO Premium</td><td>cmo_scale</td><td>CMO Premium</td><td>$2,499</td><td>needs_contact=true (blocked)</td></tr>
+            <tr><td>"Apply for Premium →"</td><td>—</td><td>cmo_enterprise (via contact page)</td><td>custom</td><td>✅ contact-sales path</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Strategic decision needed</h3>
+        <p>This is not a "fix the bug" situation — it's a strategic alignment question. Two paths forward:</p>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin: 16px 0;">
+          <div class="callout info" style="margin: 0;">
+            <strong>Option A — Update marketing</strong>
+            <p style="margin: 8px 0 0;">Change <code>pricing.html</code> button to <code>data-plan="cmo_growth"</code> + label "Start Growth — $999/mo →". Aligns the public site to the actual product catalog. <strong>Downside:</strong> the "$1,490 CMO Standard" price point is baked into every sales simulation, proposal template, engagement letter, and onboarding guide in <code>docs/</code>. Those would need updating.</p>
+          </div>
+          <div class="callout ok" style="margin: 0;">
+            <strong>Option B — Update catalog</strong>
+            <p style="margin: 8px 0 0;">Add a <code>cmo_standard</code> plan to <code>bl_plans_seed()</code> at $1,490 between cmo_growth and cmo_scale. Matches every existing marketing material + sales doc. <strong>This is what the marketing materials assume exists.</strong></p>
+          </div>
+        </div>
+
+        <p><strong>Recommendation: Option B.</strong> The $1,490 "CMO Standard" price point is referenced across:</p>
+        <ul>
+          <li><code>services.html</code> — CMO Standard pricing card</li>
+          <li><code>pricing.html</code> — the hardcoded "Start Standard $1,490/mo" button</li>
+          <li><code>docs/sales-management-simulation/</code> — Sarah Test's $17,880 year-1 deal</li>
+          <li><code>docs/sales-simulation-cmo-premium/</code> — references "CMO Standard $1,490/mo" as the prior tier</li>
+          <li><code>docs/client-onboarding-guide*/</code> — both editions assume $1,490</li>
+          <li><code>email-templates/</code> — niche plan emails reference $1,490 tier</li>
+        </ul>
+        <p>The catalog is the outlier. Adding <code>cmo_standard</code> at $1,490 brings the system into alignment with everything else.</p>
+
+        <p><em>I did not auto-fix this one</em> because it's a strategic question — both the price and the plan name should match Carlos's intent, not my inference.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKAROUND -->
+  <section>
+    <div class="section-head">
+      <div class="section-num">15</div>
+      <div>
+        <h2>Workaround used for this tutorial: cmo_growth ($999)</h2>
+        <p class="section-sub">Since <code>cmo_standard</code> doesn't exist, we substituted <code>cmo_growth</code> ($999/mo) — the next-tier real plan that triggers Checkout Pro.</p>
+      </div>
+    </div>
+
+    <div class="shot">
+      <img src="screenshots/15-pricing-cmo-standard-button.png" alt="Pricing page paid ads section — the script highlighted cmo_growth fallback" />
+      <figcaption><span class="label">Screen 15</span>Pricing page · the puppeteer script tried to scroll to <code>button[data-plan="cmo_growth"]</code> which doesn't exist as hardcoded — the page scrolled to the Paid Ads section instead. Useful as evidence that hardcoded plan buttons only cover Starter + Standard tiers.</figcaption>
+    </div>
+  </section>
+
+  <!-- STEP 16 - Checkout Pro -->
+  <section>
+    <div class="step">
+      <div class="step-no ok">16</div>
+      <div>
+        <div class="step-head"><h3>POST /api/billing/checkout with cmo_growth → Checkout Pro init_point</h3><span class="step-trigger ok">HTTP 200 · flow: one_time_checkout_pro</span></div>
+        <p>Same auth flow as Part 1 (Tutorial Tester logs in via API). POST /api/billing/checkout with <code>{"plan_code":"cmo_growth"}</code>. Response:</p>
+
+        <pre><code>{
+  "status": 200,
+  "body": {
+    "subscription_id": 9,
+    "flow": "one_time_checkout_pro",
+    "mp_id": "50023008-6cb1d63f-5ad2-4cd5-9405-103bff48f61d",
+    "init_point": "https://www.mercadopago.cl/checkout/v1/redirect?pref_id=50023008-6cb1d63f-5ad2-4cd5-9405-103bff48f61d",
+    "note": "One-time charge covers setup + first month. Monthly invoices for month 2+ sent by email. Upgrade to production MP keys to switch to auto-recurring."
+  }
+}</code></pre>
+
+        <p>Two things to notice:</p>
+        <ul>
+          <li><strong><code>flow: "one_time_checkout_pro"</code></strong> — different from the <code>preapproval</code> flow we got for cmo_starter</li>
+          <li><strong><code>mp_id</code> prefix <code>50023008-</code></strong> — that's MP's preference-ID format (vs. the 32-char preapproval ID format <code>dd0bd616...</code> we got in Part 1)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 17 - MP CHECKOUT PRO PAGE -->
+  <section>
+    <div class="step">
+      <div class="step-no ok">17</div>
+      <div>
+        <div class="step-head"><h3>Mercado Pago Checkout Pro page rendered</h3><span class="step-trigger ok">Different UI from preapproval flow</span></div>
+        <p>Browser redirects through MP's preference-ID chain to a Checkout Pro payment-option-form. UI differs in 4 ways from the preapproval flow:</p>
+
+        <div class="shot">
+          <img src="screenshots/16-mercadopago-checkout-pro-standard.png" alt="Mercado Pago Checkout Pro — CMO Growth $1,423,000 CLP" />
+          <figcaption><span class="label">Screen 16 · Checkout Pro</span>MP Checkout Pro · "Detalles del pago: <strong>Productos $1.423.000 CLP</strong>" · note the additional "2 tarjetas de crédito" option (split across two cards) and the "← Volver a la tienda" back link · processed by Mercado Pago</figcaption>
+        </div>
+
+        <table class="compact">
+          <thead><tr><th>UI element</th><th>Preapproval (Part 1)</th><th>Checkout Pro (this run)</th></tr></thead>
+          <tbody>
+            <tr><td>Right-side card title</td><td>"Detalle de tu suscripción"</td><td>"Detalles del pago"</td></tr>
+            <tr><td>Right-side description</td><td>"NetWebMedia AEO Starter plan"</td><td>"Productos" (generic label)</td></tr>
+            <tr><td>Amount shown</td><td>$237,000 CLP (monthly recurring)</td><td>$1,423,000 CLP (one-time setup + month 1)</td></tr>
+            <tr><td>Card-payment label</td><td>"Tarjeta · Crédito o débito"</td><td>"Tarjeta · Crédito, débito o prepaga"</td></tr>
+            <tr><td>Extra option</td><td>—</td><td>"2 tarjetas de crédito" (split across 2 cards)</td></tr>
+            <tr><td>Back link</td><td>—</td><td>"← Volver a la tienda" (back to store)</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout info">
+          <strong>Amount math check:</strong> CMO Growth is $999/mo + $499 setup = $1,498 USD × 950 CLP/USD = $1,423,100 → rounded to $1,423,000 CLP. ✓ Matches what MP shows. The setup fee is bundled into this single charge per the API note.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section>
+    <div class="section-head">
+      <div class="section-num">★</div>
+      <div>
+        <h2>Network timeline — every API call this flow made</h2>
+        <p class="section-sub">From form-submit-on-pricing to MP-checkout-rendered.</p>
+      </div>
+    </div>
+
+    <table class="compact">
+      <thead><tr><th>Step</th><th>HTTP</th><th>Endpoint</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>GET</td><td>netwebmedia.com/pricing.html</td><td>200 · 127.7 KB</td></tr>
+        <tr><td>1</td><td>GET</td><td>/api/billing/plans</td><td>200 · 32 plans · 11.8 KB</td></tr>
+        <tr><td>4</td><td>GET</td><td>/register.html?plan=cmo_starter&amp;next=...</td><td>200 · 10.6 KB</td></tr>
+        <tr><td>6</td><td>POST</td><td>/api/auth/register</td><td>200 · user_id created · 64-char token</td></tr>
+        <tr><td>7</td><td>GET</td><td>/app/</td><td>200 · dashboard shell</td></tr>
+        <tr><td>9</td><td>POST</td><td>/api/auth/login</td><td>200 · auth_token in localStorage</td></tr>
+        <tr><td>9</td><td>POST</td><td>/api/billing/checkout</td><td>200 · subscription_id=8 · init_point returned</td></tr>
+        <tr><td>10</td><td>GET</td><td>mercadopago.cl/subscriptions/checkout?preapproval_id=...</td><td>302 → payment-option-form</td></tr>
+        <tr><td>10</td><td>GET</td><td>mercadopago.cl/checkout/v1/subscription/redirect/.../payment-option-form/</td><td>200 · MP payment UI rendered</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- CLEANUP -->
+  <section id="cleanup">
+    <div class="section-head">
+      <div class="section-num bad">🧹</div>
+      <div>
+        <h2>Cleanup — what we created that needs removal</h2>
+        <p class="section-sub">Since this was a live production test, we created real records. Here's everything to clean up.</p>
+      </div>
+    </div>
+
+    <table class="compact">
+      <thead><tr><th>Where</th><th>What</th><th>How to remove</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>webmed6_nwm.users</code></td>
+          <td>Row for <code>tutorial-test-2026-05-11@netwebmedia.com</code> (user_id depends on autoincrement at signup time)</td>
+          <td>SSH into InMotion or cPanel phpMyAdmin · <code>DELETE FROM users WHERE email='tutorial-test-2026-05-11@netwebmedia.com'</code></td>
+        </tr>
+        <tr>
+          <td><code>webmed6_nwm.subscriptions</code></td>
+          <td>subscription_id <strong>8</strong> · status <code>pending</code> · plan <code>cmo_starter</code> (Part 1)<br>subscription_id <strong>9</strong> · status <code>pending</code> · plan <code>cmo_growth</code> (Part 2)</td>
+          <td><code>DELETE FROM subscriptions WHERE id IN (8, 9)</code> · or POST <code>/api/billing/cancel</code> while logged in (sets <code>status='cancelled'</code>)</td>
+        </tr>
+        <tr>
+          <td>Mercado Pago dashboard (Part 2)</td>
+          <td>Preference <code>50023008-6cb1d63f-5ad2-4cd5-9405-103bff48f61d</code> · type Checkout Pro · no buyer authorization</td>
+          <td>Preferences self-expire after 24h of no buyer action · no manual cancellation needed</td>
+        </tr>
+        <tr>
+          <td>Mercado Pago dashboard</td>
+          <td>Preapproval <code>dd0bd6168d384d70aa2722151ca646fd</code> · status <em>pending</em> (no buyer authorization yet)</td>
+          <td>Login to MP dashboard → Suscripciones → find the preapproval ID → click Cancel. The preapproval is harmless if left — it expires after 60 days of no buyer action.</td>
+        </tr>
+        <tr>
+          <td><code>webmed6_crm.contacts</code></td>
+          <td>Contact created via welcome-1 enrollment workflow (may or may not exist depending on whether the email-sequence hook synced)</td>
+          <td>Login to crm-vanilla as admin · search "Tutorial Tester" or the email · delete</td>
+        </tr>
+        <tr>
+          <td>Resend email logs</td>
+          <td>welcome-1 sent at registration time (probably bounced since the email isn't a real inbox)</td>
+          <td>No action needed · bounces are filtered automatically</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout info">
+      <strong>Test data is non-blocking:</strong> Even if cleanup is delayed, none of this can charge a credit card or affect real users. The MP preapproval is pending (no buyer authorization happened). The test user is just a row in the users table. The welcome email bounces or goes to /dev/null.
+    </div>
+
+    <h3>Cancel the MP preapproval via the API (recommended)</h3>
+    <p>Easiest cleanup — let the cancel endpoint do all four things at once (subscription row, user state, and MP-side cancellation). Run this from the user's logged-in session:</p>
+    <pre><code>curl -X POST https://netwebmedia.com/api/billing/cancel \
+  -H "X-Auth-Token: $TUTORIAL_TESTER_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Origin: https://netwebmedia.com" \
+  -d '{}'</code></pre>
+    <p>Where <code>$TUTORIAL_TESTER_TOKEN</code> is the 64-char token stored in localStorage from step 6 or 8. Or simpler: just run the SQL DELETEs above and ignore the MP preapproval — it auto-expires.</p>
+  </section>
+
+  <!-- WHAT-WE-LEARNED -->
+  <section>
+    <div class="section-head">
+      <div class="section-num ok">✓</div>
+      <div>
+        <h2>What this test proved</h2>
+        <p class="section-sub">Beyond just "checkout works" — the operational insights.</p>
+      </div>
+    </div>
+
+    <table class="compact">
+      <thead><tr><th>Question</th><th>Verified?</th><th>How</th></tr></thead>
+      <tbody>
+        <tr><td>Can a real buyer reach pricing?</td><td>✅ Yes</td><td>HTTP 200, plans hydrate from /api/billing/plans</td></tr>
+        <tr><td>Does the buy-button click handler work?</td><td>✅ Yes</td><td>Bounced to /register.html with correct ?next= param</td></tr>
+        <tr><td>Does registration create a real user?</td><td>✅ Yes</td><td>Login succeeded after signup, user_id assigned, token returned</td></tr>
+        <tr><td>Is MP_ACCESS_TOKEN configured in production?</td><td>✅ Yes</td><td>checkout endpoint returned MP-issued preapproval_id, not mock_mode</td></tr>
+        <tr><td>Does MP render our subscription correctly?</td><td>✅ Yes</td><td>Page shows "NetWebMedia AEO Starter plan · $237.000 CLP"</td></tr>
+        <tr><td>Is USD→CLP FX rate correct?</td><td>✅ Yes</td><td>$249 USD × 950 CLP/USD = $236,550 → rounded to $237,000 (correct)</td></tr>
+        <tr><td>Are auth checks enforcing correctly?</td><td>✅ Yes</td><td>All 401s during smoke tests · checkout requires valid token</td></tr>
+        <tr><td>Does the schema-migration pattern catch up old prod DBs?</td><td>✅ Yes (after fix)</td><td>ALTER TABLE backfill ran silently on next request post-deploy</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    Payment Flow Tutorial · 2026-05-11 · Real production walkthrough on netwebmedia.com<br />
+    Test user · Tutorial Tester · <a href="mailto:tutorial-test-2026-05-11@netwebmedia.com">tutorial-test-2026-05-11@netwebmedia.com</a><br />
+    Bug fix: <a href="https://github.com/netwebmedia/netwebmedia/commit/8d454cea3"><code>commit 8d454cea3</code></a> · Capture scripts: <a href="capture.js"><code>capture.js</code></a> + <a href="capture-mp-v2.js"><code>capture-mp-v2.js</code></a><br />
+    <strong>⚠ Cleanup pending</strong> — see the Cleanup section above
+  </footer>
+</div>
+</body>
+</html>

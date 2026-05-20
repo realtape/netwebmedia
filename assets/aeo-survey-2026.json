@@ -1,0 +1,309 @@
+{
+  "survey": {
+    "id": "aeo-survey-2026",
+    "version": "1.0",
+    "title": "The State of AEO Adoption Among US SMBs",
+    "description": "Original research surveying 300+ US small-to-medium businesses on AI-search adoption, barriers, and investment plans.",
+    "published": "2026-04-29",
+    "report_release_date": "2026-06-30",
+    "early_access_date": "2026-06-23",
+    "target_sample_size": 300,
+    "questions": [
+      {
+        "id": 1,
+        "type": "single-select",
+        "category": "demographics",
+        "en": "What industry is your business in?",
+        "es": "¿En qué industria se encuentra tu negocio?",
+        "options": [
+          "tourism",
+          "restaurants",
+          "health",
+          "beauty",
+          "smb",
+          "law_firms",
+          "real_estate",
+          "local_specialist",
+          "automotive",
+          "education",
+          "events_weddings",
+          "financial_services",
+          "home_services",
+          "wine_agriculture"
+        ],
+        "required": true,
+        "citation_potential": "high",
+        "rationale": "Maps to the 14 NWM niches. Used to segment findings and show which industries are AEO-ready."
+      },
+      {
+        "id": 2,
+        "type": "single-select",
+        "category": "demographics",
+        "en": "What's your annual revenue?",
+        "es": "¿Cuál es tu ingresos anuales?",
+        "options": [
+          "under-250k",
+          "250k-1m",
+          "1m-5m",
+          "5m-25m",
+          "over-25m"
+        ],
+        "required": true,
+        "citation_potential": "medium",
+        "rationale": "Defines SMB segment. Enables analysis of how AEO adoption correlates with company size."
+      },
+      {
+        "id": 3,
+        "type": "single-select",
+        "category": "behavior",
+        "en": "Have you ever asked ChatGPT, Claude, or Perplexity a question about a service or product you wanted to buy?",
+        "es": "¿Has preguntado a ChatGPT, Claude o Perplexity sobre un servicio o producto que querías comprar?",
+        "options": [
+          "yes",
+          "no",
+          "dont_use_ai"
+        ],
+        "required": true,
+        "citation_potential": "high",
+        "headline_potential": "X% of SMB decision-makers use AI search for buying decisions",
+        "rationale": "Core behavior metric. Shows the addressable market for AEO and establishes baseline AI-search usage among SMB owners."
+      },
+      {
+        "id": 4,
+        "type": "single-select",
+        "category": "behavior",
+        "en": "In the last 90 days, how often has a customer mentioned finding you via AI search?",
+        "es": "En los últimos 90 días, ¿cuántas veces un cliente ha mencionado haberte encontrado a través de búsqueda de IA?",
+        "options": [
+          "never",
+          "1-2-times",
+          "weekly",
+          "daily"
+        ],
+        "required": true,
+        "citation_potential": "high",
+        "headline_potential": "Only X% of SMBs report consistent AI-source customer discovery",
+        "rationale": "Measures the actual revenue impact of AI search today. Reveals the gap between usage and customer attribution."
+      },
+      {
+        "id": 5,
+        "type": "single-select",
+        "category": "adoption",
+        "en": "Have you optimized your website specifically for AI engines (AEO)?",
+        "es": "¿Has optimizado tu sitio web específicamente para motores de IA (AEO)?",
+        "options": [
+          "already_done",
+          "in_progress",
+          "plan_to",
+          "no_didnt_know"
+        ],
+        "required": true,
+        "citation_potential": "high",
+        "headline_potential": "Only X% of SMBs have implemented AEO; X% don't know what it is",
+        "rationale": "Primary adoption metric. Shows the awareness gap and stage of implementation across the market."
+      },
+      {
+        "id": 6,
+        "type": "single-select",
+        "category": "investment",
+        "en": "What % of your marketing budget goes to AEO/AI-search optimization?",
+        "es": "¿Qué % de tu presupuesto de marketing se destina a AEO/optimización de búsqueda de IA?",
+        "options": [
+          "0",
+          "1-10",
+          "11-25",
+          "26-50",
+          "50_plus"
+        ],
+        "required": true,
+        "citation_potential": "medium",
+        "headline_potential": "X% of SMBs allocate 0% of budget to AEO despite using AI for purchasing",
+        "rationale": "Shows disconnect between awareness and investment. Highlights the market opportunity."
+      },
+      {
+        "id": 7,
+        "type": "multi-select",
+        "category": "behavior",
+        "en": "Which AI engines do you think your customers use most?",
+        "es": "¿Cuáles crees que son los motores de IA que más usan tus clientes?",
+        "options": [
+          "chatgpt",
+          "claude",
+          "perplexity",
+          "google_ai_overviews",
+          "bing_copilot"
+        ],
+        "required": true,
+        "citation_potential": "medium",
+        "rationale": "Identifies which platforms SMBs prioritize. Segments recommendations by engine awareness."
+      },
+      {
+        "id": 8,
+        "type": "single-select",
+        "category": "technical",
+        "en": "Do you have FAQ schema or structured data on your site?",
+        "es": "¿Tienes esquema FAQ o datos estructurados en tu sitio?",
+        "options": [
+          "yes",
+          "no",
+          "dont_know"
+        ],
+        "required": true,
+        "citation_potential": "high",
+        "headline_potential": "Only X% of SMB websites have FAQ schema, despite it being critical for AEO",
+        "rationale": "Technical readiness metric. Shows the infrastructure gap preventing citations."
+      },
+      {
+        "id": 9,
+        "type": "single-select",
+        "category": "results",
+        "en": "Are you cited by any AI engine when someone asks about your category?",
+        "es": "¿Eres citado por algún motor de IA cuando alguien pregunta sobre tu categoría?",
+        "options": [
+          "yes",
+          "sometimes",
+          "no",
+          "dont_know"
+        ],
+        "required": true,
+        "citation_potential": "high",
+        "headline_potential": "X% of SMBs are not being cited by AI engines despite online presence",
+        "rationale": "Outcome metric. Measures the primary AEO goal and shows visibility gap in AI results."
+      },
+      {
+        "id": 10,
+        "type": "single-select",
+        "category": "barriers",
+        "en": "What's your biggest barrier to AI-search optimization?",
+        "es": "¿Cuál es tu mayor barrera para la optimización de búsqueda de IA?",
+        "options": [
+          "cost",
+          "time",
+          "dont_know_how",
+          "dont_believe_works",
+          "too_new",
+          "no_barrier"
+        ],
+        "required": true,
+        "citation_potential": "high",
+        "headline_potential": "X% of SMBs cite [barrier] as their top reason for not implementing AEO",
+        "rationale": "Reveals market blockers. Segments SMBs by decision factor (price-sensitive vs. skeptical vs. knowledge-gap)."
+      },
+      {
+        "id": 11,
+        "type": "single-select",
+        "category": "investment",
+        "en": "What would you pay for a service that gets you cited by AI engines?",
+        "es": "¿Cuánto pagarías por un servicio que te ayude a ser citado por motores de IA?",
+        "options": [
+          "under-250",
+          "250-1k",
+          "1k-5k",
+          "5k-plus",
+          "wouldnt_pay"
+        ],
+        "required": true,
+        "citation_potential": "high",
+        "headline_potential": "X% of SMBs would pay $1K+/month for AEO services; X% wouldn't invest",
+        "rationale": "Pricing sensitivity and willingness-to-pay. Most marketable finding—shows addressable market size at different price tiers."
+      },
+      {
+        "id": 12,
+        "type": "single-select",
+        "category": "results",
+        "en": "Have you noticed a measurable change in lead quality since AI search rose?",
+        "es": "¿Has notado un cambio medible en la calidad de los clientes desde que la búsqueda de IA se popularizó?",
+        "options": [
+          "better",
+          "worse",
+          "no_change",
+          "cant_tell"
+        ],
+        "required": true,
+        "citation_potential": "medium",
+        "headline_potential": "X% of SMBs report improved lead quality from AI-sourced customers",
+        "rationale": "Measures lead quality, not just volume. Shows ROI potential and differentiates AI search from other channels."
+      },
+      {
+        "id": 13,
+        "type": "single-select",
+        "category": "measurement",
+        "en": "Do you measure AI-citation rate as a marketing KPI?",
+        "es": "¿Mides la tasa de citas de IA como un KPI de marketing?",
+        "options": [
+          "yes",
+          "plan_to",
+          "no"
+        ],
+        "required": true,
+        "citation_potential": "medium",
+        "headline_potential": "X% of SMBs measure AI citations; X% don't track it at all",
+        "rationale": "Maturity metric. Shows how many SMBs treat AEO as strategic vs. tactical vs. ignored."
+      },
+      {
+        "id": 14,
+        "type": "single-select",
+        "category": "engagement",
+        "en": "Can we contact you for a follow-up case study?",
+        "es": "¿Podemos contactarte para un estudio de caso de seguimiento?",
+        "options": [
+          "full",
+          "anonymous",
+          "no"
+        ],
+        "required": false,
+        "citation_potential": "low",
+        "rationale": "Identifies candidates for detailed case studies and testimonials. Supports future content."
+      },
+      {
+        "id": 15,
+        "type": "email",
+        "category": "contact",
+        "en": "Email (for sending the report)",
+        "es": "Correo electrónico (para enviar el informe)",
+        "required": false,
+        "citation_potential": "low",
+        "rationale": "Enables report delivery and follow-up outreach."
+      }
+    ],
+    "reporting": {
+      "expected_findings": [
+        {
+          "rank": 1,
+          "headline": "AI search adoption exceeds AEO implementation by 3x",
+          "description": "While X% of SMBs use ChatGPT/Claude for buying decisions, only X% have optimized for AEO.",
+          "data_source": [3, 5],
+          "impact": "Strongest market gap narrative"
+        },
+        {
+          "rank": 2,
+          "headline": "X% of SMBs would pay $1K+/month for AI citations",
+          "description": "Despite knowledge gaps, price-insensitive segment shows strong willingness to invest in AEO services.",
+          "data_source": [11],
+          "impact": "Highest monetization potential"
+        },
+        {
+          "rank": 3,
+          "headline": "Only X% of SMBs are currently cited by AI engines",
+          "description": "The citation-readiness gap is stark: most SMBs lack schema, FAQ structure, and entity-graph completeness.",
+          "data_source": [8, 9],
+          "impact": "Clearest need for NetWebMedia's services"
+        },
+        {
+          "rank": 4,
+          "headline": "[Barrier] is the #1 reason SMBs aren't implementing AEO",
+          "description": "Segmentation by barrier type enables targeted messaging.",
+          "data_source": [10],
+          "impact": "Messaging clarity for sales and marketing"
+        },
+        {
+          "rank": 5,
+          "headline": "AI-sourced leads show X% improvement in quality vs. traditional search",
+          "description": "First quantitative evidence of lead-quality ROI from AI search.",
+          "data_source": [12],
+          "impact": "ROI narrative for conservative buyers"
+        }
+      ]
+    }
+  }
+}

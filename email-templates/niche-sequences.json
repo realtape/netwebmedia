@@ -1,0 +1,928 @@
+{
+  "version": "1.0.0",
+  "updated": "2026-04-25",
+  "description": "Niche-specific lead nurture sequences — triggered by free growth plan form submissions",
+  "from": {
+    "name": "Carlos at NetWebMedia",
+    "email": "hello@netwebmedia.com",
+    "reply_to": "hello@netwebmedia.com"
+  },
+  "global_footer": {
+    "address": "NetWebMedia · Remote-first · Serving US & Chile",
+    "unsubscribe_token_param": "token",
+    "preference_center_url": "https://netwebmedia.com/api/public/email/preferences"
+  },
+  "sequences": {
+
+    "niche_tourism": {
+      "name": "Hospitality / Tourism — Free Plan Lead Nurture",
+      "description": "3-email nurture for prospects who requested a free growth plan from the hospitality landing page.",
+      "trigger": "form_submit",
+      "trigger_source": "hospitality-lp",
+      "audience": "tourism_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "tourism-plan-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your hotel growth plan is being built, {{first_name|there}}",
+            "es": "Tu plan de crecimiento para tu hotel está en camino, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "We're mapping your OTA dependency and direct-booking gap — plan on WhatsApp soon",
+            "es": "Estamos mapeando tu dependencia de OTAs y brecha de reservas directas — plan en WhatsApp pronto"
+          },
+          "template": "niche/tourism-plan-1.html",
+          "primary_cta": {
+            "en": "Chat on WhatsApp",
+            "es": "Chatear en WhatsApp"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=tourism-plan-1"
+        },
+        {
+          "id": "tourism-plan-2",
+          "delay_minutes": 120,
+          "subject": {
+            "en": "Your 3 biggest growth levers — hospitality edition, {{first_name|there}}",
+            "es": "Tus 3 palancas de crecimiento — edición hotelera, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "Cut OTA fees, win direct bookings, and get found on AI travel search",
+            "es": "Reduce comisiones OTA, gana reservas directas y aparece en búsquedas IA de viajes"
+          },
+          "template": "niche/tourism-plan-2.html",
+          "primary_cta": {
+            "en": "Discuss my growth plan",
+            "es": "Hablar sobre mi plan"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=tourism-plan-2"
+        },
+        {
+          "id": "tourism-plan-3",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Did the hospitality plan land, {{first_name|there}}?",
+            "es": "¿Te llegó el plan hotelero, {{first_name|hola}}?"
+          },
+          "preview": {
+            "en": "Any questions? I can walk you through the direct-booking strategy in 20 min",
+            "es": "¿Alguna duda? Puedo explicarte la estrategia de reservas directas en 20 min"
+          },
+          "template": "niche/tourism-plan-3.html",
+          "primary_cta": {
+            "en": "Book a 20-min walkthrough",
+            "es": "Agendar revisión de 20 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=tourism-plan-3"
+        }
+      ]
+    },
+
+    "niche_restaurants": {
+      "name": "Restaurants & F&B — Free Plan Lead Nurture",
+      "description": "3-email nurture for prospects who requested a free growth plan from the restaurants landing page.",
+      "trigger": "form_submit",
+      "trigger_source": "restaurants-lp",
+      "audience": "restaurants_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "restaurants-plan-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your restaurant growth plan is on the way, {{first_name|there}}",
+            "es": "Tu plan de crecimiento para tu restaurante está en camino, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "We're analyzing your delivery fee exposure and local SEO gaps — check WhatsApp soon",
+            "es": "Analizando tu exposición a fees de delivery y brechas de SEO local — revisa WhatsApp pronto"
+          },
+          "template": "niche/restaurants-plan-1.html",
+          "primary_cta": {
+            "en": "Chat on WhatsApp",
+            "es": "Chatear en WhatsApp"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=restaurants-plan-1"
+        },
+        {
+          "id": "restaurants-plan-2",
+          "delay_minutes": 120,
+          "subject": {
+            "en": "3 ways to cut delivery fees and fill more seats, {{first_name|there}}",
+            "es": "3 formas de reducir fees de delivery y llenar más mesas, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "Instagram-to-reservation funnel, local SEO, and AI loyalty automation",
+            "es": "Embudo Instagram-a-reserva, SEO local y automatización de fidelización con IA"
+          },
+          "template": "niche/restaurants-plan-2.html",
+          "primary_cta": {
+            "en": "Let's talk about my restaurant",
+            "es": "Hablemos sobre mi restaurante"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=restaurants-plan-2"
+        },
+        {
+          "id": "restaurants-plan-3",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Quick check-in on your restaurant plan, {{first_name|there}}",
+            "es": "Revisando tu plan de restaurante, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "Got questions? Let me walk you through the Instagram-to-table funnel in 20 min",
+            "es": "¿Tienes dudas? Revisemos el embudo Instagram-a-mesa en 20 min"
+          },
+          "template": "niche/restaurants-plan-3.html",
+          "primary_cta": {
+            "en": "Book a 20-min walkthrough",
+            "es": "Agendar revisión de 20 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=restaurants-plan-3"
+        }
+      ]
+    },
+
+    "niche_health": {
+      "name": "Healthcare — Free Plan Lead Nurture",
+      "description": "3-email nurture for prospects who requested a free growth plan from the healthcare landing page.",
+      "trigger": "form_submit",
+      "trigger_source": "healthcare-lp",
+      "audience": "health_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "health-plan-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your practice growth plan is being prepared, {{first_name|there}}",
+            "es": "Tu plan de crecimiento para tu clínica está siendo preparado, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "We're mapping your patient acquisition gaps and review profile — plan arrives on WhatsApp",
+            "es": "Mapeando tus brechas de adquisición de pacientes y perfil de reseñas — plan llega por WhatsApp"
+          },
+          "template": "niche/health-plan-1.html",
+          "primary_cta": {
+            "en": "Chat on WhatsApp",
+            "es": "Chatear en WhatsApp"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=health-plan-1"
+        },
+        {
+          "id": "health-plan-2",
+          "delay_minutes": 120,
+          "subject": {
+            "en": "Your 3 patient-growth levers, {{first_name|there}}",
+            "es": "Tus 3 palancas para atraer más pacientes, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "Patient acquisition funnels, review automation, and content that ranks for local searches",
+            "es": "Embudos de adquisición, automatización de reseñas y contenido que posiciona localmente"
+          },
+          "template": "niche/health-plan-2.html",
+          "primary_cta": {
+            "en": "Talk about my practice",
+            "es": "Hablar sobre mi clínica"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=health-plan-2"
+        },
+        {
+          "id": "health-plan-3",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Did you get the practice growth plan, {{first_name|there}}?",
+            "es": "¿Te llegó el plan para tu clínica, {{first_name|hola}}?"
+          },
+          "preview": {
+            "en": "Happy to answer questions — 20-min walkthrough available this week",
+            "es": "Puedo responder tus dudas — revisión de 20 min disponible esta semana"
+          },
+          "template": "niche/health-plan-3.html",
+          "primary_cta": {
+            "en": "Book a 20-min walkthrough",
+            "es": "Agendar revisión de 20 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=health-plan-3"
+        }
+      ]
+    },
+
+    "niche_beauty": {
+      "name": "Beauty & Wellness — Free Plan Lead Nurture",
+      "description": "3-email nurture for prospects who requested a free growth plan from the beauty landing page.",
+      "trigger": "form_submit",
+      "trigger_source": "beauty-lp",
+      "audience": "beauty_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "beauty-plan-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your salon growth plan is coming right up, {{first_name|there}}",
+            "es": "Tu plan de crecimiento para tu salón está en camino, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "We're looking at your booking gaps, no-show rate, and Instagram presence — WhatsApp soon",
+            "es": "Revisando tus brechas de reservas, tasa de no-show y presencia en Instagram — WhatsApp pronto"
+          },
+          "template": "niche/beauty-plan-1.html",
+          "primary_cta": {
+            "en": "Chat on WhatsApp",
+            "es": "Chatear en WhatsApp"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=beauty-plan-1"
+        },
+        {
+          "id": "beauty-plan-2",
+          "delay_minutes": 120,
+          "subject": {
+            "en": "3 growth levers for your beauty business, {{first_name|there}}",
+            "es": "3 palancas de crecimiento para tu negocio de belleza, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "Reduce no-shows, automate rebooking, and turn Instagram followers into paying clients",
+            "es": "Reduce no-shows, automatiza reagendamiento y convierte seguidores de Instagram en clientes"
+          },
+          "template": "niche/beauty-plan-2.html",
+          "primary_cta": {
+            "en": "Let's talk about my business",
+            "es": "Hablemos sobre mi negocio"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=beauty-plan-2"
+        },
+        {
+          "id": "beauty-plan-3",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Still thinking about the beauty growth plan, {{first_name|there}}?",
+            "es": "¿Aún pensando en el plan de belleza, {{first_name|hola}}?"
+          },
+          "preview": {
+            "en": "I can walk you through the no-show and rebooking automation in 20 min",
+            "es": "Puedo explicarte la automatización de no-shows y reagendamiento en 20 min"
+          },
+          "template": "niche/beauty-plan-3.html",
+          "primary_cta": {
+            "en": "Book a 20-min walkthrough",
+            "es": "Agendar revisión de 20 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=beauty-plan-3"
+        }
+      ]
+    },
+
+    "niche_smb": {
+      "name": "SMB — Free Plan Lead Nurture",
+      "description": "3-email nurture for prospects who requested a free growth plan from the SMB landing page.",
+      "trigger": "form_submit",
+      "trigger_source": "smb-lp",
+      "audience": "smb_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "smb-plan-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your business growth plan is in progress, {{first_name|there}}",
+            "es": "Tu plan de crecimiento empresarial está en progreso, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "We're analyzing your online presence, pipeline, and revenue leaks — plan on WhatsApp soon",
+            "es": "Analizando tu presencia online, pipeline y fugas de ingresos — plan en WhatsApp pronto"
+          },
+          "template": "niche/smb-plan-1.html",
+          "primary_cta": {
+            "en": "Chat on WhatsApp",
+            "es": "Chatear en WhatsApp"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=smb-plan-1"
+        },
+        {
+          "id": "smb-plan-2",
+          "delay_minutes": 120,
+          "subject": {
+            "en": "Your 3 highest-ROI moves right now, {{first_name|there}}",
+            "es": "Tus 3 movimientos de mayor ROI ahora mismo, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "CRM pipeline, automated follow-up, and local visibility — the SMB growth trifecta",
+            "es": "Pipeline CRM, seguimiento automatizado y visibilidad local — el trío ganador para PYMEs"
+          },
+          "template": "niche/smb-plan-2.html",
+          "primary_cta": {
+            "en": "Talk about my business",
+            "es": "Hablar sobre mi empresa"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=smb-plan-2"
+        },
+        {
+          "id": "smb-plan-3",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Any questions about your SMB growth plan, {{first_name|there}}?",
+            "es": "¿Alguna pregunta sobre tu plan para PYME, {{first_name|hola}}?"
+          },
+          "preview": {
+            "en": "Happy to do a 20-min walkthrough of the pipeline and automation setup",
+            "es": "Puedo hacer una revisión de 20 min del pipeline y la configuración de automatización"
+          },
+          "template": "niche/smb-plan-3.html",
+          "primary_cta": {
+            "en": "Book a 20-min walkthrough",
+            "es": "Agendar revisión de 20 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=smb-plan-3"
+        }
+      ]
+    },
+
+    "niche_law_firms": {
+      "name": "Professional Services / Law Firms — Free Plan Lead Nurture",
+      "description": "3-email nurture for prospects who requested a free growth plan from the professional services landing page.",
+      "trigger": "form_submit",
+      "trigger_source": "pro-lp",
+      "audience": "law_firms_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "law_firms-plan-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your law firm growth plan is being prepared, {{first_name|there}}",
+            "es": "Tu plan de crecimiento para tu firma está siendo preparado, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "We're mapping your intake pipeline, referral gaps, and online visibility — WhatsApp soon",
+            "es": "Mapeando tu pipeline de intake, brechas de referidos y visibilidad online — WhatsApp pronto"
+          },
+          "template": "niche/law_firms-plan-1.html",
+          "primary_cta": {
+            "en": "Chat on WhatsApp",
+            "es": "Chatear en WhatsApp"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=law_firms-plan-1"
+        },
+        {
+          "id": "law_firms-plan-2",
+          "delay_minutes": 120,
+          "subject": {
+            "en": "3 growth levers for your law firm, {{first_name|there}}",
+            "es": "3 palancas de crecimiento para tu firma legal, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "AI-powered intake, authority content, and referral automation — your firm's unfair advantage",
+            "es": "Intake con IA, contenido de autoridad y automatización de referidos — ventaja competitiva"
+          },
+          "template": "niche/law_firms-plan-2.html",
+          "primary_cta": {
+            "en": "Discuss my firm's plan",
+            "es": "Hablar sobre el plan de mi firma"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=law_firms-plan-2"
+        },
+        {
+          "id": "law_firms-plan-3",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Did the law firm plan arrive, {{first_name|there}}?",
+            "es": "¿Te llegó el plan para tu firma, {{first_name|hola}}?"
+          },
+          "preview": {
+            "en": "Quick 20-min walkthrough of your intake automation and content strategy available",
+            "es": "Revisión de 20 min de tu automatización de intake y estrategia de contenido disponible"
+          },
+          "template": "niche/law_firms-plan-3.html",
+          "primary_cta": {
+            "en": "Book a 20-min walkthrough",
+            "es": "Agendar revisión de 20 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=law_firms-plan-3"
+        }
+      ]
+    },
+
+    "niche_real_estate": {
+      "name": "Real Estate — Free Plan Lead Nurture",
+      "description": "3-email nurture for prospects who requested a free growth plan from the real estate landing page.",
+      "trigger": "form_submit",
+      "trigger_source": "realestate-lp",
+      "audience": "real_estate_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "real_estate-plan-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your real estate growth plan is in the works, {{first_name|there}}",
+            "es": "Tu plan de crecimiento inmobiliario está en proceso, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "We're analyzing your lead-to-close ratio and listing visibility — plan on WhatsApp soon",
+            "es": "Analizando tu ratio lead-a-cierre y visibilidad de propiedades — plan en WhatsApp pronto"
+          },
+          "template": "niche/real_estate-plan-1.html",
+          "primary_cta": {
+            "en": "Chat on WhatsApp",
+            "es": "Chatear en WhatsApp"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=real_estate-plan-1"
+        },
+        {
+          "id": "real_estate-plan-2",
+          "delay_minutes": 120,
+          "subject": {
+            "en": "Your 3 real estate growth opportunities, {{first_name|there}}",
+            "es": "Tus 3 oportunidades de crecimiento inmobiliario, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "AI lead nurture, listing SEO, and automated drip for buyers and sellers",
+            "es": "Nurture de leads con IA, SEO de propiedades y drip automatizado para compradores y vendedores"
+          },
+          "template": "niche/real_estate-plan-2.html",
+          "primary_cta": {
+            "en": "Talk about my real estate strategy",
+            "es": "Hablar sobre mi estrategia inmobiliaria"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=real_estate-plan-2"
+        },
+        {
+          "id": "real_estate-plan-3",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Following up on your real estate plan, {{first_name|there}}",
+            "es": "Haciendo seguimiento de tu plan inmobiliario, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "20-min walkthrough of AI lead nurture and listing automation available this week",
+            "es": "Revisión de 20 min de nurture con IA y automatización de propiedades disponible esta semana"
+          },
+          "template": "niche/real_estate-plan-3.html",
+          "primary_cta": {
+            "en": "Book a 20-min walkthrough",
+            "es": "Agendar revisión de 20 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=real_estate-plan-3"
+        }
+      ]
+    },
+
+    "niche_local_specialist": {
+      "name": "Local Services — Free Plan Lead Nurture",
+      "description": "3-email nurture for prospects who requested a free growth plan from the local services landing page.",
+      "trigger": "form_submit",
+      "trigger_source": "local-lp",
+      "audience": "local_specialist_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "local_specialist-plan-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your local business growth plan is on the way, {{first_name|there}}",
+            "es": "Tu plan de crecimiento para negocio local está en camino, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "We're auditing your Google Business Profile, reviews, and local search ranking — WhatsApp soon",
+            "es": "Auditando tu Google Business Profile, reseñas y posicionamiento local — WhatsApp pronto"
+          },
+          "template": "niche/local_specialist-plan-1.html",
+          "primary_cta": {
+            "en": "Chat on WhatsApp",
+            "es": "Chatear en WhatsApp"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=local_specialist-plan-1"
+        },
+        {
+          "id": "local_specialist-plan-2",
+          "delay_minutes": 120,
+          "subject": {
+            "en": "3 ways to dominate your local market, {{first_name|there}}",
+            "es": "3 formas de dominar tu mercado local, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "Google Maps rank, review automation, and local SEO content — the local trifecta",
+            "es": "Ranking en Google Maps, automatización de reseñas y contenido SEO local — el trío local"
+          },
+          "template": "niche/local_specialist-plan-2.html",
+          "primary_cta": {
+            "en": "Discuss my local strategy",
+            "es": "Hablar sobre mi estrategia local"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=local_specialist-plan-2"
+        },
+        {
+          "id": "local_specialist-plan-3",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Did your local growth plan arrive, {{first_name|there}}?",
+            "es": "¿Te llegó el plan de crecimiento local, {{first_name|hola}}?"
+          },
+          "preview": {
+            "en": "Any questions on the Google Maps and review strategy? 20 min is all it takes",
+            "es": "¿Dudas sobre la estrategia de Google Maps y reseñas? 20 min es todo lo que necesitas"
+          },
+          "template": "niche/local_specialist-plan-3.html",
+          "primary_cta": {
+            "en": "Book a 20-min walkthrough",
+            "es": "Agendar revisión de 20 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=local_specialist-plan-3"
+        }
+      ]
+    },
+
+    "niche_automotive": {
+      "name": "Automotive — Free Plan Lead Nurture",
+      "description": "3-email nurture for prospects who requested a free growth plan from the automotive landing page.",
+      "trigger": "form_submit",
+      "trigger_source": "auto-lp",
+      "audience": "automotive_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "automotive-plan-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your dealership growth plan is being built, {{first_name|there}}",
+            "es": "Tu plan de crecimiento para tu concesionaria está en proceso, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "We're analyzing your service bay utilization and lead response time — plan on WhatsApp soon",
+            "es": "Analizando la utilización de tu taller y tiempo de respuesta a leads — plan en WhatsApp pronto"
+          },
+          "template": "niche/automotive-plan-1.html",
+          "primary_cta": {
+            "en": "Chat on WhatsApp",
+            "es": "Chatear en WhatsApp"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=automotive-plan-1"
+        },
+        {
+          "id": "automotive-plan-2",
+          "delay_minutes": 120,
+          "subject": {
+            "en": "3 growth levers for your auto business, {{first_name|there}}",
+            "es": "3 palancas de crecimiento para tu negocio automotriz, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "AI SDR for conquest leads, service bay automation, and conquest campaign strategy",
+            "es": "SDR con IA para leads de conquista, automatización de taller y estrategia de campañas"
+          },
+          "template": "niche/automotive-plan-2.html",
+          "primary_cta": {
+            "en": "Talk about my dealership",
+            "es": "Hablar sobre mi concesionaria"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=automotive-plan-2"
+        },
+        {
+          "id": "automotive-plan-3",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Quick follow-up on your auto growth plan, {{first_name|there}}",
+            "es": "Seguimiento rápido de tu plan automotriz, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "Still there? I can walk through the AI SDR and conquest strategy in 20 min",
+            "es": "¿Sigues ahí? Puedo explicar el SDR con IA y estrategia de conquista en 20 min"
+          },
+          "template": "niche/automotive-plan-3.html",
+          "primary_cta": {
+            "en": "Book a 20-min walkthrough",
+            "es": "Agendar revisión de 20 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=automotive-plan-3"
+        }
+      ]
+    },
+
+    "niche_education": {
+      "name": "Education — Free Plan Lead Nurture",
+      "description": "3-email nurture for prospects who requested a free growth plan from the education landing page.",
+      "trigger": "form_submit",
+      "trigger_source": "education-lp",
+      "audience": "education_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "education-plan-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your enrollment growth plan is being prepared, {{first_name|there}}",
+            "es": "Tu plan de crecimiento de matrículas está siendo preparado, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "We're mapping your enrollment funnel gaps and content reach — plan on WhatsApp soon",
+            "es": "Mapeando las brechas de tu embudo de matrículas y alcance de contenido — WhatsApp pronto"
+          },
+          "template": "niche/education-plan-1.html",
+          "primary_cta": {
+            "en": "Chat on WhatsApp",
+            "es": "Chatear en WhatsApp"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=education-plan-1"
+        },
+        {
+          "id": "education-plan-2",
+          "delay_minutes": 120,
+          "subject": {
+            "en": "3 enrollment growth levers for your institution, {{first_name|there}}",
+            "es": "3 palancas para aumentar matrículas en tu institución, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "Automated enrollment nurture, parent/student SEO content, and AI follow-up for leads",
+            "es": "Nurture de matrículas automatizado, contenido SEO para padres/alumnos y seguimiento IA"
+          },
+          "template": "niche/education-plan-2.html",
+          "primary_cta": {
+            "en": "Talk about enrollment growth",
+            "es": "Hablar sobre crecimiento de matrículas"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=education-plan-2"
+        },
+        {
+          "id": "education-plan-3",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Did the enrollment growth plan arrive, {{first_name|there}}?",
+            "es": "¿Te llegó el plan de matrículas, {{first_name|hola}}?"
+          },
+          "preview": {
+            "en": "Happy to walk through the enrollment funnel automation in 20 min",
+            "es": "Puedo explicar la automatización del embudo de matrículas en 20 min"
+          },
+          "template": "niche/education-plan-3.html",
+          "primary_cta": {
+            "en": "Book a 20-min walkthrough",
+            "es": "Agendar revisión de 20 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=education-plan-3"
+        }
+      ]
+    },
+
+    "niche_events_weddings": {
+      "name": "Events & Weddings — Free Plan Lead Nurture",
+      "description": "3-email nurture for prospects who requested a free growth plan from the events landing page.",
+      "trigger": "form_submit",
+      "trigger_source": "events-lp",
+      "audience": "events_weddings_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "events_weddings-plan-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your events business growth plan is on the way, {{first_name|there}}",
+            "es": "Tu plan de crecimiento para tu negocio de eventos está en camino, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "We're analyzing your seasonal booking gaps and vendor referral network — WhatsApp soon",
+            "es": "Analizando tus brechas de reservas estacionales y red de referidos — WhatsApp pronto"
+          },
+          "template": "niche/events_weddings-plan-1.html",
+          "primary_cta": {
+            "en": "Chat on WhatsApp",
+            "es": "Chatear en WhatsApp"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=events_weddings-plan-1"
+        },
+        {
+          "id": "events_weddings-plan-2",
+          "delay_minutes": 120,
+          "subject": {
+            "en": "3 ways to book more events all year, {{first_name|there}}",
+            "es": "3 formas de reservar más eventos durante todo el año, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "Off-season campaigns, Instagram portfolio funnels, and automated vendor referral tracking",
+            "es": "Campañas en temporada baja, embudos de portafolio Instagram y seguimiento de referidos"
+          },
+          "template": "niche/events_weddings-plan-2.html",
+          "primary_cta": {
+            "en": "Talk about my events business",
+            "es": "Hablar sobre mi negocio de eventos"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=events_weddings-plan-2"
+        },
+        {
+          "id": "events_weddings-plan-3",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Following up on your events growth plan, {{first_name|there}}",
+            "es": "Haciendo seguimiento de tu plan de eventos, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "Any questions? 20-min walkthrough of the seasonal campaign and funnel strategy available",
+            "es": "¿Preguntas? Revisión de 20 min de la campaña estacional y estrategia de embudo disponible"
+          },
+          "template": "niche/events_weddings-plan-3.html",
+          "primary_cta": {
+            "en": "Book a 20-min walkthrough",
+            "es": "Agendar revisión de 20 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=events_weddings-plan-3"
+        }
+      ]
+    },
+
+    "niche_financial_services": {
+      "name": "Financial Services — Free Plan Lead Nurture",
+      "description": "3-email nurture for prospects who requested a free growth plan from the financial services landing page.",
+      "trigger": "form_submit",
+      "trigger_source": "finance-lp",
+      "audience": "financial_services_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "financial_services-plan-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your financial services growth plan is being built, {{first_name|there}}",
+            "es": "Tu plan de crecimiento para servicios financieros está en proceso, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "We're mapping your client acquisition funnel and trust-building gaps — plan on WhatsApp",
+            "es": "Mapeando tu embudo de adquisición de clientes y brechas de confianza — plan en WhatsApp"
+          },
+          "template": "niche/financial_services-plan-1.html",
+          "primary_cta": {
+            "en": "Chat on WhatsApp",
+            "es": "Chatear en WhatsApp"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=financial_services-plan-1"
+        },
+        {
+          "id": "financial_services-plan-2",
+          "delay_minutes": 120,
+          "subject": {
+            "en": "3 client-growth levers for your financial practice, {{first_name|there}}",
+            "es": "3 palancas para crecer tu práctica financiera, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "Authority content, compliant lead funnels, and AI-powered prospect nurture",
+            "es": "Contenido de autoridad, embudos de leads en cumplimiento y nurture de prospectos con IA"
+          },
+          "template": "niche/financial_services-plan-2.html",
+          "primary_cta": {
+            "en": "Discuss my growth strategy",
+            "es": "Hablar sobre mi estrategia de crecimiento"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=financial_services-plan-2"
+        },
+        {
+          "id": "financial_services-plan-3",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Did the financial services plan reach you, {{first_name|there}}?",
+            "es": "¿Te llegó el plan de servicios financieros, {{first_name|hola}}?"
+          },
+          "preview": {
+            "en": "I can walk through the compliant lead funnel and authority content plan in 20 min",
+            "es": "Puedo explicar el embudo de leads y plan de contenido de autoridad en 20 min"
+          },
+          "template": "niche/financial_services-plan-3.html",
+          "primary_cta": {
+            "en": "Book a 20-min walkthrough",
+            "es": "Agendar revisión de 20 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=financial_services-plan-3"
+        }
+      ]
+    },
+
+    "niche_home_services": {
+      "name": "Home Services — Free Plan Lead Nurture",
+      "description": "3-email nurture for prospects who requested a free growth plan from the home services landing page.",
+      "trigger": "form_submit",
+      "trigger_source": "home-lp",
+      "audience": "home_services_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "home_services-plan-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your home services growth plan is coming, {{first_name|there}}",
+            "es": "Tu plan de crecimiento para servicios del hogar está en camino, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "We're reviewing your lead-to-booked rate, reviews, and service area reach — WhatsApp soon",
+            "es": "Revisando tu tasa de lead-a-reserva, reseñas y alcance de zona de servicio — WhatsApp pronto"
+          },
+          "template": "niche/home_services-plan-1.html",
+          "primary_cta": {
+            "en": "Chat on WhatsApp",
+            "es": "Chatear en WhatsApp"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=home_services-plan-1"
+        },
+        {
+          "id": "home_services-plan-2",
+          "delay_minutes": 120,
+          "subject": {
+            "en": "3 ways to grow your home services business, {{first_name|there}}",
+            "es": "3 formas de crecer tu negocio de servicios del hogar, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "Instant lead response, Google review automation, and service area SEO expansion",
+            "es": "Respuesta inmediata a leads, automatización de reseñas Google y expansión SEO de zona"
+          },
+          "template": "niche/home_services-plan-2.html",
+          "primary_cta": {
+            "en": "Talk about my home services business",
+            "es": "Hablar sobre mi negocio de servicios"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=home_services-plan-2"
+        },
+        {
+          "id": "home_services-plan-3",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Still thinking about the home services plan, {{first_name|there}}?",
+            "es": "¿Aún considerando el plan de servicios del hogar, {{first_name|hola}}?"
+          },
+          "preview": {
+            "en": "I can walk through the instant lead response and review automation in 20 min",
+            "es": "Puedo explicar la respuesta inmediata a leads y automatización de reseñas en 20 min"
+          },
+          "template": "niche/home_services-plan-3.html",
+          "primary_cta": {
+            "en": "Book a 20-min walkthrough",
+            "es": "Agendar revisión de 20 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=home_services-plan-3"
+        }
+      ]
+    },
+
+    "niche_wine_agriculture": {
+      "name": "Wine & Agriculture — Free Plan Lead Nurture",
+      "description": "3-email nurture for prospects who requested a free growth plan from the wine & agriculture landing page.",
+      "trigger": "form_submit",
+      "trigger_source": "wine-lp",
+      "audience": "wine_agriculture_lead",
+      "language_per_recipient": true,
+      "messages": [
+        {
+          "id": "wine_agriculture-plan-1",
+          "delay_minutes": 5,
+          "subject": {
+            "en": "Your winery growth plan is being crafted, {{first_name|there}}",
+            "es": "Tu plan de crecimiento para tu viña está siendo elaborado, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "We're mapping your DTC channel, wine club, and digital export reach — plan on WhatsApp",
+            "es": "Mapeando tu canal DTC, club de vinos y alcance digital de exportación — plan en WhatsApp"
+          },
+          "template": "niche/wine_agriculture-plan-1.html",
+          "primary_cta": {
+            "en": "Chat on WhatsApp",
+            "es": "Chatear en WhatsApp"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=wine_agriculture-plan-1"
+        },
+        {
+          "id": "wine_agriculture-plan-2",
+          "delay_minutes": 120,
+          "subject": {
+            "en": "3 growth levers for your winery or vineyard, {{first_name|there}}",
+            "es": "3 palancas de crecimiento para tu viña o bodega, {{first_name|hola}}"
+          },
+          "preview": {
+            "en": "DTC e-commerce, wine club automation, and AI-powered storytelling for export markets",
+            "es": "E-commerce DTC, automatización de club de vinos e historias con IA para mercados de exportación"
+          },
+          "template": "niche/wine_agriculture-plan-2.html",
+          "primary_cta": {
+            "en": "Discuss my winery strategy",
+            "es": "Hablar sobre la estrategia de mi viña"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=wine_agriculture-plan-2"
+        },
+        {
+          "id": "wine_agriculture-plan-3",
+          "delay_minutes": 2880,
+          "subject": {
+            "en": "Did the winery growth plan land, {{first_name|there}}?",
+            "es": "¿Te llegó el plan de crecimiento para tu viña, {{first_name|hola}}?"
+          },
+          "preview": {
+            "en": "Any questions on the DTC channel or wine club strategy? 20 min is all we need",
+            "es": "¿Dudas sobre el canal DTC o estrategia del club de vinos? 20 min es todo lo que necesitamos"
+          },
+          "template": "niche/wine_agriculture-plan-3.html",
+          "primary_cta": {
+            "en": "Book a 20-min walkthrough",
+            "es": "Agendar revisión de 20 min"
+          },
+          "primary_url": "https://netwebmedia.com/contact.html?source=wine_agriculture-plan-3"
+        }
+      ]
+    }
+
+  }
+}

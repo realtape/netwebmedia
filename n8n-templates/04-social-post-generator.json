@@ -1,0 +1,104 @@
+{
+  "name": "NWM — Daily Blog → Claude → 3 Social Variants → Buffer",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": { "interval": [{ "field": "cronExpression", "expression": "0 14 * * 1-5" }] }
+      },
+      "id": "node-cron",
+      "name": "Weekdays 2pm",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://netwebmedia.com/app/api/?r=stats&type=latest_blog",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "X-API-Key", "value": "={{ $credentials.nwmApiKey }}" }]
+        }
+      },
+      "id": "node-latest",
+      "name": "Pull Latest Blog Post",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"claude-sonnet-4-5-20250929\",\n  \"max_tokens\": 1200,\n  \"system\": \"You are NetWebMedia's social media writer. Given a blog post title + summary, produce STRICT JSON with three platform-native posts: {linkedin:{text (≤1200 chars, professional, hook + 3 insights + CTA), hashtags:[5]}, twitter:{text (≤270 chars, punchy hook), hashtags:[3]}, instagram:{text (≤1800 chars, narrative, line breaks, emojis allowed), hashtags:[10]}}. No markdown, no preamble.\",\n  \"messages\": [{\"role\":\"user\",\"content\":\"Title: {{$json.title}}\\nURL: {{$json.url}}\\nSummary: {{$json.summary}}\"}]\n}"
+      },
+      "id": "node-claude",
+      "name": "Claude: Generate Variants",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 300],
+      "credentials": {
+        "httpHeaderAuth": { "id": "CRED_ANTHROPIC", "name": "Anthropic API" }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.content[0].text.replace(/^```(?:json)?|```$/gim, '').trim();\nconst v = JSON.parse(raw);\nconst url = $('Pull Latest Blog Post').item.json.url;\nreturn [\n  { json: { platform: 'linkedin', text: v.linkedin.text + '\\n\\n' + v.linkedin.hashtags.map(h=>'#'+h).join(' ') + '\\n' + url, profile_id: 'LINKEDIN_PROFILE_ID' } },\n  { json: { platform: 'twitter',  text: v.twitter.text  + ' ' + v.twitter.hashtags.map(h=>'#'+h).join(' ')  + ' ' + url, profile_id: 'TWITTER_PROFILE_ID' } },\n  { json: { platform: 'instagram',text: v.instagram.text+ '\\n\\n' + v.instagram.hashtags.map(h=>'#'+h).join(' '), profile_id: 'INSTAGRAM_PROFILE_ID' } }\n];"
+      },
+      "id": "node-split",
+      "name": "Split Variants",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.bufferapp.com/1/updates/create.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{ $credentials.bufferToken }}" },
+            { "name": "Content-Type", "value": "application/x-www-form-urlencoded" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "form",
+        "bodyParameters": {
+          "parameters": [
+            { "name": "profile_ids[]", "value": "={{ $json.profile_id }}" },
+            { "name": "text", "value": "={{ $json.text }}" },
+            { "name": "shorten", "value": "true" }
+          ]
+        }
+      },
+      "id": "node-buffer",
+      "name": "Buffer: Queue Post",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1120, 300]
+    }
+  ],
+  "connections": {
+    "Weekdays 2pm": { "main": [[{ "node": "Pull Latest Blog Post", "type": "main", "index": 0 }]] },
+    "Pull Latest Blog Post": { "main": [[{ "node": "Claude: Generate Variants", "type": "main", "index": 0 }]] },
+    "Claude: Generate Variants": { "main": [[{ "node": "Split Variants", "type": "main", "index": 0 }]] },
+    "Split Variants": { "main": [[{ "node": "Buffer: Queue Post", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "NetWebMedia" }, { "name": "social" }]
+}

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
+<title>NetWebMedia — Agent Org Chart</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", "Inter", system-ui, sans-serif;
+    background: #F5F7FA;
+    color: #2D3748;
+    min-height: 100vh;
+  }
+  header {
+    background: #010F3B;
+    color: #fff;
+    padding: 22px 40px;
+    border-bottom: 4px solid #FF671F;
+  }
+  header h1 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  header p {
+    margin: 0;
+    font-size: 13px;
+    color: #A8B5C7;
+  }
+  .legend {
+    display: flex;
+    gap: 24px;
+    padding: 16px 40px;
+    background: #fff;
+    border-bottom: 1px solid #E2E8F0;
+    font-size: 12px;
+    align-items: center;
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; }
+  .legend-dot {
+    width: 14px; height: 14px; border-radius: 3px;
+  }
+  .chart-wrap {
+    overflow-x: auto;
+    padding: 24px 0;
+  }
+  svg { display: block; margin: 0 auto; }
+
+  /* Lucidchart-style box */
+  .node-bg { fill: #fff; stroke: #CBD5E0; stroke-width: 1; }
+  .node-header { stroke: none; }
+  .node-title {
+    font-size: 13px;
+    font-weight: 600;
+    fill: #1A202C;
+    pointer-events: none;
+  }
+  .node-role {
+    font-size: 11px;
+    fill: #4A5568;
+    pointer-events: none;
+  }
+  .node-tier-label {
+    font-size: 10px;
+    font-weight: 700;
+    fill: #fff;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+  }
+  .node-model {
+    font-size: 9px;
+    font-weight: 600;
+    fill: #fff;
+    letter-spacing: 0.04em;
+    pointer-events: none;
+  }
+  .connector {
+    stroke: #94A3B8;
+    stroke-width: 1.5;
+    fill: none;
+  }
+  .arrowhead { fill: #94A3B8; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>NetWebMedia — AI Agent Org Chart</h1>
+  <p>12 Claude Code agents · mirrors human org · routed via .claude/AGENT-ROUTING.txt</p>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#FF671F"></div>CEO</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#010F3B"></div>Sonnet — Executive support</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#2E5BBA"></div>Opus — Strategic / complex</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#6B7C93"></div>Haiku — Routine work (~⅓ tokens)</div>
+</div>
+
+<div class="chart-wrap">
+<svg width="1500" height="850" viewBox="0 0 1500 850" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" class="arrowhead"/>
+    </marker>
+  </defs>
+
+  <!-- ============ CONNECTORS (drawn first so they sit under boxes) ============ -->
+  <!-- CEO → COS -->
+  <path d="M 250 420 L 320 420" class="connector" marker-end="url(#arrow)"/>
+
+  <!-- COS → 4 directors (orthogonal) -->
+  <path d="M 520 420 L 555 420 L 555 110 L 590 110" class="connector" marker-end="url(#arrow)"/>
+  <path d="M 520 420 L 555 420 L 555 350 L 590 350" class="connector" marker-end="url(#arrow)"/>
+  <path d="M 520 420 L 555 420 L 555 540 L 590 540" class="connector" marker-end="url(#arrow)"/>
+  <path d="M 520 420 L 555 420 L 555 730 L 590 730" class="connector" marker-end="url(#arrow)"/>
+
+  <!-- CMO → Content, Creative -->
+  <path d="M 790 110 L 850 110 L 850 60 L 900 60" class="connector" marker-end="url(#arrow)"/>
+  <path d="M 790 110 L 850 110 L 850 180 L 900 180" class="connector" marker-end="url(#arrow)"/>
+
+  <!-- Product → Engineering, PM -->
+  <path d="M 790 350 L 850 350 L 850 300 L 900 300" class="connector" marker-end="url(#arrow)"/>
+  <path d="M 790 350 L 850 350 L 850 420 L 900 420" class="connector" marker-end="url(#arrow)"/>
+
+  <!-- Sales → CS -->
+  <path d="M 790 540 L 900 540" class="connector" marker-end="url(#arrow)"/>
+
+  <!-- Ops → Finance, Data -->
+  <path d="M 790 730 L 850 730 L 850 670 L 900 670" class="connector" marker-end="url(#arrow)"/>
+  <path d="M 790 730 L 850 730 L 850 790 L 900 790" class="connector" marker-end="url(#arrow)"/>
+
+  <!-- ============ NODES ============ -->
+  <!-- helper: each node = rect(bg) + rect(header tier color) + text(title) + text(role) + text(tier+model) -->
+
+  <!-- CEO -->
+  <g filter="url(#shadow)">
+    <rect x="50" y="375" width="200" height="90" rx="6" class="node-bg"/>
+    <rect x="50" y="375" width="200" height="22" rx="6" fill="#FF671F" class="node-header"/>
+    <rect x="50" y="389" width="200" height="8" fill="#FF671F"/>
+    <text x="60" y="391" class="node-tier-label">CEO · FOUNDER</text>
+    <text x="150" y="425" text-anchor="middle" class="node-title">Carlos Martinez</text>
+    <text x="150" y="445" text-anchor="middle" class="node-role">Founder · NetWebMedia</text>
+  </g>
+
+  <!-- Chief of Staff (Sonnet) -->
+  <g filter="url(#shadow)">
+    <rect x="320" y="375" width="200" height="90" rx="6" class="node-bg"/>
+    <rect x="320" y="375" width="200" height="22" rx="6" fill="#010F3B" class="node-header"/>
+    <rect x="320" y="389" width="200" height="8" fill="#010F3B"/>
+    <text x="330" y="391" class="node-tier-label">SONNET</text>
+    <text x="490" y="391" text-anchor="end" class="node-model">CHIEF OF STAFF</text>
+    <text x="420" y="422" text-anchor="middle" class="node-title">Sofia</text>
+    <text x="420" y="438" text-anchor="middle" class="node-role" style="font-style:italic;font-size:10px;">carlos-ceo-assistant</text>
+    <text x="420" y="454" text-anchor="middle" class="node-role">Calendar · inbox · briefings</text>
+  </g>
+
+  <!-- ============ DIRECTORS ============ -->
+  <!-- CMO (Opus) -->
+  <g filter="url(#shadow)">
+    <rect x="590" y="65" width="200" height="90" rx="6" class="node-bg"/>
+    <rect x="590" y="65" width="200" height="22" rx="6" fill="#2E5BBA" class="node-header"/>
+    <rect x="590" y="79" width="200" height="8" fill="#2E5BBA"/>
+    <text x="600" y="81" class="node-tier-label">OPUS</text>
+    <text x="780" y="81" text-anchor="end" class="node-model">DIRECTOR</text>
+    <text x="690" y="112" text-anchor="middle" class="node-title">Marcus</text>
+    <text x="690" y="128" text-anchor="middle" class="node-role" style="font-style:italic;font-size:10px;">cmo</text>
+    <text x="690" y="144" text-anchor="middle" class="node-role">Brand · demand · content</text>
+  </g>
+
+  <!-- Product (Opus) -->
+  <g filter="url(#shadow)">
+    <rect x="590" y="305" width="200" height="90" rx="6" class="node-bg"/>
+    <rect x="590" y="305" width="200" height="22" rx="6" fill="#2E5BBA" class="node-header"/>
+    <rect x="590" y="319" width="200" height="8" fill="#2E5BBA"/>
+    <text x="600" y="321" class="node-tier-label">OPUS</text>
+    <text x="780" y="321" text-anchor="end" class="node-model">DIRECTOR</text>
+    <text x="690" y="352" text-anchor="middle" class="node-title">Priya</text>
+    <text x="690" y="368" text-anchor="middle" class="node-role" style="font-style:italic;font-size:10px;">product-manager</text>
+    <text x="690" y="384" text-anchor="middle" class="node-role">Packages · CRM · AI · sites</text>
+  </g>
+
+  <!-- Sales (Haiku) -->
+  <g filter="url(#shadow)">
+    <rect x="590" y="495" width="200" height="90" rx="6" class="node-bg"/>
+    <rect x="590" y="495" width="200" height="22" rx="6" fill="#6B7C93" class="node-header"/>
+    <rect x="590" y="509" width="200" height="8" fill="#6B7C93"/>
+    <text x="600" y="511" class="node-tier-label">HAIKU</text>
+    <text x="780" y="511" text-anchor="end" class="node-model">DIRECTOR</text>
+    <text x="690" y="542" text-anchor="middle" class="node-title">Diego</text>
+    <text x="690" y="558" text-anchor="middle" class="node-role" style="font-style:italic;font-size:10px;">sales-director</text>
+    <text x="690" y="574" text-anchor="middle" class="node-role">Pipeline · net-new revenue</text>
+  </g>
+
+  <!-- Ops (Haiku) -->
+  <g filter="url(#shadow)">
+    <rect x="590" y="685" width="200" height="90" rx="6" class="node-bg"/>
+    <rect x="590" y="685" width="200" height="22" rx="6" fill="#6B7C93" class="node-header"/>
+    <rect x="590" y="699" width="200" height="8" fill="#6B7C93"/>
+    <text x="600" y="701" class="node-tier-label">HAIKU</text>
+    <text x="780" y="701" text-anchor="end" class="node-model">DIRECTOR</text>
+    <text x="690" y="732" text-anchor="middle" class="node-title">Elena</text>
+    <text x="690" y="748" text-anchor="middle" class="node-role" style="font-style:italic;font-size:10px;">operations-manager</text>
+    <text x="690" y="764" text-anchor="middle" class="node-role">SOPs · vendors · tooling</text>
+  </g>
+
+  <!-- ============ SPECIALISTS ============ -->
+  <!-- Content -->
+  <g filter="url(#shadow)">
+    <rect x="900" y="20" width="200" height="80" rx="6" class="node-bg"/>
+    <rect x="900" y="20" width="200" height="22" rx="6" fill="#6B7C93" class="node-header"/>
+    <rect x="900" y="34" width="200" height="8" fill="#6B7C93"/>
+    <text x="910" y="36" class="node-tier-label">HAIKU</text>
+    <text x="1090" y="36" text-anchor="end" class="node-model">SPECIALIST</text>
+    <text x="1000" y="63" text-anchor="middle" class="node-title">Isabel</text>
+    <text x="1000" y="78" text-anchor="middle" class="node-role" style="font-style:italic;font-size:10px;">content-strategist</text>
+    <text x="1000" y="92" text-anchor="middle" class="node-role">Blog · AEO/SEO · email</text>
+  </g>
+
+  <!-- Creative -->
+  <g filter="url(#shadow)">
+    <rect x="900" y="140" width="200" height="80" rx="6" class="node-bg"/>
+    <rect x="900" y="140" width="200" height="22" rx="6" fill="#6B7C93" class="node-header"/>
+    <rect x="900" y="154" width="200" height="8" fill="#6B7C93"/>
+    <text x="910" y="156" class="node-tier-label">HAIKU</text>
+    <text x="1090" y="156" text-anchor="end" class="node-model">SPECIALIST</text>
+    <text x="1000" y="183" text-anchor="middle" class="node-title">Aria</text>
+    <text x="1000" y="198" text-anchor="middle" class="node-role" style="font-style:italic;font-size:10px;">creative-director</text>
+    <text x="1000" y="212" text-anchor="middle" class="node-role">Visual · UX/UI · ad creative</text>
+  </g>
+
+  <!-- Engineering (Opus) -->
+  <g filter="url(#shadow)">
+    <rect x="900" y="260" width="200" height="80" rx="6" class="node-bg"/>
+    <rect x="900" y="260" width="200" height="22" rx="6" fill="#2E5BBA" class="node-header"/>
+    <rect x="900" y="274" width="200" height="8" fill="#2E5BBA"/>
+    <text x="910" y="276" class="node-tier-label">OPUS</text>
+    <text x="1090" y="276" text-anchor="end" class="node-model">SPECIALIST</text>
+    <text x="1000" y="303" text-anchor="middle" class="node-title">David</text>
+    <text x="1000" y="318" text-anchor="middle" class="node-role" style="font-style:italic;font-size:10px;">engineering-lead</text>
+    <text x="1000" y="332" text-anchor="middle" class="node-role">Architecture · AI · security</text>
+  </g>
+
+  <!-- PM -->
+  <g filter="url(#shadow)">
+    <rect x="900" y="380" width="200" height="80" rx="6" class="node-bg"/>
+    <rect x="900" y="380" width="200" height="22" rx="6" fill="#6B7C93" class="node-header"/>
+    <rect x="900" y="394" width="200" height="8" fill="#6B7C93"/>
+    <text x="910" y="396" class="node-tier-label">HAIKU</text>
+    <text x="1090" y="396" text-anchor="end" class="node-model">SPECIALIST</text>
+    <text x="1000" y="423" text-anchor="middle" class="node-title">Rachel</text>
+    <text x="1000" y="438" text-anchor="middle" class="node-role" style="font-style:italic;font-size:10px;">project-manager</text>
+    <text x="1000" y="452" text-anchor="middle" class="node-role">Delivery · scope · timelines</text>
+  </g>
+
+  <!-- CS -->
+  <g filter="url(#shadow)">
+    <rect x="900" y="500" width="200" height="80" rx="6" class="node-bg"/>
+    <rect x="900" y="500" width="200" height="22" rx="6" fill="#6B7C93" class="node-header"/>
+    <rect x="900" y="514" width="200" height="8" fill="#6B7C93"/>
+    <text x="910" y="516" class="node-tier-label">HAIKU</text>
+    <text x="1090" y="516" text-anchor="end" class="node-model">SPECIALIST</text>
+    <text x="1000" y="543" text-anchor="middle" class="node-title">Maya</text>
+    <text x="1000" y="558" text-anchor="middle" class="node-role" style="font-style:italic;font-size:10px;">customer-success</text>
+    <text x="1000" y="572" text-anchor="middle" class="node-role">Retention · QBRs · expansion</text>
+  </g>
+
+  <!-- Finance -->
+  <g filter="url(#shadow)">
+    <rect x="900" y="630" width="200" height="80" rx="6" class="node-bg"/>
+    <rect x="900" y="630" width="200" height="22" rx="6" fill="#6B7C93" class="node-header"/>
+    <rect x="900" y="644" width="200" height="8" fill="#6B7C93"/>
+    <text x="910" y="646" class="node-tier-label">HAIKU</text>
+    <text x="1090" y="646" text-anchor="end" class="node-model">SPECIALIST</text>
+    <text x="1000" y="673" text-anchor="middle" class="node-title">James</text>
+    <text x="1000" y="688" text-anchor="middle" class="node-role" style="font-style:italic;font-size:10px;">finance-controller</text>
+    <text x="1000" y="702" text-anchor="middle" class="node-role">Billing · P&amp;L · cash</text>
+  </g>
+
+  <!-- Data -->
+  <g filter="url(#shadow)">
+    <rect x="900" y="750" width="200" height="80" rx="6" class="node-bg"/>
+    <rect x="900" y="750" width="200" height="22" rx="6" fill="#6B7C93" class="node-header"/>
+    <rect x="900" y="764" width="200" height="8" fill="#6B7C93"/>
+    <text x="910" y="766" class="node-tier-label">HAIKU</text>
+    <text x="1090" y="766" text-anchor="end" class="node-model">SPECIALIST</text>
+    <text x="1000" y="793" text-anchor="middle" class="node-title">Liam</text>
+    <text x="1000" y="808" text-anchor="middle" class="node-role" style="font-style:italic;font-size:10px;">data-analyst</text>
+    <text x="1000" y="822" text-anchor="middle" class="node-role">Analytics · attribution · SQL</text>
+  </g>
+
+  <!-- ============ COLUMN LABELS ============ -->
+  <text x="150" y="510" text-anchor="middle" font-size="11" font-weight="700" fill="#94A3B8" letter-spacing="0.1em">LEADERSHIP</text>
+  <text x="420" y="510" text-anchor="middle" font-size="11" font-weight="700" fill="#94A3B8" letter-spacing="0.1em">EXECUTIVE</text>
+  <text x="690" y="820" text-anchor="middle" font-size="11" font-weight="700" fill="#94A3B8" letter-spacing="0.1em">DIRECTORS</text>
+  <text x="1000" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#94A3B8" letter-spacing="0.1em"></text>
+
+</svg>
+</div>
+
+<div style="padding: 24px 40px; background: #fff; border-top: 1px solid #E2E8F0; max-width: 1500px; margin: 0 auto;">
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; font-size: 12px;">
+    <div>
+      <div style="font-weight: 600; color: #010F3B; margin-bottom: 8px;">Total agents</div>
+      <div style="font-size: 24px; font-weight: 700; color: #FF671F;">12</div>
+    </div>
+    <div>
+      <div style="font-weight: 600; color: #010F3B; margin-bottom: 8px;">Opus (strategic)</div>
+      <div style="font-size: 24px; font-weight: 700; color: #2E5BBA;">3</div>
+      <div style="color: #4A5568;">cmo · product · engineering</div>
+    </div>
+    <div>
+      <div style="font-weight: 600; color: #010F3B; margin-bottom: 8px;">Sonnet (executive)</div>
+      <div style="font-size: 24px; font-weight: 700; color: #010F3B;">1</div>
+      <div style="color: #4A5568;">chief of staff</div>
+    </div>
+    <div>
+      <div style="font-weight: 600; color: #010F3B; margin-bottom: 8px;">Haiku (routine)</div>
+      <div style="font-size: 24px; font-weight: 700; color: #6B7C93;">8</div>
+      <div style="color: #4A5568;">~⅓ the tokens of Opus</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

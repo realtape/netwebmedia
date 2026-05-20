@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>AEO Audit — Jamie Test PLLC</title>
+<style>
+  :root { --navy:#010F3B; --orange:#FF671F; --ink:#0a0e27; --soft:#5b5f7a; --line:#e5e7eb; --bg:#fafbfc; --ok:#16a34a; --warn:#f59e0b; --bad:#dc2626; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,'Segoe UI',Roboto,sans-serif; line-height:1.6; }
+  .page { max-width: 820px; margin: 0 auto; padding: 56px 48px; background:#fff; box-shadow: 0 4px 30px rgba(0,0,0,.08); }
+  .head { display:flex; justify-content:space-between; align-items:center; padding-bottom: 22px; border-bottom: 2px solid var(--navy);}
+  .brand { display:flex; align-items:center; gap:12px; }
+  .brand-logo { width:42px; height:42px; border-radius:10px; background:linear-gradient(135deg,var(--orange),#ff8c4a); display:grid; place-items:center; color:var(--navy); font-weight:800; font-size:22px;}
+  .brand-name { font-weight:800; color:var(--navy); font-size:18px; }
+  .doc-num { color:var(--soft); font-size:13px; text-align:right; }
+  h1 { font-size: 34px; color: var(--navy); margin: 32px 0 6px; letter-spacing: -0.01em; line-height: 1.15; }
+  .sub { color:var(--soft); margin: 0 0 26px; font-size: 16px;}
+  h2 { font-size: 21px; color: var(--navy); margin: 32px 0 10px; }
+  h3 { font-size: 15px; color: var(--navy); margin: 20px 0 8px; text-transform: uppercase; letter-spacing: 0.08em; }
+  p { margin: 0 0 12px; }
+  .score-row { display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 22px 0;}
+  .score-card { padding: 18px 20px; border-radius: 12px; background: #f4f6fb; border: 1px solid var(--line); }
+  .score-card .k { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--soft); font-weight: 700; margin-bottom: 6px; }
+  .score-card .v { font-size: 32px; font-weight: 800; color: var(--navy); letter-spacing: -0.02em; }
+  .score-card .v.warn { color: var(--warn); }
+  .score-card .v.bad { color: var(--bad); }
+  .score-card .delta { font-size: 12px; color: var(--soft); margin-top: 6px;}
+  .badge { display: inline-block; background: var(--orange); color: #fff; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  table { width:100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  table th, table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  table th { background: #f4f6fb; font-weight: 700; }
+  table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .status-pill { display:inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+  .status-pill.ok { background: rgba(22,163,74,.12); color: var(--ok); }
+  .status-pill.warn { background: rgba(245,158,11,.12); color: var(--warn); }
+  .status-pill.bad { background: rgba(220,38,38,.12); color: var(--bad); }
+  .reco { background: #fff7ef; border-left: 4px solid var(--orange); padding: 14px 18px; border-radius: 8px; margin: 16px 0; }
+  .reco strong { color: var(--orange); }
+  ul.recos { padding-left: 18px; margin: 12px 0; }
+  ul.recos li { margin: 8px 0; }
+  .footer-note { color: var(--soft); font-size: 12.5px; margin-top: 30px; padding-top: 16px; border-top: 1px dashed var(--line); }
+  .credit-banner { background: linear-gradient(135deg, var(--navy), #0a1f5c); color: #fff; padding: 18px 24px; border-radius: 12px; margin: 24px 0; }
+  .credit-banner .label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); font-weight: 700; margin-bottom: 4px;}
+  .credit-banner .val { font-size: 18px; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="head">
+    <div class="brand">
+      <div class="brand-logo">N</div>
+      <div>
+        <div class="brand-name">NetWebMedia</div>
+        <div style="color:var(--soft); font-size:12px;">AEO Citation Audit</div>
+      </div>
+    </div>
+    <div class="doc-num">
+      <strong>Audit · NWM-AUDIT-2026-0029</strong><br />
+      Delivered 15 April 2026 · 48h from purchase
+    </div>
+  </div>
+
+  <span class="badge">AEO Citation Audit · 18 pages · cover excerpt</span>
+  <h1>How Jamie Test PLLC appears in answer engines today</h1>
+  <p class="sub">Tested 15 practice-area &amp; location queries across ChatGPT, Claude, Perplexity, Gemini · April 13&ndash;15, 2026</p>
+
+  <h2>AEO Citation Index — your score</h2>
+  <div class="score-row">
+    <div class="score-card">
+      <div class="k">Overall AEO score</div>
+      <div class="v bad">14/100</div>
+      <div class="delta">Top-3 competitor in your market: 67/100</div>
+    </div>
+    <div class="score-card">
+      <div class="k">Practice areas cited</div>
+      <div class="v warn">1 of 5</div>
+      <div class="delta">"Estate planning" only · in 2 of 4 engines</div>
+    </div>
+    <div class="score-card">
+      <div class="k">Citation gap vs. leader</div>
+      <div class="v bad">−53 pts</div>
+      <div class="delta">Closeable in ~90 days with focused content</div>
+    </div>
+  </div>
+
+  <h2>1 · What we tested</h2>
+  <p>We ran 15 real prospect queries across ChatGPT (free + Plus), Claude (Sonnet 4.5), Perplexity, and Gemini — three queries per practice area, varied by location and intent. Each citation was scored on:</p>
+  <ul>
+    <li><strong>Inclusion</strong> — does your firm appear in the answer?</li>
+    <li><strong>Position</strong> — first mention, second, footnote-only?</li>
+    <li><strong>Context</strong> — is your firm cited as authoritative, or just listed?</li>
+  </ul>
+
+  <h2>2 · Practice-area-level results</h2>
+  <table>
+    <thead><tr><th>Practice area</th><th>ChatGPT</th><th>Claude</th><th>Perplexity</th><th>Gemini</th><th class="num">Score</th></tr></thead>
+    <tbody>
+      <tr><td>Estate planning</td><td><span class="status-pill ok">Cited</span></td><td><span class="status-pill ok">Cited</span></td><td><span class="status-pill warn">Footnote</span></td><td><span class="status-pill bad">Missing</span></td><td class="num">62</td></tr>
+      <tr><td>Probate</td><td><span class="status-pill bad">Missing</span></td><td><span class="status-pill warn">Footnote</span></td><td><span class="status-pill bad">Missing</span></td><td><span class="status-pill bad">Missing</span></td><td class="num">18</td></tr>
+      <tr><td>Trust administration</td><td><span class="status-pill bad">Missing</span></td><td><span class="status-pill bad">Missing</span></td><td><span class="status-pill bad">Missing</span></td><td><span class="status-pill bad">Missing</span></td><td class="num">0</td></tr>
+      <tr><td>Will contests</td><td><span class="status-pill bad">Missing</span></td><td><span class="status-pill bad">Missing</span></td><td><span class="status-pill warn">Footnote</span></td><td><span class="status-pill bad">Missing</span></td><td class="num">8</td></tr>
+      <tr><td>Tax planning (estate-focused)</td><td><span class="status-pill bad">Missing</span></td><td><span class="status-pill bad">Missing</span></td><td><span class="status-pill bad">Missing</span></td><td><span class="status-pill bad">Missing</span></td><td class="num">0</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3 · The top-3 reasons you're missing</h2>
+
+  <div class="reco">
+    <strong>Reason 1 · No FAQPage schema on practice pages.</strong> ChatGPT cites firms with structured FAQ markup 3.2× more than firms without. Your 5 practice pages have zero schema today. This is the single biggest leverage point.
+  </div>
+
+  <div class="reco">
+    <strong>Reason 2 · Anchor pages are 280&ndash;420 words.</strong> Citation-worthy practice content runs 1,800&ndash;2,200 words with question-answer structure. Your pages are short brochure copy. Answer engines pass them over for longer, deeper alternatives.
+  </div>
+
+  <div class="reco">
+    <strong>Reason 3 · No location specificity.</strong> Your pages name "Jamie Test PLLC" but never name the city you serve. Engines like Perplexity weight geo-explicit content for location queries. This is a 30-minute fix per page.
+  </div>
+
+  <h2>4 · The 90-day fix path (recommended)</h2>
+  <ul class="recos">
+    <li><strong>Weeks 1&ndash;2:</strong> Add FAQPage schema + 5 high-intent FAQs to each of your 5 practice pages. Estimated lift: 25&ndash;40 AEO score points.</li>
+    <li><strong>Weeks 3&ndash;6:</strong> Expand each practice page to 1,800+ words with question-answer structure. One page per week.</li>
+    <li><strong>Weeks 7&ndash;10:</strong> Add location-specific landing pages for your top 3 cities × 2 anchor practice areas (6 pages).</li>
+    <li><strong>Weeks 11&ndash;12:</strong> Re-audit and adjust. Expected final score: 55&ndash;70/100 (matches top-3 competitor).</li>
+  </ul>
+
+  <h2>5 · What this would cost if NWM did the work</h2>
+  <p>The above plan maps directly to <strong>NWM's AEO Starter ($249/mo)</strong> or <strong>CMO Standard ($1,490/mo)</strong>. AEO Starter executes 100% of the citation plan; CMO Standard adds paid ads, email, and intake automation on top.</p>
+
+  <div class="credit-banner">
+    <div class="label">Your $997 audit credits forward</div>
+    <div class="val">If you upgrade to AEO Starter or any CMO retainer within 90 days, the full $997 you paid for this audit credits toward your first invoice. No expiration if you have an active retainer.</div>
+  </div>
+
+  <h2>6 · Methodology &amp; data</h2>
+  <p>Full query log, raw response transcripts, and competitor scoring is included in pages 11&ndash;18 of this audit (omitted in this cover excerpt). All tests run on standard accounts &mdash; no API tier, no logged-in context &mdash; to match what a real prospect would see.</p>
+
+  <div class="footer-note">
+    NetWebMedia · AI-Native Fractional CMO · <a href="https://netwebmedia.com" style="color:var(--orange);">netwebmedia.com</a> · <a href="mailto:hello@netwebmedia.com" style="color:var(--orange);">hello@netwebmedia.com</a><br />
+    Confidential. Document: NWM-AUDIT-2026-0029 · Delivered 15 April 2026 · Audit credit valid for upgrade-to-retainer.
+  </div>
+</div>
+</body>
+</html>

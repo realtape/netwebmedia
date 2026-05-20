@@ -1,0 +1,477 @@
+[
+  {
+    "slug": "gpt-5-enterprise-pricing-shift",
+    "topic": "ai",
+    "tag": "AI Research",
+    "author": "Ana González",
+    "readTime": "7 min read",
+    "title": "GPT-5's Enterprise Pricing Shift Is Rewriting the LLM Budget Conversation",
+    "description": "GPT-5's enterprise pricing model changes how CMOs budget for LLMs. Here's what marketing teams need to renegotiate before the next fiscal year.",
+    "sections": [
+      { "p": "OpenAI quietly changed how enterprise GPT-5 is sold — and most procurement teams haven't caught up yet. The new model blends per-seat, usage-based, and reserved-capacity pricing in ways that reward sophisticated buyers and punish naive ones." },
+      { "h2": "Reserved capacity is the new IT budget line" },
+      { "paragraphs": [
+        "For high-volume marketing use cases — ad copy generation, lifecycle personalization, content audits — reserved capacity now costs 40–60% less than on-demand. The catch: you commit up front and you can't roll unused capacity forward.",
+        "Teams that treated LLMs as pay-as-you-go last year are writing checks twice as large as teams that forecast, commit, and manage allocation properly."
+      ]},
+      { "h2": "The three-bucket negotiation" },
+      { "paragraphs": [
+        "Split your workload into three buckets before you negotiate: always-on (lifecycle, scoring, classification), bursty (campaign launches, creative testing), and experimental (R&D). Reserved pricing wins bucket one; on-demand wins bucket three; bucket two is where the negotiation gets interesting."
+      ]},
+      { "list": [
+        "Quantify monthly token consumption per bucket before the sales call — not after.",
+        "Ask for a committed-use discount on bucket one with a quarterly true-up.",
+        "Negotiate a burst allowance for bucket two — 2–3x your average, no surcharge."
+      ]},
+      { "quote": "The best enterprise LLM deal in 2026 isn't the cheapest per-token price — it's the contract that matches how your team actually consumes." }
+    ]
+  },
+  {
+    "slug": "claude-4-sonnet-long-context-playbook",
+    "topic": "ai",
+    "tag": "AI Tools",
+    "author": "David Kim",
+    "readTime": "8 min read",
+    "title": "Claude 4 Sonnet's Long Context Window Is a Strategy Weapon for Marketing",
+    "description": "Claude 4 Sonnet handles 500K+ tokens cleanly. Marketing strategy work that used to require careful chunking now runs in a single prompt.",
+    "sections": [
+      { "p": "Claude 4 Sonnet's long context window isn't just a bigger number on a spec sheet. It changes what kind of strategy work you can do in a single pass — and the teams who've figured that out are producing deliverables their competitors can't match." },
+      { "h2": "The single-pass strategy brief" },
+      { "paragraphs": [
+        "Drop in your last 12 months of customer research, every competitor teardown, your full brand guidelines, and a summary of last quarter's paid media results. Ask Claude to produce a full Q4 strategy brief. What used to take a senior strategist two weeks now takes a smart prompt and twenty minutes.",
+        "The catch: garbage in, garbage out is amplified at 500K tokens. Teams that don't curate their inputs get eloquent confusion."
+      ]},
+      { "h2": "Where long context pays off most" },
+      { "list": [
+        "Cross-functional research synthesis (product + support + sales + marketing in one doc)",
+        "Competitive teardowns across a whole category",
+        "Brand voice audits across years of published content",
+        "Full-funnel campaign post-mortems with every asset in context"
+      ]},
+      { "quote": "Long context doesn't replace strategists. It gives one strategist the output of a team of five." }
+    ]
+  },
+  {
+    "slug": "gemini-live-voice-agents-launch",
+    "topic": "voice",
+    "tag": "AI Agents",
+    "author": "Valentina Ruiz",
+    "readTime": "6 min read",
+    "title": "Gemini Live Just Made Real-Time Voice Agents a Default Feature",
+    "description": "Google's Gemini Live API brings low-latency voice interaction to any app. For marketing teams, it's the start of voice agents as a real channel.",
+    "sections": [
+      { "p": "Gemini Live's low-latency voice API finally makes real-time voice agents feasible to ship — not in a demo, but in production. The latency-to-quality ratio crossed the threshold where a voice agent feels like a conversation, not an interview." },
+      { "h2": "The three use cases worth building now" },
+      { "list": [
+        "Inbound qualification: voice agent handles the first 60 seconds of a sales call, gathers context, routes to the right rep.",
+        "Post-purchase support: voice agent walks new customers through onboarding questions without waiting for a human.",
+        "Outbound nurture: voice agent calls warm leads at the time they said they'd be free, with a human on standby for anything complex."
+      ]},
+      { "h2": "The trust budget" },
+      { "paragraphs": [
+        "Voice agents still burn through buyer trust faster than text. The rule we enforce with clients: disclose the agent within the first ten seconds, give the caller an obvious path to a human, and never let the agent pretend it's one."
+      ]},
+      { "quote": "Voice agents work when they feel like 'the smart person who picks up before the right person can.' They fail when they feel like a phone tree." }
+    ]
+  },
+  {
+    "slug": "anthropic-mcp-model-context-protocol",
+    "topic": "code",
+    "tag": "AI Architecture",
+    "author": "Marcus Chen",
+    "readTime": "9 min read",
+    "title": "Model Context Protocol: The Plumbing That Finally Makes Agents Portable",
+    "description": "Anthropic's Model Context Protocol is quietly becoming the universal adapter for AI agents. Here's why marketing engineering teams should care.",
+    "sections": [
+      { "p": "Model Context Protocol (MCP) is the boring-sounding standard that's about to make every AI agent project 10x less painful. Think of it as USB for tool access: any model that speaks MCP can talk to any tool that speaks MCP, without a one-off integration." },
+      { "h2": "Why portability is the whole problem" },
+      { "paragraphs": [
+        "Most marketing teams that built AI agents in 2024 ended up with a tangle of custom integrations hard-coded to OpenAI. When they wanted to test Claude or switch to a cheaper model, they had to rewrite the connectors.",
+        "MCP collapses that work to near-zero. Build one MCP server for your CMS, your CRM, and your analytics warehouse. Any compliant model can use them tomorrow."
+      ]},
+      { "h2": "Where to start" },
+      { "olist": [
+        "Wrap your CMS in an MCP server first. Content access is the highest-leverage starting point for marketing agents.",
+        "Add your analytics warehouse next. Grounded numeric answers beat hallucinated dashboards.",
+        "Add your CRM third. Permissions are trickier — plan for least-privilege access from day one."
+      ]},
+      { "quote": "MCP won't show up in any marketing deck. It will quietly change which AI tools you can adopt in 2027." }
+    ]
+  },
+  {
+    "slug": "openai-operator-computer-agent-marketing",
+    "topic": "ai",
+    "tag": "AI Agents",
+    "author": "Sofia Martínez",
+    "readTime": "7 min read",
+    "title": "OpenAI Operator and the Quiet Return of Browser-Based Marketing Agents",
+    "description": "Operator lets an AI drive a real browser on your behalf. For marketing teams doing repetitive ops work, it's the start of a real automation unlock.",
+    "sections": [
+      { "p": "OpenAI Operator is a computer-using agent that drives a real browser — clicking, typing, filling forms, uploading files. It's slow, it makes mistakes, and it is still the best tool we've used for automating the boring half of marketing ops." },
+      { "h2": "The tasks Operator already nails" },
+      { "list": [
+        "Uploading a batch of creative assets to an ad platform.",
+        "Pulling week-over-week performance data from 6 dashboards into a single spreadsheet.",
+        "Rebuilding a client's audience segments across 3 platforms when they change personas."
+      ]},
+      { "h2": "Where it still struggles" },
+      { "paragraphs": [
+        "Operator gets confused by pop-ups, captchas, and UIs that change without warning. Don't let it touch anything where a mistake costs money — budget adjustments, ad launches, permission changes. Treat it as the intern that's fast but needs supervision."
+      ]},
+      { "quote": "Operator isn't going to replace your media buyer. It's going to replace the 40% of a media buyer's week that's button-pushing." }
+    ]
+  },
+  {
+    "slug": "hubspot-breeze-ai-marketing-hub",
+    "topic": "sales",
+    "tag": "Marketing Ops",
+    "author": "Isabella Torres",
+    "readTime": "7 min read",
+    "title": "HubSpot Breeze Is Folding AI Into Every Corner of Marketing Hub",
+    "description": "HubSpot Breeze adds AI agents to every feature in Marketing Hub. Here's what it does well, where it still needs a human, and when to turn it off.",
+    "sections": [
+      { "p": "HubSpot's Breeze AI suite doesn't make noise like the frontier labs, but it's quietly folding AI into every feature in Marketing Hub — content generation, email personalization, workflow suggestions, lead scoring. For HubSpot-native teams, it's the easiest AI upgrade available." },
+      { "h2": "The features that actually earn their keep" },
+      { "list": [
+        "Breeze Copilot for drafting marketing emails in brand voice — saves real time.",
+        "Content remix, turning one blog post into a social pack and a newsletter — 70% solid, 30% needs editing.",
+        "Lead scoring with explanations — finally, scores you can debug."
+      ]},
+      { "h2": "Where we turn Breeze off" },
+      { "paragraphs": [
+        "We turn off Breeze's automatic reply suggestions in inboxes. They're polite, generic, and off-brand in a way that wastes the relationship currency a good reply earns. For messages that matter, write them yourself."
+      ]},
+      { "quote": "Breeze wins on convenience. If your brand voice is a competitive advantage, you still need a human on the drafts that go out." }
+    ]
+  },
+  {
+    "slug": "zapier-central-ai-workflow-automation",
+    "topic": "code",
+    "tag": "Marketing Ops",
+    "author": "Carlos Rivera",
+    "readTime": "6 min read",
+    "title": "Zapier Central Quietly Became the Default AI Workflow Builder for SMBs",
+    "description": "Zapier Central combines Zapier's 6,000 integrations with AI agent building. For SMBs, it's the fastest path from idea to working automation.",
+    "sections": [
+      { "p": "Zapier Central lets non-technical operators build AI agents that can talk to any of Zapier's 6,000+ integrations — Slack, Gmail, HubSpot, Stripe, Airtable, everything. For small marketing teams that don't have a dedicated engineer, it's the fastest path from 'I wish we had a tool that...' to a working tool." },
+      { "h2": "The integration moat" },
+      { "paragraphs": [
+        "The agent builders with better models (OpenAI's GPTs, Claude Projects) don't plug into your SaaS stack out of the box. Zapier does. The time-to-first-working-agent is measured in minutes, not weeks."
+      ]},
+      { "h2": "Patterns our SMB clients are shipping" },
+      { "list": [
+        "Lead triage: new form submission → enriched in Clearbit → scored by Claude → routed to Slack channel.",
+        "Content review: blog draft in Google Doc → Claude checks brand voice + SEO → Slack approval flow.",
+        "Client reporting: weekly cron → Claude reads analytics → generates a plain-English summary → emails it."
+      ]},
+      { "quote": "Zapier Central is the SMB AI ops team. Not as flexible as a real engineer, infinitely cheaper, shipped in an afternoon." }
+    ]
+  },
+  {
+    "slug": "framer-ai-landing-pages-v2",
+    "topic": "code",
+    "tag": "Web",
+    "author": "Noah Williams",
+    "readTime": "6 min read",
+    "title": "Framer AI Is Making Landing Page Design Feel Like a Conversation",
+    "description": "Framer's AI builder generates pixel-perfect landing pages from a conversation. For marketers who want design without a designer, it's the new default.",
+    "sections": [
+      { "p": "Framer's AI builder went from novelty to production-usable over the last six months. You describe the page in plain English, and Framer generates a pixel-perfect layout you can ship the same day. For small marketing teams without a designer on staff, it's the closest thing to magic we've tested." },
+      { "h2": "The guardrails that matter" },
+      { "paragraphs": [
+        "Framer's AI is great at layout and copy scaffolding. It's less great at brand consistency. Set up a strict Framer style system — colors, type, spacing — before you let AI generate inside it. Otherwise you'll end up with 12 pages that look like 12 different brands."
+      ]},
+      { "h2": "What we ship with it" },
+      { "list": [
+        "Campaign landing pages for paid traffic — one per offer, all on-brand.",
+        "Partner co-marketing pages — Framer produces a first draft in minutes, partner brand guidelines plugged in.",
+        "Post-event recap pages — a single Framer AI session turns raw notes into a publishable recap."
+      ]},
+      { "quote": "Designers still matter. Framer AI just handles the 60% of pages designers didn't want to work on anyway." }
+    ]
+  },
+  {
+    "slug": "webflow-ai-localization-workflow",
+    "topic": "code",
+    "tag": "Web",
+    "author": "Sofia Martínez",
+    "readTime": "7 min read",
+    "title": "Webflow's AI Localization Workflow Is Killing Translation Ticket Queues",
+    "description": "Webflow's AI-powered localization translates and publishes site variants in under 10 minutes. Here's how international marketing teams are using it.",
+    "sections": [
+      { "p": "Webflow's AI localization takes a page, generates brand-consistent translations into every language you configure, and publishes the variants — all without a ticket to a translation vendor. What used to be a week of loc ops is now an afternoon." },
+      { "h2": "The quality floor is finally acceptable" },
+      { "paragraphs": [
+        "The AI translations aren't perfect, but they clear the 'won't embarrass us' bar for most B2B marketing copy. For languages where you have a native speaker on the team, have them review the first 10 pages per language. After that, the model's mistakes become predictable and you can set clear review rules."
+      ]},
+      { "h2": "The workflow we run" },
+      { "olist": [
+        "Publish the English page as source of truth.",
+        "Webflow AI generates 8 localized variants overnight.",
+        "Native reviewers spot-check 20% on launch day.",
+        "Remaining 80% ships in bulk, monitored via rank tracking."
+      ]},
+      { "quote": "The first brand in your category that ships in 10 languages at a reasonable quality will beat the brand that ships in 3 languages perfectly. Webflow AI made that a solved problem." }
+    ]
+  },
+  {
+    "slug": "make-com-ai-scenarios-for-marketing",
+    "topic": "code",
+    "tag": "Marketing Ops",
+    "author": "David Kim",
+    "readTime": "7 min read",
+    "title": "Make.com's AI Scenarios Are the Agency Automation Workhorse of 2026",
+    "description": "Make.com's visual workflow builder plus AI modules is how agencies are automating client ops without writing code. Here's our real-world deployment playbook.",
+    "sections": [
+      { "p": "Make.com used to be the slightly-nerdier Zapier alternative. Their new AI scenario modules have turned it into something more powerful: a visual automation builder where every step can include an LLM call with real context from the workflow." },
+      { "h2": "Why agencies picked Make" },
+      { "paragraphs": [
+        "Agencies running 20+ clients need workflow reuse, branching logic, and error handling. Make's visual editor does all three better than Zapier, and the AI modules plug in natively — no API glue code.",
+        "The learning curve is steeper than Zapier, but the ceiling is much higher."
+      ]},
+      { "h2": "Scenarios that pay for themselves in week one" },
+      { "list": [
+        "Monthly client report generation: data in → AI writes narrative → PDF out → Slack delivered.",
+        "Cross-client benchmark: every client's KPIs into one warehouse, weekly AI summary.",
+        "Creative brief intake: form → AI structures → rewrites into brief template → routed for approval."
+      ]},
+      { "quote": "Make.com is how small agencies punch above their weight. The automation payoff arrives before the learning curve ends." }
+    ]
+  },
+  {
+    "slug": "n8n-self-hosted-ai-agency-stack",
+    "topic": "code",
+    "tag": "AI Architecture",
+    "author": "Marcus Chen",
+    "readTime": "8 min read",
+    "title": "n8n Self-Hosted Is the Private AI Stack Enterprise Agencies Are Quietly Adopting",
+    "description": "n8n's self-hosted model lets agencies run AI workflows without sending client data to third-party SaaS. For regulated verticals, it's becoming the default.",
+    "sections": [
+      { "p": "For agencies serving regulated clients — finance, healthcare, government — sending workflow data through a third-party automation SaaS is a non-starter. n8n's self-hosted model is the quiet workaround: same visual builder, runs inside your own infrastructure, nothing leaves your cloud." },
+      { "h2": "The compliance math" },
+      { "paragraphs": [
+        "When a Fortune 500 CISO hears 'we're running your campaign data through Zapier,' they panic. When they hear 'we're running it through n8n, self-hosted in our AWS account, under your BAA,' they relax. Same underlying capability, vastly different legal conversation."
+      ]},
+      { "h2": "What to run on it" },
+      { "list": [
+        "Any workflow touching PHI (healthcare client data).",
+        "Any workflow touching PII for EU or California residents where data residency is required.",
+        "Any workflow involving unannounced internal data — M&A targets, exec communications, pre-launch creative."
+      ]},
+      { "quote": "Self-hosted automation isn't glamorous. It's how you win enterprise contracts nobody else can legally serve." }
+    ]
+  },
+  {
+    "slug": "retool-agents-internal-marketing-tools",
+    "topic": "code",
+    "tag": "AI Tools",
+    "author": "Ana González",
+    "readTime": "6 min read",
+    "title": "Retool Agents Are the Fastest Way to Build Internal Marketing Tools",
+    "description": "Retool's AI agent builder lets ops teams assemble internal tools from components. For marketing ops teams drowning in tickets, it's a production booster.",
+    "sections": [
+      { "p": "Retool was already the default internal-tool builder for lean engineering teams. Retool Agents extends that to AI workflows — giving marketing ops teams a no-ticket way to build tools that used to require a real engineer." },
+      { "h2": "The speed advantage" },
+      { "paragraphs": [
+        "Retool's component library (tables, forms, API calls, auth) means your agent can interact with real systems from day one. You don't spend two weeks on boilerplate — you start with the hard part and iterate."
+      ]},
+      { "h2": "Three tools we've built in under a day" },
+      { "list": [
+        "Brand voice checker: paste a draft, get a score plus specific fixes.",
+        "Campaign launch checklist: agent walks through a 30-point QA and blocks launch if anything fails.",
+        "Competitor monitor: agent watches 8 competitor sites, Slack-alerts on meaningful changes."
+      ]},
+      { "quote": "Retool Agents won't replace engineers. They will kill the backlog of tickets engineers never wanted to work on in the first place." }
+    ]
+  },
+  {
+    "slug": "airtable-ai-formulas-data-enrichment",
+    "topic": "data",
+    "tag": "Analytics",
+    "author": "Isabella Torres",
+    "readTime": "6 min read",
+    "title": "Airtable AI Formulas Turned Every Marketing Spreadsheet Into a Smart Database",
+    "description": "Airtable AI formulas let you run LLM calls as cells. For marketing teams, it's a quiet revolution in data enrichment, categorization, and summarization.",
+    "sections": [
+      { "p": "Airtable AI formulas — the ability to call an LLM as a cell formula — sound trivial. In practice they've been one of the highest-ROI automation wins we've shipped to clients all year." },
+      { "h2": "The killer pattern: enrichment in place" },
+      { "paragraphs": [
+        "Drop a list of inbound leads into an Airtable. Add a formula column that classifies each lead by ICP fit using the company URL. Add another that drafts a first-touch email in brand voice. Add a third that suggests the best-fit case study to mention.",
+        "What used to be a multi-tool pipeline is now three formulas in one base."
+      ]},
+      { "h2": "Where it breaks" },
+      { "list": [
+        "Very large bases (10K+ rows): cost and rate limits become real.",
+        "Time-sensitive columns: the formula re-runs on every change, which gets expensive.",
+        "Anything that needs tool use — sticking to text-in, text-out is where it shines."
+      ]},
+      { "quote": "Airtable AI formulas turn every marketing spreadsheet into a thinking database. The ceiling is lower than a real app, but the floor is much higher than a plain table." }
+    ]
+  },
+  {
+    "slug": "cursor-copilot-claude-code-dev-tools",
+    "topic": "code",
+    "tag": "Engineering",
+    "author": "Marcus Chen",
+    "readTime": "9 min read",
+    "title": "Cursor vs. Copilot vs. Claude Code: The Marketing Engineering Stack in 2026",
+    "description": "The three biggest AI coding tools are converging on different personas. Here's how marketing engineering teams should pick between them — or combine them.",
+    "sections": [
+      { "p": "Cursor, GitHub Copilot, and Claude Code are the three AI coding tools every marketing engineering team is comparing. After shipping with all three for a year, we can tell you where each one wins — and why the answer for most teams is 'all three, for different reasons.'" },
+      { "h2": "The one-line verdicts" },
+      { "list": [
+        "Cursor: best IDE experience, best for focused editing inside a file.",
+        "Copilot: best for teams already living in GitHub PRs and issues.",
+        "Claude Code: best for agent-style work that spans multiple files and reasons about the whole codebase."
+      ]},
+      { "h2": "How we split the work" },
+      { "paragraphs": [
+        "We use Cursor for day-to-day coding. We use Copilot for PR reviews and automated issue triage. We use Claude Code when we need the model to understand an entire service and make cross-file changes. Picking one would be like picking between a keyboard, a mouse, and a trackpad."
+      ]},
+      { "quote": "The teams that lose the AI coding war in 2026 aren't the ones picking the 'wrong' tool. They're the ones who still haven't picked any." }
+    ]
+  },
+  {
+    "slug": "bolt-new-marketing-full-stack-apps",
+    "topic": "code",
+    "tag": "Web",
+    "author": "David Kim",
+    "readTime": "6 min read",
+    "title": "Bolt.new Is Making Marketing Apps Ship in an Afternoon",
+    "description": "Bolt.new turns a text description into a full-stack web app. For marketing teams that need tools fast, it's collapsing the time from idea to production.",
+    "sections": [
+      { "p": "Bolt.new generates complete, deployable full-stack apps from a text prompt. For marketing teams who constantly think 'we need a small tool for this,' it's the fastest path from idea to production we've tested." },
+      { "h2": "What it nails" },
+      { "paragraphs": [
+        "Small, single-purpose apps with a form, a database, and an LLM call are Bolt.new's sweet spot. Lead calculators, survey tools, ROI wizards, interactive product pickers — all achievable in one afternoon, fully deployed.",
+        "The generated code is real React + Tailwind + a backend — not a toy. You can keep iterating in Bolt or export to a Git repo and have your engineers take over."
+      ]},
+      { "h2": "The traps" },
+      { "list": [
+        "Don't try to build an app with complex auth or multi-tenant data. You'll hit the ceiling fast.",
+        "Review the code before production. Bolt takes shortcuts on validation and error handling.",
+        "Budget the first 20 minutes to getting the prompt exactly right. Vague prompts produce vague apps."
+      ]},
+      { "quote": "Bolt.new is the tool that turned 'we need a dev to build this' into 'give me 40 minutes.'" }
+    ]
+  },
+  {
+    "slug": "iterable-ai-journey-optimization",
+    "topic": "data",
+    "tag": "Lifecycle",
+    "author": "Valentina Ruiz",
+    "readTime": "7 min read",
+    "title": "Iterable's AI Journey Optimization Is Changing How Lifecycle Teams Test",
+    "description": "Iterable's AI journey optimizer tests millions of lifecycle variations automatically. Here's how to use it without losing control of brand experience.",
+    "sections": [
+      { "p": "Iterable's AI journey optimizer runs continuous multivariate tests across every lifecycle workflow you give it — message order, timing, channel, content variants. The result is lifecycle performance that keeps improving without anyone on your team manually running tests." },
+      { "h2": "Why automated optimization wins" },
+      { "paragraphs": [
+        "Human lifecycle teams test maybe 3 variants per month per journey. Iterable's optimizer tests 30. The cumulative lift from 10x the test cadence compounds fast — our clients running it for 6+ months are seeing 25–40% lifts in downstream conversion."
+      ]},
+      { "h2": "The governance you still need" },
+      { "list": [
+        "Set hard brand rails: the optimizer can shift timing and copy variants, but cannot change brand voice.",
+        "Review the winning variants monthly — the model will find things that work but feel off.",
+        "Exclude high-stakes moments (billing, post-purchase day 1, churn recovery) from full automation."
+      ]},
+      { "quote": "Automated lifecycle optimization is the closest thing to a money machine in marketing — if you remember to keep the humans in the loop where it counts." }
+    ]
+  },
+  {
+    "slug": "deepseek-r1-open-reasoning-implications",
+    "topic": "ai",
+    "tag": "AI Research",
+    "author": "Noah Williams",
+    "readTime": "8 min read",
+    "title": "DeepSeek R1 and the Moment Open-Weight Reasoning Went Mainstream",
+    "description": "DeepSeek R1 delivered frontier-quality reasoning in an open-weights model. The implications for marketing AI stacks are bigger than most people realize.",
+    "sections": [
+      { "p": "DeepSeek R1 was the moment open-weight models caught up to closed frontier models on reasoning benchmarks. For marketing teams, the consequence is simple: you can now run frontier-quality reasoning locally, privately, and without per-token billing anxiety." },
+      { "h2": "What changes first" },
+      { "paragraphs": [
+        "High-volume analytical tasks — classifying thousands of support tickets, scoring millions of leads, categorizing entire content libraries — were economically painful on frontier APIs. R1 and its descendants can run on your own GPUs for a fraction of the cost.",
+        "The quality trade-off is now small enough that the cost savings usually win."
+      ]},
+      { "h2": "What hasn't changed" },
+      { "list": [
+        "Frontier closed models still win on brand-voice writing and on the stickiest reasoning tasks.",
+        "Operating an open-weight model reliably still requires real engineering (inference servers, routing, monitoring).",
+        "The 'we run this ourselves' answer only makes sense at serious scale."
+      ]},
+      { "quote": "Open-weight reasoning didn't kill closed frontier models. It gave serious teams a second toolbox — and the economics to actually use it." }
+    ]
+  },
+  {
+    "slug": "qwen-alibaba-chinese-llm-threat",
+    "topic": "ai",
+    "tag": "AI Research",
+    "author": "Ana González",
+    "readTime": "7 min read",
+    "title": "Alibaba's Qwen Is Becoming the Quiet Default for Multilingual Marketing AI",
+    "description": "Alibaba's Qwen models outperform Western LLMs on many non-English tasks. For marketing teams with global audiences, they're hard to ignore.",
+    "sections": [
+      { "p": "Alibaba's Qwen series doesn't get the Western press coverage of OpenAI or Anthropic, but on multilingual benchmarks — particularly Asian languages — it's often the strongest open-weight option. For brands marketing across global audiences, that matters." },
+      { "h2": "Where Qwen wins" },
+      { "paragraphs": [
+        "Japanese, Korean, Mandarin, Indonesian, Thai — Qwen routinely outperforms Western models on marketing-relevant tasks in these languages. If your brand is shipping content in Asia-Pacific, it's the default we now recommend for first drafts.",
+        "English quality is roughly on par with mid-tier Western open models. Good enough for bulk work, not the best choice for hero content."
+      ]},
+      { "h2": "The operational considerations" },
+      { "list": [
+        "Hosting matters. Use a Western-hosted inference provider if data residency is a concern.",
+        "Brand voice alignment takes more prompt engineering than with Claude or GPT.",
+        "Open weights mean you own the deployment — good for control, demanding on ops."
+      ]},
+      { "quote": "The next generation of global marketing AI stacks won't be single-model. They'll pick the best model per language — and Qwen already wins in regions you may not be thinking about." }
+    ]
+  },
+  {
+    "slug": "flux-ai-image-model-brand-consistency",
+    "topic": "creative",
+    "tag": "Creative AI",
+    "author": "Isabella Torres",
+    "readTime": "6 min read",
+    "title": "Flux Is the Image Model Serious Brands Are Quietly Standardizing On",
+    "description": "Flux's image model beats Midjourney and DALL-E on brand consistency and prompt following. Here's why ad agencies are switching.",
+    "sections": [
+      { "p": "Flux came out of a team of ex-Stable Diffusion researchers and quickly became the image model of choice for brands that need consistent, photoreal, on-brand output. It's not as talked about as Midjourney, but the teams shipping it are winning." },
+      { "h2": "Prompt following is the whole game" },
+      { "paragraphs": [
+        "Midjourney is beautiful but stylized. DALL-E is consistent but bland. Flux sits in the middle: it follows detailed prompts more literally than Midjourney and produces more striking images than DALL-E. For brand work where the brief has specifics, that balance wins."
+      ]},
+      { "h2": "The workflow we run" },
+      { "olist": [
+        "Write a detailed prompt from the creative brief.",
+        "Generate 30 variants in Flux with the brand's style reference.",
+        "Select top 5, run final versions with upscaling and touch-up.",
+        "Send to art director for final approval."
+      ]},
+      { "quote": "The image model that wins in 2026 isn't the one with the best demo. It's the one that produces the image your art director asked for on the first try." }
+    ]
+  },
+  {
+    "slug": "langgraph-production-ready-agents",
+    "topic": "code",
+    "tag": "AI Architecture",
+    "author": "David Kim",
+    "readTime": "9 min read",
+    "title": "LangGraph Is the Framework Serious Marketing Agent Teams Are Standardizing On",
+    "description": "LangGraph turns ad-hoc agent scripts into production-grade state machines. For marketing engineering teams building durable AI workflows, it's the new default.",
+    "sections": [
+      { "p": "LangGraph — LangChain's graph-based agent framework — is the tool marketing engineering teams reach for when they're done with ad-hoc scripts and want something they can actually run in production for a year without babysitting it." },
+      { "h2": "Why state machines beat loose agents" },
+      { "paragraphs": [
+        "The first generation of agent frameworks treated agents as loose loops: take an action, observe, think, repeat. It worked in demos and failed in production. LangGraph models agent workflows as explicit state machines, which means you can debug them, test them, and recover from failures the way you would any other durable workflow.",
+        "For any agent that handles real money or sends real messages, that's non-negotiable."
+      ]},
+      { "h2": "Patterns that pay off" },
+      { "list": [
+        "Long-running research agents that checkpoint and resume.",
+        "Multi-agent review workflows where the handoffs need to be deterministic.",
+        "Human-in-the-loop approvals wired directly into the graph."
+      ]},
+      { "quote": "Production agents aren't smart loops. They're boring, debuggable state machines. LangGraph is the first framework that takes that seriously." }
+    ]
+  }
+]

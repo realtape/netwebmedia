@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form — NetWebMedia</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after { box-sizing: border-box; }
+    body { margin:0; background:transparent; font-family:'Inter',-apple-system,Segoe UI,sans-serif; color:#1a1a2e; padding:24px 16px; }
+    .wrap { max-width:560px; margin:0 auto; }
+    .card { background:#fff; border:1px solid #e3e5ee; border-radius:14px; padding:28px 26px; box-shadow:0 4px 18px rgba(0,0,0,.06); }
+    .card h1 { margin:0 0 6px; color:#010F3B; font:800 22px 'Poppins'; }
+    .card .desc { color:#64748b; font:500 14px 'Inter'; margin:0 0 16px; }
+    label.field { display:block; margin-bottom:14px; }
+    label.field .label-text { display:block; color:#1a1a2e; font:600 12px 'Inter'; margin-bottom:5px; text-transform:uppercase; letter-spacing:.4px; }
+    label.field .req { color:#FF671F; }
+    label.field input, label.field textarea, label.field select { width:100%; padding:10px 12px; border:1px solid #e3e5ee; border-radius:8px; font:500 14px 'Inter'; }
+    label.field input:focus, label.field textarea:focus, label.field select:focus { outline:none; border-color:#FF671F; }
+    label.field textarea { resize:vertical; min-height:80px; }
+    label.field .help { color:#94a3b8; font:500 12px 'Inter'; margin-top:4px; }
+    label.field.known input, label.field.known select, label.field.known textarea { background:#f8fafc; }
+    label.field.known .label-text::after { content: ' ✓ on file'; color:#10b981; font-size:10px; font-weight:700; }
+    label.checkbox { display:flex; gap:8px; align-items:flex-start; margin-bottom:14px; font:500 13px 'Inter'; color:#1a1a2e; }
+    label.checkbox input { margin-top:3px; }
+    .submit { background:#FF671F; color:#fff; border:none; padding:12px 22px; border-radius:10px; font:700 14px 'Inter'; cursor:pointer; width:100%; }
+    .submit:hover:not(:disabled) { background:#e25710; }
+    .submit:disabled { opacity:.5; cursor:not-allowed; }
+    .alert { padding:12px 14px; border-radius:8px; margin-bottom:14px; font:500 13px 'Inter'; }
+    .alert.error { background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; }
+    .alert.success { background:#dcfce7; border:1px solid #86efac; color:#166534; }
+    .hp-trap { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+    .footer { margin-top:14px; text-align:center; color:#94a3b8; font:500 11px 'Inter'; }
+    .footer a { color:#FF671F; text-decoration:none; }
+    .progressive-hint { background:#fff8eb; border:1px solid #fbbf24; padding:8px 12px; border-radius:8px; margin-bottom:14px; color:#92400e; font:500 12px 'Inter'; display:none; }
+    .progressive-hint.show { display:block; }
+    .success-card { text-align:center; padding:30px 20px; }
+    .success-card .check { width:54px; height:54px; border-radius:50%; background:#dcfce7; color:#166534; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; font-size:30px; }
+    .success-card h2 { color:#010F3B; font:800 22px 'Poppins'; margin:0 0 6px; }
+    .success-card p { color:#475569; font:500 14px 'Inter'; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" id="root">
+      <div style="text-align:center;color:#94a3b8;font:500 14px 'Inter';padding:30px">Loading form…</div>
+    </div>
+    <div class="footer">Powered by <a href="/" target="_top">NetWebMedia</a></div>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+  var COOKIE_NAME = 'nwm_visitor';
+  var API = '/api/forms';
+  var root = document.getElementById('root');
+  var qs = new URLSearchParams(location.search);
+  var slug = qs.get('slug') || (location.pathname.match(/\/form\/([a-z0-9\-]+)/i) || [])[1];
+  var emailHint = qs.get('email') || '';
+
+  function getCookie(name) {
+    var m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+  function setCookie(name, value, days) {
+    var d = new Date();
+    d.setTime(d.getTime() + (days || 365) * 86400 * 1000);
+    document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/;samesite=lax';
+  }
+
+  function esc(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/[&<>"']/g, function (c) { return { "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]; });
+  }
+
+  if (!slug) { root.innerHTML = '<div class="alert error">Form slug missing in URL.</div>'; return; }
+
+  var visitor = getCookie(COOKIE_NAME) || '';
+  var url = API + '/public/' + encodeURIComponent(slug);
+  var qp = [];
+  if (visitor) qp.push('visitor=' + encodeURIComponent(visitor));
+  if (emailHint) qp.push('email=' + encodeURIComponent(emailHint));
+  if (qp.length) url += '?' + qp.join('&');
+
+  fetch(url).then(function (r) { return r.ok ? r.json() : Promise.reject(r); })
+    .then(function (form) {
+      // Persist visitor id
+      if (form.visitor) setCookie(COOKIE_NAME, form.visitor, 365);
+      visitor = form.visitor;
+      render(form);
+    })
+    .catch(function () {
+      root.innerHTML = '<div class="alert error">This form is not available. The link may be paused or invalid.</div>';
+    });
+
+  function render(form) {
+    var fields = (form.fields || []).filter(function (f) { return f.type !== 'hidden'; });
+    var hidden = (form.fields || []).filter(function (f) { return f.type === 'hidden'; });
+    if (!fields.length && !hidden.length) {
+      root.innerHTML = '<div class="alert success">All your information is on file. Nothing more to fill in. <button class="submit" style="margin-top:12px" onclick="location.reload()">Refresh</button></div>';
+      return;
+    }
+    var hasKnown = (form.fields || []).some(function (f) { return f.known; });
+
+    var html = '<h1>' + esc(form.name) + '</h1>';
+    if (form.description) html += '<div class="desc">' + esc(form.description) + '</div>';
+    html += '<div class="progressive-hint' + (hasKnown ? ' show' : '') + '">Welcome back — we already have some details on file, so this is a quick one.</div>';
+    html += '<form id="theForm" autocomplete="on" novalidate>';
+    fields.forEach(function (f) { html += renderField(f); });
+    hidden.forEach(function (f) {
+      html += '<input type="hidden" name="' + esc(f.name) + '" value="' + esc(f.default || '') + '">';
+    });
+    html += '<div class="hp-trap"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>';
+    html += '<div id="formAlert"></div>';
+    html += '<button type="submit" class="submit">Submit</button>';
+    html += '</form>';
+    root.innerHTML = html;
+
+    document.getElementById('theForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      submitForm(form);
+    });
+  }
+
+  function renderField(f) {
+    var req = f.required ? ' required' : '';
+    var reqStar = f.required ? ' <span class="req">*</span>' : '';
+    var common = 'name="' + esc(f.name) + '" placeholder="' + esc(f.placeholder || '') + '"' + req +
+                 (f.default ? ' value="' + esc(f.default) + '"' : '');
+    var input;
+    switch (f.type) {
+      case 'textarea':
+        input = '<textarea ' + common + '>' + esc(f.default || '') + '</textarea>';
+        break;
+      case 'select':
+        var opts = (f.options || []).map(function (o) {
+          return '<option value="' + esc(o) + '"' + (f.default === o ? ' selected' : '') + '>' + esc(o) + '</option>';
+        }).join("");
+        input = '<select ' + common.replace(/value="[^"]*"/, '') + '><option value="">— choose —</option>' + opts + '</select>';
+        break;
+      case 'checkbox':
+        return '<label class="checkbox"><input type="checkbox" name="' + esc(f.name) + '" value="1"' + req + (f.default ? ' checked' : '') + '><span>' + esc(f.label) + reqStar + '</span></label>';
+      case 'consent':
+        return '<label class="checkbox"><input type="checkbox" name="' + esc(f.name) + '" value="1"' + req + '><span>' + esc(f.label) + reqStar + (f.help ? ' <span style="display:block;color:#94a3b8;font-size:11px;margin-top:2px">' + esc(f.help) + '</span>' : '') + '</span></label>';
+      case 'email':
+      case 'phone':
+      case 'number':
+      case 'text':
+      default:
+        var typeAttr = ({ email:'email', phone:'tel', number:'number' })[f.type] || 'text';
+        input = '<input type="' + typeAttr + '" ' + common + '>';
+    }
+    return '<label class="field' + (f.known ? ' known' : '') + '">' +
+             '<span class="label-text">' + esc(f.label) + reqStar + '</span>' +
+             input +
+             (f.help ? '<div class="help">' + esc(f.help) + '</div>' : '') +
+           '</label>';
+  }
+
+  function submitForm(form) {
+    var fd = new FormData(document.getElementById('theForm'));
+    var payload = {};
+    fd.forEach(function (v, k) {
+      if (payload[k] !== undefined) {
+        if (!Array.isArray(payload[k])) payload[k] = [payload[k]];
+        payload[k].push(v);
+      } else {
+        payload[k] = v;
+      }
+    });
+    payload.visitor = visitor;
+    var btn = document.querySelector('.submit');
+    btn.disabled = true; btn.textContent = 'Submitting…';
+    var alertEl = document.getElementById('formAlert');
+    alertEl.innerHTML = '';
+
+    fetch(API + '/public/' + encodeURIComponent(slug) + '/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload),
+    }).then(function (r) {
+      return r.json().then(function (d) { return r.ok ? d : Promise.reject(d); });
+    }).then(function (d) {
+      if (d.visitor) setCookie(COOKIE_NAME, d.visitor, 365);
+      if (d.redirect_url) { window.top.location.href = d.redirect_url; return; }
+      root.innerHTML = '<div class="success-card"><div class="check">✓</div><h2>Thanks!</h2><p>' + esc(d.success_msg || 'Your submission has been received.') + '</p></div>';
+    }).catch(function (e) {
+      alertEl.innerHTML = '<div class="alert error">' + esc((e && e.error) || 'Could not submit. Please try again.') + '</div>';
+      btn.disabled = false; btn.textContent = 'Submit';
+    });
+  }
+})();
+</script>
+</body>
+</html>

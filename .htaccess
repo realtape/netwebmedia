@@ -1,0 +1,499 @@
+# php -- BEGIN cPanel-generated handler, do not edit
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php74 .php .php7 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
+
+# ── Mobile deep-linking: /.well-known/ files MUST be served as JSON ────
+# Apple Universal Links (apple-app-site-association, NO extension) + Android
+# App Links (assetlinks.json) are fetched by iOS/Android to verify app↔domain
+# association. They must be 200 w/ application/json and NO redirect.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^\.well-known/apple-app-site-association$ - [L,E=AASA:1]
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "^apple-app-site-association$">
+    Header set Content-Type "application/json"
+  </FilesMatch>
+  <FilesMatch "^assetlinks\.json$">
+    Header set Content-Type "application/json"
+  </FilesMatch>
+</IfModule>
+
+# ── HTTP → HTTPS canonical redirect ────────────────────────────────────
+# Force every request to HTTPS at the server level. HSTS preload protects
+# browsers that have visited before, but bots, curl, and never-visited
+# browsers hit raw HTTP — those need a real 301. Preserves HTTP_HOST so
+# subdomains stay on their own subdomain (hotels.* → hotels.*, not apex).
+# Stacks cleanly with the www→apex rule below: http://www → https://www
+# → https://apex (two hops only for an unusual edge case).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+</IfModule>
+
+# ── Block sensitive file types from public access (belt-and-suspenders) ─
+# Directory-level blocks cover most cases, but a global FilesMatch ensures
+# any .sql / .md / .env / .bak / .log file that lands anywhere under
+# public_html is never served — even if a deploy places it in an unexpected path.
+<FilesMatch "\.(sql|md|env|bak|log|sh|py|rb|ini|cfg|pem|key|crt)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+# ── Block internal-only HTML pages from public access ─────────────────
+# These are working docs Carlos uses directly via URL while logged in
+# locally / on his own machines. They MUST NOT be reachable by the
+# public internet (some leak prospect lists, internal architecture,
+# logins, AI scratchpads, or the business plan).
+# Patterns covered:
+#   diagnostic.html, flowchart.html, orgchart.html, dashboard.html,
+#   desktop-login.html, nwmai.html, audit-report.html,
+#   *-prospects-report.html, *-digital-gaps.html,
+#   NetWebMedia_Business_Marketing_Plan_2026.html
+#   fractional-cmo.html (retired 2026-05-19 — pricing.html is the sole Premium surface)
+<FilesMatch "^(diagnostic|flowchart|orgchart|dashboard|desktop-login|nwmai|audit-report|fractional-cmo|NetWebMedia_Business_Marketing_Plan_2026)\.html$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+<FilesMatch "^.+-(prospects-report|digital-gaps)\.html$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+# ── Disable directory listings sitewide ───────────────────────────────
+Options -Indexes
+
+# ── Canonical host: 301 www → apex ─────────────────────────────────────
+# Per BRAND/SEO: canonical host is the apex (netwebmedia.com), non-www.
+# Without this, www.netwebmedia.com mirrors apex 1:1 with 200 OK on every
+# URL — duplicate content, split PageRank. Must come BEFORE subdomain
+# routing below or it'll never match (other RewriteRules have [L]).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ https://netwebmedia.com/$1 [R=301,L]
+</IfModule>
+
+# ── Block sensitive directories from public access ─────────────────────
+# robots.txt disallows these, but server-level denial is the hard guarantee.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^\.venv(/|$)              - [F,L]
+  RewriteRule ^_deploy(/|$)             - [F,L]
+  RewriteRule ^_backup(/|$)             - [F,L]
+  RewriteRule ^_cron(/|$)               - [F,L]
+  RewriteRule ^backend(/|$)             - [F,L]
+  # /api-php/ is the on-disk source folder; /api/ is the canonical public path.
+  # 301 to /api/ instead of 403, per CLAUDE.md invariant — old clients still resolve.
+  RewriteRule ^api-php(/.*)?$           /api$1 [R=301,L]
+  # ── 14-niche taxonomy enforcement (2026-05-05) ─────────────────────────
+  # Off-taxonomy hubs migrated into canonical 14 niches per CLAUDE.md hard
+  # constraint #1. Wildcard 301s preserve hub-level link equity; subpage
+  # equity is sacrificed for taxonomy consistency.
+  RewriteRule ^industries/ecommerce(/.*)?$            /industries/smb/ [R=301,L]
+  RewriteRule ^industries/professional-services(/.*)?$ /industries/smb/ [R=301,L]
+  RewriteRule ^industries/tech-saas(/.*)?$            /industries/smb/ [R=301,L]
+  RewriteRule ^industries/fitness(/.*)?$              /industries/local-services/ [R=301,L]
+  RewriteRule ^n8n-templates(/|$)       - [F,L]
+  RewriteRule ^plans(/|$)               - [F,L]
+  RewriteRule ^proposals(/|$)           - [F,L]
+  RewriteRule ^deliverables(/|$)        - [F,L]
+  RewriteRule ^email-templates(/|$)     - [F,L]
+  RewriteRule ^site-upload(/|$)         - [F,L]
+  # /guides/ and /lp/ are public marketing content (noindex prevents SEO,
+  # but bot + paid ads link to them directly — must be reachable).
+</IfModule>
+
+# ── Industry subdomain routing ─────────────────────────────────────────
+# Maps 39 industry subdomains to their folders under /industries/.
+# Requires ONE cPanel action: create a wildcard subdomain *.netwebmedia.com
+# pointing at public_html (the same doc root as netwebmedia.com). All 39
+# subdomains below then resolve via these internal rewrites — no per-
+# subdomain cPanel entry needed.
+#
+# NOTE: these are INTERNAL rewrites (no [R] flag), so the browser URL
+# stays pretty (e.g. hotels.netwebmedia.com/audit/) while Apache serves
+# /industries/hospitality/hotels/audit/index.html under the hood.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Map clean /unsubscribe (GET + POST for Gmail one-click) to /unsubscribe.php.
+  # Must come BEFORE the skip-rules block so it's reachable across all hosts.
+  RewriteRule ^unsubscribe/?$ /unsubscribe.php [L,QSA]
+
+  # Map clean /audit and /audit/<token> to /audit.php (per-prospect PDF audit
+  # served from the Chile cold-outreach emails). The trailing-token form
+  # carries the token in the URL path so it copy-pastes cleanly without
+  # query-string artifacts; audit.php reads it from PATH_INFO if present.
+  RewriteRule ^audit/?$ /audit.php [L,QSA]
+  RewriteRule ^audit/([a-f0-9]{12,32})/?$ /audit.php?t=$1 [L,QSA]
+
+  # Skip rewrite if already inside /industries/, /crm-vanilla/, /companies/ or
+  # on specific PHP endpoints to prevent loops from the host-based rewrites
+  # below (each internal rewrite re-enters the rewrite engine; without this
+  # guard, app.* → /crm-vanilla/ → /crm-vanilla/crm-vanilla/ → loop).
+  RewriteCond %{REQUEST_URI} ^/industries/ [OR]
+  RewriteCond %{REQUEST_URI} ^/crm-vanilla/ [OR]
+  RewriteCond %{REQUEST_URI} ^/companies/ [OR]
+  RewriteCond %{REQUEST_URI} ^/superadmin/ [OR]
+  RewriteCond %{REQUEST_URI} ^/audit-submit\.php$ [OR]
+  RewriteCond %{REQUEST_URI} ^/unsubscribe\.php$ [OR]
+  RewriteCond %{REQUEST_URI} ^/audit\.php$
+  RewriteRule .* - [L]
+
+  # ── Infrastructure subdomains ──
+  # admin.netwebmedia.com → superadmin panel (/superadmin/)
+  # Separate PHP sessions from app.netwebmedia.com — no shared auth.
+  RewriteCond %{HTTP_HOST} ^admin\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /superadmin/$1 [L]
+  # app.netwebmedia.com → the CRM app (/crm-vanilla/)
+  RewriteCond %{HTTP_HOST} ^app\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /crm-vanilla/$1 [L]
+  # companies.netwebmedia.com → prospect directory (/companies/)
+  RewriteCond %{HTTP_HOST} ^companies\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /companies/$1 [L]
+  # staging.netwebmedia.com → fail-closed (503). Staging env is not yet
+  # provisioned; serving production content silently would trick mobile devs
+  # following mobile/README.md into testing against prod. When a real staging
+  # vhost exists, remove this block.
+  RewriteCond %{HTTP_HOST} ^staging\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ - [R=503,L]
+
+  # ── Parent industry subdomains (canonical 14-niche hubs only) ──
+  # Removed off-taxonomy hosts pro./fitness./ecommerce./tech. — they pointed
+  # at /industries/{professional-services,fitness,ecommerce,tech-saas}/ which
+  # do not exist (404). They now fall through to the catch-all → 301 apex.
+  RewriteCond %{HTTP_HOST} ^hospitality\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/hospitality/$1 [L]
+  RewriteCond %{HTTP_HOST} ^healthcare\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/healthcare/$1 [L]
+  RewriteCond %{HTTP_HOST} ^beauty\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/beauty/$1 [L]
+  RewriteCond %{HTTP_HOST} ^realestate\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/real-estate/$1 [L]
+  RewriteCond %{HTTP_HOST} ^restaurants\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/restaurants/$1 [L]
+  RewriteCond %{HTTP_HOST} ^home\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/home-services/$1 [L]
+
+  # ── Hospitality subcategories (3) ──
+  RewriteCond %{HTTP_HOST} ^hotels\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/hospitality/hotels/$1 [L]
+  RewriteCond %{HTTP_HOST} ^boutique\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/hospitality/boutique/$1 [L]
+  RewriteCond %{HTTP_HOST} ^resorts\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/hospitality/resorts/$1 [L]
+
+  # ── Healthcare subcategories (3) ──
+  RewriteCond %{HTTP_HOST} ^dental\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/healthcare/dental/$1 [L]
+  RewriteCond %{HTTP_HOST} ^vet\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/healthcare/vet/$1 [L]
+  RewriteCond %{HTTP_HOST} ^aesthetics\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/healthcare/aesthetics/$1 [L]
+
+  # ── Beauty & Wellness subcategories (3) ──
+  RewriteCond %{HTTP_HOST} ^salons\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/beauty/salons/$1 [L]
+  RewriteCond %{HTTP_HOST} ^spas\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/beauty/spas/$1 [L]
+  RewriteCond %{HTTP_HOST} ^barbershops\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/beauty/barbershops/$1 [L]
+
+  # ── Real Estate subcategories (3) ──
+  RewriteCond %{HTTP_HOST} ^agents\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/real-estate/agents/$1 [L]
+  RewriteCond %{HTTP_HOST} ^brokerages\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/real-estate/brokerages/$1 [L]
+  RewriteCond %{HTTP_HOST} ^propertymanagement\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/real-estate/property-management/$1 [L]
+
+  # ── Restaurants & F&B subcategories (2) ──
+  RewriteCond %{HTTP_HOST} ^bars\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/restaurants/bars/$1 [L]
+  RewriteCond %{HTTP_HOST} ^catering\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/restaurants/catering/$1 [L]
+
+  # ── Home Services subcategories (3) ──
+  RewriteCond %{HTTP_HOST} ^contractors\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/home-services/contractors/$1 [L]
+  RewriteCond %{HTTP_HOST} ^plumbers\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/home-services/plumbers/$1 [L]
+  RewriteCond %{HTTP_HOST} ^landscaping\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/home-services/landscaping/$1 [L]
+
+  # ── Automotive (parent + 3 subcategories) ──
+  RewriteCond %{HTTP_HOST} ^auto\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/automotive/$1 [L]
+  RewriteCond %{HTTP_HOST} ^dealerships\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/automotive/dealerships/$1 [L]
+  RewriteCond %{HTTP_HOST} ^autorepair\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/automotive/autorepair/$1 [L]
+  RewriteCond %{HTTP_HOST} ^detailing\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/automotive/detailing/$1 [L]
+
+  # ── Events & Weddings (parent + 3 subcategories) ──
+  RewriteCond %{HTTP_HOST} ^events\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/events-weddings/$1 [L]
+  RewriteCond %{HTTP_HOST} ^weddingvenues\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/events-weddings/weddingvenues/$1 [L]
+  RewriteCond %{HTTP_HOST} ^eventplanners\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/events-weddings/eventplanners/$1 [L]
+  RewriteCond %{HTTP_HOST} ^corporateevents\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/events-weddings/corporateevents/$1 [L]
+
+  # ── Wine & Agriculture (parent + 3 subcategories) ──
+  RewriteCond %{HTTP_HOST} ^wine\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/wine-agriculture/$1 [L]
+  RewriteCond %{HTTP_HOST} ^wineries\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/wine-agriculture/wineries/$1 [L]
+  RewriteCond %{HTTP_HOST} ^vineyards\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/wine-agriculture/vineyards/$1 [L]
+  RewriteCond %{HTTP_HOST} ^agribusiness\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/wine-agriculture/agribusiness/$1 [L]
+
+  # ── Local Services (parent + 3 subcategories) ──
+  RewriteCond %{HTTP_HOST} ^local\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/local-services/$1 [L]
+  RewriteCond %{HTTP_HOST} ^photography\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/local-services/photography/$1 [L]
+  RewriteCond %{HTTP_HOST} ^coaching\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/local-services/coaching/$1 [L]
+  RewriteCond %{HTTP_HOST} ^trades\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/local-services/trades/$1 [L]
+
+  # ── Financial Services (parent + 3 subcategories) ──
+  RewriteCond %{HTTP_HOST} ^finance\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/finance/$1 [L]
+  RewriteCond %{HTTP_HOST} ^advisors\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/finance/advisors/$1 [L]
+  RewriteCond %{HTTP_HOST} ^insurance\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/finance/insurance/$1 [L]
+
+  # ── Education (parent + 3 subcategories) ──
+  RewriteCond %{HTTP_HOST} ^education\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/education/$1 [L]
+  RewriteCond %{HTTP_HOST} ^tutoring\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/education/tutoring/$1 [L]
+  RewriteCond %{HTTP_HOST} ^vocational\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/education/vocational/$1 [L]
+  RewriteCond %{HTTP_HOST} ^onlinecourses\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/education/onlinecourses/$1 [L]
+
+  # ── SMB (parent + 3 subcategories) ──
+  RewriteCond %{HTTP_HOST} ^smb\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/smb/$1 [L]
+  RewriteCond %{HTTP_HOST} ^retail\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/smb/retail/$1 [L]
+  RewriteCond %{HTTP_HOST} ^services\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/smb/services/$1 [L]
+  RewriteCond %{HTTP_HOST} ^localbrands\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/smb/localbrands/$1 [L]
+
+  # ── Documented industry subdomains → canonical 14-niche hubs ──
+  # CLAUDE.md advertises these subdomain names; they previously had no block
+  # and silently served the apex homepage (duplicate content). Map each to its
+  # niche HUB (every hub dir is confirmed to exist). Placed AFTER the blocks
+  # above so any already-working subcategory route (hotels., salons., etc.)
+  # still wins via its earlier [L]; these only catch the names that fell through.
+  RewriteCond %{HTTP_HOST} ^(hotels|restaurants-hospitality|vacation-rentals|tourism)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/hospitality/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(restaurants|cafes|bars)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/restaurants/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(clinics|dentists|physiotherapy|mental-health|veterinary|health)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/healthcare/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(salons|spas|barbers|beauty)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/beauty/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(law-firms|attorneys|legal-services)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/legal-services/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(real-estate|property-management)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/real-estate/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(auto-dealers|auto-repair)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/automotive/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(schools|tutors|language-schools)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/education/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(wedding-planners|event-venues)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/events-weddings/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(accountants|financial-advisors)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/finance/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(plumbers|electricians|landscapers|cleaning)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/home-services/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(wineries|vineyards|farms)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/wine-agriculture/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(boutiques|gyms)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/local-services/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(consulting|marketing-agencies)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/smb/$1 [L]
+
+  # ── Fail-closed default for unmapped subdomains ──
+  # Any *.netwebmedia.com NOT matched above is unmapped/garbage (the apex and
+  # www are handled earlier, so they never reach here). 301 it to the apex so
+  # arbitrary hosts can't serve duplicate-content copies of the homepage.
+  # Matched subdomains exit via their [L] above; internal rewrites re-enter with
+  # REQUEST_URI ^/industries/ and are stopped by the skip-guard, so they never
+  # hit this rule on the second pass.
+  RewriteCond %{HTTP_HOST} ^[A-Za-z0-9-]+\.netwebmedia\.com$ [NC]
+  RewriteCond %{HTTP_HOST} !^www\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ https://netwebmedia.com/$1 [R=301,L]
+</IfModule>
+
+# ── /app/* and /crm/* soft-fallback for unshipped feature pages ────────
+# Homepage and product pages link to roughly 45 /app/<slug> targets that
+# do not exist as files yet. Instead of 404-ing every prospect that clicks
+# a product tour card, route every NON-EXISTENT /app/*  or  /crm/*  path to
+# the coming-soon waitlist page. Shipped modules (conversations, marketing-
+# pipeline, sales-pipeline under /app/, and the real /crm-vanilla/ app
+# surface) keep working because the RewriteCond checks for file/dir
+# existence first.
+#
+# /crm/* legacy-path handling (added 2026-05-01): there is no /crm/ dir
+# in production — the real CRM lives at /crm-vanilla/. Many links across
+# the site (and tutorial deep-links) point to /crm/<page>. We:
+#   1) Bare /crm/ or /crm → 301 to /crm-vanilla/
+#   2) /crm/<path> where /crm-vanilla/<path> exists → 301 to the real file
+#      (covers /crm/contacts.html, /crm/css/app.css used by /cms/, etc.)
+#   3) /crm/<anything else> → soft-fallback to /app/coming-soon.html
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^app/.+$ /app/coming-soon.html [L]
+
+  # 1) Bare /crm/ → /crm-vanilla/
+  RewriteRule ^crm/?$ /crm-vanilla/ [R=301,L]
+
+  # 2) /crm/<path> → /crm-vanilla/<path> when the file exists in crm-vanilla
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{DOCUMENT_ROOT}/crm-vanilla/$1 -f [OR]
+  RewriteCond %{DOCUMENT_ROOT}/crm-vanilla/$1 -d
+  RewriteRule ^crm/(.+)$ /crm-vanilla/$1 [R=301,L]
+
+  # 3) Any other /crm/<slug> (extensionless or .html) → coming-soon
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^crm/.+$ /app/coming-soon.html [L]
+</IfModule>
+
+# ── URL redirects (301) ────────────────────────────────────────────────
+# Clean URLs → canonical .html destinations.
+# /qna.html was an old nav link; Q&A now lives at /faq.html.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^qna\.html$    /faq.html       [R=301,L,NC]
+  RewriteRule ^contact$      /contact.html   [R=301,L,NC]
+  RewriteRule ^services$     /services.html  [R=301,L,NC]
+  RewriteRule ^pricing$      /pricing.html   [R=301,L,NC]
+  RewriteRule ^favicon\.ico$ /assets/nwm-logo.svg [R=301,L]
+  RewriteRule ^blog$         /blog.html      [R=301,L,NC]
+  RewriteRule ^blog/$        /blog.html      [R=301,L,NC]
+  RewriteRule ^about$        /about.html     [R=301,L,NC]
+  RewriteRule ^faq$          /faq.html       [R=301,L,NC]
+  RewriteRule ^partners$     /partners.html  [R=301,L,NC]
+  RewriteRule ^results$      /results.html   [R=301,L,NC]
+  RewriteRule ^tutorials$    /tutorials.html [R=301,L,NC]
+  RewriteRule ^aeo$          /aeo-agency.html [R=301,L,NC]
+  RewriteRule ^aeo-agency$   /aeo-agency.html [R=301,L,NC]
+
+  # ── Blog pillar slug canonicalization (2026-05) ──
+  # Restaurants: singular → plural
+  RewriteRule ^blog/restaurant-aeo-strategy-2026\.html$ /blog/restaurants-aeo-strategy-2026.html [R=301,L]
+  RewriteRule ^blog/restaurant-aeo-vs-google-maps\.html$ /blog/restaurants-local-seo-vs-aeo.html [R=301,L]
+  # Law firms: singular + old date → plural + 2026 date
+  RewriteRule ^blog/law-firm-aeo-strategy\.html$ /blog/law-firms-aeo-strategy-2026.html [R=301,L]
+  RewriteRule ^blog/law-firm-local-seo-vs-aeo\.html$ /blog/law-firms-local-seo-vs-aeo.html [R=301,L]
+  # Tourism: hotel → tourism (niche canonicalization)
+  RewriteRule ^blog/hotel-aeo-strategy-2026\.html$ /blog/tourism-aeo-strategy-2026.html [R=301,L]
+  RewriteRule ^blog/hotel-local-seo-vs-aeo\.html$ /blog/tourism-local-seo-vs-aeo.html [R=301,L]
+  # Health: healthcare/medical-practice → health (niche canonicalization)
+  RewriteRule ^blog/healthcare-aeo-strategy-2026\.html$ /blog/health-aeo-strategy-2026.html [R=301,L]
+  RewriteRule ^blog/healthcare-local-seo-vs-aeo\.html$ /blog/health-local-seo-vs-aeo.html [R=301,L]
+  RewriteRule ^blog/medical-practice-aeo-strategy-2026\.html$ /blog/health-aeo-strategy-2026.html [R=301,L]
+</IfModule>
+
+# ── Security headers ───────────────────────────────────────────────────
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+  # CSP enforced 2026-04-28 (was Report-Only). Rollback path: rename header back
+  # to "Content-Security-Policy-Report-Only" if any legit resource gets blocked.
+  # script-src additions:
+  #   - https://unpkg.com               → /community-alert-app/ Leaflet 1.9.4
+  #   - https://cdnjs.cloudflare.com    → /livery-editor/ Fabric.js 5.3.0
+  # style-src addition:
+  #   - https://unpkg.com               → Leaflet CSS
+  # TODO: self-host these libs at /vendor/* to drop the third-party origins. Tracked in audit follow-ups.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://browser.sentry-cdn.com https://challenges.cloudflare.com https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://*.ingest.sentry.io https://ipapi.co https://api.indexnow.org https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self' https://netwebmedia.com; upgrade-insecure-requests"
+</IfModule>
+
+# ── Force UTF-8 charset in HTTP response headers ──────────────────────
+# InMotion/cPanel Apache defaults to iso-8859-1 in the Content-Type header
+# unless explicitly overridden here. The HTML meta charset tag alone is not
+# sufficient — browsers and AI crawlers trust the HTTP header first.
+AddDefaultCharset UTF-8
+
+# ── GZIP / DEFLATE compression ─────────────────────────────────────────
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript application/json
+  AddOutputFilterByType DEFLATE application/xml application/rss+xml image/svg+xml
+  AddOutputFilterByType DEFLATE font/ttf font/otf font/woff font/woff2 application/vnd.ms-fontobject
+</IfModule>
+
+# ── Vary header optimization ──────────────────────────────────────────
+# Remove User-Agent from Vary to avoid CDN cache fragmentation.
+# Only Accept-Encoding is content-affecting at this layer.
+<IfModule mod_headers.c>
+  Header set Vary "Accept-Encoding"
+</IfModule>
+
+# ── Browser caching ────────────────────────────────────────────────────
+# HTML: edge-cacheable for 5 min with stale-while-revalidate fallback
+# CSS/JS: long immutable cache (filenames already cache-busted via ?v=N query string)
+# Images/fonts: long immutable cache — these rarely change
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                                "access plus 1 month"
+  ExpiresByType text/html                       "access plus 0 seconds"
+  ExpiresByType text/css                        "access plus 1 year"
+  ExpiresByType application/javascript          "access plus 1 year"
+  ExpiresByType application/x-javascript        "access plus 1 year"
+  ExpiresByType image/jpeg                      "access plus 1 year"
+  ExpiresByType image/png                       "access plus 1 year"
+  ExpiresByType image/gif                       "access plus 1 year"
+  ExpiresByType image/webp                      "access plus 1 year"
+  ExpiresByType image/svg+xml                   "access plus 1 year"
+  ExpiresByType image/x-icon                    "access plus 1 year"
+  ExpiresByType font/woff                       "access plus 1 year"
+  ExpiresByType font/woff2                      "access plus 1 year"
+  ExpiresByType application/font-woff           "access plus 1 year"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Images & fonts: long immutable cache (filename-versioned so this is safe)
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico|woff|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # CSS/JS: long immutable cache — cache-busting is enforced via ?v=N query string
+  # in the HTML so version bumps invalidate cleanly without 5-min revalidation churn.
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+    Header unset Pragma
+    Header unset Expires
+  </FilesMatch>
+  # HTML: browser doesn't cache, but CDN/edge can hold for 5 min with stale-while-
+  # revalidate so traffic spikes don't all hit the origin. Deploys still propagate
+  # within ~5 min and SWR keeps responses instant during refresh.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, s-maxage=300, stale-while-revalidate=86400"
+    Header unset Pragma
+    Header unset Expires
+  </FilesMatch>
+</IfModule>

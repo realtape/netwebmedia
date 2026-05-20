@@ -1,0 +1,47 @@
+name: Cron — Email Sequences (every 5 min)
+on:
+  schedule:
+    # Every 5 minutes, staggered to avoid :00 / :30 hotspot
+    - cron: '7 * * * *'
+    - cron: '12 * * * *'
+    - cron: '17 * * * *'
+    - cron: '22 * * * *'
+    - cron: '27 * * * *'
+    - cron: '32 * * * *'
+    - cron: '37 * * * *'
+    - cron: '42 * * * *'
+    - cron: '47 * * * *'
+    - cron: '52 * * * *'
+    - cron: '57 * * * *'
+
+concurrency:
+  group: cron-email-sequences
+  cancel-in-progress: false
+
+jobs:
+  email-sequences:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Process pending email sequences
+        run: |
+          TOKEN="${{ secrets.JWT_SECRET }}"
+          TOKEN="${TOKEN:0:16}"
+          # Capture output instead of piping to head — under `set -o pipefail`
+          # head closing the pipe early sends SIGPIPE to curl (exit 141).
+          resp=$(curl -s -X GET \
+            "https://netwebmedia.com/api/cron/sequences?token=${TOKEN}&batch=50" \
+            -H "User-Agent: NetWebMedia-Cron" \
+            --max-time 60 \
+            -w "\nHTTP Status: %{http_code}\n")
+          echo "$resp" | head -20
+
+      - name: Health check
+        run: |
+          TOKEN="${{ secrets.JWT_SECRET }}"
+          TOKEN="${TOKEN:0:16}"
+          resp=$(curl -s -X GET \
+            "https://netwebmedia.com/api/cron/health?token=${TOKEN}" \
+            -H "User-Agent: NetWebMedia-Cron" \
+            --max-time 30)
+          echo "$resp" | jq '.' || echo "$resp"

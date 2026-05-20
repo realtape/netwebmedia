@@ -1,0 +1,125 @@
+.venv/
+__pycache__/
+*.py[cod]
+backend/db.sqlite3
+backend/media/
+backend/staticfiles/
+
+.vercel
+CREDENTIALS.md
+
+# Abandoned Next.js CRM (canonical is crm-vanilla/)
+crm/
+
+# Deploy
+.deploy-session
+_deploy/*.zip
+
+# CRM exports — contain PII, never commit
+_deploy/nwm-contacts*.csv
+_deploy/_serve_csv.py
+_birdtoken.tmp
+
+# Email broadcast subscribers + previews — PII, never commit
+scripts/email-broadcast/subscribers.csv
+scripts/email-broadcast/_preview.html
+scripts/email-broadcast/_errors.json
+scripts/email-broadcast/node_modules/
+scripts/email-broadcast/package.json
+scripts/email-broadcast/package-lock.json
+
+# Secrets — generated on server at deploy time, never commit local copies
+config.local.php
+api-php/config.local.php
+.env
+.env.local
+.env.ig
+.nwm-ig-session.json
+**/*.secrets.php
+
+# Hyperframes render outputs (large binary artifacts — never commit)
+# work-* dirs contain thousands of JPG frames + intermediate audio/video
+hyperframes/*/renders/work-*/
+# realtape-reels renders are fully generated, no need to track
+hyperframes/realtape-reels/renders/
+# spa-imsa-45min and any other reel project — same pattern as realtape-reels
+hyperframes/spa-imsa-45min-2026-05-14/renders/
+hyperframes/spa-imsa-45min-2026-05-14/sources/
+hyperframes/spa-imsa-45min-2026-05-14/assets/broll/
+hyperframes/spa-imsa-45min-2026-05-14/thumbs/
+# batch logs and dialog artifacts
+hyperframes/*/renders/batch.log
+hyperframes/*/dialog_*.txt
+hyperframes/*/wait_dialog_out.txt
+
+# Video-factory (Remotion) — outputs + source clips are local artifacts
+# Source clips in public/ are inputs to render; rendered MP4s in out/ are outputs.
+# Both are large binaries that bloat history; keep code only.
+video-factory/out/
+video-factory/public/*.mp4
+
+# Universal node_modules — never commit (caught us once when the auto-save
+# daemon committed a 193MB chrome-headless-shell.exe under
+# video-factory/node_modules and blocked GitHub pushes for 14 commits)
+**/node_modules/
+
+# Mobile app (Capacitor / Vite)
+mobile/node_modules/
+mobile/dist/
+mobile/ios/App/Pods/
+mobile/android/.gradle/
+mobile/android/app/build/
+mobile/android/build/
+mobile/android/local.properties
+
+# Large generated data files (run gen scripts locally to regenerate)
+api-php/data/usa_5x_full.csv
+api-php/data/usa_5x.csv
+api-php/data/usa_all_base.json
+api-php/data/clean/
+
+# ── History-rewrite hardening (2026-05-18) ──────────────────────────────
+# These patterns were purged from git history via git-filter-repo after
+# a 27GB .git bloat. Never re-commit them. Regenerate locally as needed.
+# Binaries — never belong in git
+*.exe
+*.dll
+*.node
+# PII contact/lead exports — security; never commit
+_leads/
+_deploy/*contacts*.csv
+_deploy/*leads*.csv
+_deploy/live_contacts.json
+_deploy/contacts_dump.json
+api-php/data/*.csv
+api-php/data/*.json
+# Generated media (regenerable; served from InMotion, not git)
+*.mp4
+# In-progress downloader artifacts — the auto-save daemon committed a 534MB
+# yt-dlp .part fragment into history (2026-05-18), bloating the pack past
+# GitHub's 2GB limit and freezing all pushes for hours. Never track these.
+*.part
+*.ytdl
+*.f[0-9]*.m4a
+*.f[0-9]*.mp4
+# Blanket hyperframes ignore — it is a local ~50GB render workspace, never
+# shipped. Only the renders/ subdirs were ignored before, so per-event
+# sources/, assets/broll/, and download artifacts kept leaking into history.
+hyperframes/
+hyperframes/*/renders/
+hyperframes/realtape-reels/assets/
+campaigns/*/assets/
+video-factory/out/
+.tmp_render/
+# node_modules anywhere (root + nested) — belt to **/node_modules/ above
+node_modules/
+
+# Git worktrees (Claude Code scratch). A worktree dir is a gitlink; if it
+# gets committed, actions/checkout's submodule scan fails with git exit 128.
+.claude/worktrees/
+
+# templates-site is a nested git repo (its own .git). Committed by accident as
+# a gitlink (no .gitmodules) -> same checkout exit-128 warning. Ignore so it
+# can't be re-added as a gitlink. If it should be tracked, remove its inner
+# .git and commit as plain files, or wire it up as a real submodule.
+templates-site/

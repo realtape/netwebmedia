@@ -1,0 +1,89 @@
+name: Register Twilio Webhook (one-shot)
+
+# Triggered manually. Registers the NWM CRM webhook URL on the Twilio
+# phone number stored in TWILIO_FROM secret for both SMS and WhatsApp.
+# Safe to re-run — Twilio updates are idempotent.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Register webhooks (SMS + WhatsApp)
+        env:
+          TWILIO_SID:   ${{ secrets.TWILIO_SID }}
+          TWILIO_TOKEN: ${{ secrets.TWILIO_TOKEN }}
+          TWILIO_FROM:  ${{ secrets.TWILIO_FROM }}
+        run: |
+          WEBHOOK="https://netwebmedia.com/crm-vanilla/api/webhook_twilio.php"
+
+          echo "=== 1. List all IncomingPhoneNumbers ==="
+          curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
+            "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/IncomingPhoneNumbers.json" \
+            | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          nums = d.get('incoming_phone_numbers', [])
+          print(f'Found {len(nums)} number(s)')
+          for n in nums:
+              print(f'  SID={n[\"sid\"]} phone={n[\"phone_number\"]} sms_url={n.get(\"sms_url\",\"\")}')
+          "
+
+          echo ""
+          echo "=== 2. Point SMS webhook at NWM CRM tee (proxies to ManyChat + saves to CRM) ==="
+          # We know the SID from the previous run: PN19113bd5a3d254281c0650421e953eea
+          # Re-fetch to be safe in case it ever changes
+          PHONE_SID=$(curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
+            "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/IncomingPhoneNumbers.json" \
+            | python3 -c "import sys,json; nums=json.load(sys.stdin).get('incoming_phone_numbers',[]); print(nums[0]['sid'] if nums else '')")
+
+          if [ -z "$PHONE_SID" ]; then
+            echo "::error::No phone number found — aborting"
+            exit 1
+          fi
+
+          echo "Updating $PHONE_SID ..."
+          curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
+            -X POST "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/IncomingPhoneNumbers/$PHONE_SID.json" \
+            --data-urlencode "SmsUrl=$WEBHOOK" \
+            --data-urlencode "SmsMethod=POST" \
+            | python3 -c "import sys,json; d=json.load(sys.stdin); print('  sms_url now:', d.get('sms_url','?'))"
+
+          echo ""
+          echo "=== 3. WhatsApp Sandbox webhook ==="
+          # GET sandbox config
+          SB=$(curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
+            "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/Messages/Sandbox.json")
+          echo "Sandbox response: $SB"
+
+          # Try to SET sandbox inbound URL
+          curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
+            -X POST "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_SID/Messages/Sandbox.json" \
+            --data-urlencode "InboundRequestUrl=$WEBHOOK" \
+            --data-urlencode "InboundMethod=POST" \
+            | python3 -c "import sys,json; d=json.load(sys.stdin); print('Sandbox webhook:', d.get('inbound_request_url', d.get('message','?')))"
+
+          echo ""
+          echo "=== 4. Messaging Services ==="
+          curl -s -u "$TWILIO_SID:$TWILIO_TOKEN" \
+            "https://messaging.twilio.com/v1/Services" \
+            | python3 -c "
+          import sys, json
+          d = json.load(sys.stdin)
+          for s in d.get('services', []):
+              print(f'  Service: {s[\"sid\"]} {s[\"friendly_name\"]}')
+          " 2>/dev/null || echo "No messaging services or API error"
+
+      - name: Verify webhook is reachable
+        run: |
+          echo "Checking webhook URL is live..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            --data "From=%2B14155238886&To=%2B15550000000&Body=test&MessageSid=SMtest123" \
+            "https://netwebmedia.com/crm-vanilla/api/webhook_twilio.php")
+          echo "Webhook HTTP status: $STATUS"
+          # 200 = TwiML reply, 403 = signature mismatch (expected — no real sig), both mean it's live
+          [ "$STATUS" = "200" ] || [ "$STATUS" = "403" ] && echo "Webhook is live!" || echo "::warning::Unexpected status $STATUS"

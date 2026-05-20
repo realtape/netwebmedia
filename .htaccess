@@ -330,6 +330,52 @@ Options -Indexes
   RewriteRule ^(.*)$ /industries/smb/services/$1 [L]
   RewriteCond %{HTTP_HOST} ^localbrands\.netwebmedia\.com$ [NC]
   RewriteRule ^(.*)$ /industries/smb/localbrands/$1 [L]
+
+  # ── Documented industry subdomains → canonical 14-niche hubs ──
+  # CLAUDE.md advertises these subdomain names; they previously had no block
+  # and silently served the apex homepage (duplicate content). Map each to its
+  # niche HUB (every hub dir is confirmed to exist). Placed AFTER the blocks
+  # above so any already-working subcategory route (hotels., salons., etc.)
+  # still wins via its earlier [L]; these only catch the names that fell through.
+  RewriteCond %{HTTP_HOST} ^(hotels|restaurants-hospitality|vacation-rentals|tourism)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/hospitality/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(restaurants|cafes|bars)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/restaurants/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(clinics|dentists|physiotherapy|mental-health|veterinary|health)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/healthcare/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(salons|spas|barbers|beauty)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/beauty/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(law-firms|attorneys|legal-services)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/legal-services/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(real-estate|property-management)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/real-estate/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(auto-dealers|auto-repair)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/automotive/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(schools|tutors|language-schools)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/education/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(wedding-planners|event-venues)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/events-weddings/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(accountants|financial-advisors)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/finance/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(plumbers|electricians|landscapers|cleaning)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/home-services/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(wineries|vineyards|farms)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/wine-agriculture/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(boutiques|gyms)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/local-services/$1 [L]
+  RewriteCond %{HTTP_HOST} ^(consulting|marketing-agencies)\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ /industries/smb/$1 [L]
+
+  # ── Fail-closed default for unmapped subdomains ──
+  # Any *.netwebmedia.com NOT matched above is unmapped/garbage (the apex and
+  # www are handled earlier, so they never reach here). 301 it to the apex so
+  # arbitrary hosts can't serve duplicate-content copies of the homepage.
+  # Matched subdomains exit via their [L] above; internal rewrites re-enter with
+  # REQUEST_URI ^/industries/ and are stopped by the skip-guard, so they never
+  # hit this rule on the second pass.
+  RewriteCond %{HTTP_HOST} ^[A-Za-z0-9-]+\.netwebmedia\.com$ [NC]
+  RewriteCond %{HTTP_HOST} !^www\.netwebmedia\.com$ [NC]
+  RewriteRule ^(.*)$ https://netwebmedia.com/$1 [R=301,L]
 </IfModule>
 
 # ── /app/* and /crm/* soft-fallback for unshipped feature pages ────────

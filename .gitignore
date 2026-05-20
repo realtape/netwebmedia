@@ -95,6 +95,17 @@ api-php/data/*.csv
 api-php/data/*.json
 # Generated media (regenerable; served from InMotion, not git)
 *.mp4
+# In-progress downloader artifacts — the auto-save daemon committed a 534MB
+# yt-dlp .part fragment into history (2026-05-18), bloating the pack past
+# GitHub's 2GB limit and freezing all pushes for hours. Never track these.
+*.part
+*.ytdl
+*.f[0-9]*.m4a
+*.f[0-9]*.mp4
+# Blanket hyperframes ignore — it is a local ~50GB render workspace, never
+# shipped. Only the renders/ subdirs were ignored before, so per-event
+# sources/, assets/broll/, and download artifacts kept leaking into history.
+hyperframes/
 hyperframes/*/renders/
 hyperframes/realtape-reels/assets/
 campaigns/*/assets/

@@ -21,6 +21,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - [PHP API architecture](#php-api-architecture)
   - [Workflow runtime engine + cron fallback](#workflow-runtime-engine)
 - [CRM vanilla JS architecture](#crm-vanilla-js-architecture-crm-vanilla)
+- [CMS admin — cms/](#cms-admin--cms)
 - [Email sequences](#email-sequences)
 - [URL routing rules](#url-routing-rules--non-obvious-will-trip-you-up)
   - [Subdomain routing — 39 industry subdomains](#subdomain-routing)
@@ -82,6 +83,7 @@ Run through this list before pushing any non-trivial change. Each item maps to a
 - [ ] **Adding a third-party script or external origin?** Check the `Content-Security-Policy` header in `.htaccess` — CSP is live (not Report-Only) since 2026-04-28; new origins fail silently.
 - [ ] **Changing a date** (campaigns, scheduled posts, plan docs)? Sync Google Calendar (`carlos@netwebmedia.com`, `America/Santiago`).
 - [ ] **Touching a CRM handler?** Pull tenancy via `tenancy_where()` / `tenancy_owns()`; require `require_org_access_for_write('member')` on writes.
+- [ ] **Adding a CMS admin page (`cms/`)?** Use the `module-table.js` pattern over `/api/resources/<type>` (copy `cms/ads.html`) — never hand-roll a mock against `data.js`. See [CMS admin](#cms-admin--cms).
 - [ ] **Creating a `schema_*.sql`?** Make it idempotent — it runs on every deploy. No `SET @x := (SELECT ...)` + `PREPARE/EXECUTE` patterns.
 - [ ] **Routing through `/api-php/`?** The 301 → `/api/` MUST live in `api-php/.htaccess` (per-directory), not root.
 - [ ] **Adding a CTA?** WhatsApp goes through `/whatsapp.html`, never direct `wa.me/...` links.
@@ -102,8 +104,9 @@ This is the **netwebmedia.com production property** plus a collection of support
 7. **`_deploy/companies/`** — 680 generated per-company audit pages deployed to `netwebmedia.com/companies/**`.
 8. **`plans/`** — internal strategy docs (`business-plan.html`, `marketing-plan.html`, `brand-book.html`, `execution-90day.html`, `index.html` hub). All are `noindex,nofollow`. Always incorporate these when reasoning about NetWebMedia direction.
 9. **`.claude/agents/`** — 12 custom agents mirroring NetWebMedia's org chart (cmo, sales-director, engineering-lead, etc.). Delegate by role; see `.claude/AGENT-ROUTING.txt` for routing rules and Sonnet-vs-Haiku assignments.
+10. **`cms/`** — internal "NetWeb CMS" admin app deployed to `netwebmedia.com/cms/`. Vanilla-JS content admin (Pages, Blog, Landing Pages, Forms, Templates, Media, SEO, Workflows, Settings, etc.). Persists through the generic `/api/resources/<type>` EAV store in `webmed6_nwm`. Behind HTTP Basic auth (`WWW-Authenticate: Basic realm="NetWebMedia Admin"`). See [CMS admin](#cms-admin--cms).
 
-**`app/` vs `crm-vanilla/`** — these are two separate things. `/app/` is a lightweight feature-stub shell for the public-facing customer dashboard (many routes point to `coming-soon.html`); it is NOT the internal CRM. `/crm-vanilla/` is the internal CRM used by the NetWebMedia team.
+**Three distinct app surfaces — don't confuse them.** `/app/` is a lightweight feature-stub shell for the public-facing **customer** dashboard (many routes point to `coming-soon.html`). `/crm-vanilla/` is the internal **CRM** the NetWebMedia team uses (contacts, deals, pipeline). `/cms/` is the internal **content CMS** (pages, blog, landing pages, forms). All three are separate.
 
 ## Critical: Two Separate Databases
 
@@ -427,6 +430,16 @@ Vanilla JS SPA with a custom route dispatcher in `crm-vanilla/js/app.js`. No fra
   - `fb_publish.php` — Facebook Page publishing. Actions: `status`, `schedule`, `list`. MIGRATE_TOKEN gated. Video + carousel formats. Posts scheduled `now+10min` to `now+6mo` (FB Graph minimum — no immediate-fire). Idempotent on `post_number`. Audit log `fb_publish_log`. Secrets `FB_PAGE_ID` + `FB_PAGE_TOKEN` already in production.
   - `tt_publish.php` — TikTok Content Posting API. Actions: `status`, `spec`, `publish`, `status_check`, `list`. MIGRATE_TOKEN gated. Uses PULL_FROM_URL with `assets/social/campaign/reel_*.mp4`. 6 reels predefined (AEO/Growth/Scale × EN/ES). 24-hour idempotency per `reel_key`. Returns 503 until `TT_ACCESS_TOKEN` set. **Domain ownership must be verified in TikTok Developer Portal → URL Prefix Configuration**, else PULL_FROM_URL returns `url_ownership_unverified`. Audit log `tt_publish_log`.
   - Admin UI module `crm-vanilla/whatsapp-subs.html` + `js/whatsapp-subs.js` consumes `wa_flush` for button-driven opt-in management (filterable table, mark actions, dry-run/live flush). Admin-only sidebar entry under "WhatsApp Subs".
+
+## CMS admin — `cms/`
+
+The internal "NetWeb CMS" content admin, deployed to `netwebmedia.com/cms/`. Separate from `crm-vanilla/` (the CRM) and `app/` (the customer dashboard). Vanilla JS, no build step, ships via `deploy-site-root.yml` (`cms/**` is in both the path triggers and the staging `for d in …` loop).
+
+- **Auth:** the entire `/cms/` directory is behind **HTTP Basic auth** — anonymous requests get `401 WWW-Authenticate: Basic realm="NetWebMedia Admin"` (set server-side at InMotion, not in repo `.htaccess`). You can't curl-verify CMS page content unauthenticated — verify with `node server.js` / the preview server locally instead. The public landing `nwm-cms.html` is reachable (200).
+- **Data:** all CMS entities persist through the **generic EAV store** `/api/resources/<type>` in `webmed6_nwm` via the shared client `cms/js/api-client.js` (`window.NWMApi`). `cms/js/data.js` is **mock seed data only** (same rule as `crm-vanilla/js/data.js`) — pages load it as a display fallback when the API is unreachable; never treat it as source of truth.
+- **Canonical resource types** (also counted by `GET /api/public/stats`): `page`, `blog_post`, `landing_page`, `form`, `template`. Other CMS types: `ad_campaign`, `ai_agent`, `seo_keyword`, `social_post`, `media_asset`, `membership_tier`, `setting` (the `setting` type stores singletons by `slug`, e.g. `cms_general`).
+- **Canonical CRUD pattern:** `cms/js/module-table.js` → `NWM.mount({ type, title, columns, fields, rowActions, onRow })` renders a table + modal editor backed by `NWMApi.list/create/update/remove`. The `#nwmNew` button opens the New editor; arriving with the URL hash `#new` auto-opens it (used by the Dashboard "Quick Create" deep-links). On edit, the editor preserves existing `data`-blob keys not exposed as fields (never clobbers e.g. a blog body). Reference page: `cms/ads.html`. **When adding a CMS page, copy this pattern — don't hand-roll a mock against `data.js`.**
+- A handful of richer pages use bespoke inline scripts instead of `module-table.js` (`campaigns.html`, `knowledge.html`, `content-writer.html`, `analytics.html`, `seo.html`, `index.html`/dashboard, `settings.html`) — these are real and API-backed; the dashboard reads `/api/public/stats`, SEO links to the live AEO tool `/aeo-index.html`, Settings persists a `setting` resource.
 
 ## Email sequences
 

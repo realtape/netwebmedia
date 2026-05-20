@@ -334,24 +334,17 @@ function bl_plans_seed() {
     ],
     [
       'code'          => 'cmo_scale',
-      'name'          => 'CMO Scale',
+      'name'          => 'CMO Premium',
       'category'      => 'cmo',
       'usd'           => 2499,
       'setup'         => 999,
       'needs_contact' => true,
-      'tagline'       => 'Full-stack marketing department',
-      'features'      => ['Everything in CMO Growth','Video factory (16 Reels/mo)','Custom AI agents + voice AI','White-glove onboarding','Dedicated account strategist','Priority support + daily Slack access','+ ad spend at cost + 12% mgmt fee (min $300/mo)'],
+      'tagline'       => 'Full-stack marketing department — by consultation',
+      'features'      => ['Everything in CMO Growth','5 Reels/week + 2 YouTube long-form/mo','Multi-channel ads (Google + Meta + TikTok)','Custom AI agents + voice AI','White-glove onboarding','Dedicated account strategist','Priority support + daily Slack access','+ ad spend at cost + 10% mgmt fee (min $400/mo)'],
     ],
-    [
-      'code'          => 'cmo_enterprise',
-      'name'          => 'CMO Enterprise',
-      'category'      => 'cmo',
-      'usd'           => 5999,
-      'setup'         => 0,
-      'needs_contact' => true,
-      'tagline'       => 'Multi-brand · dedicated agent · custom AI · founder access',
-      'features'      => ['Everything in CMO Scale','Multi-brand CRM (up to 5 brands)','Voice AI unlimited (was metered)','Video Factory unlimited (vs 16/mo)','Custom AI agent build (1 included)','Weekly call with Carlos (founder)','Quarterly strategy offsite','+ ad spend at cost + 10% mgmt fee (min $500/mo)'],
-    ],
+    // CMO Enterprise retired 2026-05-20 — replaced by the bespoke "Custom / Agency" tier
+    // (contact-only via /contact.html?plan=custom). Kept out of the public catalog on purpose.
+    // Plan code 'cmo_scale' is intentionally retained (renaming would orphan existing subscriptions).
     // One-time AEO Audit — entry SKU, 100% credited toward retainer
     [
       'code'    => 'aeo_audit',

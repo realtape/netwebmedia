@@ -198,7 +198,7 @@ $t = [
     'footer_left'       => 'NetWebMedia SpA · Santiago, Chile · <a href="mailto:hola@netwebmedia.com">hola@netwebmedia.com</a>',
     'footer_right'      => 'Auditoría preparada el %s · Confidencial — sólo para %s',
     'pkg_lite_feats'    => ['AEO + SEO strategy','Calendario de contenido mensual','NWM CRM incluido (hasta 1,000 contactos)','Auditoría SEO trimestral','WhatsApp widget básico'],
-    'pkg_growth_feats'  => ['Todo lo de CMO Lite','Ads gestionados (USD 5k–20k/mes)','Email nurture automatizado','GA4 + GTM + Meta Pixel setup','Reseñas automáticas post-servicio','Llamada estratégica mensual'],
+    'pkg_growth_feats'  => ['Todo lo de AEO Starter','Ads gestionados (USD 5k–20k/mes)','Email nurture automatizado','GA4 + GTM + Meta Pixel setup','Reseñas automáticas post-servicio','Llamada estratégica mensual'],
     'pkg_scale_feats'   => ['Todo lo de CMO Growth','AI SDR outbound','12 videos cortos/mes','Campañas demand-gen','Planificación OKR trimestral','Llamada estratégica semanal'],
   ],
   'en' => [
@@ -266,7 +266,7 @@ $t = [
     'footer_left'       => 'NetWebMedia SpA · Santiago, Chile · <a href="mailto:hola@netwebmedia.com">hola@netwebmedia.com</a>',
     'footer_right'      => 'Audit prepared on %s · Confidential — for %s only',
     'pkg_lite_feats'    => ['AEO + SEO strategy','Monthly content calendar','NWM CRM included (up to 1,000 contacts)','Quarterly SEO audit','Basic WhatsApp widget'],
-    'pkg_growth_feats'  => ['Everything in CMO Lite','Managed ads (USD 5k–20k/mo spend)','Automated email nurturing','GA4 + GTM + Meta Pixel setup','Automated post-service review requests','Monthly strategy call'],
+    'pkg_growth_feats'  => ['Everything in AEO Starter','Managed ads (USD 5k–20k/mo spend)','Automated email nurturing','GA4 + GTM + Meta Pixel setup','Automated post-service review requests','Monthly strategy call'],
     'pkg_scale_feats'   => ['Everything in CMO Growth','AI SDR outbound','12 short-form videos/month','Demand-gen campaigns','Quarterly OKR planning','Weekly strategy call'],
   ],
 ];
@@ -337,7 +337,7 @@ $nwm_services = [
     'detail'     => $lang==='en' ? 'First-response bot, pre-filled message per page and floating widget.'
                                  : 'Bot inicial, mensaje pre-rellenado por página y widget flotante.',
     'time'       => $lang==='en' ? '1 week'        : '1 semana',
-    'price'      => $lang==='en' ? 'included in CMO Lite' : 'incluido en CMO Lite',
+    'price'      => $lang==='en' ? 'included in AEO Starter' : 'incluido en AEO Starter',
   ],
   'analytics' => [
     'icon'       => '📊',
@@ -381,7 +381,7 @@ $nwm_services = [
     'detail'     => $lang==='en' ? '2–4 articles/month with BlogPosting schema, FAQs and short videos.'
                                  : '2–4 artículos/mes con BlogPosting schema, FAQs y vídeos cortos.',
     'time'       => $lang==='en' ? '30 days'     : '30 días',
-    'price'      => $lang==='en' ? 'included in CMO Lite' : 'incluido en CMO Lite',
+    'price'      => $lang==='en' ? 'included in AEO Starter' : 'incluido en AEO Starter',
   ],
   'social' => [
     'icon'       => '📱',
@@ -887,7 +887,7 @@ h2.section{font-family:'Poppins',sans-serif;font-weight:800;font-size:28px;color
     <div class="packages-grid">
 
       <div class="pkg-card lite">
-        <div class="pkg-name">CMO Lite</div>
+        <div class="pkg-name">AEO Starter</div>
         <div class="pkg-price">$249<span>/<?= $lang==='en'?'mo':'mes' ?></span></div>
         <div class="pkg-setup"><?= h($T['pkg_lite_setup']) ?></div>
         <ul class="pkg-list">
@@ -908,8 +908,8 @@ h2.section{font-family:'Poppins',sans-serif;font-weight:800;font-size:28px;color
       </div>
 
       <div class="pkg-card scale">
-        <div class="pkg-name">CMO Scale</div>
-        <div class="pkg-price">$2,990<span>/<?= $lang==='en'?'mo':'mes' ?></span></div>
+        <div class="pkg-name">CMO Premium</div>
+        <div class="pkg-price">$2,499<span>/<?= $lang==='en'?'mo':'mes' ?></span></div>
         <div class="pkg-setup"><?= h($T['pkg_scale_setup']) ?></div>
         <ul class="pkg-list">
           <?php foreach ($T['pkg_scale_feats'] as $f): ?><li><?= h($f) ?></li><?php endforeach; ?>

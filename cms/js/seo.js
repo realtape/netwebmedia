@@ -57,10 +57,34 @@
     return html;
   }
 
+  function mapKeyword(it) {
+    var d = it.data || {};
+    var pos = +d.position || 0;
+    return {
+      keyword: it.title || d.keyword || '',
+      position: pos, prev: +d.prev || pos,
+      volume: +d.volume || 0, difficulty: d.difficulty || '-',
+      intent: d.intent || '-', page: d.page || '', traffic: +d.traffic || 0
+    };
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
-    CMS_APP.buildHeader("SEO", '<button class="btn btn-secondary">Run Audit</button>', "AEO, on-page, technical and backlink health");
+    CMS_APP.buildHeader("SEO",
+      '<a class="btn btn-secondary" href="/aeo-index.html" target="_blank" rel="noopener">Run AEO Audit</a>',
+      "AEO, on-page, technical and backlink health");
     document.getElementById("summaryCards").innerHTML = summary(CMS_DATA.seoAudit, CMS_DATA.seoKeywords);
     document.getElementById("auditGrid").innerHTML = auditGrid(CMS_DATA.seoAudit);
     document.getElementById("keywordsMount").innerHTML = kwTable(CMS_DATA.seoKeywords);
+
+    // Replace mock keyword rankings with real tracked keywords (managed in AI SEO) when available.
+    if (window.NWMApi && NWMApi.list) {
+      NWMApi.list('seo_keyword').then(function (r) {
+        var items = ((r && r.items) || []).map(mapKeyword);
+        if (items.length) {
+          document.getElementById("keywordsMount").innerHTML = kwTable(items);
+          document.getElementById("summaryCards").innerHTML = summary(CMS_DATA.seoAudit, items);
+        }
+      }).catch(function () { /* keep mock fallback */ });
+    }
   });
 })();

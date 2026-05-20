@@ -2,13 +2,28 @@
 (function () {
   "use strict";
 
-  function summary(s) {
+  function summary(m) {
     var html = "";
-    html += '<div class="summary-card"><div class="sc-label">Published Pages</div><div class="sc-value">' + s.publishedPages + '</div><div class="sc-sub">Across the marketing site</div></div>';
-    html += '<div class="summary-card"><div class="sc-label">Blog Posts Live</div><div class="sc-value">' + s.publishedPosts + '</div><div class="sc-sub">Indexed + live</div></div>';
-    html += '<div class="summary-card"><div class="sc-label">Queued Posts</div><div class="sc-value">' + s.queuedPosts + '</div><div class="sc-sub">14 days runway</div></div>';
-    html += '<div class="summary-card"><div class="sc-label">Monthly Visitors</div><div class="sc-value">' + CMS_APP.fmtN(s.monthlyVisitors) + '</div><div class="sc-sub">Conv ' + s.conversionRate + '%</div></div>';
+    html += '<div class="summary-card"><div class="sc-label">Pages</div><div class="sc-value">' + CMS_APP.fmtN(m.pages) + '</div><div class="sc-sub">Page resources</div></div>';
+    html += '<div class="summary-card"><div class="sc-label">Blog Posts</div><div class="sc-value">' + CMS_APP.fmtN(m.posts) + '</div><div class="sc-sub">In the CMS</div></div>';
+    html += '<div class="summary-card"><div class="sc-label">Landing Pages</div><div class="sc-value">' + CMS_APP.fmtN(m.landing) + '</div><div class="sc-sub">Campaign LPs</div></div>';
+    html += '<div class="summary-card"><div class="sc-label">Form Submissions</div><div class="sc-value">' + CMS_APP.fmtN(m.submissions) + '</div><div class="sc-sub">Last 30 days</div></div>';
     return html;
+  }
+
+  function todayLabel() {
+    return new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ' — overview of the day';
+  }
+
+  function quickCreateHtml() {
+    return '<div class="qc-wrap" style="position:relative;display:inline-block;">' +
+      '<button class="btn btn-primary" id="qcBtn">' + CMS_APP.ICONS.plus + ' Quick Create</button>' +
+      '<div id="qcMenu" class="qc-menu" style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.14);min-width:190px;z-index:60;overflow:hidden;">' +
+        '<a href="pages.html#new" class="qc-item">New Page</a>' +
+        '<a href="blog.html#new" class="qc-item">New Blog Post</a>' +
+        '<a href="landing-pages.html#new" class="qc-item">New Landing Page</a>' +
+        '<a href="forms.html#new" class="qc-item">New Form</a>' +
+      '</div></div>';
   }
 
   function spark(days) {
@@ -72,14 +87,38 @@
     return html;
   }
 
+  function mockSummary() {
+    var s = CMS_DATA.stats || {};
+    return { pages: s.publishedPages || 0, posts: s.publishedPosts || 0, landing: (CMS_DATA.landingPages || []).length, submissions: 0 };
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
-    CMS_APP.buildHeader("Dashboard", '<button class="btn btn-primary" data-action="new">' + CMS_APP.ICONS.plus + ' Quick Create</button>', "Thursday, April 16, 2026 - overview of the day");
-    document.getElementById("summaryCards").innerHTML = summary(CMS_DATA.stats);
+    CMS_APP.buildHeader("Dashboard", quickCreateHtml(), todayLabel());
+
+    // Real top-line counts from /api/public/stats, with mock fallback.
+    document.getElementById("summaryCards").innerHTML = summary(mockSummary());
+    if (window.NWMApi && NWMApi.publicStats) {
+      NWMApi.publicStats().then(function (r) {
+        var c = (r && r.counts) || {};
+        document.getElementById("summaryCards").innerHTML = summary({
+          pages: c.page || 0, posts: c.blog_post || 0, landing: c.landing_page || 0,
+          submissions: (r && r.form_submissions_30d) || 0
+        });
+      }).catch(function () { /* keep mock fallback */ });
+    }
 
     var topHtml = '<div class="card"><div class="card-header"><div class="card-title">Traffic (last 8 days)</div><span class="muted">' + CMS_APP.fmtN(CMS_DATA.stats.monthlyVisitors) + '/mo</span></div>' + spark(CMS_DATA.trafficDaily) + '</div>';
     topHtml += queueCard(CMS_DATA.blogQueue);
     document.getElementById("dashGridTop").innerHTML = topHtml;
 
     document.getElementById("dashGridBottom").innerHTML = recentPosts(CMS_DATA.blogRecent) + activity(CMS_DATA.recentActivity);
+
+    // Quick Create dropdown toggle.
+    document.addEventListener("click", function (e) {
+      var menu = document.getElementById("qcMenu");
+      if (!menu) return;
+      if (e.target.closest("#qcBtn")) { menu.style.display = menu.style.display === "none" ? "block" : "none"; e.preventDefault(); return; }
+      if (!e.target.closest("#qcMenu")) menu.style.display = "none";
+    });
   });
 })();

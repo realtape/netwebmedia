@@ -26,6 +26,7 @@ venv\Scripts\python.exe run_relip.py --clip input\X.mp4 --script "What she says.
 - **8 GB VRAM is the ceiling — CLOSE other GPU apps (browser/Photoshop) or MuseTalk OOMs.** Peak ~7.7 GB.
 - ~8–12 min per short clip on this card. A known ~2× speedup lever (CPU-bound rtmlib landmark step → GPU onnxruntime) is documented but NOT yet applied (left to avoid destabilizing the working stack).
 - If a sub-agent backgrounds the render and ends its turn, the detached process can finish the relip but skip the caption step — run caption work inline.
+- **ALWAYS finish with a playback-normalization re-encode.** The raw relip+overlay output lagged/froze in every media player (2026-05-20). Causes: encoded at H.264 Level 4.0 (the ceiling for 1080×1920 → HW decoders stall/software-fallback), 22.05 kHz mono audio (A/V resync stutter), and sparse keyframes. Fix that worked: `ffmpeg -fflags +genpts -i in.mp4 -vf "fps=30,format=yuv420p" -fps_mode cfr -c:v libx264 -preset medium -crf 19 -profile:v high -level 4.2 -g 60 -keyint_min 30 -sc_threshold 0 -bf 2 -refs 4 -c:a aac -ar 48000 -ac 2 -b:a 160k -movflags +faststart -video_track_timescale 30000 out.mp4`. Bake this final pass into every relip deliverable.
 
 **Source avatars:** the proven Higgsfield SOUL blonde "park selfie" UGC actor. Finished reels at `D:\Documents\nwm-history-rewrite-2026-05-18\live-reels-backup\` — `hf-{aeo,growth,speed}-{en,es}.mp4` (15 s raw-ish) + `reel_*_final.mp4` (29–30 s). Use `hf-growth-*` (phone in hand) for CRM/leads messaging.
 

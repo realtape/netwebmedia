@@ -104,6 +104,8 @@ EXCLUDE_FILES = {
     "social-carousel-preview.html",
     "form.html",
     "review.html",
+    # Retired page — deleted 2026-05; intentionally 404s, must never re-enter the sitemap
+    "fractional-cmo.html",
 }
 
 # Files matching these patterns are 403'd by .htaccess — must NOT appear in

@@ -83,7 +83,7 @@
           ]
         },
         pricing: {
-          reply: "**Fractional CMO Packages** ⭐ (our star products):\n\n🚀 **AEO Starter — $249/mo** · no setup\n AEO + SEO + content calendar, NWM CRM included, monthly strategy note\n\n📈 **CMO Growth — $999/mo** + $499 setup *(most popular)*\n Everything in Starter + Google/Meta ads, social content, email automation, AI SDR + lead qualification\n Ad spend billed at cost + 12% (min $300/mo)\n\n⭐ **CMO Premium — $2,990/mo** + $999 setup\n Everything in Growth + Video Factory (16 Reels/mo), custom AI agents + voice AI, dedicated strategist, daily Slack access\n\nPay annually and save **15%** · Starter $2,540/yr · Growth $10,190/yr · Premium $30,500/yr\n90-day minimum, then month-to-month.\n\n**Platform only (DIY):** CRM Starter $49 · Pro $249 · Agency $449/mo\n\nWhich tier fits your budget?",
+          reply: "**Fractional CMO Packages** ⭐ (our star products):\n\n🚀 **AEO Starter — $249/mo** · no setup\n AEO + SEO + content calendar, NWM CRM included, monthly strategy note\n\n📈 **CMO Growth — $999/mo** + $499 setup *(most popular)*\n Everything in Starter + Google/Meta ads, social content, email automation, AI SDR + lead qualification\n Ad spend billed at cost + 12% (min $300/mo)\n\n⭐ **CMO Premium — $2,499/mo** + $999 setup *(by consultation)*\n Everything in Growth + Video Factory (16 Reels/mo), custom AI agents + voice AI, dedicated strategist, daily Slack access\n\nPay annually and save **15%** · Starter $2,540/yr · Growth $10,190/yr · Premium $25,488/yr\n90-day minimum, then month-to-month.\n\n**Platform only (DIY):** CRM Starter $49 · Pro $249 · Agency $449/mo\n\nWhich tier fits your budget?",
           replies: [
             { id: 'pricing-page',   label: '💳 See full pricing',   href: '/pricing.html' },
             { id: 'pricing-quote',  label: '📝 Get custom quote',   action: 'audit' },
@@ -327,7 +327,7 @@
           ]
         },
         pricing: {
-          reply: "**Paquetes Fractional CMO** ⭐ (nuestros productos estrella):\n\n🚀 **CMO Lite — $249/mes** · sin setup\n AEO + SEO + calendario de contenido, NWM CRM incluido, nota estratégica mensual\n\n📈 **CMO Growth — $999/mes** + $499 setup *(más popular)*\n Todo en Lite + anuncios Google/Meta, contenido social, email automation, AI SDR + calificación de leads\n Pauta al costo + 12% (mín $300/mes)\n\n⭐ **CMO Scale — $2,990/mes** + $999 setup\n Todo en Growth + Video Factory (16 Reels/mes), agentes IA personalizados + voz IA, estratega dedicado, acceso diario por Slack\n\nPago anual ahorra **15%** · Lite $2,540 · Growth $10,190 · Scale $30,500/año\nMínimo 90 días, después mes a mes.\n\n**Solo Plataforma (DIY):** CRM Starter $49 · Pro $249 · Agency $449/mes\n\n¿Cuál se ajusta a tu presupuesto?",
+          reply: "**Paquetes Fractional CMO** ⭐ (nuestros productos estrella):\n\n🚀 **AEO Starter — $249/mes** · sin setup\n AEO + SEO + calendario de contenido, NWM CRM incluido, nota estratégica mensual\n\n📈 **CMO Growth — $999/mes** + $499 setup *(más popular)*\n Todo en AEO Starter + anuncios Google/Meta, contenido social, email automation, AI SDR + calificación de leads\n Pauta al costo + 12% (mín $300/mes)\n\n⭐ **CMO Premium — $2,499/mes** + $999 setup *(por consulta)*\n Todo en Growth + Video Factory (16 Reels/mes), agentes IA personalizados + voz IA, estratega dedicado, acceso diario por Slack\n\nPago anual ahorra **15%** · AEO Starter $2,540 · Growth $10,190 · Premium $25,488/año\nMínimo 90 días, después mes a mes.\n\n**Solo Plataforma (DIY):** CRM Starter $49 · Pro $249 · Agency $449/mes\n\n¿Cuál se ajusta a tu presupuesto?",
           replies: [
             { id: 'pricing-page',   label: '💳 Ver precios completos', href: '/pricing.html' },
             { id: 'pricing-quote',  label: '📝 Cotización personal',   action: 'audit' },
@@ -809,8 +809,8 @@
     if (/(price|pricing|cost|how much|plan|tier|paquete|precio|cuesta|cu[áa]nto|plan|tarif)/i.test(t)) {
       return {
         reply: es
-          ? "**Paquetes Fractional CMO:**\n• 🚀 **AEO Starter — $249/mes** · sin setup\n• 📈 **CMO Growth — $999/mes** + setup $499 *(más popular)*\n• ⭐ **CMO Premium — $2,990/mes** + setup $999\n\nMínimo 90 días, después mes a mes. Ahorra 15% al pagar anual."
-          : "**Fractional CMO packages:**\n• 🚀 **AEO Starter — $249/mo** · no setup\n• 📈 **CMO Growth — $999/mo** + $499 setup *(most popular)*\n• ⭐ **CMO Premium — $2,990/mo** + $999 setup\n\n90-day minimum, then month-to-month. 15% off when paid annually.",
+          ? "**Paquetes Fractional CMO:**\n• 🚀 **AEO Starter — $249/mes** · sin setup\n• 📈 **CMO Growth — $999/mes** + setup $499 *(más popular)*\n• ⭐ **CMO Premium — $2,499/mes** + setup $999 *(por consulta)*\n\nMínimo 90 días, después mes a mes. Ahorra 15% al pagar anual."
+          : "**Fractional CMO packages:**\n• 🚀 **AEO Starter — $249/mo** · no setup\n• 📈 **CMO Growth — $999/mo** + $499 setup *(most popular)*\n• ⭐ **CMO Premium — $2,499/mo** + $999 setup *(by consultation)*\n\n90-day minimum, then month-to-month. 15% off when paid annually.",
         replies: [
           { id: 'see-pricing', label: es ? '💳 Ver precios' : '💳 See full pricing', href: '/pricing.html' },
           { id: 'free-audit',  label: es ? '🎯 Auditoría gratis' : '🎯 Free audit',   href: '/contact.html' }

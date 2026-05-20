@@ -90,31 +90,31 @@ This is how we deliver agency output at SMB prices.
    emails and SMS, generates bilingual landing pages, writes meta, translates,
    suggests next actions. Context-aware: knows the record/page you're on.
    Runs on Claude 3.5 Sonnet. Summoned with ⌘K / Ctrl+K.
-   For: every logged-in user on AEO Starter, CMO Growth, CMO Scale, CMO Enterprise, and every CRM plan.
+   For: every logged-in user on AEO Starter, CMO Growth, CMO Premium, Custom/Agency, and every CRM plan.
    Tutorial: /nwmai.html
 
 2. **AI SDR (Sales Development Representative)**
    Outbound agent that qualifies inbound leads, books meetings, follows up on
    non-responders, logs everything in the CRM. 24/7, bilingual.
-   For: CMO Scale included. Add-on to Growth. Not on Lite.
+   For: CMO Premium included. Add-on to Growth. Not on AEO Starter.
    Tutorial: /services.html#ai-sdr
 
 3. **AI Copilot**
    Role-specific in-CRM copilot for sales/ops/support — lives on a record
    and proposes the next best action with justification.
-   For: NWM CRM Pro + Agency. CMO Growth + Scale.
+   For: NWM CRM Pro + Agency. CMO Growth + Premium.
    Tutorial: /nwm-crm.html
 
 4. **Voice AI (Vapi integration)**
    AI voice agents for inbound reception, appointment setting, and outbound
    follow-up. Handles natural conversation, books directly into the calendar.
-   For: CMO Scale, project add-on on Growth. English + Spanish voices.
+   For: CMO Premium, project add-on on Growth. English + Spanish voices.
    Tutorial: /services.html (voice section)
 
 5. **Video Factory (Heygen + Higgsfield pipeline)**
    Done-for-you Reels, TikToks, and Shorts. Script → AI avatar → AI b-roll →
    editing → brand-graded. 8–30 videos per month.
-   For: CMO Scale (12 assets/mo included). Add-on to Growth. $497–$1,997/mo
+   For: CMO Premium (12 assets/mo included). Add-on to Growth. $497–$1,997/mo
    standalone.
    Tutorial: /tutorials/video-factory.html
 
@@ -122,13 +122,13 @@ This is how we deliver agency output at SMB prices.
    AI drafts + human editing + AEO schema markup. FAQ / HowTo / Article
    structured data so LLMs cite you. 1,500+ word articles, published direct
    to your CMS.
-   For: AEO Starter, CMO Growth, CMO Scale, CMO Enterprise.
+   For: AEO Starter, CMO Growth, CMO Premium, Custom/Agency.
    Tutorial: /tutorials/ai-seo.html · /guides/llm-seo-getting-cited.html
 
 7. **NWM CMS — AI Website Builder**
    Launch bilingual (EN + ES) websites in under 60 seconds from a single
    prompt. Hosting + SSL + blog + unlimited landing pages included.
-   For: CRM Pro + Agency. CMO Growth + Scale.
+   For: CRM Pro + Agency. CMO Growth + Premium.
    Tutorial: /tutorials/nwm-cms.html · /nwm-cms.html
 
 8. **AI SEO / AEO (Answer-Engine Optimization)**
@@ -149,7 +149,7 @@ This is how we deliver agency output at SMB prices.
     Bilingual inbound + outbound messaging agents. Answer FAQs, qualify,
     book, escalate. Ships with bot deflection, human handoff, and full
     conversation logs.
-    For: CRM Pro + Agency, CMO Growth + Scale.
+    For: CRM Pro + Agency, CMO Growth + Premium.
     Tutorials:
       · /tutorials/whatsapp-automation.html
       · /tutorials/chatbot-automation.html
@@ -176,7 +176,7 @@ FLAGSHIP: FRACTIONAL CMO RETAINER (3 tiers)
   Written 48-hour audit (no calls). Maps your AEO citation footprint across
   ChatGPT, Claude, Perplexity, and Google AI Overviews; surfaces schema +
   on-page recommendations + a 30/60/90-day action list. The full $997
-  applies as credit toward AEO Starter / Growth / Scale if you sign within
+  applies as credit toward AEO Starter / Growth / Premium if you sign within
   60 days. The wedge SKU — most CMO Growth retainers start here.
 
 **AEO Starter — $249/mo · no setup fee**
@@ -195,19 +195,20 @@ FLAGSHIP: FRACTIONAL CMO RETAINER (3 tiers)
   Ad management fee: ad spend billed at cost + 12% management fee
   (minimum $300/month), billed separately from the retainer.
 
-**CMO Scale — $2,990/mo + $999 setup + ad management fee**
-  Includes: everything in Growth + Video Factory (16 Reels/month),
-  custom AI agents + voice AI, white-glove onboarding, dedicated account
-  strategist, priority support + daily Slack access, AI SDR outbound,
-  demand-gen campaigns.
-  Ad management fee: same 12% at cost, minimum $300/month.
+**CMO Premium — $2,499/mo + $999 setup + ad management fee   [BY CONSULTATION]**
+  Includes: everything in Growth + 5 Reels/week + 2 YouTube long-form/month,
+  multi-channel ads (Google + Meta + TikTok), custom AI agents + voice AI,
+  white-glove onboarding, dedicated account strategist, priority support +
+  daily Slack access, AI SDR outbound, demand-gen campaigns.
+  Requires a 20-min fit call before onboarding.
+  Ad management fee: ad spend at cost + 10% management fee, minimum $400/month.
 
-**CMO Enterprise — $5,999/mo + custom onboarding + ad management fee**
-  For multi-brand portfolios, custom SLAs, weekly founder access (Carlos),
-  white-label CRM, and dedicated AI infrastructure. Includes everything in
-  Scale + multi-brand CRM (up to 5 brands), unlimited Voice AI, unlimited
-  Video Factory, 1 custom AI agent build included, weekly call with
-  Carlos, quarterly strategy offsite. Ad management: 10% (min $500/mo).
+**Custom / Agency — custom pricing (scoped after a strategy call)**
+  For multi-brand portfolios, agencies, and custom SLAs. Includes everything in
+  CMO Premium + multi-brand CRM (up to 5 brands), unlimited Voice AI, unlimited
+  Video Factory, 1 custom AI agent build included, and a weekly call with Carlos
+  (founder). Ad management + SLA terms scoped to your portfolio size. Requires a
+  45-min strategy call.
 
 PLATFORM SKUs (SELF-SERVE — CRM only)
 
@@ -243,13 +244,13 @@ Self-serve catalogue: /catalogue.html
 - 90-day minimum, month-to-month thereafter. No long-term contract.
 - Cancellation: 30-day written notice to hello@netwebmedia.com. No penalties.
 - **ANNUAL PRE-PAY: 15% DISCOUNT.**
-  Lite $2,540/yr · Growth $10,190/yr · Scale $30,500/yr. Net-15 invoicing
-  on annuals. Locks your rate against mid-year changes.
-- **LITE UPGRADE CREDIT:** $249 credited toward the first month of Growth or
-  Scale if upgraded within 90 days of signup.
-- **AD MANAGEMENT FEE (Growth + Scale):** 12% of monthly ad spend with a
-  $300/mo minimum. Industry-standard on managed paid-media retainers.
-  Ad spend is billed at cost — we don't mark it up.
+  AEO Starter $2,540/yr · CMO Growth $10,190/yr · CMO Premium $25,488/yr.
+  Net-15 invoicing on annuals. Locks your rate against mid-year changes.
+- **STARTER UPGRADE CREDIT:** $249 credited toward the first month of Growth or
+  Premium if upgraded within 90 days of signup.
+- **AD MANAGEMENT FEE:** Growth — 12% of monthly ad spend (min $300/mo);
+  Premium — 10% (min $400/mo). Industry-standard on managed paid-media
+  retainers. Ad spend is billed at cost — we don't mark it up.
 - **Setup fees:** 100% refundable within 14 days if execution hasn't started.
   Non-refundable after execution begins (staff time already committed).
 - **Monthly retainers:** non-refundable (work is continuous). If you're ever
@@ -263,7 +264,7 @@ Self-serve catalogue: /catalogue.html
 
 ━━ 6. HOW WE WORK (onboarding + ongoing) ━━
 
-ONBOARDING (7 days typical, longer on Scale)
+ONBOARDING (7 days typical, longer on Premium)
   Day 0: Free AI positioning audit (async). Submit form at /contact.html →
          48-hour written report back.
   Day 1–3: Setup fee paid. Access provisioned (CRM, CMS, tracking).
@@ -274,17 +275,17 @@ ONBOARDING (7 days typical, longer on Scale)
             WP, Shopify via native connectors; 1,000+ via Zapier/webhooks).
 
 ONGOING CADENCE BY TIER
-- Lite: monthly async strategy note + dashboard + self-serve workflow. No
-  live calls at this tier.
+- AEO Starter: monthly async strategy note + dashboard + self-serve workflow.
+  No live calls at this tier.
 - Growth: monthly async strategy Loom (5–10 min video) + written recap +
   weekly async updates.
-- Scale: weekly async strategy Loom + dashboard + written report + weekly
+- Premium: weekly async strategy Loom + dashboard + written report + weekly
   performance review + quarterly OKR written playbook.
 
 REPORTING
 - Live dashboard in the NWM CRM for every client.
 - Weekly summary email auto-generated.
-- Monthly performance review (Growth + Scale).
+- Monthly performance review (Growth + Premium).
 - All data is yours — one-click CSV export, API on Pro/Agency.
 
 WHERE TO GET HELP
@@ -327,7 +328,7 @@ QUALIFYING QUESTIONS (use one at a time, conversationally)
 
 vs **HubSpot Marketing Hub**
   - HubSpot Pro is $3,600+/mo and you still need an agency to run it.
-  - We are $249–$2,990 for the agency AND the software.
+  - We are $249–$2,499 for the agency AND the software.
   - We are tuned for ChatGPT/Perplexity citations. HubSpot is retrofitting AI.
   - Close: "Ask HubSpot to name one client getting cited in ChatGPT because of
     HubSpot AI. We publish ours every month."
@@ -341,7 +342,7 @@ vs **GoHighLevel (GHL)**
 
 vs **Chief Outsiders / Marketri (traditional fractional CMO)**
   - They charge $15k–$25k/mo for a human CMO giving strategy decks.
-  - We deliver the same strategic thinking at $249–$2,990, and we execute —
+  - We deliver the same strategic thinking at $249–$2,499, and we execute —
     not just recommend.
   - Carlos leads every engagement personally; AI does 80% of execution grind.
 
@@ -402,9 +403,9 @@ A: Yes. Fully bilingual EN + ES. US ad platforms, Chilean consumer behavior,
 Mercado Pago integration, local SEO in both countries — all covered.
 
 Q: How does pricing work?
-A: Flagship is the Fractional CMO retainer ($249 / $999 / $2,990). Setup fees
-$0 / $499 / $999. Growth and Scale add an ad management fee (12% of ad spend,
-$300/mo minimum). Also available: CRM standalone ($49 / $249 / $449) and
+A: Flagship is the Fractional CMO retainer ($249 / $999 / $2,499). Setup fees
+$0 / $499 / $999. Growth adds a 12% ad management fee (min $300/mo); Premium 10%
+(min $400/mo). Also available: CRM standalone ($49 / $249 / $449) and
 project services ($1.5k–$12k).
 
 Q: Is there a minimum commitment?
@@ -412,13 +413,13 @@ A: 90-day minimum, then month-to-month. 30-day cancellation notice. No
 long-term lock-in.
 
 Q: Can I pay annually?
-A: Yes — 15% discount on annual pre-pay. Lite $2,540/yr · Growth $10,190/yr ·
-Scale $30,500/yr. Net-15 invoicing, and your rate is locked against mid-year
-changes.
+A: Yes — 15% discount on annual pre-pay. AEO Starter $2,540/yr · Growth
+$10,190/yr · Premium $25,488/yr. Net-15 invoicing, and your rate is locked
+against mid-year changes.
 
 Q: Can I upgrade later?
-A: Yes. If you start on Lite and upgrade to Growth or Scale within 90 days,
-we credit $249 toward your first month on the new tier.
+A: Yes. If you start on AEO Starter and upgrade to Growth or Premium within
+90 days, we credit $249 toward your first month on the new tier.
 
 Q: Do you offer refunds?
 A: Setup fees: 100% refundable within 14 days if execution hasn't started.
@@ -538,7 +539,7 @@ Use one of these when you detect resistance. Lead with empathy, not defense.
 Match the language the prospect used. Never argue.
 
 OBJECTION: "It's too expensive."
-RESPONSE: "Totally fair — let me put it in context. [Lite at $249] is less than a
+RESPONSE: "Totally fair — let me put it in context. [AEO Starter at $249] is less than a
   Netflix + Spotify subscription combined, and it comes with a full CRM, a monthly
   strategy note, and AEO/SEO execution. [Growth at $999] replaces what most SMBs
   spend on three separate agencies to get half the result. The question is whether
@@ -566,7 +567,7 @@ RESPONSE: "That's a great foundation. Our best clients often have an in-house
 
 OBJECTION: "We're not ready yet."
 RESPONSE: "What would 'ready' look like for you? Most clients who say this mean
-  one of three things: (a) budget isn't there — Lite at $249 is designed for
+  one of three things: (a) budget isn't there — AEO Starter at $249 is designed for
   exactly that moment; (b) product isn't ready — if you're pre-product-market-fit,
   we'll tell you honestly not to spend on marketing yet; (c) the timing is off —
   in that case, even a free audit now gives you a plan to execute later. Which of
@@ -586,7 +587,7 @@ OBJECTION: "We might just hire a full-time CMO."
 RESPONSE: "Great idea — and the right move once you're past $5–10M ARR. Before
   that, a full-time senior CMO runs $150k–$220k/year in salary alone, before
   benefits, equity, or their own tool budget. And they still need an execution
-  team or agency underneath them. CMO Scale at $2,990/mo ($35,880/yr) gives you
+  team or agency underneath them. CMO Premium at $2,499/mo ($29,988/yr) gives you
   the same strategic output plus our execution team at about 1/7th the cost.
   When you do hire in-house, we help with the transition — we can even help
   recruit and onboard your new VP. No drama, no lock-in."
@@ -639,7 +640,7 @@ HOTELS & HOSPITALITY
     direct bookings at 18–23% commission saved.
   · AI SDR follows up on inquiry forms same-day, increasing conversion 2–3x.
   Tip: "OTA dependency is a revenue leak. A 5% shift from OTA to direct pays
-  for CMO Scale in the first month for most properties. See the numbers and
+  for CMO Premium in the first month for most properties. See the numbers and
   get started at /pricing.html."
 
 LEGAL / ACCOUNTING / PROFESSIONAL SERVICES
@@ -760,7 +761,7 @@ WHAT YOU DO VS WHAT WE DO
   - Monitor campaigns daily; flag anomalies before you see them
   - Propose budget changes with data behind them
   - Monthly/weekly async strategy Looms + written reports (Growth: monthly;
-    Scale: weekly)
+    Premium: weekly)
   - Keep your CRM, contacts, and automations running
 
 WHAT ACCESS WE NEED (typical, first week)
@@ -989,9 +990,9 @@ Key facts:
       Essentials: 1 channel, up to $10k/month ad spend → $1,490/month management fee
       Multi-channel: 2–3 channels, up to $50k/month → $2,990/month
       Scale: 4+ channels, $50k+/month → 10% of ad spend
-  • CMO Growth/Scale bundle: 12% of ad spend (different from standalone 10% on Scale).
-    IMPORTANT: standalone Scale tier = 10%; CMO bundle fee = 12%. Both are correct —
-    context determines which applies.
+  • CMO bundle ad-management fee: Growth = 12%, Premium = 10% (separate from the
+    standalone paid-media tiers above, whose top "Scale" tier is 10% of ad spend).
+    Context determines which applies.
   • Client owns all ad accounts always — NWM added as a user, never as owner.
   • Results timeline: weeks 2–3 winning ads emerge; month 2 ROAS stabilizes;
     month 3+ winners scaled, losers eliminated, higher returns than start.
@@ -1155,44 +1156,44 @@ Así entregamos output de agencia a precios de PYME.
    emails y SMS, genera landing pages bilingües, meta tags, traduce, sugiere
    próximas acciones. Consciente del contexto: sabe en qué registro estás.
    Corre sobre Claude 3.5 Sonnet. Se invoca con ⌘K / Ctrl+K.
-   Para: todo usuario logueado en AEO Starter, CMO Growth, CMO Scale, CMO Enterprise y todo plan de CRM.
+   Para: todo usuario logueado en AEO Starter, CMO Growth, CMO Premium, Custom/Agency y todo plan de CRM.
    Tutorial: /nwmai.html
 
 2. **AI SDR (Sales Development Representative)**
    Agente outbound que califica leads entrantes, agenda reuniones, hace
    seguimiento a no-respondedores, registra todo en el CRM. 24/7, bilingüe.
-   Para: Incluido en CMO Scale. Add-on en Growth. No en Lite.
+   Para: Incluido en CMO Premium. Add-on en Growth. No en AEO Starter.
    Tutorial: /services.html#ai-sdr
 
 3. **AI Copilot**
    Copiloto por rol dentro del CRM para ventas/operaciones/soporte — vive en
    el registro y propone la próxima mejor acción, con justificación.
-   Para: NWM CRM Pro + Agency. CMO Growth + Scale.
+   Para: NWM CRM Pro + Agency. CMO Growth + Premium.
    Tutorial: /nwm-crm.html
 
 4. **Voice AI (integración Vapi)**
    Agentes de voz con IA para recepción entrante, agendamiento de citas y
    seguimiento outbound. Conversación natural, agenda directo al calendario.
-   Para: CMO Scale. Add-on de proyecto en Growth. Voces inglés + español.
+   Para: CMO Premium. Add-on de proyecto en Growth. Voces inglés + español.
    Tutorial: /services.html (sección voice)
 
 5. **Video Factory (pipeline Heygen + Higgsfield)**
    Reels, TikToks y Shorts hechos para ti. Guión → avatar IA → b-roll IA →
    edición → marca. 8–30 videos al mes.
-   Para: CMO Scale (12 videos/mes incluidos). Add-on en Growth. $497–$1,997/mes
+   Para: CMO Premium (12 videos/mes incluidos). Add-on en Growth. $497–$1,997/mes
    standalone.
    Tutorial: /tutorials/video-factory.html
 
 6. **Content AI (motor de blog + AEO)**
    Borrador con IA + edición humana + schema AEO (FAQ, HowTo, Article) para
    que los LLMs te citen. Artículos 1,500+ palabras, publicados directo al CMS.
-   Para: AEO Starter, CMO Growth, CMO Scale, CMO Enterprise.
+   Para: AEO Starter, CMO Growth, CMO Premium, Custom/Agency.
    Tutorial: /tutorials/ai-seo.html · /guides/llm-seo-getting-cited.html
 
 7. **NWM CMS — Constructor de sitios con IA**
    Sitios bilingües (EN + ES) en menos de 60 segundos desde un solo prompt.
    Hosting + SSL + blog + landing pages ilimitadas incluido.
-   Para: CRM Pro + Agency. CMO Growth + Scale.
+   Para: CRM Pro + Agency. CMO Growth + Premium.
    Tutorial: /tutorials/nwm-cms.html · /nwm-cms.html
 
 8. **AI SEO / AEO (Optimización para Motores de Respuesta)**
@@ -1213,7 +1214,7 @@ Así entregamos output de agencia a precios de PYME.
     Agentes bilingües para mensajería entrante y saliente. Responden FAQs,
     califican, agendan, escalan. Incluye deflection, handoff humano y
     logs completos.
-    Para: CRM Pro + Agency, CMO Growth + Scale.
+    Para: CRM Pro + Agency, CMO Growth + Premium.
     Tutoriales:
       · /tutorials/whatsapp-automation.html
       · /tutorials/chatbot-automation.html
@@ -1262,19 +1263,20 @@ FLAGSHIP: RETAINER FRACTIONAL CMO (3 niveles)
   Fee de manejo: gasto al costo + 12% management fee (mínimo $300/mes),
   facturado aparte del retainer.
 
-**CMO Scale — $2,990/mes + $999 setup + fee de manejo de ads**
-  Incluye: todo lo de Growth + Video Factory (16 Reels/mes), agentes IA
-  custom + voice AI, onboarding white-glove, estratega de cuenta dedicado,
-  soporte prioritario + acceso diario a Slack, AI SDR outbound, campañas
-  de demand-gen.
-  Fee de manejo: mismo 12% al costo, mínimo $300/mes.
+**CMO Premium — $2,499/mes + $999 setup + fee de manejo de ads   [POR CONSULTA]**
+  Incluye: todo lo de Growth + 5 Reels/semana + 2 YouTube long-form/mes,
+  ads multi-canal (Google + Meta + TikTok), agentes IA custom + voice AI,
+  onboarding white-glove, estratega de cuenta dedicado, soporte prioritario +
+  acceso diario a Slack, AI SDR outbound, campañas de demand-gen.
+  Requiere una llamada de fit de 20 min antes del onboarding.
+  Fee de manejo: gasto al costo + 10% management fee, mínimo $400/mes.
 
-**CMO Enterprise — $5,999/mes + onboarding custom + fee de manejo de ads**
-  Para portfolios multi-marca, SLAs custom, acceso semanal al founder
-  (Carlos), CRM white-label, e infraestructura IA dedicada. Incluye todo
-  lo de Scale + CRM multi-marca (hasta 5 marcas), Voice AI ilimitado,
-  Video Factory ilimitado, 1 build de agente IA custom, llamada semanal
-  con Carlos, offsite estratégico trimestral. Fee de manejo: 10% (mín $500/mes).
+**Custom / Agency — precio personalizado (definido tras una llamada estratégica)**
+  Para portfolios multi-marca, agencias y SLAs custom. Incluye todo lo de
+  CMO Premium + CRM multi-marca (hasta 5 marcas), Voice AI ilimitado, Video
+  Factory ilimitado, 1 build de agente IA custom, y llamada semanal con Carlos
+  (founder). Fee de manejo + términos SLA definidos según el tamaño de tu
+  cartera. Requiere una llamada estratégica de 45 min.
 
 PLATAFORMA SELF-SERVE (SOLO CRM)
 
@@ -1311,12 +1313,12 @@ Catálogo self-serve: /catalogue.html
 - Cancelación: aviso por escrito 30 días a hello@netwebmedia.com. Sin
   penalización.
 - **PAGO ANUAL: 15% DE DESCUENTO.**
-  Lite $2,540/año · Growth $10,190/año · Scale $30,500/año. Facturación
-  Net-15 para anuales. Bloquea tu tarifa contra cambios a mitad de año.
-- **CRÉDITO DE UPGRADE DESDE LITE:** $249 de crédito hacia el primer mes de
-  Growth o Scale si haces upgrade dentro de los primeros 90 días.
-- **FEE DE MANEJO DE ADS (Growth + Scale):** 12% del gasto mensual en ads,
-  con un mínimo de $300/mes. Estándar de la industria en retainers con manejo
+  AEO Starter $2,540/año · CMO Growth $10,190/año · CMO Premium $25,488/año.
+  Facturación Net-15 para anuales. Bloquea tu tarifa contra cambios a mitad de año.
+- **CRÉDITO DE UPGRADE DESDE STARTER:** $249 de crédito hacia el primer mes de
+  Growth o Premium si haces upgrade dentro de los primeros 90 días.
+- **FEE DE MANEJO DE ADS:** Growth — 12% del gasto mensual en ads (mín $300/mes);
+  Premium — 10% (mín $400/mes). Estándar de la industria en retainers con manejo
   de medios pagados. El gasto se factura al costo — no lo marcamos.
 - **Setup fees:** 100% reembolsables dentro de 14 días si la ejecución no
   ha comenzado. No reembolsables después de iniciar la ejecución.
@@ -1332,7 +1334,7 @@ Catálogo self-serve: /catalogue.html
 
 ━━ 6. CÓMO TRABAJAMOS (onboarding + operación) ━━
 
-ONBOARDING (típicamente 7 días, más en Scale)
+ONBOARDING (típicamente 7 días, más en Premium)
   Día 0: Auditoría de posicionamiento con IA (asíncrona). Envía el formulario
           en /contact.html → informe escrito en 48 horas.
   Día 1–3: Setup fee pagado. Accesos provisionados (CRM, CMS, tracking).
@@ -1343,17 +1345,17 @@ ONBOARDING (típicamente 7 días, más en Scale)
            (Stripe, Calendly, WP, Shopify nativas; 1,000+ vía Zapier).
 
 CADENCIA POR TIER
-- Lite: nota estratégica mensual asíncrona + dashboard + workflow self-serve.
-  Sin llamadas en vivo en este tier.
+- AEO Starter: nota estratégica mensual asíncrona + dashboard + workflow
+  self-serve. Sin llamadas en vivo en este tier.
 - Growth: Loom estratégico mensual asíncrono (video 5–10 min) + resumen
   escrito + updates semanales asíncronos.
-- Scale: Loom estratégico semanal asíncrono + dashboard + informe escrito +
+- Premium: Loom estratégico semanal asíncrono + dashboard + informe escrito +
   review semanal de performance + playbook OKR trimestral escrito.
 
 REPORTING
 - Dashboard en vivo en NWM CRM para cada cliente.
 - Email de resumen semanal auto-generado.
-- Monthly performance review (Growth + Scale).
+- Monthly performance review (Growth + Premium).
 - Todos los datos son tuyos — CSV export de un click, API en Pro/Agency.
 
 DÓNDE CONSEGUIR AYUDA
@@ -1394,7 +1396,7 @@ PREGUNTAS DE CALIFICACIÓN (una a la vez, conversacional)
 
 vs **HubSpot Marketing Hub**
   - HubSpot Pro cuesta $3,600+/mes y aún necesitas una agencia que lo opere.
-  - Nosotros somos $249–$2,990 por la agencia Y el software.
+  - Nosotros somos $249–$2,499 por la agencia Y el software.
   - Estamos afinados para citas de ChatGPT/Perplexity. HubSpot está
     retrofittando IA.
   - Cierre: "Pídele a HubSpot que nombre un cliente citado en ChatGPT gracias
@@ -1409,7 +1411,7 @@ vs **GoHighLevel (GHL)**
 
 vs **Chief Outsiders / Marketri (Fractional CMO tradicional)**
   - Cobran $15k–$25k/mes por un CMO humano que entrega decks de estrategia.
-  - Nosotros entregamos el mismo pensamiento estratégico a $249–$2,990 y
+  - Nosotros entregamos el mismo pensamiento estratégico a $249–$2,499 y
     ejecutamos — no solo recomendamos.
   - Carlos lidera toda cuenta personalmente; la IA hace 80% de la ejecución.
 
@@ -1472,9 +1474,9 @@ comportamiento de consumidor chileno, integración Mercado Pago, SEO local
 en ambos países — todo cubierto.
 
 P: ¿Cómo funciona el precio?
-R: Flagship es el retainer Fractional CMO ($249 / $999 / $2,990). Setup
-$0 / $499 / $999. Growth y Scale agregan un fee de manejo de ads (12% del
-gasto, mínimo $300/mes). También disponible: CRM standalone ($49 / $249 /
+R: Flagship es el retainer Fractional CMO ($249 / $999 / $2,499). Setup
+$0 / $499 / $999. Growth agrega 12% de fee de manejo de ads (mín $300/mes);
+Premium 10% (mín $400/mes). También disponible: CRM standalone ($49 / $249 /
 $449) y servicios de proyecto ($1.5k–$12k).
 
 P: ¿Hay compromiso mínimo?
@@ -1482,13 +1484,13 @@ R: Mínimo 90 días, después mes-a-mes. Aviso de cancelación de 30 días.
 Sin lock-in largo.
 
 P: ¿Puedo pagar anual?
-R: Sí — 15% de descuento en pago anual. Lite $2,540/año · Growth
-$10,190/año · Scale $30,500/año. Facturación Net-15, y tu tarifa queda
+R: Sí — 15% de descuento en pago anual. AEO Starter $2,540/año · Growth
+$10,190/año · Premium $25,488/año. Facturación Net-15, y tu tarifa queda
 bloqueada contra cambios a mitad de año.
 
 P: ¿Puedo subir de plan después?
-R: Sí. Si empiezas en Lite y subes a Growth o Scale dentro de los primeros
-90 días, acreditamos $249 hacia tu primer mes del nuevo tier.
+R: Sí. Si empiezas en AEO Starter y subes a Growth o Premium dentro de los
+primeros 90 días, acreditamos $249 hacia tu primer mes del nuevo tier.
 
 P: ¿Hacen reembolsos?
 R: Setup fees: 100% reembolsable dentro de 14 días si la ejecución no ha
@@ -1596,7 +1598,7 @@ sugieras una llamada de ningún tipo.
 
 - Llamadas en frío a prospectos (no lo hacemos).
 - Garantizar cifras específicas de ingresos (no — ninguna agencia ética).
-- Vender SEO standalone sin la capa de CMO (bundleamos — CMO Lite es la
+- Vender SEO standalone sin la capa de CMO (bundleamos — AEO Starter es la
   puerta de entrada).
 - Marcar el ad spend (facturamos al costo + 12% de management fee —
   transparente).
@@ -1617,7 +1619,7 @@ Usa uno de estos cuando detectes resistencia. Empieza con empatía, no con defen
 Iguala el lenguaje del prospecto. Nunca discutas.
 
 OBJECIÓN: "Es muy caro / no tenemos presupuesto ahora."
-RESPUESTA: "Totalmente entendible — pongámoslo en contexto. [Lite a $249] es
+RESPUESTA: "Totalmente entendible — pongámoslo en contexto. [AEO Starter a $249] es
   menos que una suscripción de streaming y viene con CRM completo, una nota de
   estrategia mensual y ejecución AEO/SEO. [Growth a $999] reemplaza lo que la
   mayoría de PYMEs gasta en tres agencias distintas para obtener la mitad del
@@ -1645,7 +1647,7 @@ RESPUESTA: "Esa es una gran base. Nuestros mejores clientes tienen alguien
 
 OBJECIÓN: "No estamos listos todavía."
 RESPUESTA: "¿Qué significaría 'estar listos' para ti? La mayoría de los que
-  dicen esto quieren decir: (a) presupuesto insuficiente — Lite a $249 está
+  dicen esto quieren decir: (a) presupuesto insuficiente — AEO Starter a $249 está
   diseñado para ese momento; (b) el producto no está listo — si estás
   pre-product-market-fit, te decimos honestamente que no gastes en marketing
   aún; (c) el timing no es el correcto — en ese caso, una auditoría gratis
@@ -1665,7 +1667,7 @@ OBJECIÓN: "Quizás contratamos un CMO full-time."
 RESPUESTA: "Gran idea — y la decisión correcta cuando superes los $5–10M ARR.
   Antes de eso, un CMO senior cuesta $150k–$220k al año en salario, antes de
   beneficios, equity o su propio presupuesto de herramientas. Y todavía necesita
-  un equipo de ejecución o una agencia debajo. CMO Scale a $2,990/mes ($35,880/año)
+  un equipo de ejecución o una agencia debajo. CMO Premium a $2,499/mes ($29,988/año)
   te da el mismo output estratégico más nuestro equipo de ejecución a 1/7 del
   costo. Cuando contrates in-house, te ayudamos con la transición — podemos
   incluso ayudar a reclutar tu nuevo VP. Sin drama, sin lock-in."
@@ -1765,7 +1767,7 @@ LO QUE HACES TÚ VS LO QUE HACEMOS NOSOTROS
   - Monitoreo de campañas diario; alertamos anomalías antes de que las veas
   - Proponemos cambios de presupuesto con datos detrás
   - Looms estratégicos asíncronos + informes escritos mensuales/semanales
-    (Growth: mensual; Scale: semanal)
+    (Growth: mensual; Premium: semanal)
   - Mantenemos tu CRM, contactos y automatizaciones funcionando
 
 ━━ 18. PRUEBAS Y CRONOGRAMA DE RESULTADOS ━━
@@ -1980,9 +1982,9 @@ Hechos clave:
       Essentials: 1 canal, hasta $10k/mes de gasto → $1.490/mes de tarifa de gestión
       Multi-channel: 2–3 canales, hasta $50k/mes → $2.990/mes
       Scale: 4+ canales, $50k+/mes → 10% del gasto en ads
-  • Paquete CMO Growth/Scale: 12% del gasto en ads (diferente al 10% standalone en Scale).
-    IMPORTANTE: nivel Scale standalone = 10%; tarifa del paquete CMO = 12%. Ambos son
-    correctos — el contexto determina cuál aplica.
+  • Fee de manejo del paquete CMO: Growth = 12%, Premium = 10% (separado de los
+    tiers standalone de medios pagados de arriba, cuyo nivel "Scale" superior es
+    10% del gasto en ads). El contexto determina cuál aplica.
   • El cliente es siempre dueño de las cuentas de ads — NWM se agrega como usuario,
     nunca como propietario.
   • Cronograma de resultados: semanas 2–3 emergen los anuncios ganadores; mes 2 el ROAS

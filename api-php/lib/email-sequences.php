@@ -58,8 +58,33 @@ function seq_load_config() {
   }
   $raw = file_get_contents($path);
   $cfg = json_decode($raw, true);
-  if (!is_array($cfg)) $cfg = false;
+  if (!is_array($cfg)) { $cfg = false; return $cfg; }
+
+  // Merge per-niche nurture sequences (niche-sequences.json) into the sequence map
+  // so industry-specific drips are enrollable, renderable, and previewable through
+  // the same code paths. Base sequences win on any key collision.
+  $nichePath = realpath(__DIR__ . '/../../email-templates/niche-sequences.json');
+  if ($nichePath && is_readable($nichePath)) {
+    $ncfg = json_decode(file_get_contents($nichePath), true);
+    if (is_array($ncfg) && !empty($ncfg['sequences']) && is_array($ncfg['sequences'])) {
+      if (!isset($cfg['sequences']) || !is_array($cfg['sequences'])) $cfg['sequences'] = [];
+      foreach ($ncfg['sequences'] as $sid => $seq) {
+        if (!isset($cfg['sequences'][$sid])) $cfg['sequences'][$sid] = $seq;
+      }
+    }
+  }
   return $cfg;
+}
+
+/**
+ * Resolve a niche key (e.g. 'tourism') to its nurture sequence id ('niche_tourism')
+ * when such a sequence exists in the merged config; null otherwise.
+ */
+function seq_niche_sequence_id($niche) {
+  if (!$niche) return null;
+  $key = 'niche_' . preg_replace('/[^a-z_]/', '', strtolower(trim((string)$niche)));
+  $cfg = seq_load_config();
+  return ($cfg && isset($cfg['sequences'][$key])) ? $key : null;
 }
 
 function seq_load_template($filename) {

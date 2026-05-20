@@ -148,6 +148,35 @@ function route_public($parts, $method) {
       }
     }
 
+    // 0) Enroll the lead into the right nurture sequence. Niche landing-page leads
+    //    (data.niche set to one of the 14 CRM niches) get the industry-specific
+    //    drip (niche_<niche>); everyone else gets welcome, with audit/analyzer and
+    //    partner sources routed to their follow-ups. Gated on a real email + an
+    //    existing contact; enrollment failures never block the submission.
+    if (!empty($ctx['contact_id']) && !empty($ctx['email']) && filter_var($ctx['email'], FILTER_VALIDATE_EMAIL)) {
+      try {
+        require_once __DIR__ . '/../lib/email-sequences.php';
+        $src  = strtolower((string)($b['data']['source'] ?? $formTitle));
+        $lang = $b['data']['lang'] ?? (str_starts_with($src, 'es-') ? 'es' : 'en');
+        $seqId = seq_niche_sequence_id($niche ?? null);
+        if (!$seqId) {
+          $seqId = 'welcome';
+          if (strpos($src, 'audit') !== false || strpos($src, 'analyzer') !== false) $seqId = 'audit_followup';
+          elseif (strpos($src, 'partner') !== false) $seqId = 'partner_application';
+        }
+        seq_enroll((int)$ctx['contact_id'], $seqId, [
+          'email'        => $ctx['email'],
+          'name'         => $ctx['name'] ?? $ctx['email'],
+          'first_name'   => preg_split('/\s+/', (string)($ctx['name'] ?? ''), 2)[0] ?? '',
+          'lang'         => $lang,
+          'website'      => $b['data']['website'] ?? '',
+          'niche'        => $niche ?? '',
+          'source'       => 'form:' . $formTitle,
+          'enrolled_via' => 'form_submit',
+        ]);
+      } catch (Throwable $e) { /* never block submission on enroll errors */ }
+    }
+
     // 1) Admin notification email
     try {
       $cfg = config();
@@ -362,12 +391,16 @@ function route_public($parts, $method) {
     try {
       require_once __DIR__ . '/../lib/email-sequences.php';
       $lang = $b['lang'] ?? (str_starts_with(strtolower($b['source'] ?? ''), 'es-') ? 'es' : 'en');
-      // Determine which sequence based on source
-      $seqId = 'welcome';
-      if (!empty($b['source'])) {
-        $src = strtolower($b['source']);
-        if (strpos($src, 'audit') !== false || strpos($src, 'analyzer') !== false) $seqId = 'audit_followup';
-        elseif (strpos($src, 'partner') !== false) $seqId = 'partner_application';
+      // Determine which sequence: niche-specific drip if a niche is supplied and a
+      // matching sequence exists, otherwise welcome (audit/partner sources routed).
+      $seqId = seq_niche_sequence_id($b['niche'] ?? null);
+      if (!$seqId) {
+        $seqId = 'welcome';
+        if (!empty($b['source'])) {
+          $src = strtolower($b['source']);
+          if (strpos($src, 'audit') !== false || strpos($src, 'analyzer') !== false) $seqId = 'audit_followup';
+          elseif (strpos($src, 'partner') !== false) $seqId = 'partner_application';
+        }
       }
       seq_enroll($contactId, $seqId, [
         'email' => $email,
@@ -375,6 +408,7 @@ function route_public($parts, $method) {
         'first_name' => preg_split('/\s+/', $data['name'], 2)[0] ?? '',
         'lang' => $lang,
         'website' => $b['website'] ?? '',
+        'niche' => $b['niche'] ?? '',
         'source' => $b['source'] ?? 'newsletter',
         'enrolled_via' => 'newsletter_signup'
       ]);

@@ -1,5 +1,6 @@
 - [main history rewrite 2026-05-19](project_main_history_rewrite_2026_05_19.md) — origin/main force-pushed clean + daemon redesigned (never touches main); Computer 2 retired so no re-clone needed
 - [User role — Carlos Martinez](user_role.md) — CEO/founder of NetWebMedia; prefers executive framing and vanilla tech
+- [CMS admin (cms/)](reference_cms_admin.md) — live HTTP-Basic-gated admin at netwebmedia.com/cms/ (undocumented in CLAUDE.md); module-table.js CRUD over /api/resources types page/blog_post/etc.
 - [Respond in English by default](feedback_respond_in_english.md) — Reply to Carlos in English even when he writes in Spanish; site EN/ES work unaffected
 - [Autonomous end-to-end execution](feedback_autonomous_execution.md) — Carlos gives terse one-word directives; execute the whole arc (fix→deploy→verify→cleanup); confirm only genuinely irreversible/plan-reversing actions
 - [NetWebMedia org & agents](netwebmedia_org.md) — 12 custom agents in `.claude/agents/` mirror the agency's org chart; delegate by role

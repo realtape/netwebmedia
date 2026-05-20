@@ -90,7 +90,7 @@ EXCLUDE_FILES = {
     "checkout.html", "dashboard.html", "netwebmedia-inbox.html",
     "pricing-onepager.html", "_base.html",
     # Internal authenticated / scratchpad surfaces
-    "flowchart.html", "nwmai.html", "nwm-cms.html", "nwm-crm.html",
+    "flowchart.html", "processes-flowchart.html", "nwmai.html", "nwm-cms.html", "nwm-crm.html",
     "audit-thanks.html",
     # Internal noindex'd pages — must NOT appear in sitemap (Google penalizes
     # sitemaps that submit noindex'd URLs as a quality signal)

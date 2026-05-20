@@ -106,3 +106,9 @@ node_modules/
 # Git worktrees (Claude Code scratch). A worktree dir is a gitlink; if it
 # gets committed, actions/checkout's submodule scan fails with git exit 128.
 .claude/worktrees/
+
+# templates-site is a nested git repo (its own .git). Committed by accident as
+# a gitlink (no .gitmodules) -> same checkout exit-128 warning. Ignore so it
+# can't be re-added as a gitlink. If it should be tracked, remove its inner
+# .git and commit as plain files, or wire it up as a real submodule.
+templates-site/

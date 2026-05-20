@@ -102,3 +102,7 @@ video-factory/out/
 .tmp_render/
 # node_modules anywhere (root + nested) — belt to **/node_modules/ above
 node_modules/
+
+# Git worktrees (Claude Code scratch). A worktree dir is a gitlink; if it
+# gets committed, actions/checkout's submodule scan fails with git exit 128.
+.claude/worktrees/

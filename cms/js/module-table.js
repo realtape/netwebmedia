@@ -134,5 +134,8 @@
     });
 
     load();
+
+    // Deep-link: arriving with #new (e.g. from the dashboard Quick Create) opens the editor.
+    if (location.hash === '#new') { try { openEditor(null); } catch (e) {} }
   };
 })();

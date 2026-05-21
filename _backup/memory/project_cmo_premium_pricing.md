@@ -15,8 +15,15 @@ metadata:
 
 **Second sweep deployed 2026-05-20 (commit `c7383f43e`):** the **4,456** `_deploy/companies/**` audit pages (a third variant: "CMO Starter $249 / CMO Scale **$1,999**/mo + $1,999 setup + prose Scale $2,990/mo") were swept to the canonical ladder, all 4 company-page generators fixed (`generate_company_pages.py`, `generate_deep_audits.py`, `generate_usa_audits.py`, `seed-fb-schedule.py`), and `assets/og-pricing.png` re-rendered from the corrected SVG (now "Starter $249 / Growth $999 / Premium $2,499"). All verified live.
 
+**2026-05-21 audit-fix pass (local commits, NOT yet pushed/deployed):** A GSD verify-work + audit-fix cycle found the 2026-05-20 sweep had MISSED several internal-only surfaces (`docs/` is not in the deploy allowlist, so it never reached prod). Carlos approved fixing F-01..F-03; F-04 + a broader-staleness finding held. Commits on local `main`: `314265c47` (F-01: `compare.html` public fractional-CMO card said "Scale plan" → CMO Premium, EN+ES), `d3dbd89ca` (F-02: 5 clean `docs/**` Premium price refs $2,990→$2,499 — 2 onboarding guides, playbook SKU card, mgmt-sim aside, aeo-audit invoice credit), `99cd52263` (F-03: `coyhaique-digital-gaps.html` "$2,990 (Scale tier)" → "$2,499 (CMO Premium)"). Artifacts: `.planning/phases/01-cmo-pricing-404-cleanup/` (UAT + VERIFICATION). pricing.html confirmed already-canonical; 404 page (commit `50c34e4fc`) verified branded+bilingual+wired.
+
+**HELD for Carlos's decision (derived-math / historical / reprice — NOT mechanical):**
+- `docs/sales-simulation-cmo-premium/*` — whole simulation built on $2,990 with derived totals ($2,992 net, $35,880 yr-1, refund clause). Leave as dated record vs re-author to $2,499.
+- `docs/sales-playbook-master/index.html:263-276` — 5-col comparison table with same derived dependents; left at $2,990.
+- **`docs/**` still uses retired middle tier "CMO Standard $1,490"** (renamed/repriced to CMO Growth $999 on 2026-05-11) — a 34% reprice + rename with unverified setup fees and a dependent CMO-Standard simulation. Same class as F-04.
+
 **Remaining (intentionally untouched / open):**
-- Internal docs left as historical: `BUSINESS_PLAN.md`, `EXECUTION_90DAY.md`, `MARKETING_PLAN.md`, `plans/*.html`, `*-prospects-report.html`, `*-digital-gaps.html` still show old pricing — not customer-facing.
+- Internal docs left as historical: `BUSINESS_PLAN.md`, `EXECUTION_90DAY.md`, `MARKETING_PLAN.md`, `plans/*.html`, `*-prospects-report.html` still show old pricing — not customer-facing. (Note: `coyhaique-digital-gaps.html` was fixed 2026-05-21 per F-03; other `*-digital-gaps.html` may still be stale.)
 - **Email end-to-end delivery never verified** — `/api/cron/health` is auth-gated (403) and no admin/mailbox was available. Send path is correct in code (SES primary + Resend fallback, both keyed); enrollment verified live. To confirm delivery: `POST /api/email-builder/test-send` from an admin session, or enroll a checkable mailbox.
 
 **`fractional-cmo.html` was intentionally deleted** (salvage commit `c4fc2f6ff`, 2026-05-19) — it 404s on purpose. `pricing.html` is the single source of the Premium price surface.

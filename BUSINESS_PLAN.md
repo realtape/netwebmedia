@@ -364,7 +364,7 @@ CMO Premium 100→ 94 → 86 → 78 → 72 → 58 → 44
 | **Bull** | $1.64M | $137k | 135 | AEO hits 22%+; Premium cohort retention 95%+ (viral proof); 2 partner channels >25% of pipeline; blended CAC <$800 |
 
 **Kill-switches (Lever B, recalibrated 2026-05-21):**
-- **M6 threshold:** MRR ≥ $55k. If MRR < $55k by M6 → pause Starter tier entirely, concentrate all sales on Growth ($999) + Premium ($2,490) + white-label ($449). Rationale: At new pricing, Starter drives low volume; Premium's 10.1x LTV:CAC justifies concentrated effort.
+- **Jul 31 threshold (90-day gate):** MRR ≥ $28k. If MRR < $28k by Jul 31 → pause Starter tier entirely, concentrate all sales on Growth ($999) + Premium ($2,490) + white-label ($449). Rationale: At new pricing, Starter drives low volume; Premium's 10.1x LTV:CAC justifies concentrated effort. Target 14 retainers + $38k MRR at base case.
 - **CAC kill-switch:** If CAC on Premium > $4,000 for 2 consecutive months → pause paid media on Premium; revert to organic + partner channels only.
 - **Premium churn floor:** If Premium cohort monthly churn > 8% (vs. 6% baseline) → pause all Premium acquisition, conduct QBRs on at-risk accounts.
 - **Concentration limit:** If any single channel > 60% of Premium logos → force diversification; pause that channel for 60 days.

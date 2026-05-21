@@ -3,7 +3,7 @@
 > **Polished HTML version:** open [`index.html`](./index.html) in a browser.
 > **PDF export:** [`NetWebMedia-Sales-Simulation.pdf`](./NetWebMedia-Sales-Simulation.pdf)
 
-End-to-end simulation of how NWM manages a real sale, from inbound form-submit through active client. Buyer: **Sarah Test · Test Law Group · CMO Standard ($1,490/mo · $17,880 year-1 commitment)**.
+End-to-end simulation of how NWM manages a real sale, from inbound form-submit through active client. Buyer: **Sarah Test · Test Law Group · CMO Growth ($999/mo · $11,988 year-1 commitment)**.
 
 ---
 
@@ -14,9 +14,9 @@ End-to-end simulation of how NWM manages a real sale, from inbound form-submit t
 | Buyer | Sarah Test |
 | Org | Test Law Group |
 | Niche | Law Firms |
-| Product | CMO Standard |
-| Setup + Month 1 | $1,989 |
-| Year-1 commitment | $17,880 |
+| Product | CMO Growth |
+| Setup + Month 1 | $1,498 |
+| Year-1 commitment | $11,988 |
 | Cycle | 7 days (form-submit → won) |
 | Lead source | AEO Brief #001 |
 
@@ -105,8 +105,8 @@ End-to-end simulation of how NWM manages a real sale, from inbound form-submit t
 
 - **Trigger:** DocuSign signature + Stripe charge success
 - **Time:** 0 — fully automated
-- **Artifacts created:** Engagement Letter (signed) · NDA (signed) · Invoice $1,989 (paid) · Subscription $1,490/mo (active)
-- **KPI strip flips:** Open Pipeline $18k · Active Deals 1
+- **Artifacts created:** Engagement Letter (signed) · NDA (signed) · Invoice $1,498 (paid) · Subscription $999/mo (active)
+- **KPI strip flips:** Open Pipeline $12k · Active Deals 1
 
 ## Stage 8 — Active Client
 
@@ -129,7 +129,7 @@ End-to-end simulation of how NWM manages a real sale, from inbound form-submit t
 
 ---
 
-## Artifacts every CMO Standard sale generates
+## Artifacts every CMO Growth sale generates
 
 ### Artifact 1 — Proposal CMO-2026-0042
 
@@ -147,7 +147,7 @@ End-to-end simulation of how NWM manages a real sale, from inbound form-submit t
 
 ![Invoice](./screenshots/artifact-03-invoice.png)
 
-Issued same minute engagement letter is signed · $1,989 · Stripe Connect · subscription SUB-NWM-0042 ($1,490/mo) active. Source: [`artifacts/invoice.html`](./artifacts/invoice.html).
+Issued same minute engagement letter is signed · $1,498 · Stripe Connect · subscription SUB-NWM-0042 ($999/mo) active. Source: [`artifacts/invoice.html`](./artifacts/invoice.html).
 
 ---
 
@@ -204,4 +204,4 @@ start docs/sales-management-simulation/index.html           # open the playbook
 
 ---
 
-*Generated 2026-05-11 · Buyer: Sarah Test (sarah@testlawgroup.com) · Test Law Group · CMO Standard · $17,880 year-1 · Owner: Carlos Martinez*
+*Generated 2026-05-11 · Buyer: Sarah Test (sarah@testlawgroup.com) · Test Law Group · CMO Growth · $11,988 year-1 · Owner: Carlos Martinez*

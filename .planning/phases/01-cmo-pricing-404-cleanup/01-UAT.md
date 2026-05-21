@@ -110,8 +110,8 @@ blocked: 0
     - "Update to '$2,499/mo fractional CMO (CMO Premium)'. Low priority — internal, not publicly served."
 
 - truth: "Sales-simulation artifacts reflect the canonical pricing"
-  status: deferred
-  note: "Held per Carlos 2026-05-21 — historical record; needs decision (leave as dated record vs re-author end-to-end to $2,499)."
+  status: fixed
+  note: "Resolved 2026-05-21: Carlos approved full site-wide reprice to $2,490. Sim + comparison table re-derived $2,990->$2,490 ($2,492 first invoice, $3,489 gross, $29,880 yr-1)."
   reason: "The entire docs/sales-simulation-cmo-premium/* artifact set (sim narrative + proposal + engagement-letter + invoice) is built around $2,990/mo, $2,992 charge, $35,880 year-1."
   severity: minor
   test: 3
@@ -130,7 +130,8 @@ blocked: 0
     - "JUDGMENT CALL: rewriting a historical 'what happened' simulation re-derives every dependent figure ($2,992 net, $35,880 year-1, refund clause). Either (a) leave as a dated historical record, or (b) re-author end-to-end to $2,499. Needs Carlos's call — NOT a mechanical find/replace."
 
 - truth: "Internal docs use the canonical middle tier (CMO Growth $999), not the retired CMO Standard $1,490"
-  status: open
+  status: fixed
+  note: "Resolved 2026-05-21: CMO Standard $1,490 -> CMO Growth $999 across docs (incl. sales-management-simulation), re-derived ($1,498 first invoice, $11,988 yr-1)."
   reason: "DISCOVERED during F-02 fix. docs/** still uses the OLD ladder middle tier 'CMO Standard $1,490' (renamed/repriced to CMO Growth $999 on 2026-05-11 per pricing.html). Plus the sales-playbook-master comparison table (263-276) carries derived math entangled with this."
   severity: major
   test: 3

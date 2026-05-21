@@ -1,10 +1,10 @@
 // Sales Simulation — CMO Premium variant.
 // Buyer: David Test, Managing Partner at Test Premium Law Group (12-attorney firm, $4M rev).
-// Plan: CMO Premium · $2,990/mo · $999 setup · $35,880 year-1 commitment.
+// Plan: CMO Premium · $2,490/mo · $999 setup · $29,880 year-1 commitment.
 //
-// What's different vs. CMO Standard:
+// What's different vs. CMO Growth:
 //   - sales-director (agent) handles stages 2-4; Carlos joins for stage 5 onward
-//   - Stage 6 is a SYNCHRONOUS proposal call (not async like Standard)
+//   - Stage 6 is a SYNCHRONOUS proposal call (not async like Growth)
 //   - Longer cycle: ~14 days vs. 7
 //   - Higher dollar values throughout
 //
@@ -65,10 +65,10 @@ function dealAtStage(stageIdx) {
     contact_email: BUYER.email,
     stage: stage.name,
     stage_id: stage.id,
-    value: stageIdx <= 3 ? 2990 : 35880,  // monthly → annual after discovery
-    amount: 2990,
+    value: stageIdx <= 3 ? 2490 : 29880,  // monthly → annual after discovery
+    amount: 2490,
     setup_fee: 999,
-    annual_value: 35880,
+    annual_value: 29880,
     probability: stage.probability,
     source: 'AEO Audit purchase ($997 credit)',
     owner_id: 1,
@@ -123,7 +123,7 @@ const ACTIVITY = [
   ],
   [
     { at: '2026-05-11 09:08', type: 'document', who: 'David',  text: 'Engagement Letter signed via DocuSign (all 3 partners co-signed)' },
-    { at: '2026-05-11 09:09', type: 'payment',  who: 'system', text: 'Stripe charge · $3,989 (setup $999 + month 1 $2,990) · paid' },
+    { at: '2026-05-11 09:09', type: 'payment',  who: 'system', text: 'Stripe charge · $3,489 (setup $999 + month 1 $2,490) · paid' },
   ],
   [
     { at: '2026-05-11 09:10', type: 'system',   who: 'system', text: 'Workflow fired · "Premium Won → kickoff" · 11 tasks created · all 4 partners CC\'d on welcome email' },
@@ -159,7 +159,7 @@ const ACTIVITY = [
           tags: ['cmo-premium-buyer','law-firm','large-firm','high-value'],
           owner_id: 1, owner_name: 'Carlos Martinez',
           last_contacted_at: '2026-05-11T09:42:00Z',
-          lifetime_value: currentDeal && currentDeal._won_or_active ? 35880 : 0,
+          lifetime_value: currentDeal && currentDeal._won_or_active ? 29880 : 0,
           activities: getActivity(),
         }];
       }
@@ -167,7 +167,7 @@ const ACTIVITY = [
         const won = currentDeal && currentDeal._won_or_active;
         return {
           ok: true,
-          revenue: { current: won ? 3989 : 0, previous: 0, delta_pct: 0 },
+          revenue: { current: won ? 3489 : 0, previous: 0, delta_pct: 0 },
           deals: currentDeal ? [currentDeal] : [],
           schedule: won ? [{ when: 'Thu 09:00', title: 'Premium Kickoff — Test Premium Law', who: '4 partners + NWM team' }] : [],
           contacts: [{ id: buyer.id, name: buyer.name, email: buyer.email }],
@@ -186,8 +186,8 @@ const ACTIVITY = [
       if (/r=payments|\/payments\b/.test(u)) {
         return [
           { id: 'inv_000', number: 'NWM-2026-0037', deal_id: 9002, contact: buyer.name, company: buyer.company, line_items: 'AEO Audit (one-time)', amount: 997, status: 'paid', paid_at: '2026-04-28', method: 'Stripe' },
-          { id: 'inv_001', number: 'NWM-2026-0048', deal_id: 9002, contact: buyer.name, company: buyer.company, line_items: 'Setup fee + Month 1 (less $997 audit credit)', amount: 2992, status: 'paid', paid_at: '2026-05-11', method: 'Stripe' },
-          { id: 'sub_001', number: 'SUB-NWM-0048', deal_id: 9002, contact: buyer.name, company: buyer.company, line_items: 'CMO Premium monthly', amount: 2990, status: 'active', next_charge_at: '2026-06-11', method: 'Stripe' },
+          { id: 'inv_001', number: 'NWM-2026-0048', deal_id: 9002, contact: buyer.name, company: buyer.company, line_items: 'Setup fee + Month 1 (less $997 audit credit)', amount: 2492, status: 'paid', paid_at: '2026-05-11', method: 'Stripe' },
+          { id: 'sub_001', number: 'SUB-NWM-0048', deal_id: 9002, contact: buyer.name, company: buyer.company, line_items: 'CMO Premium monthly', amount: 2490, status: 'active', next_charge_at: '2026-06-11', method: 'Stripe' },
         ];
       }
       return { ok: true, data: [], items: [] };

@@ -8,7 +8,7 @@
 //   3. Closed       (either upgraded to CMO retainer or stayed in nurture)
 //
 // This is the entry-hook funnel — most buyers self-serve via Stripe checkout, no human in the loop
-// until delivery. The conversion goal is the 30-day upgrade to CMO Standard.
+// until delivery. The conversion goal is the 30-day upgrade to CMO Growth.
 
 const puppeteer = require('puppeteer');
 const path = require('path');

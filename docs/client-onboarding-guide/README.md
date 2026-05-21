@@ -29,8 +29,8 @@ Every client journey starts at `netwebmedia.com`. The homepage answers one quest
 
 The hero promises one retainer that covers strategy, software, and execution — starting at **$249/month**. Two CTAs: a paid $997 audit (full credit toward a retainer) or a no-friction click into pricing.
 
-![CMO Standard pricing card](./screenshots/02-homepage-cmo-section.png)
-*Screen 2 · CMO Standard $1,490/mo · feature ladder mid-homepage*
+![CMO Growth pricing card](./screenshots/02-homepage-cmo-section.png)
+*Screen 2 · CMO Growth $999/mo · feature ladder mid-homepage*
 
 ### Services page — the long-form pitch
 
@@ -49,14 +49,14 @@ The hero promises one retainer that covers strategy, software, and execution —
 ![AEO Audit pricing](./screenshots/05-pricing-cmo-tiers.png)
 *Screen 5 · AEO Audit $997 (100% credit toward retainer)*
 
-![CMO Standard tier](./screenshots/06-pricing-cmo-standard.png)
-*Screen 6 · CMO Standard — most clients land here*
+![CMO Growth tier](./screenshots/06-pricing-cmo-standard.png)
+*Screen 6 · CMO Growth — most clients land here*
 
 | Tier | Monthly | Setup | For |
 |---|---|---|---|
 | AEO Starter | $249/mo | — | Solo founders, AEO-only |
-| **CMO Standard** | **$1,490/mo** | **$499** | **SMBs with revenue — recommended for Carlos / Chile Spirits** |
-| CMO Premium | $2,990/mo | $999 | $1M+ revenue, full marketing department replacement |
+| **CMO Growth** | **$999/mo** | **$499** | **SMBs with revenue — recommended for Carlos / Chile Spirits** |
+| CMO Premium | $2,490/mo | $999 | $1M+ revenue, full marketing department replacement |
 
 ---
 
@@ -137,7 +137,7 @@ The Free CRM ships with the same 46 modules clients get on a Fractional CMO reta
 | 23 | **Courses** | Drip-released video lessons attached to contact records | ![](./screenshots/23-crm-courses.png) |
 | 24 | **Settings** | Org, team, branding, language (EN/ES), niche, integrations | ![](./screenshots/24-crm-settings.png) |
 
-> **Note:** "Marketing" and "Automation BETA" ship UI today; full backend engines complete in Q3 2026. CMO Standard/Premium clients get the engines turned on day-one — part of the upgrade story.
+> **Note:** "Marketing" and "Automation BETA" ship UI today; full backend engines complete in Q3 2026. CMO Growth/Premium clients get the engines turned on day-one — part of the upgrade story.
 
 ---
 

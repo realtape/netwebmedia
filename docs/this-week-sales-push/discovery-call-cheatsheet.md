@@ -105,7 +105,7 @@ Then send the email follow-up template within 2 hours of the call.
 - ❌ Don't name any specific past law-firm client. Stay anonymous — "a personal-injury firm in the Midwest…" (durable rule per CLAUDE.md).
 - ❌ Don't do a screenshare demo of the platform. The audit IS the demo.
 - ❌ Don't say "fractional CMO" — most buyers don't know what that means. Say "marketing audit" or "AEO audit" only.
-- ❌ Don't try to upsell to CMO Standard / Growth on this call. That's the *next* call, after the audit lands.
+- ❌ Don't try to upsell to CMO Growth on this call. That's the *next* call, after the audit lands.
 
 ---
 

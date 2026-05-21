@@ -30,7 +30,7 @@ Sites/CMS · Email Builder · Forms · SMS · Tasks · Booking · Payments · A/
 *Screen 1 · Homepage hero · `/index.html`*
 
 ![Homepage CMO tiers](./screenshots/02-homepage-cmo-tiers.png)
-*Screen 2 · CMO Standard tier visible on homepage*
+*Screen 2 · CMO Growth tier visible on homepage*
 
 ---
 
@@ -54,14 +54,14 @@ Sites/CMS · Email Builder · Forms · SMS · Tasks · Booking · Payments · A/
 ![Pricing AEO Audit](./screenshots/06-pricing-cmo-tiers.png)
 *Screen 6 · AEO Audit $997 (100% credit toward retainer)*
 
-![Pricing CMO Standard](./screenshots/07-pricing-cmo-standard.png)
-*Screen 7 · CMO Standard $1,490/mo*
+![Pricing CMO Growth](./screenshots/07-pricing-cmo-standard.png)
+*Screen 7 · CMO Growth $999/mo*
 
 | Tier | Monthly | Setup | For law firms |
 |---|---|---|---|
 | AEO Starter | $249/mo | — | Solo attorneys, AEO-only |
-| **CMO Standard** | **$1,490/mo** | **$499** | **Small-mid firms — Test Law Group lands here** |
-| CMO Premium | $2,990/mo | $999 | Multi-attorney firms, $1M+ rev |
+| **CMO Growth** | **$999/mo** | **$499** | **Small-mid firms — Test Law Group lands here** |
+| CMO Premium | $2,490/mo | $999 | Multi-attorney firms, $1M+ rev |
 
 ---
 

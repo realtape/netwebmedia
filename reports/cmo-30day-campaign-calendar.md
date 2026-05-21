@@ -13,7 +13,7 @@ Convert the 39 industry landing pages into measurable pipeline by feeding them t
 **Targets (May 4 – May 31):**
 - 1,200 unique landing-page visits driven by tracked links (track.php)
 - 90 booked 15-min audits across the 3 priority niches
-- 18 closed retainers ($249–$2,990 tier)
+- 18 closed retainers ($249–$2,490 tier)
 - 30+ ChatGPT/Perplexity citations attributed to refreshed niche pages
 - CAC under $800 blended (per marketing-plan §13)
 

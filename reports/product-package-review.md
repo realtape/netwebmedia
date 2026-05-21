@@ -13,9 +13,9 @@
 
 | Tier | Price | Setup | What's promised | LTV / LTV:CAC | Tenure |
 |---|---|---|---|---|---|
-| CMO Lite | $249/mo | $0 | AEO + SEO strategy, monthly content calendar, SEO audit, NWM CRM, monthly async strategy note | $1,862 / 3.1x | 11 mo |
-| CMO Growth | $999/mo + 12% ad mgmt (min $300) | $499 | Lite + paid ads, social posting, email automation, AI SDR, monthly async report | $9,790 / 6.5x | 14 mo |
-| CMO Scale | $2,990/mo + 12% ad mgmt (min $300) | $999 | Growth + Video Factory (16 Reels), custom AI agents + voice AI, white-glove onboarding, dedicated strategist, daily Slack | $32,387 / 10.1x | 18 mo |
+| AEO Starter | $249/mo | $0 | AEO + SEO strategy, monthly content calendar, SEO audit, NWM CRM, monthly async strategy note | $1,862 / 3.1x | 11 mo |
+| CMO Growth | $999/mo + 12% ad mgmt (min $300) | $499 | Starter + paid ads, social posting, email automation, AI SDR, monthly async report | $9,790 / 6.5x | 14 mo |
+| CMO Premium | $2,490/mo + 12% ad mgmt (min $300) | $999 | Growth + Video Factory (12 Reels), custom AI agents + voice AI, white-glove onboarding, dedicated strategist, daily Slack | $32,270 / 10.1x | 18 mo |
 
 Annual pre-pay: 15% discount. 14-day trial. 90-day minimum. NWM CRM bundled in all tiers.
 
@@ -46,7 +46,7 @@ Repackaging principles applied:
 - **Every tier has a 30-day visible deliverable** so the buyer feels something ship.
 - **Niches drive landing page copy and onboarding templates, not SKU sprawl.**
 
-### Starter — "Get found by AI" — $249/mo, no setup
+### AEO Starter — "Get found by AI" — $249/mo, no setup
 
 **Job-to-be-done:** "I'm invisible in ChatGPT and Google. Make me show up."
 
@@ -60,23 +60,23 @@ Repackaging principles applied:
 - Self-serve checkout with Stripe; productized onboarding video + intake form
 
 **What's explicitly NOT included:**
-- Paid ads (point them to Growth)
-- Outbound / SDR (point them to Growth)
-- Strategy calls (point them to Growth — async only at this tier)
+- Paid ads (point them to CMO Growth)
+- Outbound / SDR (point them to CMO Growth)
+- Strategy calls (point them to CMO Growth — async only at this tier)
 - Custom content beyond AEO articles
 
 **Success metric for the buyer:** First documented LLM citation within 60 days. If not delivered, next month free.
 
-**Success metric for NWM:** 30%+ upgrade-to-Growth within 6 months. Current Lite retention is 48% at 12mo — we don't optimize Starter for tenure, we optimize for upgrade velocity.
+**Success metric for NWM:** 30%+ upgrade-to-CMO-Growth within 6 months. Current Starter retention is 48% at 12mo — we don't optimize Starter for tenure, we optimize for upgrade velocity.
 
 **Setup fee:** $0 (preserve the wedge).
 
-### Growth — "Build the pipeline" — $999/mo + ad mgmt — $499 setup
+### CMO Growth — "Build the pipeline" — $999/mo + ad mgmt — $499 setup
 
 **Job-to-be-done:** "I have visibility. Now I need leads showing up in my inbox every week."
 
 **What's included:**
-- Everything in Starter
+- Everything in AEO Starter
 - **Pick one growth engine:** (a) Paid ads management (Google + Meta, $5k–$20k spend, billed at cost + 12%, min $300), OR (b) AI SDR outbound (3,000 personalized touches/mo, video intros, reply handling). One only — second engine is a $499/mo add-on.
 - Email nurture: 3 sequences built in month 1, monitored ongoing
 - Social media: 3 posts/wk on the buyer's primary platform (one channel only — buyer picks)
@@ -86,9 +86,9 @@ Repackaging principles applied:
 - WhatsApp async, 8-hour response SLA on weekdays
 
 **What's NOT included:**
-- Video production (Scale)
-- Voice AI / custom agents (Scale)
-- Multi-channel social (one channel only — multi is Scale)
+- Video production (CMO Premium)
+- Voice AI / custom agents (CMO Premium)
+- Multi-channel social (one channel only — multi is CMO Premium)
 - Live calls (still async-first; one optional 30-min onboarding call as a courtesy)
 
 **Success metric for the buyer:** Documented pipeline value at 90 days ≥ 6x retainer (i.e., $54k+ pipeline by day 90 on a $999 spend).
@@ -97,12 +97,12 @@ Repackaging principles applied:
 
 **Why split the engines:** Growth currently bundles ads + SDR + social + email. Most clients use one of those seriously. Forcing the choice raises perceived focus, lowers delivery cost, and creates a clean expansion path *inside* the tier.
 
-### Scale — "Run my revenue" — $2,990/mo + ad mgmt — $999 setup
+### CMO Premium — "Run my revenue" — $2,490/mo + ad mgmt — $999 setup
 
 **Job-to-be-done:** "I want one team accountable for the full marketing-to-revenue motion. I have $5M+ ARR or I'm pushing toward it."
 
 **What's included:**
-- Everything in Growth — both engines on (paid ads + AI SDR)
+- Everything in CMO Growth — both engines on (paid ads + AI SDR)
 - Video Factory: 12 short-form assets/mo (Reels/Shorts/TikTok)
 - Voice AI receptionist + qualification agent (configured + maintained)
 - Custom workflow build: 2 automations/quarter spec'd to the buyer's process
@@ -118,9 +118,9 @@ Repackaging principles applied:
 - Bespoke creative beyond Video Factory output
 - Hiring/managing the buyer's internal team (different product — see Gap #3)
 
-**Success metric for the buyer:** Quarterly attributed revenue ≥ 12x quarterly retainer (i.e., $90k+/qtr at the $7,497 base).
+**Success metric for the buyer:** Quarterly attributed revenue ≥ 12x quarterly retainer (i.e., $89.7k+/qtr at the $7,425 base).
 
-**Success metric for NWM:** 90%+ logo retention. NRR 115%+. 50% of Scale clients run an annual contract.
+**Success metric for NWM:** 90%+ logo retention. NRR 115%+. 50% of CMO Premium clients run an annual contract.
 
 **Setup fee:** $999 (preserve as a commitment device — the weed-out works).
 
@@ -128,9 +128,9 @@ Repackaging principles applied:
 
 | Tier | Monthly | Setup | Annual (15% off) | Target buyer ACV |
 |---|---|---|---|---|
-| Starter | $249 | $0 | $2,540 | $2.5k–$3k |
-| Growth | $999 + ad mgmt | $499 | $10,190 + ad mgmt | $14k–$22k |
-| Scale | $2,990 + ad mgmt | $999 | $30,500 + ad mgmt | $34k–$52k |
+| AEO Starter | $249 | $0 | $2,540 | $2.5k–$3k |
+| CMO Growth | $999 + ad mgmt | $499 | $10,190 + ad mgmt | $14k–$22k |
+| CMO Premium | $2,490 + ad mgmt | $999 | $25,398 + ad mgmt | $33.8k–$50.8k |
 
 Hold the price points. The repricing on 2026-04-21 is fresh; do not move the headline numbers again. The change is *what's inside* the tiers and *how they're sold*.
 
@@ -161,18 +161,18 @@ These are price-sensitive, high-volume, low-trust-required SMBs. Self-serve flow
 
 **Prioritize Growth acquisition on health, home services, and tourism** — these have the budget and the existing-marketing-doesn't-work pain.
 
-### Scale ($2,990) — niches with $5M+ revenue and complex revenue ops
+### CMO Premium ($2,490) — niches with $5M+ revenue and complex revenue ops
 
 10. **Law firms** — high-ACV cases, content-heavy, AEO + SDR + voice AI all stack
 11. **Financial services** (RIAs, accountants, insurance, mortgage) — compliance-bound, content-heavy, long cycles
 12. **Education** (private schools, tutoring chains, course creators) — multi-stakeholder buying, brand-heavy
 13. **Wine / agriculture** — premium positioning, story-driven, often multi-brand (vineyard + tasting room + DTC)
 
-**Prioritize Scale outbound on law firms and financial services.** These are the niches where the human CMO comparable ($8k–$18k/mo from Chief Outsiders) is the honest competitor — and our $2,990 looks like an obvious win.
+**Prioritize CMO Premium outbound on law firms and financial services.** These are the niches where the human CMO comparable ($8k–$18k/mo from Chief Outsiders) is the honest competitor — and our $2,490 looks like an obvious win.
 
 ### Niche I would deprioritize at the SKU level
 
-**Education** is a tough self-serve buy — long sales cycles, committee buying, lots of customization. Either commit a Scale variant with a longer onboarding ramp, or treat it as project work (one-time AEO migration + CRM build) and skip the retainer pitch.
+**Education** is a tough self-serve buy — long sales cycles, committee buying, lots of customization. Either commit a Premium variant with a longer onboarding ramp, or treat it as project work (one-time AEO migration + CRM build) and skip the retainer pitch.
 
 ---
 
@@ -212,9 +212,9 @@ Ranked by RICE (rough), focused on what unlocks the Lever A volume + Scale upsel
 
 **Build/buy/partner:** Build. This *is* our defensible IP.
 
-### Gap 3: "Fractional CMO Embedded" — Scale+ tier above $2,990
+### Gap 3: "Fractional CMO Embedded" — Premium+ tier above $2,490
 
-**Problem:** We're capped at $2,990 + ad mgmt. The marketing plan says traditional fCMOs charge $8k–$18k. There is space between Scale and Chief Outsiders that we're leaving on the table for buyers with $10M+ revenue.
+**Problem:** We're capped at $2,490 + ad mgmt. The marketing plan says traditional fCMOs charge $8k–$18k. There is space between Premium and Chief Outsiders that we're leaving on the table for buyers with $10M+ revenue.
 
 **Build (test, don't ship yet):** A $4,999/mo tier that adds:
 - Hiring + managing the buyer's internal marketer (1 FTE)

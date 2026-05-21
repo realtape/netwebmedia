@@ -9,7 +9,7 @@
 ## 1. Executive Summary
 
 > ⚠️ **STRATEGIC NOTE — 2026-04-21 price repositioning (pending financial-model rebuild).**
-> CEO directive, Apr 21 2026: Fractional CMO tiers repriced from **$1,997 / $2,997 / $5,997** to **$249 / $999 / $2,990** monthly. Setup fees repriced to **$0 / $499 / $999**.
+> CEO directive, Apr 21 2026: Fractional CMO tiers repriced from **$1,997 / $2,997 / $5,997** to **$249 / $999 / $2,490** monthly. Setup fees repriced to **$0 / $499 / $999**.
 > **Impact NOT yet propagated to:** 5-year projection (§7), month-by-month build (§8.1), M12 revenue mix (§8.2), scenario planning (§11), milestones (§15). Those tables retain the old model and need a full rebuild by finance-controller.
 > **What IS updated:** Direct price references, cohort LTV/CAC math (§9), positioning ladder, battlecards (§6.3), Pillar 2 messaging.
 > **Key downstream tension:** At the new prices, hitting the Y1 $85k MRR target requires ~2.2x the original customer count OR a heavier Platform/Project revenue mix. Carlos to decide which lever.
@@ -24,7 +24,7 @@ NetWebMedia is an AI-native marketing agency that replaces the traditional 8-per
 **One-line positioning:** *"HubSpot's polish + GoHighLevel's white-label economics — run by AI, priced for SMBs."*
 
 ### Three revenue products
-1. **Fractional CMO retainers** — $249 / $999 / $2,990/mo (flagship) *(repriced 2026-04-21)*
+1. **Fractional CMO retainers** — $249 / $999 / $2,490/mo (flagship) *(repriced 2026-04-21)*
 2. **Platform subscriptions** — CRM/CMS/tools at $49 / $249 / $449 entry tiers (wedge)
 3. **Project work** — websites, AI automations, AEO migrations (one-time)
 
@@ -63,15 +63,15 @@ NetWebMedia is an AI-native marketing agency that replaces the traditional 8-per
 
 | Tier | Price | Setup | Scope |
 |---|---|---|---|
-| **CMO Lite** | $249/mo | $0 | AEO + SEO strategy, monthly content calendar, SEO audit, NWM CRM included. *Self-serve onboarding + monthly async strategy note (no live calls at this tier).* **90-day upgrade credit:** $249 credited toward Growth/Scale if upgraded within 90 days (designed as a wedge, not an endpoint). |
-| **CMO Growth** *(most popular)* | $999/mo + ad mgmt fee | $499 | Everything in Lite + paid ads management ($5k–20k ad spend), **monthly** strategy call, email nurture, attribution dashboard. **Ad spend billed at cost + 12% management fee (min $300/mo).** |
-| **CMO Scale** | $2,990/mo + ad mgmt fee | $999 | Everything in Growth + AI SDR outbound, short-form video (12 assets/mo), demand-gen campaigns, **weekly** strategy call, quarterly OKR planning. **Ad spend billed at cost + 12% management fee (min $300/mo).** |
+| **AEO Starter** | $249/mo | $0 | AEO + SEO strategy, monthly content calendar, SEO audit, NWM CRM included. *Self-serve onboarding + monthly async strategy note (no live calls at this tier).* **90-day upgrade credit:** $249 credited toward CMO Growth/Premium if upgraded within 90 days (designed as a wedge, not an endpoint). |
+| **CMO Growth** *(most popular)* | $999/mo + ad mgmt fee | $499 | Everything in Starter + paid ads management ($5k–20k ad spend), **monthly** strategy call, email nurture, attribution dashboard. **Ad spend billed at cost + 12% management fee (min $300/mo).** |
+| **CMO Premium** | $2,490/mo + ad mgmt fee | $999 | Everything in Growth + AI SDR outbound, short-form video (12 assets/mo), demand-gen campaigns, **weekly** strategy call, quarterly OKR planning. **Ad spend billed at cost + 12% management fee (min $300/mo).** |
 
 **Commercial terms (updated 2026-04-21 post-gap-analysis):**
 - 90-day minimum, month-to-month thereafter.
-- **Annual pre-pay: 15% discount** (bumped from 5%). Lite $2,540/yr · Growth $10,190/yr · Scale $30,500/yr. Net-15 invoicing on annuals.
-- **Ad management fee** (Growth + Scale): 12% of monthly ad spend (min $300/mo). Billed separately from retainer. This is industry-standard and was previously missing from the model.
-- **Lite upgrade credit:** $249 credited toward first month of Growth or Scale if upgraded within 90 days of signup. Lite is a wedge, not a revenue pillar — Scale clients are worth ~17x a Lite client (cohort data, §9).
+- **Annual pre-pay: 15% discount** (bumped from 5%). Starter $2,540/yr · Growth $10,190/yr · Premium $25,398/yr. Net-15 invoicing on annuals.
+- **Ad management fee** (Growth + Premium): 12% of monthly ad spend (min $300/mo). Billed separately from retainer. This is industry-standard and was previously missing from the model.
+- **Starter upgrade credit:** $249 credited toward first month of Growth or Premium if upgraded within 90 days of signup. Starter is a wedge, not a revenue pillar — Premium clients are worth ~17x a Starter client (cohort data, §9).
 
 ### 3.2 Platform SKUs (self-serve, wedge tier)
 
@@ -151,7 +151,7 @@ $49/mo CRM self-serve. Low ARPU, but the funnel fuel for tutorials, community, a
  │
  ──────────────────────────┼──────────────────────────
  LOW AI-NATIVE │ HIGH AI-NATIVE
- │ ★ NWM fCMO Scale ($2,990)
+ │ ★ NWM CMO Premium ($2,490)
  │ ★ NWM fCMO Growth ($999)
  HubSpot Mktg Hub ● │
  │ ★ NWM fCMO Lite ($249)
@@ -165,7 +165,7 @@ $49/mo CRM self-serve. Low ARPU, but the funnel fuel for tutorials, community, a
  LOW PRICE (<$500/mo)
 ```
 
-**Read:** NWM owns the **entire right column** — we're the only brand with a coherent ladder from $49 CRM to $2,990 fCMO, and all of it is AI-native. At the new price points, the Lite tier ($249) is now *below* HubSpot Starter, which changes the "HubSpot alternative" fight from parity-play to clear undercut.
+**Read:** NWM owns the **entire right column** — we're the only brand with a coherent ladder from $49 CRM to $2,490 fCMO, and all of it is AI-native. At the new price points, the Starter tier ($249) is now *below* HubSpot Starter, which changes the "HubSpot alternative" fight from parity-play to clear undercut.
 
 ### 6.2 Feature Matrix
 
@@ -319,12 +319,12 @@ Month: 0 3 6 9 12 18 24
 CRM $49 100→ 78 → 58 → 44 → 34 → 18 → 10
 CRM $249 100→ 88 → 74 → 62 → 52 → 34 → 22
 CRM $449 100→ 92 → 82 → 72 → 64 → 46 → 32
-fCMO Lite 100→ 85 → 70 → 58 → 48 → 28 → 16
-fCMO Growth 100→ 91 → 80 → 70 → 62 → 44 → 30
-fCMO Scale 100→ 94 → 86 → 78 → 72 → 58 → 44
+AEO Starter 100→ 85 → 70 → 58 → 48 → 28 → 16
+CMO Growth 100→ 91 → 80 → 70 → 62 → 44 → 30
+CMO Premium 100→ 94 → 86 → 78 → 72 → 58 → 44
 ```
 
-**Insight:** fCMO Scale retains like enterprise SaaS. Every Scale client is worth **~17x a Lite client** (up from 5x under old pricing). This sharpens the upsell priority — Lite is now a wedge into Scale, not an endpoint. Don't optimize Lite for retention; optimize it for **tier-upgrade velocity**.
+**Insight:** CMO Premium retains like enterprise SaaS. Every Premium client is worth **~17x a Starter client** (up from 5x under old pricing). This sharpens the upsell priority — Starter is now a wedge into Premium, not an endpoint. Don't optimize Starter for retention; optimize it for **tier-upgrade velocity**.
 
 ---
 

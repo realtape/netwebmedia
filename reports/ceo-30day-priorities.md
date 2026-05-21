@@ -18,7 +18,7 @@ The infrastructure is live. The 30 days ahead are about converting that foundati
 - **[P1] Approve and launch AI outbound sequence #1** — `sales-director` has the 3,000-prospect list ready. Carlos reviews the email copy (one read-through, approve or redline). Target: 120 emails/day live by May 7, 22 demos booked in May. This is the fastest pipeline-in-motion lever available right now.
   - Agent: `sales-director` builds and sends.
 
-- **[P2] Confirm updated pricing is live across all site pages** — The April 21 reprice ($249/$999/$2,990) and Carlos26 promo retirement must be propagated to `pricing.html`, `services.html`, `index.html`, `partners.html`, `pricing-onepager.html`, and `email-templates/partner-2.html`. Carlos does a visual spot-check of the live site after `engineering-lead` deploys.
+- **[P2] Confirm updated pricing is live across all site pages** — The April 21 reprice ($249/$999/$2,490) and Carlos26 promo retirement must be propagated to `pricing.html`, `services.html`, `index.html`, `partners.html`, `pricing-onepager.html`, and `email-templates/partner-2.html`. Carlos does a visual spot-check of the live site after `engineering-lead` deploys.
   - Agent: `engineering-lead` executes; Carlos approves.
 
 - **[P2] Greenlight homepage CRO sprint** — New hero + social proof strip (Looker Pipeline board also stands up this week). These are the two highest ICE-score site improvements. One approve decision unlocks both. Expected outcome: +30% homepage conversion rate.
@@ -55,7 +55,7 @@ The infrastructure is live. The 30 days ahead are about converting that foundati
 - **[P1] Close first 3 retainer clients** — By May 18, demos booked from outbound sequence #1 should be converting. Carlos runs every discovery call personally at this stage (no delegation until there is a repeatable script). Target: 3 signed MSAs before May 31. This is the M1 plan milestone.
   - Agent: `sales-director` books and preps call briefs; Carlos closes.
 
-- **[P1] Commission financial model rebuild** — The April 21 reprice broke the revenue model. At $249/$999/$2,990 ACVs, the original 45-retainer target yields ~$40k MRR, not $85k. Carlos must decide: Lever A (volume — grow to ~100 retainers) or Lever B (mix shift toward Scale-heavy). Recommendation from the plan is Lever A. `finance-controller` needs the decision to rebuild Sections 7 and 8 of the business plan.
+- **[P1] Commission financial model rebuild** — The April 21 reprice broke the revenue model. At $249/$999/$2,490 ACVs, the original 45-retainer target yields ~$40k MRR, not $85k. Carlos must decide: Lever A (volume — grow to ~100 retainers) or Lever B (mix shift toward Premium-heavy). Recommendation from the plan is Lever A. `finance-controller` needs the decision to rebuild Sections 7 and 8 of the business plan.
   - Agent: `finance-controller` rebuilds model once Carlos selects lever. Decision time cost: 20 minutes.
 
 - **[P2] Approve and deploy exit-intent AEO audit modal** — High ICE-score CRO item (504). Target: +15 MQLs per week. `engineering-lead` has the spec. One approval decision unlocks it.

@@ -53,7 +53,7 @@ Companion document to [BUSINESS_PLAN.md](BUSINESS_PLAN.md) and [EXECUTION_90DAY.
 
 ### Pillar 2 — "One price, one retainer"
 - Bundled: CMO + CRM + content + outbound in one invoice
-- Transparent tiers ($249 / $999 / $2,990) — no scope games
+- Transparent tiers ($249 / $999 / $2,490) — no scope games
 - Fewer vendors = faster execution (ship in week 1, not month 3)
 
 ### Pillar 3 — "AI does the grind, humans lead the strategy"

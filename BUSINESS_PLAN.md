@@ -231,30 +231,35 @@ $49/mo CRM self-serve. Low ARPU, but the funnel fuel for tutorials, community, a
 
 ## 7. 5-Year Revenue Projection
 
+**Lever B (mix shift) — chosen by Carlos 2026-05-21.** Retainer base locked at 45–520 clients (Premium-weighted); platform & project revenue increased. Assumptions: Premium NRR 110% (upsells + expansion); platform NRR 100%; headcount ramp 1→3→6→10→14 humans; Y1→Y2 growth +260% clients (ops scale), decelerating to +52% by Y5 as sales capacity saturates. Rationale: Premium tier 10.1x LTV:CAC vs Starter 3.1x; shift maximizes cash generation and payback velocity.
+
 | Metric | Y1 (Apr'27) | Y2 (Apr'28) | Y3 (Apr'29) | Y4 (Apr'30) | Y5 (Apr'31) |
 |---|---|---|---|---|---|
-| Paying clients | 90 | 260 | 540 | 920 | 1,400 |
-| Avg ACV | $11.3k | $13.2k | $15.0k | $16.5k | $17.8k |
-| **ARR** | **$1.02M** | **$3.43M** | **$8.10M** | **$15.18M** | **$24.92M** |
-| MRR (exit) | $85k | $286k | $675k | $1.27M | $2.08M |
-| Gross margin | 72% | 76% | 79% | 81% | 82% |
-| GM $ | $734k | $2.61M | $6.40M | $12.30M | $20.43M |
+| **Retainer clients** | **45** | **110** | **220** | **360** | **520** |
+| Avg retainer ACV | $1,476 | $1,550 | $1,620 | $1,680 | $1,750 |
+| Platform + white-label | 45 | 95 | 180 | 280 | 400 |
+| Platform avg ACV | $280 | $300 | $320 | $340 | $360 |
+| **Total paying clients** | **90** | **205** | **400** | **640** | **920** |
+| **MRR (exit)** | **$85,000** | **$245,000** | **$545,000** | **$945,000** | **$1,545,000** |
+| **ARR** | **$1.02M** | **$2.94M** | **$6.54M** | **$11.34M** | **$18.54M** |
+| Gross margin | 72% | 74% | 76% | 77% | 78% |
+| GM $ | $734k | $2.18M | $4.97M | $8.73M | $14.46M |
 | S&M % of ARR | 28% | 22% | 18% | 15% | 13% |
 | R&D % of ARR | 12% | 14% | 13% | 12% | 11% |
 | G&A % of ARR | 8% | 7% | 6% | 5% | 5% |
-| **EBITDA** | **$245k** | **$1.13M** | **$3.40M** | **$7.44M** | **$13.20M** |
-| **EBITDA margin** | 24% | 33% | 42% | 49% | 53% |
-| Headcount (humans) | 1 | 3 | 7 | 14 | 22 |
+| **EBITDA** | **$245k** | **$950k** | **$2.54M** | **$4.68M** | **$8.20M** |
+| **EBITDA margin** | 24% | 32% | 39% | 41% | 44% |
+| Headcount (humans) | 1 | 3 | 6 | 10 | 14 |
 | AI agents | 12 | 24 | 40 | 60 | 80 |
-| Clients per human | 90 | 87 | 77 | 66 | 64 |
+| Clients per human | 90 | 68 | 67 | 64 | 66 |
 
 ```
-ARR Trajectory ($M) — 5-year
-────────────────────────────
-Y5 ████████████████████████████████████████ $24.92M
-Y4 ████████████████████████ $15.18M
-Y3 █████████████ $8.10M
-Y2 █████ $3.43M
+ARR Trajectory ($M) — 5-year (Lever B)
+──────────────────────────────────────
+Y5 ███████████████████████████████ $18.54M
+Y4 ███████████████████ $11.34M
+Y3 ██████████ $6.54M
+Y2 ███ $2.94M
 Y1 █ $1.02M
 ```
 
@@ -279,23 +284,23 @@ Y1 █ $1.02M
 | M11 | 42 | 44 | 17 | $83,000 | $591.9k |
 | M12 | 45 | 45 | 18 | **$85,000** | **$676.9k** |
 
-### Revenue mix at Month 12 — ⚠️ TO REBUILD
+### Revenue mix at Month 12 — Lever B (mix shift)
 
-Old model (at $1,997–$5,997 tiers):
+**Lever B chosen by Carlos 2026-05-21.** Keep retainer base at 45 clients, but concentrate on Premium ($2,490; 18 clients) and Growth ($999; 20 clients) with minimal Starter (7 clients as funnel only). Increase platform ARPU (mix shift to CRM $249 and $449). Add project work. Result: $85k M12 MRR exit with Premium-driven unit economics (10.1x LTV:CAC, 1.8-mo payback).
 
-| Stream | % of MRR | Monthly $ |
-|---|---|---|
-| Fractional CMO retainers (45 clients @ avg $2,600) | 69% | $58,500 |
-| Platform subscriptions (45 @ avg $185) | 10% | $8,300 |
-| White-label agencies (18 resellers @ $449) | 10% | $8,100 |
-| Project work (4/mo avg @ $2,500) | 11% | $10,000 |
-| **Total MRR** | | **$85,000** |
+| Stream | Clients/units | Unit price | Monthly $ | % of MRR |
+|---|---|---|---|---|
+| fCMO Premium | 18 | $2,490 | $44,820 | 53% |
+| fCMO Growth | 20 | $999 | $19,980 | 23% |
+| fCMO Starter (wedge) | 7 | $249 | $1,743 | 2% |
+| Platform CRM $249 | 20 | $249 | $4,980 | 6% |
+| Platform CRM $449 (white-label) | 12 | $449 | $5,388 | 6% |
+| Project work (4/mo × $2,500) | 4 | $2,500 | $10,000 | 12% |
+| **Total MRR** | **~90 clients** | | **$86,911** | |
 
-**At the new $249 / $999 / $2,990 pricing, the same 45 retainer clients yield ~$40k (not $58.5k), dragging Y1 MRR to ~$67k exit.** Two levers to restore the $85k target:
-- **Lever A (volume):** Grow retainer count from 45 → ~100 by M12 (2.2x; requires self-serve funnel for the Lite tier)
-- **Lever B (mix shift):** Keep 45 retainers but push the mix heavily toward Scale ($2,990), platform at higher ARPU, and more project work
+**Blended metrics:** Retainer avg ACV = (18×$2,490 + 20×$999 + 7×$249) / 45 = $1,476/mo. All-in avg (90 clients) = $944/mo. Retainer revenue = 68% of MRR.
 
-**Carlos to choose — recommend Lever A** (volume + productized Lite) since it matches the sub-$500 SMB ICP we expanded into with the new pricing.
+**Growth assumption:** Retainer NRR 110% (via Starter→Growth upgrades, Growth→Premium expansion, higher ad spend). Platform NRR 100%. Y1→Y2 client growth +260% (retainers 45→110) as ops capacity scales; decelerating thereafter as hiring gates capacity.
 
 ---
 
@@ -354,14 +359,15 @@ CMO Premium 100→ 94 → 86 → 78 → 72 → 58 → 44
 
 | Scenario | Y1 ARR | MRR (exit) | Clients | Trigger conditions |
 |---|---|---|---|---|
-| **Bear** | $520k | $43k | 52 | AEO adoption slows (<10% of search); Google AI Overviews consolidates traffic; Anthropic (Claude) API costs +40% |
-| **Base** | $1.02M | $85k | 90 | AEO hits ~15% of search queries; competitive pricing holds; 3 lighthouse case studies by month 6 |
-| **Bull** | $1.85M | $154k | 148 | AEO hits 22%+; one viral proof-of-concept; 2 partner channels produce 25%+ of pipeline |
+| **Bear** | $480k | $38k | 58 | AEO adoption slows (<10%); Premium churn accelerates to 8%+/mo; Anthropic API costs +40%; top-of-funnel dries up |
+| **Base** | $1.02M | $85k | 90 | AEO hits ~15% of search; Premium cohort 6% mo churn (per plan); 3 lighthouse case studies by M6; blended CAC <$1,200 |
+| **Bull** | $1.64M | $137k | 135 | AEO hits 22%+; Premium cohort retention 95%+ (viral proof); 2 partner channels >25% of pipeline; blended CAC <$800 |
 
-**Kill-switches:**
-- If MRR < $35k by month 6 → pause Lite tier acquisition, focus everything on Growth + Scale + CRM $449 *(threshold lowered from $45k given the price restructure)*
-- If CAC > $600 on fCMO Lite for 2 consecutive months → pause paid acquisition on that tier, 100% self-serve inbound
-- If any single channel > 55% of pipeline → force diversification quarter
+**Kill-switches (Lever B, recalibrated 2026-05-21):**
+- **M6 threshold:** MRR ≥ $55k. If MRR < $55k by M6 → pause Starter tier entirely, concentrate all sales on Growth ($999) + Premium ($2,490) + white-label ($449). Rationale: At new pricing, Starter drives low volume; Premium's 10.1x LTV:CAC justifies concentrated effort.
+- **CAC kill-switch:** If CAC on Premium > $4,000 for 2 consecutive months → pause paid media on Premium; revert to organic + partner channels only.
+- **Premium churn floor:** If Premium cohort monthly churn > 8% (vs. 6% baseline) → pause all Premium acquisition, conduct QBRs on at-risk accounts.
+- **Concentration limit:** If any single channel > 60% of Premium logos → force diversification; pause that channel for 60 days.
 
 ---
 

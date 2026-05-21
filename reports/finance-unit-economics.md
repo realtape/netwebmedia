@@ -384,18 +384,24 @@ This model assumes:
 
 ---
 
-## 11. Closeout Notes
+## 11. Closeout Notes — Lever B (mix shift, 2026-05-21 update)
 
-**This analysis is the financial foundation for the 2026–2027 business plan.** It validates:
+**This analysis is the financial foundation for the 2026–2027 business plan under Lever B (mix shift).** It validates:
 - Pricing is sustainable across all three tiers
 - Unit economics support rapid scaling without near-term capital raise
+- **Premium tier (10.1x LTV:CAC, 1.8-mo payback) is the growth engine**; Starter is a wedge for upgrade velocity only
+- **M12 exit: 45 retainers (18 Premium, 20 Growth, 7 Starter) + 45 platform clients + project work = $85k MRR**
 - Cash flow is positive by Month 4 with conservative assumptions
 - Break-even on OpEx occurs at 22–32 clients depending on founder compensation model
 
-**For Carlos:** You have the room to invest aggressively in growth (content, outbound, paid media) through Month 6–9 without cash crisis. By Month 6, you'll have $35–40k cash surplus to redeploy. The model holds even if any single assumption (API costs, churn, CAC) moves 20–30% in the wrong direction.
+**5-year trajectory under Lever B:** $1.02M Y1 ARR → $2.94M Y2 (260% retainer growth, ops scale) → $6.54M Y3 (decelerating to +108% as hiring gates capacity) → $11.34M Y4 → $18.54M Y5. EBITDA margins improve to 44% by Y5 as platform scales.
 
-**For finance ops:** Build the cash dashboard first (Week 1). Lock in late payment policy and annual prepay mechanics before May 1 billing runs. Monthly reconciliation is non-negotiable; billing errors compound fast in SaaS.
+**Bear-pivot trigger (recalibrated):** If MRR < $55k by M6 → pause Starter, concentrate on Growth/Premium + platform. Premium churn > 8% monthly → pause Premium acquisition, conduct QBRs. CAC on Premium > $4k → pause paid media, organic/partner-only.
+
+**For Carlos:** You have the room to invest aggressively in growth (content, outbound, paid media) through Month 6–9 without cash crisis. By Month 6, you'll have $35–40k cash surplus to redeploy. Premium payback (1.8 months) means each Premium win is cash-flow positive in 2 months — reinvest immediately. The model holds even if any single assumption (API costs, churn, CAC) moves 20–30% in the wrong direction. Focus: Premium logo acquisition and Growth→Premium upsells.
+
+**For finance ops:** Build the cash dashboard first (Week 1). Lock in late payment policy and annual prepay mechanics before May 1 billing runs. Monthly reconciliation is non-negotiable; billing errors compound fast in SaaS. Track Premium cohort churn religiously (separate dashboard from Starter). CAC by tier (not blended) is non-negotiable KPI.
 
 ---
 
-**Document status:** Ready for executive review and incorporation into May 2026 monthly close.
+**Document status:** Rebuilt for Lever B (Carlos's choice, 2026-05-21). Ready for May 2026 monthly close.

@@ -94,14 +94,17 @@ To continue on the Base scenario, we must hit:
 
 | Metric | Floor (Base) | Stretch (Bull) | Trigger Bear pivot |
 |---|---|---|---|
-| MRR | $32,000 | $45,000 | <$28,000 |
-| Paying clients | 38 | 52 | <30 |
+| MRR | $55,000 | $75,000 | <$45,000 |
+| Paying clients (total) | 60 | 80 | <50 |
+| Retainer clients (core) | 28 | 40 | <22 |
+| Premium tier clients | 8 | 14 | <5 |
 | LLM citations tracked | 400+ | 650+ | <250 |
-| Pipeline ($ coverage, 60-day) | $145k | $200k | <$100k |
-| CAC (blended) | <$2,400 | <$1,800 | >$3,500 |
-| Partners signed | 25 | 32 | <15 |
+| Pipeline ($ coverage, 60-day) | $180k | $250k | <$120k |
+| CAC (blended) | <$1,200 | <$900 | >$1,500 |
+| CAC (Premium tier) | <$3,200 | <$2,500 | >$4,000 |
+| Partners signed | 20 | 28 | <12 |
 
-**Bear pivot:** Pause AEO Starter acquisition. Concentrate demand on CMO Growth ($999) + CMO Premium ($2,490) + CRM $449. Don't wait to pull that lever. *(Updated post-repricing 2026-04-21.)*
+**Bear pivot (Lever B, 2026-05-21 update):** If MRR < $45k by Jul 31 — pause AEO Starter acquisition entirely. Concentrate all sales on CMO Growth ($999) + CMO Premium ($2,490) + CRM $449 white-label. Shift to a Starter→Growth/Premium upgrade funnel (organic inbound only); redirect paid budget to Premium (10.1x LTV:CAC) + Growth (6.5x) only. Rationale: at new pricing Starter has low volume + 3.1x LTV:CAC; Premium/Growth carry the revenue engine. *(Updated post-repricing 2026-04-21; Lever B chosen 2026-05-21.)*
 
 ---
 

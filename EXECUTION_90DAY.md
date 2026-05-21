@@ -101,7 +101,7 @@ To continue on the Base scenario, we must hit:
 | CAC (blended) | <$2,400 | <$1,800 | >$3,500 |
 | Partners signed | 25 | 32 | <15 |
 
-**Bear pivot:** Pause fCMO Lite acquisition. Concentrate demand on fCMO Growth ($999) + fCMO Scale ($2,990) + CRM $449. Don't wait to pull that lever. *(Updated post-repricing 2026-04-21.)*
+**Bear pivot:** Pause AEO Starter acquisition. Concentrate demand on CMO Growth ($999) + CMO Premium ($2,490) + CRM $449. Don't wait to pull that lever. *(Updated post-repricing 2026-04-21.)*
 
 ---
 

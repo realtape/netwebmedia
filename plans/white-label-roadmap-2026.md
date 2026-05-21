@@ -130,9 +130,9 @@ In flight (engineering agents running in parallel as I write):
 
 | Tier | Price | Includes | Target customer |
 |---|---|---|---|
-| **CMO Lite** | $249/mo | Done-for-you fractional CMO | SMB owner direct |
-| **CMO Growth** | $999/mo | Lite + paid ads + AI SDR | Established SMB |
-| **CMO Scale** | $2,990/mo | Growth + custom AI + dedicated strategist | Mid-market |
+| **AEO Starter** | $249/mo | Done-for-you fractional CMO | SMB owner direct |
+| **CMO Growth** | $999/mo | Starter + paid ads + AI SDR | Established SMB |
+| **CMO Premium** | $2,490/mo | Growth + custom AI + dedicated strategist | Mid-market |
 | **White-Label Agency** | $499/mo platform + $99/mo per sub-account | Full white-label CRM, 3 included sub-accounts, agency dashboard | Marketing agency owners |
 | **White-Label Pro** | $1,499/mo platform + $79/mo per sub-account | Above + custom domain + AI agents + Voice AI | Established agencies |
 | **White-Label Enterprise** | Custom | Above + dedicated infra + SLA | Large agency networks |

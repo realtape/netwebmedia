@@ -283,7 +283,7 @@ Each step has an owner, a tool, a time target, and clear success criteria. Failu
    - Body:
      * Personalized greeting (name + company)
      * Key insight from strategy plan (1-2 sentences)
-     * Offers 3 retainer tiers: Lite ($249), Growth ($999), Scale ($2,990)
+     * Offers 3 retainer tiers: AEO Starter ($249), CMO Growth ($999), CMO Premium ($2,490)
      * Includes pricing details + sample deliverables
      * Includes calendar link (Calendly) for free 15-min discovery
      * Closes with: "Any questions, just reply to this email"
@@ -479,7 +479,7 @@ Each step has an owner, a tool, a time target, and clear success criteria. Failu
 2. Sets up Stripe recurring subscription:
    - Customer: {lead name/email}
    - Product: fCMO {Lite/Growth/Scale}
-   - Amount: $249/$999/$2,990 per month
+   - Amount: $249/$999/$2,490 per month
    - Billing cycle: monthly (1st of month, or anniversary date)
    - Auto-renew: enabled
 3. Creates invoice + sends to customer (Stripe handles recurring)

@@ -90,7 +90,7 @@ What "AI marketing" actually looks like when it's working:
 ✅ +76% lead response speed (real estate client, 30 days)
 ✅ -34% no-shows (medical client, 45 days)
 
-No magic. Just FAQ schema, AI SDR pipelines, and answer-engine-optimized content the size of small businesses can actually afford ($249–$2,990/mo).
+No magic. Just FAQ schema, AI SDR pipelines, and answer-engine-optimized content the size of small businesses can actually afford ($249–$2,490/mo).
 
 Free audit → netwebmedia.com (link in bio)
 
@@ -103,7 +103,7 @@ Free audit → netwebmedia.com (link in bio)
 ```
 What "fractional CMO" actually means at NetWebMedia: a real human strategist + Claude (Anthropic's AI) running the playbook side-by-side.
 
-You don't pay for a $180k/year CMO hire. You pay $249–$2,990/mo for the function — the strategy, the content, the SEO, the AEO, the email, the AI SDRs, the analytics — fully managed.
+You don't pay for a $180k/year CMO hire. You pay $249–$2,490/mo for the function — the strategy, the content, the SEO, the AEO, the email, the AI SDRs, the analytics — fully managed.
 
 Built for the 95% of US SMBs who can't afford the alternative.
 
@@ -142,7 +142,7 @@ Built for the 95% of US SMBs who can't afford the alternative.
 ```
 The page is back, and so is everything we've been quietly shipping for the last 18 months.
 
-NetWebMedia helps US small businesses get cited by ChatGPT, Claude, Perplexity, and Google AI Overviews — the new search. We're an AI-native fractional CMO: $249–$2,990/month for the entire marketing function, fully managed.
+NetWebMedia helps US small businesses get cited by ChatGPT, Claude, Perplexity, and Google AI Overviews — the new search. We're an AI-native fractional CMO: $249–$2,490/month for the entire marketing function, fully managed.
 
 If you're a law firm, restaurant, dental practice, real estate office, hotel, gym, salon, or contractor and you're tired of spending on ads while AI recommends your competitor — read this.
 
@@ -227,7 +227,7 @@ Cited by AI. Built for SMBs. Run by humans + Claude.
 ### Q&A (seed 5 — post these as both Question & Answer in GBP "Q&A" tab)
 
 **Q1.** What does NetWebMedia actually do?
-**A.** We're an AI-native fractional CMO. We run the entire marketing function for US small and mid-sized businesses — strategy, content, SEO, AEO, ads, email, AI SDRs, analytics — for $249–$2,990/month. We're built for the 95% of SMBs that can't afford a $180k/year in-house CMO.
+**A.** We're an AI-native fractional CMO. We run the entire marketing function for US small and mid-sized businesses — strategy, content, SEO, AEO, ads, email, AI SDRs, analytics — for $249–$2,490/month. We're built for the 95% of SMBs that can't afford a $180k/year in-house CMO.
 
 **Q2.** What is AEO and why does it matter for my business?
 **A.** AEO is Answer Engine Optimization — getting your business cited when potential customers ask ChatGPT, Claude, Perplexity, or Google AI Overviews questions like "best [your industry] in [city]." Classic SEO ranks pages; AEO gets you quoted in the answer. As of 2026, more buyer journeys start with AI than with Google search.
@@ -249,7 +249,7 @@ Free 48-hour AI marketing audit for US small businesses.
 
 If you've been wondering whether your business shows up when potential customers ask ChatGPT, Claude, or Google AI Overviews "best [your industry] in [my city]" — you're asking the right question. The answer for most SMBs is currently no.
 
-We fix that. NetWebMedia is an AI-native fractional CMO that gets you cited by AI engines, ranked on local search, and converting at every stage of the funnel — for $249 to $2,990 per month.
+We fix that. NetWebMedia is an AI-native fractional CMO that gets you cited by AI engines, ranked on local search, and converting at every stage of the funnel — for $249 to $2,490 per month.
 
 The audit is genuinely free. Written report. Delivered by email in under 48 hours. No sales call required.
 
@@ -276,9 +276,9 @@ Want a free 48-hour AEO audit? netwebmedia.com.
 ```
 Real pricing — because you shouldn't have to "schedule a call to learn more."
 
-CMO Lite: $249/mo — AI marketing audit, monthly strategy, light execution
+AEO Starter: $249/mo — AI marketing audit, monthly strategy, light execution
 CMO Growth: $999/mo — full marketing function, AEO + content + ads + email
-CMO Scale: $2,990/mo — everything in Growth + AI SDRs + paid scaling + analytics
+CMO Premium: $2,490/mo — everything in Growth + AI SDRs + paid scaling + analytics
 
 Async-only. Month-to-month. Cancel any time. No setup fees on annual plans.
 

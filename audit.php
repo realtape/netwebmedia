@@ -909,7 +909,7 @@ h2.section{font-family:'Poppins',sans-serif;font-weight:800;font-size:28px;color
 
       <div class="pkg-card scale">
         <div class="pkg-name">CMO Premium</div>
-        <div class="pkg-price">$2,499<span>/<?= $lang==='en'?'mo':'mes' ?></span></div>
+        <div class="pkg-price">$2,490<span>/<?= $lang==='en'?'mo':'mes' ?></span></div>
         <div class="pkg-setup"><?= h($T['pkg_scale_setup']) ?></div>
         <ul class="pkg-list">
           <?php foreach ($T['pkg_scale_feats'] as $f): ?><li><?= h($f) ?></li><?php endforeach; ?>

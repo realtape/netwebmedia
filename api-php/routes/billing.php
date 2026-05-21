@@ -336,7 +336,7 @@ function bl_plans_seed() {
       'code'          => 'cmo_scale',
       'name'          => 'CMO Premium',
       'category'      => 'cmo',
-      'usd'           => 2499,
+      'usd'           => 2490,
       'setup'         => 999,
       'needs_contact' => true,
       'tagline'       => 'Full-stack marketing department — by consultation',

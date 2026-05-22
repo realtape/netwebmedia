@@ -108,6 +108,10 @@
       documented here. Stopped before any credit card data was entered.
     </p>
 
+    <div class="callout info">
+      <strong>Historical note (added 2026-05-22):</strong> This walkthrough captured the live pricing page <em>as of 2026-05-11</em>. The CMO ladder has since been finalized as <strong>AEO Starter $249 · CMO Growth $999 · CMO Premium $2,490 · Custom / Agency</strong> — the "CMO Standard $1,490" tier shown in some screenshots below was <strong>retired</strong> (see the Bug #2 resolution). Screenshots are preserved as a dated record and reflect the older ladder.
+    </div>
+
     <div class="meta">
       <div><div class="k">Test user</div><div class="v">Tutorial Tester</div></div>
       <div><div class="k">Test email</div><div class="v">tutorial-test-2026-05-11@netwebmedia.com</div></div>
@@ -438,32 +442,23 @@ foreach ($coupon_cols as [$name, $sql]) {
           </tbody>
         </table>
 
-        <h3>Strategic decision needed</h3>
-        <p>This is not a "fix the bug" situation — it's a strategic alignment question. Two paths forward:</p>
+        <h3>Strategic decision needed → RESOLVED (2026-05-21)</h3>
+        <p>This was not a "fix the bug" situation — it was a strategic alignment question. Two paths were on the table:</p>
 
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin: 16px 0;">
-          <div class="callout info" style="margin: 0;">
-            <strong>Option A — Update marketing</strong>
-            <p style="margin: 8px 0 0;">Change <code>pricing.html</code> button to <code>data-plan="cmo_growth"</code> + label "Start Growth — $999/mo →". Aligns the public site to the actual product catalog. <strong>Downside:</strong> the "$1,490 CMO Standard" price point is baked into every sales simulation, proposal template, engagement letter, and onboarding guide in <code>docs/</code>. Those would need updating.</p>
-          </div>
           <div class="callout ok" style="margin: 0;">
-            <strong>Option B — Update catalog</strong>
-            <p style="margin: 8px 0 0;">Add a <code>cmo_standard</code> plan to <code>bl_plans_seed()</code> at $1,490 between cmo_growth and cmo_scale. Matches every existing marketing material + sales doc. <strong>This is what the marketing materials assume exists.</strong></p>
+            <strong>Option A — Align marketing to the catalog · ✓ CHOSEN</strong>
+            <p style="margin: 8px 0 0;">Point <code>pricing.html</code> at <code>data-plan="cmo_growth"</code> with the label "Start Growth — $999/mo →" and retire the "CMO Standard $1,490" tier across the site and <code>docs/</code>. Aligns every surface to the actual product catalog (<code>cmo_growth $999</code>).</p>
+          </div>
+          <div class="callout bad" style="margin: 0;">
+            <strong>Option B — Add a $1,490 catalog plan · ✗ REJECTED</strong>
+            <p style="margin: 8px 0 0;">Adding a <code>cmo_standard</code> plan at $1,490 was rejected. Carlos retired the "CMO Standard" tier rather than resurrect it — do <strong>not</strong> add <code>cmo_standard</code> to <code>bl_plans_seed()</code>.</p>
           </div>
         </div>
 
-        <p><strong>Recommendation: Option B.</strong> The $1,490 "CMO Standard" price point is referenced across:</p>
-        <ul>
-          <li><code>services.html</code> — CMO Standard pricing card</li>
-          <li><code>pricing.html</code> — the hardcoded "Start Standard $1,490/mo" button</li>
-          <li><code>docs/sales-management-simulation/</code> — Sarah Test's $17,880 year-1 deal</li>
-          <li><code>docs/sales-simulation-cmo-premium/</code> — references "CMO Standard $1,490/mo" as the prior tier</li>
-          <li><code>docs/client-onboarding-guide*/</code> — both editions assume $1,490</li>
-          <li><code>email-templates/</code> — niche plan emails reference $1,490 tier</li>
-        </ul>
-        <p>The catalog is the outlier. Adding <code>cmo_standard</code> at $1,490 brings the system into alignment with everything else.</p>
-
-        <p><em>I did not auto-fix this one</em> because it's a strategic question — both the price and the plan name should match Carlos's intent, not my inference.</p>
+        <div class="callout ok">
+          <strong>Resolution (2026-05-21):</strong> Carlos chose <strong>Option A</strong>. The canonical CMO ladder is now <strong>AEO Starter $249 · CMO Growth $999 · CMO Premium $2,490 · Custom / Agency</strong>. "CMO Standard $1,490" is fully retired (renamed/repriced to CMO Growth $999 on 2026-05-11), and the old <code>$2,990</code> CMO Premium price was corrected to <code>$2,490</code>. The dependent sales simulations, onboarding guides, proposals, and engagement letters in <code>docs/</code> were re-derived to the current ladder in the same sweep. <code>pricing.html</code> now ships only the three current tiers — the "Start Standard $1,490/mo" button no longer exists, so the 400 above can no longer occur.
+        </div>
       </div>
     </div>
   </section>

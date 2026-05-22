@@ -196,6 +196,12 @@ function setLanguage(lang) {
     }
   });
 
+  // 3b. Update inline [data-en-placeholder] / [data-es-placeholder] (landing-page forms)
+  document.querySelectorAll('[data-en-placeholder],[data-es-placeholder]').forEach(el => {
+    const ph = lang === 'es' ? el.getAttribute('data-es-placeholder') : el.getAttribute('data-en-placeholder');
+    if (ph) el.placeholder = ph;
+  });
+
   // 4. Toggle active state on lang buttons
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);

@@ -13,19 +13,19 @@ updated: 2026-05-21T10:00:00-04:00
 ## Tests
 
 ### 1. Pricing page shows canonical ladder
-expected: pricing.html shows AEO Starter $249 / CMO Growth $999 / CMO Premium $2,499 / Custom-Agency, with no retired tier names and no $2,990 price.
+expected: pricing.html shows AEO Starter $249 / CMO Growth $999 / CMO Premium $2,490 / Custom-Agency, with no retired tier names and no $2,990 price.
 result: pass
 
 ### 2. Retired CMO tier names removed from public copy
 expected: No public-facing page markets a retired CMO tier (Scale / Lite / Enterprise) in a fractional-CMO context.
-result: issue
-reported: "compare.html:426 still markets a fractional-CMO 'Scale plan' — a retired CMO tier name on a public root page."
+result: pass
+resolved: "compare.html:426 fixed (commit 314265c47/f8fcbddea). Re-verified 2026-05-22: no 'Scale plan' in compare.html; remaining product 'Scale' tiers (email-marketing $599, AI-SEO $6,990, paid-ads) are distinct products using NWM's house top-tier name, not the retired CMO tier."
 severity: major
 
 ### 3. Retired $2,990 price removed from internal docs
-expected: No internal doc quotes the retired $2,990 CMO Premium price as the current price (canonical is $2,499).
-result: issue
-reported: "$2,990 persists across docs/** price tables, onboarding guides, sales playbook/simulations, and one prospect report. F-04 sweep was incomplete."
+expected: No internal doc quotes the retired $2,990 CMO Premium price as the current price (canonical is $2,490).
+result: pass
+resolved: "All docs/** re-derived $2,990→$2,490 and CMO Standard $1,490→CMO Growth $999 (2026-05-21). Re-verified 2026-05-22: zero $2,990 in docs/**. The four remaining $2,990 tokens site-wide (partners.html, nwm-cms.html, tutorials/websites.html, tutorials/paid-ads.html) are unrelated products (reseller margins, website builds, ad-spend example), not the CMO ladder. docs/payment-flow-tutorial stale $1,490 advice corrected 2026-05-22."
 severity: major
 
 ### 4. Custom 404 renders branded + bilingual
@@ -39,8 +39,8 @@ result: pass
 ## Summary
 
 total: 5
-passed: 3
-issues: 2
+passed: 5
+issues: 0
 pending: 0
 skipped: 0
 blocked: 0
@@ -64,10 +64,10 @@ blocked: 0
   missing:
     - "Replace 'Scale plan' / 'plan Scale' with the current CMO Premium (or CMO Growth) tier name in BOTH data-lang-block=en and data-lang-block=es."
 
-- truth: "Internal onboarding/playbook docs quote the current CMO Premium price ($2,499)"
-  status: fixed_partial
+- truth: "Internal onboarding/playbook docs quote the current CMO Premium price ($2,490)"
+  status: fixed
   commit: d3dbd89ca
-  note: "5 clean current-price refs fixed; sales-playbook-master comparison table (263-276) held with F-04 (derived math: $2,992 first-invoice, $35,880 yr-1)."
+  note: "Held item resolved 2026-05-21: sales-playbook-master comparison table (263-276) re-derived $2,990→$2,490 in the full site-wide reprice (Carlos approved). Re-verified 2026-05-22: zero $2,990 across docs/**."
   reason: "CMO Premium is shown as $2,990/mo (retired price) in current-price tables across internal docs."
   severity: major
   test: 3
@@ -92,7 +92,7 @@ blocked: 0
     - path: "docs/sales-simulation-aeo-audit/artifacts/invoice.html"
       issue: "Upgrade-credit copy quotes CMO Premium ($2,990/mo)"
   missing:
-    - "Replace $2,990 → $2,499 in current-price contexts; verify setup fee ($999) and annual ($2,124) are consistent with pricing.html."
+    - "Replace $2,990 → $2,490 in current-price contexts; verify setup fee ($999) and annual ($2,124) are consistent with pricing.html."
 
 - truth: "Internal prospect reports do not quote retired pricing/tier names"
   status: fixed
@@ -107,7 +107,7 @@ blocked: 0
     - path: "coyhaique-digital-gaps.html"
       issue: "Line 652 — '$2,990/mo fractional CMO (Scale tier)'"
   missing:
-    - "Update to '$2,499/mo fractional CMO (CMO Premium)'. Low priority — internal, not publicly served."
+    - "Update to '$2,490/mo fractional CMO (CMO Premium)'. Low priority — internal, not publicly served."
 
 - truth: "Sales-simulation artifacts reflect the canonical pricing"
   status: fixed
@@ -127,7 +127,7 @@ blocked: 0
     - path: "docs/sales-simulation-cmo-premium/"
       issue: "Whole simulation + 3 artifacts priced at retired $2,990 with derived totals."
   missing:
-    - "JUDGMENT CALL: rewriting a historical 'what happened' simulation re-derives every dependent figure ($2,992 net, $35,880 year-1, refund clause). Either (a) leave as a dated historical record, or (b) re-author end-to-end to $2,499. Needs Carlos's call — NOT a mechanical find/replace."
+    - "JUDGMENT CALL: rewriting a historical 'what happened' simulation re-derives every dependent figure ($2,992 net, $35,880 year-1, refund clause). Either (a) leave as a dated historical record, or (b) re-author end-to-end to $2,490. Needs Carlos's call — NOT a mechanical find/replace."
 
 - truth: "Internal docs use the canonical middle tier (CMO Growth $999), not the retired CMO Standard $1,490"
   status: fixed

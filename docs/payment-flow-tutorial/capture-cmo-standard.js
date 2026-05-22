@@ -1,9 +1,13 @@
-// Part 3 — capture CMO Standard ($1,490/mo) checkout flow.
+// Part 3 — capture the Checkout Pro flow via CMO Growth ($999/mo).
 //
-// Why this matters: CMO Standard exceeds the CLP 350k preapproval cap, so
+// NOTE (updated 2026-05-22): originally written against a "CMO Standard $1,490"
+// tier that never existed in the catalog (see Bug #2 in index.html). That tier was
+// retired; this script posts cmo_growth ($999/mo) instead.
+//
+// Why this matters: CMO Growth exceeds the CLP 350k preapproval cap, so
 // MP returns a DIFFERENT flow:
 //   - cmo_starter ($249/mo) → "preapproval" (recurring, /subscriptions/checkout)
-//   - cmo_growth ($1,490/mo) → "one_time" Checkout Pro Preference
+//   - cmo_growth ($999/mo) → "one_time" Checkout Pro Preference
 // We need to see and document the Checkout Pro UX too.
 
 const puppeteer = require('puppeteer');

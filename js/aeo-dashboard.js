@@ -380,7 +380,7 @@
             )
           ),
           'AEO Pulse',
-          h('span', { className: 'dash-sub' }, '/ netwebmedia.com')
+          h('span', { className: 'dash-sub' }, '/ netwebmedia.com · sample data')
         ),
         h('div', { className: 'dash-actions' },
           h('button', {

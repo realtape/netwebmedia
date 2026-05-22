@@ -132,8 +132,8 @@
       '</div>' +
       '<div class="nwm-chat-msgs" id="nwmChatMsgs">' +
         '<div class="nwm-msg bot">' + t(
-          'Hi! 👋 I\'m the NetWebMedia AI. How can I help you grow your business today?',
-          '¡Hola! 👋 Soy el AI de NetWebMedia. ¿Cómo puedo ayudarte a crecer hoy?'
+          'Hi — I\'m the NetWebMedia AI. How can I help you grow your business today?',
+          'Hola — Soy el AI de NetWebMedia. ¿Cómo puedo ayudarte a crecer hoy?'
         ) + '</div>' +
       '</div>' +
       '<div class="nwm-chat-typing" id="nwmTyping"><span class="nwm-dot"></span><span class="nwm-dot"></span><span class="nwm-dot"></span></div>' +

@@ -13,7 +13,8 @@
     signingIn: "Iniciando sesión...",
     fillFields: "Por favor completa todos los campos",
     connErr: "Error de conexión. Intenta de nuevo.",
-    signIn: "Iniciar Sesión"
+    signIn: "Iniciar Sesión",
+    rememberMe: "Recordarme"
   } : {
     title: "Start Your Free Demo",
     subtitle: "Enter your details to explore the platform",
@@ -25,8 +26,11 @@
     signingIn: "Signing in...",
     fillFields: "Please fill in all fields",
     connErr: "Connection error. Please try again.",
-    signIn: "Sign In"
+    signIn: "Sign In",
+    rememberMe: "Remember me"
   };
+
+  var REMEMBER_KEY = 'crm_remember_email';
 
   /* ── Tab switching ── */
   var tabs = document.querySelectorAll('.login-tab');
@@ -111,6 +115,35 @@
   var signinPassword = document.getElementById('signinPassword');
   var signinError = document.getElementById('signinError');
   var signinBtn = document.getElementById('signinBtn');
+  var rememberMe = document.getElementById('rememberMe');
+
+  /* ── Remember me ──
+     We persist the email only and let the browser's own password manager
+     handle the password — storing a plaintext password in localStorage
+     would be an XSS exfiltration risk. */
+  var rememberLabel = rememberMe && rememberMe.parentElement
+    ? rememberMe.parentElement.querySelector('span') : null;
+  if (rememberLabel) rememberLabel.textContent = L.rememberMe;
+
+  var rememberedEmail = '';
+  try { rememberedEmail = localStorage.getItem(REMEMBER_KEY) || ''; } catch (e) {}
+  if (rememberedEmail) {
+    signinEmail.value = rememberedEmail;
+    if (rememberMe) rememberMe.checked = true;
+    // Returning user — surface the Sign In tab instead of the demo signup.
+    var signinTab = document.getElementById('tabSignin');
+    if (signinTab) signinTab.click();
+  }
+
+  function persistRemember(email) {
+    try {
+      if (rememberMe && rememberMe.checked) {
+        localStorage.setItem(REMEMBER_KEY, email);
+      } else {
+        localStorage.removeItem(REMEMBER_KEY);
+      }
+    } catch (e) {}
+  }
 
   /* ── Forgot password ── */
   var forgotLink = document.querySelector('.login-forgot a');
@@ -155,6 +188,7 @@
         window.location.href = '/pricing.html?reason=signup';
         return;
       }
+      persistRemember(email);
       setSession(data.name, data.email, data.company || '', data.type || 'user', {
         id: data.id, plan: data.plan, niche: data.niche
       });

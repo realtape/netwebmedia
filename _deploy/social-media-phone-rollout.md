@@ -1,21 +1,31 @@
-# Social Media Phone Rollout — +1 (760) 334-8731
+# Social Media Phone Rollout — Voice +1 (760) 334-8731 · WhatsApp +1 (442) 385-4585
 
-**Created:** 2026-05-13
+**Created:** 2026-05-13 · **Updated:** 2026-05-25 (WhatsApp split onto a separate number, +1 442-385-4585)
 **Owner:** Carlos
-**Status:** Site + email + chatbot updated automatically. Social profiles below are manual — paste each block into the listed field.
+**Status:** Site + email + chatbot updated automatically. Social profiles below are manual — paste each block into the listed field. **The WhatsApp number changed — re-paste every WhatsApp field.**
 
 ---
 
 ## Canonical formats
+
+**Voice line (Sonetel) — +1 (760) 334-8731**
 
 | Use | String |
 |---|---|
 | Display (US format) | `+1 (760) 334-8731` |
 | International display | `+1 760-334-8731` |
 | `tel:` link | `tel:+17603348731` |
-| WhatsApp click-to-chat | `https://wa.me/17603348731` |
 | Schema.org telephone | `+1-760-334-8731` |
-| E.164 (Meta, Twilio, etc.) | `+17603348731` |
+| E.164 | `+17603348731` |
+
+**WhatsApp line (WhatsApp Business app) — +1 (442) 385-4585**
+
+| Use | String |
+|---|---|
+| Display (US format) | `+1 (442) 385-4585` |
+| International display | `+1 442-385-4585` |
+| WhatsApp click-to-chat | `https://wa.me/14423854585` |
+| E.164 | `+14423854585` |
 
 ---
 
@@ -27,13 +37,13 @@
 
 ```
 AI-native fractional CMO · US + LATAM SMBs
-WhatsApp +1 (760) 334-8731 · hello@netwebmedia.com
+WhatsApp +1 (442) 385-4585 · hello@netwebmedia.com
 $249/mo → ↓
 ```
 
-**Contact options:** add "Call" with the number, "Text" → leave default, "Email" → hello@netwebmedia.com.
+**Contact options:** add "Call" with the voice number +1 (760) 334-8731, "Text" → leave default, "Email" → hello@netwebmedia.com.
 
-**Action button:** "WhatsApp" (under Edit profile → Action buttons). Paste `https://wa.me/17603348731`.
+**Action button:** "WhatsApp" (under Edit profile → Action buttons). Paste `https://wa.me/14423854585`.
 
 ---
 
@@ -41,17 +51,17 @@ $249/mo → ↓
 
 **Where:** About → Contact and basic info → Edit.
 
-**Phone number:** `+1 760-334-8731` (Facebook prefers no parens here).
+**Phone number:** `+1 760-334-8731` (voice line; Facebook prefers no parens here).
 **Type:** Mobile.
 **Visibility:** Public.
 
 **About → Short description:**
 
 ```
-AI-native fractional CMO for $1M–$20M US + LATAM SMBs. Strategy, software, execution in one retainer from $249/mo. Bilingual EN/ES. WhatsApp + voice: +1 (760) 334-8731.
+AI-native fractional CMO for $1M–$20M US + LATAM SMBs. Strategy, software, execution in one retainer from $249/mo. Bilingual EN/ES. Voice +1 (760) 334-8731 · WhatsApp +1 (442) 385-4585.
 ```
 
-**Page CTA button:** set to "Send WhatsApp Message" → `https://wa.me/17603348731`.
+**Page CTA button:** set to "Send WhatsApp Message" → `https://wa.me/14423854585`.
 
 ---
 
@@ -62,14 +72,14 @@ AI-native fractional CMO for $1M–$20M US + LATAM SMBs. Strategy, software, exe
 **Append to channel description:**
 
 ```
-📞 Direct line: +1 (760) 334-8731 (voice + WhatsApp click-to-chat)
+📞 Voice: +1 (760) 334-8731 · WhatsApp: +1 (442) 385-4585
 ✉️ hello@netwebmedia.com
 🌐 netwebmedia.com
 ```
 
 **Where:** Customization → Basic info → Links → Add link.
 - Title: `WhatsApp`
-- URL: `https://wa.me/17603348731`
+- URL: `https://wa.me/14423854585`
 
 ---
 
@@ -81,7 +91,7 @@ AI-native fractional CMO for $1M–$20M US + LATAM SMBs. Strategy, software, exe
 
 ```
 AI fractional CMO · $249/mo
-WhatsApp +1 760-334-8731
+WhatsApp +1 442-385-4585
 netwebmedia.com
 ```
 
@@ -89,7 +99,7 @@ netwebmedia.com
 
 ```
 Get cited by ChatGPT.
-WA +1 760-334-8731 · netwebmedia.com
+WA +1 442-385-4585 · netwebmedia.com
 ```
 
 **Email field:** hello@netwebmedia.com.
@@ -122,14 +132,14 @@ Hi 👋 thanks for reaching NetWebMedia. Carlos reads every inbound personally �
 
 ## Google Business Profile (if created)
 
-**Phone:** `+1 760-334-8731`
+**Phone:** `+1 760-334-8731` (voice)
 **Primary phone:** yes.
-**Additional phone:** WhatsApp same number — note in description.
+**Additional phone:** WhatsApp +1 (442) 385-4585 — note in description.
 **Short name:** netwebmedia
 
 ---
 
-## What was NOT updated automatically (paste-required)
+## What was NOT updated automatically (paste-required — WhatsApp number changed, re-do these)
 
 - [ ] Instagram bio + action button
 - [ ] Facebook About + CTA button
@@ -139,21 +149,22 @@ Hi 👋 thanks for reaching NetWebMedia. Carlos reads every inbound personally �
 - [ ] Google Business Profile (if active)
 - [ ] Email signature in Carlos's personal Gmail (hello@netwebmedia.com)
 
-## What WAS updated automatically (already shipped)
+## What WAS updated automatically (shipped 2026-05-25)
 
-- ✅ `whatsapp.html` — active wa.me + tel CTA replacing the "pending Meta" banner
-- ✅ `contact.html` — phone row in contact column + Organization schema telephone
-- ✅ `index.html` — Organization schema telephone for AEO/Google
-- ✅ `BRAND.md` — phone added to governance and localization checklist
-- ✅ `email-templates/_base.html` — phone + WhatsApp in every email footer
-- ✅ `crm-vanilla/api/data/kb.json` — chatbot answers with phone in EN/ES
-- ✅ `api-php/lib/knowledge-base.php` — public chatbot stops saying "no phone"
-- ✅ `llms.txt` — AEO crawlers see the phone in the company facts block
+- ✅ `whatsapp.html` — wa.me + heading now point to +1 (442) 385-4585; "Call" button stays on the 760 voice line
+- ✅ `contact.html` — phone row split into voice (760) + WhatsApp (619); Organization schema telephone stays 760
+- ✅ `index.html` — Organization schema telephone stays 760 (voice; unchanged)
+- ✅ `BRAND.md` — governance + localization checklist split into voice/WhatsApp
+- ✅ `email-templates/_base.html` — footer WhatsApp link → 619, voice tel → 760
+- ✅ `crm-vanilla/api/data/kb.json` — chatbot answers split the two numbers (EN/ES)
+- ✅ `api-php/lib/knowledge-base.php` — public chatbot splits voice (760) + WhatsApp (619)
+- ✅ `llms.txt` — AEO crawlers see voice + WhatsApp as separate numbers
+- ✅ `CLAUDE.md` — phone section rewritten for the split
 
 ---
 
 ## Notes
 
-- **WABA outbound broadcasts** (the `wa_flush.php` send pipeline that needs `WA_PHONE_ID`) still depend on Meta business verification — target June 2026. The number above works for inbound click-to-chat *today* via wa.me. Once Meta verification clears, this same number gets the WABA `phone_number_id` and outbound broadcasts switch on without a number change.
-- **`tel:` links** open the system dialer on mobile and FaceTime/Skype/Teams on desktop. Voice routing for the line is configured separately (whoever hosts the number — Twilio, OpenPhone, Google Voice, etc.).
-- **Routing to `/whatsapp.html`** stays the canonical CTA pattern in CTAs across the site. Direct `wa.me/17603348731` links live on `whatsapp.html` and `contact.html` only — that's per the CLAUDE.md rule and stays intact.
+- **WhatsApp is now on the Business App (+1 442-385-4585), not Cloud API.** Inbound click-to-chat via `wa.me/14423854585` works today. **Outbound broadcasts (`wa_flush.php` → Meta Cloud API, `WA_PHONE_ID`) are NOT available on this number** — the WhatsApp Business App cannot use Cloud API, and the number is locked to the App. If outbound broadcasting becomes a priority, that needs a Cloud API number + Meta business verification (a separate decision).
+- **Voice line** stays on the Sonetel number +1 (760) 334-8731. `tel:` links open the system dialer on mobile and FaceTime/Skype/Teams on desktop.
+- **Routing to `/whatsapp.html`** stays the canonical CTA pattern across the site. Direct `wa.me/14423854585` links live on `whatsapp.html` and `contact.html` only — that's per the CLAUDE.md rule and stays intact.

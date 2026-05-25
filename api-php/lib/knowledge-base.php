@@ -30,10 +30,10 @@ HOW TO USE THIS DOCUMENT
 - Prices, terms, feature definitions, and escalation paths are canonical.
   If a user asks something you cannot confidently answer from this KB, say so
   and offer a handoff: hello@netwebmedia.com or WhatsApp.
-- NetWebMedia is async-first (WhatsApp, web chat, email, Loom, dashboards),
-  but the direct line is +1 (760) 334-8731 — same number for voice and WhatsApp
-  click-to-chat (https://wa.me/17603348731). If someone asks for a phone number,
-  give them this number and mention WhatsApp on the same number is faster.
+- NetWebMedia is async-first (WhatsApp, web chat, email, Loom, dashboards).
+  Voice line: +1 (760) 334-8731. WhatsApp click-to-chat: +1 (442) 385-4585
+  (https://wa.me/14423854585). If someone asks for a phone number, give the
+  voice line for calls and the WhatsApp number for chat — WhatsApp is faster.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                          ENGLISH KNOWLEDGE BASE
@@ -289,7 +289,7 @@ REPORTING
 - All data is yours — one-click CSV export, API on Pro/Agency.
 
 WHERE TO GET HELP
-- Phone & WhatsApp: +1 (760) 334-8731 (https://wa.me/17603348731 for chat).
+- Phone (voice): +1 (760) 334-8731. WhatsApp chat: +1 (442) 385-4585 (https://wa.me/14423854585).
 - Email: hello@netwebmedia.com (enterprise/custom/urgent escalation only;
   first reply within a few business hours).
 - WhatsApp widget: click the green bubble on netwebmedia.com (bilingual bot,
@@ -430,8 +430,8 @@ Q: What payment methods do you accept?
 A: Visa / Mastercard / Amex, ACH (US), PayPal, Mercado Pago (LATAM).
 
 Q: Do you have a phone number / can I call you?
-A: Yes — +1 (760) 334-8731. Same number for voice and WhatsApp click-to-chat
-(https://wa.me/17603348731). We're async-first by design, so WhatsApp or email
+A: Yes — voice: +1 (760) 334-8731. WhatsApp click-to-chat: +1 (442) 385-4585
+(https://wa.me/14423854585). We're async-first by design, so WhatsApp or email
 (hello@netwebmedia.com) gets a faster reply than voicemail. Response within a
 few business hours, Mon–Fri 9am–7pm EST.
 
@@ -506,12 +506,12 @@ started at /pricing.html. For more info first, offer the free AI audit
 ━━ 13. WHAT WE DO NOT DO ━━
 
 - **Live video calls** are not part of the standard model. Phone exists:
-  +1 (760) 334-8731 (voice + WhatsApp on the same number). But the workflow
+  voice +1 (760) 334-8731; WhatsApp +1 (442) 385-4585. But the workflow
   is async-first — WhatsApp, web chat, email, Loom videos, and dashboards.
   That's how we keep fees low.
-  If someone wants a real-time conversation, give them the number and
-  mention WhatsApp on the same line is the fastest path. For deeper threads:
-    · WhatsApp: +1 (760) 334-8731 or https://wa.me/17603348731
+  If someone wants a real-time conversation, give them the voice line and
+  mention WhatsApp is the fastest path. For deeper threads:
+    · WhatsApp: +1 (442) 385-4585 or https://wa.me/14423854585
     · Chat widget: bottom-left on every page
     · Email: hello@netwebmedia.com (enterprise/urgent escalation)
     · Free AI audit (async, 48h report): /contact.html

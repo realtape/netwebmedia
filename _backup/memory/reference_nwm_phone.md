@@ -1,30 +1,35 @@
 ---
-name: NetWebMedia phone number
-description: Canonical NWM phone number — same line for voice + WhatsApp click-to-chat. Activated 2026-05-13. Hosted at Sonetel; renews annually around May 18.
+name: NetWebMedia phone numbers
+description: Voice and WhatsApp are SEPARATE numbers as of 2026-05-25. Voice +1 (760) 334-8731 (Sonetel). WhatsApp +1 (442) 385-4585 (WhatsApp Business App).
 type: reference
 originSessionId: 37d1e772-d881-4a33-bcac-43099a28e2d6
 ---
-NetWebMedia's direct line, activated 2026-05-13: **+1 (760) 334-8731**.
+**Split happened 2026-05-25:** voice and WhatsApp are now two different numbers. Do NOT collapse them back to "same number for both" — that was the pre-2026-05-25 setup.
 
-**Provider / management.** Sonetel VoIP US DID (Encinitas, CA — area code 760), managed at `app.sonetel.com/account-settings/phone-numbers` from "Carlos's workspace" (Regular plan). Inbound calls forward to Carlos Martinez. Expiration on file: **May 18, 2026** (annual renewal — check this before May 18 each year). Workspace balance shown 2026-05-13: 995 credits + $0.50 USD — keep topped up for outbound voice and to avoid auto-suspension at renewal.
-
-**Why this matters for the codebase.** Because the number is Sonetel-hosted, two things follow:
-1. If Sonetel renewal lapses, the number releases to the pool — at which point every reference in `whatsapp.html`, `contact.html`, `index.html` Org schema, `BRAND.md`, `email-templates/_base.html`, `kb.json`, `knowledge-base.php`, `llms.txt`, and `CLAUDE.md` becomes a dead pointer. Treat the Sonetel renewal as a hard infra dependency.
-2. Sonetel numbers can register with WhatsApp (SMS + voice OTP both work) but it must be done explicitly via WhatsApp Business or Meta Cloud API — it isn't automatic from Sonetel. If `wa.me/17603348731` errors with "this number is not on WhatsApp," that's the cause. Re-verify via WhatsApp Business app.
+## Voice line — +1 (760) 334-8731 (Sonetel)
+Activated 2026-05-13. Sonetel VoIP US DID (Encinitas, CA — area code 760), managed at `app.sonetel.com/account-settings/phone-numbers` from "Carlos's workspace" (Regular plan). Inbound forwards to Carlos. Expiration on file: **May 18, 2026** (annual renewal — check before May 18 each year; if it lapses the number releases to the pool). This is the `tel:`/voice/schema.org number only — NOT the WhatsApp number anymore.
 
 | Use | Value |
 |---|---|
 | Display (US) | `+1 (760) 334-8731` |
-| International display | `+1 760-334-8731` |
 | `tel:` link | `tel:+17603348731` |
-| WhatsApp click-to-chat | `https://wa.me/17603348731` |
 | Schema.org telephone | `+1-760-334-8731` |
-| E.164 (Meta/Twilio config) | `+17603348731` |
+| E.164 | `+17603348731` |
 
-Same number serves voice and WhatsApp click-to-chat. Outbound WhatsApp broadcasts via Meta Cloud API (`wa_flush.php`, `WA_PHONE_ID`) still pending Meta business verification — target June 2026. When verification completes, this same number gets a Meta `phone_number_id` and broadcasts switch on without changing the public number.
+## WhatsApp line — +1 (442) 385-4585 (WhatsApp Business App)
+Carlos's directive 2026-05-25: move WhatsApp off the Sonetel 760 number onto +1 (442) 385-4585 (442 = CA overlay; provider not confirmed). Registered on the **WhatsApp Business App**, NOT Cloud API — so **outbound broadcasts via `wa_flush.php` / Meta Cloud API are NOT available on this number** (the App can't do Cloud API, and the number is locked to the App). The old Sonetel/Meta WABA verification is now decoupled from the public WhatsApp number.
 
-CLAUDE.md routing rule still applies: direct `wa.me/17603348731` links live on `whatsapp.html` and `contact.html` only. Other public CTAs continue to point at `/whatsapp.html` (the canonical funnel surface).
+| Use | Value |
+|---|---|
+| Display (US) | `+1 (442) 385-4585` |
+| WhatsApp click-to-chat | `https://wa.me/14423854585` |
+| E.164 | `+14423854585` |
 
-Before 2026-05-13, NetWebMedia had no public phone number and the public chatbot KB explicitly told users "we don't offer phone support." That positioning has been updated to "async-first, but voice + WhatsApp on the same number when real-time is the right fit." Don't restore the old "no phone" claim.
+⚠️ **Registration NOT independently verified.** Carlos confirmed he was "logged in" and directed shipping it after an earlier number (+1 619 738-6150, a Zadarma VoIP) failed registration ("not on WhatsApp"). I could not verify 442 is actually claimed on WhatsApp — Zadarma's panel wouldn't load for browser tools and WhatsApp Desktop is capture-protected (renders blank to screenshots). **If `wa.me/14423854585` errors with "not on WhatsApp," registration didn't take** — Carlos must claim it in the WhatsApp Business app (voice-OTP "Call me" route is the reliable path for VoIP numbers; SMS OTP usually fails on VoIP).
 
-Where it lives in the codebase: `whatsapp.html` (live CTA), `contact.html` (visible row + schema), `index.html` (schema), `BRAND.md` (§17 + §15), `email-templates/_base.html` (footer), `crm-vanilla/api/data/kb.json` (chatbot KB), `api-php/lib/knowledge-base.php` (public chatbot KB), `llms.txt` (AEO crawlers). External profiles (IG/FB/YT/TikTok/WhatsApp Business/GBP) are listed in `_deploy/social-media-phone-rollout.md` as paste-required manual updates.
+## Shipped 2026-05-25 (commit f8cf7c3db, deployed + smoke-tested green)
+Re-pointed WhatsApp → 442 and kept voice → 760 across: `whatsapp.html`, `contact.html`, `email-templates/_base.html`, `api-php/lib/knowledge-base.php`, `crm-vanilla/api/data/kb.json`, `llms.txt`, `BRAND.md`, `CLAUDE.md`, `_deploy/social-media-phone-rollout.md`. `index.html` + `contact.html` schema.org `telephone` stay on 760 (voice). CLAUDE.md routing rule still applies: direct `wa.me/14423854585` links live on `whatsapp.html` and `contact.html` only; other public CTAs route through `/whatsapp.html`.
+
+**Still manual (paste-required, NOT done):** external profiles IG/FB/YT/TikTok/WhatsApp-Business/GBP — updated paste-blocks with the 442 number are in `_deploy/social-media-phone-rollout.md`.
+
+Don't restore the old "we don't offer phone support" chatbot line (removed 2026-05-13).

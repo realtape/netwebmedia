@@ -125,9 +125,16 @@ function route_forms($parts, $method) {
 /* ─────────────────────  ADMIN  ───────────────────── */
 
 function forms_list($user) {
+  // Public website submissions land on the CMS form *resource* that shares this
+  // form's slug (different id space than the `forms` table), so count both or the
+  // CRM shows 0 even when inbound leads are arriving. See public.php form submit.
   $rows = qAll(
     "SELECT f.*,
-            (SELECT COUNT(*) FROM form_submissions s WHERE s.form_id = f.id) AS submission_count
+            (SELECT COUNT(*) FROM form_submissions s
+               WHERE s.form_id = f.id
+                  OR s.form_id IN (SELECT r.id FROM resources r
+                                     WHERE r.type='form' AND r.slug = f.slug)
+            ) AS submission_count
        FROM forms f WHERE f.org_id = ? ORDER BY f.id DESC",
     [(int)($user['org_id'] ?? 1)]
   );
@@ -146,7 +153,13 @@ function forms_get($id, $user) {
   if (!$row) err('Form not found', 404);
   $row['fields']   = json_decode($row['fields'], true);
   $row['settings'] = $row['settings'] ? json_decode($row['settings'], true) : null;
-  $row['submission_count'] = (int)(qOne("SELECT COUNT(*) c FROM form_submissions WHERE form_id = ?", [$id])['c'] ?? 0);
+  // Count legacy (forms-table) + public CMS resource-form submissions sharing this slug.
+  $row['submission_count'] = (int)(qOne(
+    "SELECT COUNT(*) c FROM form_submissions
+       WHERE form_id = ?
+          OR form_id IN (SELECT r.id FROM resources r WHERE r.type='form' AND r.slug = ?)",
+    [$id, $row['slug']]
+  )['c'] ?? 0);
   json_out(['form' => $row]);
 }
 
@@ -213,13 +226,24 @@ function forms_delete($id, $user) {
 }
 
 function forms_submissions($id, $user) {
-  $row = qOne("SELECT id FROM forms WHERE id = ? AND org_id = ?", [$id, (int)($user['org_id'] ?? 1)]);
+  $row = qOne("SELECT id, slug FROM forms WHERE id = ? AND org_id = ?", [$id, (int)($user['org_id'] ?? 1)]);
   if (!$row) err('Form not found', 404);
+  // Public website submissions land on the CMS form *resource* with the same slug
+  // (different id space). Include those so the CRM shows real inbound leads, not 0.
+  $ids = [(int)$id];
+  $resForm = qOne("SELECT id FROM resources WHERE type='form' AND slug = ? LIMIT 1", [$row['slug']]);
+  if ($resForm) $ids[] = (int)$resForm['id'];
+  $place = implode(',', array_fill(0, count($ids), '?'));
   $rows = qAll(
-    "SELECT * FROM form_submissions WHERE form_id = ? ORDER BY id DESC LIMIT 200",
-    [$id]
+    "SELECT * FROM form_submissions WHERE form_id IN ($place) ORDER BY id DESC LIMIT 200",
+    $ids
   );
-  foreach ($rows as &$r) $r['payload'] = json_decode($r['payload'], true);
+  // Legacy forms-table rows store JSON in `payload`; resource-form rows use `data`.
+  foreach ($rows as &$r) {
+    $raw = (isset($r['payload']) && $r['payload'] !== '' && $r['payload'] !== null)
+      ? $r['payload'] : ($r['data'] ?? null);
+    $r['payload'] = $raw ? json_decode($raw, true) : null;
+  }
   json_out(['submissions' => $rows]);
 }
 

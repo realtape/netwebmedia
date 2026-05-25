@@ -357,6 +357,11 @@ function route_public($parts, $method) {
     // its own spam-vector if uncapped.
     rate_limit_check('newsletter_subscribe', 30, 3600);
     $b = required(['email']);
+    // Honeypot: hidden fields only a bot would fill. Respond 200 so the bot
+    // doesn't adapt, but skip all downstream work (DB write, welcome sequence).
+    foreach (['nwm_website', 'hp_website', 'honeypot'] as $hp) {
+      if (!empty($b[$hp])) { json_out(['ok' => true, 'id' => 0]); }
+    }
     $email = trim(strtolower($b['email']));
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) err('Invalid email');
     $orgId = 1;

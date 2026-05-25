@@ -1,4 +1,5 @@
 - [main history rewrite 2026-05-19](project_main_history_rewrite_2026_05_19.md) — origin/main force-pushed clean + daemon redesigned (never touches main); Computer 2 retired so no re-clone needed
+- [Fractional CMO page retirement](reference_fractional_cmo_retirement.md) — root /fractional-cmo.html RETIRED (301→pricing.html, don't restore); /tutorials/fractional-cmo.html is a LIVE tutorial — never let an .htaccess FilesMatch deny catch it by filename
 - [User role — Carlos Martinez](user_role.md) — CEO/founder of NetWebMedia; prefers executive framing and vanilla tech
 - [CMS admin (cms/)](reference_cms_admin.md) — live HTTP-Basic-gated admin at netwebmedia.com/cms/ (undocumented in CLAUDE.md); module-table.js CRUD over /api/resources types page/blog_post/etc.
 - [Respond in English by default](feedback_respond_in_english.md) — Reply to Carlos in English even when he writes in Spanish; site EN/ES work unaffected

@@ -1431,6 +1431,8 @@
         <form id="footer-newsletter" style="display:flex;gap:8px;flex-wrap:wrap;">
           <input type="email" name="email" required placeholder="your@email.com"
                  style="flex:1;min-width:180px;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:inherit;" />
+          <input type="text" name="nwm_website" tabindex="-1" autocomplete="off" aria-hidden="true"
+                 style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" />
           <button type="submit" class="btn-primary" style="padding:10px 16px;">Subscribe</button>
           <div class="nl-msg" style="font-size:12px;flex:1 1 100%;color:#9bb;"></div>
         </form>
@@ -1462,10 +1464,11 @@
       e.preventDefault();
       var email = f.querySelector('input[name="email"]').value.trim();
       if (!email) return;
+      var hp = (f.querySelector('input[name="nwm_website"]') || {}).value || '';
       msg.textContent = 'Subscribing…';
       fetch('/api/public/newsletter/subscribe', {
         method: 'POST', headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ email: email, source: 'footer-homepage' })
+        body: JSON.stringify({ email: email, source: 'footer-homepage', nwm_website: hp })
       }).then(function(r){ return r.json(); }).then(function(j){
         if (j.ok) { msg.textContent = j.already ? 'You\'re already subscribed — thanks!' : 'Subscribed! Check your inbox.'; msg.style.color='#7fe3a3'; f.reset(); }
         else { msg.textContent = 'Error: ' + (j.error || 'try again'); msg.style.color='#f88'; }

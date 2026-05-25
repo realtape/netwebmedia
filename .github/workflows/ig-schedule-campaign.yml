@@ -1,0 +1,95 @@
+name: Publish IG campaign posts
+
+# Hands-off Instagram publishing for @netwebmedia via the live ig_publish handler.
+# Mirrors fb-schedule-campaign.yml. No new credentials needed if @netwebmedia is linked
+# to the NetWebMedia FB Page: ig_publish reuses FB_PAGE_TOKEN and auto-discovers the IG
+# account from FB_PAGE_ID. Run `mode=discover` first to confirm READY/PARTIAL/NOT-LINKED.
+#
+# Run via:
+#   gh workflow run ig-schedule-campaign.yml -f mode=discover                      # zero-cred readiness verdict
+#   gh workflow run ig-schedule-campaign.yml -f mode=status                        # config probe
+#   gh workflow run ig-schedule-campaign.yml -f mode=list                          # ig_publish_log audit
+#   gh workflow run ig-schedule-campaign.yml -f mode=reel_list                     # reel catalog + per-reel status
+#   gh workflow run ig-schedule-campaign.yml -f mode=dry-run -f item=carousel:a    # validate payload, no Meta write
+#   gh workflow run ig-schedule-campaign.yml -f mode=live    -f item=carousel:a    # PUBLISH carousel a
+#   gh workflow run ig-schedule-campaign.yml -f mode=live    -f item=reel:1_AEO_EN # PUBLISH one reel
+#   gh workflow run ig-schedule-campaign.yml -f mode=live    -f item=reels:all     # PUBLISH every reel (sequential)
+#
+# `item` grammar:  carousel:<a|b|c|d>  |  reel:<KEY>  |  reels:all  (KEYs from mode=reel_list)
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'discover | status | list | reel_list | dry-run | live'
+        required: true
+        default: 'discover'
+        type: choice
+        options:
+          - discover
+          - status
+          - list
+          - reel_list
+          - dry-run
+          - live
+      item:
+        description: 'What to publish (dry-run/live only): carousel:a | reel:1_AEO_EN | reels:all'
+        required: false
+        default: 'carousel:a'
+        type: string
+
+jobs:
+  ig-publish:
+    runs-on: ubuntu-latest
+    env:
+      MIGRATE_TOKEN: ${{ secrets.MIGRATE_TOKEN }}
+      BASE: https://netwebmedia.com/crm-vanilla/api/
+      UA: "Mozilla/5.0 (compatible; NWM-IGSchedule/1.0)"
+    steps:
+      - name: GET probe (discover | status | list | reel_list)
+        if: contains(fromJSON('["discover","status","list","reel_list"]'), inputs.mode)
+        run: |
+          curl -sS -A "$UA" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "${BASE}?r=ig_publish&action=${{ inputs.mode }}&token=${MIGRATE_TOKEN}" \
+            | python3 -m json.tool
+
+      - name: POST publish (dry-run | live)
+        if: contains(fromJSON('["dry-run","live"]'), inputs.mode)
+        env:
+          MODE: ${{ inputs.mode }}
+          ITEM: ${{ inputs.item }}
+        run: |
+          set -euo pipefail
+          DRY=false; [ "$MODE" = "dry-run" ] && DRY=true
+
+          KIND="${ITEM%%:*}"     # carousel | reel | reels
+          VAL="${ITEM#*:}"       # a | 1_AEO_EN | all
+
+          case "$KIND" in
+            carousel)
+              ACTION="publish"
+              BODY="$(printf '{"carousel":"%s","dry_run":%s}' "$VAL" "$DRY")"
+              ;;
+            reel)
+              ACTION="publish_reel"
+              BODY="$(printf '{"reel":"%s","dry_run":%s}' "$VAL" "$DRY")"
+              ;;
+            reels)
+              ACTION="publish_all_reels"
+              BODY="$(printf '{"dry_run":%s}' "$DRY")"
+              ;;
+            *)
+              echo "::error::Bad item '$ITEM'. Use carousel:<id> | reel:<KEY> | reels:all"; exit 1
+              ;;
+          esac
+
+          echo "→ action=$ACTION  dry_run=$DRY  body=$BODY"
+          curl -sS -X POST -A "$UA" \
+            -H "Content-Type: application/json" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "${BASE}?r=ig_publish&action=${ACTION}&token=${MIGRATE_TOKEN}" \
+            -d "$BODY" \
+            | python3 -m json.tool

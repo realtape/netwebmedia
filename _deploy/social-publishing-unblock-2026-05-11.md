@@ -9,7 +9,7 @@
 ## What's already done (no action needed)
 
 - ✅ Facebook handler [`fb_publish.php`](../crm-vanilla/api/handlers/fb_publish.php) — live in production. Secrets `FB_PAGE_ID` + `FB_PAGE_TOKEN` set. **Posting works right now.**
-- ✅ Instagram handler [`ig_publish.php`](../crm-vanilla/api/handlers/ig_publish.php) — code complete. 15 carousel PNGs verified 200-reachable. Blocked only on `IG_BUSINESS_ACCOUNT_ID` + `IG_GRAPH_TOKEN` secrets.
+- ✅ Instagram handler [`ig_publish.php`](../crm-vanilla/api/handlers/ig_publish.php) — code complete. 15 carousel PNGs verified 200-reachable. **As of 2026-05-25 it no longer requires dedicated IG secrets** — it reuses the production `FB_PAGE_TOKEN` and auto-discovers the IG account from `FB_PAGE_ID`. See §1.0 below; run `action=discover` to confirm.
 - ✅ TikTok handler [`tt_publish.php`](../crm-vanilla/api/handlers/tt_publish.php) — code complete. 6 reels (AEO/Growth/Scale × EN/ES) catalogued with captions. Blocked only on `TT_ACCESS_TOKEN` secret + domain verification.
 - ✅ `deploy-site-root.yml` plumbs all 8 new secrets into `crm-vanilla/api/config.local.php` on every deploy.
 - ✅ `/social/` hub badge for TikTok flipped from "Q3 2026" → "Activating".
@@ -17,7 +17,44 @@
 
 ---
 
-## §1 — Instagram **fast path** (Development Mode, ~90 minutes, NO App Review)
+## §1.0 — Instagram **zero-credential path** (2026-05-25, try this FIRST, ~2 minutes)
+
+> **Why this works:** the @netwebmedia IG Business account is linked to the NetWebMedia FB Page, and the FB Page token already in production (`FB_PAGE_TOKEN`, powering `fb_publish`) can publish to that linked IG account *if* it carries `instagram_basic` + `instagram_content_publish`. `ig_publish.php` now reuses that token and auto-discovers the IG account id — so in the common case there is **nothing new to provision**.
+
+### Step 1 — Run the diagnostic (read-only, no posting)
+
+```bash
+gh workflow run ig-schedule-campaign.yml -f mode=discover
+# …then watch the run, or:
+curl -sS "https://netwebmedia.com/crm-vanilla/api/?r=ig_publish&action=discover&token=<MIGRATE_TOKEN>" \
+  -H "Origin: https://netwebmedia.com" -H "Referer: https://netwebmedia.com/crm-vanilla/" | python3 -m json.tool
+```
+
+### Step 2 — Read the verdict and act
+
+| `verdict` | Meaning | What to do |
+|---|---|---|
+| **READY** | IG account found + FB Page token can read it | Nothing to provision. Go straight to dry-run → live (Step 3). Optionally pin the id: `gh secret set IG_BUSINESS_ACCOUNT_ID --body <id-from-response>`. |
+| **NOT LINKED** | FB Page reachable but no linked IG account | Do **§1 Steps 1–2** below (switch @netwebmedia to Business + link to the FB Page), then re-run discover. No token work needed. |
+| **PARTIAL** | IG linked but token can't read it | Token is missing IG scopes. Do **§1 Step 4** below (regenerate the Page token WITH `instagram_basic` + `instagram_content_publish`), `gh secret set IG_GRAPH_TOKEN`, redeploy, re-run discover. |
+| **BLOCKED** | `FB_PAGE_TOKEN`/`FB_PAGE_ID` unset | Shouldn't happen — they power `fb_publish` in prod. Fall back to full §1. |
+
+### Step 3 — Publish (when verdict is READY)
+
+```bash
+gh workflow run ig-schedule-campaign.yml -f mode=dry-run -f item=carousel:a   # validate, no post
+gh workflow run ig-schedule-campaign.yml -f mode=live    -f item=carousel:a   # PUBLISH carousel "Who we are"
+gh workflow run ig-schedule-campaign.yml -f mode=live    -f item=reel:1_AEO_EN # PUBLISH one reel
+gh workflow run ig-schedule-campaign.yml -f mode=live    -f item=reels:all     # PUBLISH every reel
+```
+
+Idempotent on `carousel`/`reel_key` — re-running skips already-published items. This is the hands-off path for future weeks: schedule the `live` runs (or wire the workflow to a `schedule:` cron).
+
+---
+
+## §1 — Instagram **manual fast path** (Development Mode, ~90 minutes, NO App Review)
+
+> Use this only if §1.0 returns **NOT LINKED** or **PARTIAL**. Steps 1–2 fix NOT-LINKED; Step 4 fixes PARTIAL.
 
 > **Why this works:** Meta's App Review requirement applies to apps that publish to *other people's* Instagram accounts. We only publish to **our own** @netwebmedia. In Development Mode, a Meta App can post to any IG Business account where the app's owner has admin role — instantly, no review.
 
@@ -220,7 +257,7 @@ Calls fb_publish, ig_publish, tt_publish sequentially with content adapted per c
 | Channel | Hours today | Calendar wait |
 |---|---|---|
 | **Facebook** | 0 (just pick content option A/B/C) | 0 — live now |
-| **Instagram** | ~1.5 (steps 1–7 above) | 0 — live today |
+| **Instagram** | ~0 if §1.0 discover = READY; ~1.5 only if NOT-LINKED/PARTIAL (§1) | 0 — live today |
 | **TikTok** | ~0.5 (submit app + DNS verify) | 14–28 days TikTok review |
 
 After today: cross-posting orchestrator + WhatsApp re-entry (after WABA verification, target June 2026).

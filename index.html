@@ -310,6 +310,41 @@
     .hero-clean .src-gemini { color: #4f8bff; border-color: rgba(79,139,255,0.4); background: rgba(79,139,255,0.08); }
     .hero-clean .feed-msg { color: var(--ink-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     @keyframes hcFeedIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* === Hero mobile tuning (≤640px) — the ported design only had a 1024px breakpoint === */
+    @media (max-width: 640px) {
+      /* Don't force a full-viewport hero: centered content otherwise floats the CTA
+         under the fixed chat/WhatsApp widgets. Let content define the height. */
+      .hero-clean { min-height: auto; }
+      .hero-clean .hero-left {
+        padding: 104px 20px 48px;
+        justify-content: flex-start;
+      }
+      .hero-clean h1.headline {
+        /* !important to beat the global `h1 { font-size: …!important }` safety rule */
+        font-size: clamp(27px, 7vw, 33px) !important;
+        line-height: 1.14;
+        letter-spacing: -0.02em;
+        margin-bottom: 18px;
+      }
+      .hero-clean .sub {
+        font-size: 15.5px; line-height: 1.5;
+        max-width: 100%; margin-bottom: 24px;
+      }
+      .hero-clean .trust { margin-bottom: 26px; gap: 12px; }
+      .hero-clean .trust-row { font-size: 12.5px; align-items: flex-start; }
+      .hero-clean .cta-row { flex-direction: column; align-items: stretch; gap: 10px; }
+      .hero-clean .cta, .hero-clean .cta-ghost {
+        width: 100%; justify-content: center; text-align: center;
+      }
+      .hero-clean .cta { padding: 16px 22px; font-size: 15.5px; }
+      .hero-clean .cta .cta-sub { font-size: 12px; }
+      .hero-clean .cta-ghost { padding: 14px 20px; }
+    }
+    @media (max-width: 360px) {
+      .hero-clean .hero-left { padding-left: 16px; padding-right: 16px; }
+      .hero-clean h1.headline { font-size: 24px !important; }
+    }
   </style>
 
   <link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg?v=2" />

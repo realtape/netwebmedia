@@ -181,7 +181,9 @@
       "Bash(nslookup -type=A api.github.com)",
       "Bash(nslookup -type=AAAA api.github.com)",
       "Bash(reg query *)",
-      "Bash(powershell -NoProfile -Command '$p='\\\\''HKLM:\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\Tcpip6\\\\Parameters'\\\\''; $cur=\\(Get-ItemProperty -Path $p -Name DisabledComponents -ErrorAction SilentlyContinue\\).DisabledComponents; if \\($null -eq $cur\\) { Write-Output '\\\\''BACKUP: DisabledComponents not set \\(default 0 = IPv6 fully enabled\\)'\\\\'' } else { Write-Output \\('\\\\''BACKUP: DisabledComponents currently = 0x{0:X}'\\\\'' -f $cur\\) }; New-ItemProperty -Path $p -Name DisabledComponents -PropertyType DWord -Value 0x20 -Force | Out-Null; $new=\\(Get-ItemProperty -Path $p -Name DisabledComponents\\).DisabledComponents; Write-Output \\('\\\\''SET + VERIFIED: DisabledComponents = 0x{0:X} \\({0}\\)'\\\\'' -f $new\\)')"
+      "Bash(powershell -NoProfile -Command '$p='\\\\''HKLM:\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\Tcpip6\\\\Parameters'\\\\''; $cur=\\(Get-ItemProperty -Path $p -Name DisabledComponents -ErrorAction SilentlyContinue\\).DisabledComponents; if \\($null -eq $cur\\) { Write-Output '\\\\''BACKUP: DisabledComponents not set \\(default 0 = IPv6 fully enabled\\)'\\\\'' } else { Write-Output \\('\\\\''BACKUP: DisabledComponents currently = 0x{0:X}'\\\\'' -f $cur\\) }; New-ItemProperty -Path $p -Name DisabledComponents -PropertyType DWord -Value 0x20 -Force | Out-Null; $new=\\(Get-ItemProperty -Path $p -Name DisabledComponents\\).DisabledComponents; Write-Output \\('\\\\''SET + VERIFIED: DisabledComponents = 0x{0:X} \\({0}\\)'\\\\'' -f $new\\)')",
+      "Bash(powershell -NoProfile -Command \"Get-ItemProperty -Path 'HKLM:\\\\SYSTEM\\\\CurrentControlSet\\\\Services\\\\Tcpip6\\\\Parameters' -Name DisabledComponents -ErrorAction SilentlyContinue | Select-Object -ExpandProperty DisabledComponents; if\\(-not $?\\){ 'NOT SET' }\")",
+      "Bash(git rev-list *)"
     ],
     "deny": [
       "Bash(git push --force)",

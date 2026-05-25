@@ -35,8 +35,9 @@ curl -sS "https://netwebmedia.com/crm-vanilla/api/?r=ig_publish&action=discover&
 | `verdict` | Meaning | What to do |
 |---|---|---|
 | **READY** | IG account found + FB Page token can read it | Nothing to provision. Go straight to dry-run → live (Step 3). Optionally pin the id: `gh secret set IG_BUSINESS_ACCOUNT_ID --body <id-from-response>`. |
-| **NOT LINKED** | FB Page reachable but no linked IG account | Do **§1 Steps 1–2** below (switch @netwebmedia to Business + link to the FB Page), then re-run discover. No token work needed. |
-| **PARTIAL** | IG linked but token can't read it | Token is missing IG scopes. Do **§1 Step 4** below (regenerate the Page token WITH `instagram_basic` + `instagram_content_publish`), `gh secret set IG_GRAPH_TOKEN`, redeploy, re-run discover. |
+| **TOKEN EXPIRED/INVALID** | `FB_PAGE_TOKEN` is dead (Graph code 190) | **This also breaks `fb_publish`.** Regenerate a fresh long-lived FB Page token in Graph API Explorer WITH `pages_manage_posts`, `pages_read_engagement`, `instagram_basic`, `instagram_content_publish`; `gh secret set FB_PAGE_TOKEN --body <token>`; redeploy; re-run discover. The same token then auto-serves IG. |
+| **NOT LINKED** | Token valid but no linked IG account | Do **§1 Steps 1–2** below (switch @netwebmedia to Business + link to the FB Page), then re-run discover. No token work needed. |
+| **PARTIAL** | IG linked but token can't read it | Token is missing IG scopes. Do **§1 Step 4** below (regenerate the Page token WITH `instagram_basic` + `instagram_content_publish`), `gh secret set IG_GRAPH_TOKEN` (or just refresh `FB_PAGE_TOKEN` with those scopes), redeploy, re-run discover. |
 | **BLOCKED** | `FB_PAGE_TOKEN`/`FB_PAGE_ID` unset | Shouldn't happen — they power `fb_publish` in prod. Fall back to full §1. |
 
 ### Step 3 — Publish (when verdict is READY)

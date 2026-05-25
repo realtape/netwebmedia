@@ -59,8 +59,11 @@ ErrorDocument 404 /404.html
 #   desktop-login.html, nwmai.html, audit-report.html,
 #   *-prospects-report.html, *-digital-gaps.html,
 #   NetWebMedia_Business_Marketing_Plan_2026.html
-#   fractional-cmo.html (retired 2026-05-19 — pricing.html is the sole Premium surface)
-<FilesMatch "^(diagnostic|flowchart|processes-flowchart|orgchart|dashboard|desktop-login|nwmai|audit-report|fractional-cmo|NetWebMedia_Business_Marketing_Plan_2026)\.html$">
+#   (root fractional-cmo.html retired 2026-05-19 → 301'd to pricing.html in the
+#    rewrite block below; intentionally NOT denied here, because <FilesMatch>
+#    matches by filename at ANY path and would also 403 the live, linked
+#    /tutorials/fractional-cmo.html tutorial.)
+<FilesMatch "^(diagnostic|flowchart|processes-flowchart|orgchart|dashboard|desktop-login|nwmai|audit-report|NetWebMedia_Business_Marketing_Plan_2026)\.html$">
   Order allow,deny
   Deny from all
 </FilesMatch>
@@ -95,6 +98,9 @@ Options -Indexes
   # /api-php/ is the on-disk source folder; /api/ is the canonical public path.
   # 301 to /api/ instead of 403, per CLAUDE.md invariant — old clients still resolve.
   RewriteRule ^api-php(/.*)?$           /api$1 [R=301,L]
+  # Retired Premium services page → pricing.html (sole Premium surface, 2026-05-19).
+  # Root-anchored so the live /tutorials/fractional-cmo.html tutorial is unaffected.
+  RewriteRule ^fractional-cmo(\.html)?$ /pricing.html [R=301,L]
   # ── 14-niche taxonomy enforcement (2026-05-05) ─────────────────────────
   # Off-taxonomy hubs migrated into canonical 14 niches per CLAUDE.md hard
   # constraint #1. Wildcard 301s preserve hub-level link equity; subpage

@@ -172,7 +172,8 @@
       "WebFetch(domain:secure.inmotionhosting.com)",
       "Bash(rm -f \"assets/guides/zero-click-search-strategy-2026.pdf\")",
       "Bash(git update-index *)",
-      "Bash(git cherry-pick *)"
+      "Bash(git cherry-pick *)",
+      "Bash(powershell -NoProfile -Command 'Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{N='\\\\''UsedGB'\\\\'';E={[math]::Round\\($_.Used/1GB,1\\)}}, @{N='\\\\''FreeGB'\\\\'';E={[math]::Round\\($_.Free/1GB,1\\)}}, Root | Format-Table -AutoSize')"
     ],
     "deny": [
       "Bash(git push --force)",

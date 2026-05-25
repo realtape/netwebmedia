@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/app.css?v=11">
+  <link rel="stylesheet" href="css/app.css?v=12">
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
   <script>
@@ -62,6 +62,12 @@
         <label class="login-label" for="signinPassword" data-i18n="modules.login.password">Password</label>
         <input type="password" id="signinPassword" class="login-input" data-i18n-placeholder="modules.login.pwPlaceholder" placeholder="Enter your password" required autocomplete="current-password">
       </div>
+      <div class="login-remember">
+        <label class="login-remember-label">
+          <input type="checkbox" id="rememberMe" class="login-remember-check">
+          <span data-i18n="modules.login.rememberMe">Remember me</span>
+        </label>
+      </div>
       <button type="submit" id="signinBtn" class="login-btn" data-i18n="modules.login.signIn">Sign In</button>
       <p class="login-forgot"><a href="#" data-i18n="modules.login.forgot">Forgot password?</a></p>
     </form>
@@ -70,7 +76,7 @@
     </div>
   </div>
   <script src="js/app.js?v=11"></script>
-  <script src="js/login.js?v=2"></script>
+  <script src="js/login.js?v=3"></script>
 <script src="assets/nwm-i18n.js" defer></script>
 </body>
 </html>

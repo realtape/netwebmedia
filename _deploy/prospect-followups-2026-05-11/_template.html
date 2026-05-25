@@ -1,0 +1,61 @@
+<!--
+  Email template — base for all 10 prospect follow-ups.
+  Brand: Gulf Oil navy (#010F3B) + orange (#FF671F)
+  Variables: {{SUBJECT}} {{GREETING}} {{INTRO}} {{DIAG_ITEMS}} {{CLOSING}} {{CTA_URL}} {{CTA_TEXT}}
+  All styles inline for email client compatibility.
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{SUBJECT}}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f5f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#222;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#f4f5f7;padding:24px 12px;">
+  <tr>
+    <td align="center">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="max-width:600px;background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+        <!-- header bar -->
+        <tr>
+          <td style="background-color:#010F3B;padding:18px 24px;">
+            <span style="font-family:'Poppins',Helvetica,Arial,sans-serif;font-weight:700;color:#ffffff;font-size:18px;letter-spacing:0.3px;">NetWebMedia</span>
+            <span style="float:right;color:#FF671F;font-size:12px;font-weight:600;letter-spacing:0.5px;">DIAGNÓSTICO TÉCNICO</span>
+          </td>
+        </tr>
+        <!-- body -->
+        <tr>
+          <td style="padding:32px 28px 8px 28px;">
+            <p style="margin:0 0 16px 0;font-size:16px;line-height:1.5;">{{GREETING}}</p>
+            <p style="margin:0 0 20px 0;font-size:15px;line-height:1.6;color:#333;">{{INTRO}}</p>
+            <!-- diagnostic block -->
+            <div style="background-color:#f8f9fb;border-left:4px solid #FF671F;padding:16px 18px;margin:0 0 22px 0;border-radius:4px;">
+              <p style="margin:0 0 10px 0;font-size:12px;font-weight:700;color:#010F3B;letter-spacing:0.8px;text-transform:uppercase;">Hallazgos del audit — 11/05/2026</p>
+              {{DIAG_ITEMS}}
+            </div>
+            <p style="margin:0 0 24px 0;font-size:15px;line-height:1.6;color:#333;">{{CLOSING}}</p>
+            <!-- CTA button -->
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px 0;">
+              <tr>
+                <td style="background-color:#FF671F;border-radius:6px;">
+                  <a href="{{CTA_URL}}" style="display:inline-block;padding:14px 28px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;letter-spacing:0.3px;">{{CTA_TEXT}} →</a>
+                </td>
+              </tr>
+            </table>
+            <p style="margin:0 0 6px 0;font-size:14px;line-height:1.5;color:#555;">Saludos,</p>
+            <p style="margin:0 0 4px 0;font-size:14px;line-height:1.5;color:#010F3B;font-weight:600;">NetWebMedia</p>
+            <p style="margin:0 0 24px 0;font-size:13px;line-height:1.5;color:#777;"><a href="mailto:contact@netwebmedia.com" style="color:#FF671F;text-decoration:none;">contact@netwebmedia.com</a> · <a href="https://netwebmedia.com" style="color:#FF671F;text-decoration:none;">netwebmedia.com</a></p>
+          </td>
+        </tr>
+        <!-- footer -->
+        <tr>
+          <td style="background-color:#f8f9fb;padding:16px 24px;border-top:1px solid #e6e8ec;font-size:11px;color:#888;line-height:1.5;">
+            Le escribimos porque su empresa fue parte de nuestro audit gratuito de presencia digital. Si prefiere no recibir más comunicaciones, <a href="mailto:contact@netwebmedia.com?subject=Desuscribir" style="color:#888;text-decoration:underline;">avísenos por correo</a>.
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

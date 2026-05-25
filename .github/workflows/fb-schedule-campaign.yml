@@ -1,0 +1,95 @@
+name: Schedule FB campaign posts
+
+# One-shot workflow that POSTs the 10 PENDING posts from
+# NetWebMedia_Posts_Tracker.xlsx to the live fb_publish handler.
+#
+# Pre-flight (must be true before triggering):
+#   - GitHub Secrets set: FB_PAGE_ID, FB_PAGE_TOKEN, MIGRATE_TOKEN
+#   - Assets deployed at https://netwebmedia.com/assets/social/campaign/
+#   - Latest deploy of crm-vanilla/api/handlers/fb_publish.php is live
+#
+# Run via:
+#   gh workflow run fb-schedule-campaign.yml -f mode=status      # token + page identity probe
+#   gh workflow run fb-schedule-campaign.yml -f mode=dry-run     # validate payloads, log to fb_publish_log without FB calls
+#   gh workflow run fb-schedule-campaign.yml -f mode=live        # ACTUALLY schedule 10 posts on FB
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'status | list | dry-run | live'
+        required: true
+        default: 'status'
+        type: choice
+        options:
+          - status
+          - list
+          - dry-run
+          - live
+
+jobs:
+  schedule:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+
+      - name: Probe fb_publish status
+        if: inputs.mode == 'status'
+        env:
+          MIGRATE_TOKEN: ${{ secrets.MIGRATE_TOKEN }}
+        run: |
+          UA="Mozilla/5.0 (compatible; NWM-FBSchedule/1.0)"
+          curl -sS -A "$UA" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "https://netwebmedia.com/crm-vanilla/api/?r=fb_publish&action=status&token=$MIGRATE_TOKEN" \
+            | python3 -m json.tool
+
+      - name: List fb_publish_log
+        if: inputs.mode == 'list'
+        env:
+          MIGRATE_TOKEN: ${{ secrets.MIGRATE_TOKEN }}
+        run: |
+          UA="Mozilla/5.0 (compatible; NWM-FBSchedule/1.0)"
+          curl -sS -A "$UA" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "https://netwebmedia.com/crm-vanilla/api/?r=fb_publish&action=list&token=$MIGRATE_TOKEN" \
+            | python3 -m json.tool
+
+      - name: Set up Python (for seed)
+        if: inputs.mode != 'status'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python deps
+        if: inputs.mode != 'status'
+        run: pip install openpyxl
+
+      - name: Fetch tracker XLSX from local checkout
+        if: inputs.mode != 'status'
+        run: |
+          # The tracker lives on Carlos's machine, NOT in the repo.
+          # For CI we use a checked-in fallback if present, else fail with guidance.
+          if [ ! -f "_deploy/NetWebMedia_Posts_Tracker.xlsx" ]; then
+            echo "::error::Tracker XLSX not in _deploy/. Either commit it or run the seed locally with --tracker pointing at your Documents folder."
+            exit 1
+          fi
+
+      - name: Run seed (dry-run)
+        if: inputs.mode == 'dry-run'
+        env:
+          MIGRATE_TOKEN: ${{ secrets.MIGRATE_TOKEN }}
+        run: |
+          python3 _deploy/seed-fb-schedule.py \
+            --tracker _deploy/NetWebMedia_Posts_Tracker.xlsx \
+            --dry-run
+
+      - name: Run seed (LIVE)
+        if: inputs.mode == 'live'
+        env:
+          MIGRATE_TOKEN: ${{ secrets.MIGRATE_TOKEN }}
+        run: |
+          python3 _deploy/seed-fb-schedule.py \
+            --tracker _deploy/NetWebMedia_Posts_Tracker.xlsx

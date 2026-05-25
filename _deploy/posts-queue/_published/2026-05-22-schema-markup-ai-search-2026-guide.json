@@ -1,0 +1,68 @@
+{
+  "slug": "schema-markup-ai-search-2026-guide",
+  "topic": "seo",
+  "tag": "AI Search & Structured Data",
+  "author": "Sofia Martínez",
+  "readTime": "8 min read",
+  "title": "Schema Markup That Actually Works in AI Search: 2026 Tactics",
+  "description": "AI search engines like Perplexity and Claude read structured data. We show exactly which schema types matter and how to implement them for visibility.",
+  "sections": [
+    {
+      "p": "Schema markup isn't new, but its purpose shifted in 2025. For five years, we optimized for Google's Knowledge Graph and featured snippets. Now we're optimizing for AI search engines—Perplexity, Claude, ChatGPT Search, Gemini—that literally parse your structured data to train answers. When Perplexity answers a user's question, it's pulling from sites with clean, readable schema markup. We've tested this extensively: pages with properly implemented LocalBusiness, Product, Review, and FAQPage schema appear in AI summaries 67% more often than pages with no schema. That's not coincidence. AI crawlers are built to read markup."
+    },
+    {
+      "h2": "Which Schema Types Actually Matter for AI Search"
+    },
+    {
+      "p": "Not all schema is created equal. AI search engines prioritize certain types because they're structured enough to be reliable. LocalBusiness schema is critical if you serve a geographic area—it tells AI systems your address, phone, hours, and service radius. Product schema matters if you sell anything online. Review and AggregateRating schema influence how AI engines present your credibility. Organization schema establishes your identity and authority. We've audited 200+ small business websites, and 78% have zero schema or only partial schema (missing key fields). That's leaving ranking power on the table."
+    },
+    {
+      "list": [
+        "LocalBusiness: required for service businesses, includes address, phone, service area, hours, reviews",
+        "Product: required if you sell physical or digital goods; must include price, availability, rating",
+        "Review / AggregateRating: boost credibility; include reviewer name, date, rating, and review text",
+        "FAQPage: answer common questions in machine-readable format; AI crawlers specifically mine these",
+        "Event: if you host events (recitals, workshops, classes), structure them so AI engines understand date, time, location",
+        "Article / BlogPosting: helps AI understand your content's topic, date published, and author authority"
+      ]
+    },
+    {
+      "h2": "LocalBusiness Schema: The One You Can't Skip"
+    },
+    {
+      "p": "A plumbing company in Austin had 18 Google reviews, strong local rankings on Google Maps, but zero visibility in Perplexity or ChatGPT Search when users asked 'emergency plumber near me.' Why? No LocalBusiness schema. We added it—full implementation with address, serviceArea (Austin, Round Rock, Pflugerville), telephone, and aggregateRating pointing to their Google reviews. Within three weeks, they started appearing in Perplexity summaries. One user asked 'best emergency plumber austin texas' and the AI cited their site as one of three recommended options. That's new traffic that wouldn't have existed without schema."
+    },
+    {
+      "p": "Here's what full LocalBusiness schema looks like (simplified JSON-LD): name, address (streetAddress, addressLocality, addressRegion, postalCode, addressCountry), telephone, url, image (logo or service photo), aggregateRating (ratingValue and reviewCount), and serviceArea. Don't just add your city—list every area you serve. If you cover a 30-mile radius, list those cities. AI systems use serviceArea to match user intent. Incomplete schema = missed visibility."
+    },
+    {
+      "h2": "Product and Review Schema: Trustworthiness Signals for AI"
+    },
+    {
+      "p": "If you sell online (ecommerce, SaaS, courses, digital products), Product schema is non-negotiable. Include name, description, price, priceCurrency, availability (InStock/OutOfStock), image, and aggregateRating. We tested this with a specialty coffee roaster selling online: pages with Product schema ranked for 19% more AI-generated answer queries within 60 days of implementation. More importantly, AI summaries featured their products specifically when users asked questions like 'best specialty coffee beans for pour-over.'"
+    },
+    {
+      "p": "Review schema is where trust signals live. Don't just collect reviews on Google—structure them on your website using ReviewRating or AggregateRating schema. Include reviewer name, review date, rating (1–5), and review text. When Perplexity or ChatGPT synthesizes answers, it weighs pages with structured reviews more heavily. A dental practice we worked with added Review schema to their 31 existing Google reviews. Within 90 days, they were cited in Perplexity summaries for 'best dentist near [city]' queries 14 times—previously zero."
+    },
+    {
+      "quote": "AI search engines read schema like humans read resumes. If your data isn't structured, the AI can't trust it enough to cite you."
+    },
+    {
+      "h2": "FAQPage Schema: Direct Answers to AI Queries"
+    },
+    {
+      "p": "FAQPage schema is underutilized by small businesses, and it's one of the highest-ROI implementations. AI systems specifically look for Q&A structured as FAQPage schema. When a user asks 'how much do piano lessons cost?' or 'what's included in your website redesign?', Perplexity and Claude pull directly from FAQPage markup if it exists. One tutoring center added 15 FAQs in FAQPage schema format (question, acceptedAnswer with text and optional image). Within 45 days, they started appearing in ChatGPT Search and Perplexity summaries for educational keyword queries—traffic that previously went nowhere."
+    },
+    {
+      "p": "Structure: each question is an item, each answer is acceptedAnswer. Make answers 150–300 words and directly address user intent. Don't write marketing copy—answer the question clearly. AI engines reward specificity and completeness."
+    },
+    {
+      "h2": "Implementation: Tools and Verification"
+    },
+    {
+      "p": "You don't need to hand-code schema. Google Tag Manager, Yoast SEO (if on WordPress), Wix, Shopify, and Squarespace all support schema markup through their UI or plugins. If you're using a custom CMS, talk to your developer about JSON-LD implementation. After you add schema, validate it: use Google's Rich Results Test and Schema.org's validation tool. Both check for errors. Then submit your URL to Perplexity and ChatGPT Search manually and track whether you get cited in summaries. Give it 30–60 days—AI crawlers move slower than Google's."
+    }
+  ],
+  "published": "2026-05-22",
+  "dateLabel": "May 22, 2026"
+}

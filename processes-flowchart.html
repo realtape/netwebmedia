@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>NetWebMedia — All Platform Processes (Horizontal Flowchart)</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --navy:#010F3B; --orange:#FF671F; --ink:#0a1f3d;
+    --paper:#f0f2f5; --line:#e3e8f0;
+  }
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background:var(--paper); color:var(--navy); padding:32px 20px 60px;
+  }
+  header.page{ max-width:1240px; margin:0 auto 26px; }
+  h1{ font-size:1.7rem; font-weight:800; letter-spacing:-.02em; }
+  h1 .accent{ color:var(--orange); }
+  .subtitle{ color:#5c6b85; font-size:.92rem; margin-top:6px; }
+  .meta{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+  .pill{ background:#fff; border:1px solid var(--line); border-radius:999px;
+    font-size:.7rem; font-weight:600; color:#41526f; padding:5px 11px; }
+  .pill b{ color:var(--navy); }
+
+  /* Domain band */
+  .band{ max-width:1240px; margin:0 auto 18px; background:#fff;
+    border-radius:12px; box-shadow:0 4px 18px rgba(1,15,59,.08); overflow:hidden; }
+  .band-head{ display:flex; align-items:center; gap:10px; padding:13px 18px;
+    color:#fff; }
+  .band-head .dot{ width:10px; height:10px; border-radius:50%; background:#fff; opacity:.85; }
+  .band-head h2{ font-size:.95rem; font-weight:700; letter-spacing:.01em; }
+  .band-head .count{ margin-left:auto; font-size:.68rem; font-weight:600;
+    background:rgba(255,255,255,.18); padding:3px 9px; border-radius:999px; }
+
+  /* Each process = one horizontally-scrolling track */
+  .track{ border-top:1px solid var(--line); padding:14px 18px; }
+  .track:first-of-type{ border-top:none; }
+  .track-name{ display:flex; align-items:baseline; gap:9px; margin-bottom:9px; }
+  .track-name .n{ font-size:.86rem; font-weight:700; color:var(--navy); }
+  .track-name .tag{ font-size:.62rem; font-weight:600; color:#7d8aa3;
+    font-family:'Courier New',monospace; }
+  .flow{ display:flex; align-items:stretch; gap:0; overflow-x:auto;
+    padding-bottom:6px; }
+  .flow::-webkit-scrollbar{ height:7px; }
+  .flow::-webkit-scrollbar-thumb{ background:#cbd4e3; border-radius:99px; }
+
+  .step{ flex:0 0 auto; min-width:138px; max-width:170px;
+    border-radius:8px; padding:9px 11px; border:2px solid;
+    display:flex; flex-direction:column; justify-content:center; }
+  .step .t{ font-size:.74rem; font-weight:700; line-height:1.25; }
+  .step .c{ font-size:.58rem; font-family:'Courier New',monospace; color:#7a8398;
+    margin-top:4px; line-height:1.3; word-break:break-word; }
+  .step.terminal{ font-weight:800; }
+
+  .arrow{ flex:0 0 auto; align-self:center; width:26px; text-align:center;
+    color:#b3bccd; font-size:1.15rem; line-height:1; }
+
+  /* color variants */
+  .v-orange{ background:#fff3ec; border-color:var(--orange); color:#9c3d00; }
+  .v-teal  { background:#e3f6f6; border-color:#00b8b8; color:#045b5b; }
+  .v-navy  { background:#e9edf6; border-color:var(--navy); color:var(--navy); }
+  .v-purple{ background:#f3edff; border-color:#7c3aed; color:#4c1d95; }
+  .v-blue  { background:#e8f0ff; border-color:#3b82f6; color:#1e3a8a; }
+  .v-gold  { background:#fff8e6; border-color:#d97706; color:#7a3d06; }
+  .v-green { background:#e8f6ea; border-color:#28a745; color:#15642a; }
+  .v-red   { background:#fff0f0; border-color:#dc3545; color:#7f1d1d; }
+  .step .c.ok{ color:#15642a; } .step .c.warn{ color:#9a6a00; }
+
+  /* band header colors */
+  .h-acq{ background:linear-gradient(90deg,#FF671F,#ff8a4d); }
+  .h-crm{ background:linear-gradient(90deg,#010F3B,#1e3a6e); }
+  .h-ai { background:linear-gradient(90deg,#5b21b6,#7c3aed); }
+  .h-comms{ background:linear-gradient(90deg,#1e40af,#3b82f6); }
+  .h-content{ background:linear-gradient(90deg,#b45309,#d97706); }
+  .h-infra{ background:linear-gradient(90deg,#065f46,#28a745); }
+
+  footer.notes{ max-width:1240px; margin:24px auto 0;
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; }
+  .note{ background:#fff; border:1px solid var(--line); border-left:4px solid var(--orange);
+    border-radius:8px; padding:12px 14px; }
+  .note h4{ font-size:.74rem; color:var(--navy); font-weight:700; margin-bottom:4px; }
+  .note p{ font-size:.66rem; color:#5c6b85; line-height:1.5; }
+  .note code{ font-family:'Courier New',monospace; font-size:.62rem; color:#9c3d00; }
+  .legendrow{ max-width:1240px; margin:22px auto 0; display:flex; flex-wrap:wrap; gap:14px; }
+  .lg{ display:flex; align-items:center; gap:7px; font-size:.7rem; color:#41526f; font-weight:600; }
+  .lg .sw{ width:13px; height:13px; border-radius:4px; border:2px solid; }
+</style>
+</head>
+<body>
+
+<header class="page">
+  <h1>NetWebMedia — <span class="accent">All Platform Processes</span></h1>
+  <p class="subtitle">End-to-end runtime &amp; system flows across the monorepo. Each track reads left → right. Scroll a track horizontally to follow its full path.</p>
+  <div class="meta">
+    <span class="pill"><b>13</b> processes</span>
+    <span class="pill"><b>6</b> domains</span>
+    <span class="pill"><b>2</b> databases · <b>webmed6_nwm</b> + <b>webmed6_crm</b></span>
+    <span class="pill">Cron cadence <b>*/5 min</b></span>
+    <span class="pill">Deploy <b>InMotion</b> only</span>
+  </div>
+</header>
+
+<!-- ════════ A. ACQUISITION & LEAD FLOW ════════ -->
+<section class="band">
+  <div class="band-head h-acq"><span class="dot"></span><h2>A · Acquisition &amp; Lead Flow</h2><span class="count">2 processes · webmed6_nwm</span></div>
+
+  <div class="track">
+    <div class="track-name"><span class="n">1 · Lead Capture &amp; Attribution</span><span class="tag">api-php/routes/public.php</span></div>
+    <div class="flow">
+      <div class="step v-orange"><div class="t">Ad / UTM Click</div><div class="c">utm_source · campaign</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-orange"><div class="t">Landing Page</div><div class="c">utm-capture.js → sessionStorage</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-orange"><div class="t">Contact Form</div><div class="c">hidden UTM inputs + honeypot</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-orange"><div class="t">POST /api/public/form</div><div class="c">rate-limit · honeypot→200/0</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-navy"><div class="t">resources(type=contact)</div><div class="c c">webmed6_nwm · EAV</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-orange"><div class="t">Auto-Reply</div><div class="c">PHP mail() / Resend</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-green terminal"><div class="t">seq_enroll(welcome)</div><div class="c ok">→ drip queue</div></div>
+    </div>
+  </div>
+
+  <div class="track">
+    <div class="track-name"><span class="n">2 · WhatsApp Opt-in → Broadcast</span><span class="tag">wa_flush.php · Meta Cloud API</span></div>
+    <div class="flow">
+      <div class="step v-orange"><div class="t">CTA /whatsapp.html</div><div class="c">?topic= intent</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-orange"><div class="t">POST whatsapp/subscribe</div><div class="c">consent text stored</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-navy"><div class="t">pending_double_opt_in</div><div class="c">WABA legal hold</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-blue"><div class="t">wa_flush (admin)</div><div class="c">count · list · mark · send</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-blue"><div class="t">Meta Cloud API</div><div class="c warn">503 if WA_PHONE_ID unset</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-green terminal"><div class="t">confirmed</div><div class="c ok">welcome template sent</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ B. CRM & AUTOMATION ════════ -->
+<section class="band">
+  <div class="band-head h-crm"><span class="dot"></span><h2>B · CRM &amp; Automation</h2><span class="count">4 processes · webmed6_crm</span></div>
+
+  <div class="track">
+    <div class="track-name"><span class="n">3 · Email Drip Sequences</span><span class="tag">api-php/lib/email-sequences.php</span></div>
+    <div class="flow">
+      <div class="step v-teal"><div class="t">seq_enroll()</div><div class="c">welcome · audit_followup · niche</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-navy"><div class="t">email_sequence_queue</div><div class="c">next-step rows</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-teal"><div class="t">GET /api/cron</div><div class="c">*/5 · GH Actions</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-teal"><div class="t">Batch Send</div><div class="c">Resend / Exim MTA</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-green terminal"><div class="t">Sent → advance</div><div class="c ok">or stop on reply</div></div>
+    </div>
+  </div>
+
+  <div class="track">
+    <div class="track-name"><span class="n">4 · CRM Visual Workflow Engine</span><span class="tag">crm-vanilla/api/lib/wf_crm.php</span></div>
+    <div class="flow">
+      <div class="step v-teal"><div class="t">Trigger Event</div><div class="c">contact_created · deal_stage · tag</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-teal"><div class="t">wf_crm_trigger()</div><div class="c">match active workflows</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-navy"><div class="t">workflow_runs</div><div class="c">status=pending</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-teal"><div class="t">cron-workflows.yml</div><div class="c">*/5 · MIGRATE_TOKEN</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-teal"><div class="t">wf_crm_advance()</div><div class="c">email·wait·tag·webhook·if</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-green terminal"><div class="t">completed</div><div class="c ok">step_index → done</div></div>
+    </div>
+  </div>
+
+  <div class="track">
+    <div class="track-name"><span class="n">5 · Sales Pipeline</span><span class="tag">crm-vanilla/js/pipeline.js · activeTab=sales</span></div>
+    <div class="flow">
+      <div class="step v-navy"><div class="t">Deal Created</div><div class="c">deals.php POST</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-navy"><div class="t">7 HubSpot Stages</div><div class="c">deal_stage trigger</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-navy"><div class="t">Kanban / List View</div><div class="c">activeView toggle</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-green terminal"><div class="t">Won / Lost</div><div class="c ok">close decision</div></div>
+    </div>
+  </div>
+
+  <div class="track">
+    <div class="track-name"><span class="n">6 · Marketing Pipeline</span><span class="tag">pipeline.js · activeTab=marketing</span></div>
+    <div class="flow">
+      <div class="step v-navy"><div class="t">Contact</div><div class="c">loadMarketingPipeline()</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-purple"><div class="t">lifecycleStageFor()</div><div class="c">client-side derivation</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-navy"><div class="t">8 Lifecycle Stages</div><div class="c">Subscriber → Evangelist</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-green terminal"><div class="t">Kanban / List View</div><div class="c ok">grouped by stage</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ C. AI ════════ -->
+<section class="band">
+  <div class="band-head h-ai"><span class="dot"></span><h2>C · AI (Claude)</h2><span class="count">1 process · Anthropic API</span></div>
+
+  <div class="track">
+    <div class="track-name"><span class="n">7 · AI Inbox Triage</span><span class="tag">crm-vanilla/api/handlers/ai_triage.php</span></div>
+    <div class="flow">
+      <div class="step v-purple"><div class="t">Conversation</div><div class="c">tenancy_where scoped</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-purple"><div class="t">POST ?r=ai_triage</div><div class="c warn">100/org/day limit</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-purple"><div class="t">Last 5 Messages</div><div class="c">prompt (≤1000ch each)</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-purple"><div class="t">Claude Haiku</div><div class="c">claude-haiku-4-5 · T0.2</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-purple"><div class="t">ai_triage_normalize()</div><div class="c">enum allow-list</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-navy"><div class="t">triage_json + triage_at</div><div class="c">conversations row</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-green terminal"><div class="t">CRM UI Badge</div><div class="c ok">intent·urgency·draft</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ D. COMMUNICATIONS & SOCIAL ════════ -->
+<section class="band">
+  <div class="band-head h-comms"><span class="dot"></span><h2>D · Communications &amp; Social</h2><span class="count">1 process · Graph APIs</span></div>
+
+  <div class="track">
+    <div class="track-name"><span class="n">8 · Social Publishing</span><span class="tag">ig_publish · fb_publish · tt_publish</span></div>
+    <div class="flow">
+      <div class="step v-red"><div class="t">Assets</div><div class="c">carousels / reels (mp4·png)</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-blue"><div class="t">Publish Handler</div><div class="c">IG · FB · TikTok</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-blue"><div class="t">Pre-flight Check</div><div class="c warn">URL reachable · token set</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-blue"><div class="t">Meta / TikTok API</div><div class="c">media_publish · PULL_FROM_URL</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-green terminal"><div class="t">Audit Log</div><div class="c ok">*_publish_log · idempotent</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ E. CONTENT & AEO ════════ -->
+<section class="band">
+  <div class="band-head h-content"><span class="dot"></span><h2>E · Content &amp; AEO</h2><span class="count">1 process · static generators</span></div>
+
+  <div class="track">
+    <div class="track-name"><span class="n">9 · Content / AEO Generation</span><span class="tag">build_industry_pages.py · generators</span></div>
+    <div class="flow">
+      <div class="step v-gold"><div class="t">Generator Script</div><div class="c">industry · company · blog</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-gold"><div class="t">Static HTML</div><div class="c">Article + FAQPage schema</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-gold"><div class="t">regen-sitemap.py</div><div class="c">priority · changefreq</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-gold"><div class="t">IndexNow Ping</div><div class="c">indexnow-ping.yml</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-green terminal"><div class="t">AEO Targets Cite</div><div class="c ok">ChatGPT·Perplexity·AIO</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ F. INFRASTRUCTURE & DEPLOY ════════ -->
+<section class="band">
+  <div class="band-head h-infra"><span class="dot"></span><h2>F · Infrastructure &amp; Deploy</h2><span class="count">4 processes · GH Actions → InMotion</span></div>
+
+  <div class="track">
+    <div class="track-name"><span class="n">10 · Deploy Pipeline</span><span class="tag">.github/workflows/deploy-site-root.yml</span></div>
+    <div class="flow">
+      <div class="step v-navy"><div class="t">git push</div><div class="c">main only</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-navy"><div class="t">Path-Triggered Workflow</div><div class="c">root · crm · companies</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-navy"><div class="t">Build config.local.php</div><div class="c">from GH Secrets</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-teal"><div class="t">FTPS Sync (by hash)</div><div class="c">explicit · port 21</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-teal"><div class="t">cPanel InMotion</div><div class="c">/public_html/</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-purple"><div class="t">Auto-Migrate</div><div class="c">POST ?r=migrate</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-green terminal"><div class="t">Smoke Tests</div><div class="c ok">uptime · PSI</div></div>
+    </div>
+  </div>
+
+  <div class="track">
+    <div class="track-name"><span class="n">11 · Migration System</span><span class="tag">crm-vanilla/api/migrate.php</span></div>
+    <div class="flow">
+      <div class="step v-purple"><div class="t">schema_*.sql</div><div class="c">idempotent DDL</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-purple"><div class="t">POST ?r=migrate</div><div class="c warn">full Chrome UA · Origin</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-purple"><div class="t">migrate_split_sql()</div><div class="c">quote/comment-aware</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-purple"><div class="t">Run DDL</div><div class="c">swallow 1060·1061·1050</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-green terminal"><div class="t">{ran,skipped,errors}</div><div class="c ok">CI fails if no "ran"</div></div>
+    </div>
+  </div>
+
+  <div class="track">
+    <div class="track-name"><span class="n">12 · Video Factory</span><span class="tag">video-factory/server.js :3030</span></div>
+    <div class="flow">
+      <div class="step v-navy"><div class="t">CRM UI Request</div><div class="c">template + fields</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-navy"><div class="t">POST /api/video/render</div><div class="c">api-php/routes/video.php</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-teal"><div class="t">:3030 /render</div><div class="c">Express</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-teal"><div class="t">Remotion</div><div class="c">React composition</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-green terminal"><div class="t">MP4 → /video-out</div><div class="c ok">served file</div></div>
+    </div>
+  </div>
+
+  <div class="track">
+    <div class="track-name"><span class="n">13 · Billing / Payments</span><span class="tag">api-php/routes/billing.php · webhooks.php</span></div>
+    <div class="flow">
+      <div class="step v-blue"><div class="t">Checkout</div><div class="c">register.html · plan-aware</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-blue"><div class="t">MercadoPago / Stripe</div><div class="c">MP_ACCESS_TOKEN</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-blue"><div class="t">Webhook</div><div class="c warn">MP_WEBHOOK_SECRET verify</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-navy"><div class="t">billing.php</div><div class="c">record + status</div></div>
+      <div class="arrow">→</div>
+      <div class="step v-green terminal"><div class="t">Invoice / Collections</div><div class="c ok">CMO tier billing</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="legendrow">
+  <span class="lg"><span class="sw v-orange"></span>Acquisition</span>
+  <span class="lg"><span class="sw v-navy"></span>CRM / Data</span>
+  <span class="lg"><span class="sw v-teal"></span>Runtime / Cron</span>
+  <span class="lg"><span class="sw v-purple"></span>AI / Migration</span>
+  <span class="lg"><span class="sw v-blue"></span>Comms / Billing</span>
+  <span class="lg"><span class="sw v-gold"></span>Content / AEO</span>
+  <span class="lg"><span class="sw v-green"></span>Terminal / Success</span>
+</div>
+
+<footer class="notes">
+  <div class="note"><h4>Two databases, never crossed</h4><p><b>webmed6_nwm</b> (api-php: leads, EAV resources, drip) and <b>webmed6_crm</b> (crm-vanilla: contacts, deals, workflows, conversations). Two separate PDO connections — split into two API calls when both are needed.</p></div>
+  <div class="note"><h4>Cron drives everything async</h4><p>Drip queue (<code>/api/cron</code>) and workflow engine (<code>cron_workflows</code>) both fire <b>*/5 min</b> via <code>cron-workflows.yml</code>. cPanel cron is the fallback if GH Actions is down &gt;1h.</p></div>
+  <div class="note"><h4>AI is Claude only</h4><p>Triage uses <code>claude-haiku-4-5</code> via the Anthropic API with a strict enum-normalized output and a non-fatal fallback shape. ChatGPT / Perplexity / AIO are AEO <i>targets</i>, not internal tools.</p></div>
+  <div class="note"><h4>Deploy = InMotion only</h4><p>GitHub Actions FTPS → cPanel. Migrations auto-run idempotently after each deploy. Never Vercel / Netlify / other hosts.</p></div>
+</footer>
+
+</body>
+</html>

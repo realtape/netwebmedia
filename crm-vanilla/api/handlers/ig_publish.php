@@ -3,10 +3,16 @@
  * Instagram Graph API publish handler — supports CAROUSEL (image set) and REELS (video) publishing
  * to @netwebmedia. Mirrors the fb_publish.php triple-auth + idempotent log pattern.
  *
- * Pre-flight env required:
+ * Pre-flight env (all OPTIONAL — see zero-credential fallback below):
  *   IG_BUSINESS_ACCOUNT_ID   — the Instagram Business Account ID (NOT the @username)
  *   IG_GRAPH_TOKEN           — long-lived access token w/ instagram_content_publish + pages_show_list
  *   IG_IMAGE_BASE_URL        — public base for slide PNG URLs (default https://netwebmedia.com)
+ *
+ * Zero-credential fallback (2026-05-25): if IG_GRAPH_TOKEN is unset, the handler reuses the
+ * production FB_PAGE_TOKEN (already powering fb_publish.php); if IG_BUSINESS_ACCOUNT_ID is unset,
+ * it auto-discovers the IG account linked to FB_PAGE_ID via the Graph API. This means IG can
+ * publish with NO dedicated IG secrets, as long as @netwebmedia is linked to the FB Page and the
+ * Page token carries instagram_basic + instagram_content_publish. Use action=discover to verify.
  *
  * Auth: MIGRATE_TOKEN via ?token=, OR CRM session admin/owner, OR api-php session admin (mirrors fb_publish.php).
  *
@@ -15,6 +21,9 @@
  *   ── Status / inspection ───────────────────────────────────────────────────
  *   GET  /api/?r=ig_publish&action=status&token=…
  *           → readiness probe; verifies token + account access via /me + /{ig-user-id}
+ *   GET  /api/?r=ig_publish&action=discover&token=…
+ *           → zero-credential diagnostic: resolves the IG account linked to the FB Page,
+ *             confirms the FB Page token can read it, returns READY/PARTIAL/NOT-LINKED verdict
  *   GET  /api/?r=ig_publish&action=list&token=…
  *           → returns recent ig_publish_log rows (audit)
  *
@@ -247,6 +256,31 @@ function ig_env(string $key, string $default = ''): string {
     return $v !== false ? (string)$v : $default;
 }
 
+/**
+ * Resolve the Instagram Business Account linked to the NetWebMedia Facebook Page.
+ *
+ * The IG Business account is linked to the FB Page, so the long-lived Page token that
+ * already powers fb_publish.php in production can also read (and, with the right scopes,
+ * publish to) Instagram. This lets ig_publish work with ZERO new credentials when the
+ * dedicated IG_* secrets are unset — see action=discover and the config-resolution block.
+ */
+function ig_discover_account(string $gv, string $fbPageId, string $token): array {
+    if ($fbPageId === '' || $token === '') {
+        return ['id' => '', 'username' => '', 'http' => 0, 'raw' => null];
+    }
+    $r = ig_curl_get(
+        "https://graph.facebook.com/{$gv}/" . urlencode($fbPageId)
+        . "?fields=instagram_business_account{id,username,name},name&access_token=" . urlencode($token)
+    );
+    $iba = is_array($r['body'] ?? null) ? ($r['body']['instagram_business_account'] ?? null) : null;
+    return [
+        'id'       => is_array($iba) ? (string)($iba['id'] ?? '') : '',
+        'username' => is_array($iba) ? (string)($iba['username'] ?? '') : '',
+        'http'     => (int)$r['http'],
+        'raw'      => $r['body'],
+    ];
+}
+
 // ── Schema guard — idempotent audit log ─────────────────────────────────────
 try {
     $db->exec(
@@ -364,6 +398,33 @@ $accountId = ig_env('IG_BUSINESS_ACCOUNT_ID');
 $tokenIG   = ig_env('IG_GRAPH_TOKEN');
 $imageBase = ig_env('IG_IMAGE_BASE_URL', 'https://netwebmedia.com');
 
+// ── Zero-credential fallback (2026-05-25) ───────────────────────────────────
+// The @netwebmedia IG Business account is linked to the NetWebMedia FB Page, so the
+// long-lived FB Page token already in production (FB_PAGE_TOKEN, powering fb_publish)
+// can publish to Instagram too — provided it carries instagram_basic +
+// instagram_content_publish. When the dedicated IG secrets are unset we transparently:
+//   1. reuse FB_PAGE_TOKEN as the IG token, and
+//   2. resolve IG_BUSINESS_ACCOUNT_ID from FB_PAGE_ID via the Graph API.
+// Once Carlos pins the IG_* secrets, this fallback never fires (explicit values win).
+$fbPageId      = ig_env('FB_PAGE_ID');
+$fbToken       = ig_env('FB_PAGE_TOKEN');
+$tokenSource   = $tokenIG !== '' ? 'IG_GRAPH_TOKEN' : null;
+$accountSource = $accountId !== '' ? 'IG_BUSINESS_ACCOUNT_ID' : null;
+
+if ($tokenIG === '' && $fbToken !== '') {
+    $tokenIG     = $fbToken;
+    $tokenSource = 'FB_PAGE_TOKEN (fallback)';
+}
+// Only pay the Graph round-trip for actions that actually need the account id.
+$needsAccount = in_array($action, ['status', 'discover', 'publish', 'publish_reel', 'publish_all_reels'], true);
+if ($accountId === '' && $tokenIG !== '' && $fbPageId !== '' && $needsAccount) {
+    $disc = ig_discover_account($gv, $fbPageId, $tokenIG);
+    if ($disc['id'] !== '') {
+        $accountId     = $disc['id'];
+        $accountSource = 'discovered from FB_PAGE_ID';
+    }
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // status
 // ─────────────────────────────────────────────────────────────────────────────
@@ -373,6 +434,8 @@ if ($action === 'status') {
         'configured'             => $configured,
         'ig_business_account_id' => $accountId ? 'set' : 'unset',
         'ig_graph_token'         => $tokenIG ? 'set' : 'unset',
+        'token_source'           => $tokenSource,
+        'account_source'         => $accountSource,
         'ig_image_base_url'      => $imageBase,
         'available_carousels'    => $ALLOWED_CAROUSELS,
         'available_reels'        => array_keys(ig_service_reels()),
@@ -383,12 +446,57 @@ if ($action === 'status') {
         $resp['account_response'] = $rMe['body'];
         $resp['account_accessible'] = ($rMe['http'] >= 200 && $rMe['http'] < 300 && !empty($rMe['body']['id']));
         $resp['note'] = $resp['account_accessible']
-            ? 'Ready for live publish.'
-            : 'Token cannot access the configured IG_BUSINESS_ACCOUNT_ID — check scopes (instagram_content_publish, pages_show_list, instagram_basic).';
+            ? ('Ready for live publish' . ($tokenSource === 'FB_PAGE_TOKEN (fallback)' ? ' (using the existing FB Page token — no dedicated IG secrets needed).' : '.'))
+            : 'Token cannot access the IG account — check scopes (instagram_content_publish, pages_show_list, instagram_basic). Run action=discover for a full diagnostic.';
     } else {
-        $resp['note'] = 'IG_BUSINESS_ACCOUNT_ID and IG_GRAPH_TOKEN must be set in deploy secrets. See _deploy/social-publishing-unblock-2026-05-11.md.';
+        $resp['note'] = 'Not configured. Run action=discover — if @netwebmedia is linked to the FB Page, the existing FB Page token may publish to IG with zero new credentials. See _deploy/social-publishing-unblock-2026-05-11.md.';
     }
     jsonResponse($resp);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// discover — zero-credential diagnostic: can we publish to IG using the FB Page token?
+// Read-only. Resolves the linked IG Business account from FB_PAGE_ID and confirms the
+// token can read it, then returns a clear verdict + the exact gh command to pin it.
+// ─────────────────────────────────────────────────────────────────────────────
+if ($action === 'discover') {
+    $out = [
+        'fb_page_id'    => $fbPageId ? 'set' : 'unset',
+        'fb_page_token' => $fbToken ? 'set' : 'unset',
+        'explicit_ig_secrets' => [
+            'IG_BUSINESS_ACCOUNT_ID' => ig_env('IG_BUSINESS_ACCOUNT_ID') ? 'set' : 'unset',
+            'IG_GRAPH_TOKEN'         => ig_env('IG_GRAPH_TOKEN') ? 'set' : 'unset',
+        ],
+    ];
+    if ($fbPageId === '' || $fbToken === '') {
+        $out['verdict'] = 'BLOCKED — FB_PAGE_ID and FB_PAGE_TOKEN must both be set in prod (they power fb_publish). They are the basis for the zero-credential IG path. Fall back to manual runbook §1.';
+        jsonResponse($out);
+    }
+    $disc = ig_discover_account($gv, $fbPageId, $tokenIG);
+    $out['discovery_http']             = $disc['http'];
+    $out['instagram_business_account'] = ['id' => $disc['id'], 'username' => $disc['username']];
+    $out['page_raw']                   = $disc['raw'];
+    if ($disc['id'] === '') {
+        $out['verdict'] = 'NOT LINKED — the FB Page is reachable but has no linked Instagram Business account. Do runbook §1 Steps 1–2 (switch @netwebmedia to a Business account + link it to the FB Page in Meta Business Suite), then re-run discover. No code change needed afterward.';
+        jsonResponse($out);
+    }
+    // Confirm the token can READ the IG account (proves instagram_basic + the page↔IG link).
+    $readChk = ig_curl_get("https://graph.facebook.com/{$gv}/" . urlencode($disc['id']) . "?fields=id,username,name,followers_count,media_count&access_token=" . urlencode($tokenIG));
+    $canRead = ($readChk['http'] >= 200 && $readChk['http'] < 300 && !empty($readChk['body']['id']));
+    $out['ig_token_can_read_account'] = $canRead;
+    $out['ig_account_profile']        = $readChk['body'];
+    $out['effective_config'] = [
+        'account_id'     => $accountId,
+        'account_source' => $accountSource,
+        'token_source'   => $tokenSource,
+    ];
+    if ($canRead) {
+        $out['verdict'] = 'READY — IG is publishable now using the existing FB Page token. No new credentials required; the handler will auto-use it on publish. To make it permanent and skip the per-call Graph lookup, pin the id: gh secret set IG_BUSINESS_ACCOUNT_ID --body ' . $disc['id'];
+        $out['next']    = "Validate then go live: POST action=publish {\"carousel\":\"a\",\"dry_run\":true} → then dry_run:false. Reels: POST action=publish_reel {\"reel\":\"1_AEO_EN\"}.";
+    } else {
+        $out['verdict'] = 'PARTIAL — @netwebmedia is linked but the FB Page token cannot read it (HTTP ' . $readChk['http'] . '), so it is missing instagram_basic / instagram_content_publish. Do runbook §1 Step 4: regenerate the Page token WITH those two scopes, then `gh secret set IG_GRAPH_TOKEN`. No code change needed.';
+    }
+    jsonResponse($out);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -450,7 +558,10 @@ if ($method !== 'POST') {
 
 if (!$accountId || !$tokenIG) {
     http_response_code(503);
-    jsonResponse(['error' => 'IG_BUSINESS_ACCOUNT_ID and IG_GRAPH_TOKEN not configured', 'hint' => 'Add to GitHub Secrets + redeploy.']);
+    jsonResponse([
+        'error' => 'Instagram publishing not configured (no IG token/account, and the FB Page token fallback did not resolve).',
+        'hint'  => 'Run GET action=discover for a diagnostic + exact fix. Either link @netwebmedia to the FB Page (zero new credentials) or set IG_BUSINESS_ACCOUNT_ID + IG_GRAPH_TOKEN secrets and redeploy.',
+    ]);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -698,4 +809,4 @@ if ($action === 'publish') {
     ]);
 }
 
-jsonError('Unknown action. Use: status | list | spec | publish | reel_list | reel_spec | publish_reel | publish_all_reels', 400);
+jsonError('Unknown action. Use: status | discover | list | spec | publish | reel_list | reel_spec | publish_reel | publish_all_reels', 400);

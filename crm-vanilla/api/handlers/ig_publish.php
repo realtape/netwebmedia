@@ -93,7 +93,7 @@ if (!$auth_ok) {
 $action = $_GET['action'] ?? $_POST['action'] ?? 'status';
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
-$ALLOWED_CAROUSELS = ['a', 'b', 'c'];
+$ALLOWED_CAROUSELS = ['a', 'b', 'c', 'd'];
 $gv = 'v20.0';
 
 // ── Service reels catalog ───────────────────────────────────────────────────
@@ -329,6 +329,13 @@ function ig_carousel_def(string $id): ?array {
             'title' => 'What is AEO?',
             'caption' => "SEO is over. AEO is starting.\n\nBuyers ask ChatGPT, not Google. The brands cited in those answers get the calls.\n\n• 18% of search is AI now (40% YoY growth)\n• Schema beats backlinks\n• Reviews still drive AI summaries\n\nFree AEO audit at netwebmedia.com.\n\n#AEO #AnswerEngineOptimization #SEO",
         ],
+        // 6-slide deck (cover, what, examples, comparison, how-to, CTA).
+        // Assets: assets/social/carousels/d-slide-{1..6}.png
+        'd' => [
+            'title' => 'AI lead generation',
+            'slide_count' => 6,
+            'caption' => "Your website shouldn't clock out at 5pm. 🌙\n\nMost local business sites just sit there and wait for a form, then let the lead go cold by morning. AI lead generation flips that: it greets every visitor, answers questions, follows up, and books the call while you sleep.\n\nSwipe for the 5 jobs AI never sleeps on, plus the 3 steps to turn it on (no tech team needed).\n\nFree AI lead-gen audit at netwebmedia.com.\n\n#AILeadGeneration #MarketingAutomation #SmallBusinessMarketing #LeadGen #NetWebMedia",
+        ],
     ];
     return $defs[$id] ?? null;
 }
@@ -336,8 +343,9 @@ function ig_carousel_def(string $id): ?array {
 function ig_publish_carousel_spec(string $carouselId, string $imageBase): array {
     $def = ig_carousel_def($carouselId);
     if (!$def) return ['error' => 'unknown carousel'];
+    $slideCount = isset($def['slide_count']) ? max(2, min(10, (int)$def['slide_count'])) : 5;
     $slides = [];
-    for ($i = 1; $i <= 5; $i++) {
+    for ($i = 1; $i <= $slideCount; $i++) {
         $slides[] = [
             'slide_number' => $i,
             'image_url'    => rtrim($imageBase, '/') . "/assets/social/carousels/{$carouselId}-slide-{$i}.png",

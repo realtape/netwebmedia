@@ -1,4 +1,6 @@
 - [main history rewrite 2026-05-19](project_main_history_rewrite_2026_05_19.md) — origin/main force-pushed clean + daemon redesigned (never touches main); Computer 2 retired so no re-clone needed
+- [Meta automation guard](feedback_meta_automation_guard.md) — don't auto-retry Meta IG-connect/publish in browser; it temp-restricted @netwebmedia (2026-05-25); let Carlos do connect/publish clicks, prefer ig_publish.php API
+- [Social publishing blockers 2026-05](project_social_publishing_blockers_2026_05.md) — carousel d deployed+verified; live IG post blocked on: IG not linked to FB Page (needs Professional acct + manual connect), IG creds unset, FB Page token broken
 - [Fractional CMO page retirement](reference_fractional_cmo_retirement.md) — root /fractional-cmo.html RETIRED (301→pricing.html, don't restore); /tutorials/fractional-cmo.html is a LIVE tutorial — never let an .htaccess FilesMatch deny catch it by filename
 - [User role — Carlos Martinez](user_role.md) — CEO/founder of NetWebMedia; prefers executive framing and vanilla tech
 - [CMS admin (cms/)](reference_cms_admin.md) — live HTTP-Basic-gated admin at netwebmedia.com/cms/ (undocumented in CLAUDE.md); module-table.js CRUD over /api/resources types page/blog_post/etc.

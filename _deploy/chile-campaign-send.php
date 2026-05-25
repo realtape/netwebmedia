@@ -26,7 +26,7 @@ $THROTTLE_SECONDS = 90;
 $FROM_NAME        = 'Carlos Martínez';
 $FROM_EMAIL       = 'newsletter@netwebmedia.com';
 $REPLY_TO         = 'hola@netwebmedia.com';
-$WA_URL           = 'https://wa.me/14155238886';  // REPLACE BEFORE SEND
+$WA_URL           = 'https://wa.me/14423854585';  // NetWebMedia WhatsApp (verified live 2026-05-25)
 $REPORT_URL       = 'https://netwebmedia.com/santiago-digital-gaps.html';
 
 // ----- args -----

@@ -476,8 +476,23 @@ if ($action === 'discover') {
     $out['discovery_http']             = $disc['http'];
     $out['instagram_business_account'] = ['id' => $disc['id'], 'username' => $disc['username']];
     $out['page_raw']                   = $disc['raw'];
+    // Distinguish a dead/expired token from a genuinely unlinked account — both leave
+    // instagram_business_account empty, but the fix is completely different.
+    $gErr = (is_array($disc['raw'] ?? null) && isset($disc['raw']['error'])) ? $disc['raw']['error'] : null;
+    if ($gErr) {
+        $code = (int)($gErr['code'] ?? 0);
+        $sub  = (int)($gErr['error_subcode'] ?? 0);
+        $isTokenErr = in_array($code, [190, 102, 463, 467], true) || in_array($sub, [463, 467, 460, 458], true);
+        $out['graph_error'] = $gErr;
+        if ($isTokenErr) {
+            $out['verdict'] = 'TOKEN EXPIRED/INVALID — the production FB_PAGE_TOKEN is no longer valid (Graph code ' . $code . ($sub ? '/' . $sub : '') . ': ' . ($gErr['message'] ?? '') . '). This breaks BOTH fb_publish and ig_publish. Fix: in Graph API Explorer generate a fresh long-lived FB Page token WITH scopes pages_manage_posts, pages_read_engagement, instagram_basic, instagram_content_publish, then `gh secret set FB_PAGE_TOKEN --body <token>` and redeploy. The same token then auto-serves Instagram — no separate IG token needed. See runbook §1 Step 4.';
+        } else {
+            $out['verdict'] = 'GRAPH ERROR — ' . ($gErr['message'] ?? 'unknown') . ' (code ' . $code . '). Cannot resolve the IG account until this is fixed.';
+        }
+        jsonResponse($out);
+    }
     if ($disc['id'] === '') {
-        $out['verdict'] = 'NOT LINKED — the FB Page is reachable but has no linked Instagram Business account. Do runbook §1 Steps 1–2 (switch @netwebmedia to a Business account + link it to the FB Page in Meta Business Suite), then re-run discover. No code change needed afterward.';
+        $out['verdict'] = 'NOT LINKED — the FB Page is reachable and the token is valid, but no Instagram Business account is linked. Do runbook §1 Steps 1–2 (switch @netwebmedia to a Business account + link it to the FB Page in Meta Business Suite), then re-run discover. No code change needed afterward.';
         jsonResponse($out);
     }
     // Confirm the token can READ the IG account (proves instagram_basic + the page↔IG link).

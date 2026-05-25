@@ -129,7 +129,7 @@ new explicit decision from Carlos.
 ## §3. WhatsApp Business verification — 60 min hands-on, 1–7 day Meta wait
 
 ### Why this matters
-The audit found the only WhatsApp link on the site is `wa.me/14155238866` — Twilio's shared sandbox number. Cannot run broadcasts from it. We need a NetWebMedia-owned WABA.
+The public WhatsApp click-to-chat number is now **+1 (442) 385-4585** (`wa.me/14423854585`, verified live 2026-05-25), registered on the WhatsApp Business **app** — so it handles inbound chat only. Outbound broadcasts still need a Cloud-API WABA (the App can't do Cloud API); that's what this section sets up. The old Twilio sandbox link is gone from the site.
 
 While verification runs, the new `/whatsapp-updates.html` page (already live this deploy) collects opt-ins. Once Meta approves, a single SQL query flushes them into the broadcast list with their stored consent text intact.
 
@@ -201,14 +201,14 @@ Once Meta approves everything:
 - Trigger a deploy: `git commit --allow-empty -m "deploy: WABA verification complete" && git push origin main`
 - The `deploy-site-root.yml` workflow propagates the new tokens to `crm-vanilla/api/config.local.php` automatically
 
-#### 7. Update the chat widget link sitewide (2 min, post-approval)
-Replace every `wa.me/14155238866` (Twilio sandbox) reference with the new verified number. One global find/replace — search the codebase:
+#### 7. Update the chat widget link sitewide (post-approval)
+✅ Done 2026-05-25 — public click-to-chat is already on `wa.me/14423854585` (+1 442-385-4585). If you later stand up a separate Cloud-API WABA broadcast number, re-sweep with:
 
 ```bash
-grep -rn "wa.me/14155238866" --include="*.html" --include="*.js" .
+grep -rn "wa.me/" --include="*.html" --include="*.js" .
 ```
 
-Then update those references to the new verified `wa.me/<your-number>` URL.
+and point the public-facing links at the verified URL.
 
 #### 8. Flush the pending opt-in list (5 min, post-approval)
 Once verified, the `pending_double_opt_in` subscribers captured by `/whatsapp-updates.html` need to receive the double-opt-in confirmation message. Run this one-time SQL on the production DB:

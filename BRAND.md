@@ -944,7 +944,7 @@ Before publishing any Spanish-language asset:
 - [ ] Currency shown in USD with optional local equivalent
 - [ ] Contact info routes to Spanish-speaking team member or Spanish intake form
 - [ ] Date format: DD/MM/YYYY for LATAM (not MM/DD/YYYY)
-- [ ] Phone numbers shown in international format (+1 for US). Voice line is **+1 (760) 334-8731** (`tel:+17603348731`, schema.org telephone `+1-760-334-8731`). WhatsApp is a separate number **+1 (619) 738-6150** — click-to-chat at `https://wa.me/16197386150`.
+- [ ] Phone numbers shown in international format (+1 for US). Voice line is **+1 (760) 334-8731** (`tel:+17603348731`, schema.org telephone `+1-760-334-8731`). WhatsApp is a separate number **+1 (442) 385-4585** — click-to-chat at `https://wa.me/14423854585`.
 - [ ] Social proof includes at least one Spanish-language testimonial or LATAM case study
 - [ ] `lang="es"` attribute set on the HTML element or section
 
@@ -1051,4 +1051,4 @@ NetWebMedia operates white-label services for partner agencies. When a reseller 
 
 *NetWebMedia Brand Book v1.0 — April 21, 2026*
 *Maintained by: Carlos Martinez, CEO*
-*Questions: hello@netwebmedia.com · +1 (760) 334-8731 (US voice) · WhatsApp +1 (619) 738-6150*
+*Questions: hello@netwebmedia.com · +1 (760) 334-8731 (US voice) · WhatsApp +1 (442) 385-4585*

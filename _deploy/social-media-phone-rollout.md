@@ -1,6 +1,6 @@
-# Social Media Phone Rollout — Voice +1 (760) 334-8731 · WhatsApp +1 (619) 738-6150
+# Social Media Phone Rollout — Voice +1 (760) 334-8731 · WhatsApp +1 (442) 385-4585
 
-**Created:** 2026-05-13 · **Updated:** 2026-05-25 (WhatsApp split onto a separate Zadarma number)
+**Created:** 2026-05-13 · **Updated:** 2026-05-25 (WhatsApp split onto a separate number, +1 442-385-4585)
 **Owner:** Carlos
 **Status:** Site + email + chatbot updated automatically. Social profiles below are manual — paste each block into the listed field. **The WhatsApp number changed — re-paste every WhatsApp field.**
 
@@ -18,14 +18,14 @@
 | Schema.org telephone | `+1-760-334-8731` |
 | E.164 | `+17603348731` |
 
-**WhatsApp line (Zadarma, WhatsApp Business app) — +1 (619) 738-6150**
+**WhatsApp line (WhatsApp Business app) — +1 (442) 385-4585**
 
 | Use | String |
 |---|---|
-| Display (US format) | `+1 (619) 738-6150` |
-| International display | `+1 619-738-6150` |
-| WhatsApp click-to-chat | `https://wa.me/16197386150` |
-| E.164 | `+16197386150` |
+| Display (US format) | `+1 (442) 385-4585` |
+| International display | `+1 442-385-4585` |
+| WhatsApp click-to-chat | `https://wa.me/14423854585` |
+| E.164 | `+14423854585` |
 
 ---
 
@@ -37,13 +37,13 @@
 
 ```
 AI-native fractional CMO · US + LATAM SMBs
-WhatsApp +1 (619) 738-6150 · hello@netwebmedia.com
+WhatsApp +1 (442) 385-4585 · hello@netwebmedia.com
 $249/mo → ↓
 ```
 
 **Contact options:** add "Call" with the voice number +1 (760) 334-8731, "Text" → leave default, "Email" → hello@netwebmedia.com.
 
-**Action button:** "WhatsApp" (under Edit profile → Action buttons). Paste `https://wa.me/16197386150`.
+**Action button:** "WhatsApp" (under Edit profile → Action buttons). Paste `https://wa.me/14423854585`.
 
 ---
 
@@ -58,10 +58,10 @@ $249/mo → ↓
 **About → Short description:**
 
 ```
-AI-native fractional CMO for $1M–$20M US + LATAM SMBs. Strategy, software, execution in one retainer from $249/mo. Bilingual EN/ES. Voice +1 (760) 334-8731 · WhatsApp +1 (619) 738-6150.
+AI-native fractional CMO for $1M–$20M US + LATAM SMBs. Strategy, software, execution in one retainer from $249/mo. Bilingual EN/ES. Voice +1 (760) 334-8731 · WhatsApp +1 (442) 385-4585.
 ```
 
-**Page CTA button:** set to "Send WhatsApp Message" → `https://wa.me/16197386150`.
+**Page CTA button:** set to "Send WhatsApp Message" → `https://wa.me/14423854585`.
 
 ---
 
@@ -72,14 +72,14 @@ AI-native fractional CMO for $1M–$20M US + LATAM SMBs. Strategy, software, exe
 **Append to channel description:**
 
 ```
-📞 Voice: +1 (760) 334-8731 · WhatsApp: +1 (619) 738-6150
+📞 Voice: +1 (760) 334-8731 · WhatsApp: +1 (442) 385-4585
 ✉️ hello@netwebmedia.com
 🌐 netwebmedia.com
 ```
 
 **Where:** Customization → Basic info → Links → Add link.
 - Title: `WhatsApp`
-- URL: `https://wa.me/16197386150`
+- URL: `https://wa.me/14423854585`
 
 ---
 
@@ -91,7 +91,7 @@ AI-native fractional CMO for $1M–$20M US + LATAM SMBs. Strategy, software, exe
 
 ```
 AI fractional CMO · $249/mo
-WhatsApp +1 619-738-6150
+WhatsApp +1 442-385-4585
 netwebmedia.com
 ```
 
@@ -99,7 +99,7 @@ netwebmedia.com
 
 ```
 Get cited by ChatGPT.
-WA +1 619-738-6150 · netwebmedia.com
+WA +1 442-385-4585 · netwebmedia.com
 ```
 
 **Email field:** hello@netwebmedia.com.
@@ -134,7 +134,7 @@ Hi 👋 thanks for reaching NetWebMedia. Carlos reads every inbound personally �
 
 **Phone:** `+1 760-334-8731` (voice)
 **Primary phone:** yes.
-**Additional phone:** WhatsApp +1 (619) 738-6150 — note in description.
+**Additional phone:** WhatsApp +1 (442) 385-4585 — note in description.
 **Short name:** netwebmedia
 
 ---
@@ -151,7 +151,7 @@ Hi 👋 thanks for reaching NetWebMedia. Carlos reads every inbound personally �
 
 ## What WAS updated automatically (shipped 2026-05-25)
 
-- ✅ `whatsapp.html` — wa.me + heading now point to +1 (619) 738-6150; "Call" button stays on the 760 voice line
+- ✅ `whatsapp.html` — wa.me + heading now point to +1 (442) 385-4585; "Call" button stays on the 760 voice line
 - ✅ `contact.html` — phone row split into voice (760) + WhatsApp (619); Organization schema telephone stays 760
 - ✅ `index.html` — Organization schema telephone stays 760 (voice; unchanged)
 - ✅ `BRAND.md` — governance + localization checklist split into voice/WhatsApp
@@ -165,6 +165,6 @@ Hi 👋 thanks for reaching NetWebMedia. Carlos reads every inbound personally �
 
 ## Notes
 
-- **WhatsApp is now on the Business App (Zadarma number, +1 619-738-6150), not Cloud API.** Inbound click-to-chat via `wa.me/16197386150` works today. **Outbound broadcasts (`wa_flush.php` → Meta Cloud API, `WA_PHONE_ID`) are NOT available on this number** — the WhatsApp Business App cannot use Cloud API, and the number is locked to the App. If outbound broadcasting becomes a priority, that needs a Cloud API number + Meta business verification (a separate decision).
+- **WhatsApp is now on the Business App (+1 442-385-4585), not Cloud API.** Inbound click-to-chat via `wa.me/14423854585` works today. **Outbound broadcasts (`wa_flush.php` → Meta Cloud API, `WA_PHONE_ID`) are NOT available on this number** — the WhatsApp Business App cannot use Cloud API, and the number is locked to the App. If outbound broadcasting becomes a priority, that needs a Cloud API number + Meta business verification (a separate decision).
 - **Voice line** stays on the Sonetel number +1 (760) 334-8731. `tel:` links open the system dialer on mobile and FaceTime/Skype/Teams on desktop.
-- **Routing to `/whatsapp.html`** stays the canonical CTA pattern across the site. Direct `wa.me/16197386150` links live on `whatsapp.html` and `contact.html` only — that's per the CLAUDE.md rule and stays intact.
+- **Routing to `/whatsapp.html`** stays the canonical CTA pattern across the site. Direct `wa.me/14423854585` links live on `whatsapp.html` and `contact.html` only — that's per the CLAUDE.md rule and stays intact.

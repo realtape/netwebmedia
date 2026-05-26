@@ -80,9 +80,12 @@
   .msg { margin-top: 14px; font-size: 13px; min-height: 16px; }
   .msg.err { color: var(--err); }
   .msg.ok  { color: var(--ok); }
-  .remember { display: flex; align-items: center; gap: 8px; margin-top: 16px; font-size: 13px; color: var(--muted); cursor: pointer; }
+  .form-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
+  .remember { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); cursor: pointer; }
   .remember input { width: auto; margin: 0; accent-color: var(--accent); cursor: pointer; }
   .remember span { user-select: none; }
+  .forgot-link { font-size: 13px; color: var(--accent); text-decoration: none; white-space: nowrap; }
+  .forgot-link:hover { text-decoration: underline; }
 </style>
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
@@ -110,10 +113,13 @@
       <label for="password" data-en="Password" data-es="Contraseña">Password</label>
       <input id="password" type="password" required autocomplete="current-password" minlength="8" />
 
-      <label class="remember">
-        <input id="rememberMe" type="checkbox" />
-        <span data-en="Remember me" data-es="Recordarme">Remember me</span>
-      </label>
+      <div class="form-row">
+        <label class="remember">
+          <input id="rememberMe" type="checkbox" />
+          <span data-en="Remember me" data-es="Recordarme">Remember me</span>
+        </label>
+        <a href="#" id="forgotLink" class="forgot-link" data-en="Forgot password?" data-es="¿Olvidaste tu contraseña?">Forgot password?</a>
+      </div>
 
       <button class="btn" id="submitBtn" type="submit" data-en="Sign in" data-es="Iniciar sesión">Sign in</button>
       <div id="msg" class="msg"></div>
@@ -196,6 +202,42 @@
       demoBtn.addEventListener('click', function () {
         doLogin(null, { email: 'demo@netwebmedia.com', password: 'demo1234' });
       });
+
+      // ── Forgot password ──
+      // Reads the email from the field above and asks the API to email a
+      // reset link. The response is always generic (anti-enumeration).
+      function curLang() {
+        try {
+          var l = (document.documentElement.lang || localStorage.getItem('nwm_lang') || '').toLowerCase();
+          if (l.indexOf('es') === 0) return 'es';
+          if (l.indexOf('en') === 0) return 'en';
+        } catch (e) {}
+        return (new URLSearchParams(location.search)).get('lang') === 'es' ? 'es' : 'en';
+      }
+      var forgotLink = document.getElementById('forgotLink');
+      if (forgotLink) {
+        forgotLink.addEventListener('click', function (e) {
+          e.preventDefault();
+          var lang = curLang();
+          var addr = email.value.trim();
+          if (!addr || addr.indexOf('@') === -1) {
+            msg.className = 'msg err';
+            msg.textContent = lang === 'es'
+              ? 'Ingresa tu email arriba y vuelve a tocar “¿Olvidaste tu contraseña?”.'
+              : 'Enter your email above, then tap “Forgot password?” again.';
+            email.focus();
+            return;
+          }
+          var sent = lang === 'es'
+            ? 'Si existe una cuenta con ese email, te enviamos un enlace para restablecer tu contraseña. Revisa tu bandeja.'
+            : 'If an account exists for that email, we’ve sent a reset link. Check your inbox.';
+          msg.className = 'msg';
+          msg.textContent = lang === 'es' ? 'Enviando enlace…' : 'Sending reset link…';
+          window.NWMApi.forgotPassword(addr)
+            .then(function () { msg.className = 'msg ok'; msg.textContent = sent; })
+            .catch(function () { msg.className = 'msg ok'; msg.textContent = sent; }); // stay generic
+        });
+      }
 
       // If already signed in, bounce straight through.
       if (window.NWMApi.isAuthed()) {

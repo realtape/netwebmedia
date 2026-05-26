@@ -1,4 +1,21 @@
 <?php
+function pwreset_ensure_table() {
+  static $done = false;
+  if ($done) return;
+  qExec("CREATE TABLE IF NOT EXISTS password_resets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    token_hash CHAR(64) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    used_at DATETIME NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uniq_token (token_hash),
+    INDEX idx_user (user_id),
+    INDEX idx_expires (expires_at)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+  $done = true;
+}
+
 function route_auth($path, $method) {
   // /api/auth/register
   if ($path === 'register' && $method === 'POST') {
@@ -118,6 +135,89 @@ function route_auth($path, $method) {
   if ($path === 'me' && $method === 'GET') {
     $u = requireAuth();
     json_out(['user' => sanitizeUser($u)]);
+  }
+
+  // /api/auth/forgot — request a password-reset email
+  if ($path === 'forgot' && $method === 'POST') {
+    $b = required(['email']);
+    $email = strtolower(trim($b['email']));
+
+    // Always return the same response whether or not the account exists —
+    // prevents account-enumeration via this endpoint.
+    $generic = ['ok' => true, 'message' => 'If an account exists for that email, a reset link is on its way.'];
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) json_out($generic);
+
+    pwreset_ensure_table();
+
+    $user = qOne("SELECT id, email, name FROM users WHERE email = ?", [$email]);
+    if (!$user) json_out($generic);
+
+    // Throttle: if an unused token was issued in the last 60s, don't send again.
+    $recent = qOne(
+      "SELECT id FROM password_resets WHERE user_id = ? AND used_at IS NULL AND created_at > (NOW() - INTERVAL 60 SECOND) LIMIT 1",
+      [$user['id']]
+    );
+    if ($recent) json_out($generic);
+
+    // Invalidate any prior outstanding tokens for this user.
+    qExec("UPDATE password_resets SET used_at = NOW() WHERE user_id = ? AND used_at IS NULL", [$user['id']]);
+
+    $token     = bin2hex(random_bytes(32));      // raw token — goes in the email link only
+    $tokenHash = hash('sha256', $token);          // only the hash is stored
+    $expires   = date('Y-m-d H:i:s', time() + 3600); // 1 hour
+    qExec(
+      "INSERT INTO password_resets (user_id, token_hash, expires_at) VALUES (?, ?, ?)",
+      [$user['id'], $tokenHash, $expires]
+    );
+
+    try {
+      require_once __DIR__ . '/../lib/mailer.php';
+      $cfg      = config();
+      $base     = rtrim($cfg['base_url'] ?? 'https://netwebmedia.com', '/');
+      $link     = $base . '/reset-password.html?token=' . $token;
+      $safeLink = htmlspecialchars($link, ENT_QUOTES, 'UTF-8');
+      $first    = strtok((string)($user['name'] ?? ''), ' ') ?: 'there';
+      $inner = '
+        <p>Hi <strong>' . htmlspecialchars($first, ENT_QUOTES, 'UTF-8') . '</strong>,</p>
+        <p>We received a request to reset the password for your <strong>NetWebMedia</strong> account.</p>
+        <p style="margin:24px 0">
+          <a href="' . $safeLink . '" style="background:#6c5ce7;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600;display:inline-block">Reset your password</a>
+        </p>
+        <p style="font-size:13px;color:#666">This link expires in 1 hour and can only be used once. If the button doesn&rsquo;t work, copy and paste this URL into your browser:<br><span style="word-break:break-all">' . $safeLink . '</span></p>
+        <p style="font-size:13px;color:#666">If you didn&rsquo;t request this, you can safely ignore this email — your password won&rsquo;t change.</p>
+      ';
+      send_mail($user['email'], 'Reset your NetWebMedia password', email_shell('Password reset', $inner));
+    } catch (Throwable $_) { /* never leak mail errors to the client */ }
+
+    json_out($generic);
+  }
+
+  // /api/auth/reset — set a new password using the token from the email link
+  if ($path === 'reset' && $method === 'POST') {
+    $b        = required(['token', 'password']);
+    $token    = trim($b['token']);
+    $password = $b['password'];
+    if (strlen($password) < 8) err('Password must be at least 8 characters', 422);
+    if (!preg_match('/^[a-f0-9]{64}$/', $token)) err('Invalid or expired reset link', 400);
+
+    pwreset_ensure_table();
+
+    $tokenHash = hash('sha256', $token);
+    $row = qOne(
+      "SELECT id, user_id FROM password_resets WHERE token_hash = ? AND used_at IS NULL AND expires_at > NOW() LIMIT 1",
+      [$tokenHash]
+    );
+    if (!$row) err('Invalid or expired reset link', 400);
+
+    $hash = password_hash($password, PASSWORD_BCRYPT);
+    qExec("UPDATE users SET password_hash = ? WHERE id = ?", [$hash, $row['user_id']]);
+    qExec("UPDATE password_resets SET used_at = NOW() WHERE user_id = ? AND used_at IS NULL", [$row['user_id']]);
+    // Security: revoke all existing sessions so any old logins can't continue.
+    qExec("DELETE FROM sessions WHERE user_id = ?", [$row['user_id']]);
+    log_activity('user.password_reset', 'user', $row['user_id']);
+
+    json_out(['ok' => true, 'message' => 'Your password has been updated. You can now sign in.']);
   }
 
   err('Auth route not found', 404);

@@ -145,15 +145,42 @@
     } catch (e) {}
   }
 
-  /* ── Forgot password ── */
+  /* ── Forgot password ──
+     Sends a reset link to the email in the Sign-In email field via
+     api/?r=password_reset&action=request. Response is always generic
+     (never reveals whether the account exists). */
   var forgotLink = document.querySelector('.login-forgot a');
   if (forgotLink) {
     forgotLink.addEventListener('click', function(e) {
       e.preventDefault();
-      signinError.textContent = isEs
-        ? 'Para restablecer tu contraseña, contacta a tu administrador en carlos@netwebmedia.com'
-        : 'To reset your password, contact your administrator at carlos@netwebmedia.com';
-      signinError.style.color = '#7fe3a3';
+      var email = (signinEmail.value || '').trim();
+      if (!email || email.indexOf('@') === -1) {
+        signinError.style.color = '';
+        signinError.textContent = isEs
+          ? 'Ingresa tu correo arriba y vuelve a tocar “¿Olvidaste tu contraseña?”.'
+          : 'Enter your email above, then tap “Forgot password?” again.';
+        return;
+      }
+      forgotLink.style.pointerEvents = 'none';
+      fetch('api/?r=password_reset&action=request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function() {
+        signinError.style.color = '#7fe3a3';
+        signinError.textContent = isEs
+          ? 'Si existe una cuenta con ese correo, te enviamos un enlace para restablecer la contraseña (válido 1 hora). Revisa tu bandeja.'
+          : 'If an account exists for that email, we sent a reset link (valid 1 hour). Check your inbox.';
+      })
+      .catch(function() {
+        signinError.style.color = '';
+        signinError.textContent = L.connErr;
+      })
+      .finally(function() {
+        setTimeout(function() { forgotLink.style.pointerEvents = ''; }, 3000);
+      });
     });
   }
 

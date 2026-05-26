@@ -29,7 +29,7 @@ This is the single source-of-truth bundle for every social asset currently stage
 | **A6** Brand-intro carousel D | IG carousel 1:1 | IG · FB | 6 | `assets/social/carousels/d-slide-{1..6}.png` | ✅ Ready |
 | **A7** 14 niche posts (single-image) | IG/FB post | IG · FB | 14 captions | `social/niche-posts-14.md` | ✅ Ready (caption-only; pair with industry-page hero) |
 | **B1** Service Reels 2026 (R2–R10) | IG Reel 9:16 | IG · FB · TT | 9 reels | thumbnails only on disk | ⚠️ Re-acquire mp4s (CloudFront 403) |
-| **B2** MVP Expansion v2 (9 reels) | IG Reel 9:16 | IG · FB · TT | 9 reels | character refs only on disk | ⚠️ Assembly + VO needed |
+| **B2** MVP Expansion v2 (9 reels) | IG Reel 9:16 | IG · FB · TT | 9 reels | Remotion pipeline + per-reel themes wired; source clips + music pending | ⚠️ Drop clips + music → render |
 | **B3** Standalone reels D/E/F | IG Reel 9:16 | IG · FB · TT | 3 reels | thumbnails only on disk | ⚠️ Re-acquire mp4s |
 | **C1** WhatsApp Cloud broadcasts | WA template | WA | n/a | n/a | 🚫 Number on Business App, no Cloud API outbound |
 | **C2** TikTok publishing | Reel via API | TT | 6 reels | n/a | 🚫 `TT_ACCESS_TOKEN` + domain verification pending |
@@ -367,15 +367,41 @@ Each caption ends with a CTA to the niche subdomain (e.g. `hospitality.netwebmed
 
 **Action to unblock:** ask for "Re-acquire missing reel mp4s" (Higgsfield credits ≈ 0 if jobs still cached, otherwise per-clip).
 
-### B2 · MVP Expansion v2 (9 reels)
+### B2 · MVP Expansion v2 (9 reels) — pipeline built, awaiting assets
 
 22 source clips (3 character portraits + 19 video clips at 73 MB) were rendered 2026-05-12 per `_deploy/social-reels-mvp-expansion-2026-05/BRIEF.md`. Only the 3 character-ref portraits remain on disk (`assets/social/campaign/v2/character-refs/`). The 19 mp4 clips referenced in the BRIEF are gone — likely cleaned out before commit.
 
-**Blockers:**
-1. Re-acquire 19 source clips from Higgsfield workspace.
-2. Editor assembly (DaVinci/CapCut/Premiere): hero+broll cut to 12–15s, burn-in captions, watermark, 2s end card.
-3. Voice-over (Carlos or hired VO) for 9 EN scripts; ES dubs after EN locked.
-4. Meta verification per CLAUDE.md — HOLD on publish until confirmed.
+**Programmatic post-production now wired up.** Replaces the prior "open in DaVinci" step with a Remotion pipeline that ships nine visually distinct reels (per-reel tertiary accent + motif + transition) all anchored in Navy `#010F3B` + Orange `#FF671F`:
+
+| # | Package | Tertiary | Motif | Transition out (sample) |
+|---|---|---|---|---|
+| 1A Hook | AEO Starter | Amber `#FFB23F` | Skeptic squint · text drop · phone-glow | zoom-punch |
+| 2A Demo | AEO Starter | Amber + Crimson `#FF3B3B` | Schema markup wipes · error→fix | light-flash |
+| 3A Proof | AEO Starter | Amber + Mint `#5EE6A8` | Number counter · line-chart climb | scale-zoom |
+| 4B Hook | CMO Growth | Cyan `#22D3EE` | Tab-close kinetic · single dashboard | glitch-slide |
+| 5B Demo | CMO Growth | Cyan | Whiteboard list · calendar stagger | matrix-wipe |
+| 6B Proof | CMO Growth | Cyan + Lime `#A8E22D` | Arrow 0→47 · email-preview push | parallax-pan |
+| 7C Hook | CMO Scale | Gold `#FFC857` | Window light push-in · cinematic fade | cinema-fade |
+| 8C Demo | CMO Scale | Gold + Platinum `#C0D6F0` | KPI card stack · workflow nodes | depth-stack |
+| 9C Proof | CMO Scale | Gold + Revenue-green `#3FE07A` | Logo wall · revenue chart | momentum-blur |
+
+**Files:**
+- Composition: `video-factory/src/compositions/MvpReel.tsx`
+- Per-reel data + themes: `video-factory/src/data/mvp-reels.ts`
+- Render script: `video-factory/scripts/render-mvp-reels.sh` (does pre-flight + renders all 9 to `video-factory/out/`)
+- Music brief: `_deploy/social-reels-mvp-expansion-2026-05/MUSIC-BRIEF.md`
+
+**Remaining blockers before render:**
+1. Re-acquire 19 source clips from Higgsfield workspace `4df1d4d6-…` (job IDs in `BRIEF.md`) → drop in `video-factory/public/clips/`.
+2. License + drop 3 royalty-free music beds (one per package — see `MUSIC-BRIEF.md`) → `video-factory/public/music/`.
+3. PNG-export the brand marks (`assets/nwm-logo.svg` → `video-factory/public/nwm-logo.png`, `assets/nwm-logo-horizontal.svg` → `video-factory/public/nwm-logo-horizontal.png`).
+4. (Optional) Voice-over — Carlos records 9 EN scripts; without VO the captions carry the script and music + ambient fill the audio.
+5. Meta verification per CLAUDE.md — HOLD on publish until confirmed.
+
+**Render command (once 1–3 land):**
+```bash
+cd video-factory && npm install && ./scripts/render-mvp-reels.sh
+```
 
 ### B3 · Standalone reels D / E / F (EN)
 

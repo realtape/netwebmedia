@@ -1,9 +1,15 @@
 # MVP Expansion v2 — Music Brief
 
 Three music beds, one per package. Each track plays under all 3 reels in that
-package so the 9-reel set reads as a series, not nine random posts. Tracks are
-loaded by `video-factory/src/compositions/MvpReel.tsx` via `theme.music` and
-must live at `video-factory/public/music/<filename>.mp3`.
+package so the 9-reel set reads as a series, not nine random posts.
+
+**Storage policy** (CLAUDE.md → "Media storage policy"): music files live at
+`D:\hyperframes\netwebmedia\social-reels-mvp-v2\music\` on Carlos's Windows
+workstation. `video-factory/public/music/` is a Windows junction (`mklink /J`)
+pointing there. Tracks are loaded by `video-factory/src/compositions/MvpReel.tsx`
+via `theme.music` and resolved through Remotion's `staticFile()`. **Do NOT
+upload music files to Google Drive** — licensed beds belong on the local drive
+under the Artlist license file naming.
 
 | Package | Track filename | Brief |
 |---|---|---|
@@ -28,21 +34,22 @@ Brand-safe royalty-free options for commercial IG/FB/TT use:
 
 ## Track-prep checklist
 
-For each downloaded source file:
+For each downloaded source file (run on the Windows workstation, output
+directly to the hyperframes drive):
 
-```bash
-# 1. Trim to reel length + 1s tail (longest reel is 16s, so 17s).
+```cmd
+:: 1. Trim to reel length + 1s tail (longest reel is 16s, so 17s).
 ffmpeg -i source.wav -t 17 -ac 2 -ar 44100 trimmed.wav
 
-# 2. Normalize loudness to -16 LUFS (IG / TT target). Use loudnorm filter.
+:: 2. Normalize loudness to -16 LUFS (IG / TT target). Use loudnorm filter.
 ffmpeg -i trimmed.wav -af loudnorm=I=-16:TP=-1.5:LRA=11 -ar 44100 normalized.wav
 
-# 3. Encode to mp3 (Remotion's Audio component handles wav too, but mp3 is
-#    smaller and Remotion ships the asset into the rendered mp4).
+:: 3. Encode to mp3 (Remotion's Audio component handles wav too, but mp3 is
+::    smaller and Remotion ships the asset into the rendered mp4).
 ffmpeg -i normalized.wav -codec:a libmp3lame -b:a 192k aeo-tense-resolve.mp3
 
-# 4. Drop in place.
-mv aeo-tense-resolve.mp3 video-factory/public/music/
+:: 4. Drop straight into the hyperframes music folder.
+move aeo-tense-resolve.mp3 D:\hyperframes\netwebmedia\social-reels-mvp-v2\music\
 ```
 
 Repeat for `growth-operator.mp3` and `scale-cinematic.mp3`. Total: 3 mp3 files,

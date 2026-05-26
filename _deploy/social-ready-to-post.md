@@ -391,17 +391,25 @@ Each caption ends with a CTA to the niche subdomain (e.g. `hospitality.netwebmed
 - Render script: `video-factory/scripts/render-mvp-reels.sh` (does pre-flight + renders all 9 to `video-factory/out/`)
 - Music brief: `_deploy/social-reels-mvp-expansion-2026-05/MUSIC-BRIEF.md`
 
-**Remaining blockers before render:**
-1. Re-acquire 19 source clips from Higgsfield workspace `4df1d4d6-…` (job IDs in `BRIEF.md`) → drop in `video-factory/public/clips/`.
-2. License + drop 3 royalty-free music beds (one per package — see `MUSIC-BRIEF.md`) → `video-factory/public/music/`.
-3. PNG-export the brand marks (`assets/nwm-logo.svg` → `video-factory/public/nwm-logo.png`, `assets/nwm-logo-horizontal.svg` → `video-factory/public/nwm-logo-horizontal.png`).
-4. (Optional) Voice-over — Carlos records 9 EN scripts; without VO the captions carry the script and music + ambient fill the audio.
-5. Meta verification per CLAUDE.md — HOLD on publish until confirmed.
+**Asset storage policy (CLAUDE.md → "Media storage policy"):** All clips, music, VO, and render outputs live at `D:\hyperframes\netwebmedia\social-reels-mvp-v2\` on Carlos's Windows workstation. Never Google Drive, never the git repo. `video-factory/public/clips` and `public/music` are Windows junctions (`mklink /J`) into that path.
 
-**Render command (once 1–3 land):**
+**Remaining blockers before render:**
+1. Re-acquire 19 source clips from Higgsfield workspace `4df1d4d6-…` (job IDs in `BRIEF.md`) → save directly to `D:\hyperframes\netwebmedia\social-reels-mvp-v2\clips\`.
+2. License + drop 3 royalty-free music beds (one per package — see `MUSIC-BRIEF.md`) → `D:\hyperframes\netwebmedia\social-reels-mvp-v2\music\`.
+3. PNG-export the brand marks (`assets/nwm-logo.svg` → `video-factory/public/nwm-logo.png`, `assets/nwm-logo-horizontal.svg` → `video-factory/public/nwm-logo-horizontal.png`). These two PNGs are small enough to live in the repo via `video-factory/public/`.
+4. Create the junctions on the Windows workstation:
+   ```cmd
+   mklink /J video-factory\public\clips D:\hyperframes\netwebmedia\social-reels-mvp-v2\clips
+   mklink /J video-factory\public\music D:\hyperframes\netwebmedia\social-reels-mvp-v2\music
+   ```
+5. (Optional) Voice-over — Carlos records 9 EN scripts to `D:\hyperframes\netwebmedia\social-reels-mvp-v2\vo\`; without VO the captions carry the script and music + ambient fill the audio.
+6. Meta verification per CLAUDE.md — HOLD on publish until confirmed.
+
+**Render command (once 1–4 land):**
 ```bash
 cd video-factory && npm install && ./scripts/render-mvp-reels.sh
 ```
+Final renders write to `D:\hyperframes\netwebmedia\social-reels-mvp-v2\renders\` (via another junction to `video-factory/out/` if desired).
 
 ### B3 · Standalone reels D / E / F (EN)
 

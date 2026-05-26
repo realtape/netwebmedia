@@ -34,6 +34,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - [AEO content cluster pattern](#aeo-content-cluster-pattern)
 - [Mobile app — Capacitor 6](#mobile-app--capacitor-6-mobile)
 - [Video factory](#video-factory--adding-templates)
+- [Media storage policy — `D:\hyperframes`](#media-storage-policy--dhyperframes)
 - [Internal AI rule](#internal-ai-rule)
 - [Observability](#observability)
 - [XSS hygiene](#xss-hygiene-in-crm-vanilla)
@@ -59,6 +60,7 @@ These constraints are durable and override defaults. Violating any of them creat
 | 9 | **Don't edit auto-generated files** — edit the generator template instead | [Don't Edit These](#dont-edit-these--auto-generated-files) |
 | 10 | **Update both `data-en` and `data-es`** when changing bilingual copy | [Bilingual](#bilingual-en--es) |
 | 11 | **`crm-vanilla/` is the internal CRM of record** — do not add HubSpot or Supabase to production workflows | [CRM Platform Decision](#crm-platform-decision--2026-05-05) |
+| 12 | **All video + heavy media binaries live at `D:\hyperframes\`** — never Google Drive, never the git repo. Source clips, music beds, render outputs, b-roll, raw screen captures — all of it. Drive is for finished public-facing exports only (and even then, prefer the marketing site / CRM). | [Media storage policy](#media-storage-policy--dhyperframes) |
 
 ## Quick Start — Essential Commands
 
@@ -609,6 +611,54 @@ Templates live in `video-factory/src/compositions/`. To add one:
 3. Add field spec to `vid_templates()` in `api-php/routes/video.php`.
 
 The render pipeline: CRM UI → `POST /api/video/render` → `video-factory/server.js :3030/render` → Remotion → MP4 on disk, served from `/video-out/*.mp4`. Requires `remotion_render_url` set in `/home/webmed6/.netwebmedia-config.php`.
+
+## Media storage policy — `D:\hyperframes`
+
+**Carlos durable decision (2026-05-26).** All video + heavy media binaries live at `D:\hyperframes\` on Carlos's primary Windows workstation. **Not Google Drive. Not the git repo.** This includes:
+
+- Higgsfield / Kling source clips (hero, b-roll, character refs raw)
+- Voice-over recordings (raw + processed)
+- Music beds (licensed mp3/wav)
+- Remotion render outputs (`*_final.mp4`)
+- Raw screen captures, OBS recordings, Loom downloads
+- Anything > ~5 MB that isn't a finished public-facing asset already linked from netwebmedia.com
+
+**Why:** the 534 MB hyperframes incident burned us once already (see [Auto-backup commits](#auto-backup-commits--consolidate-before-pushing)) — these binaries belong on the local drive with the 95 MiB git size-guard ensuring they never reach `origin`. Drive is for **finished public-facing exports only**, and even then prefer netwebmedia.com / the CRM.
+
+**Canonical layout (mirror this when creating new project folders):**
+
+```
+D:\hyperframes\
+├── netwebmedia\
+│   ├── social-reels-mvp-v2\          # MVP Expansion v2 (9 reels)
+│   │   ├── clips\                    # 19 Higgsfield source clips
+│   │   ├── music\                    # 3 licensed beds (per package)
+│   │   ├── vo\                       # Carlos / hired-VO recordings
+│   │   ├── renders\                  # Remotion outputs
+│   │   └── finals\                   # H.264 1080×1920 publish-ready
+│   ├── social-campaigns-v1\          # Original 6 reels (April 2026)
+│   └── audit-pages-broll\            # B-roll for 680 company pages
+├── realiracing\                      # Client project
+└── <client-slug>\                    # One folder per client
+```
+
+**Pipeline wiring (Remotion):** `video-factory/public/clips` and `video-factory/public/music` should be Windows **junction points** (or NTFS symlinks) into the matching `D:\hyperframes\netwebmedia\<project>\` folder so Remotion's `staticFile()` resolves them without copying binaries into the repo:
+
+```cmd
+mklink /J video-factory\public\clips D:\hyperframes\netwebmedia\social-reels-mvp-v2\clips
+mklink /J video-factory\public\music D:\hyperframes\netwebmedia\social-reels-mvp-v2\music
+```
+
+The `.gitignore` in `video-factory/` already blocks `public/clips/*.mp4` and `public/music/*.mp3` from accidental commits — the junction is invisible to git.
+
+**On Linux/macOS dev machines** (or the remote sandbox): substitute `~/hyperframes/` (or any local path) and symlink the same way:
+
+```bash
+ln -s ~/hyperframes/netwebmedia/social-reels-mvp-v2/clips video-factory/public/clips
+ln -s ~/hyperframes/netwebmedia/social-reels-mvp-v2/music video-factory/public/music
+```
+
+**Drive is forbidden as a primary store for these binaries** — do not upload source clips, raw VO, or music beds to `drive.google.com`. If a file needs to be shared with a vendor/contractor, generate a time-limited share link from the local copy via a one-off upload, then delete the Drive copy when the engagement ends.
 
 ## Internal AI rule
 

@@ -2,9 +2,23 @@
 # Render all 9 MVP Expansion v2 reels with the per-reel theme + music pipeline.
 # Outputs to video-factory/out/reel_*_v2_en_final.mp4 (1080×1920, 30fps, H.264).
 #
+# Asset storage policy (CLAUDE.md → "Media storage policy"):
+# All video/music binaries live at D:\hyperframes\netwebmedia\social-reels-mvp-v2\
+# on the Windows workstation. video-factory/public/clips and public/music are
+# Windows junctions (mklink /J) pointing to that path — never check binaries
+# into the repo, never upload to Google Drive.
+#
+# Setup on Windows (one-time):
+#   mklink /J video-factory\public\clips D:\hyperframes\netwebmedia\social-reels-mvp-v2\clips
+#   mklink /J video-factory\public\music D:\hyperframes\netwebmedia\social-reels-mvp-v2\music
+#
+# Setup on Linux/macOS (or remote sandbox):
+#   ln -s ~/hyperframes/netwebmedia/social-reels-mvp-v2/clips video-factory/public/clips
+#   ln -s ~/hyperframes/netwebmedia/social-reels-mvp-v2/music video-factory/public/music
+#
 # Prerequisites (verified by this script before rendering):
-#   - 19 source clips in video-factory/public/clips/ (per data/mvp-reels.ts)
-#   - 3 music tracks in video-factory/public/music/ (per MUSIC-BRIEF.md)
+#   - 19 source clips reachable via video-factory/public/clips/ (per data/mvp-reels.ts)
+#   - 3 music tracks reachable via video-factory/public/music/ (per MUSIC-BRIEF.md)
 #   - nwm-logo.png + nwm-logo-horizontal.png in video-factory/public/
 
 set -euo pipefail
@@ -69,10 +83,16 @@ done
 
 if [[ $missing -ne 0 ]]; then
   echo
-  echo "Pre-flight failed. See MUSIC-BRIEF.md and the re-acquisition steps"
-  echo "in _deploy/social-reels-mvp-expansion-2026-05/BRIEF.md (the 19 source"
-  echo "clips were generated on Higgsfield workspace 4df1d4d6-… and can be"
-  echo "re-pulled via job_display per the IDs in BRIEF.md)."
+  echo "Pre-flight failed. Asset storage policy (CLAUDE.md) requires all video"
+  echo "+ music binaries to live at D:\\hyperframes\\netwebmedia\\social-reels-mvp-v2\\"
+  echo "and be reached via Windows junctions (mklink /J) on the public/ folders."
+  echo
+  echo "If you're missing source clips, re-pull from the Higgsfield workspace"
+  echo "(_deploy/social-reels-mvp-expansion-2026-05/BRIEF.md has the job IDs)"
+  echo "and save them directly to D:\\hyperframes\\netwebmedia\\social-reels-mvp-v2\\clips\\."
+  echo
+  echo "If you're missing music, follow MUSIC-BRIEF.md and save the licensed"
+  echo "mp3s to D:\\hyperframes\\netwebmedia\\social-reels-mvp-v2\\music\\."
   exit 1
 fi
 

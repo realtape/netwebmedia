@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NetWebMedia · AI Lead-Gen Carousel</title>
+<style>
+  :root{ --navy:#010A29; --orange:#FF671F; --cream:#F4F1EA; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#020B22; color:var(--cream); font-family:'Helvetica Neue',Arial,sans-serif; padding:32px 20px 80px; }
+  header{ max-width:1120px; margin:0 auto 20px; }
+  h1{ font-size:22px; font-weight:500; margin:0 0 4px; }
+  p.sub{ color:#8499B8; margin:0 0 20px; font-size:15px; }
+  .bar{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom:8px; }
+  button{ font:inherit; font-weight:700; border:0; border-radius:10px; padding:12px 18px; cursor:pointer; }
+  .primary{ background:var(--orange); color:var(--navy); }
+  .ghost{ background:#0E2547; color:var(--cream); }
+  .grid{ max-width:1120px; margin:24px auto 0; display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:24px; }
+  .card{ background:#0A1830; border:1px solid #163059; border-radius:14px; padding:14px; }
+  .card svg{ width:100%; height:auto; border-radius:8px; display:block; }
+  .card .row{ display:flex; gap:8px; margin-top:12px; }
+  .card .row button{ flex:1; padding:9px 0; font-size:13px; border-radius:8px; }
+  .name{ font-size:13px; color:#8499B8; margin:0 0 10px; letter-spacing:1px; }
+  #status{ max-width:1120px; margin:14px auto 0; color:#8499B8; font-size:14px; min-height:20px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>NetWebMedia &mdash; AI lead-gen carousel</h1>
+  <p class="sub">6 slides &middot; 1080&times;1350 (4:5) &middot; navy #010F3B + orange #FF671F. Click "Download all PNGs" to export the full deck, ready to post to Instagram.</p>
+  <div class="bar">
+    <button class="primary" onclick="downloadAll('png')">Download all PNGs</button>
+    <button class="ghost" onclick="downloadAll('svg')">Download all SVGs</button>
+    <button class="ghost" onclick="downloadPipeline()">Download IG pipeline PNGs (d-slide-1…6)</button>
+  </div>
+  <div id="status"></div>
+</header>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const SLIDES = ["01_cover","02_what","03_examples","04_comparison","05_how_to","06_cta"];
+const W=1080, H=1350;
+const grid = document.getElementById('grid');
+const statusEl = document.getElementById('status');
+
+function svgMarkup(name){ return document.getElementById('svg_'+name).querySelector('svg'); }
+
+function toPng(name, outName){
+  return new Promise((resolve,reject)=>{
+    const svg = svgMarkup(name);
+    const xml = new XMLSerializer().serializeToString(svg);
+    const url = 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(xml);
+    const img = new Image();
+    img.onload = ()=>{
+      const c = document.createElement('canvas'); c.width=W; c.height=H;
+      const ctx = c.getContext('2d'); ctx.drawImage(img,0,0,W,H);
+      c.toBlob(b=>{ trigger(URL.createObjectURL(b), (outName||name)+'.png'); resolve(); }, 'image/png');
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+async function downloadPipeline(){
+  statusEl.textContent = 'Exporting d-slide-1…6.png for the IG pipeline…';
+  for(let i=0;i<SLIDES.length;i++){ await toPng(SLIDES[i], 'd-slide-'+(i+1)); await new Promise(r=>setTimeout(r,450)); }
+  statusEl.textContent = 'Done. Drop these 6 files into assets/social/carousels/.';
+}
+function toSvg(name){
+  const svg = svgMarkup(name);
+  const xml = '<?xml version="1.0" encoding="UTF-8"?>\n'+new XMLSerializer().serializeToString(svg);
+  const blob = new Blob([xml], {type:'image/svg+xml'});
+  trigger(URL.createObjectURL(blob), name+'.svg');
+}
+function trigger(href, filename){
+  const a=document.createElement('a'); a.href=href; a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+}
+async function downloadAll(kind){
+  statusEl.textContent = 'Exporting '+SLIDES.length+' '+kind.toUpperCase()+' files…';
+  for(let i=0;i<SLIDES.length;i++){
+    if(kind==='png'){ await toPng(SLIDES[i]); } else { toSvg(SLIDES[i]); }
+    await new Promise(r=>setTimeout(r,450));
+  }
+  statusEl.textContent = 'Done. Check your Downloads folder.';
+}
+
+SLIDES.forEach(name=>{
+  const tpl = document.getElementById('svg_'+name).innerHTML;
+  const card = document.createElement('div'); card.className='card';
+  card.innerHTML = '<p class="name">'+name.toUpperCase()+'</p>'+tpl+
+    '<div class="row"><button class="primary" data-n="'+name+'" data-k="png">PNG</button>'+
+    '<button class="ghost" data-n="'+name+'" data-k="svg">SVG</button></div>';
+  grid.appendChild(card);
+});
+grid.addEventListener('click', e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  if(b.dataset.k==='png') toPng(b.dataset.n); else toSvg(b.dataset.n);
+});
+</script>
+
+<!-- ===== inline SVG sources (export reads these) ===== -->
+<template id="svg_01_cover"><svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+<defs><radialGradient id="glow" cx="50%" cy="22%" r="60%"><stop offset="0%" stop-color="#FF671F" stop-opacity="0.30"/><stop offset="55%" stop-color="#FF671F" stop-opacity="0.05"/><stop offset="100%" stop-color="#FF671F" stop-opacity="0"/></radialGradient><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#021046"/><stop offset="100%" stop-color="#010A29"/></linearGradient><linearGradient id="vign" x1="0" y1="0" x2="0" y2="1"><stop offset="60%" stop-color="#010A29" stop-opacity="0"/><stop offset="100%" stop-color="#010A29" stop-opacity="0.85"/></linearGradient></defs>
+<rect width="1080" height="1350" fill="url(#bg)"/><rect width="1080" height="1350" fill="url(#glow)"/>
+<g stroke="#FF671F" stroke-opacity="0.18" stroke-width="2" fill="none"><path d="M760 980 L900 920 L980 1030 L840 1090 Z"/><path d="M900 920 L840 1090 M760 980 L980 1030"/></g>
+<g fill="#FF671F" fill-opacity="0.35"><circle cx="760" cy="980" r="7"/><circle cx="900" cy="920" r="7"/><circle cx="980" cy="1030" r="7"/><circle cx="840" cy="1090" r="7"/></g>
+<rect x="80" y="92" width="26" height="26" rx="7" fill="#FF671F"/><text x="122" y="113" font-family="'Helvetica Neue',Arial,sans-serif" font-size="27" font-weight="700" letter-spacing="3" fill="#FFFFFF">NETWEBMEDIA</text><text x="1000" y="113" text-anchor="end" font-family="'Helvetica Neue',Arial,sans-serif" font-size="22" font-weight="600" letter-spacing="4" fill="#8499B8">AI GROWTH</text>
+<text x="78" y="500" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="130" fill="#FF671F">LEADS ON</text><text x="78" y="632" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="130" fill="#FFFFFF">AUTOPILOT</text>
+<rect x="84" y="712" width="120" height="6" rx="3" fill="#FF671F"/><text x="80" y="792" font-family="Georgia,serif" font-style="italic" font-size="50" fill="#F4F1EA">what AI does while you sleep</text>
+<text x="80" y="1130" font-family="Georgia,serif" font-style="italic" font-size="46" fill="#FFFFFF">your website should be</text><text x="80" y="1192" font-family="Georgia,serif" font-style="italic" font-size="46" fill="#FFFFFF">closing for you<tspan fill="#FF671F">…</tspan></text>
+<rect width="1080" height="1350" fill="url(#vign)"/>
+<text x="80" y="1300" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="600" letter-spacing="1" fill="#F4F1EA">@netwebmedia</text><text x="1000" y="1300" text-anchor="end" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="600" letter-spacing="1" fill="#FF671F">save for later &#8594;</text><text x="540" y="1300" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="22" letter-spacing="3" fill="#5E76A0">01 / 06</text>
+</svg></template>
+
+<template id="svg_02_what"><svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+<defs><linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#021046"/><stop offset="100%" stop-color="#010A29"/></linearGradient><radialGradient id="glow2" cx="85%" cy="12%" r="55%"><stop offset="0%" stop-color="#FF671F" stop-opacity="0.22"/><stop offset="100%" stop-color="#FF671F" stop-opacity="0"/></radialGradient></defs>
+<rect width="1080" height="1350" fill="url(#bg2)"/><rect width="1080" height="1350" fill="url(#glow2)"/>
+<rect x="80" y="92" width="26" height="26" rx="7" fill="#FF671F"/><text x="122" y="113" font-family="'Helvetica Neue',Arial,sans-serif" font-size="27" font-weight="700" letter-spacing="3" fill="#FFFFFF">NETWEBMEDIA</text>
+<text x="80" y="300" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="700" letter-spacing="6" fill="#FF671F">WHAT IT IS</text><text x="78" y="400" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="92" fill="#FFFFFF">AI lead generation</text>
+<rect x="84" y="470" width="6" height="560" rx="3" fill="#FF671F"/>
+<g font-family="'Helvetica Neue',Arial,sans-serif" font-size="46" fill="#F4F1EA"><text x="132" y="560">Your site stops being a brochure.</text><text x="132" y="668">It becomes a machine that finds buyers.</text><text x="132" y="776">It greets every visitor, day and night.</text><text x="132" y="884">It answers questions and books calls.</text><text x="132" y="992" fill="#FFFFFF">You wake up to new leads, not silence.</text></g>
+<text x="80" y="1300" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="600" letter-spacing="1" fill="#F4F1EA">@netwebmedia</text><text x="1000" y="1300" text-anchor="end" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="600" letter-spacing="1" fill="#FF671F">save for later &#8594;</text><text x="540" y="1300" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="22" letter-spacing="3" fill="#5E76A0">02 / 06</text>
+</svg></template>
+
+<template id="svg_03_examples"><svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+<defs><linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#021046"/><stop offset="100%" stop-color="#010A29"/></linearGradient><radialGradient id="glow3" cx="15%" cy="15%" r="55%"><stop offset="0%" stop-color="#FF671F" stop-opacity="0.20"/><stop offset="100%" stop-color="#FF671F" stop-opacity="0"/></radialGradient></defs>
+<rect width="1080" height="1350" fill="url(#bg3)"/><rect width="1080" height="1350" fill="url(#glow3)"/>
+<rect x="80" y="92" width="26" height="26" rx="7" fill="#FF671F"/><text x="122" y="113" font-family="'Helvetica Neue',Arial,sans-serif" font-size="27" font-weight="700" letter-spacing="3" fill="#FFFFFF">NETWEBMEDIA</text>
+<text x="80" y="250" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="700" letter-spacing="6" fill="#FF671F">WHERE AI WORKS</text><text x="78" y="345" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="78" fill="#FFFFFF">Five jobs it</text><text x="78" y="430" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="78" fill="#FF671F">never sleeps on</text>
+<g font-family="'Helvetica Neue',Arial,sans-serif">
+<g><rect x="80" y="520" width="920" height="104" rx="18" fill="#0E2547"/><circle cx="148" cy="572" r="34" fill="#FF671F"/><text x="148" y="585" text-anchor="middle" font-size="38" font-weight="700" fill="#010A29">1</text><text x="216" y="586" font-size="44" font-weight="600" fill="#FFFFFF">Chat that qualifies leads</text></g>
+<g><rect x="80" y="644" width="920" height="104" rx="18" fill="#0E2547"/><circle cx="148" cy="696" r="34" fill="#FF671F"/><text x="148" y="709" text-anchor="middle" font-size="38" font-weight="700" fill="#010A29">2</text><text x="216" y="710" font-size="44" font-weight="600" fill="#FFFFFF">Instant replies, 24/7</text></g>
+<g><rect x="80" y="768" width="920" height="104" rx="18" fill="#0E2547"/><circle cx="148" cy="820" r="34" fill="#FF671F"/><text x="148" y="833" text-anchor="middle" font-size="38" font-weight="700" fill="#010A29">3</text><text x="216" y="834" font-size="44" font-weight="600" fill="#FFFFFF">Follow-up texts that nudge</text></g>
+<g><rect x="80" y="892" width="920" height="104" rx="18" fill="#0E2547"/><circle cx="148" cy="944" r="34" fill="#FF671F"/><text x="148" y="957" text-anchor="middle" font-size="38" font-weight="700" fill="#010A29">4</text><text x="216" y="958" font-size="44" font-weight="600" fill="#FFFFFF">Books the call for you</text></g>
+<g><rect x="80" y="1016" width="920" height="104" rx="18" fill="#0E2547"/><circle cx="148" cy="1068" r="34" fill="#FF671F"/><text x="148" y="1081" text-anchor="middle" font-size="38" font-weight="700" fill="#010A29">5</text><text x="216" y="1082" font-size="44" font-weight="600" fill="#FFFFFF">Sorts hot leads from cold</text></g>
+</g>
+<text x="80" y="1300" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="600" letter-spacing="1" fill="#F4F1EA">@netwebmedia</text><text x="1000" y="1300" text-anchor="end" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="600" letter-spacing="1" fill="#FF671F">save for later &#8594;</text><text x="540" y="1300" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="22" letter-spacing="3" fill="#5E76A0">03 / 06</text>
+</svg></template>
+
+<template id="svg_04_comparison"><svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+<defs><linearGradient id="bg4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#021046"/><stop offset="100%" stop-color="#010A29"/></linearGradient></defs>
+<rect width="1080" height="1350" fill="url(#bg4)"/>
+<rect x="80" y="92" width="26" height="26" rx="7" fill="#FF671F"/><text x="122" y="113" font-family="'Helvetica Neue',Arial,sans-serif" font-size="27" font-weight="700" letter-spacing="3" fill="#FFFFFF">NETWEBMEDIA</text>
+<text x="80" y="210" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="700" letter-spacing="6" fill="#FF671F">OLD WAY VS AI</text><text x="78" y="312" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="86" fill="#FFFFFF">Forms wait.</text><text x="78" y="402" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="86" fill="#FF671F">AI works.</text>
+<rect x="80" y="440" width="440" height="700" rx="22" fill="#0A1830"/><text x="120" y="520" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="700" letter-spacing="3" fill="#8499B8">THE OLD FUNNEL</text>
+<g font-family="'Helvetica Neue',Arial,sans-serif" font-size="36" fill="#6F84A6"><text x="120" y="640">Form sits for hours.</text><text x="120" y="760">Leads go cold by</text><text x="120" y="806">morning.</text><text x="120" y="920">You chase. They</text><text x="120" y="966">ghost.</text><text x="120" y="1080">Buyers pick a</text><text x="120" y="1126">competitor.</text></g>
+<rect x="560" y="440" width="440" height="700" rx="22" fill="#0E2547" stroke="#FF671F" stroke-width="3"/><text x="600" y="520" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="700" letter-spacing="3" fill="#FF671F">WITH AI</text>
+<g font-family="'Helvetica Neue',Arial,sans-serif" font-size="36" font-weight="600" fill="#FFFFFF"><text x="600" y="640">Replies in seconds.</text><text x="600" y="760">Follows up on its</text><text x="600" y="806">own.</text><text x="600" y="920">Books while you</text><text x="600" y="966">sleep.</text><text x="600" y="1080">You talk to ready</text><text x="600" y="1126">buyers.</text></g>
+<text x="80" y="1300" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="600" letter-spacing="1" fill="#F4F1EA">@netwebmedia</text><text x="1000" y="1300" text-anchor="end" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="600" letter-spacing="1" fill="#FF671F">save for later &#8594;</text><text x="540" y="1300" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="22" letter-spacing="3" fill="#5E76A0">04 / 06</text>
+</svg></template>
+
+<template id="svg_05_how_to"><svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+<defs><linearGradient id="bg5" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#021046"/><stop offset="100%" stop-color="#010A29"/></linearGradient><radialGradient id="glow5" cx="50%" cy="92%" r="60%"><stop offset="0%" stop-color="#FF671F" stop-opacity="0.18"/><stop offset="100%" stop-color="#FF671F" stop-opacity="0"/></radialGradient></defs>
+<rect width="1080" height="1350" fill="url(#bg5)"/><rect width="1080" height="1350" fill="url(#glow5)"/>
+<rect x="80" y="92" width="26" height="26" rx="7" fill="#FF671F"/><text x="122" y="113" font-family="'Helvetica Neue',Arial,sans-serif" font-size="27" font-weight="700" letter-spacing="3" fill="#FFFFFF">NETWEBMEDIA</text>
+<text x="80" y="250" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="700" letter-spacing="6" fill="#FF671F">TURN IT ON</text><text x="78" y="350" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="84" fill="#FFFFFF">3 steps, no</text><text x="78" y="438" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="84" fill="#FFFFFF">tech team</text>
+<g font-family="'Helvetica Neue',Arial,sans-serif">
+<text x="80" y="600" font-size="120" font-weight="700" font-family="Georgia,serif" font-style="italic" fill="#FF671F">1</text><text x="210" y="585" font-size="46" font-weight="600" fill="#FFFFFF">Add AI chat to your site.</text>
+<text x="80" y="760" font-size="120" font-weight="700" font-family="Georgia,serif" font-style="italic" fill="#FF671F">2</text><text x="210" y="745" font-size="46" font-weight="600" fill="#FFFFFF">Connect it to your calendar.</text>
+<text x="80" y="920" font-size="120" font-weight="700" font-family="Georgia,serif" font-style="italic" fill="#FF671F">3</text><text x="210" y="905" font-size="46" font-weight="600" fill="#FFFFFF">Set the follow-up messages.</text>
+</g>
+<rect x="80" y="1010" width="920" height="120" rx="22" fill="#0E2547" stroke="#FF671F" stroke-width="3"/><text x="540" y="1086" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-size="52" fill="#F4F1EA">Set it once. It works <tspan fill="#FF671F">24/7.</tspan></text>
+<text x="80" y="1300" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="600" letter-spacing="1" fill="#F4F1EA">@netwebmedia</text><text x="1000" y="1300" text-anchor="end" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="600" letter-spacing="1" fill="#FF671F">save for later &#8594;</text><text x="540" y="1300" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="22" letter-spacing="3" fill="#5E76A0">05 / 06</text>
+</svg></template>
+
+<template id="svg_06_cta"><svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+<defs><linearGradient id="bg6" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#021046"/><stop offset="100%" stop-color="#010A29"/></linearGradient><radialGradient id="glow6" cx="50%" cy="34%" r="48%"><stop offset="0%" stop-color="#FF671F" stop-opacity="0.38"/><stop offset="60%" stop-color="#FF671F" stop-opacity="0.06"/><stop offset="100%" stop-color="#FF671F" stop-opacity="0"/></radialGradient></defs>
+<rect width="1080" height="1350" fill="url(#bg6)"/><rect width="1080" height="1350" fill="url(#glow6)"/>
+<rect x="450" y="250" width="180" height="180" rx="40" fill="#010A29" stroke="#FF671F" stroke-width="4"/>
+<g stroke="#FF671F" stroke-width="10" stroke-linecap="round"><line x1="540" y1="300" x2="540" y2="330"/><line x1="540" y1="350" x2="540" y2="380"/><line x1="490" y1="340" x2="514" y2="340"/><line x1="566" y1="340" x2="590" y2="340"/><line x1="505" y1="305" x2="522" y2="322"/><line x1="558" y1="358" x2="575" y2="375"/><line x1="575" y1="305" x2="558" y2="322"/><line x1="522" y1="358" x2="505" y2="375"/></g>
+<text x="540" y="412" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="20" font-weight="700" letter-spacing="4" fill="#FFFFFF">NWM</text>
+<text x="540" y="560" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="78" fill="#FFFFFF">Ready to put your</text><text x="540" y="648" text-anchor="middle" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="78" fill="#FF671F">website to work?</text>
+<text x="540" y="752" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="44" fill="#F4F1EA">Get a free AI lead-gen audit.</text>
+<rect x="270" y="828" width="540" height="112" rx="56" fill="#FF671F"/><text x="540" y="900" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="44" font-weight="700" letter-spacing="1" fill="#010A29">netwebmedia.com</text>
+<text x="540" y="1066" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="32" fill="#FFFFFF">Follow us on Instagram</text><text x="540" y="1118" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="44" font-weight="700" letter-spacing="1" fill="#FF671F">@netwebmedia</text><text x="540" y="1168" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="30" fill="#8499B8">for more AI growth tips</text>
+<text x="80" y="1300" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="600" letter-spacing="1" fill="#F4F1EA">@netwebmedia</text><text x="1000" y="1300" text-anchor="end" font-family="'Helvetica Neue',Arial,sans-serif" font-size="28" font-weight="600" letter-spacing="1" fill="#FF671F">netwebmedia.com</text><text x="540" y="1300" text-anchor="middle" font-family="'Helvetica Neue',Arial,sans-serif" font-size="22" letter-spacing="3" fill="#5E76A0">06 / 06</text>
+</svg></template>
+
+</body>
+</html>

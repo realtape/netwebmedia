@@ -1,0 +1,20 @@
+[
+  {
+    "_comment": "ANDROID APP LINKS — ACTIVATION STEPS",
+    "_step_1": "After signing the Android release APK/AAB with your upload key, run: keytool -list -v -keystore <your-release-key>.keystore — copy the SHA256 fingerprint.",
+    "_step_2": "Replace REPLACE_SHA256_FINGERPRINT below with that colon-separated SHA256 value (uppercase, e.g. AA:BB:CC:...).",
+    "_step_3": "Rename this file from 'assetlinks.json.example' to 'assetlinks.json'.",
+    "_step_4": "Served at: https://netwebmedia.com/.well-known/assetlinks.json — must be 200, Content-Type: application/json, NO redirect.",
+    "_step_5": "Validate at https://developers.google.com/digital-asset-links/tools/generator and via adb verify: adb shell pm verify-app-links --re-verify com.netwebmedia.app",
+    "_step_6": "Add autoVerify=\"true\" to the relevant <intent-filter> blocks in AndroidManifest.xml.",
+
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.netwebmedia.app",
+      "sha256_cert_fingerprints": [
+        "REPLACE_SHA256_FINGERPRINT"
+      ]
+    }
+  }
+]

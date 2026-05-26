@@ -1,0 +1,240 @@
+/* ──────────────────────────────────────────────────────────────
+   Diagnostic Motion Graphics — shared across all *-digital-gaps.html
+   NetWebMedia 2026-04-24
+   GPU-friendly (transform/opacity only). Respects prefers-reduced-motion.
+   Philosophy: motion should feel like actual diagnostic monitoring —
+   scanning radar, pulsing critical alerts, data count-up — not decoration.
+   ────────────────────────────────────────────────────────────── */
+
+/* Radar scan in report header */
+.report-header { position: relative; overflow: hidden; }
+.report-header::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 85% 40%, rgba(255,107,0,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 15% 60%, rgba(248,81,73,0.06) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+.report-header::after {
+  content: "";
+  position: absolute;
+  top: 50%; right: -100px;
+  width: 400px; height: 400px;
+  margin-top: -200px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(255,107,0,0) 0deg,
+    rgba(255,107,0,0) 320deg,
+    rgba(255,107,0,0.18) 345deg,
+    rgba(255,107,0,0.35) 358deg,
+    rgba(255,107,0,0) 360deg
+  );
+  animation: nwm-radar-sweep 4s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+  filter: blur(1px);
+}
+.report-header > * { position: relative; z-index: 1; }
+
+@keyframes nwm-radar-sweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Grid scan lines in header background */
+.report-header .scan-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255,107,0,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,107,0,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse at 80% 50%, black 0%, transparent 70%);
+}
+.report-header .scan-line {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,107,0,0.8), transparent);
+  animation: nwm-scan-y 6s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 12px rgba(255,107,0,0.5);
+}
+@keyframes nwm-scan-y {
+  0%   { top: -2px;  opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Pulsing critical severity dot */
+.severity-critical { position: relative; padding-left: 22px !important; }
+.severity-critical::before {
+  content: "";
+  position: absolute;
+  left: 8px; top: 50%;
+  width: 8px; height: 8px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: #f85149;
+  box-shadow: 0 0 0 0 rgba(248,81,73,0.7);
+  animation: nwm-pulse-critical 1.6s ease-out infinite;
+}
+@keyframes nwm-pulse-critical {
+  0%   { box-shadow: 0 0 0 0 rgba(248,81,73,0.7); }
+  70%  { box-shadow: 0 0 0 10px rgba(248,81,73,0); }
+  100% { box-shadow: 0 0 0 0 rgba(248,81,73,0); }
+}
+
+.severity-high { position: relative; padding-left: 22px !important; }
+.severity-high::before {
+  content: "";
+  position: absolute;
+  left: 8px; top: 50%;
+  width: 8px; height: 8px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: #d29922;
+  box-shadow: 0 0 0 0 rgba(210,153,34,0.6);
+  animation: nwm-pulse-high 2.2s ease-out infinite;
+}
+@keyframes nwm-pulse-high {
+  0%   { box-shadow: 0 0 0 0 rgba(210,153,34,0.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(210,153,34,0); }
+  100% { box-shadow: 0 0 0 0 rgba(210,153,34,0); }
+}
+
+/* Mega stat reveal + glow */
+.mega-stat {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: nwm-fadeup 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+}
+.mega-stat:nth-child(1) { animation-delay: 0.05s; }
+.mega-stat:nth-child(2) { animation-delay: 0.15s; }
+.mega-stat:nth-child(3) { animation-delay: 0.25s; }
+.mega-stat:nth-child(4) { animation-delay: 0.35s; }
+.mega-stat:nth-child(5) { animation-delay: 0.45s; }
+.mega-stat:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,107,0,0.35);
+  box-shadow: 0 8px 24px rgba(255,107,0,0.08);
+}
+@keyframes nwm-fadeup {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mega stat number — subtle "computing" shimmer on load */
+.mega-stat .num {
+  background: linear-gradient(90deg, currentColor 0%, currentColor 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  position: relative;
+}
+.mega-stat .num.red,
+.mega-stat .num.yellow,
+.mega-stat .num.green,
+.mega-stat .num.blue,
+.mega-stat .num.brand {
+  position: relative;
+}
+.mega-stat .num[data-countup]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  animation: nwm-shimmer 1.8s ease-out 1;
+  pointer-events: none;
+}
+@keyframes nwm-shimmer {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100%); }
+}
+
+/* Gap card — scan-in on scroll */
+.gap-card {
+  opacity: 0;
+  transform: translateX(-12px);
+  transition: opacity 0.5s, transform 0.5s, border-color 0.2s;
+}
+.gap-card.nwm-in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Market card — fade-in on scroll */
+.market-card {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s, transform 0.5s, border-color 0.2s;
+}
+.market-card.nwm-in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animated loss bar — fills on scroll */
+.loss-line {
+  position: relative;
+  overflow: hidden;
+}
+.loss-line::before {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 0%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(248,81,73,0.6), transparent);
+  transition: width 1.2s ease-out;
+}
+.loss-line.nwm-in-view::before { width: 100%; }
+
+/* Diagnostic badge — for "LIVE" or "SCANNING" indicator */
+.nwm-diag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(63,185,80,0.12);
+  border: 1px solid rgba(63,185,80,0.35);
+  color: #3fb950;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  position: relative;
+}
+.nwm-diag-badge::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #3fb950;
+  animation: nwm-blink 1.2s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(63,185,80,0.8);
+}
+@keyframes nwm-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+/* Reduced motion — respect accessibility preference */
+@media (prefers-reduced-motion: reduce) {
+  .report-header::after,
+  .report-header .scan-line,
+  .severity-critical::before,
+  .severity-high::before,
+  .mega-stat .num[data-countup]::after,
+  .nwm-diag-badge::before { animation: none; }
+  .mega-stat,
+  .gap-card,
+  .market-card { opacity: 1; transform: none; animation: none; transition: none; }
+}

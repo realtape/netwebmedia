@@ -1,0 +1,28 @@
+Options -Indexes
+
+# Block direct access to internal library files
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^api/lib/ - [F,L]
+</IfModule>
+
+# Block sensitive file types
+<FilesMatch "\.(sql|md|json|bak|log)$">
+  Require all denied
+</FilesMatch>
+
+# No-cache for PHP — always fresh auth checks
+<IfModule mod_headers.c>
+  <FilesMatch "\.php$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate"
+    Header set Pragma "no-cache"
+  </FilesMatch>
+</IfModule>
+
+# Short cache for static assets (5 min, same as main site)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  <FilesMatch "\.(css|js)$">
+    ExpiresDefault "access plus 5 minutes"
+  </FilesMatch>
+</IfModule>

@@ -47,6 +47,7 @@ $handlers = [
     'proposal'      => __DIR__ . '/handlers/proposal.php',
     'templates'     => __DIR__ . '/handlers/templates.php',
     'campaigns'     => __DIR__ . '/handlers/campaigns.php',
+    'password_reset'=> __DIR__ . '/handlers/password_reset.php',
     'track'         => __DIR__ . '/handlers/track.php',
     'migrate'       => __DIR__ . '/handlers/migrate.php',
     'dedupe'        => __DIR__ . '/handlers/dedupe.php',
@@ -91,7 +92,7 @@ if (!isset($handlers[$resource])) {
 
 // Public routes need no auth. All others run the payment gate:
 // demo/guest users (no PHP session) pass through; pending_payment users get HTTP 402.
-$public_routes = ['auth', 'track', 'intake', 'leads', 'analyze', 'proposal', 'import_best', 'import_clickers', 'filter_identifiable', 'filter_marketing_ready', 'domain_audit', 'dedupe', 'cron_workflows', 'fb_publish', 'tt_publish', 'export_bird', 'bulk_import_osm'];
+$public_routes = ['auth', 'password_reset', 'track', 'intake', 'leads', 'analyze', 'proposal', 'import_best', 'import_clickers', 'filter_identifiable', 'filter_marketing_ready', 'domain_audit', 'dedupe', 'cron_workflows', 'fb_publish', 'tt_publish', 'export_bird', 'bulk_import_osm'];
 if (!in_array($resource, $public_routes, true)) {
     require_once __DIR__ . '/lib/guard.php';
     require_guard();

@@ -3,7 +3,7 @@ REM ============================================================================
 REM Recover the 19 MVP Expansion v2 source clips from Higgsfield CloudFront.
 REM
 REM Run from any directory on the Windows workstation. Files land in:
-REM   D:\hyperframes\netwebmedia\social-reels-mvp-v2\clips\
+REM   D:\hyperframes\nwm-reels\mvp-v2\clips\
 REM
 REM Why this script exists: the sandbox where Claude runs has a CloudFront host
 REM allowlist that blocks d8j0ntlcm91z4.cloudfront.net. Carlos's Windows machine
@@ -13,7 +13,7 @@ REM Source: Higgsfield workspace 4df1d4d6-02bb-48f8-a91e-30eb0ec3aa56,
 REM jobs from 2026-05-12 15:36-15:37 UTC (Kling 3.0).
 REM ============================================================================
 
-set DEST=D:\hyperframes\netwebmedia\social-reels-mvp-v2\clips
+set DEST=D:\hyperframes\nwm-reels\mvp-v2\clips
 set CF=https://d8j0ntlcm91z4.cloudfront.net/user_3DJQnJGVViYJk8WBv0y84SffJOU
 
 if not exist "%DEST%" mkdir "%DEST%"

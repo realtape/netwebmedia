@@ -4,12 +4,12 @@ Three music beds, one per package. Each track plays under all 3 reels in that
 package so the 9-reel set reads as a series, not nine random posts.
 
 **Storage policy** (CLAUDE.md → "Media storage policy"): music files live at
-`D:\hyperframes\netwebmedia\social-reels-mvp-v2\music\` on Carlos's Windows
-workstation. `video-factory/public/music/` is a Windows junction (`mklink /J`)
-pointing there. Tracks are loaded by `video-factory/src/compositions/MvpReel.tsx`
-via `theme.music` and resolved through Remotion's `staticFile()`. **Do NOT
-upload music files to Google Drive** — licensed beds belong on the local drive
-under the Artlist license file naming.
+`D:\hyperframes\nwm-reels\mvp-v2\music\` on Carlos's Windows workstation.
+`video-factory/public/music/` is a Windows junction (`mklink /J`) pointing
+there. Tracks are loaded by `video-factory/src/compositions/MvpReel.tsx` via
+`theme.music` and resolved through Remotion's `staticFile()`. **Do NOT upload
+music files to Google Drive** — licensed beds belong on the local drive under
+the Artlist license file naming.
 
 | Package | Track filename | Brief |
 |---|---|---|
@@ -49,7 +49,7 @@ ffmpeg -i trimmed.wav -af loudnorm=I=-16:TP=-1.5:LRA=11 -ar 44100 normalized.wav
 ffmpeg -i normalized.wav -codec:a libmp3lame -b:a 192k aeo-tense-resolve.mp3
 
 :: 4. Drop straight into the hyperframes music folder.
-move aeo-tense-resolve.mp3 D:\hyperframes\netwebmedia\social-reels-mvp-v2\music\
+move aeo-tense-resolve.mp3 D:\hyperframes\nwm-reels\mvp-v2\music\
 ```
 
 Repeat for `growth-operator.mp3` and `scale-cinematic.mp3`. Total: 3 mp3 files,

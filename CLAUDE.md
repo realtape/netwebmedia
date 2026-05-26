@@ -625,28 +625,31 @@ The render pipeline: CRM UI → `POST /api/video/render` → `video-factory/serv
 
 **Why:** the 534 MB hyperframes incident burned us once already (see [Auto-backup commits](#auto-backup-commits--consolidate-before-pushing)) — these binaries belong on the local drive with the 95 MiB git size-guard ensuring they never reach `origin`. Drive is for **finished public-facing exports only**, and even then prefer netwebmedia.com / the CRM.
 
-**Canonical layout (mirror this when creating new project folders):**
+**Canonical layout (mirror this when creating new project folders — top level is FLAT, one folder per project, with internal sub-structure):**
 
 ```
 D:\hyperframes\
-├── netwebmedia\
-│   ├── social-reels-mvp-v2\          # MVP Expansion v2 (9 reels)
+├── nwm-reels\                        # NWM internal video projects
+│   ├── mvp-v2\                       # MVP Expansion v2 (9 reels) — 2026-05-26
 │   │   ├── clips\                    # 19 Higgsfield source clips
 │   │   ├── music\                    # 3 licensed beds (per package)
 │   │   ├── vo\                       # Carlos / hired-VO recordings
 │   │   ├── renders\                  # Remotion outputs
 │   │   └── finals\                   # H.264 1080×1920 publish-ready
-│   ├── social-campaigns-v1\          # Original 6 reels (April 2026)
+│   ├── service-reels-2026-04\        # April 2026 6-pack
 │   └── audit-pages-broll\            # B-roll for 680 company pages
-├── realiracing\                      # Client project
-└── <client-slug>\                    # One folder per client
+├── realtape-reels\                   # Client project (RealiRacing reel pack)
+├── spa-imsa-45min-2026-05-14\        # Client (racing)
+├── spa-reels-2026-05-12\             # Client (racing)
+├── nurburgring-2026-05-18\           # Client (racing)
+└── <client-slug>\                    # One folder per client; project subfolders inside
 ```
 
-**Pipeline wiring (Remotion):** `video-factory/public/clips` and `video-factory/public/music` should be Windows **junction points** (or NTFS symlinks) into the matching `D:\hyperframes\netwebmedia\<project>\` folder so Remotion's `staticFile()` resolves them without copying binaries into the repo:
+**Pipeline wiring (Remotion):** `video-factory/public/clips` and `video-factory/public/music` should be Windows **junction points** (or NTFS symlinks) into the matching `D:\hyperframes\nwm-reels\<project>\` folder so Remotion's `staticFile()` resolves them without copying binaries into the repo:
 
 ```cmd
-mklink /J video-factory\public\clips D:\hyperframes\netwebmedia\social-reels-mvp-v2\clips
-mklink /J video-factory\public\music D:\hyperframes\netwebmedia\social-reels-mvp-v2\music
+mklink /J video-factory\public\clips D:\hyperframes\nwm-reels\mvp-v2\clips
+mklink /J video-factory\public\music D:\hyperframes\nwm-reels\mvp-v2\music
 ```
 
 The `.gitignore` in `video-factory/` already blocks `public/clips/*.mp4` and `public/music/*.mp3` from accidental commits — the junction is invisible to git.
@@ -654,8 +657,8 @@ The `.gitignore` in `video-factory/` already blocks `public/clips/*.mp4` and `pu
 **On Linux/macOS dev machines** (or the remote sandbox): substitute `~/hyperframes/` (or any local path) and symlink the same way:
 
 ```bash
-ln -s ~/hyperframes/netwebmedia/social-reels-mvp-v2/clips video-factory/public/clips
-ln -s ~/hyperframes/netwebmedia/social-reels-mvp-v2/music video-factory/public/music
+ln -s ~/hyperframes/nwm-reels/mvp-v2/clips video-factory/public/clips
+ln -s ~/hyperframes/nwm-reels/mvp-v2/music video-factory/public/music
 ```
 
 **Drive is forbidden as a primary store for these binaries** — do not upload source clips, raw VO, or music beds to `drive.google.com`. If a file needs to be shared with a vendor/contractor, generate a time-limited share link from the local copy via a one-off upload, then delete the Drive copy when the engagement ends.

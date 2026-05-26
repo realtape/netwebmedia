@@ -3,18 +3,18 @@
 # Outputs to video-factory/out/reel_*_v2_en_final.mp4 (1080×1920, 30fps, H.264).
 #
 # Asset storage policy (CLAUDE.md → "Media storage policy"):
-# All video/music binaries live at D:\hyperframes\netwebmedia\social-reels-mvp-v2\
+# All video/music binaries live at D:\hyperframes\nwm-reels\mvp-v2\
 # on the Windows workstation. video-factory/public/clips and public/music are
 # Windows junctions (mklink /J) pointing to that path — never check binaries
 # into the repo, never upload to Google Drive.
 #
 # Setup on Windows (one-time):
-#   mklink /J video-factory\public\clips D:\hyperframes\netwebmedia\social-reels-mvp-v2\clips
-#   mklink /J video-factory\public\music D:\hyperframes\netwebmedia\social-reels-mvp-v2\music
+#   mklink /J video-factory\public\clips D:\hyperframes\nwm-reels\mvp-v2\clips
+#   mklink /J video-factory\public\music D:\hyperframes\nwm-reels\mvp-v2\music
 #
 # Setup on Linux/macOS (or remote sandbox):
-#   ln -s ~/hyperframes/netwebmedia/social-reels-mvp-v2/clips video-factory/public/clips
-#   ln -s ~/hyperframes/netwebmedia/social-reels-mvp-v2/music video-factory/public/music
+#   ln -s ~/hyperframes/nwm-reels/mvp-v2/clips video-factory/public/clips
+#   ln -s ~/hyperframes/nwm-reels/mvp-v2/music video-factory/public/music
 #
 # Prerequisites (verified by this script before rendering):
 #   - 19 source clips reachable via video-factory/public/clips/ (per data/mvp-reels.ts)

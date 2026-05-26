@@ -4,15 +4,16 @@
 #
 # macOS / Linux equivalent of recover-source-clips.cmd. Use this when the
 # Windows workstation isn't available — the canonical location stays:
-#   ~/hyperframes/netwebmedia/social-reels-mvp-v2/clips/
-# which mirrors D:\hyperframes\... per CLAUDE.md → Media storage policy.
+#   ~/hyperframes/nwm-reels/mvp-v2/clips/
+# which mirrors D:\hyperframes\nwm-reels\mvp-v2\clips\ per CLAUDE.md → Media
+# storage policy.
 #
 # Source: Higgsfield workspace 4df1d4d6-02bb-48f8-a91e-30eb0ec3aa56,
 # jobs from 2026-05-12 15:36-15:37 UTC (Kling 3.0).
 # ============================================================================
 set -euo pipefail
 
-DEST="${HYPERFRAMES_DIR:-$HOME/hyperframes}/netwebmedia/social-reels-mvp-v2/clips"
+DEST="${HYPERFRAMES_DIR:-$HOME/hyperframes}/nwm-reels/mvp-v2/clips"
 CF="https://d8j0ntlcm91z4.cloudfront.net/user_3DJQnJGVViYJk8WBv0y84SffJOU"
 
 mkdir -p "$DEST"

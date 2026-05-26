@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Your Free Demo - NetWeb CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body class="login-page">
+  <div class="login-card">
+    <div class="login-gradient-line"></div>
+    <div class="login-header">
+      <div class="login-brand">
+        <div class="brand-icon">N</div>
+        <span class="login-brand-text">NetWeb CRM</span>
+      </div>
+      <h1 class="login-title">Start Your Free Demo</h1>
+      <p class="login-subtitle">Enter your details to explore the platform</p>
+    </div>
+    <div class="login-tabs">
+      <button class="login-tab active" id="tabSignup" data-tab="signup">Start Free Demo</button>
+      <button class="login-tab" id="tabSignin" data-tab="signin">Sign In</button>
+    </div>
+    <form id="signupForm" class="login-form">
+      <div id="signupError" class="login-error"></div>
+      <div class="login-field">
+        <label class="login-label" for="inputName">Full Name</label>
+        <input type="text" id="inputName" class="login-input" placeholder="John Smith" required autocomplete="name">
+      </div>
+      <div class="login-field">
+        <label class="login-label" for="inputEmail">Email Address</label>
+        <input type="email" id="inputEmail" class="login-input" placeholder="john@company.com" required autocomplete="email">
+      </div>
+      <div class="login-field">
+        <label class="login-label" for="inputCompany">Company</label>
+        <input type="text" id="inputCompany" class="login-input" placeholder="Acme Inc" autocomplete="organization">
+      </div>
+      <div class="login-field">
+        <label class="login-label" for="inputPhone">Phone (optional)</label>
+        <input type="tel" id="inputPhone" class="login-input" placeholder="+56 9 1234 5678" autocomplete="tel">
+      </div>
+      <button type="submit" id="signupBtn" class="login-btn">Launch Demo</button>
+    </form>
+    <form id="signinForm" class="login-form login-form-hidden">
+      <div id="signinError" class="login-error"></div>
+      <div class="login-field">
+        <label class="login-label" for="signinEmail">Email Address</label>
+        <input type="email" id="signinEmail" class="login-input" placeholder="john@company.com" required autocomplete="email">
+      </div>
+      <div class="login-field">
+        <label class="login-label" for="signinPassword">Password</label>
+        <input type="password" id="signinPassword" class="login-input" placeholder="Enter your password" required autocomplete="current-password">
+      </div>
+      <button type="submit" id="signinBtn" class="login-btn">Sign In</button>
+      <p class="login-forgot"><a href="#">Forgot password?</a></p>
+    </form>
+    <div class="login-footer">
+      <p class="login-terms">By continuing, you agree to our Terms of Service</p>
+    </div>
+  </div>
+  <script src="js/login.js"></script>
+</body>
+</html>

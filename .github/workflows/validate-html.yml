@@ -1,0 +1,43 @@
+name: Validate HTML
+
+# Pre-deploy guards against regression classes that have shipped to production
+# in the past. Every check in _ci/validate-html.py exists because a real bug
+# slipped through without it. See that file's docstring for incident history.
+#
+# Runs on:
+#   - Every push to main (gates deploy implicitly — deploy starts at the same
+#     time, but if validation fails the issue is visible in the run list)
+#   - Every pull request that touches HTML or the validator itself
+#
+# Fast (<10s). No external dependencies beyond stock Python 3.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '*.html'
+      - '_ci/validate-html.py'
+      - '.github/workflows/validate-html.yml'
+  pull_request:
+    paths:
+      - '*.html'
+      - '_ci/validate-html.py'
+      - '.github/workflows/validate-html.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Run validation guards
+        run: python3 _ci/validate-html.py

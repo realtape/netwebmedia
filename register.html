@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Create your free CRM account · NetWebMedia</title>
+<link rel="icon" type="image/svg+xml" href="/assets/nwm-logo.svg?v=2" />
+<style>
+  :root {
+    --bg: #010F3B; --card: #041640; --fg: #eaf0ff; --muted: #8892b0;
+    --accent: #FF671F; --accent2: #ff8c4a; --err: #ff6b6b; --ok: #22C55E;
+    --border: rgba(255,255,255,0.10);
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--fg);
+    background: radial-gradient(900px 500px at 20% 10%, #02206b 0%, transparent 60%),
+                radial-gradient(700px 400px at 80% 90%, #0d1f5c 0%, transparent 60%), var(--bg);
+    display: flex; align-items: center; justify-content: center; padding: 24px; min-height: 100%;
+  }
+  .card {
+    width: 100%; max-width: 460px; background: var(--card);
+    border: 1px solid var(--border); border-radius: 18px; padding: 36px 32px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
+  .brand-logo { width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: grid; place-items: center; color: #010F3B; font-weight: 800; font-size: 18px; }
+  .brand-text { font-weight: 700; font-size: 18px; }
+  .plan-badge {
+    display: inline-flex; align-items: center; gap: 6px; background: rgba(255,103,31,0.12);
+    border: 1px solid rgba(255,103,31,0.35); color: var(--accent); border-radius: 20px;
+    font-size: 12px; font-weight: 600; padding: 3px 10px; margin-bottom: 14px; letter-spacing: 0.3px;
+  }
+  h1 { margin: 0 0 6px; font-size: 22px; }
+  .sub { color: var(--muted); font-size: 14px; margin-bottom: 18px; line-height: 1.5; }
+  label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 6px; }
+  input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%; padding: 12px 14px; border-radius: 10px;
+    background: rgba(255,255,255,0.04); color: var(--fg);
+    border: 1px solid var(--border); outline: none; font-size: 14px; font-family: inherit;
+  }
+  input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+    border-color: var(--accent); background: rgba(255,103,31,0.06);
+    box-shadow: 0 0 0 3px rgba(255,103,31,0.15);
+  }
+  .btn {
+    margin-top: 20px; width: 100%; padding: 13px 16px; border-radius: 10px; border: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #010F3B; font-weight: 700; font-size: 14px; cursor: pointer; font-family: inherit;
+    box-shadow: 0 4px 14px rgba(255,103,31,0.35); transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.92; }
+  .btn:disabled { opacity: 0.55; cursor: wait; }
+  .alt { color: var(--muted); font-size: 13px; text-align: center; margin-top: 14px; }
+  .alt a { color: var(--fg); text-decoration: none; border-bottom: 1px dashed var(--muted); }
+  .msg { margin-top: 12px; font-size: 13px; min-height: 16px; }
+  .msg.err { color: var(--err); }
+  .msg.ok  { color: var(--ok); }
+  .free-perks { background: rgba(255,103,31,0.07); border: 1px solid rgba(255,103,31,0.2);
+    border-radius: 10px; padding: 12px 14px; margin-bottom: 18px; font-size: 13px; }
+  .free-perks ul { margin: 4px 0 0; padding: 0 0 0 16px; color: var(--muted); line-height: 1.7; }
+  .free-perks strong { color: var(--fg); }
+</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Sentry -->
+  <script src="/js/nwm-sentry.js" defer></script>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
+  </script>
+</head>
+<body>
+  <div class="nav-lang" style="position:fixed;top:14px;right:14px;z-index:99;"></div>
+  <div class="card">
+    <div class="brand">
+      <div class="brand-logo">N</div>
+      <div class="brand-text">NetWebMedia</div>
+    </div>
+    <div id="planBadge" style="display:none" class="plan-badge" data-en="✦ Free CRM Plan" data-es="✦ Plan CRM Gratuito">✦ Free CRM Plan</div>
+    <h1 id="pageTitle" data-en="Create your account" data-es="Crea tu cuenta">Create your account</h1>
+    <div class="sub" id="pageSub" data-en="Get your own CRM workspace in seconds." data-es="Obtén tu propio espacio de trabajo CRM en segundos.">Get your own CRM workspace in seconds.</div>
+    <div id="freePerks" class="free-perks" style="display:none">
+      <strong data-en="What's included — free forever:" data-es="Qué incluye — gratis por siempre:">What's included — free forever:</strong>
+      <ul>
+        <li data-en="1 user · 250 contacts" data-es="1 usuario · 250 contactos">1 user · 250 contacts</li>
+        <li data-en="Pipeline, calendar &amp; email marketing" data-es="Pipeline, calendario y email marketing">Pipeline, calendar &amp; email marketing</li>
+        <li data-en="NetWebMedia-branded workspace" data-es="Espacio de trabajo con marca NetWebMedia">NetWebMedia-branded workspace</li>
+        <li data-en="Upgrade anytime as you grow" data-es="Actualiza en cualquier momento conforme crezcas">Upgrade anytime as you grow</li>
+      </ul>
+    </div>
+
+    <form id="registerForm">
+      <!-- honeypot: hidden from humans, bots fill it in -->
+      <input id="nwm_website" name="nwm_website" type="text" tabindex="-1" autocomplete="off"
+             style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true" />
+
+      <label for="name" data-en="Full name" data-es="Nombre completo">Full name</label>
+      <input id="name" type="text" required autocomplete="name" placeholder="" data-en-placeholder="" data-es-placeholder="" />
+
+      <label for="email" data-en="Work email" data-es="Email de trabajo">Work email</label>
+      <input id="email" type="email" required autocomplete="email" placeholder="" data-en-placeholder="" data-es-placeholder="" />
+
+      <label for="password" data-en="Password (min 8 chars)" data-es="Contraseña (mín 8 caracteres)">Password (min 8 chars)</label>
+      <input id="password" type="password" required minlength="8" autocomplete="new-password" placeholder="" data-en-placeholder="" data-es-placeholder="" />
+
+      <label style="display:flex;align-items:flex-start;gap:10px;margin:16px 0 0;color:var(--muted);font-size:12.5px;line-height:1.45;cursor:pointer;">
+        <input id="consent" type="checkbox" required style="width:16px;height:16px;margin-top:2px;accent-color:var(--accent);flex-shrink:0;" />
+        <span data-en="I agree to the Terms of Service and Privacy Policy." data-es="Acepto los Términos del Servicio y la Política de Privacidad.">I agree to the <a href="/terms.html" target="_blank" rel="noopener" style="color:var(--fg);text-decoration:underline;">Terms of Service</a> and <a href="/privacy.html" target="_blank" rel="noopener" style="color:var(--fg);text-decoration:underline;">Privacy Policy</a>.</span>
+      </label>
+
+      <button class="btn" id="submitBtn" type="submit" data-en="Create account" data-es="Crear cuenta">Create account</button>
+      <div id="msg" class="msg"></div>
+    </form>
+
+    <div class="alt" data-en="Already have one? Sign in" data-es="¿Ya tienes una cuenta? Inicia sesión">Already have one? <a href="/login.html">Sign in</a></div>
+  </div>
+
+  <script src="/js/api-client.js"></script>
+  <script>
+    (function () {
+      // Plan context from URL
+      var params = new URLSearchParams(location.search);
+      var plan = params.get('plan') || '';
+      if (plan === 'free') {
+        document.getElementById('planBadge').style.display = 'inline-flex';
+        document.getElementById('freePerks').style.display = 'block';
+        var lang = (new URLSearchParams(location.search)).get('lang') || 'en';
+        document.getElementById('pageTitle').textContent = lang === 'es' ? 'Comienza tu CRM gratuito' : 'Start your free CRM';
+        document.getElementById('pageSub').textContent = lang === 'es' ? 'Sin tarjeta de crédito. Funcionando en menos de 2 minutos.' : 'No credit card required. Up and running in under 2 minutes.';
+        document.getElementById('submitBtn').textContent = lang === 'es' ? 'Crear cuenta gratuita' : 'Create free account';
+      }
+
+      var form = document.getElementById('registerForm');
+      var nameEl = document.getElementById('name');
+      var emailEl = document.getElementById('email');
+      var passEl = document.getElementById('password');
+      var hp = document.getElementById('nwm_website');
+      var consent = document.getElementById('consent');
+      var btn = document.getElementById('submitBtn');
+      var msg = document.getElementById('msg');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var lang = (new URLSearchParams(location.search)).get('lang') || 'en';
+        if (!consent.checked) {
+          msg.className = 'msg err';
+          msg.textContent = lang === 'es' ? 'Acepta los Términos y la Política de Privacidad para continuar.' : 'Please accept the Terms and Privacy Policy to continue.';
+          return;
+        }
+        btn.disabled = true;
+        msg.className = 'msg';
+        msg.textContent = lang === 'es' ? 'Creando tu cuenta…' : 'Creating your account…';
+        window.NWMApi.register(emailEl.value.trim(), passEl.value, nameEl.value.trim(), hp.value, plan || undefined)
+          .then(function () {
+            msg.className = 'msg ok';
+            msg.textContent = lang === 'es' ? 'Cuenta creada — redirigiendo…' : 'Account created — redirecting…';
+            setTimeout(function () { location.href = '/app/'; }, 400);
+          })
+          .catch(function (err) {
+            msg.className = 'msg err';
+            msg.textContent = err.message || (lang === 'es' ? 'Registro fallido.' : 'Registration failed.');
+            btn.disabled = false;
+          });
+      });
+    })();
+  </script>
+<script src="assets/nwm-i18n.js?v=2" defer></script>
+<script src="js/main.js?v=3" defer></script>
+  <script src="/assets/nwm-site-chat.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Social Carousel Preview · NetWebMedia (internal)</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" type="image/svg+xml" href="/assets/nwm-logo.svg?v=2" />
+<style>
+  :root {
+    --bg: #010F3B; --card: #041640; --fg: #eaf0ff; --muted: #8892b0;
+    --accent: #FF671F; --border: rgba(255,255,255,0.10);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--fg); background: var(--bg); padding: 32px 24px 80px; }
+  .head { max-width: 1200px; margin: 0 auto 28px; }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  .sub { color: var(--muted); margin: 0 0 18px; line-height: 1.55; font-size: 14px; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 14px 16px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px; font-size: 13px; }
+  .toolbar a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  .toolbar a:hover { text-decoration: underline; }
+  .toolbar .pill { padding: 4px 10px; border-radius: 999px; background: rgba(255,103,31,0.12);
+    border: 1px solid rgba(255,103,31,0.35); color: var(--accent); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.04em; }
+
+  .grid { max-width: 1500px; margin: 28px auto 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } }
+  .carousel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+  .ctitle { display: flex; align-items: center; gap: 10px; margin: 0 0 6px; font-size: 18px; font-weight: 700; }
+  .ctitle .badge { display: inline-block; width: 26px; height: 26px; border-radius: 6px; background: var(--accent);
+    color: #010F3B; text-align: center; line-height: 26px; font-weight: 800; font-size: 14px; }
+  .csub { color: var(--muted); font-size: 13px; margin: 0 0 16px; line-height: 1.5; }
+  .slides { display: flex; flex-direction: column; gap: 16px; }
+  .slide { position: relative; }
+  .slide img { width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--border); display: block; }
+  .slide-actions { position: absolute; top: 10px; right: 10px; display: flex; gap: 6px; opacity: 0; transition: opacity 0.15s; }
+  .slide:hover .slide-actions { opacity: 1; }
+  .slide-actions a { background: rgba(0,0,0,0.7); color: #fff; padding: 5px 10px; border-radius: 6px;
+    font-size: 11px; font-weight: 600; text-decoration: none; backdrop-filter: blur(4px); }
+  .slide-actions a:hover { background: var(--accent); color: #010F3B; }
+  .slide-meta { color: var(--muted); font-size: 12px; margin-top: 6px; padding: 0 4px;
+    display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<div class="head">
+  <h1>Social Carousel Preview</h1>
+  <p class="sub">15 slides across 3 evergreen brand-intro carousels for Instagram. Post all three in the 24–48 hours before May 4 to seed the grid before the campaign content lands.</p>
+  <div class="toolbar">
+    <span class="pill">3 × 5 slides</span>
+    <span style="color:var(--muted);">Carousel A: Who we are · Carousel B: How NWM is different · Carousel C: What is AEO?</span>
+    <button onclick="exportAllAsPng()" style="background:#FF671F;color:#010F3B;padding:6px 14px;border-radius:6px;border:none;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;letter-spacing:0.04em;">⬇ Export all 15 as PNG (1080×1080)</button>
+    <span style="color:var(--muted);margin-left:auto;font-size:12px;">Or right-click any slide → <em>Save image as…</em> for one at a time.</span>
+  </div>
+</div>
+
+<div class="grid">
+  <!-- Carousel A -->
+  <div class="carousel">
+    <div class="ctitle"><span class="badge">A</span>Who we are</div>
+    <p class="csub">Brand intro — what NWM is, who it serves, what the track record looks like.</p>
+    <div class="slides">
+      <div class="slide"><img src="/assets/social/carousels/a-slide-1.svg" alt="Slide A1" /><div class="slide-actions"><a href="/assets/social/carousels/a-slide-1.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 1 · Hook</span><span>a-slide-1.svg</span></div></div>
+      <div class="slide"><img src="/assets/social/carousels/a-slide-2.svg" alt="Slide A2" /><div class="slide-actions"><a href="/assets/social/carousels/a-slide-2.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 2 · What we do</span><span>a-slide-2.svg</span></div></div>
+      <div class="slide"><img src="/assets/social/carousels/a-slide-3.svg" alt="Slide A3" /><div class="slide-actions"><a href="/assets/social/carousels/a-slide-3.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 3 · Who it's for</span><span>a-slide-3.svg</span></div></div>
+      <div class="slide"><img src="/assets/social/carousels/a-slide-4.svg" alt="Slide A4" /><div class="slide-actions"><a href="/assets/social/carousels/a-slide-4.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 4 · Track record</span><span>a-slide-4.svg</span></div></div>
+      <div class="slide"><img src="/assets/social/carousels/a-slide-5.svg" alt="Slide A5" /><div class="slide-actions"><a href="/assets/social/carousels/a-slide-5.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 5 · CTA</span><span>a-slide-5.svg</span></div></div>
+    </div>
+  </div>
+
+  <!-- Carousel B -->
+  <div class="carousel">
+    <div class="ctitle"><span class="badge">B</span>How NWM is different</div>
+    <p class="csub">The model — 1 senior operator + 12 AI agents — and why it beats traditional agencies.</p>
+    <div class="slides">
+      <div class="slide"><img src="/assets/social/carousels/b-slide-1.svg" alt="Slide B1" /><div class="slide-actions"><a href="/assets/social/carousels/b-slide-1.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 1 · Problem</span><span>b-slide-1.svg</span></div></div>
+      <div class="slide"><img src="/assets/social/carousels/b-slide-2.svg" alt="Slide B2" /><div class="slide-actions"><a href="/assets/social/carousels/b-slide-2.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 2 · Model</span><span>b-slide-2.svg</span></div></div>
+      <div class="slide"><img src="/assets/social/carousels/b-slide-3.svg" alt="Slide B3" /><div class="slide-actions"><a href="/assets/social/carousels/b-slide-3.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 3 · Savings</span><span>b-slide-3.svg</span></div></div>
+      <div class="slide"><img src="/assets/social/carousels/b-slide-4.svg" alt="Slide B4" /><div class="slide-actions"><a href="/assets/social/carousels/b-slide-4.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 4 · Direct line</span><span>b-slide-4.svg</span></div></div>
+      <div class="slide"><img src="/assets/social/carousels/b-slide-5.svg" alt="Slide B5" /><div class="slide-actions"><a href="/assets/social/carousels/b-slide-5.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 5 · CTA</span><span>b-slide-5.svg</span></div></div>
+    </div>
+  </div>
+
+  <!-- Carousel C -->
+  <div class="carousel">
+    <div class="ctitle"><span class="badge">C</span>What is AEO?</div>
+    <p class="csub">Educational — what AEO is, why it matters now, and how it differs from SEO.</p>
+    <div class="slides">
+      <div class="slide"><img src="/assets/social/carousels/c-slide-1.svg" alt="Slide C1" /><div class="slide-actions"><a href="/assets/social/carousels/c-slide-1.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 1 · Shift</span><span>c-slide-1.svg</span></div></div>
+      <div class="slide"><img src="/assets/social/carousels/c-slide-2.svg" alt="Slide C2" /><div class="slide-actions"><a href="/assets/social/carousels/c-slide-2.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 2 · Numbers</span><span>c-slide-2.svg</span></div></div>
+      <div class="slide"><img src="/assets/social/carousels/c-slide-3.svg" alt="Slide C3" /><div class="slide-actions"><a href="/assets/social/carousels/c-slide-3.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 3 · Schema</span><span>c-slide-3.svg</span></div></div>
+      <div class="slide"><img src="/assets/social/carousels/c-slide-4.svg" alt="Slide C4" /><div class="slide-actions"><a href="/assets/social/carousels/c-slide-4.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 4 · Reviews</span><span>c-slide-4.svg</span></div></div>
+      <div class="slide"><img src="/assets/social/carousels/c-slide-5.svg" alt="Slide C5" /><div class="slide-actions"><a href="/assets/social/carousels/c-slide-5.svg" download>SVG</a></div><div class="slide-meta"><span>Slide 5 · CTA</span><span>c-slide-5.svg</span></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Client-side SVG→PNG batch export. Zero deps — uses Canvas API.
+ * Each SVG is fetched, rendered into a 1080×1080 canvas via Image, then exported as PNG. */
+async function exportAllAsPng() {
+  var slides = [];
+  ['a','b','c'].forEach(function(c) {
+    for (var i = 1; i <= 5; i++) slides.push({ name: c + '-slide-' + i, src: '/assets/social/carousels/' + c + '-slide-' + i + '.svg' });
+  });
+
+  var btn = event.target;
+  var origText = btn.textContent;
+  btn.disabled = true;
+
+  for (var i = 0; i < slides.length; i++) {
+    var s = slides[i];
+    btn.textContent = 'Exporting ' + (i + 1) + '/' + slides.length + '…';
+    try {
+      var resp = await fetch(s.src);
+      var svgText = await resp.text();
+      var blob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      await new Promise(function(resolve, reject) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement('canvas');
+          canvas.width = 1080; canvas.height = 1080;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, 1080, 1080);
+          canvas.toBlob(function(pngBlob) {
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(pngBlob);
+            a.download = s.name + '.png';
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            URL.revokeObjectURL(a.href);
+            URL.revokeObjectURL(url);
+            resolve();
+          }, 'image/png');
+        };
+        img.onerror = function(e) { URL.revokeObjectURL(url); reject(e); };
+        img.src = url;
+      });
+      // Small delay between downloads so the browser doesn't drop them
+      await new Promise(function(r) { setTimeout(r, 200); });
+    } catch (err) {
+      console.error('Failed to export ' + s.name, err);
+    }
+  }
+  btn.disabled = false;
+  btn.textContent = '✓ ' + slides.length + ' PNGs downloaded';
+  setTimeout(function() { btn.textContent = origText; }, 4000);
+}
+</script>
+
+</body>
+</html>

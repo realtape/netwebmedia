@@ -5,9 +5,15 @@ name: Cron — USA Cold Outreach (wave 2 — every 15 min)
 # every-minute cadence was burning ~44k Actions minutes/month with concurrency
 # already serialized to one runner anyway. 15-min × 3000 batch = 12k/hour
 # headroom, well above sending throughput.
+#
+# PAUSED 2026-05-26: schedule disabled while we clean the prospect list.
+# Bounces from synthetic addresses were damaging newsletter@netwebmedia.com
+# sender reputation (~40+/day visible bounces). Re-enable by uncommenting
+# the `schedule` block once the list is MX-validated or moved to a
+# separate sub-domain. `workflow_dispatch` still works for manual runs.
 on:
-  schedule:
-    - cron: '*/15 * * * *'
+  # schedule:
+  #   - cron: '*/15 * * * *'
   workflow_dispatch:
     inputs:
       niche:

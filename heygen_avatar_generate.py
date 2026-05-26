@@ -49,22 +49,19 @@ API_BASE = "https://api.heygen.com"
 # ----------------------------------------------------------------------------
 # CONFIG — edit these defaults once you know your avatar_id / voice_id.
 # ----------------------------------------------------------------------------
-DEFAULT_AVATAR_ID = "REPLACE_WITH_AVATAR_ID"   # from --list-avatars
-DEFAULT_VOICE_ID = "REPLACE_WITH_VOICE_ID"     # from --list-voices (Spanish LatAm)
+DEFAULT_AVATAR_ID = "c58d907a18d3426085da01a855034d82"   # from --list-avatars
+DEFAULT_VOICE_ID = "b02e8659016f4dbb8a92004cdf50ad04"     # Narrator Mateo - Friendly
 
 # NetWebMedia brand background (Gulf Oil navy). Set to a hex color, or swap to
 # an uploaded image asset by editing build_background().
 BRAND_NAVY = "#010F3B"
 
-# 30-second NetWebMedia AI-implementation script (neutral LatAm Spanish).
+# 15-second NetWebMedia AI-implementation script (neutral LatAm Spanish).
 DEFAULT_SCRIPT = (
-    "El gran problema hoy no es la falta de tecnologia... es el exceso. "
-    "Todo cambia tan rapido que las empresas no saben que herramienta usar. "
-    "Y mientras lo piensan, pierden tiempo, productividad y se quedan atras. "
-    "En NetWebMedia ayudamos a los negocios a implementar inteligencia "
-    "artificial con un plan claro: identificamos las herramientas que de "
-    "verdad impulsan tu operacion y las ponemos a funcionar. La inteligencia "
-    "artificial ya esta aqui. La estas aprovechando? Conversemos."
+    "El problema hoy no es la falta de tecnologia, es el exceso. "
+    "Todo cambia tan rapido que las empresas pierden productividad "
+    "sin saber que usar. En NetWebMedia implementamos inteligencia "
+    "artificial con un plan claro. Conversamos?"
 )
 
 # 9:16 vertical for Reels/TikTok. Use 1280x720 for landscape YouTube.
@@ -76,13 +73,19 @@ POLL_TIMEOUT_SECONDS = 900  # 15 min
 
 
 def get_api_key():
+    # 1) Prefer the environment variable if set.
     key = os.environ.get("HEYGEN_API_KEY", "").strip()
+    # 2) Fallback: read heygen_key.txt sitting next to this script.
     if not key:
+        key_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "heygen_key.txt")
+        if os.path.exists(key_file):
+            with open(key_file, "r", encoding="utf-8") as f:
+                key = f.read().strip()
+    if not key or "PEGA" in key.upper() or "TOKEN" == key.upper():
         sys.exit(
-            "ERROR: HEYGEN_API_KEY is not set.\n"
-            "  PowerShell:  $env:HEYGEN_API_KEY=\"your_key_here\"\n"
-            "  cmd:         set HEYGEN_API_KEY=your_key_here\n"
-            "  bash/zsh:    export HEYGEN_API_KEY=\"your_key_here\""
+            "ERROR: No se encontro tu API key de HeyGen.\n"
+            "Abre el archivo 'heygen_key.txt' (en esta misma carpeta), pega tu\n"
+            "token de HeyGen ahi, guarda, y vuelve a ejecutar."
         )
     return key
 
@@ -198,7 +201,7 @@ def main():
     p.add_argument("--script-file", help="Path to a .txt file with the script (overrides --script).")
     p.add_argument("--width", type=int, default=DEFAULT_WIDTH)
     p.add_argument("--height", type=int, default=DEFAULT_HEIGHT)
-    p.add_argument("--title", default="NetWebMedia - IA para empresas (30s)")
+    p.add_argument("--title", default="NetWebMedia - IA para empresas (15s)")
     args = p.parse_args()
 
     api_key = get_api_key()

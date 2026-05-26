@@ -1,6 +1,6 @@
 ---
 name: parallel-session-and-heal-artifacts
-description: "Don't treat a post-FTP-heal live-site value as proof of intent, and check for parallel-session commits before pushing competing changes to production main"
+description: "Parallel Claude sessions share this repo's working tree + .git (branch/HEAD/index/uncommitted edits change under you); don't treat post-FTP-heal live values as intent; re-check branch+divergence before commit/push"
 metadata: 
   node_type: memory
   type: feedback
@@ -19,3 +19,6 @@ Two compounding traps hit on 2026-05-19 during the CMO Premium pricing work. Bot
 1. For a pricing/content decision, the authority is an explicit human confirmation, not a post-deploy live-site reading. State which one you're relying on.
 2. Before pushing to `origin/main`: `git fetch` and re-check divergence. If new commits landed — especially ones touching the same files or with messages like "Carlos confirmed…" or "salvage…" — STOP and reconcile with Carlos before any push. Never resolve a human-intent conflict by reasoning alone.
 3. A push that was a clean fast-forward at branch time can silently become force-push territory. Re-verify FF immediately before pushing; never `--force` to `main` to win a cross-session race. See [[cmo-premium-pricing]] for the specific outcome.
+
+**Trap 3 — parallel sessions SHARE the one working tree + .git (same folder), not just origin.** On 2026-05-25 (forgot-password feature) the other session: (a) switched the shared checkout to a feature branch mid-task, so my commit landed on THEIR branch; and (b) committed MY uncommitted working-tree edits as its own commit (byte-identical code) and pushed it, plus swept in a pre-existing unrelated `index.html` edit. Net: the shared tree's branch, HEAD, index, and uncommitted edits can all change under you between tool calls.
+**How to apply:** Re-check `git branch --show-current` and `git status` right before any commit — don't assume you're still on the branch you started on. Commit your own work promptly (small commits) so a parallel session can't sweep your uncommitted edits into its commit. If you find your changes already committed/clobbered, verify what's on `main` and don't blindly re-commit a duplicate — diff first.

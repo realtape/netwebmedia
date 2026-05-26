@@ -80,6 +80,9 @@
   .msg { margin-top: 14px; font-size: 13px; min-height: 16px; }
   .msg.err { color: var(--err); }
   .msg.ok  { color: var(--ok); }
+  .remember { display: flex; align-items: center; gap: 8px; margin-top: 16px; font-size: 13px; color: var(--muted); cursor: pointer; }
+  .remember input { width: auto; margin: 0; accent-color: var(--accent); cursor: pointer; }
+  .remember span { user-select: none; }
 </style>
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
@@ -107,6 +110,11 @@
       <label for="password" data-en="Password" data-es="Contraseña">Password</label>
       <input id="password" type="password" required autocomplete="current-password" minlength="8" />
 
+      <label class="remember">
+        <input id="rememberMe" type="checkbox" />
+        <span data-en="Remember me" data-es="Recordarme">Remember me</span>
+      </label>
+
       <button class="btn" id="submitBtn" type="submit" data-en="Sign in" data-es="Iniciar sesión">Sign in</button>
       <div id="msg" class="msg"></div>
     </form>
@@ -129,6 +137,23 @@
       var btn    = document.getElementById('submitBtn');
       var msg    = document.getElementById('msg');
       var demoBtn = document.getElementById('demoBtn');
+      var remember = document.getElementById('rememberMe');
+      var REMEMBER_KEY = 'nwm_remember_email';
+
+      // Remember me: persist the email only and let the browser's password
+      // manager handle the password — storing a plaintext password in
+      // localStorage would be an XSS exfiltration risk.
+      try {
+        var savedEmail = localStorage.getItem(REMEMBER_KEY);
+        if (savedEmail) { email.value = savedEmail; if (remember) remember.checked = true; }
+      } catch (e) {}
+
+      function persistRemember(usedEmail) {
+        try {
+          if (remember && remember.checked) localStorage.setItem(REMEMBER_KEY, usedEmail);
+          else localStorage.removeItem(REMEMBER_KEY);
+        } catch (e) {}
+      }
 
       function nextUrl() {
         var p = new URLSearchParams(location.search);
@@ -155,6 +180,7 @@
         var p = creds || { email: email.value.trim(), password: pass.value };
         window.NWMApi.login(p.email, p.password)
           .then(function (r) {
+            persistRemember(p.email);
             msg.className = 'msg ok';
             msg.textContent = (lang === 'es' ? 'Bienvenido, ' : 'Welcome, ') + (r.user.name || r.user.email) + '!';
             setTimeout(function () { go(r.user); }, 300);

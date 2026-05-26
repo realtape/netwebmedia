@@ -103,7 +103,7 @@ $action = $_GET['action'] ?? $_POST['action'] ?? 'status';
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
 $ALLOWED_CAROUSELS = ['a', 'b', 'c', 'd'];
-$gv = 'v20.0';
+$gv = 'v20.0'; // graph api version (redeploy 2026-05-25: load refreshed FB_PAGE_TOKEN into config.local.php)
 
 // ── Service reels catalog ───────────────────────────────────────────────────
 //

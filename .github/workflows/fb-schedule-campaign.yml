@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'status | list | dry-run | live'
+        description: 'status | list | dry-run | live | post-dry | post-live'
         required: true
         default: 'status'
         type: choice
@@ -26,6 +26,13 @@ on:
           - list
           - dry-run
           - live
+          - post-dry
+          - post-live
+      item:
+        description: 'For post-dry/post-live: reel:<key> (e.g. reel:1_aeo_en) or carousel:<a|b|c|d>'
+        required: false
+        default: 'reel:1_aeo_en'
+        type: string
 
 jobs:
   schedule:
@@ -58,17 +65,17 @@ jobs:
             | python3 -m json.tool
 
       - name: Set up Python (for seed)
-        if: inputs.mode != 'status'
+        if: inputs.mode == 'dry-run' || inputs.mode == 'live'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install Python deps
-        if: inputs.mode != 'status'
+        if: inputs.mode == 'dry-run' || inputs.mode == 'live'
         run: pip install openpyxl
 
       - name: Fetch tracker XLSX from local checkout
-        if: inputs.mode != 'status'
+        if: inputs.mode == 'dry-run' || inputs.mode == 'live'
         run: |
           # The tracker lives on Carlos's machine, NOT in the repo.
           # For CI we use a checked-in fallback if present, else fail with guidance.
@@ -93,3 +100,45 @@ jobs:
         run: |
           python3 _deploy/seed-fb-schedule.py \
             --tracker _deploy/NetWebMedia_Posts_Tracker.xlsx
+
+      # ── Manual single-post mode (no tracker needed) ─────────────────────────
+      # Schedules ONE post to fb_publish action=schedule. FB requires a >= now+10min
+      # lead time, so the post is scheduled ~15min out (appears shortly after).
+      #   item=reel:<key>      → format=video, reel_key resolved server-side
+      #   item=carousel:<a|b|c|d> → format=carousel, 5 slide PNGs + caption
+      - name: Manual single post (post-dry | post-live)
+        if: inputs.mode == 'post-dry' || inputs.mode == 'post-live'
+        env:
+          MIGRATE_TOKEN: ${{ secrets.MIGRATE_TOKEN }}
+          ITEM: ${{ inputs.item }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -euo pipefail
+          UA="Mozilla/5.0 (compatible; NWM-FBSchedule/1.0)"
+          if [ "$MODE" = "post-live" ]; then DRY=false; else DRY=true; fi
+          KIND="${ITEM%%:*}"
+          VAL="${ITEM#*:}"
+          WHEN=$(( $(date +%s) + 900 ))         # now + 15 min (above FB's 10-min minimum)
+          PNUM=$(( $(date +%s) % 2000000000 ))  # unique-ish post_number for idempotency
+          CAP='AI-native fractional CMO for SMBs. Free AEO audit at netwebmedia.com. #AEO #AImarketing #fractionalCMO'
+
+          if [ "$KIND" = "reel" ]; then
+            BODY=$(printf '{"dry_run":%s,"posts":[{"post_number":%s,"format":"video","reel_key":"%s","scheduled_at_unix":%s}]}' "$DRY" "$PNUM" "$VAL" "$WHEN")
+          elif [ "$KIND" = "carousel" ]; then
+            IMGS=""
+            for i in 1 2 3 4 5; do
+              IMGS="${IMGS}\"https://netwebmedia.com/assets/social/carousels/${VAL}-slide-${i}.png\","
+            done
+            IMGS="${IMGS%,}"
+            BODY=$(printf '{"dry_run":%s,"posts":[{"post_number":%s,"format":"carousel","caption":"%s","image_urls":[%s],"scheduled_at_unix":%s}]}' "$DRY" "$PNUM" "$CAP" "$IMGS" "$WHEN")
+          else
+            echo "::error::Bad item '$ITEM'. Use reel:<key> or carousel:<a|b|c|d>"; exit 1
+          fi
+
+          echo "→ dry_run=$DRY  item=$ITEM  schedule_at=$WHEN  post_number=$PNUM"
+          curl -sS -X POST -A "$UA" \
+            -H "Content-Type: application/json" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+            "https://netwebmedia.com/crm-vanilla/api/?r=fb_publish&action=schedule&token=$MIGRATE_TOKEN" \
+            -d "$BODY" | python3 -m json.tool

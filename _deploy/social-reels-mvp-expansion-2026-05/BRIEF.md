@@ -53,20 +53,27 @@
 | 8C | 3 | AI workflow nodes | `assets/social/campaign/v2/reel_08_scale_broll_workflow-nodes.mp4` |
 | 9C | 2 | Logos + revenue chart | `assets/social/campaign/v2/reel_09_scale_broll_logos-revenue.mp4` |
 
-**Total delivered:** 22 assets (3 portraits + 19 video clips), 73 MB on disk.
+**Total delivered:** 22 assets (3 portraits + 19 video clips), 73 MB on disk at generation time.
 
-## Next steps (post-production — NOT done yet)
+**Status as of 2026-05-26:** The 19 video clips are NOT on disk anywhere in the repo and NOT in Google Drive. They remain reachable on Higgsfield CloudFront (workspace `4df1d4d6-…`, jobs 2026-05-12 15:36–15:37 UTC). Use `recover-source-clips.cmd` (Windows) or `recover-source-clips.sh` (Mac/Linux) — in this folder — to pull all 19 mp4s to `D:\hyperframes\netwebmedia\social-reels-mvp-v2\clips\` per [CLAUDE.md → Media storage policy](../../CLAUDE.md). The Claude Code remote sandbox cannot run these scripts because `d8j0ntlcm91z4.cloudfront.net` is not in its host allowlist; run them on Carlos's Windows workstation or any unrestricted dev machine.
 
-1. **QA review** — open each clip and flag any that need a regenerate (Kling sometimes hallucinates faces in `start_image` mode; check Character A/B/C consistency across their 3 reels).
-2. **Editor handoff** — open `assets/social/campaign/v2/` in DaVinci Resolve / CapCut / Premiere.
-3. **Per-reel assembly** (for each of the 9 reels):
-   - Hero clip (character) + b-roll clip cut to script timing → 12–15s total
-   - Burn-in captions (orange `#FF671F` for emphasis words; IG mutes ~85% of plays)
-   - Corner watermark — square `assets/nwm-logo.svg` top-right, 80×80px, 70% opacity
-   - 2s end card — `assets/nwm-logo-horizontal.svg` on navy `#010F3B`, orange CTA strip with package name + URL
-4. **Voice-over** — Carlos or hired VO records the 9 EN scripts; ES dubs after EN locked.
-5. **Final export** — H.264 MP4, 1080×1920, 30fps. Naming: `reel_01_aeo_v2_en_final.mp4` … `reel_09_scale_v2_es_final.mp4`.
-6. **Publishing** — HOLD until Meta verification confirmed. Then use `ig_publish.php` (admin-gated), `fb_publish.php` (MIGRATE_TOKEN), `tt_publish.php` (MIGRATE_TOKEN).
+## Next steps (post-production)
+
+Replaced manual editor workflow with the **Remotion programmatic pipeline** at `video-factory/`. The composition is `src/compositions/MvpReel.tsx`, data + per-reel themes live in `src/data/mvp-reels.ts`, and `scripts/render-mvp-reels.sh` does a pre-flight check + renders all 9.
+
+1. **Recover the 19 source clips** → run `recover-source-clips.cmd` / `.sh`. Lands them in `D:\hyperframes\netwebmedia\social-reels-mvp-v2\clips\`.
+2. **License + drop 3 music tracks** → see `MUSIC-BRIEF.md` (Artlist defaults). Lands in `D:\hyperframes\netwebmedia\social-reels-mvp-v2\music\`.
+3. **Export brand PNGs** → `assets\nwm-logo.svg` → `video-factory\public\nwm-logo.png` (80px), `assets\nwm-logo-horizontal.svg` → `video-factory\public\nwm-logo-horizontal.png` (max 680px wide). Small files; OK to live in the repo.
+4. **Junction the public/ folders to hyperframes:**
+   ```cmd
+   mklink /J video-factory\public\clips D:\hyperframes\netwebmedia\social-reels-mvp-v2\clips
+   mklink /J video-factory\public\music D:\hyperframes\netwebmedia\social-reels-mvp-v2\music
+   ```
+5. **(Optional) Voice-over** — Carlos records 9 EN scripts to `D:\hyperframes\netwebmedia\social-reels-mvp-v2\vo\`; if skipped, captions + music carry the audio (works for IG mute, the 85% case).
+6. **Render** — `cd video-factory && npm install && ./scripts/render-mvp-reels.sh` (writes to `out/`).
+7. **QA review** — watch each render; if a hero clip hallucinated a face, re-pull from Higgsfield or regenerate via MCP and re-run.
+8. **ES dubs** — duplicate `mvp-reels.ts` REELS entries with Spanish captions + bump id to `_es`; re-render. No music or VO change needed if VO was skipped.
+9. **Publish** — HOLD until Meta verification confirmed. Then use `ig_publish.php` (admin-gated), `fb_publish.php` (MIGRATE_TOKEN), `tt_publish.php` (MIGRATE_TOKEN).
 
 
 **Target:** 9 IG Reels (9:16, 12–15s each), 3 per MVP package, different face per package.

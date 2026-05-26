@@ -19,6 +19,9 @@ jobs:
         shell: bash
         run: |
           set -u
+          # InMotion mod_security 406-blocks bare curl UAs — use full Chrome UA
+          # (same posture as the migrate step in deploy-site-root.yml).
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
           FAILED=""
           URLS=(
             "https://netwebmedia.com/"
@@ -26,15 +29,26 @@ jobs:
             "https://netwebmedia.com/contact.html"
           )
           for u in "${URLS[@]}"; do
-            code=$(curl -s -o /dev/null -w "%{http_code}" -L --max-time 20 -A "Mozilla/5.0 (compatible; NWM-uptime-smoke/1.0)" "$u" || echo "000")
-            echo "$u -> $code"
+            code="000"
+            for attempt in 1 2 3; do
+              code=$(curl -s -o /dev/null -w "%{http_code}" -L --max-time 20 \
+                -A "$UA" \
+                -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" \
+                -H "Accept-Language: en-US,en;q=0.9" \
+                "$u" || echo "000")
+              echo "$u -> $code (attempt $attempt)"
+              if [ "$code" = "200" ]; then
+                break
+              fi
+              [ $attempt -lt 3 ] && sleep $((attempt * 5))
+            done
             if [ "$code" != "200" ]; then
               FAILED="$FAILED\n- $u ($code)"
             fi
           done
           if [ -n "$FAILED" ]; then
             printf "FAILED=%b\n" "$FAILED" >> "$GITHUB_OUTPUT"
-            echo "::error::One or more endpoints returned non-200:$FAILED"
+            echo "::error::One or more endpoints returned non-200 after 3 attempts:$FAILED"
             exit 1
           fi
 

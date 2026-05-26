@@ -75,6 +75,12 @@
     me: function () {
       return request('GET', '/auth/me').then(function (r) { setUser(r.user); return r.user; });
     },
+    forgotPassword: function (email) {
+      return request('POST', '/auth/forgot', { email: email }, { noRedirectOn401: true });
+    },
+    resetPassword: function (token, password) {
+      return request('POST', '/auth/reset', { token: token, password: password }, { noRedirectOn401: true });
+    },
 
     // -- generic resources
     list: function (type, params) { return request('GET', '/resources/' + encodeURIComponent(type) + qs(params)); },

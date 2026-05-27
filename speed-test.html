@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Speed Test — NetWebMedia</title>
+<link rel="stylesheet" href="css/styles.css?v=12">
+<link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg?v=2">
+<style>
+  :root {
+    --navy: #010F3B;
+    --navy-2: #012169;
+    --orange: #FF671F;
+    --orange-2: #FF8C42;
+    --blue: #4A90D9;
+    --green: #10B981;
+    --amber: #F59E0B;
+    --red: #F43F5E;
+    --text: #FFFFFF;
+    --muted: #C8D4E6;
+    --border: rgba(255,255,255,0.10);
+    --card: rgba(255,255,255,0.04);
+    --card-2: rgba(255,255,255,0.06);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, Segoe UI, sans-serif;
+    background: var(--navy); color: var(--text);
+    min-height: 100vh; padding: 32px 20px 80px;
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+
+  /* Header */
+  .head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+  .head h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
+  .head h1 .accent { color: var(--orange); }
+  .head .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge {
+    font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 9999px;
+    background: rgba(255,103,31,0.12); color: var(--orange-2); border: 1px solid rgba(255,103,31,0.25);
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  .badge.who { background: rgba(74,144,217,0.12); color: var(--blue); border-color: rgba(74,144,217,0.25); }
+  .badge.dot::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-right: 6px; vertical-align: middle; }
+  .head .nav-back { color: var(--muted); font-size: 12px; text-decoration: none; }
+  .head .nav-back:hover { color: var(--orange); }
+
+  /* Auth gate */
+  #authGate { position: fixed; inset: 0; background: var(--navy); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; z-index: 9999; }
+  #authGate.gone { display: none; }
+  #authGate .spin { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--orange); border-radius: 50%; animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #authGate p { color: var(--muted); font-size: 14px; }
+
+  /* Form */
+  .form-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 28px; margin-bottom: 28px;
+  }
+  .form-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; }
+  .field { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 240px; }
+  .field label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .field input {
+    background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; color: var(--text); font-size: 14px; font-family: inherit;
+    transition: border-color .15s;
+  }
+  .field input:focus { outline: none; border-color: var(--orange); }
+  .field input::placeholder { color: rgba(200,212,230,0.4); }
+  .strategy-toggle { display: flex; background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 9999px; padding: 4px; }
+  .strategy-toggle button {
+    background: transparent; border: none; color: var(--muted); padding: 8px 18px;
+    border-radius: 9999px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
+    transition: all .15s;
+  }
+  .strategy-toggle button.on { background: var(--orange); color: #fff; }
+  .actions { margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .btn {
+    background: linear-gradient(135deg, var(--orange), var(--orange-2));
+    color: #fff; border: none; padding: 12px 26px; border-radius: 9999px;
+    font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(255,103,31,.3); }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .btn-ghost {
+    background: transparent; color: var(--muted); border: 1px solid var(--border);
+    padding: 10px 18px; border-radius: 9999px; font-size: 13px; font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: all .15s;
+  }
+  .btn-ghost:hover { color: var(--text); border-color: var(--orange); }
+
+  /* Loading */
+  .loading { display: none; padding: 32px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 28px; text-align: center; }
+  .loading.on { display: block; }
+  .loading h3 { font-size: 18px; margin-bottom: 6px; }
+  .loading p { color: var(--muted); font-size: 13px; margin-bottom: 22px; }
+  .loading .progress { max-width: 480px; height: 6px; background: rgba(255,255,255,0.06); border-radius: 9999px; margin: 0 auto; overflow: hidden; }
+  .loading .progress .bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--orange), var(--orange-2)); border-radius: 9999px; transition: width 0.4s; }
+
+  /* Results */
+  .results { display: none; }
+  .results.on { display: block; }
+
+  /* Header card */
+  .result-head {
+    display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center;
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 22px 26px; margin-bottom: 18px;
+  }
+  .result-head h2 { font-size: 22px; word-break: break-all; margin-bottom: 6px; }
+  .result-head .meta-line { font-size: 12px; color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; }
+  .result-head .meta-line b { color: var(--text); }
+  .result-head .strategy-pill {
+    background: linear-gradient(135deg, var(--navy-2), var(--blue));
+    color: #fff; font-size: 12px; font-weight: 700; padding: 6px 14px;
+    border-radius: 9999px; text-transform: uppercase; letter-spacing: .06em;
+  }
+
+  /* Score rings */
+  .scores-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+  @media (max-width: 720px) { .scores-grid { grid-template-columns: repeat(2, 1fr); } }
+  .score-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px; text-align: center;
+  }
+  .score-card h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 14px; }
+  .ring { position: relative; width: 110px; height: 110px; margin: 0 auto; }
+  .ring svg { transform: rotate(-90deg); }
+  .ring .bg-c { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 9; }
+  .ring .fg-c { fill: none; stroke-width: 9; stroke-linecap: round; transition: stroke-dashoffset 1.4s ease-out; }
+  .ring .num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 800; }
+
+  /* CWV cards */
+  .section-title { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 14px; }
+  .cwv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 22px; }
+  .cwv-card {
+    background: var(--card-2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px; position: relative; overflow: hidden;
+  }
+  .cwv-card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--muted);
+  }
+  .cwv-card.good::before { background: var(--green); }
+  .cwv-card.ni::before { background: var(--amber); }
+  .cwv-card.poor::before { background: var(--red); }
+  .cwv-card .label { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
+  .cwv-card .label .full { display: block; font-size: 10px; color: rgba(200,212,230,0.5); text-transform: none; letter-spacing: 0; margin-top: 2px; font-weight: 400; }
+  .cwv-card .value { font-size: 22px; font-weight: 800; }
+  .cwv-card.good .value { color: var(--green); }
+  .cwv-card.ni .value { color: var(--amber); }
+  .cwv-card.poor .value { color: var(--red); }
+
+  /* Two-column layout */
+  .two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+  section.box {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px; margin-bottom: 18px;
+  }
+  section.box h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 14px; }
+
+  /* Opportunity rows */
+  .opp { padding: 12px 14px; background: rgba(0,0,0,0.18); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid var(--amber); }
+  .opp.high { border-left-color: var(--red); }
+  .opp.med { border-left-color: var(--amber); }
+  .opp.low { border-left-color: var(--muted); }
+  .opp .row1 { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 4px; }
+  .opp .title { font-size: 13.5px; font-weight: 600; }
+  .opp .savings { font-size: 12px; font-weight: 700; color: var(--orange); white-space: nowrap; }
+  .opp .desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .opp .desc a { color: var(--blue); text-decoration: none; }
+  .opp .desc a:hover { text-decoration: underline; }
+
+  /* Diagnostics */
+  .diag { padding: 10px 14px; background: rgba(0,0,0,0.18); border-radius: 6px; margin-bottom: 6px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .diag .t { color: var(--text); }
+  .diag .v { font-size: 12px; color: var(--amber); font-weight: 600; white-space: nowrap; }
+
+  /* Screenshot */
+  .screenshot-box {
+    background: var(--card-2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; text-align: center;
+  }
+  .screenshot-box img {
+    max-width: 100%; border-radius: 6px; border: 1px solid var(--border);
+    max-height: 480px;
+  }
+  .screenshot-box .cap { font-size: 11px; color: var(--muted); margin-top: 10px; }
+
+  /* CrUX field data */
+  .crux-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 12px; }
+  .crux-card { background: rgba(0,0,0,0.18); border-radius: 8px; padding: 10px 12px; font-size: 12px; }
+  .crux-card .k { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+  .crux-card .v { font-weight: 700; }
+
+  /* Errors */
+  .err {
+    background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.3); border-radius: 10px;
+    padding: 14px 16px; color: var(--red); font-size: 13px; margin-bottom: 16px;
+  }
+
+  .footer-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--border); }
+
+  /* Cached banner */
+  .cached-banner {
+    background: rgba(74,144,217,0.08); border: 1px solid rgba(74,144,217,0.25);
+    border-radius: 8px; padding: 10px 14px; font-size: 12px; color: var(--blue);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div id="authGate">
+  <div class="spin"></div>
+  <p>Verifying access…</p>
+</div>
+
+<div class="wrap" id="app" style="display:none;">
+
+  <header class="head">
+    <h1>Speed <span class="accent">Test</span></h1>
+    <div class="badges">
+      <span class="badge dot">Lighthouse via PSI</span>
+      <span class="badge who" id="userBadge">—</span>
+      <a class="nav-back" href="/internal-diagnostic.html">← Internal Diagnostic</a>
+    </div>
+  </header>
+
+  <div class="form-card">
+    <div class="form-row">
+      <div class="field">
+        <label for="url">URL to test</label>
+        <input id="url" type="text" placeholder="example.com" autocomplete="off">
+      </div>
+      <div class="field" style="flex:0; min-width:auto;">
+        <label>Strategy</label>
+        <div class="strategy-toggle">
+          <button type="button" id="stratMobile" class="on" data-strat="mobile">Mobile</button>
+          <button type="button" id="stratDesktop" data-strat="desktop">Desktop</button>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="runBtn">Run Test</button>
+      <button class="btn-ghost" id="freshBtn">Re-run (skip cache)</button>
+      <span style="font-size:12px; color:var(--muted); margin-left:auto;">PSI: 15–30 s per run · cached 1 h · 10/10 min per IP</span>
+    </div>
+  </div>
+
+  <div class="loading" id="loading">
+    <h3>Running Lighthouse via PageSpeed Insights…</h3>
+    <p>Google's servers are loading the page in a real browser, capturing metrics, and analyzing.</p>
+    <div class="progress"><div class="bar" id="progressBar"></div></div>
+  </div>
+
+  <div id="errorBox"></div>
+
+  <div class="results" id="results">
+
+    <div id="cachedBanner"></div>
+
+    <div class="result-head">
+      <div>
+        <h2 id="resultUrl">—</h2>
+        <div class="meta-line" id="metaLine"></div>
+      </div>
+      <div class="strategy-pill" id="resultStrategy">MOBILE</div>
+    </div>
+
+    <div class="scores-grid">
+      <div class="score-card">
+        <h3>Performance</h3>
+        <div class="ring"><svg viewBox="0 0 120 120" width="110" height="110"><circle class="bg-c" cx="60" cy="60" r="52"/><circle class="fg-c" id="ringPerf" cx="60" cy="60" r="52" stroke-dasharray="327" stroke-dashoffset="327"/></svg><div class="num" id="scorePerf">0</div></div>
+      </div>
+      <div class="score-card">
+        <h3>Accessibility</h3>
+        <div class="ring"><svg viewBox="0 0 120 120" width="110" height="110"><circle class="bg-c" cx="60" cy="60" r="52"/><circle class="fg-c" id="ringA11y" cx="60" cy="60" r="52" stroke-dasharray="327" stroke-dashoffset="327"/></svg><div class="num" id="scoreA11y">0</div></div>
+      </div>
+      <div class="score-card">
+        <h3>Best Practices</h3>
+        <div class="ring"><svg viewBox="0 0 120 120" width="110" height="110"><circle class="bg-c" cx="60" cy="60" r="52"/><circle class="fg-c" id="ringBp" cx="60" cy="60" r="52" stroke-dasharray="327" stroke-dashoffset="327"/></svg><div class="num" id="scoreBp">0</div></div>
+      </div>
+      <div class="score-card">
+        <h3>SEO</h3>
+        <div class="ring"><svg viewBox="0 0 120 120" width="110" height="110"><circle class="bg-c" cx="60" cy="60" r="52"/><circle class="fg-c" id="ringSeo" cx="60" cy="60" r="52" stroke-dasharray="327" stroke-dashoffset="327"/></svg><div class="num" id="scoreSeo">0</div></div>
+      </div>
+    </div>
+
+    <h3 class="section-title">Core Web Vitals (lab data)</h3>
+    <div class="cwv-grid" id="cwvGrid"></div>
+
+    <section class="box" id="cruxBox" style="display:none;">
+      <h3>Field data — real-user metrics (CrUX, 28-day)</h3>
+      <div class="crux-row" id="cruxRow"></div>
+    </section>
+
+    <div class="two-col">
+      <div>
+        <section class="box">
+          <h3>Opportunities — ranked by potential savings</h3>
+          <div id="oppsList"></div>
+        </section>
+        <section class="box">
+          <h3>Diagnostics — failing checks</h3>
+          <div id="diagsList"></div>
+        </section>
+      </div>
+      <div>
+        <section class="box" id="screenshotBox" style="display:none;">
+          <h3>Final screenshot</h3>
+          <div class="screenshot-box">
+            <img id="screenshotImg" alt="Final page screenshot">
+            <div class="cap" id="screenshotCap">As Lighthouse rendered the page</div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="footer-actions">
+      <button class="btn-ghost" id="swapStrategyBtn">Run as <span id="otherStrat">desktop</span></button>
+      <button class="btn-ghost" id="copyJsonBtn">Copy JSON</button>
+      <button class="btn-ghost" id="downloadBtn">Download JSON</button>
+      <a class="btn-ghost" id="psiLink" target="_blank" rel="noopener" style="text-decoration:none;">Open in PageSpeed Insights →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_BASE = (location.origin === 'http://127.0.0.1:3000' || location.origin === 'http://localhost:3000')
+  ? 'https://netwebmedia.com'
+  : location.origin;
+
+const $ = (id) => document.getElementById(id);
+let currentStrategy = 'mobile';
+let lastReport = null;
+
+// ── Auth gate ──────────────────────────────────────────────────────────
+(async function gate() {
+  const token = localStorage.getItem('nwm_token');
+  if (!token) return bounce();
+  try {
+    const r = await fetch(API_BASE + '/api/auth/me', {
+      headers: { 'X-Auth-Token': token },
+      credentials: 'include',
+    });
+    if (!r.ok) return bounce();
+    const data = await r.json();
+    const user = data.user || {};
+    $('userBadge').textContent = user.email || user.name || 'authenticated';
+    $('authGate').classList.add('gone');
+    $('app').style.display = 'block';
+
+    // Prepopulate URL + auto-run if ?url=… is present
+    const params = new URLSearchParams(location.search);
+    const prefillUrl = params.get('url');
+    const prefillStrat = params.get('strategy');
+    if (prefillStrat === 'desktop') {
+      currentStrategy = 'desktop';
+      $('stratMobile').classList.remove('on');
+      $('stratDesktop').classList.add('on');
+    }
+    if (prefillUrl) {
+      $('url').value = prefillUrl;
+      // Auto-run if explicitly requested via ?go=1, otherwise wait for click
+      if (params.get('go') === '1') runTest(false);
+    }
+  } catch (e) { bounce(); }
+})();
+
+function bounce() {
+  const next = encodeURIComponent(location.pathname);
+  location.href = '/crm-vanilla/login.html?next=' + next;
+}
+
+// ── Strategy toggle ────────────────────────────────────────────────────
+['stratMobile','stratDesktop'].forEach(id => {
+  $(id).addEventListener('click', () => {
+    currentStrategy = $(id).dataset.strat;
+    $('stratMobile').classList.toggle('on', currentStrategy === 'mobile');
+    $('stratDesktop').classList.toggle('on', currentStrategy === 'desktop');
+  });
+});
+
+// ── Form handlers ──────────────────────────────────────────────────────
+$('runBtn').addEventListener('click', () => runTest(false));
+$('freshBtn').addEventListener('click', () => runTest(true));
+$('swapStrategyBtn').addEventListener('click', () => {
+  currentStrategy = currentStrategy === 'mobile' ? 'desktop' : 'mobile';
+  $('stratMobile').classList.toggle('on', currentStrategy === 'mobile');
+  $('stratDesktop').classList.toggle('on', currentStrategy === 'desktop');
+  runTest(false);
+});
+$('copyJsonBtn').addEventListener('click', () => {
+  if (!lastReport) return;
+  navigator.clipboard.writeText(JSON.stringify(lastReport, null, 2));
+  $('copyJsonBtn').textContent = 'Copied!';
+  setTimeout(() => $('copyJsonBtn').textContent = 'Copy JSON', 1500);
+});
+$('downloadBtn').addEventListener('click', () => {
+  if (!lastReport) return;
+  const slug = (lastReport.url || 'report').replace(/https?:\/\//,'').replace(/[^a-z0-9]+/gi,'-').replace(/-+$/,'');
+  const blob = new Blob([JSON.stringify(lastReport, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `psi-${slug}-${lastReport.strategy}-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+});
+
+function showError(msg) {
+  $('errorBox').innerHTML = `<div class="err">${escapeHtml(msg)}</div>`;
+}
+
+function escapeHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = String(s ?? '');
+  return d.innerHTML;
+}
+
+// ── Run a test ─────────────────────────────────────────────────────────
+async function runTest(fresh) {
+  const url = $('url').value.trim();
+  if (!url) return showError('Enter a URL.');
+  if (!/^(https?:\/\/)?[^\s.]+\.[^\s]+$/i.test(url)) return showError('That doesn\'t look like a valid URL.');
+  const fullUrl = url.startsWith('http') ? url : 'https://' + url;
+
+  $('errorBox').innerHTML = '';
+  $('results').classList.remove('on');
+  $('loading').classList.add('on');
+  $('runBtn').disabled = true;
+  $('freshBtn').disabled = true;
+  animateProgress();
+
+  try {
+    const qs = new URLSearchParams({ url: fullUrl, strategy: currentStrategy });
+    if (fresh) qs.set('fresh', '1');
+    const r = await fetch(API_BASE + '/api/psi?' + qs.toString(), {
+      headers: { 'X-Auth-Token': localStorage.getItem('nwm_token') || '' },
+    });
+    const j = await r.json();
+    if (!r.ok || !j.ok) {
+      throw new Error(j.error || j.message || `HTTP ${r.status}`);
+    }
+    lastReport = j.data;
+    renderReport(lastReport);
+    $('loading').classList.remove('on');
+    $('results').classList.add('on');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (e) {
+    $('loading').classList.remove('on');
+    showError(e.message || String(e));
+  } finally {
+    $('runBtn').disabled = false;
+    $('freshBtn').disabled = false;
+    stopProgress();
+  }
+}
+
+let progressTimer = null;
+function animateProgress() {
+  let pct = 0;
+  $('progressBar').style.width = '0%';
+  clearInterval(progressTimer);
+  progressTimer = setInterval(() => {
+    // Asymptote at 92% — flips to 100% on completion
+    pct += (92 - pct) * 0.03;
+    $('progressBar').style.width = pct + '%';
+  }, 200);
+}
+function stopProgress() {
+  clearInterval(progressTimer);
+  $('progressBar').style.width = '100%';
+}
+
+// ── Score color ────────────────────────────────────────────────────────
+function colorFor(score) {
+  if (score >= 90) return 'var(--green)';
+  if (score >= 50) return 'var(--amber)';
+  return 'var(--red)';
+}
+
+// CWV thresholds (Google's official "good / needs improvement / poor" bands)
+const CWV_THRESHOLDS = {
+  lcp: { good: 2500, ni: 4000, label: 'LCP', full: 'Largest Contentful Paint' },
+  fcp: { good: 1800, ni: 3000, label: 'FCP', full: 'First Contentful Paint' },
+  cls: { good: 0.1, ni: 0.25, label: 'CLS', full: 'Cumulative Layout Shift' },
+  tbt: { good: 200, ni: 600, label: 'TBT', full: 'Total Blocking Time' },
+  si:  { good: 3400, ni: 5800, label: 'SI', full: 'Speed Index' },
+  tti: { good: 3800, ni: 7300, label: 'TTI', full: 'Time to Interactive' },
+  ttfb:{ good: 800, ni: 1800, label: 'TTFB', full: 'Server Response Time' },
+};
+
+function cwvClass(metric, value) {
+  if (value == null) return '';
+  const t = CWV_THRESHOLDS[metric];
+  if (!t) return '';
+  if (value <= t.good) return 'good';
+  if (value <= t.ni) return 'ni';
+  return 'poor';
+}
+
+// ── Renderer ───────────────────────────────────────────────────────────
+function renderReport(rep) {
+  // URL + meta
+  $('resultUrl').textContent = rep.final_url || rep.url;
+  $('resultStrategy').textContent = rep.strategy.toUpperCase();
+  const meta = [];
+  if (rep.lighthouse_version) meta.push(`Lighthouse <b>${rep.lighthouse_version}</b>`);
+  if (rep.tested_at) {
+    const dt = new Date(rep.tested_at);
+    meta.push(`Tested <b>${dt.toLocaleString()}</b>`);
+  }
+  $('metaLine').innerHTML = meta.join(' &nbsp;·&nbsp; ');
+
+  // Cached banner
+  $('cachedBanner').innerHTML = rep._cached
+    ? `<div class="cached-banner">Cached result — ${Math.round(rep._cache_age_sec / 60)} min old. Click "Re-run (skip cache)" to refresh.</div>`
+    : '';
+
+  // Update "other strategy" label
+  $('otherStrat').textContent = rep.strategy === 'mobile' ? 'desktop' : 'mobile';
+
+  // Score rings
+  setRing('Perf',  rep.scores.performance,    'scorePerf');
+  setRing('A11y',  rep.scores.accessibility,  'scoreA11y');
+  setRing('Bp',    rep.scores.best_practices, 'scoreBp');
+  setRing('Seo',   rep.scores.seo,            'scoreSeo');
+
+  // CWV grid
+  const cwvKeys = ['lcp','fcp','cls','tbt','si','tti','ttfb'];
+  $('cwvGrid').innerHTML = cwvKeys.map(k => {
+    const c = rep.cwv[k];
+    if (!c || c.value == null) return '';
+    const cls = cwvClass(k, c.value);
+    const t = CWV_THRESHOLDS[k];
+    return `
+      <div class="cwv-card ${cls}">
+        <div class="label">${t.label}<span class="full">${t.full}</span></div>
+        <div class="value">${escapeHtml(c.display)}</div>
+      </div>`;
+  }).join('');
+
+  // CrUX field data
+  const urlExp = rep.crux?.url_experience;
+  const originExp = rep.crux?.origin_experience;
+  if (urlExp || originExp) {
+    $('cruxBox').style.display = 'block';
+    const exp = urlExp || originExp;
+    const m = exp?.metrics || {};
+    const items = [];
+    const labels = {
+      LARGEST_CONTENTFUL_PAINT_MS: 'LCP',
+      FIRST_CONTENTFUL_PAINT_MS: 'FCP',
+      CUMULATIVE_LAYOUT_SHIFT_SCORE: 'CLS',
+      INTERACTION_TO_NEXT_PAINT: 'INP',
+      EXPERIMENTAL_TIME_TO_FIRST_BYTE: 'TTFB',
+    };
+    Object.keys(labels).forEach(k => {
+      if (m[k]) {
+        const cat = m[k].category || '';
+        const color = cat === 'FAST' ? 'var(--green)' : cat === 'AVERAGE' ? 'var(--amber)' : cat === 'SLOW' ? 'var(--red)' : 'var(--muted)';
+        items.push(`<div class="crux-card"><div class="k">${labels[k]}</div><div class="v" style="color:${color};">${m[k].percentiles?.p75 ?? '—'} <span style="font-size:10px; color:var(--muted); font-weight:400;">(${cat})</span></div></div>`);
+      }
+    });
+    $('cruxRow').innerHTML = items.length
+      ? items.join('') + `<div class="crux-card" style="grid-column:1/-1; background:transparent; padding:6px 0;"><div class="k">Source</div><div class="v" style="color:var(--muted); font-weight:400; font-size:11px;">${urlExp ? 'URL-level CrUX (p75 from real Chrome users last 28 days)' : 'Origin-level CrUX (aggregate of all URLs on this origin)'}</div></div>`
+      : '<div class="crux-card" style="grid-column:1/-1;"><div class="v" style="color:var(--muted); font-weight:400;">No CrUX data available for this URL yet.</div></div>';
+  } else {
+    $('cruxBox').style.display = 'none';
+  }
+
+  // Screenshot
+  if (rep.screenshot) {
+    $('screenshotBox').style.display = 'block';
+    $('screenshotImg').src = rep.screenshot;
+  } else {
+    $('screenshotBox').style.display = 'none';
+  }
+
+  // Opportunities
+  const opps = rep.opportunities || [];
+  $('oppsList').innerHTML = opps.length
+    ? opps.map(o => {
+        const sev = (o.savings_ms ?? 0) >= 1000 ? 'high' : (o.savings_ms ?? 0) >= 300 ? 'med' : 'low';
+        const savings = [];
+        if (o.savings_ms) savings.push(`${(o.savings_ms / 1000).toFixed(2)}s`);
+        if (o.savings_bytes) savings.push(`${Math.round(o.savings_bytes / 1024)} KB`);
+        return `
+          <div class="opp ${sev}">
+            <div class="row1">
+              <div class="title">${escapeHtml(o.title)}</div>
+              <div class="savings">${savings.length ? '↓ ' + savings.join(' · ') : ''}</div>
+            </div>
+            <div class="desc">${stripLinks(o.description)}</div>
+          </div>`;
+      }).join('')
+    : '<div style="font-size:13px; color:var(--muted);">No major opportunities — site is well optimized.</div>';
+
+  // Diagnostics
+  const diags = rep.diagnostics || [];
+  $('diagsList').innerHTML = diags.length
+    ? diags.map(d => `
+        <div class="diag">
+          <span class="t">${escapeHtml(d.title)}</span>
+          <span class="v">${escapeHtml(d.display || '')}</span>
+        </div>`).join('')
+    : '<div style="font-size:13px; color:var(--muted);">No failing diagnostics.</div>';
+
+  // PSI deep link
+  const psiUrl = `https://pagespeed.web.dev/analysis?url=${encodeURIComponent(rep.url)}&form_factor=${rep.strategy}`;
+  $('psiLink').href = psiUrl;
+}
+
+function setRing(suffix, score, numId) {
+  score = Math.max(0, Math.min(100, Math.round(score || 0)));
+  $(numId).textContent = score;
+  $(numId).style.color = colorFor(score);
+  const ring = $('ring' + suffix);
+  const c = 327;
+  ring.style.stroke = colorFor(score);
+  ring.style.strokeDashoffset = c - (c * score / 100);
+}
+
+function stripLinks(html) {
+  // Lighthouse description contains markdown-style [link](url) — convert to anchors
+  if (!html) return '';
+  const safe = escapeHtml(html);
+  return safe.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) => {
+    return `<a href="${url}" target="_blank" rel="noopener">${text}</a>`;
+  });
+}
+</script>
+</body>
+</html>

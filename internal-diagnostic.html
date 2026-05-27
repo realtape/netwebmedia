@@ -1190,16 +1190,17 @@ function renderServiceRecommendations(rep, findings) {
 }
 
 // ── PDF generation ─────────────────────────────────────────────────────
-async function generatePDF() {
-  if (!lastReport) return;
+async function generatePDF(rep) {
+  rep = rep || lastReport;
+  if (!rep) return;
   const btn = $('downloadPdfBtn');
   const originalText = btn.textContent;
   btn.disabled = true;
   btn.textContent = '⏳ Building PDF…';
 
   try {
-    buildPdfPrintable();
-    const slug = (lastReport.audit?.url || lastReport.client || 'report')
+    buildPdfPrintable(rep);
+    const slug = (rep.audit?.url || rep.client || 'report')
       .replace(/https?:\/\//,'').replace(/[^a-z0-9]+/gi,'-').replace(/^-+|-+$/g,'').slice(0, 60);
     const filename = `nwm-diagnostic-${slug || 'report'}-${new Date().toISOString().slice(0,10)}.pdf`;
 
@@ -1222,8 +1223,9 @@ async function generatePDF() {
   }
 }
 
-function buildPdfPrintable() {
-  const rep = lastReport;
+function buildPdfPrintable(rep) {
+  rep = rep || lastReport;
+  if (!rep) return;
   const a = rep.audit?.scores || {};
   const z = rep.analyze?.scores || {};
   const p = rep.audit?.parsed || {};

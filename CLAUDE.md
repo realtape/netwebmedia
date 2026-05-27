@@ -103,7 +103,7 @@ This is the **netwebmedia.com production property** plus a collection of support
 6. **`video-factory/`** — Remotion-based programmatic video renderer. Express server on `:3030`. PHP API calls it at `POST /api/video/render`.
 7. **`_deploy/companies/`** — 680 generated per-company audit pages deployed to `netwebmedia.com/companies/**`.
 8. **`plans/`** — internal strategy docs (`business-plan.html`, `marketing-plan.html`, `brand-book.html`, `execution-90day.html`, `index.html` hub). All are `noindex,nofollow`. Always incorporate these when reasoning about NetWebMedia direction.
-9. **`.claude/agents/`** — 12 custom agents mirroring NetWebMedia's org chart (cmo, sales-director, engineering-lead, etc.). Delegate by role; see `.claude/AGENT-ROUTING.txt` for routing rules and Sonnet-vs-Haiku assignments.
+9. **`.claude/agents/`** — 13 custom agents mirroring NetWebMedia's org chart (cmo, sales-director, engineering-lead, meta-ops, etc.). Delegate by role; see `.claude/AGENT-ROUTING.txt` for routing rules and Sonnet-vs-Haiku assignments.
 10. **`cms/`** — internal "NetWeb CMS" admin app deployed to `netwebmedia.com/cms/`. Vanilla-JS content admin (Pages, Blog, Landing Pages, Forms, Templates, Media, SEO, Workflows, Settings, etc.). Persists through the generic `/api/resources/<type>` EAV store in `webmed6_nwm`. Behind HTTP Basic auth (`WWW-Authenticate: Basic realm="NetWebMedia Admin"`). See [CMS admin](#cms-admin--cms).
 
 **Three distinct app surfaces — don't confuse them.** `/app/` is a lightweight feature-stub shell for the public-facing **customer** dashboard (many routes point to `coming-soon.html`). `/crm-vanilla/` is the internal **CRM** the NetWebMedia team uses (contacts, deals, pipeline). `/cms/` is the internal **content CMS** (pages, blog, landing pages, forms). All three are separate.
@@ -676,7 +676,7 @@ See `.claude/AGENT-ROUTING.txt` for the full table, and [orgchart.html](orgchart
 
 - **Strategic / complex** (Opus): `cmo`, `engineering-lead`, `product-manager`
 - **Executive support** (Sonnet): `carlos-ceo-assistant`
-- **Routine work** (Haiku, ~⅓ the tokens): `finance-controller`, `operations-manager`, `customer-success`, `sales-director`, `project-manager`, `data-analyst`, `content-strategist`, `creative-director`
+- **Routine work** (Haiku, ~⅓ the tokens): `finance-controller`, `operations-manager`, `customer-success`, `sales-director`, `project-manager`, `data-analyst`, `content-strategist`, `creative-director`, `meta-ops`
 - **Batch requests to one agent** instead of multiple round-trips — saves 30–40% tokens.
 
 ```mermaid
@@ -696,6 +696,7 @@ graph TD
   CS["💚 customer-success<br/>Retention · QBRs · Haiku"]:::haiku
   FIN["💰 finance-controller<br/>Billing · P&L · cash · Haiku"]:::haiku
   DATA["📊 data-analyst<br/>Analytics · reporting · Haiku"]:::haiku
+  META["📱 meta-ops<br/>FB · IG · WA · Meta Ads · Haiku"]:::haiku
 
   CEO --> COS
   COS --> CMO
@@ -705,6 +706,7 @@ graph TD
 
   CMO --> CONT
   CMO --> CREA
+  CMO --> META
   PROD --> ENG
   PROD --> PM
   SALES --> CS

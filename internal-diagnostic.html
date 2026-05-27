@@ -208,10 +208,6 @@
         <input id="clientName" type="text" placeholder="Acme Restaurant" autocomplete="off">
       </div>
       <div class="field">
-        <label for="leadEmail">Lead email (for CRM) *</label>
-        <input id="leadEmail" type="email" placeholder="contact@example.com" autocomplete="off">
-      </div>
-      <div class="field">
         <label for="industry">Industry (niche)</label>
         <select id="industry">
           <option value="">— Optional —</option>
@@ -354,8 +350,6 @@ let lastReport = null;
     $('userBadge').textContent = user.email || user.name || 'authenticated';
     $('authGate').classList.add('gone');
     $('app').style.display = 'block';
-    // Pre-fill lead email with logged-in user as fallback
-    if (user.email) $('leadEmail').placeholder = 'audits@netwebmedia.com';
   } catch (e) { bounce(); }
 })();
 
@@ -385,7 +379,7 @@ $('downloadBtn').addEventListener('click', () => {
 });
 
 function resetForm() {
-  ['url','clientName','leadEmail','ig','fb','li','tt','yt'].forEach(id => $(id).value = '');
+  ['url','clientName','ig','fb','li','tt','yt'].forEach(id => $(id).value = '');
   $('industry').value = '';
   $('results').classList.remove('on');
   $('loading').classList.remove('on');
@@ -413,7 +407,10 @@ function setStep(id, state) {
 async function runDiagnostic() {
   const url = $('url').value.trim();
   const clientName = $('clientName').value.trim();
-  const leadEmail = $('leadEmail').value.trim() || 'audits@netwebmedia.com';
+  // Lead email is hardcoded — internal diagnostics save under a single
+  // bucket address so the CRM doesn't get polluted with fake addresses.
+  // The audit endpoint requires `email`, so we always send this one.
+  const leadEmail = 'audits@netwebmedia.com';
 
   if (!url) return showError('Enter a URL to diagnose.');
   if (!clientName) return showError('Enter a client / business name.');

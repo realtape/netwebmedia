@@ -178,6 +178,228 @@
     padding: 14px 16px; color: var(--red); font-size: 13px; margin-bottom: 16px;
   }
   .err.warn { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: var(--amber); }
+
+  /* ── Infographics ──────────────────────────────────────────────────── */
+  .info-row {
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 18px; margin-bottom: 24px;
+  }
+  @media (max-width: 880px) { .info-row { grid-template-columns: 1fr; } }
+  .info-card {
+    background: var(--card-2); border: 1px solid var(--border); border-radius: 14px; padding: 22px;
+  }
+  .info-card h3 {
+    font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 4px;
+  }
+  .info-card .sub { font-size: 12px; color: var(--muted); margin-bottom: 16px; opacity: .8; }
+  .radar-wrap { display: flex; justify-content: center; align-items: center; }
+  .radar { width: 100%; max-width: 320px; height: auto; }
+  .radar .grid { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 1; }
+  .radar .axis { stroke: rgba(255,255,255,0.10); stroke-width: 1; }
+  .radar .area { fill: rgba(255,103,31,0.18); stroke: var(--orange); stroke-width: 2; stroke-linejoin: round; }
+  .radar .pt { fill: var(--orange); }
+  .radar .label { fill: var(--muted); font-size: 11px; font-weight: 600; font-family: 'Inter', sans-serif; }
+  .radar .label.score { fill: #fff; font-weight: 800; font-size: 12px; }
+
+  /* Severity stack bar */
+  .sev-stack {
+    height: 22px; background: rgba(0,0,0,0.3); border-radius: 9999px; overflow: hidden;
+    display: flex; margin-top: 8px; border: 1px solid var(--border);
+  }
+  .sev-stack > div { transition: width 1s ease-out; }
+  .sev-stack .h { background: var(--red); }
+  .sev-stack .m { background: var(--amber); }
+  .sev-stack .l { background: rgba(255,255,255,0.20); }
+  .sev-stack-legend {
+    display: flex; justify-content: space-between; gap: 8px; margin-top: 14px;
+    font-size: 12px; color: var(--muted); flex-wrap: wrap;
+  }
+  .sev-stack-legend .item { display: flex; align-items: center; gap: 6px; }
+  .sev-stack-legend .swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .sev-stack-legend b { color: var(--text); font-weight: 700; font-size: 14px; }
+  .sev-stack-legend .item.h .swatch { background: var(--red); }
+  .sev-stack-legend .item.m .swatch { background: var(--amber); }
+  .sev-stack-legend .item.l .swatch { background: rgba(255,255,255,0.30); }
+
+  /* Quick-takeaways 3-up */
+  .takeaways {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px;
+  }
+  @media (max-width: 760px) { .takeaways { grid-template-columns: 1fr; } }
+  .tk {
+    background: var(--card-2); border: 1px solid var(--border); border-radius: 14px; padding: 18px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .tk .tk-head { display: flex; align-items: center; gap: 8px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; }
+  .tk .tk-icon { width: 24px; height: 24px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; }
+  .tk.win .tk-icon { background: rgba(16,185,129,0.15); color: var(--green); }
+  .tk.gap .tk-icon { background: rgba(244,63,94,0.15); color: var(--red); }
+  .tk.next .tk-icon { background: rgba(255,103,31,0.15); color: var(--orange-2); }
+  .tk ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .tk li { font-size: 13px; line-height: 1.45; color: var(--text); display: flex; gap: 6px; }
+  .tk li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; margin-top: 8px; opacity: .6; }
+  .tk.win li { color: var(--text); }
+  .tk.gap li { color: var(--text); }
+
+  /* ── Recommended Services ─────────────────────────────────────────── */
+  .svc-section {
+    background: linear-gradient(135deg, rgba(255,103,31,0.06), rgba(74,144,217,0.06));
+    border: 1px solid rgba(255,103,31,0.20); border-radius: 16px; padding: 26px;
+    margin-bottom: 24px;
+  }
+  .svc-section .svc-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  .svc-section h3 { font-size: 18px; font-weight: 800; letter-spacing: -0.01em; color: var(--text); text-transform: none; }
+  .svc-section .svc-head .pitch { font-size: 13px; color: var(--muted); margin-top: 4px; max-width: 640px; }
+  .svc-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 14px; margin-top: 18px;
+  }
+  .svc-card {
+    background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px; display: flex; flex-direction: column; gap: 10px;
+    transition: transform .15s, border-color .15s;
+  }
+  .svc-card:hover { transform: translateY(-2px); border-color: rgba(255,103,31,0.40); }
+  .svc-card .svc-icon {
+    width: 38px; height: 38px; border-radius: 9px;
+    background: linear-gradient(135deg, rgba(255,103,31,0.18), rgba(74,144,217,0.18));
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .svc-card .svc-name { font-size: 15px; font-weight: 700; color: var(--text); }
+  .svc-card .svc-why { font-size: 12.5px; color: var(--muted); line-height: 1.5; flex: 1; }
+  .svc-card .svc-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+  .svc-tier-badge {
+    font-size: 10.5px; font-weight: 700; padding: 4px 9px; border-radius: 9999px;
+    text-transform: uppercase; letter-spacing: .04em;
+  }
+  .svc-tier-badge.starter { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.25); }
+  .svc-tier-badge.growth  { background: rgba(74,144,217,0.15); color: var(--blue); border: 1px solid rgba(74,144,217,0.25); }
+  .svc-tier-badge.premium { background: rgba(255,103,31,0.15); color: var(--orange-2); border: 1px solid rgba(255,103,31,0.30); }
+  .svc-tier-badge.custom  { background: rgba(99,102,241,0.15); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.30); }
+  .svc-card .svc-price { font-size: 11px; color: var(--muted); font-weight: 600; }
+  .svc-cta-row {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .svc-cta-row a {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 18px; border-radius: 9999px;
+    font-size: 13px; font-weight: 700; text-decoration: none;
+    transition: transform .15s;
+  }
+  .svc-cta-row a:hover { transform: translateY(-1px); }
+  .svc-cta-row .primary { background: linear-gradient(135deg, var(--orange), var(--orange-2)); color: #fff; }
+  .svc-cta-row .ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+  .svc-cta-row .ghost:hover { color: var(--text); border-color: var(--orange); }
+
+  /* Collapse toggles for detail sections */
+  details.collapse { background: var(--card-2); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 18px; overflow: hidden; }
+  details.collapse > summary {
+    cursor: pointer; padding: 18px 22px; font-size: 14px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700;
+    display: flex; align-items: center; justify-content: space-between; list-style: none;
+  }
+  details.collapse > summary::-webkit-details-marker { display: none; }
+  details.collapse > summary::after { content: "▾"; color: var(--orange); transition: transform .2s; font-size: 16px; }
+  details.collapse[open] > summary::after { transform: rotate(180deg); }
+  details.collapse > .inner { padding: 0 22px 22px; }
+
+  /* PDF button — primary */
+  .footer-actions .btn-pdf {
+    background: linear-gradient(135deg, var(--orange), var(--orange-2));
+    color: #fff; border: none; padding: 11px 22px; border-radius: 9999px;
+    font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit;
+    transition: transform .15s, box-shadow .15s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .footer-actions .btn-pdf:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,103,31,.3); }
+  .footer-actions .btn-pdf:disabled { opacity: .6; cursor: wait; }
+
+  /* ── PDF printable container (hidden on screen, used by html2pdf) ── */
+  #pdfPrintable { position: absolute; left: -10000px; top: 0; width: 794px; /* A4 width @ 96dpi */ background: #ffffff; color: #1a1a1a; font-family: 'Inter', sans-serif; padding: 0; }
+  #pdfPrintable * { box-sizing: border-box; }
+  #pdfPrintable .pdf-page {
+    width: 794px; min-height: 1100px; padding: 36px 44px; page-break-after: always; position: relative;
+  }
+  #pdfPrintable .pdf-page:last-child { page-break-after: auto; }
+  #pdfPrintable .pdf-cover {
+    background: linear-gradient(135deg, #010F3B 0%, #012169 60%, #FF671F 180%);
+    color: #fff; min-height: 1100px; padding: 60px 50px;
+  }
+  #pdfPrintable .pdf-cover .brand { font-size: 20px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 60px; }
+  #pdfPrintable .pdf-cover .brand .o { color: #FF671F; }
+  #pdfPrintable .pdf-cover h1 { font-size: 44px; font-weight: 800; line-height: 1.15; margin-bottom: 16px; letter-spacing: -.02em; }
+  #pdfPrintable .pdf-cover .lede { font-size: 18px; opacity: .85; margin-bottom: 50px; line-height: 1.5; max-width: 580px; }
+  #pdfPrintable .pdf-cover .cover-meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; max-width: 540px; margin-bottom: 60px; }
+  #pdfPrintable .pdf-cover .cover-meta .k { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; opacity: .7; margin-bottom: 4px; }
+  #pdfPrintable .pdf-cover .cover-meta .v { font-size: 16px; font-weight: 700; word-break: break-all; }
+  #pdfPrintable .pdf-cover .big-score { display: flex; align-items: center; gap: 30px; padding: 30px; background: rgba(255,255,255,0.08); border-radius: 16px; backdrop-filter: blur(6px); }
+  #pdfPrintable .pdf-cover .big-score .ring { width: 140px; height: 140px; position: relative; flex-shrink: 0; }
+  #pdfPrintable .pdf-cover .big-score .ring .n { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  #pdfPrintable .pdf-cover .big-score .ring .n b { font-size: 40px; font-weight: 800; }
+  #pdfPrintable .pdf-cover .big-score .ring .n span { font-size: 10px; opacity: .7; text-transform: uppercase; letter-spacing: .08em; }
+  #pdfPrintable .pdf-cover .big-score .verdict-block h2 { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+  #pdfPrintable .pdf-cover .big-score .verdict-block p { font-size: 13px; opacity: .85; line-height: 1.55; }
+  #pdfPrintable .pdf-cover .footer-note { position: absolute; bottom: 40px; left: 50px; right: 50px; font-size: 11px; opacity: .65; }
+
+  #pdfPrintable .pdf-section { margin-bottom: 36px; }
+  #pdfPrintable .pdf-section h2 { font-size: 22px; font-weight: 800; color: #010F3B; margin-bottom: 14px; letter-spacing: -.01em; }
+  #pdfPrintable .pdf-section h2 .o { color: #FF671F; }
+  #pdfPrintable .pdf-section .lede { font-size: 13.5px; color: #555; margin-bottom: 16px; line-height: 1.55; }
+  #pdfPrintable .pdf-buckets { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px; }
+  #pdfPrintable .pdf-bucket {
+    background: #f8f9fc; border: 1px solid #e5e7ef; border-radius: 10px; padding: 14px 10px;
+    text-align: center;
+  }
+  #pdfPrintable .pdf-bucket .lab { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: #777; margin-bottom: 6px; font-weight: 600; }
+  #pdfPrintable .pdf-bucket .num { font-size: 28px; font-weight: 800; line-height: 1; }
+  #pdfPrintable .pdf-bucket .bar { height: 4px; background: #e5e7ef; border-radius: 9999px; margin-top: 8px; overflow: hidden; }
+  #pdfPrintable .pdf-bucket .bar .fill { height: 100%; border-radius: 9999px; }
+  #pdfPrintable .pdf-takeaways { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+  #pdfPrintable .pdf-tk { border-radius: 10px; padding: 14px; border: 1px solid #e5e7ef; background: #f8f9fc; }
+  #pdfPrintable .pdf-tk h4 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; font-weight: 700; }
+  #pdfPrintable .pdf-tk.win h4 { color: #059669; }
+  #pdfPrintable .pdf-tk.gap h4 { color: #dc2626; }
+  #pdfPrintable .pdf-tk.next h4 { color: #FF671F; }
+  #pdfPrintable .pdf-tk ul { list-style: none; padding: 0; margin: 0; }
+  #pdfPrintable .pdf-tk li { font-size: 11.5px; line-height: 1.45; color: #333; margin-bottom: 5px; padding-left: 10px; position: relative; }
+  #pdfPrintable .pdf-tk li::before { content: "•"; position: absolute; left: 0; color: #999; }
+
+  #pdfPrintable .pdf-svc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  #pdfPrintable .pdf-svc {
+    background: #ffffff; border: 1.5px solid #FF671F; border-radius: 12px; padding: 16px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  #pdfPrintable .pdf-svc .icon { width: 32px; height: 32px; background: linear-gradient(135deg, #FFE3D2, #FFD0B0); border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; font-size: 16px; }
+  #pdfPrintable .pdf-svc .name { font-size: 14px; font-weight: 800; color: #010F3B; }
+  #pdfPrintable .pdf-svc .why { font-size: 11.5px; color: #555; line-height: 1.45; }
+  #pdfPrintable .pdf-svc .meta { display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid #f0f0f0; }
+  #pdfPrintable .pdf-svc .tier { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 3px 8px; border-radius: 9999px; }
+  #pdfPrintable .pdf-svc .tier.starter { background: #d1fae5; color: #065f46; }
+  #pdfPrintable .pdf-svc .tier.growth  { background: #dbeafe; color: #1e40af; }
+  #pdfPrintable .pdf-svc .tier.premium { background: #ffedd5; color: #9a3412; }
+  #pdfPrintable .pdf-svc .tier.custom  { background: #e0e7ff; color: #3730a3; }
+  #pdfPrintable .pdf-svc .price { font-size: 11px; color: #777; font-weight: 600; }
+
+  #pdfPrintable .pdf-findings { display: flex; flex-direction: column; gap: 8px; }
+  #pdfPrintable .pdf-find {
+    background: #f8f9fc; border-left: 3px solid #d1d5db; border-radius: 6px; padding: 10px 12px;
+  }
+  #pdfPrintable .pdf-find.high { border-left-color: #dc2626; }
+  #pdfPrintable .pdf-find.medium { border-left-color: #d97706; }
+  #pdfPrintable .pdf-find.low { border-left-color: #6b7280; }
+  #pdfPrintable .pdf-find .sev { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+  #pdfPrintable .pdf-find.high .sev { color: #dc2626; }
+  #pdfPrintable .pdf-find.medium .sev { color: #d97706; }
+  #pdfPrintable .pdf-find.low .sev { color: #6b7280; }
+  #pdfPrintable .pdf-find .issue { font-size: 12px; font-weight: 600; color: #1a1a1a; margin-top: 3px; }
+  #pdfPrintable .pdf-find .fix { font-size: 11px; color: #555; margin-top: 4px; font-style: italic; }
+
+  #pdfPrintable .pdf-foot { background: #010F3B; color: #fff; padding: 28px 44px; }
+  #pdfPrintable .pdf-foot h3 { font-size: 18px; margin-bottom: 8px; font-weight: 800; }
+  #pdfPrintable .pdf-foot h3 .o { color: #FF671F; }
+  #pdfPrintable .pdf-foot p { font-size: 12px; opacity: .85; line-height: 1.55; margin-bottom: 8px; }
+  #pdfPrintable .pdf-foot .ctas { display: flex; gap: 14px; margin-top: 12px; font-size: 12px; flex-wrap: wrap; }
+  #pdfPrintable .pdf-foot .ctas b { color: #FF671F; }
 </style>
 </head>
 <body>
@@ -273,31 +495,74 @@
       </div>
     </div>
 
-    <div class="engines">
-      <div class="engine">
-        <h3>Audit engine · 5-bucket</h3>
-        <div class="buckets" id="auditBuckets"></div>
+    <!-- Infographics: Radar + Severity Stack -->
+    <div class="info-row">
+      <div class="info-card">
+        <h3>Performance map</h3>
+        <div class="sub">5-axis view of where the site stands. Closer to the edge = stronger.</div>
+        <div class="radar-wrap" id="radarWrap"></div>
       </div>
-      <div class="engine">
-        <h3>DOM analyzer · 4-bucket</h3>
-        <div class="buckets" id="analyzeBuckets"></div>
+      <div class="info-card">
+        <h3>Issue severity mix</h3>
+        <div class="sub">How critical the gaps are across both engines.</div>
+        <div class="sev-stack" id="sevStack"></div>
+        <div class="sev-stack-legend" id="sevLegend"></div>
       </div>
     </div>
 
-    <section class="box" id="narrativeBox" style="display:none;">
-      <h3>AI strategist narrative (es-CL)</h3>
-      <div class="narrative" id="narrativeBody"></div>
+    <!-- Quick takeaways: Wins, Gaps, Next Steps -->
+    <div class="takeaways" id="takeaways"></div>
+
+    <!-- Recommended services -->
+    <section class="svc-section" id="svcSection">
+      <div class="svc-head">
+        <div>
+          <h3>🎯 Recommended NetWebMedia services</h3>
+          <div class="pitch" id="svcPitch">Based on what we found, here's where we can move the needle fastest.</div>
+        </div>
+      </div>
+      <div class="svc-grid" id="svcGrid"></div>
+      <div class="svc-cta-row">
+        <a class="primary" href="/pricing.html" target="_blank" rel="noopener">See full pricing →</a>
+        <a class="ghost" href="/contact.html?intent=audit-followup" target="_blank" rel="noopener">Book a 20-min strategy call</a>
+        <a class="ghost" href="/whatsapp.html?topic=audit" target="_blank" rel="noopener">Chat on WhatsApp</a>
+      </div>
     </section>
+
+    <details class="collapse">
+      <summary>Engine score detail</summary>
+      <div class="inner">
+        <div class="engines">
+          <div class="engine">
+            <h3>Audit engine · 5-bucket</h3>
+            <div class="buckets" id="auditBuckets"></div>
+          </div>
+          <div class="engine">
+            <h3>DOM analyzer · 4-bucket</h3>
+            <div class="buckets" id="analyzeBuckets"></div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="collapse" id="narrativeBox" style="display:none;">
+      <summary>AI strategist narrative (es-CL)</summary>
+      <div class="inner">
+        <div class="narrative" id="narrativeBody"></div>
+      </div>
+    </details>
 
     <section class="box">
       <h3>Critical findings (consolidated)</h3>
       <div id="findingsList"></div>
     </section>
 
-    <section class="box">
-      <h3>Page meta & signals</h3>
-      <div class="kvgrid" id="metaGrid"></div>
-    </section>
+    <details class="collapse">
+      <summary>Page meta & signals</summary>
+      <div class="inner">
+        <div class="kvgrid" id="metaGrid"></div>
+      </div>
+    </details>
 
     <section class="box" id="socialBox" style="display:none;">
       <h3>Social profile reachability</h3>
@@ -323,14 +588,19 @@
     </section>
 
     <div class="footer-actions">
-      <button class="btn-ghost" id="copyJsonBtn">Copy JSON report</button>
+      <button class="btn-pdf" id="downloadPdfBtn">📄 Download PDF report</button>
+      <button class="btn-ghost" id="copyJsonBtn">Copy JSON</button>
       <button class="btn-ghost" id="downloadBtn">Download JSON</button>
       <button class="btn-ghost" id="newRunBtn">New diagnostic</button>
     </div>
 
   </div>
+
+  <!-- Hidden printable container — populated at PDF render time -->
+  <div id="pdfPrintable" aria-hidden="true"></div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 const API_BASE = location.origin === 'http://127.0.0.1:3000' || location.origin === 'http://localhost:3000'
   ? 'https://netwebmedia.com'
@@ -341,6 +611,15 @@ let lastReport = null;
 
 // ── Auth gate ──────────────────────────────────────────────────────────
 (async function gate() {
+  // Localhost dev bypass — only honored when the page is served from
+  // a local dev host. Useful for previewing UI changes without a CRM session.
+  const isLocal = ['127.0.0.1','localhost'].includes(location.hostname);
+  if (isLocal && new URLSearchParams(location.search).get('dev') === '1') {
+    $('userBadge').textContent = 'dev mode (localhost)';
+    $('authGate').classList.add('gone');
+    $('app').style.display = 'block';
+    return;
+  }
   const token = localStorage.getItem('nwm_token');
   if (!token) return bounce();
   try {
@@ -381,6 +660,7 @@ $('downloadBtn').addEventListener('click', () => {
   a.download = `diagnostic-${slug}-${new Date().toISOString().slice(0,10)}.json`;
   a.click();
 });
+$('downloadPdfBtn').addEventListener('click', generatePDF);
 
 function resetForm() {
   ['url','clientName','ig','fb','li','tt','yt'].forEach(id => $(id).value = '');
@@ -641,6 +921,12 @@ function renderReport(rep, fullUrl) {
   $('speedLink').href = `/speed-test.html?url=${encodeURIComponent(fullUrl)}`;
   $('aeoLink').href = `/aeo-index.html?url=${encodeURIComponent(fullUrl)}`;
   $('crmLink').href = `/crm-vanilla/#contacts`;
+
+  // ── New visualizations ───────────────────────────────────────────────
+  renderRadar(rep);
+  renderSeverityStack(findings);
+  renderTakeaways(rep, findings);
+  renderServiceRecommendations(rep, findings);
 }
 
 function bucketHtml(label, value) {
@@ -657,6 +943,441 @@ function bucketHtml(label, value) {
 
 function kvItem(k, v, cls) {
   return `<div class="kv"><div class="k">${escapeHtml(k)}</div><div class="v${cls ? ' ' + cls : ''}">${escapeHtml(v || '—')}</div></div>`;
+}
+
+// ── Radar chart (5-axis: SEO/Perf/Mobile/Content/Tech) ─────────────────
+function renderRadar(rep) {
+  const a = rep.audit?.scores || {};
+  const z = rep.analyze?.scores || {};
+  // Prefer audit engine; fall back to analyzer where audit didn't run
+  const axes = [
+    { label: 'SEO',         val: a.seo ?? z.seo ?? 0 },
+    { label: 'Performance', val: a.performance ?? z.performance ?? 0 },
+    { label: 'Mobile',      val: a.mobile ?? 0 },
+    { label: 'Content',     val: a.content ?? 0 },
+    { label: 'Technical',   val: a.technical ?? z.best_practices ?? 0 },
+  ];
+  const cx = 160, cy = 160, R = 110;
+  const n = axes.length;
+  // Angles starting from top (-90°), clockwise
+  const pt = (i, r) => {
+    const ang = (-Math.PI / 2) + (i * 2 * Math.PI / n);
+    return [cx + Math.cos(ang) * r, cy + Math.sin(ang) * r];
+  };
+  // Background grid: 4 concentric polygons at 25/50/75/100
+  let grid = '';
+  for (let g = 1; g <= 4; g++) {
+    const rr = R * g / 4;
+    const pts = Array.from({length:n}, (_, i) => pt(i, rr).join(',')).join(' ');
+    grid += `<polygon class="grid" points="${pts}"/>`;
+  }
+  // Axis lines
+  let axesSvg = '';
+  for (let i = 0; i < n; i++) {
+    const [x, y] = pt(i, R);
+    axesSvg += `<line class="axis" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"/>`;
+  }
+  // Data polygon
+  const dataPts = axes.map((a, i) => pt(i, R * (a.val/100)).join(',')).join(' ');
+  let dataDots = '';
+  for (let i = 0; i < n; i++) {
+    const [x, y] = pt(i, R * (axes[i].val/100));
+    dataDots += `<circle class="pt" cx="${x}" cy="${y}" r="3.5"/>`;
+  }
+  // Labels (push slightly outside the ring)
+  let labels = '';
+  for (let i = 0; i < n; i++) {
+    const [lx, ly] = pt(i, R + 22);
+    const anchor = Math.abs(lx - cx) < 8 ? 'middle' : (lx > cx ? 'start' : 'end');
+    const dy = (ly < cy) ? '-2' : '12';
+    labels += `<text class="label" x="${lx}" y="${ly}" text-anchor="${anchor}" dy="${dy}">${escapeHtml(axes[i].label)}</text>`;
+    labels += `<text class="label score" x="${lx}" y="${ly}" text-anchor="${anchor}" dy="${(ly<cy)?'12':'26'}">${axes[i].val}</text>`;
+  }
+  $('radarWrap').innerHTML = `
+    <svg class="radar" viewBox="0 0 320 320" preserveAspectRatio="xMidYMid meet">
+      ${grid}
+      ${axesSvg}
+      <polygon class="area" points="${dataPts}"/>
+      ${dataDots}
+      ${labels}
+    </svg>
+  `;
+}
+
+// ── Severity stack bar ─────────────────────────────────────────────────
+function renderSeverityStack(findings) {
+  const counts = { high: 0, medium: 0, low: 0 };
+  findings.forEach(f => { counts[f.severity || 'low'] = (counts[f.severity || 'low'] || 0) + 1; });
+  const total = counts.high + counts.medium + counts.low;
+  const pct = (n) => total ? (n / total * 100) : 0;
+  if (total === 0) {
+    $('sevStack').innerHTML = '<div class="l" style="width:100%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:600;">No issues</div>';
+    $('sevLegend').innerHTML = '<div class="item"><span style="color:var(--green);">✓ Site is in great shape — no critical findings.</span></div>';
+    return;
+  }
+  $('sevStack').innerHTML = `
+    <div class="h" style="width:${pct(counts.high)}%;" title="${counts.high} high"></div>
+    <div class="m" style="width:${pct(counts.medium)}%;" title="${counts.medium} medium"></div>
+    <div class="l" style="width:${pct(counts.low)}%;" title="${counts.low} low"></div>
+  `;
+  $('sevLegend').innerHTML = `
+    <div class="item h"><span class="swatch"></span><b>${counts.high}</b> High</div>
+    <div class="item m"><span class="swatch"></span><b>${counts.medium}</b> Medium</div>
+    <div class="item l"><span class="swatch"></span><b>${counts.low}</b> Low</div>
+    <div class="item" style="margin-left:auto;"><b>${total}</b> total</div>
+  `;
+}
+
+// ── Quick takeaways: Wins / Gaps / Next Steps ──────────────────────────
+function renderTakeaways(rep, findings) {
+  const a = rep.audit?.scores || {};
+  const z = rep.analyze?.scores || {};
+  const p = rep.audit?.parsed || {};
+  const perf = rep.audit?.performance || {};
+  const sec = rep.audit?.security || {};
+
+  const wins = [];
+  if ((a.seo ?? 0) >= 80 || (z.seo ?? 0) >= 80) wins.push('Strong on-page SEO foundations');
+  if ((a.performance ?? 0) >= 80) wins.push('Page loads fast');
+  if ((a.mobile ?? 0) >= 80) wins.push('Mobile-friendly viewport + tags');
+  if (sec.https) wins.push('HTTPS in place');
+  if (p.has_schema) wins.push('Structured data (JSON-LD) present');
+  if (p.has_og && p.has_twitter) wins.push('Social share preview tags set');
+  if (perf.gzip) wins.push('Server compression enabled');
+  if (p.has_gtag) wins.push('Google Analytics installed');
+  if (p.canonical) wins.push('Canonical URL set');
+
+  const gaps = findings.filter(f => f.severity === 'high').slice(0, 4).map(f => f.issue.replace(/^\[[A-Z]+\]\s*/,''));
+  if (gaps.length < 4) {
+    findings.filter(f => f.severity === 'medium').slice(0, 4 - gaps.length).forEach(f => gaps.push(f.issue.replace(/^\[[A-Z]+\]\s*/,'')));
+  }
+
+  // Next steps — derived from the worst signals
+  const next = [];
+  if (!p.has_schema) next.push('Add JSON-LD schema so AI engines can cite you');
+  if (!p.has_gtag) next.push('Install GA4 to measure what works');
+  if ((a.performance ?? 100) < 70 || !perf.gzip) next.push('Compress assets + enable browser caching');
+  if ((a.mobile ?? 100) < 70) next.push('Fix mobile viewport + tap targets');
+  if (!p.meta_description) next.push('Write a 120–160 char meta description');
+  if ((p.images_no_alt || 0) > 0) next.push(`Add alt text to ${p.images_no_alt} image(s)`);
+  if (!sec.hsts) next.push('Enable HSTS header for security');
+  if (!p.has_og) next.push('Add Open Graph tags for social sharing');
+  if (next.length === 0) next.push('Foundations are solid — focus on demand generation');
+
+  const trim = (arr, n) => arr.slice(0, n).length ? arr.slice(0, n) : ['—'];
+
+  $('takeaways').innerHTML = `
+    <div class="tk win">
+      <div class="tk-head"><span class="tk-icon">✓</span>What's working</div>
+      <ul>${trim(wins, 4).map(w => `<li>${escapeHtml(w)}</li>`).join('')}</ul>
+    </div>
+    <div class="tk gap">
+      <div class="tk-head"><span class="tk-icon">!</span>Critical gaps</div>
+      <ul>${trim(gaps, 4).map(g => `<li>${escapeHtml(g)}</li>`).join('')}</ul>
+    </div>
+    <div class="tk next">
+      <div class="tk-head"><span class="tk-icon">→</span>Next steps</div>
+      <ul>${trim(next, 4).map(n2 => `<li>${escapeHtml(n2)}</li>`).join('')}</ul>
+    </div>
+  `;
+}
+
+// ── NetWebMedia service catalog + recommendation engine ────────────────
+const SVC_LIBRARY = {
+  aeo_pulse:       { icon: '🤖', name: 'AEO Pulse',                          tier: 'starter',  price: 'AEO Starter · $249/mo',  url: '/services.html#aeo' },
+  ai_seo_content:  { icon: '🔍', name: 'AI SEO & Editorial Content',         tier: 'growth',   price: 'CMO Growth · $999/mo',   url: '/services.html#aeo-seo' },
+  perf_rebuild:    { icon: '⚡', name: 'Performance & Core Web Vitals',      tier: 'growth',   price: 'CMO Growth · $999/mo',   url: '/services.html#cms-websites' },
+  mobile_redesign: { icon: '📱', name: 'Mobile-First Redesign',              tier: 'growth',   price: 'CMO Growth · $999/mo',   url: '/services.html#cms-websites' },
+  cms_website:     { icon: '🌐', name: 'NWM CMS AI Website',                 tier: 'growth',   price: 'CMO Growth · $999/mo',   url: '/services.html#cms-websites' },
+  analytics:       { icon: '📊', name: 'Analytics & Conversion Tracking',    tier: 'starter',  price: 'AEO Starter · $249/mo',  url: '/services.html#crm' },
+  social_mgmt:     { icon: '📲', name: 'Social Media Management',            tier: 'growth',   price: 'CMO Growth · $999/mo',   url: '/services.html#social' },
+  paid_ads:        { icon: '🎯', name: 'Paid Ads Management',                tier: 'growth',   price: 'CMO Growth · $999/mo',   url: '/services.html#paid-ads' },
+  email_lifecycle: { icon: '✉️', name: 'Lifecycle & Email Automation',       tier: 'growth',   price: 'CMO Growth · $999/mo',   url: '/services.html#lifecycle' },
+  a11y:            { icon: '♿', name: 'Accessibility Compliance',            tier: 'premium',  price: 'CMO Premium · $2,490/mo', url: '/services.html#cms-websites' },
+  voice_agent:     { icon: '☎️', name: 'AI Voice Receptionist',              tier: 'premium',  price: 'CMO Premium · $2,490/mo', url: '/services.html#voice-receptionist' },
+  rag_agent:       { icon: '🧠', name: 'RAG Knowledge Agent',                tier: 'premium',  price: 'CMO Premium · $2,490/mo', url: '/services.html#rag' },
+  fractional_cmo:  { icon: '🎓', name: 'Fractional CMO Advisory',            tier: 'premium',  price: 'CMO Premium · $2,490/mo', url: '/services.html#fractional-cmo' },
+  cro:             { icon: '💡', name: 'Conversion Rate Optimization',       tier: 'premium',  price: 'CMO Premium · $2,490/mo', url: '/services.html#cro' },
+};
+
+function recommendServices(rep, findings) {
+  const a = rep.audit?.scores || {};
+  const z = rep.analyze?.scores || {};
+  const p = rep.audit?.parsed || {};
+  const perf = rep.audit?.performance || {};
+  const socials = rep.audit?.socials || {};
+  const recs = [];
+  const push = (key, reason) => {
+    if (recs.find(r => r.key === key)) return;
+    recs.push({ key, reason, ...SVC_LIBRARY[key] });
+  };
+
+  // Discoverability / AEO
+  if (!p.has_schema) push('aeo_pulse', 'No structured data — invisible to ChatGPT, Perplexity, and Google AI Overviews.');
+  if ((a.seo ?? 100) < 75 || (a.content ?? 100) < 75 || !p.meta_description) {
+    push('ai_seo_content', 'On-page SEO and editorial signals are below the citation threshold AI engines reward.');
+  }
+
+  // Performance
+  if ((a.performance ?? 100) < 70 || !perf.gzip || !perf.cache) {
+    push('perf_rebuild', `Load speed and asset delivery need work${!perf.gzip ? ' (no GZIP)' : ''}${!perf.cache ? ' (no cache headers)' : ''}.`);
+  }
+
+  // Mobile
+  if ((a.mobile ?? 100) < 75) push('mobile_redesign', 'Mobile experience is below where it converts buyers.');
+
+  // Analytics
+  if (!p.has_gtag) push('analytics', 'Without GA4 you can\'t measure which channels actually produce leads.');
+
+  // Social
+  const socialKeys = Object.keys(socials);
+  const unreachable = socialKeys.filter(k => !socials[k].reachable).length;
+  if (socialKeys.length === 0 || unreachable > 0) {
+    push('social_mgmt', socialKeys.length === 0
+      ? 'No social profiles linked — leaving brand surface area unowned.'
+      : `${unreachable} social profile(s) unreachable — fix or replace.`);
+  }
+
+  // Accessibility
+  if ((z.accessibility ?? 100) < 70 || (p.images_no_alt || 0) > 3) {
+    push('a11y', 'Accessibility gaps block users and are a legal exposure (ADA/WCAG).');
+  }
+
+  // CRO / conversion
+  if ((a.content ?? 100) < 75 && (a.seo ?? 100) >= 70) {
+    push('cro', 'Traffic foundations are okay but copy + CTAs aren\'t converting.');
+  }
+
+  // High-volume findings → push the CMS rebuild
+  if (findings.filter(f => f.severity === 'high').length >= 5) {
+    push('cms_website', 'Too many compounding issues — a clean rebuild is faster than patching.');
+  }
+
+  // Healthy site → upsell to advisory + growth services
+  if (recs.length === 0) {
+    push('fractional_cmo', 'Site fundamentals are solid — the next lever is strategy + demand generation.');
+    push('paid_ads', 'A healthy site is the right time to compound traffic with paid acquisition.');
+    push('voice_agent', '24/7 inbound coverage so no lead falls through.');
+  }
+
+  // Always offer the Starter as an entry point
+  if (recs.length < 4 && !recs.find(r => r.tier === 'starter')) {
+    push('aeo_pulse', 'Entry-point — software + 48-hour written audit for the lowest-friction start.');
+  }
+
+  return recs.slice(0, 4);
+}
+
+function renderServiceRecommendations(rep, findings) {
+  const recs = recommendServices(rep, findings);
+  rep.recommendations_services = recs;
+  const html = recs.map(r => `
+    <div class="svc-card">
+      <div class="svc-icon">${r.icon}</div>
+      <div class="svc-name">${escapeHtml(r.name)}</div>
+      <div class="svc-why">${escapeHtml(r.reason)}</div>
+      <div class="svc-foot">
+        <span class="svc-tier-badge ${r.tier}">${r.tier === 'starter' ? 'Starter' : r.tier === 'growth' ? 'Growth' : r.tier === 'premium' ? 'Premium' : 'Custom'}</span>
+        <span class="svc-price">${escapeHtml(r.price)}</span>
+      </div>
+    </div>
+  `).join('');
+  $('svcGrid').innerHTML = html;
+  // Tailor the pitch
+  const url = (rep.audit?.final_url || rep.audit?.url || '').replace(/^https?:\/\//,'').replace(/\/$/,'');
+  const client = rep.client || 'this site';
+  $('svcPitch').textContent = `Based on what we found at ${url || client}, here's where we can move the needle fastest — ${recs.length} priority service${recs.length === 1 ? '' : 's'}, mapped to the tier that includes them.`;
+}
+
+// ── PDF generation ─────────────────────────────────────────────────────
+async function generatePDF(rep) {
+  rep = rep || lastReport;
+  if (!rep) return;
+  const btn = $('downloadPdfBtn');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '⏳ Building PDF…';
+
+  try {
+    buildPdfPrintable(rep);
+    const slug = (rep.audit?.url || rep.client || 'report')
+      .replace(/https?:\/\//,'').replace(/[^a-z0-9]+/gi,'-').replace(/^-+|-+$/g,'').slice(0, 60);
+    const filename = `nwm-diagnostic-${slug || 'report'}-${new Date().toISOString().slice(0,10)}.pdf`;
+
+    const opt = {
+      margin:       0,
+      filename:     filename,
+      image:        { type: 'jpeg', quality: 0.95 },
+      html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false, windowWidth: 794 },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak:    { mode: ['css', 'legacy'], avoid: ['.pdf-svc', '.pdf-find', '.pdf-tk'] },
+    };
+
+    await html2pdf().set(opt).from($('pdfPrintable')).save();
+  } catch (e) {
+    console.error('PDF build failed', e);
+    showError('PDF generation failed: ' + (e.message || 'unknown error'));
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+}
+
+function buildPdfPrintable(rep) {
+  rep = rep || lastReport;
+  if (!rep) return;
+  const a = rep.audit?.scores || {};
+  const z = rep.analyze?.scores || {};
+  const p = rep.audit?.parsed || {};
+  const perf = rep.audit?.performance || {};
+  const sec = rep.audit?.security || {};
+  const url = rep.audit?.final_url || rep.audit?.url || '—';
+  const client = rep.client || '—';
+
+  // Overall
+  const overalls = [];
+  if (typeof a.overall === 'number') overalls.push(a.overall);
+  if (typeof z.overall === 'number') overalls.push(z.overall);
+  const overall = overalls.length ? Math.round(overalls.reduce((x,y)=>x+y,0) / overalls.length) : 0;
+  const [verdict] = verdictFor(overall);
+
+  // Buckets
+  const buckets = [
+    ['SEO', a.seo ?? z.seo ?? 0],
+    ['Perf', a.performance ?? z.performance ?? 0],
+    ['Mobile', a.mobile ?? 0],
+    ['Content', a.content ?? 0],
+    ['Tech', a.technical ?? z.best_practices ?? 0],
+  ];
+  const bucketsHtml = buckets.map(([lab, val]) => {
+    const color = val >= 80 ? '#059669' : val >= 60 ? '#2563eb' : val >= 40 ? '#d97706' : '#dc2626';
+    return `
+      <div class="pdf-bucket">
+        <div class="lab">${escapeHtml(lab)}</div>
+        <div class="num" style="color:${color};">${val}</div>
+        <div class="bar"><div class="fill" style="width:${val}%; background:${color};"></div></div>
+      </div>`;
+  }).join('');
+
+  // Takeaways
+  const tkWin = Array.from($('takeaways').querySelectorAll('.tk.win li')).map(li => li.textContent);
+  const tkGap = Array.from($('takeaways').querySelectorAll('.tk.gap li')).map(li => li.textContent);
+  const tkNext = Array.from($('takeaways').querySelectorAll('.tk.next li')).map(li => li.textContent);
+  const tkHtml = (cls, label, items) => `
+    <div class="pdf-tk ${cls}">
+      <h4>${label}</h4>
+      <ul>${items.map(i => `<li>${escapeHtml(i)}</li>`).join('')}</ul>
+    </div>`;
+
+  // Services
+  const recs = rep.recommendations_services || [];
+  const svcHtml = recs.map(r => `
+    <div class="pdf-svc">
+      <div class="icon">${r.icon}</div>
+      <div class="name">${escapeHtml(r.name)}</div>
+      <div class="why">${escapeHtml(r.reason)}</div>
+      <div class="meta">
+        <span class="tier ${r.tier}">${r.tier === 'starter' ? 'Starter' : r.tier === 'growth' ? 'Growth' : r.tier === 'premium' ? 'Premium' : 'Custom'}</span>
+        <span class="price">${escapeHtml(r.price)}</span>
+      </div>
+    </div>`).join('');
+
+  // Findings (top 8)
+  const findings = [];
+  (rep.audit?.recommendations || []).forEach(r => findings.push({ severity: r.severity, issue: r.issue, fix: r.fix }));
+  ['seo','perf','a11y','bp'].forEach(k => {
+    const checks = rep.analyze?.checks?.[k] || [];
+    checks.filter(c => !c.pass).forEach(c => {
+      findings.push({ severity: k === 'bp' ? 'low' : 'medium', issue: `[${k.toUpperCase()}] ${c.text}`, fix: '' });
+    });
+  });
+  const sevOrder = { high: 0, medium: 1, low: 2 };
+  findings.sort((x,y) => (sevOrder[x.severity] ?? 3) - (sevOrder[y.severity] ?? 3));
+  const findingsHtml = findings.slice(0, 8).map(f => `
+    <div class="pdf-find ${f.severity || 'low'}">
+      <span class="sev">${f.severity || 'low'}</span>
+      <div class="issue">${escapeHtml(f.issue)}</div>
+      ${f.fix ? `<div class="fix">→ ${escapeHtml(f.fix)}</div>` : ''}
+    </div>`).join('');
+
+  const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const overallColor = overall >= 80 ? '#10B981' : overall >= 60 ? '#4A90D9' : overall >= 40 ? '#F59E0B' : '#F43F5E';
+  const ringOffset = 540 - (540 * overall / 100);
+
+  $('pdfPrintable').innerHTML = `
+    <!-- PAGE 1: Cover -->
+    <div class="pdf-page pdf-cover">
+      <div class="brand">netweb<span class="o">media</span></div>
+      <h1>Website Health<br/>Diagnostic Report</h1>
+      <div class="lede">A clear-eyed look at how this site performs across discoverability, speed, mobile, content, and technical foundations — plus the services that move the needle fastest.</div>
+
+      <div class="cover-meta">
+        <div><div class="k">Prepared for</div><div class="v">${escapeHtml(client)}</div></div>
+        <div><div class="k">Website</div><div class="v">${escapeHtml(url)}</div></div>
+        <div><div class="k">Report date</div><div class="v">${today}</div></div>
+        <div><div class="k">Prepared by</div><div class="v">NetWebMedia</div></div>
+      </div>
+
+      <div class="big-score">
+        <div class="ring">
+          <svg viewBox="0 0 200 200" width="140" height="140" style="transform:rotate(-90deg);">
+            <circle cx="100" cy="100" r="86" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="14"/>
+            <circle cx="100" cy="100" r="86" fill="none" stroke="${overallColor}" stroke-width="14" stroke-linecap="round" stroke-dasharray="540" stroke-dashoffset="${ringOffset}"/>
+          </svg>
+          <div class="n"><b>${overall}</b><span>out of 100</span></div>
+        </div>
+        <div class="verdict-block">
+          <h2>${escapeHtml(verdict)}</h2>
+          <p>This score blends two independent engines: a 5-bucket deep audit (SEO, performance, mobile, content, technical) and a 4-bucket DOM analyzer (SEO, performance, accessibility, best practices).</p>
+        </div>
+      </div>
+
+      <div class="footer-note">netwebmedia.com · audits@netwebmedia.com · WhatsApp +1 (442) 385-4585 · Voice +1 (760) 334-8731</div>
+    </div>
+
+    <!-- PAGE 2: At a glance + Services -->
+    <div class="pdf-page">
+      <div class="pdf-section">
+        <h2>At a <span class="o">glance</span></h2>
+        <div class="lede">Five pillars, scored 0–100. Higher = stronger.</div>
+        <div class="pdf-buckets">${bucketsHtml}</div>
+      </div>
+
+      <div class="pdf-section">
+        <h2>What this <span class="o">means</span></h2>
+        <div class="pdf-takeaways">
+          ${tkHtml('win',  'What\'s working', tkWin)}
+          ${tkHtml('gap',  'Critical gaps',   tkGap)}
+          ${tkHtml('next', 'Next steps',      tkNext)}
+        </div>
+      </div>
+
+      <div class="pdf-section">
+        <h2>Recommended <span class="o">services</span></h2>
+        <div class="lede">Mapped to what we found. Each line shows which NetWebMedia tier includes it.</div>
+        <div class="pdf-svc-grid">${svcHtml}</div>
+      </div>
+    </div>
+
+    <!-- PAGE 3: Findings + footer -->
+    <div class="pdf-page" style="padding-bottom:0;">
+      <div class="pdf-section">
+        <h2>Top <span class="o">findings</span></h2>
+        <div class="lede">Sorted by severity. The most important fixes are at the top.</div>
+        <div class="pdf-findings">${findingsHtml || '<div style="color:#999; font-size:13px;">No critical findings — site is in great shape.</div>'}</div>
+      </div>
+
+      <div class="pdf-foot">
+        <h3>Ready to move on <span class="o">this</span>?</h3>
+        <p>NetWebMedia is a fractional AI CMO for service businesses. We bundle strategy, execution, and reporting into one monthly retainer — and we guarantee qualified leads in 30 days or your first month is refunded.</p>
+        <div class="ctas">
+          <div><b>Pricing:</b> netwebmedia.com/pricing.html</div>
+          <div><b>Book a call:</b> netwebmedia.com/contact.html</div>
+          <div><b>WhatsApp:</b> +1 (442) 385-4585</div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 </script>
 </body>

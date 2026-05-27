@@ -184,8 +184,13 @@ function route_psi($parts, $method) {
     }
   }
 
-  // Build PSI URL — API key optional, set PAGESPEED_API_KEY for higher quota.
-  $apiKey = getenv('PAGESPEED_API_KEY') ?: (defined('PAGESPEED_API_KEY') ? PAGESPEED_API_KEY : '');
+  // Build PSI URL — API key optional, but the anonymous quota is shared
+  // across the calling IP/project, so a key dedicated to NWM is strongly
+  // recommended (25k/day free quota per project). Wired via deploy-time
+  // config.local.php; falls back to env var and finally to no key.
+  $cfg = function_exists('config') ? config() : [];
+  $apiKey = $cfg['pagespeed_api_key']
+         ?? (getenv('PAGESPEED_API_KEY') ?: (defined('PAGESPEED_API_KEY') ? PAGESPEED_API_KEY : ''));
   $psiUrl = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'
           . '?url=' . urlencode($url)
           . '&strategy=' . $strategy

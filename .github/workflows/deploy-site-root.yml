@@ -217,6 +217,7 @@ jobs:
             'jwt_secret'            => getenv('JWT_SECRET_PLACEHOLDER'),
             'hubspot_token'         => getenv('HUBSPOT_TOKEN_PLACEHOLDER'),
             'anthropic_api_key'     => getenv('ANTHROPIC_API_KEY_PLACEHOLDER'),
+            'pagespeed_api_key'     => getenv('PAGESPEED_API_KEY_PLACEHOLDER'),
             'resend_api_key'        => getenv('RESEND_API_KEY_PLACEHOLDER'),
             'aws_ses_key'           => getenv('AWS_SES_KEY_PLACEHOLDER'),
             'aws_ses_secret'        => getenv('AWS_SES_SECRET_PLACEHOLDER'),
@@ -243,6 +244,7 @@ jobs:
             "JWT_SECRET_PLACEHOLDER":        os.environ.get("SECRET_JWT_SECRET", ""),
             "HUBSPOT_TOKEN_PLACEHOLDER":     os.environ.get("SECRET_HUBSPOT_TOKEN", ""),
             "ANTHROPIC_API_KEY_PLACEHOLDER": os.environ.get("SECRET_ANTHROPIC_API_KEY", ""),
+            "PAGESPEED_API_KEY_PLACEHOLDER": os.environ.get("SECRET_PAGESPEED_API_KEY", ""),
             "RESEND_API_KEY_PLACEHOLDER":    os.environ.get("SECRET_RESEND_API_KEY", ""),
             "AWS_SES_KEY_PLACEHOLDER":       os.environ.get("SECRET_AWS_SES_KEY", ""),
             "AWS_SES_SECRET_PLACEHOLDER":    os.environ.get("SECRET_AWS_SES_SECRET", ""),
@@ -367,6 +369,7 @@ jobs:
           SECRET_JWT_SECRET:        ${{ secrets.JWT_SECRET }}
           SECRET_HUBSPOT_TOKEN:     ${{ secrets.HUBSPOT_TOKEN }}
           SECRET_ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SECRET_PAGESPEED_API_KEY: ${{ secrets.PAGESPEED_API_KEY }}
           SECRET_RESEND_API_KEY:    ${{ secrets.RESEND_API_KEY }}
           SECRET_AWS_SES_KEY:       ${{ secrets.AWS_SES_KEY }}
           SECRET_AWS_SES_SECRET:    ${{ secrets.AWS_SES_SECRET }}

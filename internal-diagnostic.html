@@ -307,6 +307,10 @@
     <section class="box">
       <h3>Deep links</h3>
       <div class="kvgrid">
+        <a class="kv" id="speedLink" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
+          <div class="k">Speed Test (Lighthouse)</div>
+          <div class="v" style="color:var(--orange);">Run Core Web Vitals →</div>
+        </a>
         <a class="kv" id="aeoLink" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
           <div class="k">AEO Citation Index</div>
           <div class="v" style="color:var(--orange);">Open in new tab →</div>
@@ -634,6 +638,7 @@ function renderReport(rep, fullUrl) {
   }
 
   // Deep links
+  $('speedLink').href = `/speed-test.html?url=${encodeURIComponent(fullUrl)}`;
   $('aeoLink').href = `/aeo-index.html?url=${encodeURIComponent(fullUrl)}`;
   $('crmLink').href = `/crm-vanilla/#contacts`;
 }

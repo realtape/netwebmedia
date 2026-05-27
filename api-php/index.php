@@ -217,6 +217,9 @@ try {
   } elseif ($group === 'nwmai') {
     require __DIR__ . '/routes/nwmai.php';
     route_nwmai($parts, $method);
+  } elseif ($group === 'psi') {
+    require __DIR__ . '/routes/psi.php';
+    route_psi($parts, $method);
   } elseif ($group === 'campaigns') {
     require __DIR__ . '/routes/campaigns.php';
     route_campaigns($parts, $method);

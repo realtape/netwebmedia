@@ -21,8 +21,9 @@ import {
 } from '../data/mvp-reels';
 
 // ----------------------------------------------------------------------------
-// Per-reel transitions. Each is a 12-frame overlay played between beats — the
-// outgoing beat finishes, the transition fires, the incoming beat begins.
+// Per-reel transitions. Each is a 12-frame crossfade overlay centered on the
+// cut: it starts 6 frames before t_end of the outgoing beat and continues 6
+// frames into the incoming beat, masking the hard cut with a kinetic flash.
 // All transitions stay inside the brand palette: navy bg, orange accent, plus
 // the reel-specific tertiary color when it fits the motif.
 // ----------------------------------------------------------------------------
@@ -207,12 +208,13 @@ const Caption: React.FC<{
     : 'Inter, sans-serif';
 
   const renderText = () => {
-    if (!emphasis.length) return text;
+    const words = emphasis.filter((w) => w.length > 0);
+    if (!words.length) return text;
     let remaining = text;
     const out: React.ReactNode[] = [];
     let key = 0;
     while (remaining.length) {
-      const match = emphasis
+      const match = words
         .map((word) => ({ word, idx: remaining.toLowerCase().indexOf(word.toLowerCase()) }))
         .filter((m) => m.idx >= 0)
         .sort((a, b) => a.idx - b.idx)[0];

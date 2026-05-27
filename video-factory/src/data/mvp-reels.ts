@@ -408,7 +408,7 @@ export const REELS: Reel[] = [
         t_end: 3,
         clip: 'reel_08_scale_hero_conference-table.mp4',
         caption: 'Strategy · Content · Paid · Automation · Analytics.',
-        emphasis: ['All five'],
+        emphasis: ['Analytics'],
         transitionOut: 'depth-stack',
       },
       {

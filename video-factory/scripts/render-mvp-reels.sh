@@ -84,15 +84,15 @@ done
 if [[ $missing -ne 0 ]]; then
   echo
   echo "Pre-flight failed. Asset storage policy (CLAUDE.md) requires all video"
-  echo "+ music binaries to live at D:\\hyperframes\\netwebmedia\\social-reels-mvp-v2\\"
+  echo "+ music binaries to live at D:\\hyperframes\\nwm-reels\\mvp-v2\\"
   echo "and be reached via Windows junctions (mklink /J) on the public/ folders."
   echo
   echo "If you're missing source clips, re-pull from the Higgsfield workspace"
   echo "(_deploy/social-reels-mvp-expansion-2026-05/BRIEF.md has the job IDs)"
-  echo "and save them directly to D:\\hyperframes\\netwebmedia\\social-reels-mvp-v2\\clips\\."
+  echo "and save them directly to D:\\hyperframes\\nwm-reels\\mvp-v2\\clips\\."
   echo
   echo "If you're missing music, follow MUSIC-BRIEF.md and save the licensed"
-  echo "mp3s to D:\\hyperframes\\netwebmedia\\social-reels-mvp-v2\\music\\."
+  echo "mp3s to D:\\hyperframes\\nwm-reels\\mvp-v2\\music\\."
   exit 1
 fi
 

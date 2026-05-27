@@ -3,6 +3,8 @@ import { QuoteCard, quoteCardSchema } from './compositions/QuoteCard';
 import { ProductReel, productReelSchema } from './compositions/ProductReel';
 import { BeforeAfter, beforeAfterSchema } from './compositions/BeforeAfter';
 import { HiggsfieldRemix } from './compositions/HiggsfieldRemix';
+import { MvpReel } from './compositions/MvpReel';
+import { REELS } from './data/mvp-reels';
 
 const FPS = 30;
 // HF source is 15.04s — render slightly short to land cleanly inside the audio tail.
@@ -153,6 +155,20 @@ export const RemotionRoot: React.FC = () => (
           accent: v.accent,
           accent_dark: NAVY,
         }}
+      />
+    ))}
+
+    {/* MVP Expansion v2 — 9 reels, per-reel theme + music + transitions */}
+    {REELS.map((reel) => (
+      <Composition
+        key={reel.id}
+        id={reel.id}
+        component={MvpReel}
+        durationInFrames={FPS * reel.duration}
+        fps={FPS}
+        width={1080}
+        height={1920}
+        defaultProps={{ reel }}
       />
     ))}
   </>

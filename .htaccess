@@ -147,10 +147,24 @@ Options -Indexes
   # on specific PHP endpoints to prevent loops from the host-based rewrites
   # below (each internal rewrite re-enters the rewrite engine; without this
   # guard, app.* → /crm-vanilla/ → /crm-vanilla/crm-vanilla/ → loop).
+  #
+  # ALSO skip for shared apex asset paths (/css/, /js/, /assets/, fonts, api,
+  # cms, app, /.well-known, favicon, robots, sitemap*). Without this guard,
+  # hotels.netwebmedia.com/css/styles.css was rewritten to
+  # /industries/hospitality/hotels/css/styles.css → 404 → every subdomain
+  # rendered as unstyled HTML (bug found 2026-05-27, all 39 subdomains).
   RewriteCond %{REQUEST_URI} ^/industries/ [OR]
   RewriteCond %{REQUEST_URI} ^/crm-vanilla/ [OR]
   RewriteCond %{REQUEST_URI} ^/companies/ [OR]
   RewriteCond %{REQUEST_URI} ^/superadmin/ [OR]
+  RewriteCond %{REQUEST_URI} ^/cms/ [OR]
+  RewriteCond %{REQUEST_URI} ^/app/ [OR]
+  RewriteCond %{REQUEST_URI} ^/api(/|-php/) [OR]
+  RewriteCond %{REQUEST_URI} ^/video-out/ [OR]
+  RewriteCond %{REQUEST_URI} ^/(css|js|assets|images|img|fonts)/ [OR]
+  RewriteCond %{REQUEST_URI} ^/\.well-known/ [OR]
+  RewriteCond %{REQUEST_URI} ^/(favicon\.ico|robots\.txt|sw\.js)$ [OR]
+  RewriteCond %{REQUEST_URI} ^/sitemap.*\.xml$ [OR]
   RewriteCond %{REQUEST_URI} ^/audit-submit\.php$ [OR]
   RewriteCond %{REQUEST_URI} ^/unsubscribe\.php$ [OR]
   RewriteCond %{REQUEST_URI} ^/audit\.php$
@@ -441,8 +455,14 @@ Options -Indexes
   #   - https://cdnjs.cloudflare.com    → /livery-editor/ Fabric.js 5.3.0
   # style-src addition:
   #   - https://unpkg.com               → Leaflet CSS
-  # TODO: self-host these libs at /vendor/* to drop the third-party origins. Tracked in audit follow-ups.
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://browser.sentry-cdn.com https://challenges.cloudflare.com https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://*.ingest.sentry.io https://ipapi.co https://api.indexnow.org https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self' https://netwebmedia.com; upgrade-insecure-requests"
+  # Cross-origin additions (2026-05-27): every industry subdomain
+  # (hotels.*, restaurants.*, etc., 39 hosts) loads css/js/fonts from the
+  # apex via absolute URLs. 'self' resolves to the subdomain, so the apex
+  # is a different origin and was being blocked → unstyled pages. Allow
+  # https://netwebmedia.com (apex) and https://*.netwebmedia.com (siblings)
+  # for script/style/font/connect.
+  # TODO: self-host third-party libs at /vendor/* to drop unpkg/cdnjs. Tracked in audit follow-ups.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://netwebmedia.com https://*.netwebmedia.com https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://browser.sentry-cdn.com https://challenges.cloudflare.com https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://netwebmedia.com https://*.netwebmedia.com https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://netwebmedia.com https://*.netwebmedia.com https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://netwebmedia.com https://*.netwebmedia.com https://www.google-analytics.com https://*.ingest.sentry.io https://ipapi.co https://api.indexnow.org https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self' https://netwebmedia.com https://*.netwebmedia.com; upgrade-insecure-requests"
 </IfModule>
 
 # ── Force UTF-8 charset in HTTP response headers ──────────────────────

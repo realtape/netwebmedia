@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Internal Diagnostic — NetWebMedia</title>
+<link rel="stylesheet" href="css/styles.css?v=12">
+<link rel="icon" type="image/svg+xml" href="assets/nwm-logo.svg?v=2">
+<style>
+  :root {
+    --navy: #010F3B;
+    --navy-2: #012169;
+    --orange: #FF671F;
+    --orange-2: #FF8C42;
+    --blue: #4A90D9;
+    --green: #10B981;
+    --amber: #F59E0B;
+    --red: #F43F5E;
+    --text: #FFFFFF;
+    --muted: #C8D4E6;
+    --border: rgba(255,255,255,0.10);
+    --card: rgba(255,255,255,0.04);
+    --card-2: rgba(255,255,255,0.06);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, Segoe UI, sans-serif;
+    background: var(--navy); color: var(--text);
+    min-height: 100vh; padding: 32px 20px 80px;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+
+  /* Header */
+  .head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+  .head h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; }
+  .head h1 .accent { color: var(--orange); }
+  .head .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge {
+    font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 9999px;
+    background: rgba(255,103,31,0.12); color: var(--orange-2); border: 1px solid rgba(255,103,31,0.25);
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  .badge.who { background: rgba(74,144,217,0.12); color: var(--blue); border-color: rgba(74,144,217,0.25); }
+  .badge.dot::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-right: 6px; vertical-align: middle; }
+
+  /* Auth check overlay */
+  #authGate { position: fixed; inset: 0; background: var(--navy); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; z-index: 9999; }
+  #authGate.gone { display: none; }
+  #authGate .spin { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--orange); border-radius: 50%; animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #authGate p { color: var(--muted); font-size: 14px; }
+
+  /* Form */
+  .form-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    padding: 28px; margin-bottom: 28px;
+  }
+  .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .field input, .field select {
+    background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 8px;
+    padding: 11px 14px; color: var(--text); font-size: 14px; font-family: inherit;
+    transition: border-color .15s;
+  }
+  .field input:focus, .field select:focus { outline: none; border-color: var(--orange); }
+  .field input::placeholder { color: rgba(200,212,230,0.4); }
+  .socials { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 14px; }
+  .socials .field label { text-transform: none; letter-spacing: 0; font-size: 11px; font-weight: 500; }
+  .actions { margin-top: 22px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .btn {
+    background: linear-gradient(135deg, var(--orange), var(--orange-2));
+    color: #fff; border: none; padding: 12px 26px; border-radius: 9999px;
+    font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(255,103,31,.3); }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .btn-ghost {
+    background: transparent; color: var(--muted); border: 1px solid var(--border);
+    padding: 10px 18px; border-radius: 9999px; font-size: 13px; font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: all .15s;
+  }
+  .btn-ghost:hover { color: var(--text); border-color: var(--orange); }
+
+  /* Loading */
+  .loading { display: none; padding: 28px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 28px; }
+  .loading.on { display: block; }
+  .loading h3 { font-size: 16px; margin-bottom: 14px; }
+  .loading ul { list-style: none; }
+  .loading li { padding: 8px 0; color: var(--muted); font-size: 13px; display: flex; align-items: center; gap: 10px; }
+  .loading li .dot-i { width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+  .loading li.run .dot-i { background: var(--orange); animation: pulse 1.2s infinite; }
+  .loading li.done .dot-i { background: var(--green); }
+  .loading li.fail .dot-i { background: var(--red); }
+  .loading li.done { color: var(--text); }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+
+  /* Results */
+  .results { display: none; }
+  .results.on { display: block; }
+
+  .overall {
+    display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: center;
+    background: linear-gradient(135deg, rgba(1,33,105,0.4), rgba(255,103,31,0.08));
+    border: 1px solid var(--border); border-radius: 20px; padding: 32px; margin-bottom: 24px;
+  }
+  .overall .ring { position: relative; width: 180px; height: 180px; }
+  .overall .ring svg { transform: rotate(-90deg); }
+  .overall .ring .bg-c { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 14; }
+  .overall .ring .fg-c { fill: none; stroke-width: 14; stroke-linecap: round; transition: stroke-dashoffset 1.2s ease-out; }
+  .overall .ring .num { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .overall .ring .num b { font-size: 48px; font-weight: 800; line-height: 1; }
+  .overall .ring .num span { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-top: 4px; }
+  .overall .meta h2 { font-size: 24px; margin-bottom: 6px; word-break: break-all; }
+  .overall .meta .verdict { font-size: 16px; font-weight: 600; margin-bottom: 14px; }
+  .overall .meta .stats { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+  .overall .meta .stats b { color: var(--text); }
+
+  /* Engine cards */
+  .engines { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+  @media (max-width: 760px) { .engines { grid-template-columns: 1fr; } .overall { grid-template-columns: 1fr; text-align: center; } }
+  .engine {
+    background: var(--card-2); border: 1px solid var(--border); border-radius: 14px; padding: 20px;
+  }
+  .engine h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 14px; }
+  .engine .buckets { display: grid; gap: 10px; }
+  .bucket { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px; }
+  .bucket .label { font-size: 13px; color: var(--muted); }
+  .bucket .bar { grid-column: 1 / -1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 9999px; overflow: hidden; }
+  .bucket .bar .fill { height: 100%; transition: width 1s ease-out; border-radius: 9999px; }
+  .bucket .val { font-size: 14px; font-weight: 700; }
+
+  /* Section */
+  section.box {
+    background: var(--card-2); border: 1px solid var(--border); border-radius: 14px; padding: 22px; margin-bottom: 18px;
+  }
+  section.box h3 { font-size: 14px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 14px; }
+
+  /* Findings */
+  .finding { padding: 12px 14px; background: rgba(0,0,0,0.2); border-left: 3px solid var(--border); border-radius: 8px; margin-bottom: 8px; font-size: 13px; line-height: 1.5; }
+  .finding.high { border-left-color: var(--red); }
+  .finding.medium { border-left-color: var(--amber); }
+  .finding.low { border-left-color: var(--muted); }
+  .finding .sev { font-weight: 700; text-transform: uppercase; font-size: 11px; margin-right: 8px; letter-spacing: .05em; }
+  .finding.high .sev { color: var(--red); }
+  .finding.medium .sev { color: var(--amber); }
+  .finding.low .sev { color: var(--muted); }
+  .finding .fix { display: block; margin-top: 4px; color: var(--muted); font-style: italic; }
+
+  /* Meta grid */
+  .kvgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+  .kv { background: rgba(0,0,0,0.2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-size: 12px; }
+  .kv .k { color: var(--muted); margin-bottom: 4px; text-transform: uppercase; font-size: 10px; letter-spacing: .08em; }
+  .kv .v { font-weight: 600; word-break: break-word; }
+  .kv .v.ok { color: var(--green); }
+  .kv .v.bad { color: var(--red); }
+
+  /* Social */
+  .social-row { display: grid; grid-template-columns: 100px 1fr auto; gap: 12px; padding: 10px 14px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 6px; font-size: 13px; align-items: center; }
+  .social-row .platform { font-weight: 600; text-transform: capitalize; }
+  .social-row .handle a { color: var(--blue); text-decoration: none; word-break: break-all; }
+  .social-row .stat { font-size: 11px; padding: 3px 9px; border-radius: 9999px; font-weight: 700; }
+  .social-row .stat.ok { background: rgba(16,185,129,0.15); color: var(--green); }
+  .social-row .stat.bad { background: rgba(244,63,94,0.15); color: var(--red); }
+
+  /* AI narrative */
+  .narrative { background: rgba(74,144,217,0.06); border: 1px solid rgba(74,144,217,0.2); border-radius: 12px; padding: 20px; line-height: 1.65; font-size: 14px; white-space: pre-wrap; }
+
+  /* Footer actions */
+  .footer-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--border); }
+  .footer-actions a { text-decoration: none; }
+
+  /* Errors */
+  .err {
+    background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.3); border-radius: 10px;
+    padding: 14px 16px; color: var(--red); font-size: 13px; margin-bottom: 16px;
+  }
+  .err.warn { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: var(--amber); }
+</style>
+</head>
+<body>
+
+<div id="authGate">
+  <div class="spin"></div>
+  <p>Verifying access…</p>
+</div>
+
+<div class="wrap" id="app" style="display:none;">
+
+  <header class="head">
+    <h1>Internal <span class="accent">Diagnostic</span></h1>
+    <div class="badges">
+      <span class="badge dot">Live engines</span>
+      <span class="badge who" id="userBadge">—</span>
+    </div>
+  </header>
+
+  <div class="form-card">
+    <div class="form-grid">
+      <div class="field">
+        <label for="url">Client URL *</label>
+        <input id="url" type="text" placeholder="example.com" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="clientName">Client / business name *</label>
+        <input id="clientName" type="text" placeholder="Acme Restaurant" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="leadEmail">Lead email (for CRM) *</label>
+        <input id="leadEmail" type="email" placeholder="contact@example.com" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="industry">Industry (niche)</label>
+        <select id="industry">
+          <option value="">— Optional —</option>
+          <option value="tourism">Tourism / Hospitality</option>
+          <option value="restaurants">Restaurants</option>
+          <option value="health">Health</option>
+          <option value="beauty">Beauty</option>
+          <option value="smb">SMB (general)</option>
+          <option value="law_firms">Law firms</option>
+          <option value="real_estate">Real estate</option>
+          <option value="local_specialist">Local specialist</option>
+          <option value="automotive">Automotive</option>
+          <option value="education">Education</option>
+          <option value="events_weddings">Events / weddings</option>
+          <option value="financial_services">Financial services</option>
+          <option value="home_services">Home services</option>
+          <option value="wine_agriculture">Wine / agriculture</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="socials">
+      <div class="field"><label>Instagram handle</label><input id="ig" type="text" placeholder="@brand"></div>
+      <div class="field"><label>Facebook page</label><input id="fb" type="text" placeholder="brand"></div>
+      <div class="field"><label>LinkedIn page</label><input id="li" type="text" placeholder="brand"></div>
+      <div class="field"><label>TikTok handle</label><input id="tt" type="text" placeholder="@brand"></div>
+      <div class="field"><label>YouTube handle</label><input id="yt" type="text" placeholder="@brand"></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" id="runBtn">Run Full Diagnostic</button>
+      <button class="btn-ghost" id="resetBtn">Reset</button>
+      <span style="font-size:12px; color:var(--muted); margin-left:auto;">Audit endpoint rate-limit: 5/10min per IP</span>
+    </div>
+  </div>
+
+  <div class="loading" id="loading">
+    <h3>Running diagnostic…</h3>
+    <ul>
+      <li id="stepAudit"><span class="dot-i"></span>Deep audit engine (SEO / Perf / Mobile / Content / Tech + AI narrative)</li>
+      <li id="stepAnalyze"><span class="dot-i"></span>DOM analyzer (Accessibility + Best Practices)</li>
+      <li id="stepSocial"><span class="dot-i"></span>Social profile reachability check</li>
+      <li id="stepReport"><span class="dot-i"></span>Building report</li>
+    </ul>
+  </div>
+
+  <div id="errorBox"></div>
+
+  <div class="results" id="results">
+
+    <div class="overall" id="overallCard">
+      <div class="ring">
+        <svg viewBox="0 0 200 200" width="180" height="180">
+          <circle class="bg-c" cx="100" cy="100" r="86"/>
+          <circle class="fg-c" id="ringFg" cx="100" cy="100" r="86" stroke-dasharray="540" stroke-dashoffset="540"/>
+        </svg>
+        <div class="num"><b id="overallScore">0</b><span>out of 100</span></div>
+      </div>
+      <div class="meta">
+        <h2 id="reportUrl">—</h2>
+        <div class="verdict" id="reportVerdict">—</div>
+        <div class="stats" id="reportStats"></div>
+      </div>
+    </div>
+
+    <div class="engines">
+      <div class="engine">
+        <h3>Audit engine · 5-bucket</h3>
+        <div class="buckets" id="auditBuckets"></div>
+      </div>
+      <div class="engine">
+        <h3>DOM analyzer · 4-bucket</h3>
+        <div class="buckets" id="analyzeBuckets"></div>
+      </div>
+    </div>
+
+    <section class="box" id="narrativeBox" style="display:none;">
+      <h3>AI strategist narrative (es-CL)</h3>
+      <div class="narrative" id="narrativeBody"></div>
+    </section>
+
+    <section class="box">
+      <h3>Critical findings (consolidated)</h3>
+      <div id="findingsList"></div>
+    </section>
+
+    <section class="box">
+      <h3>Page meta & signals</h3>
+      <div class="kvgrid" id="metaGrid"></div>
+    </section>
+
+    <section class="box" id="socialBox" style="display:none;">
+      <h3>Social profile reachability</h3>
+      <div id="socialList"></div>
+    </section>
+
+    <section class="box">
+      <h3>Deep links</h3>
+      <div class="kvgrid">
+        <a class="kv" id="aeoLink" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
+          <div class="k">AEO Citation Index</div>
+          <div class="v" style="color:var(--orange);">Open in new tab →</div>
+        </a>
+        <a class="kv" id="crmLink" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
+          <div class="k">CRM contacts</div>
+          <div class="v" style="color:var(--orange);">View saved lead →</div>
+        </a>
+      </div>
+    </section>
+
+    <div class="footer-actions">
+      <button class="btn-ghost" id="copyJsonBtn">Copy JSON report</button>
+      <button class="btn-ghost" id="downloadBtn">Download JSON</button>
+      <button class="btn-ghost" id="newRunBtn">New diagnostic</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const API_BASE = location.origin === 'http://127.0.0.1:3000' || location.origin === 'http://localhost:3000'
+  ? 'https://netwebmedia.com'
+  : location.origin;
+
+const $ = (id) => document.getElementById(id);
+let lastReport = null;
+
+// ── Auth gate ──────────────────────────────────────────────────────────
+(async function gate() {
+  const token = localStorage.getItem('nwm_token');
+  if (!token) return bounce();
+  try {
+    const r = await fetch(API_BASE + '/api/auth/me', {
+      headers: { 'X-Auth-Token': token },
+      credentials: 'include',
+    });
+    if (!r.ok) return bounce();
+    const data = await r.json();
+    const user = data.user || {};
+    $('userBadge').textContent = user.email || user.name || 'authenticated';
+    $('authGate').classList.add('gone');
+    $('app').style.display = 'block';
+    // Pre-fill lead email with logged-in user as fallback
+    if (user.email) $('leadEmail').placeholder = 'audits@netwebmedia.com';
+  } catch (e) { bounce(); }
+})();
+
+function bounce() {
+  const next = encodeURIComponent(location.pathname);
+  location.href = '/crm-vanilla/login.html?next=' + next;
+}
+
+// ── Form handling ──────────────────────────────────────────────────────
+$('runBtn').addEventListener('click', runDiagnostic);
+$('resetBtn').addEventListener('click', resetForm);
+$('newRunBtn').addEventListener('click', () => { resetForm(); window.scrollTo({top:0,behavior:'smooth'}); });
+$('copyJsonBtn').addEventListener('click', () => {
+  if (!lastReport) return;
+  navigator.clipboard.writeText(JSON.stringify(lastReport, null, 2));
+  $('copyJsonBtn').textContent = 'Copied!';
+  setTimeout(() => $('copyJsonBtn').textContent = 'Copy JSON report', 1500);
+});
+$('downloadBtn').addEventListener('click', () => {
+  if (!lastReport) return;
+  const slug = (lastReport.audit?.url || 'report').replace(/https?:\/\//,'').replace(/[^a-z0-9]+/gi,'-').replace(/-+$/,'');
+  const blob = new Blob([JSON.stringify(lastReport, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `diagnostic-${slug}-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+});
+
+function resetForm() {
+  ['url','clientName','leadEmail','ig','fb','li','tt','yt'].forEach(id => $(id).value = '');
+  $('industry').value = '';
+  $('results').classList.remove('on');
+  $('loading').classList.remove('on');
+  $('errorBox').innerHTML = '';
+  lastReport = null;
+}
+
+function showError(msg, level = 'err') {
+  $('errorBox').innerHTML = `<div class="err${level === 'warn' ? ' warn' : ''}">${escapeHtml(msg)}</div>`;
+}
+
+function escapeHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = String(s ?? '');
+  return d.innerHTML;
+}
+
+function setStep(id, state) {
+  const el = $(id);
+  if (!el) return;
+  el.classList.remove('run','done','fail');
+  if (state) el.classList.add(state);
+}
+
+async function runDiagnostic() {
+  const url = $('url').value.trim();
+  const clientName = $('clientName').value.trim();
+  const leadEmail = $('leadEmail').value.trim() || 'audits@netwebmedia.com';
+
+  if (!url) return showError('Enter a URL to diagnose.');
+  if (!clientName) return showError('Enter a client / business name.');
+  if (!/^(https?:\/\/)?[^\s.]+\.[^\s]+$/i.test(url)) return showError('That doesn\'t look like a valid URL.');
+
+  const fullUrl = url.startsWith('http') ? url : 'https://' + url;
+
+  $('errorBox').innerHTML = '';
+  $('results').classList.remove('on');
+  $('loading').classList.add('on');
+  $('runBtn').disabled = true;
+  ['stepAudit','stepAnalyze','stepSocial','stepReport'].forEach(s => setStep(s, null));
+
+  const body = {
+    url: fullUrl,
+    email: leadEmail,
+    name: clientName,
+    company: clientName,
+    industry: $('industry').value || undefined,
+    instagram: $('ig').value.trim() || undefined,
+    facebook: $('fb').value.trim() || undefined,
+    linkedin: $('li').value.trim() || undefined,
+    tiktok: $('tt').value.trim() || undefined,
+    youtube: $('yt').value.trim() || undefined,
+  };
+
+  setStep('stepAudit', 'run');
+  setStep('stepSocial', 'run'); // audit endpoint runs the social check
+  let auditRes = null, auditErr = null;
+  try {
+    const r = await fetch(API_BASE + '/api/public/audit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const j = await r.json();
+    if (!r.ok || !j.ok) {
+      auditErr = j.error || j.message || `HTTP ${r.status}`;
+    } else {
+      auditRes = j;
+    }
+  } catch (e) { auditErr = e.message; }
+  setStep('stepAudit', auditErr ? 'fail' : 'done');
+  setStep('stepSocial', auditErr ? 'fail' : 'done');
+
+  setStep('stepAnalyze', 'run');
+  let analyzeRes = null, analyzeErr = null;
+  try {
+    const r = await fetch(API_BASE + '/crm-vanilla/api/?r=analyze&url=' + encodeURIComponent(fullUrl), {
+      headers: { 'X-Auth-Token': localStorage.getItem('nwm_token') || '' },
+    });
+    const j = await r.json();
+    if (!r.ok || j.error) {
+      analyzeErr = j.error || `HTTP ${r.status}`;
+    } else {
+      analyzeRes = j;
+    }
+  } catch (e) { analyzeErr = e.message; }
+  setStep('stepAnalyze', analyzeErr ? 'fail' : 'done');
+
+  setStep('stepReport', 'run');
+  await new Promise(r => setTimeout(r, 200));
+
+  if (!auditRes && !analyzeRes) {
+    setStep('stepReport', 'fail');
+    $('runBtn').disabled = false;
+    showError(`Both engines failed.  Audit: ${auditErr || 'n/a'}.  Analyze: ${analyzeErr || 'n/a'}.`);
+    return;
+  }
+
+  if (auditErr) showError(`Audit engine failed (${auditErr}). Showing DOM analyzer results only.`, 'warn');
+  else if (analyzeErr) showError(`DOM analyzer failed (${analyzeErr}). Showing audit engine results only.`, 'warn');
+
+  lastReport = { audit: auditRes, analyze: analyzeRes, generated_at: new Date().toISOString(), client: clientName, lead_email: leadEmail };
+  renderReport(lastReport, fullUrl);
+  setStep('stepReport', 'done');
+  $('runBtn').disabled = false;
+  $('loading').classList.remove('on');
+  $('results').classList.add('on');
+  window.scrollTo({ top: $('overallCard').offsetTop - 20, behavior: 'smooth' });
+}
+
+// ── Render ─────────────────────────────────────────────────────────────
+function colorFor(score) {
+  if (score >= 80) return 'var(--green)';
+  if (score >= 60) return 'var(--blue)';
+  if (score >= 40) return 'var(--amber)';
+  return 'var(--red)';
+}
+
+function verdictFor(score) {
+  if (score >= 85) return ['Strong — minor optimizations only', 'var(--green)'];
+  if (score >= 70) return ['Good — focused improvements unlock more', 'var(--green)'];
+  if (score >= 55) return ['Needs work — several material gaps', 'var(--amber)'];
+  if (score >= 35) return ['Poor — leaving leads + revenue on the table', 'var(--red)'];
+  return ['Critical — fundamental rework needed', 'var(--red)'];
+}
+
+function renderReport(rep, fullUrl) {
+  const auditScores = rep.audit?.scores || {};
+  const analyzeScores = rep.analyze?.scores || {};
+
+  // Combined overall — average of whichever engines returned
+  const overalls = [];
+  if (typeof auditScores.overall === 'number') overalls.push(auditScores.overall);
+  if (typeof analyzeScores.overall === 'number') overalls.push(analyzeScores.overall);
+  const overall = overalls.length ? Math.round(overalls.reduce((a,b)=>a+b,0) / overalls.length) : 0;
+
+  // Ring
+  $('overallScore').textContent = overall;
+  const ring = $('ringFg');
+  const c = 540;
+  ring.style.stroke = colorFor(overall);
+  ring.style.strokeDashoffset = c - (c * overall / 100);
+
+  $('reportUrl').textContent = rep.audit?.final_url || fullUrl;
+  const [verdictText, verdictColor] = verdictFor(overall);
+  const v = $('reportVerdict');
+  v.textContent = verdictText;
+  v.style.color = verdictColor;
+
+  // Stats line
+  const stats = [];
+  if (rep.audit?.timing_ms) stats.push(`Load <b>${rep.audit.timing_ms} ms</b>`);
+  if (rep.audit?.size_kb) stats.push(`Size <b>${rep.audit.size_kb} KB</b>`);
+  if (rep.audit?.http_status) stats.push(`HTTP <b>${rep.audit.http_status}</b>`);
+  if (rep.audit?.security?.https) stats.push('<b style="color:var(--green);">HTTPS ✓</b>');
+  if (rep.client) stats.push(`Client <b>${escapeHtml(rep.client)}</b>`);
+  $('reportStats').innerHTML = stats.join(' &nbsp;·&nbsp; ');
+
+  // Audit buckets (5)
+  const auditBuckets = [
+    ['SEO', auditScores.seo],
+    ['Performance', auditScores.performance],
+    ['Mobile', auditScores.mobile],
+    ['Content', auditScores.content],
+    ['Technical', auditScores.technical],
+  ];
+  $('auditBuckets').innerHTML = auditBuckets.map(b => bucketHtml(b[0], b[1])).join('');
+
+  // Analyze buckets (4)
+  const analyzeBuckets = [
+    ['SEO', analyzeScores.seo],
+    ['Performance', analyzeScores.performance],
+    ['Accessibility', analyzeScores.accessibility],
+    ['Best Practices', analyzeScores.best_practices],
+  ];
+  $('analyzeBuckets').innerHTML = analyzeBuckets.map(b => bucketHtml(b[0], b[1])).join('');
+
+  // Narrative
+  if (rep.audit?.narrative) {
+    $('narrativeBox').style.display = 'block';
+    $('narrativeBody').textContent = rep.audit.narrative;
+  } else {
+    $('narrativeBox').style.display = 'none';
+  }
+
+  // Findings — merge audit recommendations + analyze failing checks
+  const findings = [];
+  (rep.audit?.recommendations || []).forEach(r => findings.push({ severity: r.severity, issue: r.issue, fix: r.fix }));
+  ['seo','perf','a11y','bp'].forEach(k => {
+    const checks = rep.analyze?.checks?.[k] || [];
+    checks.filter(c => !c.pass).forEach(c => {
+      findings.push({ severity: k === 'bp' ? 'low' : 'medium', issue: `[${k.toUpperCase()}] ${c.text}`, fix: '' });
+    });
+  });
+  // Sort high → medium → low
+  const sevOrder = { high: 0, medium: 1, low: 2 };
+  findings.sort((a,b) => (sevOrder[a.severity] ?? 3) - (sevOrder[b.severity] ?? 3));
+
+  $('findingsList').innerHTML = findings.length
+    ? findings.map(f => `
+      <div class="finding ${f.severity || 'low'}">
+        <span class="sev">${f.severity || 'low'}</span>
+        ${escapeHtml(f.issue)}
+        ${f.fix ? `<span class="fix">→ ${escapeHtml(f.fix)}</span>` : ''}
+      </div>
+    `).join('')
+    : '<div style="color:var(--muted); font-size:13px;">No critical findings — site is in great shape.</div>';
+
+  // Page meta grid
+  const p = rep.audit?.parsed || {};
+  const m = rep.analyze?.meta || {};
+  const kv = [];
+  kv.push(kvItem('Title', p.title || m.title, p.title ? null : 'bad'));
+  if (p.title_len) kv.push(kvItem('Title length', p.title_len + ' chars'));
+  kv.push(kvItem('Meta description', p.meta_description || m.meta_desc, p.meta_description ? null : 'bad'));
+  kv.push(kvItem('H1 count', String(p.h1?.length ?? m.h1_count ?? '—'), (p.h1?.length === 1) ? 'ok' : 'bad'));
+  kv.push(kvItem('H2 count', String(p.h2_count ?? '—')));
+  kv.push(kvItem('Schema.org JSON-LD', p.has_schema ? 'Yes' : 'No', p.has_schema ? 'ok' : 'bad'));
+  kv.push(kvItem('Open Graph', p.has_og ? 'Yes' : 'No', p.has_og ? 'ok' : 'bad'));
+  kv.push(kvItem('Twitter card', p.has_twitter ? 'Yes' : 'No'));
+  kv.push(kvItem('Canonical', p.canonical || '—', p.canonical ? 'ok' : null));
+  kv.push(kvItem('HTML lang', p.lang || '—', p.lang ? 'ok' : 'bad'));
+  kv.push(kvItem('Favicon', p.has_favicon ? 'Yes' : 'No'));
+  kv.push(kvItem('GA4 / gtag', p.has_gtag ? 'Yes' : 'No', p.has_gtag ? 'ok' : 'bad'));
+  kv.push(kvItem('Meta Pixel', p.has_meta_pixel ? 'Yes' : 'No'));
+  kv.push(kvItem('GTM', p.has_gtm ? 'Yes' : 'No'));
+  kv.push(kvItem('Images (no alt)', `${p.images_no_alt ?? 0} / ${p.images_total ?? 0}`, (p.images_no_alt || 0) === 0 ? 'ok' : 'bad'));
+  kv.push(kvItem('Links', `${p.links_total ?? 0} (ext: ${p.links_external ?? 0})`));
+  kv.push(kvItem('GZIP', rep.audit?.performance?.gzip ? 'Yes' : 'No', rep.audit?.performance?.gzip ? 'ok' : 'bad'));
+  kv.push(kvItem('Cache headers', rep.audit?.performance?.cache ? 'Yes' : 'No', rep.audit?.performance?.cache ? 'ok' : 'bad'));
+  kv.push(kvItem('HSTS', rep.audit?.security?.hsts ? 'Yes' : 'No', rep.audit?.security?.hsts ? 'ok' : 'bad'));
+  $('metaGrid').innerHTML = kv.join('');
+
+  // Social
+  const socials = rep.audit?.socials || {};
+  const socialKeys = Object.keys(socials);
+  if (socialKeys.length) {
+    $('socialBox').style.display = 'block';
+    $('socialList').innerHTML = socialKeys.map(k => {
+      const s = socials[k];
+      return `<div class="social-row">
+        <span class="platform">${escapeHtml(k)}</span>
+        <span class="handle"><a href="${escapeHtml(s.url || '#')}" target="_blank" rel="noopener">${escapeHtml(s.handle || '—')}</a></span>
+        <span class="stat ${s.reachable ? 'ok' : 'bad'}">${s.reachable ? 'reachable' : `${s.status || 'unreachable'}`}</span>
+      </div>`;
+    }).join('');
+  } else {
+    $('socialBox').style.display = 'none';
+  }
+
+  // Deep links
+  $('aeoLink').href = `/aeo-index.html?url=${encodeURIComponent(fullUrl)}`;
+  $('crmLink').href = `/crm-vanilla/#contacts`;
+}
+
+function bucketHtml(label, value) {
+  if (typeof value !== 'number') value = 0;
+  const color = colorFor(value);
+  return `
+    <div class="bucket">
+      <span class="label">${escapeHtml(label)}</span>
+      <span class="val" style="color:${color};">${value}</span>
+      <div class="bar"><div class="fill" style="width:${value}%; background:${color};"></div></div>
+    </div>
+  `;
+}
+
+function kvItem(k, v, cls) {
+  return `<div class="kv"><div class="k">${escapeHtml(k)}</div><div class="v${cls ? ' ' + cls : ''}">${escapeHtml(v || '—')}</div></div>`;
+}
+</script>
+</body>
+</html>

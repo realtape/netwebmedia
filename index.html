@@ -142,7 +142,6 @@
       .hero-clean { grid-template-columns: 1fr; }
       .hero-clean .hero-left { padding: 96px 28px 56px; }
       .hero-clean .hero-right { display: none; }
-      .hero-clean .hero-mobile-card { display: flex; }
     }
 
     /* === AEO Pulse mobile preview card (vanilla, no React) — shown only ≤1024px === */
@@ -205,6 +204,9 @@
     .hero-clean .hmc-foot { padding: 12px 14px 14px; font-size: 11.5px; color: var(--hc-ink-mute); border-top: 1px solid var(--hc-line); background: rgba(255,255,255,0.015); position: relative; z-index: 1; text-align: center; }
     .hero-clean .hmc-foot a { color: var(--hc-accent-2); text-decoration: none; font-weight: 600; }
     .hero-clean .hmc-foot a:hover { color: var(--hc-accent); }
+    @media (max-width: 1024px) {
+      .hero-clean .hero-mobile-card { display: flex; }
+    }
     @media (max-width: 380px) {
       .hero-clean .hmc-engines { grid-template-columns: 1fr; }
       .hero-clean .hmc-fsrc { min-width: 56px; }

@@ -1,0 +1,48 @@
+name: CRM Workflow Engine Cron
+
+# Advances pending workflow_runs.
+#
+# Scheduled at */5 but GitHub Actions schedule-throttling on busy queues
+# can defer scheduled fires to ~hourly. To compensate, each fire executes
+# a short internal loop (4 iterations, 60s apart) so one fire covers
+# ~3 min of pending-work processing instead of a single instant.
+#
+# Drift mitigation budget: 4 iter × ~75s = ~5 min, well under the 6-min
+# job timeout. Hits remain idempotent on the server (no double-send).
+#
+# If GH Actions drift becomes a real revenue problem, the documented
+# cPanel cron fallback in CLAUDE.md (Workflow runtime engine section)
+# is the production-grade mitigation.
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:   # manual trigger for testing
+
+jobs:
+  run-pending-workflows:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Advance pending workflow runs (looped to absorb schedule drift)
+        env:
+          MIGRATE_TOKEN: ${{ secrets.MIGRATE_TOKEN }}
+        run: |
+          TOKEN="${MIGRATE_TOKEN:-NWM_MIGRATE_2026}"
+          set +e  # don't abort the loop on a transient curl failure
+          for i in 1 2 3 4; do
+            HTTP_CODE=$(curl -s -o /tmp/wf_body_$i.txt -w "%{http_code}" \
+              -A "Mozilla/5.0 (compatible; NWM-CronBot/1.0)" \
+              -H "Origin: https://netwebmedia.com" \
+              -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+              --max-time 30 \
+              "https://netwebmedia.com/crm-vanilla/api/?r=cron_workflows&token=${TOKEN}")
+            BODY=$(cat /tmp/wf_body_$i.txt 2>/dev/null || echo "")
+            echo "iter=$i http=$HTTP_CODE body=$BODY"
+            if [ "$HTTP_CODE" != "200" ]; then
+              echo "::warning::Cron iter=$i returned $HTTP_CODE — endpoint or token issue"
+            fi
+            # Don't sleep after the last iteration
+            if [ $i -lt 4 ]; then sleep 60; fi
+          done
+          exit 0

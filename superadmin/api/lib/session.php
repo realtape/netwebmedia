@@ -30,7 +30,11 @@ function sa_user(): ?array {
 function sa_require(): array {
     $user = sa_user();
     if (!$user) {
-        if (str_contains($_SERVER['REQUEST_URI'] ?? '', '/api/')) {
+        // strpos for PHP 7.x compatibility (str_contains is PHP 8.0+ only;
+        // InMotion's default PHP-FPM pool is on 7.x — using str_contains
+        // produced a fatal "Undefined function" → HTTP 500 on every page
+        // that called sa_require(). Confirmed 2026-05-28.)
+        if (strpos((string)($_SERVER['REQUEST_URI'] ?? ''), '/api/') !== false) {
             http_response_code(401);
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode(['error' => 'Unauthorized']);

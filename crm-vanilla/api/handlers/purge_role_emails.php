@@ -78,6 +78,51 @@ if ($action === 'purge' && $method === 'POST') {
     ]);
 }
 
+// Legacy 'Chat Visitor' shells: rows the old webhook_chat.php created when a
+// visitor opened the chat widget without supplying an email. Pre-2026-05-28
+// upstream fix. Unlink conversations first so ON DELETE CASCADE doesn't wipe
+// chat history.
+$cvWhere  = "name = 'Chat Visitor' AND (email IS NULL OR email = '')" . $andOw;
+
+if ($action === 'chat_visitor_count' && $method === 'GET') {
+    $count = (int)$run("SELECT COUNT(*) FROM contacts WHERE $cvWhere", $owp)->fetchColumn();
+    $linkedConvs = (int)$run("
+        SELECT COUNT(*) FROM conversations
+        WHERE contact_id IN (SELECT id FROM contacts WHERE $cvWhere)
+    ", $owp)->fetchColumn();
+    jsonResponse([
+        'chat_visitor_contacts' => $count,
+        'linked_conversations'  => $linkedConvs,
+        'note'                  => 'Purge will NULL conversations.contact_id first, then DELETE contacts. Chat history preserved.',
+    ]);
+}
+
+if ($action === 'chat_visitor_purge' && $method === 'POST') {
+    if ((string)($_GET['confirm'] ?? '') !== '1') {
+        jsonError('Add &confirm=1 to authorize destructive purge', 400);
+    }
+    // 1. Unlink conversations so cascade-delete doesn't take chat history
+    $unlinkStmt = $db->prepare("
+        UPDATE conversations
+        SET contact_id = NULL
+        WHERE contact_id IN (SELECT id FROM contacts WHERE $cvWhere)
+    ");
+    $unlinkStmt->execute($owp);
+    $unlinked = $unlinkStmt->rowCount();
+
+    // 2. Delete the shell contacts
+    $delStmt = $db->prepare("DELETE FROM contacts WHERE $cvWhere");
+    $delStmt->execute($owp);
+    $deleted = $delStmt->rowCount();
+
+    $after = (int)$run("SELECT COUNT(*) FROM contacts" . $whrOw, $owp)->fetchColumn();
+    jsonResponse([
+        'conversations_unlinked' => $unlinked,
+        'contacts_deleted'       => $deleted,
+        'total_after'            => $after,
+    ]);
+}
+
 if ($action === 'top_prefixes' && $method === 'GET') {
     $min = max(2, (int)($_GET['min'] ?? 1000));
     $stmt = $db->prepare("
@@ -98,4 +143,4 @@ if ($action === 'top_prefixes' && $method === 'GET') {
     ]);
 }
 
-jsonError('Unknown action. Use action=count|top_prefixes (GET) or action=purge&confirm=1 (POST)', 400);
+jsonError('Unknown action. Use action=count|top_prefixes|chat_visitor_count (GET) or action=purge|chat_visitor_purge&confirm=1 (POST)', 400);

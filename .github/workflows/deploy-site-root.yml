@@ -641,13 +641,18 @@ jobs:
             exit 0
           fi
           token="${JWT_SECRET:0:16}"
+          # Header set matches the CRM migrate curl that works on InMotion
+          # (mod_security flags bare/lean curl calls — needs full browser-ish
+          # signature including Accept-Language + Content-Type + empty body).
           resp=$(curl -sS --max-time 60 \
             -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
-            -H "Accept: application/json" \
+            -H "Accept: application/json,text/plain,*/*" \
+            -H "Accept-Language: en-US,en;q=0.9" \
             -H "Origin: https://netwebmedia.com" \
             -H "Referer: https://netwebmedia.com/" \
-            -X POST \
-            "https://netwebmedia.com/api/auth/_ensure_admins?token=${token}")
+            -H "Content-Type: application/json" \
+            -X POST -d '{}' \
+            "https://netwebmedia.com/api/auth/ensure-admins?token=${token}")
           echo "$resp"
           echo "$resp" | grep -q '"ok":true' || {
             echo "::error::admin-ensure did not return ok:true"; exit 1;

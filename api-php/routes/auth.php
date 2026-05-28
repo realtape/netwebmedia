@@ -220,7 +220,7 @@ function route_auth($path, $method) {
     json_out(['ok' => true, 'message' => 'Your password has been updated. You can now sign in.']);
   }
 
-  /* POST /api/auth/_ensure_admins?token=<first-16-chars-of-jwt_secret>
+  /* POST /api/auth/ensure-admins?token=<first-16-chars-of-jwt_secret>
      Idempotent maintenance endpoint — ensures the rows in $extra_admins exist
      in the users table and have role=admin. Called from CI after each deploy
      (deploy-site-root.yml). Never overwrites an existing password; new rows
@@ -234,7 +234,7 @@ function route_auth($path, $method) {
      This duplicates the equivalent block in api-php/migrate.php because
      migrate.php sits behind the /api/ bridge router and is not callable as
      a URL — only routes/*.php is reachable. Both blocks must stay in sync. */
-  if ($path === '_ensure_admins' && $method === 'POST') {
+  if ($path === 'ensure-admins' && $method === 'POST') {
     $cfg = config();
     $expected = substr($cfg['jwt_secret'] ?? '', 0, 16);
     $token = (string)($_GET['token'] ?? '');

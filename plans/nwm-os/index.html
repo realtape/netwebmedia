@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NetWebMedia OS — Product Planning Hub</title>
+<meta name="description" content="NetWebMedia OS — the white-label AI Agency OS. V1 product planning hub: DECISIONS, PRD, GTM, ARCHITECTURE, and V1-PLAN." />
+<meta name="robots" content="noindex,nofollow" />
+<link rel="stylesheet" href="../plans.css" />
+<style>
+  .doc-card {
+    display: block;
+    padding: 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: background 200ms, border-color 200ms, transform 200ms;
+  }
+  .doc-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-accent);
+    transform: translateY(-2px);
+  }
+  .doc-card .tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(255, 103, 31, 0.15);
+    color: var(--nwm-orange);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .doc-card .meta {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .doc-card .meta strong {
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .doc-card h3 {
+    font-family: var(--font-display);
+    margin-bottom: 8px;
+  }
+  .doc-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .doc-card .arrow {
+    display: inline-block;
+    margin-top: 16px;
+    color: var(--nwm-orange);
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .doc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin: 32px 0;
+  }
+  .timeline-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-glass);
+    gap: 24px;
+    align-items: start;
+  }
+  .timeline-row .wk {
+    color: var(--nwm-orange);
+    font-weight: 700;
+    font-family: var(--font-mono);
+  }
+  .timeline-row .label {
+    color: var(--text-secondary);
+  }
+  .timeline-row .label strong {
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .pillstrip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .pillstrip .pill {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-glass);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .pillstrip .pill.hot {
+    background: rgba(255, 103, 31, 0.15);
+    border-color: var(--border-accent);
+    color: var(--nwm-orange);
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<nav class="plans-nav">
+  <div class="plans-nav-inner">
+    <div class="plans-brand">NetWebMedia<span class="dot">.</span> <span style="font-weight:500;color:var(--text-muted);font-size:14px;margin-left:8px;">OS Planning</span></div>
+    <div class="plans-menu">
+      <a href="../index.html">&larr; All Plans</a>
+      <a href="index.html" class="active">Overview</a>
+      <a href="DECISIONS.md">Decisions</a>
+      <a href="PRD.md">PRD</a>
+      <a href="GTM.md">GTM</a>
+      <a href="ARCHITECTURE.md">Architecture</a>
+      <a href="V1-PLAN.md">V1 Plan</a>
+    </div>
+  </div>
+</nav>
+
+<main class="doc">
+
+  <div class="plan-index-hero">
+    <div class="doc-label">Product Planning Hub &middot; V1</div>
+    <h1 class="doc-title">NetWebMedia OS &mdash; the AI Agency OS.</h1>
+    <p class="doc-subtitle" style="margin: 0 auto;">
+      The first white-label operating system where AI agents do the work &mdash; not a chatbot bolted onto someone else&rsquo;s CRM.
+      Sold at <strong style="color:var(--nwm-orange);">$2,490/mo</strong> to independent agencies running 10&ndash;40 clients.
+    </p>
+    <div class="doc-meta" style="justify-content:center;margin-top:32px;">
+      <div><strong>Status:</strong> V1 planning &mdash; pending Carlos approval</div>
+      <div><strong>Dated:</strong> May 28, 2026</div>
+      <div><strong>Public launch:</strong> Week of Aug 3, 2026</div>
+      <div><span class="pill">5-week build &middot; 1 design partner</span></div>
+    </div>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="label">Launch price</div>
+      <div class="value">$2,490</div>
+      <div class="sub">Per month, single SKU. Annual flip in V1.1.</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Day-90 MRR target</div>
+      <div class="value">$22.5K</div>
+      <div class="sub">10 paying customers + 1 design partner</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">V1 agents (default-on)</div>
+      <div class="value">6 of 12</div>
+      <div class="sub">All 12 wired; 6 marketed, 6 opt-in</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Build window</div>
+      <div class="value">5 weeks</div>
+      <div class="sub">June 8 &mdash; July 12, 2026</div>
+    </div>
+  </div>
+
+  <h2><span class="num">01</span>The Five Documents</h2>
+  <p>Each doc is self-contained. Read <strong>V1-PLAN.md</strong> first if you&rsquo;re Carlos approving the work; read the individual workstream docs (PRD/GTM/Architecture) if you&rsquo;re executing a slice.</p>
+
+  <div class="doc-grid">
+
+    <a class="doc-card" href="V1-PLAN.md">
+      <span class="tag">Synthesis &middot; Approve first</span>
+      <h3>V1-PLAN.md</h3>
+      <p>The executable executive summary. Locked scope, master timeline, cross-doc reconciliations, verification gates, owners, risk register, and the 5 open questions requiring Carlos&rsquo;s decision before W1.</p>
+      <div class="meta"><span><strong>Owner:</strong> Claude (synth)</span><span><strong>Status:</strong> Awaiting Carlos</span></div>
+      <span class="arrow">Open V1 plan &rarr;</span>
+    </a>
+
+    <a class="doc-card" href="DECISIONS.md">
+      <span class="tag">Foundation</span>
+      <h3>DECISIONS.md</h3>
+      <p>The four locked decisions from the cockpit conversation: sits alongside GHL, premium $1.5&ndash;3K/mo tier, thin V1 in 4&ndash;6 weeks with one design partner, extends crm-vanilla. The constraints every other doc inherits.</p>
+      <div class="meta"><span><strong>Owner:</strong> Carlos</span><span><strong>Status:</strong> Locked</span></div>
+      <span class="arrow">Read decisions &rarr;</span>
+    </a>
+
+    <a class="doc-card" href="PRD.md">
+      <span class="tag">Product</span>
+      <h3>PRD.md</h3>
+      <p>V1 product scope. The 8 MUST features, 5 SHOULD, 6 NICE. Olivia persona, design-partner profile, the agent cut (6 ship, 6 deferred), success metrics, and Marcus&rsquo;s 7 open questions.</p>
+      <div class="meta"><span><strong>Owner:</strong> Marcus (PM)</span><span><strong>Status:</strong> Draft v1</span></div>
+      <span class="arrow">Read PRD &rarr;</span>
+    </a>
+
+    <a class="doc-card" href="GTM.md">
+      <span class="tag">Go-to-market</span>
+      <h3>GTM.md</h3>
+      <p>Positioning, ICP, single-SKU pricing at $2,490/mo, design-partner sourcing plan, landing-page messaging, sales motion, channel mix, competitive frames vs GHL/Vendasta/HubSpot, and the 90-day KPI targets.</p>
+      <div class="meta"><span><strong>Owner:</strong> Sofia (CMO)</span><span><strong>Status:</strong> Locked for execution</span></div>
+      <span class="arrow">Read GTM &rarr;</span>
+    </a>
+
+    <a class="doc-card" href="ARCHITECTURE.md">
+      <span class="tag">Engineering</span>
+      <h3>ARCHITECTURE.md</h3>
+      <p>Multi-tenant model on shared schema, white-label branding system, Anthropic-API agent orchestration, connector layer (Gmail/Calendar/Slack/HubSpot/Stripe), Stripe billing webhook, deploy via existing pipeline, 5-phase build, security model, top 5 risks.</p>
+      <div class="meta"><span><strong>Owner:</strong> David (Eng Lead)</span><span><strong>Status:</strong> Draft for review</span></div>
+      <span class="arrow">Read architecture &rarr;</span>
+    </a>
+
+  </div>
+
+  <h2><span class="num">02</span>The Five Engineering Phases</h2>
+  <p>Each phase has a verification gate that must pass before the next starts. If any phase slips &gt;2 days, scope is cut from the <strong>next</strong> phase, not the current one. Sequence and gates locked in <a href="ARCHITECTURE.md">ARCHITECTURE.md</a> &sect;12.</p>
+
+  <div style="margin: 24px 0;">
+    <div class="timeline-row">
+      <div class="wk">W2</div>
+      <div class="label"><strong>Phase 1 &mdash; Foundation</strong>Multi-tenant schema extensions, provisioning endpoint, host-to-org resolver, isolation test in CI. <em>Gate:</em> test tenant provisioned + cross-tenant test green.</div>
+    </div>
+    <div class="timeline-row">
+      <div class="wk">W3</div>
+      <div class="label"><strong>Phase 2 &mdash; OS Shell + Branding</strong>Vanilla-JS shell at <code>/os/</code>, widget grid, branding.css route, logo upload, login-by-host. <em>Gate:</em> two tenants render two brands; Lighthouse &ge; 90.</div>
+    </div>
+    <div class="timeline-row">
+      <div class="wk">W4</div>
+      <div class="label"><strong>Phase 3 &mdash; Connector layer</strong>Gmail + Calendar OAuth, encrypted token store (libsodium AEAD), Slack stretch, HubSpot read-only. <em>Gate:</em> end-to-end email read + Calendar event create.</div>
+    </div>
+    <div class="timeline-row">
+      <div class="wk">W5</div>
+      <div class="label"><strong>Phase 4 &mdash; Agent orchestration</strong>Anthropic API dispatcher, command bar, <code>run_agent</code> workflow step, per-org token budget. <em>Gate:</em> 3 agent invocations + cost tracking + budget enforcement.</div>
+    </div>
+    <div class="timeline-row">
+      <div class="wk">W6</div>
+      <div class="label"><strong>Phase 5 &mdash; Billing + Onboarding polish</strong>Stripe Checkout, webhook state machine, 4-step onboarding wizard, design partner onboards live. <em>Gate:</em> Stripe test sub &rarr; webhook &rarr; <code>active</code> flip works end-to-end.</div>
+    </div>
+  </div>
+
+  <h2><span class="num">03</span>The 6 Default-On Agents</h2>
+  <p>All 12 NWM agents are wired in the orchestration layer. These six are default-on for new tenants and lead the GTM messaging. The other six are toggleable per tenant. Resolved in <a href="V1-PLAN.md">V1-PLAN.md</a> &sect;3.</p>
+
+  <div class="pillstrip">
+    <span class="pill hot">CMO &mdash; campaign + content planning</span>
+    <span class="pill hot">Content Strategist &mdash; blog + social drafts</span>
+    <span class="pill hot">Meta-Ops &mdash; IG/FB/TikTok publish</span>
+    <span class="pill hot">Sales Director &mdash; proposal drafts</span>
+    <span class="pill hot">Customer Success &mdash; QBR drafts</span>
+    <span class="pill hot">Data Analyst &mdash; GA4 + Stripe + CRM snapshots</span>
+  </div>
+  <div class="pillstrip">
+    <span class="pill">Creative Director &mdash; opt-in</span>
+    <span class="pill">Operations Manager &mdash; opt-in</span>
+    <span class="pill">Finance Controller &mdash; opt-in</span>
+    <span class="pill">Project Manager &mdash; opt-in</span>
+    <span class="pill">Engineering Lead &mdash; opt-in (internal)</span>
+    <span class="pill">Product Manager &mdash; opt-in (internal)</span>
+  </div>
+
+  <h2><span class="num">04</span>Awaiting Carlos&rsquo;s Decision</h2>
+  <p>Five questions remain after cross-doc reconciliation. Answered, they unblock Week 1 (Sofia&rsquo;s outreach + David&rsquo;s pre-work). Full context in <a href="V1-PLAN.md">V1-PLAN.md</a> &sect;8.</p>
+
+  <ol style="margin:24px 0;padding-left:24px;line-height:2;color:var(--text-secondary);">
+    <li><strong style="color:var(--text-primary);">Domain strategy.</strong> Vanity subdomains at <code>&lt;agency&gt;.netwebmedia.com</code> only, or also register <code>agencyos.io</code>?</li>
+    <li><strong style="color:var(--text-primary);"><code>carlos-ceo-assistant</code>.</strong> Cut entirely, wire-but-default-off, or generalize to &ldquo;Owner Assistant&rdquo;?</li>
+    <li><strong style="color:var(--text-primary);">White-glove time commitment.</strong> Does Carlos have 8&ndash;12 hrs/week for 12 weeks for the design partner?</li>
+    <li><strong style="color:var(--text-primary);">The 10 warm-list names.</strong> &ge; 3 named contacts by tomorrow; &ge; 10 by EOD Friday May 30.</li>
+    <li><strong style="color:var(--text-primary);">Single-SKU commitment.</strong> Hold $2,490 single SKU through customer #10?</li>
+  </ol>
+
+  <div style="background:var(--bg-card);border:1px solid var(--border-accent);border-radius:var(--radius-md);padding:24px 28px;margin:32px 0;">
+    <div style="color:var(--nwm-orange);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;">Next step</div>
+    <p style="color:var(--text-secondary);line-height:1.7;margin:0;">
+      Carlos: read <a href="V1-PLAN.md">V1-PLAN.md</a>. Answer the five open questions in &sect;8. Name &ge; 3 warm-list contacts.
+      Once approved, Phase 1 (W2, June 8) kicks off via <code>gsd-plan-phase</code> and Sofia begins the design-partner outreach.
+    </p>
+  </div>
+
+  <footer style="margin-top:64px;padding-top:32px;border-top:1px solid var(--border-glass);text-align:center;color:var(--text-muted);font-size:13px;">
+    NetWebMedia OS &middot; V1 Product Planning Hub &middot; Updated May 28, 2026 &middot; Internal &middot; noindex,nofollow
+  </footer>
+
+</main>
+
+</body>
+</html>

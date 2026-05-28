@@ -68,9 +68,21 @@ function imageFor(slug, topic) {
 
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
+// Detect whether a topical noun phrase should pair with "are" vs "is".
+// Heuristic: ends in lowercase 's' AND not in 'ss'/'us'/'is' (which are
+// usually singular: business, status, analysis). -os is treated as plural
+// (Studios, Videos far outnumber Chaos in actual blog titles).
+// Conservative — defaults to singular ("is") on unclear cases.
+function isPluralTopic(s) {
+  const t = String(s || '').trim().toLowerCase().replace(/\?+$/, '');
+  if (!t.endsWith('s')) return false;
+  if (/(ss|us|is)$/.test(t)) return false;
+  return true;
+}
+
 // Convert an h2 headline into a question for FAQPage schema. Heuristics:
 //   - Already starts with a question word → keep, ensure trailing "?"
-//   - Starts with "The X" → "What are the x?"
+//   - Starts with "The X" → "What is/are the x?" (plural-aware)
 //   - Otherwise → "How do you [lower-cased h2]?"
 function h2ToQuestion(h2) {
   const t = h2.replace(/\s+/g, ' ').trim();
@@ -78,7 +90,10 @@ function h2ToQuestion(h2) {
     return t.endsWith('?') ? t : t + '?';
   }
   const lower = t.charAt(0).toLowerCase() + t.slice(1).replace(/\?$/, '');
-  if (/^the\s/i.test(t)) return `What are ${lower}?`;
+  if (/^the\s/i.test(t)) {
+    const verb = isPluralTopic(lower.replace(/^the\s+/, '')) ? 'are' : 'is';
+    return `What ${verb} ${lower}?`;
+  }
   return `How do you ${lower}?`;
 }
 
@@ -87,10 +102,19 @@ function h2ToQuestion(h2) {
 function buildFaqs(post) {
   if (Array.isArray(post.faqs) && post.faqs.length) return post.faqs;
   const faqs = [];
-  // FAQ 1: "What is [topic]?" using title (stripped of " — NetWebMedia Blog")
+  // FAQ 1: title-derived. If the title-topic already starts with a question
+  // word ("How X...", "What X..."), use it as-is. Otherwise wrap in
+  // "What is/are [topic]?" with plural-aware verb.
   const cleanTitle = String(post.title || '').split(/—|:/)[0].trim();
   if (cleanTitle && post.description) {
-    faqs.push({ q: `What is ${cleanTitle}?`, a: post.description });
+    let q;
+    if (/^(how|what|why|when|who|where|is|are|can|do|does|should|will)\b/i.test(cleanTitle)) {
+      q = cleanTitle.endsWith('?') ? cleanTitle : cleanTitle + '?';
+    } else {
+      const verb = isPluralTopic(cleanTitle) ? 'are' : 'is';
+      q = `What ${verb} ${cleanTitle}?`;
+    }
+    faqs.push({ q, a: post.description });
   }
   // FAQs 2–4: derived from h2 sections
   const h2s = (post.sections || []).filter(s => s.h2);
@@ -123,6 +147,8 @@ function buildFaqs(post) {
 }
 
 // Render the FAQPage JSON-LD block. Returns empty string if no FAQs.
+// Wrapped in nwm-auto-faq sentinel comments so backfill scripts can find and
+// safely overwrite auto-derived blocks without touching hand-crafted FAQs.
 function faqJsonLd(faqs) {
   if (!faqs || !faqs.length) return '';
   const entities = faqs.map(f => `    {
@@ -134,6 +160,7 @@ function faqJsonLd(faqs) {
       }
     }`).join(',\n');
   return `
+  <!-- nwm-auto-faq:start v2 -->
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -142,7 +169,8 @@ function faqJsonLd(faqs) {
 ${entities}
   ]
 }
-  </script>`;
+  </script>
+  <!-- nwm-auto-faq:end -->`;
 }
 
 function renderPostHtml(post) {

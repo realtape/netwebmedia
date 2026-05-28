@@ -84,6 +84,7 @@ $handlers = [
     'workflow_runs'         => __DIR__ . '/handlers/workflow_runs.php',
     'export_bird'           => __DIR__ . '/handlers/export_bird.php',
     'bulk_import_osm'       => __DIR__ . '/handlers/bulk_import_osm.php',
+    'purge_role_emails'     => __DIR__ . '/handlers/purge_role_emails.php',
 ];
 
 if (!isset($handlers[$resource])) {
@@ -92,7 +93,7 @@ if (!isset($handlers[$resource])) {
 
 // Public routes need no auth. All others run the payment gate:
 // demo/guest users (no PHP session) pass through; pending_payment users get HTTP 402.
-$public_routes = ['auth', 'password_reset', 'track', 'intake', 'leads', 'analyze', 'proposal', 'import_best', 'import_clickers', 'filter_identifiable', 'filter_marketing_ready', 'domain_audit', 'dedupe', 'cron_workflows', 'fb_publish', 'tt_publish', 'export_bird', 'bulk_import_osm'];
+$public_routes = ['auth', 'password_reset', 'track', 'intake', 'leads', 'analyze', 'proposal', 'import_best', 'import_clickers', 'filter_identifiable', 'filter_marketing_ready', 'domain_audit', 'dedupe', 'cron_workflows', 'fb_publish', 'tt_publish', 'export_bird', 'bulk_import_osm', 'purge_role_emails'];
 if (!in_array($resource, $public_routes, true)) {
     require_once __DIR__ . '/lib/guard.php';
     require_guard();

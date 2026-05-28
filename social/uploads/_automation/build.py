@@ -25,6 +25,7 @@ How to use:
 Stdlib only. Python 3.8+.
 """
 
+import json
 import os
 import shutil
 import sys

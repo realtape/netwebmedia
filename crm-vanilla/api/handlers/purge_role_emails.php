@@ -92,4 +92,55 @@ if ($action === 'chat_visitor_count' && $method === 'GET') {
     ", $owp)->fetchColumn();
     jsonResponse([
         'chat_visitor_contacts' => $count,
-        'linked_conversations'  => $link
+        'linked_conversations'  => $linkedConvs,
+        'note'                  => 'Purge will NULL conversations.contact_id first, then DELETE contacts. Chat history preserved.',
+    ]);
+}
+
+if ($action === 'chat_visitor_purge' && $method === 'POST') {
+    if ((string)($_GET['confirm'] ?? '') !== '1') {
+        jsonError('Add &confirm=1 to authorize destructive purge', 400);
+    }
+    // 1. Unlink conversations so cascade-delete doesn't take chat history
+    $unlinkStmt = $db->prepare("
+        UPDATE conversations
+        SET contact_id = NULL
+        WHERE contact_id IN (SELECT id FROM contacts WHERE $cvWhere)
+    ");
+    $unlinkStmt->execute($owp);
+    $unlinked = $unlinkStmt->rowCount();
+
+    // 2. Delete the shell contacts
+    $delStmt = $db->prepare("DELETE FROM contacts WHERE $cvWhere");
+    $delStmt->execute($owp);
+    $deleted = $delStmt->rowCount();
+
+    $after = (int)$run("SELECT COUNT(*) FROM contacts" . $whrOw, $owp)->fetchColumn();
+    jsonResponse([
+        'conversations_unlinked' => $unlinked,
+        'contacts_deleted'       => $deleted,
+        'total_after'            => $after,
+    ]);
+}
+
+if ($action === 'top_prefixes' && $method === 'GET') {
+    $min = max(2, (int)($_GET['min'] ?? 1000));
+    $stmt = $db->prepare("
+        SELECT LOWER(SUBSTRING_INDEX(email,'@',1)) AS lp, COUNT(*) AS c
+        FROM contacts
+        WHERE email LIKE '%@%'" . $andOw . "
+        GROUP BY lp
+        HAVING c >= ?
+        ORDER BY c DESC
+        LIMIT 200
+    ");
+    $stmt->execute(array_merge($owp, [$min]));
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    jsonResponse([
+        'min_count' => $min,
+        'returned'  => count($rows),
+        'prefixes'  => array_map(fn($r) => ['local_part' => $r['lp'], 'count' => (int)$r['c']], $rows),
+    ]);
+}
+
+jsonError('Unknown action. Use action=count|top_prefixes|chat_visitor_count (GET) or action=purge|chat_visitor_purge&confirm=1 (POST)', 400);

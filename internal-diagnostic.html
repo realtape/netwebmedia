@@ -314,8 +314,24 @@
   .footer-actions .btn-pdf:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,103,31,.3); }
   .footer-actions .btn-pdf:disabled { opacity: .6; cursor: wait; }
 
-  /* ── PDF printable container (hidden on screen, used by html2pdf) ── */
-  #pdfPrintable { position: absolute; left: -10000px; top: 0; width: 794px; /* A4 width @ 96dpi */ background: #ffffff; color: #1a1a1a; font-family: 'Inter', sans-serif; padding: 0; }
+  /* ── PDF printable container ──
+     html2canvas v1.4 can't capture elements positioned far off-screen
+     (left:-10000px → blank canvas). Keep it at left:0/top:0 with opacity:0
+     so layout is computed and capture works; toggle to opaque during
+     PDF render via body.pdf-rendering. */
+  #pdfPrintable {
+    position: fixed; left: 0; top: 0;
+    width: 794px;                /* A4 width @ 96dpi */
+    background: #ffffff; color: #1a1a1a;
+    font-family: 'Inter', sans-serif; padding: 0;
+    opacity: 0; pointer-events: none; z-index: -1;
+  }
+  body.pdf-rendering #pdfPrintable { opacity: 1; z-index: 99999; }
+  body.pdf-rendering::before {
+    content: ''; position: fixed; inset: 0;
+    background: rgba(1,15,59,0.85); z-index: 99998;
+    backdrop-filter: blur(4px);
+  }
   #pdfPrintable * { box-sizing: border-box; }
   #pdfPrintable .pdf-page {
     width: 794px; min-height: 1100px; padding: 36px 44px; page-break-after: always; position: relative;
@@ -1208,12 +1224,22 @@ async function generatePDF(rep) {
       margin:       0,
       filename:     filename,
       image:        { type: 'jpeg', quality: 0.95 },
-      html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false, windowWidth: 794 },
+      html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false },
       jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
       pagebreak:    { mode: ['css', 'legacy'], avoid: ['.pdf-svc', '.pdf-find', '.pdf-tk'] },
     };
 
-    await html2pdf().set(opt).from($('pdfPrintable')).save();
+    // Bring the printable to opaque + foreground so html2canvas can capture it.
+    // A backdrop covers the dashboard underneath during the ~1–2s render.
+    document.body.classList.add('pdf-rendering');
+    // Let layout/styles settle one frame before capture.
+    await new Promise(r => requestAnimationFrame(() => setTimeout(r, 50)));
+
+    try {
+      await html2pdf().set(opt).from($('pdfPrintable')).save();
+    } finally {
+      document.body.classList.remove('pdf-rendering');
+    }
   } catch (e) {
     console.error('PDF build failed', e);
     showError('PDF generation failed: ' + (e.message || 'unknown error'));

@@ -155,22 +155,26 @@ Options -Indexes
   # below (each internal rewrite re-enters the rewrite engine; without this
   # guard, app.* → /crm-vanilla/ → /crm-vanilla/crm-vanilla/ → loop).
   #
-  # ALSO skip for shared apex asset paths (/css/, /js/, /assets/, fonts, api,
-  # cms, app, /.well-known, favicon, robots, sitemap*). Without this guard,
-  # hotels.netwebmedia.com/css/styles.css was rewritten to
-  # /industries/hospitality/hotels/css/styles.css → 404 → every subdomain
-  # rendered as unstyled HTML (bug found 2026-05-27, all 39 subdomains).
-  #
-  # EXCEPTION: admin.netwebmedia.com has its OWN /css/, /js/, /api/ inside
-  # /superadmin/ — it MUST get its subdomain rewrite, not the apex passthrough.
-  # The skip-guard below is bypassed for the admin host (added 2026-05-28).
-  RewriteCond %{HTTP_HOST} !^admin\.netwebmedia\.com$ [NC]
+  # Unconditional recursion guard — paths already inside an internal target
+  # directory are never re-rewritten (prevents infinite loops on subdomain
+  # rewrites that target these dirs).
+  RewriteCond %{REQUEST_URI} ^/superadmin/ [OR]
   RewriteCond %{REQUEST_URI} ^/industries/ [OR]
   RewriteCond %{REQUEST_URI} ^/crm-vanilla/ [OR]
   RewriteCond %{REQUEST_URI} ^/companies/ [OR]
-  RewriteCond %{REQUEST_URI} ^/superadmin/ [OR]
   RewriteCond %{REQUEST_URI} ^/cms/ [OR]
-  RewriteCond %{REQUEST_URI} ^/app/ [OR]
+  RewriteCond %{REQUEST_URI} ^/app/
+  RewriteRule .* - [L]
+
+  # Apex-passthrough for shared resources (/css/, /js/, /assets/, fonts, api,
+  # /.well-known, favicon, robots, sitemap*) so industry subdomains can use
+  # the apex's shared assets. Without this guard, hotels.netwebmedia.com/css/
+  # styles.css was rewritten to /industries/hospitality/hotels/css/styles.css
+  # → 404 → every subdomain rendered unstyled (bug fixed 2026-05-27).
+  #
+  # admin.netwebmedia.com is exempt — its /css/, /js/, /api/ live inside
+  # /superadmin/ and MUST take the subdomain rewrite, not the passthrough.
+  RewriteCond %{HTTP_HOST} !^admin\.netwebmedia\.com$ [NC]
   RewriteCond %{REQUEST_URI} ^/api(/|-php/) [OR]
   RewriteCond %{REQUEST_URI} ^/video-out/ [OR]
   RewriteCond %{REQUEST_URI} ^/(css|js|assets|images|img|fonts)/ [OR]

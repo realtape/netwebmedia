@@ -263,7 +263,8 @@ function route_auth($path, $method) {
       if ($row) {
         $updates = [];
         $params  = [];
-        if (($row['role'] ?? '') !== 'admin') {
+        // Preserve elevated 'superadmin' role; only force-promote 'user' or others up to 'admin'.
+        if (!in_array(($row['role'] ?? ''), ['admin', 'superadmin'], true)) {
           $updates[] = "role = 'admin'"; // safe — literal, no user input
         }
         // status DEFAULT is 'pending_payment' — admins skip the paywall.

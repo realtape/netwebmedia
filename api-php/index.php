@@ -44,12 +44,6 @@ if (($parts[0] ?? '') === '_cleanup_audit_lead') {
   exit;
 }
 
-// One-shot admin/role bump. Token-gated. See _admin-reset.php.
-if (($parts[0] ?? '') === '_admin-reset') {
-  require __DIR__ . '/_admin-reset.php';
-  exit;
-}
-
 // One-shot CSV decompression endpoint for wave-3 (large file ships gzipped).
 // Gated by MIGRATE_TOKEN — see _decompress-csv.php.
 if (($parts[0] ?? '') === '_decompress-csv') {

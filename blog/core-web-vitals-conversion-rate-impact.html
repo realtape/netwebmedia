@@ -54,6 +54,55 @@
   <!-- Sentry error tracking -->
   <script>window.NWM_SENTRY_DSN = 'https://69fce09a20f1958bd2f1b9e601ba9a46@o4511302572441600.ingest.us.sentry.io/4511302588235776'; window.NWM_RELEASE = 'nwm@1.0.0';</script>
   <script src="/js/nwm-sentry.js" defer></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Core Web Vitals Impact Conversion Rates?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We analyzed 200+ small business websites and found sites with poor Core Web Vitals lose 15-23% of checkout conversions. Here"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the 15-23% Conversion Loss We Keep Seeing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mobile conversion rates drop noticeably when LCP exceeds 3 seconds. We compared two furniture retailers with identical traffic: one had LCP at 2.1 seconds, the other at 4.8 seconds. Same product, same pricing, same traffic source. The slower site lost 19% of mobile conversions. That's not a guess—that's Google Analytics 4 data over three months. The faster site converted 3.2% of mobile visitors. The slower site converted 2.6%. Over 50,000 monthly mobile visitors, that difference equals roughly $12,000 in lost monthly revenue for an average order value of $185."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How to Prioritize Your Fixes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start with LCP because it has the broadest impact. Use PageSpeed Insights to identify what's slow—usually large images, render-blocking JavaScript, or slow server response. For most SMBs, image optimization alone (using WebP format, lazy loading, proper sizing) drops LCP by 1-2 seconds. We saw a landscaping company reduce LCP from 3.7 to 2.1 seconds just by compressing hero images and lazy-loading gallery photos. Their mobile conversion rate jumped from 2.1% to 2.7%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the Tools We Use to Track This?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We set up automated monitoring for all clients now. When LCP creeps above 2.5 seconds, we get alerted. When a code deployment tanks CLS, we know within hours. One client pushed an ad network update that raised CLS to 0.19—we caught it the same day, rolled it back, and implemented a solution that kept CLS under 0.08. Without monitoring, they would have lost 8-10% conversion for days."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How quickly will I see results from this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most NetWebMedia clients see measurable progress within 30–60 days. AEO and SEO compound — month-1 wins are foundation; months 3–6 are when citation and ranking effects materially impact lead volume. See our results page for case studies."
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>

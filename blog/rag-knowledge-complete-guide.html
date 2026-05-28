@@ -19,6 +19,55 @@
   <!-- Sentry error tracking -->
   <script>window.NWM_SENTRY_DSN = 'https://69fce09a20f1958bd2f1b9e601ba9a46@o4511302572441600.ingest.us.sentry.io/4511302588235776'; window.NWM_RELEASE = 'nwm@1.0.0';</script>
   <script src="/js/nwm-sentry.js" defer></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is RAG Knowledge Agent?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Build a RAG knowledge agent that retrieves accurate answers from your business documents, CRM, and internal knowledge base instantly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What RAG Solves (and Why It Matters)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Retrieval-Augmented Generation (RAG) solves the two core limitations of LLMs used alone: hallucination (the model invents facts not in its training data) and knowledge cutoff (the model knows nothing after its training date). RAG gives the LLM access to a searchable knowledge base at inference time. It retrieves relevant documents first, then passes them as context to the model before generating an answer. The model can only state what the retrieved documents say."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the Four-Stage RAG Pipeline?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Stage 1 — Ingestion: Load source documents. PDFs, web pages, Google Docs, Notion pages, Slack threads, spreadsheets. Extract clean text. This step is underestimated — bad extraction produces bad answers regardless of the rest of the pipeline."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you hybrid Search: Better Than Either Method Alone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pure vector search excels at semantic understanding but struggles with exact-match queries — specific product names, model numbers, person names. BM25 keyword search handles exact matches and rare terms better than vector search. Combining them with Reciprocal Rank Fusion produces significantly better retrieval accuracy than either method alone, without requiring parameter tuning per query type."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How quickly will I see results from this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most NetWebMedia clients see measurable progress within 30–60 days. AEO and SEO compound — month-1 wins are foundation; months 3–6 are when citation and ranking effects materially impact lead volume. See our results page for case studies."
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 <nav class="navbar" id="navbar"><div class="container"><div class="navbar-inner">

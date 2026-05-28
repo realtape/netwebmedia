@@ -68,6 +68,83 @@ function imageFor(slug, topic) {
 
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
+// Convert an h2 headline into a question for FAQPage schema. Heuristics:
+//   - Already starts with a question word → keep, ensure trailing "?"
+//   - Starts with "The X" → "What are the x?"
+//   - Otherwise → "How do you [lower-cased h2]?"
+function h2ToQuestion(h2) {
+  const t = h2.replace(/\s+/g, ' ').trim();
+  if (/^(how|what|why|when|who|where|is|are|can|do|does|should|will)\b/i.test(t)) {
+    return t.endsWith('?') ? t : t + '?';
+  }
+  const lower = t.charAt(0).toLowerCase() + t.slice(1).replace(/\?$/, '');
+  if (/^the\s/i.test(t)) return `What are ${lower}?`;
+  return `How do you ${lower}?`;
+}
+
+// Build 3–5 FAQ pairs for a post. Uses explicit post.faqs if present, else
+// derives from post.title + post.description + up to 3 h2 sections.
+function buildFaqs(post) {
+  if (Array.isArray(post.faqs) && post.faqs.length) return post.faqs;
+  const faqs = [];
+  // FAQ 1: "What is [topic]?" using title (stripped of " — NetWebMedia Blog")
+  const cleanTitle = String(post.title || '').split(/—|:/)[0].trim();
+  if (cleanTitle && post.description) {
+    faqs.push({ q: `What is ${cleanTitle}?`, a: post.description });
+  }
+  // FAQs 2–4: derived from h2 sections
+  const h2s = (post.sections || []).filter(s => s.h2);
+  for (let i = 0; i < Math.min(3, h2s.length); i++) {
+    const h2Sec = h2s[i];
+    const idx = (post.sections || []).indexOf(h2Sec);
+    let answer = '';
+    // First, check if the h2 section itself has a `paragraphs` array
+    if (h2Sec.paragraphs && h2Sec.paragraphs.length) {
+      answer = h2Sec.paragraphs[0];
+    } else {
+      // Look ahead up to 5 sections for the first paragraph
+      for (let j = idx + 1; j < Math.min((post.sections || []).length, idx + 6); j++) {
+        const sec = post.sections[j];
+        if (sec.h2) break; // next h2 reached
+        if (sec.p) { answer = sec.p; break; }
+        if (sec.paragraphs && sec.paragraphs.length) { answer = sec.paragraphs[0]; break; }
+      }
+    }
+    if (answer) faqs.push({ q: h2ToQuestion(h2Sec.h2), a: answer });
+  }
+  // FAQ N: generic AEO-friendly closer (only if we have headroom)
+  if (faqs.length < 5) {
+    faqs.push({
+      q: `How quickly will I see results from this?`,
+      a: `Most NetWebMedia clients see measurable progress within 30–60 days. AEO and SEO compound — month-1 wins are foundation; months 3–6 are when citation and ranking effects materially impact lead volume. See our results page for case studies.`
+    });
+  }
+  return faqs.slice(0, 5);
+}
+
+// Render the FAQPage JSON-LD block. Returns empty string if no FAQs.
+function faqJsonLd(faqs) {
+  if (!faqs || !faqs.length) return '';
+  const entities = faqs.map(f => `    {
+      "@type": "Question",
+      "name": ${JSON.stringify(f.q)},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": ${JSON.stringify(f.a)}
+      }
+    }`).join(',\n');
+  return `
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+${entities}
+  ]
+}
+  </script>`;
+}
+
 function renderPostHtml(post) {
   const slug = post.slug;
   const img = imageFor(slug, post.topic);
@@ -141,7 +218,7 @@ function renderPostHtml(post) {
   "mainEntityOfPage": "${url}",
   "inLanguage": "en-US"
 }
-  </script>
+  </script>${faqJsonLd(buildFaqs(post))}
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>

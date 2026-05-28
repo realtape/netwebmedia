@@ -54,6 +54,55 @@
   <!-- Sentry error tracking -->
   <script>window.NWM_SENTRY_DSN = 'https://69fce09a20f1958bd2f1b9e601ba9a46@o4511302572441600.ingest.us.sentry.io/4511302588235776'; window.NWM_RELEASE = 'nwm@1.0.0';</script>
   <script src="/js/nwm-sentry.js" defer></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Brick-and-Mortar + Ecommerce?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Furniture stores, jewelry shops, and boutique retailers are losing 30% of revenue to search. Learn how to rank individual inventory pages for "
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you index Your Inventory: The First Blocker?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Before we talk strategy, let's fix the basic problem: most brick-and-mortar ecommerce sites have inventory pages that aren't indexed by Google. A jewelry store we worked with had 1,200 product pages, but Google had indexed only 47. Their robots.txt was blocking product pages. Their product pages had rel=canonical pointing to a manufacturer site. Their internal link structure meant products were buried 6 clicks deep. Result: zero organic inventory traffic. We fixed: removed robots.txt blocks on product pages, fixed canonicals to self-reference, added internal links from category pages and blog content, and added structured data (Product schema with availability, price, rating). Within 3 months, 890 product pages were indexed and generating clicks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you local Product Pages: 'In Stock at [Your Location]' Is Your Keyword?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Once inventory is indexed, the next step: create location-specific product landing pages that capture 'buy in stock pickup' searches. A customer searches 'mid-century modern sofa in stock pickup Portland' or 'oak dining table buy now Portland.' Your inventory pages need to rank for these searches. Here's how: take your top 50-100 SKUs (the ones actually in stock at your location), and create location-specific landing pages. Format: 'Product Name + Location In Stock' landing page. Example: 'Mid-Century Modern Sofa—In Stock at Portland Store.' This page pulls real-time inventory data from your backend, includes product images, specs, and a local-first CTA ('Reserve Now, Pickup Today'). We built this system for a 3-location furniture store: they identified top 80 SKUs, created 80 location-specific landing pages (3 locations × 80 SKUs, but templated), and added them to their XML sitemap. Within 2 months, they ranked in the top 5 for 16 'buy in stock pickup [city]' keyword variations. 6 months later, 34% of store traffic came from organic search—up from 2%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you structured Data: Tell Google 'This Product Is Available Here, Now'?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Structured data is how you tell Google 'this product is in stock, at this location, at this price, ready for pickup today.' Without it, Google can't connect your inventory to local search intent. You need: Product schema (name, image, description, price) + Offer schema (price, availability, seller) + Place schema (store location, hours). The magic field: 'availability' = 'InStock' or 'PreOrder.' This tells Google the product is actually available—not theoretical inventory on a website. We recently set this up for a specialty shoe store with 2 locations. Their inventory system (Shopify backend) feeds availability status hourly. Product pages use dynamic availability markup: if the shoe is in stock at Location A but not B, Google shows it in the Local Pack for Location A searches. Clicks from local search increased 28% in the first month because Google could finally understand what was actually in stock."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How quickly will I see results from this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most NetWebMedia clients see measurable progress within 30–60 days. AEO and SEO compound — month-1 wins are foundation; months 3–6 are when citation and ranking effects materially impact lead volume. See our results page for case studies."
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>

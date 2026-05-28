@@ -50,6 +50,29 @@
               <button class="filter-btn" data-quality="email_ready" title="Identifiable + first name parseable (ready for personalized cold email)">✉️ Email-Ready</button>
               <button class="filter-btn" data-quality="whatsapp_ready" title="Identifiable + valid phone number (10–11 digits US, 8+ Chile). Cold WhatsApp violates Meta policy — only message opted-in contacts.">💬 WhatsApp-Ready</button>
             </div>
+            <div class="filter-group" id="advancedFilterGroup" style="border-left:1px solid rgba(255,255,255,.15);padding-left:10px;margin-left:4px;display:flex;gap:8px;align-items:center;">
+              <select id="nicheFilter" class="filter-select" title="Filter by niche (14 NWM niches)">
+                <option value="all">🎯 All niches</option>
+                <option value="tourism">Tourism / Hospitality</option>
+                <option value="restaurants">Restaurants</option>
+                <option value="health">Health</option>
+                <option value="beauty">Beauty</option>
+                <option value="smb">SMB</option>
+                <option value="law_firms">Law Firms</option>
+                <option value="real_estate">Real Estate</option>
+                <option value="local_specialist">Local Specialist</option>
+                <option value="automotive">Automotive</option>
+                <option value="education">Education</option>
+                <option value="events_weddings">Events &amp; Weddings</option>
+                <option value="financial_services">Financial Services</option>
+                <option value="home_services">Home Services</option>
+                <option value="wine_agriculture">Wine &amp; Agriculture</option>
+              </select>
+              <select id="stateFilter" class="filter-select" title="Filter by state / region (auto-populated from loaded contacts)">
+                <option value="all">📍 All regions</option>
+              </select>
+              <button id="clearFilters" class="filter-btn" title="Clear all filters" style="background:transparent;color:#FF671F;border:1px solid #FF671F;">✕ Clear</button>
+            </div>
             <button id="hsSyncBtn" class="filter-btn" style="margin-left:auto;background:#FF671F;color:#fff;border-color:#FF671F;" title="Sync with HubSpot">
               ⇅ <span data-i18n="syncHubspot">Sync HubSpot</span>
             </button>
@@ -72,6 +95,7 @@
             });
           });
           </script>
+          <div id="activeFilterPills" class="active-filter-pills" style="display:none;flex-wrap:wrap;gap:6px;padding:8px 0;margin-bottom:4px;"></div>
           <div class="contacts-table-wrap">
             <table class="contacts-table">
               <thead>
@@ -99,7 +123,7 @@
   <script src="js/predictions-widget.js?v=1"></script>
   <script src="js/dialer-widget.js?v=1"></script>
   <script src="js/notifications-bell.js?v=1"></script>
-  <script src="js/contacts.js?v=9"></script>
+  <script src="js/contacts.js?v=10"></script>
 <script src="assets/nwm-i18n.js" defer></script>
   <script src="/assets/nwm-site-chat.js" defer></script>
 </body>

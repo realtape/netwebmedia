@@ -51,7 +51,7 @@ These constraints are durable and override defaults. Violating any of them creat
 | 1 | **Exactly 14 niches** — never add, rename, split, or invent new ones | [Niche taxonomy](#industry--niche-taxonomy--exactly-14-fixed) |
 | 2 | **Two separate databases** — `webmed6_nwm` (api-php) and `webmed6_crm` (crm-vanilla); never cross-query from one handler | [Two Separate Databases](#critical-two-separate-databases) |
 | 3 | **Deploy via InMotion only** — never Vercel, Netlify, Cloudflare Pages, or any other host | [Deploy](#deploy--inmotion-only-never-vercelnetlify) |
-| 4 | **`crm-vanilla/js/data.js` is mock seed data only** — real data flows through `/crm-vanilla/api/`, never write business logic against `data.js` |  [CRM JS architecture](#crm-vanilla-js-architecture-crm-vanilla) |
+| 4 | **`crm-vanilla/js/data.js` is mock seed data only** — real data flows through `/crm/api/`, never write business logic against `data.js` |  [CRM JS architecture](#crm-vanilla-js-architecture-crm-vanilla) |
 | 5 | **`css/styles.css` is canonical** — NOT root `styles.css`; same for `js/main.js` over root `script.js` | [CSS canonical file](#css-canonical-file--cssstylescss-not-root-stylescss) |
 | 6 | **Internal AI = Claude Pro Max / Anthropic API** — ChatGPT/Perplexity/Google AI are AEO *targets*, never internal tools | [Internal AI rule](#internal-ai-rule) |
 | 7 | **Use NWM's own CRM (crm-vanilla)** — never replace with HubSpot for internal ops | [What this repo is](#what-this-repo-is) |
@@ -65,7 +65,7 @@ These constraints are durable and override defaults. Violating any of them creat
 | Task | Command |
 |---|---|
 | Run public site locally | `node server.js` (port 3000) |
-| Run CRM locally | `node server.js` + open `http://127.0.0.1:3000/crm-vanilla/` |
+| Run CRM locally | `node server.js` + open `http://127.0.0.1:3000/crm-vanilla/` (local Node static server has no `.htaccess`; `/crm/` only works on production Apache) |
 | Run mobile app dev | `cd mobile && npm run dev` (port 5173) |
 | Run video factory | `cd video-factory && npm start` (port 3030) |
 | Run backend (optional) | `cd backend && python -m venv .venv && .venv\Scripts\pip install -r requirements.txt && .venv\Scripts\python manage.py runserver` |
@@ -97,16 +97,16 @@ This is the **netwebmedia.com production property** plus a collection of support
 
 1. **Marketing site** — flat HTML/CSS/JS at the repo root (`index.html`, `services.html`, `pricing.html`, etc.) plus `industries/`, `blog/`, `tutorials/`, `lp/`, `app/`. Served from cPanel/Apache at InMotion. **No build step** for the public site.
 2. **`api-php/`** — PHP API (lead capture, audit handler, CRM endpoints) served at `netwebmedia.com/api/` (canonical) — the `/api-php/` path 301-redirects to `/api/`. Entry point: `api-php/index.php`.
-3. **`crm-vanilla/`** — internal CRM app deployed to `netwebmedia.com/crm-vanilla/`. This is NetWebMedia's own CRM (do NOT replace with HubSpot — internal rule). **`crm-vanilla/js/data.js` is 100% mock/seed data** for UI development only — never write business logic against it, never read it as source of truth, never extend it as if it were a database. Real data flows through `/crm-vanilla/api/` against the live `webmed6_crm` MySQL database. If you find yourself importing from `data.js` in production code paths, stop and route through the API instead.
+3. **`crm-vanilla/`** — internal CRM app. Repo dir name stays `crm-vanilla/`; public canonical URL is `netwebmedia.com/crm/` (flipped 2026-05-28 — Apache internally rewrites `/crm/X` → `crm-vanilla/X`, and `/crm-vanilla/X` 301s to `/crm/X` for legacy SEO). This is NetWebMedia's own CRM (do NOT replace with HubSpot — internal rule). **`crm-vanilla/js/data.js` is 100% mock/seed data** for UI development only — never write business logic against it, never read it as source of truth, never extend it as if it were a database. Real data flows through `/crm/api/` against the live `webmed6_crm` MySQL database. If you find yourself importing from `data.js` in production code paths, stop and route through the API instead.
 4. **`backend/`** — Django CRM backend (multi-tenant, DRF, Celery). Uses SQLite locally (`backend/db.sqlite3`). **Not deployed to InMotion** — separate property for future use.
 5. **`mobile/`** — Capacitor 6 app (iOS + Android + web). Vite-built vanilla JS. Reuses existing `/api/` endpoints. Run separately from `mobile/`.
 6. **`video-factory/`** — Remotion-based programmatic video renderer. Express server on `:3030`. PHP API calls it at `POST /api/video/render`.
 7. **`_deploy/companies/`** — 680 generated per-company audit pages deployed to `netwebmedia.com/companies/**`.
 8. **`plans/`** — internal strategy docs (`business-plan.html`, `marketing-plan.html`, `brand-book.html`, `execution-90day.html`, `index.html` hub). All are `noindex,nofollow`. Always incorporate these when reasoning about NetWebMedia direction.
-9. **`.claude/agents/`** — 12 custom agents mirroring NetWebMedia's org chart (cmo, sales-director, engineering-lead, etc.). Delegate by role; see `.claude/AGENT-ROUTING.txt` for routing rules and Sonnet-vs-Haiku assignments.
+9. **`.claude/agents/`** — 13 custom agents mirroring NetWebMedia's org chart (cmo, sales-director, engineering-lead, meta-ops, etc.). Delegate by role; see `.claude/AGENT-ROUTING.txt` for routing rules and Sonnet-vs-Haiku assignments.
 10. **`cms/`** — internal "NetWeb CMS" admin app deployed to `netwebmedia.com/cms/`. Vanilla-JS content admin (Pages, Blog, Landing Pages, Forms, Templates, Media, SEO, Workflows, Settings, etc.). Persists through the generic `/api/resources/<type>` EAV store in `webmed6_nwm`. Behind HTTP Basic auth (`WWW-Authenticate: Basic realm="NetWebMedia Admin"`). See [CMS admin](#cms-admin--cms).
 
-**Three distinct app surfaces — don't confuse them.** `/app/` is a lightweight feature-stub shell for the public-facing **customer** dashboard (many routes point to `coming-soon.html`). `/crm-vanilla/` is the internal **CRM** the NetWebMedia team uses (contacts, deals, pipeline). `/cms/` is the internal **content CMS** (pages, blog, landing pages, forms). All three are separate.
+**Three distinct app surfaces — don't confuse them.** `/app/` is a lightweight feature-stub shell for the public-facing **customer** dashboard (many routes point to `coming-soon.html`). `/crm/` is the internal **CRM** the NetWebMedia team uses (contacts, deals, pipeline) — repo dir is `crm-vanilla/`, public URL is `/crm/`. `/cms/` is the internal **content CMS** (pages, blog, landing pages, forms). All three are separate.
 
 ## Critical: Two Separate Databases
 
@@ -125,7 +125,7 @@ These are completely separate systems — do not mix them.
 
 ## CRM Platform Decision — 2026-05-05
 
-**Internal CRM of record:** `crm-vanilla/` (PHP/MySQL at `/crm-vanilla/`) — 691 contacts, 60 seeded deals, primary pipeline tool.
+**Internal CRM of record:** `crm-vanilla/` repo dir, served at `netwebmedia.com/crm/` (PHP/MySQL) — 691 contacts, 60 seeded deals, primary pipeline tool.
 **Client-facing CRM SKU:** GHL White-Label — productized deliverable for clients; each client gets a sub-account.
 **Not active:** HubSpot (deferred backup option); Supabase (possible future migration target only — not in production use).
 
@@ -228,7 +228,7 @@ Symptom of forgetting (2): deploy succeeds, returns 200 on every URL except the 
 
 ### Config generation at deploy time
 
-`deploy-site-root.yml` generates `api-php/config.local.php` and `crm-vanilla/api/config.local.php` on the fly from GitHub Secrets using Python string interpolation. It also auto-runs any `crm-vanilla/api/schema_*.sql` migrations via HTTP POST to `/crm-vanilla/api/?r=migrate` after each deploy.
+`deploy-site-root.yml` generates `api-php/config.local.php` and `crm-vanilla/api/config.local.php` on the fly from GitHub Secrets using Python string interpolation. It also auto-runs any `crm-vanilla/api/schema_*.sql` migrations via HTTP POST to `/crm/api/?r=migrate` after each deploy.
 
 ### Migration system — idempotent by design, no version tracking
 
@@ -237,7 +237,7 @@ Drop a new `crm-vanilla/api/schema_<name>.sql` file → it auto-runs on the next
 - **Migrations must be idempotent** — they run on every deploy. No tracking table.
 - **Use plain `ALTER TABLE` / `CREATE TABLE` / `INSERT IGNORE`.** Do NOT use `SET @x := (SELECT ... FROM information_schema)` + `PREPARE/EXECUTE` patterns — they leave PDO cursors open and fail mid-batch with "Cannot execute queries while other unbuffered queries are active." (We enable `MYSQL_ATTR_USE_BUFFERED_QUERY` in `crm-vanilla/api/config.php` as a defense, but the SET pattern still breaks under emulated prepares — just write plain DDL.)
 - **`migrate.php` swallows expected idempotency errors** by substring match: codes `1060` (dup column), `1061` (dup key), `1050` (table exists), `1062` (dup entry), `1826` (dup FK name), and `errno: 121` (InnoDB FK name clash via 1005). It returns `{ran, skipped, errors}` JSON; the CI step fails if `"ran"` isn't present.
-- **mod_security on InMotion 406-blocks bare curl UAs.** The CI migrate step in `deploy-site-root.yml` MUST send full Chrome `User-Agent` + `Origin: https://netwebmedia.com` + `Referer: https://netwebmedia.com/crm-vanilla/` headers. Don't simplify the curl call.
+- **mod_security on InMotion 406-blocks bare curl UAs.** The CI migrate step in `deploy-site-root.yml` MUST send full Chrome `User-Agent` + `Origin: https://netwebmedia.com` + `Referer: https://netwebmedia.com/crm/` headers. Don't simplify the curl call.
 - **Statement splitter is quote/comment-aware (F-12 fix, 2026-05-18).** `migrate.php` uses `migrate_split_sql()`, a character scanner that splits on top-level `;` only and skips `'...'`/`"..."` string literals (with doubled-quote and backslash escapes), `/* */` block comments, and `--`/`#` line comments. A `;` inside a `COMMENT 'foo; bar'` literal or a block comment is now safe and no longer needs rephrasing. Still keep DDL straightforward — the scanner is deliberately minimal (no dollar-quoting, no nested block comments, MySQL dialect only).
 - **Maintenance tokens** (`MIGRATE_TOKEN`, `SEED_TOKEN`, `DEDUPE_TOKEN`, `IMPORT_BEST_TOKEN`, `IMPORT_CSV_TOKEN`) flow GitHub Secrets → `crm-vanilla/api/config.local.php` `define()`s on every deploy. If the secret is unset the historic default in `config.php` is preserved. Rotating a token = update the secret and redeploy; producer (CI curl) and consumer (PHP `define`) both read from the same source.
 
@@ -371,7 +371,7 @@ The visual workflow builder (`crm-vanilla/js/automation.js` → `crm-vanilla/api
 **If GitHub Actions is unavailable** (account suspended, scheduling outage, or you need a redundant scheduler), enable the cPanel cron fallback:
 
 ```
-*/5 * * * * curl -s -A "Mozilla/5.0" "https://netwebmedia.com/crm-vanilla/api/?r=cron_workflows&token=<MIGRATE_TOKEN>" > /dev/null
+*/5 * * * * curl -s -A "Mozilla/5.0" "https://netwebmedia.com/crm/api/?r=cron_workflows&token=<MIGRATE_TOKEN>" > /dev/null
 ```
 
 A second fallback cron should also drive the `api-php` newsletter queue (separate engine):
@@ -382,16 +382,16 @@ A second fallback cron should also drive the `api-php` newsletter queue (separat
 
 **Fallback decision tree:**
 - GitHub Actions running on schedule? → Do nothing; both engines are driven.
-- GitHub Actions paused but you need workflow advancement *now*? → Manually `POST /crm-vanilla/api/?r=workflows&id=N&action=run_now` per workflow (admin session required).
+- GitHub Actions paused but you need workflow advancement *now*? → Manually `POST /crm/api/?r=workflows&id=N&action=run_now` per workflow (admin session required).
 - GitHub Actions down for >1 hour? → Add the cPanel cron lines above; remove them once GH Actions resumes (otherwise you'll double-fire and risk duplicate `send_email` steps).
 
 `MIGRATE_TOKEN` is the `secrets.MIGRATE_TOKEN` GitHub Actions secret (written into `crm-vanilla/api/config.local.php` as `define('MIGRATE_TOKEN', ...)` on every deploy by `deploy-site-root.yml`). The fallback default (when secret is unset) is `NWM_MIGRATE_2026` — do NOT rely on this in production. The handler (`crm-vanilla/api/handlers/cron_workflows.php`) validates with `hash_equals()` then calls `wf_crm_run_pending()`.
 
 **Note:** `api-php/lib/workflows.php` + `/api/cron/automation` are a *separate* engine for `webmed6_nwm` resources (newsletter drip sequences, api-php public forms). They are unrelated to CRM builder workflows. `wf_bridge.php` has been deleted — all call sites use `wf_crm_trigger()` directly.
 
-**Run-now.** `POST /crm-vanilla/api/?r=workflows&id=N&action=run_now` (admin session required) bypasses trigger matching and fires the specific workflow immediately via `wf_crm_run_now()`.
+**Run-now.** `POST /crm/api/?r=workflows&id=N&action=run_now` (admin session required) bypasses trigger matching and fires the specific workflow immediately via `wf_crm_run_now()`.
 
-**Backfill mirror.** `POST /crm-vanilla/api/?r=workflows&action=backfill_engine_mirror` (admin) rewrites all `resources` mirrors for UI visibility. Idempotent. Does NOT affect execution — the engine reads `workflows` directly.
+**Backfill mirror.** `POST /crm/api/?r=workflows&action=backfill_engine_mirror` (admin) rewrites all `resources` mirrors for UI visibility. Idempotent. Does NOT affect execution — the engine reads `workflows` directly.
 
 ### API route modules (`api-php/routes/`)
 
@@ -422,7 +422,7 @@ Vanilla JS SPA with a custom route dispatcher in `crm-vanilla/js/app.js`. No fra
 
 - **Session storage:** `nwm_token` and `nwm_user` in `localStorage`. The shared API client at `app/js/api-client.js` auto-redirects 401s to login unless `noRedirectOn401` is passed.
 - **Feature modules:** `contacts.js`, `conversations.js`, `pipeline.js`, `marketing.js`, `calendar.js`, `reporting.js`, `automation.js`, `payments.js`, `documents.js`, `courses.js`, `sites.js`, `settings.js` — one file per CRM section.
-- **Data layer:** `crm-vanilla/js/data.js` is mock seed data only. Real data flows through the EAV `resources` table via `/crm-vanilla/api/`.
+- **Data layer:** `crm-vanilla/js/data.js` is mock seed data only. Real data flows through the EAV `resources` table via `/crm/api/`.
 - **CRM handlers** in `crm-vanilla/api/handlers/` (query-string routing via `?r=<name>`) are separate from the public `api-php/routes/`. New CRM features go here. Recent additions (2026-05):
   - `workflows.php` — visual workflow builder CRUD (canonical CRUD reference)
   - `wa_flush.php` — admin handler for the WhatsApp opt-in pipeline. Actions: `count`, `list`, `mark`, `send`. The `send` action calls Meta Cloud API and returns 503 with a setup message if `WA_PHONE_ID` / `WA_META_TOKEN` are unset. Backed by the public `POST /api/public/whatsapp/subscribe` endpoint in `api-php/routes/public.php` — that endpoint stores subscribers as `pending_double_opt_in` until WABA verification completes; `wa_flush` then graduates them to `confirmed` via the welcome template.
@@ -676,7 +676,7 @@ See `.claude/AGENT-ROUTING.txt` for the full table, and [orgchart.html](orgchart
 
 - **Strategic / complex** (Opus): `cmo`, `engineering-lead`, `product-manager`
 - **Executive support** (Sonnet): `carlos-ceo-assistant`
-- **Routine work** (Haiku, ~⅓ the tokens): `finance-controller`, `operations-manager`, `customer-success`, `sales-director`, `project-manager`, `data-analyst`, `content-strategist`, `creative-director`
+- **Routine work** (Haiku, ~⅓ the tokens): `finance-controller`, `operations-manager`, `customer-success`, `sales-director`, `project-manager`, `data-analyst`, `content-strategist`, `creative-director`, `meta-ops`
 - **Batch requests to one agent** instead of multiple round-trips — saves 30–40% tokens.
 
 ```mermaid
@@ -696,6 +696,7 @@ graph TD
   CS["💚 customer-success<br/>Retention · QBRs · Haiku"]:::haiku
   FIN["💰 finance-controller<br/>Billing · P&L · cash · Haiku"]:::haiku
   DATA["📊 data-analyst<br/>Analytics · reporting · Haiku"]:::haiku
+  META["📱 meta-ops<br/>FB · IG · WA · Meta Ads · Haiku"]:::haiku
 
   CEO --> COS
   COS --> CMO
@@ -705,6 +706,7 @@ graph TD
 
   CMO --> CONT
   CMO --> CREA
+  CMO --> META
   PROD --> ENG
   PROD --> PM
   SALES --> CS

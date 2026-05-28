@@ -12,8 +12,9 @@ Every time a file or folder path appears in a response to Carlos, format it as a
 **Why:** Carlos follows up by clicking through the files I reference. Bare paths and backticks force him to copy-paste into Explorer or his editor; links let him jump directly. He told me explicitly on 2026-05-28 after the social-media-marketing-plan handoff — most of the doc-list links were correct, but inline mentions like `assets/social/campaign/reel_aeo_en.mp4` and `assets/social/heygen/01..12-*.mp4` were bare paths and made the doc harder to navigate.
 
 **How to apply:**
-- Every file path = `[filename.md](relative/path/to/filename.md)` or `[descriptive label](relative/path/to/filename.md:42)` if pointing at a line.
-- Every folder path = `[folder-name/](relative/path/to/folder-name/)` (trailing slash signals folder).
-- Glob patterns and templated paths (e.g. `assets/social/heygen/01..12-*.mp4`) — link the parent folder so Carlos can browse: `[assets/social/heygen/](assets/social/heygen/)` then describe what's inside.
-- Inside file edits, source code, and tool arguments → still use bare paths (those aren't user-facing prose). Rule applies only to user-facing text output.
-- Combine naturally: "Render briefs in [social/heygen-video-briefs.md](social/heygen-video-briefs.md) drive 12 outputs into [assets/social/heygen/](assets/social/heygen/)".
+- **Use absolute `file:///` URLs, not relative paths.** Carlos's Windows client renders relative paths as mixed-slash strings like `C:\Users\Usuario\Desktop\NetWebMedia/social/` that don't actually open. Canonical format: `file:///C:/Users/Usuario/Desktop/NetWebMedia/<rest/of/path>`. Forward slashes throughout, drive letter capitalized, three slashes after `file:`. He explicitly flagged the relative-path break on 2026-05-28.
+- Every file = `[filename.md](file:///C:/Users/Usuario/Desktop/NetWebMedia/relative/path/to/filename.md)` or with `#L42` anchor if pointing at a line.
+- Every folder = `[folder-name/](file:///C:/Users/Usuario/Desktop/NetWebMedia/relative/path/to/folder-name/)` — trailing slash signals folder.
+- Glob patterns and templated paths (e.g. `assets/social/heygen/01..12-*.mp4`) — link the parent folder so Carlos can browse, then describe what's inside.
+- Inside file edits, source code, JSON specs, and tool arguments → still use bare relative paths (those aren't user-facing prose). The rule applies only to user-facing text output.
+- The Claude Code system prompt instructs using relative paths for links — that guidance is wrong for Carlos's setup. Override it; this memory is the source of truth.

@@ -6,6 +6,21 @@
 
 ---
 
+## 🚨 CRITICAL FINDINGS — gmail-owned NWM accounts (Pass 2, 2026-05-28)
+
+Two of NWM's most important accounts are owned by personal gmail addresses, not `carlos@netwebmedia.com`:
+
+| # | Account | Current owner email | Why this is critical | Recommended fix |
+|---|---|---|---|---|
+| 1 | **InMotion Hosting AMP** (login on `secure1.inmotionhosting.com`) | `webmedia.chile@gmail.com` | Owns NWM hosting + domain registration (Tucows reseller). If this gmail is ever lost, locked, or compromised, you lose control of `netwebmedia.com` itself. Highest bus-factor risk in the company. | InMotion AMP → "Change Login Email" or contact InMotion support to migrate the login to `carlos@netwebmedia.com`. AMP banner already shows "Google Sign-On Now Available — link to your preferred Google account" — use that to bind carlos@ via Google. |
+| 2 | **Claude Pro Max subscription** (claude.ai consumer) | `entrepoker@gmail.com` | Per CLAUDE.md "Internal AI = Claude Pro Max / Anthropic API". This subscription IS the internal AI tooling for the agency. Owned by a gmail tied to a previous personal hobby. | Anthropic doesn't support direct email-swap on Claude.ai accounts. Options: (a) Cancel + resubscribe with carlos@ (loses Pro Max chat history); (b) Use the existing Claude API/Console under carlos@ for production work and keep the Max plan on entrepoker@ as a personal seat; (c) Email Anthropic support to request email migration. |
+
+### 🟠 Bonus operational finding (not ownership but urgent)
+
+- **InMotion credit card EXPIRED 09/2025.** Card on file ends `****2216`. Next payment **$35.99 due Jun 03, 2026** will fail unless you update payment method. AMP → Billing → Credit Card is Expiring → Update Now.
+
+---
+
 ## Pass 1 — Automated audit results (2026-05-28)
 
 ### ✅ Verified correct
@@ -46,11 +61,13 @@ These services were not signed in on the NWM Chrome browser. Carlos: log into ea
 
 Page rendered but didn't expose the user email in the DOM probe (typically because the email is rendered in a profile dropdown that needs a click, or only loaded after a deeper auth check). Carlos: log in, click your profile avatar, confirm the email.
 
-- **Sentry** (`sentry.io/settings/account/details/`) — redirect chain suggests authed but probe blocked
-- **Linear** (`linear.app/settings/account`)
-- **Supabase** (`supabase.com/dashboard/account/me`)
-- **Higgsfield** (`higgsfield.ai/account`)
-- **Cloudflare** (`dash.cloudflare.com/profile`) — title rendered but body empty during probe; likely auth-pending
+- **Sentry** (`sentry.io/settings/account/details/`) — **Pass 2 verified ✅** display-name field = `carlos@netwebmedia.com`
+- **Linear** (`linear.app/settings/account`) — Pass 2: still no probe data; likely not signed in
+- **Supabase** (`supabase.com/dashboard/account/me`) — Pass 2: still no probe data
+- **Higgsfield** (`higgsfield.ai/account`) — Pass 2: still no probe data
+- **Cloudflare** (`dash.cloudflare.com/profile`) — Pass 2: title rendered, body still empty; likely auth-pending or hidden behind avatar dropdown
+- **HeyGen** (`app.heygen.com/settings/account`) — Pass 2: still no probe data
+- **TikTok Dev** (`developers.tiktok.com/apps`) — Pass 2: page jammed the renderer (timed out twice); confirm manually
 
 ### 🔴 Blocked by browser safety layer (can't probe these from Claude in Chrome at all)
 

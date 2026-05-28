@@ -21,6 +21,7 @@
 - [Carlos's Google Calendar](reference_calendar.md) — carlos@netwebmedia.com, timezone America/Santiago; NWM tasks follow "NWM - Area - Task" naming + color coding
 - [Brand palette — Gulf Oil inspired](project_brand_palette.md) — Navy #010F3B + Orange #FF671F + Inter/Poppins; `css/styles.css` is canonical, NOT root `styles.css`
 - [Carlos's computers](user_computers.md) — Computer 1 = this Windows machine (Usuario); Computer 2 = his other computer
+- [Claude Workspace recovery](reference_claude_workspace_fix.md) — "VM service not running" fix: named-pipe trigger added to CoworkVMService; nuke button at `D:\Documents\system-utils\fix-claude-workspace.cmd`
 - [GitHub connectivity on Computer 1](reference_github_connectivity_computer1.md) — "GitHub unreachable" fix: gh token moved keyring→hosts.yml + DisabledComponents=0x20 (prefer IPv4) for broken-IPv6 network; needs reboot
 - [NWM canonical plan docs](reference_nwm_plans.md) — Always incorporate `plans/business-plan.html`, `plans/marketing-plan.html`, `plans/brand-book.html`, `plans/execution-90day.html`, `plans/index.html` (hub) when reasoning about NetWebMedia
 - [Claude Pro Max, not ChatGPT](feedback_claude_not_chatgpt.md) — NWM's internal AI is Claude Pro Max / Anthropic API; ChatGPT is an AEO target, not an internal tool

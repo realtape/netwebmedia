@@ -79,4 +79,4 @@ if ($orgWhereD) $tdSql .= ' AND ' . $orgWhereD;
 $tdSql .= " ORDER BY d.value DESC LIMIT 5";
 $stats['activeDealsTop'] = $run($tdSql, $orgParamsD)->fetchAll();
 
-jsonResponse($stats);
+// ── Superadmin /

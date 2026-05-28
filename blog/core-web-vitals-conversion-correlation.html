@@ -54,6 +54,55 @@
   <!-- Sentry error tracking -->
   <script>window.NWM_SENTRY_DSN = 'https://69fce09a20f1958bd2f1b9e601ba9a46@o4511302572441600.ingest.us.sentry.io/4511302588235776'; window.NWM_RELEASE = 'nwm@1.0.0';</script>
   <script src="/js/nwm-sentry.js" defer></script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Core Web Vitals Impact Conversion Rates?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We tracked 200+ small businesses over 6 months. Sites that improved LCP, FID, and CLS saw 18-27% conversion gains. Here"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What We Measured Across 200+ Sites?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We didn't just look at speed metrics in isolation. We tracked three specific signals: (1) LCP — the time until the largest element on the page becomes visible, (2) First Input Delay (FID), now replaced by Interaction to Next Paint (INP) in newer updates — how long before the page responds to a user click, and (3) CLS — unexpected layout shifts that frustrate users mid-interaction. We compared these against goal completions (purchases, form submissions, calls) collected through Google Analytics 4."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you which Metric Moved Conversions Most?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "LCP matters the most for first impression. When your largest visual element (hero image, main headline) takes 4+ seconds to load, 31% of visitors bounce before they even see what you're offering. One furniture store client in Denver cut LCP from 4.2s to 1.7s by optimizing images and deferring below-the-fold CSS. Bounce rate dropped 18 points. Conversion rate improved 22%. The lesson: fix LCP first if your site is slow."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How to Actually Fix These (Without Hiring a Developer)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most SMBs don't have a full dev team. We found three high-impact fixes you can implement (or brief to a contractor) within 2-4 weeks. First: image optimization. 67% of slow LCP issues trace back to unoptimized hero images. Use a tool like TinyPNG, ImageOptim, or your CDN's built-in compression. Next: defer non-critical CSS and JavaScript. Anything below the fold doesn't need to load before the user sees your page. Most WordPress themes and Shopify stores load everything at once. Even small themes like GeneratePress and Astra let you defer CSS in the settings. Third: reduce render-blocking resources. Use WordPress plugins like Autoptimize or WP Rocket ($39-49/year) to bundle and defer scripts."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How quickly will I see results from this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most NetWebMedia clients see measurable progress within 30–60 days. AEO and SEO compound — month-1 wins are foundation; months 3–6 are when citation and ranking effects materially impact lead volume. See our results page for case studies."
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>

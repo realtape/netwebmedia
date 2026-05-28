@@ -259,22 +259,31 @@ function route_auth($path, $method) {
     ];
     $log = [];
     foreach ($extras as $a) {
-      $row = qOne("SELECT id, role FROM users WHERE email = ?", [$a['email']]);
+      $row = qOne("SELECT id, role, status FROM users WHERE email = ?", [$a['email']]);
       if ($row) {
+        $updates = [];
+        $params  = [];
         if (($row['role'] ?? '') !== 'admin') {
-          qExec("UPDATE users SET role = 'admin' WHERE id = ?", [$row['id']]);
-          $log[] = "promoted {$a['email']} → admin";
+          $updates[] = "role = 'admin'"; // safe — literal, no user input
+        }
+        // status DEFAULT is 'pending_payment' — admins skip the paywall.
+        if (($row['status'] ?? '') !== 'active') {
+          $updates[] = "status = 'active'";
+        }
+        if (!empty($updates)) {
+          qExec("UPDATE users SET " . implode(', ', $updates) . " WHERE id = ?", [$row['id']]);
+          $log[] = "updated {$a['email']} (" . implode(', ', $updates) . ")";
         } else {
-          $log[] = "skip {$a['email']} (already admin)";
+          $log[] = "skip {$a['email']} (already admin + active)";
         }
       } else {
         $randomPass = bin2hex(random_bytes(16));
         $hash = password_hash($randomPass, PASSWORD_BCRYPT);
         qExec(
-          "INSERT INTO users (email, password_hash, name, role, org_id) VALUES (?, ?, ?, 'admin', 1)",
+          "INSERT INTO users (email, password_hash, name, role, status, org_id) VALUES (?, ?, ?, 'admin', 'active', 1)",
           [$a['email'], $hash, $a['name']]
         );
-        $log[] = "inserted {$a['email']} (admin; use Forgot password? to set your own)";
+        $log[] = "inserted {$a['email']} (admin + active; use Forgot password? to set your own)";
       }
     }
     json_out(['ok' => true, 'ensured' => $log]);

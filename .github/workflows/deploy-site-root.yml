@@ -626,6 +626,33 @@ jobs:
           fi
           echo "Migrations complete"
 
+      - name: Run api-php DB migrations (main site users + resources)
+        if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        run: |
+          # api-php/migrate.php is idempotent: schema is CREATE TABLE IF NOT EXISTS,
+          # user/CMS bulk-seed is gated on row count, and the "ensure extra admin"
+          # block uses upsert semantics. Safe to call on every deploy.
+          # Token = first 16 chars of JWT_SECRET (matches the check in migrate.php).
+          if [ -z "$JWT_SECRET" ]; then
+            echo "JWT_SECRET unset — skipping api-php migrate"
+            exit 0
+          fi
+          token="${JWT_SECRET:0:16}"
+          # Browser-style headers (mod_security on InMotion 406-blocks bare curl UAs).
+          resp=$(curl -sS --max-time 60 \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
+            -H "Accept: text/plain,*/*" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/" \
+            "https://netwebmedia.com/api/migrate.php?token=${token}")
+          echo "$resp" | head -80
+          # Sanity-check: the script should at least emit the schema header.
+          echo "$resp" | grep -q "Creating schema" || {
+            echo "::error::api-php migrate did not emit expected output"; exit 1;
+          }
+
       - name: Seed CRM contacts (Chile + USA)
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
         env:

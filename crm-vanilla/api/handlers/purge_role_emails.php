@@ -28,7 +28,13 @@ if (!hash_equals($TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid tok
 pin_org_to_master();
 
 // Hardcoded allowlist. Token leak cannot expand this set.
-$ALLOWED_PREFIXES = ['contact', 'contacto', 'admin', 'hello', 'team', 'info', 'office', 'sales'];
+// 2026-05-28 expansion: added ventas/hola/reservations/reservas/secretaria/frontdesk/support
+// after top_prefixes(min=50) surfaced them as bloat. All 7 are role-aliases — no
+// individual person uses an address that 50+ unrelated businesses also use.
+$ALLOWED_PREFIXES = [
+    'contact', 'contacto', 'admin', 'hello', 'team', 'info', 'office', 'sales',
+    'ventas', 'hola', 'reservations', 'reservas', 'secretaria', 'frontdesk', 'support',
+];
 
 // Optional ?prefixes=sales,info — restrict to a subset of the allowlist.
 // Default (no param) = all of $ALLOWED_PREFIXES (preserves prior behavior).

@@ -1,3 +1,4 @@
+- [Link all file & folder paths](feedback_link_all_paths.md) — Always format paths as clickable markdown links in responses to Carlos; bare paths and backticked strings make follow-up harder
 - [No Shannon / DYADlaw context](feedback_no_shannon_dyadlaw.md) — Carlos does NOT work with Shannon, Tammy, or DYADlaw; never use that profile, attorney-review cadence, or 2-3 blog posts/month target for NWM work
 - [main history rewrite 2026-05-19](project_main_history_rewrite_2026_05_19.md) — origin/main force-pushed clean + daemon redesigned (never touches main); Computer 2 retired so no re-clone needed
 - [Meta automation guard](feedback_meta_automation_guard.md) — don't auto-retry Meta IG-connect/publish in browser; it temp-restricted @netwebmedia (2026-05-25); let Carlos do connect/publish clicks, prefer ig_publish.php API

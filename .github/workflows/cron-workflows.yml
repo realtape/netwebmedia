@@ -34,9 +34,9 @@ jobs:
             HTTP_CODE=$(curl -s -o /tmp/wf_body_$i.txt -w "%{http_code}" \
               -A "Mozilla/5.0 (compatible; NWM-CronBot/1.0)" \
               -H "Origin: https://netwebmedia.com" \
-              -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+              -H "Referer: https://netwebmedia.com/crm/" \
               --max-time 30 \
-              "https://netwebmedia.com/crm-vanilla/api/?r=cron_workflows&token=${TOKEN}")
+              "https://netwebmedia.com/crm/api/?r=cron_workflows&token=${TOKEN}")
             BODY=$(cat /tmp/wf_body_$i.txt 2>/dev/null || echo "")
             echo "iter=$i http=$HTTP_CODE body=$BODY"
             if [ "$HTTP_CODE" != "200" ]; then

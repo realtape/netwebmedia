@@ -148,8 +148,8 @@
       </li>
       <li>Update GitHub Actions secrets in <code>netwebmedia/netwebmedia</code> repo settings.</li>
       <li>Trigger a deploy: <code>git commit --allow-empty -m "deploy: WABA verification complete" &amp;&amp; git push origin main</code></li>
-      <li>Wait ~3 minutes for FTPS to propagate, then test: <code>curl -X GET 'https://netwebmedia.com/crm-vanilla/api/?r=wa_flush&action=count' -H 'X-Auth-Token: &lt;your-admin-token&gt;'</code></li>
-      <li>Run a dry flush (no real sends): <code>POST /crm-vanilla/api/?r=wa_flush&action=send</code> with body <code>{"dry_run": true}</code></li>
+      <li>Wait ~3 minutes for FTPS to propagate, then test: <code>curl -X GET 'https://netwebmedia.com/crm/api/?r=wa_flush&action=count' -H 'X-Auth-Token: &lt;your-admin-token&gt;'</code></li>
+      <li>Run a dry flush (no real sends): <code>POST /crm/api/?r=wa_flush&action=send</code> with body <code>{"dry_run": true}</code></li>
       <li>If the dry run looks healthy, drop <code>dry_run</code> and run the live flush. Confirmed subscribers graduate from <code>pending_double_opt_in</code> to <code>confirmed</code> automatically.</li>
     </ol>
   </div>
@@ -183,7 +183,7 @@ Want a free audit on your site? Reply YES and we'll set one up.
 Reply STOP to unsubscribe.</div>
   </div>
 
-  <p class="footnote">Worksheet generated 2026-05-01 — companion to <code>_deploy/social-channel-activation.md</code> §3. The flush handler at <code>/crm-vanilla/api/?r=wa_flush</code> is live as of this deploy and works in dry-run mode immediately. Live sends require the post-approval wiring in §6.</p>
+  <p class="footnote">Worksheet generated 2026-05-01 — companion to <code>_deploy/social-channel-activation.md</code> §3. The flush handler at <code>/crm/api/?r=wa_flush</code> is live as of this deploy and works in dry-run mode immediately. Live sends require the post-approval wiring in §6.</p>
 </div>
 
 </body>

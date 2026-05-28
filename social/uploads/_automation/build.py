@@ -900,6 +900,531 @@ def build_readme():
     (UPLOADS_DIR / "README.md").write_text("\n".join(lines), encoding="utf-8")
 
 
+HTML_TEMPLATE = r"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NetWebMedia — Social Uploads</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #010F3B;
+    --navy-2: #1A2557;
+    --orange: #FF671F;
+    --orange-2: #E55A0F;
+    --blue: #4A90D9;
+    --bg: #F5F7FA;
+    --card-bg: #FFFFFF;
+    --text: #1A2332;
+    --muted: #6B7689;
+    --border: #E1E6EE;
+    --success: #2D7A4E;
+    --danger: #C0392B;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    margin: 0; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased;
+  }
+  header {
+    background: var(--navy);
+    color: white;
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    border-bottom: 4px solid var(--orange);
+  }
+  header h1 {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.3px;
+  }
+  header h1 .accent { color: var(--orange); }
+  header .sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 4px;
+    font-weight: 400;
+  }
+  .stats { display: flex; gap: 10px; flex-wrap: wrap; }
+  .stat-pill {
+    background: rgba(255,255,255,0.08);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.88);
+  }
+  .stat-pill strong { color: var(--orange); font-weight: 700; margin-right: 4px; }
+  .stat-pill.danger strong { color: #FF8A6E; }
+  .stat-pill.success strong { color: #6EE7A0; }
+
+  main { padding: 32px 40px 60px; max-width: 1400px; margin: 0 auto; }
+  section { margin-bottom: 44px; }
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+    margin: 0 0 18px;
+    font-weight: 700;
+  }
+  h2 .badge {
+    background: var(--orange);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    margin-left: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+  .filter-chip {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--text);
+    font-family: inherit;
+    font-weight: 500;
+  }
+  .filter-chip:hover { background: var(--bg); border-color: var(--navy); }
+  .filter-chip.active {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(1,15,59,0.10); }
+  .card.due-today { border-left: 4px solid var(--orange); }
+  .card.overdue { border-left: 4px solid var(--danger); }
+  .card.done { opacity: 0.55; }
+  .card.done .preview { filter: grayscale(0.7); }
+
+  .next-up .card { border: 2px solid var(--orange); }
+
+  .card-head {
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .card-date { font-weight: 600; font-size: 14px; }
+  .card-date .day { color: var(--muted); margin-right: 8px; text-transform: capitalize; font-weight: 500; }
+  .card-date .time { color: var(--orange); margin-left: 8px; font-weight: 700; }
+
+  .channel-pill {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.6px;
+    white-space: nowrap;
+  }
+  .channel-pill.tiktok { background: #000; color: white; }
+  .channel-pill.ig-fb { background: linear-gradient(135deg, #833AB4, #FD1D1D 50%, #FCB045); color: white; }
+  .channel-pill.youtube-long, .channel-pill.youtube-short { background: #FF0000; color: white; }
+
+  .preview {
+    background: var(--bg);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .preview img, .preview video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .preview-placeholder {
+    background: linear-gradient(135deg, var(--navy), var(--navy-2));
+    color: white;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+  }
+  .preview-placeholder .icon { font-size: 56px; opacity: 0.45; margin-bottom: 14px; line-height: 1; }
+  .preview-placeholder .title { font-size: 13px; font-weight: 600; line-height: 1.4; }
+
+  .card-body { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+  .notes { font-size: 12px; color: var(--muted); line-height: 1.45; }
+
+  .lang-toggle { display: flex; gap: 4px; font-size: 11px; margin-bottom: 6px; }
+  .lang-toggle button {
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 3px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .lang-toggle button.active { background: var(--navy); color: white; border-color: var(--navy); }
+
+  .caption {
+    font-size: 13px;
+    line-height: 1.55;
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 11px 13px;
+    max-height: 90px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .hashtags {
+    font-size: 11px;
+    color: var(--blue);
+    background: var(--bg);
+    padding: 9px 12px;
+    border-radius: 8px;
+    word-break: break-word;
+    line-height: 1.6;
+    max-height: 70px;
+    overflow-y: auto;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+    align-items: center;
+  }
+  .btn {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .btn.primary { background: var(--orange); color: white; }
+  .btn.primary:hover { background: var(--orange-2); }
+  .btn.secondary { background: var(--navy); color: white; }
+  .btn.secondary:hover { background: var(--navy-2); }
+  .btn.ghost { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn.ghost:hover { background: var(--bg); border-color: var(--navy); }
+  .btn.copied { background: var(--success) !important; color: white !important; border-color: var(--success) !important; }
+
+  .done-toggle {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--muted);
+    user-select: none;
+  }
+  .done-toggle input { cursor: pointer; width: 16px; height: 16px; }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 24px;
+    border-top: 1px solid var(--border);
+    background: white;
+  }
+  footer a { color: var(--navy); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 720px) {
+    header { padding: 18px 20px; }
+    main { padding: 24px 16px 40px; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>NetWebMedia <span class="accent">Social Uploads</span></h1>
+    <div class="sub">Drag-and-drop ready. Caption + hashtag copy. localStorage tracks what you've shipped.</div>
+  </div>
+  <div class="stats">
+    <span class="stat-pill" id="stat-total">— total</span>
+    <span class="stat-pill success" id="stat-done">— done</span>
+    <span class="stat-pill" id="stat-due-today">— due today</span>
+    <span class="stat-pill danger" id="stat-overdue">— overdue</span>
+  </div>
+</header>
+<main>
+  <section class="next-up">
+    <h2>Next up <span class="badge" id="next-up-count">0</span></h2>
+    <div class="grid" id="next-up-grid"></div>
+  </section>
+  <section>
+    <h2>All posts</h2>
+    <div class="filters" id="filters">
+      <button class="filter-chip active" data-filter="all">All</button>
+      <button class="filter-chip" data-filter="tiktok">TikTok</button>
+      <button class="filter-chip" data-filter="ig-fb">Instagram + FB</button>
+      <button class="filter-chip" data-filter="youtube">YouTube</button>
+      <button class="filter-chip" data-filter="hide-done">Hide done</button>
+    </div>
+    <div class="grid" id="post-grid"></div>
+  </section>
+</main>
+<footer>
+  Built from <a href="_automation/build.py">build.py</a> · Source plan: <a href="../social-media-marketing-plan.md">social-media-marketing-plan.md</a> · Re-run build to refresh.
+</footer>
+<script>
+const POSTS = __POSTS_JSON__;
+const TODAY = "__TODAY__";
+
+const DONE_KEY = "nwm_uploads_done";
+function loadDone() { try { return JSON.parse(localStorage.getItem(DONE_KEY) || "{}"); } catch (e) { return {}; } }
+function saveDone(s) { localStorage.setItem(DONE_KEY, JSON.stringify(s)); }
+let doneState = loadDone();
+
+const UPLOADER_URLS = {
+  "tiktok": { label: "Upload to TikTok", url: "https://www.tiktok.com/upload" },
+  "ig-fb": { label: "Open MBS Scheduler", url: "https://business.facebook.com/latest/posts/scheduled_posts" },
+  "youtube-long": { label: "Open YT Studio", url: "https://studio.youtube.com/" },
+  "youtube-short": { label: "Open YT Studio", url: "https://studio.youtube.com/" }
+};
+
+const DAY_LABEL = { mon: "Mon", tue: "Tue", wed: "Wed", thu: "Thu", fri: "Fri", sat: "Sat", sun: "Sun" };
+const CHANNEL_LABEL = { "tiktok": "TikTok", "ig-fb": "Instagram + FB", "youtube-long": "YouTube Long", "youtube-short": "YouTube Short" };
+
+function escapeHtml(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+function statusOf(p) {
+  if (doneState[p.id]) return "done";
+  if (p.date < TODAY) return "overdue";
+  if (p.date === TODAY) return "due-today";
+  return "upcoming";
+}
+function previewHTML(p) {
+  if (!p.asset_files || p.asset_files.length === 0) {
+    return '<div class="preview-placeholder"><div class="icon">&#9654;</div><div class="title">' + escapeHtml(p.title || p.notes || p.channel) + '</div></div>';
+  }
+  const first = p.asset_files[0];
+  const ext = first.split('.').pop().toLowerCase();
+  if (ext === "mp4") return '<video src="' + encodeURI(first) + '" preload="metadata" muted playsinline></video>';
+  return '<img src="' + encodeURI(first) + '" alt="" loading="lazy">';
+}
+function cardHTML(p) {
+  const status = statusOf(p);
+  const primaryCap = p.primary === "es" ? (p.caption_es || p.caption_en) : (p.caption_en || p.caption_es);
+  const altCap = p.primary === "es" ? p.caption_en : p.caption_es;
+  const hasAlt = !!altCap && altCap !== primaryCap;
+  const uploader = UPLOADER_URLS[p.channel];
+  const channelLabel = CHANNEL_LABEL[p.channel] || p.channel;
+  const dayName = DAY_LABEL[p.day] || p.day;
+  const langPrimary = (p.primary || "en").toUpperCase();
+  const langAlt = langPrimary === "EN" ? "ES" : "EN";
+  return '<div class="card ' + status + '" data-id="' + p.id + '" data-channel="' + p.channel + '" data-week="' + p.week + '">'
+    + '<div class="card-head">'
+    +   '<div class="card-date"><span class="day">' + dayName + '</span>' + p.date + '<span class="time">' + p.time + '</span></div>'
+    +   '<span class="channel-pill ' + p.channel + '">' + channelLabel + '</span>'
+    + '</div>'
+    + '<div class="preview">' + previewHTML(p) + '</div>'
+    + '<div class="card-body">'
+    +   (p.notes ? '<div class="notes">' + escapeHtml(p.notes) + '</div>' : '')
+    +   (primaryCap ? (
+          (hasAlt ? '<div class="lang-toggle">'
+            + '<button class="active" data-lang="primary" data-id="' + p.id + '">' + langPrimary + '</button>'
+            + '<button data-lang="alt" data-id="' + p.id + '">' + langAlt + '</button>'
+            + '</div>' : '')
+          + '<div class="caption" id="cap-' + p.id + '">' + escapeHtml(primaryCap) + '</div>'
+        ) : '')
+    +   (p.hashtags ? '<div class="hashtags">' + escapeHtml(p.hashtags) + '</div>' : '')
+    +   '<div class="actions">'
+    +     (primaryCap ? '<button class="btn ghost" data-copy="caption" data-id="' + p.id + '">Copy caption</button>' : '')
+    +     (p.hashtags ? '<button class="btn ghost" data-copy="hashtags" data-id="' + p.id + '">Copy hashtags</button>' : '')
+    +     (uploader ? '<button class="btn primary" data-uploader="' + p.channel + '">' + uploader.label + ' &rarr;</button>' : '')
+    +     '<label class="done-toggle"><input type="checkbox" data-done="' + p.id + '"' + (doneState[p.id] ? ' checked' : '') + '> Done</label>'
+    +   '</div>'
+    + '</div>'
+    + '</div>';
+}
+async function copyToClipboard(text, btn) {
+  try {
+    await navigator.clipboard.writeText(text);
+    const orig = btn.textContent;
+    btn.textContent = "✓ Copied";
+    btn.classList.add("copied");
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove("copied"); }, 1800);
+  } catch (e) {
+    alert("Copy failed - select the text manually.");
+  }
+}
+function wireUpEvents() {
+  document.querySelectorAll("[data-copy]").forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.dataset.id;
+      const kind = btn.dataset.copy;
+      const post = POSTS.find(p => p.id === id);
+      if (!post) return;
+      let text = "";
+      if (kind === "caption") {
+        const capEl = document.getElementById("cap-" + id);
+        text = capEl ? capEl.textContent : "";
+      } else if (kind === "hashtags") {
+        text = post.hashtags || "";
+      }
+      copyToClipboard(text, btn);
+    };
+  });
+  document.querySelectorAll("[data-uploader]").forEach(btn => {
+    btn.onclick = () => {
+      const ch = btn.dataset.uploader;
+      const u = UPLOADER_URLS[ch];
+      if (u) window.open(u.url, "_blank", "noopener");
+    };
+  });
+  document.querySelectorAll("[data-done]").forEach(cb => {
+    cb.onchange = () => {
+      doneState[cb.dataset.done] = cb.checked;
+      saveDone(doneState);
+      render();
+    };
+  });
+  document.querySelectorAll("[data-lang]").forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.dataset.id;
+      const which = btn.dataset.lang;
+      const post = POSTS.find(p => p.id === id);
+      if (!post) return;
+      const text = which === "primary"
+        ? (post.primary === "es" ? (post.caption_es || post.caption_en) : (post.caption_en || post.caption_es))
+        : (post.primary === "es" ? post.caption_en : post.caption_es);
+      const capEl = document.getElementById("cap-" + id);
+      if (capEl) capEl.textContent = text || "";
+      btn.parentElement.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+    };
+  });
+}
+function render() {
+  const all = POSTS.length;
+  const done = POSTS.filter(p => doneState[p.id]).length;
+  const dueToday = POSTS.filter(p => statusOf(p) === "due-today").length;
+  const overdue = POSTS.filter(p => statusOf(p) === "overdue").length;
+  document.getElementById("stat-total").innerHTML = "<strong>" + all + "</strong> total";
+  document.getElementById("stat-done").innerHTML = "<strong>" + done + "</strong> done";
+  document.getElementById("stat-due-today").innerHTML = "<strong>" + dueToday + "</strong> due today";
+  document.getElementById("stat-overdue").innerHTML = "<strong>" + overdue + "</strong> overdue";
+
+  const upcoming = POSTS.filter(p => !doneState[p.id] && p.date >= TODAY)
+    .sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time))
+    .slice(0, 3);
+  document.getElementById("next-up-grid").innerHTML = upcoming.map(cardHTML).join("");
+  document.getElementById("next-up-count").textContent = upcoming.length;
+
+  const filter = document.querySelector(".filter-chip.active")?.dataset.filter || "all";
+  let filtered = POSTS.slice();
+  if (filter === "tiktok") filtered = filtered.filter(p => p.channel === "tiktok");
+  else if (filter === "ig-fb") filtered = filtered.filter(p => p.channel === "ig-fb");
+  else if (filter === "youtube") filtered = filtered.filter(p => p.channel.startsWith("youtube"));
+  else if (filter === "hide-done") filtered = filtered.filter(p => !doneState[p.id]);
+  filtered.sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
+  document.getElementById("post-grid").innerHTML = filtered.map(cardHTML).join("");
+
+  wireUpEvents();
+}
+document.querySelectorAll(".filter-chip").forEach(c => {
+  c.onclick = () => {
+    document.querySelectorAll(".filter-chip").forEach(b => b.classList.remove("active"));
+    c.classList.add("active");
+    render();
+  };
+});
+render();
+</script>
+</body>
+</html>
+"""
+
+
+def build_dashboard():
+    posts_data = []
+    for i, p in enumerate(POSTS):
+        wstart, wend = week_bounds(p["week"])
+        wfolder = f"week-{p['week']:02d}_{wstart}-{wend}"
+        pfolder = folder_name(p, i + 1)
+        asset_files = []
+        post_dir = UPLOADS_DIR / wfolder / pfolder
+        if post_dir.exists():
+            for f in sorted(post_dir.iterdir()):
+                if f.is_file() and f.suffix.lower() in (".mp4", ".png", ".svg", ".jpg", ".jpeg", ".webp"):
+                    asset_files.append(f"{wfolder}/{pfolder}/{f.name}")
+        posts_data.append({
+            "id": f"{i+1:03d}",
+            "date": p["date"],
+            "day": p["day"],
+            "time": p["time"],
+            "week": p["week"],
+            "channel": p["channel"],
+            "type": p.get("type", ""),
+            "folder": f"{wfolder}/{pfolder}",
+            "asset_files": asset_files,
+            "caption_en": p.get("caption_en", ""),
+            "caption_es": p.get("caption_es", ""),
+            "primary": p.get("primary", "en"),
+            "hashtags": hashtags_text(p),
+            "notes": p.get("notes", ""),
+            "title": p.get("title", ""),
+        })
+
+    json_payload = json.dumps(posts_data, ensure_ascii=False, indent=2)
+    today_iso = date.today().isoformat()
+    html = HTML_TEMPLATE.replace("__POSTS_JSON__", json_payload).replace("__TODAY__", today_iso)
+    (UPLOADS_DIR / "dashboard.html").write_text(html, encoding="utf-8")
+    print(f"  + Built dashboard.html ({len(posts_data)} posts)")
+
+
 def main():
     print(f"Building uploads at {UPLOADS_DIR}")
     UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
@@ -928,8 +1453,10 @@ def main():
         build_week_youtube_summary(week_dir, wk, posts)
 
     build_readme()
+    build_dashboard()
     print(f"\nBuilt {total} post folders across {len(by_week)} weeks.")
     print(f"Top-level index: {UPLOADS_DIR / 'README.md'}")
+    print(f"Visual dashboard: {UPLOADS_DIR / 'dashboard.html'}")
 
 
 if __name__ == "__main__":

@@ -1084,6 +1084,60 @@
     }).join('');
   }
 
+  // ---- Checkout error modal (replaces alert) ----
+  function nwmEsc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+    });
+  }
+  function nwmShowCheckoutError(r) {
+    var existing = document.getElementById('nwm-checkout-error');
+    if (existing) existing.remove();
+    var title  = r && r.error ? r.error : 'Checkout failed';
+    var mp     = (r && r.mp_response) || {};
+    var causes = Array.isArray(mp.cause) ? mp.cause : [];
+    var detail = (r && r.detail) || mp.message || '';
+    var causesHtml = causes.length
+      ? '<ul style="margin:12px 0 0;padding-left:18px;color:#cbd5e1;font-size:13px;line-height:1.5;">' +
+          causes.map(function (c) {
+            return '<li><code style="color:#FF671F;font-weight:700;">' + nwmEsc(c.code || '?') +
+                   '</code> — ' + nwmEsc(c.description || '') + '</li>';
+          }).join('') +
+        '</ul>'
+      : '';
+    var html =
+      '<div id="nwm-checkout-error" role="dialog" aria-modal="true" aria-labelledby="nwm-ce-title" ' +
+        'style="position:fixed;inset:0;background:rgba(0,0,0,.72);display:flex;align-items:center;' +
+        'justify-content:center;z-index:9999;padding:20px;">' +
+        '<div style="background:#0a1f3d;border:1px solid rgba(255,255,255,.15);border-radius:16px;' +
+          'padding:28px;max-width:560px;width:100%;color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.5);">' +
+          '<h3 id="nwm-ce-title" style="margin:0 0 8px;font-size:18px;color:#FF671F;">' + nwmEsc(title) + '</h3>' +
+          (detail ? '<p style="margin:0;color:#cbd5e1;font-size:14px;line-height:1.5;">' + nwmEsc(detail) + '</p>' : '') +
+          causesHtml +
+          '<p style="margin:16px 0 0;color:#9aa;font-size:12px;line-height:1.5;">' +
+            'If this keeps happening, ping us on ' +
+            '<a href="/whatsapp.html?topic=billing" style="color:#FF671F;text-decoration:underline;">WhatsApp</a> ' +
+            'and we\'ll sort it out.' +
+          '</p>' +
+          '<div style="margin-top:20px;display:flex;gap:8px;justify-content:flex-end;">' +
+            '<button type="button" data-nwm-close="1" ' +
+              'style="background:#FF671F;color:#fff;border:0;border-radius:8px;padding:10px 18px;' +
+              'font-weight:600;cursor:pointer;">Close</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    var wrap = document.createElement('div');
+    wrap.innerHTML = html;
+    var node = wrap.firstChild;
+    document.body.appendChild(node);
+    function close() { node.remove(); document.removeEventListener('keydown', onKey); }
+    function onKey(e) { if (e.key === 'Escape') close(); }
+    node.addEventListener('click', function (e) {
+      if (e.target === node || e.target.getAttribute('data-nwm-close')) close();
+    });
+    document.addEventListener('keydown', onKey);
+  }
+
   document.addEventListener('click', function (e) {
     var btn = e.target.closest('[data-plan]');
     if (!btn) return;
@@ -1101,12 +1155,13 @@
       body: JSON.stringify({ plan_code: code })
     }).then(function (r) { return r.json(); }).then(function (r) {
       if (r.init_point) { location.href = r.init_point; return; }
-      alert(r.error || 'Checkout failed');
+      nwmShowCheckoutError(r);
       btn.disabled = false;
       btn.textContent = 'Start with ' + code + ' →';
     }).catch(function (e) {
-      alert('Network error: ' + e.message);
+      nwmShowCheckoutError({ error: 'Network error', detail: e.message });
       btn.disabled = false;
+      btn.textContent = 'Start with ' + code + ' →';
     });
   });
 

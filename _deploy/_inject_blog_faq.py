@@ -21,7 +21,7 @@ BLOG_DIR = os.path.join(ROOT, 'blog')
 H2_QWORDS = re.compile(r'^(how|what|why|when|who|where|is|are|can|do|does|should|will)\b', re.I)
 THE_PREFIX = re.compile(r'^the\s', re.I)
 PLURAL_END = re.compile(r's$')
-SINGULAR_S_END = re.compile(r'(ss|us|is|os)$')
+SINGULAR_S_END = re.compile(r'(ss|us|is)$')  # -os is usually plural (Studios, Videos)
 
 # Signature of the v1 auto-derived block — sentinel was not added in v1.
 V1_SIGNATURE = 'How quickly will I see results from this?'

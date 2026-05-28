@@ -69,13 +69,14 @@ function imageFor(slug, topic) {
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 // Detect whether a topical noun phrase should pair with "are" vs "is".
-// Heuristic: ends in lowercase 's' AND not in 'ss'/'us'/'is'/'os' (which are
-// usually singular: business, status, analysis, hippo→hippos→but unclear).
-// Conservative — defaults to singular ("is") when in doubt.
+// Heuristic: ends in lowercase 's' AND not in 'ss'/'us'/'is' (which are
+// usually singular: business, status, analysis). -os is treated as plural
+// (Studios, Videos far outnumber Chaos in actual blog titles).
+// Conservative — defaults to singular ("is") on unclear cases.
 function isPluralTopic(s) {
   const t = String(s || '').trim().toLowerCase().replace(/\?+$/, '');
   if (!t.endsWith('s')) return false;
-  if (/(ss|us|is|os)$/.test(t)) return false;
+  if (/(ss|us|is)$/.test(t)) return false;
   return true;
 }
 

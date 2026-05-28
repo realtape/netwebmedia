@@ -78,4 +78,24 @@ if ($action === 'purge' && $method === 'POST') {
     ]);
 }
 
-jsonError('Unknown action. Use action=count (GET) or action=purge&confirm=1 (POST)', 400);
+if ($action === 'top_prefixes' && $method === 'GET') {
+    $min = max(2, (int)($_GET['min'] ?? 1000));
+    $stmt = $db->prepare("
+        SELECT LOWER(SUBSTRING_INDEX(email,'@',1)) AS lp, COUNT(*) AS c
+        FROM contacts
+        WHERE email LIKE '%@%'" . $andOw . "
+        GROUP BY lp
+        HAVING c >= ?
+        ORDER BY c DESC
+        LIMIT 200
+    ");
+    $stmt->execute(array_merge($owp, [$min]));
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    jsonResponse([
+        'min_count' => $min,
+        'returned'  => count($rows),
+        'prefixes'  => array_map(fn($r) => ['local_part' => $r['lp'], 'count' => (int)$r['c']], $rows),
+    ]);
+}
+
+jsonError('Unknown action. Use action=count|top_prefixes (GET) or action=purge&confirm=1 (POST)', 400);

@@ -55,7 +55,6 @@ $handlers = [
     'email_status'  => __DIR__ . '/handlers/email_status.php',
     'social'        => __DIR__ . '/handlers/social.php',
     'admin'         => __DIR__ . '/handlers/admin.php',
-    '_admin_reset'  => __DIR__ . '/handlers/_admin_reset.php',
     'unsubscribes'  => __DIR__ . '/handlers/unsubscribes.php',
     'settings'      => __DIR__ . '/handlers/settings.php',
     'reporting'     => __DIR__ . '/handlers/reporting.php',
@@ -93,7 +92,7 @@ if (!isset($handlers[$resource])) {
 
 // Public routes need no auth. All others run the payment gate:
 // demo/guest users (no PHP session) pass through; pending_payment users get HTTP 402.
-$public_routes = ['auth', 'password_reset', 'track', 'intake', 'leads', 'analyze', 'proposal', 'import_best', 'import_clickers', 'filter_identifiable', 'filter_marketing_ready', 'domain_audit', 'dedupe', 'cron_workflows', 'fb_publish', 'tt_publish', 'export_bird', 'bulk_import_osm', '_admin_reset'];
+$public_routes = ['auth', 'password_reset', 'track', 'intake', 'leads', 'analyze', 'proposal', 'import_best', 'import_clickers', 'filter_identifiable', 'filter_marketing_ready', 'domain_audit', 'dedupe', 'cron_workflows', 'fb_publish', 'tt_publish', 'export_bird', 'bulk_import_osm'];
 if (!in_array($resource, $public_routes, true)) {
     require_once __DIR__ . '/lib/guard.php';
     require_guard();

@@ -160,6 +160,11 @@ Options -Indexes
   # hotels.netwebmedia.com/css/styles.css was rewritten to
   # /industries/hospitality/hotels/css/styles.css → 404 → every subdomain
   # rendered as unstyled HTML (bug found 2026-05-27, all 39 subdomains).
+  #
+  # EXCEPTION: admin.netwebmedia.com has its OWN /css/, /js/, /api/ inside
+  # /superadmin/ — it MUST get its subdomain rewrite, not the apex passthrough.
+  # The skip-guard below is bypassed for the admin host (added 2026-05-28).
+  RewriteCond %{HTTP_HOST} !^admin\.netwebmedia\.com$ [NC]
   RewriteCond %{REQUEST_URI} ^/industries/ [OR]
   RewriteCond %{REQUEST_URI} ^/crm-vanilla/ [OR]
   RewriteCond %{REQUEST_URI} ^/companies/ [OR]

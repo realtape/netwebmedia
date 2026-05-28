@@ -36,43 +36,58 @@ if (!$sessionId || !$message) {
 
 $db = getDB();
 
-// Find or create contact (by email if supplied, else by session)
-$contactId = null;
-if ($email) {
+// Qualification gate: a contact is only created when we have a valid email
+// (single follow-up channel that actually works for chat-widget leads).
+// Until then the conversation lives with contact_id = NULL so chat history is
+// preserved but the contacts table stays clean.
+$emailValid = $email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL);
+
+// Find existing conversation for this session
+$stmt = $db->prepare(
+    'SELECT id, contact_id FROM conversations WHERE external_id = ? AND channel = ? LIMIT 1'
+);
+$stmt->execute([$sessionId, 'chat']);
+$conv = $stmt->fetch();
+
+$convId    = $conv ? (int)$conv['id'] : null;
+$contactId = ($conv && $conv['contact_id']) ? (int)$conv['contact_id'] : null;
+
+// Qualify: find-or-create contact only when the visitor supplied a valid email
+if ($emailValid && !$contactId) {
     $stmt = $db->prepare('SELECT id FROM contacts WHERE email = ? LIMIT 1');
     $stmt->execute([$email]);
     $row = $stmt->fetch();
     if ($row) {
         $contactId = (int)$row['id'];
-        // Update name if we now have one
-        if ($name && $name !== 'Visitor') {
-            $db->prepare('UPDATE contacts SET name = ? WHERE id = ? AND name = email')
-               ->execute([$name, $contactId]);
+        // Upgrade placeholder name if we now have a real one
+        if ($name !== '' && $name !== 'Visitor') {
+            $db->prepare('UPDATE contacts SET name = ? WHERE id = ? AND (name = email OR name = ?)')
+               ->execute([$name, $contactId, 'Chat Visitor']);
         }
+    } else {
+        $displayName = ($name !== '' && $name !== 'Visitor') ? $name : $email;
+        $db->prepare('INSERT INTO contacts (name, email, status) VALUES (?, ?, ?)')
+           ->execute([$displayName, $email, 'lead']);
+        $contactId = (int)$db->lastInsertId();
     }
 }
-if (!$contactId) {
-    $displayName = ($name && $name !== 'Visitor') ? $name : ($email ?: 'Chat Visitor');
-    $db->prepare('INSERT INTO contacts (name, email, status) VALUES (?, ?, ?)')->execute([$displayName, $email ?: null, 'lead']);
-    $contactId = (int)$db->lastInsertId();
-}
 
-// Find or create chat conversation for this session
-$stmt = $db->prepare(
-    'SELECT id FROM conversations WHERE external_id = ? AND channel = ? LIMIT 1'
-);
-$stmt->execute([$sessionId, 'chat']);
-$conv = $stmt->fetch();
-
-if (!$conv) {
+if ($convId) {
+    // Existing conversation — attach the contact if we just qualified, bump unread
+    if ($contactId && (!$conv['contact_id'] || (int)$conv['contact_id'] !== $contactId)) {
+        $db->prepare('UPDATE conversations SET contact_id = ?, unread = unread + 1, updated_at = NOW() WHERE id = ?')
+           ->execute([$contactId, $convId]);
+    } else {
+        $db->prepare('UPDATE conversations SET unread = unread + 1, updated_at = NOW() WHERE id = ?')
+           ->execute([$convId]);
+    }
+} else {
+    // New conversation — contact_id may be NULL until the visitor qualifies
+    $subjectName = ($name !== '' && $name !== 'Visitor') ? $name : ($email !== '' ? $email : 'Visitor');
     $db->prepare(
         'INSERT INTO conversations (contact_id, channel, external_id, subject, unread) VALUES (?, ?, ?, ?, 1)'
-    )->execute([$contactId, 'chat', $sessionId, 'Chat: ' . $name]);
+    )->execute([$contactId, 'chat', $sessionId, 'Chat: ' . $subjectName]);
     $convId = (int)$db->lastInsertId();
-} else {
-    $convId = (int)$conv['id'];
-    $db->prepare('UPDATE conversations SET unread = unread + 1, updated_at = NOW() WHERE id = ?')
-       ->execute([$convId]);
 }
 
 // Store visitor message

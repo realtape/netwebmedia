@@ -25,13 +25,11 @@ Today we shipped three conversion fixes that close the loop between AEO traffic 
 | **YouTube** `@netwebmedia` | 1 long-form/wk (8–14 min) + 2 Shorts/wk | Carlos (host) + Creative | Pillar blog repurpose | AEO authority + retainer trust |
 | **Facebook** `/netwebmedia` | Mirror IG (3 carousels + 2 Reels/wk) | Auto-cross-post | IG output | Local + 35+ ICP coverage |
 | **Email broadcasts** | Tue 9am AEO Brief (weekly) + niche drips | CMO + automation | `email-templates/sequences.json` | X-replacement, primary nurture |
-| **AEO blog** | **~15 posts/day programmatic (≈100/wk) across 14 niches** + 2 hand-featured pillars/wk on top | Content + Claude (bulk generators + blog queue) | programmatic generators + `blog/<niche>-aeo-strategy-2026.html` template | AEO citations + organic |
+| **AEO blog** | 2 pillars/wk on rotation across 14 niches | Content + Claude | `blog/<niche>-aeo-strategy-2026.html` template | AEO citations + organic |
 | **WhatsApp Business** | Opt-ins capturing now via `/whatsapp-updates.html` | Ops | — | June broadcast launch (deferred) |
 | **TikTok** | Account claimed; Q3 2026 content slate | — | — | Deferred — note only |
 | **LinkedIn** | EXCLUDED (Carlos, 2026-04-20) | — | — | Permanent |
 | **X / Twitter** | EXCLUDED (Carlos, 2026-05-01) | — | — | Permanent |
-
-> **Cadence reality note (updated 2026-05-27):** The original "2 pillars/wk" blog target reflected manual authoring. Actual output is now **programmatic** — git history shows a steady ~14–17 posts/day since early May (peaks of 101 on Apr 30, 68 on May 1), built via the bulk generators + blog queue. The blog library is ~585 files. The Mon/Wed "pillar" beats below are now the *hand-featured* posts that sit on top of the programmatic queue, not the total output. Open question for Carlos: confirm ~15/day is the intended steady-state target, and decide the QC gate for that volume.
 
 **Weekly content shape (Mon–Sun):**
 - **Mon:** Pillar blog #1 publishes (AEO strategy post, niche A) → IG Carousel A → YT Long-form

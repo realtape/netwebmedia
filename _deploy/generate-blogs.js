@@ -113,6 +113,17 @@ function renderPostHtml(post) {
   <link rel="stylesheet" href="../css/styles.css" />
   <link rel="icon" type="image/svg+xml" href="../assets/nwm-logo.svg" />
   <link rel="apple-touch-icon" href="../assets/nwm-logo.svg" />
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V71R6PD7C0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-V71R6PD7C0', { anonymize_ip: true });
+  </script>
+  <!-- Sentry error tracking -->
+  <script>window.NWM_SENTRY_DSN = 'https://69fce09a20f1958bd2f1b9e601ba9a46@o4511302572441600.ingest.us.sentry.io/4511302588235776'; window.NWM_RELEASE = 'nwm@1.0.0';</script>
+  <script src="/js/nwm-sentry.js" defer></script>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",

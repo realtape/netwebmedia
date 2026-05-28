@@ -687,6 +687,65 @@ function route_billing($parts, $method) {
     json_out(['items' => bl_plans_with_clp(), 'fx_rate' => bl_fx_rate(), 'currency_display' => 'USD', 'currency_charge' => 'CLP']);
   }
 
+  // Admin-only Mercado Pago diagnostic. Probes:
+  //  1. Token presence + kind (TEST vs PROD)
+  //  2. MP /users/me — site_id, country, status, account email
+  //  3. Currency/site sanity (we charge CLP → expect site_id MLC)
+  //  4. Dry preference creation — surfaces the UNAUTHORIZED cause[] without a real plan
+  // Use this when /pricing.html surfaces an "MP error" modal to identify which policy
+  // returned UNAUTHORIZED. Reachable at GET /api/billing/mp-probe (X-Auth-Token of an admin).
+  if ($sub === 'mp-probe' && $method === 'GET') {
+    requireAdmin();
+    $token = bl_mp_token();
+    if (!$token) {
+      json_out(['ok' => false, 'reason' => 'MP_ACCESS_TOKEN not configured in api-php/config.local.php']);
+    }
+    $len  = strlen($token);
+    $tail = $len > 8 ? substr($token, 0, 4) . '...' . substr($token, -4) : '(short)';
+    $isTest = (stripos($token, 'TEST-') === 0) || (stripos($token, 'APP_USR-TEST-') !== false);
+    $me = bl_mp_get('/users/me');
+    $site    = $me['json']['site_id']    ?? null;
+    $country = $me['json']['country_id'] ?? null;
+    $email   = $me['json']['email']      ?? null;
+    $status  = $me['json']['status']     ?? null;
+    $dry = bl_mp_post('/checkout/preferences', [
+      'items' => [[
+        'title'       => 'NWM mp-probe',
+        'quantity'    => 1,
+        'unit_price'  => 100,
+        'currency_id' => 'CLP',
+      ]],
+      'payer' => ['email' => $email ?: 'probe@netwebmedia.com'],
+      'external_reference' => 'mp_probe_' . time(),
+    ]);
+    json_out([
+      'ok'         => ($me['code'] < 300) && !empty($dry['json']['init_point']),
+      'token_tail' => $tail,
+      'token_kind' => $isTest ? 'TEST' : 'PROD',
+      'token_len'  => $len,
+      'users_me'   => [
+        'http'        => $me['code'],
+        'site_id'     => $site,
+        'country_id'  => $country,
+        'email'       => $email,
+        'status'      => $status,
+        'error'       => $me['json']['message'] ?? null,
+      ],
+      'currency_check' => [
+        'configured_currency' => 'CLP',
+        'expected_site'       => 'MLC',
+        'actual_site'         => $site,
+        'match'               => $site === 'MLC',
+      ],
+      'dry_preference' => [
+        'http'               => $dry['code'],
+        'message'            => $dry['json']['message'] ?? null,
+        'cause'              => $dry['json']['cause']   ?? null,
+        'init_point_present' => !empty($dry['json']['init_point']),
+      ],
+    ]);
+  }
+
   if ($sub === 'validate-coupon' && $method === 'GET') {
     $code = $_GET['code'] ?? '';
     $plan = $_GET['plan'] ?? '';

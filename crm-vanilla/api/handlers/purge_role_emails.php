@@ -22,7 +22,7 @@ $TOKEN = defined('FILTER_ID_TOKEN') ? FILTER_ID_TOKEN : 'NWM_FILTER_ID_2026';
 if (!hash_equals($TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 pin_org_to_master();
 
-$ROLE_PREFIXES = ['contact', 'contacto', 'admin', 'hello', 'team'];
+$ROLE_PREFIXES = ['contact', 'contacto', 'admin', 'hello', 'team', 'info', 'office'];
 
 $action = (string)($_GET['action'] ?? 'count');
 $db     = getDB();

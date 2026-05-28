@@ -83,8 +83,13 @@ def build_faqs(title: str, description: str, h2_pairs: list) -> list:
     faqs = []
     topic = derive_title_topic(title)
     if topic and description:
-        verb = 'are' if is_plural_topic(topic) else 'is'
-        faqs.append({'q': f'What {verb} {topic}?', 'a': description})
+        if H2_QWORDS.match(topic):
+            # Topic already starts with a question word — use as-is
+            q = topic if topic.endswith('?') else topic + '?'
+        else:
+            verb = 'are' if is_plural_topic(topic) else 'is'
+            q = f'What {verb} {topic}?'
+        faqs.append({'q': q, 'a': description})
     for h2, first_p in h2_pairs[:3]:
         if h2 and first_p:
             faqs.append({'q': h2_to_question(h2), 'a': first_p})

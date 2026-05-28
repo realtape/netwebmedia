@@ -102,11 +102,19 @@ function h2ToQuestion(h2) {
 function buildFaqs(post) {
   if (Array.isArray(post.faqs) && post.faqs.length) return post.faqs;
   const faqs = [];
-  // FAQ 1: "What is/are [topic]?" using title (stripped of " — NetWebMedia Blog")
+  // FAQ 1: title-derived. If the title-topic already starts with a question
+  // word ("How X...", "What X..."), use it as-is. Otherwise wrap in
+  // "What is/are [topic]?" with plural-aware verb.
   const cleanTitle = String(post.title || '').split(/—|:/)[0].trim();
   if (cleanTitle && post.description) {
-    const verb = isPluralTopic(cleanTitle) ? 'are' : 'is';
-    faqs.push({ q: `What ${verb} ${cleanTitle}?`, a: post.description });
+    let q;
+    if (/^(how|what|why|when|who|where|is|are|can|do|does|should|will)\b/i.test(cleanTitle)) {
+      q = cleanTitle.endsWith('?') ? cleanTitle : cleanTitle + '?';
+    } else {
+      const verb = isPluralTopic(cleanTitle) ? 'are' : 'is';
+      q = `What ${verb} ${cleanTitle}?`;
+    }
+    faqs.push({ q, a: post.description });
   }
   // FAQs 2–4: derived from h2 sections
   const h2s = (post.sections || []).filter(s => s.h2);

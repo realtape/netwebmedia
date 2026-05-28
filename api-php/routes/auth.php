@@ -220,5 +220,65 @@ function route_auth($path, $method) {
     json_out(['ok' => true, 'message' => 'Your password has been updated. You can now sign in.']);
   }
 
+  /* POST /api/auth/_ensure_admins?token=<first-16-chars-of-jwt_secret>
+     Idempotent maintenance endpoint — ensures the rows in $extra_admins exist
+     in the users table and have role=admin. Called from CI after each deploy
+     (deploy-site-root.yml). Never overwrites an existing password; new rows
+     get a random unguessable bcrypt hash so the holder must use the
+     forgot-password flow to set their own.
+
+     Gated by the same token scheme as api-php/migrate.php (first 16 chars of
+     jwt_secret) since the api-php config exposes jwt_secret but not the
+     MIGRATE_TOKEN constant the CRM uses.
+
+     This duplicates the equivalent block in api-php/migrate.php because
+     migrate.php sits behind the /api/ bridge router and is not callable as
+     a URL — only routes/*.php is reachable. Both blocks must stay in sync. */
+  if ($path === '_ensure_admins' && $method === 'POST') {
+    $cfg = config();
+    $expected = substr($cfg['jwt_secret'] ?? '', 0, 16);
+    $token = (string)($_GET['token'] ?? '');
+    if ($expected === '' || !hash_equals($expected, $token)) {
+      err('Forbidden', 403);
+    }
+
+    // Use the same table-ensure as forgot/reset (CREATE TABLE IF NOT EXISTS users).
+    qExec("CREATE TABLE IF NOT EXISTS users (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      org_id INT NOT NULL DEFAULT 1,
+      email VARCHAR(255) UNIQUE NOT NULL,
+      password_hash VARCHAR(255) NOT NULL,
+      name VARCHAR(255) NOT NULL,
+      role VARCHAR(50) DEFAULT 'user',
+      status VARCHAR(50) DEFAULT 'active',
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+    $extras = [
+      ['email' => 'carlos@netwebmedia.com', 'name' => 'Carlos Martinez'],
+    ];
+    $log = [];
+    foreach ($extras as $a) {
+      $row = qOne("SELECT id, role FROM users WHERE email = ?", [$a['email']]);
+      if ($row) {
+        if (($row['role'] ?? '') !== 'admin') {
+          qExec("UPDATE users SET role = 'admin' WHERE id = ?", [$row['id']]);
+          $log[] = "promoted {$a['email']} → admin";
+        } else {
+          $log[] = "skip {$a['email']} (already admin)";
+        }
+      } else {
+        $randomPass = bin2hex(random_bytes(16));
+        $hash = password_hash($randomPass, PASSWORD_BCRYPT);
+        qExec(
+          "INSERT INTO users (email, password_hash, name, role, org_id) VALUES (?, ?, ?, 'admin', 1)",
+          [$a['email'], $hash, $a['name']]
+        );
+        $log[] = "inserted {$a['email']} (admin; use Forgot password? to set your own)";
+      }
+    }
+    json_out(['ok' => true, 'ensured' => $log]);
+  }
+
   err('Auth route not found', 404);
 }

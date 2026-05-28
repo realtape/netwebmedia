@@ -9,8 +9,8 @@ metadata:
 
 To read **live** NetWebMedia CRM / lead data (production `webmed6_nwm` + `webmed6_crm`), there are no DB credentials on Computer 1 (`config.local.php` is injected from GitHub Secrets only at deploy), and the lead/contact endpoints are auth-gated (`requirePaidAccess()` / `requireAuth()`). The working path:
 
-- Use the connected **Chrome MCP browser named "NWM"** (`Claude_in_Chrome`, local). Carlos stays logged into `netwebmedia.com/crm-vanilla/`.
-- Navigate a tab to any `netwebmedia.com` page, then `fetch()` the API in page context with `headers:{'X-Auth-Token': localStorage.getItem('nwm_token')}`. Same token works for both `/api/*` (api-php) and `/crm-vanilla/api/`.
+- Use the connected **Chrome MCP browser named "NWM"** (`Claude_in_Chrome`, local). Carlos stays logged into `netwebmedia.com/crm/` (formerly `/crm-vanilla/`; flipped 2026-05-28, both URLs work — /crm-vanilla/ 301s to /crm/).
+- Navigate a tab to any `netwebmedia.com` page, then `fetch()` the API in page context with `headers:{'X-Auth-Token': localStorage.getItem('nwm_token')}`. Same token works for both `/api/*` (api-php) and `/crm/api/`.
 - No token paste needed; this is what "do all yourself" means for live-data asks.
 
 Useful endpoints: `GET /api/public/stats` (counts, no auth), `GET /api/resources/contact?limit=N`, `GET /api/resources/form`, `GET /api/forms`, `GET /api/forms/{id}/submissions`. DELETE via `DELETE /api/resources/contact/{id}` (hard delete).

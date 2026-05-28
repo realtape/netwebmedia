@@ -206,7 +206,36 @@ if ($existing == 0) {
     echo "   + user: {$d[0]} ({$d[2]})\n";
   }
 } else {
-  echo "   users already exist ($existing) — skipping\n";
+  echo "   users already exist ($existing) — skipping bulk seed\n";
+}
+
+/* Idempotent ensure: extra admin accounts that should always exist, even on a
+   previously-seeded DB. Inserts each missing row with a random unguessable
+   password — the new admin uses /login.html → "Forgot password?" to set their
+   own password (the /api/auth/forgot flow is already wired). */
+echo "\n── Ensuring extra admin accounts ──\n";
+$extra_admins = [
+  ['email' => 'carlos@netwebmedia.com', 'name' => 'Carlos Martinez'],
+];
+foreach ($extra_admins as $a) {
+  $row = qOne("SELECT id, role FROM users WHERE email = ?", [$a['email']]);
+  if ($row) {
+    // Already present — promote to admin if not already, but don't touch password.
+    if (($row['role'] ?? '') !== 'admin') {
+      qExec("UPDATE users SET role = 'admin' WHERE id = ?", [$row['id']]);
+      echo "   ↑ promoted {$a['email']} → admin\n";
+    } else {
+      echo "   skip {$a['email']} (exists as admin)\n";
+    }
+    continue;
+  }
+  $randomPass = bin2hex(random_bytes(16));
+  $hash = password_hash($randomPass, PASSWORD_BCRYPT);
+  qExec(
+    "INSERT INTO users (email, password_hash, name, role, org_id) VALUES (?, ?, ?, 'admin', 1)",
+    [$a['email'], $hash, $a['name']]
+  );
+  echo "   + admin: {$a['email']} — use /login.html → \"Forgot password?\" to set your own\n";
 }
 
 echo "\n── Seeding CMS resources ──\n";

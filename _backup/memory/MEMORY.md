@@ -1,4 +1,15 @@
+- [No Shannon / DYADlaw context](feedback_no_shannon_dyadlaw.md) — Carlos does NOT work with Shannon, Tammy, or DYADlaw; never use that profile, attorney-review cadence, or 2-3 blog posts/month target for NWM work
+- [main history rewrite 2026-05-19](project_main_history_rewrite_2026_05_19.md) — origin/main force-pushed clean + daemon redesigned (never touches main); Computer 2 retired so no re-clone needed
+- [Meta automation guard](feedback_meta_automation_guard.md) — don't auto-retry Meta IG-connect/publish in browser; it temp-restricted @netwebmedia (2026-05-25); let Carlos do connect/publish clicks, prefer ig_publish.php API
+- [NWM Chrome only](feedback_nwm_chrome_only.md) — Chrome MCP must operate on the "NWM" browser/profile only; verify with list/switch before acting, never touch personal-profile tabs
+- [Social publishing blockers 2026-05](project_social_publishing_blockers_2026_05.md) — carousel d deployed+verified; live IG post blocked on: IG not linked to FB Page (needs Professional acct + manual connect), IG creds unset, FB Page token broken
+- [Fractional CMO page retirement](reference_fractional_cmo_retirement.md) — root /fractional-cmo.html RETIRED (301→pricing.html, don't restore); /tutorials/fractional-cmo.html is a LIVE tutorial — never let an .htaccess FilesMatch deny catch it by filename
 - [User role — Carlos Martinez](user_role.md) — CEO/founder of NetWebMedia; prefers executive framing and vanilla tech
+- [CMS admin (cms/)](reference_cms_admin.md) — live HTTP-Basic-gated admin at netwebmedia.com/cms/ (undocumented in CLAUDE.md); module-table.js CRUD over /api/resources types page/blog_post/etc.
+- [Live CRM data access](reference_crm_live_access.md) — read prod leads via the "NWM" Chrome MCP session + localStorage.nwm_token (no DB creds/token paste); public form submits land on CMS form-resources (ids 27-33), not the forms table (1-7)
+- [CRM auth + password reset](reference_crm_auth_and_reset.md) — CRM (repo dir crm-vanilla/, URL /crm/, DB webmed6_crm) WRITES need a PHP session via /crm/login.html; X-Auth-Token only authorizes reads. /app/ is a separate api-php app/DB (shows demo data, not real leads). Self-service forgot-password shipped 2026-05-25; CRM URL flipped from /crm-vanilla/ to /crm/ on 2026-05-28.
+- [Respond in English by default](feedback_respond_in_english.md) — Reply to Carlos in English even when he writes in Spanish; site EN/ES work unaffected
+- [Autonomous end-to-end execution](feedback_autonomous_execution.md) — Carlos gives terse one-word directives; execute the whole arc (fix→deploy→verify→cleanup); confirm only genuinely irreversible/plan-reversing actions
 - [NetWebMedia org & agents](netwebmedia_org.md) — 12 custom agents in `.claude/agents/` mirror the agency's org chart; delegate by role
 - [Agent human names](reference_agent_names.md) — Sofia/Marcus/Priya/Diego/Elena/Isabel/Aria/David/Rachel/Maya/James/Liam map to the 12 agent slugs
 - [No LinkedIn distribution](feedback_distribution_no_linkedin.md) — Carlos declined LinkedIn for NetWebMedia campaign content; omit from distribution plans
@@ -8,6 +19,7 @@
 - [Carlos's Google Calendar](reference_calendar.md) — carlos@netwebmedia.com, timezone America/Santiago; NWM tasks follow "NWM - Area - Task" naming + color coding
 - [Brand palette — Gulf Oil inspired](project_brand_palette.md) — Navy #010F3B + Orange #FF671F + Inter/Poppins; `css/styles.css` is canonical, NOT root `styles.css`
 - [Carlos's computers](user_computers.md) — Computer 1 = this Windows machine (Usuario); Computer 2 = his other computer
+- [GitHub connectivity on Computer 1](reference_github_connectivity_computer1.md) — "GitHub unreachable" fix: gh token moved keyring→hosts.yml + DisabledComponents=0x20 (prefer IPv4) for broken-IPv6 network; needs reboot
 - [NWM canonical plan docs](reference_nwm_plans.md) — Always incorporate `plans/business-plan.html`, `plans/marketing-plan.html`, `plans/brand-book.html`, `plans/execution-90day.html`, `plans/index.html` (hub) when reasoning about NetWebMedia
 - [Claude Pro Max, not ChatGPT](feedback_claude_not_chatgpt.md) — NWM's internal AI is Claude Pro Max / Anthropic API; ChatGPT is an AEO target, not an internal tool
 - [Always deploy with InMotion](reference_deploy_inmotion.md) — netwebmedia.com + all subdomains ship via GitHub Actions FTPS → cPanel at InMotion; do NOT suggest Vercel/Netlify/other hosts for NWM properties
@@ -20,4 +32,8 @@
 - [Realtape YouTube channel](project_realtape_channel.md) — Carlos's personal sim-racing channel; retention crisis on live VODs; hyperframes reel pipeline at `NetWebMedia/hyperframes/realtape-reels` and `spa-reels-2026-05-12`
 - [Realtape rig optimization docs](reference_realtape_rig_docs.md) — iRacing + OBS streaming checklist and importable OBS profile in Obsidian vault at `Projects/Realtape/`; 1440p60 @ 20 Mbps NVENC HEVC on RTX 5060 Ti
 - [Keep Claude Code Workspace mode on](feedback_keep_workspace_mode.md) — On VM-platform errors, fix the underlying Windows feature; don't propose disabling Workspace mode
-- [Documents → D: drive, C: for programs](feedback_documents_to_d_drive.md) — All documents/deliverables I create go to D:\Documents\ (never C:, never Desktop); enforced by PreToolUse hook d-drive-enforce.js which exempts the NetWebMedia repo + C:\Users\Usuario\.claude\ config/memory + AppData + junctioned user folders
+- [Documents & downloads → D: drive](feedback_documents_to_d_drive.md) — Documents/deliverables → D:\Documents\, downloads → D:\Downloads first (never C:, never Desktop); enforced by PreToolUse hook d-drive-enforce.js which exempts the NetWebMedia repo + C:\Users\Usuario\.claude\ config/memory + AppData + junctioned user folders
+- [CMO Premium pricing](project_cmo_premium_pricing.md) — Canonical ladder: AEO Starter $249 / CMO Growth $999 / CMO Premium $2,490 / Custom-Agency; Scale&Enterprise&Lite retired; do NOT flip to $2,990 or $2,499 (Carlos reconfirmed $2,490 on 2026-05-22)
+- [Stale industry generators](feedback_stale_industry_generators.md) — build_industry_pages.py is stale vs live hubs; running it strips AEO FAQPage schema — patch hub OUTPUTS directly, never regenerate
+- [Parallel sessions & heal artifacts](feedback_parallel_session_and_heal_artifacts.md) — post-FTP-heal live value ≠ intent; git fetch + re-check divergence before pushing to main; never force-push to win a cross-session race
+- [Free local UGC relip pipeline](project_ugc_relip_pipeline.md) — `D:\Documents\nwm-relip\` reuses existing avatar clips to say new scripts; OpenVoice v2 + MuseTalk on the 8 GB RTX 5060 Ti; $0, commercial-clean, no watermark. NOT XTTS (non-commercial) / NOT LatentSync (too heavy for 8 GB). Close other GPU apps before rendering.

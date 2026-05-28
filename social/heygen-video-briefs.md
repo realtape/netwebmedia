@@ -1,12 +1,13 @@
 # HeyGen Video Briefs — 12 Reels (Weeks 8–10 IG + TikTok)
 
 **Generator:** `heygen_avatar_generate.py` (root)
-**Default avatar:** `c58d907a18d3426085da01a855034d82`
-**Default voice (ES):** Narrator Mateo — `b02e8659016f4dbb8a92004cdf50ad04`
-**Default voice (EN):** TBD — run `python heygen_avatar_generate.py --list-voices` to pick a clean EN voice; until selected, EN videos will use Mateo's voice (Spanish-accented EN, acceptable for cold-open hook reels).
+**Avatar (all 12):** `750474a828194ca5a818c8990cb42802` — "Carlos Martinez" (custom-trained avatar in Carlos's HeyGen workspace). Pass via `--avatar 750474a828194ca5a818c8990cb42802` on each call; the script's hardcoded `DEFAULT_AVATAR_ID` is stale (returns "avatar look not found" against this workspace).
+**Voice (ES + EN):** Mateo `b02e8659016f4dbb8a92004cdf50ad04` — Carlos is Chilean, so a LatAm-accented English on the 6 EN scripts sounds native to the brand, not foreign. ES fallback if Mateo missing: Sara Martin `689f48196a9a43c4bbbb67c14fdbb4c6`.
 **Dimensions:** 720×1280 (vertical 9:16 for Reels + TikTok)
 **Background:** Navy `#010F3B` solid (set in script `BRAND_NAVY`)
 **Output:** MP4 URL appended to [`heygen-renders-log.md`](heygen-renders-log.md) as each render completes.
+
+**Lesson from batch 1 (2026-05-28):** Hardcoded `DEFAULT_AVATAR_ID` in `heygen_avatar_generate.py:52` doesn't exist in this workspace. Always pass `--avatar` explicitly. Don't trust the script default. Lists fresh via `python heygen_avatar_generate.py --list-avatars`. Listing voices currently crashes on cp1252 encoding (set `PYTHONIOENCODING=utf-8` to bypass).
 
 **Why 12:** 2 Reels/wk × 3 weeks (Weeks 8, 9, 10) = 6 fresh + 6 rotation = 12 unique. Allocation matches [`posting-calendar.md`](posting-calendar.md) — see "Asset reuse matrix" in [`social-media-marketing-plan.md`](social-media-marketing-plan.md) §4.
 

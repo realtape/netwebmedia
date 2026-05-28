@@ -161,7 +161,7 @@
 
   function loadContacts() {
     var tbody = document.getElementById('contactsTableBody');
-    if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#888">Loading…</td></tr>';
+    if (tbody) tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:#888">Loading…</td></tr>';
     var url = API + 'contacts&limit=' + apiLimit + '&offset=0';
     if (currentSegment && currentSegment !== 'all') url += '&segment=' + encodeURIComponent(currentSegment);
     fetch(url).then(function (r) { return r.json(); }).then(function (resp) {
@@ -178,7 +178,7 @@
       page = 0;
       render();
     }).catch(function (e) {
-      if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#c0392b">Error loading contacts: ' + esc(e && e.message) + '</td></tr>';
+      if (tbody) tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:#c0392b">Error loading contacts: ' + esc(e && e.message) + '</td></tr>';
     });
   }
 
@@ -433,7 +433,7 @@
     var slice = list.slice(start, end);
 
     if (!total) {
-      tbody.innerHTML = '<tr><td colspan="7" class="empty-state" style="text-align:center;padding:40px;color:#888">No contacts match.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="9" class="empty-state" style="text-align:center;padding:40px;color:#888">No contacts match.</td></tr>';
       renderPager(0, 0, 0, 0);
       return;
     }
@@ -448,8 +448,9 @@
 
       html += '<tr class="contact-table-row" data-id="' + c.id + '">';
       html += '<td><div class="td-flex"><div class="contact-avatar small">' + esc(initials) + '</div>'
-           +  '<div><div class="td-name">' + esc(c.name || '') + '</div>'
-           +  '<div class="td-email">' + esc(c.email || '') + '</div></div></div></td>';
+           +  '<div><div class="td-name">' + esc(c.name || '') + '</div></div></div></td>';
+      html += '<td>' + (c.email ? '<a href="mailto:' + esc(c.email) + '" onclick="event.stopPropagation()" style="color:#FF671F;text-decoration:none">' + esc(c.email) + '</a>' : '<span style="color:#bbb">—</span>') + '</td>';
+      html += '<td>' + (c.phone ? '<a href="tel:' + esc((c.phone||'').replace(/[^0-9+]/g,'')) + '" onclick="event.stopPropagation()" style="color:#C8D4E6;text-decoration:none;font-variant-numeric:tabular-nums">' + esc(c.phone) + '</a>' : '<span style="color:#bbb">—</span>') + '</td>';
       html += '<td>' + esc(c.company || '—') + '</td>';
       html += '<td>' + esc(c.__region || '—') + '</td>';
       html += '<td>' + (CRM_APP && CRM_APP.statusBadge ? CRM_APP.statusBadge(c.status || 'lead') : esc(c.status || '')) + '</td>';

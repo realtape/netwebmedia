@@ -10,7 +10,7 @@
 
 ## Steps
 
-1. Drag `(no asset — see notes)` into the upload box.
+1. Drag `reel_aeo_en.mp4` into the upload box.
 2. Paste `caption.txt` contents into the caption field (TikTok caps at ~100 chars; we kept under).
 3. Append hashtags from `hashtags.txt` directly in the caption (TikTok shows hashtags inline, not in first comment).
 4. Set audience: "Everyone". No duets/stitches restriction.
@@ -26,7 +26,7 @@
 
 ## Files in this folder
 
-- (no asset files — content is record-on-Wed video)
+- `reel_aeo_en.mp4` — drag this into the uploader
 - `caption.txt` — primary caption (copy-paste)
 - `caption-alt.txt` — secondary-language caption
 - `hashtags.txt` — hashtag stack (paste into FIRST COMMENT on IG)

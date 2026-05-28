@@ -331,4 +331,12 @@ try {
     route_reputation($parts, $method);
   } elseif ($group === 'courses') {
     require __DIR__ . '/routes/courses.php';
-    route_courses($parts,
+    route_courses($parts, $method);
+  } else {
+    err('Route not found', 404);
+  }
+} catch (PDOException $e) {
+  err('Database error: ' . $e->getMessage(), 500);
+} catch (Throwable $e) {
+  err('Server error: ' . $e->getMessage(), 500);
+}

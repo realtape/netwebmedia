@@ -146,7 +146,7 @@
       '<div class="card" style="text-align:center;padding:48px 24px;">' +
         '<h2 style="margin:0 0 12px;">You don\'t have permission to view this page.</h2>' +
         '<p style="color:var(--text-dim);margin:0 0 24px;">Sub-account management is restricted to NetWebMedia owners.</p>' +
-        '<a href="/crm-vanilla/index.html" class="btn btn-primary">← Back to dashboard</a>' +
+        '<a href="/crm/index.html" class="btn btn-primary">← Back to dashboard</a>' +
       '</div>';
     // Defensive: button shouldn't exist for non-masters anymore (it's only
     // created via maybeShowCreateButton after a master-owner check), but
@@ -221,11 +221,11 @@
     }).then(function (r) {
       if (!r.ok) throw new Error("switch HTTP " + r.status);
       try { sessionStorage.removeItem("nwm_orgs"); } catch (_) {}
-      location.href = "/crm-vanilla/index.html?org=" + encodeURIComponent(org.slug);
+      location.href = "/crm/index.html?org=" + encodeURIComponent(org.slug);
     }).catch(function (err) {
       console.error("[subaccounts] switch failed", err);
       toast("Could not switch — opening with hint", "error");
-      location.href = "/crm-vanilla/index.html?org=" + encodeURIComponent(org.slug);
+      location.href = "/crm/index.html?org=" + encodeURIComponent(org.slug);
     });
   }
 

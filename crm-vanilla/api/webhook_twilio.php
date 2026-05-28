@@ -2,7 +2,7 @@
 /**
  * Twilio Inbound Webhook — SMS & WhatsApp
  *
- * Twilio webhook URL: https://netwebmedia.com/crm-vanilla/api/webhook_twilio.php
+ * Twilio webhook URL: https://netwebmedia.com/crm/api/webhook_twilio.php
  * Replaces ManyChat. Handles all inbound SMS and WhatsApp:
  *   1. Saves message to CRM conversations table
  *   2. Sends Claude AI auto-reply via TwiML

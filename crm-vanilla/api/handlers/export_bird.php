@@ -2,7 +2,7 @@
 /**
  * Export contacts as a Bird-compatible CSV.
  *
- * GET /crm-vanilla/api/?r=export_bird&token=<MIGRATE_TOKEN>
+ * GET /crm/api/?r=export_bird&token=<MIGRATE_TOKEN>
  *   → Downloads contacts.csv with Bird column headers.
  *
  * Optional filters:

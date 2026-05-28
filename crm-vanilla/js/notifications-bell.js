@@ -202,7 +202,7 @@
         alert("Browser push not yet configured by this server. Notifications will appear in the bell only.\n(Server admin: set vapid_public_key + dispatcher.)");
         return;
       }
-      navigator.serviceWorker.register("/crm-vanilla/sw.js").catch(function () {
+      navigator.serviceWorker.register("/crm/sw.js").catch(function () {
         return navigator.serviceWorker.register("/sw.js");
       }).then(function (reg) {
         return Notification.requestPermission().then(function (perm) {

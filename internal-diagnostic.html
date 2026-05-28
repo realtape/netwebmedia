@@ -660,7 +660,7 @@ let lastReport = null;
 
 function bounce() {
   const next = encodeURIComponent(location.pathname);
-  location.href = '/crm/login.html?next=' + next;
+  location.href = '/crm-vanilla/login.html?next=' + next;
 }
 
 // ── Form handling ──────────────────────────────────────────────────────
@@ -765,7 +765,7 @@ async function runDiagnostic() {
   setStep('stepAnalyze', 'run');
   let analyzeRes = null, analyzeErr = null;
   try {
-    const r = await fetch(API_BASE + '/crm/api/?r=analyze&url=' + encodeURIComponent(fullUrl), {
+    const r = await fetch(API_BASE + '/crm-vanilla/api/?r=analyze&url=' + encodeURIComponent(fullUrl), {
       headers: { 'X-Auth-Token': localStorage.getItem('nwm_token') || '' },
     });
     const j = await r.json();
@@ -942,7 +942,7 @@ function renderReport(rep, fullUrl) {
   // Deep links
   $('speedLink').href = `/speed-test.html?url=${encodeURIComponent(fullUrl)}`;
   $('aeoLink').href = `/aeo-index.html?url=${encodeURIComponent(fullUrl)}`;
-  $('crmLink').href = `/crm/#contacts`;
+  $('crmLink').href = `/crm-vanilla/#contacts`;
 
   // ── New visualizations ───────────────────────────────────────────────
   renderRadar(rep);

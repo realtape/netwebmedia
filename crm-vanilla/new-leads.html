@@ -75,9 +75,9 @@
   <div class="stats" id="stats"></div>
   <div id="feed"></div>
   <div class="nav">
-    <a href="/crm-vanilla/">← CRM dashboard</a>
+    <a href="/crm/">← CRM dashboard</a>
     &nbsp;·&nbsp;
-    <a href="/crm-vanilla/pipeline.html">Pipeline</a>
+    <a href="/crm/pipeline.html">Pipeline</a>
   </div>
 </main>
 <script>
@@ -146,14 +146,14 @@
   async function fetchData() {
     const TOK = localStorage.getItem('nwm_token');
     if (!TOK) {
-      $('#errBox').innerHTML = '<div class="err">Not logged in. <a href="/crm-vanilla/login.html?next=' + encodeURIComponent(location.pathname) + '">Sign in to the CRM</a> to load real leads.</div>';
+      $('#errBox').innerHTML = '<div class="err">Not logged in. <a href="/crm/login.html?next=' + encodeURIComponent(location.pathname) + '">Sign in to the CRM</a> to load real leads.</div>';
       return;
     }
     try {
       const r = await fetch('/api/resources/contact?limit=500', { headers: {'X-Auth-Token': TOK}, credentials: 'include' });
       if (r.status === 401) {
         localStorage.removeItem('nwm_token');
-        $('#errBox').innerHTML = '<div class="err">Session expired. <a href="/crm-vanilla/login.html?next=' + encodeURIComponent(location.pathname) + '">Sign in again</a>.</div>';
+        $('#errBox').innerHTML = '<div class="err">Session expired. <a href="/crm/login.html?next=' + encodeURIComponent(location.pathname) + '">Sign in again</a>.</div>';
         return;
       }
       if (!r.ok) throw new Error('HTTP ' + r.status);

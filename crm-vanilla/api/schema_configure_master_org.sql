@@ -1,5 +1,5 @@
 -- Configure master organization to resolve from netwebmedia.com
--- Ensures org_from_request() matches the host when users access netwebmedia.com/crm-vanilla/
+-- Ensures org_from_request() matches the host when users access netwebmedia.com/crm/
 -- This allows authenticated users to resolve org_id=1 and see all master org data
 
 -- Master org must exist and be active

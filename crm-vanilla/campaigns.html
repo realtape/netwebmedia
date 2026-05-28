@@ -185,11 +185,11 @@
      * (id=N). Auto-refreshes every 60s. Pure vanilla, no chart libs.
      */
     (function () {
-      // Mirror chile-campaign.html: hit the absolute /crm-vanilla/api/ URL so
+      // Mirror chile-campaign.html: hit the absolute /crm/api/ URL so
       // we bypass the /api/* → api-php bridge .htaccess.
       var API_BASE = (location.hostname === 'app.netwebmedia.com')
-        ? '/crm-vanilla/api/'
-        : 'https://netwebmedia.com/crm-vanilla/api/';
+        ? '/crm/api/'
+        : 'https://netwebmedia.com/crm/api/';
       var POLL_MS = 60000;
 
       // Header — matches the marketing page pattern.

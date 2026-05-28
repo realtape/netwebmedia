@@ -13,7 +13,7 @@
 --
 -- The actual JSON-shape backfill (translating workflows.steps_json into the
 -- engine resources.data shape) is performed by the PHP endpoint
---   POST /crm-vanilla/api/?r=workflows&action=backfill_engine_mirror
+--   POST /crm/api/?r=workflows&action=backfill_engine_mirror
 -- because translation logic must match the dual-write path exactly and is
 -- tested in PHP, not duplicated in SQL.
 --

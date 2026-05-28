@@ -79,4 +79,41 @@ if ($orgWhereD) $tdSql .= ' AND ' . $orgWhereD;
 $tdSql .= " ORDER BY d.value DESC LIMIT 5";
 $stats['activeDealsTop'] = $run($tdSql, $orgParamsD)->fetchAll();
 
+// ── Superadmin / admin overview block ──────────────────────────────────
+// Mirrors superadmin/api/stats.php so the CRM dashboard can render the same
+// MRR / ARR / Users / Signups view in CRM styling. Gated on role so demo and
+// non-admin tenants never see global revenue or signup data.
+$_u = guard_user();
+$_role = $_u['role'] ?? 'guest';
+if (in_array($_role, ['admin', 'superadmin'], true)) {
+    $plan_mrr = ['starter' => 29, 'professional' => 79, 'enterprise' => 199];
+
+    $byStatus = $db->query(
+        'SELECT status, COUNT(*) AS cnt FROM users GROUP BY status'
+    )->fetchAll(PDO::FETCH_KEY_PAIR);
+
+    $byPlan = $db->query(
+        "SELECT plan, COUNT(*) AS cnt FROM users WHERE status = 'active' GROUP BY plan"
+    )->fetchAll();
+
+    $mrr = 0;
+    foreach ($byPlan as $row) {
+        $mrr += ($plan_mrr[$row['plan']] ?? 0) * (int)$row['cnt'];
+    }
+
+    $stats['mrr']            = $mrr;
+    $stats['arr']            = $mrr * 12;
+    $stats['totalUsers']     = (int)$db->query('SELECT COUNT(*) FROM users')->fetchColumn();
+    $stats['newUsersMonth']  = (int)$db->query(
+        "SELECT COUNT(*) FROM users WHERE created_at >= DATE_FORMAT(NOW(), '%Y-%m-01')"
+    )->fetchColumn();
+    $stats['totalDeals']     = (int)$db->query('SELECT COUNT(*) FROM deals')->fetchColumn();
+    $stats['recentUsers']    = $db->query(
+        'SELECT id, name, email, company, role, plan, status, niche, created_at, last_login
+         FROM users ORDER BY created_at DESC LIMIT 20'
+    )->fetchAll();
+    $stats['byStatus']       = $byStatus;
+    $stats['byPlan']         = $byPlan;
+}
+
 jsonResponse($stats);

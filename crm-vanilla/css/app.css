@@ -2719,3 +2719,37 @@ input, select, textarea { font-family: inherit; }
   border-top: 1px solid #f3f4f6;
 }
 
+/* ── Admin overview: By Status / By Plan distribution bars (dashboard) ── */
+.dashboard-grid-dist { margin-bottom: 24px; }
+.dashboard-grid-dist .dist-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 40px;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 4px;
+  font-size: 13px;
+}
+.dashboard-grid-dist .dist-label {
+  color: #4b5563;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.dashboard-grid-dist .dist-bar-wrap {
+  height: 8px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.dashboard-grid-dist .dist-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #FF671F 0%, #ff8a4d 100%);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.dashboard-grid-dist .dist-count {
+  text-align: right;
+  font-weight: 700;
+  color: #010F3B;
+  font-size: 14px;
+}
+

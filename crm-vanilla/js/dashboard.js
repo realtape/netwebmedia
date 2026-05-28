@@ -19,6 +19,26 @@
     return '$' + (n / 1000).toFixed(1) + 'k';
   }
 
+  function formatMoney(val) {
+    var n = parseFloat(val) || 0;
+    return '$' + Math.round(n).toLocaleString();
+  }
+
+  function formatDate(s) {
+    if (!s) return '';
+    var d = new Date((s.indexOf('T') === -1 ? s.replace(' ', 'T') : s) + 'Z');
+    if (isNaN(d.getTime())) return s;
+    var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return M[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+
+  function esc(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+    });
+  }
+
   function formatHour(h) {
     var hour = parseInt(h, 10) || 0;
     var ampm = hour >= 12 ? 'PM' : 'AM';
@@ -72,20 +92,32 @@
     showSectionSpinner('activeDeals');
     showSectionSpinner('recentContacts');
 
-    /* Single fetch for all dashboard data */
+    /* Single fetch for all dashboard data.
+       Relative URL ('api/?r=stats') resolves to /crm/api/?r=stats → crm-vanilla
+       handler. Absolute '/api/?r=stats' would hit api-php (path-routed) and
+       return the API index JSON instead of stats — was the cause of the
+       all-zeros dashboard before 2026-05-28. */
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/?r=stats', true);
+    xhr.open('GET', 'api/?r=stats', true);
+    xhr.withCredentials = true;
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;
       if (xhr.status >= 200 && xhr.status < 300) {
         var stats;
         try { stats = JSON.parse(xhr.responseText); } catch (err) { stats = null; }
         if (stats) {
-          renderStats(L, stats);
+          var isAdmin = (stats.mrr !== undefined || stats.totalUsers !== undefined);
+          if (isAdmin) {
+            renderAdminStats(L, stats);
+            renderDistributions(stats);
+            renderRecentSignups(stats.recentUsers || []);
+          } else {
+            renderStats(L, stats);
+            renderRecentContacts(stats.recentContacts || []);
+          }
           renderRevenueChart(stats.revenueData || [], L);
           renderSchedule(stats.scheduleToday || []);
           renderActiveDeals(stats.activeDealsTop || []);
-          renderRecentContacts(stats.recentContacts || []);
         } else {
           showError(L.errorLoading);
         }
@@ -229,14 +261,130 @@
     for (var i = 0; i < contacts.length; i++) {
       var c = contacts[i];
       html += '<div class="contact-row">';
-      html += '<div class="contact-avatar">' + (c.avatar || '') + '</div>';
+      html += '<div class="contact-avatar">' + esc(c.avatar || '') + '</div>';
       html += '<div class="contact-info">';
-      html += '<div class="contact-name">' + c.name + '</div>';
-      html += '<div class="contact-company">' + (c.company || '') + '</div>';
+      html += '<div class="contact-name">' + esc(c.name) + '</div>';
+      html += '<div class="contact-company">' + esc(c.company || '') + '</div>';
       html += '</div>';
       html += CRM_APP.statusBadge(c.status);
       html += '</div>';
     }
+    container.innerHTML = html;
+  }
+
+  /* ───── Admin / Superadmin overview (mirrors admin.netwebmedia.com) ───── */
+
+  function renderAdminStats(L, s) {
+    var container = document.getElementById('statsGrid');
+    if (!container) return;
+
+    var cards = [
+      { label: 'MRR',             value: formatMoney(s.mrr),            icon: 'dashboard' },
+      { label: 'ARR',             value: formatMoney(s.arr),            icon: 'dashboard' },
+      { label: 'Total Users',     value: (s.totalUsers || 0).toLocaleString(), icon: 'contacts' },
+      { label: 'New This Month',  value: (s.newUsersMonth || 0).toLocaleString(), icon: 'contacts' },
+      { label: 'Contacts',        value: (s.totalContacts || 0).toLocaleString(), icon: 'contacts' },
+      { label: 'Deals',           value: (s.totalDeals || 0).toLocaleString(), icon: 'pipeline' }
+    ];
+
+    var html = '';
+    for (var i = 0; i < cards.length; i++) {
+      var c = cards[i];
+      html += '<div class="stat-card">';
+      html += '<div class="stat-header">';
+      html += '<span class="stat-label">' + esc(c.label) + '</span>';
+      html += '<span class="stat-icon">' + CRM_APP.ICONS[c.icon] + '</span>';
+      html += '</div>';
+      html += '<div class="stat-value">' + c.value + '</div>';
+      html += '</div>';
+    }
+    container.innerHTML = html;
+  }
+
+  function renderDistributions(s) {
+    var row = document.getElementById('distributionRow');
+    if (!row) return;
+    var statusObj = s.byStatus || {};
+    var planArr   = s.byPlan   || [];
+    var statusKeys = Object.keys(statusObj);
+    if (statusKeys.length === 0 && planArr.length === 0) {
+      row.style.display = 'none';
+      return;
+    }
+    row.style.display = '';
+
+    /* By Status — bar list */
+    var maxStatus = 1;
+    for (var i = 0; i < statusKeys.length; i++) {
+      if (+statusObj[statusKeys[i]] > maxStatus) maxStatus = +statusObj[statusKeys[i]];
+    }
+    var sHtml = '';
+    for (var j = 0; j < statusKeys.length; j++) {
+      var k = statusKeys[j];
+      var cnt = +statusObj[k] || 0;
+      var pct = Math.round((cnt / maxStatus) * 100);
+      sHtml += '<div class="dist-row">';
+      sHtml += '<div class="dist-label">' + esc(k) + '</div>';
+      sHtml += '<div class="dist-bar-wrap"><div class="dist-bar" style="width:' + pct + '%"></div></div>';
+      sHtml += '<div class="dist-count">' + cnt + '</div>';
+      sHtml += '</div>';
+    }
+    var statusEl = document.getElementById('distStatus');
+    if (statusEl) statusEl.innerHTML = sHtml || '<p style="color:#888;padding:1rem">No data.</p>';
+
+    /* By Plan — bar list */
+    var maxPlan = 1;
+    for (var p = 0; p < planArr.length; p++) {
+      if (+planArr[p].cnt > maxPlan) maxPlan = +planArr[p].cnt;
+    }
+    var pHtml = '';
+    for (var q = 0; q < planArr.length; q++) {
+      var plan = planArr[q];
+      var pcnt = +plan.cnt || 0;
+      var ppct = Math.round((pcnt / maxPlan) * 100);
+      pHtml += '<div class="dist-row">';
+      pHtml += '<div class="dist-label">' + esc(plan.plan || '—') + '</div>';
+      pHtml += '<div class="dist-bar-wrap"><div class="dist-bar" style="width:' + ppct + '%"></div></div>';
+      pHtml += '<div class="dist-count">' + pcnt + '</div>';
+      pHtml += '</div>';
+    }
+    var planEl = document.getElementById('distPlan');
+    if (planEl) planEl.innerHTML = pHtml || '<p style="color:#888;padding:1rem">No data.</p>';
+  }
+
+  function renderRecentSignups(users) {
+    var container = document.getElementById('recentContacts');
+    if (!container) return;
+
+    /* Repurpose the Recent Contacts panel into Recent Signups for admins. */
+    var title = document.getElementById('recentPanelTitle');
+    if (title) title.textContent = 'Recent Signups';
+    var link = document.getElementById('recentPanelLink');
+    if (link) { link.textContent = 'View All Users'; link.href = 'subaccounts.html'; }
+
+    if (!users.length) {
+      container.innerHTML = '<p style="color:#888;padding:1rem">No signups yet.</p>';
+      return;
+    }
+
+    var rows = users.slice(0, 8);
+    var html = '<div class="signup-list">';
+    for (var i = 0; i < rows.length; i++) {
+      var u = rows[i];
+      var initials = (u.name || u.email || '?').trim().charAt(0).toUpperCase();
+      html += '<div class="contact-row">';
+      html += '<div class="contact-avatar">' + esc(initials) + '</div>';
+      html += '<div class="contact-info">';
+      html += '<div class="contact-name">' + esc(u.name || '—') + '</div>';
+      html += '<div class="contact-company">' + esc(u.email) + (u.company ? ' · ' + esc(u.company) : '') + '</div>';
+      html += '</div>';
+      html += '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">';
+      html += '<span class="badge badge-' + esc(u.plan || 'starter') + '" style="text-transform:uppercase;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:#fff3eb;color:#FF671F;">' + esc(u.plan || '—') + '</span>';
+      html += '<span style="font-size:11px;color:#888">' + esc(formatDate(u.created_at)) + '</span>';
+      html += '</div>';
+      html += '</div>';
+    }
+    html += '</div>';
     container.innerHTML = html;
   }
 

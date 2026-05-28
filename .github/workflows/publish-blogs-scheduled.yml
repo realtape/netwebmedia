@@ -27,6 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write   # needed to gh-workflow-run deploy-site-root after pushing
     steps:
       - uses: actions/checkout@v6.0.2
         with:
@@ -81,6 +82,20 @@ jobs:
           done
           echo "::error::Failed to push after 5 attempts"
           exit 1
+
+      - name: Trigger deploy-site-root
+        # Pushes made with GITHUB_TOKEN do NOT trigger other workflows on push
+        # (GitHub Actions security guard against recursive workflows). Without
+        # this step, blog HTML lands in git but never reaches InMotion until
+        # the next human commit. Verified 2026-05-28: a freshly-published post
+        # was 404 on production. We work around by explicitly dispatching
+        # deploy-site-root.yml from within this job.
+        if: steps.generate.outputs.changed != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run deploy-site-root.yml --ref main
+          echo "Dispatched deploy-site-root.yml — auto-publish HTML will reach InMotion."
 
       - name: No posts in queue
         if: steps.queue.outputs.pending == '0'

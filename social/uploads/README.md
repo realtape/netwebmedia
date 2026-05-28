@@ -17,8 +17,6 @@ Open the next-upcoming folder, follow `INSTRUCTIONS.md`, drag the asset(s) into 
 - `hashtags.txt` — hashtag stack to paste into the FIRST COMMENT on IG
 - The asset file(s) — drag these into the uploader
 
-## Weeks
-
 ## Next 5 upcoming
 
 - **2026-05-28 thu 19:00** · tiktok · [2026-05-28_thu_19-00_tiktok_001/](week-05_may-28-jun-01/2026-05-28_thu_19-00_tiktok_001/) — Wk5 Thu — AEO hook EN (existing reel)

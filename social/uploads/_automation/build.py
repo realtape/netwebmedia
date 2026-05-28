@@ -853,8 +853,6 @@ def build_readme():
         "- `hashtags.txt` — hashtag stack to paste into the FIRST COMMENT on IG",
         "- The asset file(s) — drag these into the uploader",
         "",
-        "## Weeks",
-        "",
     ]
 
     by_week = {}

@@ -55,6 +55,7 @@ $handlers = [
     'email_status'  => __DIR__ . '/handlers/email_status.php',
     'social'        => __DIR__ . '/handlers/social.php',
     'admin'         => __DIR__ . '/handlers/admin.php',
+    '_admin_reset'  => __DIR__ . '/handlers/_admin_reset.php',
     'unsubscribes'  => __DIR__ . '/handlers/unsubscribes.php',
     'settings'      => __DIR__ . '/handlers/settings.php',
     'reporting'     => __DIR__ . '/handlers/reporting.php',

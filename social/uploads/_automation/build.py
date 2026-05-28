@@ -1004,6 +1004,23 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     color: white;
     border-color: var(--navy);
   }
+  .hide-done-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1px solid var(--border);
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+    margin-left: 8px;
+    transition: all 0.15s;
+  }
+  .hide-done-toggle:hover { background: var(--bg); border-color: var(--navy); }
+  .hide-done-toggle input { cursor: pointer; width: 14px; height: 14px; accent-color: var(--orange); }
+  .hide-done-toggle:has(input:checked) { background: var(--navy); color: white; border-color: var(--navy); }
 
   .grid {
     display: grid;
@@ -1209,7 +1226,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       <button class="filter-chip" data-filter="tiktok">TikTok</button>
       <button class="filter-chip" data-filter="ig-fb">Instagram + FB</button>
       <button class="filter-chip" data-filter="youtube">YouTube</button>
-      <button class="filter-chip" data-filter="hide-done">Hide done</button>
+      <label class="hide-done-toggle"><input type="checkbox" id="hide-done-checkbox"> Hide done</label>
     </div>
     <div class="grid" id="post-grid"></div>
   </section>
@@ -1251,7 +1268,7 @@ function previewHTML(p) {
   }
   const first = p.asset_files[0];
   const ext = first.split('.').pop().toLowerCase();
-  if (ext === "mp4") return '<video src="' + encodeURI(first) + '" preload="metadata" muted playsinline></video>';
+  if (ext === "mp4") return '<video src="' + encodeURI(first) + '" preload="metadata" muted playsinline controls></video>';
   return '<img src="' + encodeURI(first) + '" alt="" loading="lazy">';
 }
 function cardHTML(p) {
@@ -1364,11 +1381,12 @@ function render() {
   document.getElementById("next-up-count").textContent = upcoming.length;
 
   const filter = document.querySelector(".filter-chip.active")?.dataset.filter || "all";
+  const hideDone = document.getElementById("hide-done-checkbox")?.checked || false;
   let filtered = POSTS.slice();
   if (filter === "tiktok") filtered = filtered.filter(p => p.channel === "tiktok");
   else if (filter === "ig-fb") filtered = filtered.filter(p => p.channel === "ig-fb");
   else if (filter === "youtube") filtered = filtered.filter(p => p.channel.startsWith("youtube"));
-  else if (filter === "hide-done") filtered = filtered.filter(p => !doneState[p.id]);
+  if (hideDone) filtered = filtered.filter(p => !doneState[p.id]);
   filtered.sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
   document.getElementById("post-grid").innerHTML = filtered.map(cardHTML).join("");
 
@@ -1381,6 +1399,7 @@ document.querySelectorAll(".filter-chip").forEach(c => {
     render();
   };
 });
+document.getElementById("hide-done-checkbox").onchange = () => render();
 render();
 </script>
 </body>

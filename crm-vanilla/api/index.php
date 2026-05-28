@@ -66,6 +66,7 @@ $handlers = [
     'import_clickers'     => __DIR__ . '/handlers/import_clickers.php',
     'gen_best_usa'           => __DIR__ . '/handlers/gen_best_usa.php',
     'filter_identifiable'    => __DIR__ . '/handlers/filter_identifiable.php',
+    'filter_reachable'       => __DIR__ . '/handlers/filter_reachable.php',
     'filter_marketing_ready' => __DIR__ . '/handlers/filter_marketing_ready.php',
     'domain_audit'           => __DIR__ . '/handlers/domain_audit.php',
     'realtime'               => __DIR__ . '/handlers/realtime.php',
@@ -93,7 +94,7 @@ if (!isset($handlers[$resource])) {
 
 // Public routes need no auth. All others run the payment gate:
 // demo/guest users (no PHP session) pass through; pending_payment users get HTTP 402.
-$public_routes = ['auth', 'password_reset', 'track', 'intake', 'leads', 'analyze', 'proposal', 'import_best', 'import_clickers', 'filter_identifiable', 'filter_marketing_ready', 'domain_audit', 'dedupe', 'cron_workflows', 'fb_publish', 'tt_publish', 'export_bird', 'bulk_import_osm', 'purge_role_emails'];
+$public_routes = ['auth', 'password_reset', 'track', 'intake', 'leads', 'analyze', 'proposal', 'import_best', 'import_clickers', 'filter_identifiable', 'filter_reachable', 'filter_marketing_ready', 'domain_audit', 'dedupe', 'cron_workflows', 'fb_publish', 'tt_publish', 'export_bird', 'bulk_import_osm', 'purge_role_emails'];
 if (!in_array($resource, $public_routes, true)) {
     require_once __DIR__ . '/lib/guard.php';
     require_guard();

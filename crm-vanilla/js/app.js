@@ -16,7 +16,7 @@
       roles: { demo: "Demo", guest: "Guest", admin: "Admin", user: "User", client: "Client" },
       search: "Search contacts...",
       filters: { all: "All", customer: "Customers", prospect: "Prospects", lead: "Leads", churned: "Churned" },
-      cols: { name: "Name", company: "Company", region: "Region", status: "Status", value: "Value", last_contact: "Last Contact", audit: "Audit" },
+      cols: { name: "Name", email: "Email", phone: "Phone", company: "Company", region: "Region", status: "Status", value: "Value", last_contact: "Last Contact", audit: "Audit" },
       syncHubspot: "Sync HubSpot", syncing: "Syncing…",
       upgrade: {
         title: "Upgrade to Access ",
@@ -253,7 +253,7 @@
       roles: { demo: "Demo", guest: "Invitado", admin: "Administrador", user: "Usuario", client: "Cliente" },
       search: "Buscar contactos...",
       filters: { all: "Todos", customer: "Clientes", prospect: "Prospectos", lead: "Leads", churned: "Bajas" },
-      cols: { name: "Nombre", company: "Empresa", region: "Región", status: "Estado", value: "Valor", last_contact: "Último Contacto", audit: "Auditoría" },
+      cols: { name: "Nombre", email: "Email", phone: "Teléfono", company: "Empresa", region: "Región", status: "Estado", value: "Valor", last_contact: "Último Contacto", audit: "Auditoría" },
       syncHubspot: "Sincronizar HubSpot", syncing: "Sincronizando…",
       upgrade: {
         title: "Actualiza para acceder a ",

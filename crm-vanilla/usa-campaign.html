@@ -149,12 +149,12 @@
   <script src="js/app.js?v=11"></script>
   <script>
     /* USA Campaign tracking dashboard.
-     * Polls /crm-vanilla/api/usa_stats.php every 30s.
+     * Polls /crm/api/usa_stats.php every 30s.
      */
     (function () {
       const STATS_URL = (location.hostname === 'app.netwebmedia.com')
-        ? '/crm-vanilla/api/usa_stats.php'
-        : 'https://netwebmedia.com/crm-vanilla/api/usa_stats.php';
+        ? '/crm/api/usa_stats.php'
+        : 'https://netwebmedia.com/crm/api/usa_stats.php';
       const POLL_MS = 30000;
 
       function fmtTime(iso) {

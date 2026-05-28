@@ -26,8 +26,8 @@ The migrations are NOT auto-applied on deploy. Carlos triggers them by hand.
 Verify the FTP deploy of the two new SQL files completed:
 
 ```bash
-curl -fsS "https://netwebmedia.com/crm-vanilla/api/schema_organizations.sql" | head -5
-curl -fsS "https://netwebmedia.com/crm-vanilla/api/schema_organizations_migrate.sql" | head -5
+curl -fsS "https://netwebmedia.com/crm/api/schema_organizations.sql" | head -5
+curl -fsS "https://netwebmedia.com/crm/api/schema_organizations_migrate.sql" | head -5
 ```
 
 Both should return SQL, not 404.
@@ -36,7 +36,7 @@ Both should return SQL, not 404.
 
 ```bash
 curl -X POST \
-  "https://netwebmedia.com/crm-vanilla/api/?r=migrate&token=<MIGRATE_TOKEN from config.local.php>&schema=organizations" \
+  "https://netwebmedia.com/crm/api/?r=migrate&token=<MIGRATE_TOKEN from config.local.php>&schema=organizations" \
   -H "Origin: https://netwebmedia.com"
 ```
 
@@ -50,7 +50,7 @@ Expected response: `{"schema":"organizations","ran":N,"skipped":0,"errors":[]}`
 
 ```bash
 curl -X POST \
-  "https://netwebmedia.com/crm-vanilla/api/?r=migrate&token=<MIGRATE_TOKEN from config.local.php>&schema=organizations_migrate" \
+  "https://netwebmedia.com/crm/api/?r=migrate&token=<MIGRATE_TOKEN from config.local.php>&schema=organizations_migrate" \
   -H "Origin: https://netwebmedia.com"
 ```
 
@@ -82,7 +82,7 @@ UNION ALL SELECT 'leads',           COUNT(*), SUM(organization_id IS NULL) FROM 
 ```bash
 # After logging into the CRM (so the session cookie is set), this must list at
 # least the master org with you as owner:
-curl -b cookies.txt "https://netwebmedia.com/crm-vanilla/api/?r=organizations"
+curl -b cookies.txt "https://netwebmedia.com/crm/api/?r=organizations"
 ```
 
 ---

@@ -1,6 +1,6 @@
 /* NetWebMedia CRM service worker — handles web push notifications.
-   Must be served from the CRM root with scope "/crm-vanilla/" or "/" depending
-   on deployment. The widget registers it from /crm-vanilla/sw.js.
+   Must be served from the CRM root with scope "/crm/" or "/" depending
+   on deployment. The widget registers it from /crm/sw.js.
 */
 self.addEventListener('install', function (event) {
   self.skipWaiting();

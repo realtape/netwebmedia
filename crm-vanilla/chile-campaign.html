@@ -152,16 +152,16 @@
   <script src="js/app.js?v=11"></script>
   <script>
     /* Chile Campaign tracking dashboard.
-     * Polls /crm-vanilla/api/chile_stats.php every 30s. The page is read-only
+     * Polls /crm/api/chile_stats.php every 30s. The page is read-only
      * — all sends are triggered separately via the api-php chile-send endpoint
      * (token-protected). This dashboard is for visibility only.
      */
     (function () {
-      // Use the absolute /crm-vanilla/ path to bypass the /api/ → api-php
+      // Use the absolute /crm/ path to bypass the /api/ → api-php
       // bridge .htaccess that intercepts the bare /api/* path.
       const STATS_URL = (location.hostname === 'app.netwebmedia.com')
-        ? '/crm-vanilla/api/chile_stats.php'
-        : 'https://netwebmedia.com/crm-vanilla/api/chile_stats.php';
+        ? '/crm/api/chile_stats.php'
+        : 'https://netwebmedia.com/crm/api/chile_stats.php';
       const POLL_MS   = 30000;
 
       function fmtTime(iso) {

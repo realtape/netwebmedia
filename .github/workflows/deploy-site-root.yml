@@ -616,10 +616,10 @@ jobs:
                 -H "Accept: application/json,text/plain,*/*" \
                 -H "Accept-Language: en-US,en;q=0.9" \
                 -H "Origin: https://netwebmedia.com" \
-                -H "Referer: https://netwebmedia.com/crm-vanilla/" \
+                -H "Referer: https://netwebmedia.com/crm/" \
                 -H "Content-Type: application/json" \
                 -X POST -d '{}' \
-                "https://netwebmedia.com/crm-vanilla/api/?r=migrate&token=${token}&schema=$schema")
+                "https://netwebmedia.com/crm/api/?r=migrate&token=${token}&schema=$schema")
               echo "  $schema → $resp"
               echo "$resp" | grep -q '"ran"' || { echo "Migration $schema did not return expected JSON"; exit 1; }
             done
@@ -638,12 +638,12 @@ jobs:
             -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
             -H "Accept: application/json,text/plain,*/*"
             -H "Origin: https://netwebmedia.com"
-            -H "Referer: https://netwebmedia.com/crm-vanilla/"
+            -H "Referer: https://netwebmedia.com/crm/"
           )
           for country in chile usa; do
             echo "Importing $country contacts..."
             resp=$(curl -sS --max-time 300 "${hdrs[@]}" \
-              "https://netwebmedia.com/crm-vanilla/api/?r=import_best&token=${token}&country=${country}" || true)
+              "https://netwebmedia.com/crm/api/?r=import_best&token=${token}&country=${country}" || true)
             echo "  $country → $resp"
           done
           echo "Contact seed step complete"

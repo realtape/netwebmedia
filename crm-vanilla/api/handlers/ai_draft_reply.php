@@ -7,7 +7,7 @@
  * The workflow step in PR 3 is the only writer to conversation_drafts.
  *
  * Smoke test (admin token required):
- *   curl -X POST 'https://netwebmedia.com/crm-vanilla/api/?r=ai_draft_reply&action=draft' \
+ *   curl -X POST 'https://netwebmedia.com/crm/api/?r=ai_draft_reply&action=draft' \
  *        -H 'Content-Type: application/json' \
  *        -H 'Origin: https://netwebmedia.com' \
  *        -H 'X-Auth-Token: <admin token>' \

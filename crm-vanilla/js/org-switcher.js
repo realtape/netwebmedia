@@ -178,7 +178,7 @@
 
     if (state.isMasterOwner) {
       html += '<div class="nwm-org-divider"></div>';
-      html += '<div class="nwm-org-foot"><a href="/crm-vanilla/subaccounts.html">Manage sub-accounts →</a></div>';
+      html += '<div class="nwm-org-foot"><a href="/crm/subaccounts.html">Manage sub-accounts →</a></div>';
     }
     html += '</div></div>';
 

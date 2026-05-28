@@ -1,11 +1,11 @@
 <?php
 /**
  * Reports handler — CRUD for reports stored in CRM
- * Routes: GET /crm-vanilla/api/?r=reports (list/search)
- *         GET /crm-vanilla/api/?r=reports&id=123 (fetch one)
- *         POST /crm-vanilla/api/?r=reports (create/upsert)
- *         PUT /crm-vanilla/api/?r=reports&id=123 (update)
- *         DELETE /crm-vanilla/api/?r=reports&id=123 (archive)
+ * Routes: GET /crm/api/?r=reports (list/search)
+ *         GET /crm/api/?r=reports&id=123 (fetch one)
+ *         POST /crm/api/?r=reports (create/upsert)
+ *         PUT /crm/api/?r=reports&id=123 (update)
+ *         DELETE /crm/api/?r=reports&id=123 (archive)
  */
 
 require_once __DIR__ . '/../config.php';

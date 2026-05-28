@@ -2,7 +2,7 @@
 /**
  * Chat Widget Backend
  *
- * POST /crm-vanilla/api/webhook_chat.php
+ * POST /crm/api/webhook_chat.php
  * Body (JSON): { session_id, name?, email?, message }
  *
  * Returns JSON: { reply, conversation_id, message_id }

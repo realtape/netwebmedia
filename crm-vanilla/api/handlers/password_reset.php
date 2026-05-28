@@ -42,8 +42,8 @@ $db->exec("CREATE TABLE IF NOT EXISTS password_resets (
 
 $TTL_MINUTES = 60;
 
-/* Same-origin guard. Legit calls originate from /crm-vanilla/login.html and
-   /crm-vanilla/reset-password.html (both ALLOWED_ORIGIN). GET validate is exempt
+/* Same-origin guard. Legit calls originate from /crm/login.html and
+   /crm/reset-password.html (both ALLOWED_ORIGIN). GET validate is exempt
    (it's a harmless read hit directly from the emailed link's landing page). */
 function pr_same_origin_or_fail(): void {
     $expected = strtolower(rtrim(ALLOWED_ORIGIN, '/'));
@@ -132,7 +132,7 @@ if ($action === 'request' && $method === 'POST') {
         $ins = $db->prepare("INSERT INTO password_resets (user_id, email, token_hash, expires_at, ip) VALUES (?, ?, ?, (NOW() + INTERVAL $ttl MINUTE), ?)");
         $ins->execute([(int)$user['id'], $user['email'], $tokenHash, pr_client_ip()]);
 
-        $resetUrl = rtrim(ALLOWED_ORIGIN, '/') . '/crm-vanilla/reset-password.html?token=' . $rawToken;
+        $resetUrl = rtrim(ALLOWED_ORIGIN, '/') . '/crm/reset-password.html?token=' . $rawToken;
         try {
             mailSend([
                 'to'         => $user['email'],

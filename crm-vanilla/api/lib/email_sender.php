@@ -41,7 +41,7 @@ function buildContactVars(array $contact, string $siteBase, string $token): arra
     $niche   = $meta['niche']   ?? $contact['role'] ?? '';
     $slug    = $meta['page']    ?? '';
     $pageUrl = $slug ? ($siteBase . '/' . ltrim($slug, '/')) : $siteBase;
-    $unsubBase = $siteBase . '/crm-vanilla/api/?r=track&a=unsub&t=';
+    $unsubBase = $siteBase . '/crm/api/?r=track&a=unsub&t=';
     return [
         'name'            => $contact['name'] ?? '',
         'first_name'      => strtok($contact['name'] ?? 'there', ' '),
@@ -395,7 +395,7 @@ function sesSend(array $opts): array {
 // ── Tracking instrumentation ──────────────────────────────────────────────────
 
 function instrumentTracking(string $html, string $siteBase, string $token): string {
-    $base = $siteBase . '/crm-vanilla/api/?r=track';
+    $base = $siteBase . '/crm/api/?r=track';
     // Rewrite links for click tracking
     $html = preg_replace_callback(
         '#<a\s+([^>]*?)href=(["\'])([^"\']+)\2([^>]*)>#i',

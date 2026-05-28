@@ -143,6 +143,13 @@ Options -Indexes
   RewriteRule ^audit/?$ /audit.php [L,QSA]
   RewriteRule ^audit/([a-f0-9]{12,32})/?$ /audit.php?t=$1 [L,QSA]
 
+  # Canonical CRM URL flipped to /crm/ on 2026-05-28. Old /crm-vanilla/X →
+  # 301 → /crm/X. THE_REQUEST is the original HTTP request line, so internal
+  # rewrites from /crm/* to /crm-vanilla/* (below) do NOT re-trigger this 301
+  # — only direct external hits to /crm-vanilla/ are redirected.
+  RewriteCond %{THE_REQUEST} \s/crm-vanilla/([^\s]*)\s [NC]
+  RewriteRule ^crm-vanilla/(.*)$ /crm/$1 [R=301,L]
+
   # Skip rewrite if already inside /industries/, /crm-vanilla/, /companies/ or
   # on specific PHP endpoints to prevent loops from the host-based rewrites
   # below (each internal rewrite re-enters the rewrite engine; without this
@@ -175,7 +182,10 @@ Options -Indexes
   # Separate PHP sessions from app.netwebmedia.com — no shared auth.
   RewriteCond %{HTTP_HOST} ^admin\.netwebmedia\.com$ [NC]
   RewriteRule ^(.*)$ /superadmin/$1 [L]
-  # app.netwebmedia.com → the CRM app (/crm-vanilla/)
+  # app.netwebmedia.com → the CRM app. Files live at /crm-vanilla/; the
+  # public canonical URL on the apex is /crm/ (see 301 block above). This
+  # internal rewrite targets the file path directly — no need to go through
+  # the /crm/ hop.
   RewriteCond %{HTTP_HOST} ^app\.netwebmedia\.com$ [NC]
   RewriteRule ^(.*)$ /crm-vanilla/$1 [L]
   # companies.netwebmedia.com → prospect directory (/companies/)
@@ -375,12 +385,14 @@ Options -Indexes
 # surface) keep working because the RewriteCond checks for file/dir
 # existence first.
 #
-# /crm/* legacy-path handling (added 2026-05-01): there is no /crm/ dir
-# in production — the real CRM lives at /crm-vanilla/. Many links across
-# the site (and tutorial deep-links) point to /crm/<page>. We:
-#   1) Bare /crm/ or /crm → 301 to /crm-vanilla/
-#   2) /crm/<path> where /crm-vanilla/<path> exists → 301 to the real file
-#      (covers /crm/contacts.html, /crm/css/app.css used by /cms/, etc.)
+# /crm/ canonical handling (flipped 2026-05-28): the public canonical CRM
+# URL on the apex is /crm/. Files physically live at /crm-vanilla/ on disk.
+# We:
+#   1) Bare /crm (no slash) → 301 to /crm/ (canonical trailing slash)
+#   2) /crm/<path> where /crm-vanilla/<path> exists → internal rewrite to
+#      /crm-vanilla/<path>. URL stays at /crm/ (no R flag). The skip block
+#      at the top of this file catches the rewritten /crm-vanilla/ URI and
+#      stops further rewriting, so Apache serves the file from disk.
 #   3) /crm/<anything else> → soft-fallback to /app/coming-soon.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -388,15 +400,16 @@ Options -Indexes
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^app/.+$ /app/coming-soon.html [L]
 
-  # 1) Bare /crm/ → /crm-vanilla/
-  RewriteRule ^crm/?$ /crm-vanilla/ [R=301,L]
+  # 1) Bare /crm → /crm/ (canonical trailing slash)
+  RewriteRule ^crm$ /crm/ [R=301,L]
 
-  # 2) /crm/<path> → /crm-vanilla/<path> when the file exists in crm-vanilla
+  # 2) /crm/<path> → internal rewrite to crm-vanilla/<path> when file exists.
+  #    Empty path (bare /crm/) also matches and rewrites to /crm-vanilla/.
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{DOCUMENT_ROOT}/crm-vanilla/$1 -f [OR]
   RewriteCond %{DOCUMENT_ROOT}/crm-vanilla/$1 -d
-  RewriteRule ^crm/(.+)$ /crm-vanilla/$1 [R=301,L]
+  RewriteRule ^crm/(.*)$ /crm-vanilla/$1 [L]
 
   # 3) Any other /crm/<slug> (extensionless or .html) → coming-soon
   RewriteCond %{REQUEST_FILENAME} !-f

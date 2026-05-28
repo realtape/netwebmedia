@@ -4,7 +4,7 @@
  *
  * Called every 5 min by cPanel:
  *   curl -s -A "Mozilla/5.0" \
- *     "https://netwebmedia.com/crm-vanilla/api/?r=cron_workflows&token=<MIGRATE_TOKEN>"
+ *     "https://netwebmedia.com/crm/api/?r=cron_workflows&token=<MIGRATE_TOKEN>"
  *
  * MIGRATE_TOKEN is defined in config.local.php (generated from GitHub Secrets
  * SECRET_MIGRATE_TOKEN). Same token used by the migrate endpoint.

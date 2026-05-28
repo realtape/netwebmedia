@@ -7,9 +7,9 @@
  * Fires:  wf_trigger('deal_stage', ['stage' => 'Qualified']) per new deal so the
  *         workflow chain (SL-03 proposal prep, SL-09 high-value escalation, etc.) runs.
  *
- * GET /crm-vanilla/api/?r=import_clickers&token=NWM_IMPORT_CHILE_2026
+ * GET /crm/api/?r=import_clickers&token=NWM_IMPORT_CHILE_2026
  *   →  apply (insert + fire workflows). Returns summary JSON.
- * GET /crm-vanilla/api/?r=import_clickers&token=NWM_IMPORT_CHILE_2026&dry=1
+ * GET /crm/api/?r=import_clickers&token=NWM_IMPORT_CHILE_2026&dry=1
  *   →  preview. No DB writes, no workflow triggers.
  *
  * Idempotent — safe to re-run. Skips contacts that already exist (by email)

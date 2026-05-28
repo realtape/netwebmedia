@@ -2,32 +2,32 @@
 """
 index_social_assets.py — NetWebMedia social asset indexer.
 
-Walks every known location that holds social media assets (slides, photos,
-videos, captions, content plans) and writes a single auto-generated markdown
-register to the Obsidian vault under `Brand/Social Asset Register.md`.
+Walks every known location that holds social media assets and writes a single
+auto-generated markdown register to the Obsidian vault under
+`Brand/Social Asset Register.md`.
 
-Locations are spread across three mounted roots:
-  - REPO_ROOT   = C:\\Users\\Usuario\\Desktop\\NetWebMedia
-  - VAULT_ROOT  = D:\\Usuario\\Documents\\Obsidian Vault
-  - NWM_ROOT    = D:\\Usuario\\Downloads\\NWM\\NWM
+Roots (Windows defaults):
+  REPO_ROOT   = C:\\Users\\Usuario\\Desktop\\NetWebMedia
+  VAULT_ROOT  = D:\\Usuario\\Documents\\Obsidian Vault
+  NWM_ROOT    = D:\\Usuario\\Downloads\\NWM\\NWM
 
-Override any root via CLI flag if running from a different mount (e.g. the
-session sandbox uses /sessions/<id>/mnt/...).
+Override via CLI when running from a different mount. Whatever mount you
+invoke from, the register always renders `file:///` links pointing back to
+the Windows paths so they stay clickable in Obsidian on Carlos's machine.
 
 Design rules
 ------------
 - Idempotent: re-running overwrites the register, never appends.
 - No deletes, no file moves — read-only scan.
-- Output is markdown only — no JSON, no DB. Source of truth is the filesystem.
-- Counts are by file extension family (image / vector / video / audio / doc).
-- Each location section lists subfolders + top 5 most-recent files.
+- Markdown output only — source of truth is the filesystem.
 - Per-location include filters keep noisy folders (like _deploy/) on-topic.
+- All paths in the output are clickable file:/// links.
 
 Usage
 -----
     python scripts/index_social_assets.py
     python scripts/index_social_assets.py --repo-root /path --vault-root /path --nwm-root /path
-    python scripts/index_social_assets.py --dry-run     # print to stdout, do not write
+    python scripts/index_social_assets.py --dry-run
 """
 
 from __future__ import annotations
@@ -35,6 +35,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import os
+import urllib.parse
 from pathlib import Path
 from typing import Iterable, Optional
 
@@ -45,16 +46,16 @@ DEFAULT_REPO_ROOT = r"C:\Users\Usuario\Desktop\NetWebMedia"
 DEFAULT_VAULT_ROOT = r"D:\Usuario\Documents\Obsidian Vault"
 DEFAULT_NWM_ROOT = r"D:\Usuario\Downloads\NWM\NWM"
 
+# Display roots — always emitted in the register so links stay clickable on
+# Carlos's Windows machine even if the script was run from a Linux sandbox.
+DISPLAY_ROOTS = {
+    "repo":  r"C:\Users\Usuario\Desktop\NetWebMedia",
+    "vault": r"D:\Usuario\Documents\Obsidian Vault",
+    "nwm":   r"D:\Usuario\Downloads\NWM\NWM",
+}
+
 REGISTER_RELATIVE = Path("Brand") / "Social Asset Register.md"
 
-# ---------------------------------------------------------------------------
-# Location catalog — edit this list when new asset folders appear.
-# Each entry: (root_key, relative_path, label, category, filter_dict)
-# filter_dict optional keys:
-#   - name_contains: list[str] (case-insensitive substring match on filename)
-#   - extensions:    list[str] (".md", ".png", etc.)
-# Empty dict = include everything.
-# ---------------------------------------------------------------------------
 LOCATIONS = [
     ("repo", "assets/social",                            "Brand marks & profile assets",     "Brand",     {}),
     ("repo", "assets/social/carousels",                  "IG brand-intro carousels (a/b/c)", "Carousels", {}),
@@ -86,6 +87,30 @@ ASSET_EXTS = {
 }
 
 SKIP_DIRS = {"node_modules", ".git", ".venv", "__pycache__", "_backup", "dist"}
+
+
+# ---------------------------------------------------------------------------
+# Path / link helpers
+# ---------------------------------------------------------------------------
+def windows_path(root_key: str, rel: str = "") -> str:
+    """Display path on Carlos's Windows machine (always backslash)."""
+    base = DISPLAY_ROOTS[root_key]
+    if not rel:
+        return base
+    sub = rel.replace("/", "\\")
+    return f"{base}\\{sub}"
+
+
+def file_url(root_key: str, rel: str = "") -> str:
+    """Build a file:/// URL for the Windows display path."""
+    win = windows_path(root_key, rel)
+    forward = win.replace("\\", "/")
+    encoded = urllib.parse.quote(forward, safe="/:")
+    return f"file:///{encoded}"
+
+
+def link(label: str, root_key: str, rel: str = "") -> str:
+    return f"[{label}]({file_url(root_key, rel)})"
 
 
 def _classify(ext: str) -> str:
@@ -171,7 +196,7 @@ def _scan_location(root: Path, rel: str, flt: Optional[dict] = None) -> dict:
     out["recent"] = [
         {
             "name": p.name,
-            "rel": str(p.relative_to(full)) if full in p.parents or p == full else p.name,
+            "rel": str(p.relative_to(full)).replace("\\", "/") if (full in p.parents or p == full) else p.name,
             "size": sz,
             "mtime": dt.datetime.fromtimestamp(mt).strftime("%Y-%m-%d %H:%M"),
         }
@@ -180,7 +205,7 @@ def _scan_location(root: Path, rel: str, flt: Optional[dict] = None) -> dict:
     return out
 
 
-def render_register(roots: dict, scans: list) -> str:
+def render_register(scans: list) -> str:
     now = dt.datetime.now().strftime("%Y-%m-%d %H:%M")
     total_files = sum(s["total_files"] for _, s in scans)
     total_bytes = sum(s["total_bytes"] for _, s in scans)
@@ -195,7 +220,7 @@ def render_register(roots: dict, scans: list) -> str:
     L.append("# Social Asset Register (auto-generated)")
     L.append("")
     L.append("> Do not hand-edit. Re-run `python scripts/index_social_assets.py` to refresh. "
-             "Curated context lives in [[Social Media Asset Library]].")
+             "Curated context lives in [[Social Media Asset Library]]. **All paths are clickable.**")
     L.append("")
     L.append("## Summary / Resumen")
     L.append("")
@@ -204,21 +229,22 @@ def render_register(roots: dict, scans: list) -> str:
     L.append(f"- **Total size:** {_human_size(total_bytes)}")
     L.append(f"- **Generated:** {now}")
     L.append("")
-    L.append("**Roots:**")
-    for k, v in roots.items():
-        L.append(f"- `{k}` -> `{v}`")
+    L.append("**Roots (clickable):**")
+    for k in ("repo", "vault", "nwm"):
+        L.append(f"- `{k}` -> {link(DISPLAY_ROOTS[k], k)}")
     L.append("")
 
     L.append("## Inventory by location")
     L.append("")
-    L.append("| # | Location | Label | Category | Files | Size |")
-    L.append("|---|---|---|---|---:|---:|")
+    L.append("| # | Root | Path (clickable) | Label | Category | Files | Size |")
+    L.append("|---|---|---|---|---|---:|---:|")
     for i, (entry, scan) in enumerate(scans, start=1):
         root_key, rel, label, category, _flt = entry
+        path_link = link(rel + "/", root_key, rel)
         if not scan["exists"]:
-            L.append(f"| {i} | `{root_key}:{rel}` | {label} | {category} | _missing_ | - |")
+            L.append(f"| {i} | `{root_key}` | {path_link} | {label} | {category} | _missing_ | - |")
             continue
-        L.append(f"| {i} | `{root_key}:{rel}` | {label} | {category} | "
+        L.append(f"| {i} | `{root_key}` | {path_link} | {label} | {category} | "
                  f"{scan['total_files']:,} | {_human_size(scan['total_bytes'])} |")
     L.append("")
 
@@ -229,7 +255,7 @@ def render_register(roots: dict, scans: list) -> str:
         L.append(f"### {i}. {label}")
         L.append("")
         L.append(f"- **Root:** `{root_key}`")
-        L.append(f"- **Path:** `{scan['path']}`")
+        L.append(f"- **Path:** {link(windows_path(root_key, rel), root_key, rel)}")
         L.append(f"- **Category:** {category}")
         if not scan["exists"]:
             L.append("- **Status:** path not found on this machine")
@@ -240,13 +266,19 @@ def render_register(roots: dict, scans: list) -> str:
             bc = ", ".join(f"{k}: {v}" for k, v in sorted(scan["by_category"].items(), key=lambda x: -x[1]))
             L.append(f"- **By type:** {bc}")
         if scan["subfolders"]:
-            sub = ", ".join(f"`{s}`" for s in scan["subfolders"][:20])
+            sub_links = []
+            for s in scan["subfolders"][:20]:
+                sub_rel = f"{rel}/{s}"
+                sub_links.append(link(s, root_key, sub_rel))
+            sub = ", ".join(sub_links)
             more = "" if len(scan["subfolders"]) <= 20 else f" (+{len(scan['subfolders']) - 20} more)"
             L.append(f"- **Subfolders:** {sub}{more}")
         if scan["recent"]:
             L.append("- **Most recent 5:**")
             for r in scan["recent"]:
-                L.append(f"  - `{r['rel']}` - {_human_size(r['size'])} - {r['mtime']}")
+                file_rel = f"{rel}/{r['rel']}"
+                file_link = link(r["rel"], root_key, file_rel)
+                L.append(f"  - {file_link} - {_human_size(r['size'])} - {r['mtime']}")
         L.append("")
 
     L.append("---")
@@ -277,7 +309,7 @@ def main() -> int:
         root = roots[root_key]
         scans.append((entry, _scan_location(root, rel, flt)))
 
-    md = render_register(roots, scans)
+    md = render_register(scans)
 
     if args.dry_run:
         print(md)

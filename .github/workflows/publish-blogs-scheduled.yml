@@ -1,9 +1,16 @@
 name: Publish Blog Posts (Scheduled)
 
-# Runs every hour from 11:00–20:00 UTC = 7 AM–4 PM Santiago (UTC-4)
-# 1 post per run × 10 runs = 10 posts/day
-# Posts are read from _deploy/posts-queue/*.json (pre-written queue)
-# After publishing, blog/*.html + blog.html + sitemap.xml are committed, which triggers deploy-site-root.yml
+# Runs every hour from 11:00–20:00 UTC = 7 AM–4 PM Santiago (UTC-4).
+# Cron schedules 10 windows/day, but GitHub Actions typically delivers
+# only 3–4 of them due to scheduling throttle on busy queues. To hit the
+# ~15 posts/day programmatic target, we publish 4 posts per fire:
+#   3 fires × 4 posts = 12/day (floor)
+#   4 fires × 4 posts = 16/day (target)
+#   5 fires × 4 posts = 20/day (ceiling on a good queue day)
+# Posts are read from _deploy/posts-queue/*.json (pre-written queue;
+# generate-blog-queue.yml refills it weekly ~140/run).
+# After publishing, blog/*.html + blog.html + sitemap.xml are committed,
+# which triggers deploy-site-root.yml.
 
 on:
   schedule:
@@ -11,8 +18,8 @@ on:
   workflow_dispatch:
     inputs:
       limit:
-        description: 'Number of posts to publish (default: 1)'
-        default: '1'
+        description: 'Number of posts to publish (default: 4)'
+        default: '4'
         required: false
 
 jobs:
@@ -20,6 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write   # needed to gh-workflow-run deploy-site-root after pushing
     steps:
       - uses: actions/checkout@v6.0.2
         with:
@@ -40,7 +48,7 @@ jobs:
         id: generate
         if: steps.queue.outputs.pending != '0'
         run: |
-          LIMIT="${{ github.event.inputs.limit || '1' }}"
+          LIMIT="${{ github.event.inputs.limit || '4' }}"
           node _deploy/generate-blogs.js --limit "$LIMIT"
           COUNT=$(git status --porcelain | wc -l)
           echo "changed=$COUNT" >> "$GITHUB_OUTPUT"
@@ -74,6 +82,20 @@ jobs:
           done
           echo "::error::Failed to push after 5 attempts"
           exit 1
+
+      - name: Trigger deploy-site-root
+        # Pushes made with GITHUB_TOKEN do NOT trigger other workflows on push
+        # (GitHub Actions security guard against recursive workflows). Without
+        # this step, blog HTML lands in git but never reaches InMotion until
+        # the next human commit. Verified 2026-05-28: a freshly-published post
+        # was 404 on production. We work around by explicitly dispatching
+        # deploy-site-root.yml from within this job.
+        if: steps.generate.outputs.changed != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run deploy-site-root.yml --ref main
+          echo "Dispatched deploy-site-root.yml — auto-publish HTML will reach InMotion."
 
       - name: No posts in queue
         if: steps.queue.outputs.pending == '0'

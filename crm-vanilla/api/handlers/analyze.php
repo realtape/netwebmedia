@@ -91,9 +91,9 @@ $asyncScripts = $xp->query('//script[@src][@async or @defer]')->length;
 $perfMark($scripts === 0 || $asyncScripts / max($scripts, 1) > 0.5,
     "Async/defer scripts: $asyncScripts / $scripts",
     "Only $asyncScripts of $scripts scripts async/deferred", 8);
-$gzip = strpos(strtolower($info['content_type'] ?? ''), 'gzip') !== false;
-$perfMark(true, "HTTPS: " . ($info['scheme'] === 'https' ? 'yes' : 'no'),
-    "Not served over HTTPS", 10);
+// HTTPS check — actually condition on the URL scheme rather than asserting true.
+$isHttps = (strpos($url, 'https://') === 0) || (($info['scheme'] ?? '') === 'https');
+$perfMark($isHttps, "Served over HTTPS", "Not served over HTTPS", 10);
 $perfMark($imgCount < 30, "$imgCount images on page", "$imgCount images — consider consolidation", 5);
 
 // --- Accessibility checks ---

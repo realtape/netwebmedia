@@ -1175,24 +1175,30 @@ function recommendServices(rep, findings) {
     push('cms_website', 'Too many compounding issues — a clean rebuild is faster than patching.');
   }
 
-  // Healthy site → upsell to advisory + growth services
-  if (recs.length === 0) {
-    push('fractional_cmo', 'Site fundamentals are solid — the next lever is strategy + demand generation.');
-    push('paid_ads', 'A healthy site is the right time to compound traffic with paid acquisition.');
-    push('voice_agent', '24/7 inbound coverage so no lead falls through.');
-  }
-
-  // Always offer the Starter as an entry point
-  if (recs.length < 4 && !recs.find(r => r.tier === 'starter')) {
-    push('aeo_pulse', 'Entry-point — software + 48-hour written audit for the lowest-friction start.');
-  }
-
+  // Only recommend services that map to a real finding. If the site is healthy,
+  // return an empty list — the UI will render an honest "no priority services
+  // recommended" state instead of manufacturing upsells.
   return recs.slice(0, 4);
 }
 
 function renderServiceRecommendations(rep, findings) {
   const recs = recommendServices(rep, findings);
   rep.recommendations_services = recs;
+  const url = (rep.audit?.final_url || rep.audit?.url || '').replace(/^https?:\/\//,'').replace(/\/$/,'');
+  const client = rep.client || 'this site';
+
+  if (recs.length === 0) {
+    // Honest empty state — no manufactured upsells when the diagnostic finds
+    // nothing to fix. The CTA row below still links to pricing for browsing.
+    $('svcGrid').innerHTML = `
+      <div class="svc-card" style="grid-column: 1 / -1; text-align: center; padding: 28px;">
+        <div class="svc-name" style="font-size: 16px; margin-bottom: 6px;">No priority services flagged</div>
+        <div class="svc-why" style="font-size: 13px;">The diagnostic didn't surface a fix that warrants a specific service recommendation. Browse the full catalog if you'd like to discuss strategy or growth.</div>
+      </div>`;
+    $('svcPitch').textContent = `${url || client} cleared every signal the diagnostic checks. No priority service is flagged from this audit alone — talk to us if you want to discuss strategy or demand generation.`;
+    return;
+  }
+
   const html = recs.map(r => `
     <div class="svc-card">
       <div class="svc-icon">${r.icon}</div>
@@ -1205,9 +1211,6 @@ function renderServiceRecommendations(rep, findings) {
     </div>
   `).join('');
   $('svcGrid').innerHTML = html;
-  // Tailor the pitch
-  const url = (rep.audit?.final_url || rep.audit?.url || '').replace(/^https?:\/\//,'').replace(/\/$/,'');
-  const client = rep.client || 'this site';
   $('svcPitch').textContent = `Based on what we found at ${url || client}, here's where we can move the needle fastest — ${recs.length} priority service${recs.length === 1 ? '' : 's'}, mapped to the tier that includes them.`;
 }
 
@@ -1358,7 +1361,7 @@ function buildPdfPrintable(rep) {
         </div>
       </div>
 
-      <div class="footer-note">netwebmedia.com · audits@netwebmedia.com · WhatsApp +1 (442) 385-4585 · Voice +1 (760) 334-8731</div>
+      <div class="footer-note">netwebmedia.com · hello@netwebmedia.com · WhatsApp +1 (442) 385-4585 · Voice +1 (760) 334-8731</div>
     </div>
 
     <!-- PAGE 2: At a glance + Services -->
@@ -1395,7 +1398,7 @@ function buildPdfPrintable(rep) {
 
       <div class="pdf-foot">
         <h3>Ready to move on <span class="o">this</span>?</h3>
-        <p>NetWebMedia is a fractional AI CMO for service businesses. We bundle strategy, execution, and reporting into one monthly retainer — and we guarantee qualified leads in 30 days or your first month is refunded.</p>
+        <p>NetWebMedia is a fractional AI CMO for service businesses. We bundle strategy, execution, and reporting into one monthly retainer. Founding Clients receive a written 30-day qualified-lead guarantee — see pricing.html for terms.</p>
         <div class="ctas">
           <div><b>Pricing:</b> netwebmedia.com/pricing.html</div>
           <div><b>Book a call:</b> netwebmedia.com/contact.html</div>

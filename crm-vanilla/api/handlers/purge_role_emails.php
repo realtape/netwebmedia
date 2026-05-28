@@ -78,24 +78,18 @@ if ($action === 'purge' && $method === 'POST') {
     ]);
 }
 
-if ($action === 'top_prefixes' && $method === 'GET') {
-    $min = max(2, (int)($_GET['min'] ?? 1000));
-    $stmt = $db->prepare("
-        SELECT LOWER(SUBSTRING_INDEX(email,'@',1)) AS lp, COUNT(*) AS c
-        FROM contacts
-        WHERE email LIKE '%@%'" . $andOw . "
-        GROUP BY lp
-        HAVING c >= ?
-        ORDER BY c DESC
-        LIMIT 200
-    ");
-    $stmt->execute(array_merge($owp, [$min]));
-    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    jsonResponse([
-        'min_count' => $min,
-        'returned'  => count($rows),
-        'prefixes'  => array_map(fn($r) => ['local_part' => $r['lp'], 'count' => (int)$r['c']], $rows),
-    ]);
-}
+// Legacy 'Chat Visitor' shells: rows the old webhook_chat.php created when a
+// visitor opened the chat widget without supplying an email. Pre-2026-05-28
+// upstream fix. Unlink conversations first so ON DELETE CASCADE doesn't wipe
+// chat history.
+$cvWhere  = "name = 'Chat Visitor' AND (email IS NULL OR email = '')" . $andOw;
 
-jsonError('Unknown action. Use action=count|top_prefixes (GET) or action=purge&confirm=1 (POST)', 400);
+if ($action === 'chat_visitor_count' && $method === 'GET') {
+    $count = (int)$run("SELECT COUNT(*) FROM contacts WHERE $cvWhere", $owp)->fetchColumn();
+    $linkedConvs = (int)$run("
+        SELECT COUNT(*) FROM conversations
+        WHERE contact_id IN (SELECT id FROM contacts WHERE $cvWhere)
+    ", $owp)->fetchColumn();
+    jsonResponse([
+        'chat_visitor_contacts' => $count,
+        'linked_conversations'  => $link

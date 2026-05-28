@@ -2,6 +2,7 @@
 - [No Shannon / DYADlaw context](feedback_no_shannon_dyadlaw.md) — Carlos does NOT work with Shannon, Tammy, or DYADlaw; never use that profile, attorney-review cadence, or 2-3 blog posts/month target for NWM work
 - [main history rewrite 2026-05-19](project_main_history_rewrite_2026_05_19.md) — origin/main force-pushed clean + daemon redesigned (never touches main); Computer 2 retired so no re-clone needed
 - [Meta automation guard](feedback_meta_automation_guard.md) — don't auto-retry Meta IG-connect/publish in browser; it temp-restricted @netwebmedia (2026-05-25); let Carlos do connect/publish clicks, prefer ig_publish.php API
+- [No HeyGen posts without ask](feedback_no_post_without_ask_heygen.md) — Never publish/share/export-to-social from HeyGen without explicit confirmation; rendering & review is fine
 - [NWM Chrome only](feedback_nwm_chrome_only.md) — Chrome MCP must operate on the "NWM" browser/profile only; verify with list/switch before acting, never touch personal-profile tabs
 - [Social publishing blockers 2026-05](project_social_publishing_blockers_2026_05.md) — carousel d deployed+verified; live IG post blocked on: IG not linked to FB Page (needs Professional acct + manual connect), IG creds unset, FB Page token broken
 - [Fractional CMO page retirement](reference_fractional_cmo_retirement.md) — root /fractional-cmo.html RETIRED (301→pricing.html, don't restore); /tutorials/fractional-cmo.html is a LIVE tutorial — never let an .htaccess FilesMatch deny catch it by filename

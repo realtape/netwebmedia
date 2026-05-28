@@ -7,7 +7,27 @@
   var currentFilter = 'all';
   var currentSegment = 'all';
   var currentQuality = 'all';
+  var currentNiche = 'all';
+  var currentState = 'all';
   var searchTerm = '';
+
+  // 14-niche taxonomy — hard constraint, never extend
+  var NICHE_LABELS = {
+    tourism: 'Tourism / Hospitality',
+    restaurants: 'Restaurants',
+    health: 'Health',
+    beauty: 'Beauty',
+    smb: 'SMB',
+    law_firms: 'Law Firms',
+    real_estate: 'Real Estate',
+    local_specialist: 'Local Specialist',
+    automotive: 'Automotive',
+    education: 'Education',
+    events_weddings: 'Events & Weddings',
+    financial_services: 'Financial Services',
+    home_services: 'Home Services',
+    wine_agriculture: 'Wine & Agriculture'
+  };
 
   var FREE_EMAIL_DOMAINS = {
     'gmail.com':1,'yahoo.com':1,'hotmail.com':1,'outlook.com':1,'aol.com':1,
@@ -76,6 +96,12 @@
     return CITY_TO_REGION[city] || '—';
   }
 
+  function nicheOf(c) {
+    var meta = {};
+    if (c && c.notes) { try { meta = JSON.parse(c.notes); } catch (e) {} }
+    return (meta.niche || meta.vertical || '').toString().toLowerCase().trim();
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     if (window.CRM_APP && CRM_APP.buildHeader) {
       var T = (CRM_APP.t || function(k){return k;});
@@ -84,6 +110,7 @@
       CRM_APP.buildHeader(title, '<button class="btn btn-primary" id="addBtn">' + addLabel + '</button>');
     }
     injectSortCSS();
+    injectFilterCSS();
     bindEvents();
     loadContacts();
     // Auto-refresh every 15 min — matches the import sync cycle
@@ -105,6 +132,22 @@
     document.head.appendChild(s);
   }
 
+  function injectFilterCSS() {
+    if (document.getElementById('contactsFilterCSS')) return;
+    var s = document.createElement('style'); s.id = 'contactsFilterCSS';
+    s.textContent =
+      ".filter-select{background:rgba(255,255,255,.06);color:inherit;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 28px 6px 12px;font:inherit;font-size:13px;cursor:pointer;-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23FF671F' stroke-width='3'><polyline points='6 9 12 15 18 9'/></svg>\");background-repeat:no-repeat;background-position:right 8px center;max-width:200px}" +
+      ".filter-select:hover{border-color:#FF671F}" +
+      ".filter-select:focus{outline:none;border-color:#FF671F;box-shadow:0 0 0 2px rgba(255,103,31,.25)}" +
+      ".filter-select option{background:#010F3B;color:#fff}" +
+      ".active-filter-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,103,31,.12);border:1px solid rgba(255,103,31,.35);color:#FF671F;padding:4px 10px;border-radius:999px;font:600 12px Inter,system-ui,sans-serif}" +
+      ".active-filter-pill .pill-x{background:transparent;border:0;color:#FF671F;cursor:pointer;font-size:16px;line-height:1;padding:0 0 0 2px;font-weight:700}" +
+      ".active-filter-pill .pill-x:hover{color:#fff}" +
+      ".active-filter-pills .clear-all-link{background:transparent;border:0;color:#FF671F;font:600 12px Inter,system-ui,sans-serif;cursor:pointer;padding:4px 8px;text-decoration:underline;margin-left:auto}" +
+      ".active-filter-pills .clear-all-link:hover{color:#fff}";
+    document.head.appendChild(s);
+  }
+
   function loadContacts() {
     var tbody = document.getElementById('contactsTableBody');
     if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#888">Loading…</td></tr>';
@@ -115,8 +158,12 @@
       var rows = Array.isArray(resp) ? resp : (resp.data || []);
       serverTotal = (resp.total != null) ? resp.total : rows.length;
       contacts = rows;
-      // Pre-compute region on each contact for sort speed
-      for (var i = 0; i < contacts.length; i++) contacts[i].__region = regionOf(contacts[i]);
+      // Pre-compute region + niche on each contact for sort/filter speed
+      for (var i = 0; i < contacts.length; i++) {
+        contacts[i].__region = regionOf(contacts[i]);
+        contacts[i].__niche = nicheOf(contacts[i]);
+      }
+      populateStateFilter();
       page = 0;
       render();
     }).catch(function (e) {
@@ -187,6 +234,134 @@
     if (defaultSegment) defaultSegment.classList.add('active');
     var defaultQuality = document.querySelector('.filter-btn[data-quality="all"]');
     if (defaultQuality) defaultQuality.classList.add('active');
+
+    // Niche + State dropdowns
+    var nicheSel = document.getElementById('nicheFilter');
+    if (nicheSel) nicheSel.addEventListener('change', function () {
+      currentNiche = this.value;
+      page = 0;
+      render();
+    });
+
+    var stateSel = document.getElementById('stateFilter');
+    if (stateSel) stateSel.addEventListener('change', function () {
+      currentState = this.value;
+      page = 0;
+      render();
+    });
+
+    // Clear-all button
+    var clearBtn = document.getElementById('clearFilters');
+    if (clearBtn) clearBtn.addEventListener('click', resetAllFilters);
+  }
+
+  function populateStateFilter() {
+    var sel = document.getElementById('stateFilter');
+    if (!sel) return;
+    var prior = sel.value;
+    var seen = {};
+    var regions = [];
+    for (var i = 0; i < contacts.length; i++) {
+      var r = contacts[i].__region;
+      if (r && r !== '—' && !seen[r]) { seen[r] = 1; regions.push(r); }
+    }
+    regions.sort(function (a, b) { return a.toLowerCase().localeCompare(b.toLowerCase()); });
+    var html = '<option value="all">📍 All regions</option>';
+    for (var j = 0; j < regions.length; j++) html += '<option value="' + esc(regions[j]) + '">' + esc(regions[j]) + '</option>';
+    sel.innerHTML = html;
+    if (prior && (prior === 'all' || seen[prior])) sel.value = prior;
+    else { sel.value = 'all'; currentState = 'all'; }
+  }
+
+  function renderActiveFilters() {
+    var wrap = document.getElementById('activeFilterPills');
+    if (!wrap) return;
+    var pills = [];
+    if (currentFilter !== 'all') {
+      var fLabels = { customer: 'Customers', prospect: 'Prospects', lead: 'Leads', churned: 'Churned' };
+      pills.push({ key: 'status', label: 'Status: ' + (fLabels[currentFilter] || currentFilter) });
+    }
+    if (currentSegment !== 'all') {
+      var segLabels = { usa: '🇺🇸 USA', chile: '🇨🇱 Chile', usa_best_30k: '⭐ Best 30k' };
+      pills.push({ key: 'segment', label: segLabels[currentSegment] || currentSegment });
+    }
+    if (currentQuality !== 'all') {
+      var qLabels = { identifiable: '🏢 Identifiable Biz', email_ready: '✉️ Email-Ready', whatsapp_ready: '💬 WhatsApp-Ready' };
+      pills.push({ key: 'quality', label: qLabels[currentQuality] || currentQuality });
+    }
+    if (currentNiche !== 'all') pills.push({ key: 'niche', label: '🎯 ' + (NICHE_LABELS[currentNiche] || currentNiche) });
+    if (currentState !== 'all') pills.push({ key: 'state', label: '📍 ' + currentState });
+    if (searchTerm) pills.push({ key: 'search', label: '🔍 ' + searchTerm });
+
+    if (!pills.length) { wrap.style.display = 'none'; wrap.innerHTML = ''; return; }
+    wrap.style.display = 'flex';
+    var html = '';
+    for (var i = 0; i < pills.length; i++) {
+      html += '<span class="active-filter-pill" data-key="' + esc(pills[i].key) + '">' + esc(pills[i].label)
+           +  ' <button class="pill-x" data-key="' + esc(pills[i].key) + '" title="Remove">×</button></span>';
+    }
+    html += '<button class="clear-all-link" id="pillsClearAll" title="Clear all filters">Clear all</button>';
+    wrap.innerHTML = html;
+
+    var xs = wrap.querySelectorAll('.pill-x');
+    for (var k = 0; k < xs.length; k++) {
+      xs[k].addEventListener('click', function () { clearOneFilter(this.getAttribute('data-key')); });
+    }
+    var ca = document.getElementById('pillsClearAll');
+    if (ca) ca.addEventListener('click', resetAllFilters);
+  }
+
+  function clearOneFilter(key) {
+    if (key === 'status') {
+      currentFilter = 'all';
+      setActiveChip('filter', 'all');
+      page = 0; render();
+    } else if (key === 'segment') {
+      currentSegment = 'all';
+      setActiveChip('segment', 'all');
+      page = 0; loadContacts();
+    } else if (key === 'quality') {
+      currentQuality = 'all';
+      setActiveChip('quality', 'all');
+      page = 0; render();
+    } else if (key === 'niche') {
+      currentNiche = 'all';
+      var ns = document.getElementById('nicheFilter'); if (ns) ns.value = 'all';
+      page = 0; render();
+    } else if (key === 'state') {
+      currentState = 'all';
+      var ss = document.getElementById('stateFilter'); if (ss) ss.value = 'all';
+      page = 0; render();
+    } else if (key === 'search') {
+      searchTerm = '';
+      var si = document.getElementById('contactSearch'); if (si) si.value = '';
+      page = 0; render();
+    }
+  }
+
+  function setActiveChip(group, value) {
+    var btns = document.querySelectorAll('.filter-btn[data-' + group + ']');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].classList.toggle('active', btns[i].getAttribute('data-' + group) === value);
+    }
+  }
+
+  function resetAllFilters() {
+    var segmentChanged = currentSegment !== 'all';
+    currentFilter = 'all';
+    currentSegment = 'all';
+    currentQuality = 'all';
+    currentNiche = 'all';
+    currentState = 'all';
+    searchTerm = '';
+    var si = document.getElementById('contactSearch'); if (si) si.value = '';
+    setActiveChip('filter', 'all');
+    setActiveChip('segment', 'all');
+    setActiveChip('quality', 'all');
+    var ns = document.getElementById('nicheFilter'); if (ns) ns.value = 'all';
+    var ss = document.getElementById('stateFilter'); if (ss) ss.value = 'all';
+    page = 0;
+    if (segmentChanged) loadContacts(); else render();
   }
 
   function updateSortIndicators() {
@@ -220,6 +395,8 @@
         || (currentQuality === 'identifiable' && isIdentifiableBusiness(c))
         || (currentQuality === 'email_ready' && isEmailReady(c))
         || (currentQuality === 'whatsapp_ready' && isWhatsAppReady(c));
+      var mn = currentNiche === 'all' || (c.__niche === currentNiche);
+      var mr = currentState === 'all' || (c.__region === currentState);
       var s = searchTerm;
       var ms = !s
         || (c.name    && c.name.toLowerCase().indexOf(s) !== -1)
@@ -227,7 +404,7 @@
         || (c.email   && c.email.toLowerCase().indexOf(s) !== -1)
         || (c.role    && c.role.toLowerCase().indexOf(s) !== -1)
         || (c.__region && c.__region.toLowerCase().indexOf(s) !== -1);
-      return mf && mq && ms;
+      return mf && mq && mn && mr && ms;
     });
     list.sort(function (a, b) { return compareVal(a, b, sortKey); });
     return list;
@@ -237,6 +414,7 @@
     var tbody = document.getElementById('contactsTableBody');
     if (!tbody) return;
     updateSortIndicators();
+    renderActiveFilters();
     var list = filtered();
     var total = list.length;
     var start = page * PAGE_SIZE;

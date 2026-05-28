@@ -626,31 +626,36 @@ jobs:
           fi
           echo "Migrations complete"
 
-      - name: Run api-php DB migrations (main site users + resources)
+      - name: Ensure api-php admin accounts
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: |
-          # api-php/migrate.php is idempotent: schema is CREATE TABLE IF NOT EXISTS,
-          # user/CMS bulk-seed is gated on row count, and the "ensure extra admin"
-          # block uses upsert semantics. Safe to call on every deploy.
-          # Token = first 16 chars of JWT_SECRET (matches the check in migrate.php).
+          # Calls /api/auth/_ensure_admins — an idempotent endpoint that ensures
+          # the rows in $extra_admins exist with role=admin in webmed6_nwm.users.
+          # api-php/migrate.php has the equivalent block but sits behind the
+          # /api/ bridge router and is not URL-callable. The route is gated by
+          # the same first-16-chars-of-JWT_SECRET token used by migrate.php.
           if [ -z "$JWT_SECRET" ]; then
-            echo "JWT_SECRET unset — skipping api-php migrate"
+            echo "JWT_SECRET unset — skipping admin ensure"
             exit 0
           fi
           token="${JWT_SECRET:0:16}"
-          # Browser-style headers (mod_security on InMotion 406-blocks bare curl UAs).
+          # Header set matches the CRM migrate curl that works on InMotion
+          # (mod_security flags bare/lean curl calls — needs full browser-ish
+          # signature including Accept-Language + Content-Type + empty body).
           resp=$(curl -sS --max-time 60 \
             -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
-            -H "Accept: text/plain,*/*" \
+            -H "Accept: application/json,text/plain,*/*" \
+            -H "Accept-Language: en-US,en;q=0.9" \
             -H "Origin: https://netwebmedia.com" \
             -H "Referer: https://netwebmedia.com/" \
-            "https://netwebmedia.com/api/migrate.php?token=${token}")
-          echo "$resp" | head -80
-          # Sanity-check: the script should at least emit the schema header.
-          echo "$resp" | grep -q "Creating schema" || {
-            echo "::error::api-php migrate did not emit expected output"; exit 1;
+            -H "Content-Type: application/json" \
+            -X POST -d '{}' \
+            "https://netwebmedia.com/api/auth/ensure-admins?token=${token}")
+          echo "$resp"
+          echo "$resp" | grep -q '"ok":true' || {
+            echo "::error::admin-ensure did not return ok:true"; exit 1;
           }
 
       - name: Seed CRM contacts (Chile + USA)

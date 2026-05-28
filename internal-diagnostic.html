@@ -314,8 +314,26 @@
   .footer-actions .btn-pdf:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,103,31,.3); }
   .footer-actions .btn-pdf:disabled { opacity: .6; cursor: wait; }
 
-  /* ── PDF printable container (hidden on screen, used by html2pdf) ── */
-  #pdfPrintable { position: absolute; left: -10000px; top: 0; width: 794px; /* A4 width @ 96dpi */ background: #ffffff; color: #1a1a1a; font-family: 'Inter', sans-serif; padding: 0; }
+  /* ── PDF printable container ──
+     html2pdf clones the source element into a temporary container and
+     captures it with html2canvas. If the source has position:fixed or
+     position:absolute, the clone contributes zero to the container's
+     height → blank canvas. So the printable MUST stay in normal flow.
+     We hide it visually by wrapping it in a zero-size overflow:hidden
+     wrapper — the printable itself keeps its natural 794×N layout that
+     html2pdf needs to capture correctly. */
+  #pdfPrintableWrap {
+    position: absolute;
+    left: 0; top: 0;
+    width: 0; height: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  #pdfPrintable {
+    width: 794px;                /* A4 width @ 96dpi */
+    background: #ffffff; color: #1a1a1a;
+    font-family: 'Inter', sans-serif; padding: 0;
+  }
   #pdfPrintable * { box-sizing: border-box; }
   #pdfPrintable .pdf-page {
     width: 794px; min-height: 1100px; padding: 36px 44px; page-break-after: always; position: relative;
@@ -596,8 +614,12 @@
 
   </div>
 
-  <!-- Hidden printable container — populated at PDF render time -->
-  <div id="pdfPrintable" aria-hidden="true"></div>
+  <!-- Hidden printable container — populated at PDF render time.
+       Wrapped so its natural 794×3300 layout exists for html2pdf to
+       clone, but takes zero visual space on screen. -->
+  <div id="pdfPrintableWrap" aria-hidden="true">
+    <div id="pdfPrintable"></div>
+  </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -1208,11 +1230,15 @@ async function generatePDF(rep) {
       margin:       0,
       filename:     filename,
       image:        { type: 'jpeg', quality: 0.95 },
-      html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false, windowWidth: 794 },
+      html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false },
       jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
       pagebreak:    { mode: ['css', 'legacy'], avoid: ['.pdf-svc', '.pdf-find', '.pdf-tk'] },
     };
 
+    // The printable lives inside a zero-size overflow:hidden wrapper, so it
+    // has full 794×N layout (for html2pdf's clone) without taking visual
+    // space. Just let layout settle one frame and capture.
+    await new Promise(r => requestAnimationFrame(() => setTimeout(r, 50)));
     await html2pdf().set(opt).from($('pdfPrintable')).save();
   } catch (e) {
     console.error('PDF build failed', e);

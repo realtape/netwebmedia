@@ -115,6 +115,13 @@ Three real tensions between PRD/GTM/ARCH that this plan resolves.
 
 **Resolution:** V1 ships per-tenant `sender_email` (already exists in `organizations`), but **the email is sent via NWM's SMTP infrastructure** — the tenant sees "from your-name@nwmos.com" or similar. *True* DKIM-signed per-tenant sending domains move to V1.1. Sofia revises the relevant landing-page claim to "white-labeled email sender" without implying full per-domain DKIM.
 
+### Tension F — White-glove cadence (NEW, resolved 2026-05-28)
+- Sofia's GTM.md proposed "weekly 30-min co-build call for 6 weeks" with the design partner.
+- Marcus's PRD assumed 8–12 hrs/week of Carlos availability for 12 weeks.
+- Carlos's call (2026-05-28): **ONE focused week of white-glove, not stretched out.**
+
+**Resolution:** Compress all white-glove into **W6 (Jul 6–12)** — Carlos blocks the full week for the design partner boot camp (provisioning, branding kit, OAuths, first agent runs, first workflow live, captured pain points). After W6, Isabel (customer-success agent) takes over as primary contact with async support. Carlos returns only for monthly 30-min QBRs. Sofia revises the DPA terms in W1 to remove the "weekly calls" promise and replace with "1 boot-camp week + dedicated CS afterward."
+
 ### Tension E — Sub-client portals (Marcus S3 / ARCH §2)
 - PRD says "light version (labels/tags)" in V1.
 - ARCH includes full `parent_org_id` schema but defers sub-brand at the brand level.
@@ -135,7 +142,7 @@ Three real tensions between PRD/GTM/ARCH that this plan resolves.
 | **W3** | Jun 15 – Jun 21 | Partner kickoff call; demo sandbox built | **Phase 2 — OS Shell + Branding:** `os/index.html`, widget grid, `branding.css` route, branding asset upload | Onboarding wizard wireframes → David | Phase 2 verification: two tenants, two brands, Lighthouse ≥ 90 |
 | **W4** | Jun 22 – Jun 28 | Case study template; demo video drafted | **Phase 3 — Connector layer:** Gmail + Calendar OAuth; encrypted token storage; (Slack stretch) | Skill catalog finalized (8 skills) | Phase 3 verification: end-to-end Gmail read + Calendar event create |
 | **W5** | Jun 29 – Jul 5 | One-pager final; pricing-page integration drafted | **Phase 4 — Agent orchestration:** `agent_run.php`, dispatcher, command bar, `run_agent` workflow step | Skill prompts authored (the 8) | Phase 4 verification: 3 agent invocations (Sonnet + Haiku + workflow); token cost tracked; budget enforcement works |
-| **W6** | Jul 6 – Jul 12 | `/os` landing page goes live indexed; demo CTA live; bug-bash week with partner | **Phase 5 — Billing + Onboarding polish:** Stripe webhook, onboarding wizard end-to-end; partner runs through real onboarding | NPS instrument added | Phase 5 verification: Stripe test → webhook → state machine works; partner completes onboarding in ≤60 min |
+| **W6** | Jul 6 – Jul 12 | `/os` landing page goes live indexed; demo CTA live | **Phase 5 — Billing + Onboarding polish:** Stripe webhook, onboarding wizard end-to-end | **Carlos's white-glove BOOT CAMP WEEK** — full availability for the design partner (branding kit, OAuths, first agent runs, first workflow live, captured pain points) | Phase 5 gate + partner completes full onboarding in the week; Isabel (CS) introduced as primary contact for W7+ |
 | **W7** | Jul 13 – Jul 19 | **Soft launch:** demo CTA live; case study draft from partner; first cold-outbound wave | Cross-tenant leak audit + integration test hardening | Open-question backlog reviewed | 2nd paying customer in pipeline |
 | **W8** | Jul 20 – Jul 26 | Case study published; AEO content cluster begins (3 posts) | V1.1 backlog refined | First PMF read | NPS ≥ 40 from partner; ≥1 paid (non-partner) customer |
 | **W9** | Jul 27 – Aug 2 | **Public launch:** email broadcast to ~700 contacts; podcast tour bookings begin | Production monitoring (latency, agent cost) | Stretch metrics tracked | 3 paying customers |
@@ -152,7 +159,7 @@ Three real tensions between PRD/GTM/ARCH that this plan resolves.
 | Product scope + open questions | Marcus (product-manager) | — | [PRD.md](./PRD.md) |
 | Positioning, ICP, pricing, demand-gen | Sofia (cmo) | Aria (content), Liam (meta-ops) | [GTM.md](./GTM.md) |
 | Architecture, build, deploy | David (engineering-lead) | — | [ARCHITECTURE.md](./ARCHITECTURE.md) |
-| Design partner relationship | Carlos (CEO) | Diego (sales) for qual; Isabel (CS) at month 1 | This doc + DPA |
+| Design partner relationship | Carlos (CEO) — **boot camp W6 only** | Diego (sales) for qualification; Isabel (CS) is primary contact W7+ with async support | This doc + DPA |
 | Sales close (V1 phase) | Carlos (CEO) | Diego for qualification only | — |
 | Analytics, KPI dashboards | Maya (data-analyst) | — | TBD — Maya designs in W6 |
 | Brand + visual assets | Rachel (creative-director) | — | One-pager owner |
@@ -177,19 +184,19 @@ Each engineering phase has a gate. No phase starts until the prior gate passes. 
 
 ---
 
-## 8. Open Questions Requiring Carlos's Decision
+## 8. Open Questions — RESOLVED 2026-05-28
 
-Five questions remain after reconciling Marcus's 7 against Sofia's and David's locked calls. Carlos to answer before W1 starts (next 72 hrs).
+All five questions answered. Carlos overrode the default on Q3 and Q4; accepted recommendations on Q1, Q2, Q5.
 
-1. **Domain strategy.** Vanity subdomains at `<agency>.netwebmedia.com` are free + instant (David's recommendation). Should NWM additionally register `agencyos.io` (or similar) as a dedicated TLD for the SKU? Affects branding perception but adds $12/yr + DNS work in W2. **Recommendation: skip — `.netwebmedia.com` is fine for V1; revisit at customer #20.**
+1. **Domain strategy.** ✅ **RESOLVED: skip `agencyos.io` — use `<agency>.netwebmedia.com` vanity subdomains for V1.** Revisit at customer #20.
 
-2. **`carlos-ceo-assistant` agent.** Marcus cut it from V1 as Carlos-personal. Should it be (a) cut entirely, (b) wired-but-default-off like the other 6 deferred, or (c) generalized to "Owner Assistant" and made default-on? Affects "12 named agents" GTM claim. **Recommendation: (b) — wire it as-is, off by default; ship "Owner Assistant" as a V1.1 generalization.**
+2. **`carlos-ceo-assistant` agent.** ✅ **RESOLVED: wire as-is, default-off.** Ship "Owner Assistant" generalization in V1.1.
 
-3. **Carlos's white-glove time commitment.** GTM assumes Carlos has 8–12 hrs/week to white-glove the design partner for 12 weeks. If not, the entire DP program slips. **Required confirmation, no recommendation.**
+3. **Carlos's white-glove time commitment.** ✅ **RESOLVED (override): ONE focused week of white-glove, not 8–12 hrs × 12 weeks.** Carlos blocks W6 (Jul 6–12) entirely for the design partner boot camp. After W6, Isabel (CS) takes over with async + monthly Carlos QBR. See §4 Tension F. Affects DPA terms (Sofia revises in W1), risk register R3, and §12 next steps.
 
-4. **The 10 warm-list names.** Sofia needs ≥10 named agency-owner targets in Carlos's network by EOD Friday May 30 (Pacific) to hit the June 12 partner-sign deadline. If Carlos can name 3 by tomorrow, plan is on track; if zero, outbound moves up to W0 and the timeline slips one week. **Required input, no recommendation.**
+4. **The 10 warm-list names.** ✅ **RESOLVED (override): Claude finds them.** Carlos delegated the sourcing to Claude via the sales-director agent (Diego). Diego mines the production CRM via Chrome MCP (NWM profile only), cross-references `_deploy/companies/` audit recipients, and enriches via `apollo:prospect` if CRM is thin. Output lands at `plans/nwm-os/warm-list.md`. Tracked as Task #6.
 
-5. **Single-SKU commitment.** Sofia is holding the line on $2,490 single SKU through PMF. If Carlos wants any kind of Starter tier sooner than Day-90, GTM has to revise pricing positioning and the demo script. **Recommendation: hold the line — one SKU through customer #10.**
+5. **Single-SKU commitment.** ✅ **RESOLVED: hold the line — $2,490 single SKU through customer #10.** Sofia owns the call.
 
 ---
 
@@ -201,7 +208,7 @@ The five top risks across PRD §9 and ARCH §13. Ranked by expected impact × li
 |---|---|---|---|---|---|
 | R1 | Cross-tenant data leak via missing `org_where()` on a new handler | Med | Critical | CI integration test in Phase 1 + PR checklist + `require_org_access_for_write()` hard rule | David |
 | R2 | Anthropic cost overrun by one tenant's heavy workflow | High | Med | Per-org `agent_token_budget_monthly` enforced in dispatcher; default ~2M tokens/mo; 402 on overrun | David |
-| R3 | Design partner churns at month 2 | Med | High | Weekly 30-min calls; discounted $1,245 lock for 12 mo; capture 3 "agent moments" on recorded calls (SM3) | Carlos |
+| R3 | Design partner churns post-boot-camp without weekly Carlos cadence | Med-High | High | Onboarding kit bulletproof in Phase 5 so partner is self-sufficient by end-of-W6; Isabel (CS agent) is primary contact W7+ with async support; monthly 30-min Carlos QBR; discounted $1,245/mo locked for 12 mo gives switching cost; capture 3 "agent moments" during W6 boot camp on recorded calls (SM3) | Isabel + Carlos |
 | R4 | Scope creep extends 5 weeks to 12+ | High | High | Marcus says no in writing weekly; new requests go to V1.1 backlog only; engineering sizes "small" requests in days | Marcus |
 | R5 | Custom-domain SSL + DNS support burden eats Carlos's time | High | Med | V1 defaults to vanity subdomain; custom domain is an explicit opt-in upgrade; document DNS clearly in onboarding | Carlos |
 
@@ -246,11 +253,11 @@ These are real product needs that V1 deliberately defers. Keeping them here so w
 
 ## 12. Next Steps (Immediate)
 
-**Carlos (today/tomorrow):**
-1. Read this V1-PLAN.md + skim DECISIONS.md
-2. Answer the 5 open questions in §8 — these unblock W1
-3. Name ≥3 warm-list agency-owner contacts (target ≥10 by EOD Friday May 30)
-4. Calendar block 8–12 hrs/week for design-partner white-glove (or push back if not realistic)
+**Carlos (resolved 2026-05-28):**
+1. ~~Read this V1-PLAN.md + skim DECISIONS.md~~ ✅
+2. ~~Answer the 5 open questions in §8~~ ✅ (Q1/Q2/Q5 accepted defaults; Q3/Q4 overridden — see §8)
+3. ~~Name ≥3 warm-list agency-owner contacts~~ → **delegated to Diego (sales-director); Task #6**
+4. ~~Calendar block 8–12 hrs/week × 12 weeks~~ → **revised: block ONE focused week, W6 (Jul 6–12), for the boot camp** — sync to Google Calendar as `NWM - OS - Design Partner Boot Camp`
 
 **Claude (after Carlos approves):**
 1. Build `plans/nwm-os/index.html` navigation hub

@@ -3,8 +3,10 @@
 **Owner:** Sofia (CMO)
 **Status:** V1 — locked for launch execution
 **Source decisions:** [DECISIONS.md](./DECISIONS.md)
-**Companion docs:** [PRD.md](./PRD.md) · [ARCHITECTURE.md](./ARCHITECTURE.md)
+**Companion docs:** [PRD.md](./PRD.md) · [ARCHITECTURE.md](./ARCHITECTURE.md) · [V1-PLAN.md](./V1-PLAN.md)
 **Date:** 2026-05-28
+
+> **🔄 REVISION REQUIRED — Sofia, W1 (Jun 1–7).** Carlos overrode the white-glove model on 2026-05-28: design partner gets ONE focused boot-camp week (W6, Jul 6–12) with Carlos full-time, not "weekly 30-min calls for 6 weeks." Update §4 (DPA terms), §6 (sales motion), §7 (launch sequence — partner kickoff compresses into W6 not spread W3–W5). Full context in [V1-PLAN.md §4 Tension F + §8 Q3](./V1-PLAN.md). The Isabel-as-primary-contact-W7+ pattern is now load-bearing for retention.
 
 This brief is opinionated. Carlos wants direction, not options. Every section below is a call, not a menu.
 

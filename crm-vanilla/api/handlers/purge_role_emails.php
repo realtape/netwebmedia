@@ -14,6 +14,11 @@
  *
  * POST ?r=purge_role_emails&token=NWM_FILTER_ID_2026&action=purge&confirm=1
  *      → { contacts_deleted, total_after, breakdown }
+ *
+ * Optional &prefixes=sales,info  — restricts the operation to a subset of the
+ * allowlist. Any value not in $ALLOWED_PREFIXES is silently dropped, so a
+ * token leak still cannot expand blast radius beyond the hardcoded list.
+ * Omit &prefixes= to keep the historic behaviour of "all known role prefixes".
  */
 
 require_once __DIR__ . '/../lib/tenancy.php';
@@ -22,7 +27,18 @@ $TOKEN = defined('FILTER_ID_TOKEN') ? FILTER_ID_TOKEN : 'NWM_FILTER_ID_2026';
 if (!hash_equals($TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 pin_org_to_master();
 
-$ROLE_PREFIXES = ['contact', 'contacto', 'admin', 'hello', 'team', 'info', 'office'];
+// Hardcoded allowlist. Token leak cannot expand this set.
+$ALLOWED_PREFIXES = ['contact', 'contacto', 'admin', 'hello', 'team', 'info', 'office', 'sales'];
+
+// Optional ?prefixes=sales,info — restrict to a subset of the allowlist.
+// Default (no param) = all of $ALLOWED_PREFIXES (preserves prior behavior).
+if (!empty($_GET['prefixes'])) {
+    $requested = array_filter(array_map('trim', explode(',', (string)$_GET['prefixes'])));
+    $ROLE_PREFIXES = array_values(array_intersect($requested, $ALLOWED_PREFIXES));
+    if (empty($ROLE_PREFIXES)) jsonError('No valid prefixes after intersection with allowlist', 400);
+} else {
+    $ROLE_PREFIXES = $ALLOWED_PREFIXES;
+}
 
 $action = (string)($_GET['action'] ?? 'count');
 $db     = getDB();

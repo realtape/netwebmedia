@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Auto-Login — NetWebMedia</title>
+<style>
+  body { font-family: 'Inter', -apple-system, Segoe UI, sans-serif; background: #010F3B; color: #fff; margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+  .card { max-width: 480px; padding: 32px; text-align: center; }
+  .spin { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-top-color: #FF671F; border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 16px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  h1 { font-size: 18px; margin-bottom: 8px; font-weight: 700; }
+  p { color: #C8D4E6; font-size: 13px; margin-bottom: 8px; }
+  .err { color: #F43F5E; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="spin"></div>
+  <h1 id="status">Authenticating…</h1>
+  <p id="detail">Verifying your session token.</p>
+</div>
+<script>
+(async function() {
+  // Token + next page come from the URL HASH (not query) — fragments are
+  // never sent to the server or stored in referrer headers. Safe-ish for
+  // one-shot session bootstrap.
+  // Format: /auto-login.html#t=<token>&next=/some-page.html
+  const hash = location.hash.replace(/^#/, '');
+  const params = new URLSearchParams(hash);
+  const token = params.get('t');
+  const next = params.get('next') || '/internal-diagnostic.html';
+
+  if (!token) {
+    document.getElementById('status').textContent = 'Missing token';
+    document.getElementById('status').classList.add('err');
+    document.getElementById('detail').textContent = 'Expected URL fragment: #t=<token>&next=/page.html';
+    return;
+  }
+
+  try {
+    const r = await fetch('/api/auth/me', { headers: { 'X-Auth-Token': token } });
+    if (!r.ok) throw new Error('Token rejected (HTTP ' + r.status + ')');
+    const data = await r.json();
+    const user = data.user || {};
+
+    localStorage.setItem('nwm_token', token);
+    localStorage.setItem('nwm_user', JSON.stringify(user));
+
+    document.getElementById('status').textContent = 'Signed in as ' + (user.email || 'admin');
+    document.getElementById('detail').textContent = 'Redirecting to ' + next + '…';
+    // Clear the hash from history so the token doesn't linger in the URL bar
+    history.replaceState(null, '', location.pathname);
+    setTimeout(() => { location.href = next; }, 600);
+  } catch (e) {
+    document.getElementById('status').textContent = 'Auth failed';
+    document.getElementById('status').classList.add('err');
+    document.getElementById('detail').textContent = e.message;
+  }
+})();
+</script>
+</body>
+</html>

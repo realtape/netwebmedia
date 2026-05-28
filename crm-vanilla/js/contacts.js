@@ -6,7 +6,7 @@
   var contacts = [];
   var currentFilter = 'all';
   var currentSegment = 'all';
-  var currentQuality = 'all';
+  var currentQuality = 'named'; // default hides chain-import junk (name === company, no email)
   var currentNiche = 'all';
   var currentState = 'all';
   var searchTerm = '';
@@ -40,6 +40,17 @@
     if (!email || email.indexOf('@') === -1) return false;
     var domain = email.split('@').pop();
     return !FREE_EMAIL_DOMAINS[domain];
+  }
+  // Real person + email — hides chain-import rows where name === company (e.g. "7-Eleven / 7-Eleven")
+  function isNamed(c) {
+    var name = (c.name || '').trim();
+    var email = (c.email || '').trim();
+    var company = (c.company || '').trim();
+    if (name.length < 2) return false;
+    if (!email || email.indexOf('@') === -1) return false;
+    if (name.toLowerCase() === company.toLowerCase()) return false;
+    if (!/\s/.test(name)) return false; // require firstname + lastname
+    return true;
   }
   function isEmailReady(c) {
     if (!isIdentifiableBusiness(c)) return false;
@@ -229,11 +240,10 @@
       if (e.target && e.target.id === 'addBtn') addContact();
     });
 
-    // Initialize default filter buttons as active
+    // Initialize default filter buttons as active (quality default is 'named' — set in HTML)
     var defaultSegment = document.querySelector('.filter-btn[data-segment="all"]');
     if (defaultSegment) defaultSegment.classList.add('active');
-    var defaultQuality = document.querySelector('.filter-btn[data-quality="all"]');
-    if (defaultQuality) defaultQuality.classList.add('active');
+    setActiveChip('quality', currentQuality);
 
     // Niche + State dropdowns
     var nicheSel = document.getElementById('nicheFilter');
@@ -286,7 +296,7 @@
       pills.push({ key: 'segment', label: segLabels[currentSegment] || currentSegment });
     }
     if (currentQuality !== 'all') {
-      var qLabels = { identifiable: '🏢 Identifiable Biz', email_ready: '✉️ Email-Ready', whatsapp_ready: '💬 WhatsApp-Ready' };
+      var qLabels = { named: '👤 Named', identifiable: '🏢 Identifiable Biz', email_ready: '✉️ Email-Ready', whatsapp_ready: '💬 WhatsApp-Ready' };
       pills.push({ key: 'quality', label: qLabels[currentQuality] || currentQuality });
     }
     if (currentNiche !== 'all') pills.push({ key: 'niche', label: '🎯 ' + (NICHE_LABELS[currentNiche] || currentNiche) });
@@ -392,6 +402,7 @@
     var list = contacts.filter(function (c) {
       var mf = currentFilter === 'all' || c.status === currentFilter;
       var mq = currentQuality === 'all'
+        || (currentQuality === 'named' && isNamed(c))
         || (currentQuality === 'identifiable' && isIdentifiableBusiness(c))
         || (currentQuality === 'email_ready' && isEmailReady(c))
         || (currentQuality === 'whatsapp_ready' && isWhatsAppReady(c));

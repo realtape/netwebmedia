@@ -131,13 +131,34 @@
       // Plan context from URL
       var params = new URLSearchParams(location.search);
       var plan = params.get('plan') || '';
+      var lang0 = params.get('lang') || 'en';
+      // Self-serve paid plans: after signup, go straight to Mercado Pago checkout.
+      // Slug (URL) → billing plan_code (api-php /api/billing/checkout).
+      var PAID_PLANS = {
+        'cmo-starter': { code: 'cmo_starter', label: 'AEO Starter', price: '$249/mo' }
+      };
+      var paid = PAID_PLANS[plan] || null;
+      // Set BOTH data-en/data-es attrs (and textContent for first paint). nwm-i18n.js
+      // re-applies data-en/data-es on load + lang switch, so attrs are what persists.
+      function setI18n(id, en, es) {
+        var el = document.getElementById(id); if (!el) return;
+        el.setAttribute('data-en', en); el.setAttribute('data-es', es);
+        el.textContent = (lang0 === 'es') ? es : en;
+      }
       if (plan === 'free') {
         document.getElementById('planBadge').style.display = 'inline-flex';
         document.getElementById('freePerks').style.display = 'block';
-        var lang = (new URLSearchParams(location.search)).get('lang') || 'en';
-        document.getElementById('pageTitle').textContent = lang === 'es' ? 'Comienza tu CRM gratuito' : 'Start your free CRM';
-        document.getElementById('pageSub').textContent = lang === 'es' ? 'Sin tarjeta de crédito. Funcionando en menos de 2 minutos.' : 'No credit card required. Up and running in under 2 minutes.';
-        document.getElementById('submitBtn').textContent = lang === 'es' ? 'Crear cuenta gratuita' : 'Create free account';
+        setI18n('pageTitle', 'Start your free CRM', 'Comienza tu CRM gratuito');
+        setI18n('pageSub', 'No credit card required. Up and running in under 2 minutes.', 'Sin tarjeta de crédito. Funcionando en menos de 2 minutos.');
+        setI18n('submitBtn', 'Create free account', 'Crear cuenta gratuita');
+      } else if (paid) {
+        document.getElementById('planBadge').style.display = 'inline-flex';
+        setI18n('planBadge', '✦ ' + paid.label + ' · ' + paid.price, '✦ ' + paid.label + ' · ' + paid.price);
+        setI18n('pageTitle', 'Create your account to continue', 'Crea tu cuenta para continuar');
+        setI18n('pageSub',
+          'Next step: secure checkout via Mercado Pago — ' + paid.label + ', ' + paid.price + '. Cancel anytime.',
+          'Siguiente paso: pago seguro vía Mercado Pago — ' + paid.label + ', ' + paid.price + '. Cancela cuando quieras.');
+        setI18n('submitBtn', 'Continue to secure checkout →', 'Continuar al pago seguro →');
       }
 
       var form = document.getElementById('registerForm');
@@ -163,6 +184,19 @@
         window.NWMApi.register(emailEl.value.trim(), passEl.value, nameEl.value.trim(), hp.value, plan || undefined)
           .then(function () {
             msg.className = 'msg ok';
+            if (paid) {
+              // Paid plan: open Mercado Pago checkout for the just-created account.
+              msg.textContent = lang === 'es' ? 'Cuenta creada — abriendo pago seguro…' : 'Account created — opening secure checkout…';
+              return window.NWMApi.billingCheckout(paid.code)
+                .then(function (r) {
+                  if (r && r.init_point) { location.href = r.init_point; }
+                  else { location.href = '/app/?billing=pending'; }
+                })
+                .catch(function () {
+                  // Account exists but checkout couldn't start — land in-app, don't strand them.
+                  location.href = '/app/?billing=error';
+                });
+            }
             msg.textContent = lang === 'es' ? 'Cuenta creada — redirigiendo…' : 'Account created — redirecting…';
             setTimeout(function () { location.href = '/app/'; }, 400);
           })

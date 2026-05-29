@@ -82,6 +82,14 @@
       return request('POST', '/auth/reset', { token: token, password: password }, { noRedirectOn401: true });
     },
 
+    // -- billing (self-serve checkout → Mercado Pago)
+    // Requires an authenticated session (call right after register/login).
+    // Returns { init_point } — the Mercado Pago checkout URL to redirect to.
+    billingCheckout: function (planCode, promoCode) {
+      return request('POST', '/billing/checkout', { plan_code: planCode, promo_code: promoCode || undefined });
+    },
+    billingPlans: function () { return request('GET', '/billing/plans', null, { noRedirectOn401: true }); },
+
     // -- generic resources
     list: function (type, params) { return request('GET', '/resources/' + encodeURIComponent(type) + qs(params)); },
     get:  function (type, id)     { return request('GET', '/resources/' + encodeURIComponent(type) + '/' + id); },

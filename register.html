@@ -132,12 +132,13 @@
       var params = new URLSearchParams(location.search);
       var plan = params.get('plan') || '';
       var lang0 = params.get('lang') || 'en';
-      // Self-serve paid plans: after signup, go straight to Mercado Pago checkout.
-      // Slug (URL) → billing plan_code (api-php /api/billing/checkout).
+      // Self-serve paid plans. The pricing-page CTA sends the billing code
+      // (cmo_starter); a direct link may use the slug (cmo-starter). Normalize to the code.
+      var planKey = (plan === 'free') ? 'free' : plan.replace(/-/g, '_');
       var PAID_PLANS = {
-        'cmo-starter': { code: 'cmo_starter', label: 'AEO Starter', price: '$249/mo' }
+        'cmo_starter': { code: 'cmo_starter', label: 'AEO Starter', price: '$249/mo' }
       };
-      var paid = PAID_PLANS[plan] || null;
+      var paid = PAID_PLANS[planKey] || null;
       // Set BOTH data-en/data-es attrs (and textContent for first paint). nwm-i18n.js
       // re-applies data-en/data-es on load + lang switch, so attrs are what persists.
       function setI18n(id, en, es) {
@@ -184,8 +185,18 @@
         window.NWMApi.register(emailEl.value.trim(), passEl.value, nameEl.value.trim(), hp.value, plan || undefined)
           .then(function () {
             msg.className = 'msg ok';
+            // Honor a same-site ?next= (the pricing-page flow returns to
+            // /pricing.html?checkout=… which fires checkout there). Guard against
+            // open redirects: must be a single-slash relative path.
+            var next = params.get('next') || '';
+            var safeNext = /^\/(?!\/)/.test(next) ? next : '';
+            if (safeNext) {
+              msg.textContent = lang === 'es' ? 'Cuenta creada — continuando…' : 'Account created — continuing…';
+              location.href = safeNext;
+              return;
+            }
             if (paid) {
-              // Paid plan: open Mercado Pago checkout for the just-created account.
+              // Direct paid entry (no next): open Mercado Pago checkout for the just-created account.
               msg.textContent = lang === 'es' ? 'Cuenta creada — abriendo pago seguro…' : 'Account created — opening secure checkout…';
               return window.NWMApi.billingCheckout(paid.code)
                 .then(function (r) {

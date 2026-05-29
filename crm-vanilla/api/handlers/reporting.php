@@ -125,15 +125,14 @@ $avgClickRate     = 0;
 $recentCampaigns  = [];
 
 try {
-    // Note: the legacy code referenced a 'campaigns' table; the actual table is
-    // 'email_campaigns'. Preserve the legacy try/catch behaviour but apply org
-    // scope where possible.
-    $campaignsTotal = (int)$run('SELECT COUNT(*) FROM campaigns' . $orgClauseW, $orgParams)->fetchColumn();
+    // The real table is 'email_campaigns' (the 'campaigns' name was legacy and
+    // never created — it counted 0 while /api/?r=campaigns reads email_campaigns).
+    $campaignsTotal = (int)$run('SELECT COUNT(*) FROM email_campaigns' . $orgClauseW, $orgParams)->fetchColumn();
 } catch (Exception $e) {}
 
 try {
-    $sql = 'SELECT name, sent_count, open_count, click_count
-            FROM campaigns';
+    $sql = 'SELECT name, sent_count, opened_count AS open_count, clicked_count AS click_count
+            FROM email_campaigns';
     if ($orgWhere) $sql .= ' WHERE ' . $orgWhere;
     $sql .= ' ORDER BY created_at DESC LIMIT 10';
     $stmt = $run($sql, $orgParams);

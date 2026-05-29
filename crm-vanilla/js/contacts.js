@@ -6,7 +6,7 @@
   var contacts = [];
   var currentFilter = 'all';
   var currentSegment = 'all';
-  var currentQuality = 'named'; // default hides chain-import junk (name === company, no email)
+  var currentQuality = 'all'; // show all contacts by default; the DB is now mostly business records (name === company), so a stricter default (e.g. 'named') renders an empty list. Users can still filter to Named/Identifiable/Email-Ready.
   var currentNiche = 'all';
   var currentState = 'all';
   var searchTerm = '';

@@ -372,6 +372,11 @@ input, select, textarea { font-family: inherit; }
 .stat-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow); }
 .stat-card-link { cursor: pointer; text-decoration: none; color: inherit; }
 .stat-card-link:hover .stat-value { color: var(--accent); }
+/* Clickable dashboard panel rows (deals / contacts / schedule) — drill into the record list */
+.dash-row-link { text-decoration: none; color: inherit; cursor: pointer; }
+.dash-row-link:hover .deal-title,
+.dash-row-link:hover .contact-name,
+.dash-row-link:hover .schedule-title { color: var(--accent); }
 .stat-header {
   display: flex;
   align-items: center;

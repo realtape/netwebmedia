@@ -10,6 +10,7 @@
   var activeTab    = 'student';
   var managingCourseId = null;
   var _isEs = false;
+  var _detailData = {};   // courseId -> {course, lessons, enrollment, _done}
 
   function cname(c)  { return (_isEs && c.name_es)    ? c.name_es    : (c.name    || ''); }
   function ctag(c)   { return (_isEs && c.tagline_es)  ? c.tagline_es : (c.tagline || ''); }
@@ -197,57 +198,131 @@
     }).catch(function(){ toast('Enroll failed',true); });
   }
 
+  function lname(l){ return (_isEs && l && l.title_es) ? l.title_es : ((l&&l.title)||''); }
+  function ldesc(l){ return (_isEs && l && l.description_es) ? l.description_es : ((l&&l.description)||''); }
+
+  function _wireModalDismiss(modal){
+    var x=modal.querySelector('.modal-close');
+    if (x) x.addEventListener('click',function(){ modal.style.display='none'; });
+    modal.onclick=function(e){ if(e.target===modal) modal.style.display='none'; };
+  }
+
+  function _detailHeaderHtml(course, color){
+    var dname=course?cname(course):'', dtag=course?ctag(course):'', h='';
+    if (course && course.cover_image) {
+      h+='<div class="modal-header" style="position:relative;padding:0;overflow:hidden;border-bottom:1px solid '+color+'33">';
+      h+='<img src="'+escHtml(course.cover_image)+'" style="width:100%;height:220px;object-fit:cover;display:block" />';
+      h+='<div style="position:absolute;bottom:0;left:0;right:0;padding:20px 24px;background:linear-gradient(transparent,rgba(0,0,0,0.82))">';
+      h+='<div style="font-size:32px;line-height:1;margin-bottom:8px">'+escHtml(course.icon||'')+'</div>';
+      h+='<h2 style="margin:0;color:#fff">'+escHtml(dname)+'</h2>';
+      h+='<p style="margin:4px 0 0;color:rgba(255,255,255,0.75);font-size:14px">'+escHtml(dtag)+'</p></div>';
+      h+='<button class="modal-close">&times;</button></div>';
+    } else {
+      h+='<div class="modal-header" style="background:linear-gradient(135deg,'+color+'22,'+color+'55);border-bottom:1px solid '+color+'33">';
+      h+='<div><div style="font-size:40px;line-height:1;margin-bottom:12px">'+escHtml((course&&course.icon)||'')+'</div>';
+      h+='<h2 style="margin:0;color:'+color+'">'+escHtml(dname)+'</h2>';
+      h+='<p style="margin:8px 0 0;color:var(--text-dim,#8b8fa3);font-size:14px">'+escHtml(dtag)+'</p></div>';
+      h+='<button class="modal-close">&times;</button></div>';
+    }
+    return h;
+  }
+
   function showCourseDetail(courseId, L) {
     api('GET','/courses/'+courseId).then(function(data){
-      var lessons=data.lessons||[], color=(data.course&&data.course.color)||'#6c5ce7', en=data.enrollment||userProgress[courseId];
-      var dname = data.course ? cname(data.course) : '';
-      var dtag  = data.course ? ctag(data.course)  : '';
-      var html='<div class="course-detail-modal" style="max-width:800px;margin:40px auto">';
-      if (data.course && data.course.cover_image) {
-        html+='<div class="modal-header" style="position:relative;padding:0;overflow:hidden;border-bottom:1px solid '+color+'33">';
-        html+='<img src="'+escHtml(data.course.cover_image)+'" style="width:100%;height:220px;object-fit:cover;display:block" />';
-        html+='<div style="position:absolute;bottom:0;left:0;right:0;padding:20px 24px;background:linear-gradient(transparent,rgba(0,0,0,0.82))">';
-        html+='<div style="font-size:32px;line-height:1;margin-bottom:8px">'+escHtml((data.course.icon)||'')+'</div>';
-        html+='<h2 style="margin:0;color:#fff">'+escHtml(dname)+'</h2>';
-        html+='<p style="margin:4px 0 0;color:rgba(255,255,255,0.75);font-size:14px">'+escHtml(dtag)+'</p></div>';
-        html+='<button class="modal-close">&times;</button></div>';
-      } else {
-        html+='<div class="modal-header" style="background:linear-gradient(135deg,'+color+'22,'+color+'55);border-bottom:1px solid '+color+'33">';
-        html+='<div><div style="font-size:40px;line-height:1;margin-bottom:12px">'+escHtml((data.course&&data.course.icon)||'')+'</div>';
-        html+='<h2 style="margin:0;color:'+color+'">'+escHtml(dname)+'</h2>';
-        html+='<p style="margin:8px 0 0;color:var(--text-dim,#8b8fa3);font-size:14px">'+escHtml(dtag)+'</p></div>';
-        html+='<button class="modal-close">&times;</button></div>';
-      }
-      html+='<div style="padding:28px">';
-      if (en) { var pct=Math.round(en.progress_percent||0); html+='<div class="progress-bar" style="height:8px;margin-bottom:12px"><div class="progress-fill" style="width:'+pct+'%;background:'+color+';height:100%"></div></div><p style="color:var(--text-dim,#8b8fa3);margin:0 0 20px;font-size:14px">'+pct+'% '+L.complete.toLowerCase()+'</p>'; }
-      html+='<h3 style="margin:0 0 16px;color:var(--text,#e4e7ec)">'+L.lessons+'</h3>';
-      if (!lessons.length) { html+='<div class="empty-state" style="padding:24px 0">No lessons available yet.</div>'; }
-      else { lessons.forEach(function(lesson){
-        html+='<div style="padding:12px;border:1px solid var(--border,#2a2d3a);border-radius:8px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:12px">';
-        html+='<div><div style="font-weight:600;color:var(--text,#e4e7ec)">'+escHtml(lesson.title)+'</div><div style="font-size:13px;color:var(--text-muted,#5a5e70);margin-top:4px">'+(lesson.duration_minutes||0)+' min - '+escHtml(lesson.type||'video')+'</div></div>';
-        if (en) html+='<button class="lesson-complete-btn" data-lesson-id="'+lesson.id+'" style="background:'+color+'">Mark Done</button>';
-        html+='</div>';
-      }); }
-      html+='</div></div>';
-      var modal=document.getElementById('courseDetail');
-      modal.innerHTML=html; modal.style.display='block';
-      modal.querySelector('.modal-close').addEventListener('click',function(){ modal.style.display='none'; });
-      modal.addEventListener('click',function(e){ if(e.target===modal) modal.style.display='none'; });
-      modal.querySelectorAll('.lesson-complete-btn').forEach(function(btn){
-        btn.addEventListener('click',function(){ markLessonComplete(courseId,parseInt(btn.getAttribute('data-lesson-id'),10),L); });
-      });
+      _detailData[courseId]=data;
+      renderCourseDetail(courseId, L);
     }).catch(function(){ toast('Failed to load course details',true); });
   }
 
-  function markLessonComplete(courseId, lessonId, L) {
+  function renderCourseDetail(courseId, L){
+    var data=_detailData[courseId]||{};
+    var lessons=data.lessons||[], color=(data.course&&data.course.color)||'#6c5ce7', en=data.enrollment||userProgress[courseId];
+    var done=data._done||{};
+    var html='<div class="course-detail-modal" style="max-width:800px;margin:40px auto">';
+    html+=_detailHeaderHtml(data.course, color);
+    html+='<div style="padding:28px">';
+    if (en) { var pct=Math.round(en.progress_percent||0); html+='<div class="progress-bar" style="height:8px;margin-bottom:12px"><div class="progress-fill" style="width:'+pct+'%;background:'+color+';height:100%"></div></div><p style="color:var(--text-dim,#8b8fa3);margin:0 0 20px;font-size:14px">'+pct+'% '+L.complete.toLowerCase()+'</p>'; }
+    html+='<h3 style="margin:0 0 16px;color:var(--text,#e4e7ec)">'+L.lessons+'</h3>';
+    if (!lessons.length) { html+='<div class="empty-state" style="padding:24px 0">'+(_isEs?'Aún no hay lecciones disponibles.':'No lessons available yet.')+'</div>'; }
+    else { lessons.forEach(function(lesson,i){
+      var isDone=!!done[lesson.id];
+      html+='<div class="cd-lesson" data-lesson-id="'+lesson.id+'">';
+      html+='<span class="cd-lesson-main"><span class="cd-lesson-num"'+(isDone?' data-done="1"':'')+'>'+(isDone?'✓':(i+1))+'</span>';
+      html+='<span class="cd-lesson-text"><span class="cd-lesson-title">'+escHtml(lname(lesson))+'</span><span class="cd-lesson-meta">'+(lesson.duration_minutes||0)+' min · '+escHtml(lesson.type||'text')+'</span></span></span>';
+      html+='<span class="cd-lesson-actions"><span class="cd-open-pill">'+(_isEs?'Abrir':'Open')+' ›</span>';
+      if (en) html+='<button class="lesson-complete-btn" data-lesson-id="'+lesson.id+'" style="background:'+color+'"'+(isDone?' disabled':'')+'>'+(isDone?(_isEs?'Hecho':'Done'):(_isEs?'Marcar':'Mark Done'))+'</button>';
+      html+='</span></div>';
+    }); }
+    html+='</div></div>';
+    var modal=document.getElementById('courseDetail');
+    modal.innerHTML=html; modal.style.display='block'; modal.scrollTop=0;
+    _wireModalDismiss(modal);
+    modal.querySelectorAll('.cd-lesson').forEach(function(row){
+      row.addEventListener('click',function(){ openLessonReader(courseId, parseInt(row.getAttribute('data-lesson-id'),10), L); });
+    });
+    modal.querySelectorAll('.lesson-complete-btn').forEach(function(btn){
+      btn.addEventListener('click',function(e){ e.stopPropagation(); markLessonComplete(courseId,parseInt(btn.getAttribute('data-lesson-id'),10),L); });
+    });
+  }
+
+  // Lesson body is admin-authored HTML (only admins can create/edit lessons),
+  // so it is rendered as markup, not escaped, the same way a CMS renders a post.
+  function lessonVideoHtml(url, color){
+    url=String(url||'').trim(); if(!url) return '';
+    var safe=escHtml(url);
+    if (/\.(mp4|webm|ogg)(\?|$)/i.test(url)) return '<video controls preload="metadata" style="width:100%;border-radius:10px;margin-bottom:18px;background:#000"><source src="'+safe+'"></video>';
+    return '<a href="'+safe+'" target="_blank" rel="noopener" class="lesson-complete-btn" style="display:inline-block;background:'+color+';margin-bottom:18px;text-decoration:none">▶ '+(_isEs?'Ver video':'Watch video')+'</a>';
+  }
+
+  function openLessonReader(courseId, lessonId, L){
+    var data=_detailData[courseId]||{}, lessons=data.lessons||[];
+    var idx=-1; for (var k=0;k<lessons.length;k++){ if (lessons[k].id===lessonId){ idx=k; break; } }
+    if (idx<0) return;
+    var lesson=lessons[idx], color=(data.course&&data.course.color)||'#6c5ce7', en=data.enrollment||userProgress[courseId];
+    var done=data._done||{};
+    var body=(lesson.content && String(lesson.content).trim()) ? lesson.content : (ldesc(lesson) ? '<p>'+escHtml(ldesc(lesson))+'</p>' : '');
+    var html='<div class="course-detail-modal lesson-reader" style="max-width:800px;margin:40px auto">';
+    html+='<div class="modal-header lesson-reader-header">';
+    html+='<div style="flex:1;min-width:0">';
+    html+='<button class="lr-back">‹ '+(_isEs?'Lecciones':'All lessons')+'</button>';
+    html+='<h2 style="margin:10px 0 0;color:var(--text,#e4e7ec)">'+escHtml(lname(lesson))+'</h2>';
+    html+='<p style="margin:6px 0 0;color:var(--text-dim,#8b8fa3);font-size:13px">'+(_isEs?'Lección':'Lesson')+' '+(idx+1)+' / '+lessons.length+' · '+(lesson.duration_minutes||0)+' min · '+escHtml(lesson.type||'text')+'</p>';
+    html+='</div><button class="modal-close">&times;</button></div>';
+    html+='<div style="padding:28px">';
+    html+=lessonVideoHtml(lesson.video_url, color);
+    html+='<div class="lesson-content">'+(body || ('<p class="empty-state" style="padding:24px 0">'+(_isEs?'Esta lección aún no tiene contenido.':'No content for this lesson yet.')+'</p>'))+'</div>';
+    html+='<div class="lr-nav">';
+    if (idx>0) html+='<button class="lr-prev" data-id="'+lessons[idx-1].id+'">‹ '+(_isEs?'Anterior':'Previous')+'</button>'; else html+='<span></span>';
+    if (en) html+='<button class="lr-complete lesson-complete-btn" data-lesson-id="'+lesson.id+'" style="background:'+color+'"'+(done[lesson.id]?' disabled':'')+'>'+(done[lesson.id]?(_isEs?'✓ Completada':'✓ Completed'):(_isEs?'Marcar completada':'Mark complete'))+'</button>';
+    if (idx<lessons.length-1) html+='<button class="lr-next" data-id="'+lessons[idx+1].id+'">'+(_isEs?'Siguiente':'Next')+' ›</button>'; else html+='<span></span>';
+    html+='</div></div></div>';
+    var modal=document.getElementById('courseDetail');
+    modal.innerHTML=html; modal.style.display='block'; modal.scrollTop=0;
+    _wireModalDismiss(modal);
+    var back=modal.querySelector('.lr-back'); if (back) back.addEventListener('click',function(){ renderCourseDetail(courseId,L); });
+    var prev=modal.querySelector('.lr-prev'); if (prev) prev.addEventListener('click',function(){ openLessonReader(courseId,parseInt(prev.getAttribute('data-id'),10),L); });
+    var next=modal.querySelector('.lr-next'); if (next) next.addEventListener('click',function(){ openLessonReader(courseId,parseInt(next.getAttribute('data-id'),10),L); });
+    var comp=modal.querySelector('.lr-complete'); if (comp) comp.addEventListener('click',function(){
+      markLessonComplete(courseId, lesson.id, L, function(){
+        if (idx<lessons.length-1) openLessonReader(courseId, lessons[idx+1].id, L);
+        else renderCourseDetail(courseId, L);
+      });
+    });
+  }
+
+  function markLessonComplete(courseId, lessonId, L, onDone) {
     api('POST','/courses/'+courseId+'/complete-lesson',{lesson_id:lessonId,time_spent_minutes:0}).then(function(resp){
       if (resp.progress_percent!==undefined) {
         if (!userProgress[courseId]) userProgress[courseId]={course_id:courseId};
         userProgress[courseId].progress_percent=resp.progress_percent;
-        showCourseDetail(courseId,L);
-        if (resp.course_complete) toast('Course completed!');
-      }
-    }).catch(function(e){ console.error('mark lesson failed:',e); });
+        if (_detailData[courseId]) {
+          if (_detailData[courseId].enrollment) _detailData[courseId].enrollment.progress_percent=resp.progress_percent;
+          (_detailData[courseId]._done=_detailData[courseId]._done||{})[lessonId]=true;
+        }
+        toast(resp.course_complete ? (_isEs?'¡Curso completado! 🎉':'Course completed! 🎉') : (_isEs?'Lección completada':'Lesson complete'));
+        if (typeof onDone==='function') onDone(resp); else renderCourseDetail(courseId,L);
+      } else { toast(resp.error || (_isEs?'No se pudo marcar':'Could not mark complete'), true); }
+    }).catch(function(e){ console.error('mark lesson failed:',e); toast(_isEs?'No se pudo marcar':'Could not mark complete', true); });
   }
 
   /* ── ADMIN ── */

@@ -304,7 +304,7 @@ function route_courses($parts, $method) {
 
       $lessonCond = $isAdmin ? '' : "AND status = 'published'";
       $lessons = qAll(
-        "SELECT id, order_index, title, description, duration_minutes, type, status, video_url
+        "SELECT id, order_index, title, title_es, description, description_es, content, duration_minutes, type, status, video_url
          FROM lessons WHERE course_id = ? $lessonCond ORDER BY order_index ASC",
         [$courseId]
       );

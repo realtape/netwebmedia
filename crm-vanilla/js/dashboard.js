@@ -161,25 +161,25 @@
     if (!container) return;
 
     var cards = [
-      { label: L.totalContacts, value: (s.totalContacts || 0).toLocaleString(), change: "+12%", icon: "contacts", positive: true },
-      { label: L.newLeads, value: s.newLeads || 0, change: "+8%", icon: "contacts", positive: true },
-      { label: L.activeDeals, value: s.activeDeals || 0, change: "+3", icon: "pipeline", positive: true },
-      { label: L.revenue, value: formatRevenue(s.revenue || 0), change: "+24%", icon: "dashboard", positive: true },
-      { label: L.conversion, value: (s.conversion || 0) + "%", change: "+5%", icon: "pipeline", positive: true },
-      { label: L.avgDeal, value: formatRevenue(s.avgDeal || 0), change: "-2%", icon: "dashboard", positive: false }
+      { label: L.totalContacts, value: (s.totalContacts || 0).toLocaleString(), change: "+12%", icon: "contacts", positive: true, href: "contacts.html" },
+      { label: L.newLeads, value: s.newLeads || 0, change: "+8%", icon: "contacts", positive: true, href: "new-leads.html" },
+      { label: L.activeDeals, value: s.activeDeals || 0, change: "+3", icon: "pipeline", positive: true, href: "pipeline.html" },
+      { label: L.revenue, value: formatRevenue(s.revenue || 0), change: "+24%", icon: "dashboard", positive: true, href: "reporting.html" },
+      { label: L.conversion, value: (s.conversion || 0) + "%", change: "+5%", icon: "pipeline", positive: true, href: "reporting.html" },
+      { label: L.avgDeal, value: formatRevenue(s.avgDeal || 0), change: "-2%", icon: "dashboard", positive: false, href: "pipeline.html" }
     ];
 
     var html = "";
     for (var i = 0; i < cards.length; i++) {
       var c = cards[i];
-      html += '<div class="stat-card">';
+      html += '<a class="stat-card stat-card-link" href="' + c.href + '">';
       html += '<div class="stat-header">';
       html += '<span class="stat-label">' + c.label + '</span>';
       html += '<span class="stat-icon">' + CRM_APP.ICONS[c.icon] + '</span>';
       html += '</div>';
       html += '<div class="stat-value">' + c.value + '</div>';
       html += '<div class="stat-change ' + (c.positive ? "positive" : "negative") + '">' + c.change + ' ' + L.vsLastMonth + '</div>';
-      html += '</div>';
+      html += '</a>';
     }
     container.innerHTML = html;
   }
@@ -279,24 +279,24 @@
     if (!container) return;
 
     var cards = [
-      { label: 'MRR',             value: formatMoney(s.mrr),            icon: 'dashboard' },
-      { label: 'ARR',             value: formatMoney(s.arr),            icon: 'dashboard' },
-      { label: 'Total Users',     value: (s.totalUsers || 0).toLocaleString(), icon: 'contacts' },
-      { label: 'New This Month',  value: (s.newUsersMonth || 0).toLocaleString(), icon: 'contacts' },
-      { label: 'Contacts',        value: (s.totalContacts || 0).toLocaleString(), icon: 'contacts' },
-      { label: 'Deals',           value: (s.totalDeals || 0).toLocaleString(), icon: 'pipeline' }
+      { label: 'MRR',             value: formatMoney(s.mrr),            icon: 'dashboard', href: 'reporting.html' },
+      { label: 'ARR',             value: formatMoney(s.arr),            icon: 'dashboard', href: 'reporting.html' },
+      { label: 'Total Users',     value: (s.totalUsers || 0).toLocaleString(), icon: 'contacts', href: 'subaccounts.html' },
+      { label: 'New This Month',  value: (s.newUsersMonth || 0).toLocaleString(), icon: 'contacts', href: 'subaccounts.html' },
+      { label: 'Contacts',        value: (s.totalContacts || 0).toLocaleString(), icon: 'contacts', href: 'contacts.html' },
+      { label: 'Deals',           value: (s.totalDeals || 0).toLocaleString(), icon: 'pipeline', href: 'pipeline.html' }
     ];
 
     var html = '';
     for (var i = 0; i < cards.length; i++) {
       var c = cards[i];
-      html += '<div class="stat-card">';
+      html += '<a class="stat-card stat-card-link" href="' + c.href + '">';
       html += '<div class="stat-header">';
       html += '<span class="stat-label">' + esc(c.label) + '</span>';
       html += '<span class="stat-icon">' + CRM_APP.ICONS[c.icon] + '</span>';
       html += '</div>';
       html += '<div class="stat-value">' + c.value + '</div>';
-      html += '</div>';
+      html += '</a>';
     }
     container.innerHTML = html;
   }

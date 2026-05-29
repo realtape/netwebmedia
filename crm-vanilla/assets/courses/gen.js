@@ -1,4 +1,4 @@
-// Generates SVG infographic covers for all 15 NWM courses
+// Generates SVG infographic covers for all NWM courses
 const fs = require('fs');
 const path = require('path');
 
@@ -133,7 +133,7 @@ function getShapes(type, c) {
     case 'target': return shapesTarget(c);
     case 'social': return shapesSocial(c);
     case 'wave':   return shapesWave(c);
-    case 'crm':    return shapesBars(c) + shapesNeural(c).slice(0, 200);
+    case 'crm':    return shapesBars(c) + shapesNeural(c);
     default:       return shapesBars(c);
   }
 }
@@ -181,4 +181,4 @@ for (const course of courses) {
   fs.writeFileSync(outPath, svg, 'utf8');
   console.log('✓', course.slug);
 }
-console.log('Done — 15 SVGs generated.');
+console.log('Done — ' + courses.length + ' SVGs generated.');

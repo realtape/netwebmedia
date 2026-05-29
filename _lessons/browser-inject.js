@@ -22,7 +22,7 @@
     fetch('/api/courses/' + course.course_id + '/lessons', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Auth-Token': token },
-      body: JSON.stringify(lesson)
+      body: JSON.stringify(Object.assign({ status: 'published' }, lesson))
     }).then(r=>r.json()).then(function(d) {
       results.push({ course_id: course.course_id, slug: course.slug, lesson: lesson.title, ok: !d.error, id: d.id, err: d.error||null });
       postNext();

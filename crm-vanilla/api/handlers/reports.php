@@ -9,9 +9,9 @@
  */
 
 require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/../lib/db.php';
 require_once __DIR__ . '/../lib/tenancy.php';
 
+$db = getDB();
 $method = $_SERVER['REQUEST_METHOD'];
 $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
 
@@ -23,7 +23,7 @@ try {
     if ($method === 'GET') {
         if ($id) {
             // Fetch single report
-            $stmt = pdo()->prepare("
+            $stmt = $db->prepare("
                 SELECT * FROM reports
                 WHERE id = ?
                 LIMIT 1
@@ -87,7 +87,7 @@ try {
             $params[] = $limit;
             $params[] = $offset;
 
-            $stmt = pdo()->prepare($query);
+            $stmt = $db->prepare($query);
             $stmt->execute($params);
             $reports = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -128,7 +128,7 @@ try {
         }
 
         // Insert or update (upsert via UNIQUE key)
-        $stmt = pdo()->prepare("
+        $stmt = $db->prepare("
             INSERT INTO reports (
                 report_type, report_name, owner, period_start, period_end,
                 status, rag_status, summary, metrics_json, findings_json,
@@ -169,7 +169,7 @@ try {
             $input['next_review_date'] ?? null
         ]);
 
-        $id = pdo()->lastInsertId();
+        $id = $db->lastInsertId();
         http_response_code(201);
         echo json_encode([
             'id' => $id,
@@ -213,7 +213,7 @@ try {
         $params[] = $id;
 
         $query = "UPDATE reports SET " . implode(', ', $updates) . " WHERE id = ?";
-        $stmt = pdo()->prepare($query);
+        $stmt = $db->prepare($query);
         $stmt->execute($params);
 
         echo json_encode(['message' => 'Report updated', 'id' => $id]);
@@ -225,7 +225,7 @@ try {
             exit;
         }
 
-        $stmt = pdo()->prepare("UPDATE reports SET status = 'archived' WHERE id = ?");
+        $stmt = $db->prepare("UPDATE reports SET status = 'archived' WHERE id = ?");
         $stmt->execute([$id]);
 
         echo json_encode(['message' => 'Report archived', 'id' => $id]);

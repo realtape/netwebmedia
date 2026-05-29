@@ -63,7 +63,7 @@ ErrorDocument 404 /404.html
 #    rewrite block below; intentionally NOT denied here, because <FilesMatch>
 #    matches by filename at ANY path and would also 403 the live, linked
 #    /tutorials/fractional-cmo.html tutorial.)
-<FilesMatch "^(diagnostic|flowchart|processes-flowchart|orgchart|dashboard|desktop-login|nwmai|audit-report|NetWebMedia_Business_Marketing_Plan_2026)\.html$">
+<FilesMatch "^(diagnostic|internal-diagnostic|flowchart|agents-flowchart|processes-flowchart|orgchart|dashboard|desktop-login|auto-login|nwmai|audit-report|speed-test|emails|NetWebMedia_Business_Marketing_Plan_2026)\.html$">
   Order allow,deny
   Deny from all
 </FilesMatch>
@@ -90,6 +90,8 @@ Options -Indexes
 # robots.txt disallows these, but server-level denial is the hard guarantee.
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  # Stale full-site copy that was serving 200 publicly (duplicate content + stale assets).
+  RewriteRule ^Netwebmedia-antigravity-copy-work(/|$) - [F,L]
   RewriteRule ^\.venv(/|$)              - [F,L]
   RewriteRule ^_deploy(/|$)             - [F,L]
   RewriteRule ^_backup(/|$)             - [F,L]
@@ -484,7 +486,7 @@ Options -Indexes
   # https://netwebmedia.com (apex) and https://*.netwebmedia.com (siblings)
   # for script/style/font/connect.
   # TODO: self-host third-party libs at /vendor/* to drop unpkg/cdnjs. Tracked in audit follow-ups.
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://netwebmedia.com https://*.netwebmedia.com https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://browser.sentry-cdn.com https://challenges.cloudflare.com https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://netwebmedia.com https://*.netwebmedia.com https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://netwebmedia.com https://*.netwebmedia.com https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://netwebmedia.com https://*.netwebmedia.com https://www.google-analytics.com https://*.ingest.sentry.io https://ipapi.co https://api.indexnow.org https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self' https://netwebmedia.com https://*.netwebmedia.com; upgrade-insecure-requests"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://netwebmedia.com https://*.netwebmedia.com https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://browser.sentry-cdn.com https://challenges.cloudflare.com https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://netwebmedia.com https://*.netwebmedia.com https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://netwebmedia.com https://*.netwebmedia.com https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://netwebmedia.com https://*.netwebmedia.com https://www.google-analytics.com https://*.ingest.sentry.io https://*.ingest.us.sentry.io https://ipapi.co https://api.indexnow.org https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self' https://netwebmedia.com https://*.netwebmedia.com; upgrade-insecure-requests"
 </IfModule>
 
 # ── Force UTF-8 charset in HTTP response headers ──────────────────────

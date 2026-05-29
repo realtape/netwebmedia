@@ -64,25 +64,25 @@
     var active = (d.byStatus && d.byStatus.active) ? parseInt(d.byStatus.active, 10) : 0;
 
     var cards = [
-      { label: 'MRR',           value: '$' + (d.mrr || 0).toLocaleString(),   change: 'monthly recurring',  positive: true  },
-      { label: 'ARR',           value: '$' + (d.arr || 0).toLocaleString(),   change: 'annualized',          positive: true  },
-      { label: 'Total Users',   value: (d.totalUsers || 0).toLocaleString(),  change: '+' + (d.newUsersMonth || 0) + ' this month', positive: true },
-      { label: 'Active',        value: active.toLocaleString(),               change: 'paying accounts',     positive: true  },
-      { label: 'Total Contacts',value: (d.totalContacts || 0).toLocaleString(), change: 'platform-wide',     positive: true  },
-      { label: 'Total Deals',   value: (d.totalDeals || 0).toLocaleString(),  change: 'pipeline records',    positive: true  },
+      { label: 'MRR',           value: '$' + (d.mrr || 0).toLocaleString(),   change: 'monthly recurring',  positive: true,  href: 'reporting.html'   },
+      { label: 'ARR',           value: '$' + (d.arr || 0).toLocaleString(),   change: 'annualized',          positive: true,  href: 'reporting.html'   },
+      { label: 'Total Users',   value: (d.totalUsers || 0).toLocaleString(),  change: '+' + (d.newUsersMonth || 0) + ' this month', positive: true, href: 'subaccounts.html' },
+      { label: 'Active',        value: active.toLocaleString(),               change: 'paying accounts',     positive: true,  href: 'subaccounts.html' },
+      { label: 'Total Contacts',value: (d.totalContacts || 0).toLocaleString(), change: 'platform-wide',     positive: true,  href: 'contacts.html'    },
+      { label: 'Total Deals',   value: (d.totalDeals || 0).toLocaleString(),  change: 'pipeline records',    positive: true,  href: 'pipeline.html'    },
     ];
 
     var html = '';
     for (var i = 0; i < cards.length; i++) {
       var c = cards[i];
-      html += '<div class="stat-card">';
+      html += '<a class="stat-card stat-card-link" href="' + c.href + '">';
       html += '<div class="stat-header">';
       html += '<span class="stat-label">' + c.label + '</span>';
       html += '<span class="stat-icon">' + CRM_APP.ICONS.dashboard + '</span>';
       html += '</div>';
       html += '<div class="stat-value">' + c.value + '</div>';
       html += '<div class="stat-change ' + (c.positive ? 'positive' : 'negative') + '">' + c.change + '</div>';
-      html += '</div>';
+      html += '</a>';
     }
     container.innerHTML = html;
   }

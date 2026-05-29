@@ -221,13 +221,13 @@
     var html = "";
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
-      html += '<div class="schedule-item">';
+      html += '<a class="schedule-item dash-row-link" href="calendar.html">';
       html += '<div class="schedule-time">' + formatHour(item.start_hour) + '</div>';
       html += '<div class="schedule-content">';
       html += '<div class="schedule-title">' + item.title + '</div>';
       html += '<span class="schedule-type type-' + item.type + '">' + item.type + '</span>';
       html += '</div>';
-      html += '</div>';
+      html += '</a>';
     }
     container.innerHTML = html;
   }
@@ -239,7 +239,7 @@
     var html = "";
     for (var i = 0; i < deals.length; i++) {
       var d = deals[i];
-      html += '<div class="deal-row">';
+      html += '<a class="deal-row dash-row-link" href="pipeline.html">';
       html += '<div class="deal-info">';
       html += '<div class="deal-title">' + d.title + '</div>';
       html += '<div class="deal-company">' + (d.company || '') + '</div>';
@@ -248,7 +248,7 @@
       html += '<div class="deal-value">' + formatDealValue(d.value) + '</div>';
       html += '<span class="deal-stage">' + (d.stage || '') + '</span>';
       html += '</div>';
-      html += '</div>';
+      html += '</a>';
     }
     container.innerHTML = html;
   }
@@ -260,14 +260,14 @@
     var html = "";
     for (var i = 0; i < contacts.length; i++) {
       var c = contacts[i];
-      html += '<div class="contact-row">';
+      html += '<a class="contact-row dash-row-link" href="contacts.html">';
       html += '<div class="contact-avatar">' + esc(c.avatar || '') + '</div>';
       html += '<div class="contact-info">';
       html += '<div class="contact-name">' + esc(c.name) + '</div>';
       html += '<div class="contact-company">' + esc(c.company || '') + '</div>';
       html += '</div>';
       html += CRM_APP.statusBadge(c.status);
-      html += '</div>';
+      html += '</a>';
     }
     container.innerHTML = html;
   }
@@ -372,7 +372,7 @@
     for (var i = 0; i < rows.length; i++) {
       var u = rows[i];
       var initials = (u.name || u.email || '?').trim().charAt(0).toUpperCase();
-      html += '<div class="contact-row">';
+      html += '<a class="contact-row dash-row-link" href="subaccounts.html">';
       html += '<div class="contact-avatar">' + esc(initials) + '</div>';
       html += '<div class="contact-info">';
       html += '<div class="contact-name">' + esc(u.name || '—') + '</div>';
@@ -382,7 +382,7 @@
       html += '<span class="badge badge-' + esc(u.plan || 'starter') + '" style="text-transform:uppercase;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:#fff3eb;color:#FF671F;">' + esc(u.plan || '—') + '</span>';
       html += '<span style="font-size:11px;color:#888">' + esc(formatDate(u.created_at)) + '</span>';
       html += '</div>';
-      html += '</div>';
+      html += '</a>';
     }
     html += '</div>';
     container.innerHTML = html;

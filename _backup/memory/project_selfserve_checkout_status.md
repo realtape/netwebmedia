@@ -1,18 +1,16 @@
 ---
 name: project_selfserve_checkout_status
-description: "Self-serve $249 AEO Starter checkout is WIRED + deployed but NOT publicly exposed — the pricing CTA still goes to the contact form, pending a MercadoPago end-to-end test"
+description: Self-serve $249 AEO Starter checkout is LIVE end-to-end on MercadoPago (PROD) as of 2026-05-29. Only a real completed-payment test remains to confirm webhook activation in practice.
 metadata: 
   node_type: memory
   type: project
   originSessionId: fc56ecde-f921-4b0f-8719-fe48d7858325
 ---
 
-As of 2026-05-29 (commit 25d867de1), the self-serve Mercado Pago checkout for AEO Starter ($249/mo) is built and live in code but **not exposed to the public yet**:
+As of 2026-05-29 the self-serve **$249/mo AEO Starter** checkout is wired end-to-end on **MercadoPago** and live:
 
-- Front-end wiring shipped: `register.html?plan=cmo-starter` shows checkout-intent copy and, after signup, calls `NWMApi.billingCheckout('cmo_starter')` → `POST /api/billing/checkout` → redirects to the MP `init_point`. `js/api-client.js` now exposes `billingCheckout()`/`billingPlans()`.
-- Backend already existed and is production-grade: `api-php/routes/billing.php` (`cmo_starter` plan, MP preapproval for amounts under CLP 350k, signed webhook flips `users.status` pending_payment → active, coupons, Meta CAPI).
-- **The public `pricing.html` AEO Starter CTA STILL points to `contact.html?plan=cmo-starter&intent=sales`** (a form). It was deliberately NOT flipped to `register.html?plan=cmo-starter`.
+- **pricing.html already had the checkout** (NOT a contact form — an earlier audit note got this wrong). The prominent `[data-plan="cmo_starter"]` button ("Start AEO Starter — $249/mo →") is the live CTA: unauthed → `register.html?plan=cmo_starter&next=/pricing.html?checkout=cmo_starter`; authed → POSTs `/api/billing/checkout` → MP `init_point`, with an error modal + auto-checkout-on-return.
+- **The break was register.html** ignoring `?next=` (always → /app/) + dash/underscore mismatch. Fixed (commit 5aa2e3a3a): register.html normalizes the plan code (accepts `cmo_starter` + `cmo-starter`) and honors a same-site `?next=` (open-redirect-guarded), completing the pricing→register→pricing auto-checkout loop. Also exposes `NWMApi.billingCheckout()` in js/api-client.js (commit 25d867de1).
+- **MercadoPago verified PROD-ready** via the admin `GET /api/billing/mp-probe` (run with the NWM-browser admin session token): `token_kind: PROD`, account **entrepoker@gmail.com** active (sell allowed, CLP/site MLC Chile), recurring **preapproval creation returns a valid `mercadopago.cl/subscriptions/checkout` init_point**, and the webhook signing secret is set (POST to `/api/billing/webhook` returns "Invalid signature", not "not configured"). So MP_ACCESS_TOKEN / MP_PUBLIC_KEY / MP_WEBHOOK_SECRET are all configured in production — no MP dashboard login was needed (that's a separate consumer login).
 
-**Why not flipped:** taking real money can't be verified from the dev environment. Gate before go-live: (1) `GET /api/billing/mp-probe` (admin X-Auth-Token) to confirm token is TEST vs PROD + site_id MLC; (2) one end-to-end test purchase via register.html?plan=cmo-starter → MP → back; (3) confirm the webhook flipped the test user's status → active.
-
-**How to apply / flip live:** once the MP test passes, change the pricing.html Starter primary CTA href to `/register.html?plan=cmo-starter` (keep "Talk to sales" as secondary). One-line change. The i18n gotcha: register.html copy must be set via `data-en`/`data-es` attributes (nwm-i18n.js re-applies them and clobbers raw textContent). Related: [[project_cmo_premium_pricing]].
+**Remaining (Carlos): one real completed-payment test.** The token is PROD, so a real signup→pay charges a real card. Recommended: register a fresh test account → pay $249 via register.html?plan=cmo_starter (or the pricing button) → confirm the user flips `pending_payment → active` (webhook) → refund. Do this before driving paid traffic. Note the MP account type is "personal" — works, but a dedicated business MP account may be worth considering for tax/compliance (Carlos's call). Related: [[project_cmo_premium_pricing]].

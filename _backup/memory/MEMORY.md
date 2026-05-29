@@ -1,5 +1,6 @@
 - [Link all file & folder paths](feedback_link_all_paths.md) — Always format paths as clickable markdown links in responses to Carlos; bare paths and backticked strings make follow-up harder
 - [Homepage React dashboard is live](reference_homepage_react_dashboard.md) — unpkg React/ReactDOM tags in index.html are NOT dead; js/aeo-dashboard.js consumes them for the AEO Pulse hero. Don't delete or de-CSP without checking.
+- [CRM cleanup routes fail closed](project_crm_cleanup_routes_failclosed.md) — since 2026-05-29 purge/filter routes reject NWM_FILTER_ID_2026/NWM_FILTER_REACH_2026; set FILTER_ID_TOKEN/FILTER_REACH_TOKEN secrets + redeploy to use them; handler files now 403 on direct access
 - [No Shannon / DYADlaw context](feedback_no_shannon_dyadlaw.md) — Carlos does NOT work with Shannon, Tammy, or DYADlaw; never use that profile, attorney-review cadence, or 2-3 blog posts/month target for NWM work
 - [main history rewrite 2026-05-19](project_main_history_rewrite_2026_05_19.md) — origin/main force-pushed clean + daemon redesigned (never touches main); Computer 2 retired so no re-clone needed
 - [Meta automation guard](feedback_meta_automation_guard.md) — don't auto-retry Meta IG-connect/publish in browser; it temp-restricted @netwebmedia (2026-05-25); let Carlos do connect/publish clicks, prefer ig_publish.php API

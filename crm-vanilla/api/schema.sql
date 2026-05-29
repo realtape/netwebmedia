@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS `pipeline_stages` (
   `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(100) NOT NULL,
   `sort_order` INT UNSIGNED DEFAULT 0,
-  `color` VARCHAR(7) DEFAULT '#6c5ce7'
+  `color` VARCHAR(7) DEFAULT '#6c5ce7',
+  UNIQUE KEY `uq_pipeline_stage_name` (`name`)
 ) ENGINE=InnoDB;
 
 -- Deals table
@@ -90,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `events` (
 ) ENGINE=InnoDB;
 
 -- Seed default pipeline stages
-INSERT INTO `pipeline_stages` (`name`, `sort_order`, `color`) VALUES
+INSERT IGNORE INTO `pipeline_stages` (`name`, `sort_order`, `color`) VALUES
   ('New Lead', 1, '#6c5ce7'),
   ('Contacted', 2, '#0984e3'),
   ('Qualified', 3, '#00cec9'),

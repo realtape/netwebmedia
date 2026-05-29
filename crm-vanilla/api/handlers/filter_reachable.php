@@ -15,7 +15,7 @@
  */
 if (!in_array($method, ['GET', 'POST'])) jsonError('Use GET (dry-run) or POST (execute)', 405);
 
-$TOKEN = defined('FILTER_REACH_TOKEN') ? FILTER_REACH_TOKEN : 'NWM_FILTER_REACH_2026';
+$TOKEN = defined('FILTER_REACH_TOKEN') ? FILTER_REACH_TOKEN : bin2hex(random_bytes(16));
 require_once __DIR__ . '/../lib/tenancy.php';
 if (!hash_equals($TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 

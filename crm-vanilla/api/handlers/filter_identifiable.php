@@ -7,12 +7,12 @@
  *
  * Token-protected. Safe to re-run (idempotent).
  *
- * GET /api/?r=filter_identifiable&token=NWM_FILTER_ID_2026          → dry-run (count only)
- * POST /api/?r=filter_identifiable&token=NWM_FILTER_ID_2026         → execute purge
+ * GET /api/?r=filter_identifiable&token=<FILTER_ID_TOKEN>          → dry-run (count only)
+ * POST /api/?r=filter_identifiable&token=<FILTER_ID_TOKEN>         → execute purge
  */
 if (!in_array($method, ['GET','POST'])) jsonError('Use GET (dry-run) or POST (execute)', 405);
 
-$TOKEN = defined('FILTER_ID_TOKEN') ? FILTER_ID_TOKEN : 'NWM_FILTER_ID_2026';
+$TOKEN = defined('FILTER_ID_TOKEN') ? FILTER_ID_TOKEN : bin2hex(random_bytes(16));
 require_once __DIR__ . '/../lib/tenancy.php';
 if (!hash_equals($TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 // SECURITY (C2): pin to master — token-gated cron op, never per-org.

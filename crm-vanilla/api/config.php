@@ -30,6 +30,11 @@ if (!defined('DEDUPE_TOKEN'))      define('DEDUPE_TOKEN',      bin2hex(random_by
 if (!defined('IMPORT_BEST_TOKEN')) define('IMPORT_BEST_TOKEN', bin2hex(random_bytes(32)));
 if (!defined('IMPORT_CSV_TOKEN'))  define('IMPORT_CSV_TOKEN',  bin2hex(random_bytes(32)));
 if (!defined('GEN_BEST_TOKEN'))    define('GEN_BEST_TOKEN',    bin2hex(random_bytes(32)));
+// Contact-purge / filter cleanup routes (filter_identifiable, filter_reachable,
+// domain_audit, purge_role_emails). Previously these handlers fell back to the
+// guessable literals NWM_FILTER_ID_2026 / NWM_FILTER_REACH_2026 — now fail closed.
+if (!defined('FILTER_ID_TOKEN'))    define('FILTER_ID_TOKEN',    bin2hex(random_bytes(32)));
+if (!defined('FILTER_REACH_TOKEN')) define('FILTER_REACH_TOKEN', bin2hex(random_bytes(32)));
 
 // Sentry DSN — same project as the JS-side capture in /js/nwm-sentry.js (loaded
 // from index.html via window.NWM_SENTRY_DSN). Public DSN; safe to commit.

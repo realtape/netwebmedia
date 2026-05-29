@@ -319,6 +319,10 @@ jobs:
           print(f"define('DEDUPE_TOKEN', '{e(os.environ.get('SECRET_DEDUPE_TOKEN') or secrets.token_hex(32))}');")
           print(f"define('IMPORT_BEST_TOKEN', '{e(os.environ.get('SECRET_IMPORT_BEST_TOKEN') or secrets.token_hex(32))}');")
           print(f"define('IMPORT_CSV_TOKEN', '{e(os.environ.get('SECRET_IMPORT_CSV_TOKEN') or secrets.token_hex(32))}');")
+          # Contact-purge / filter cleanup routes. Missing secret = random per-deploy = fail closed
+          # (was the guessable NWM_FILTER_ID_2026 / NWM_FILTER_REACH_2026 literals before 2026-05-29).
+          print(f"define('FILTER_ID_TOKEN', '{e(os.environ.get('SECRET_FILTER_ID_TOKEN') or secrets.token_hex(32))}');")
+          print(f"define('FILTER_REACH_TOKEN', '{e(os.environ.get('SECRET_FILTER_REACH_TOKEN') or secrets.token_hex(32))}');")
           # Facebook Page publishing — long-lived Page access token + numeric Page ID.
           # Both must come from Meta Business Manager / Graph API Explorer (no defaults).
           # Empty = fb_publish handler returns 503 on schedule action.
@@ -393,6 +397,8 @@ jobs:
           SECRET_DEDUPE_TOKEN:      ${{ secrets.DEDUPE_TOKEN }}
           SECRET_IMPORT_BEST_TOKEN: ${{ secrets.IMPORT_BEST_TOKEN }}
           SECRET_IMPORT_CSV_TOKEN:  ${{ secrets.IMPORT_CSV_TOKEN }}
+          SECRET_FILTER_ID_TOKEN:    ${{ secrets.FILTER_ID_TOKEN }}
+          SECRET_FILTER_REACH_TOKEN: ${{ secrets.FILTER_REACH_TOKEN }}
           SECRET_META_PIXEL_ID:     ${{ secrets.META_PIXEL_ID }}
           # Facebook Page publishing (fb_publish handler)
           SECRET_FB_PAGE_ID:        ${{ secrets.FB_PAGE_ID }}

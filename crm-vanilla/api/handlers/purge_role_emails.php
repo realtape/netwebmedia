@@ -9,10 +9,10 @@
  * matches). Pinned to master org so a paying org's contacts cannot be purged
  * via X-Org-Slug spoof.
  *
- * GET  ?r=purge_role_emails&token=NWM_FILTER_ID_2026&action=count
+ * GET  ?r=purge_role_emails&token=<FILTER_ID_TOKEN>&action=count
  *      → { total_contacts, would_delete, breakdown: { contact: N, contacto: N, ... } }
  *
- * POST ?r=purge_role_emails&token=NWM_FILTER_ID_2026&action=purge&confirm=1
+ * POST ?r=purge_role_emails&token=<FILTER_ID_TOKEN>&action=purge&confirm=1
  *      → { contacts_deleted, total_after, breakdown }
  *
  * Optional &prefixes=sales,info  — restricts the operation to a subset of the
@@ -23,7 +23,7 @@
 
 require_once __DIR__ . '/../lib/tenancy.php';
 
-$TOKEN = defined('FILTER_ID_TOKEN') ? FILTER_ID_TOKEN : 'NWM_FILTER_ID_2026';
+$TOKEN = defined('FILTER_ID_TOKEN') ? FILTER_ID_TOKEN : bin2hex(random_bytes(16));
 if (!hash_equals($TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 pin_org_to_master();
 

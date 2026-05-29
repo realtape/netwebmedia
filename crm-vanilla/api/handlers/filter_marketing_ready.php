@@ -7,7 +7,7 @@
  *   - WhatsApp ready          = identifiable biz + valid phone digits
  *                              normalizable to E.164 (10 digits US, 8-9 Chile mobile)
  *
- * GET  /api/?r=filter_marketing_ready&token=NWM_FILTER_ID_2026
+ * GET  /api/?r=filter_marketing_ready&token=<FILTER_ID_TOKEN>
  *      → returns counts only (read-only diagnostic, never writes)
  *      → optional &check_mx=1&sample=200 will MX-validate a sample of 200
  *        random domains and report % live (slow — uses checkdnsrr)
@@ -17,7 +17,7 @@
  */
 if ($method !== 'GET') jsonError('Use GET (read-only)', 405);
 
-$TOKEN = defined('FILTER_ID_TOKEN') ? FILTER_ID_TOKEN : 'NWM_FILTER_ID_2026';
+$TOKEN = defined('FILTER_ID_TOKEN') ? FILTER_ID_TOKEN : bin2hex(random_bytes(16));
 require_once __DIR__ . '/../lib/tenancy.php';
 if (!hash_equals($TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 

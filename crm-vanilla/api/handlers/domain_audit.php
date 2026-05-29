@@ -8,19 +8,19 @@
  *
  * Token-protected. Idempotent.
  *
- * GET  ?r=domain_audit&token=NWM_FILTER_ID_2026&action=count
+ * GET  ?r=domain_audit&token=<FILTER_ID_TOKEN>&action=count
  *      → { total_contacts, distinct_domains }
  *
- * GET  ?r=domain_audit&token=NWM_FILTER_ID_2026&action=list&limit=10000&offset=0
+ * GET  ?r=domain_audit&token=<FILTER_ID_TOKEN>&action=list&limit=10000&offset=0
  *      → { domains: ["a.com","b.com",…], offset, limit, has_more }
  *
- * POST ?r=domain_audit&token=NWM_FILTER_ID_2026&action=purge
+ * POST ?r=domain_audit&token=<FILTER_ID_TOKEN>&action=purge
  *      body: { "domains": ["dead1.com","dead2.com",…] }
  *      → { domains_received, contacts_deleted, total_after }
  */
 
 require_once __DIR__ . '/../lib/tenancy.php';
-$TOKEN = defined('FILTER_ID_TOKEN') ? FILTER_ID_TOKEN : 'NWM_FILTER_ID_2026';
+$TOKEN = defined('FILTER_ID_TOKEN') ? FILTER_ID_TOKEN : bin2hex(random_bytes(16));
 if (!hash_equals($TOKEN, (string)($_GET['token'] ?? ''))) jsonError('Invalid token', 403);
 // SECURITY (C2): pin to master so a token leak cannot be combined with
 // X-Org-Slug to purge a specific paying org's domains.

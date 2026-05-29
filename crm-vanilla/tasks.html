@@ -11,39 +11,41 @@
   <style>
     .tasks-toolbar { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:18px; }
     .tasks-toolbar .filter-group { display:flex; gap:6px; flex-wrap:wrap; }
-    .pill { background:#f2f3f8; color:#1a1a2e; border:1px solid #e3e5ee; padding:6px 12px; border-radius:999px; font:600 12px Inter,sans-serif; cursor:pointer; }
-    .pill.active { background:#010F3B; color:#fff; border-color:#010F3B; }
+    .pill { background:var(--bg-card); color:var(--text-dim); border:1px solid var(--border); padding:6px 12px; border-radius:999px; font:600 12px Inter,sans-serif; cursor:pointer; transition:.15s; }
+    .pill:hover { color:var(--text); border-color:var(--border-light); }
+    .pill.active { background:var(--accent); color:#fff; border-color:var(--accent); }
     .stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-bottom:18px; }
-    .stat-card { background:#fff; border:1px solid #e3e5ee; border-radius:10px; padding:14px; }
-    .stat-card .label { color:#64677a; font:600 11px Inter; text-transform:uppercase; letter-spacing:.5px; }
-    .stat-card .value { color:#010F3B; font:700 24px Inter; margin-top:4px; }
+    .stat-card { background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:14px; }
+    .stat-card .label { color:var(--text-dim); font:600 11px Inter; text-transform:uppercase; letter-spacing:.5px; }
+    .stat-card .value { color:var(--text); font:700 24px Inter; margin-top:4px; }
     .stat-card.alert .value { color:#FF671F; }
-    .task-row { display:flex; align-items:flex-start; gap:12px; padding:14px; background:#fff; border:1px solid #e3e5ee; border-radius:10px; margin-bottom:8px; transition:.15s; }
-    .task-row:hover { border-color:#FF671F; box-shadow:0 2px 8px rgba(255,103,31,.08); }
-    .task-row.done { opacity:.55; }
+    .task-row { display:flex; align-items:flex-start; gap:12px; padding:14px; background:var(--bg-card); border:1px solid var(--border); border-radius:10px; margin-bottom:8px; transition:.15s; }
+    .task-row:hover { border-color:#FF671F; box-shadow:0 2px 8px rgba(255,103,31,.12); }
+    .task-row.done { opacity:.5; }
     .task-row.done .title { text-decoration:line-through; }
-    .task-check { flex:0 0 22px; height:22px; border:2px solid #c8cad6; border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:center; margin-top:2px; }
-    .task-check.checked { background:#10b981; border-color:#10b981; color:#fff; }
+    .task-check { flex:0 0 22px; height:22px; border:2px solid var(--border-light); border-radius:6px; cursor:pointer; display:flex; align-items:center; justify-content:center; margin-top:2px; }
+    .task-check.checked { background:var(--green); border-color:var(--green); color:#fff; }
     .task-body { flex:1; min-width:0; }
-    .task-row .title { font:600 14px Inter; color:#010F3B; }
-    .task-row .meta { color:#64677a; font:500 12px Inter; margin-top:4px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .task-row .title { font:600 14px Inter; color:var(--text); }
+    .task-row .meta { color:var(--text-dim); font:500 12px Inter; margin-top:4px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
     .task-row .badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:6px; font-weight:600; font-size:11px; }
-    .badge.priority-low      { background:#eef; color:#557; }
-    .badge.priority-normal   { background:#f2f3f8; color:#1a1a2e; }
-    .badge.priority-high     { background:#fef3c7; color:#92400e; }
-    .badge.priority-urgent   { background:#fee2e2; color:#b91c1c; }
-    .badge.type              { background:#dcfce7; color:#166534; }
-    .badge.overdue           { background:#fee2e2; color:#b91c1c; }
+    .badge.priority-low      { background:rgba(108,92,231,.15); color:#a99bff; }
+    .badge.priority-normal   { background:var(--bg-card-hover); color:var(--text-dim); }
+    .badge.priority-high     { background:rgba(253,203,110,.15); color:#fdcb6e; }
+    .badge.priority-urgent   { background:rgba(225,112,85,.18); color:#e8836b; }
+    .badge.type              { background:rgba(0,184,148,.15); color:#00b894; }
+    .badge.overdue           { background:rgba(225,112,85,.18); color:#e8836b; }
     .task-actions { display:flex; gap:6px; }
     .task-actions .btn { padding:4px 10px; font-size:12px; }
-    .empty-state { text-align:center; padding:60px 20px; color:#64677a; }
+    .empty-state { text-align:center; padding:60px 20px; color:var(--text-muted); }
     /* Modal */
-    .modal-backdrop { position:fixed; inset:0; background:rgba(2,8,23,.55); z-index:1000; display:none; align-items:center; justify-content:center; }
+    .modal-backdrop { position:fixed; inset:0; background:rgba(2,8,23,.65); z-index:1000; display:none; align-items:center; justify-content:center; }
     .modal-backdrop.open { display:flex; }
-    .modal { background:#fff; border-radius:14px; padding:22px; width:520px; max-width:92vw; max-height:88vh; overflow:auto; box-shadow:0 20px 50px rgba(0,0,0,.25); }
-    .modal h3 { margin:0 0 14px; color:#010F3B; }
-    .modal label { display:block; color:#1a1a2e; font:600 12px Inter; margin:10px 0 4px; text-transform:uppercase; letter-spacing:.4px; }
-    .modal input, .modal textarea, .modal select { width:100%; padding:9px 10px; border:1px solid #e3e5ee; border-radius:8px; font:400 14px Inter; }
+    .modal { background:var(--bg-card); border:1px solid var(--border); border-radius:14px; padding:22px; width:520px; max-width:92vw; max-height:88vh; overflow:auto; box-shadow:0 20px 50px rgba(0,0,0,.5); }
+    .modal h3 { margin:0 0 14px; color:var(--text); }
+    .modal label { display:block; color:var(--text-dim); font:600 12px Inter; margin:10px 0 4px; text-transform:uppercase; letter-spacing:.4px; }
+    .modal input, .modal textarea, .modal select { width:100%; padding:9px 10px; background:var(--bg-input); border:1px solid var(--border); border-radius:8px; color:var(--text); font:400 14px Inter; }
+    .modal input:focus, .modal textarea:focus, .modal select:focus { outline:none; border-color:var(--accent); }
     .modal textarea { min-height:80px; resize:vertical; }
     .modal .row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
     .modal-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:18px; }

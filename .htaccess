@@ -63,7 +63,12 @@ ErrorDocument 404 /404.html
 #    rewrite block below; intentionally NOT denied here, because <FilesMatch>
 #    matches by filename at ANY path and would also 403 the live, linked
 #    /tutorials/fractional-cmo.html tutorial.)
-<FilesMatch "^(diagnostic|internal-diagnostic|flowchart|agents-flowchart|processes-flowchart|orgchart|dashboard|desktop-login|auto-login|nwmai|audit-report|speed-test|emails|NetWebMedia_Business_Marketing_Plan_2026)\.html$">
+#   (speed-test.html intentionally NOT denied: it is a logged-in-only internal
+#    tool with its own client-side auth gate that bounces anonymous visitors to
+#    /crm/login.html, and its data endpoint /api/psi requires X-Auth-Token. The
+#    static shell leaks no secrets, so a server-level Deny only breaks the tool
+#    for the team — it was wrongly swept into the 2026-05-29 audit deny list.)
+<FilesMatch "^(diagnostic|internal-diagnostic|flowchart|agents-flowchart|processes-flowchart|orgchart|dashboard|desktop-login|auto-login|nwmai|audit-report|emails|NetWebMedia_Business_Marketing_Plan_2026)\.html$">
   Order allow,deny
   Deny from all
 </FilesMatch>

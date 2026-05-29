@@ -16,8 +16,8 @@
 
   /* ── Boot ── */
   document.addEventListener('DOMContentLoaded', function () {
-    if (typeof CRM_APP !== 'undefined') {
-      CRM_APP.init({ page: 'realtime', title: 'Realtime' });
+    if (window.CRM_APP && CRM_APP.buildHeader) {
+      CRM_APP.buildHeader('Realtime', '');
     }
     // Run once now, once after app.js finishes any async sidebar/header work
     injectTrialBanner();

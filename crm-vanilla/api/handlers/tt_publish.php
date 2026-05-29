@@ -99,7 +99,7 @@ $apiBase = 'https://open.tiktokapis.com/v2';
  * Built-in reel catalog.
  *
  * Two cohorts:
- *   1_*/2_*/3_* — original data-led campaign reels at /assets/social/campaign/
+ *   1_, 2_, 3_ prefixes — original data-led campaign reels at /assets/social/campaign/
  *   hf_*        — Higgsfield UGC remixes (rendered 2026-05-14 via video-factory)
  *                 at /assets/social/higgsfield/remix-2026-05-14/
  *

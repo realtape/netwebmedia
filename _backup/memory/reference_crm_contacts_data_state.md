@@ -13,4 +13,6 @@ Consequences (non-obvious):
 - The Contacts page's quality filter defaulted to `'named'` (person + email), which matched **0** rows → "No contacts match." on a CRM with ~9,805 contacts. Fixed 2026-05-29 by defaulting `currentQuality='all'` in `crm-vanilla/js/contacts.js`. The Named/Identifiable/Email-Ready/WhatsApp-Ready filters still exist.
 - Reporting's campaigns metric can read 0 while `?r=campaigns` returns 48 (separate query/scoping) — minor, not a page failure.
 
+Dedupe status (checked 2026-05-29): **0 duplicate email groups** — the table is already clean of email dupes (prior dedupe/purge work). `dedupe.php` (token-gated, keeps oldest per email, `&dry_run=1` supported) would remove **0 rows**. The ~9,805 `name===company` rows are **legitimate business leads** (OSM imports: wineries, merchants, etc.), NOT junk — do NOT mass-delete them.
+
 Audit note: the CRM is healthy. A live bodyLen page-sweep is **unreliable** (pages load slowly/variably; rapid back-to-back navigation yields false "blank" readings). Trust deterministic checks: static handler/JS analysis + direct endpoint probing. See [[reference_crm_courses_backend]], [[reference_crm_live_access]].

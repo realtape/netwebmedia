@@ -1,0 +1,19 @@
+{
+  "name": "nwm-command-center",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NetWebMedia Launch Readiness & Month-1 Revenue Command Center",
+  "scripts": {
+    "build:js": "babel app.jsx --presets @babel/preset-react -o app.js",
+    "build:css": "tailwindcss -c tailwind.config.js -i src/input.css -o app.css --minify",
+    "build": "npm run build:js && npm run build:css",
+    "watch:js": "babel app.jsx --presets @babel/preset-react -o app.js --watch",
+    "watch:css": "tailwindcss -c tailwind.config.js -i src/input.css -o app.css --watch"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7",
+    "@babel/core": "^7",
+    "@babel/preset-react": "^7",
+    "tailwindcss": "^3"
+  }
+}

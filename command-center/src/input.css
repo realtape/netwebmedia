@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- custom app styles (compiled into app.css) ---- */
+body { font-family: Inter, system-ui, sans-serif; }
+.font-display { font-family: Poppins, Inter, sans-serif; }
+/* progress bar transition */
+.bar-fill { transition: width .5s ease; }
+/* subtle scroll */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #1b3357; border-radius: 8px; }
+input, select, textarea { outline: none; }
+.focus-ring:focus { box-shadow: 0 0 0 2px rgba(255,107,43,.4); }
+[hidden] { display: none !important; }

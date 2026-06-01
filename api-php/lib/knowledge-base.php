@@ -212,10 +212,10 @@ FLAGSHIP: FRACTIONAL CMO RETAINER (3 tiers)
 
 PLATFORM SKUs (SELF-SERVE — CRM only)
 
-**NWM CRM Starter — $49/mo** — 1 seat, 1,000 contacts, core pipeline + email.
-**NWM CRM Pro — $249/mo** — 5 seats, 10,000 contacts, workflow builder, SMS
+**NWM CRM Starter — $249/mo** — 1 seat, 1,000 contacts, core pipeline + email.
+**NWM CRM Pro — $999/mo** — 5 seats, 10,000 contacts, workflow builder, SMS
 and WhatsApp modules, 46 automation modules.
-**NWM CRM Agency / White-Label — $449/mo** — unlimited sub-accounts, full
+**NWM CRM Agency / White-Label — $2,490/mo** — unlimited sub-accounts, full
 CMS + Video Factory bundle, resell under your own brand.
 
 PROJECT SERVICES (ONE-TIME)
@@ -311,11 +311,11 @@ PRIMARY — "The $1M–$20M SMB with no CMO"
 
 SECONDARY — White-label agencies
 - Sub-$5M marketing agencies that want to stop paying HubSpot $2,170/mo while
-  churning clients. They buy our $449/mo Agency tier and resell at their
+  churning clients. They buy our $2,490/mo Agency tier and resell at their
   own price (typical: $997–$1,997/mo).
 
 TERTIARY — Solopreneurs / founders DIY-ing
-- $49/mo CRM Starter. Low ARPU — our wedge into tutorials, community, and
+- $249/mo CRM Starter. Standalone software, funnels into tutorials, community, and
   referral loops.
 
 QUALIFYING QUESTIONS (use one at a time, conversationally)
@@ -405,7 +405,7 @@ Mercado Pago integration, local SEO in both countries — all covered.
 Q: How does pricing work?
 A: Flagship is the Fractional CMO retainer ($249 / $999 / $2,490). Setup fees
 $0 / $499 / $999. Growth adds a 12% ad management fee (min $300/mo); Premium 10%
-(min $400/mo). Also available: CRM standalone ($49 / $249 / $449) and
+(min $400/mo). Also available: CRM standalone ($249 / $999 / $2,490) and
 project services ($1.5k–$12k).
 
 Q: Is there a minimum commitment?
@@ -483,7 +483,7 @@ and return a prioritized 90-day growth roadmap in 48 hours. Fully async —
 no call required. Start at /contact.html or ask this chat to "run a free audit."
 
 Q: White-label / agency partner?
-A: CRM Agency tier $449/mo — unlimited sub-accounts, full CMS + Video Factory
+A: CRM Agency tier $2,490/mo — unlimited sub-accounts, full CMS + Video Factory
 stack, resell at your own price. No minimums. Apply via /partners.html.
 
 ━━ 12. ESCALATION RULES ━━
@@ -929,9 +929,9 @@ TUTORIAL: /tutorials/nwm-crm.html — NWM CRM Walkthrough
 Key facts:
   • 7 hubs, 46 tools total. Replaces 8–15 separate tools (HubSpot, Mailchimp,
     Intercom, WordPress, Kajabi, Calendly, AgencyAnalytics).
-  • Pricing: Starter $49/mo (1 user, 2,500 contacts, 1 pipeline);
-    Pro $249/mo (5 users, 10,000 contacts, 5 pipelines, WhatsApp + AI SDR);
-    Agency $449/mo (unlimited users + contacts, WhatsApp, SSO, white-label).
+  • Pricing: Starter $249/mo (1 user, 2,500 contacts, 1 pipeline);
+    Pro $999/mo (5 users, 10,000 contacts, 5 pipelines, WhatsApp + AI SDR);
+    Agency $2,490/mo (unlimited users + contacts, WhatsApp, SSO, white-label).
     Month-to-month, cancel anytime. Comparable HubSpot + Circle + Kajabi + Zendesk
     stack costs $1,500+/month for equivalent features.
   • Demo: live at netwebmedia.com/crm-demo/ — 42 sample contacts, 18 deals, 60+
@@ -1280,10 +1280,10 @@ FLAGSHIP: RETAINER FRACTIONAL CMO (3 niveles)
 
 PLATAFORMA SELF-SERVE (SOLO CRM)
 
-**NWM CRM Starter — $49/mes** — 1 usuario, 1,000 contactos, pipeline + email.
-**NWM CRM Pro — $249/mes** — 5 usuarios, 10,000 contactos, workflow builder,
+**NWM CRM Starter — $249/mes** — 1 usuario, 1,000 contactos, pipeline + email.
+**NWM CRM Pro — $999/mes** — 5 usuarios, 10,000 contactos, workflow builder,
 módulos SMS y WhatsApp, 46 módulos de automatización.
-**NWM CRM Agency / White-Label — $449/mes** — subcuentas ilimitadas, bundle
+**NWM CRM Agency / White-Label — $2,490/mes** — subcuentas ilimitadas, bundle
 CMS + Video Factory, revendes bajo tu marca.
 
 PROYECTOS (ONE-TIME)
@@ -1379,11 +1379,11 @@ PRIMARIO — "La PYME $1M–$20M sin CMO"
 
 SECUNDARIO — Agencias white-label
 - Agencias de marketing sub-$5M que quieren dejar de pagar HubSpot $2,170/mes
-  mientras se les van clientes. Compran nuestro tier Agency $449/mes y
+  mientras se les van clientes. Compran nuestro tier Agency $2,490/mes y
   revenden a su propio precio ($997–$1,997/mes típico).
 
 TERCIARIO — Emprendedores / founders DIY
-- CRM Starter $49/mes. ARPU bajo — wedge para tutoriales, comunidad y
+- CRM Starter $249/mes. Software standalone, alimenta tutoriales, comunidad y
   loops de referencia.
 
 PREGUNTAS DE CALIFICACIÓN (una a la vez, conversacional)
@@ -1476,8 +1476,8 @@ en ambos países — todo cubierto.
 P: ¿Cómo funciona el precio?
 R: Flagship es el retainer Fractional CMO ($249 / $999 / $2,490). Setup
 $0 / $499 / $999. Growth agrega 12% de fee de manejo de ads (mín $300/mes);
-Premium 10% (mín $400/mes). También disponible: CRM standalone ($49 / $249 /
-$449) y servicios de proyecto ($1.5k–$12k).
+Premium 10% (mín $400/mes). También disponible: CRM standalone ($249 / $999 /
+$2,490) y servicios de proyecto ($1.5k–$12k).
 
 P: ¿Hay compromiso mínimo?
 R: Mínimo 90 días, después mes-a-mes. Aviso de cancelación de 30 días.
@@ -1560,7 +1560,7 @@ social y devolvemos un roadmap de crecimiento de 90 días priorizado en
 o pídele a este chat "correr una auditoría gratis."
 
 P: ¿White-label / socio agencia?
-R: CRM Agency tier $449/mes — subcuentas ilimitadas, stack completo
+R: CRM Agency tier $2,490/mes — subcuentas ilimitadas, stack completo
 CMS + Video Factory, revendes a tu precio. Sin mínimos. Aplica en
 /partners.html.
 
@@ -1914,9 +1914,9 @@ TUTORIAL: /tutorials/nwm-crm.html — Recorrido por el NWM CRM
 Hechos clave:
   • 7 secciones (hubs), 46 herramientas en total. Reemplaza 8 a 15 herramientas separadas
     (HubSpot, Mailchimp, Intercom, WordPress, Kajabi, Calendly, AgencyAnalytics).
-  • Precios: Starter $49/mes (1 usuario, 2.500 contactos, 1 pipeline);
-    Pro $249/mes (5 usuarios, 10.000 contactos, 5 pipelines, WhatsApp + AI SDR);
-    Agency $449/mes (usuarios y contactos ilimitados, WhatsApp, SSO, marca blanca).
+  • Precios: Starter $249/mes (1 usuario, 2.500 contactos, 1 pipeline);
+    Pro $999/mes (5 usuarios, 10.000 contactos, 5 pipelines, WhatsApp + AI SDR);
+    Agency $2,490/mes (usuarios y contactos ilimitados, WhatsApp, SSO, marca blanca).
     Facturación mes a mes, cancelación en cualquier momento. Un stack equivalente de
     HubSpot + Circle + Kajabi + Zendesk cuesta más de $1.500/mes.
   • Demo: disponible en netwebmedia.com/crm-demo/ — 42 contactos de muestra, 18 deals,

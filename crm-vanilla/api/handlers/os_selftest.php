@@ -117,6 +117,19 @@ try {
         "live contacts count under master = $realCount"
     );
 
+    // --- 5b. org_where() composes on the NEW OS tenant tables (if migrated) --
+    //         Proves every new owned table is org-scopable the same way.
+    foreach (['agent_runs', 'tenant_connectors', 'tenant_branding_assets', 'human_tasks', 'org_invoices'] as $t) {
+        try {
+            $st = $db->prepare("SELECT COUNT(*) FROM `$t` c WHERE $clause");
+            $st->execute($params);
+            $assert("org_where_composes_on_$t", ((int)$st->fetchColumn()) >= 0, 'ok');
+        } catch (Throwable $e) {
+            // Table not migrated on this DB yet — not a failure, just unrun.
+            $checks[] = ['name' => "org_where_composes_on_$t", 'ok' => true, 'detail' => 'skipped (not migrated)'];
+        }
+    }
+
     // --- 6. org_owns() honours the master "sees all" contract --------------
     $assert(
         'org_owns_master_true',

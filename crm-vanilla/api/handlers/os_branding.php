@@ -13,6 +13,41 @@
 require_once __DIR__ . '/../lib/tenancy.php';
 
 $db = getDB();
+
+// ---------------------------------------------- POST: persist brand settings --
+// The onboarding wizard + settings page POST {display_name, primary_color,
+// secondary_color} here. Admin-only; same-origin write gate already enforced
+// by index.php.
+if ($method === 'POST') {
+    $u = guard_user();
+    if (!$u || empty($u['id'])) jsonError('Authentication required', 401);
+    $orgId = current_org_id();
+    if ($orgId === null) jsonError('No organization resolved', 400);
+    require_org_access_for_write('admin');
+
+    $in = getInput();
+    $fields = []; $params = [];
+    if (isset($in['display_name'])) {
+        $dn = trim((string)$in['display_name']);
+        if ($dn !== '' && mb_strlen($dn) <= 255) { $fields[] = 'display_name = ?'; $params[] = $dn; }
+    }
+    foreach (['primary_color' => 'branding_primary_color', 'secondary_color' => 'branding_secondary_color'] as $k => $col) {
+        if (isset($in[$k]) && preg_match('/^#[0-9a-fA-F]{6}$/', (string)$in[$k])) {
+            $fields[] = "$col = ?"; $params[] = $in[$k];
+        }
+    }
+    if ($fields) {
+        $params[] = $orgId;
+        $db->prepare('UPDATE organizations SET ' . implode(', ', $fields) . ' WHERE id = ?')->execute($params);
+    }
+    try {
+        $db->prepare('INSERT INTO os_audit_log (organization_id, user_id, action, ip)
+                      VALUES (?, ?, "branding.update", ?)')
+           ->execute([$orgId, (int)$u['id'], $_SERVER['REMOTE_ADDR'] ?? null]);
+    } catch (Throwable $e) {}
+    jsonResponse(['ok' => true, 'updated' => count($fields)]);
+}
+
 $slug = preg_replace('/[^a-z0-9\-]/', '', strtolower((string)($_GET['org'] ?? '')));
 
 $org = null;

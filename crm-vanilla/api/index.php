@@ -90,6 +90,16 @@ $handlers = [
     'whoami'                => __DIR__ . '/handlers/whoami.php',        // shell boot — {org,user,features}
     'os_provision'          => __DIR__ . '/handlers/os_provision.php',  // master-only tenant provisioning (token)
     'os_selftest'           => __DIR__ . '/handlers/os_selftest.php',   // R1 cross-tenant isolation guardrail (token)
+    // --- NetWebMedia OS (Phase 2–5) ---
+    'os_branding'           => __DIR__ . '/handlers/os_branding.php',   // per-tenant brand CSS (GET) + persist (POST)
+    'branding_asset'        => __DIR__ . '/handlers/branding_asset.php',// logo upload (POST) + serve (GET)
+    'agent_run'             => __DIR__ . '/handlers/agent_run.php',     // agent orchestration (the wedge)
+    'os_agents'             => __DIR__ . '/handlers/os_agents.php',     // per-tenant agent activation
+    'os_connectors'         => __DIR__ . '/handlers/os_connectors.php', // connector list/disconnect
+    'oauth_google'          => __DIR__ . '/handlers/oauth_google.php',  // Gmail + Calendar OAuth
+    'oauth_slack'           => __DIR__ . '/handlers/oauth_slack.php',   // Slack OAuth
+    'os_billing'            => __DIR__ . '/handlers/os_billing.php',    // billing summary + checkout
+    'stripe_webhook'        => __DIR__ . '/handlers/stripe_webhook.php',// Stripe webhook (public, signature-verified)
 ];
 
 if (!isset($handlers[$resource])) {
@@ -98,7 +108,7 @@ if (!isset($handlers[$resource])) {
 
 // Public routes need no auth. All others run the payment gate:
 // demo/guest users (no PHP session) pass through; pending_payment users get HTTP 402.
-$public_routes = ['auth', 'password_reset', 'track', 'intake', 'leads', 'analyze', 'proposal', 'import_best', 'import_clickers', 'filter_identifiable', 'filter_reachable', 'filter_marketing_ready', 'domain_audit', 'dedupe', 'cron_workflows', 'fb_publish', 'tt_publish', 'export_bird', 'bulk_import_osm', 'purge_role_emails'];
+$public_routes = ['auth', 'password_reset', 'track', 'intake', 'leads', 'analyze', 'proposal', 'import_best', 'import_clickers', 'filter_identifiable', 'filter_reachable', 'filter_marketing_ready', 'domain_audit', 'dedupe', 'cron_workflows', 'fb_publish', 'tt_publish', 'export_bird', 'bulk_import_osm', 'purge_role_emails', 'stripe_webhook'];
 if (!in_array($resource, $public_routes, true)) {
     require_once __DIR__ . '/lib/guard.php';
     require_guard();

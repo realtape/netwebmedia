@@ -55,14 +55,22 @@ if ($org) {
     $osEnabled = array_key_exists('os_enabled', $org) ? (int)$org['os_enabled'] : ($isMaster ? 1 : 0);
     $osPlan    = $org['os_plan'] ?? 'premium';
 
+    // Which agents are enabled for this org (NULL → shell falls back to catalog default_on).
+    $enabledAgents = null;
+    if (!empty($org['os_agents_enabled'])) {
+        $tmp = json_decode($org['os_agents_enabled'], true);
+        if (is_array($tmp)) $enabledAgents = array_values(array_filter($tmp, 'is_string'));
+    }
+
     $orgOut = [
         'id'           => $orgId,
         'slug'         => $org['slug'] ?? null,
         'display_name' => $org['display_name'] ?? null,
         'plan'         => $org['plan'] ?? 'client',
         'role'         => $roleInOrg,
-        'os_enabled'   => $osEnabled === 1,
-        'os_plan'      => $osPlan,
+        'os_enabled'    => $osEnabled === 1,
+        'os_plan'       => $osPlan,
+        'enabled_agents'=> $enabledAgents,
         'branding'     => [
             'logo_url'        => $org['branding_logo_url'] ?? null,
             'primary_color'   => $org['branding_primary_color']   ?? '#010F3B',

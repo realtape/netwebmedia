@@ -4,7 +4,7 @@
 **Format:** 3-touch sequence per candidate (warm intro → 48h follow-up → value-anchored close)
 **Status:** Copy-paste ready for Carlos review and sending
 
-**Design Partner Offer:** $1,245/mo for 12 months (50% off standard $2,490), setup fee waived, weekly feedback calls, recorded testimonial + case study at month 3. Monthly billing.
+**Design Partner Offer:** $1,245/mo for 12 months (50% off standard $2,490), setup fee waived, a dedicated onboarding boot-camp week with Carlos + dedicated customer success and monthly QBRs afterward, recorded testimonial + case study at month 3. Monthly billing.
 
 ---
 
@@ -73,7 +73,7 @@ We're locking down ONE design partner by Friday, June 12. Design partner gets:
 
 - **$1,245/mo for 12 months** (50% off the $2,490 standard price, locked annual rate)
 - Setup fee waived ($1,500 value)
-- Weekly calls with me + our PM (not a "success manager" — direct builder access)
+- A dedicated onboarding boot-camp week with me + our PM, then a dedicated customer success lead and monthly strategy reviews with me — direct builder access from day one
 - Built-in case study + testimonial rights (good PR for you, good proof for us)
 
 For someone already running a fractional CMO business, NWM OS is the fastest path to 2x your client capacity without 2x your ops cost.
@@ -146,7 +146,7 @@ We're locking ONE design partner by Friday, June 12. Since you've already proven
 
 - **$1,245/mo for 12 months** (50% off, locked rate)
 - Setup fee waived
-- Weekly direct access to me + our build team
+- A dedicated onboarding boot-camp week with me + our build team, then dedicated customer success + monthly QBRs with me
 - Case study + testimonial for Sequoia GEO
 
 If you want to take your fractional CMO business from 3 clients to 8 without doubling your team, this is the fastest path.
@@ -225,7 +225,7 @@ We're signing ONE design partner by Friday, June 12. I want to make sure you kno
 
 - **$1,245/mo for 12 months** (50% off our $2,490 standard, locked rate)
 - Setup fee waived ($1,500 value)
-- Weekly direct calls with me + our PM team
+- A dedicated onboarding boot-camp week with me + our PM team, then dedicated customer success + monthly reviews with me
 - Built-in case study + testimonial (good PR for Bullseye)
 - Full white-label under your brand (not ours)
 

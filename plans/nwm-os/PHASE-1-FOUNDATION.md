@@ -71,5 +71,7 @@ When the agent + billing layers ship, the `Content-Security-Policy` header in ro
 
 ---
 
-## 3. Open flag — outreach drafts vs. locked DPA terms
-The W1 outreach drafts ([outreach-drafts-2026-06-01.md](./outreach-drafts-2026-06-01.md)) promise **"weekly direct calls with Carlos."** V1-PLAN §4 **Tension F** locked the opposite: **one focused boot-camp week (W6)**, then Isabel (CS) async + monthly Carlos QBR. Align the drafts to "1 boot-camp week + dedicated CS" before sending, per the resolution that Sofia revises the DPA in W1.
+## 3. ~~Open flag~~ RESOLVED — outreach drafts vs. locked DPA terms
+The W1 outreach drafts ([outreach-drafts-2026-06-01.md](./outreach-drafts-2026-06-01.md)) previously promised **"weekly direct calls with Carlos."** V1-PLAN §4 **Tension F** locked the opposite: **one focused boot-camp week (W6)**, then Isabel (CS) async + monthly Carlos QBR.
+
+**Resolved 2026-06-01:** all four "weekly calls/access" promises (offer summary + the three Touch-3 closes) rewritten to "a dedicated onboarding boot-camp week with Carlos, then dedicated customer success + monthly QBRs." The line that disparaged a "success manager" was also corrected — the locked model makes a dedicated CS lead (Isabel) the primary W7+ contact, so the copy now embraces it. Drafts now match the DPA terms Sofia revises in W1. (Still DRAFTS ONLY — never sent.)

@@ -325,11 +325,6 @@ try {
   } elseif ($group === 'courses') {
     require __DIR__ . '/routes/courses.php';
     route_courses($parts, $method);
-  } elseif ($group === 'admin-export') {
-    // Token-gated, READ-ONLY offsite backup dump of webmed6_nwm.
-    // GET /api/admin-export?token=<BACKUP_TOKEN>. Self-authenticates; no session.
-    require __DIR__ . '/routes/admin.php';
-    route_admin_export($method);
   } else {
     err('Route not found', 404);
   }

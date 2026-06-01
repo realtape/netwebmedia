@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Agents — NetWebMedia OS</title>
+  <meta name="description" content="Your AI agent roster and monthly token usage.">
+  <link rel="stylesheet" href="/os/css/styles.css?v=2026-06-01b">
+  <link rel="stylesheet" href="/os/css/pages.css?v=2026-06-01b">
+</head>
+<body>
+  <div class="os-page" id="osPage">
+    <header class="os-pagebar">
+      <div class="os-brand">
+        <img id="osLogo" class="os-brand__logo" alt="" hidden>
+        <span id="osBrandName" class="os-brand__name">NetWebMedia OS</span>
+      </div>
+      <div class="os-pagebar__spacer"></div>
+      <a class="os-pagebar__back" href="/os/">← Back to dashboard</a>
+    </header>
+
+    <main class="os-page__main">
+      <div class="os-page__wrap os-page__wrap--wide" id="osWrap">
+        <h1 class="os-view__head">Agents</h1>
+        <p class="os-view__sub">Turn AI roles on or off, and track this month’s token budget.</p>
+        <div id="osBudget"></div>
+        <div id="osAgents"></div>
+      </div>
+    </main>
+  </div>
+
+  <noscript>
+    <div style="padding:2rem;font-family:system-ui">NetWebMedia OS requires JavaScript.</div>
+  </noscript>
+
+  <script src="/os/js/api-client.js?v=2026-06-01b" defer></script>
+  <script src="/os/js/agents.js?v=2026-06-01b" defer></script>
+</body>
+</html>

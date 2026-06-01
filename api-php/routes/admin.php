@@ -6,7 +6,8 @@
  * MIGRATE_TOKEN-gated one-shot endpoints). Reachable via the dispatcher in
  * api-php/index.php at path group "admin-export".
  *
- *   GET https://netwebmedia.com/api/admin-export?token=<BACKUP_TOKEN>
+ *   GET https://netwebmedia.com/api/admin-export
+ *       (token sent via the X-Backup-Token request header — never in the URL)
  *
  * See crm-vanilla/api/handlers/db_export.php for the full contract /
  * DEPLOY-NOTES (this is the webmed6_nwm twin of that handler).
@@ -25,22 +26,47 @@
  * (the local puller saves raw bytes), not an HTTP transfer-encoding.
  */
 function route_admin_export($method) {
-  // Token guard (fail closed). Mirrors api-php/_export-logs.php: read the
-  // backup token from the config() array (deploy-generated), with a defined()
-  // fallback. Reject the committed placeholder + empty tokens so a missing
-  // config.local.php can never expose the dump.
-  $cfg      = config();
-  $expected = $cfg['backup_token'] ?? (defined('BACKUP_TOKEN') ? BACKUP_TOKEN : null);
-  $presented = (string)($_GET['token'] ?? ($_SERVER['HTTP_X_AUTH_TOKEN'] ?? ''));
+  // Rate limit (blunt brute-force attempts against the token).
+  require_once __DIR__ . '/../lib/ratelimit.php';
+  rate_limit_check('admin_export', 6, 3600); // 6 hits / hour / IP (429 + exit on excess)
+
+  $cfg = config();
+  $ip  = $_SERVER['REMOTE_ADDR'] ?? '';
+
+  // Optional IP allowlist (OFF by default). Set BACKUP_IP_ALLOWLIST (env) to a
+  // comma-separated list to refuse any other source IP. Empty => no IP gate
+  // (token is the gate). Off by default so the unattended puller stays reliable.
+  $ipAllow = trim((string)(getenv('BACKUP_IP_ALLOWLIST') ?: ($cfg['backup_ip_allowlist'] ?? '')));
+  if ($ipAllow !== '') {
+    $allowed = array_filter(array_map('trim', explode(',', $ipAllow)));
+    if (!in_array($ip, $allowed, true)) {
+      error_log('[admin-export] DENY ip=' . $ip . ' reason=ip_not_allowed');
+      http_response_code(403);
+      header('Content-Type: application/json; charset=utf-8');
+      header('Cache-Control: no-store');
+      echo json_encode(['error' => 'forbidden']);
+      exit;
+    }
+  }
+
+  // Token guard (fail closed; header-only — never accept the token in the URL).
+  // Sent as X-Backup-Token (preferred) or X-Auth-Token. Read the backup token
+  // from the config() array (deploy-generated) with a defined() fallback. Reject
+  // the committed placeholder + empty tokens so a missing config.local.php can
+  // never expose the dump.
+  $expected  = $cfg['backup_token'] ?? (defined('BACKUP_TOKEN') ? BACKUP_TOKEN : null);
+  $presented = (string)($_SERVER['HTTP_X_BACKUP_TOKEN'] ?? $_SERVER['HTTP_X_AUTH_TOKEN'] ?? '');
 
   if (!is_string($expected) || $expected === '' || $expected === 'NWM_BACKUP_UNSET'
       || !hash_equals($expected, $presented)) {
+    error_log('[admin-export] DENY ip=' . $ip . ' reason=bad_token');
     http_response_code(403);
     header('Content-Type: application/json; charset=utf-8');
     header('Cache-Control: no-store');
     echo json_encode(['error' => 'forbidden']);
     exit;
   }
+  error_log('[admin-export] OK ip=' . $ip);
 
   try {
     $pdo = db();

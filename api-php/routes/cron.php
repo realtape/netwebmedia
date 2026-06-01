@@ -26,11 +26,25 @@ function route_cron($parts, $method) {
   if ($sub === 'health') {
     $pending = (int) qOne('SELECT COUNT(*) AS c FROM workflow_runs WHERE status="pending"')['c'];
     $sent24h = (int) qOne('SELECT COUNT(*) AS c FROM email_log WHERE status="sent" AND created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)')['c'];
+    // Surface mail FAILURES too. send_mail() failures (e.g. AWS SES sandbox
+    // rejecting unverified external recipients) are swallowed at the call
+    // sites, so they otherwise leak silently — leads never get welcome/reset
+    // emails while internal @netwebmedia.com notifications still arrive.
+    // email_log records every attempt with status + error; expose it here so
+    // uptime/monitoring can alert on a rising failed count.
+    $failed24h = (int) qOne('SELECT COUNT(*) AS c FROM email_log WHERE status="failed" AND created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)')['c'];
+    $lastFail  = qOne('SELECT to_addr, error, created_at FROM email_log WHERE status="failed" ORDER BY id DESC LIMIT 1');
     $subs24h = (int) qOne('SELECT COUNT(*) AS c FROM form_submissions WHERE created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)')['c'];
     json_out([
       'ok' => true,
       'pending_workflow_runs' => $pending,
       'emails_sent_24h' => $sent24h,
+      'emails_failed_24h' => $failed24h,
+      'last_email_failure' => $lastFail ? [
+        'to'    => $lastFail['to_addr'],
+        'error' => substr((string)($lastFail['error'] ?? ''), 0, 300),
+        'at'    => $lastFail['created_at'],
+      ] : null,
       'submissions_24h' => $subs24h,
       'time' => date('c'),
     ]);

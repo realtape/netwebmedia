@@ -193,14 +193,16 @@ function handleFeed(int $uid, PDO $db, ?int $orgId): void {
         $sql    .= ' AND provider = ?';
         $params[] = $provider;
     }
-    $sql .= ' ORDER BY published_at DESC LIMIT :__rl OFFSET :__ro';
+    // Positional placeholders only — native PDO prepares (EMULATE_PREPARES=false)
+    // reject mixing positional ? with named :markers in one statement.
+    $sql .= ' ORDER BY published_at DESC LIMIT ? OFFSET ?';
+    $params[] = (int)$limit;
+    $params[] = (int)$offset;
 
     $stmt = $db->prepare($sql);
     foreach ($params as $i => $v) {
-        $stmt->bindValue($i + 1, $v);
+        $stmt->bindValue($i + 1, $v, is_int($v) ? PDO::PARAM_INT : PDO::PARAM_STR);
     }
-    $stmt->bindValue(':__rl', (int)$limit, PDO::PARAM_INT);
-    $stmt->bindValue(':__ro', (int)$offset, PDO::PARAM_INT);
     $stmt->execute();
     $posts = $stmt->fetchAll();
 

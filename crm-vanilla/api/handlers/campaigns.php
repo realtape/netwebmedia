@@ -272,15 +272,15 @@ if ($id && $action) {
         [$whereSql, $params] = buildAudienceSQL($camp['audience_filter']);
         $sql = "SELECT c.* FROM contacts c WHERE $whereSql";
         if ($tWhereContacts) { $sql .= ' AND ' . $tWhereContacts; $params = array_merge($params, $tParamsContacts); }
+        // Positional limit — native PDO prepares reject mixing positional ? (from
+        // the audience filter + tenancy clause) with a named :marker in one query.
         if ($limit > 0) {
-            $sql .= " LIMIT :__rl";
+            $sql .= " LIMIT ?";
+            $params[] = $limit;
         }
         $stmt = $db->prepare($sql);
         foreach ($params as $i => $v) {
-            $stmt->bindValue(is_int($i) ? $i + 1 : $i, $v);
-        }
-        if ($limit > 0) {
-            $stmt->bindValue(':__rl', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(is_int($i) ? $i + 1 : $i, $v, is_int($v) ? PDO::PARAM_INT : PDO::PARAM_STR);
         }
         $stmt->execute();
         $contacts = $stmt->fetchAll();

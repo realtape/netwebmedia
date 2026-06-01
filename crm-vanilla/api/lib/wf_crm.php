@@ -863,7 +863,7 @@ function wf_crm_advance(array $run, PDO $db): string {
                             'subject' => $subject ?: 'Reply from NetWebMedia',
                             'html'    => nl2br(htmlspecialchars($body)),
                         ]);
-                        $sendOk = !empty($res['ok']);
+                        $sendOk = (!empty($res['id']) || !empty($res['provider']));
                         if (!$sendOk) $sendErr = $res['error'] ?? 'mail_send_failed';
                     }
                 } elseif ($channel === 'whatsapp') {
@@ -1065,7 +1065,7 @@ function wf_crm_advance(array $run, PDO $db): string {
                             'subject' => 'Got your message',
                             'html'    => nl2br(htmlspecialchars($body)),
                         ]);
-                        $sendOk = !empty($res['ok']);
+                        $sendOk = (!empty($res['id']) || !empty($res['provider']));
                         if (!$sendOk) $sendErr = $res['error'] ?? 'mail_send_failed';
                     }
                 } elseif ($channel === 'whatsapp') {
@@ -1393,7 +1393,7 @@ function wf_crm_send_approved_draft(PDO $db, int $draftId): bool {
                 'subject' => 'Reply from NetWebMedia',
                 'html'    => nl2br(htmlspecialchars($body)),
             ]);
-            $sendOk = !empty($res['ok']);
+            $sendOk = (!empty($res['id']) || !empty($res['provider']));
             if (!$sendOk) $sendErr = $res['error'] ?? 'mail_send_failed';
         } else {
             $sendErr = 'no_recipient_email';

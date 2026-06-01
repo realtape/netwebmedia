@@ -105,11 +105,13 @@
     var checks = data.checks || {};
 
     /* Score cards */
+    // Keys must match analyze.php's response shape:
+    // scores:{seo, performance, accessibility, best_practices}
     var scoreCategories = [
-      { key: 'seo',  label: 'SEO' },
-      { key: 'perf', label: 'Performance' },
-      { key: 'a11y', label: 'Accessibility' },
-      { key: 'bp',   label: 'Best Practices' }
+      { key: 'seo',            label: 'SEO' },
+      { key: 'performance',    label: 'Performance' },
+      { key: 'accessibility',  label: 'Accessibility' },
+      { key: 'best_practices', label: 'Best Practices' }
     ];
 
     var scoreHtml = '<div class="summary-cards" style="margin-bottom:20px">';
@@ -155,7 +157,7 @@
           '<div style="display:flex;gap:10px;align-items:flex-start">' +
             dot +
             '<div>' +
-              '<div style="font-size:13px;font-weight:500">' + escHtml(item.label || '') + '</div>' +
+              '<div style="font-size:13px;font-weight:500">' + escHtml(item.text || item.label || '') + '</div>' +
               (item.detail ? '<div style="font-size:12px;color:var(--text-dim);margin-top:2px">' + escHtml(item.detail) + '</div>' : '') +
             '</div>' +
           '</div>';

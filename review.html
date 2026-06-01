@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leave a Review — NetWebMedia</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after { box-sizing: border-box; }
+    body { margin:0; background:linear-gradient(135deg,#010F3B 0%,#0d1f5c 100%); min-height:100vh; font-family:'Inter',-apple-system,Segoe UI,sans-serif; color:#1a1a2e; padding:36px 16px; }
+    .wrap { max-width:520px; margin:0 auto; }
+    .brand { color:#fff; text-align:center; margin-bottom:18px; font:700 14px 'Inter'; letter-spacing:.4px; opacity:.9; }
+    .brand a { color:#FF671F; text-decoration:none; }
+    .card { background:#fff; border-radius:18px; box-shadow:0 20px 60px rgba(0,0,0,.25); padding:32px 30px; }
+    .card h1 { margin:0 0 10px; color:#010F3B; font:800 26px 'Poppins'; }
+    .card .sub { color:#475569; font:500 14px 'Inter'; margin:0 0 18px; }
+    .stars-input { display:flex; gap:6px; justify-content:center; margin:14px 0 18px; }
+    .star-btn { background:none; border:none; cursor:pointer; padding:4px; font-size:42px; color:#cbd5e1; transition:.15s; }
+    .star-btn:hover, .star-btn.on { color:#FF671F; transform:scale(1.05); }
+    label { display:block; color:#1a1a2e; font:600 12px 'Inter'; margin:14px 0 5px; text-transform:uppercase; letter-spacing:.4px; }
+    input, textarea { width:100%; padding:11px 12px; border:1px solid #e3e5ee; border-radius:10px; font:500 14px 'Inter'; }
+    textarea { min-height:120px; resize:vertical; }
+    input:focus, textarea:focus { outline:none; border-color:#FF671F; }
+    .submit { background:#FF671F; color:#fff; border:none; padding:13px 22px; border-radius:10px; font:700 14px 'Inter'; cursor:pointer; width:100%; margin-top:18px; }
+    .submit:hover:not(:disabled) { background:#e25710; }
+    .submit:disabled { opacity:.5; cursor:not-allowed; }
+    .alert { padding:12px 14px; border-radius:8px; margin-bottom:14px; font:500 13px 'Inter'; }
+    .alert.error { background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; }
+    .hp-trap { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+    .success-card { text-align:center; padding:30px 20px; }
+    .success-card .check { width:60px; height:60px; border-radius:50%; background:#dcfce7; color:#166534; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; font-size:34px; }
+    .success-card h2 { color:#010F3B; font:800 24px 'Poppins'; margin:0 0 8px; }
+    .success-card p { color:#475569; font:500 14px 'Inter'; }
+    .footer { color:#fff; opacity:.6; text-align:center; font:500 12px 'Inter'; margin-top:18px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand"><a href="/">NetWebMedia</a></div>
+    <div class="card" id="root">
+      <div style="text-align:center;color:#94a3b8;font:500 14px 'Inter';padding:40px">Loading…</div>
+    </div>
+    <div class="footer">Your feedback helps other businesses make confident choices.</div>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+  var API = '/api/reputation/public/request';
+  var root = document.getElementById('root');
+  var qs = new URLSearchParams(location.search);
+  var token = qs.get('token');
+
+  if (!token) {
+    root.innerHTML = '<h1>Missing link</h1><p class="sub">This review link is incomplete. Please use the link sent to you.</p>';
+    return;
+  }
+
+  fetch(API + '/' + encodeURIComponent(token))
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(r); })
+    .then(function (info) {
+      if (info.submitted) {
+        root.innerHTML = '<div class="success-card"><div class="check">✓</div><h2>Thanks again!</h2><p>You\'ve already submitted a review for this link.</p></div>';
+        return;
+      }
+      render(info);
+    })
+    .catch(function () {
+      root.innerHTML = '<h1>Hmm…</h1><p class="sub">This review link is invalid or expired.</p>';
+    });
+
+  function esc(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/[&<>"']/g, function (c) { return { "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]; });
+  }
+
+  function render(info) {
+    var greeting = info.reviewer_name ? 'Hi ' + esc(info.reviewer_name.split(' ')[0]) + ', ' : '';
+    root.innerHTML =
+      '<h1>' + greeting + 'How was your experience?</h1>' +
+      '<p class="sub">It only takes a moment, and it makes a huge difference.</p>' +
+      '<div id="formAlert"></div>' +
+      '<form id="reviewForm" autocomplete="off">' +
+        '<label style="text-align:center">Rate your experience</label>' +
+        '<div class="stars-input" id="starsInput">' +
+          [1,2,3,4,5].map(function (n) { return '<button type="button" class="star-btn" data-n="' + n + '">★</button>'; }).join("") +
+        '</div>' +
+        '<input type="hidden" id="starsValue" value="0">' +
+        '<label>Title (optional)</label>' +
+        '<input id="rTitle" placeholder="One-line summary">' +
+        '<label>Tell us what stood out</label>' +
+        '<textarea id="rBody" placeholder="What did you like? What could be better? Real, specific feedback is the most useful."></textarea>' +
+        '<div class="hp-trap"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>' +
+        '<button type="submit" class="submit" disabled>Submit Review</button>' +
+      '</form>';
+
+    var stars = document.getElementById('starsInput');
+    var hidden = document.getElementById('starsValue');
+    var btn = document.querySelector('.submit');
+    stars.addEventListener('click', function (e) {
+      var s = e.target.closest('.star-btn');
+      if (!s) return;
+      var n = parseInt(s.getAttribute('data-n'), 10);
+      hidden.value = n;
+      stars.querySelectorAll('.star-btn').forEach(function (x, i) {
+        x.classList.toggle('on', i < n);
+      });
+      btn.disabled = !(n >= 1 && n <= 5);
+    });
+
+    document.getElementById('reviewForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var stars = parseInt(hidden.value, 10);
+      if (!stars) return;
+      btn.disabled = true; btn.textContent = 'Submitting…';
+      fetch(API + '/' + encodeURIComponent(token), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          stars: stars,
+          title: document.getElementById('rTitle').value.trim(),
+          body:  document.getElementById('rBody').value.trim(),
+          website: document.querySelector('input[name="website"]').value, // honeypot
+        }),
+      }).then(function (r) {
+        return r.json().then(function (d) { return r.ok ? d : Promise.reject(d); });
+      }).then(function (d) {
+        root.innerHTML = '<div class="success-card"><div class="check">✓</div><h2>Thanks!</h2><p>' + esc(d.thanks_msg || 'Your review has been recorded.') + '</p></div>';
+      }).catch(function (e) {
+        document.getElementById('formAlert').innerHTML = '<div class="alert error">' + esc((e && e.error) || 'Could not submit. Please try again.') + '</div>';
+        btn.disabled = false; btn.textContent = 'Submit Review';
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>

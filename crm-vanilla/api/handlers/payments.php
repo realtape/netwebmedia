@@ -1,0 +1,189 @@
+<?php
+/**
+ * Payments API Handler
+ *
+ * Routes:
+ *   GET  /api/?r=payments               — list invoices, subscriptions, payment links, transactions
+ *   GET  /api/?r=payments&tab=invoices  — invoices only
+ *   POST /api/?r=payments               — create invoice
+ *   PUT  /api/?r=payments&id=N          — update invoice status
+ *
+ * Returns summary stats + tabbed data for the Payments UI.
+ */
+
+require_once __DIR__ . '/../lib/tenancy.php';
+$db = getDB();
+[$tWhereI, $tParamsI] = tenancy_where('i');
+[$tWhereS, $tParamsS] = tenancy_where('s');
+$uid = tenant_id();
+$orgId = is_org_schema_applied() ? current_org_id() : null;
+
+// DDL moved to schema_payments.sql — run via /api/?r=migrate&schema=payments
+// Real per-worker readiness cache: a function-scope `static` persists across
+// requests within one PHP-FPM worker (a file-scope `static` does not).
+function _payments_tables_ready(PDO $db): bool {
+    static $ready = false;
+    if ($ready) return true;
+    try {
+        $db->query('SELECT 1 FROM invoices LIMIT 1');
+        $db->query('SELECT 1 FROM subscriptions LIMIT 1');
+        return $ready = true;
+    } catch (Throwable $e) {
+        return false;
+    }
+}
+if (!_payments_tables_ready($db)) {
+    jsonError('Payments tables not initialized. Run /api/?r=migrate&schema=payments', 503);
+}
+
+// ── GET ───────────────────────────────────────────────────────────────────────
+if ($method === 'GET') {
+    $tab = $_GET['tab'] ?? 'overview';
+
+    // Summary stats from invoices (tenant-scoped)
+    $statsSql = "SELECT
+            SUM(CASE WHEN status='paid'    THEN amount ELSE 0 END) AS total_revenue,
+            SUM(CASE WHEN status='pending' THEN amount ELSE 0 END) AS outstanding,
+            SUM(CASE WHEN status='overdue' THEN amount ELSE 0 END) AS overdue,
+            SUM(CASE WHEN status='paid' AND MONTH(invoice_date)=MONTH(CURDATE())
+                                         THEN amount ELSE 0 END)   AS this_month
+        FROM invoices i";
+    $statsParams = [];
+    if ($tWhereI) { $statsSql .= ' WHERE ' . $tWhereI; $statsParams = $tParamsI; }
+    $st = $db->prepare($statsSql);
+    $st->execute($statsParams);
+    $stats = $st->fetch();
+
+    $summary = [
+        'total_revenue' => (float)($stats['total_revenue'] ?? 0),
+        'outstanding'   => (float)($stats['outstanding']   ?? 0),
+        'overdue'       => (float)($stats['overdue']       ?? 0),
+        'this_month'    => (float)($stats['this_month']    ?? 0),
+    ];
+
+    // Invoices (tenant-scoped)
+    $invSql = "SELECT i.*, c.name as contact_name
+               FROM invoices i
+               LEFT JOIN contacts c ON i.contact_id = c.id";
+    $invParams = [];
+    if ($tWhereI) { $invSql .= ' WHERE ' . $tWhereI; $invParams = $tParamsI; }
+    $invSql .= ' ORDER BY i.created_at DESC LIMIT 100';
+    $st = $db->prepare($invSql);
+    $st->execute($invParams);
+    $invoices = $st->fetchAll();
+
+    // Subscriptions (tenant-scoped)
+    $subSql = "SELECT s.*, c.name as contact_name
+               FROM subscriptions s
+               LEFT JOIN contacts c ON s.contact_id = c.id";
+    $subParams = [];
+    if ($tWhereS) { $subSql .= ' WHERE ' . $tWhereS; $subParams = $tParamsS; }
+    $subSql .= ' ORDER BY s.status ASC, s.next_bill_date ASC LIMIT 100';
+    $st = $db->prepare($subSql);
+    $st->execute($subParams);
+    $subscriptions = $st->fetchAll();
+
+    jsonResponse([
+        'summary'       => $summary,
+        'invoices'      => $invoices,
+        'subscriptions' => $subscriptions,
+    ]);
+}
+
+// ── POST — create invoice ─────────────────────────────────────────────────────
+if ($method === 'POST') {
+    // SECURITY (H2): block X-Org-Slug-based cross-org INSERT.
+    require_org_access_for_write('member');
+    $data = getInput();
+    if (empty($data['client_name']) || empty($data['amount'])) {
+        jsonError('client_name and amount are required');
+    }
+    // SECURITY (H4): scope invoice number generation per-org. Two orgs creating
+    // invoices simultaneously must not see each other's counter or collide.
+    // We use MAX(numeric suffix) + 1 within the org, derived from invoice_num.
+    // Pre-migration (no org column) we fall back to global counting (legacy).
+    if ($orgId !== null) {
+        $maxStmt = $db->prepare(
+            "SELECT COALESCE(MAX(CAST(SUBSTRING_INDEX(invoice_num, '-', -1) AS UNSIGNED)), 0)
+             FROM invoices WHERE organization_id = ?"
+        );
+        $maxStmt->execute([$orgId]);
+        $next = ((int)$maxStmt->fetchColumn()) + 1;
+    } else {
+        $count = (int)$db->query("SELECT COUNT(*) FROM invoices")->fetchColumn();
+        $next  = $count + 1;
+    }
+    $num = 'INV-' . str_pad((string)$next, 3, '0', STR_PAD_LEFT);
+
+    if ($orgId !== null) {
+        $stmt = $db->prepare("
+            INSERT INTO invoices (user_id, organization_id, invoice_num, contact_id, client_name, company, amount, status, invoice_date, due_date, notes)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+        $stmt->execute([
+            $uid,
+            $orgId,
+            $num,
+            $data['contact_id'] ?? null,
+            $data['client_name'],
+            $data['company'] ?? '',
+            (float)$data['amount'],
+            $data['status'] ?? 'pending',
+            $data['invoice_date'] ?? date('Y-m-d'),
+            $data['due_date'] ?? null,
+            $data['notes'] ?? null,
+        ]);
+    } else {
+        $stmt = $db->prepare("
+            INSERT INTO invoices (user_id, invoice_num, contact_id, client_name, company, amount, status, invoice_date, due_date, notes)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+        $stmt->execute([
+            $uid,
+            $num,
+            $data['contact_id'] ?? null,
+            $data['client_name'],
+            $data['company'] ?? '',
+            (float)$data['amount'],
+            $data['status'] ?? 'pending',
+            $data['invoice_date'] ?? date('Y-m-d'),
+            $data['due_date'] ?? null,
+            $data['notes'] ?? null,
+        ]);
+    }
+    jsonResponse(['id' => (int)$db->lastInsertId(), 'invoice_num' => $num], 201);
+}
+
+// ── PUT — update invoice status ───────────────────────────────────────────────
+if ($method === 'PUT' && $id) {
+    // Ownership check — migration-aware
+    [$ownWhere, $ownParams] = tenancy_where();
+    $checkSql = 'SELECT id FROM invoices WHERE id = ?';
+    $checkParams = [$id];
+    if ($ownWhere) { $checkSql .= ' AND ' . $ownWhere; $checkParams = array_merge($checkParams, $ownParams); }
+    $own = $db->prepare($checkSql);
+    $own->execute($checkParams);
+    if (!$own->fetch()) jsonError('Invoice not found', 404);
+
+    $data = getInput();
+    $allowed = ['draft', 'pending', 'paid', 'overdue', 'cancelled'];
+    if (!empty($data['status']) && !in_array($data['status'], $allowed, true)) {
+        jsonError('Invalid status');
+    }
+    $sets = [];
+    $vals = [];
+    foreach (['status', 'client_name', 'company', 'amount', 'due_date', 'notes'] as $f) {
+        if (array_key_exists($f, $data)) {
+            $sets[] = "`$f` = ?";
+            $vals[] = $data[$f];
+        }
+    }
+    if (!$sets) jsonError('Nothing to update');
+    $vals[] = $id;
+    $updSql = "UPDATE invoices SET " . implode(', ', $sets) . " WHERE id = ?";
+    if ($ownWhere) { $updSql .= ' AND ' . $ownWhere; $vals = array_merge($vals, $ownParams); }
+    $db->prepare($updSql)->execute($vals);
+    jsonResponse(['updated' => true]);
+}
+
+jsonError('Method not allowed', 405);

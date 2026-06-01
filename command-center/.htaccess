@@ -1,0 +1,27 @@
+# Internal Launch Command Center — runtime assets only, kept out of indexes.
+# Header/FilesMatch/RedirectMatch only (no RewriteEngine) so parent rewrite rules
+# in /public_html/.htaccess keep firing (child RewriteEngine would replace them).
+# The site-wide Content-Security-Policy header from the root .htaccess is inherited
+# here — this app is CSP-clean (same-origin app.js/app.css + unpkg React, no eval).
+
+Header always set X-Robots-Tag "noindex, nofollow"
+
+# Do not serve build sources / config (they ship via FTP but stay non-public).
+<FilesMatch "^(tailwind\.config\.js|package\.json|package-lock\.json|README\.md)$">
+  Require all denied
+</FilesMatch>
+<FilesMatch "\.(jsx|map)$">
+  Require all denied
+</FilesMatch>
+RedirectMatch 404 ^/command-center/(src|node_modules)/
+
+# ---- OPTIONAL: lock the whole tool behind Basic auth -------------------------
+# Preferred: enable "Directory Privacy" on /command-center/ in cPanel (server-side,
+# matches how /cms/ is protected). Or create /home/webmed6/.htpasswd-cc and
+# uncomment the block below. The deployed page itself holds no secrets — all data
+# lives in the visitor's own browser localStorage — but auth keeps it team-only.
+#
+# AuthType Basic
+# AuthName "NetWebMedia Command Center"
+# AuthUserFile /home/webmed6/.htpasswd-cc
+# Require valid-user

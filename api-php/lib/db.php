@@ -74,6 +74,22 @@ function config() {
       // Same project as the JS-side capture in /js/nwm-sentry.js.
       $c['sentry_dsn'] = 'https://69fce09a20f1958bd2f1b9e601ba9a46@o4511302572441600.ingest.us.sentry.io/4511302588235776';
     }
+
+    // Offsite DB backup export token (routes/admin.php → GET /api/admin-export).
+    // api-php has no committed config.php and uses this config() array rather
+    // than define() constants, so the BACKUP_TOKEN fallback lives here as the
+    // 'backup_token' array key. Clearly-placeholder default: route_admin_export
+    // refuses to authenticate against 'NWM_BACKUP_UNSET', so a missing
+    // config.local.php keeps the endpoint inert (403). The deploy workflow
+    // overwrites this with the real BACKUP_TOKEN secret in config.local.php.
+    if (empty($c['backup_token'])) {
+      $c['backup_token'] = getenv('BACKUP_TOKEN') ?: 'NWM_BACKUP_UNSET';
+    }
+    // Also expose as a constant for callers that prefer defined()/BACKUP_TOKEN
+    // (e.g. the _export-logs.php-style `?? (defined(...) ? ... : null)` pattern).
+    if (!defined('BACKUP_TOKEN')) {
+      define('BACKUP_TOKEN', $c['backup_token']);
+    }
   }
   return $c;
 }

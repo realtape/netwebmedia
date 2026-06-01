@@ -35,6 +35,11 @@ if (!defined('GEN_BEST_TOKEN'))    define('GEN_BEST_TOKEN',    bin2hex(random_by
 // guessable literals NWM_FILTER_ID_2026 / NWM_FILTER_REACH_2026 — now fail closed.
 if (!defined('FILTER_ID_TOKEN'))    define('FILTER_ID_TOKEN',    bin2hex(random_bytes(32)));
 if (!defined('FILTER_REACH_TOKEN')) define('FILTER_REACH_TOKEN', bin2hex(random_bytes(32)));
+// Offsite DB backup export (handlers/db_export.php → GET ?r=db_export).
+// Clearly-placeholder default — db_export refuses to authenticate against
+// 'NWM_BACKUP_UNSET', so a missing config.local.php keeps the endpoint inert (403).
+// Override in config.local.php (deploy writes it from the BACKUP_TOKEN secret).
+if (!defined('BACKUP_TOKEN'))       define('BACKUP_TOKEN', getenv('BACKUP_TOKEN') ?: 'NWM_BACKUP_UNSET');
 
 // Sentry DSN — same project as the JS-side capture in /js/nwm-sentry.js (loaded
 // from index.html via window.NWM_SENTRY_DSN). Public DSN; safe to commit.

@@ -95,6 +95,7 @@ $idempotent_codes = [
     '1050',      // ER_TABLE_EXISTS_ERROR
     '1062',      // ER_DUP_ENTRY (only matters if backfill UNIQUE clashes)
     '1826',      // ER_FK_DUP_NAME   — Duplicate foreign key constraint name (MySQL 5.7+)
+    '1091',      // ER_CANT_DROP_FIELD_OR_KEY — DROP INDEX/COLUMN of an already-absent object (idempotent DROP re-run)
     'errno: 121',// InnoDB "Duplicate key on write or update" — old-style FK name clash (errno 121 surfaces as 1005)
 ];
 

@@ -5,17 +5,32 @@ try {
     jsonError('Database connection failed: ' . $e->getMessage(), 500);
 }
 
-// Ensure org_settings table exists
+require_once __DIR__ . '/../lib/tenancy.php';
+
+// Ensure org_settings table exists, scoped per-organization (white-label isolation).
 try {
     $db->exec('CREATE TABLE IF NOT EXISTS org_settings (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        `key` VARCHAR(100) NOT NULL UNIQUE,
+        organization_id BIGINT UNSIGNED NOT NULL DEFAULT 1,
+        `key` VARCHAR(100) NOT NULL,
         value TEXT,
-        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        UNIQUE KEY uniq_org_key (organization_id, `key`)
     )');
+    // Self-heal pre-tenant installs (was global UNIQUE(`key`)). Idempotent — ignore "already applied".
+    foreach ([
+        'ALTER TABLE org_settings ADD COLUMN organization_id BIGINT UNSIGNED NOT NULL DEFAULT 1',
+        'ALTER TABLE org_settings ADD UNIQUE KEY uniq_org_key (organization_id, `key`)',
+        'ALTER TABLE org_settings DROP INDEX `key`',
+    ] as $alt) {
+        try { $db->exec($alt); } catch (Throwable $e) { /* column/index already (or not yet) present */ }
+    }
 } catch (Exception $e) {
     jsonError('Schema init failed: ' . $e->getMessage(), 500);
 }
+
+// Settings are per-organization; master/guest (unresolved org) fall back to org 1 (NWM).
+$settingsOrg = (int)(current_org_id() ?? 1);
 
 // Default values returned when a key is not yet stored
 $defaults = [
@@ -36,8 +51,9 @@ $allowed_keys = array_keys($defaults);
  * Load all org settings from DB and merge with defaults.
  * Returns a flat associative array.
  */
-function loadSettings($db, $defaults) {
-    $stmt = $db->query('SELECT `key`, value FROM org_settings');
+function loadSettings($db, $defaults, $orgId) {
+    $stmt = $db->prepare('SELECT `key`, value FROM org_settings WHERE organization_id = ?');
+    $stmt->execute([$orgId]);
     $rows = $stmt->fetchAll();
     $stored = [];
     foreach ($rows as $row) {
@@ -74,7 +90,7 @@ switch ($method) {
 
         // Default GET: full settings + team
         try {
-            $settings = loadSettings($db, $defaults);
+            $settings = loadSettings($db, $defaults, $settingsOrg);
             $settings['team'] = loadTeam($db);
             jsonResponse($settings);
         } catch (Exception $e) {
@@ -112,19 +128,19 @@ switch ($method) {
             }
 
             $stmt = $db->prepare(
-                'INSERT INTO org_settings (`key`, value)
-                 VALUES (?, ?)
+                'INSERT INTO org_settings (organization_id, `key`, value)
+                 VALUES (?, ?, ?)
                  ON DUPLICATE KEY UPDATE value = VALUES(value), updated_at = CURRENT_TIMESTAMP'
             );
 
             foreach ($allowed_keys as $key) {
                 if (array_key_exists($key, $data)) {
-                    $stmt->execute([$key, (string)$data[$key]]);
+                    $stmt->execute([$settingsOrg, $key, (string)$data[$key]]);
                 }
             }
 
             // Return the updated full settings + team
-            $settings = loadSettings($db, $defaults);
+            $settings = loadSettings($db, $defaults, $settingsOrg);
             $settings['team'] = loadTeam($db);
             jsonResponse($settings);
         } catch (Exception $e) {

@@ -154,10 +154,14 @@ switch ($method) {
         $stmt->execute([$newId]);
         $newRow = $stmt->fetch();
 
-        /* Fire deal_stage trigger for the initial stage (most commonly "New Lead") */
+        /* Fire deal_stage trigger for the initial stage (most commonly "New Lead").
+           Guarded: a workflow-engine error must not 500 an already-persisted deal
+           (matches the try/catch the PUT path already uses). */
         if (!empty($newRow['stage'])) {
-            $ctx = deal_wf_ctx($db, (int)$newId);
-            wf_crm_trigger('deal_stage', ['stage' => $newRow['stage']], $ctx, $uid, $orgId);
+            try {
+                $ctx = deal_wf_ctx($db, (int)$newId);
+                wf_crm_trigger('deal_stage', ['stage' => $newRow['stage']], $ctx, $uid, $orgId);
+            } catch (Throwable $_) { /* swallow — deal create already succeeded */ }
         }
 
         jsonResponse($newRow, 201);

@@ -1,0 +1,125 @@
+{
+  "name": "NWM — Intake → Claude Proposal → PDF → Google Drive → Sales Email",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nwm-proposal-request",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "node-webhook",
+      "name": "Webhook: Proposal Request",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://netwebmedia.com/app/api/?r=analyze&url={{ encodeURIComponent($json.target_url) }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "X-API-Key", "value": "={{ $credentials.nwmApiKey }}" }]
+        },
+        "options": { "timeout": 30000 }
+      },
+      "id": "node-analyze",
+      "name": "Run Analyzer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "anthropic-version", "value": "2023-06-01" },
+            { "name": "content-type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"claude-sonnet-4-5-20250929\",\n  \"max_tokens\": 2500,\n  \"system\": \"You are NetWebMedia's senior strategist. Given an analyzer report, produce a complete website-audit proposal. Return STRICT JSON: {executive_summary (2 paragraphs), wins:[6 strings], findings:[{category,issue,impact}], plan:[{weeks,deliverable,service,price_usd}], total_usd, expected_outcome}. Pricing ranges: technical SEO $1200-2400, performance $400-900, schema $800-1500, content engine $2400-4800, agents/automations $1800-3600, paid ads $1500-2500/mo. Total should be $6000-12000.\",\n  \"messages\": [{\"role\":\"user\",\"content\":\"Company: {{$('Webhook: Proposal Request').item.json.company}}\\nLead: {{$('Webhook: Proposal Request').item.json.name}}\\nURL: {{$('Webhook: Proposal Request').item.json.target_url}}\\nAnalyzer JSON: {{ JSON.stringify($json) }}\"}]\n}"
+      },
+      "id": "node-claude",
+      "name": "Claude: Draft Proposal",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 300],
+      "credentials": {
+        "httpHeaderAuth": { "id": "CRED_ANTHROPIC", "name": "Anthropic API" }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.content[0].text.replace(/^```(?:json)?|```$/gim, '').trim();\nconst p = JSON.parse(raw);\nconst intake = $('Webhook: Proposal Request').item.json;\nconst analyzer = $('Run Analyzer').item.json;\nconst esc = s => String(s ?? '').replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;','\\'':'&#39;'}[c]));\nconst date = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});\nconst winsHtml = (p.wins||[]).map(w => `<li>${esc(w)}</li>`).join('');\nconst findingsHtml = (p.findings||[]).map(f => `<li><strong>${esc(f.category)}:</strong> ${esc(f.issue)} — <em>${esc(f.impact)}</em></li>`).join('');\nconst planRows = (p.plan||[]).map(r => `<tr><td>${esc(r.weeks)}</td><td>${esc(r.deliverable)}</td><td>${esc(r.service)}</td><td class=\"price\">$${r.price_usd}</td></tr>`).join('');\nconst html = `<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title>Proposal — ${esc(intake.company)}</title><style>@page{size:A4;margin:18mm 16mm}body{font-family:Helvetica,Arial,sans-serif;color:#111;font-size:11pt;line-height:1.5}.cover{min-height:92vh;background:linear-gradient(135deg,#012169,#051540);color:#fff;padding:60px 50px;page-break-after:always}.cover h1{font-size:38pt;font-weight:900;margin-top:80px;line-height:1.05}.cover h1 span{color:#FF671F}h2{font-size:18pt;color:#012169;border-left:5px solid #FF671F;padding-left:14px;margin:24px 0 10px}ul{padding-left:0;list-style:none}ul li{background:#fff7ed;border-left:3px solid #FF671F;padding:10px 14px;margin-bottom:6px}ul.wins li{background:#ecfdf5;border-left-color:#00A86B}table{width:100%;border-collapse:collapse;margin-top:14px;font-size:10pt}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #e4e9f2}th{background:#012169;color:#fff}.price{text-align:right;font-weight:800;color:#012169}.total{background:#FF671F;color:#fff;padding:20px;border-radius:10px;font-size:16pt;font-weight:900;text-align:center;margin:20px 0}</style></head><body><section class=\"cover\"><div>NetWeb<strong style=\"color:#FF671F\">Media</strong></div><h1>How we'd grow<br><span>${esc(intake.company)}</span><br>by 10x in 90 days.</h1><p style=\"color:#C8D4E6;margin-top:24px\">Prepared for ${esc(intake.name)} · ${date}</p></section><section><h2>Executive Summary</h2><p>${esc(p.executive_summary)}</p><h2>What's Already Working</h2><ul class=\"wins\">${winsHtml}</ul><h2>Critical Findings</h2><ul>${findingsHtml}</ul><h2>The 90-Day Plan</h2><table><tr><th>Weeks</th><th>Deliverable</th><th>Service</th><th>Investment</th></tr>${planRows}</table><div class=\"total\">Total 90-Day Investment: $${p.total_usd}</div><h2>Expected Outcome</h2><p>${esc(p.expected_outcome)}</p></section></body></html>`;\nconst filename = `proposal-${intake.company.toLowerCase().replace(/[^a-z0-9]+/g,'-')}-${new Date().toISOString().slice(0,10)}.html`;\nreturn [{ json: { filename, html, lead_email: intake.email, lead_name: intake.name, company: intake.company, total: p.total_usd }, binary: { data: { data: Buffer.from(html).toString('base64'), mimeType: 'text/html', fileName: filename } } }];"
+      },
+      "id": "node-render",
+      "name": "Render HTML",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "operation": "upload",
+        "name": "={{ $json.filename }}",
+        "parents": { "mode": "list", "value": "PROPOSALS_FOLDER_ID" },
+        "options": {}
+      },
+      "id": "node-drive",
+      "name": "Upload to Google Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [1120, 300],
+      "credentials": {
+        "googleDriveOAuth2Api": { "id": "CRED_GDRIVE", "name": "NetWebMedia Drive" }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "hello@netwebmedia.com",
+        "toEmail": "sales@netwebmedia.com",
+        "subject": "=New Proposal Ready — {{ $('Render HTML').item.json.company }} ($${{ $('Render HTML').item.json.total }})",
+        "text": "=A new proposal has been generated and is ready to send.\n\nCompany: {{ $('Render HTML').item.json.company }}\nLead: {{ $('Render HTML').item.json.lead_name }} ({{ $('Render HTML').item.json.lead_email }})\nTotal: ${{ $('Render HTML').item.json.total }}\n\nDrive link: {{ $json.webViewLink }}\n\nReview, tweak if needed, then forward to the lead.",
+        "options": {}
+      },
+      "id": "node-notify",
+      "name": "Email Sales Team",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1340, 300],
+      "credentials": {
+        "smtp": { "id": "CRED_SMTP", "name": "NetWebMedia SMTP" }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": true, \"drive_link\": \"{{ $('Upload to Google Drive').item.json.webViewLink }}\", \"total_usd\": {{ $('Render HTML').item.json.total }} }"
+      },
+      "id": "node-respond",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1560, 300]
+    }
+  ],
+  "connections": {
+    "Webhook: Proposal Request": { "main": [[{ "node": "Run Analyzer", "type": "main", "index": 0 }]] },
+    "Run Analyzer": { "main": [[{ "node": "Claude: Draft Proposal", "type": "main", "index": 0 }]] },
+    "Claude: Draft Proposal": { "main": [[{ "node": "Render HTML", "type": "main", "index": 0 }]] },
+    "Render HTML": { "main": [[{ "node": "Upload to Google Drive", "type": "main", "index": 0 }]] },
+    "Upload to Google Drive": { "main": [[{ "node": "Email Sales Team", "type": "main", "index": 0 }]] },
+    "Email Sales Team": { "main": [[{ "node": "Respond", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "NetWebMedia" }, { "name": "proposal" }]
+}

@@ -1,0 +1,22 @@
+---
+name: project_checkout_funnel_test_2026_06_01
+description: 2026-06-01 end-to-end test of the netwebmedia.com signup/checkout funnel + lead guide. Public funnel verified; transactional email (welcome/reset) appears NOT delivering; Chrome MCP screenshots are broken on the NWM browser (use Firecrawl instead).
+metadata: 
+  node_type: memory
+  type: project
+  originSessionId: dfb9573c-11a3-4234-932c-d1b4ef2670f9
+---
+
+Carlos asked to create test user "Webmedia Test" (webmedia.chile@gmail.com), walk homepage→buy-a-service→trial, and screenshot every step into a **lead guide**. Results:
+
+**Deliverable shipped:** `D:\Documents\nwm-lead-guide\index.html` + `screens/` (01-homepage, 02-pricing-tiers + 02-pricing full, 03-register-free, 04-register-paid). Brand-styled HTML guide, both free + paid paths, FAQ, print-ready. Preview config added to `.claude/launch.json` ("nwm-lead-guide", port 8090). Verified rendering via preview.
+
+**Public funnel VERIFIED working (2026-06-01):** homepage, pricing.html (AEO Starter $249 / CMO Growth $999 / CMO Premium $2,490 / Custom + Free CRM + 14-day trial banner), and register.html render correctly for both `?plan=free` ("Start your free CRM, no card") and `?plan=cmo_starter` ("AEO Starter · $249/mo → Continue to secure checkout"). Signup validation works: duplicate email → 409 "Email already registered"; consent checkbox enforced.
+
+**`webmedia.chile@gmail.com` already exists** as a registered user (status `pending_payment`, role user, org 1). It is signed into the **NWM Chrome at authuser /u/2/**. It is NOT recoverable automatically: password unknown (8 guesses 401'd), and **there is no admin set-password endpoint** — `api-php/routes/auth.php` only offers the email-based forgot/reset flow (and `ensure-admins` for carlos@ only). So the only way to (re)claim that exact login is via the password-reset email.
+
+**FINDING — transactional email not delivering.** Triggered `POST /api/auth/forgot` for webmedia.chile@gmail.com → 200 generic OK, but the reset email **never arrived** (inbox + spam clean) after ~12 min; that inbox shows no NetWebMedia/Resend mail historically either. So welcome + reset emails likely aren't reaching leads. `send_mail()` in `api-php/lib/mailer.php` is wrapped in a try/catch that swallows errors (invisible failures). Most likely cause: Resend from-domain SPF/DKIM/DMARC. **Spawned a background task to verify Resend deliverability.** This is the blocker that stopped the authenticated half of the test (logged-in workspace screenshot + real $249 checkout link) — Carlos chose "grab reset link from NWM Chrome" but there was nothing to grab.
+
+**Still NOT done (blocked on the above):** the actual register→checkout→MercadoPago `init_point` validation as a fresh non-admin user (the "remaining real test" from [[project_selfserve_checkout_status]]), and the two authenticated screenshots. Did NOT run checkout as Carlos (would pollute his real billing). Carlos declined the fresh-account option.
+
+**TOOLING GOTCHA (durable):** On the **NWM Chrome** connection, the `mcp__Claude_in_Chrome__*` **screenshot / get_page_text / read_page tools are broken** — they wait 45s for `document_idle` which never fires (sitewide; even /robots.txt fails). `window.stop()` doesn't help. BUT navigate / javascript_tool / find / form_input / read_network_requests all work fine. **Workaround that worked: capture public pages with Firecrawl `firecrawl_scrape` formats:["screenshot"]** (renders server-side, returns a signed PNG URL — download it, URLs expire ~7d). computer-use desktop screenshots also work but the MCP tab lives in its own background window you can't easily surface, and `open_application "Google Chrome"` spawned a stray profile-picker window. Don't burn time re-discovering this.

@@ -203,7 +203,11 @@
       state.features = data.features || [];
       state.connected = true;
       if (state.org) applyBranding(state.org.branding);
-      if (!state.org && !state.user) { renderSignedOut(); return; }
+      // V1 bug fix 2026-06-01: whoami resolves master org by host even for
+      // anonymous visitors, so the old `!state.org && !state.user` gate let
+      // unauthenticated traffic into the shell where every gated call 401s.
+      // The real test is "did a user authenticate?" — if no, show sign-in.
+      if (!state.user) { renderSignedOut(); return; }
       showShell();
     }).catch(function (err) {
       bootError(err && err.message);

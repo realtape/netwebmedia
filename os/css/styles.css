@@ -1,0 +1,147 @@
+/* =============================================================================
+   NetWebMedia OS — shell theme  (Phase 1 Foundation skeleton)
+   CSS-custom-property driven. Per-tenant branding is injected at boot by
+   os/js/app.js via document.documentElement.style.setProperty() — never via an
+   inline <style> block (CSP is live and would block it).
+   ============================================================================= */
+
+:root {
+  /* Brand — overridden per tenant from whoami.branding. Gulf Oil defaults. */
+  --nwm-primary:   #010F3B;
+  --nwm-secondary: #FF671F;
+
+  --os-bg:        #f4f6fb;
+  --os-surface:   #ffffff;
+  --os-ink:       #0a1f3d;
+  --os-ink-soft:  #5a6b85;
+  --os-line:      #e3e8f2;
+  --os-sidebar:   #010F3B;
+  --os-sidebar-ink: #c8d4e6;
+  --os-radius:    12px;
+  --os-shadow:    0 1px 3px rgba(1,15,59,.08), 0 8px 24px rgba(1,15,59,.06);
+  --os-font:      'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--os-bg);
+  color: var(--os-ink);
+  font-family: var(--os-font);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Boot splash ---------------------------------------------------------- */
+.os-boot {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1.1rem;
+  background: var(--nwm-primary);
+  color: #fff;
+  z-index: 50;
+}
+.os-boot__mark { font-weight: 800; font-size: 1.6rem; letter-spacing: .04em; }
+.os-boot__spin {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 3px solid rgba(255,255,255,.25);
+  border-top-color: var(--nwm-secondary);
+  animation: os-spin .8s linear infinite;
+}
+@keyframes os-spin { to { transform: rotate(360deg); } }
+.os-boot__msg { margin: 0; opacity: .85; font-size: .95rem; }
+.os-boot.is-error .os-boot__spin { display: none; }
+
+/* ---- Shell layout --------------------------------------------------------- */
+.os-shell { display: flex; flex-direction: column; height: 100vh; }
+
+.os-topbar {
+  display: flex; align-items: center; gap: 1rem;
+  height: 60px; padding: 0 1rem;
+  background: var(--os-surface);
+  border-bottom: 1px solid var(--os-line);
+  flex: 0 0 auto;
+}
+.os-brand { display: flex; align-items: center; gap: .55rem; min-width: 180px; }
+.os-brand__logo { height: 30px; width: auto; border-radius: 6px; }
+.os-brand__name { font-family: 'Poppins', var(--os-font); font-weight: 700; color: var(--nwm-primary); }
+
+.os-cmd { flex: 1 1 auto; max-width: 720px; margin: 0 auto; }
+.os-cmd__input {
+  width: 100%; height: 40px; padding: 0 14px;
+  border: 1px solid var(--os-line); border-radius: 999px;
+  background: var(--os-bg); color: var(--os-ink);
+  font-size: .92rem; font-family: var(--os-font);
+}
+.os-cmd__input:focus {
+  outline: none; border-color: var(--nwm-secondary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--nwm-secondary) 22%, transparent);
+  background: #fff;
+}
+
+.os-topbar__right { display: flex; align-items: center; gap: .75rem; min-width: 180px; justify-content: flex-end; }
+.os-badge {
+  font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+  padding: 3px 9px; border-radius: 999px;
+  background: color-mix(in srgb, var(--nwm-secondary) 16%, #fff);
+  color: var(--nwm-secondary);
+}
+.os-user { font-size: .85rem; color: var(--os-ink-soft); }
+
+.os-body { display: flex; flex: 1 1 auto; min-height: 0; }
+
+/* ---- Sidebar -------------------------------------------------------------- */
+.os-sidebar {
+  flex: 0 0 220px; background: var(--os-sidebar); color: var(--os-sidebar-ink);
+  padding: 14px 10px; overflow-y: auto;
+}
+.os-nav__item {
+  display: flex; align-items: center; gap: .6rem;
+  padding: 10px 12px; border-radius: 9px;
+  color: var(--os-sidebar-ink); text-decoration: none; cursor: pointer;
+  font-size: .9rem; font-weight: 500; border: none; background: none; width: 100%; text-align: left;
+}
+.os-nav__item:hover { background: rgba(255,255,255,.06); color: #fff; }
+.os-nav__item.is-active { background: var(--nwm-secondary); color: #fff; }
+.os-nav__ico { width: 18px; text-align: center; opacity: .9; }
+.os-nav__sep { height: 1px; background: rgba(255,255,255,.08); margin: 10px 12px; }
+
+/* ---- Main / views --------------------------------------------------------- */
+.os-main { flex: 1 1 auto; padding: 22px 26px; overflow-y: auto; }
+.os-view__head { margin: 0 0 4px; font-size: 1.35rem; font-family: 'Poppins', var(--os-font); color: var(--nwm-primary); }
+.os-view__sub { margin: 0 0 20px; color: var(--os-ink-soft); font-size: .92rem; }
+
+.os-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+.os-card {
+  background: var(--os-surface); border: 1px solid var(--os-line);
+  border-radius: var(--os-radius); box-shadow: var(--os-shadow);
+  padding: 18px;
+}
+.os-card__label { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--os-ink-soft); margin: 0 0 6px; }
+.os-card__value { font-size: 1.8rem; font-weight: 700; color: var(--nwm-primary); margin: 0; }
+.os-card__hint  { font-size: .82rem; color: var(--os-ink-soft); margin: 8px 0 0; }
+
+.os-banner {
+  background: color-mix(in srgb, var(--nwm-secondary) 10%, #fff);
+  border: 1px solid color-mix(in srgb, var(--nwm-secondary) 30%, var(--os-line));
+  border-radius: var(--os-radius); padding: 14px 16px; margin-bottom: 18px;
+  font-size: .9rem; color: var(--os-ink);
+}
+
+/* ---- Signed-out state ----------------------------------------------------- */
+.os-signin { max-width: 420px; margin: 8vh auto 0; text-align: center; }
+.os-signin h1 { font-family: 'Poppins', var(--os-font); color: var(--nwm-primary); }
+.os-signin p  { color: var(--os-ink-soft); }
+.os-btn {
+  display: inline-block; margin-top: 14px; padding: 11px 22px;
+  background: var(--nwm-secondary); color: #fff; text-decoration: none;
+  border-radius: 999px; font-weight: 600; border: none; cursor: pointer;
+}
+
+@media (max-width: 720px) {
+  .os-sidebar { flex-basis: 64px; }
+  .os-nav__item span:not(.os-nav__ico) { display: none; }
+  .os-brand { min-width: 0; }
+  .os-topbar__right .os-user { display: none; }
+}

@@ -86,6 +86,10 @@ $handlers = [
     'export_bird'           => __DIR__ . '/handlers/export_bird.php',
     'bulk_import_osm'       => __DIR__ . '/handlers/bulk_import_osm.php',
     'purge_role_emails'     => __DIR__ . '/handlers/purge_role_emails.php',
+    // --- NetWebMedia OS (Phase 1 Foundation) ---
+    'whoami'                => __DIR__ . '/handlers/whoami.php',        // shell boot — {org,user,features}
+    'os_provision'          => __DIR__ . '/handlers/os_provision.php',  // master-only tenant provisioning (token)
+    'os_selftest'           => __DIR__ . '/handlers/os_selftest.php',   // R1 cross-tenant isolation guardrail (token)
 ];
 
 if (!isset($handlers[$resource])) {
@@ -105,6 +109,7 @@ if (!in_array($resource, $public_routes, true)) {
 $token_write_routes = [
     'seed', 'seed_contacts', 'seed_templates', 'seed_client_templates',
     'migrate', 'niche_config', 'cron_workflows', 'bulk_import_osm',
+    'os_provision', 'os_selftest',   // NWM OS — token-gated, do their own auth + pin_org_to_master()
 ];
 if (!in_array($method, ['GET', 'OPTIONS', 'HEAD'], true)
     && !in_array($resource, $public_routes, true)

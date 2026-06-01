@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>NetWebMedia OS</title>
+  <meta name="description" content="The AI Agency OS — staffed by AI agents that work the way your agency does.">
+  <link rel="stylesheet" href="/os/css/styles.css?v=2026-06-01a">
+</head>
+<body>
+  <!-- Boot splash — replaced once whoami resolves -->
+  <div id="osBoot" class="os-boot">
+    <div class="os-boot__mark" id="osBootMark">NWM&nbsp;OS</div>
+    <div class="os-boot__spin" aria-hidden="true"></div>
+    <p class="os-boot__msg" id="osBootMsg">Starting your workspace…</p>
+  </div>
+
+  <!-- Shell — hidden until boot completes -->
+  <div id="osShell" class="os-shell" hidden>
+    <header class="os-topbar">
+      <div class="os-brand">
+        <img id="osLogo" class="os-brand__logo" alt="" hidden>
+        <span id="osBrandName" class="os-brand__name">NetWebMedia OS</span>
+      </div>
+      <form class="os-cmd" id="osCmdForm" autocomplete="off">
+        <input
+          id="osCmd"
+          class="os-cmd__input"
+          type="text"
+          placeholder="⌘  Ask an agent…  e.g.  @cmo draft a 30-day plan for a hotel client"
+          aria-label="Command bar">
+      </form>
+      <div class="os-topbar__right">
+        <span id="osPlanBadge" class="os-badge" hidden></span>
+        <span id="osUser" class="os-user"></span>
+      </div>
+    </header>
+
+    <div class="os-body">
+      <nav class="os-sidebar" id="osSidebar" aria-label="Primary"></nav>
+      <main class="os-main" id="osView"></main>
+    </div>
+  </div>
+
+  <noscript>
+    <div style="padding:2rem;font-family:system-ui">NetWebMedia OS requires JavaScript.</div>
+  </noscript>
+
+  <script src="/os/js/api-client.js?v=2026-06-01a" defer></script>
+  <script src="/os/js/app.js?v=2026-06-01a" defer></script>
+</body>
+</html>

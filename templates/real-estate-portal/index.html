@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="description" content="Portal inmobiliario — casas y departamentos en venta. Template NetWebMedia.">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Tu Inmobiliaria — Propiedades</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/portal.css">
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top">
+        <span class="logo-mark">◆</span>
+        <span><span id="brandName">Tu Inmobiliaria</span><small>Propiedades en La Serena</small></span>
+      </a>
+      <nav class="main-nav">
+        <a href="#results" class="active" id="navBuy">Comprar</a>
+        <a href="#results" id="navRent">Arrendar</a>
+        <a href="#" id="navSell">Vender</a>
+        <a href="#footer" id="navContact">Contacto</a>
+      </nav>
+      <div class="header-actions">
+        <div class="lang-toggle" role="group" aria-label="idioma">
+          <button data-lang="es" class="active">ES</button>
+          <button data-lang="en">EN</button>
+        </div>
+        <button class="btn-publish" id="btnPublish">Publicar propiedad</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Hero + search ===== -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <h1 id="heroH1">Encuentra tu próxima propiedad en La Serena</h1>
+      <p class="lede" id="heroP">Casas y departamentos en venta en los mejores sectores.</p>
+
+      <div class="search-bar">
+        <div class="search-field">
+          <label id="lblType">Tipo</label>
+          <select id="heroType"></select>
+        </div>
+        <div class="search-field">
+          <label id="lblSector">Ubicación / sector</label>
+          <select id="heroSector"></select>
+        </div>
+        <div class="search-field full">
+          <label id="lblKeyword">Búsqueda</label>
+          <input type="text" id="q" placeholder="Buscar por palabra clave…">
+        </div>
+        <button class="btn-search" id="btnSearch">🔍 <span id="btnSearchTxt">Buscar</span></button>
+      </div>
+
+      <div class="hero-stats">
+        <div><b id="statProps">0</b> <span id="statPropsLbl">propiedades</span></div>
+        <div><b id="statSectors">0</b> <span id="statSectorsLbl">sectores</span></div>
+        <div><span id="statUFLbl">desde</span> <b id="statUF">UF 0</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Results ===== -->
+  <section class="results-section" id="results">
+    <div class="wrap">
+      <div class="layout">
+
+        <!-- Filters -->
+        <aside class="filters" id="filters"><!-- built by portal.js --></aside>
+
+        <!-- Results column -->
+        <div>
+          <div class="results-head">
+            <div class="count-txt" id="count"></div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <button class="filter-toggle" id="filterToggle">⚙ Filtros</button>
+              <div class="sort-wrap">
+                <label id="sortLbl">Ordenar por</label>
+                <select id="sortSel"></select>
+              </div>
+            </div>
+          </div>
+          <div class="grid" id="grid"><!-- cards --></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Detail modal ===== -->
+  <div class="modal-overlay" id="overlay">
+    <div class="modal" id="modal"><!-- built by portal.js --></div>
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer" id="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <h4 id="footBrand">Tu Inmobiliaria</h4>
+          <p style="font-size:14px;line-height:1.6;">Compra, venta y arriendo de propiedades en La Serena y Coquimbo. Asesoría personalizada de principio a fin.</p>
+        </div>
+        <div>
+          <h4 id="footExplore">Explorar</h4>
+          <a href="#results">Casas en venta</a>
+          <a href="#results">Departamentos</a>
+          <a href="#results">Avenida del Mar</a>
+          <a href="#results">Serena Golf</a>
+        </div>
+        <div>
+          <h4 id="footLegal">Legal</h4>
+          <a href="#">Términos y condiciones</a>
+          <a href="#">Política de privacidad</a>
+          <a href="#footer" id="footContact">Contacto</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="yearNow">2026</span> <span>Tu Inmobiliaria</span>. Todos los derechos reservados.</span>
+        <span class="powered">Sitio creado con la plataforma de <b id="poweredBrand">NetWebMedia</b></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/portal.js"></script>
+</body>
+</html>

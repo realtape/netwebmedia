@@ -339,3 +339,24 @@ Archetype labels per [GTM.md §4](./GTM.md):
 **Deduplication method:** Domain-based matching against Tier 1/2/3 above — zero overlaps found
 **List owner:** Diego (Sales-Director Agent)
 **Last updated:** 2026-06-01
+
+---
+
+## Wave-sourced additions (2026-06-01) — Law Firm Marketing × US
+
+**Sourced:** 2026-06-01 via `/source-agency-leads` weekly scheduled run (rotation cursor 0 → `law_firms`, geo US).
+**Dedupe:** Domain-matched against everything above — all 8 are new (no overlap with `lawfirmmarketingpros.com`, `majux.com`, `custom.legal`, or the 2026-06-01 multi-vertical wave). 6 additional scraped agencies were dropped on the boutique-size gate (MileMark, Exults, WEBRIS, ZillaMetrics, LegalRev) and are **not** listed here.
+**Full detail + scoring:** [waves/wave-2026-06-01-law_firms-us.md](./waves/wave-2026-06-01-law_firms-us.md)
+
+| # | Tier | Score | Agency | Founder | Contact | Domain |
+|---|---|---|---|---|---|---|
+| 1 | Tier 1 | 81 | Accel Marketing Solutions | David Brinen, CEO | contact@accelmarketingsolutions.com · (888) 851-9566 | [accelmarketingsolutions.com](https://www.accelmarketingsolutions.com/) |
+| 2 | Tier 1 | 77 | Market JD | Rafi Arbel, President | (312) 970-9353 | [marketjd.com](https://marketjd.com/) |
+| 3 | Tier 1 | 69 | Elite Legal Marketing | Holly Davis, Owner | info@elitelegalmarketing.com · (877) 808-0397 | [elitelegalmarketing.com](https://www.elitelegalmarketing.com/) |
+| 4 | Tier 1 | 69 | InterCore Technologies | Scott Wiseman, CEO & Founder | sales@intercore.net · (213) 282-3001 | [intercore.net](https://intercore.net/) |
+| 5 | Tier 1 | 65 | Law Firm Ignite | Michael Goldstein, Attorney | 941-404-1370 | [lawfirmignite.com](https://lawfirmignite.com/) |
+| 6 | Tier 1 | 55 | Scale and Sword Advertising | Bruce Gunacti, Owner | 302-285-9806 | [scaleandsword.com](https://www.scaleandsword.com/) |
+| 7 | Tier 2 | 52 | Nomos Marketing | April & Tyler (first names only ⚠️) | contact@nomosmarketing.com | [nomosmarketing.com](https://www.nomosmarketing.com/) |
+| 8 | Tier 2 | 52 | Solvis Media | unverified ⚠️ | contact@solvismedia.com | [solvismedia.com](https://solvismedia.com/) |
+
+**Strongest single bet this wave:** Accel Marketing Solutions (81) — law-firm boutique already selling **GEO/AEO/AIO** as a named service, with founder name + direct email + phone all verified. Best contact: [contact@accelmarketingsolutions.com](mailto:contact@accelmarketingsolutions.com). Closely followed by Market JD (HubSpot Partner + AEO) — the two clearest "case study writes itself" fits.

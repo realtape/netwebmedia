@@ -793,7 +793,8 @@
       if (xhr.readyState !== 4) return;
       var contacts = [];
       if (xhr.status >= 200 && xhr.status < 300) {
-        try { contacts = JSON.parse(xhr.responseText); } catch (e) {}
+        // API returns {data:[],total} — unwrap it; a bare array stays as-is.
+        try { var parsed = JSON.parse(xhr.responseText); contacts = Array.isArray(parsed) ? parsed : (parsed.data || []); } catch (e) {}
       }
       if ((!contacts || !contacts.length) && window.CRM_DATA && CRM_DATA.contacts) {
         contacts = CRM_DATA.contacts;

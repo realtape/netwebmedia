@@ -64,7 +64,7 @@ if ($id) {
                    r.next_run_at, r.error, r.created_at, r.updated_at,
                    w.name AS workflow_name, w.trigger_type, w.trigger_filter
               FROM workflow_runs r
-              JOIN workflows w ON w.id = r.workflow_id
+              LEFT JOIN workflows w ON w.id = r.workflow_id
              WHERE r.id = ? AND $tClause
              LIMIT 1";
     $params = array_merge([$id], $tParams);
@@ -120,7 +120,7 @@ $sql = "SELECT r.id, r.workflow_id, r.status, r.step_index, r.next_run_at,
                (SELECT COUNT(*) FROM workflow_run_steps s WHERE s.run_id = r.id) AS step_count,
                (SELECT s.result FROM workflow_run_steps s WHERE s.run_id = r.id ORDER BY s.id DESC LIMIT 1) AS last_result
           FROM workflow_runs r
-          JOIN workflows w ON w.id = r.workflow_id
+          LEFT JOIN workflows w ON w.id = r.workflow_id
          WHERE " . implode(' AND ', $where) . "
          ORDER BY r.id DESC
          LIMIT $limit";

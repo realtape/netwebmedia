@@ -11,9 +11,11 @@ CREATE TABLE IF NOT EXISTS `workflow_runs` (
   `context_json` MEDIUMTEXT DEFAULT NULL COMMENT 'JSON: contact_id, email, name, lang, etc',
   `next_run_at`  DATETIME DEFAULT NULL COMMENT 'NULL means run immediately, set by wait steps',
   `error`        TEXT DEFAULT NULL,
+  `claim_token`  VARCHAR(32) DEFAULT NULL COMMENT 'per-cron atomic-claim token; prevents duplicate sends',
   `created_at`   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at`   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   INDEX `idx_wr_status_next` (`status`, `next_run_at`),
-  INDEX `idx_wr_workflow`    (`workflow_id`)
+  INDEX `idx_wr_workflow`    (`workflow_id`),
+  INDEX `idx_wr_claim`       (`claim_token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

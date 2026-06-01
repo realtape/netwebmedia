@@ -59,23 +59,6 @@ define('HUBSPOT_TOKEN', '');  // Set your HubSpot private app token here
 // Create at: https://console.anthropic.com/settings/keys
 define('ANTHROPIC_API_KEY', '');  // Set on server only - never commit
 
-// =============================================================================
-// NetWebMedia OS — Phase 2–5 config (all overridable via config.local.php).
-// Empty/default values mean the corresponding feature is GRACEFULLY DISABLED
-// (handlers return a clean 503), so the OS ships dark until secrets are set.
-// =============================================================================
-if (!defined('ANTHROPIC_MODEL_STRATEGIC')) define('ANTHROPIC_MODEL_STRATEGIC', 'claude-sonnet-4-5');
-if (!defined('ANTHROPIC_MODEL_ROUTINE'))   define('ANTHROPIC_MODEL_ROUTINE',   'claude-haiku-4-5');
-if (!defined('CONNECTOR_ENC_KEY'))         define('CONNECTOR_ENC_KEY',         ''); // base64 32 bytes
-if (!defined('GOOGLE_OAUTH_CLIENT_ID'))    define('GOOGLE_OAUTH_CLIENT_ID',    '');
-if (!defined('GOOGLE_OAUTH_CLIENT_SECRET'))define('GOOGLE_OAUTH_CLIENT_SECRET','');
-if (!defined('SLACK_OAUTH_CLIENT_ID'))     define('SLACK_OAUTH_CLIENT_ID',     '');
-if (!defined('SLACK_OAUTH_CLIENT_SECRET')) define('SLACK_OAUTH_CLIENT_SECRET', '');
-if (!defined('STRIPE_SECRET_KEY'))         define('STRIPE_SECRET_KEY',         '');
-if (!defined('STRIPE_WEBHOOK_SECRET'))     define('STRIPE_WEBHOOK_SECRET',     '');
-if (!defined('STRIPE_PRICE_MONTHLY'))      define('STRIPE_PRICE_MONTHLY',      ''); // Stripe Price id for $2,490/mo
-if (!defined('OS_PUBLIC_BASE'))            define('OS_PUBLIC_BASE',            'https://netwebmedia.com');
-
 // Twilio — SMS & WhatsApp messaging
 // Account SID + Auth Token: https://console.twilio.com
 // TWILIO_FROM_SMS: your Twilio phone number, e.g. +12015551234

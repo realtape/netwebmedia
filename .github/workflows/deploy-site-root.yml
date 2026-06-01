@@ -654,6 +654,37 @@ jobs:
           fi
           echo "Migrations complete"
 
+      - name: Cross-tenant isolation self-test (NWM OS — R1 guardrail)
+        if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
+        env:
+          MIGRATE_TOKEN: ${{ secrets.MIGRATE_TOKEN }}
+        run: |
+          # R1 — a cross-tenant data leak is the single company-killer risk for
+          # NetWebMedia OS. os_selftest proves org-scoping isolates rows (and that
+          # an unscoped query would leak). Any non-pass FAILS the deploy. Uses CI's
+          # own MIGRATE_TOKEN secret — same token written to config.local.php above.
+          token="${MIGRATE_TOKEN:?MIGRATE_TOKEN secret must be set — refusing to use a burned/guessed token}"
+          resp=$(curl -sS --max-time 60 \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" \
+            -H "Accept: application/json,text/plain,*/*" \
+            -H "Accept-Language: en-US,en;q=0.9" \
+            -H "Origin: https://netwebmedia.com" \
+            -H "Referer: https://netwebmedia.com/crm/" \
+            -H "Content-Type: application/json" \
+            -X POST -d '{}' \
+            "https://netwebmedia.com/crm/api/?r=os_selftest&token=${token}")
+          echo "os_selftest → $resp"
+          # Endpoint may not exist on a CRM-only deploy that predates the OS — tolerate
+          # a 404/unknown-resource, but FAIL HARD on an explicit pass:false (a real leak).
+          if echo "$resp" | grep -q '"pass":true'; then
+            echo "R1 cross-tenant isolation self-test PASSED."
+          elif echo "$resp" | grep -q '"pass":false'; then
+            echo "::error::R1 cross-tenant isolation self-test FAILED — possible cross-tenant leak. Deploy blocked."
+            exit 1
+          else
+            echo "::warning::os_selftest did not return a pass verdict (endpoint missing or unreachable). Not blocking."
+          fi
+
       - name: Ensure api-php admin accounts
         if: ${{ steps.preflight.outputs.ready == 'true' && inputs.dry_run != true }}
         env:

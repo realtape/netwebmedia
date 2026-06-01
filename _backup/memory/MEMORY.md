@@ -53,3 +53,4 @@
 - [Media library location](reference_media_library.md) — NWM's AI assets mirrored at `D:\Documents\NetWebMedia-Media-Library\` (324 assets: 281 Higgsfield + 43 HeyGen); gallery index.html + manifest + Node builders in _build/
 - [HeyGen access](reference_heygen_access.md) — use the REST API (X-Api-Key, key in repo .env); browser bulk-download is blocked by Chrome multi-download + SPA never idle; downloading is fine but never publish without asking
 - [NWM OS Phase 1 scaffold](project_nwm_os_phase1.md) — "AI Agency OS" extending crm-vanilla; Phase 1 Foundation built 2026-06-01 (in tree, not deployed); design-partner top-3 sourced; gated items + outreach-DPA flag in plans/nwm-os/PHASE-1-FOUNDATION.md
+- [Real-estate portal template](reference_templates_real_estate_portal.md) — white-label property portal LIVE at /templates/real-estate-portal/ (noindex, La Serena seed data); /templates/** now wired into deploy-site-root.yml (both paths trigger + staging loop)

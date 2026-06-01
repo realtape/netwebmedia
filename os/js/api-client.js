@@ -17,6 +17,14 @@
     opts = opts || {};
     var url = BASE + '?r=' + encodeURIComponent(resource);
     if (opts.id) url += '&id=' + encodeURIComponent(opts.id);
+    if (opts.action) url += '&action=' + encodeURIComponent(opts.action);
+    if (opts.query) {
+      for (var k in opts.query) {
+        if (Object.prototype.hasOwnProperty.call(opts.query, k)) {
+          url += '&' + encodeURIComponent(k) + '=' + encodeURIComponent(opts.query[k]);
+        }
+      }
+    }
 
     var headers = { 'Accept': 'application/json' };
     var tok = token();

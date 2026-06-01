@@ -55,10 +55,17 @@ ErrorDocument 404 /404.html
 # public internet (some leak prospect lists, internal architecture,
 # logins, AI scratchpads, or the business plan).
 # Patterns covered:
-#   diagnostic.html, flowchart.html, orgchart.html, dashboard.html,
+#   flowchart.html, orgchart.html, dashboard.html,
 #   desktop-login.html, nwmai.html, audit-report.html,
 #   *-prospects-report.html, *-digital-gaps.html,
 #   NetWebMedia_Business_Marketing_Plan_2026.html
+#   (root diagnostic.html is denied separately via a root-anchored RewriteRule
+#    below — intentionally NOT in the FilesMatch — because <FilesMatch> matches
+#    by filename at ANY path and was 403'ing the live, login-gated CRM tool
+#    /crm/diagnostic.html (crm-vanilla/diagnostic.html), which leaks no secrets
+#    and gates anonymous users client-side via app.js. Same filename-collision
+#    gotcha as fractional-cmo / speed-test. internal-diagnostic.html stays in the
+#    FilesMatch — it exists only at root, so no collision.)
 #   (root fractional-cmo.html retired 2026-05-19 → 301'd to pricing.html in the
 #    rewrite block below; intentionally NOT denied here, because <FilesMatch>
 #    matches by filename at ANY path and would also 403 the live, linked
@@ -68,7 +75,7 @@ ErrorDocument 404 /404.html
 #    /crm/login.html, and its data endpoint /api/psi requires X-Auth-Token. The
 #    static shell leaks no secrets, so a server-level Deny only breaks the tool
 #    for the team — it was wrongly swept into the 2026-05-29 audit deny list.)
-<FilesMatch "^(diagnostic|internal-diagnostic|flowchart|agents-flowchart|processes-flowchart|orgchart|dashboard|desktop-login|auto-login|nwmai|audit-report|emails|NetWebMedia_Business_Marketing_Plan_2026)\.html$">
+<FilesMatch "^(internal-diagnostic|flowchart|agents-flowchart|processes-flowchart|orgchart|dashboard|desktop-login|auto-login|nwmai|audit-report|emails|NetWebMedia_Business_Marketing_Plan_2026)\.html$">
   Order allow,deny
   Deny from all
 </FilesMatch>
@@ -108,6 +115,11 @@ Options -Indexes
   # Retired Premium services page → pricing.html (sole Premium surface, 2026-05-19).
   # Root-anchored so the live /tutorials/fractional-cmo.html tutorial is unaffected.
   RewriteRule ^fractional-cmo(\.html)?$ /pricing.html [R=301,L]
+  # Root /diagnostic.html is internal-only — deny it here (root-anchored) instead
+  # of in the FilesMatch above, so the login-gated CRM tool /crm/diagnostic.html
+  # (crm-vanilla/diagnostic.html) is NOT caught by a filename match. Same gotcha
+  # as fractional-cmo. The ^ anchor means crm/diagnostic.html never matches.
+  RewriteRule ^diagnostic\.html$ - [F,L]
   # ── 14-niche taxonomy enforcement (2026-05-05) ─────────────────────────
   # Off-taxonomy hubs migrated into canonical 14 niches per CLAUDE.md hard
   # constraint #1. Wildcard 301s preserve hub-level link equity; subpage
